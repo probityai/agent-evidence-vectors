@@ -127,6 +127,38 @@ push_lines="$(cat)"
 # the script on purpose: the range it scans is the history, and the guard
 # for the history is whatever guard exists now, not the one a pushed commit
 # happens to carry.
+# A runner label nothing can serve does not fail a push and does not fail a
+# build. The job QUEUES until GitHub expires it, which reads as a slow build,
+# so the outage is invisible until a human reads an email from the vendor.
+# That happened on 2026-09-19: the repositories moved to a new organisation,
+# an app installation does not follow a transfer, and seven jobs here asking
+# for Ubicloud labels sat queued for thirty-six minutes with nothing refusing.
+#
+# This runs here rather than in CI because CI's own token cannot read an
+# organisation's installations: the check would return INCONCLUSIVE in the one
+# place it is supposed to be authoritative. A local push has a token that can.
+#
+# Exit 2 means the installation set could not be read, which is a failed check
+# and never an empty account, so it warns and lets the push through instead of
+# refusing on an answer it does not have.
+heavy-queue heavy-run --name runner-labels-gate --timeout 3600 -- label_gate="$src_root/scripts/runner-labels-gate.py"
+if [ -f "$label_gate" ]; then
+	python3 "$label_gate" && label_status=0 || label_status=$?
+	case "$label_status" in
+	0) ;;
+	1)
+		echo "pre-push: REFUSED -- a workflow asks for a runner label nothing on this account can serve." >&2
+		echo "pre-push: those jobs would queue rather than fail. Install the app, or move the jobs to a GitHub-hosted label." >&2
+		exit 1
+		;;
+	*)
+		echo "pre-push: WARNING -- the runner-label check could not read the account's installations; runner availability is NOT MEASURED for this push." >&2
+		;;
+	esac
+else
+	echo "pre-push: WARNING -- $label_gate is missing; runner availability is NOT MEASURED for this push." >&2
+fi
+
 range_scan="$src_root/scripts/pre-push-identity-scan.py"
 if [ ! -f "$range_scan" ]; then
 	echo "pre-push: ABORT -- $range_scan is missing; refusing to pass a push whose history guard is absent." >&2
