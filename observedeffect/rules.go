@@ -760,7 +760,6 @@ func ruleTierRecompute(c *ctx) *fault {
 	if claimed == derived {
 		return nil
 	}
-	c.derivedTier = derived
 	if claimed == "authoritative" {
 		for _, clause := range clauses {
 			if !clause.held {
