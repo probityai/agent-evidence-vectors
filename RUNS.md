@@ -87,6 +87,18 @@ behind the independence column in [`README.md`](README.md) and
 prose that disagrees. This file is the reader-facing scoreboard, one row per
 posting, and it adds no figure that its posting does not carry.
 
+That ledger also carries an `attempts` array, and it is the half of the record
+nothing used to hold. A row in `runs` is what licenses a figure, and every row
+there carries a `figures` array, so a dispatch that was authorised, ran and
+produced no score had no shape in the file and was invisible to the gate. Two of
+them had already happened. An attempt therefore records the corpus commit, the
+checker ref, the authorization packet, the dispatch and where its artifacts
+survive, with `figures` null beside a note saying why there is none; it carries no
+`suiteRevision`, because the not-run set is computed over `runs` and a revision
+there would let a dispatch with no figure license the one it has none of. The
+gate reads the array, holds it to that shape, and refuses a sentence in either
+publishing document that names an attempt's dispatch and a figure together.
+
 **Known divergence, stated rather than left for a reader to find.** That ledger
 carries rows up to revision 25 and does not yet carry the revision-27 run above.
 Until it does, the independence column's not-run set still names revision 27,

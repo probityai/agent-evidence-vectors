@@ -411,6 +411,61 @@
       "note": "the run against the current corpus, and the only one in this ledger posted as a thread comment rather than as a run report in the checker's own provenance index. The suite commit resolves here and its manifest carries 250 vectors partitioned exactly as posted, 55 accept, 193 reject and 2 indeterminate, under corpusDigest b5aa5fdb and vendored spec digest 759d2383, both identical to the values at the head of this repository. The run is directed on its author's own opening words, 'Repinned and implemented first, then measured your open question' -- the checker was brought to this revision before it was measured, so the figure says the revision-25 text is implementable from it, not that an unaided reader arrived at it. The indeterminate 2/2 is stated in the prose but is not bound as a figure here, because '2/2' occurs in both publishing documents for unrelated reasons and a count over it would assert nothing about this run. The commit no ref reached is now held by the annotated tag cited/97ba4ff, so a reproducer can fetch it from a clone."
     }
   ],
+  "attemptsComment": "Every dispatch by that same independent implementation that was authorised, ran, and returned no figure, one row per dispatch. The runs array above is what licenses a figure in the prose, and it has no shape for a run that reported nothing: every element of it carries a figures array, so an attempt recorded there would have to invent one. Recording nothing instead is the defect this file's own $comment argues against, because an absent field and an unrecorded fact read the same in a diff, and a dispatch that produced no score is exactly the fact a reader of the independence column would otherwise never learn was made. So an attempt carries figures null beside a figuresNote saying why there is none, and it carries no suiteRevision at all: the not-run set is computed over the runs array, and a suiteRevision here would shrink that set and let an attempt license the very figure it has none of. What an attempt binds instead is the corpus commit the dispatch was pinned to, the checker ref it ran, the authorization packet it came from, the dispatch itself, and where its artifacts survive with how long for. outcome is a closed token so that 'it did not produce a score' cannot be written two ways: withheld is a gate refusing publication, completed-no-figure is a run that finished and publishes no score by its own design, and void is a dispatch that did not reach a terminal state at all.",
+  "attempts": [
+    {
+      "attempt": "r1",
+      "implementation": "Rul1an/aee-checker, dispatched by the hosted contained runner at corpus-adequacy/corpus-adequacy",
+      "suiteCommit": "59faf842",
+      "suiteCommitNote": null,
+      "checkerRef": "25b9dfa",
+      "checkerSourceDigest": null,
+      "digestNote": "the report names the checker by the ref 25b9dfa and no content digest, and this repository has none to transcribe. The artifacts are said to bind the checker, image and runner revision, but they reach the corpus commit only through the r1 packet, so what is recorded here is the ref that was authorised rather than a digest of what did the running.",
+      "packet": "https://github.com/corpus-adequacy/corpus-adequacy/releases/tag/hosted-packet-r1",
+      "dispatch": "https://github.com/corpus-adequacy/corpus-adequacy/actions/runs/35071237962",
+      "date": "2026-09-16",
+      "dateNote": null,
+      "outcome": "withheld",
+      "figures": null,
+      "figuresNote": "there is no figure to record: the contained setup reported ready and the gate withheld publication after about 23 seconds, so the run produced no score and no per-mutant result. Its author states the run does not say why, and that the diagnostic record stayed on the runner and was never uploaded, so what survived is the setup status, a void candidate result and the attempt-start line.",
+      "artifacts": [
+        {
+          "url": "https://github.com/corpus-adequacy/corpus-adequacy/actions/runs/35071237962",
+          "retention": "the three artifacts of this run are downloadable until 30 September 2026, after which this row is the only record of the dispatch"
+        }
+      ],
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5694507350",
+      "note": "the first hosted dispatch, authorised for one run against this corpus at 59faf842 with the seven named sites and the control, and not rerun. Its author reported it as a mistake of his own as well as a withheld run: the packet was built before a fix that had landed the day before, and one reading of the kept material is that the candidate ran as a non-root user against a source directory it could not read, the defect at https://github.com/corpus-adequacy/corpus-adequacy/issues/178 fixed in https://github.com/corpus-adequacy/corpus-adequacy/issues/179. That is a reading of the code and not the only thing that fits what was kept. Whatever the cause, the run produced no finding about this corpus or its Go rail, which is why it earns no figure anywhere in this repository."
+    },
+    {
+      "attempt": "r4",
+      "implementation": "Rul1an/aee-checker, dispatched by the hosted contained runner at corpus-adequacy/corpus-adequacy",
+      "suiteCommit": "59faf842",
+      "suiteCommitNote": null,
+      "checkerRef": "25b9dfa",
+      "checkerSourceDigest": null,
+      "digestNote": "as for r1, the report names the checker by the ref 25b9dfa and no content digest. A second reader who did not run it checked the artifacts against the runner's own validators and posted the digests at https://github.com/corpus-adequacy/corpus-adequacy/issues/107, which binds the artifacts rather than the build, so this row records null.",
+      "packet": "https://github.com/corpus-adequacy/corpus-adequacy/releases/tag/hosted-packet-r4",
+      "dispatch": "https://github.com/corpus-adequacy/corpus-adequacy/actions/runs/35194072925",
+      "date": "2026-09-17",
+      "dateNote": null,
+      "outcome": "completed-no-figure",
+      "figures": null,
+      "figuresNote": "the run publishes no score and no per-mutant result, which its author said before asking for the dispatch and which is a property of the packet rather than of what happened. All nine planned invocations left a record -- by the runner's code the unmutated baseline, the control and the seven site mutants -- each finished and each container was confirmed removed. Nine records is a statement about the runner's ordering, not a measurement of this corpus: the mutants only run after a clean baseline and the sites only after the control was killed, so it says both held, and it comes from the runner's code rather than from a report anyone can read, because the report itself is not uploaded.",
+      "artifacts": [
+        {
+          "url": "https://github.com/corpus-adequacy/corpus-adequacy/releases/tag/aee-contained-v0-terminal-35194072925-1",
+          "retention": "the four artifacts of this run would have expired on 1 October 2026, and its author kept the same bytes as assets of an immutable release with their SHA-256 unchanged and listed there, so this is the durable copy"
+        },
+        {
+          "url": "https://github.com/corpus-adequacy/corpus-adequacy/actions/runs/35194072925",
+          "retention": "the run's own artifacts were downloadable by signed-in GitHub users until 1 October 2026; the release above holds the same bytes"
+        }
+      ],
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5710768786",
+      "note": "the second hosted dispatch, authorised on the same terms as r1 -- one dispatch from hosted-packet-r4, the seven sites, 59faf842, 25b9dfa, no reruns -- and not rerun. This is the record promised at https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5707920621, where the shape was owed in public. The gate allowed the run record to be published this time, so unlike r1 it is a completed attempt rather than a withheld one, and the distinction is what the outcome token carries. The artifacts were copied into a release two hours later, reported at https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5712493887, with nothing else changed and nothing rerun."
+    }
+  ],
   "quotedWordingComment": "The author's wording, transcribed once and checked verbatim wherever this repository says it carries it. Where a document carries a shorter cut of a longer sentence, both rows name the same utterance, and the gate requires every excerpt of an utterance to be a contiguous substring of the fullest form recorded of it -- that is what stops one document carrying a paraphrase that reads like a quotation of the same sentence. utterance names the sentence, not the run: one run's author can say more than one thing, so grouping on about would require two unrelated quotations from one run to contain each other. A row that is the only excerpt of its utterance is checked by the verbatim rule alone, because with one excerpt on record there is no second reading to disagree with.",
   "quotedWording": [
     {
