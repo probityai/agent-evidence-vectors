@@ -163,7 +163,8 @@ files = ["packaging", "vectors", "tools"]
 include = ["docs/proposals", "packaging", "scripts", "tools", "vectors",
            "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action",
            "vectors-anchor-stream", "vectors-artifact-binding",
-           "vectors-mcp-record-contract", "vectors-scitt-cose",
+           "vectors-mcp-record-contract", "vectors-observed-effect",
+           "vectors-scitt-cose",
            "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
@@ -177,7 +178,7 @@ include = ["docs/proposals", "packaging", "scripts", "tools", "vectors",
 # a checker that cannot see the same path reports a configuration error for an
 # import that resolves fine when it runs.
 extraPaths = ["packaging", "vectors", "tools/artifact-binding",
-              "vectors-artifact-binding"]
+              "vectors-artifact-binding", "vectors-observed-effect"]
 
 # "standard" rather than "strict", chosen rather than defaulted into. Standard
 # carries every rule that describes a script CRASHING -- an undefined name, a
