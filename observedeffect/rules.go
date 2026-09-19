@@ -483,6 +483,34 @@ func ruleOriginCarriesTheVantage(c *ctx) *fault {
 	return nil
 }
 
+// ruleImportOriginPlatform refuses a hardware-rooted runtime claim from a record
+// that holds somebody else's log.
+//
+// An importer has no quote to present. Whatever the exporting platform measured,
+// the importing party cannot produce the evidence for it, so a record whose origin
+// is third-party-control-plane or log-import declares a software-only runtime
+// platform and a verifier rejects it otherwise. self and first-hand are the two
+// origins that may carry a hardware-rooted platform, because both of them
+// observed the execution on a machine they were present on.
+//
+// The vocabulary states this as a MUST beside the origin enum it registers, and
+// nothing enforced it: no statement in the corpus carried a runtime member at all,
+// and the predicate document named no platform field, so the second half of the
+// origin rule was a sentence in a registry with no verifier behind it.
+func ruleImportOriginPlatform(c *ctx) *fault {
+	if !importOrigins[c.str(c.observation(), "origin")] {
+		return nil
+	}
+	runtime := c.obj(c.observation(), "runtime")
+	if runtime == nil {
+		return malformed("import-origin-requires-software-only-platform")
+	}
+	if c.str(runtime, "platform") != "software-only" {
+		return malformed("import-origin-requires-software-only-platform")
+	}
+	return nil
+}
+
 // rulePriorCommitmentPresent requires a prior commitment wherever the vantage is
 // below-observed. The Fields section says so and nothing enforced it, so a record
 // could carry the independence claim with nothing behind it. Refusing it here is

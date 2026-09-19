@@ -24,6 +24,7 @@
     "oe-interval-order": "interval: openedAt strictly before sealedAt, issuedAt at or after sealedAt",
     "oe-keyid-form": "keyids: one lowercase hex spelling, so the disjointness check cannot be dodged by case (attack A26)",
     "oe-mutation-none": "mutation: none requires beforeRoot == afterRoot and empty writes",
+    "oe-origin-platform": "observation.runtime: an imported record declares a software-only platform, because an importer has no quote to present",
     "oe-origin-vantage": "observation.origin: only a first-hand producer may claim below-observed (attack A31)",
     "oe-path-normalized": "paths: absolute and normalized, with no dot or dot-dot segment (attack A22)",
     "oe-predicate-type": "parsing: the statement must carry this predicate's own type URI",
@@ -43,11 +44,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "d81c4ee44926fc0922f98f5a4048490dd522ad3ef14ae38f0ab3cf8f51a31352",
+  "corpusDigest": "3208fe4f8d38a67c131f018ceb66477bfdc68339e6ba43693ca2b5b7c2548bc0",
   "counts": {
-    "accept": 6,
+    "accept": 7,
     "indeterminate": 1,
-    "reject": 39
+    "reject": 41
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -849,7 +850,7 @@
       "slug": "byte-range-past-the-ijson-bound"
     },
     {
-      "cites": "A record assembled from another vendor's exported log and emitted as a first-hand observation made below the party it describes. Before the origin member existed, this record was the honest baseline with a different narrator: no field in it was false, because there was no field in which an importer had to say it imported. The sibling vocabulary registers the enum and the rule that binds the vantage to it.",
+      "cites": "A record assembled from another vendor's exported log and emitted as a first-hand observation made below the party it describes. Before the origin member existed, this record was the honest baseline with a different narrator: no field in it was false, because there was no field in which an importer had to say it imported. The sibling vocabulary registers the enum and the rule that binds the vantage to it. The platform declaration is correct here, which is what leaves the vantage as the only lie and the vantage rule as the only thing refusing it.",
       "conditions": [
         "oe-origin-vantage"
       ],
@@ -859,8 +860,8 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v1d803b5a5436aebc.json",
-      "id": "v1d803b5a5436aebc",
+      "file": "statements/v6a253129f4e98f05.json",
+      "id": "v6a253129f4e98f05",
       "kind": "reject",
       "parent": "v1c6fdd82db5229e4",
       "slug": "log-import-wearing-a-vantage"
@@ -879,6 +880,54 @@
       "id": "v3497fc0f2b555764",
       "kind": "accept",
       "slug": "read-row-nobody-can-check"
+    },
+    {
+      "cites": "The honest importer. A control plane exported its log, this party holds it, and the record says so: the origin names the import, the vantage is peer rather than below the observed party, the tier recomputes to voluntary, and the runtime is software-only because the importing party has no quote to present for whatever the exporting platform measured. This is the member the two refusals below are one mutation from, and it is why refusing every imported record scores zero rather than full marks.",
+      "conditions": [
+        "oe-origin-platform"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/v10a3d08be60ead2b.json",
+      "id": "v10a3d08be60ead2b",
+      "kind": "accept",
+      "slug": "imported-log-software-only"
+    },
+    {
+      "cites": "An imported log wearing the exporting platform's hardware root. The importer cannot present the quote, so the platform claim is a report about somebody else's machine carried as if it were a measurement of this one. Every other field in the record is the accepted member's.",
+      "conditions": [
+        "oe-origin-platform"
+      ],
+      "expected": {
+        "codes": [
+          "import-origin-requires-software-only-platform"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vc7460368853137cd.json",
+      "id": "vc7460368853137cd",
+      "kind": "reject",
+      "parent": "v10a3d08be60ead2b",
+      "slug": "imported-log-claiming-hardware"
+    },
+    {
+      "cites": "The same import with the platform declaration left out. Silence is the shape the rule has to refuse as well, because a consumer reading a record with no platform member has no way to tell an importer from a party that stood on the machine, and the absent member is the cheaper forgery of the two.",
+      "conditions": [
+        "oe-origin-platform"
+      ],
+      "expected": {
+        "codes": [
+          "import-origin-requires-software-only-platform"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v92a64c2222f342eb.json",
+      "id": "v92a64c2222f342eb",
+      "kind": "reject",
+      "parent": "v10a3d08be60ead2b",
+      "slug": "imported-log-with-no-platform"
     }
   ]
 }

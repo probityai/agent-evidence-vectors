@@ -96,6 +96,9 @@ VANTAGES = {"below-observed", "peer", "self"}
 #: from the specification it crosswalks; first-hand is that registry's own, for a
 #: producer that observed somebody else's execution itself.
 ORIGINS = {"self", "first-hand", "third-party-control-plane", "log-import"}
+#: The two origins that hold somebody else's record. An importer has no quote to
+#: present, so it may not claim a hardware-rooted runtime.
+IMPORT_ORIGINS = {"third-party-control-plane", "log-import"}
 TIERS = {"voluntary", "authoritative"}
 MUTATIONS = {"observed", "none"}
 READ_STATES = {"bytes-read", "no-bytes-read", "unavailable"}
@@ -484,6 +487,29 @@ def rule_origin_carries_the_vantage(pred: dict[str, Any]) -> None:
         raise Malformed("origin-cannot-carry-below-observed-vantage")
 
 
+def rule_import_origin_platform(pred: dict[str, Any]) -> None:
+    """A record holding somebody else's log may not claim a hardware-rooted runtime.
+
+    An importer has no quote to present. Whatever the exporting platform measured,
+    the importing party cannot produce the evidence for it, so an origin of
+    third-party-control-plane or log-import declares a software-only platform and a
+    verifier rejects anything else, absence included. self and first-hand may carry
+    a hardware-rooted platform, because both observed the execution on a machine
+    they were on.
+
+    The sibling vocabulary registers this beside the origin enum as a MUST and
+    nothing enforced it: no member carried a runtime member at all and this document
+    named no platform field, so half of the origin rule was a sentence in a registry
+    with no verifier behind it.
+    """
+    obs = pred["observation"]
+    if obs["origin"] not in IMPORT_ORIGINS:
+        return
+    runtime = obs.get("runtime")
+    if not isinstance(runtime, dict) or runtime.get("platform") != "software-only":
+        raise Malformed("import-origin-requires-software-only-platform")
+
+
 def rule_prior_commitment_present(pred: dict[str, Any]) -> None:
     """priorCommitment is required where vantage is below-observed.
 
@@ -714,6 +740,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_coverage_coherence", rule_coverage_coherence),
     ("rule_coverage_gaps_named", rule_coverage_gaps_named),
     ("rule_origin_carries_the_vantage", rule_origin_carries_the_vantage),
+    ("rule_import_origin_platform", rule_import_origin_platform),
     ("rule_prior_commitment_present", rule_prior_commitment_present),
     ("rule_commitment_digest", rule_commitment_digest),
     ("rule_keyid_form", rule_keyid_form),

@@ -88,6 +88,9 @@ var (
 	// vocabulary's; first-hand is that registry's own, for a producer that
 	// observed somebody else's execution itself.
 	origins = set("self", "first-hand", "third-party-control-plane", "log-import")
+	// importOrigins hold somebody else's log. An importer has no quote to
+	// present, so it may not claim a hardware-rooted runtime.
+	importOrigins = set("third-party-control-plane", "log-import")
 )
 
 // glob metacharacters. A scope carrying one is a pattern, and a pattern is
@@ -173,6 +176,7 @@ func rules() []rule {
 		{"coverage-coherence", ruleCoverageCoherence},
 		{"coverage-gaps-named", ruleCoverageGapsNamed},
 		{"origin-carries-the-vantage", ruleOriginCarriesTheVantage},
+		{"import-origin-platform", ruleImportOriginPlatform},
 		{"prior-commitment-present", rulePriorCommitmentPresent},
 		{"commitment-digest", ruleCommitmentDigest},
 		{"keyid-form", ruleKeyidForm},

@@ -416,6 +416,10 @@ CONDITIONS: dict[str, str] = {
         "side is that value (attack A28)"
     ),
     "oe-dual-values-absent": "dualValues: a row carrying neither value is not a comparison",
+    "oe-origin-platform": (
+        "observation.runtime: an imported record declares a software-only platform, "
+        "because an importer has no quote to present"
+    ),
     "oe-origin-vantage": (
         "observation.origin: only a first-hand producer may claim below-observed "
         "(attack A31)"
@@ -1704,6 +1708,15 @@ add(
             observation={
                 "vantage": "below-observed",
                 "origin": "log-import",
+                # software-only on purpose, and this member is the reason the
+                # vector isolates one rule. Without it the platform rule below
+                # refuses this record as well, both rules answer malformed, and a
+                # harness comparing verdicts sees removing the vantage rule change
+                # nothing -- which is how it reported the vantage rule INERT while
+                # the rule was the only thing refusing the record for the right
+                # reason. The importer here declares its platform honestly and
+                # lies about one thing only.
+                "runtime": {"platform": "software-only"},
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(interval_id="iv-0215"),
@@ -1718,7 +1731,9 @@ add(
     "member existed, this record was the honest baseline with a different "
     "narrator: no field in it was false, because there was no field in which an "
     "importer had to say it imported. The sibling vocabulary registers the enum "
-    "and the rule that binds the vantage to it.",
+    "and the rule that binds the vantage to it. The platform declaration is "
+    "correct here, which is what leaves the vantage as the only lie and the "
+    "vantage rule as the only thing refusing it.",
     parent=BASELINE,
 )
 
@@ -1749,6 +1764,83 @@ add(
     "the fourth is the one that matters. The predicate says this in its own residual "
     "section; the member is here so that a later change which starts refusing it is "
     "visible as a change rather than as a fix.",
+)
+
+
+_IMPORTED_OBSERVATION: dict[str, Any] = {
+    "vantage": "peer",
+    "origin": "log-import",
+    "runtime": {"platform": "software-only"},
+    "coverage": {"scopeComplete": True, "gaps": []},
+    "observedSigners": [OBSERVED_KEYID],
+}
+
+
+def _imported(**over: Any) -> dict[str, Any]:
+    """The imported observation with one member replaced, never merged."""
+    out = dict(_IMPORTED_OBSERVATION)
+    for key, value in over.items():
+        if isinstance(value, _Omit):
+            del out[key]
+        else:
+            out[key] = value
+    return out
+
+
+add(
+    "imported-log-software-only",
+    "accept",
+    statement(predicate(intervalId="iv-0216", tier="voluntary", observation=_imported())),
+    ["oe-origin-platform"],
+    "valid",
+    [],
+    "The honest importer. A control plane exported its log, this party holds it, and "
+    "the record says so: the origin names the import, the vantage is peer rather than "
+    "below the observed party, the tier recomputes to voluntary, and the runtime is "
+    "software-only because the importing party has no quote to present for whatever "
+    "the exporting platform measured. This is the member the two refusals below are "
+    "one mutation from, and it is why refusing every imported record scores zero "
+    "rather than full marks.",
+)
+
+add(
+    "imported-log-claiming-hardware",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0217",
+            tier="voluntary",
+            observation=_imported(runtime={"platform": "tpm2"}),
+        )
+    ),
+    ["oe-origin-platform"],
+    "malformed",
+    ["import-origin-requires-software-only-platform"],
+    "An imported log wearing the exporting platform's hardware root. The importer "
+    "cannot present the quote, so the platform claim is a report about somebody "
+    "else's machine carried as if it were a measurement of this one. Every other "
+    "field in the record is the accepted member's.",
+    parent="imported-log-software-only",
+)
+
+add(
+    "imported-log-with-no-platform",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0218",
+            tier="voluntary",
+            observation=_imported(runtime=OMIT),
+        )
+    ),
+    ["oe-origin-platform"],
+    "malformed",
+    ["import-origin-requires-software-only-platform"],
+    "The same import with the platform declaration left out. Silence is the shape "
+    "the rule has to refuse as well, because a consumer reading a record with no "
+    "platform member has no way to tell an importer from a party that stood on the "
+    "machine, and the absent member is the cheaper forgery of the two.",
+    parent="imported-log-software-only",
 )
 
 

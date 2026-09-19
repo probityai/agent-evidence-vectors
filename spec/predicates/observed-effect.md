@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.2.0
+Version: 0.3.0
 
 Predicate Name: Observed Effect
 
@@ -498,6 +498,33 @@ record shape.
 own execution is not below itself, and an assembler holding somebody else's log
 was not there at all.
 
+`runtime` _object, required where `origin` is `third-party-control-plane` or
+`log-import`_, carrying `platform`: a lowercase string naming the root the
+observation's measurements are anchored in. `software-only` is the value for an
+observation with no hardware root to present, and is the only value an imported
+record may carry.
+
+**A record whose `origin` is `third-party-control-plane` or `log-import` MUST
+declare `runtime.platform: "software-only"`, and a verifier MUST reject one that
+declares any other platform or declares none.** An importer has no quote to
+present: whatever the exporting platform measured, the importing party cannot
+produce the evidence for it, so a hardware-rooted platform on an imported record
+is a report about somebody else's machine carried as a measurement of this one.
+`self` and `first-hand` may carry a hardware-rooted platform, because both
+observed the execution on a machine they were on.
+
+Absence is refused rather than read as unknown, for the same reason the `origin`
+member exists at all: a consumer reading an imported record with no platform
+member cannot tell an importer from a party that stood on the machine, and the
+absent member is the cheaper of the two forgeries. The sibling
+[agent-evidence-vocabulary] registry states this rule beside the enum it
+registers, and nothing enforced it -- no member of the corpus carried a `runtime`
+member in any form, and this document named no platform field, so half of the
+origin rule was a sentence with no verifier behind it. Both spellings are pinned
+now, `imported-log-claiming-hardware` and `imported-log-with-no-platform`,
+against the accepted `imported-log-software-only` they are each one mutation
+from.
+
 The member exists because the predicate had no slot in which an importer could
 be made to confess. A record assembled from another vendor's exported log could
 be emitted as a first-hand observation made below the party it described, and
@@ -944,6 +971,16 @@ A consumer implementing this predicate MUST, at minimum:
     observed fact, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.3.0 adds one rule and one conditionally required member: `observation.runtime`,
+carrying `platform`, required where `origin` is `third-party-control-plane` or
+`log-import`, with the rule that an imported record declares `software-only` and
+a verifier refuses any other value and refuses absence. It refuses records 0.2.0
+accepted, so the version moves. A 0.2.0 producer emitting imported records adds
+one member; a producer whose `origin` is `self` or `first-hand` changes nothing.
+The rule was already stated in the sibling registry and enforced nowhere, which
+is what a version with a verifier behind it fixes: it was found by a measurement
+that disables one rule at a time and refuses to pass a rule no member forces.
 
 0.2.0 adds thirteen rules and one required member, and removes one `tier`
 clause. Every addition refuses a
