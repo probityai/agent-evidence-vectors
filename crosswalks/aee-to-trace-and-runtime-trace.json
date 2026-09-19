@@ -1,0 +1,432 @@
+{
+  "crosswalk_kind": "vocabulary-to-vocabulary, three targets",
+  "generated": "2026-09-19",
+  "generated_by": "hand-written and hand-anchored. scripts/crosswalk-gen.py produces crosswalks/aee-to-ave.json only and knows nothing about these three targets; it was not run for this file and does not regenerate it. Every figure below therefore carries its own derived_by command, which is the property that file's generator exists to guarantee, obtained here by stating the command beside the value instead of by running it.",
+  "note": "Maps AEE onto the three specifications that describe the environment an agent ran in. The rows whose relation is NO_COUNTERPART are the substance: they are the fields a TRACE or runtime-trace implementer cannot populate today because the vocabulary has no term for them. Companion prose, with the attack and the four closing rules, is in aee-to-trace-and-runtime-trace.md beside this file.",
+  "source": {
+    "standard": "AEE (Adversarial Execution Evidence)",
+    "version": "v0.7",
+    "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+    "spec_path": "spec/predicates/adversarial-execution-evidence.md",
+    "repository": "https://github.com/probityai/agent-evidence-vectors",
+    "reference_verifier": "cmd/aee-verify",
+    "vector_corpora_root": "vectors/",
+    "upstream_review": "https://github.com/in-toto/attestation/pull/570",
+    "vocabulary_repository": "https://github.com/probityai/agent-evidence-vocabulary",
+    "conformance_suite": {
+      "derived_by": "python3 -c \"import json,re,pathlib; m=json.loads(pathlib.Path('vectors/MANIFEST.json').read_text()); r=re.search(r'^## suiteRevision ([0-9]+)\\b', pathlib.Path('vectors/CHANGES.md').read_text(), re.M).group(1); print(r, len(m['vectors']), m['counts'])\"",
+      "note": "Deliberately not snapshotted here. The suite total moves every revision, and scripts/count-gate.py already holds the one sentence in this repository that states it, in crosswalks/aee-to-ave.md. A second copy would be a second thing to go stale."
+    }
+  },
+  "targets": [
+    {
+      "key": "trace",
+      "standard": "TRACE (Trust, Runtime Attestation, and Compliance Evidence)",
+      "version": "v0.2",
+      "host": "Linux Foundation, contributed 2026-08-25",
+      "repository": "https://github.com/agentrust-io/trace-spec",
+      "commit": "98aae17",
+      "read_from": "<trace-checkout>, a checkout of agentrust-io/trace-spec at the commit named above",
+      "spec_path": "spec/trace-v0.2.md",
+      "schema_path": "schema/trace-claim.json",
+      "read_on": "2026-09-19",
+      "derived_by": "git -C <trace-checkout> log --oneline -1 && git -C <trace-checkout> ls-files | wc -l",
+      "tracked_files_at_commit": 279,
+      "adopters": {
+        "value": "ADOPTERS.md reads: _None listed yet._",
+        "derived_by": "git -C <trace-checkout> show 98aae17:ADOPTERS.md"
+      },
+      "traction": {
+        "stars": 30,
+        "forks": 26,
+        "open_issues": 33,
+        "measured_on": "2026-09-19",
+        "derived_by": "gh api repos/agentrust-io/trace-spec --jq '[.stargazers_count,.forks_count,.open_issues_count]'"
+      },
+      "pypi": {
+        "package": "agentrust-trace",
+        "latest_release": "0.10.0",
+        "release_count": 12,
+        "downloads_last_month": "pepy.tech badge read 90k on 2026-09-19",
+        "downloads_exact": "NOT RE-DERIVED. pypistats.org returned HTTP 429 RATE LIMIT EXCEEDED on two attempts, and a rate limit is an inconclusive read rather than an absence. Treat 90k as the rounded figure an independent surface published, not as a count this file derived.",
+        "derived_by": "curl -sS https://pypi.org/pypi/agentrust-trace/json | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d['info']['version'], len(d['releases']))\"; curl -sS https://static.pepy.tech/badge/agentrust-trace/month"
+      }
+    },
+    {
+      "key": "runtime-trace",
+      "standard": "in-toto attestation predicate: Runtime Trace",
+      "version": "v0.1 (predicate version 0.1.0)",
+      "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.1",
+      "repository": "https://github.com/in-toto/attestation",
+      "commit": "6fad7157dfb216034e28223c6b5c6b0f9c41bf28",
+      "branch": "main",
+      "read_from": "<intoto-checkout>, a checkout of in-toto/attestation at the commit named above",
+      "spec_path": "spec/predicates/runtime-trace.md",
+      "read_on": "2026-09-19",
+      "derived_by": "git -C <intoto-checkout> log -1 --format='%H %ad %s'"
+    },
+    {
+      "key": "asqav",
+      "standard": "Compliance Profile of Signed Action Receipts for AI Agents",
+      "version": "draft-marques-asqav-compliance-receipts-08",
+      "dated": "2026-08-31",
+      "expires": "2027-03-04",
+      "read_from": "<asqav-text>, the published plain-text of the draft, retained on disk rather than quoted from a datatracker page. Fetch it with: curl -sS https://www.ietf.org/archive/id/draft-marques-asqav-compliance-receipts-08.txt -o <asqav-text>",
+      "capture_status": "HTTP=200 SIZE=392828, recorded in fetch.log beside the capture",
+      "read_on": "2026-09-19",
+      "section_numbering_warning": "Section numbers MOVED between revisions 07 and 08. In -07, section 5.12 is Threat-Framework Taxonomy Extensions; in -08 it is Code-Authorship Extensions and the taxonomy section is 5.13. Any citation of an Asqav section number must state the revision it was read at, and a citation carried forward from -07 without one is wrong about which section it names.",
+      "derived_by": "grep -n '^5\\.1[23]\\.' <asqav-text>"
+    }
+  ],
+  "rows": [
+    {
+      "aee_term": "subject[0].digest",
+      "aee_meaning": "the executed artifact, by digest",
+      "trace": {
+        "term": "subject",
+        "section": "3.1",
+        "relation": "NARROWER_IN_KIND",
+        "note": "A SPIFFE SVID or DID URI naming a workload identity. An identity is not a digest, so a Trust Record cannot say which bytes executed."
+      },
+      "runtime_trace": {
+        "term": "subject",
+        "section": "Schema",
+        "relation": "SAME",
+        "note": "A ResourceDescriptor carrying a digest."
+      },
+      "asqav": {
+        "term": "re-derived subject digest",
+        "section": "8.2",
+        "relation": "SAME_FOR_CODE",
+        "note": "Scoped to a code change fetched from a source host, GitHub only."
+      }
+    },
+    {
+      "aee_term": "observationEnvironment.substrate",
+      "aee_meaning": "the containment substrate that observed the run, by subject and digest",
+      "trace": {
+        "term": "runtime",
+        "section": "3.1",
+        "relation": "WIDER_ON_HARDWARE",
+        "note": "A TEE measurement chain from firmware to workload. Carries no statement about instrumentation."
+      },
+      "runtime_trace": {
+        "term": "monitor",
+        "section": "Fields",
+        "relation": "NARROWER",
+        "note": "monitor.type is a URI identifying the monitor. Nothing requires the monitor to sit where the monitored process cannot reach it."
+      },
+      "asqav": {
+        "term": "capture layers",
+        "section": "8.3",
+        "relation": "PARTIAL"
+      }
+    },
+    {
+      "aee_term": "observationEnvironment.runEntropy",
+      "aee_meaning": "a run-start value nothing inside the run chose",
+      "trace": {
+        "term": "runtime.nonce",
+        "section": "3.2.2",
+        "relation": "SAME",
+        "note": "TRACE states the freshness binding most strictly of the three."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "freshness extensions",
+        "section": "5.7",
+        "relation": "SAME"
+      }
+    },
+    {
+      "aee_term": "observationEnvironment.networkPosture",
+      "aee_meaning": "the egress posture the observation was made under, by digest",
+      "trace": {
+        "term": null,
+        "section": "2.2 names the egress adversary in prose",
+        "relation": "NO_COUNTERPART"
+      },
+      "runtime_trace": {
+        "term": "monitorLog.network",
+        "section": "Fields",
+        "relation": "NARROWER",
+        "note": "Records what crossed, not the posture that decided what could. A clean network log is worth nothing without the posture."
+      },
+      "asqav": {
+        "term": "network_proxy capture layer, with the firewalling and fail-closed conditions",
+        "section": "8.3, 8.5",
+        "relation": "SAME_AT_DEPLOYMENT"
+      }
+    },
+    {
+      "aee_term": "observationEnvironment.corpus, with manifest and expectedPayloads",
+      "aee_meaning": "the adversarial input set, pinned by digest before the run",
+      "trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "note": "Nothing in the three pins the stimulus. Without it a clean result names no input and resolves through nothing."
+    },
+    {
+      "aee_term": "attackResults[].basis",
+      "aee_meaning": "closed over substrate and artifact: whether every input the claim rests on came from a vantage the executed artifact could neither forge nor suppress",
+      "trace": {
+        "term": null,
+        "section": "3.1.1 origin.kind records who assembled the record; runtime.platform records the hardware. Neither is a per-claim vantage.",
+        "relation": "NO_COUNTERPART"
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "tier split",
+        "section": "8.5",
+        "relation": "NARROWER",
+        "note": "Per deployment, not per claim."
+      },
+      "note": "Per claim because one record ordinarily carries both kinds."
+    },
+    {
+      "aee_term": "attackResults[].method",
+      "aee_meaning": "closed over intercepted and reconstructed: captured as it occurred, or derived from state examined afterwards",
+      "trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "runtime_trace": {
+        "term": null,
+        "section": "Fields, monitorLog.fileAccess note",
+        "relation": "NO_COUNTERPART_AS_FIELD",
+        "note": "The distinction is stated as a warning to verifiers: a synchronous ptrace monitor can pause the process to digest a file, an asynchronous eBPF monitor cannot, and verifiers must be careful what guarantees they are getting. The care asked for is not mechanisable, because the predicate carries no field to read the distinction from."
+      },
+      "asqav": {
+        "term": "the 8.2 re-derivation",
+        "section": "8.2",
+        "relation": "RECONSTRUCTED_BY_CONSTRUCTION"
+      },
+      "note": "The sharpest row in the crosswalk."
+    },
+    {
+      "aee_term": "attackResults[].attribution",
+      "aee_meaning": "closed over pinned and paired: how firmly this row is bound to the records that cover it",
+      "trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART",
+        "note": "TRACE reached the same insight independently for one proposed field. Issue 321 was corrected on 2026-09-10 to require a proof that commits this record, because a commitment is public once its proof is, so any record carrying that proof passes the recomputation."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "note": "Its absence is what makes the reference-substitution attack work."
+    },
+    {
+      "aee_term": "coverage.assessedClasses, outOfScope, routedElsewhere",
+      "aee_meaning": "machine-readable scope: what was assessed, what was excluded, what was moved elsewhere",
+      "trace": {
+        "term": null,
+        "section": "2.1 states in prose that functions embedded in the deployed binary fall outside tool_transcript",
+        "relation": "NO_COUNTERPART"
+      },
+      "runtime_trace": {
+        "term": "monitorLog presence rule",
+        "section": "Fields",
+        "relation": "NARROWER",
+        "note": "At least one of process, network, fileAccess must be present. A presence rule is not a coverage statement."
+      },
+      "asqav": {
+        "term": null,
+        "section": "8.2 closes in prose: it is not a claim that the range covers every change the producer authored",
+        "relation": "NO_COUNTERPART"
+      },
+      "note": "Each specification knows its own boundary and writes it where a verifier cannot read it."
+    },
+    {
+      "aee_term": "observationRecords of kind arming and sealed",
+      "aee_meaning": "substrate-signed statements that a live capture vantage was armed before the stimulus and stayed armed to run-end with no dropped observation",
+      "trace": {
+        "term": "GapDisclosure",
+        "section": "3.3.4",
+        "relation": "COMPLEMENTARY_INVERSE",
+        "note": "Negative evidence that receipts which would have occupied a chain position were never emitted. TRACE issue 279 asks for the positive primitive across six threads."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "fail-closed configuration requirement",
+        "section": "8.5",
+        "relation": "NARROWER",
+        "note": "A deployment property, stated by the draft to be the deployer's and not the product's."
+      }
+    },
+    {
+      "aee_term": "doesNotAssert",
+      "aee_meaning": "explicit negative-scope statements carried inside the signature",
+      "trace": {
+        "term": "LIMITATIONS.md and the permanent scope boundaries",
+        "section": "2.4",
+        "relation": "NO_COUNTERPART_PER_RECORD",
+        "note": "Both live outside any record."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "scope-honesty labels",
+        "section": "5.12",
+        "relation": "WIDER_IN_REACH_NARROWER_IN_BINDING",
+        "note": "Normative in the draft and mirrored in the issuing platform's /.well-known/governance.json wire-vocabulary surface. Nothing ties a label to the record that carried it."
+      }
+    },
+    {
+      "aee_term": "batchRoot",
+      "aee_meaning": "an RFC 6962 root over the carried observation records",
+      "trace": {
+        "term": "tool_transcript.hash; transparency",
+        "section": "3.1",
+        "relation": "NARROWER_AND_DIFFERENT_AXIS",
+        "note": "A single digest over the transcript is narrower. A SCITT receipt URI proves inclusion in someone else's log, which is a different question from completeness of this record's own set."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "previousReceiptHash",
+        "section": "5.3",
+        "relation": "SAME_FAMILY",
+        "note": "A chain proves order; a tree proves the set a consumer holds is the set that was signed."
+      }
+    },
+    {
+      "aee_term": "result",
+      "aee_meaning": "a total order over fail, degraded, pass_indirect, pass, recomputable from the rest of the predicate",
+      "trace": {
+        "term": "appraisal.status",
+        "section": "3.1",
+        "relation": "DIFFERENTLY_OWNED",
+        "note": "An EAR appraisal is the verifier's verdict. AEE's result is the producer's summary, and a consumer that cannot reproduce it must treat the attestation as invalid."
+      },
+      "runtime_trace": {
+        "term": null,
+        "relation": "NO_COUNTERPART"
+      },
+      "asqav": {
+        "term": "decision outcomes",
+        "section": "5.2",
+        "relation": "DIFFERENT_KIND",
+        "note": "A policy outcome, not an evidence result."
+      }
+    },
+    {
+      "aee_term": "observed effect: before-root, after-root, path-scope, authority-digest",
+      "aee_meaning": "what state the run left behind, over a declared scope, witnessed from outside the run",
+      "trace": {
+        "term": "rel: behavior-trace",
+        "section": "3.1.2",
+        "relation": "NAMED_SLOT_NO_ADMISSIBLE_TARGET",
+        "note": "A registered relation defined as a behavioural record of what the agent did, whose target rule 3 forbids a verifier from treating as attested evidence."
+      },
+      "runtime_trace": {
+        "term": "monitorLog.fileAccess",
+        "section": "Fields",
+        "relation": "NARROWER",
+        "note": "A list of accesses with digests. A set of accesses is not a statement about the state that remained."
+      },
+      "asqav": {
+        "term": "re-derived range digest",
+        "section": "8.2",
+        "relation": "NARROWER_DIFFERENT_VANTAGE",
+        "note": "Answers what a repository says changed rather than what a machine did, and is scoped to GitHub's own diff rendering under an unregistered media type."
+      },
+      "resolution": "The reference does identity work and the target does evidence work. Rule 3 forbids exactly one inference, from resolved to attested, and says nothing about a target carrying its own signature. A verifier holding a DSSE-enveloped statement signed by a key the Trust Record's subject cannot reach, whose digest that record commits to, concludes that the record and the statement describe the same run without any evidence weight passing through the resolution. This is the discipline 3.3.2 already applies to an external execution receipt, applied to a target outside the record."
+    }
+  ],
+  "probes": [
+    {
+      "name": "reference-substitution",
+      "against": "schema/trace-claim.json at 98aae17",
+      "result": "Two Trust Records for different executions carrying the byte-identical behavior-trace entry with no digest are both ACCEPTED. Control: the same entry with resolver removed is REFUSED with 'resolver' is a required property.",
+      "exit_code": 0,
+      "artifacts": "The probe script, its log and its exit status are retained in the private research tree. The reproduction below needs neither of them.",
+      "reproduce": "python3 - <<'EOF'\nimport copy, json, pathlib, jsonschema\nC = pathlib.Path('<trace-checkout>')\nschema = json.loads((C/'schema/trace-claim.json').read_text())\nbase = json.loads((C/'examples/amd-sev-snp.json').read_text())\nE = {'rel': 'behavior-trace', 'id': 'run-77', 'resolver': 'obs.example.com'}\na = copy.deepcopy(base); a['references'] = [copy.deepcopy(E)]\nb = copy.deepcopy(base); b['references'] = [copy.deepcopy(E)]\nb['subject'] = a['subject'] + '-staging'; b['iat'] = a['iat'] + 86400\nb['runtime']['measurement'] = 'sha384:' + 'a'*96\nctl = copy.deepcopy(a); del ctl['references'][0]['resolver']\nfor n, r in (('run_a', a), ('run_b', b), ('control', ctl)):\n    try:\n        jsonschema.validate(r, schema); print(n, 'ACCEPTED')\n    except jsonschema.ValidationError as e:\n        print(n, 'REFUSED', e.message)\nEOF"
+    },
+    {
+      "name": "where-a-binding-can-live",
+      "against": "schema/trace-claim.json at 98aae17",
+      "result": "An extra entry member carrying the target's commitment to this record is REFUSED (additionalProperties false). A top-level field carrying the same is REFUSED. An unregistered rel value is ACCEPTED. A behavior-trace entry on a software-only log-import record is ACCEPTED. Controls: a log-import record keeping a hardware platform is REFUSED, and an empty rel is REFUSED.",
+      "exit_code": 0,
+      "consequence": "TRACE's entry object is closed, so the reverse binding cannot live in the record and must be carried by the target.",
+      "artifacts": "The probe script and its log are retained in the private research tree. Each case below is a one-line mutation of the reproduction above, and the schema is the only thing needed to re-run it.",
+      "reproduce": "Against the same schema and base record: add a member to the entry (entry['boundRecordDigest'] = 'sha256:' + 'b'*64) and validate; add a top-level field (record['behavior_trace_binding'] = ...) and validate; set entry['rel'] = 'observed-effect' and validate; take examples/sandbox-runtime.json, set origin = {'kind': 'log-import', 'producer': 'siem.example.com'} and runtime.platform = 'software-only' and validate, then validate again leaving the platform at its original tpm2 value; set entry['rel'] = '' and validate. Expected in order: REFUSED, REFUSED, ACCEPTED, ACCEPTED, REFUSED, REFUSED."
+    }
+  ],
+  "absences_with_controls": [
+    {
+      "claim": "diff does not occur as a word in spec/, schema/, docs/, src/ or examples/ of trace-spec",
+      "command": "git -C <trace-checkout> grep -nw diff -- spec schema docs src examples",
+      "result": "exit 1, no output",
+      "control": "git grep -nwc before -- spec schema docs src returns matches in several files",
+      "correction": "An earlier internal note said the word does not occur anywhere in the repository. It occurs once, in .github/workflows/contributor-check.yml, in a comment about reviewing a diff before bumping a pinned commit. The scoped claim above is the correct one."
+    },
+    {
+      "claim": "merkle does not occur as a word in spec/, schema/, docs/ or src/ of trace-spec",
+      "command": "git -C <trace-checkout> grep -nw merkle -- spec schema docs src",
+      "result": "exit 1, no output",
+      "control": "the same paths return matches for snapshot in schema/trace-claim.json and both bundled schema copies"
+    },
+    {
+      "claim": "no in-toto predicate under spec/predicates/ carries a before-root or after-root field",
+      "command": "grep -rliE 'before[-_]?root|after[-_]?root' <intoto-checkout>/spec/predicates/",
+      "result": "exit 1, no output",
+      "control": "grep -rl digest over the same directory returns nine files"
+    },
+    {
+      "claim": "in-toto is not named in agentrust-io/awesome-ai-governance",
+      "command": "git -C <awesome-checkout> show origin/main:README.md | grep -ci in-toto",
+      "result": "zero, for the spellings in-toto, intoto and the non-breaking-hyphen form",
+      "control": "the same file returns matches for SLSA, Sigstore, SCITT and attestation",
+      "note": "All three of our public repositories ARE listed in that file, under github.com/astrogilda URLs that now redirect after the organisation rename."
+    }
+  ],
+  "licence_line_items": [
+    {
+      "source": "agentrust-io/trace-spec",
+      "licence": "see LICENSE and NOTICE at 98aae17",
+      "holder": "an organisation: AgenTrust under the Linux Foundation",
+      "contact": "MAINTAINERS.md and SECURITY.md in the repository"
+    },
+    {
+      "source": "in-toto/attestation",
+      "licence": "Apache-2.0",
+      "holder": "an organisation: the in-toto project under CNCF",
+      "contact": "the repository's maintainers file"
+    },
+    {
+      "source": "draft-marques-asqav-compliance-receipts-08",
+      "licence": "IETF Internet-Draft, BCP 78 and 79 terms",
+      "holder": "one person: J. A. Gomes Marques, Asqav",
+      "contact": "the author address block in the draft"
+    }
+  ],
+  "path_convention": "<trace-checkout>, <intoto-checkout>, <awesome-checkout> and <asqav-text> stand for the reader's own checkouts and capture. No command in this file depends on a local layout, and every one of them runs against a fresh clone at the commit its target names."
+}
