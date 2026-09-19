@@ -29,6 +29,14 @@ import subprocess
 import sys
 from pathlib import Path
 
+# A sibling module in this directory, resolved from this file rather than from
+# the caller's path, the same way scripts/forcing-gate.py reaches
+# scripts/_lockfile.py. The sidecar loader below is still copied rather than
+# imported, for the reason its own comment gives.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from _decoding import GUARD_MATERIAL, GUARD_SPANS, views  # noqa: E402
+
 HOOK_DIR = Path(__file__).resolve().parent.parent / ".githooks"
 SIDECAR = HOOK_DIR / "commit-msg.forbidden-words"
 
@@ -110,11 +118,25 @@ def tracked_files() -> list[Path]:
 # repository names follow it. Everything else stays refused, including the handle
 # alone. Copied verbatim from scripts/pre-push-identity-scan.py, not imported, for
 # the reason that file gives: these guards must run with no import path to break.
+OWNER_SPAN = "70726f626974796169"
 PERMITTED_PATH = re.compile(
-    bytes.fromhex("70726f626974796169").decode("ascii")
+    bytes.fromhex(OWNER_SPAN).decode("ascii")
     + r"/agent-evidence-(?:vectors|vocabulary|admission)\b",
     re.IGNORECASE,
 )
+
+# Rule material is exempt from the decoding step for the reason
+# `_decoding.material` gives: a guard that holds a term cannot hold it in a
+# decodable form and also decode everything. This scan reads every tracked file,
+# so the material it meets is not only its own -- the sibling history scanner's
+# word list is a file in this tree -- which is why the declared set is shared.
+if OWNER_SPAN not in GUARD_SPANS:
+    print(
+        "forbidden-word-scan: this file's rule span is not declared in "
+        "_decoding.GUARD_SPANS; add it there so every guard exempts it alike",
+        file=sys.stderr,
+    )
+    raise SystemExit(2)
 
 
 def permit(line: str) -> str:
@@ -125,6 +147,46 @@ def permit(line: str) -> str:
     owner-qualified still reaches both passes below.
     """
     return PERMITTED_PATH.sub(lambda m: "." * len(m.group(0)), line)
+
+
+def labels(
+    line: str, salt: str, nocase_lengths: list[int], cased_lengths: list[int], table: dict[str, str]
+) -> list[str]:
+    """Every sidecar label whose word occurs in `line`, each reported once.
+
+    Two passes: case-insensitive entries are probed against the lowercased line,
+    case-sensitive ones against the line as written. Folding both into one pass
+    would make an all-caps marker match ordinary lower-case prose.
+    """
+    found: list[str] = []
+    reported: set[str] = set()
+    for haystack, lengths in ((line.lower(), nocase_lengths), (line, cased_lengths)):
+        for width in lengths:
+            for start in range(0, len(haystack) - width + 1):
+                digest = hashlib.sha256(
+                    (salt + haystack[start : start + width]).encode("utf-8")
+                ).hexdigest()
+                label = table.get(digest)
+                if label is None or digest in reported:
+                    continue
+                reported.add(digest)
+                found.append(label)
+    return found
+
+
+def readings(line: str) -> list[tuple[str, str]]:
+    """One line as (where it sits, text to match), raw first and then decoded.
+
+    A forbidden word inside a base64 payload is in this repository's tracked
+    CONTENT exactly as much as one in its prose, and this scan used to read past
+    it: signed statements carry their payload encoded, and signed statements are
+    what this repository publishes. `_decoding.views` decodes base64 in both
+    alphabets padded or not, hex and percent-encoding, and follows nesting, so
+    the sidecar words are probed against every layer. The layers crossed are
+    printed with the finding; the word never is.
+    """
+    decoded = views(line, GUARD_MATERIAL)
+    return [("", line), *((f" [{layers}]", permit(text)) for layers, text in decoded)]
 
 
 def main(argv: list[str]) -> int:
@@ -140,31 +202,13 @@ def main(argv: list[str]) -> int:
             continue  # binary, gone, or a directory: nothing to tokenize
         scanned += 1
         for number, raw_line in enumerate(text.splitlines(), start=1):
-            line = permit(raw_line)
-            reported: set[str] = set()
-            # Two passes: case-insensitive entries are probed against the
-            # lowercased line, case-sensitive ones against the line as written.
-            # Folding both into one pass would make an all-caps marker match
-            # ordinary lower-case prose.
-            for haystack, lengths in (
-                (line.lower(), nocase_lengths),
-                (line, cased_lengths),
-            ):
-                for width in lengths:
-                    for start in range(0, len(haystack) - width + 1):
-                        digest = hashlib.sha256(
-                            (salt + haystack[start : start + width]).encode("utf-8")
-                        ).hexdigest()
-                        label = table.get(digest)
-                        if label is None or digest in reported:
-                            continue
-                        reported.add(digest)
-                        hits += 1
-                        # The word is never echoed. Printing it would reproduce
-                        # the string into CI logs and scrollback -- committing,
-                        # in the failure report, the exact leak the rule exists
-                        # to prevent.
-                        print(f"{path}:{number}: {label} (word withheld)")
+            for where, reading in readings(permit(raw_line)):
+                for label in labels(reading, salt, nocase_lengths, cased_lengths, table):
+                    hits += 1
+                    # The word is never echoed. Printing it would reproduce the
+                    # string into CI logs and scrollback -- committing, in the
+                    # failure report, the exact leak the rule exists to prevent.
+                    print(f"{path}:{number}{where}: {label} (word withheld)")
 
     if hits:
         print(
