@@ -111,9 +111,10 @@ citation from it. Cite the corpus you actually ran, which means naming three
 things and not two:
 
 - the **repository**, by URL;
-- the **suiteRevision** you ran against, from the head of
-  [`vectors/CHANGES.md`](vectors/CHANGES.md), or the tag for a corpus that keeps
-  no revision ledger;
+- the **suiteRevision** you ran against, from the manifest of the corpus you ran,
+  or the tag for a corpus that keeps no revision ledger. The generator copies it
+  there from the head of [`vectors/CHANGES.md`](vectors/CHANGES.md), which stays
+  the one place the number is written by hand;
 - the **corpusDigest** from the manifest of the corpus you ran, which
   [`release/CORPUS-DIGESTS.txt`](release/CORPUS-DIGESTS.txt) also carries under
   one signature for every corpus at once.

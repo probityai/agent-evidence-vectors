@@ -40,6 +40,13 @@ SPEC_PATH = os.path.normpath(os.path.join(HERE, "..", SPEC_REL))
 # is written by scripts/vendor-spec.py from git at vendor time, so the commit
 # the corpus certifies against cannot disagree with the bytes it certifies.
 PIN_PATH = os.path.normpath(os.path.join(HERE, "..", "spec", "VENDOR-PIN.json"))
+# The corpus revision. It has exactly one home -- the newest heading in the
+# changelog beside this file -- and this generator copies it into the MANIFEST so
+# a consumer can read it without parsing prose. It used to live in prose ALONE,
+# and an independent implementer filing a crosswalk read `manifest["suite"]`
+# instead, because that was the only suite-shaped key in the file and there was
+# nothing better to read. The number a rail must cite is now a field.
+CHANGES_PATH = os.path.join(HERE, "CHANGES.md")
 
 # Tier expectations explicitly pinned by the accept/INDEX.md rows that state a
 # tier in prose. Each entry is derivable from the vector's own bytes and the
@@ -101,6 +108,35 @@ TIER_EXPECTATIONS = {
         "tierWithoutKey": ["unattested", "declared"],
     },
 }
+
+
+def suite_revision(changes_path: str) -> int:
+    """The corpus revision, read from the newest changelog heading.
+
+    ONE source, and it is the file that already cannot be wrong: a revision bump
+    IS a changelog entry, so a manifest generated without one would be describing
+    a corpus nobody recorded. The refusals below are failures, never findings --
+    a missing or unreadable changelog says the generator could not establish the
+    revision, which is different from the corpus having none.
+    """
+    try:
+        with open(changes_path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError as exc:
+        raise SystemExit(
+            f"cannot read {changes_path}: {exc}. The suite revision lives in "
+            "that changelog's newest heading and nowhere else, so the MANIFEST "
+            "cannot be generated without it."
+        ) from exc
+    found = [int(m) for m in re.findall(r"^## suiteRevision (\d+)\b", text, re.M)]
+    if not found:
+        raise SystemExit(
+            f"{changes_path} carries no '## suiteRevision <n>' heading. Add the "
+            "entry for this revision before regenerating: the MANIFEST copies the "
+            "number from there, and a corpus whose revision was never written down "
+            "is one no consumer can cite."
+        )
+    return max(found)
 
 
 def corpus_files(root: str) -> list[tuple[str, str]]:
@@ -575,6 +611,7 @@ def main() -> int:
         )
     manifest = {
         "suite": "adversarial-execution-evidence-conformance",
+        "suiteRevision": suite_revision(CHANGES_PATH),
         "predicateType": (
             "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
         ),
