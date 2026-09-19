@@ -141,7 +141,7 @@ push_lines="$(cat)"
 # Exit 2 means the installation set could not be read, which is a failed check
 # and never an empty account, so it warns and lets the push through instead of
 # refusing on an answer it does not have.
-heavy-queue heavy-run --name runner-labels-gate --timeout 3600 -- label_gate="$src_root/scripts/runner-labels-gate.py"
+label_gate="$src_root/scripts/runner-labels-gate.py"
 if [ -f "$label_gate" ]; then
 	python3 "$label_gate" && label_status=0 || label_status=$?
 	case "$label_status" in
