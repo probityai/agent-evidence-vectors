@@ -90,6 +90,13 @@ GENERATORS = (
     # check-set digest and identifier are functions of its bytes, and the
     # generator refuses a member the validator does not answer as claimed.
     "vectors-w3c-report/gen_vectors.py",
+    # The Observed Effect suite. It builds its own manifest and its own index in
+    # the same run, so it has no ordering relationship with anything above. It is
+    # listed because it arrived publishing a regeneration recipe -- its
+    # generator's docstring says "Regenerate byte-identically" -- with no gate
+    # running it, which is the same state this file's header records for the
+    # AI Agent Action suite.
+    "vectors-observed-effect/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -147,6 +154,14 @@ OWNED = (
     ("vectors-scitt-cose", "INDEX.md"),
     ("vectors-aci/deployment-members", "v*.json"),
     ("vectors-aci", "MANIFEST.json"),
+    # The Observed Effect suite. Its INDEX.md is emitted from the manifest for
+    # the reason the SCITT/COSE entry above gives, and its members are named
+    # after their own bytes: the corpus digest and all 31 identifiers move
+    # together whenever any member does, which is how this corpus's README came
+    # to publish a digest no member set produces.
+    ("vectors-observed-effect/statements", "v*.json"),
+    ("vectors-observed-effect", "MANIFEST.json"),
+    ("vectors-observed-effect", "INDEX.md"),
     ("vectors-w3c-report/vectors", "v*.json"),
     ("vectors-w3c-report", "MANIFEST.json"),
     ("vectors-w3c-report", "INDEX.md"),
