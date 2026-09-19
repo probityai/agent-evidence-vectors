@@ -16,8 +16,8 @@ WHY THIS SUITE EXISTS
 The predicate states nineteen rules, of which six close an attack this
 repository's own attack section constructs. A rule nothing exercises is a
 sentence, not a gate. This corpus is the difference, and one member of it is a
-shape the other 267 vectors in this repository do not have: a claim whose own
-carried evidence refutes it. research/442's teardown found that gap by finding
+shape no other corpus in this repository has: a claim whose own carried evidence
+refutes it. research/442's teardown found that gap by finding
 the same defect in somebody else's verifier -- an evidence shape that only runs
 when a producer-set list is non-empty -- and a corpus with no such member cannot
 tell a verifier that reads claims from one that recomputes over evidence.
@@ -279,6 +279,7 @@ def predicate(**over: Any) -> dict[str, Any]:
     if base.get("observation") is None:
         base["observation"] = {
             "vantage": "below-observed",
+            "origin": "first-hand",
             "coverage": {"scopeComplete": True, "gaps": []},
             "observedSigners": [OBSERVED_KEYID],
             "priorCommitment": commitment(
@@ -333,7 +334,10 @@ def envelope(stmt: dict[str, Any], raw_payload: bytes | None = None) -> dict[str
 # ---------------------------------------------------------------------------
 CONDITIONS: dict[str, str] = {
     "oe-tier-vantage": "tier: a record is authoritative only where vantage is below-observed",
-    "oe-tier-commitment": "tier: authoritative requires a complete priorCommitment",
+    "oe-tier-commitment": (
+        "priorCommitment: required wherever vantage is below-observed, which is why "
+        "the tier recompute carries no clause for it"
+    ),
     "oe-tier-scope": "tier: authoritative requires a non-empty pathScope (attack A2)",
     "oe-chain": "writes: the ordered chain must reproduce afterRoot from beforeRoot",
     "oe-mutation-none": "mutation: none requires beforeRoot == afterRoot and empty writes",
@@ -374,6 +378,52 @@ CONDITIONS: dict[str, str] = {
     "oe-interval-order": (
         "interval: openedAt strictly before sealedAt, issuedAt at or after sealedAt"
     ),
+    "oe-ijson-integer": (
+        "parsing: an integer at or above 2**53 is refused on the way IN, not only out"
+    ),
+    "oe-predicate-type": "parsing: the statement must carry this predicate's own type URI",
+    "oe-subject-binding": (
+        "subject: the single subject digest is the interval's afterRoot under "
+        "hashAlgorithm (attack A20)"
+    ),
+    "oe-timestamp-grammar": (
+        "timestamps: RFC 3339 UTC with Z and no fractional second, so a lexical "
+        "comparison is an instant comparison (attack A21)"
+    ),
+    "oe-path-normalized": (
+        "paths: absolute and normalized, with no dot or dot-dot segment (attack A22)"
+    ),
+    "oe-scope-boundary": (
+        "pathScope: containment is at a segment boundary, never a string prefix "
+        "(attack A23)"
+    ),
+    "oe-empty-tree-read": (
+        "reads: no bytes are read at a beforeRoot that is the empty tree (attack A24)"
+    ),
+    "oe-coverage-named": (
+        "coverage: an incomplete observation names where it was blind (attack A25)"
+    ),
+    "oe-keyid-form": (
+        "keyids: one lowercase hex spelling, so the disjointness check cannot be "
+        "dodged by case (attack A26)"
+    ),
+    "oe-commitment-signature": (
+        "priorCommitment: the signature is verified against the anchored observer "
+        "key (attack A27)"
+    ),
+    "oe-dual-recompute": (
+        "dualValues: for a fact the statement can compute about itself, the observed "
+        "side is that value (attack A28)"
+    ),
+    "oe-dual-values-absent": "dualValues: a row carrying neither value is not a comparison",
+    "oe-origin-vantage": (
+        "observation.origin: only a first-hand producer may claim below-observed "
+        "(attack A31)"
+    ),
+    "oe-authoritative-rows": (
+        "tier: an authoritative record carries at least one read or one write "
+        "(attack A2, second spelling)"
+    ),
 }
 
 class _Omit:
@@ -390,6 +440,26 @@ class _Omit:
 OMIT = _Omit()
 
 DRAFTS: list[dict[str, Any]] = []
+
+#: A blob this corpus narrates and does NOT publish, for the read row that no
+#: verifier can check. check_vectors.py holds only the published blob, so the
+#: range preimage rule skips this row exactly as a stranger's verifier would.
+_INVENTED_BLOB = b"a blob no other party holds"
+_INVENTED_BLOB_DIGEST = hashlib.sha256(_INVENTED_BLOB).hexdigest()
+
+
+def _typed_statement(predicate_type: str) -> dict[str, Any]:
+    """A statement carrying somebody else's predicateType over our predicate."""
+    stmt = statement(predicate(intervalId="iv-0202"))
+    stmt["predicateType"] = predicate_type
+    return stmt
+
+
+def _unsigned_commitment(interval_id: str) -> dict[str, Any]:
+    """A commitment whose signature is sixty-four zero bytes."""
+    out = commitment(interval_id=interval_id)
+    out["sig"] = "00" * 64
+    return out
 
 
 def add(
@@ -446,6 +516,19 @@ add(
         "oe-vocabulary",
         "oe-interval-order",
         "oe-self-refuting",
+        "oe-ijson-integer",
+        "oe-predicate-type",
+        "oe-subject-binding",
+        "oe-timestamp-grammar",
+        "oe-path-normalized",
+        "oe-scope-boundary",
+        "oe-coverage-named",
+        "oe-keyid-form",
+        "oe-commitment-signature",
+        "oe-dual-recompute",
+        "oe-dual-values-absent",
+        "oe-origin-vantage",
+        "oe-authoritative-rows",
     ],
     "valid",
     [],
@@ -500,18 +583,25 @@ add(
             },
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(
                     before_root=EMPTY_TREE["sha256"], interval_id="iv-0003"
                 ),
             },
-            reads=[read_row(pre=EMPTY_TREE["sha256"])],
+            # The read is taken at R1, AFTER the write that creates the file. It
+            # was taken at the empty-tree root, and an accept member of this corpus
+            # therefore required a conforming verifier to accept 64 bytes read out
+            # of a tree that holds nothing. The interval that opens on nothing is
+            # the shape most worth getting right, because it is the one claim a
+            # producer can make about the past that no later state can contradict.
+            reads=[read_row(path="/srv/app/main.py", pre=R1)],
             writes=[write_row("/srv/app/main.py", EMPTY_TREE["sha256"], R1)],
             dualValues=[dual("writes.count", "1", "1", "agree")],
         )
     ),
-    ["oe-empty-tree", "oe-base-vocab"],
+    ["oe-empty-tree", "oe-base-vocab", "oe-empty-tree-read"],
     "valid",
     [],
     "The terminal case of base resolution, which is what makes beforeRoot "
@@ -532,6 +622,7 @@ add(
             tier="voluntary",
             observation={
                 "vantage": "self",
+                "origin": "self",
                 "coverage": {"scopeComplete": False, "gaps": ["/srv/app/vendor/"]},
                 "observedSigners": [OBSERVED_KEYID],
             },
@@ -691,6 +782,7 @@ add(
             intervalId="iv-0105",
             observation={
                 "vantage": "self",
+                "origin": "self",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(interval_id="iv-0105"),
@@ -715,17 +807,22 @@ add(
             intervalId="iv-0106",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
             },
         )
     ),
     ["oe-tier-commitment"],
-    "invalid",
-    ["authoritative-prior-commitment-absent"],
+    "malformed",
+    ["prior-commitment-absent-for-vantage"],
     "A bare vantage assertion with nothing binding it. The commitment is the only "
     "member that fixes an input to the record before the interval opened, so without "
-    "it the vantage claim is a string the producer typed.",
+    "it the vantage claim is a string the producer typed. It is refused in stage one "
+    "rather than downgraded, because the Fields section makes the commitment REQUIRED "
+    "at this vantage; refusing it there is what leaves the tier recompute with no "
+    "reachable input for a commitment clause, and the clause is gone rather than kept "
+    "as a sentence no vector can reach.",
     parent=BASELINE,
 )
 
@@ -737,6 +834,7 @@ add(
             intervalId="iv-0107",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID, OBSERVER_KEYID],
                 "priorCommitment": commitment(interval_id="iv-0107"),
@@ -762,6 +860,7 @@ add(
             intervalId="iv-0108",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(
@@ -787,6 +886,7 @@ add(
             intervalId="iv-0109",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(
@@ -823,6 +923,7 @@ add(
             },
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(
@@ -1025,6 +1126,7 @@ add(
             intervalId="iv-0117",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": ["/srv/app/vendor/"]},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(interval_id="iv-0117"),
@@ -1165,6 +1267,7 @@ add(
             tier="voluntary",
             observation={
                 "vantage": "kernel",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
             },
@@ -1217,6 +1320,7 @@ add(
             intervalId="iv-0201",
             observation={
                 "vantage": "below-observed",
+                "origin": "first-hand",
                 "coverage": {"scopeComplete": True, "gaps": []},
                 "observedSigners": [OBSERVED_KEYID],
                 "priorCommitment": commitment(
@@ -1250,6 +1354,402 @@ add(
 
 def vector_id(body: bytes) -> str:
     return "v" + hashlib.sha256(body).hexdigest()[:ID_HEX]
+
+
+# --- members added by the adversarial pass --------------------------------
+# Each one is a record that satisfied every rule this verifier implemented and
+# still misrepresented what executed. They are pinned here rather than described
+# in a report, because a report expires and a corpus member runs on every push.
+
+add(
+    "subject-is-not-the-after-root",
+    "reject",
+    statement(predicate(intervalId="iv-0201"), subject_digest=R_ELSEWHERE),
+    ["oe-subject-binding"],
+    "malformed",
+    ["subject-not-the-after-root"],
+    "The record an admission controller would admit. Every predicate member is "
+    "honest and the subject names a state this interval never reached, so the "
+    "evidence describes one thing and the decision is taken about another. Nothing "
+    "in the predicate bound the two while the subject was unread.",
+    parent=BASELINE,
+)
+
+add(
+    "predicate-type-is-another-predicates",
+    "reject",
+    _typed_statement("https://in-toto.io/attestation/runtime-trace/v0.1"),
+    ["oe-predicate-type"],
+    "malformed",
+    ["predicate-type-unexpected"],
+    "An observed-effect body wearing somebody else's predicate type. A consumer "
+    "routes by predicateType and then applies that predicate's rules to these "
+    "members, so the record means whatever the other predicate says these names mean.",
+    parent=BASELINE,
+)
+
+add(
+    "commitment-timestamp-with-an-offset",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0203",
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": commitment(
+                    interval_id="iv-0203", committed_at="2026-09-18T20:00:00-05:00"
+                ),
+            },
+        )
+    ),
+    ["oe-timestamp-grammar"],
+    "malformed",
+    ["timestamp-not-utc-basic:priorCommitment.committedAt"],
+    "2026-09-18T20:00:00-05:00 is 2026-09-19T01:00:00Z, an hour after this interval "
+    "opened. It sorts before openedAt as a string, so the ordering gate that makes "
+    "the commitment PRIOR passed on a commitment made afterwards. One grammar is "
+    "what makes a lexical comparison a comparison of instants.",
+    parent=BASELINE,
+)
+
+add(
+    "write-path-escapes-with-dot-dot",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0204",
+            writes=[
+                write_row("/srv/app/main.py", R0, R1),
+                write_row("/srv/app/../../../etc/shadow", R1, R2),
+            ],
+        )
+    ),
+    ["oe-path-normalized"],
+    "malformed",
+    ["path-not-normalized"],
+    "A write to /etc/shadow that starts with /srv/app/ and travels as in-scope. "
+    "Containment was a string prefix, so the traversal did the work; the path is "
+    "refused before any scope question is asked.",
+    parent=BASELINE,
+)
+
+add(
+    "write-under-a-sibling-prefix",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0205",
+            pathScope=["/srv/app"],
+            writes=[
+                write_row("/srv/app/main.py", R0, R1),
+                write_row("/srv/application-secrets/id_ed25519", R1, R2),
+            ],
+        )
+    ),
+    ["oe-scope-boundary"],
+    "invalid",
+    ["write-in-scope-mislabelled"],
+    "/srv/application-secrets/id_ed25519 starts with /srv/app and is not under it. "
+    "A policy that compares pathScope against its own expectation reads /srv/app and "
+    "admits a write to a different directory, which is the scope check agreeing with "
+    "the producer about where the producer was.",
+    parent=BASELINE,
+)
+
+add(
+    "bytes-read-from-the-empty-tree",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0206",
+            interval={
+                "beforeRoot": EMPTY_TREE["sha256"],
+                "afterRoot": R1,
+                "baseResolution": "empty-tree",
+                "openedAt": T_OPEN,
+                "sealedAt": T_SEAL,
+            },
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": commitment(
+                    before_root=EMPTY_TREE["sha256"], interval_id="iv-0206"
+                ),
+            },
+            reads=[read_row(pre=EMPTY_TREE["sha256"])],
+            writes=[write_row("/srv/app/main.py", EMPTY_TREE["sha256"], R1)],
+            dualValues=[dual("writes.count", "1", "1", "agree")],
+        )
+    ),
+    ["oe-empty-tree-read"],
+    "malformed",
+    ["bytes-read-from-the-empty-tree"],
+    "There was nothing before, and here are 64 bytes read out of the nothing. The "
+    "empty-tree terminal case is the strongest claim a producer can make about the "
+    "past, which is what makes it the one worth dressing a populated tree in.",
+    parent="empty-tree-base-sha256",
+)
+
+add(
+    "incomplete-coverage-naming-no-gap",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0207",
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": False, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": commitment(interval_id="iv-0207"),
+            },
+        )
+    ),
+    ["oe-coverage-named"],
+    "malformed",
+    ["coverage-incomplete-without-gaps"],
+    "The observation admits it did not cover its own scope and names no gap, and it "
+    "graded authoritative: clause 4 of the tier recompute asks whether every member "
+    "of gaps lies outside pathScope, and an empty list satisfies that vacuously. The "
+    "gap a producer declines to name is where the writes went.",
+    parent=BASELINE,
+)
+
+add(
+    "observed-signer-in-another-case",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0208",
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVER_KEYID.upper()],
+                "priorCommitment": commitment(interval_id="iv-0208"),
+            },
+        )
+    ),
+    ["oe-keyid-form"],
+    "malformed",
+    ["keyid-not-lowercase-hex"],
+    "observedSigners names the committing key itself, uppercased, and the "
+    "commitment carries it lowercased. The record therefore SAYS the key that made "
+    "the prior commitment is a key the observed party signs with, and the "
+    "disjointness check -- the predicate's offline discriminator -- passed, because "
+    "it is a string comparison and two spellings of one key are two strings. No "
+    "second key was needed.",
+    parent=BASELINE,
+)
+
+add(
+    "commitment-signed-by-nobody",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0209",
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": _unsigned_commitment("iv-0209"),
+            },
+        )
+    ),
+    ["oe-commitment-signature"],
+    "invalid",
+    ["commitment-signature-invalid"],
+    "Sixty-four zero bytes where the commitment signature goes. The commitment is "
+    "the whole basis of the authoritative tier and its signature was never checked, "
+    "so the member that carries the vantage claim was carrying it unsigned.",
+    parent=BASELINE,
+)
+
+add(
+    "dual-value-the-record-refutes",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0210",
+            dualValues=[dual("writes.count", "7", "7", "agree")],
+        )
+    ),
+    ["oe-dual-recompute"],
+    "malformed",
+    ["dual-value-not-recomputable"],
+    "The record carries two writes and reports having observed seven, and agrees "
+    "with itself about it. dualValues is the member the predicate offers as the one "
+    "that catches a lying producer without trusting anyone, and the observed side "
+    "was a free string, so the cross-check could be set to any number including one "
+    "the same signed bytes refute.",
+    parent=BASELINE,
+)
+
+add(
+    "dual-value-with-no-values",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0211",
+            dualValues=[dual("observed.session", "", "", "one-sided")],
+        )
+    ),
+    ["oe-dual-values-absent"],
+    "malformed",
+    ["dual-value-carries-no-value"],
+    "A comparison of nothing against nothing, labelled one-sided. A consumer that "
+    "counts dual values as corroboration counts this one, and a record can carry as "
+    "many of them as it likes.",
+    parent=BASELINE,
+)
+
+add(
+    "vacuous-authoritative-universal-scope",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0212",
+            mutation="none",
+            interval={
+                "beforeRoot": EMPTY_TREE["sha256"],
+                "afterRoot": EMPTY_TREE["sha256"],
+                "baseResolution": "empty-tree",
+                "openedAt": T_OPEN,
+                "sealedAt": T_SEAL,
+            },
+            observation={
+                "vantage": "below-observed",
+                "origin": "first-hand",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": commitment(
+                    before_root=EMPTY_TREE["sha256"], interval_id="iv-0212"
+                ),
+            },
+            pathScope=["/"],
+            reads=[],
+            writes=[],
+            dualValues=[],
+        ),
+        subject_digest=EMPTY_TREE["sha256"],
+    ),
+    ["oe-authoritative-rows"],
+    "invalid",
+    ["authoritative-without-observed-rows"],
+    "Attack A2 with two characters changed. The predicate records A2 as closed by "
+    "the non-empty pathScope clause, and the vacuous record spelled its scope as the "
+    "literal / instead of the empty list: the whole filesystem was empty, nothing "
+    "happened anywhere, graded the strongest tier. A positive claim about an interval "
+    "needs a row to be a claim about anything.",
+    parent="empty-tree-base-sha256",
+)
+
+_ijson_statement = statement(
+    predicate(
+        intervalId="iv-0213",
+        reads=[
+            {
+                "path": "/srv/app/config.yaml",
+                "preStateDigest": R0,
+                # An unpublished blob, so the range preimage rule SKIPS this row.
+                # With the published blob the edited offset also broke the preimage
+                # and the mutation sweep reported the integer rule as inert: two
+                # rules refused one member and neither was measured.
+                "blobDigest": _INVENTED_BLOB_DIGEST,
+                "readState": "bytes-read",
+                "byteRange": {"start": 0, "end": 27},
+                "rangeDigest": range_digest(_INVENTED_BLOB, 0, 27),
+            }
+        ],
+    )
+)
+# canonical.py REFUSES to encode an unsafe integer, which is the producer side of
+# the I-JSON rule working. The bytes are edited afterwards because a hostile rail
+# does not call our encoder, and the open question was only ever whether this
+# verifier CONSUMES what such a rail emits.
+_ijson_payload = canonical_bytes(_ijson_statement).replace(
+    b'"end":27', b'"end":9007199254740993', 1
+)
+if b"9007199254740993" not in _ijson_payload:
+    raise SystemExit("the I-JSON member's byte edit did not apply")
+
+add(
+    "byte-range-past-the-ijson-bound",
+    "reject",
+    _ijson_statement,
+    ["oe-ijson-integer"],
+    "malformed",
+    ["integer-not-ijson-safe"],
+    "A byte range ending at 9007199254740993. The Prerequisites section states the "
+    "RFC 7493 bound as a MUST and canonical.py enforces it on the way out, so the "
+    "rule was measured on the producer and unmeasured on the verifier. A rail that "
+    "reads this into a double reads 9007199254740992 and two rails disagree about "
+    "identical signed bytes.",
+    parent=BASELINE,
+    raw_payload=_ijson_payload,
+)
+
+add(
+    "log-import-wearing-a-vantage",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0215",
+            observation={
+                "vantage": "below-observed",
+                "origin": "log-import",
+                "coverage": {"scopeComplete": True, "gaps": []},
+                "observedSigners": [OBSERVED_KEYID],
+                "priorCommitment": commitment(interval_id="iv-0215"),
+            },
+        )
+    ),
+    ["oe-origin-vantage"],
+    "malformed",
+    ["origin-cannot-carry-below-observed-vantage"],
+    "A record assembled from another vendor's exported log and emitted as a "
+    "first-hand observation made below the party it describes. Before the origin "
+    "member existed, this record was the honest baseline with a different "
+    "narrator: no field in it was false, because there was no field in which an "
+    "importer had to say it imported. The sibling vocabulary registers the enum "
+    "and the rule that binds the vantage to it.",
+    parent=BASELINE,
+)
+
+add(
+    "read-row-nobody-can-check",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0214",
+            reads=[
+                {
+                    "path": "/srv/app/secrets.env",
+                    "preStateDigest": R0,
+                    "blobDigest": _INVENTED_BLOB_DIGEST,
+                    "readState": "bytes-read",
+                    "byteRange": {"start": 0, "end": 27},
+                    "rangeDigest": range_digest(_INVENTED_BLOB, 0, 27),
+                }
+            ],
+        )
+    ),
+    ["oe-range-preimage", "oe-read-chain"],
+    "valid",
+    [],
+    "ACCEPTED, and pinned because it is accepted. Path, pre-state, blob digest, "
+    "offsets and range digest are internally consistent over a blob no other party "
+    "holds, so a verifier without the blob checks three bindings that all hold and "
+    "the fourth is the one that matters. The predicate says this in its own residual "
+    "section; the member is here so that a later change which starts refusing it is "
+    "visible as a change rather than as a fix.",
+)
 
 
 def emit() -> None:

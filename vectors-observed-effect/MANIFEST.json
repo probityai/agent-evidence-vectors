@@ -6,34 +6,48 @@
   "conditions": {
     "oe-agreement": "dualValues: agreement must be derivable from the two carried values",
     "oe-anchor-unruled": "priorCommitment.externalAnchor: the predicate defines no offline token rule",
+    "oe-authoritative-rows": "tier: an authoritative record carries at least one read or one write (attack A2, second spelling)",
     "oe-base-vocab": "baseResolution: closed vocabulary, fail-closed on an unknown value",
     "oe-chain": "writes: the ordered chain must reproduce afterRoot from beforeRoot",
     "oe-commitment-digest": "priorCommitment: commitmentDigest recomputes over beforeRoot and witnessNonce",
     "oe-commitment-keyid": "priorCommitment: keyid must not appear in observedSigners (attack A1)",
     "oe-commitment-order": "priorCommitment: committedAt strictly before interval.openedAt",
+    "oe-commitment-signature": "priorCommitment: the signature is verified against the anchored observer key (attack A27)",
     "oe-coverage-contradiction": "coverage: scopeComplete true with a gap inside pathScope is malformed",
+    "oe-coverage-named": "coverage: an incomplete observation names where it was blind (attack A25)",
+    "oe-dual-recompute": "dualValues: for a fact the statement can compute about itself, the observed side is that value (attack A28)",
+    "oe-dual-values-absent": "dualValues: a row carrying neither value is not a comparison",
     "oe-empty-tree": "baseResolution: empty-tree requires the constant for the declared hashAlgorithm",
+    "oe-empty-tree-read": "reads: no bytes are read at a beforeRoot that is the empty tree (attack A24)",
     "oe-ijson-duplicate": "parsing: a duplicate member anywhere makes the statement malformed",
+    "oe-ijson-integer": "parsing: an integer at or above 2**53 is refused on the way IN, not only out",
     "oe-interval-order": "interval: openedAt strictly before sealedAt, issuedAt at or after sealedAt",
+    "oe-keyid-form": "keyids: one lowercase hex spelling, so the disjointness check cannot be dodged by case (attack A26)",
     "oe-mutation-none": "mutation: none requires beforeRoot == afterRoot and empty writes",
+    "oe-origin-vantage": "observation.origin: only a first-hand producer may claim below-observed (attack A31)",
+    "oe-path-normalized": "paths: absolute and normalized, with no dot or dot-dot segment (attack A22)",
+    "oe-predicate-type": "parsing: the statement must carry this predicate's own type URI",
     "oe-range-nonempty": "reads: a zero-length byteRange is malformed (attack A3)",
     "oe-range-preimage": "reads: rangeDigest binds blob length and both offsets (attack A3)",
     "oe-read-chain": "reads: preStateDigest must equal beforeRoot or the preceding write's postStateDigest",
     "oe-required-members": "parsing: no member has a default and no verifier may supply one",
+    "oe-scope-boundary": "pathScope: containment is at a segment boundary, never a string prefix (attack A23)",
     "oe-scope-glob": "pathScope: no glob metacharacter; a universal scope is the literal / (attack A4)",
     "oe-self-refuting": "mutation: a record whose own writes refute its own claim is malformed (attack A6)",
-    "oe-tier-commitment": "tier: authoritative requires a complete priorCommitment",
+    "oe-subject-binding": "subject: the single subject digest is the interval's afterRoot under hashAlgorithm (attack A20)",
+    "oe-tier-commitment": "priorCommitment: required wherever vantage is below-observed, which is why the tier recompute carries no clause for it",
     "oe-tier-scope": "tier: authoritative requires a non-empty pathScope (attack A2)",
     "oe-tier-vantage": "tier: a record is authoritative only where vantage is below-observed",
+    "oe-timestamp-grammar": "timestamps: RFC 3339 UTC with Z and no fractional second, so a lexical comparison is an instant comparison (attack A21)",
     "oe-vocabulary": "parsing: fail-closed on an unknown value in any closed vocabulary",
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "8422f03513df5f8b76d2305aeb0bd170f53394d19a136e20deca8682df9725a8",
+  "corpusDigest": "d81c4ee44926fc0922f98f5a4048490dd522ad3ef14ae38f0ab3cf8f51a31352",
   "counts": {
-    "accept": 5,
+    "accept": 6,
     "indeterminate": 1,
-    "reject": 25
+    "reject": 39
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -78,14 +92,27 @@
         "oe-required-members",
         "oe-vocabulary",
         "oe-interval-order",
-        "oe-self-refuting"
+        "oe-self-refuting",
+        "oe-ijson-integer",
+        "oe-predicate-type",
+        "oe-subject-binding",
+        "oe-timestamp-grammar",
+        "oe-path-normalized",
+        "oe-scope-boundary",
+        "oe-coverage-named",
+        "oe-keyid-form",
+        "oe-commitment-signature",
+        "oe-dual-recompute",
+        "oe-dual-values-absent",
+        "oe-origin-vantage",
+        "oe-authoritative-rows"
       ],
       "expected": {
         "codes": [],
         "verdict": "valid"
       },
-      "file": "statements/v6d7def3316902e9e.json",
-      "id": "v6d7def3316902e9e",
+      "file": "statements/v1c6fdd82db5229e4.json",
+      "id": "v1c6fdd82db5229e4",
       "kind": "accept",
       "slug": "authoritative-baseline"
     },
@@ -100,8 +127,8 @@
         "codes": [],
         "verdict": "valid"
       },
-      "file": "statements/vf0e3247af86a6c8f.json",
-      "id": "vf0e3247af86a6c8f",
+      "file": "statements/v162352770f2f6c1c.json",
+      "id": "v162352770f2f6c1c",
       "kind": "accept",
       "slug": "mutation-none-read-only"
     },
@@ -109,14 +136,15 @@
       "cites": "The terminal case of base resolution, which is what makes beforeRoot unconditionally required rather than optional-when-unknown. ASQAV Section 8.2 resolves a base in the order supplied, recorded-parent, empty tree, and then rules that where none yields a base the platform 'MUST refuse to emit an authoritative attestation rather than infer a base from the commit parents, which are ambiguous for merge and squash commits'. The constant here is the sha256 empty tree object name, because this record's hashAlgorithm is sha256.",
       "conditions": [
         "oe-empty-tree",
-        "oe-base-vocab"
+        "oe-base-vocab",
+        "oe-empty-tree-read"
       ],
       "expected": {
         "codes": [],
         "verdict": "valid"
       },
-      "file": "statements/v92c8f8999ebd76ab.json",
-      "id": "v92c8f8999ebd76ab",
+      "file": "statements/veb623011cbf1b744.json",
+      "id": "veb623011cbf1b744",
       "kind": "accept",
       "slug": "empty-tree-base-sha256"
     },
@@ -130,8 +158,8 @@
         "codes": [],
         "verdict": "valid"
       },
-      "file": "statements/ve54294f3e979910a.json",
-      "id": "ve54294f3e979910a",
+      "file": "statements/v68921dec001a6df3.json",
+      "id": "v68921dec001a6df3",
       "kind": "accept",
       "slug": "voluntary-self-vantage"
     },
@@ -144,8 +172,8 @@
         "codes": [],
         "verdict": "valid"
       },
-      "file": "statements/v85ff6996b9b42c14.json",
-      "id": "v85ff6996b9b42c14",
+      "file": "statements/v620e7755ba36aa0a.json",
+      "id": "v620e7755ba36aa0a",
       "kind": "accept",
       "slug": "disagreement-is-the-record-working"
     },
@@ -161,10 +189,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/vb0e3c46ad1028517.json",
-      "id": "vb0e3c46ad1028517",
+      "file": "statements/v7e4d940d69f97e29.json",
+      "id": "v7e4d940d69f97e29",
       "kind": "reject",
-      "parent": "vf0e3247af86a6c8f",
+      "parent": "v162352770f2f6c1c",
       "slug": "self-refuting-mutation-none"
     },
     {
@@ -178,10 +206,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v6bb23556aa2cfbf4.json",
-      "id": "v6bb23556aa2cfbf4",
+      "file": "statements/v1d76b9cd283a415a.json",
+      "id": "v1d76b9cd283a415a",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "broken-write-chain"
     },
     {
@@ -195,10 +223,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v06b91fa5f7a9994a.json",
-      "id": "v06b91fa5f7a9994a",
+      "file": "statements/v2ac338b4f730dd1e.json",
+      "id": "v2ac338b4f730dd1e",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "chain-does-not-reach-after-root"
     },
     {
@@ -212,10 +240,10 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/vf14c12bd241cc7aa.json",
-      "id": "vf14c12bd241cc7aa",
+      "file": "statements/vaaaac1d178f31156.json",
+      "id": "vaaaac1d178f31156",
       "kind": "reject",
-      "parent": "vf0e3247af86a6c8f",
+      "parent": "v162352770f2f6c1c",
       "slug": "vacuous-authoritative"
     },
     {
@@ -229,27 +257,27 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/vf7da158782cd41d8.json",
-      "id": "vf7da158782cd41d8",
+      "file": "statements/vcdec1eae37009e6d.json",
+      "id": "vcdec1eae37009e6d",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "authoritative-with-self-vantage"
     },
     {
-      "cites": "A bare vantage assertion with nothing binding it. The commitment is the only member that fixes an input to the record before the interval opened, so without it the vantage claim is a string the producer typed.",
+      "cites": "A bare vantage assertion with nothing binding it. The commitment is the only member that fixes an input to the record before the interval opened, so without it the vantage claim is a string the producer typed. It is refused in stage one rather than downgraded, because the Fields section makes the commitment REQUIRED at this vantage; refusing it there is what leaves the tier recompute with no reachable input for a commitment clause, and the clause is gone rather than kept as a sentence no vector can reach.",
       "conditions": [
         "oe-tier-commitment"
       ],
       "expected": {
         "codes": [
-          "authoritative-prior-commitment-absent"
+          "prior-commitment-absent-for-vantage"
         ],
-        "verdict": "invalid"
+        "verdict": "malformed"
       },
-      "file": "statements/v6e09d5c2369461e6.json",
-      "id": "v6e09d5c2369461e6",
+      "file": "statements/vcd3492b6b01ac2d1.json",
+      "id": "vcd3492b6b01ac2d1",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "authoritative-without-commitment"
     },
     {
@@ -263,10 +291,10 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/ve99619ec582291fe.json",
-      "id": "ve99619ec582291fe",
+      "file": "statements/v52c98ad858f5a5e0.json",
+      "id": "v52c98ad858f5a5e0",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "commitment-keyid-is-an-observed-signer"
     },
     {
@@ -280,10 +308,10 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/vc90a8c5c8a8e8ad8.json",
-      "id": "vc90a8c5c8a8e8ad8",
+      "file": "statements/vabd9aa604a7e379f.json",
+      "id": "vabd9aa604a7e379f",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "commitment-after-interval-opened"
     },
     {
@@ -297,10 +325,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/vb46a72335d52d159.json",
-      "id": "vb46a72335d52d159",
+      "file": "statements/v72fce89d104668b1.json",
+      "id": "v72fce89d104668b1",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "commitment-digest-mismatch"
     },
     {
@@ -314,10 +342,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v81843a9dab694900.json",
-      "id": "v81843a9dab694900",
+      "file": "statements/v78a0bd5c8ec00a85.json",
+      "id": "v78a0bd5c8ec00a85",
       "kind": "reject",
-      "parent": "v92c8f8999ebd76ab",
+      "parent": "veb623011cbf1b744",
       "slug": "wrong-empty-tree-constant"
     },
     {
@@ -331,10 +359,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v4467c4f47b4bedf6.json",
-      "id": "v4467c4f47b4bedf6",
+      "file": "statements/v198d833e5e421c6b.json",
+      "id": "v198d833e5e421c6b",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "unknown-base-resolution"
     },
     {
@@ -348,10 +376,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v6c223b4da722fcc8.json",
-      "id": "v6c223b4da722fcc8",
+      "file": "statements/v7b035bf7ff5fc755.json",
+      "id": "v7b035bf7ff5fc755",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "zero-length-byte-range"
     },
     {
@@ -365,10 +393,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v8100f0fe61ec20fe.json",
-      "id": "v8100f0fe61ec20fe",
+      "file": "statements/va2be29185b8aa39b.json",
+      "id": "va2be29185b8aa39b",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "range-digest-over-bytes-alone"
     },
     {
@@ -382,10 +410,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/va6e582a20e1e5129.json",
-      "id": "va6e582a20e1e5129",
+      "file": "statements/v9b138b3f67ffb314.json",
+      "id": "v9b138b3f67ffb314",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "glob-path-scope"
     },
     {
@@ -399,10 +427,10 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/v5767076c82977a7b.json",
-      "id": "v5767076c82977a7b",
+      "file": "statements/va7712f602d394556.json",
+      "id": "va7712f602d394556",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "write-outside-scope-marked-in-scope"
     },
     {
@@ -416,10 +444,10 @@
         ],
         "verdict": "invalid"
       },
-      "file": "statements/v362f5e5a80bff553.json",
-      "id": "v362f5e5a80bff553",
+      "file": "statements/v072a5d43bda0f573.json",
+      "id": "v072a5d43bda0f573",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "write-scope-label-inverted"
     },
     {
@@ -433,10 +461,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v45ad24b294485c06.json",
-      "id": "v45ad24b294485c06",
+      "file": "statements/v567b290b71a20bfd.json",
+      "id": "v567b290b71a20bfd",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "read-not-chained"
     },
     {
@@ -450,10 +478,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v5b4af5629eced89d.json",
-      "id": "v5b4af5629eced89d",
+      "file": "statements/v6e71bd22b5d75d1c.json",
+      "id": "v6e71bd22b5d75d1c",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "coverage-contradiction"
     },
     {
@@ -467,10 +495,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v9538d03b245d8942.json",
-      "id": "v9538d03b245d8942",
+      "file": "statements/ve43b9ec3533e5ade.json",
+      "id": "ve43b9ec3533e5ade",
       "kind": "reject",
-      "parent": "v85ff6996b9b42c14",
+      "parent": "v620e7755ba36aa0a",
       "slug": "agreement-not-derivable"
     },
     {
@@ -484,10 +512,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v8dd0e5f284273abc.json",
-      "id": "v8dd0e5f284273abc",
+      "file": "statements/v28e22244b87001ae.json",
+      "id": "v28e22244b87001ae",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "duplicate-member"
     },
     {
@@ -501,10 +529,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/vf3028f060c3fb4bd.json",
-      "id": "vf3028f060c3fb4bd",
+      "file": "statements/v394126d5a8818106.json",
+      "id": "v394126d5a8818106",
       "kind": "reject",
-      "parent": "vf0e3247af86a6c8f",
+      "parent": "v162352770f2f6c1c",
       "slug": "mutation-none-with-a-null-write"
     },
     {
@@ -518,10 +546,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v88b2e12955e1884d.json",
-      "id": "v88b2e12955e1884d",
+      "file": "statements/vffe1c186018034c1.json",
+      "id": "vffe1c186018034c1",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "mutation-observed-without-writes"
     },
     {
@@ -535,10 +563,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/vcdad28d100ac1363.json",
-      "id": "vcdad28d100ac1363",
+      "file": "statements/v721049b4e1bc6708.json",
+      "id": "v721049b4e1bc6708",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "required-member-absent"
     },
     {
@@ -552,10 +580,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/vbc431cd28fa32261.json",
-      "id": "vbc431cd28fa32261",
+      "file": "statements/v1393248410a343af.json",
+      "id": "v1393248410a343af",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "unknown-vantage-at-voluntary-tier"
     },
     {
@@ -569,10 +597,10 @@
         ],
         "verdict": "malformed"
       },
-      "file": "statements/v26a45867b379abc8.json",
-      "id": "v26a45867b379abc8",
+      "file": "statements/vd3291ebb0e6cd9ef.json",
+      "id": "vd3291ebb0e6cd9ef",
       "kind": "reject",
-      "parent": "v6d7def3316902e9e",
+      "parent": "v1c6fdd82db5229e4",
       "slug": "interval-not-ordered"
     },
     {
@@ -584,8 +612,8 @@
         "codes": [],
         "verdict": "indeterminate"
       },
-      "file": "statements/vfc5c321ecd81e4c3.json",
-      "id": "vfc5c321ecd81e4c3",
+      "file": "statements/vba26029515229883.json",
+      "id": "vba26029515229883",
       "kind": "indeterminate",
       "readings": [
         {
@@ -598,6 +626,259 @@
         }
       ],
       "slug": "anchor-with-no-offline-rule"
+    },
+    {
+      "cites": "The record an admission controller would admit. Every predicate member is honest and the subject names a state this interval never reached, so the evidence describes one thing and the decision is taken about another. Nothing in the predicate bound the two while the subject was unread.",
+      "conditions": [
+        "oe-subject-binding"
+      ],
+      "expected": {
+        "codes": [
+          "subject-not-the-after-root"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v701feb37d4134d5b.json",
+      "id": "v701feb37d4134d5b",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "subject-is-not-the-after-root"
+    },
+    {
+      "cites": "An observed-effect body wearing somebody else's predicate type. A consumer routes by predicateType and then applies that predicate's rules to these members, so the record means whatever the other predicate says these names mean.",
+      "conditions": [
+        "oe-predicate-type"
+      ],
+      "expected": {
+        "codes": [
+          "predicate-type-unexpected"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v34256c23f64d1996.json",
+      "id": "v34256c23f64d1996",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "predicate-type-is-another-predicates"
+    },
+    {
+      "cites": "2026-09-18T20:00:00-05:00 is 2026-09-19T01:00:00Z, an hour after this interval opened. It sorts before openedAt as a string, so the ordering gate that makes the commitment PRIOR passed on a commitment made afterwards. One grammar is what makes a lexical comparison a comparison of instants.",
+      "conditions": [
+        "oe-timestamp-grammar"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:priorCommitment.committedAt"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vfadad657edabdd3a.json",
+      "id": "vfadad657edabdd3a",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "commitment-timestamp-with-an-offset"
+    },
+    {
+      "cites": "A write to /etc/shadow that starts with /srv/app/ and travels as in-scope. Containment was a string prefix, so the traversal did the work; the path is refused before any scope question is asked.",
+      "conditions": [
+        "oe-path-normalized"
+      ],
+      "expected": {
+        "codes": [
+          "path-not-normalized"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6239dcf033566d17.json",
+      "id": "v6239dcf033566d17",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "write-path-escapes-with-dot-dot"
+    },
+    {
+      "cites": "/srv/application-secrets/id_ed25519 starts with /srv/app and is not under it. A policy that compares pathScope against its own expectation reads /srv/app and admits a write to a different directory, which is the scope check agreeing with the producer about where the producer was.",
+      "conditions": [
+        "oe-scope-boundary"
+      ],
+      "expected": {
+        "codes": [
+          "write-in-scope-mislabelled"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v6ce98959d7ea4ae4.json",
+      "id": "v6ce98959d7ea4ae4",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "write-under-a-sibling-prefix"
+    },
+    {
+      "cites": "There was nothing before, and here are 64 bytes read out of the nothing. The empty-tree terminal case is the strongest claim a producer can make about the past, which is what makes it the one worth dressing a populated tree in.",
+      "conditions": [
+        "oe-empty-tree-read"
+      ],
+      "expected": {
+        "codes": [
+          "bytes-read-from-the-empty-tree"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9f015d3b8d563328.json",
+      "id": "v9f015d3b8d563328",
+      "kind": "reject",
+      "parent": "veb623011cbf1b744",
+      "slug": "bytes-read-from-the-empty-tree"
+    },
+    {
+      "cites": "The observation admits it did not cover its own scope and names no gap, and it graded authoritative: clause 4 of the tier recompute asks whether every member of gaps lies outside pathScope, and an empty list satisfies that vacuously. The gap a producer declines to name is where the writes went.",
+      "conditions": [
+        "oe-coverage-named"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-incomplete-without-gaps"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1cccb4774a282210.json",
+      "id": "v1cccb4774a282210",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "incomplete-coverage-naming-no-gap"
+    },
+    {
+      "cites": "observedSigners names the committing key itself, uppercased, and the commitment carries it lowercased. The record therefore SAYS the key that made the prior commitment is a key the observed party signs with, and the disjointness check -- the predicate's offline discriminator -- passed, because it is a string comparison and two spellings of one key are two strings. No second key was needed.",
+      "conditions": [
+        "oe-keyid-form"
+      ],
+      "expected": {
+        "codes": [
+          "keyid-not-lowercase-hex"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v2c0d86ed85140136.json",
+      "id": "v2c0d86ed85140136",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "observed-signer-in-another-case"
+    },
+    {
+      "cites": "Sixty-four zero bytes where the commitment signature goes. The commitment is the whole basis of the authoritative tier and its signature was never checked, so the member that carries the vantage claim was carrying it unsigned.",
+      "conditions": [
+        "oe-commitment-signature"
+      ],
+      "expected": {
+        "codes": [
+          "commitment-signature-invalid"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v9e50798ce9232c13.json",
+      "id": "v9e50798ce9232c13",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "commitment-signed-by-nobody"
+    },
+    {
+      "cites": "The record carries two writes and reports having observed seven, and agrees with itself about it. dualValues is the member the predicate offers as the one that catches a lying producer without trusting anyone, and the observed side was a free string, so the cross-check could be set to any number including one the same signed bytes refute.",
+      "conditions": [
+        "oe-dual-recompute"
+      ],
+      "expected": {
+        "codes": [
+          "dual-value-not-recomputable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vf95eb18620e0f71e.json",
+      "id": "vf95eb18620e0f71e",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "dual-value-the-record-refutes"
+    },
+    {
+      "cites": "A comparison of nothing against nothing, labelled one-sided. A consumer that counts dual values as corroboration counts this one, and a record can carry as many of them as it likes.",
+      "conditions": [
+        "oe-dual-values-absent"
+      ],
+      "expected": {
+        "codes": [
+          "dual-value-carries-no-value"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb93cfbfa5c5ee255.json",
+      "id": "vb93cfbfa5c5ee255",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "dual-value-with-no-values"
+    },
+    {
+      "cites": "Attack A2 with two characters changed. The predicate records A2 as closed by the non-empty pathScope clause, and the vacuous record spelled its scope as the literal / instead of the empty list: the whole filesystem was empty, nothing happened anywhere, graded the strongest tier. A positive claim about an interval needs a row to be a claim about anything.",
+      "conditions": [
+        "oe-authoritative-rows"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-without-observed-rows"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/vd9adf23e325d45da.json",
+      "id": "vd9adf23e325d45da",
+      "kind": "reject",
+      "parent": "veb623011cbf1b744",
+      "slug": "vacuous-authoritative-universal-scope"
+    },
+    {
+      "cites": "A byte range ending at 9007199254740993. The Prerequisites section states the RFC 7493 bound as a MUST and canonical.py enforces it on the way out, so the rule was measured on the producer and unmeasured on the verifier. A rail that reads this into a double reads 9007199254740992 and two rails disagree about identical signed bytes.",
+      "conditions": [
+        "oe-ijson-integer"
+      ],
+      "expected": {
+        "codes": [
+          "integer-not-ijson-safe"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va298a5a5e92123a0.json",
+      "id": "va298a5a5e92123a0",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "byte-range-past-the-ijson-bound"
+    },
+    {
+      "cites": "A record assembled from another vendor's exported log and emitted as a first-hand observation made below the party it describes. Before the origin member existed, this record was the honest baseline with a different narrator: no field in it was false, because there was no field in which an importer had to say it imported. The sibling vocabulary registers the enum and the rule that binds the vantage to it.",
+      "conditions": [
+        "oe-origin-vantage"
+      ],
+      "expected": {
+        "codes": [
+          "origin-cannot-carry-below-observed-vantage"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1d803b5a5436aebc.json",
+      "id": "v1d803b5a5436aebc",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "log-import-wearing-a-vantage"
+    },
+    {
+      "cites": "ACCEPTED, and pinned because it is accepted. Path, pre-state, blob digest, offsets and range digest are internally consistent over a blob no other party holds, so a verifier without the blob checks three bindings that all hold and the fourth is the one that matters. The predicate says this in its own residual section; the member is here so that a later change which starts refusing it is visible as a change rather than as a fix.",
+      "conditions": [
+        "oe-range-preimage",
+        "oe-read-chain"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/v3497fc0f2b555764.json",
+      "id": "v3497fc0f2b555764",
+      "kind": "accept",
+      "slug": "read-row-nobody-can-check"
     }
   ]
 }

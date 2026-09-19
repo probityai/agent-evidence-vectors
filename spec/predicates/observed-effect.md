@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.1.0
+Version: 0.2.0
 
 Predicate Name: Observed Effect
 
@@ -115,7 +115,13 @@ The in-toto Attestation Framework, [DSSE], and [RFC 8785] canonical JSON, which
 every digest binding below is defined over. Producers MUST enforce the [RFC
 7493] I-JSON safe-integer profile on canonicalized content: an integer of
 magnitude at or above 2^53 MUST be rejected, so every rail derives identical
-bytes.
+bytes. **A verifier MUST apply the same bound on the way in, at any depth of the
+statement**, and the two halves of that rule are not interchangeable: a producer
+that refuses to emit such an integer does nothing about a statement some other
+producer emitted, and a hostile rail is exactly the one that does not call the
+reference encoder. While the bound was enforced only on emission, a byte range
+ending at 9007199254740993 was accepted, and a rail that reads it into a double
+reads 9007199254740992 out of bytes whose signature verifies.
 
 The whole statement is parsed as strict I-JSON. A duplicate member anywhere, at
 any depth, makes the statement malformed, and a verifier MUST reject it
@@ -132,7 +138,26 @@ and a kernel-level view enforced below the process being watched are all such
 layers. An in-process SDK, a wrapper the observed party links, and an importer
 holding somebody else's log are not.
 
-The subject is the interval's after-state, by digest. The predicate carries the
+The subject is the interval's after-state, by digest, and that is a **binding
+rather than a description**. `subject` MUST carry exactly one member, whose
+`digest` MUST carry exactly one entry, keyed by the algorithm `hashAlgorithm`
+names, whose value MUST equal `interval.afterRoot`. A verifier MUST refuse a
+statement that fails any part of it.
+
+The rule is first among equals, because a consumer decides about the subject and
+every other rule in this document is about the predicate. While nothing bound the
+two, a record could carry a wholly honest interval, pass every gate below, and
+name as its subject the digest of an artifact the interval never produced: the
+evidence described one thing and the admission decision was taken about another.
+A predicate whose subject floats free has no reachable consumer, and the first use
+case in this document is the one it fails.
+
+`predicateType` MUST equal this predicate's own Type URI above, and a verifier
+MUST refuse a statement carrying any other value or none. A consumer routes by
+that member, so a statement typed as another predicate is a statement asking for
+these field names to be read under another document's rules.
+
+The predicate carries the
 interval, the scope, the authority, the per-read and per-write bindings, and the
 observation's own vantage and coverage.
 
@@ -163,6 +188,7 @@ Verdicts are out of scope. They belong downstream, computed over this evidence.
     "authorityDigest": "<64-hex JCS digest of the authority document>",
     "observation": {
       "vantage": "below-observed",
+      "origin": "first-hand",
       "coverage": {
         "scopeComplete": true,
         "gaps": []
@@ -239,11 +265,25 @@ statement did not carry.
 A verifier proceeds in two stages, and the sequencing is informative while the
 gates themselves are normative. Stage one is byte-pure and every step is a
 consumption precondition: statement well-formedness including the closed
-vocabularies; the `mutation` coherence recompute; the `tier` recompute; the
-read- and write-binding integrity rules. Stage two is trust-relative: the
-envelope signature, then the prior-commitment signature against consumer key
-policy, then the disjointness and ordering checks under [`observation`], then
-the rest of consumer policy.
+vocabularies, the I-JSON integer bound, the timestamp grammar, the predicate
+type, the subject binding and the path forms; the `mutation` coherence recompute;
+the `tier` recompute; the read- and write-binding integrity rules; and the
+self-recompute of any `dualValues` fact the statement determines. Stage two is
+trust-relative: the envelope signature, then the prior-commitment signature
+against consumer key policy, then the disjointness and ordering checks under
+[`observation`], then the rest of consumer policy.
+
+**Every timestamp in the statement is RFC 3339 UTC with the `Z` designator and no
+fractional second**, and a verifier MUST refuse any other spelling. The rule
+exists because the ordering gates compare timestamps, a lexical comparison is a
+comparison of instants for exactly one grammar, and two records defeated it while
+any RFC 3339 spelling was admitted. `2026-09-18T20:00:00-05:00` is
+`2026-09-19T01:00:00Z`, an hour after an interval that opened at
+`2026-09-19T00:00:00Z`, and it sorts before it as a string. And
+`2026-09-19T00:00:00.000Z` sorts strictly before `2026-09-19T00:00:00Z`, because
+`.` precedes `Z`, so an identical instant reads as earlier than itself. A verifier
+MAY parse both sides into instants and compare those instead, which is the same
+rule by another route; what it MUST NOT do is compare two spellings lexically.
 
 ## Fields
 
@@ -272,21 +312,44 @@ The recompute: `tier` is `authoritative` if and only if all of the following
 hold, and is `voluntary` otherwise.
 
 1.  `observation.vantage` is `below-observed`.
-2.  `observation.priorCommitment` is present and complete.
-3.  `pathScope` is non-empty.
-4.  `coverage.scopeComplete` is `true`, or every member of `coverage.gaps`
+2.  `pathScope` is non-empty.
+3.  `coverage.scopeComplete` is `true`, or every member of `coverage.gaps`
     names a path outside `pathScope`.
 
-There are four clauses and not five. A fifth clause requiring `mutation` to agree
-with the write set was drafted and removed, because the mutation sweep in
-`vectors-observed-effect/mutation_check.py` proved it **unreachable**: any record
+There are three clauses and five were drafted. Both removals were forced by the
+mutation sweep in `vectors-observed-effect/mutation_check.py`, which disables one
+rule at a time and requires some member to stop being refused, and both removed
+clauses were **unreachable**.
+
+A clause requiring `mutation` to agree with the write set went first: any record
 whose mutation claim disagrees with its write set is already malformed under
-[`mutation`], which is stage one and runs first. A clause no input can reach is a
-sentence rather than a gate, and it is worse than absent — while it stood, it made
-the coherence rule appear measured when no vector reached that rule at all. The
-removal is recorded here rather than silently dropped because the reasoning is the
-useful part: a tier recompute may only carry clauses that some input can fail
-there and nowhere earlier.
+[`mutation`], which is stage one and runs first. A clause requiring
+`observation.priorCommitment` to be present and complete went the same way, once
+the commitment became REQUIRED wherever `vantage` is `below-observed`: a record at
+any other vantage fails clause 1 before reaching it, so no input can fail a
+commitment clause here rather than earlier.
+
+A clause no input can reach is a sentence rather than a gate, and it is worse than
+absent — while the mutation clause stood, it made the coherence rule appear
+measured when no vector reached that rule at all. The removals are recorded here
+rather than silently dropped because the reasoning is the useful part: a tier
+recompute may only carry clauses that some input can fail there and nowhere
+earlier.
+
+Clause 3 is **safe only in company**. Read alone it is satisfied vacuously by an
+empty `coverage.gaps`, so an observation declaring `scopeComplete: false` and
+naming no gap passes it and grades authoritative. What refuses that record is the
+rule under [`observation`] making an unnamed gap malformed in stage one, and an
+implementation that omits that rule while implementing this clause reintroduces
+the forgery. The clause is left as written rather than strengthened here for the
+reachability reason above: with the stage-one rule in place, no input reaches this
+clause vacuously.
+
+Separately, and deliberately not as a fourth clause, **a `tier: authoritative`
+statement MUST carry at least one `reads` member or one `writes` member.** It is a
+gate rather than a clause so that its refusal names itself: the clauses above
+decide what independence means, and this one asks whether the record observed
+anything at all.
 
 A statement carrying `tier: authoritative` that fails any clause is invalid, not
 downgraded. Downgrading would let a producer emit an authoritative-shaped record
@@ -359,6 +422,17 @@ Section 8.2 names the `sha1` constant alone, which is coherent there because its
 base is a 40-character git object name; a predicate whose roots are `sha256` and
 that reused that constant would be naming a root no `sha256` store can hold.
 
+**The empty tree holds no bytes, and a verifier MUST refuse a statement that reads
+some.** Where `interval.beforeRoot` equals the constant for the declared
+algorithm, no `reads` member may carry `readState: bytes-read` together with a
+`preStateDigest` equal to that root. A `no-bytes-read` row at that root stays
+permitted, because an attempted read that returns nothing is exactly what an empty
+tree yields. The rule matters more than its size suggests: "there was nothing
+before" is the one claim about the past that no later state contradicts, which
+makes it the claim most worth dressing a populated tree in. An accept member of
+`vectors-observed-effect/` carried this shape, 64 bytes read at an empty-tree root,
+and while it did a conforming verifier was REQUIRED to accept it.
+
 `openedAt` and `sealedAt` are [RFC 3339] timestamps in UTC with the `Z`
 designator. `openedAt` MUST be strictly before `sealedAt`.
 
@@ -368,6 +442,23 @@ The paths the observation covered, as **literal absolute path prefixes**. A
 member MUST NOT contain a wildcard or any glob metacharacter. A universal scope
 is spelled as the single literal `"/"`, which is exactly as broad as a glob that
 matches everything and, unlike the glob, says so where a policy can read it.
+
+Every path in the statement — each `pathScope` member and the `path` of every
+`reads` and `writes` member — MUST be absolute and normalized: no empty segment,
+no `.` segment, no `..` segment. A trailing `/` is permitted on a `pathScope`
+member and not on a row's `path`. And **"lies under" is containment at a segment
+boundary, never a string prefix**: `path` lies under `scope` when it equals
+`scope` with any trailing slash removed, or begins with `scope` made to end in a
+slash.
+
+Both halves are load-bearing and each closed a live forgery, neither of which
+needed a single digest to be wrong. Without normalization,
+`/srv/app/../../../etc/shadow` begins with `/srv/app/`, so a write to
+`/etc/shadow` travelled as `inScope: true` under a scope of `/srv/app/` inside an
+authoritative record. Without the boundary,
+`/srv/application-secrets/id_ed25519` begins with `/srv/app`, so a policy
+comparing `pathScope` against its own expectation read `/srv/app` and admitted a
+write to a different directory.
 
 `pathScope` is the machine-checkable statement an observed write set is tested
 against: every `writes` member whose `path` does not lie under some member of
@@ -391,6 +482,29 @@ compares. That is the same separation [SCAI] draws for `evidence`.
 
 `observation` _object, required_
 
+`origin` is one of `self`, `first-hand`, `third-party-control-plane`,
+`log-import`, lowercase, closed, required, with no default and no absence
+reading. It says how the evidence in this record ARRIVED, which is a different
+question from where the producer stood: `self` is the party that executed
+reporting on itself, `first-hand` is a producer that made the observation
+itself and is not that party, and the other two are assemblers holding output
+somebody else produced. The values and the enum are the sibling
+[agent-evidence-vocabulary] registry's `origin_kind`, three of them borrowed
+there from [TRACE] Section 3.1.1 and `first-hand` added there for exactly this
+record shape.
+
+**A statement MUST NOT carry `vantage: below-observed` unless `origin` is
+`first-hand`, and a verifier MUST reject one that does.** A party attesting its
+own execution is not below itself, and an assembler holding somebody else's log
+was not there at all.
+
+The member exists because the predicate had no slot in which an importer could
+be made to confess. A record assembled from another vendor's exported log could
+be emitted as a first-hand observation made below the party it described, and
+nothing in the statement was false: the lie was a claim the format could not
+contradict. That is a different failure from a forged value, and the only fix
+for it is a member whose absence is malformed.
+
 `vantage` is one of `below-observed`, `peer`, `self`, lowercase, closed.
 
 -   `below-observed` — the observation was made from a layer the observed party
@@ -406,6 +520,15 @@ every path under `pathScope` for the whole interval. `coverage.gaps` is an array
 of literal path prefixes the observation did not cover. `scopeComplete: true`
 with a non-empty `gaps` naming a path inside `pathScope` is malformed: the two
 members contradict, and a verifier MUST NOT prefer either.
+
+**`scopeComplete: false` with an empty `gaps` is malformed as well**, and that is
+the direction which was open. An incomplete observation MUST say where it was
+blind. Otherwise a producer admits in one member that it did not cover its own
+scope, declines in the next to say which part, and still grades authoritative
+through clause 3 of the `tier` recompute, which an empty list satisfies vacuously.
+The unnamed gap is where the writes went, and an admission of incompleteness that
+withholds its location is worth less than no admission at all, because it reads as
+candour.
 
 `observedSigners` is the set of key identifiers the observed party signs its own
 records with, as the observer knows them. It is required and MAY be empty, and
@@ -439,7 +562,28 @@ observer chose:
     interval opens, so binding them costs nothing and removes two forgeries that
     needed no second key.
 -   `keyid` and `sig` — the observer's signature over those canonical bytes.
-    The `keyid` MUST NOT appear in `observedSigners`. That check is the offline
+    **A verifier MUST verify `sig`**, against the observer key it anchored out of
+    band, over the [RFC 8785] canonical bytes of the commitment preimage. While
+    that gate was named in [Parsing Rules] and implemented nowhere, sixty-four
+    zero bytes in `sig` produced an authoritative record, so the member carrying
+    the whole vantage claim carried it unsigned.
+
+    Verifying it also narrows attack A1, which no anchor requirement could
+    narrow. A self-observing producer still needs a second key, and that key must
+    now be one the **consumer has anchored as the observer's**, rather than any
+    key the producer generates and never declares. What remains open is stated in
+    A1 and is not rounded down.
+
+-   Every key identifier in this predicate, `keyid` and every `observedSigners`
+    member alike, MUST be non-empty lowercase hexadecimal. One spelling per key is
+    a requirement of the discriminator rather than a matter of style: the check
+    below is a string comparison, and while two spellings were admitted a record
+    could name the committing key itself in `observedSigners` in uppercase and
+    carry it lowercased in `keyid`. The record then SAID the committing key
+    belonged to the observed party, and the discriminator passed, with no second
+    key anywhere.
+
+-   The `keyid` MUST NOT appear in `observedSigners`. That check is the offline
     discriminator, and its exact strength is stated below rather than implied.
 -   `externalAnchor` _optional_ — `kind` one of `rfc3161`, `transparency-log`,
     `opentimestamps`, and `digest` the digest of the token. Where present, a
@@ -496,7 +640,25 @@ so an integer is never re-serialized differently by two rails) and `agreement`.
 its value MUST be derivable from the two values: `agree` when they are equal
 byte-for-byte, `disagree` when both are present and unequal, `one-sided` when
 exactly one is the empty string. A declared `agreement` the two values do not
-support is malformed.
+support is malformed. **A row in which both values are the empty string is
+malformed**, because a comparison of nothing against nothing is not a comparison.
+It was read as `one-sided`, which let a record carry any number of rows that
+looked like cross-checks and asserted nothing, for a consumer that counts them.
+
+**For a fact the statement determines about itself, `observedValue` MUST be the
+value the statement determines, and a verifier MUST recompute it.** The closed set
+of such facts at this version is `writes.count`, `reads.count`,
+`pathScope.count`, `interval.beforeRoot`, `interval.afterRoot` and
+`authorityDigest`. One consequence is worth stating: `one-sided` is not available
+on the observed side of those facts, because an observer that carries the rows
+always knows how many it carried.
+
+The rule exists because the member is advertised as the one that catches a lying
+producer, and it caught nothing while the observed side was a free string. A
+record carrying two `writes` could declare `writes.count` observed as `7`, report
+`7`, and grade `agree`: a cross-check contradicted by the same signed bytes that
+carry it. A fact the record determines is not a matter of report, and the
+discipline the [`mutation`] rule applies to the write chain applies here.
 
 This member is the one field in the predicate that catches a lying producer
 without trusting anyone. A vantage claim tells a reader how much to trust one
@@ -577,12 +739,20 @@ appearance of one. What the anchor does buy is stated under [What a
 self-observing party can still forge] and nowhere overstated. **This attack
 works and the predicate documents it.**
 
-**A2. Vacuous authoritative record. CLOSED.** Empty `pathScope`, `beforeRoot`
-equal to `afterRoot`, empty `reads`, empty `writes`, `tier: authoritative`: a
-record that asserts nothing and grades as the strongest tier. Closed by clause 3
-of the `tier` recompute, which requires a non-empty `pathScope`, and by
-`mutation` being required, which forces the no-mutation case to be a positive
-claim rather than an empty shape.
+**A2. Vacuous authoritative record. CLOSED, and it took two goes.** Empty
+`pathScope`, `beforeRoot` equal to `afterRoot`, empty `reads`, empty `writes`,
+`tier: authoritative`: a record that asserts nothing and grades as the strongest
+tier. The first closure was clause 2 of the `tier` recompute requiring a non-empty
+`pathScope`, plus `mutation` being required, which forces the no-mutation case to
+be a positive claim rather than an empty shape. **That closed one spelling.** The
+same record with `pathScope: ["/"]` and `baseResolution: empty-tree` at both ends
+satisfies every clause: the scope is non-empty, the mutation claim is positive, and
+the record says the entire filesystem was empty and nothing happened anywhere, at
+the strongest tier. Closed now by the rule that an authoritative statement carries
+at least one `reads` or one `writes` member. The lesson is the part worth keeping:
+a closure aimed at one spelling of an empty claim is not a closure of the empty
+claim, and the corpus member that proved it is
+`vacuous-authoritative-universal-scope`.
 
 **A3. Range-digest laundering. CLOSED.** A read claiming `byteRange: {0, 0}`
 with `rangeDigest` the digest of the empty string, against a `blobDigest` the
@@ -643,6 +813,104 @@ replayable: one signed commitment serves both records, and the second record
 inherits a prior commitment that was never made about it. Closed by putting
 `intervalId` inside the preimage.
 
+**A20. Subject decoupling. CLOSED.** A statement whose predicate is entirely
+honest and whose `subject` names the digest of an artifact the interval never
+produced. Every rule in this document held, because every rule in this document
+was about the predicate and nothing read the subject. A consumer decides about the
+subject, so the whole document was unreachable from the decision it was written to
+inform. Closed by the subject binding under [Model]: one subject, keyed by the
+declared algorithm, equal to `afterRoot`.
+
+**A21. Commitment ordering by string comparison. CLOSED.** A `committedAt` of
+`2026-09-18T20:00:00-05:00` against an `openedAt` of `2026-09-19T00:00:00Z`. The
+commitment was made an hour after the interval opened and sorted before it, so the
+gate that makes a commitment PRIOR — the gate A8 and A9 rest on — passed on a
+commitment that was not. A fractional second does the same with no offset at all,
+since `2026-09-19T00:00:00.000Z` sorts before `2026-09-19T00:00:00Z`. Closed by
+fixing the timestamp grammar so that a lexical comparison is a comparison of
+instants.
+
+**A22. Scope escape by traversal. CLOSED.** `pathScope: ["/srv/app/"]` and a write
+to `/srv/app/../../../etc/shadow`, labelled `inScope: true`, inside an
+authoritative record. The path begins with the scope, so prefix containment did
+the work and no digest had to be wrong. Closed by requiring normalized paths.
+
+**A23. Scope confusion at a non-boundary. CLOSED.** `pathScope: ["/srv/app"]` and
+a write to `/srv/application-secrets/id_ed25519`. A policy comparing `pathScope`
+against its own expectation reads `/srv/app` and admits a write to a different
+directory. Closed by defining containment at a segment boundary.
+
+**A24. Bytes read out of the empty tree. CLOSED.** `baseResolution: empty-tree`,
+`beforeRoot` the constant, and a `reads` row with `readState: bytes-read` taken at
+that root: the record claims there was nothing before and reads 64 bytes from the
+nothing. It was not merely accepted; an ACCEPT member of the conformance corpus
+carried it, so a conforming verifier was required to accept it. Closed by the rule
+that the empty tree holds no bytes, and the corpus member was repaired to take its
+read after the write that creates the file.
+
+**A25. Coverage incomplete and blind spot unnamed. CLOSED.**
+`coverage.scopeComplete: false` with `coverage.gaps: []`, `tier: authoritative`.
+Clause 3 of the recompute asks whether every member of `gaps` lies outside
+`pathScope`, and an empty list satisfies that vacuously, so a producer could admit
+it had not covered its scope, decline to say where, and still grade authoritative.
+Closed by making an unnamed gap malformed in stage one.
+
+**A26. The discriminator defeated by case. CLOSED.** `observedSigners` naming the
+committing key in uppercase while `keyid` carries it lowercased. The record SAYS
+the key that made the prior commitment is a key the observed party signs with, and
+the disjointness check passed, because it is a string comparison and two spellings
+of one key are two strings. No second key was needed, which makes this cheaper
+than A1 and it was open at the same time. Closed by one lowercase hexadecimal
+spelling per key identifier.
+
+**A27. The unsigned prior commitment. CLOSED.** Sixty-four zero bytes in
+`priorCommitment.sig`. The commitment is the only member that fixes an input to
+the record before the interval opened, [Parsing Rules] names its signature as a
+stage-two gate, and no implementation verified it, so the entire authoritative
+tier rested on a signature nobody checked. Closed by verifying it against the
+anchored observer key, which also narrows A1 as recorded there.
+
+**A28. Dual-value fabrication. CLOSED.** A record carrying two `writes` that
+declares `writes.count` observed as `7`, reported as `7`, and `agree`. The member
+this predicate advertises as the one that catches a lying producer without
+trusting anyone was, on its observed side, a free string, so it could carry a
+number the same signed bytes refute. Closed by recomputing every fact the
+statement determines about itself. The variant with both values empty and
+`agreement: one-sided` is closed in the same place: a comparison of nothing
+against nothing is not a comparison, and a consumer that counts dual values as
+corroboration counted it.
+
+**A29. Predicate type confusion. CLOSED.** An observed-effect body carrying
+another predicate's `predicateType`, or none. A consumer routes by that member, so
+the record asks for these field names to be read under another document's rules,
+and nothing refused it. Closed by requiring the type URI.
+
+**A30. The I-JSON bound enforced in one direction. CLOSED.** A `byteRange` ending
+at 9007199254740993. The reference encoder refuses to produce it, which is the
+producer half working, and a hostile rail does not call the reference encoder. A
+verifier that consumes it hands one number to a rail with 64-bit integers and
+another to a rail with doubles, from bytes whose signature verifies. Closed by
+applying the bound on consumption at any depth.
+
+**A31. The importer with no member to confess in. CLOSED.** A record assembled
+from another vendor's exported log, or from a control plane the producer does not
+operate, and emitted as a first-hand `vantage: below-observed` observation. No
+value in it was false, because there was no member in which an importer had to
+say that it imported: the lie was a claim the format had no slot to contradict,
+which is a different failure from a forged value and is not fixable by any rule
+over the members that existed. Closed by the required `origin` member and the
+rule binding `below-observed` to `first-hand`.
+
+Closing it moved the sibling [agent-evidence-vocabulary] registry too, and that
+is worth recording because the two artifacts were incompatible at the seam. That
+registry's `origin_kind` borrowed a three-value enum from [TRACE] Section 3.1.1,
+which is written from the perspective of a record about its own execution, so it
+had no value for a producer that observed somebody else's execution and the only
+spelling available for this predicate's own records was `self`. A required field
+with no true value is a field that gets filled with a false one. `first-hand` is
+registered there now, with the same binding rule, and the departure is recorded
+in that repository's TRACE crosswalk.
+
 **A6. The self-refuting record. CLOSED, and it is the vector shape this
 repository lacked.** A record declares `mutation: none` with `beforeRoot` equal
 to `afterRoot`, and carries a `writes` member whose `postStateDigest` differs
@@ -677,6 +945,22 @@ A consumer implementing this predicate MUST, at minimum:
 
 ## Changelog and Migrations
 
+0.2.0 adds thirteen rules and one required member, and removes one `tier`
+clause. Every addition refuses a
+record 0.1.0 accepted, which is a conformance break rather than an addition, and
+the version moves for that reason. The rules are the subject binding, the
+predicate type, the I-JSON bound on consumption, the timestamp grammar, path
+normalization, boundary containment, the empty tree holding no bytes, the named
+gap, the required prior commitment at `below-observed`, one lowercase spelling per
+key identifier, the verified commitment signature, the dual-value self-recompute,
+the rows requirement on an authoritative record, and the `origin` member with
+the rule binding `below-observed` to `first-hand`. A 0.1.0 producer that emitted honest records emits valid 0.2.0 records with one
+addition and two spellings to fix: every record now carries `origin`, and a
+producer that spelled a key identifier in uppercase, or a timestamp with an
+offset, has to spell it the one way. Attacks A20 through A30 in the section
+above are the records that forced each one, and each is a pinned member of
+`vectors-observed-effect/`.
+
 0.1.0 is the first published version. A member is born when a normative reader
 consumes it: a future version that makes a currently unchecked property
 checkable acquires a normative reader at that version, and the member becomes
@@ -691,6 +975,7 @@ required at the version that defines its recompute, which is what would close
 A5 for a single-record consumer.
 
 [AEE]: adversarial-execution-evidence.md
+[agent-evidence-vocabulary]: https://github.com/probityai/agent-evidence-vocabulary
 [ASQAV]: https://datatracker.ietf.org/doc/draft-marques-asqav-compliance-receipts/08/
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
