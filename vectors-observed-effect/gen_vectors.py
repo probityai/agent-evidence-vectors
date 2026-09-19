@@ -16,11 +16,11 @@ WHY THIS SUITE EXISTS
 The predicate states nineteen rules, of which six close an attack this
 repository's own attack section constructs. A rule nothing exercises is a
 sentence, not a gate. This corpus is the difference, and one member of it is a
-shape the other 267 vectors in this repository do not have: a claim whose own
-carried evidence refutes it. research/442's teardown found that gap by finding
-the same defect in somebody else's verifier -- an evidence shape that only runs
-when a producer-set list is non-empty -- and a corpus with no such member cannot
-tell a verifier that reads claims from one that recomputes over evidence.
+shape no other vector in this repository has: a claim whose own carried evidence
+refutes it. research/442's teardown found that gap by finding the same defect in
+somebody else's verifier -- an evidence shape that only runs when a producer-set
+list is non-empty -- and a corpus with no such member cannot tell a verifier that
+reads claims from one that recomputes over evidence.
 
 DETERMINISM
 -----------

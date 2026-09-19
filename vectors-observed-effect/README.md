@@ -5,7 +5,7 @@ Conformance corpus for the predicate at
 type URI `https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect`.
 
 31 members: 5 accept, 25 reject, 1 indeterminate, over 24 conditions.
-Corpus digest `25f91637066e787c429c242f052c9053ae276fcc49433bc4005fe514382a0262`.
+Corpus digest `8422f03513df5f8b76d2305aeb0bd170f53394d19a136e20deca8682df9725a8`.
 
 ## What this corpus is for
 
@@ -13,16 +13,15 @@ The predicate states rules. A rule nothing exercises is a sentence. Every member
 here exists because some rule would otherwise be untested, and six of them close
 an attack the predicate's own attack section constructs against itself.
 
-One member is a shape this repository did not have before. Our 267 existing
-vectors contain no **claim whose own carried evidence refutes it**. The gap was
-found the way gaps like it usually are: by finding the same defect live in
-somebody else's verifier, where an evidence check ran only when a producer-set
-list was non-empty, so a record could assert one thing and carry the
-contradiction of it and still pass the gate. A corpus
-with no such member cannot tell a verifier that reads claims from one that
-recomputes over evidence. Three members now carry it, in both directions:
-`mutation-none-with-a-null-write`, `mutation-observed-without-writes`, and
-`self-refuting-mutation-none`.
+One member is a shape this repository did not have before. No other vector here
+carries a **claim whose own evidence refutes it**. The gap was found the way gaps
+like it usually are: by finding the same defect live in somebody else's verifier,
+where an evidence check ran only when a producer-set list was non-empty, so a
+record could assert one thing and carry the contradiction of it and still pass
+the gate. A corpus with no such member cannot tell a verifier that reads claims
+from one that recomputes over evidence. Three members now carry it, in both
+directions: `mutation-none-with-a-null-write`,
+`mutation-observed-without-writes`, and `self-refuting-mutation-none`.
 
 ## Running it
 
