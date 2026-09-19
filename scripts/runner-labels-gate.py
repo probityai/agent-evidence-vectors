@@ -29,7 +29,6 @@ Usage: python3 scripts/runner-labels-gate.py [--owner OWNER]
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import subprocess
 import sys
