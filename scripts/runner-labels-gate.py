@@ -131,7 +131,10 @@ def main() -> int:
     failures: list[str] = []
     for label, sites in sorted(third_party.items()):
         vendor = label.split("-", 1)[0].lower()
-        if vendor not in apps:
+        # An app slug carries the vendor as its first token, not as its whole
+        # name: Ubicloud's app is `ubicloud-managed-runners`. Equality read a
+        # correctly installed app as absent and refused the push on 2026-09-19.
+        if not any(app == vendor or app.startswith(vendor + "-") for app in apps):
             failures.append(
                 f"  {label} ({len(sites)} job(s): {', '.join(sites)}) needs an app "
                 f"matching '{vendor}' installed on '{owner}'. Installed: "
