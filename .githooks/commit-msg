@@ -548,6 +548,23 @@ def strip_noise(message: str) -> list[str]:
     return lines
 
 
+def rule_errors(
+    patterns: list[tuple[re.Pattern[str], str]], text: str
+) -> list[str]:
+    """Every hit of every pattern in `text`, reported with what matched.
+
+    Split out of `lint` because the two rule families are now handed DIFFERENT
+    text -- the hygiene rules read the message as written, the configured rules
+    read it with permitted paths masked -- and inlining both loops put a
+    branch-heavy function further over the ceiling for no reading benefit.
+    """
+    return [
+        f"forbidden {label}: {match.group(0).strip()!r}"
+        for pattern, label in patterns
+        for match in pattern.finditer(text)
+    ]
+
+
 def lint(
     message: str,
     extra: list[tuple[re.Pattern[str], str]] | None = None,
@@ -591,13 +608,8 @@ def lint(
     # about message hygiene and cannot fire on a path of this shape, so masking
     # anything for them could only ever hide a real hit.
     permitted = permit(full, permits or [])
-    for patterns in (JARGON_PATTERNS, ATTRIBUTION_PATTERNS):
-        for pattern, label in patterns:
-            for match in pattern.finditer(full):
-                errors.append(f"forbidden {label}: {match.group(0).strip()!r}")
-    for pattern, label in extra or []:
-        for match in pattern.finditer(permitted):
-            errors.append(f"forbidden {label}: {match.group(0).strip()!r}")
+    errors.extend(rule_errors(JARGON_PATTERNS + ATTRIBUTION_PATTERNS, full))
+    errors.extend(rule_errors(extra or [], permitted))
 
     salt, nocase, cased, table = forbidden or ("", [], [], {})
     errors.extend(forbidden_word_errors(permitted, salt, nocase, cased, table))
@@ -871,6 +883,26 @@ def selftest() -> int:
             [e for e in lint(probe, None, hashed, permits) if "product name" in e] != [],
             f"permitted-paths: {what} passed, which widens the permit past a path",
         )
+    # The permit covers BOTH configured rule surfaces. A repository that writes
+    # its identity rule as a pattern rather than as a digest must not find the
+    # permit missing there: that is the same defect in the other spelling, and
+    # nothing asserted it until a mutation walked straight through.
+    extra_identity = parse_extra_patterns(
+        f"(?i)\\b{fixture_word}\\b\tproduct name\n", "<fixture>"
+    )
+    check(
+        not [e for e in lint(owned, extra_identity, None, permits) if "product name" in e],
+        "permitted-paths: the permit does not reach the extra-pattern rule surface",
+    )
+    check(
+        [
+            e
+            for e in lint(f"feat: ship the {fixture_word}", extra_identity, None, permits)
+            if "product name" in e
+        ]
+        != [],
+        "permitted-paths: the extra-pattern surface stopped refusing the bare name",
+    )
     for bad_permit, why in (
         (f"{fixture_owner.encode('ascii').hex()}\t/a\tlabel\n", "a third field accepted"),
         (f"{fixture_owner.encode('ascii').hex()}\n", "a line with no pattern accepted"),
