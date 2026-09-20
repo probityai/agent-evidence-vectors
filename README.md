@@ -29,7 +29,7 @@
 Add one step to the workflow that builds your verifier:
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.11.1
+- uses: probityai/agent-evidence-vectors@v0.12.0
   with:
     verifier: ./path/to/your-verifier --json
 ```
@@ -65,7 +65,7 @@ Inputs, all optional except the first:
 | --- | --- |
 | `verifier` | Command line of the verifier under test. The first token is probed for the predicate type and must be on `PATH` or a path relative to the workspace. |
 | `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. |
-| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.11.1`. The default is the action's own ref. |
+| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.0`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
 
@@ -217,7 +217,7 @@ for it, and without taking this page's word. Four commands settle it.
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.11.1
+git checkout v0.12.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -300,7 +300,7 @@ renders a citation from the same file.
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.11.1},
+  version   = {0.12.0},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.22758687},

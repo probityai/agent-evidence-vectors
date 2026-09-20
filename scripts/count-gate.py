@@ -1652,6 +1652,20 @@ FROZEN: tuple[Frozen, ...] = (
         "naming a dispatch and a score together. It is the input that proves the "
         "prose path works and describes no run of this corpus.",
     ),
+    # ---- what the OLD size cap did, in the scanner test that raised it.
+    # The sentence explains why a cap sized against one envelope per input became
+    # a cap on members once the same bytes were repacked as a corpus, and it
+    # reports what the old cap reached. That is a past behaviour of a retired
+    # constant, not a measurement of anything present: re-deriving it against the
+    # current cap would describe a run nobody made and delete the reason the cap
+    # was raised.
+    Frozen(
+        "scripts/pre-push-identity-scan-test.py",
+        "what the retired size cap reached before it was raised",
+        "this reaches 64 of 70 and fails",
+        "A past behaviour of a cap that no longer ships. The figure explains why "
+        "the constant was raised; tracking it to the present would erase that.",
+    ),
 )
 
 
@@ -1671,6 +1685,20 @@ MASKS = tuple(
         # form carries digit runs of its own and needs it too. Recall over
         # prose, not an identity test -- an identity test that also matched
         # `ok-006` is the confusion the shared definition exists to prevent.
+        # A SOURCE LINE REFERENCE is not a count, and three of them arrived in one
+        # document: `aee/commitments.go:209`, `aee/statement.go:112` and
+        # `aee/validity.go:272`. Each collided with a live figure -- the reject
+        # count, one corpus's accept count, and the corpus total -- so the census
+        # read a line number as a claim about the corpus and refused prose that
+        # claims nothing. The collision is the whole point of the VALUE rule and
+        # it has no way to tell the two apart by value alone; the shape is what
+        # separates them. A path, an extension, a colon and a line number is a
+        # coordinate into a file, and it moves when the file moves, which is the
+        # opposite of a figure that must be re-derived when the corpus grows.
+        #
+        # Recall over prose, as with the ids below: masking a digit too many costs
+        # nothing here, and masking one too few manufactures a refusal.
+        r"\b[\w./-]+\.(?:go|py|sh|toml|ya?ml|json|md):\d+(?:-\d+)?\b",
         r"\b(?:ok|bad)-\d+(?:/\d+)*",  # retired ids and id lists: ok-006/007/029
         rf"\b{VECTOR_ID_PATTERN}\b",  # current ids: v0099f25838779fcc
         # Condition ids. This is a RECALL pattern and not an identity test, and

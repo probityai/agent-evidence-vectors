@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -119,12 +120,33 @@ def case_recipe_drift(root: Path) -> str:
     return "the verification recipe differs"
 
 
+def released_version(root: Path) -> str:
+    """The version CITATION.cff declares, read rather than hardcoded.
+
+    Two cases below used to name the version of the day as a literal, and a
+    release turned both of them into no-ops: the mutation replaced a string the
+    page no longer contained, the page came back unchanged, and a case that
+    changes nothing asserts nothing. It was caught by the harness refusing a
+    mutation that edited no bytes, which is the only reason it was not a pair of
+    green cases testing nothing for a whole release cycle.
+    """
+    text = (root / CITATION_REL).read_text(encoding="utf-8")
+    found = re.findall(r"^version:\s*(\S+)\s*$", text, re.MULTILINE)
+    if len(found) != 1:
+        raise SystemExit(
+            f"test setup: {CITATION_REL} carries {len(found)} version lines; "
+            "the cases below mutate relative to exactly one."
+        )
+    return str(found[0]).strip("'\"")
+
+
 def case_tag_behind(root: Path) -> str:
     """The citation file moves to the next release and the prose does not."""
+    current = released_version(root)
     _edit(
         root,
         CITATION_REL,
-        lambda text: text.replace("version: 0.11.1", "version: 0.12.0", 1),
+        lambda text: text.replace(f"version: {current}", "version: 99.0.0", 1),
     )
     return "the released version is"
 
@@ -174,11 +196,12 @@ def case_stale_tag_in_prose(root: Path) -> str:
     names one -- would be owned by nothing. This breaks that token and nothing
     else, so it fails only if the shape-based sweep is doing the work.
     """
+    current = released_version(root)
     _edit(
         root,
         PAGE_REL,
         lambda text: text.replace(
-            "`v0.11.1` is current",
+            f"`v{current}` is current",
             "`v0.9.0` is current",
             1,
         ),
