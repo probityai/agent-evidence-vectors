@@ -48,7 +48,15 @@ fi
 
 # Ask git where hooks come from today. Never assume `.git/hooks`: four of the
 # repositories here redirect elsewhere, and assuming is what destroyed a file.
+# Both swallows below currently read an exit status as "unset" / "not there". git config exits
+# 1 for a key that is unset and 2 or more for a config file it could not parse at all, and cd
+# fails for a directory that is absent and for one it may not enter; each pair lands here as the
+# same empty string. Declared, never silently assumed -- narrowing these to a real
+# ran-clean-and-empty is a change to this installer, tracked separately.
+# epistemic: ran-clean-and-empty -- empty is taken to mean core.hooksPath is unset, which also absorbs an unreadable git config
 current_setting="$(git config --get core.hooksPath || true)"
+# epistemic: ran-clean-and-empty -- empty is taken to mean there is no current hooks directory, which also absorbs a cd that was refused
+# shellcheck disable=SC2015  # the trailing `|| true` is the empty default, not an else-branch
 current_abs="$(cd "$repo_root" && cd "$(git rev-parse --git-path hooks)" 2>/dev/null && pwd || true)"
 
 hook_names() {
@@ -64,15 +72,20 @@ hook_names() {
 	# down before it has said anything. That is the empty-hooks case, which is
 	# the most common one in a fresh clone.
 	find -L "$1" -maxdepth 1 -type f -perm -u+x -printf '%f\n' 2>/dev/null |
+		# epistemic: ran-clean-and-empty -- grep exits 1 when the directory holds only
+		# `.sample` files, which is the empty-hooks case this default is for
 		grep -v -e '\.sample$' -e '^install\.sh$' | sort || true
 }
 
 before="$(hook_names "$current_abs")"
 after="$(hook_names "$hooks_abs")"
+# epistemic: ran-clean-and-empty -- grep exits 1 when comm produced no lines, which is the
+# nothing-would-be-lost case; the pipeline's own status is grep's, as intended here
 lost="$(comm -23 <(printf '%s\n' "$before") <(printf '%s\n' "$after") | grep -v '^$' || true)"
 
 if [ -n "$lost" ]; then
 	echo "install: ABORT -- switching core.hooksPath to '$hooks_rel' would stop these hooks running:" >&2
+	# shellcheck disable=SC2086  # $lost is a newline-separated list; the split is the point
 	printf '  - %s\n' $lost >&2
 	echo "install: move them into $hooks_rel and commit them first." >&2
 	exit 1
@@ -86,9 +99,47 @@ else
 fi
 
 echo "install: git will now run these hooks:"
+# shellcheck disable=SC2086  # $after is a newline-separated list; the split is the point
 printf '  - %s\n' $after
 
 # Proof, not inference: run the message gate's own fixtures.
 echo "install: verifying the commit-msg gate by invoking it..."
 "$repo_root/$hooks_rel/commit-msg" --selftest
+
+# A repository whose hooks call a gate of its own proves that gate here too, and
+# names it in a data file beside this script so the installer itself stays
+# byte-identical everywhere. This is the same extension point the commit-msg hook
+# uses for `commit-msg.extra-patterns`: the shared file holds the mechanism, the
+# sidecar holds what is true of one repository.
+#
+# A LISTED CHECK THAT IS ABSENT IS A REFUSAL, never a skip. The sidecar is a
+# claim that the check exists; a missing file means the claim is wrong, and
+# passing over it would report a verified install having verified less than it
+# said. A MISSING SIDECAR is a different answer and is fine: it means this
+# repository declares no extra checks.
+extra_checks="$hooks_abs/install.extra-checks"
+if [ -f "$extra_checks" ]; then
+	while IFS= read -r entry || [ -n "$entry" ]; do
+		entry="${entry%%#*}"
+		entry="$(printf '%s' "$entry" | tr -d '[:space:]')"
+		[ -n "$entry" ] || continue
+		if [ ! -f "$repo_root/$entry" ]; then
+			echo "install: ABORT -- $extra_checks lists '$entry', which is not in this repository." >&2
+			echo "install: a declared check that is not here is a wrong declaration, not a check to skip." >&2
+			exit 1
+		fi
+		echo "install: verifying $entry by invoking it..."
+		case "$entry" in
+		*.py) python3 "$repo_root/$entry" ;;
+		*.sh) bash "$repo_root/$entry" ;;
+		*)
+			if [ ! -x "$repo_root/$entry" ]; then
+				echo "install: ABORT -- $entry has no known extension and is not executable." >&2
+				exit 1
+			fi
+			"$repo_root/$entry"
+			;;
+		esac
+	done <"$extra_checks"
+fi
 echo "install: done."
