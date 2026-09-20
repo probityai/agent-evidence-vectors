@@ -113,7 +113,13 @@ from typing import Any, NamedTuple, TypeGuard
 # emitter that crosswalks this harness's report into it. A sibling module of
 # this file in the wheel and beside it under packaging/ in a checkout, so the
 # import resolves the same way in both layouts.
-from agent_evidence_vectors import w3creport
+#
+# observedeffect is the reader for a SECOND predicate, dispatched the same way.
+# Without it this rail replayed all forty-nine members of that corpus through the
+# verifier for the predicate below and refused every one of them with
+# predicate-type-unsupported, which is a rail answering about the wrong predicate
+# rather than a corpus that fails.
+from agent_evidence_vectors import observedeffect, w3creport
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -3584,6 +3590,13 @@ def run_suite(args: argparse.Namespace) -> int:
         judged = w3creport.judge(suite_dir)
         sys.stdout.write(w3creport.render(judged, w3creport.SUITE))
         return 0 if judged.ok() else 1
+    if manifest is not None and manifest.get("suite") == observedeffect.SUITE:
+        # Same arrangement for the Observed Effect corpus: a predicate of its own
+        # gets a reader of its own, and the printed lines are the ones
+        # corpora/observedeffect.go prints from Go.
+        oe_judged = observedeffect.judge(suite_dir)
+        sys.stdout.write(observedeffect.render(oe_judged, observedeffect.SUITE))
+        return 0 if oe_judged.ok() else 1
     idx = manifest_index(manifest)
     # The kinds to walk come from the MANIFEST when there is one, so a kind the
     # corpus grows is replayed rather than skipped by a literal that predates
