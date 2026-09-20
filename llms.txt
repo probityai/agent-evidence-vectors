@@ -22,7 +22,7 @@ signed `release/CORPUS-DIGESTS.txt`.
 ## Entry points
 
 - [PyPI package](https://pypi.org/project/agent-evidence-vectors/): `agent-evidence-vectors`, stdlib-only, carrying the harness as the console script of the same name and every corpus as package data; `uvx agent-evidence-vectors --verifier '<cmd>'` replays the AEE corpus against a verifier with nothing cloned, `--corpus <name>` selects another, `--list-corpora` prints the names and `--self-test` runs the reference rail against its own oracle.
-- [GitHub Action](https://github.com/probityai/agent-evidence-vectors/blob/main/action.yml): `uses: probityai/agent-evidence-vectors@v0.11.1` with a `verifier` input replays the corpus in a consumer's CI, writes a job summary, uploads the report as the artifact `agent-evidence-vectors-results`, and fails the job when any vector disagreed.
+- [GitHub Action](https://github.com/probityai/agent-evidence-vectors/blob/main/action.yml): `uses: probityai/agent-evidence-vectors@v0.12.0` with a `verifier` input replays the corpus in a consumer's CI, writes a job summary, uploads the report as the artifact `agent-evidence-vectors-results`, and fails the job when any vector disagreed.
 - [README](https://github.com/probityai/agent-evidence-vectors/blob/main/README.md): The predicates, the corpora, the external verifier contract the harness speaks, the failure-code registry, and how to verify a release without trusting the maintainer.
 - [Distribution](https://github.com/probityai/agent-evidence-vectors/blob/main/DISTRIBUTION.md): The tag to cite, the one-command run, the corpus table, how to cite a run, and how to add a corpus.
 - [Independent runs](https://github.com/probityai/agent-evidence-vectors/blob/main/RUNS.md): Every run of a corpus by an implementation this repository did not write, in its author's words, labelled blind or directed as the author labelled it.
@@ -44,11 +44,12 @@ One directory each, each with its own `MANIFEST.json`, `corpusDigest` and genera
 - [vectors-acs-core/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-acs-core): `acs-core-negative-conformance`, the mandatory profile of the agent control standard, by negative members against vendored text.
 - [vectors-anchor-stream/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-anchor-stream): `anchor-stream-conformance`, the anchor-stream verification contract published by aos-standard/catalog.
 - [vectors-mcp-record-contract/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-mcp-record-contract): `cross-run-record-contract`, what a cross-implementation run record has to carry.
+- [vectors-observed-effect/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-observed-effect): `observed-effect-conformance`, the Observed Effect predicate defined in `spec/predicates/observed-effect.md`, whose type URI is `https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect`.
 - [vectors-w3c-report/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-w3c-report): `w3c-report-v01-conformance`, the v0.1 per-check report of the W3C public-agent-conformance group as whole reports, with the emitter that writes one from the AEE harness report.
 
 ## Identifiers
 
-- Release tag: `v0.11.1`, as `CITATION.cff` and `DISTRIBUTION.md` carry it; a git tag with a GitHub Release per tag, and a PyPI release of the same version cut from that tag.
+- Release tag: `v0.12.0`, as `CITATION.cff` and `DISTRIBUTION.md` carry it; a git tag with a GitHub Release per tag, and a PyPI release of the same version cut from that tag.
 - Go module: `github.com/probityai/agent-evidence-vectors`.
 - Signed corpus digests: [release/CORPUS-DIGESTS.txt](https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt), one line per corpus, with a detached signature, an RFC 3161 token and an OpenTimestamps proof beside it.
 - Archival DOI: concept DOI [10.5281/zenodo.22758687](https://doi.org/10.5281/zenodo.22758687), which resolves to the newest archived release; each release also has its own version DOI, listed on that record. `CITATION.cff` carries the concept DOI so a citation stays stable across releases.

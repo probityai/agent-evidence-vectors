@@ -177,6 +177,18 @@ CANNOT_RUN = {
     "github/codeql-action/init": "builds a CodeQL database with a toolchain provisioned per run",
     "github/codeql-action/analyze": "queries a CodeQL database built by the step above",
     "github/codeql-action/upload-sarif": "uploads to code scanning on the remote",
+    "actions/configure-pages": (
+        "reads the repository's Pages settings from the remote to tell the build "
+        "what base URL the site will be served from"
+    ),
+    "actions/upload-pages-artifact": (
+        "packs the built directory into the run's artifact store, which is only "
+        "on the remote"
+    ),
+    "actions/deploy-pages": (
+        "publishes an uploaded artifact to the repository's Pages site, which "
+        "only the remote can do"
+    ),
 }
 
 

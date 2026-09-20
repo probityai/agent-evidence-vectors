@@ -129,9 +129,15 @@ artifact-binding = ["cryptography>=43"]
 # runs every workflow step reads the workflow YAML, and a type checker that
 # cannot resolve an import reports it as a defect in the importing file. Left
 # undeclared it is indistinguishable from a real unresolved name.
-dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "mypy>=1.11",
-       "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5", "pyyaml>=6",
-       "ruff>=0.6", "types-PyYAML>=6"]
+# markdown renders the two tracked Markdown pages the Pages site publishes, and
+# it is declared here for the same reason PyYAML is: docs/site/build.py imports
+# it, the type checker reads that directory, and an import it cannot resolve is
+# reported in the same shape as a real unresolved name. Declaring it once here
+# also keeps the version the site builds with and the version the checker reads
+# from being two separate pins that drift apart.
+dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
+       "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
+       "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
@@ -160,7 +166,7 @@ files = ["packaging", "vectors", "tools"]
 # Directories cannot forget. A file added to any of these is checked because it
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
-include = ["docs/proposals", "packaging", "scripts", "tools", "vectors",
+include = ["docs/proposals", "docs/site", "packaging", "scripts", "tools", "vectors",
            "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action",
            "vectors-anchor-stream", "vectors-artifact-binding",
            "vectors-mcp-record-contract", "vectors-observed-effect",

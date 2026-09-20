@@ -1,0 +1,61 @@
+name: pages
+
+# Publishes docs/site to GitHub Pages on every push to main. The generator
+# reads every figure it shows from a tracked file at build time: each corpus's
+# MANIFEST.json, CITATION.cff, aee/codes.go, RUNS.md and DISTRIBUTION.md. The
+# published pages carry no script and load nothing from any other host, so the
+# only network the site ever touches is the one that serves it.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      # The same toolchain the type-checking job syncs, and the same one
+      # declaration of the markdown version. A version pinned a second time in
+      # this file would be free to drift from the one the checker reads, and the
+      # site would then be built by a renderer nothing had type-checked against.
+      - name: sync the toolchain
+        run: uv sync --extra dev
+      - name: build the site from tracked files
+        run: uv run python docs/site/build.py --out _site
+      - name: the built pages load nothing from another host
+        run: |
+          # A hermetic page names no external script or stylesheet. Links to the
+          # repository are fine; a <script src> or <link rel="stylesheet"> is not.
+          if grep -rEn '<script|<link[^>]+stylesheet' _site; then
+            echo "::error::a built page loads a script or stylesheet; the site is meant to be self-contained"
+            exit 1
+          fi
+          echo "no script or external stylesheet in the built pages"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
