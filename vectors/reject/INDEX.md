@@ -222,7 +222,7 @@ that guesses is worse than one that is missing: it looks resolved.
 | aee-c-108 | L586-594; L1322-1366 | every carried record that binds to this run and whose aeeKind names a covering kind satisfies every constraint of that kind, whether or not any row resolves an observationRefs index to it. The universal partner of aee-c-96, over the same records on the same terms: that one asks whether a valid sealed record is present, this asks whether an invalid one is carried beside it |
 | aee-c-109 | L388 | an absent `predicate` member, `"predicate": null` and `"predicate": {}` are ONE input: all three decode to the empty predicate object and a verifier emits the identical verdict and the identical reason codes for all three. The anchor is the predicate's own opt-in to the framework parsing rules, which is what makes the framework's sentence binding here; the rule is stated in full, with the in-toto and SLSA text it lifts, at spec/v1/statement.md |
 
-## Vectors (212)
+## Vectors (214)
 
 `parent` names the accept-suite shape the vector derives from (the
 accept vectors land separately; the parent statements are built
@@ -242,6 +242,7 @@ so the declared fault stays the ONLY fault.
 | `v87a339f53f689d9f` | vcc938c6038536dcb | result: "error" | - | aee-c-1 aee-c-2 | `result-vocabulary`, `result-recompute-mismatch` (COMPOUND) | L435 |
 | `v14d9059f14696fe6` | vc2782e6c3cbdb9b7 | carried result: "pass" over a clean row that is artifact-basis and reconstructed (recompute: pass_indirect) | - | aee-c-2 | `result-recompute-mismatch` | L390-393 |
 | `vaec3b6d70dfbbc47` | vcc938c6038536dcb | carried result: "pass_indirect" where every clean row is substrate-basis and intercepted (recompute: pass) | - | aee-c-2 | `result-recompute-mismatch` | L390-393 |
+| `ve3c7f7a8d918c70c` | vc2782e6c3cbdb9b7 | attackResults emptied; the parent's carried pass_indirect kept | rederive-coverage | aee-c-2 aee-c-6 | `result-recompute-mismatch` | L390-393; L436-438 |
 | `v131478f1be775746` | vcf20eae7df4f1f1b | caught substrate row observationRefs: [] | - | aee-c-10 aee-c-12 | `refs-empty`, `caught-row-uncovered` (COMPOUND) (also carries: `interception-record-orphaned`) | L552; L554-556 |
 | `vbe54956653060e0c` | vcf20eae7df4f1f1b | observationRefs: [0, 7] with one record (valid cover kept) | - | aee-c-11 | `ref-out-of-range` | L552-553 |
 | `va06ffeb35650b992` | vcf20eae7df4f1f1b | observationRefs: [0, -1] | - | aee-c-11 | `ref-malformed` (also carries: `interception-record-orphaned`) | L552-553 |
@@ -281,7 +282,8 @@ so the declared fault stays the ONLY fault.
 | `v539055896bf3a954` | vcf20eae7df4f1f1b | substrate row containmentObserved: "example_label_a" (not in carried labels); carried fail kept | - | aee-c-4 aee-c-44 | `fail-closed-substrate-row` (also carries: `interception-record-orphaned`) | L443-444; L760-764 |
 | `v84f40e16772e5f91` | vcf20eae7df4f1f1b | substrate row method member ABSENT | - | aee-c-5 aee-c-42 aee-c-44 | `fail-closed-substrate-row` | L443-444; L1060-1097; L760-764 |
 | `v3eb268f467674845` | vcf20eae7df4f1f1b | caught row actualLayer carried as the JSON number 7 (wrong member type); refs, records, root, entropy intact; carried fail kept | - | aee-c-88 | `statement-malformed` (also carries: `malformed-missing-actual-layer`) | L920-928 |
-| `v089e746847cd0af2` | vc2782e6c3cbdb9b7 | drop observationVocabulary; carried fail kept | - | aee-c-51 | `vocabulary-missing` | L796-804 |
+| `v089e746847cd0af2` | vc2782e6c3cbdb9b7 | drop observationVocabulary; the parent's carried result kept | - | aee-c-51 | `vocabulary-missing` (also emits: `result-recompute-mismatch`) | L796-804 |
+| `v6945133925a03e15` | vc2782e6c3cbdb9b7 | drop observationVocabulary; the carried result re-derived to fail | rederive-result | aee-c-51 | `vocabulary-missing` | L796-804; L436-438 |
 | `v109b606952f6ee6c` | vcc938c6038536dcb | caught gains "example_label_x" which is not in labels; digest recomputed over the mutated content | recompute-vocabulary-digest, rederive-binding, re-sign-record, recompute-batch-root | aee-c-52 | `vocabulary-caught-not-subset` | L800-802 |
 | `v62e5552063975fc9` | vcc938c6038536dcb | labels in descending order; digest recomputed | recompute-vocabulary-digest, rederive-binding, re-sign-record, recompute-batch-root | aee-c-53 | `vocabulary-not-canonical` | L802 |
 | `vded1d495746a647a` | vcc938c6038536dcb | duplicate entry in caught; digest recomputed | recompute-vocabulary-digest, rederive-binding, re-sign-record, recompute-batch-root | aee-c-53 | `vocabulary-not-canonical` | L802 |
@@ -422,7 +424,7 @@ so the declared fault stays the ONLY fault.
 | `v7f62f32c0ccda2fb` | vcc938c6038536dcb | sealed record signed aeeMethod: "reconstructed" | re-sign-record, recompute-batch-root | aee-c-65 | `sealed-covers-nothing` | L1330-1335; L1344-1347 |
 | `v1ec06de44fe4000d` | v02f2be8cd63828f4 | sealed aeeDropCount: -1 inside a declared aeeDropBound: 5 | re-sign-record, recompute-batch-root | aee-c-65 | `sealed-covers-nothing` | L1361-1366 |
 | `v7f35f318b31ca92a` | vcc938c6038536dcb | a second arming record carrying a posture digest the run never pinned, referenced by the clean row alongside the valid arming and sealed pair | recompute-batch-root | aee-c-65 | `sealed-covers-nothing` (also carries: `arming-covers-nothing`) (also emits: `sealed-record-absent`) | L1361-1366 |
-| `v300ab22f5f2fe523` | vc7a74e2cef5586ed | drop labels from an observationVocabulary that is otherwise present; digest re-derived over the truncated object | recompute-vocabulary-digest | aee-c-51 | `vocabulary-not-canonical` | L796-804 |
+| `v300ab22f5f2fe523` | vc7a74e2cef5586ed | drop labels from an observationVocabulary that is otherwise present; digest re-derived over the truncated object | recompute-vocabulary-digest | aee-c-51 | `vocabulary-not-canonical` (also emits: `result-recompute-mismatch`) | L796-804 |
 | `v03547f8918e0d7dc` | vc7a74e2cef5586ed | drop corpus.manifest, keeping the corpus name, uri and digest | - | aee-c-78 | `environment-incomplete` | L783-793 |
 | `v59b24935f1fa8a4b` | vcc938c6038536dcb | as `bad-705-sealed-missing-dropcount`, with the clean row's seal reference moved to the healthy seal the statement already carries; the defective seal stays carried and stays signed | - | aee-c-108 | `sealed-covers-nothing` | L586-594; L1322-1366 |
 | `v755ceccd7c4da990` | vcc938c6038536dcb | as `bad-706-stillarmed-non-boolean`, with the clean row's seal reference moved to the healthy seal the statement already carries; the defective seal stays carried and stays signed | - | aee-c-108 | `sealed-covers-nothing` | L586-594; L1322-1366 |
@@ -451,6 +453,7 @@ so the declared fault stays the ONLY fault.
 - **bad-006-result-fail-on-pass**: equality is two-directional.
 - **bad-009-result-pass-on-indirect-clean-row**: this is the statement a party holding only the enclosing envelope key produces by moving every row to artifact basis and dropping the records: valid before the fourth result value existed, and a recompute mismatch after it.
 - **bad-010-result-pass-indirect-on-direct-clean-row**: the new token is not a floor a producer may volunteer down to; equality is two-directional here exactly as it is for bad-006.
+- **bad-011-result-recompute-over-zero-rows**: the recompute is TOTAL (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), so a predicate carrying no rows is evaluated rather than skipped: no condition holds over zero rows, the disclosed coverage gap contributes degraded, and the carried pass_indirect is therefore not the derivation. A rail that declines to recompute when there are no rows to read ACCEPTS this statement and publishes a result token the definition never produces, which is what this vector exists to refuse. The Python reference rail did exactly that until the guard on `labels is not None and caught is not None and rows` was removed.
 - **bad-101-refs-empty**: an empty ref set on a caught row inherently also uncovers it.
 - **bad-201-payload-unsorted-keys**: rawBytes: the committed base64 payload bytes are the fault; identical content, non-JCS order.
 - **bad-202-payload-bignum**: rawBytes.
@@ -472,7 +475,8 @@ so the declared fault stays the ONLY fault.
 - **bad-504-substrate-oov-label**: pairs with ok-009 (artifact twin stays valid).
 - **bad-505-substrate-missing-method**: pairs with ok-027 (artifact row with absent method is a VALID fail).
 - **bad-506-actuallayer-json-number**: type-strictness pin: row members are strings, and a wrong-typed member is a decode-layer fault, deliberately a DIFFERENT altitude than an absent one, a rail that maps the number to member absence (malformed-missing-actual-layer) fails conformance here.
-- **bad-601-vocabulary-absent**: artifact-only parent: no digest or binding cascade.
+- **bad-601-vocabulary-absent**: artifact-only parent: no digest or binding cascade. The parent carries pass_indirect, and the recompute is total over an absent vocabulary (empty carried sets, so the row's label is outside them and the derivation is fail), which is why this rail reports the recompute alongside the vocabulary code.
+- **bad-602-vocabulary-absent-result-rederived**: bad-601's twin, and the pair is the discriminator. An absent observationVocabulary yields EMPTY carried label and caught sets, so every row's label is outside the carried labels and the total recompute derives fail. Under that reading this vector matches and reports the vocabulary absence alone, while bad-601's stale pass_indirect does not. A rail reading an absent vocabulary as admitting every label inverts both answers: it reports a recompute mismatch here and none on bad-601. The two readings are separable by emission across the pair, which neither vector can do alone.
 - **bad-605-vocabulary-digest-mismatch**: the binding is rederived over the STALE carried digest, not over the digest the arrays recompute to, because that is the value a verifier reading the statement folds into the pre-image; deriving over the honest one would leave every record mismatched and the vector would report a binding fault instead of the digest fault.
 - **bad-606-missing-runentropy**: precedence pin: a missing binding INPUT reports its member code, never run-binding-mismatch.
 - **bad-607-two-subjects-substrate**: subject[0] unchanged, so record bindings still derive: the cardinality rule is the ONLY fault.

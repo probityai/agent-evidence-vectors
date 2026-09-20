@@ -1026,6 +1026,20 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
         "bad-991-expected-payloads-later-entry-not-hex",
         "bad-992-expected-payloads-later-key-undeclared",
     )},
+    # The two vectors whose predicate reaches the recompute with NO readable
+    # carried vocabulary. The recompute is total (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), so absent or
+    # unreadable carried sets are EMPTY sets rather than a reason to decline,
+    # every row's label is then outside the carried labels, and the recompute
+    # derives `fail` over a parent that declares something above it. This rail
+    # reports that alongside the vocabulary fault because it evaluates every
+    # independent condition; the shipped CLI stops at GATE 0 and prints the
+    # vocabulary code alone. Both readings are conformant -- the manifest calls
+    # the codes beyond the primary measured and not normative -- and the clause
+    # records what this rail does without obliging anyone to follow it.
+    **{vid: ["result-recompute-mismatch"] for vid in (
+        "bad-601-vocabulary-absent",
+        "bad-905-vocabulary-labels-absent",
+    )},
     "bad-206-payload-missing-kind": ["record-kind-unknown-covers-nothing"],
     "bad-806-coverage-attack-omitted": ["interception-record-orphaned"],
     "bad-817-payload-noncanonical-base64": [
@@ -1149,6 +1163,36 @@ vec("bad-010-result-pass-indirect-on-direct-clean-row", "ok-002",
     set_result(P_clean, "pass_indirect"), spec="L390-393",
     note="the new token is not a floor a producer may volunteer down to; "
          "equality is two-directional here exactly as it is for bad-006")
+
+
+def _b011() -> dict[str, Any]:
+    """Empty attackResults, with coverage re-derived so the statement stays
+    single-fault: the manifest's only class moves to outOfScope, because a
+    class that no row assesses and no coverage member accounts for is a
+    coverage fault rather than the recompute fault this vector declares."""
+    st = P_artifact()
+    st["predicate"]["attackResults"] = []
+    st["predicate"]["coverage"] = {
+        "assessedClasses": [],
+        "outOfScope": {"XA": "example: class not assessed in this run"},
+        "routedElsewhere": {},
+    }
+    return st
+
+
+vec("bad-011-result-recompute-over-zero-rows", "ok-007",
+    "attackResults emptied; the parent's carried pass_indirect kept",
+    ["rederive-coverage"], [2, 6], ["result-recompute-mismatch"], _b011,
+    spec="L390-393; L436-438",
+    note="the recompute is TOTAL (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), so a predicate carrying no "
+         "rows is evaluated rather than skipped: no condition holds over zero "
+         "rows, the disclosed coverage gap contributes degraded, and the "
+         "carried pass_indirect is therefore not the derivation. A rail that "
+         "declines to recompute when there are no rows to read ACCEPTS this "
+         "statement and publishes a result token the definition never "
+         "produces, which is what this vector exists to refuse. The Python "
+         "reference rail did exactly that until the guard on "
+         "`labels is not None and caught is not None and rows` was removed")
 
 # --- (b1) refs / class-match ---------------------------------------------
 
@@ -1673,10 +1717,35 @@ def _b601() -> dict[str, Any]:
     return st
 
 
+def _b602() -> dict[str, Any]:
+    """bad-601's mutation with the carried result re-derived under the total
+    recompute, so the vocabulary absence is the statement's ONLY fault."""
+    st = _b601()
+    st["predicate"]["result"] = "fail"
+    return st
+
+
 vec("bad-601-vocabulary-absent", "ok-007",
-    "drop observationVocabulary; carried fail kept", [], [51],
+    "drop observationVocabulary; the parent's carried result kept", [], [51],
     ["vocabulary-missing"], _b601, spec="L796-804",
-    note="artifact-only parent: no digest or binding cascade")
+    note="artifact-only parent: no digest or binding cascade. The parent "
+         "carries pass_indirect, and the recompute is total over an absent "
+         "vocabulary (empty carried sets, so the row's label is outside them "
+         "and the derivation is fail), which is why this rail reports the "
+         "recompute alongside the vocabulary code")
+vec("bad-602-vocabulary-absent-result-rederived", "ok-007",
+    "drop observationVocabulary; the carried result re-derived to fail",
+    ["rederive-result"], [51], ["vocabulary-missing"], _b602,
+    spec="L796-804; L436-438",
+    note="bad-601's twin, and the pair is the discriminator. An absent "
+         "observationVocabulary yields EMPTY carried label and caught sets, "
+         "so every row's label is outside the carried labels and the total "
+         "recompute derives fail. Under that reading this vector matches and "
+         "reports the vocabulary absence alone, while bad-601's stale "
+         "pass_indirect does not. A rail reading an absent vocabulary as "
+         "admitting every label inverts both answers: it reports a recompute "
+         "mismatch here and none on bad-601. The two readings are separable "
+         "by emission across the pair, which neither vector can do alone")
 
 
 def _vocab_mut(labels: list[str] | None = None,

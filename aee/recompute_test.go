@@ -168,3 +168,72 @@ func TestRecomputeIgnoresRecords(t *testing.T) {
 		t.Fatalf("expected %q, got %q", ResultPassIndirect, before)
 	}
 }
+
+// TestRecomputeIsTotal pins the property the specification states first about
+// this function and the one the Python rail did not have: "Defined as a total,
+// deterministic, severity-independent function of the predicate"
+// (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da). Total means the function answers on every predicate in its
+// domain rather than declining on the ones it cannot fully read, so a member
+// the predicate does not carry contributes the fail-closed reading of its own
+// axis and nothing raises, returns empty, or asks whether a well-formedness
+// gate ran first.
+//
+// The Python rail guarded on `labels is not None and caught is not None and
+// rows` and emitted nothing when the guard failed. Over a predicate carrying no
+// rows that made it ACCEPT a statement this rail refuses, and publish a result
+// token the definition never derives. These cases are the Go side of that fix:
+// they fail if anyone ever adds the same guard here.
+func TestRecomputeIsTotal(t *testing.T) {
+	clean := []Row{row("no_egress", BasisSubstrate, MethodIntercepted)}
+	cases := []struct {
+		name string
+		pred *Predicate
+		want string
+	}{
+		{
+			// No environment at all: empty carried sets, so the row's label is
+			// outside the carried labels and the row fail-closes.
+			name: "absent environment",
+			pred: &Predicate{Rows: clean},
+			want: ResultFail,
+		},
+		{
+			name: "environment carrying no vocabulary",
+			pred: &Predicate{Env: &Environment{}, Rows: clean},
+			want: ResultFail,
+		},
+		{
+			// An empty carried vocabulary is not the same absence as no
+			// vocabulary, and the answer is the same: nothing is in an empty
+			// set.
+			name: "empty carried vocabulary",
+			pred: &Predicate{
+				Env:  &Environment{Vocabulary: &Vocabulary{}},
+				Rows: clean,
+			},
+			want: ResultFail,
+		},
+		{
+			// Zero rows: no condition holds over them, so the derivation is the
+			// top of the ordering. This is the case whose verdict the two rails
+			// disagreed on.
+			name: "no rows, coverage complete",
+			pred: pred(nil, nil),
+			want: ResultPass,
+		},
+		{
+			// Zero rows and a disclosed coverage gap: the second condition
+			// still holds, because it reads coverage and never the rows.
+			name: "no rows, disclosed coverage gap",
+			pred: pred(nil, map[string]string{"XA": "not assessed"}),
+			want: ResultDegraded,
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := Recompute(tc.pred); got != tc.want {
+				t.Fatalf("Recompute = %q, want %q", got, tc.want)
+			}
+		})
+	}
+}

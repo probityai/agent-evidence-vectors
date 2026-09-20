@@ -60,3 +60,17 @@ can see that the gate has a repair at all, and so nobody has to remember which
 flag it is at the moment the gate is red.
 """
 needs_operator = true
+
+[[gate]]
+ident = "rail-parity"
+argv = ["python3", "scripts/rail-parity-gate.py", "--check"]
+fix = ["python3", "scripts/rail-parity-gate.py"]
+why = """
+The per-member code-set divergence between the two first-party rails is derived
+by replaying both over the corpus and committed. A rail change that moves which
+codes one of them reports moves a row, and the gate compares the committed
+baseline against a fresh replay. The bare invocation re-derives it. Note that
+the repair CANNOT write away a verdict split: the gate refuses to record one and
+exits non-zero with nothing written, because a verdict split is a rail defect
+rather than a figure to note down.
+"""

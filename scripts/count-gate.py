@@ -1867,6 +1867,19 @@ MASKS = tuple(
         r"\bL\d+(?:-\d+)?\b",  # spec anchors in the vector tables
         r"spec:\d+(?:-\d+)?",  # spec line citations in the sources
         r"\b\d{4}-\d{2}-\d{2}\b",  # dates
+        # A CLOCK TIME, masked here rather than beside its sibling shapes below
+        # because the masks substitute in order: the zero-padded rule
+        # `\b0\d+\b` further down blanks the `00` minutes of `10:00:30`, and
+        # the clock shape can no longer match the remains, so the seconds field
+        # was read as a bare integer. It surfaced the day the suiteRevision
+        # reached 30 and a fixture's `T10:00:30.000Z` was reported against it.
+        # The rationale for the shape itself is in the comment further down.
+        r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # A WORKFLOW LIMIT. `timeout-minutes: 30` and `retention-days: 30` are
+        # settings of a CI job and of an uploaded artifact; they count nothing
+        # in any corpus. The key has to sit next to the number, so a bare
+        # quantity in a workflow is still read and still checked.
+        r"\b(?:timeout-minutes|retention-days):\s*\d+",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and
@@ -1988,7 +2001,8 @@ MASKS = tuple(
         # is a word character, so there is no word boundary in front of `14` in
         # `2026-08-18T14:33:41.882Z` and the whole time slipped past. Five sites
         # still failed while the mask looked right.
-        r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # (The clock-time mask itself is applied earlier, right after the date
+        # mask: see the comment there for why its position matters.)
         # A LENGTH IN LINES, the `\d+ bytes` argument in the other unit. Six
         # sites measure a stream: `default branch carries 49 lines`, `main held 49
         # lines at read time`, `(24 vs 49 lines)`. The unit must be adjacent, so a

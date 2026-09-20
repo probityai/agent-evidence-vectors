@@ -380,11 +380,40 @@ recompute finding at all. `packaging/run_vectors.py`,
     if labels is not None and caught is not None and rows:
         recomputed = self._recompute(rows, labels, caught, coverage)
 
-So for a statement carrying no `observationVocabulary` and a declared `result`
-above `fail`, the Go rail reports a recompute mismatch and the Python rail
-reports nothing. Both refuse the statement on other codes, so no verdict moves
-and the corpus never noticed; the **code sets differ**, and the harness compares
-code sets. No vector exercises it.
+**Corrected by measurement, and the correction is worth more than the original
+finding.** The sentence that stood here said that on a statement carrying no
+`observationVocabulary` and a declared `result` above `fail`, the Go rail reports
+a recompute mismatch and the Python rail reports nothing, that no verdict moves,
+and that the difference is a code-set one. Each of those three claims is wrong,
+and all three were wrong for the same reason: the comparison was made between two
+FUNCTIONS and written up as a comparison between two RAILS.
+
+Running the two rails over that statement:
+
+- **Neither rail reports a recompute mismatch on a predicate carrying no
+  vocabulary, because the Go rail never reaches the recompute.** `aee/verify.go`,
+  `Evaluate`, returns at the first failing gate -- `if codes := Gate0(s);
+  len(codes) > 0 { return nil, codes, nil }` -- and `Gate0` emits
+  `vocabulary-missing` for an absent vocabulary. `Recompute` is total; the
+  pipeline around it short-circuits before calling it.
+- **The vocabulary arm of the Python guard is therefore unreachable in any state
+  where the Go rail would answer differently.** Go reaches the recompute only
+  after Gate 0 has accepted the vocabulary, and in that state the Python rail's
+  `labels` and `caught` are lists rather than `None`.
+- **The reachable arm is `rows`, and the divergence it produces is a VERDICT.**
+  The guard also declines when `attackResults` is empty. On a statement carrying
+  `attackResults: []`, a coverage map that accounts for every manifested attack,
+  and a declared `result` the zero-row recompute does not derive, the Go rail
+  answers **invalid** with `result-recompute-mismatch` and the Python rail
+  answered **valid** -- and emitted a `result` and a tier column for it, which is
+  the one thing the behaviour contract says an invalid statement never carries.
+  Measured on `vc7a74e2cef5586ed` with its rows emptied and its coverage
+  re-derived, at three of the four declared result tokens.
+
+So the defect was one rail admitting a statement the other refuses, and
+publishing a result token the definition never produces, rather than two rails
+naming different conditions for the same refusal. The corpus could not see it for
+a reason the original write-up had right: no vector carried the shape.
 
 **Replacement text.**
 
@@ -400,14 +429,43 @@ code sets. No vector exercises it.
 > predicate reports a different set of conditions from one that does not, over
 > identical bytes.
 
-**Owed separately.** The Python guard is a rail defect and its fix is its own
-change with its own reason, per this repository's own rule that a vector needing
-the rail changed has found a rail bug. It is recorded here so the vector and the
-fix are not confused for one change.
+**Landed.** The guard is gone: `_check_result_recompute` now recomputes
+unconditionally, treating an absent or unreadable vocabulary as empty carried
+sets and an absent or empty `attackResults` as zero rows. `Recompute`'s totality
+is pinned on the Go side by `TestRecomputeIsTotal`, which fails if anyone adds
+the same guard there.
 
-**Vector.** Blocked on that fix: a vector written today would fail the Python
-rail, and a vector whose expectation is satisfied by either code set measures
-nothing. Sequence is fix the rail, then add the vector.
+**Vectors.** Two, and the second is why one was not enough.
+
+- `ve3c7f7a8d918c70c` carries the discriminating shape: `attackResults` emptied,
+  coverage re-derived so every manifested attack is out of scope, and the
+  parent's `pass_indirect` kept against a zero-row derivation of `degraded`. Both
+  rails now answer `invalid` with exactly `result-recompute-mismatch`; a rail
+  that declines to recompute over zero rows fails it on the verdict.
+- `v6945133925a03e15` is the no-vocabulary twin of the shipped `v089e746847cd0af2`
+  with its carried result re-derived to `fail` under the empty-carried-sets
+  reading. Neither vector forces that reading alone, because the statement is
+  invalid on `vocabulary-missing` either way and the harness grades a reject
+  expectation by intersection. Across the PAIR the two readings invert: a rail
+  reading an absent vocabulary as admitting every label reports a recompute
+  mismatch on the twin and none on `v089e746847cd0af2`, which is the opposite of
+  what both rails now do.
+
+**Gate.** Nothing in this repository compared the two rails to each other before
+this change. `aee/vectors_test.go` asserts the Go rail's PRIMARY code is in each
+vector's declared set, so a differing secondary code is compared against nothing;
+`scripts/observed-code-closure-gate.py` pins the full set the PYTHON rail emits
+and says in its own words that it is "a check over the REFERENCE rail", singular,
+importing `run_vectors`. Both gates looked complete and neither looked at the
+other rail. `scripts/rail-parity-gate.py` now replays both over every member,
+refuses a verdict split unconditionally, and holds every code-set difference to a
+recorded row in `docs/RAIL-PARITY-BASELINE.json`. Thirty rows are recorded today;
+twenty-seven of them are the Go pipeline stopping at an earlier gate than the one
+that produced the code, which `vectors/MANIFEST.json` already declares measured
+rather than normative. Read honestly, the gate would have passed the day before
+this fix: it compares the rails on the shapes the corpus carries, and the shape
+was not one of them. The vector puts the shape into the membership; the gate
+stops the next divergence drifting once it is there.
 
 ---
 

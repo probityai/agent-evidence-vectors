@@ -5,6 +5,53 @@ The vector corpus is a versioned, immutable-per-revision artifact. A published
 or a corpus addition bumps the revision and regenerates the vectors
 byte-identically from the generators.
 
+## suiteRevision 30 (the result recompute is total, and the two rails are measured against each other)
+
+- **This corrects a defect in one of our own reference rails, and the defect was a
+  VERDICT rather than a code.** The specification defines `result` as "a total,
+  deterministic, severity-independent function of the predicate". The Python rail
+  declined to evaluate it when the predicate carried no readable
+  `observationVocabulary` or no `attackResults` rows, guarding on
+  `labels is not None and caught is not None and rows`; the Go rail built empty
+  carried sets and answered. On a statement carrying `attackResults: []`, a
+  coverage map that accounts for every manifested attack, and a declared `result`
+  the recompute does not derive, the Go rail answered **invalid**
+  (`result-recompute-mismatch`) and the Python rail answered **valid** and
+  published a result token the definition never produces. The guard is gone: an
+  absent or unreadable vocabulary contributes empty carried sets, which places
+  every row's label outside the carried labels, and an absent or empty
+  `attackResults` contributes zero rows.
+- **Two new vectors, and the reason they are two.** `ve3c7f7a8d918c70c` carries the
+  discriminating shape above and both rails now refuse it with the same single
+  code, so a rail that declines to recompute over zero rows fails it on the
+  verdict. `v6945133925a03e15` is the twin of the shipped no-vocabulary vector with
+  its carried result re-derived under the total recompute; across the pair, a rail
+  reading an absent vocabulary as admitting every label inverts both emissions,
+  which neither vector can show alone.
+- **Nothing in this repository compared the two rails, and now something does.**
+  `aee/vectors_test.go` asserts the Go rail's PRIMARY code is in each vector's
+  declared set. `scripts/observed-code-closure-gate.py` pins what the Python rail
+  emits and says in its own words that it is a check over "the REFERENCE rail",
+  singular. Both looked complete and neither looked at the other.
+  `scripts/rail-parity-gate.py` replays both over every member, refuses a verdict
+  split outright, and holds every code-set difference to a recorded row in
+  `docs/RAIL-PARITY-BASELINE.json` -- thirty today, twenty-seven of them the Go
+  pipeline stopping at an earlier gate than the one that produced the code.
+- **What this revision does NOT exercise.** The gate compares the rails on the
+  shapes the corpus carries, so it would have passed the day before this fix: the
+  defect was reachable only on a shape no vector had. The vector is what puts the
+  shape into the membership and the gate is what stops the next one drifting. The
+  thirty recorded divergences are also not closed by this revision; they are a
+  consequence of one rail stopping at the first failing gate while the other
+  accumulates, which `vectors/MANIFEST.json` already declares measured rather than
+  normative, and closing them would mean rewriting a rail's reporting
+  architecture.
+- Corpus: **277 vectors (61 accept, 214 reject, 2 indeterminate)**, two more than
+  suiteRevision 29. No existing vector file changes, so only the two new
+  statements and `corpusDigest` in `vectors/MANIFEST.json` move; the vendored
+  specification does not move, because the reading this revision fixes is the one
+  its current text already states.
+
 ## suiteRevision 29 (the three empty predicate states are one input)
 
 - **Three reject vectors, one per empty `predicate` state**, under a new condition

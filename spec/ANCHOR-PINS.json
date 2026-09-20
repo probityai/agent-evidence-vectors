@@ -74,6 +74,18 @@
       "opens": "independent claim. A consumer MUST be able to recompute it from the rest of",
       "closes": "follow the same verify-then-read discipline: the fields inside a payload mean"
     },
+    "vectors/reject/gen_invalid_vectors.py::bad-011-result-recompute-over-zero-rows#0": {
+      "anchor": "L390-393",
+      "digest": "9cf3be673cdc32f4526decdd99438fdb3a215f280b9579e77d4511d68dd988f3",
+      "opens": "independent claim. A consumer MUST be able to recompute it from the rest of",
+      "closes": "follow the same verify-then-read discipline: the fields inside a payload mean"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-011-result-recompute-over-zero-rows#1": {
+      "anchor": "L436-438",
+      "digest": "a4802bc224cbf4d88159071b2484de393fb55dc95fd181cb4aaa80a9a5c712e2",
+      "opens": "`fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,",
+      "closes": "the minimum under that order of three independent conditions rather than as"
+    },
     "vectors/reject/gen_invalid_vectors.py::bad-101-refs-empty#0": {
       "anchor": "L552",
       "digest": "0e58a086044abd53b0cebee42c9ca93ff2d2c951583bf5cc32e1c066c6ff1e1a",
@@ -445,6 +457,18 @@
       "digest": "f799432041ad760164a9a1ed7c907288ffe39983a6f6dadfa1c1f1298484f88f",
       "opens": "`observationVocabulary` (the",
       "closes": "of these is malformed)."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-602-vocabulary-absent-result-rederived#0": {
+      "anchor": "L796-804",
+      "digest": "f799432041ad760164a9a1ed7c907288ffe39983a6f6dadfa1c1f1298484f88f",
+      "opens": "`observationVocabulary` (the",
+      "closes": "of these is malformed)."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-602-vocabulary-absent-result-rederived#1": {
+      "anchor": "L436-438",
+      "digest": "a4802bc224cbf4d88159071b2484de393fb55dc95fd181cb4aaa80a9a5c712e2",
+      "opens": "`fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,",
+      "closes": "the minimum under that order of three independent conditions rather than as"
     },
     "vectors/reject/gen_invalid_vectors.py::bad-602-caught-not-subset#0": {
       "anchor": "L800-802",

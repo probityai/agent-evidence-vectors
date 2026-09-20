@@ -83,6 +83,20 @@ jobs:
       - name: both rails read the three empty predicate states identically
         run: python3 scripts/predicate-state-gate.py
 
+      # Each rail was measured against the corpus and neither was ever measured
+      # against the other. The Go vector test asserts the Go rail's PRIMARY code
+      # is in the declared set; the observed-code-closure gate pins what the
+      # Python rail emits. Both looked complete, and between them a statement
+      # existed that the Go rail refused and the Python rail declared VALID with
+      # a result token the recompute never derives. This step replays both rails
+      # over every member and refuses a verdict split outright. It lives in this
+      # job because it builds the Go CLI.
+      - name: the two first-party rails agree, member by member
+        run: |
+          set -euo pipefail
+          python3 scripts/rail-parity-gate.py --check
+          python3 scripts/rail-parity-gate-test.py
+
       # One binary judges every corpus in this repository. Each corpus used to
       # ship a Python runner beside its vectors, so the command a third party
       # was told to run was a different command per corpus and three of the six
@@ -797,7 +811,7 @@ jobs:
       # so a corpus change fails on the push that makes it rather than on the
       # revision that outdates the name. A checked copy of a derived number is
       # what the census asks for; an unchecked one is what it refuses.
-      - name: replay every vector on the Python rail (must be 275/275)
+      - name: replay every vector on the Python rail (must be 277/277)
         run: python3 packaging/run_vectors.py
       # The replay above says a rail cleared the corpus. This step says the
       # corpus can refuse one, which is a different claim and the one nothing
@@ -826,7 +840,7 @@ jobs:
   # upper bound on forcing and never a measurement of it: a vector declaring
   # several expected codes is satisfied by any one of them, so deleting the
   # result-vocabulary emission from the rail turns two vectors' gate-0 column
-  # FAIL and the suite still reports 275 of 275, exit 0. The only way to know
+  # FAIL and the suite still reports 277 of 277, exit 0. The only way to know
   # what this corpus obliges a third party to implement is to switch one rule
   # off at a time and replay, which is what this job does.
   #

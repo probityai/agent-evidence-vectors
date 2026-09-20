@@ -1,0 +1,281 @@
+{
+  "note": "Per-member code-set divergence between the two first-party rails. The verdict is NOT recorded here and never can be: a verdict split is an unconditional refusal in scripts/rail-parity-gate.py. These rows exist because the Go pipeline stops at the first failing gate and the Python rail accumulates every independent fault, which vectors/MANIFEST.json already declares measured rather than normative. The list is a ratchet: a new row is a refusal until somebody writes it down, and a row that has stopped describing the corpus is a refusal too.",
+  "members": 274,
+  "divergences": [
+    {
+      "id": "v08251931ec038e91",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v089e746847cd0af2",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "result-recompute-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v0e731123ead5b96e",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v113349f8afb946bf",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "attribution-unpinnable"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v131478f1be775746",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v300ab22f5f2fe523",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "result-recompute-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v3772d801e5cae557",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "attribution-unpinnable"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v3d70f1cdb9050246",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "sealed-record-absent"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v3eb268f467674845",
+      "kind": "reject",
+      "goOnly": [
+        "malformed-missing-actual-layer"
+      ],
+      "pythonOnly": [],
+      "cause": "the Go rail reports a code this rail does not derive at all on these bytes"
+    },
+    {
+      "id": "v4ff6cb70764bf703",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "payload-not-canonical",
+        "reconstructed-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v5e14357c80f6239b",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v61efcc48543d8cea",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v6c900389fd3f9a1b",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "record-kind-unknown-covers-nothing"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v78efec12284a51d6",
+      "kind": "indeterminate",
+      "goOnly": [],
+      "pythonOnly": [
+        "clean-row-uncovered",
+        "payload-not-canonical"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v7cd4ebe08eb1605a",
+      "kind": "indeterminate",
+      "goOnly": [],
+      "pythonOnly": [
+        "clean-row-uncovered",
+        "payload-not-canonical"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v7f35f318b31ca92a",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "sealed-record-absent"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v83f4b7fe6068ef86",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v85caf3c6f7516ba2",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered",
+        "observed-set-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v87a339f53f689d9f",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "result-recompute-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v886b2a92cf14bd54",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "sealed-record-absent"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v94d877ffcc3a30fe",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v9d1f7c44f94cb929",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered",
+        "observed-set-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "va06ffeb35650b992",
+      "kind": "reject",
+      "goOnly": [
+        "interception-record-orphaned"
+      ],
+      "pythonOnly": [],
+      "cause": "the Go rail reports a code this rail does not derive at all on these bytes"
+    },
+    {
+      "id": "va507b8f9a9cc675c",
+      "kind": "reject",
+      "goOnly": [
+        "interception-record-orphaned"
+      ],
+      "pythonOnly": [],
+      "cause": "the Go rail reports a code this rail does not derive at all on these bytes"
+    },
+    {
+      "id": "vaf114f3145d4a55a",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "interception-record-orphaned"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vb704d6c2420a1c43",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "sealed-record-absent"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vbea799eb2cd2852c",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vde0891384c1018ae",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "observed-attack-uncaught"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vdef377fb4f572b4d",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vf35474dd75d6b14a",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "result-recompute-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    }
+  ]
+}
