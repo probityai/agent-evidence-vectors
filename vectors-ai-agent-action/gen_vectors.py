@@ -874,6 +874,43 @@ def build_reject() -> None:
                          "Implementations MUST reject records with integers at or "
                          "above this bound"))
 
+    # The decode boundary, which is a different class from bad-115 and not
+    # another number bound. bad-115 carries the first excluded value; this one
+    # carries a literal that a rail loses information about BEFORE its
+    # safe-integer check can run. 1234567890123456789 is not representable as a
+    # double: a rail that parses JSON numbers into doubles holds
+    # 1234567890123456768 and renders it 1234567890123456800, so the value such
+    # a rail refuses is a number no producer wrote. The literal was named
+    # publicly by an outside rail, whose own report was that a safe-integer
+    # guard placed inside its canonicalizer "turned out to be theatre" for
+    # exactly this reason.
+    #
+    # What this vector measures, stated exactly, because it is less than it
+    # looks: both placements of the check refuse this statement, because both
+    # the literal and its lossy double sit at or above 2^53. So the vector does
+    # NOT discriminate the two placements by verdict or by code, and the corpus
+    # still cannot tell a rail that checks the literal from one that checks the
+    # parsed value. It pins the refusal, and it carries the two renderings in
+    # its expectation so that a rail's own report can be compared against them
+    # by a reader rather than by the harness. The placement question is decided
+    # in the specification text instead -- a check on the literal, before any
+    # conversion -- and that sentence is what a third rail reads.
+    add("bad-121-decode-boundary-unsafe-integer", "reject",
+        tool_call("genesis", duration=1234567890123456789), PARENT_HASH,
+        ["aia-c-14"],
+        {"verdict": "invalid", "codes": ["unsafe-integer"],
+         "carriedLiteral": "1234567890123456789",
+         "lossyDoubleCanonical": "1234567890123456800"},
+        None,
+        "decode boundary: the carried literal is not representable as a "
+        "double, so a rail that converts before checking refuses a value the "
+        "producer never wrote. Both placements refuse here, so the vector "
+        "pins the refusal and declares both renderings rather than claiming "
+        "to separate the placements",
+        basis=spec_basis("1320-1323",
+                         "Implementations MUST reject records with integers at or "
+                         "above this bound"))
+
     # ok-013 with one member name lifted out of the BMP. The sidecar carries
     # the bytes RFC 8785 requires, sorted by UTF-16 code unit, which this
     # file's own `jcs` cannot produce -- that inability IS the divergence, and

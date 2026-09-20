@@ -8,7 +8,7 @@
   <a href="https://pypi.org/project/agent-evidence-vectors/"><img src="https://img.shields.io/pypi/v/agent-evidence-vectors?label=PyPI&color=3775a9" alt="agent-evidence-vectors on PyPI"></a>
   <a href="https://doi.org/10.5281/zenodo.22758687"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22758687.svg" alt="DOI 10.5281/zenodo.22758687"></a>
   <img src="https://img.shields.io/badge/AEE%20vectors-275-e8951c" alt="275 AEE conformance vectors">
-  <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-61-e8951c" alt="61 AI Agent Action conformance vectors">
+  <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-62-e8951c" alt="62 AI Agent Action conformance vectors">
   <img src="https://img.shields.io/badge/artifact--binding%20vectors-8-e8951c" alt="8 artifact-binding conformance vectors">
   <img src="https://img.shields.io/badge/SCITT%2FCOSE%20vectors-27-e8951c" alt="27 SCITT/COSE carriage conformance vectors">
   <img src="https://img.shields.io/badge/rails-Go%20%C2%B7%20Python-546274" alt="Go and Python rails">
