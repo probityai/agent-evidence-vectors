@@ -55,9 +55,16 @@ jobs:
             build-mode: autobuild
           - language: python
             build-mode: none
+          # The workflow files themselves, for injection and over-permissioned
+          # token patterns. This repository carries more workflows than it
+          # carries Go packages and scanned none of them until this leg existed,
+          # which is the one place a CodeQL matrix can be silently narrower than
+          # the repository it claims to cover.
+          - language: actions
+            build-mode: none
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-go@v5
         if: matrix.language == 'go'

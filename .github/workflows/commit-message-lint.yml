@@ -16,9 +16,16 @@ permissions:
 
 jobs:
   commit-message-lint:
+    # A job with no ceiling is a job that can hang a queue for six hours; taken
+    # from the one copy of this file that already bounded it.
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      # Pinned to the tip of the v5 release train. The pin this file carried
+      # before named a commit on the v6 line and commented it `# v4`, so the
+      # comment described neither the SHA nor the major -- a mislabelled pin is
+      # worse than a floating ref, because it reads as the discipline it is not.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           fetch-depth: 0
 

@@ -1,41 +1,90 @@
-name: scorecard
-
-# An outside reading of this repository's own supply-chain posture, published
-# where somebody deciding whether to cite the corpus can read it without asking.
+# OpenSSF Scorecard -- an outside reading of this repository's own supply-chain
+# posture (branch protection, review discipline, pinned dependencies, workflow
+# permissions), published where somebody deciding whether to rely on what this
+# repository produces can read it without asking.
 #
-# The suite's whole argument is that a claim should be checkable by a party who
-# trusts neither the producer nor the implementer. That argument does not stop at
-# the corpus. A relying party who takes a conformance result from here is also
+# The argument these repositories make is that a claim should be checkable by a
+# party who trusts neither the producer nor the implementer. That argument does
+# not stop at the artifacts. A relying party who takes a result from here is also
 # taking the repository that produced it -- its branch protection, its token
 # scopes, its pinned actions, its release process -- and until this workflow ran,
-# every statement about those was this repository's own word for it.
+# every statement about those was this repository's own word for it. A project
+# that grades other people's evidence should be willing to have its own review
+# discipline graded by a tool it does not control.
 #
-# OpenSSF Scorecard is a third party's checks against this repository, not a
-# self-assessment. It is deliberately not treated as a gate: a low check score is
-# a finding to answer, and wiring it to fail a push would turn an external
-# measurement into something the maintainer tunes for. The result goes to code
-# scanning, where it is read.
+# It is deliberately not treated as a gate: a low check score is a finding to
+# answer, and wiring it to fail a push would turn an external measurement into
+# something the maintainer tunes for. The result goes to code scanning, where it
+# is read.
 #
-# publish_results sends the score to the public OpenSSF API, which is possible
-# only because this repository is public. It is on because a score nobody outside
-# can retrieve serves the person being measured rather than the person deciding
-# whether to rely on the measurement.
+# THREE THINGS HERE DEPEND ON THE REPOSITORY BEING PUBLIC: the analysis itself,
+# which fails with "ListCommits: Resource not accessible by integration"; the
+# SARIF upload to code scanning, which needs GitHub Advanced Security on a
+# private repository; and publishing to the OpenSSF API, which the action refuses
+# for a private one. All three were once handled by hand, and the analysis was
+# missed, so one of these repositories was red on every push and every weekly
+# schedule from 2026-08-12 until the gate below existed. Two permanently red
+# checks on a four-workflow repository is most of its signal saying nothing, and
+# a red that means nothing trains a reader to ignore the ones that do.
+#
+# So every one of the three reads the same live visibility answer: fetched once
+# from the API, printed, and treated as a hard error when it cannot be read,
+# because a check that cannot tell whether it should run has established nothing.
+# Nothing here is left to change by hand when visibility flips, in either
+# direction. The artifact upload below keeps the result readable either way.
+
+name: scorecard
 
 on:
   branch_protection_rule:
-  push:
-    branches: [main]
   schedule:
     # Weekly. Checks like Maintained and Dangerous-Workflow read repository
     # state, so a run at a push tells only what one push changed.
-    - cron: '31 6 * * 2'
+    - cron: "27 4 * * 1"
+  push:
+    branches: [main]
 
 permissions: read-all
 
 jobs:
-  analysis:
-    name: scorecard analysis
+  # Deliberately duplicated from codeql.yml, not factored into a reusable
+  # workflow. This is a read of one API field, not a rule: there is nothing here
+  # for the two copies to disagree about, and an indirection would cost more to
+  # follow than the six lines it saved.
+  visibility:
+    name: Can Scorecard run here
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      public: ${{ steps.read.outputs.public }}
+    steps:
+      - id: read
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          private="$(gh api "repos/${{ github.repository }}" --jq .private)"
+          case "$private" in
+            false)
+              echo "public=true" >> "$GITHUB_OUTPUT"
+              echo "repository is public; Scorecard runs."
+              ;;
+            true)
+              echo "public=false" >> "$GITHUB_OUTPUT"
+              echo "::notice::Repository is private, so Scorecard cannot read its commit history and this analysis is SUSPENDED. It re-arms automatically when visibility changes. Nothing is claimed here about this repository's supply-chain hygiene, and in particular its branch protection is NOT being graded while this is suspended."
+              ;;
+            *)
+              echo "::error::Could not read repository visibility (got '$private'). Refusing to guess: a check that cannot tell whether it should run has established nothing."
+              exit 1
+              ;;
+          esac
+
+  analysis:
+    name: Scorecard analysis
+    needs: visibility
+    if: needs.visibility.outputs.public == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       # The SARIF upload writes into code scanning.
       security-events: write
@@ -43,33 +92,43 @@ jobs:
       # result as having come from this repository; it grants nothing here.
       id-token: write
       contents: read
+      # Scorecard's own README uncomments this for a private repository, and it
+      # costs a public one nothing.
+      actions: read
+
     steps:
       # persist-credentials: false is Scorecard's own instruction and is the
-      # point of the checkout step rather than a detail of it: leaving the
+      # point of the checkout step and not a detail of it: leaving the
       # workflow token in the git config of a tree an external action then reads
       # is exactly the shape its Token-Permissions check exists to find.
-      - uses: actions/checkout@v4
+      - name: Check out the repository
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - name: run the analysis
+      - name: Run analysis
         uses: ossf/scorecard-action@v2.4.4
         with:
           results_file: results.sarif
           results_format: sarif
-          publish_results: true
+          # Reads the same live visibility answer that gates this job, so nothing
+          # here is left to change by hand when the repository is published.
+          # Publishing to the OpenSSF API needs a public repository, which is the
+          # exact condition the gate already established, and a hardcoded false
+          # would silently keep the badge off forever afterwards.
+          publish_results: ${{ needs.visibility.outputs.public == 'true' }}
 
       # The raw result, kept beside the run that produced it. Code scanning shows
       # the findings; this is the file they were derived from, which is what a
       # reader needs to disagree with one.
-      - name: keep the result beside the run
-        uses: actions/upload-artifact@v4
+      - name: Upload the raw SARIF as an artifact
+        uses: actions/upload-artifact@v7
         with:
           name: scorecard-results
           path: results.sarif
-          retention-days: 7
+          retention-days: 5
 
-      - name: upload to code scanning
+      - name: Upload the SARIF to code scanning
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: results.sarif
