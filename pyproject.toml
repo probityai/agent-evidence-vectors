@@ -69,6 +69,7 @@ only-include = [
     "vectors-anchor-stream",
     "vectors-artifact-binding",
     "vectors-mcp-record-contract",
+    "vectors-observed-effect",
     "vectors-scitt-cose",
     "vectors-w3c-report",
 ]
@@ -83,6 +84,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
 "vectors-anchor-stream" = "agent_evidence_vectors/corpora/vectors-anchor-stream"
 "vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
+"vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -102,6 +104,7 @@ only-include = [
     "vectors-anchor-stream",
     "vectors-artifact-binding",
     "vectors-mcp-record-contract",
+    "vectors-observed-effect",
     "vectors-scitt-cose",
     "vectors-w3c-report",
     "README.md",
