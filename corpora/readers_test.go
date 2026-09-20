@@ -56,6 +56,9 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-ai-generation", memberFileKey: "file"},
 	// A member of the receipt-signature corpus is one signed receipt in one file.
 	{dir: "vectors-receipt-signature", memberFileKey: "file"},
+	// A member of the self-reported-record corpus is one in-toto statement in
+	// one file, carrying its own signatures inside the predicate.
+	{dir: "vectors-self-reported-record", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }
