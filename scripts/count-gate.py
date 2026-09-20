@@ -1892,6 +1892,18 @@ MASKS = tuple(
         # at all -- an id whose digits equal a published corpus count is reported
         # the moment nothing masks it.
         r"\baee-c-\d+\b",
+        # Condition identifiers of the self-reported-record corpus, srr-c-N. The
+        # same class as the two ids masked here and at `w3c-f-\d+` below, and it
+        # arrived the same way: `srr-c-5` sits a few characters from the word
+        # "rule" in that corpus's Go reader, the small-value vocabulary looks 32
+        # characters either side of an integer for exactly that noun, and 5 is the
+        # count of unmeasurable rules the forcing sources publish. So the gate
+        # reported an identifier as a stale copy of a derived count. An id is not a
+        # count and is not entitled to one of the five routes; freezing the one
+        # collision would leave the class open for srr-c-6 at the next value the
+        # counter reaches. Re-derive the family with:
+        #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
+        r"\bsrr-c-\d+\b",
         # Disposition-row identifiers, DC-NN. A row in the objection ledger is
         # named, not counted, and the number is as much an identifier as a vector
         # id is. Unmasked it collides on value with whatever small count the

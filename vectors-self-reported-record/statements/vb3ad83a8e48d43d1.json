@@ -1,0 +1,69 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attestationTier": "voluntary",
+    "attestingKey": {
+      "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+      "publicKey": "04fed927233cca4518bc14982d3ee0b8a10a3b4dc0e1aa952323b2a7ad0d9c8e"
+    },
+    "doesNotAssert": [
+      "no claim that any carried value was observed from outside this runtime",
+      "no claim that the caller-supplied values are correct"
+    ],
+    "fields": [],
+    "hashAlgorithm": "sha256",
+    "issuedAt": "2026-09-20T00:00:05Z",
+    "ledgers": [
+      {
+        "members": [
+          "change-70caae782ed8e45c"
+        ],
+        "name": "session"
+      },
+      {
+        "members": [
+          "change-70caae782ed8e45c"
+        ],
+        "name": "change-log"
+      }
+    ],
+    "memoryReads": [
+      {
+        "assertedDigest": "aae7c2ff8f6ea50275e3bb7aaae7a925757ae3da7947380a8ec0e665e1bc2839",
+        "path": "/srv/agent/.vault/memory/trial-lesson.md",
+        "pathDigest": "aae7c2ff8f6ea50275e3bb7aaae7a925757ae3da7947380a8ec0e665e1bc2839"
+      }
+    ],
+    "observationDirectness": "reconstructed",
+    "observationVantage": "artifact",
+    "originKind": "hybrid",
+    "recordId": "record-378015f8eaf4e977",
+    "selfSigners": [
+      "2fbfe807743da96fc1c24c108801a8826eee9881f0f4e5cbd66551a26d6512b7"
+    ],
+    "sessionId": "session-5cb93f9bad0cef5b",
+    "turns": [
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "KbY6ODGMk2J0sGviXi+u9I7hnjNEkYla0M+3zMDtulp/WHiVFO/F3//fVriZwrDH2JgxUQJfjtQPXTbk3cSfCA=="
+        },
+        "changeIds": [
+          "change-70caae782ed8e45c"
+        ],
+        "goalMarker": "Set the deployment replica count to three.",
+        "priorTurn": null,
+        "turnId": "turn-02eb2458a470bb3e"
+      }
+    ]
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "15d7b4e594b6d2112e7a4840197782b2347dc104e8348ccd47f4c4309d174cc5"
+      },
+      "name": "session-5cb93f9bad0cef5b"
+    }
+  ]
+}

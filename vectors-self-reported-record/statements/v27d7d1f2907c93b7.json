@@ -1,0 +1,52 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attestationTier": "voluntary",
+    "attestingKey": {
+      "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+      "publicKey": "04fed927233cca4518bc14982d3ee0b8a10a3b4dc0e1aa952323b2a7ad0d9c8e"
+    },
+    "doesNotAssert": [
+      "no claim that any carried value was observed from outside this runtime",
+      "no claim that the caller-supplied values are correct"
+    ],
+    "fields": [],
+    "hashAlgorithm": "sha256",
+    "issuedAt": "2026-09-20T00:00:05Z",
+    "ledgers": [
+      {
+        "members": [],
+        "name": "session"
+      },
+      {
+        "members": [],
+        "name": "change-log"
+      }
+    ],
+    "memoryReads": [
+      {
+        "assertedDigest": "aae7c2ff8f6ea50275e3bb7aaae7a925757ae3da7947380a8ec0e665e1bc2839",
+        "path": "/srv/agent/.vault/memory/trial-lesson.md",
+        "pathDigest": "cc25b25d524829f42201eda9b03b53b0025d994b3e0d60371fa3d231b6594abf"
+      }
+    ],
+    "observationDirectness": "reconstructed",
+    "observationVantage": "artifact",
+    "originKind": "self",
+    "recordId": "record-0467e3c28a4061b0",
+    "selfSigners": [
+      "2fbfe807743da96fc1c24c108801a8826eee9881f0f4e5cbd66551a26d6512b7"
+    ],
+    "sessionId": "session-5cb93f9bad0cef5b",
+    "turns": []
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "name": "session-5cb93f9bad0cef5b"
+    }
+  ]
+}

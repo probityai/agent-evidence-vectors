@@ -1,0 +1,229 @@
+{
+  "suite": "self-reported-record-conformance",
+  "contract": "spec/self-reported-record/v1.md",
+  "contractDigest": "bab82338ffc68a2687459e0f77bbe40f6644d30ef7520041824076f8e9e43384",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "vocabulary": {
+    "repository": "https://github.com/probityai/agent-evidence-vocabulary",
+    "terms": [
+      "evidence_dimensions.origin_kind",
+      "evidence_dimensions.attestation_tier",
+      "evidence_dimensions.observation_vantage",
+      "evidence_dimensions.observation_directness",
+      "evidence_dimensions.field_evidence_partition"
+    ]
+  },
+  "keyRecipe": "sha256(\"agent-evidence-srr-test-key/<role>/v1\")",
+  "keyRoles": [
+    "session-attestor",
+    "field-observer",
+    "observed-runtime",
+    "second-self-minted",
+    "forger"
+  ],
+  "counts": {
+    "accept": 5,
+    "reject": 6
+  },
+  "comparisonSurface": {
+    "normative": [
+      "verdict"
+    ],
+    "measured": [
+      "codes"
+    ],
+    "note": "A rail conforms when its verdict matches this manifest. The codes are this corpus's reference verifier's own vocabulary: the registry the contract draws its closed value sets from defines axes and not refusal codes, so a rail naming a different code for the same member has produced a reason-parity datum rather than a failure."
+  },
+  "note": "Every reject member declares the accept member it is one mutation from, so a verifier that refuses everything scores zero rather than full marks. Every reject member is refused by exactly one rule, which is what lets its code name the rule that caught it.",
+  "conditions": {
+    "srr-c-1": "every turn carries a signature that verifies under the attesting key",
+    "srr-c-2": "a memory read's asserted digest is the digest of the bytes at its path",
+    "srr-c-3": "the attesting key is not one the record says the runtime can mint",
+    "srr-c-4": "every ledger the record carries names the same change set",
+    "srr-c-5": "a field declaring substrate coverage carries the covering signature",
+    "srr-c-6": "the record is well formed and every closed vocabulary value is registered"
+  },
+  "codes": {
+    "srr-c-1": "turn-unsigned-by-attesting-key",
+    "srr-c-2": "memory-digest-not-over-named-path",
+    "srr-c-3": "attesting-key-in-self-signers",
+    "srr-c-4": "ledger-members-disagree",
+    "srr-c-5": "field-claims-coverage-uncovered",
+    "srr-c-6": "record-malformed"
+  },
+  "vectors": [
+    {
+      "id": "v27d7d1f2907c93b7",
+      "kind": "reject",
+      "file": "statements/v27d7d1f2907c93b7.json",
+      "conditions": [
+        "srr-c-2"
+      ],
+      "cites": "the digest of the stored copy reported against an inverted file",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "memory-digest-not-over-named-path"
+        ]
+      },
+      "parent": "v308c9f77bd7e1006"
+    },
+    {
+      "id": "v308c9f77bd7e1006",
+      "kind": "accept",
+      "file": "statements/v308c9f77bd7e1006.json",
+      "conditions": [
+        "srr-c-2",
+        "srr-c-4",
+        "srr-c-6"
+      ],
+      "cites": "an empty turn set, two empty ledgers and one memory read that agrees",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v4c2b7e742b70b493",
+      "kind": "reject",
+      "file": "statements/v4c2b7e742b70b493.json",
+      "conditions": [
+        "srr-c-3"
+      ],
+      "cites": "an attesting key the record's own declaration puts inside the runtime",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "attesting-key-in-self-signers"
+        ]
+      },
+      "parent": "v9e808d2647227acf"
+    },
+    {
+      "id": "v6ba13900c29be2ca",
+      "kind": "reject",
+      "file": "statements/v6ba13900c29be2ca.json",
+      "conditions": [
+        "srr-c-4"
+      ],
+      "cites": "a change the session ledger still names and the change log does not",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "ledger-members-disagree"
+        ]
+      },
+      "parent": "vac020bc4f647790d"
+    },
+    {
+      "id": "v730be9199668cf6d",
+      "kind": "accept",
+      "file": "statements/v730be9199668cf6d.json",
+      "conditions": [
+        "srr-c-1",
+        "srr-c-3"
+      ],
+      "cites": "an attesting key outside the declared set the runtime holds",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v95b74832c6cc3173",
+      "kind": "accept",
+      "file": "statements/v95b74832c6cc3173.json",
+      "conditions": [
+        "srr-c-1",
+        "srr-c-2",
+        "srr-c-3",
+        "srr-c-4",
+        "srr-c-5",
+        "srr-c-6"
+      ],
+      "cites": "a record whose turns, memory read and covered fields all hold",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v9e808d2647227acf",
+      "kind": "accept",
+      "file": "statements/v9e808d2647227acf.json",
+      "conditions": [
+        "srr-c-1",
+        "srr-c-5",
+        "srr-c-6"
+      ],
+      "cites": "twelve caller-supplied values, each declared the producer's own assertion",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "vaab489ae4d909406",
+      "kind": "reject",
+      "file": "statements/vaab489ae4d909406.json",
+      "conditions": [
+        "srr-c-5"
+      ],
+      "cites": "the same twelve values, each declaring a coverage nothing carries",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "field-claims-coverage-uncovered"
+        ]
+      },
+      "parent": "v9e808d2647227acf"
+    },
+    {
+      "id": "vac020bc4f647790d",
+      "kind": "accept",
+      "file": "statements/vac020bc4f647790d.json",
+      "conditions": [
+        "srr-c-1",
+        "srr-c-4"
+      ],
+      "cites": "a removal applied to both ledgers, so the two still agree",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "vb3ad83a8e48d43d1",
+      "kind": "reject",
+      "file": "statements/vb3ad83a8e48d43d1.json",
+      "conditions": [
+        "srr-c-6"
+      ],
+      "cites": "an unregistered origin_kind value, and every other rule holding",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "record-malformed"
+        ]
+      },
+      "parent": "v308c9f77bd7e1006"
+    },
+    {
+      "id": "vcfa46b7eb3d08f55",
+      "kind": "reject",
+      "file": "statements/vcfa46b7eb3d08f55.json",
+      "conditions": [
+        "srr-c-1"
+      ],
+      "cites": "a third turn declaring the attesting key and signed by another",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "turn-unsigned-by-attesting-key"
+        ]
+      },
+      "parent": "v95b74832c6cc3173"
+    }
+  ],
+  "corpusDigest": "75393685568336f1ca2a5b1836f42d7e498b4927930234e7cc11d8f4aa81a064"
+}

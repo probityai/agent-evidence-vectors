@@ -1,0 +1,115 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attestationTier": "authoritative",
+    "attestingKey": {
+      "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+      "publicKey": "04fed927233cca4518bc14982d3ee0b8a10a3b4dc0e1aa952323b2a7ad0d9c8e"
+    },
+    "doesNotAssert": [
+      "no claim that any path outside the declared scope was observed",
+      "no claim that the subject digest was re-derived by this producer"
+    ],
+    "fields": [
+      {
+        "coveredBy": {
+          "keyid": "a8d855c3788875463eca66a3f11d3228dac9e0f60918c0740de97908aadf9f6a",
+          "publicKey": "0e2ca753a2932a6c4d622e76050620b95da73e9f053f8778f532c1ee85d24cc4",
+          "sig": "Agfdd5c4G++z77LJrGKppRWM1CLFTxhNXyGI6REjbNJsOTcrZeqwEYpPGpeDvD96giARRkuy5qPjvN8gOS2mCg=="
+        },
+        "evidence": "substrate_covered",
+        "name": "syscall.write.count",
+        "value": "2"
+      },
+      {
+        "coveredBy": {
+          "keyid": "a8d855c3788875463eca66a3f11d3228dac9e0f60918c0740de97908aadf9f6a",
+          "publicKey": "0e2ca753a2932a6c4d622e76050620b95da73e9f053f8778f532c1ee85d24cc4",
+          "sig": "XlN7AuyxLBEzLatrT7WRHKrvW8yNB5kxfuxBoYm8SatLeWL9q5i40vtU/KRE9iETYb9R9JESn+KLX0c2HUWaBw=="
+        },
+        "evidence": "substrate_covered",
+        "name": "egress.connect.count",
+        "value": "0"
+      }
+    ],
+    "hashAlgorithm": "sha256",
+    "issuedAt": "2026-09-20T00:00:05Z",
+    "ledgers": [
+      {
+        "members": [
+          "change-70caae782ed8e45c",
+          "change-0831aa85bf4abde4"
+        ],
+        "name": "session"
+      },
+      {
+        "members": [
+          "change-70caae782ed8e45c",
+          "change-0831aa85bf4abde4"
+        ],
+        "name": "change-log"
+      }
+    ],
+    "memoryReads": [
+      {
+        "assertedDigest": "aae7c2ff8f6ea50275e3bb7aaae7a925757ae3da7947380a8ec0e665e1bc2839",
+        "path": "/srv/agent/.vault/memory/trial-lesson.md",
+        "pathDigest": "aae7c2ff8f6ea50275e3bb7aaae7a925757ae3da7947380a8ec0e665e1bc2839"
+      }
+    ],
+    "observationDirectness": "intercepted",
+    "observationVantage": "substrate",
+    "originKind": "third-party-control-plane",
+    "recordId": "record-cbddd7216eab9461",
+    "selfSigners": [
+      "2fbfe807743da96fc1c24c108801a8826eee9881f0f4e5cbd66551a26d6512b7",
+      "60189ee73ee7f879dc714d0e5df04af8d145cb96d1287ec8a744531f357b10d2"
+    ],
+    "sessionId": "session-5cb93f9bad0cef5b",
+    "turns": [
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "KbY6ODGMk2J0sGviXi+u9I7hnjNEkYla0M+3zMDtulp/WHiVFO/F3//fVriZwrDH2JgxUQJfjtQPXTbk3cSfCA=="
+        },
+        "changeIds": [
+          "change-70caae782ed8e45c"
+        ],
+        "goalMarker": "Set the deployment replica count to three.",
+        "priorTurn": null,
+        "turnId": "turn-02eb2458a470bb3e"
+      },
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "sL49MaEqoFITq+tBUmEQQpHzHzGJXtom1AFlDcfCL2RAKwoXy1MIiyGsEF86+LLXOKUZezWPgSGC1FfJlK4tAw=="
+        },
+        "changeIds": [
+          "change-0831aa85bf4abde4"
+        ],
+        "goalMarker": "Record that the security review passed.",
+        "priorTurn": "turn-02eb2458a470bb3e",
+        "turnId": "turn-c8d5bc9d0135c4e5"
+      },
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "wKrplg0zidzGwEnFU64VVMFt6lR2ZMb4k3b5V8VzLl3IRSp2yv51Z4kyMLJQldhQ80R9ppwWB5LdWln3pyiWAw=="
+        },
+        "changeIds": [],
+        "goalMarker": "Remove the hardcoded credential from the configuration.",
+        "priorTurn": "turn-c8d5bc9d0135c4e5",
+        "turnId": "turn-215d480555e908a1"
+      }
+    ]
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "4c8f383b375a29dd8304c3c0574cf91cdb02dede44c3f16e495adb5d44e9831c"
+      },
+      "name": "session-5cb93f9bad0cef5b"
+    }
+  ]
+}
