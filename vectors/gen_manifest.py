@@ -43,7 +43,7 @@ PIN_PATH = os.path.normpath(os.path.join(HERE, "..", "spec", "VENDOR-PIN.json"))
 
 # Tier expectations explicitly pinned by the accept/INDEX.md rows that state a
 # tier in prose. Each entry is derivable from the vector's own bytes and the
-# tier rule (spec:726-735, spec:1074-1075) without running any rail: a
+# tier rule (spec:req-fields-aeeobservedattacks-binds-deletion-relabelling-member@05c15d9150a03971, spec:req-fields-basis-vantage-claim-s-weakest@05d61e84eea58c1e) without running any rail: a
 # basis: substrate row is attested exactly when a covering record's signature
 # verifies under a policy-named key, every other row is declared, and no key
 # policy promotes a row when none is pinned.

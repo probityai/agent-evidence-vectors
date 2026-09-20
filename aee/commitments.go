@@ -1,6 +1,6 @@
 package aee
 
-// The coverage validity requirements 0.7 adds (spec:569-623). They sit apart
+// The coverage validity requirements 0.7 adds (spec:req-fields-six-further-coverage-validity-requirements@415eace88255cb8a). They sit apart
 // from the per-row requirements in validity.go for a reason the specification
 // states in the same sentence that introduces them: they hold on the STATEMENT,
 // or on every row rather than only on a basis: substrate row. The per-row gate
@@ -123,7 +123,7 @@ func appendCodes(dst []Code, src []Code) []Code {
 }
 
 // cleanRowsContradicted implements the first requirement: a clean row resolves
-// no observationRefs index to an interception record (spec:574-579). Stated
+// no observationRefs index to an interception record (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7). Stated
 // over every row, so the loop reads no basis.
 func cleanRowsContradicted(p *Predicate, kinds []string) []Code {
 	voc := p.Env.Vocabulary
@@ -144,7 +144,7 @@ func cleanRowsContradicted(p *Predicate, kinds []string) []Code {
 
 // interceptionsOrphaned implements the second: every carried interception
 // record is resolved by at least one observationRefs index on a CAUGHT row
-// (spec:580-585). One record MAY be resolved by several rows, so the test is
+// (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7). One record MAY be resolved by several rows, so the test is
 // existence and never a count.
 func interceptionsOrphaned(p *Predicate, kinds []string) []Code {
 	voc := p.Env.Vocabulary
@@ -175,7 +175,7 @@ func interceptionsOrphaned(p *Predicate, kinds []string) []Code {
 }
 
 // observedSetDigest recomputes the value a sealed record's aeeObservedSet
-// commits to (spec:1499-1504): the lowercase 64-hex SHA-256 of the RFC 8785
+// commits to (spec:req-fields-both-registrations-verdict-preserving-what@3f3cfef70326695f): the lowercase 64-hex SHA-256 of the RFC 8785
 // canonicalization of the duplicate-free array, sorted ascending by UTF-16
 // code unit, of the leaf hashes of every interception and examination record.
 //
@@ -206,7 +206,7 @@ func observedSetDigest(p *Predicate, states []recordState, kinds []string) strin
 }
 
 // sealsCommitToCarriedSet implements the fourth: aeeObservedSet on every
-// carried sealed record equals the recompute (spec:609-613).
+// carried sealed record equals the recompute (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7).
 //
 // A seal whose member is absent or is not lowercase 64-hex is NOT reported
 // here. That record covers nothing by its own kind's constraints, which is a
@@ -239,7 +239,7 @@ func sealsCommitToCarriedSet(p *Predicate, states []recordState, kinds []string,
 // sealedRecordPresent implements the third: a statement carrying at least one
 // basis: substrate row carries at least one sealed record satisfying every
 // constraint of its kind and whose aeeRunBinding equals the derived binding,
-// whether or not any row resolves an index to it (spec:586-594).
+// whether or not any row resolves an index to it (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7).
 func sealedRecordPresent(p *Predicate, states []recordState, kinds []string, binding string, issuedAt time.Time) []Code {
 	if !hasSubstrateRows(p) {
 		return nil
@@ -265,7 +265,7 @@ func sealedRecordPresent(p *Predicate, states []recordState, kinds []string, bin
 // every kind this verifier does not recognize are deliberately outside it:
 // neither carries a constraint that could be violated, and sweeping an
 // unrecognized kind in would refuse the forward compatibility the document
-// grants a minor version to add one (spec:1394-1408, 1687-1691).
+// grants a minor version to add one (spec:req-fields-aeerunbinding-string-run-binding-digest@19184ed4961dd3e4,req-fields-arming-record-s-payload-additionally@09cfae859933aba4).
 func isCoveringKind(kind string) bool {
 	switch kind {
 	case KindInterception, KindArming, KindSealed, KindExamination:
@@ -277,8 +277,8 @@ func isCoveringKind(kind string) bool {
 // carriedRecordsCover is the universal partner of sealedRecordPresent above:
 // every carried record that binds to this run and whose aeeKind names a
 // covering kind satisfies every constraint of that kind, whether or not any row
-// resolves an observationRefs index to it (spec:586-594 for the requirement it
-// partners, spec:1322-1366 for the constraints themselves).
+// resolves an observationRefs index to it (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7 for the requirement it
+// partners, spec:req-fields-fields-divide-identity-whose-signature-3@ab95391e07e8db81 for the constraints themselves).
 //
 // Why it exists. The kind constraints were read on exactly two paths, and both
 // are chosen by the producer. checkSubstrateRow reads them for the records a
@@ -312,7 +312,7 @@ func isCoveringKind(kind string) bool {
 //
 // armingPostures is nil, exactly as sealedRecordPresent passes nil. The seal's
 // posture equality against an arming record is stated over the arming records a
-// ROW resolves (spec:1361-1366), and a statement-level rule has no row; the
+// ROW resolves (spec:req-fields-dsse-envelope-per-observation-payload@b25ccffb96b860aa), and a statement-level rule has no row; the
 // pinned-posture half of that equality is checked here as it is there. Keeping
 // both quantifiers over one predicate is the point -- a second evaluation of a
 // seal that could disagree with the first would be a worse defect than the one
@@ -370,7 +370,7 @@ func declaredAttackIDs(p *Predicate) map[string]bool {
 
 // attackIDArrayOK is the shared shape rule for the two arrays of attack
 // identifiers 0.7 adds, aeeAssessedAttacks and aeeObservedAttacks
-// (spec:1469-1471, 1537-1539): duplicate-free, sorted ascending by UTF-16 code
+// (spec:req-fields-what-neither-kind-used-claim@0af0cebb0785e202,req-fields-comparison-subset-rather-than-equality@b518035679b715d4): duplicate-free, sorted ascending by UTF-16 code
 // unit, every entry an identifier the carried manifest declares. The EMPTY
 // array satisfies it, which is deliberate on the seal: a substrate holding no
 // correspondence declares that on the wire rather than by omission.
@@ -387,7 +387,7 @@ func attackIDArrayOK(attacks []string, declared map[string]bool) bool {
 }
 
 // sealNamedAttacksCaught implements the aeeObservedAttacks statement rule
-// (spec:1539-1542): for every identifier the array names, the
+// (spec:req-fields-comparison-subset-rather-than-equality@b518035679b715d4): for every identifier the array names, the
 // statement MUST carry a row with that attackId whose containmentObserved is
 // in the carried caught set.
 //
@@ -427,7 +427,7 @@ func sealNamedAttacksCaught(p *Predicate, states []recordState, kinds []string, 
 }
 
 // assessedSetDeclared implements the aeeAssessedAttacks statement rule
-// (spec:1471-1473): the union of the manifest's identifiers for
+// (spec:req-fields-what-neither-kind-used-claim@0af0cebb0785e202): the union of the manifest's identifiers for
 // the carried coverage.assessedClasses MUST be a subset of the array the
 // arming record signed before injection.
 //
@@ -467,7 +467,7 @@ func assessedSetDeclared(p *Predicate, states []recordState, kinds []string, bin
 	return nil
 }
 
-// attributionBindings implements the fifth requirement (spec:614-623), in the
+// attributionBindings implements the fifth requirement (spec:req-fields-clean-row-resolves-observationrefs-index@156f05c55b1207d7), in the
 // three parts the specification writes it in. The parts are checked in the
 // order they are stated, and the existence part is checked FIRST because it is
 // the part the other two are vacuous without: a universally quantified rule
@@ -536,7 +536,7 @@ func pinMatches(row *Row, states []recordState, kinds []string, expected []strin
 }
 
 // commitmentArrayOK is the shared shape rule for aeePayloadCommitment
-// (spec:1454-1458): duplicate-free, sorted ascending by UTF-16 code unit,
+// (spec:req-fields-neither-kind-carries-constraints-because@09116e23544e2120): duplicate-free, sorted ascending by UTF-16 code unit,
 // non-empty, every entry lowercase 64-hex.
 func commitmentArrayOK(values []string) bool {
 	if len(values) == 0 || !isSortedNoDuplicates(values) {

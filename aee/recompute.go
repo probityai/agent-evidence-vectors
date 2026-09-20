@@ -1,9 +1,9 @@
 package aee
 
-// Recompute is the pure result recompute (spec:435-454). It reads the
+// Recompute is the pure result recompute (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da). It reads the
 // predicate rows, the carried vocabulary, and the coverage maps — and
 // NOTHING else: no observationRecords, no signature outcomes, no consumer
-// policy (spec:395-398). A result that varied with the consumer's trust
+// policy (spec:req-verification-predicate-opts-framework-s-standard@4d8aec44d869cd35). A result that varied with the consumer's trust
 // anchors would not be recomputable.
 //
 // Definition: the MINIMUM, under fail < degraded < pass_indirect < pass, of
@@ -95,7 +95,7 @@ func classifyRow(row *Row, labels, caught map[string]bool) rowKind {
 		return rowForcesFail // fail-closed: missing or out-of-vocabulary method
 	case row.Attribution == nil || (*row.Attribution != AttributionPinned && *row.Attribution != AttributionPaired):
 		// fail-closed: missing or out-of-vocabulary attribution. attribution
-		// enters the recompute through this arm and NOWHERE else (spec:502-511):
+		// enters the recompute through this arm and NOWHERE else (spec:req-fields-attribution-enters-recompute-through-fail@d14e1c2f86d9cebc):
 		// a row declaring paired is not a weaker result, it is a weaker binding,
 		// so pricing paired in the token would charge an honest producer for a
 		// layer whose committed value no corpus can predict.

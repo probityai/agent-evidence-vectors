@@ -108,7 +108,7 @@ const (
 	CodeExaminationCoversNothing       Code = "examination-covers-nothing"
 	CodeRecordKindUnknownCoversNothing Code = "record-kind-unknown-covers-nothing"
 	// The two registered non-covering kinds report under their own names
-	// (spec:1403-1408). The specification asks a verifier to distinguish them
+	// (spec:req-fields-record-violating-constraint-declared-aeekind@4d3303cb6087db63). The specification asks a verifier to distinguish them
 	// from an unrecognized kind because the two are different producer errors
 	// with different fixes: one cites a record that can never cover anything,
 	// the other cites a record this verifier is too old to read. Reporting both

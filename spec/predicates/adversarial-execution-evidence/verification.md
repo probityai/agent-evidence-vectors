@@ -32,6 +32,8 @@ single document's own layout. Read it against the table above.
 
 ### Parsing Rules
 
+<a id="req-verification-predicate-opts-framework-s-standard"></a>
+
 The predicate opts in to the framework's standard parsing rules, including the
 monotonic principle, with one deliberate strengthening: `result` is not an
 independent claim. A consumer MUST be able to recompute it from the rest of
@@ -48,6 +50,8 @@ record payloads but not signatures or consumer policy) and the evidence tier
 recompute: the validity gate can invalidate an attestation, and the tier ranks
 a row, but neither alters `result`.
 
+<a id="req-verification-verifier-proceeds-two-stages-stage"></a>
+
 A verifier proceeds in two stages. Stage one is byte-pure: four validity
 steps, each a function of the carried statement alone, and all four are
 consumption preconditions: (1) statement well-formedness, including the
@@ -60,6 +64,8 @@ consumer policy, including the anchor comparison under Consumer policy
 obligations. Only the consumption preconditions stated under Coverage
 validity and the evidence tier are normative in this ordering; the
 sequencing itself is informative.
+
+<a id="req-verification-design-invariant-follows-recompute-per"></a>
 
 A design invariant follows from the recompute: any per-observation property
 that the recompute or the documented consumer gating reads travels on the
@@ -101,6 +107,8 @@ wrong context. Verification surfaces SHOULD expose one consumer-facing
 admission result that conjoins validity, tier-policy satisfaction, and the
 anchor comparison, so a result-only consumer cannot read a
 valid-but-wrong-context attestation as admissible.
+
+<a id="req-verification-consumer-pin-out-band-set"></a>
 
 A consumer MUST pin, out of band, the set of assessment classes it requires a
 run to have assessed, and at consumption MUST compare that set against

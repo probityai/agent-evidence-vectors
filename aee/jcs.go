@@ -56,11 +56,11 @@ var ErrDuplicateMember = errors.New("duplicate object member")
 var ErrStringNotScalar = errors.New("JSON string is not a sequence of Unicode scalar values")
 
 // ErrUnsafeInteger reports an integer with magnitude at or above 2^53
-// (rejected by the predicate's I-JSON safe-integer profile, spec:100-102).
+// (rejected by the predicate's I-JSON safe-integer profile, spec:req-wireprofile-toto-attestation-framework-plus-understanding@9b70dfbc01b9a3f6).
 var ErrUnsafeInteger = errors.New("integer outside the I-JSON safe range")
 
 // ErrNonIntegerNumber reports a JSON number with a fractional part. The
-// specification pins a safe-integer profile (spec:100-102,1311-1313) and declares
+// specification pins a safe-integer profile (spec:req-wireprofile-toto-attestation-framework-plus-understanding@9b70dfbc01b9a3f6,req-fields-fields-divide-identity-whose-signature@80666d820c397ce5) and declares
 // every numeric member it defines an integer, but states no rule against a
 // fractional number in producer territory. The rails reject one anyway, so
 // that cross-language float formatting can never split them (the Python rail
@@ -75,7 +75,7 @@ var maxSafeIntBig = big.NewInt(maxSafeInteger)
 
 // checkSafeInteger enforces the number profile the rails share for a JSON
 // number token, in ANY notation: the safe-integer bound the specification pins
-// (spec:100-102,1311-1313), tightened to integers only.
+// (spec:req-wireprofile-toto-attestation-framework-plus-understanding@9b70dfbc01b9a3f6,req-fields-fields-divide-identity-whose-signature@80666d820c397ce5), tightened to integers only.
 //   - a non-integer (1.5) is rejected: every numeric member the specification
 //     defines is an integer, and rejecting non-integers keeps the two rails in
 //     lockstep (the Python rail rejects all non-integers) without needing

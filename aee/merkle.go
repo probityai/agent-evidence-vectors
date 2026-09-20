@@ -2,7 +2,7 @@ package aee
 
 import "crypto/sha256"
 
-// RFC 6962 Merkle tree over observation-record PAE bytes (spec:1744-1749):
+// RFC 6962 Merkle tree over observation-record PAE bytes (spec:req-fields-within-attestation-these-members-syntax@5c41c3e34a850fd5):
 // leaf = H(0x00 || PAE bytes), node = H(0x01 || left || right), the tree
 // built by the RFC 6962 recursive split — never by duplicating a trailing
 // node to pad the leaf count. A single-record tree's root is its leaf hash;
@@ -10,7 +10,7 @@ import "crypto/sha256"
 //
 // Duplicate identity: this implementation rejects duplicate LEAF HASHES,
 // the safe superset of byte-identical-entry rejection (a record's canonical
-// identity is its leaf hash, spec:1750-1753). Whether the two readings can
+// identity is its leaf hash, spec:req-fields-within-attestation-these-members-syntax@5c41c3e34a850fd5). Whether the two readings can
 // ever diverge is an open spec question tracked in the conformance suite
 // README; the superset reading rejects in both cases and therefore admits
 // no false accepts.

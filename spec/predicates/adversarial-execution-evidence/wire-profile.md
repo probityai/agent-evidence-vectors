@@ -32,6 +32,8 @@ single document's own layout. Read it against the table above.
 
 ## Prerequisites
 
+<a id="req-wireprofile-toto-attestation-framework-plus-understanding"></a>
+
 The in-toto Attestation Framework, plus an understanding of
 [DSSE](https://github.com/secure-systems-lab/dsse) (each observation record is
 a DSSE-shaped envelope) and [RFC 8785 (JCS)](https://www.rfc-editor.org/rfc/rfc8785)
@@ -109,6 +111,8 @@ proof of it -- the reading is untested rather than confirmed, and a third
 implementation could differ there in silence. Conformance is established by
 vectors; an agreement no vector has exercised is a candidate for the next vector,
 not a settled rule.
+
+<a id="req-wireprofile-run-binding-statement-carrying-least"></a>
 
 **Run binding.** For any statement carrying at least one `basis: substrate`
 row, the run binding digest is the lowercase 64-hex SHA-256 of the RFC 8785

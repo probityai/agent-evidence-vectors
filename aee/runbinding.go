@@ -6,11 +6,11 @@ import "fmt"
 // derives. A future version that changes the construction names a new
 // binding version; a verifier MUST reject, fail-closed, a binding version
 // it does not implement rather than attempt more than one construction
-// (spec:236-240). There is deliberately exactly ONE construction here.
+// (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530). There is deliberately exactly ONE construction here.
 const BindingVersion = "2"
 
 // RunBindingPreimage builds the RFC 8785 canonical bytes of the binding
-// pre-image object (spec:174-182):
+// pre-image object (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530):
 //
 //	{"aeeBindingVersion":"2","catchPolicy":"<hex>","corpus":"<hex>",
 //	 "networkPosture":"<hex>","observationVocabulary":"<hex>",
@@ -18,7 +18,7 @@ const BindingVersion = "2"
 //
 // The member names are emitted in their JCS (UTF-16 code unit) order, which
 // for these eight ASCII names is the literal order below. Values are taken
-// verbatim (no case-folding, no null fill, spec:222-224); a value that is not
+// verbatim (no case-folding, no null fill, spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530); a value that is not
 // lowercase 64-hex has already been rejected at GATE 0 for any statement
 // that reaches a binding derivation, with the two exceptions the version-2
 // construction introduces: networkPosture is a digest OVER the carried object
@@ -34,7 +34,7 @@ func RunBindingPreimage(catchPolicy, corpus, networkPosture, observationVocabula
 
 // DeriveRunBinding returns the lowercase 64-hex SHA-256 of the binding
 // pre-image. A verifier derives this from the statement alone; no field
-// carries it (spec:225-226).
+// carries it (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530).
 func DeriveRunBinding(catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate string) string {
 	return SHA256Hex(RunBindingPreimage(catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate))
 }

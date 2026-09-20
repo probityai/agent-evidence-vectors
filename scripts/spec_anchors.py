@@ -2,7 +2,7 @@
 """Stable citations from source code into the predicate specification.
 
 WHY THIS EXISTS. The source used to cite the specification by LINE NUMBER --
-``spec:1302-1304``, ``spec:766-775`` -- and ``spec/README.md`` said the vendored
+``spec:req-fields-fields-divide-identity-whose-signature@80666d820c397ce5``, ``spec:req-fields-there-second-use-these-three@260bfd9c41c35939`` -- and ``spec/README.md`` said the vendored
 copy was kept byte-verbatim "precisely so the line numbers the source cites stay
 accurate". A line number addresses one revision of one file. It cannot survive a
 reflow, an inserted paragraph, or a section move, and it survives a REWORD of the
@@ -60,7 +60,21 @@ CITATION_RE = re.compile(
     r"spec:(?P<body>[A-Za-z0-9][A-Za-z0-9._-]*@[0-9a-f]{16}"
     r"(?:,[A-Za-z0-9][A-Za-z0-9._-]*@[0-9a-f]{16})*)"
 )
-LEGACY_CITATION_RE = re.compile(r"spec:[0-9]+(?:-[0-9]+)?(?:,[0-9]+(?:-[0-9]+)?)*")
+# A LINE-NUMBER CITATION MAY CARRY A SPACE AFTER ITS COMMA, and the first version
+# of this pattern did not allow one. `spec:req-fields-fields-divide-identity-whose-signature@80666d820c397ce5,req-fields-within-attestation-these-members-syntax@5c41c3e34a850fd5` therefore matched
+# only its first half: the migration rewrote that half, left `, 1744-1746` behind
+# as orphaned digits, and the residual check -- which looked for `spec:` followed
+# by a digit -- could not see the leftover because the leftover has no `spec:` in
+# front of it. Twelve citations were damaged that way before the control below
+# caught them. Both halves of the lesson are encoded here: the pattern admits the
+# space, and ORPHAN_TAIL_RE looks for the wreckage the pattern used to leave.
+LEGACY_CITATION_RE = re.compile(
+    r"spec:[0-9]+(?:-[0-9]+)?(?:,\s*[0-9]+(?:-[0-9]+)?)*"
+)
+ORPHAN_TAIL_RE = re.compile(
+    r"spec:[A-Za-z0-9][A-Za-z0-9._-]*@[0-9a-f]{16}(?:,[A-Za-z0-9][A-Za-z0-9._-]*@[0-9a-f]{16})*"
+    r",\s*[0-9]"
+)
 INLINE_PREFIX_LEN = 16
 MANIFEST_REL = "spec/CITATION-ANCHORS.json"
 SCHEMA_VERSION = 1

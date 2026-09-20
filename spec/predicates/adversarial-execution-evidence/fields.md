@@ -32,7 +32,11 @@ single document's own layout. Read it against the table above.
 
 ### Fields
 
+<a id="req-fields-result-string-required-fail-degraded"></a>
+
 `result` _string, required_
+
+<a id="req-fields-fail-degraded-pass-indirect-pass"></a>
 
 One of `fail`, `degraded`, `pass_indirect`, `pass` (lowercase), ordered
 `fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,
@@ -101,6 +105,8 @@ row's derived evidence tier, because below `pass` the ordinal stops
 distinguishing them: a `degraded` reached through a disclosed coverage gap
 and a `degraded` whose clean rows are all `artifact` carry the same token.
 
+<a id="req-fields-attribution-enters-recompute-through-fail"></a>
+
 `attribution` enters the recompute through the fail-closed arm of the first
 condition and nowhere else. A row declaring `paired` is not a weaker result,
 it is a weaker binding between the row and the records that cover it, and the
@@ -141,6 +147,10 @@ substrate, or artifact and still satisfy every requirement in this document.
 Consumers MUST anchor identity on the digests rather than on these names, as
 Consumer policy obligations below requires for the corpus and the substrate.
 
+<a id="req-fields-coverage-validity-derived-carried-bytes-2"></a>
+
+<a id="req-fields-coverage-validity-derived-carried-bytes"></a>
+
 **Coverage validity (derived from carried bytes; a violation is malformed).**
 For every `basis: substrate` row, the following MUST hold or the attestation
 is invalid, exactly as a missing `actualLayer` is invalid. These read record
@@ -150,6 +160,8 @@ holding no keys. It is also their limit: a violation here is conclusive, since
 no signature can rescue a statement that does not hang together, but the
 absence of a violation concludes nothing on its own. These requirements
 establish that the statement is well formed, never that it is true:
+
+<a id="req-fields-observationrefs-non-empty-index-range"></a>
 
 -   its `observationRefs` is non-empty and every index is in range for
     `observationRecords`;
@@ -168,10 +180,14 @@ establish that the statement is well formed, never that it is true:
     its covering records (`reconstructed` is weaker than `intercepted`);
 -   `batchRoot` recomputes over `observationRecords` (see `batchRoot`).
 
+<a id="req-fields-six-further-coverage-validity-requirements"></a>
+
 Six further coverage validity requirements hold on the statement, or on
 every row rather than only on a `basis: substrate` row. Each is a function of
 carried bytes on the same terms as the list above, and a violation of any of
 them makes the attestation invalid:
+
+<a id="req-fields-clean-row-resolves-observationrefs-index"></a>
 
 -   a clean row resolves no `observationRefs` index to an `interception`
     record. A row stating that nothing was caught while pointing at a record
@@ -223,6 +239,8 @@ them makes the attestation invalid:
     vacuously true, so without it a producer deletes the interception
     records, relabels the row, resolves only run-level records, and still
     declares the stronger of the two values with nothing checking it.
+
+<a id="req-fields-these-requirements-consumption-preconditions-optional"></a>
 
 These requirements are consumption preconditions, not optional lints: a
 consumer that consumes `result`, credits any row, or applies either
@@ -314,6 +332,8 @@ from a verified commitment. And it is a structural constraint like every other
 requirement here: against a party that can sign records it is exactly as
 forgeable as the rest of the payload.
 
+<a id="req-fields-aeeobservedattacks-binds-deletion-relabelling-member"></a>
+
 `aeeObservedAttacks` binds the deletion and the relabelling in one member,
 because deleting every interception record does not delete the seal's claim
 that an attack was observed. Three things bound it in turn. It is a lower bound
@@ -349,6 +369,8 @@ member removes is the freedom to raise that declaration after the outcome is
 known. It is also computed over the carried manifest, so it is blind to a
 corpus whose manifest never declared the class a consumer wanted assessed.
 
+<a id="req-fields-expectedpayloads-aeepayloadcommitment-attribution-bind-permut"></a>
+
 `expectedPayloads`, `aeePayloadCommitment` and `attribution` bind the
 permutation of the row-to-record assignment, and only on the layers where the
 committed value is predictable from the corpus. They do not bind the deletion,
@@ -366,6 +388,8 @@ producer declaring it on every row satisfies every rule here, because a
 statement claiming a weaker binding is a statement an honest producer with a
 weaker binding emits.
 
+<a id="req-fields-there-second-use-these-three"></a>
+
 There is a second use of these three members, found by implementing them rather
 than by designing them, and recorded here because it was not what they were
 written for. A consumer that demands `pinned` on every attack the carried
@@ -375,10 +399,14 @@ measurement, no adversary is involved, and the answer is about the consumer's
 own stack rather than about any statement it received. Reported by the author of
 the second independent implementation during review of this predicate.
 
+<a id="req-fields-closure-against-producer-consumer-obligation"></a>
+
 The closure against that producer is the consumer
 obligation stated under Consumer policy obligations, and it is the closure
 rather than a hook into one, in the same place and for the same stated reason
 as the corpus and substrate pins.
+
+<a id="req-fields-limit-common-all-four-stronger"></a>
 
 One limit is common to all four and is stronger than any of them. A property
 that compares this statement against another statement of the same run is
@@ -386,6 +414,8 @@ unreachable by any rule over one statement, whatever that statement carries: a
 consumer holds one attestation, and a rule asking whether a label was different
 before has no second statement to read. That is the run-population non-claim
 this document already keeps loudest, wearing different clothes.
+
+<a id="req-fields-further-limit-belongs-member-here"></a>
 
 A further limit belongs to no member here and would not be closed by adding
 one. `basis` names a class of vantage and not the substrate that holds it, so
@@ -413,6 +443,10 @@ evidence tier, where consumer policy MAY subdivide `attested` into stricter
 refinements, for example requiring a hardware-attested observation key. A
 consumer that needs the distinction obtains it by naming the keys it will
 accept, and this document spends no vocabulary on it.
+
+<a id="req-fields-caught-row-whose-containmentobserved-label-2"></a>
+
+<a id="req-fields-caught-row-whose-containmentobserved-label"></a>
 
 A caught row is one whose `containmentObserved` label is in the carried
 caught set (`observationVocabulary.caught`); a clean row is one whose
@@ -442,6 +476,8 @@ beginning with `aee` are reserved. A carried predicate member named
 prefix `aee`, MUST be ignored and MUST NOT alter the derivation.
 
 `observationEnvironment` _object, required_
+
+<a id="req-fields-digest-pinned-context-evidence-was"></a>
 
 The digest-pinned context the evidence was earned under. Five required
 members: `substrate` (the subject reference of the substrate's own
@@ -505,6 +541,10 @@ attribution strength acquires a normative reader at this version and becomes a
 required row member here. It is not retroactive, and no verifier reading a
 statement of an earlier version may invent the reader.
 
+<a id="req-fields-networkposture-posture-vocabulary-closed-four-2"></a>
+
+<a id="req-fields-networkposture-posture-vocabulary-closed-four"></a>
+
 The `networkPosture.posture` vocabulary is closed. Four values are
 registered: `allowlist`, egress permitted only to a declared destination
 set; `no_network`, no egress path exists; `sinkhole`, egress is accepted and
@@ -514,6 +554,8 @@ statement whose `posture` is absent, is not a string, or carries a value
 outside that set is malformed, fail-closed, on the same terms as every other
 closed vocabulary here; a minor version MAY append a value and MUST NOT
 redefine a registered one.
+
+<a id="req-fields-set-closed-rather-than-illustrative"></a>
 
 The set is closed rather than illustrative for a reason that is not
 housekeeping. A consumer is invited under `basis` to coherence-check a row
@@ -528,6 +570,8 @@ carrying on its own: the proto beside it already described this vocabulary
 as closed and fail-closed and already carried the fourth value, so an
 implementer reading the two together had to pick one, and every shipped
 implementation picked the closed reading.
+
+<a id="req-fields-typing-discipline-predicate-commits-stated"></a>
 
 A typing discipline this predicate commits to, stated here so that a later
 reader inherits it rather than rediscovers the question. Each of these six
@@ -563,7 +607,11 @@ offered as a reading rather than as a rule: its digest commits to a
 substrate-emitted run-start value rather than describing a resource, so a
 descriptor is the wrong vessel for it.
 
+<a id="req-fields-coverage-object-required-coverage-bound"></a>
+
 `coverage` _object, required_
+
+<a id="req-fields-coverage-bound-assessedclasses-array-class"></a>
 
 The coverage bound: `assessedClasses` (array of class codes actually
 assessed), `outOfScope` and `routedElsewhere` (maps from class code to a
@@ -577,6 +625,10 @@ or a manifest class in none, is malformed - a class both assessed and
 disclosed as a gap is contradictory.
 
 `attackResults` _array of objects, required_
+
+<a id="req-fields-row-per-executed-attack-attackid-2"></a>
+
+<a id="req-fields-row-per-executed-attack-attackid"></a>
 
 One row per executed attack: `attackId` (must appear in the manifest),
 `containmentObserved` (a label from the carried
@@ -653,6 +705,8 @@ by this requirement, because its manifest declares an attack identifier.
 `basis` states each observation's vantage, with a closed two-value
 vocabulary:
 
+<a id="req-fields-substrate-input-row-s-claim"></a>
+
 -   `substrate`: every input the row's claim depends on was obtained at a
     vantage the executed artifact could neither forge nor suppress (a
     network boundary, syscall supervision, a hypervisor's read of guest
@@ -674,6 +728,8 @@ the boundary to record an egress without performing one; its stdout is
 artifact-sourced because the artifact can write anything there at no
 cost.
 
+<a id="req-fields-basis-vantage-claim-s-weakest"></a>
+
 `basis` is the vantage of the claim's weakest input. A derived observation
 inherits `artifact` from any artifact-sourced input it consumed: a state
 diff computed by substrate machinery over the artifact's own logs is
@@ -692,6 +748,8 @@ machinery that processed it.
 A producer MUST NOT declare `basis: substrate` on a row it cannot cover
 under the coverage validity requirements above: such a row is not merely
 mislabeled, it makes the attestation invalid.
+
+<a id="req-fields-method-states-how-row-s"></a>
 
 `method` states how the row's claim was established, with a closed
 two-value vocabulary:
@@ -720,6 +778,8 @@ the evidence tier, nor either strength ordering) reads anything else from
 the label. An axis earns its own required member exactly when a normative
 reader consumes it, which is why `basis` and `method` are members: the
 recompute and the gate read them.
+
+<a id="req-fields-attribution-axis-acquires-such-reader"></a>
 
 `attribution` is the axis that acquires such a reader at this version. It
 states how firmly the row is bound to the records that cover it, over a closed
@@ -848,6 +908,12 @@ not, `armedAt` ordering is producer-asserted and only the arming instant
 is attested. One or more arming or sealed records MAY cover a run; each
 referenced record must independently satisfy its class constraints.
 
+<a id="req-fields-fields-divide-identity-whose-signature-3"></a>
+
+<a id="req-fields-fields-divide-identity-whose-signature-2"></a>
+
+<a id="req-fields-fields-divide-identity-whose-signature"></a>
+
 Fields divide by the identity whose signature backs them.
 Substrate-covered, through the coverage validity gate and evidence tier:
 `basis` and `method` on rows deriving `attested`, and the content of every
@@ -927,6 +993,10 @@ network-boundary observation under a `networkPosture` that provides no
 interception path at that boundary is incoherent, and a consumer MAY
 reject on that ground.
 
+<a id="req-fields-actuallayer-names-enforcement-layer-acted-2"></a>
+
+<a id="req-fields-actuallayer-names-enforcement-layer-acted"></a>
+
 `actualLayer` names the enforcement layer that acted on the row's
 containment event. It is required on every row; a row missing the member
 is malformed under the framework's standard parsing rules and the
@@ -958,6 +1028,10 @@ described under `method`.
 
 `observationRecords` _array of objects, optional_
 
+<a id="req-fields-dsse-envelope-per-observation-payload-2"></a>
+
+<a id="req-fields-dsse-envelope-per-observation-payload"></a>
+
 One DSSE envelope per observation: `payload` (base64 of the exact
 canonical bytes the substrate signed at observation time), `payloadType`,
 and `signatures`, which MUST carry at least one entry. A consumer verifies
@@ -977,6 +1051,8 @@ there), whose
 media type ends in `+json`, and which carries these reserved members as
 top-level fields; a record whose payload is not so parseable, or whose
 media type is not `+json`, covers nothing:
+
+<a id="req-fields-aeerunbinding-string-run-binding-digest"></a>
 
 -   `aeeRunBinding` _string_: the run binding digest defined under
     Prerequisites.
@@ -1002,6 +1078,8 @@ media type is not `+json`, covers nothing:
     constraints of their own, and are defined below.
 -   `aeeMethod` _string_: `intercepted` or `reconstructed`; how the
     substrate observed, stated inside the signature.
+
+<a id="req-fields-record-violating-constraint-declared-aeekind"></a>
 
 A record violating any constraint of its declared `aeeKind` (including a
 missing `armedAt` on an `arming` record, an `armedAt` after `issuedAt`, an
@@ -1044,6 +1122,8 @@ a producer taking that route invalidates the whole statement rather than
 merely overclaiming in one record. A kind that covers nothing is the honest
 home for an observation no row may rest on.
 
+<a id="req-fields-moat-drop-drop-containment-layer"></a>
+
 `moat-drop` is a drop the containment layer performed and the substrate
 observed from the enforcement path: a packet the kernel refused to forward,
 seen where the refusal happened rather than on the wire.
@@ -1052,6 +1132,10 @@ without committing to a payload -- a catch whose bytes were replaced before a
 commitment could be taken over them, an introspection record attributing
 activity to an artifact rather than to a message, a snapshot reporting what a
 quarantine held.
+
+<a id="req-fields-neither-kind-carries-constraints-because-2"></a>
+
+<a id="req-fields-neither-kind-carries-constraints-because"></a>
 
 Neither kind carries constraints, because there is no state in which either
 covers anything and therefore none in which a constraint could change an
@@ -1068,6 +1152,8 @@ a kind that covers nothing by registration and a citation of a kind the
 verifier has never heard of are different producer errors with different
 fixes; this document defines no condition vocabulary, so the distinction is a
 diagnostic obligation and never a validity rule.
+
+<a id="req-fields-what-neither-kind-used-claim"></a>
 
 What neither kind may be used to claim is the half worth stating, because a
 record that covers nothing can still be read by a party that wants it to mean
@@ -1098,6 +1184,8 @@ shared-reference evidencing obligation: no validity requirement, recompute
 input or tier evaluation reads a member of a record that covers nothing, so a
 verifier enforcing it would be inventing a consequence this document does not
 define.
+
+<a id="req-fields-both-registrations-verdict-preserving-what"></a>
 
 Both registrations are verdict-preserving, which is what makes them additions
 a minor revision may make. A verifier that does not implement them treats each
@@ -1133,6 +1221,8 @@ attack identifier the carried `corpus.manifest.classes` declares; a record
 violating any of these covers nothing. The union of the manifest's
 identifiers for the carried `coverage.assessedClasses` MUST be a subset of
 this array, and a statement violating that is invalid.
+
+<a id="req-fields-comparison-subset-rather-than-equality"></a>
 
 The comparison is a subset rather than an equality, and the choice is
 load-bearing in both directions. A subset refuses the claim to have assessed
@@ -1270,6 +1360,10 @@ instead would make the whole control escapable by omission, which is the
 defect the mandatory `sealed` record above exists to close and would be
 reintroduced one level down.
 
+<a id="req-fields-arming-record-s-payload-additionally-2"></a>
+
+<a id="req-fields-arming-record-s-payload-additionally"></a>
+
 An `arming` record's payload MAY additionally carry three reserved members
 that chain runs under the same substrate key: `aeeRunSeq` (a positive
 safe-range integer), `aeePrevRunBinding` (the lowercase 64-hex run binding
@@ -1298,6 +1392,8 @@ the member; a consumer projects each declared token onto its registered
 field for this run. Minor versions MAY append tokens (each with a pinned
 projection) and MUST NOT redefine an existing one; an unrecognized token
 fails closed, as every closed vocabulary in this spec does.
+
+<a id="req-fields-within-attestation-these-members-syntax"></a>
 
 Within one attestation these members are syntax-checked in the
 reserved-member walk and nothing else normative reads them: the coverage
@@ -1369,6 +1465,8 @@ producer-defined axis acquires no such reader by being spelled in the same
 payload. The rules
 are stated here rather than at each future member so that an implementer
 meets them before the member exists.
+
+<a id="req-fields-precedent-informative-reserved-members-inside"></a>
 
 _Precedent (informative)._ Reserved members inside a producer-defined
 signed payload follow an established lineage rather than a novel
