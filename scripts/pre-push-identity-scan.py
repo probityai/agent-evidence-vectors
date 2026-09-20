@@ -101,8 +101,14 @@ RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
 # that ties the organisation to anything is refused exactly as before -- so the
 # reader of a public repository sees an owner and learns nothing from it. Held as
 # hex for the same reason the rules above are.
+# The organisation's GitHub Pages host is the same owner written as a hostname
+# (`<handle>.github.io/<repository>/...`), and it is where a public predicate
+# type URI lives, so it is permitted in exactly the same repository-qualified
+# shape. The two Rust crate repositories the organisation publishes are named
+# beside the three original ones for the same reason.
 PERMITTED_PATH = re.compile(
-    _hex("70726f626974796169") + r"/agent-evidence-(?:vectors|vocabulary|admission)\b",
+    _hex("70726f626974796169")
+    + r"(?:\.github\.io)?/(?:agent-evidence-(?:vectors|vocabulary|admission)|jcs-admit|dsse)\b",
     re.IGNORECASE,
 )
 

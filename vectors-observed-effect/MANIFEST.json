@@ -1,0 +1,603 @@
+{
+  "algorithm": {
+    "digest": "sha256",
+    "envelope": "ed25519"
+  },
+  "conditions": {
+    "oe-agreement": "dualValues: agreement must be derivable from the two carried values",
+    "oe-anchor-unruled": "priorCommitment.externalAnchor: the predicate defines no offline token rule",
+    "oe-base-vocab": "baseResolution: closed vocabulary, fail-closed on an unknown value",
+    "oe-chain": "writes: the ordered chain must reproduce afterRoot from beforeRoot",
+    "oe-commitment-digest": "priorCommitment: commitmentDigest recomputes over beforeRoot and witnessNonce",
+    "oe-commitment-keyid": "priorCommitment: keyid must not appear in observedSigners (attack A1)",
+    "oe-commitment-order": "priorCommitment: committedAt strictly before interval.openedAt",
+    "oe-coverage-contradiction": "coverage: scopeComplete true with a gap inside pathScope is malformed",
+    "oe-empty-tree": "baseResolution: empty-tree requires the constant for the declared hashAlgorithm",
+    "oe-ijson-duplicate": "parsing: a duplicate member anywhere makes the statement malformed",
+    "oe-interval-order": "interval: openedAt strictly before sealedAt, issuedAt at or after sealedAt",
+    "oe-mutation-none": "mutation: none requires beforeRoot == afterRoot and empty writes",
+    "oe-range-nonempty": "reads: a zero-length byteRange is malformed (attack A3)",
+    "oe-range-preimage": "reads: rangeDigest binds blob length and both offsets (attack A3)",
+    "oe-read-chain": "reads: preStateDigest must equal beforeRoot or the preceding write's postStateDigest",
+    "oe-required-members": "parsing: no member has a default and no verifier may supply one",
+    "oe-scope-glob": "pathScope: no glob metacharacter; a universal scope is the literal / (attack A4)",
+    "oe-self-refuting": "mutation: a record whose own writes refute its own claim is malformed (attack A6)",
+    "oe-tier-commitment": "tier: authoritative requires a complete priorCommitment",
+    "oe-tier-scope": "tier: authoritative requires a non-empty pathScope (attack A2)",
+    "oe-tier-vantage": "tier: a record is authoritative only where vantage is below-observed",
+    "oe-vocabulary": "parsing: fail-closed on an unknown value in any closed vocabulary",
+    "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
+    "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
+  },
+  "corpusDigest": "8422f03513df5f8b76d2305aeb0bd170f53394d19a136e20deca8682df9725a8",
+  "counts": {
+    "accept": 5,
+    "indeterminate": 1,
+    "reject": 25
+  },
+  "emptyTree": {
+    "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+    "sha256": "6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"
+  },
+  "keyNote": "PUBLISHED TEST KEYS, derived from fixed seeds in gen_vectors.py. The observedParty key signs nothing in this corpus: it exists so that observedSigners names a real key identifier and the disjointness check has something to be disjoint from.",
+  "keys": {
+    "observedParty": {
+      "keyid": "93c4e5b640e83ba0ed87effe9a86f05e",
+      "publicKey": "763929ab5e25073572c6c63a261bc5b375a5b66f1cfe26cafe36885402d69632"
+    },
+    "observer": {
+      "keyid": "f3cb9b6750737ef6789a72b71d8305f2",
+      "publicKey": "4f2a59edc8367deb40047ce83ee7f5ce711a57d93abbda9d1ce8588c56a3ce88"
+    }
+  },
+  "note": "Every reject member declares the accept member it is one mutation from, so a verifier that refuses everything scores zero rather than full marks. The indeterminate member declares the readings a conforming verifier could take, because the predicate does not choose between them.",
+  "payloadType": "application/vnd.in-toto+json",
+  "predicateSpec": "spec/predicates/observed-effect.md",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+  "suite": "observed-effect-conformance",
+  "vectors": [
+    {
+      "cites": "The baseline every reject member below is one mutation from. It is the shape the predicate's tier recompute grades authoritative: vantage below-observed, a prior commitment signed before the interval opened under a key the observed party does not hold, a non-empty literal path scope, and a write chain that reproduces afterRoot.",
+      "conditions": [
+        "oe-tier-vantage",
+        "oe-tier-commitment",
+        "oe-tier-scope",
+        "oe-chain",
+        "oe-range-nonempty",
+        "oe-range-preimage",
+        "oe-scope-glob",
+        "oe-commitment-keyid",
+        "oe-commitment-order",
+        "oe-commitment-digest",
+        "oe-agreement",
+        "oe-coverage-contradiction",
+        "oe-write-scope",
+        "oe-write-scope-label",
+        "oe-read-chain",
+        "oe-ijson-duplicate",
+        "oe-required-members",
+        "oe-vocabulary",
+        "oe-interval-order",
+        "oe-self-refuting"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/v6d7def3316902e9e.json",
+      "id": "v6d7def3316902e9e",
+      "kind": "accept",
+      "slug": "authoritative-baseline"
+    },
+    {
+      "cites": "A read-only interval: the observer watched and saw no mutation inside scope. This is a positive claim about an interval, not the absence of a record, and it is the case an artifact-subject rule cannot express. The in-toto/attestation#554 thread reached the same conclusion from the other side, where a published production case study was a session whose whole evidentiary value was that it produced nothing.",
+      "conditions": [
+        "oe-mutation-none",
+        "oe-tier-scope",
+        "oe-self-refuting"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/vf0e3247af86a6c8f.json",
+      "id": "vf0e3247af86a6c8f",
+      "kind": "accept",
+      "slug": "mutation-none-read-only"
+    },
+    {
+      "cites": "The terminal case of base resolution, which is what makes beforeRoot unconditionally required rather than optional-when-unknown. ASQAV Section 8.2 resolves a base in the order supplied, recorded-parent, empty tree, and then rules that where none yields a base the platform 'MUST refuse to emit an authoritative attestation rather than infer a base from the commit parents, which are ambiguous for merge and squash commits'. The constant here is the sha256 empty tree object name, because this record's hashAlgorithm is sha256.",
+      "conditions": [
+        "oe-empty-tree",
+        "oe-base-vocab"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/v92c8f8999ebd76ab.json",
+      "id": "v92c8f8999ebd76ab",
+      "kind": "accept",
+      "slug": "empty-tree-base-sha256"
+    },
+    {
+      "cites": "A valid record at the weaker tier. ASQAV Section 8.1 carries the prohibition this member exists to make testable: 'A verifier MUST NOT read a voluntary attestation as evidence that the attested content corresponds to any independently observed fact.' The record is well-formed and it is not evidence of an independently observed fact, and a verifier that conflates those two readings scores this member and its authoritative twin identically.",
+      "conditions": [
+        "oe-tier-vantage",
+        "oe-agreement"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/ve54294f3e979910a.json",
+      "id": "ve54294f3e979910a",
+      "kind": "accept",
+      "slug": "voluntary-self-vantage"
+    },
+    {
+      "cites": "Two facts on which the observer and the observed party disagree. A verifier MUST NOT reject on a disagreement: this is the one field in the predicate that catches a lying producer without trusting anyone, and rejecting the record would delete the finding. A verifier that treats disagree as a fault scores zero on this member while a verifier that ignores dualValues entirely scores zero on its reject twin.",
+      "conditions": [
+        "oe-agreement"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "valid"
+      },
+      "file": "statements/v85ff6996b9b42c14.json",
+      "id": "v85ff6996b9b42c14",
+      "kind": "accept",
+      "slug": "disagreement-is-the-record-working"
+    },
+    {
+      "cites": "THE SHAPE THIS REPOSITORY DID NOT HAVE: a claim whose own carried evidence refutes it. The record claims mutation none and carries a write that moved the root. A verifier that reads the claim and does not recompute over the evidence accepts it, which is exactly the defect research/442 found in a third party's gate, where an evidence shape only ran when a producer-set list was non-empty. Both readings are present in the bytes and they contradict.",
+      "conditions": [
+        "oe-self-refuting",
+        "oe-mutation-none"
+      ],
+      "expected": {
+        "codes": [
+          "mutation-contradicted-by-writes"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb0e3c46ad1028517.json",
+      "id": "vb0e3c46ad1028517",
+      "kind": "reject",
+      "parent": "vf0e3247af86a6c8f",
+      "slug": "self-refuting-mutation-none"
+    },
+    {
+      "cites": "The second write's preStateDigest is not the first write's postStateDigest, so the ordered composition does not carry beforeRoot to afterRoot. The statement asserts an interval its own rows cannot produce.",
+      "conditions": [
+        "oe-chain"
+      ],
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6bb23556aa2cfbf4.json",
+      "id": "v6bb23556aa2cfbf4",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "broken-write-chain"
+    },
+    {
+      "cites": "Every link is sound and the last postStateDigest is not afterRoot. A verifier that checks link-to-link continuity and not the endpoint accepts a record that under-reports the interval, which is the direction an honest-looking producer drifts in.",
+      "conditions": [
+        "oe-chain"
+      ],
+      "expected": {
+        "codes": [
+          "write-chain-does-not-reach-after-root"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v06b91fa5f7a9994a.json",
+      "id": "v06b91fa5f7a9994a",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "chain-does-not-reach-after-root"
+    },
+    {
+      "cites": "Attack A2. A record that asserts nothing and grades as the strongest tier: empty scope, no reads, no writes, roots equal. Clause 3 of the tier recompute refuses it, and the refusal is invalid rather than a downgrade to voluntary, because relabelling would let a producer emit an authoritative-shaped record and rely on the verifier to fix it.",
+      "conditions": [
+        "oe-tier-scope"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-empty-path-scope"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/vf14c12bd241cc7aa.json",
+      "id": "vf14c12bd241cc7aa",
+      "kind": "reject",
+      "parent": "vf0e3247af86a6c8f",
+      "slug": "vacuous-authoritative"
+    },
+    {
+      "cites": "The tier recompute's first clause. A record that observed itself cannot grade authoritative no matter what else it carries, and the record still carries a complete prior commitment, so a verifier checking only for the commitment's presence accepts it.",
+      "conditions": [
+        "oe-tier-vantage"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-vantage-not-independent"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/vf7da158782cd41d8.json",
+      "id": "vf7da158782cd41d8",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "authoritative-with-self-vantage"
+    },
+    {
+      "cites": "A bare vantage assertion with nothing binding it. The commitment is the only member that fixes an input to the record before the interval opened, so without it the vantage claim is a string the producer typed.",
+      "conditions": [
+        "oe-tier-commitment"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-prior-commitment-absent"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v6e09d5c2369461e6.json",
+      "id": "v6e09d5c2369461e6",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "authoritative-without-commitment"
+    },
+    {
+      "cites": "Attack A1's discriminator, exercised in the direction that is catchable. The commitment is signed by a key the record itself names as one the observed party signs with, so the record declares its own independence and denies it in the next member. The predicate is explicit that the reverse case -- a second key the producer simply never declares -- is NOT closed by this check.",
+      "conditions": [
+        "oe-commitment-keyid"
+      ],
+      "expected": {
+        "codes": [
+          "commitment-keyid-not-disjoint"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/ve99619ec582291fe.json",
+      "id": "ve99619ec582291fe",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "commitment-keyid-is-an-observed-signer"
+    },
+    {
+      "cites": "A commitment made two seconds after the interval opened, with a valid signature over a correct digest. It commits to nothing the observer could not have learned from the observed party, which is the whole property the member exists to carry.",
+      "conditions": [
+        "oe-commitment-order"
+      ],
+      "expected": {
+        "codes": [
+          "commitment-not-prior"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/vc90a8c5c8a8e8ad8.json",
+      "id": "vc90a8c5c8a8e8ad8",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "commitment-after-interval-opened"
+    },
+    {
+      "cites": "The commitment digest is over a different before-root than the interval names. The signature over the commitment body still verifies, so a verifier that checks the signature and not the recomputation accepts a commitment to another interval's state.",
+      "conditions": [
+        "oe-commitment-digest"
+      ],
+      "expected": {
+        "codes": [
+          "commitment-digest-mismatch"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb46a72335d52d159.json",
+      "id": "vb46a72335d52d159",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "commitment-digest-mismatch"
+    },
+    {
+      "cites": "The sha1 empty tree object name 4b825dc642cb6eb9a060e54bf8d69288fbee4904 in a record whose hashAlgorithm is sha256. This is the latent bug in adopting 'the git empty tree constant' without naming the hash function, and it is a specific, catchable defect rather than a style point: the value names a root no sha256 store can hold.",
+      "conditions": [
+        "oe-empty-tree"
+      ],
+      "expected": {
+        "codes": [
+          "empty-tree-constant-wrong-algorithm"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v81843a9dab694900.json",
+      "id": "v81843a9dab694900",
+      "kind": "reject",
+      "parent": "v92c8f8999ebd76ab",
+      "slug": "wrong-empty-tree-constant"
+    },
+    {
+      "cites": "A value outside the closed vocabulary, and the one a producer reaches for when the ordered resolution yields nothing. ASQAV Section 8.2 requires a refusal there rather than an inference, so a record that names the inference is refused by the vocabulary itself.",
+      "conditions": [
+        "oe-base-vocab"
+      ],
+      "expected": {
+        "codes": [
+          "base-resolution-unknown"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4467c4f47b4bedf6.json",
+      "id": "v4467c4f47b4bedf6",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "unknown-base-resolution"
+    },
+    {
+      "cites": "Attack A3's first half. A zero-length range whose digest is internally consistent and binds nothing, because the digest of an empty range verifies against every blob. A read that returned nothing is spelled no-bytes-read.",
+      "conditions": [
+        "oe-range-nonempty"
+      ],
+      "expected": {
+        "codes": [
+          "byte-range-empty"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6c223b4da722fcc8.json",
+      "id": "v6c223b4da722fcc8",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "zero-length-byte-range"
+    },
+    {
+      "cites": "Attack A3's second half, and the one a reimplementation gets wrong by being reasonable: the digest is sha256 over the range bytes themselves, which is what a reader assumes 'the digest of the range' means. It is reproducible from any blob containing those bytes at any offset, so it binds the bytes and not the read. The predicate's preimage carries the blob length and both offsets.",
+      "conditions": [
+        "oe-range-preimage"
+      ],
+      "expected": {
+        "codes": [
+          "range-digest-preimage-wrong"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8100f0fe61ec20fe.json",
+      "id": "v8100f0fe61ec20fe",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "range-digest-over-bytes-alone"
+    },
+    {
+      "cites": "Attack A4. A glob makes every write in-scope and the scope check never refuses. The predicate forbids metacharacters so that a universal scope has to be spelled as the literal / , where a policy comparing scope against its own expectation can see it. This closes the legibility half; the predicate is explicit that a broad honest scope and a broad self-serving one are not separable by any function of the statement.",
+      "conditions": [
+        "oe-scope-glob"
+      ],
+      "expected": {
+        "codes": [
+          "path-scope-glob-metacharacter"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/va6e582a20e1e5129.json",
+      "id": "va6e582a20e1e5129",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "glob-path-scope"
+    },
+    {
+      "cites": "A write to a path no member of pathScope covers, correctly labelled inScope false, in a record still claiming the authoritative tier. The write chain is intact and the roots reproduce, so every structural check passes and only the scope comparison refuses. This is the member that makes pathScope a gate rather than a label, and the honest label is what isolates it from the mislabel case below: a producer admitting the write is out of scope may not also claim the tier that asserts scope coverage.",
+      "conditions": [
+        "oe-write-scope"
+      ],
+      "expected": {
+        "codes": [
+          "write-outside-path-scope"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v5767076c82977a7b.json",
+      "id": "v5767076c82977a7b",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "write-outside-scope-marked-in-scope"
+    },
+    {
+      "cites": "The same out-of-scope write, this time labelled inScope true. inScope is not a producer opinion: it is derivable from path and pathScope, and a label that contradicts the derivation is how a coverage admission gets deleted while the record still looks complete. Refused on the label before the scope rule is reached, which is why the two cases need separate members.",
+      "conditions": [
+        "oe-write-scope-label"
+      ],
+      "expected": {
+        "codes": [
+          "write-in-scope-mislabelled"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v362f5e5a80bff553.json",
+      "id": "v362f5e5a80bff553",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "write-scope-label-inverted"
+    },
+    {
+      "cites": "A read taken against a state root that is neither beforeRoot nor any write's postStateDigest, so the record claims a read from outside the interval it attests. Three of the read's four bindings still check out, which is the point: the fourth is what the interval is for.",
+      "conditions": [
+        "oe-read-chain"
+      ],
+      "expected": {
+        "codes": [
+          "read-pre-state-not-in-interval"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v45ad24b294485c06.json",
+      "id": "v45ad24b294485c06",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "read-not-chained"
+    },
+    {
+      "cites": "scopeComplete true beside a gap that lies inside pathScope. The two members contradict and a verifier MUST NOT prefer either, because preferring one is the verifier deciding a question the statement left in conflict.",
+      "conditions": [
+        "oe-coverage-contradiction"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-self-contradictory"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v5b4af5629eced89d.json",
+      "id": "v5b4af5629eced89d",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "coverage-contradiction"
+    },
+    {
+      "cites": "Two unequal values labelled agree. The label is the producer's and the comparison is the verifier's, so a record whose label contradicts its own numbers is the cheapest way to make a disagreement disappear.",
+      "conditions": [
+        "oe-agreement"
+      ],
+      "expected": {
+        "codes": [
+          "agreement-not-derivable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9538d03b245d8942.json",
+      "id": "v9538d03b245d8942",
+      "kind": "reject",
+      "parent": "v85ff6996b9b42c14",
+      "slug": "agreement-not-derivable"
+    },
+    {
+      "cites": "intervalId appears twice, and the DSSE signature is valid over the bytes that carry the duplicate. RFC 7493 forbids it and a lenient parser keeps the last occurrence, so two rails reading identical bytes reach different records. The signature verifying is what makes this member worth having: the defect is inside the signed bytes, not around them.",
+      "conditions": [
+        "oe-ijson-duplicate"
+      ],
+      "expected": {
+        "codes": [
+          "duplicate-member"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8dd0e5f284273abc.json",
+      "id": "v8dd0e5f284273abc",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "duplicate-member"
+    },
+    {
+      "cites": "The self-refutation in its sharpest form, and the member the mutation sweep forced into existence. A write that rewrote a file with identical bytes leaves the root where it was, so the write chain is INTACT and reaches afterRoot: every structural rule passes and only the mutation claim contradicts the carried row. The first attempt at this vector moved the root, which the chain rule caught first, leaving the coherence rule unreachable and therefore unmeasured. Its own dualValues carry the disagreement, which is the record reporting the contradiction it contains.",
+      "conditions": [
+        "oe-self-refuting"
+      ],
+      "expected": {
+        "codes": [
+          "mutation-contradicted-by-writes"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vf3028f060c3fb4bd.json",
+      "id": "vf3028f060c3fb4bd",
+      "kind": "reject",
+      "parent": "vf0e3247af86a6c8f",
+      "slug": "mutation-none-with-a-null-write"
+    },
+    {
+      "cites": "The refutation in the other direction: a record claiming it observed a mutation and carrying no row that is one. The chain rule returns early on an empty write set, so nothing but the coherence rule refuses this, which is what makes the two directions separate members rather than one.",
+      "conditions": [
+        "oe-self-refuting"
+      ],
+      "expected": {
+        "codes": [
+          "mutation-observed-without-writes"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v88b2e12955e1884d.json",
+      "id": "v88b2e12955e1884d",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "mutation-observed-without-writes"
+    },
+    {
+      "cites": "doesNotAssert is missing. It is required precisely because the absence of a claim has to be written down rather than inferred from silence, and a verifier that supplies an empty list for it has invented the one member whose job is to stop a reader inventing things.",
+      "conditions": [
+        "oe-required-members"
+      ],
+      "expected": {
+        "codes": [
+          "required-member-absent:doesNotAssert"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcdad28d100ac1363.json",
+      "id": "vcdad28d100ac1363",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "required-member-absent"
+    },
+    {
+      "cites": "A vantage outside the closed set, declared at the voluntary tier so that the tier recompute agrees with the record and the vocabulary rule is the only one left to refuse it. At the authoritative tier this input is refused for a different reason, which would leave the vocabulary rule unmeasured: a plausible new value is exactly what a producer invents, and fail-closed is the only reading under which an unrecognised vantage does not silently become a weaker one.",
+      "conditions": [
+        "oe-vocabulary"
+      ],
+      "expected": {
+        "codes": [
+          "vantage-unknown"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vbc431cd28fa32261.json",
+      "id": "vbc431cd28fa32261",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "unknown-vantage-at-voluntary-tier"
+    },
+    {
+      "cites": "An interval that opened and sealed at the same instant. Nothing else in the predicate reads sealedAt, so this is the one input the ordering rule refuses, and a zero-width interval is the shape a producer emits when it is stamping a record rather than watching an interval.",
+      "conditions": [
+        "oe-interval-order"
+      ],
+      "expected": {
+        "codes": [
+          "interval-not-ordered"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v26a45867b379abc8.json",
+      "id": "v26a45867b379abc8",
+      "kind": "reject",
+      "parent": "v6d7def3316902e9e",
+      "slug": "interval-not-ordered"
+    },
+    {
+      "cites": "externalAnchor is optional and the predicate says a verifier MAY check the token's timestamp, while defining no offline validation rule and carrying no token. A verifier that ignores the member and one that refuses for an unresolvable anchor are both conforming, so scoring either reading wrong would be this corpus inventing a rule the predicate does not carry. The predicate's changelog names the version at which the member acquires a normative reader.",
+      "conditions": [
+        "oe-anchor-unruled"
+      ],
+      "expected": {
+        "codes": [],
+        "verdict": "indeterminate"
+      },
+      "file": "statements/vfc5c321ecd81e4c3.json",
+      "id": "vfc5c321ecd81e4c3",
+      "kind": "indeterminate",
+      "readings": [
+        {
+          "rationale": "the member is optional and MAY is not MUST",
+          "verdict": "valid"
+        },
+        {
+          "rationale": "the anchor cannot be resolved from the carried bytes",
+          "verdict": "not-established"
+        }
+      ],
+      "slug": "anchor-with-no-offline-rule"
+    }
+  ]
+}

@@ -15,6 +15,8 @@ package corpora_test
 // a deleted check does.
 
 import (
+	"crypto/ed25519"
+	"encoding/base64"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -156,6 +158,7 @@ func TestEveryFindingIsReachable(t *testing.T) {
 	cases = append(cases, agentActionFindings()...)
 	cases = append(cases, aeeFindings()...)
 	cases = append(cases, aciFindings()...)
+	cases = append(cases, observedEffectFindings()...)
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			dir := stage(t, tc.dir)
@@ -962,5 +965,389 @@ func aciAddCodeTo(m map[string]any, code string) {
 		codes, _ := expected["codes"].([]any)
 		expected["codes"] = append(codes, code)
 		return
+	}
+}
+
+// observedEffectFindings provokes every finding the Observed Effect reader can
+// report, and every refusal of the verifier inside it that the corpus does not
+// already exercise.
+//
+// The second half is the part worth the lines. The corpus names one code per
+// reject member, so every rule it exercises is covered by the clean run; the
+// rules it does not exercise would be sentences, and a sentence in a verifier
+// reads exactly like a rule until an input reaches it. Each case below reaches
+// one, by rewriting a member's payload and requiring the reader to name the code
+// in the mismatch it reports.
+func observedEffectFindings() []findingCase {
+	const dir = "vectors-observed-effect"
+	return append(observedEffectCorpusFindings(dir), observedEffectRuleFindings(dir)...)
+}
+
+// observedEffectCorpusFindings covers the reader's own sentences: the member
+// bookkeeping and the corpus-level checks that make the corpus scoreable.
+func observedEffectCorpusFindings(dir string) []findingCase {
+	return []findingCase{
+		{"oe/duplicate-id", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				rows := vectorsOf(m)
+				m["vectors"] = append(rows, rows[0])
+			})
+		}, "duplicate id"},
+		{"oe/no-file", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["file"] = ""
+			})
+		}, "MANIFEST row declares no file"},
+		{"oe/missing-body", dir, func(t *testing.T, d string) {
+			removeFile(t, d, oeMemberFile(t, d, kindIs("reject")))
+		}, "vector body missing"},
+		{"oe/id-does-not-hash", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, kindIs("accept")),
+				func(pred map[string]any) { pred["intervalId"] = "iv-9999" })
+		}, "file bytes do not hash to the identifier"},
+		{"oe/reject-wrong-verdict", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")), "valid", "expected", "verdict")
+			})
+		}, "expected valid, got"},
+		{"oe/reject-wrong-code", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")),
+					[]any{"a-code-no-rule-emits"}, "expected", "codes")
+			})
+		}, "expected codes [a-code-no-rule-emits], got"},
+		{"oe/indeterminate-one-reading", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, kindIs("indeterminate"))
+				readings, _ := row["readings"].([]any)
+				row["readings"] = readings[:1]
+			})
+		}, "a member with fewer than two is a reject member"},
+		{"oe/indeterminate-outside-the-set", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("indeterminate"))["readings"] = []any{
+					map[string]any{"verdict": "invalid", "rationale": "one"},
+					map[string]any{"verdict": "malformed", "rationale": "another"},
+				}
+			})
+		}, "which is outside the declared set"},
+		{"oe/unknown-kind", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["kind"] = "maybe"
+			})
+		}, "which this reader does not replay"},
+		{"oe/counts", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["counts"] = map[string]any{"accept": 1.0, "reject": 1.0}
+			})
+		}, "counts disagree"},
+		{"oe/condition-only-rejected", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { oeStripConditionFromAccepts(m, "oe-chain") })
+		}, "is exercised only by reject members"},
+		{"oe/condition-unexercised", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				conditions, _ := m["conditions"].(map[string]any)
+				conditions["oe-nobody-forces-this"] = "declared and exercised by nothing"
+			})
+		}, "is declared and no member exercises it"},
+		{"oe/condition-undeclared", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, kindIs("reject"))
+				row["conditions"] = append(row["conditions"].([]any), "oe-never-declared")
+			})
+		}, "is used by a member and the manifest does not declare it"},
+		{"oe/condition-has-no-reject", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				conditions, _ := m["conditions"].(map[string]any)
+				conditions["oe-accepted-only"] = "carried by an accept member and by no reject one"
+				row := firstRowWhere(t, m, kindIs("accept"))
+				row["conditions"] = append(row["conditions"].([]any), "oe-accepted-only")
+			})
+		}, "has no reject member"},
+		{"oe/reject-without-parent", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				delete(firstRowWhere(t, m, kindIs("reject")), "parent")
+			})
+		}, "names no parent"},
+		{"oe/parent-is-not-a-member", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["parent"] = "vnotamemberatall"
+			})
+		}, "which is not a member of this corpus"},
+		{"oe/empty-tree-absent", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				constants, _ := m["emptyTree"].(map[string]any)
+				delete(constants, "sha1")
+			})
+		}, "publishes no empty-tree constant for sha1"},
+		{"oe/empty-tree-wrong", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				constants, _ := m["emptyTree"].(map[string]any)
+				constants["sha256"] = strings.Repeat("0", 64)
+			})
+		}, "empty-tree constant for sha256 is"},
+		{"oe/corpus-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["corpusDigest"] = strings.Repeat("0", 64)
+			})
+		}, "corpusDigest does not match the members on disk"},
+		{"oe/no-observer-key", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				keys, _ := m["keys"].(map[string]any)
+				delete(keys, "observer")
+			})
+		}, "names no keys.observer.publicKey"},
+		{"oe/no-vectors", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["vectors"] = []any{} })
+		}, "carries no vectors"},
+		{"oe/manifest-shape", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["counts"] = "not an object" })
+		}, "does not parse"},
+	}
+}
+
+// observedEffectRuleFindings reaches one rule of the verifier per case. Every
+// one of them rewrites an ACCEPT member, so the reader's own mismatch sentence
+// carries the code the rule refused with: a rule that stopped refusing would
+// leave the member accepted and the case with nothing to find.
+func observedEffectRuleFindings(dir string) []findingCase {
+	accept := kindIs("accept")
+	return []findingCase{
+		{"oe/rule-required-member", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept),
+				func(pred map[string]any) { delete(pred, "tier") })
+		}, "required-member-absent:tier"},
+		{"oe/rule-tier-unknown", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept),
+				func(pred map[string]any) { pred["tier"] = "supreme" })
+		}, "tier-unknown"},
+		{"oe/rule-mutation-unknown", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept),
+				func(pred map[string]any) { pred["mutation"] = "perhaps" })
+		}, "mutation-unknown"},
+		{"oe/rule-hash-algorithm-unknown", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept),
+				func(pred map[string]any) { pred["hashAlgorithm"] = "md5" })
+		}, "hash-algorithm-unknown"},
+		{"oe/rule-issued-before-sealed", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				pred["issuedAt"] = "2026-01-01T00:00:00Z"
+			})
+		}, "issued-before-sealed"},
+		{"oe/rule-path-scope-not-absolute", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				pred["pathScope"] = []any{"srv/app/"}
+			})
+		}, "path-scope-not-absolute"},
+		{"oe/rule-mutation-none-moved-root", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, oeSlugIs("mutation-none-read-only")),
+				func(pred map[string]any) {
+					interval, _ := pred["interval"].(map[string]any)
+					interval["afterRoot"] = strings.Repeat("a", 64)
+				})
+		}, "mutation-none-with-moved-root"},
+		{"oe/rule-read-state-unknown", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				oeFirstRead(t, pred)["readState"] = "maybe-read"
+			})
+		}, "read-state-unknown"},
+		{"oe/rule-read-state-carries-range", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				oeFirstRead(t, pred)["readState"] = "no-bytes-read"
+			})
+		}, "read-state-carries-range"},
+		{"oe/rule-byte-range-not-integer", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				span, _ := oeFirstRead(t, pred)["byteRange"].(map[string]any)
+				span["end"] = 64.5
+			})
+		}, "byte-range-not-integer"},
+		{"oe/rule-byte-range-negative", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				span, _ := oeFirstRead(t, pred)["byteRange"].(map[string]any)
+				span["start"] = -1.0
+			})
+		}, "byte-range-negative"},
+		{"oe/rule-agreement-unknown", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				rows, _ := pred["dualValues"].([]any)
+				row, _ := rows[0].(map[string]any)
+				row["agreement"] = "sort-of"
+			})
+		}, "agreement-unknown"},
+		{"oe/rule-tier-recompute-mismatch", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept),
+				func(pred map[string]any) { pred["tier"] = "voluntary" })
+		}, "tier-recompute-mismatch"},
+		{"oe/rule-coverage-incomplete", dir, func(t *testing.T, d string) {
+			oeRewritePredicate(t, d, oeMemberFile(t, d, accept), func(pred map[string]any) {
+				observation, _ := pred["observation"].(map[string]any)
+				coverage, _ := observation["coverage"].(map[string]any)
+				coverage["scopeComplete"] = false
+				coverage["gaps"] = []any{"/srv/app/unseen"}
+			})
+		}, "authoritative-coverage-incomplete"},
+		{"oe/statement-type", dir, func(t *testing.T, d string) {
+			oeRewriteStatement(t, d, oeMemberFile(t, d, accept), func(statement map[string]any) {
+				statement["_type"] = "https://in-toto.io/Statement/v0.1"
+			})
+		}, "statement-type-unexpected"},
+		{"oe/predicate-absent", dir, func(t *testing.T, d string) {
+			oeRewriteStatement(t, d, oeMemberFile(t, d, accept), func(statement map[string]any) {
+				delete(statement, "predicate")
+			})
+		}, "required-member-absent:predicate"},
+		{"oe/payload-not-parseable", dir, func(t *testing.T, d string) {
+			oeEditEnvelope(t, d, oeMemberFile(t, d, accept), func(envelope map[string]any) {
+				envelope["payload"] = "%%% not base64 %%%"
+			})
+		}, "not-parseable"},
+		{"oe/signature-invalid", dir, func(t *testing.T, d string) {
+			oeEditEnvelope(t, d, oeMemberFile(t, d, accept), func(envelope map[string]any) {
+				oeFirstSignature(t, envelope)["sig"] =
+					base64.StdEncoding.EncodeToString(make([]byte, ed25519.SignatureSize))
+			})
+		}, "envelope-signature-invalid"},
+		{"oe/signature-unreadable", dir, func(t *testing.T, d string) {
+			oeEditEnvelope(t, d, oeMemberFile(t, d, accept), func(envelope map[string]any) {
+				oeFirstSignature(t, envelope)["sig"] = "%%% not base64 %%%"
+			})
+		}, "envelope-signature-unreadable"},
+		{"oe/duplicate-member", dir, func(t *testing.T, d string) {
+			// A duplicate member cannot be written through a Go map, which holds
+			// one value per name by construction, so the bytes are written out.
+			writeFile(t, d, oeMemberFile(t, d, accept),
+				`{"payloadType":"application/vnd.in-toto+json","payload":"e30=","payload":"e30="}`)
+		}, "duplicate-member"},
+	}
+}
+
+// oeSlugIs picks a member by the slug the manifest gives it. A slug is prose
+// somebody wrote and is stable across a regeneration, unlike an identifier,
+// which is a digest of bytes and moves whenever they do.
+func oeSlugIs(slug string) func(map[string]any) bool {
+	return func(row map[string]any) bool { return row["slug"] == slug }
+}
+
+// oeMemberFile is the file of the first member the picker chooses.
+func oeMemberFile(t *testing.T, dir string, pick func(map[string]any) bool) string {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join(dir, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest map[string]any
+	if err := json.Unmarshal(raw, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	rel, _ := firstRowWhere(t, manifest, pick)["file"].(string)
+	if rel == "" {
+		t.Fatal("the chosen member names no file, so this case would mutate nothing")
+	}
+	return rel
+}
+
+// oeFirstRead is the first read row of a predicate, for a case that needs one.
+func oeFirstRead(t *testing.T, pred map[string]any) map[string]any {
+	t.Helper()
+	rows, _ := pred["reads"].([]any)
+	if len(rows) == 0 {
+		t.Fatal("the chosen member carries no read, so this case would assert nothing")
+	}
+	row, _ := rows[0].(map[string]any)
+	return row
+}
+
+func oeFirstSignature(t *testing.T, envelope map[string]any) map[string]any {
+	t.Helper()
+	rows, _ := envelope["signatures"].([]any)
+	if len(rows) == 0 {
+		t.Fatal("the member carries no signature, so this case would assert nothing")
+	}
+	row, _ := rows[0].(map[string]any)
+	return row
+}
+
+// oeEditEnvelope rewrites one member's DSSE envelope through edit.
+func oeEditEnvelope(t *testing.T, dir, rel string, edit func(envelope map[string]any)) {
+	t.Helper()
+	path := filepath.Join(dir, rel)
+	raw, err := os.ReadFile(path) // #nosec G304 -- a test editing its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	var envelope map[string]any
+	if err := json.Unmarshal(raw, &envelope); err != nil {
+		t.Fatal(err)
+	}
+	edit(envelope)
+	body, err := json.Marshal(envelope)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, body, 0o600); err != nil {
+		t.Fatal(err)
+	}
+}
+
+// oeRewriteStatement rewrites the in-toto statement inside one member's payload.
+//
+// The signature is left STALE deliberately, and that is safe for exactly one
+// reason worth stating: the envelope signature is checked last, after every rule
+// has held, so a rule refusal always precedes it. A case whose rule stopped
+// refusing would therefore reach the signature and fail on the signature, which
+// is a different sentence from the one it asserts. Re-signing would need the
+// corpus's signing key, which this repository does not hold.
+func oeRewriteStatement(t *testing.T, dir, rel string, edit func(statement map[string]any)) {
+	t.Helper()
+	oeEditEnvelope(t, dir, rel, func(envelope map[string]any) {
+		encoded, _ := envelope["payload"].(string)
+		payload, err := base64.StdEncoding.DecodeString(encoded)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var statement map[string]any
+		if err := json.Unmarshal(payload, &statement); err != nil {
+			t.Fatal(err)
+		}
+		edit(statement)
+		body, err := json.Marshal(statement)
+		if err != nil {
+			t.Fatal(err)
+		}
+		envelope["payload"] = base64.StdEncoding.EncodeToString(body)
+	})
+}
+
+// oeRewritePredicate rewrites the predicate inside one member's payload.
+func oeRewritePredicate(t *testing.T, dir, rel string, edit func(pred map[string]any)) {
+	t.Helper()
+	oeRewriteStatement(t, dir, rel, func(statement map[string]any) {
+		pred, ok := statement["predicate"].(map[string]any)
+		if !ok {
+			t.Fatal("the member carries no predicate object, so this case would mutate nothing")
+		}
+		edit(pred)
+	})
+}
+
+// oeStripConditionFromAccepts removes one condition from every accept member,
+// leaving it carried by reject members alone, which is the state that gives a
+// refuse-everything verifier full marks on it.
+func oeStripConditionFromAccepts(m map[string]any, condition string) {
+	for _, item := range vectorsOf(m) {
+		row, _ := item.(map[string]any)
+		if kind, _ := row["kind"].(string); kind != "accept" {
+			continue
+		}
+		carried, _ := row["conditions"].([]any)
+		kept := make([]any, 0, len(carried))
+		for _, value := range carried {
+			if text, ok := value.(string); ok && text == condition {
+				continue
+			}
+			kept = append(kept, value)
+		}
+		row["conditions"] = kept
 	}
 }

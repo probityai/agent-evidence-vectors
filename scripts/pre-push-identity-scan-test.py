@@ -61,6 +61,11 @@ PERMITTED = (
     ("an ssh URL", f"git@github.com:{OWNER}/agent-evidence-admission.git"),
     ("a package source URL", f"git+https://github.com/{OWNER}/agent-evidence-vectors@v0.11.1"),
     ("an action reference", f"uses: {OWNER}/agent-evidence-vectors@v0.11.1"),
+    (
+        "a predicate type URI on the organisation's pages host",
+        f"https://{OWNER}.github.io/agent-evidence-vectors/predicate/v1/observed-effect",
+    ),
+    ("a crate repository URL", f"https://github.com/{OWNER}/jcs-admit"),
 )
 
 REFUSED = (

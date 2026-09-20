@@ -48,6 +48,8 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-aci", memberFileKey: "file"},
 	// A member of the W3C report corpus is one whole v0.1 report in one file.
 	{dir: "vectors-w3c-report", memberFileKey: "file"},
+	// A member of the Observed Effect corpus is one DSSE envelope in one file.
+	{dir: "vectors-observed-effect", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }

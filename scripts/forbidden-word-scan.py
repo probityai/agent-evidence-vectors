@@ -112,7 +112,7 @@ def tracked_files() -> list[Path]:
 # the reason that file gives: these guards must run with no import path to break.
 PERMITTED_PATH = re.compile(
     bytes.fromhex("70726f626974796169").decode("ascii")
-    + r"/agent-evidence-(?:vectors|vocabulary|admission)\b",
+    + r"(?:\.github\.io)?/(?:agent-evidence-(?:vectors|vocabulary|admission)|jcs-admit|dsse)\b",
     re.IGNORECASE,
 )
 

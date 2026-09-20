@@ -111,9 +111,10 @@ citation from it. Cite the corpus you actually ran, which means naming three
 things and not two:
 
 - the **repository**, by URL;
-- the **suiteRevision** you ran against, from the head of
-  [`vectors/CHANGES.md`](vectors/CHANGES.md), or the tag for a corpus that keeps
-  no revision ledger;
+- the **suiteRevision** you ran against, from the manifest of the corpus you ran,
+  or the tag for a corpus that keeps no revision ledger. The generator copies it
+  there from the head of [`vectors/CHANGES.md`](vectors/CHANGES.md), which stays
+  the one place the number is written by hand;
 - the **corpusDigest** from the manifest of the corpus you ran, which
   [`release/CORPUS-DIGESTS.txt`](release/CORPUS-DIGESTS.txt) also carries under
   one signature for every corpus at once.
@@ -138,6 +139,7 @@ belongs to is not a figure about anything.
 | `vectors-anchor-stream/` | `anchor-stream-conformance` | the anchor-stream verification contract published by aos-standard/catalog |
 | `vectors-artifact-binding/` | `artifact-binding-conformance` | the artifact-binding contract, over three verdicts rather than two |
 | `vectors-mcp-record-contract/` | `cross-run-record-contract` | what a cross-implementation run record has to carry to mean anything |
+| `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-w3c-report/` | `w3c-report-v01-conformance` | the v0.1 per-check report of the W3C public-agent-conformance group: the five states, the cause rule, the twelve rejection rows and the two late additions, as whole reports |
 

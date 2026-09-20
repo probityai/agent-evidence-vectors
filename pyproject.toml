@@ -163,8 +163,8 @@ files = ["packaging", "vectors", "tools"]
 include = ["docs/proposals", "packaging", "scripts", "tools", "vectors",
            "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action",
            "vectors-anchor-stream", "vectors-artifact-binding",
-           "vectors-mcp-record-contract", "vectors-scitt-cose",
-           "vectors-w3c-report"]
+           "vectors-mcp-record-contract", "vectors-observed-effect",
+           "vectors-scitt-cose", "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same
