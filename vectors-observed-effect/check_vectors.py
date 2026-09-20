@@ -26,6 +26,7 @@ statements of one rule is the only arrangement in which this file can fail.
 from __future__ import annotations
 
 import base64
+import datetime
 import hashlib
 import json
 import os
@@ -43,8 +44,61 @@ from canonical import canonical_bytes  # noqa: E402
 from digest import corpus_digest  # noqa: E402
 
 GLOB_METACHARACTERS = set("*?[]{}!")
+PREDICATE_SPEC_PATH = "spec/predicates/observed-effect.md"
+
+
+def _predicate_type_from_spec() -> str:
+    """Read the Type URI out of the predicate document that defines it.
+
+    Not a literal here, and not imported from the generator either. The generator
+    is what produced the corpus, so a checker that took the URI from there would
+    agree with it by construction; the specification is the normative statement of
+    what this predicate IS, so main()'s comparison of the manifest against this
+    value is a comparison of the corpus against its own definition. It also keeps
+    the one first-party host name in this public repository confined to the
+    document that has to carry it.
+    """
+    spec = os.path.join(HERE, "..", PREDICATE_SPEC_PATH)
+    with open(spec, encoding="utf-8") as fh:
+        for line in fh:
+            if line.startswith("Type URI:"):
+                return line.split(":", 1)[1].strip()
+    raise SystemExit(f"{PREDICATE_SPEC_PATH} states no Type URI line")
+
+
+PREDICATE_TYPE = _predicate_type_from_spec()
+#: RFC 3339, UTC, Z designator, no fractional second. The grammar is fixed so that
+#: a lexical comparison of two timestamps IS a comparison of two instants. While it
+#: was not, a commitment stamped 2026-09-18T20:00:00-05:00 sorted before an interval
+#: that opened at 2026-09-19T00:00:00Z and was made an hour AFTER it.
+TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+TIMESTAMP_MEMBERS = ("openedAt", "sealedAt")
+#: Facts a statement can recompute about itself. dualValues is the one member the
+#: predicate offers as catching a lying producer, and it caught nothing while the
+#: observed side was a free string: writes.count could read 7 on a record carrying
+#: two writes.
+SELF_DERIVABLE: dict[str, Callable[[dict[str, Any]], str]] = {
+    "writes.count": lambda p: str(len(p["writes"])),
+    "reads.count": lambda p: str(len(p["reads"])),
+    "pathScope.count": lambda p: str(len(p["pathScope"])),
+    "interval.beforeRoot": lambda p: p["interval"]["beforeRoot"],
+    "interval.afterRoot": lambda p: p["interval"]["afterRoot"],
+    "authorityDigest": lambda p: p["authorityDigest"],
+}
+#: I-JSON's safe-integer bound. canonical.py refuses to ENCODE past it, which is
+#: the producer side. A hostile rail does not use our encoder, so the verifier
+#: refuses to CONSUME past it too.
+IJSON_LIMIT = 2**53
 BASE_RESOLUTIONS = {"supplied", "recorded-parent", "empty-tree"}
 VANTAGES = {"below-observed", "peer", "self"}
+#: How the evidence in this record ARRIVED, which is a different question from
+#: where the producer stood. Three values are the sibling vocabulary's, borrowed
+#: from the specification it crosswalks; first-hand is that registry's own, for a
+#: producer that observed somebody else's execution itself.
+ORIGINS = {"self", "first-hand", "third-party-control-plane", "log-import"}
+#: The two origins that hold somebody else's record. An importer has no quote to
+#: present, so it may not claim a hardware-rooted runtime.
+IMPORT_ORIGINS = {"third-party-control-plane", "log-import"}
 TIERS = {"voluntary", "authoritative"}
 MUTATIONS = {"observed", "none"}
 READ_STATES = {"bytes-read", "no-bytes-read", "unavailable"}
@@ -89,6 +143,50 @@ def _hex(value: Any, width: int) -> str:
     return value
 
 
+def _lower_hex(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and value != ""
+        and all(c in "0123456789abcdef" for c in value)
+    )
+
+
+def _path_normalized(value: Any, allow_trailing_slash: bool) -> bool:
+    """Absolute, with no empty, dot or dot-dot segment.
+
+    Without this, /srv/app/../../../etc/shadow starts with /srv/app/ and a write to
+    /etc/shadow travels as in-scope under a scope of /srv/app/.
+    """
+    if not isinstance(value, str) or not value.startswith("/"):
+        return False
+    body = value[1:]
+    if body.endswith("/"):
+        if not allow_trailing_slash:
+            return False
+        body = body[:-1]
+    if body == "":
+        return True
+    return all(segment not in ("", ".", "..") for segment in body.split("/"))
+
+
+def _under(path: str, scope: str) -> bool:
+    """Containment at a segment boundary, never by string prefix.
+
+    /srv/application-secrets/id_ed25519 starts with /srv/app and is not under it.
+    """
+    prefix = scope if scope.endswith("/") else scope + "/"
+    return path == scope.rstrip("/") or path.startswith(prefix)
+
+
+def _timestamp(value: Any, code: str) -> datetime.datetime:
+    if not isinstance(value, str):
+        raise Malformed(code)
+    try:
+        return datetime.datetime.strptime(value, TIMESTAMP_FORMAT)
+    except ValueError as exc:
+        raise Malformed(code) from exc
+
+
 def _required(obj: dict[str, Any], *names: str) -> None:
     for name in names:
         if name not in obj:
@@ -99,6 +197,60 @@ def _required(obj: dict[str, Any], *names: str) -> None:
 # The rules. One function per rule the predicate states. mutation_check.py
 # replaces one of these with a no-op at a time.
 # ---------------------------------------------------------------------------
+
+
+def rule_ijson_integers(statement: dict[str, Any]) -> None:
+    """No integer at or above 2**53 anywhere, at any depth.
+
+    The Prerequisites section states this as a MUST and canonical.py enforces it on
+    the way out. Nothing enforced it on the way in, so a byteRange of
+    9007199254740993 was accepted and two rails read two different numbers from one
+    set of bytes.
+    """
+
+    def walk(node: Any) -> None:
+        if isinstance(node, bool):
+            return
+        if isinstance(node, int):
+            if abs(node) >= IJSON_LIMIT:
+                raise Malformed("integer-not-ijson-safe")
+            return
+        if isinstance(node, dict):
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+
+    walk(statement)
+
+
+def rule_predicate_type(statement: dict[str, Any]) -> None:
+    """The statement must say which predicate these fields belong to."""
+    if statement.get("predicateType") != PREDICATE_TYPE:
+        raise Malformed("predicate-type-unexpected")
+
+
+def rule_subject_binding(statement: dict[str, Any]) -> None:
+    """The subject is the interval's after-state, and nothing else.
+
+    This is the rule whose absence made every other rule in this file optional: a
+    consumer gates on the subject digest, and while nothing bound it to the
+    interval, a record could carry an honest, fully authoritative interval beside a
+    subject naming an artifact the interval never produced.
+    """
+    pred = statement["predicate"]
+    subject = statement.get("subject")
+    if not isinstance(subject, list) or len(subject) != 1:
+        raise Malformed("subject-not-a-single-member")
+    member = subject[0]
+    _required(member, "name", "digest")
+    digest = member["digest"]
+    algorithm = pred["hashAlgorithm"]
+    if not isinstance(digest, dict) or set(digest) != {algorithm}:
+        raise Malformed("subject-digest-algorithm-mismatch")
+    if digest[algorithm] != pred["interval"]["afterRoot"]:
+        raise Malformed("subject-not-the-after-root")
 
 
 def rule_required_members(pred: dict[str, Any]) -> None:
@@ -122,7 +274,7 @@ def rule_required_members(pred: dict[str, Any]) -> None:
     _required(
         pred["interval"], "beforeRoot", "afterRoot", "baseResolution", "openedAt", "sealedAt"
     )
-    _required(pred["observation"], "vantage", "coverage", "observedSigners")
+    _required(pred["observation"], "vantage", "coverage", "observedSigners", "origin")
 
 
 def rule_closed_vocabularies(pred: dict[str, Any]) -> None:
@@ -135,6 +287,28 @@ def rule_closed_vocabularies(pred: dict[str, Any]) -> None:
         raise Malformed("hash-algorithm-unknown")
     if pred["observation"]["vantage"] not in VANTAGES:
         raise Malformed("vantage-unknown")
+    if pred["observation"]["origin"] not in ORIGINS:
+        raise Malformed("origin-unknown")
+
+
+def rule_timestamp_grammar(pred: dict[str, Any]) -> None:
+    """Every timestamp is RFC 3339 UTC with Z and no fractional second.
+
+    The ordering rules below compare strings. That is sound for exactly one
+    grammar, and two records defeated it: an offset of -05:00 sorted an hour late
+    commitment before the interval it was supposed to precede, and a fractional
+    second sorted an identical instant strictly before itself.
+    """
+    interval = pred["interval"]
+    for member in TIMESTAMP_MEMBERS:
+        _timestamp(interval[member], f"timestamp-not-utc-basic:interval.{member}")
+    _timestamp(pred["issuedAt"], "timestamp-not-utc-basic:issuedAt")
+    commitment = pred["observation"].get("priorCommitment")
+    if commitment is not None and "committedAt" in commitment:
+        _timestamp(
+            commitment["committedAt"],
+            "timestamp-not-utc-basic:priorCommitment.committedAt",
+        )
 
 
 def rule_interval_order(pred: dict[str, Any]) -> None:
@@ -165,6 +339,16 @@ def rule_path_scope_literal(pred: dict[str, Any]) -> None:
             raise Malformed("path-scope-not-absolute")
         if GLOB_METACHARACTERS & set(entry):
             raise Malformed("path-scope-glob-metacharacter")
+
+
+def rule_paths_normalized(pred: dict[str, Any]) -> None:
+    """Every path in the statement is an absolute normalized path."""
+    for entry in pred["pathScope"]:
+        if not _path_normalized(entry, allow_trailing_slash=True):
+            raise Malformed("path-scope-not-normalized")
+    for row in pred["reads"] + pred["writes"]:
+        if not _path_normalized(row.get("path"), allow_trailing_slash=False):
+            raise Malformed("path-not-normalized")
 
 
 def rule_write_chain(pred: dict[str, Any]) -> None:
@@ -251,14 +435,92 @@ def rule_read_chain(pred: dict[str, Any]) -> None:
             raise Malformed("read-pre-state-not-in-interval")
 
 
+def rule_empty_tree_holds_no_bytes(pred: dict[str, Any]) -> None:
+    """Nothing can be read out of the empty tree.
+
+    The terminal case of base resolution is the strongest thing a producer can
+    claim about the past: there was nothing before. A record that claims it and
+    then reads 64 bytes from a file at that root has said both.
+    """
+    before = pred["interval"]["beforeRoot"]
+    if before != EMPTY_TREE[pred["hashAlgorithm"]]:
+        return
+    for row in pred["reads"]:
+        if row.get("readState") == "bytes-read" and row.get("preStateDigest") == before:
+            raise Malformed("bytes-read-from-the-empty-tree")
+
+
 def rule_coverage_coherence(pred: dict[str, Any]) -> None:
     coverage = pred["observation"]["coverage"]
     _required(coverage, "scopeComplete", "gaps")
     if not coverage["scopeComplete"]:
         return
     for gap in coverage["gaps"]:
-        if any(gap.startswith(scope) for scope in pred["pathScope"]):
+        if any(_under(gap, scope) for scope in pred["pathScope"]):
             raise Malformed("coverage-self-contradictory")
+
+
+def rule_coverage_gaps_named(pred: dict[str, Any]) -> None:
+    """An incomplete observation says WHERE it was blind.
+
+    Clause 4 of the tier recompute reads "every member of gaps names a path outside
+    pathScope", and an empty gaps list satisfies that vacuously, so a record could
+    admit that it did not cover its own scope, name no gap, and still grade
+    authoritative. The blind spot is where the writes went.
+    """
+    coverage = pred["observation"]["coverage"]
+    if not coverage["scopeComplete"] and not coverage["gaps"]:
+        raise Malformed("coverage-incomplete-without-gaps")
+
+
+def rule_origin_carries_the_vantage(pred: dict[str, Any]) -> None:
+    """Only a producer that observed it itself may claim to have stood below.
+
+    Without this member there was no place in the record where an importer had to
+    say it imported, so a record assembled from another vendor's exported log
+    could be emitted as a first-hand below-observed observation and no field in
+    the statement contradicted it. The lie was not a false value anywhere; it was
+    a claim the format had no slot to refuse.
+    """
+    obs = pred["observation"]
+    if obs["vantage"] == "below-observed" and obs["origin"] != "first-hand":
+        raise Malformed("origin-cannot-carry-below-observed-vantage")
+
+
+def rule_import_origin_platform(pred: dict[str, Any]) -> None:
+    """A record holding somebody else's log may not claim a hardware-rooted runtime.
+
+    An importer has no quote to present. Whatever the exporting platform measured,
+    the importing party cannot produce the evidence for it, so an origin of
+    third-party-control-plane or log-import declares a software-only platform and a
+    verifier rejects anything else, absence included. self and first-hand may carry
+    a hardware-rooted platform, because both observed the execution on a machine
+    they were on.
+
+    The sibling vocabulary registers this beside the origin enum as a MUST and
+    nothing enforced it: no member carried a runtime member at all and this document
+    named no platform field, so half of the origin rule was a sentence in a registry
+    with no verifier behind it.
+    """
+    obs = pred["observation"]
+    if obs["origin"] not in IMPORT_ORIGINS:
+        return
+    runtime = obs.get("runtime")
+    if not isinstance(runtime, dict) or runtime.get("platform") != "software-only":
+        raise Malformed("import-origin-requires-software-only-platform")
+
+
+def rule_prior_commitment_present(pred: dict[str, Any]) -> None:
+    """priorCommitment is required where vantage is below-observed.
+
+    The Fields section says so and nothing enforced it, so a record could carry the
+    independence claim with nothing behind it and pass as voluntary. Refusing it
+    here is what makes clause 2 of the tier recompute unreachable, and the clause is
+    gone for that reason rather than kept as a sentence.
+    """
+    obs = pred["observation"]
+    if obs["vantage"] == "below-observed" and obs.get("priorCommitment") is None:
+        raise Malformed("prior-commitment-absent-for-vantage")
 
 
 def rule_commitment_digest(pred: dict[str, Any]) -> None:
@@ -292,8 +554,11 @@ def rule_agreement_derivable(pred: dict[str, Any]) -> None:
             raise Malformed("agreement-unknown")
         observed, reported = row["observedValue"], row["reportedValue"]
         if observed == "" and reported == "":
-            derived = "one-sided"
-        elif observed == "" or reported == "":
+            # Neither side carries a value, so there is no comparison to declare.
+            # This read as one-sided and let a record carry any number of dual
+            # values that looked like cross-checks and asserted nothing.
+            raise Malformed("dual-value-carries-no-value")
+        if observed == "" or reported == "":
             derived = "one-sided"
         elif observed == reported:
             derived = "agree"
@@ -301,6 +566,69 @@ def rule_agreement_derivable(pred: dict[str, Any]) -> None:
             derived = "disagree"
         if row["agreement"] != derived:
             raise Malformed("agreement-not-derivable")
+
+
+def rule_dual_value_recomputes(pred: dict[str, Any]) -> None:
+    """For a fact the statement can compute about itself, the observed side is that.
+
+    dualValues is the member the predicate offers as the one that catches a lying
+    producer without trusting anyone, and the observed side was a free string: a
+    record carrying two writes could declare writes.count observed as 7 and agree
+    with itself. A fact the carried bytes determine is not a matter of report.
+    """
+    for row in pred["dualValues"]:
+        derive = SELF_DERIVABLE.get(row["fact"])
+        if derive is None:
+            continue
+        if row["observedValue"] != derive(pred):
+            raise Malformed("dual-value-not-recomputable")
+
+
+def rule_keyid_form(pred: dict[str, Any]) -> None:
+    """One spelling per key identifier, so a comparison cannot be dodged by case.
+
+    The disjointness check below is the predicate's offline discriminator and it is
+    a string comparison. An observed party that listed its own key uppercase in
+    observedSigners and committed with it lowercase passed the discriminator with
+    the same key on both sides.
+    """
+    obs = pred["observation"]
+    for keyid in obs["observedSigners"]:
+        if not _lower_hex(keyid):
+            raise Malformed("keyid-not-lowercase-hex")
+    commitment = obs.get("priorCommitment")
+    if commitment is not None and not _lower_hex(commitment.get("keyid")):
+        raise Malformed("keyid-not-lowercase-hex")
+
+
+def rule_commitment_signature(pred: dict[str, Any], observer_public_key: str) -> None:
+    """The prior commitment is signed, and the signature is CHECKED.
+
+    Stage two in the Parsing Rules section names this gate and nothing implemented
+    it, so sixty-four zero bytes in sig produced an authoritative record. Checking
+    it against the key the consumer anchored also narrows attack A1: the second key
+    a self-observer commits with is no longer any key it likes, it is a key the
+    consumer has to have anchored.
+    """
+    commitment = pred["observation"].get("priorCommitment")
+    if commitment is None:
+        return
+    body = {
+        "authorityDigest": pred["authorityDigest"],
+        "beforeRoot": pred["interval"]["beforeRoot"],
+        "intervalId": pred["intervalId"],
+        "witnessNonce": commitment["witnessNonce"],
+    }
+    try:
+        signature = bytes.fromhex(commitment["sig"])
+    except (ValueError, TypeError) as exc:
+        raise Malformed("commitment-signature-unreadable") from exc
+    try:
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(observer_public_key)).verify(
+            signature, canonical_bytes(body)
+        )
+    except InvalidSignature as exc:
+        raise Invalid("commitment-signature-invalid") from exc
 
 
 def rule_commitment_order(pred: dict[str, Any]) -> None:
@@ -323,7 +651,7 @@ def rule_commitment_keyid_disjoint(pred: dict[str, Any]) -> None:
 
 def rule_write_scope(pred: dict[str, Any]) -> None:
     for row in pred["writes"]:
-        covered = any(row["path"].startswith(scope) for scope in pred["pathScope"])
+        covered = any(_under(row["path"], scope) for scope in pred["pathScope"])
         if covered != bool(row["inScope"]):
             raise Invalid("write-in-scope-mislabelled")
         if not covered and pred["tier"] == "authoritative":
@@ -335,16 +663,20 @@ def rule_tier_recompute(pred: dict[str, Any]) -> None:
     obs = pred["observation"]
     clauses = {
         "authoritative-vantage-not-independent": obs["vantage"] == "below-observed",
-        "authoritative-prior-commitment-absent": obs.get("priorCommitment") is not None,
         "authoritative-empty-path-scope": bool(pred["pathScope"]),
         "authoritative-coverage-incomplete": bool(obs["coverage"]["scopeComplete"])
         or not any(
-            gap.startswith(scope)
+            _under(gap, scope)
             for gap in obs["coverage"]["gaps"]
             for scope in pred["pathScope"]
         ),
     }
-    # There is no mutation-shape clause here, and its absence is deliberate. An
+    # The prior-commitment clause is gone for the same reason, and it went the same
+    # way: rule_prior_commitment_present refuses a below-observed record with no
+    # commitment in stage one, and a record whose vantage is anything else fails the
+    # vantage clause first, so no input reached the commitment clause here.
+    #
+    # There is no mutation-shape clause here either, and its absence is deliberate. An
     # earlier draft carried one, and the mutation sweep proved it UNREACHABLE: any
     # record whose mutation claim disagrees with its write set is already malformed
     # under rule_mutation_coherence, which is stage one and runs first. A clause no
@@ -360,27 +692,66 @@ def rule_tier_recompute(pred: dict[str, Any]) -> None:
     raise Invalid("tier-recompute-mismatch")
 
 
+def rule_authoritative_carries_rows(pred: dict[str, Any]) -> None:
+    """An authoritative record observed something.
+
+    Attack A2 is recorded as closed by the non-empty pathScope clause. It was
+    closed against one spelling: pathScope ["/"] with an empty reads and an empty
+    writes is the same vacuous record, graded the strongest tier, asserting that
+    nothing happened anywhere. mutation: none is a positive claim about an interval
+    and it needs a row to be a claim about anything.
+    """
+    if pred["tier"] != "authoritative":
+        return
+    if not pred["reads"] and not pred["writes"]:
+        raise Invalid("authoritative-without-observed-rows")
+
+
+#: Rules whose input is the whole statement rather than the predicate, and the one
+#: that needs the consumer's anchored key. The dispatch is by name because RULES is
+#: what mutation_check.py disables one entry of.
+STATEMENT_SCOPED = frozenset(
+    {"rule_ijson_integers", "rule_predicate_type", "rule_subject_binding"}
+)
+BLOB_SCOPED = frozenset({"rule_range_preimage"})
+KEY_SCOPED = frozenset({"rule_commitment_signature"})
+
+
 #: Ordered because stage one precedes stage two, and because the first refusal is
 #: the code the manifest names. Each entry is (condition-ish name, function).
 RULES: list[tuple[str, Callable[..., None]]] = [
+    ("rule_ijson_integers", rule_ijson_integers),
+    ("rule_predicate_type", rule_predicate_type),
     ("rule_required_members", rule_required_members),
     ("rule_closed_vocabularies", rule_closed_vocabularies),
+    ("rule_timestamp_grammar", rule_timestamp_grammar),
     ("rule_interval_order", rule_interval_order),
     ("rule_base_vocabulary", rule_base_vocabulary),
     ("rule_empty_tree_constant", rule_empty_tree_constant),
     ("rule_path_scope_literal", rule_path_scope_literal),
+    ("rule_paths_normalized", rule_paths_normalized),
     ("rule_mutation_coherence", rule_mutation_coherence),
     ("rule_write_chain", rule_write_chain),
+    ("rule_subject_binding", rule_subject_binding),
     ("rule_read_bindings", rule_read_bindings),
     ("rule_range_preimage", rule_range_preimage),
     ("rule_read_chain", rule_read_chain),
+    ("rule_empty_tree_holds_no_bytes", rule_empty_tree_holds_no_bytes),
     ("rule_coverage_coherence", rule_coverage_coherence),
+    ("rule_coverage_gaps_named", rule_coverage_gaps_named),
+    ("rule_origin_carries_the_vantage", rule_origin_carries_the_vantage),
+    ("rule_import_origin_platform", rule_import_origin_platform),
+    ("rule_prior_commitment_present", rule_prior_commitment_present),
     ("rule_commitment_digest", rule_commitment_digest),
+    ("rule_keyid_form", rule_keyid_form),
     ("rule_agreement_derivable", rule_agreement_derivable),
+    ("rule_dual_value_recomputes", rule_dual_value_recomputes),
+    ("rule_commitment_signature", rule_commitment_signature),
     ("rule_commitment_order", rule_commitment_order),
     ("rule_commitment_keyid_disjoint", rule_commitment_keyid_disjoint),
     ("rule_write_scope", rule_write_scope),
     ("rule_tier_recompute", rule_tier_recompute),
+    ("rule_authoritative_carries_rows", rule_authoritative_carries_rows),
 ]
 
 
@@ -414,14 +785,17 @@ def verify(
     except Exception:
         return "malformed", ["not-parseable"]
 
-    refusal = _apply_rules(statement, blobs, disabled)
+    refusal = _apply_rules(statement, blobs, disabled, observer_public_key)
     if refusal is not None:
         return refusal
     return _verify_envelope(envelope, payload, observer_public_key)
 
 
 def _apply_rules(
-    statement: dict[str, Any], blobs: dict[str, bytes], disabled: str | None
+    statement: dict[str, Any],
+    blobs: dict[str, bytes],
+    disabled: str | None,
+    observer_public_key: str,
 ) -> tuple[str, list[str]] | None:
     """Run stage one and stage two. Return a refusal, or None where every rule held."""
     try:
@@ -431,8 +805,12 @@ def _apply_rules(
         for name, fn in RULES:
             if name == disabled:
                 continue
-            if name == "rule_range_preimage":
+            if name in STATEMENT_SCOPED:
+                fn(statement)
+            elif name in BLOB_SCOPED:
                 fn(pred, blobs)
+            elif name in KEY_SCOPED:
+                fn(pred, observer_public_key)
             else:
                 fn(pred)
     except Malformed as exc:
@@ -566,6 +944,10 @@ def check_counts(manifest: dict[str, Any]) -> None:
         actual[entry["kind"]] += 1
     if actual != manifest["counts"]:
         FAILURES.append(f"counts declare {manifest['counts']} and the members are {actual}")
+    if manifest["predicateType"] != PREDICATE_TYPE:
+        FAILURES.append(
+            "the manifest's predicateType is not the URI this verifier enforces"
+        )
     if manifest["emptyTree"] != EMPTY_TREE:
         FAILURES.append("the manifest's empty-tree constants are not the computed ones")
     recomputed = corpus_digest(manifest)

@@ -26,21 +26,21 @@ jobs:
           go-version: '1.24'
       - name: gofmt (no diffs)
         run: |
-          unformatted=$(gofmt -l aee cmd witnessattestor)
+          unformatted=$(gofmt -l aee cmd corpora observedeffect witnessattestor)
           if [ -n "$unformatted" ]; then
             echo "gofmt needs to run on:"; echo "$unformatted"; exit 1
           fi
       - name: build
         run: |
-          go build ./aee/... ./cmd/...
+          go build ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && go build ./...)
       - name: vet
         run: |
-          go vet ./aee/... ./cmd/...
+          go vet ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && go vet ./...)
       - name: test (race)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... -race -count=1
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
           (cd witnessattestor && go test ./... -race -count=1)
       # The README advertises cmd/aee-verify as a consumer implementation and
       # separately tells a third party how to wire a rail into the harness.
@@ -81,7 +81,18 @@ jobs:
               # looks fine.
               2)
                 if [ -f "${dir}check_vectors.py" ]; then
-                  echo "   no Go reader yet; ${dir}check_vectors.py judges this corpus and runs in the python job"
+                  # "runs in the python job" was a sentence, not a check. A corpus
+                  # arrived with a checker, a mutation sweep and no step invoking
+                  # either, and this branch reported it as judged while nothing
+                  # judged it: the Go reader exits 2, the checker exists, and the
+                  # loop said so approvingly. The claim is now verified against
+                  # this file, so a corpus whose checker no step runs fails here.
+                  if grep -q "${dir}check_vectors.py" .github/workflows/ci.yml; then
+                    echo "   no Go reader yet; ${dir}check_vectors.py judges this corpus and a step in this workflow runs it"
+                  else
+                    echo "   ${dir}check_vectors.py exists and no step in this workflow runs it: judged by nothing" >&2
+                    status=1
+                  fi
                 else
                   echo "   no Go reader and no ${dir}check_vectors.py: this corpus is judged by nothing" >&2
                   status=1
@@ -106,7 +117,7 @@ jobs:
 
       - name: coverage (per-file 80% minimum)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... -coverprofile=core.cov -count=1
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -coverprofile=core.cov -count=1
           (cd witnessattestor && go test ./... -coverprofile=../wa.cov -count=1)
           # The aee-witness-demo command is a runnable library-mode example; its
           # attest lifecycle is covered by the attestor tests, so it is excluded.
@@ -115,7 +126,7 @@ jobs:
       - name: staticcheck
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@latest
-          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpora/...
+          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && "$(go env GOPATH)/bin/staticcheck" ./...)
       # The accepted-complexity table in docs/architecture/DESIGN_DECISIONS.md
       # names each branch-heavy Go function and its measured complexity. This
@@ -177,7 +188,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors scripts
+        run: uv run ruff check packaging vectors vectors-observed-effect scripts
       # The other half of the accepted-complexity gate. It runs here rather than
       # beside the Go half because it measures with ruff, and it measures with
       # --ignore-noqa because the marker that brings a function into
@@ -685,6 +696,20 @@ jobs:
       # corpora/artifactbinding.go with the rest of the corpus's rules.
       - name: the artifact-binding corpus carries exactly the faults it names
         run: uv run --extra artifact-binding python vectors-artifact-binding/check_vectors.py
+      # The observed-effect corpus needs the `generators` extra for the same
+      # reason the SCITT one does: its reference verifier checks Ed25519
+      # signatures, including the prior-commitment signature, and that is not in
+      # the standard library.
+      - name: the observed-effect corpus behaves as its manifest claims
+        run: uv run --extra generators python vectors-observed-effect/check_vectors.py
+      # A second question the checker above cannot ask about itself: would any
+      # member still be refused if a rule were removed? The sweep disables one
+      # rule at a time and requires some member to stop being refused. It earns
+      # its own step because it has already failed for real: two rules added in
+      # one pass were each masked by another rule that refused the same member
+      # first, so both measured nothing and the suite was green.
+      - name: every observed-effect rule is load-bearing
+        run: uv run --extra generators python vectors-observed-effect/mutation_check.py
       # The rail's own oracle, which is a different question from the corpus.
       # A vector states what the rail must decide about bytes on disk; the
       # self-test states what the rail must decide about a statement it builds

@@ -54,6 +54,27 @@ var corpusCases = []corpusCase{
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }
 
+// stageSiblingSpec copies the repository's spec tree next to a staged corpus.
+//
+// A corpus directory is not always enough to judge a corpus. One reader reads the
+// predicate's Type URI out of the document that DEFINES it rather than trusting
+// the copy in the manifest, and resolves that document through dir/.. -- which is
+// the right way round, because a manifest asserting its own predicate type is a
+// corpus grading its own homework. Staged on its own, that corpus cannot be
+// judged at all: Judge returns an unreadable-corpus error, and the red half of
+// this test then fails for a reason that has nothing to do with the byte it
+// flipped. Staging the document keeps the assertion about the member bytes.
+func stageSiblingSpec(t *testing.T, root string) {
+	t.Helper()
+	source := filepath.Join("..", "spec")
+	if _, err := os.Stat(source); err != nil {
+		t.Fatalf("the repository has no spec tree to stage (%v), so a reader that reads a "+
+			"vendored document cannot run here and this case would report an unreadable "+
+			"corpus instead of the finding it exists to assert", err)
+	}
+	copyTree(t, source, filepath.Join(root, "spec"))
+}
+
 // TestEveryCommittedCorpusIsClean is the green half: one binary, every corpus.
 func TestEveryCommittedCorpusIsClean(t *testing.T) {
 	for _, tc := range corpusCases {
@@ -96,8 +117,10 @@ func TestEveryCommittedCorpusIsClean(t *testing.T) {
 func TestAFlippedByteNamesItsMember(t *testing.T) {
 	for _, tc := range corpusCases {
 		t.Run(tc.dir, func(t *testing.T) {
-			copied := filepath.Join(t.TempDir(), tc.dir)
+			root := t.TempDir()
+			copied := filepath.Join(root, tc.dir)
 			copyTree(t, corpusPath(tc.dir), copied)
+			stageSiblingSpec(t, root)
 			id, rel := firstMember(t, copied, tc.memberFileKey)
 			flipOneByte(t, filepath.Join(copied, rel))
 
