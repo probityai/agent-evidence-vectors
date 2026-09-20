@@ -658,10 +658,10 @@ func rowBases(t *testing.T, body []byte) []*string {
 // checkTierPartition asserts the property that holds over the WHOLE accept
 // corpus under EVERY key policy: the tier column partitions on the row's basis
 // and on nothing else. A basis: substrate row is attested or unattested
-// depending on the consumer's keys (spec:766-775); every other row -- artifact,
+// depending on the consumer's keys (spec:req-fields-there-second-use-these-three@260bfd9c41c35939); every other row -- artifact,
 // or fail-closed on an absent or unknown basis -- is declared, because its
 // vantage can strengthen nothing and no key policy can promote it
-// (spec:1122-1123).
+// (spec:req-fields-attribution-axis-acquires-such-reader@dded35f82974eac5).
 //
 // This is stated as an invariant rather than as more pinned columns on purpose.
 // The suite pins the tier column for a single one of its accept vectors, and

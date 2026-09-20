@@ -1,14 +1,14 @@
 package aee
 
-// GATE 2 — the per-row evidence tier (spec:766-775). Trust-relative and
+// GATE 2 — the per-row evidence tier (spec:req-fields-there-second-use-these-three@260bfd9c41c35939). Trust-relative and
 // derived, never carried: {declared | unattested | attested} given the
 // consumer's key policy. The tier is total and deterministic given that
 // policy; it never alters result.
 //
 // No TOFU: a consumer with no policy-pinned substrate root MUST treat every
 // basis: substrate row as unattested and MUST NOT infer the substrate root
-// from the predicate (spec:771-774). A record's keyid is an unauthenticated
-// lookup hint and never the check itself (spec:1901-1903): verification below
+// from the predicate (spec:req-fields-there-second-use-these-three@260bfd9c41c35939). A record's keyid is an unauthenticated
+// lookup hint and never the check itself (spec:req-verification-consumer-pin-out-band-set@263aa86dc614e465): verification below
 // tries every policy-named key and never reads keyid.
 
 import (
@@ -22,7 +22,7 @@ type Tier string
 
 // The three tiers. Consumer policy MAY subdivide attested into stricter
 // refinements; a refinement refines, never reorders, and tier names
-// beginning with "aee" are reserved (spec:775-779).
+// beginning with "aee" are reserved (spec:req-fields-closure-against-producer-consumer-obligation@eae11109144a622f).
 const (
 	TierDeclared   Tier = "declared"
 	TierUnattested Tier = "unattested"
@@ -55,7 +55,7 @@ type ConsumerPolicy struct {
 // already passed GATE 0 and GATE 1. Row order matches attackResults order.
 //
 //   - a basis: artifact row is declared; a row fail-closed on basis sits at
-//     the bottom of both orderings (spec:1122-1123) and is reported declared —
+//     the bottom of both orderings (spec:req-fields-attribution-axis-acquires-such-reader@dded35f82974eac5) and is reported declared —
 //     it can strengthen nothing;
 //   - a basis: substrate row is attested when every covering record's
 //     signature verifies against a policy-named key, unattested otherwise.

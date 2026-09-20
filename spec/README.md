@@ -40,3 +40,54 @@ and a pin naming the wrong commit either reports a drift that does not exist or
 conceals one that does. `spec-drift-gate.py` now fails closed unless the
 vendored bytes, the pin, and the digest the corpus was generated against all
 agree.
+
+## Long-form specification material
+
+The registry entry in the in-toto catalog is sized to that registry: type URI,
+schema, parsing rules, one line per field, examples, changelog. The material the
+specification argues rather than states -- the recompute split, each encoding
+rule with the divergence it closes, the eleven coverage validity requirements
+and where each stops, the consumer policy obligations, and the per-version
+history -- lives beside it in
+[`predicates/adversarial-execution-evidence/`](predicates/adversarial-execution-evidence/),
+verbatim from the single-document revision. That directory is what the registry
+page links to, and its README says which file holds what.
+
+It is not a second source of truth. Where a companion and the registry page
+differ on a normative rule, the page governs and the difference is a defect to
+report.
+
+## How source code cites this specification
+
+**The citation format, for anyone vendoring or remapping against it.** A citation
+in the Go and Python source is `spec:<anchor-id>@<digest-prefix>` — for example
+`spec:req-coverage-validity-refs-in-range@3f9c1a7b2e5d4086`. The **anchor id**
+matches `[A-Za-z0-9][A-Za-z0-9._-]*` and names an anchor that exists in the
+specification source as an HTML anchor alone on its own line,
+`<a id="req-coverage-validity-refs-in-range"></a>`, placed immediately before the
+text it names; that form is the one the in-toto attestation repository already
+uses for its own field-type definitions in `spec/v0.1.0/field_types.md`, and
+`.markdownlint.yaml` there sets `MD033: false`, so inline HTML is allowed rather
+than merely tolerated. An anchor covers the **`blocks`** maximal runs of
+consecutive non-blank lines that follow it, where the count is recorded in
+[`CITATION-ANCHORS.json`](CITATION-ANCHORS.json) rather than inferred from the
+next anchor, so anchors may nest and overlap — which they must, because the source
+cites both a subsection and individual bullets inside it. The **digest** is the
+SHA-256 of that covered text after normalization, and the normalization is the
+whole point: every run of whitespace collapses to one space and the result is
+stripped, and nothing else changes — not case, not punctuation, not the backticks
+around an identifier. So re-wrapping a paragraph at a different column leaves the
+digest identical, moving a section leaves it identical, and changing one word of a
+cited requirement changes it and fails the gate closed. The inline form carries
+the first 16 hex characters (64 bits, enough that no reword collides) while
+`CITATION-ANCHORS.json` carries the full 64, and `scripts/spec-drift-gate.py`
+checks both against the digest it recomputes from the file on disk, so a stale
+inline prefix fails even when the manifest was updated.
+
+**This replaces line numbers outright, and no line-number citation is left
+behind.** `spec:1302-1304` addressed one revision of one file: it could not
+survive a reflow, it could not survive the split of the 2,383-line document into a
+registry-sized page plus five companions, and it stayed silent on the one edit a
+citation exists to catch, which is a reword of the sentence it points at. Any
+remaining `spec:<digits>` in this repository is a defect; `spec_anchors.py`
+exposes `LEGACY_CITATION_RE` so a gate can say so.

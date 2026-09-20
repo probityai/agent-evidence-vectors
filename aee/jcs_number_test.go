@@ -6,7 +6,7 @@ import (
 )
 
 // TestSafeIntegerProfile pins the integers-only, safe-integer number profile
-// (spec:100-102,1311-1313) uniformly across CheckIJSON and Canonicalize, and in
+// (spec:req-wireprofile-toto-attestation-framework-plus-understanding@9b70dfbc01b9a3f6,req-fields-fields-divide-identity-whose-signature@80666d820c397ce5) uniformly across CheckIJSON and Canonicalize, and in
 // every JSON notation. The exponent-notation cases are the regression: "1e21"
 // is the integer 10^21 and MUST be rejected, but the prior notation-blind check
 // only range-checked tokens without '.', 'e', or 'E', so it slipped through.

@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/gen_spec_anchors.py",
+  "note": "generated from attestation@25ac858 by scripts/gen_spec_anchors.py; every citation in the Go and Python source resolves through this file",
+  "normalization": "every run of whitespace collapses to one space, then strip; nothing else changes",
+  "extentRule": "an anchor covers the `blocks` maximal runs of non-blank lines that follow it; the count is recorded rather than inferred, so anchors may nest and overlap",
+  "inlineForm": "spec:<anchor-id>@<first 16 hex of sha256>",
+  "anchors": {
+    "req-fields-actuallayer-names-enforcement-layer-acted": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "fcb00b09c3b370f0c1ed55527674b1b7254b30490bd6addf32854f3c1dceaed1",
+      "excerpt": "`actualLayer` names the enforcement layer that acted on the row's containment event. It is required on every row; a row missing the member \u2026"
+    },
+    "req-fields-actuallayer-names-enforcement-layer-acted-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 3,
+      "sha256": "37221bc4326840044f83eee064c49fbedd9b302996928e8bf77f27fb30280826",
+      "excerpt": "`actualLayer` names the enforcement layer that acted on the row's containment event. It is required on every row; a row missing the member \u2026"
+    },
+    "req-fields-aeeobservedattacks-binds-deletion-relabelling-member": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "05c15d9150a03971c2a9fafb1dff70d2ca4f8e7c4873dc293628e9db8e083f1e",
+      "excerpt": "`aeeObservedAttacks` binds the deletion and the relabelling in one member, because deleting every interception record does not delete the s\u2026"
+    },
+    "req-fields-aeerunbinding-string-run-binding-digest": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "19184ed4961dd3e4d769d3396221207cda7ddf8c89b9fa6f1f04360b1a9c0da5",
+      "excerpt": "- `aeeRunBinding` _string_: the run binding digest defined under Prerequisites. - `aeeKind` _string_: `interception` (per-event capture, co\u2026"
+    },
+    "req-fields-arming-record-s-payload-additionally": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "09cfae859933aba40d47fe32ff5c8c3e777641d2c252027d8bc300dc12db2472",
+      "excerpt": "An `arming` record's payload MAY additionally carry three reserved members that chain runs under the same substrate key: `aeeRunSeq` (a pos\u2026"
+    },
+    "req-fields-arming-record-s-payload-additionally-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "5a96403832635f1322c13f6352be50da5f52324380b0b3dbb2bc47ef0274c7d6",
+      "excerpt": "An `arming` record's payload MAY additionally carry three reserved members that chain runs under the same substrate key: `aeeRunSeq` (a pos\u2026"
+    },
+    "req-fields-attribution-axis-acquires-such-reader": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "dded35f82974eac57f7952a0fe48b1da7c4640093160d5dcf27e22572e232fa8",
+      "excerpt": "`attribution` is the axis that acquires such a reader at this version. It states how firmly the row is bound to the records that cover it, \u2026"
+    },
+    "req-fields-attribution-enters-recompute-through-fail": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "d14e1c2f86d9cebcf8fa216275120b3d9bae654514aea13b20c90a0a40048363",
+      "excerpt": "`attribution` enters the recompute through the fail-closed arm of the first condition and nowhere else. A row declaring `paired` is not a w\u2026"
+    },
+    "req-fields-basis-vantage-claim-s-weakest": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "05d61e84eea58c1e2abc9d191e569a84838c8f8b9e080db8105828f19415b4b0",
+      "excerpt": "`basis` is the vantage of the claim's weakest input. A derived observation inherits `artifact` from any artifact-sourced input it consumed:\u2026"
+    },
+    "req-fields-both-registrations-verdict-preserving-what": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "3f3cfef70326695f12e255622dee9d665a6015f338e0ec876bf06adff546aaaf",
+      "excerpt": "Both registrations are verdict-preserving, which is what makes them additions a minor revision may make. A verifier that does not implement\u2026"
+    },
+    "req-fields-caught-row-whose-containmentobserved-label": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "ac678ffd07ea2cf00c91404063ddb22e207b52ad075ac4a5657d8a973a6d3ac2",
+      "excerpt": "A caught row is one whose `containmentObserved` label is in the carried caught set (`observationVocabulary.caught`); a clean row is one who\u2026"
+    },
+    "req-fields-caught-row-whose-containmentobserved-label-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "853cd39a636c0f552abcb886330a7e9e3f56ed8afa88cbf6c3a48bb0b24d6921",
+      "excerpt": "A caught row is one whose `containmentObserved` label is in the carried caught set (`observationVocabulary.caught`); a clean row is one who\u2026"
+    },
+    "req-fields-clean-row-resolves-observationrefs-index": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "156f05c55b1207d7fb0ee89443d3b3289910fec6909ad603f281ba1cb58b31f5",
+      "excerpt": "- a clean row resolves no `observationRefs` index to an `interception` record. A row stating that nothing was caught while pointing at a re\u2026"
+    },
+    "req-fields-closure-against-producer-consumer-obligation": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "eae11109144a622fb5062cab3afc05dbdedcc5c4f24c208e329dec615ceca1e9",
+      "excerpt": "The closure against that producer is the consumer obligation stated under Consumer policy obligations, and it is the closure rather than a \u2026"
+    },
+    "req-fields-comparison-subset-rather-than-equality": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "b518035679b715d449c672ddd22fc00b2396e4aa3f368d2cf817977ce9ca3530",
+      "excerpt": "The comparison is a subset rather than an equality, and the choice is load-bearing in both directions. A subset refuses the claim to have a\u2026"
+    },
+    "req-fields-coverage-bound-assessedclasses-array-class": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 3,
+      "sha256": "be2e39f3e7439e2407f22ef729e8a98bf166fef34eff5151987d71e4fb686a2d",
+      "excerpt": "The coverage bound: `assessedClasses` (array of class codes actually assessed), `outOfScope` and `routedElsewhere` (maps from class code to\u2026"
+    },
+    "req-fields-coverage-object-required-coverage-bound": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "8e3b5d6f5d2bec5f6b728479f902d0f279da034acea62ed06430762c4aff35ab",
+      "excerpt": "`coverage` _object, required_ The coverage bound: `assessedClasses` (array of class codes actually assessed), `outOfScope` and `routedElsew\u2026"
+    },
+    "req-fields-coverage-validity-derived-carried-bytes": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 5,
+      "sha256": "d0ffa1e57be1f4e63505aa2f691d9742a2d94e65158a43ab0e86e4b4518576b0",
+      "excerpt": "**Coverage validity (derived from carried bytes; a violation is malformed).** For every `basis: substrate` row, the following MUST hold or \u2026"
+    },
+    "req-fields-coverage-validity-derived-carried-bytes-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "c6e2553188dd254a54f4dca9e765c580b47d388311c50fdc4f0058f122d980c1",
+      "excerpt": "**Coverage validity (derived from carried bytes; a violation is malformed).** For every `basis: substrate` row, the following MUST hold or \u2026"
+    },
+    "req-fields-digest-pinned-context-evidence-was": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "64df74fb153232239b74b3160d15864b241e2fbb651160986e45acdad8d977b1",
+      "excerpt": "The digest-pinned context the evidence was earned under. Five required members: `substrate` (the subject reference of the substrate's own a\u2026"
+    },
+    "req-fields-dsse-envelope-per-observation-payload": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "b25ccffb96b860aac846cb3cdcd48282ac1fb0d5743a551e747ed64b88e49b90",
+      "excerpt": "One DSSE envelope per observation: `payload` (base64 of the exact canonical bytes the substrate signed at observation time), `payloadType`,\u2026"
+    },
+    "req-fields-dsse-envelope-per-observation-payload-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 7,
+      "sha256": "6ad791ea2fe1f425f7952f596e5fea366e742eab29ee0b39a39111882e4b791b",
+      "excerpt": "One DSSE envelope per observation: `payload` (base64 of the exact canonical bytes the substrate signed at observation time), `payloadType`,\u2026"
+    },
+    "req-fields-expectedpayloads-aeepayloadcommitment-attribution-bind-permut": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "580f5b43bf5b03e02da66a81883be111e689693dabbd8822cc3d3973b119e4ba",
+      "excerpt": "`expectedPayloads`, `aeePayloadCommitment` and `attribution` bind the permutation of the row-to-record assignment, and only on the layers w\u2026"
+    },
+    "req-fields-fail-degraded-pass-indirect-pass": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "1496facaec24f2dacd02efe27dd4f739929a51e3fabd79b051167942e1dd4ddd",
+      "excerpt": "One of `fail`, `degraded`, `pass_indirect`, `pass` (lowercase), ordered `fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,\u2026"
+    },
+    "req-fields-fields-divide-identity-whose-signature": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "80666d820c397ce52f29b6ef3bb2a2efe2173a63c6f8527ac424f05bcb05c603",
+      "excerpt": "Fields divide by the identity whose signature backs them. Substrate-covered, through the coverage validity gate and evidence tier: `basis` \u2026"
+    },
+    "req-fields-fields-divide-identity-whose-signature-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "fda9d561e208e9e413a02aa58ed7bab2863112f8e6770e3d0bf64ae83e01de47",
+      "excerpt": "Fields divide by the identity whose signature backs them. Substrate-covered, through the coverage validity gate and evidence tier: `basis` \u2026"
+    },
+    "req-fields-fields-divide-identity-whose-signature-3": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 4,
+      "sha256": "ab95391e07e8db818b748cfbf94ef7120f4a99820fc94a410f2255dc8136f857",
+      "excerpt": "Fields divide by the identity whose signature backs them. Substrate-covered, through the coverage validity gate and evidence tier: `basis` \u2026"
+    },
+    "req-fields-further-limit-belongs-member-here": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "8b73aef98ce43cf7d19c8be73d1ba5329bc6053bb858943467c3ae0a589b8cbb",
+      "excerpt": "A further limit belongs to no member here and would not be closed by adding one. `basis` names a class of vantage and not the substrate tha\u2026"
+    },
+    "req-fields-limit-common-all-four-stronger": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "5e7dea1f752df3690b92be3e9e2b832791c0feff220b08c79a6fb4943f626789",
+      "excerpt": "One limit is common to all four and is stronger than any of them. A property that compares this statement against another statement of the \u2026"
+    },
+    "req-fields-method-states-how-row-s": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "d35548444900b3343701700dfe00dcc7ddd5064fe0606a05c471c72f4b7a977d",
+      "excerpt": "`method` states how the row's claim was established, with a closed two-value vocabulary: - `intercepted`: the claim rests on events capture\u2026"
+    },
+    "req-fields-moat-drop-drop-containment-layer": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "5c9e1e0b596d6f4ed66cb00a2e8ea686ea63244e6452f060b9a682e5c983f669",
+      "excerpt": "`moat-drop` is a drop the containment layer performed and the substrate observed from the enforcement path: a packet the kernel refused to \u2026"
+    },
+    "req-fields-neither-kind-carries-constraints-because": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "09116e23544e21201cc70f9d8f71d76ede51f97200e7962b33f7d14d92733dd5",
+      "excerpt": "Neither kind carries constraints, because there is no state in which either covers anything and therefore none in which a constraint could \u2026"
+    },
+    "req-fields-neither-kind-carries-constraints-because-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "07ab497d65ebb3b50b472ee72a47f26dc5f1f0fe01b7a0f9d3e4c5a55e6822a7",
+      "excerpt": "Neither kind carries constraints, because there is no state in which either covers anything and therefore none in which a constraint could \u2026"
+    },
+    "req-fields-networkposture-posture-vocabulary-closed-four": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "70e087cfa806b7aefd5559751885198648bbf137b9a2533906f088646037eacb",
+      "excerpt": "The `networkPosture.posture` vocabulary is closed. Four values are registered: `allowlist`, egress permitted only to a declared destination\u2026"
+    },
+    "req-fields-networkposture-posture-vocabulary-closed-four-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "591aef9c088d916430ca074c3bda6bf1dd9ced876f4cc10f070516e9a61f68f0",
+      "excerpt": "The `networkPosture.posture` vocabulary is closed. Four values are registered: `allowlist`, egress permitted only to a declared destination\u2026"
+    },
+    "req-fields-observationrefs-non-empty-index-range": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "03ce53b6ce12e42c2d099fb005d8bb853e6bc74807ef5f39e15efc4d6ccce474",
+      "excerpt": "- its `observationRefs` is non-empty and every index is in range for `observationRecords`; - the referenced records match the class the row\u2026"
+    },
+    "req-fields-precedent-informative-reserved-members-inside": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "535994a66179a0d918dcc80c8b0e34cf8ae10b7784be92452b52fe644fd7a515",
+      "excerpt": "_Precedent (informative)._ Reserved members inside a producer-defined signed payload follow an established lineage rather than a novel mech\u2026"
+    },
+    "req-fields-record-violating-constraint-declared-aeekind": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "4d3303cb6087db6355e04fc5d3f9d10b2ab2ea57f536ae5b93dc6ea411eca525",
+      "excerpt": "A record violating any constraint of its declared `aeeKind` (including a missing `armedAt` on an `arming` record, an `armedAt` after `issue\u2026"
+    },
+    "req-fields-result-string-required-fail-degraded": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "efb1dcd61c2e1d19e7ebc7fb6c9008e84402b81372d643c6b8d1503c07e9c2d1",
+      "excerpt": "`result` _string, required_ One of `fail`, `degraded`, `pass_indirect`, `pass` (lowercase), ordered `fail` < `degraded` < `pass_indirect` <\u2026"
+    },
+    "req-fields-row-per-executed-attack-attackid": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "73a2f29b13fa08fae24b09e622e910a920f0357d940d116ebaccc4f202b5f722",
+      "excerpt": "One row per executed attack: `attackId` (must appear in the manifest), `containmentObserved` (a label from the carried `observationVocabula\u2026"
+    },
+    "req-fields-row-per-executed-attack-attackid-2": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "8177bcb6a74413714afccc945eb6e2a2db6c0efe615843b01706109ffb260f43",
+      "excerpt": "One row per executed attack: `attackId` (must appear in the manifest), `containmentObserved` (a label from the carried `observationVocabula\u2026"
+    },
+    "req-fields-set-closed-rather-than-illustrative": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "b18e334448088624c63f063249189b95fe3f88427db4e277b9da52dca83723ad",
+      "excerpt": "The set is closed rather than illustrative for a reason that is not housekeeping. A consumer is invited under `basis` to coherence-check a \u2026"
+    },
+    "req-fields-six-further-coverage-validity-requirements": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "415eace88255cb8adad00a517b4d547259dbb96c257f053428273ab9d50c7f28",
+      "excerpt": "Six further coverage validity requirements hold on the statement, or on every row rather than only on a `basis: substrate` row. Each is a f\u2026"
+    },
+    "req-fields-substrate-input-row-s-claim": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "5d07a2e68d1623d7465d801665f19d4631d2dd6fd883c32d144d470fddb0dd04",
+      "excerpt": "- `substrate`: every input the row's claim depends on was obtained at a vantage the executed artifact could neither forge nor suppress (a n\u2026"
+    },
+    "req-fields-there-second-use-these-three": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "260bfd9c41c359397cf84eac791746f4cccfaa04a567fe8ea54a85d9043addd2",
+      "excerpt": "There is a second use of these three members, found by implementing them rather than by designing them, and recorded here because it was no\u2026"
+    },
+    "req-fields-these-requirements-consumption-preconditions-optional": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "0d960383b00e82b9f432cb22fa067df8ccbfff689b3d6459ec5066174b834584",
+      "excerpt": "These requirements are consumption preconditions, not optional lints: a consumer that consumes `result`, credits any row, or applies either\u2026"
+    },
+    "req-fields-typing-discipline-predicate-commits-stated": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 2,
+      "sha256": "22ef77d9eb2d99d7a6b679887234c76e29e8d8f43d7dc384a338aea1bd06167e",
+      "excerpt": "A typing discipline this predicate commits to, stated here so that a later reader inherits it rather than rediscovers the question. Each of\u2026"
+    },
+    "req-fields-what-neither-kind-used-claim": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "0af0cebb0785e2023165f861d3e9462655543b562f30a54023c13d00dfea5c5a",
+      "excerpt": "What neither kind may be used to claim is the half worth stating, because a record that covers nothing can still be read by a party that wa\u2026"
+    },
+    "req-fields-within-attestation-these-members-syntax": {
+      "file": "spec/predicates/adversarial-execution-evidence/fields.md",
+      "blocks": 1,
+      "sha256": "5c41c3e34a850fd5a18dd8c7095ec971598aaa4be6b0ec2b823e3356b781701c",
+      "excerpt": "Within one attestation these members are syntax-checked in the reserved-member walk and nothing else normative reads them: the coverage val\u2026"
+    },
+    "req-statement-schema": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "blocks": 1,
+      "sha256": "6a9adc2545078f6571c09d5db8fa6e6cabc7e65a9f977130dcd35b67550835fd",
+      "excerpt": "```jsonc { \"_type\": \"https://in-toto.io/Statement/v1\", \"subject\": [ { \"name\": \"<artifact-name>\", \"digest\": { \"sha256\": \"<64-hex>\" } } ], \"p\u2026"
+    },
+    "req-type-uri": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "blocks": 1,
+      "sha256": "49df4c4db713a87b0716640c7e1d4a6192fef016da6882fa8f4010460686f840",
+      "excerpt": "Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+    },
+    "req-verification-consumer-pin-out-band-set": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "blocks": 1,
+      "sha256": "263aa86dc614e465c50ad424ece74b6f593dac6b566b1180913b94c78863b29e",
+      "excerpt": "A consumer MUST pin, out of band, the set of assessment classes it requires a run to have assessed, and at consumption MUST compare that se\u2026"
+    },
+    "req-verification-design-invariant-follows-recompute-per": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "blocks": 1,
+      "sha256": "defbae512ee38603f977f82f1446b6b190b191a92f9240f645a76e3482726855",
+      "excerpt": "A design invariant follows from the recompute: any per-observation property that the recompute or the documented consumer gating reads trav\u2026"
+    },
+    "req-verification-predicate-opts-framework-s-standard": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "blocks": 1,
+      "sha256": "4d8aec44d869cd35f10eda4189f677021e1fd7e640b2c8b82f1a94244f0d99fd",
+      "excerpt": "The predicate opts in to the framework's standard parsing rules, including the monotonic principle, with one deliberate strengthening: `res\u2026"
+    },
+    "req-verification-verifier-proceeds-two-stages-stage": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "blocks": 1,
+      "sha256": "001da26fd6fb61583eaa5e8a7b11d631395f43287e055bed508f54fba508e3c9",
+      "excerpt": "A verifier proceeds in two stages. Stage one is byte-pure: four validity steps, each a function of the carried statement alone, and all fou\u2026"
+    },
+    "req-wireprofile-run-binding-statement-carrying-least": {
+      "file": "spec/predicates/adversarial-execution-evidence/wire-profile.md",
+      "blocks": 1,
+      "sha256": "4a906dd0fb911530583acf7aab5d46f4b568c6ad8ec5a235d46fda497fb4ae6a",
+      "excerpt": "**Run binding.** For any statement carrying at least one `basis: substrate` row, the run binding digest is the lowercase 64-hex SHA-256 of \u2026"
+    },
+    "req-wireprofile-toto-attestation-framework-plus-understanding": {
+      "file": "spec/predicates/adversarial-execution-evidence/wire-profile.md",
+      "blocks": 1,
+      "sha256": "9b70dfbc01b9a3f6c7fb8ccfab31d43acfce65084d58552cb2576fd2923fa8c5",
+      "excerpt": "The in-toto Attestation Framework, plus an understanding of [DSSE](https://github.com/secure-systems-lab/dsse) (each observation record is \u2026"
+    }
+  }
+}
