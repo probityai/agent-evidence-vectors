@@ -1234,9 +1234,11 @@ def build_vectors() -> dict[str, dict[str, Any]]:
 
     # ok-035 an unknown-kind record signed aeeMethod "reconstructed", REFERENCED
     # by a clean intercepted row. An unrecognized aeeKind covers nothing and is
-    # OTHERWISE IGNORED (spec:req-fields-arming-record-s-payload-additionally-2@5a96403832635f13): it neither invalidates the row (the
+    # OTHERWISE IGNORED (spec:req-fields-arming-record-s-payload-additionally-2@5a96403832635f13):
+    # it neither invalidates the row (the
     # arming+sealed cover satisfies class-match) nor participates in the method
-    # cap, which reads only COVERING records (spec:req-fields-observationrefs-non-empty-index-range@03ce53b6ce12e42c). A rail that folded
+    # cap, which reads only COVERING records
+    # (spec:req-fields-observationrefs-non-empty-index-range@03ce53b6ce12e42c). A rail that folded
     # the ignored record's weaker aeeMethod into the cap would wrongly flag
     # method-cap-exceeded; this locks the exclusion. Distinct from ok-013, whose
     # unknown record is unreferenced and intercepted, so its cap is never tested.

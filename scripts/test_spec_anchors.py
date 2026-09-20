@@ -79,7 +79,7 @@ def main() -> int:
 
     print("the reword axis, end to end")
     base = sa.digest(sa.anchored_text(DOC, 2, 1) or "")
-    reworded = [l.replace("every index", "each index") for l in DOC]
+    reworded = [line.replace("every index", "each index") for line in DOC]
     check("a reworded bullet digests differently",
           sa.digest(sa.anchored_text(reworded, 2, 1) or "") != base)
     reflowed = list(DOC)
@@ -110,10 +110,14 @@ def main() -> int:
     two = one + ", " + "1744-1746"
     check("a plain line-number citation is found",
           sa.LEGACY_CITATION_RE.search(f"// ({one}).") is not None)
+    # Named rather than folded into one expression. The previous form supplied a
+    # throwaway object with a `group` method so a miss would compare unequal
+    # instead of raising, which is correct behaviour reached in a way no type
+    # checker can follow: the stand-in's attribute is invisible to it, and the
+    # reader has to work out that the `or` arm is a miss rather than a match.
+    spaced = sa.LEGACY_CITATION_RE.search(f"// ({two}).")
     check("a SPACED line-number citation is found whole",
-          (sa.LEGACY_CITATION_RE.search(f"// ({two}).") or
-           type("x", (), {"group": lambda self, *a: ""})()).group(0)
-          == two)
+          spaced is not None and spaced.group(0) == two)
     check("an orphaned tail after a migrated citation is found",
           sa.ORPHAN_TAIL_RE.search(f"// (spec:req-one@{d}, 1744-1746).") is not None)
     check("a clean migrated citation raises no orphan finding",

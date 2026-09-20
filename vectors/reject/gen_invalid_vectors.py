@@ -2072,7 +2072,9 @@ def _b728() -> dict[str, Any]:
 vec("bad-728-artifact-two-subjects", "ok-007",
     "a second subject appended to an ARTIFACT-ONLY statement (no substrate "
     "rows)", [], [58], ["subject-cardinality"], _b728, spec="L210-213",
-    note="subject cardinality is unconditional (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530): exactly one "
+    note="subject cardinality is unconditional "
+         "(spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530): "
+         "exactly one "
          "subject on a statement of any basis. bad-607 keeps a substrate row; "
          "this locks the previously substrate-scoped rule as unconditional on "
          "an artifact-only statement")

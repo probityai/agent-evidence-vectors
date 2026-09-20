@@ -115,13 +115,17 @@ def locate_verbatim(companion: list[str], old: list[str], a: int, b: int) -> int
     probe = old[a - 1 : min(b, a + 2)]
     probe = [p for p in probe if p.strip()] or old[a - 1 : a]
     first = probe[0]
-    hits = [i for i, l in enumerate(companion) if l == first]
+    hits = [i for i, line in enumerate(companion) if line == first]
     if not hits:
         raise SystemExit(f"old line {a} not found verbatim in companion: {first[:60]!r}")
     if len(hits) > 1:
         # disambiguate on the following line
         nxt = old[a] if a < len(old) else None
-        refined = [i for i in hits if nxt is None or (i + 1 < len(companion) and companion[i + 1] == nxt)]
+        refined = [
+            i
+            for i in hits
+            if nxt is None or (i + 1 < len(companion) and companion[i + 1] == nxt)
+        ]
         hits = refined or hits
     return hits[0]
 
@@ -130,8 +134,8 @@ def block_index_of(lines: list[str], idx: int) -> int:
     """Which block (0-based) contains line index `idx`."""
     b = -1
     in_block = False
-    for i, l in enumerate(lines):
-        if l.strip():
+    for i, line in enumerate(lines):
+        if line.strip():
             if not in_block:
                 b += 1
                 in_block = True
@@ -145,8 +149,8 @@ def block_index_of(lines: list[str], idx: int) -> int:
 def block_bounds(lines: list[str]) -> list[tuple[int, int]]:
     out = []
     start = None
-    for i, l in enumerate(lines):
-        if l.strip():
+    for i, line in enumerate(lines):
+        if line.strip():
             if start is None:
                 start = i
         elif start is not None:
@@ -164,7 +168,7 @@ def slug_for(text: str, stem: str) -> str:
     return f"req-{stem.replace('-', '')}-{base}"[:72].rstrip("-")
 
 
-def main() -> int:
+def main() -> int:  # noqa: C901 -- rationale in docs/complexity-rationales.toml
     ap = argparse.ArgumentParser()
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--check", action="store_true")
@@ -220,7 +224,10 @@ def main() -> int:
             per_citation[spec] = keys
 
     if unresolved:
-        print("FAIL: citations land on the registry page with no hand-placed anchor:", file=sys.stderr)
+        print(
+            "FAIL: citations land on the registry page with no hand-placed anchor:",
+            file=sys.stderr,
+        )
         for s in sorted(set(unresolved)):
             print(f"  spec:{s}", file=sys.stderr)
         return 1
@@ -344,7 +351,10 @@ def main() -> int:
         for m in sa.LEGACY_CITATION_RE.finditer(txt):
             bad.append(f"{rel}: line-number citation {m.group(0)!r}")
         for m in sa.ORPHAN_TAIL_RE.finditer(txt):
-            bad.append(f"{rel}: orphaned line numbers after a migrated citation {m.group(0)[-24:]!r}")
+            bad.append(
+                f"{rel}: orphaned line numbers after a migrated citation "
+                f"{m.group(0)[-24:]!r}"
+            )
     if bad:
         print("FAIL: the migration left line numbers behind:", file=sys.stderr)
         for b in sorted(set(bad)):

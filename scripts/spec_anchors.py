@@ -2,7 +2,9 @@
 """Stable citations from source code into the predicate specification.
 
 WHY THIS EXISTS. The source used to cite the specification by LINE NUMBER --
-``spec:req-fields-fields-divide-identity-whose-signature@80666d820c397ce5``, ``spec:req-fields-there-second-use-these-three@260bfd9c41c35939`` -- and ``spec/README.md`` said the vendored
+``spec:req-fields-fields-divide-identity-whose-signature@80666d820c397ce5``,
+``spec:req-fields-there-second-use-these-three@260bfd9c41c35939`` -- and ``spec/README.md`` said the
+vendored
 copy was kept byte-verbatim "precisely so the line numbers the source cites stay
 accurate". A line number addresses one revision of one file. It cannot survive a
 reflow, an inserted paragraph, or a section move, and it survives a REWORD of the
@@ -61,8 +63,10 @@ CITATION_RE = re.compile(
     r"(?:,[A-Za-z0-9][A-Za-z0-9._-]*@[0-9a-f]{16})*)"
 )
 # A LINE-NUMBER CITATION MAY CARRY A SPACE AFTER ITS COMMA, and the first version
-# of this pattern did not allow one. `spec:req-fields-fields-divide-identity-whose-signature@80666d820c397ce5,req-fields-within-attestation-these-members-syntax@5c41c3e34a850fd5` therefore matched
-# only its first half: the migration rewrote that half, left `, 1744-1746` behind
+# of this pattern did not allow one. A two-anchor citation, which is written
+# `spec:req-type-uri@49df4c4db713a87b,req-statement-schema@4f99b2e706804a40`,
+# therefore matched only its first half: the migration rewrote that half, left
+# `, 1744-1746` behind
 # as orphaned digits, and the residual check -- which looked for `spec:` followed
 # by a digit -- could not see the leftover because the leftover has no `spec:` in
 # front of it. Twelve citations were damaged that way before the control below
@@ -161,8 +165,8 @@ class AnchorRecord:
     locator: str = LOCATOR_ANCHOR
     why: str = ""
 
-    def as_json(self) -> dict:
-        out = {
+    def as_json(self) -> dict[str, object]:
+        out: dict[str, object] = {
             "file": self.file,
             "blocks": self.blocks,
             "sha256": self.sha256,
@@ -228,7 +232,10 @@ def write_manifest(repo_root: Path, records: dict[str, AnchorRecord], note: str)
         "schemaVersion": SCHEMA_VERSION,
         "generatedBy": "scripts/gen_spec_anchors.py",
         "note": note,
-        "normalization": "every run of whitespace collapses to one space, then strip; nothing else changes",
+        "normalization": (
+            "every run of whitespace collapses to one space, then strip; "
+            "nothing else changes"
+        ),
         "extentRule": (
             "an anchor covers the `blocks` maximal runs of non-blank lines that follow it; "
             "the count is recorded rather than inferred, so anchors may nest and overlap"

@@ -80,7 +80,8 @@ Values below twenty are ambiguous with ordinary prose, so for those VALUE fires
 only next to a word from the closed vocabulary in SMALL_VALUE_NOUNS below.
 
 Forms that are not counts are masked before any of this runs: spec anchors
-(`L157-165`, `spec:req-fields-row-per-executed-attack-attackid@73a2f29b13fa08fa`), vector ids and id lists (`ok-006/007/029`),
+(`L157-165`, `spec:req-fields-row-per-executed-attack-attackid@73a2f29b13fa08fa`),
+vector ids and id lists (`ok-006/007/029`),
 condition ids, RFC numbers, upstream issue numbers, dates, version strings and
 hex digests.
 

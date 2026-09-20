@@ -109,3 +109,24 @@ scalar against scalar, plus the three structural cases that make one edit count
 once -- a member renamed, an array permuted, a subtree present on one side.
 Each branch is a few lines and none nests inside another.
 """
+
+["scripts/gen_spec_anchors.py::main"]
+complexity = 37
+rationale = """
+A one-time migration, and its branch count is the migration's own shape rather
+than tangled structure: read the pinned previous revision of the specification,
+map every line-number citation onto the companion file that now holds that text,
+walk each range inward past blank lines, snap it outward to whole markdown
+blocks, name the unit, insert the anchor bottom-up so earlier offsets stay valid,
+rewrite the citation in the source, and write the registry. Each phase is
+sequential and each one's failure has to be reported in its own terms, which is
+where the branches are.
+
+It is accepted rather than decomposed for a reason specific to this script: the
+migration has already been applied, so the --apply path cannot be exercised
+again without rewriting the tree it already rewrote. Refactoring code that will
+not run again, against a path no test can safely drive, trades a real risk for a
+number. The number is recorded here instead, where the gate holds it: if this
+function is ever edited and its complexity moves, the build fails until someone
+reads this entry.
+"""

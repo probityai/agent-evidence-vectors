@@ -97,6 +97,94 @@ def main() -> int:
     return check_citations()
 
 
+def _resolve(
+    aid: str, rec: sa.AnchorRecord, cache: dict[str, list[str]]
+) -> tuple[str | None, str | None]:
+    """The text a record addresses, or the named failure that stopped it.
+
+    Exactly one of the two is None. A could-not-measure is returned as a failure
+    string rather than as an empty text, because an empty string digests to a
+    stable value and would read as a match.
+
+    The two locators are answered here so the caller holds one shape: read the
+    file, resolve the record, compare the digest. `cache` holds each file's lines
+    once, and an empty list in it means the file was already reported absent.
+    """
+    path = REPO_ROOT / rec.file
+    if rec.file not in cache:
+        if not path.is_file():
+            cache[rec.file] = []
+            return None, f"FILE-ABSENT      {aid}: {rec.file} is not on disk"
+        cache[rec.file] = path.read_text(encoding="utf-8").split("\n")
+    lines = cache[rec.file]
+    if not lines:
+        return None, f"FILE-ABSENT      {aid}: {rec.file} is not on disk"
+
+    if rec.locator == sa.LOCATOR_DIGEST:
+        # A file this repository may not edit carries no marker, so the prose
+        # itself is the address. A reword matches no block and fails by name,
+        # which is the property that matters; what a digest-located record cannot
+        # report is where the text used to sit, and the record fixes the file.
+        text = sa.digest_located_text(lines, rec.blocks, rec.sha256)
+        if text is None:
+            return None, (
+                f"TEXT-ABSENT      {aid}: no {rec.blocks}-block run of {rec.file} digests to "
+                f"{rec.sha256[:16]}. This anchor is addressed by its prose because that file "
+                f"is vendored and pinned, so a miss means the cited text is no longer there.\n"
+                f"                   recorded text was: {rec.excerpt}"
+            )
+        return text, None
+
+    i = sa.find_anchor(lines, aid)
+    if i is None:
+        return None, f'ANCHOR-ABSENT    {aid}: {rec.file} carries no <a id="{aid}"></a>'
+    text = sa.anchored_text(lines, i, rec.blocks)
+    if text is None:
+        return None, (
+            f"ANCHOR-ABSENT    {aid}: fewer than {rec.blocks} block(s) "
+            f"follow it in {rec.file}"
+        )
+    return text, None
+
+
+def _cited_problems(
+    manifest: dict[str, sa.AnchorRecord], recomputed: dict[str, str]
+) -> tuple[int, list[str]]:
+    """Every citation in the source, and what is wrong with each.
+
+    Returns the number of citations SEEN as well as the problems, because zero
+    seen is itself reportable: a run that collected no citations checked nothing,
+    and the caller says so rather than printing a pass.
+    """
+    cited = 0
+    found: list[str] = []
+    for f in sa.source_files(REPO_ROOT):
+        txt = f.read_text(encoding="utf-8")
+        rel = str(f.relative_to(REPO_ROOT))
+        for m in sa.LEGACY_CITATION_RE.finditer(txt):
+            found.append(f"LINE-NUMBER      {rel}: {m.group(0)} -- migrate it to an anchor")
+        for m in sa.ORPHAN_TAIL_RE.finditer(txt):
+            found.append(
+                f"LINE-NUMBER      {rel}: orphaned line numbers trail a migrated citation"
+                f" ({m.group(0)[-22:]})"
+            )
+        for m in sa.CITATION_RE.finditer(txt):
+            for aid, prefix in sa.parse_citation(m.group("body")):
+                cited += 1
+                if aid not in manifest:
+                    found.append(f"MISSING-FROM-MANIFEST {rel}: {aid}")
+                    continue
+                live = recomputed.get(aid)
+                if live is None:
+                    continue  # already reported against the anchor itself
+                if not live.startswith(prefix):
+                    found.append(
+                        f"DIGEST-CHANGED   {rel}: cites {aid}@{prefix} but that anchor "
+                        f"now digests to {live[: sa.INLINE_PREFIX_LEN]}"
+                    )
+    return cited, found
+
+
 def check_citations() -> int:
     """The half that makes a citation survive an edit to the text it names.
 
@@ -140,45 +228,11 @@ def check_citations() -> int:
     recomputed: dict[str, str] = {}
     cache: dict[str, list[str]] = {}
     for aid, rec in sorted(manifest.items()):
-        path = REPO_ROOT / rec.file
-        if rec.file not in cache:
-            if not path.is_file():
-                problems.append(f"FILE-ABSENT      {aid}: {rec.file} is not on disk")
-                cache[rec.file] = []
-                continue
-            cache[rec.file] = path.read_text(encoding="utf-8").split("\n")
-        lines = cache[rec.file]
-        if not lines:
-            problems.append(f"FILE-ABSENT      {aid}: {rec.file} is not on disk")
+        text, problem = _resolve(aid, rec, cache)
+        if problem is not None:
+            problems.append(problem)
             continue
-        if rec.locator == sa.LOCATOR_DIGEST:
-            # A file this repository may not edit carries no marker, so the
-            # prose itself is the address. A reword matches no block and fails
-            # below by name, which is the property that matters; what a
-            # digest-located record cannot report is where the text used to sit,
-            # and the record already fixes the file.
-            text = sa.digest_located_text(lines, rec.blocks, rec.sha256)
-            if text is None:
-                problems.append(
-                    f"TEXT-ABSENT      {aid}: no {rec.blocks}-block run of {rec.file} digests to "
-                    f"{rec.sha256[:16]}. This anchor is addressed by its prose because that file "
-                    f"is vendored and pinned, so a miss means the cited text is no longer there.\n"
-                    f"                   recorded text was: {rec.excerpt}"
-                )
-                continue
-        else:
-            i = sa.find_anchor(lines, aid)
-            if i is None:
-                problems.append(
-                    f"ANCHOR-ABSENT    {aid}: {rec.file} carries no <a id=\"{aid}\"></a>"
-                )
-                continue
-            text = sa.anchored_text(lines, i, rec.blocks)
-            if text is None:
-                problems.append(
-                    f"ANCHOR-ABSENT    {aid}: fewer than {rec.blocks} block(s) follow it in {rec.file}"
-                )
-                continue
+        assert text is not None
         got = sa.digest(text)
         recomputed[aid] = got
         if got != rec.sha256:
@@ -190,31 +244,8 @@ def check_citations() -> int:
             )
 
     # 2. every citation in the source names a recorded anchor and a live digest
-    cited = 0
-    for f in sa.source_files(REPO_ROOT):
-        txt = f.read_text(encoding="utf-8")
-        rel = str(f.relative_to(REPO_ROOT))
-        for m in sa.LEGACY_CITATION_RE.finditer(txt):
-            problems.append(f"LINE-NUMBER      {rel}: {m.group(0)} -- migrate it to an anchor")
-        for m in sa.ORPHAN_TAIL_RE.finditer(txt):
-            problems.append(
-                f"LINE-NUMBER      {rel}: orphaned line numbers trail a migrated citation"
-                f" ({m.group(0)[-22:]})"
-            )
-        for m in sa.CITATION_RE.finditer(txt):
-            for aid, prefix in sa.parse_citation(m.group("body")):
-                cited += 1
-                if aid not in manifest:
-                    problems.append(f"MISSING-FROM-MANIFEST {rel}: {aid}")
-                    continue
-                live = recomputed.get(aid)
-                if live is None:
-                    continue  # already reported against the anchor itself
-                if not live.startswith(prefix):
-                    problems.append(
-                        f"DIGEST-CHANGED   {rel}: cites {aid}@{prefix} but that anchor "
-                        f"now digests to {live[: sa.INLINE_PREFIX_LEN]}"
-                    )
+    cited, source_problems = _cited_problems(manifest, recomputed)
+    problems.extend(source_problems)
 
     if problems:
         print(
