@@ -195,7 +195,8 @@ include = ["docs/proposals", "docs/site", "packaging", "scripts", "tools", "vect
            "vectors-anchor-stream", "vectors-artifact-binding",
            "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-signature",
-           "vectors-scitt-cose", "vectors-w3c-report"]
+           "vectors-scitt-cose", "vectors-self-reported-record",
+           "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same

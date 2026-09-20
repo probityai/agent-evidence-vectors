@@ -105,7 +105,7 @@ LEDGER_REL = "docs/VECTOR-COLLISIONS.json"
 # Every corpus this repository ships, by the directory that roots it. A corpus
 # added here and not listed is a corpus nothing asks this question about, which
 # is the state the AI Agent Action suite was in.
-CORPORA = ("vectors", "vectors-ai-agent-action")
+CORPORA = ("vectors", "vectors-ai-agent-action", "vectors-self-reported-record")
 
 DISPOSITIONS = ("inherent", "open")
 
