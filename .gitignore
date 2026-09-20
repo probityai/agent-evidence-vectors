@@ -45,3 +45,8 @@ __pycache__/
 # into its notes, absolute paths and dossier names included. Never publishable.
 *.ledger.json
 *.humanizer-ledger.json
+
+# The Pages build output. The workflow builds the site into _site on the
+# runner, and a local run of the same build leaves one here. A published
+# site is a generated artifact, never a tracked one.
+_site/
