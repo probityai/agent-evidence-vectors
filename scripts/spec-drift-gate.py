@@ -115,6 +115,7 @@ def check_citations() -> int:
                              does not record
       FILE-ABSENT            the manifest names a file that is not on disk
       ANCHOR-ABSENT          the file does not carry the anchor
+      TEXT-ABSENT            a digest-located anchor's prose is not in the file
       DIGEST-CHANGED         the anchor is there and the text under it moved
 
     A COULD-NOT-MEASURE IS NEVER A PASS. An absent file and an absent anchor
@@ -150,18 +151,34 @@ def check_citations() -> int:
         if not lines:
             problems.append(f"FILE-ABSENT      {aid}: {rec.file} is not on disk")
             continue
-        i = sa.find_anchor(lines, aid)
-        if i is None:
-            problems.append(
-                f"ANCHOR-ABSENT    {aid}: {rec.file} carries no <a id=\"{aid}\"></a>"
-            )
-            continue
-        text = sa.anchored_text(lines, i, rec.blocks)
-        if text is None:
-            problems.append(
-                f"ANCHOR-ABSENT    {aid}: fewer than {rec.blocks} block(s) follow it in {rec.file}"
-            )
-            continue
+        if rec.locator == sa.LOCATOR_DIGEST:
+            # A file this repository may not edit carries no marker, so the
+            # prose itself is the address. A reword matches no block and fails
+            # below by name, which is the property that matters; what a
+            # digest-located record cannot report is where the text used to sit,
+            # and the record already fixes the file.
+            text = sa.digest_located_text(lines, rec.blocks, rec.sha256)
+            if text is None:
+                problems.append(
+                    f"TEXT-ABSENT      {aid}: no {rec.blocks}-block run of {rec.file} digests to "
+                    f"{rec.sha256[:16]}. This anchor is addressed by its prose because that file "
+                    f"is vendored and pinned, so a miss means the cited text is no longer there.\n"
+                    f"                   recorded text was: {rec.excerpt}"
+                )
+                continue
+        else:
+            i = sa.find_anchor(lines, aid)
+            if i is None:
+                problems.append(
+                    f"ANCHOR-ABSENT    {aid}: {rec.file} carries no <a id=\"{aid}\"></a>"
+                )
+                continue
+            text = sa.anchored_text(lines, i, rec.blocks)
+            if text is None:
+                problems.append(
+                    f"ANCHOR-ABSENT    {aid}: fewer than {rec.blocks} block(s) follow it in {rec.file}"
+                )
+                continue
         got = sa.digest(text)
         recomputed[aid] = got
         if got != rec.sha256:

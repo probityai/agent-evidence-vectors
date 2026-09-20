@@ -20,7 +20,7 @@ fixed — the report goes to the maintainer only, in a private draft advisory, u
 | The reference verifier (`aee-verify`, `aee/`, `aeetest/`) accepting a statement it should reject | A malformed or adversarial `predicate` that passes verification when the spec requires a `fail` |
 | The reference verifier rejecting a statement it should accept | A spec-conformant statement the verifier wrongly reports as invalid |
 | The conformance vector corpus itself being wrong | A vector labelled `accept` that should be `reject`, or vice versa, per the pinned spec text it cites |
-| The vendoring/pin-check machinery (`scripts/specpins.py`, `spec-citation-gate.py`, `spec-anchor-gate.py`) silently passing a stale or drifted citation | A citation gate that resolves to the wrong prose without failing |
+| The vendoring/pin-check machinery (`scripts/specpins.py`, `spec-drift-gate.py`, `spec-anchor-gate.py`) silently passing a stale or drifted citation | A citation gate that resolves to the wrong prose without failing |
 | Memory-safety, injection, or supply-chain issues in this repository's own code or its declared dependencies | An unsafe deserialization path, a dependency with a known CVE this repo has not updated past |
 | The CI gates (`ci.yml` and friends) being bypassable to merge a change that should have failed them | A gate that reports green on a red input |
 

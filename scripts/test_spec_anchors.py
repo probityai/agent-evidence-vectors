@@ -98,12 +98,22 @@ def main() -> int:
           sa.CITATION_RE.search(f"see (spec:req-one@{d}) for the rule") is not None)
 
     print("line numbers, and the wreckage half-migrating one leaves")
+    # The line-number fixtures are ASSEMBLED rather than written out, exactly as
+    # the anchor fixtures above interpolate their digest. A retired-citation
+    # scanner runs over this repository's own source, so a test that spelled the
+    # form it detects would be found by it: the detector's own fixtures would be
+    # reported as unmigrated citations, and the only ways out of that are a path
+    # exemption, which blinds the scanner to a whole file, or not carrying the
+    # string, which is what this does. `spec:` followed by a quote matches
+    # neither scanner, and the strings the assertions see are unchanged.
+    one = "spec:" + "1302-1304"
+    two = one + ", " + "1744-1746"
     check("a plain line-number citation is found",
-          sa.LEGACY_CITATION_RE.search("// (spec:1302-1304).") is not None)
+          sa.LEGACY_CITATION_RE.search(f"// ({one}).") is not None)
     check("a SPACED line-number citation is found whole",
-          (sa.LEGACY_CITATION_RE.search("// (spec:1302-1304, 1744-1746).") or
+          (sa.LEGACY_CITATION_RE.search(f"// ({two}).") or
            type("x", (), {"group": lambda self, *a: ""})()).group(0)
-          == "spec:1302-1304, 1744-1746")
+          == two)
     check("an orphaned tail after a migrated citation is found",
           sa.ORPHAN_TAIL_RE.search(f"// (spec:req-one@{d}, 1744-1746).") is not None)
     check("a clean migrated citation raises no orphan finding",

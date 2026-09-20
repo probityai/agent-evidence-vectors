@@ -81,10 +81,12 @@ UPSTREAM_PR = 570
 
 # The gates that hold a content pin for one citation spelling. Each keeps its
 # own ledger, so one refusing does not leave the other half-written.
-SYNCED_GATES = (
-    "scripts/spec-citation-gate.py",
-    "scripts/spec-anchor-gate.py",
-)
+#
+# The `spec:NNN` line-number spelling was retired by the anchor migration, and
+# its gate went with it: `scripts/spec-drift-gate.py` now holds every
+# `spec:<anchor-id>@<digest>` citation to the prose it names, and it needs no
+# resync because an anchor citation carries its own digest inline.
+SYNCED_GATES = ("scripts/spec-anchor-gate.py",)
 
 
 def resync(gate: str) -> bool:

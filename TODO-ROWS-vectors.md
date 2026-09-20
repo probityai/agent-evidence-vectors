@@ -45,7 +45,7 @@ carrying the number that makes it real and the command that starts it.
   3. Regenerate the anchor manifest and convert the citations to
      `spec:<anchor-id>@<16-hex>`. A citation that survives a reflow and fails on a
      reword is the property being bought; line numbers had neither.
-  4. `scripts/spec-citation-gate.py` and `scripts/spec-anchor-gate.py` decide
+  4. `scripts/spec-drift-gate.py` and `scripts/spec-anchor-gate.py` decide
      whether it worked. Any surviving `spec:<digits>` is a defect by then —
      `spec_anchors.py` exposes `LEGACY_CITATION_RE` so a gate can say so.
 

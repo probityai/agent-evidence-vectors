@@ -2,7 +2,7 @@
 """Spec anchor gate.
 
 The corpus cites the vendored predicate specification two ways. Code comments
-use ``spec:NNN``, which ``scripts/spec-citation-gate.py`` checks. Tables a reader
+use ``spec:<anchor-id>@<digest>``, which ``scripts/spec-drift-gate.py`` checks. Tables a reader
 scans -- the vector generator, the interpretation registries, and the documents
 generated from them -- use ``Lnnn`` and ``Lnnn-mmm`` anchors, and until this gate
 existed nothing checked those at all.

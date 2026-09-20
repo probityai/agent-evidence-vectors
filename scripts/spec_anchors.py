@@ -77,7 +77,7 @@ ORPHAN_TAIL_RE = re.compile(
 )
 INLINE_PREFIX_LEN = 16
 MANIFEST_REL = "spec/CITATION-ANCHORS.json"
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 def normalize(text: str) -> str:
@@ -132,6 +132,25 @@ def anchored_text(lines: list[str], anchor_index: int, blocks: int) -> str | Non
     return "\n".join("\n".join(b) for b in got[:blocks])
 
 
+# How a record's text is FOUND, which is not the same question as whether it
+# changed. "anchor" is the normal case: the file carries `<a id="...">` and the
+# text is the blocks after it. "digest" exists for a file this repository may not
+# edit -- the vendored upstream specification, whose bytes are pinned to an
+# upstream commit so that an outside implementer can diff the two and certify no
+# version skew. Inserting an anchor line into that file would break the pin, so
+# its anchors are addressed by the digest of the prose instead of by a marker in
+# it. Detection strength is unchanged: a reworded requirement matches no block
+# and fails by name. What is lost is only the ability to say where the text used
+# to sit, and the record already fixes the file.
+#
+# The locator is DECLARED per record, never inferred and never a fallback. A
+# resolver that tried the marker and then quietly tried the digest would report a
+# missing anchor as a pass, which is the failure this whole file exists to avoid.
+LOCATOR_ANCHOR = "anchor"
+LOCATOR_DIGEST = "digest"
+LOCATORS = (LOCATOR_ANCHOR, LOCATOR_DIGEST)
+
+
 @dataclass(frozen=True)
 class AnchorRecord:
     anchor_id: str
@@ -139,14 +158,35 @@ class AnchorRecord:
     blocks: int
     sha256: str
     excerpt: str
+    locator: str = LOCATOR_ANCHOR
+    why: str = ""
 
     def as_json(self) -> dict:
-        return {
+        out = {
             "file": self.file,
             "blocks": self.blocks,
             "sha256": self.sha256,
             "excerpt": self.excerpt,
         }
+        if self.locator != LOCATOR_ANCHOR:
+            out["locator"] = self.locator
+            out["why"] = self.why
+        return out
+
+
+def digest_located_text(lines: list[str], blocks: int, want: str) -> str | None:
+    """The run of `blocks` consecutive blocks whose digest is `want`, or None.
+
+    Returns None rather than an empty string when nothing matches, for the reason
+    anchored_text gives: an empty string digests to a stable value and would read
+    as a match.
+    """
+    runs = blocks_of(lines)
+    for i in range(len(runs) - blocks + 1):
+        text = "\n".join("\n".join(b) for b in runs[i : i + blocks])
+        if digest(text) == want:
+            return text
+    return None
 
 
 def excerpt_of(text: str, limit: int = 140) -> str:
@@ -162,10 +202,24 @@ def load_manifest(repo_root: Path) -> dict[str, AnchorRecord]:
             f"{MANIFEST_REL} is schemaVersion {data.get('schemaVersion')}, "
             f"this build reads {SCHEMA_VERSION}"
         )
-    return {
-        aid: AnchorRecord(aid, rec["file"], rec["blocks"], rec["sha256"], rec.get("excerpt", ""))
-        for aid, rec in data["anchors"].items()
-    }
+    records: dict[str, AnchorRecord] = {}
+    for aid, rec in data["anchors"].items():
+        locator = rec.get("locator", LOCATOR_ANCHOR)
+        if locator not in LOCATORS:
+            raise ValueError(
+                f"{MANIFEST_REL}: anchor {aid} declares locator {locator!r}; "
+                f"this build reads {LOCATORS}"
+            )
+        if locator != LOCATOR_ANCHOR and not rec.get("why"):
+            raise ValueError(
+                f"{MANIFEST_REL}: anchor {aid} is {locator}-located and states no reason; "
+                "a record that departs from the normal form says why in the record"
+            )
+        records[aid] = AnchorRecord(
+            aid, rec["file"], rec["blocks"], rec["sha256"], rec.get("excerpt", ""),
+            locator, rec.get("why", ""),
+        )
+    return records
 
 
 def write_manifest(repo_root: Path, records: dict[str, AnchorRecord], note: str) -> None:

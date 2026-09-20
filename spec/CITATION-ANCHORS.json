@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "generatedBy": "scripts/gen_spec_anchors.py",
   "note": "generated from attestation@25ac858 by scripts/gen_spec_anchors.py; every citation in the Go and Python source resolves through this file",
   "normalization": "every run of whitespace collapses to one space, then strip; nothing else changes",
@@ -303,14 +303,18 @@
     "req-statement-schema": {
       "file": "spec/predicates/adversarial-execution-evidence.md",
       "blocks": 1,
-      "sha256": "6a9adc2545078f6571c09d5db8fa6e6cabc7e65a9f977130dcd35b67550835fd",
-      "excerpt": "```jsonc { \"_type\": \"https://in-toto.io/Statement/v1\", \"subject\": [ { \"name\": \"<artifact-name>\", \"digest\": { \"sha256\": \"<64-hex>\" } } ], \"p\u2026"
+      "sha256": "4f99b2e706804a4084d874b6460fc13b2be9e431b762e4e1188863f797518ac5",
+      "excerpt": "```jsonc { \"_type\": \"https://in-toto.io/Statement/v1\", \"subject\": [ { \"name\": \"<executed-artifact-name>\", \"digest\": { \"sha256\": \"<64-hex>\" \u2026",
+      "locator": "digest",
+      "why": "the vendored upstream specification is pinned byte-for-byte to an upstream commit so an outside implementer can diff the two, so this repository may not insert an anchor line into it; the prose is the address instead"
     },
     "req-type-uri": {
       "file": "spec/predicates/adversarial-execution-evidence.md",
       "blocks": 1,
       "sha256": "49df4c4db713a87b0716640c7e1d4a6192fef016da6882fa8f4010460686f840",
-      "excerpt": "Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+      "excerpt": "Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+      "locator": "digest",
+      "why": "the vendored upstream specification is pinned byte-for-byte to an upstream commit so an outside implementer can diff the two, so this repository may not insert an anchor line into it; the prose is the address instead"
     },
     "req-verification-consumer-pin-out-band-set": {
       "file": "spec/predicates/adversarial-execution-evidence/verification.md",

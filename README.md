@@ -165,19 +165,21 @@ recorded in [`spec/VENDOR-PIN.json`](spec/VENDOR-PIN.json), written from git at
 vendor time rather than by hand, and re-vendoring remaps every reference onto
 the new line numbers in the same pass that copies the bytes.
 
-Two gates keep the references honest, because line numbers into a file that is
-periodically re-vendored rot by construction and a reference that points at the
-wrong prose reads as evidence. `scripts/spec-citation-gate.py` covers the
-`spec:NNN` citations in the sources and `scripts/spec-anchor-gate.py` covers the
-`Lnnn` anchors in the vector tables. Both ask the same two questions, and the
-second is the one that matters: not only whether a reference still resolves to a
-line carrying text, which a stale number does perfectly well, but whether it
-still addresses the prose it was written for.
-[`spec/CITATION-PINS.json`](spec/CITATION-PINS.json) and
+Two gates keep the references honest, because a reference that points at the
+wrong prose reads as evidence. `scripts/spec-drift-gate.py` covers the
+`spec:<anchor-id>@<digest>` citations in the sources and
+`scripts/spec-anchor-gate.py` covers the `Lnnn` anchors in the vector tables.
+Both ask the same two questions, and the second is the one that matters: not
+only whether a reference still resolves to text, which a stale pointer does
+perfectly well, but whether it still addresses the prose it was written for.
+[`spec/CITATION-ANCHORS.json`](spec/CITATION-ANCHORS.json) and
 [`spec/ANCHOR-PINS.json`](spec/ANCHOR-PINS.json) record the text each reference
-was drawn around, keyed by the thing doing the citing rather than by the line
-range, so a reference that comes to address different prose fails rather than
-resolving quietly. The shared machinery is `scripts/specpins.py`.
+was drawn around, so a reference that comes to address different prose fails
+rather than resolving quietly. A citation names an anchor rather than a line
+number for the reason the paragraph above gives: line numbers into a file that
+is periodically re-vendored rot by construction, and an anchor and its digest
+survive a reflow that moves every line. The shared machinery is
+`scripts/specpins.py`.
 
 Both ledgers are refreshed by the same command that re-vendors, which is the one
 operation that moves references, so they also have to be trustworthy across

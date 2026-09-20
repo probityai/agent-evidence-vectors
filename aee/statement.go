@@ -48,7 +48,7 @@ func Gate0(s *Statement) []Code {
 	var codes []Code
 	p := s.Predicate
 
-	// 1. Statement envelope types (spec:req-statement-schema@6a9adc2545078f65; both halves of condition
+	// 1. Statement envelope types (spec:req-statement-schema@4f99b2e706804a40; both halves of condition
 	//    coverage: _type and predicateType).
 	if s.Type != StatementType {
 		codes = appendCode(codes, CodeStatementTypeUnsupported)

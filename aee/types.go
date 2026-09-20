@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// StatementType is the only accepted in-toto statement _type (spec:req-statement-schema@6a9adc2545078f65).
+// StatementType is the only accepted in-toto statement _type (spec:req-statement-schema@4f99b2e706804a40).
 const StatementType = "https://in-toto.io/Statement/v1"
 
 // PredicateType is the only predicateType this implementation accepts

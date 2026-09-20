@@ -64,7 +64,7 @@ worth reading before writing rather than after failing.
 | `scripts/regenerability-gate.py` | a committed file no generator produces. The corpus regenerates into a copy and is diffed; hand-written vectors and hand-written manifest entries fail on the push that adds them |
 | `scripts/count-gate.py` | a count typed by hand. Every published count is checked against the one source that derives it, and a **new** count-shaped integer anywhere in tracked prose fails unless it is declared, delegated, frozen with a reason, or attributed to a revision in the sentence itself |
 | `scripts/condition-registry-gate.py` | a condition id a vector cites and no registry row resolves, and a registry row no vector cites — in both directions |
-| `scripts/spec-citation-gate.py`, `scripts/spec-anchor-gate.py` | a reference into the vendored specification that has come off the prose it was written for. Resolving to a line that still carries text is not enough; a stale reference reads as evidence |
+| `scripts/spec-drift-gate.py`, `scripts/spec-anchor-gate.py` | a reference into the vendored specification that has come off the prose it was written for. Resolving to a line that still carries text is not enough; a stale reference reads as evidence |
 | `scripts/spec-drift-gate.py` | vendored bytes that are not upstream's |
 | `scripts/code-contract-gate.py` | prose describing a failure-code behaviour the evaluator does not have |
 | `scripts/external-rail-gate.py` | the shipped CLI failing the shipped corpus through the documented third-party contract. Both existed and nobody had run one against the other |

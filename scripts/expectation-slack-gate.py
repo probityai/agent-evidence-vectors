@@ -19,7 +19,7 @@ emits the companion, the companion is declared, the vector passes, and the only
 discriminator the corpus owns has quietly become a vector that measures nothing.
 That edit was performed and measured. The replay stayed green at 250 of 250 and
 `regenerability-gate`, `vector-distinctness-gate`, `condition-registry-gate`,
-`spec-citation-gate`, `code-contract-gate`, `coverage-matrix-gate` and
+`spec-drift-gate`, `code-contract-gate`, `coverage-matrix-gate` and
 `dispositions-gate` all exited 0. Nothing in this repository could see it.
 
 The prose already said the rule. `packaging/run_vectors.py` says of a
