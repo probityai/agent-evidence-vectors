@@ -64,8 +64,15 @@ one vector helps with nothing.
 Averaged over a list of seeds rather than measured at one, because a single fold
 split moves the figure by several hundredths on a corpus this size, which would
 put the choice of seed in charge of whether the gate passes. The seeds are
-literal constants, so the estimator is deterministic: same corpus, same number,
-every run, on every machine, with no network and nothing to install.
+literal constants, and every sum over a feature set is taken in sorted order, so
+the estimator is deterministic: same corpus, same number, every run, on every
+machine, with no network and nothing to install.
+
+The sorting half of that sentence was missing once, and the paragraph still
+claimed determinism while the gate did not have it: scores were summed in
+frozenset order, which is hash order, which Python salts per process. See
+score_fold for what that cost. Fixed seeds alone do not make a measurement
+reproducible if anything downstream of them iterates a set.
 
 Naive Bayes rather than anything fitted iteratively, because it trains by
 counting. The whole measurement is a few seconds, and a gate slow enough to be
@@ -312,7 +319,21 @@ def score_fold(
     scores = []
     for _, feats in test:
         value = prior
-        for name in feats:
+        # SORTED, and the sort is load-bearing rather than tidy. These are
+        # frozensets of strings, so iterating one walks it in hash order, which
+        # differs per process because Python salts string hashing. Floating-point
+        # addition is not associative, so the same log terms added in two orders
+        # differ in the last bit -- and `auc` below detects a tie by comparing
+        # scores for exact equality. Two rows carrying identical features would
+        # tie in one process and rank strictly in another, moving the figure this
+        # gate ratchets on. It moved: the widest surface of one corpus measured
+        # 0.5304 under most hash seeds and 0.5343 under others, which is a refusal
+        # in one direction, and 0.5054 in the run that exposed it, which is a
+        # refusal in the other -- on a corpus nobody had touched. A gate whose
+        # verdict depends on its own process's hash salt reports a leak that is
+        # not there and hides one that is, so the order is fixed here. The narrow
+        # surfaces never showed it because three terms sum the same either way.
+        for name in sorted(feats):
             seen = counts[1][name] + counts[0][name]
             if seen == 0:
                 continue  # never observed in training: says nothing out of fold
