@@ -90,8 +90,11 @@ posting, and it adds no figure that its posting does not carry.
 That ledger also carries an `attempts` array, and it is the half of the record
 nothing used to hold. A row in `runs` is what licenses a figure, and every row
 there carries a `figures` array, so a dispatch that was authorised, ran and
-produced no score had no shape in the file and was invisible to the gate. Two of
-them had already happened. An attempt therefore records the corpus commit, the
+produced no score had no shape in the file and was invisible to the gate. Two
+had already happened by the time the array was added, and the count is written
+that way on purpose: the array is where the current number lives, and a total
+restated here would rot the next time one is dispatched. An attempt records the
+corpus commit, the
 checker ref, the authorization packet, the dispatch and where its artifacts
 survive, with `figures` null beside a note saying why there is none; it carries no
 `suiteRevision`, because the not-run set is computed over `runs` and a revision
