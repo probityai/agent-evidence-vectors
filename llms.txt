@@ -26,7 +26,7 @@ signed `release/CORPUS-DIGESTS.txt`.
 - [README](https://github.com/probityai/agent-evidence-vectors/blob/main/README.md): The predicates, the corpora, the external verifier contract the harness speaks, the failure-code registry, and how to verify a release without trusting the maintainer.
 - [Distribution](https://github.com/probityai/agent-evidence-vectors/blob/main/DISTRIBUTION.md): The tag to cite, the one-command run, the corpus table, how to cite a run, and how to add a corpus.
 - [Independent runs](https://github.com/probityai/agent-evidence-vectors/blob/main/RUNS.md): Every run of a corpus by an implementation this repository did not write, in its author's words, labelled blind or directed as the author labelled it.
-- [Reference verifier](https://github.com/probityai/agent-evidence-vectors/tree/main/cmd/aee-verify): The Go command-line verifier; install with `go install github.com/astrogilda/agent-evidence-vectors/cmd/aee-verify@<tag>`. The core package is `aee/`, standard library only.
+- [Reference verifier](https://github.com/probityai/agent-evidence-vectors/tree/main/cmd/aee-verify): The Go command-line verifier; install with `go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@<tag>`. The core package is `aee/`, standard library only.
 - [Harness](https://github.com/probityai/agent-evidence-vectors/blob/main/packaging/run_vectors.py): Drives any verifier over a corpus as `<cmd> <vector-file>` and compares codes and recomputed results against the manifest.
 - [Failure codes](https://github.com/probityai/agent-evidence-vectors/blob/main/aee/codes.go): The closed code set, compared as a set by the harness; message text carries nothing.
 - [Vendored specification](https://github.com/probityai/agent-evidence-vectors/blob/main/spec/predicates/adversarial-execution-evidence.md): The predicate text the suite implements, pinned by `spec/VENDOR-PIN.json`.
@@ -49,7 +49,7 @@ One directory each, each with its own `MANIFEST.json`, `corpusDigest` and genera
 ## Identifiers
 
 - Release tag: `v0.11.1`, as `CITATION.cff` and `DISTRIBUTION.md` carry it; a git tag with a GitHub Release per tag, and a PyPI release of the same version cut from that tag.
-- Go module: `github.com/astrogilda/agent-evidence-vectors`.
+- Go module: `github.com/probityai/agent-evidence-vectors`.
 - Signed corpus digests: [release/CORPUS-DIGESTS.txt](https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt), one line per corpus, with a detached signature, an RFC 3161 token and an OpenTimestamps proof beside it.
 - Archival DOI: concept DOI [10.5281/zenodo.22758687](https://doi.org/10.5281/zenodo.22758687), which resolves to the newest archived release; each release also has its own version DOI, listed on that record. `CITATION.cff` carries the concept DOI so a citation stays stable across releases.
 - [Citation](https://github.com/probityai/agent-evidence-vectors/blob/main/CITATION.cff): Cite the repository, the suiteRevision or tag you ran, and the corpusDigest of the corpus you ran.

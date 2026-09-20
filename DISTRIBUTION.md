@@ -24,10 +24,14 @@ a claim about whatever `main` said on a day nobody recorded.
 
 ## The one-command run
 
-The module path is `github.com/astrogilda/agent-evidence-vectors`, and the
-verifier is the `cmd/aee-verify` package inside it. The harness and every
-corpus are on PyPI as `agent-evidence-vectors`, at the same version as the
-tag, so the run needs no clone:
+The module path is `github.com/probityai/agent-evidence-vectors`, and the
+verifier is the `cmd/aee-verify` package inside it. Every tag up to `v0.11.1`
+was published before the path moved, and a released tag never changes, so a
+pinned install of the current release still names the former owner, which the
+redirect keeps resolvable; the path above is the one that resolves from the
+next tag onward. The harness and every corpus are on PyPI as
+`agent-evidence-vectors`, at the same version as the tag, so the run needs no
+clone:
 
 ```bash
 go install github.com/astrogilda/agent-evidence-vectors/cmd/aee-verify@v0.11.1
@@ -181,7 +185,7 @@ valuable there than one that agreed.
 | Surface | Identifier | State |
 | --- | --- | --- |
 | Source of record | `github.com/probityai/agent-evidence-vectors` | live |
-| Go module | `github.com/astrogilda/agent-evidence-vectors`, verifier at `cmd/aee-verify` | live |
+| Go module | `github.com/probityai/agent-evidence-vectors`, verifier at `cmd/aee-verify` | live |
 | Releases | git tags, with a GitHub Release object per tag; `v0.11.1` is current | live |
 | Signed corpus digests | `release/CORPUS-DIGESTS.txt`, one line per corpus, with a detached signature, an RFC 3161 token and an OpenTimestamps proof beside it | live, derived |
 | Archival DOI | concept DOI `10.5281/zenodo.22758687`, which resolves to the newest archived release; the record lists a version DOI per release, and `CITATION.cff` carries the concept DOI so a citation stays stable | live |
