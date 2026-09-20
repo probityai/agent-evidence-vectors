@@ -516,6 +516,50 @@ meets the binding first takes the wrong one, and every substrate row diverges.
 > comparing `aeePostureDigest` against the binding input refuses every statement
 > a conforming verifier accepts on a `basis: substrate` row.
 
+**A fourth site, and it is the one the three others exist to work around: the
+preimage member name itself.** The run-binding paragraph at spec:176-182 names
+the member `networkPosture` and then spends two lines of prose saying its value
+is not what that name means anywhere else in the document -- "the lowercase
+64-hex SHA-256 of the RFC 8785 canonicalization of the carried networkPosture
+object". So a reader has to hold three things under one word: the environment
+member, the digest that member carries, and a second digest taken over the whole
+member. The replacement above disambiguates the two digests every time the
+document names one. The member name would disambiguate them once, for every
+reader, without a clause.
+
+**Replacement text for that site**, and its cost stated rather than buried:
+
+> `"networkPostureObjectDigest": "<the lowercase 64-hex SHA-256 of the RFC 8785
+> canonicalization of the carried networkPosture object>"`, replacing the
+> `"networkPosture"` member of the version-2 pre-image, so that no member of the
+> pre-image carries the name of an environment member whose own digest it is not.
+
+That rename is **binding version 3, not a correction to version 2**, and the
+document says so itself: "`aeeBindingVersion` names this construction; a future
+version that changes the construction ... names a new binding version"
+(spec:237-241). The member name is inside the hashed bytes, JCS orders members by
+name, and `aeeRunBinding` is committed inside every observation record's own
+signature -- so the rename moves the binding digest of every statement carrying a
+`basis: substrate` row, regenerates and re-signs every such vector, and makes
+every rail that implemented version 2 from the published text non-conforming
+until it carries the new construction. One of those rails is the only
+implementation in `docs/IMPLEMENTATION-REPORT.md` independent of the
+specification's author.
+
+**What landed, and what is held.** The parameter carrying that value through our
+own Go rail was also called `networkPosture`, which is the shape of the defect
+inside our implementation rather than inside the document, and it is renamed to
+`networkPostureObjectDigest` (`aee/runbinding.go`). `posturePreimageDigest`'s own
+comment now names all three values and says which one `aeePostureDigest` holds.
+Those change no bytes: no vector's binding moves and none is regenerated, which
+is the truthful count rather than a convenient one. The Python rail already named
+its function `posture_preimage_digest` and needed no rename. **The wire member
+name is held**, because moving it is a version-3 construction change that begins
+upstream, and doing half of it here -- our rails renamed, the specification and
+every other rail not -- would produce exactly the silent divergence this passage
+is about, in the one place where divergence is unrecoverable: inside bytes that
+are already signed.
+
 **Vector.** A reject vector whose `aeePostureDigest` carries the run-binding
 posture preimage digest instead of the member's own digest, expecting the
 arming-constraint refusal. It is the discriminating case: a rail holding the

@@ -1005,7 +1005,16 @@ def posture_preimage_digest(env: dict[str, Any]) -> str:
 
 def binding_preimage(env: dict[str, Any], subject_sha: Any) -> dict[str, Any] | None:
     """The eight-member version-2 pre-image object, or None when a member the
-    construction reads verbatim is absent."""
+    construction reads verbatim is absent.
+
+    The ``networkPosture`` MEMBER below does not carry the environment member's
+    own digest. It carries ``posture_preimage_digest``, the RFC 8785 canonical
+    digest of the whole carried object, which is a different 64-hex value from
+    the one ``aeePostureDigest`` holds. The member name is the specification's
+    (the pre-image member list in the wire profile's run binding section) and
+    cannot move without naming a new binding version, as the same section says;
+    the function name beside it is ours and says which digest this is.
+    """
     try:
         return {
             "aeeBindingVersion": BINDING_VERSION,

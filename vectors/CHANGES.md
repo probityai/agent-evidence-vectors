@@ -63,6 +63,15 @@ byte-identically from the generators.
   the safe-range half ADMITS and are refused by the canonicality half alone. The
   absence they close was measured by decoding every payload in the corpus rather
   than by searching its text, which cannot see inside base64.
+- **The run binding's third input is named for the value it carries, in our own
+  rail.** `RunBindingPreimage`'s third parameter was called `networkPosture`,
+  which is also the environment member's name and also the name of that member's
+  own digest -- three things, two of them distinct 64-hex values that accept and
+  refuse disjoint sets of statements. It is `networkPostureObjectDigest` now. The
+  pre-image MEMBER name is unchanged and deliberately so: it is inside the hashed
+  bytes, the run binding section of the wire profile fixes it, and the same
+  section says a change to the construction names a new binding version. No vector's binding moves and none
+  was regenerated for it.
 - Corpus: **281 vectors (61 accept, 218 reject, 2 indeterminate)**, six more than
   suiteRevision 29. No existing vector file changes, so only the six new
   statements and `corpusDigest` in `vectors/MANIFEST.json` move; the vendored
