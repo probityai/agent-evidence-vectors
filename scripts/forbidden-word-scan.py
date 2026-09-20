@@ -104,27 +104,76 @@ def tracked_files() -> list[Path]:
 
 
 
-# The organisation that owns this repository is named in its own URLs, and a URL
-# cannot avoid naming its owner. The permit is a PATH permit and not a word
-# permit: the handle passes only where a slash and one of this family's three
-# repository names follow it. Everything else stays refused, including the handle
-# alone. Copied verbatim from scripts/pre-push-identity-scan.py, not imported, for
-# the reason that file gives: these guards must run with no import path to break.
-PERMITTED_PATH = re.compile(
-    bytes.fromhex("70726f626974796169").decode("ascii")
-    + r"/agent-evidence-(?:vectors|vocabulary|admission)\b",
-    re.IGNORECASE,
-)
+# The permit that lets this repository name its own URLs is held in ONE place,
+# `.githooks/commit-msg.permitted-paths`, and read by the three guards that rule
+# on the same strings: this scanner (pushed history), scripts/forbidden-word-scan.py
+# (tracked content) and .githooks/commit-msg (commit messages). Until 2026-09 the
+# two scanners each held a hand-copied regex and the hook held none, so the hook
+# refused a Go module path the scanners explicitly permitted and a module-path
+# rename could not describe itself. A permit is the one rule shape that can only
+# ever loosen, so it gets one definition, and the loader below is small enough
+# that copying IT costs nothing while copying the PATTERN cost a day.
+#
+# An absent or malformed sidecar is exit 2, never a silent run without the
+# permit: "the rule surface failed to load" and "the rule surface says no" must
+# not print the same way. The sidecar carries its own format and argument.
+PERMIT_SIDECAR = HOOK_DIR / "commit-msg.permitted-paths"
+
+
+def load_permits() -> list[re.Pattern[str]]:
+    """Compile every permit in the sidecar, or refuse to run."""
+    if not PERMIT_SIDECAR.is_file():
+        print(f"forbidden-word-scan: no permit sidecar at {PERMIT_SIDECAR}", file=sys.stderr)
+        raise SystemExit(2)
+    permits: list[re.Pattern[str]] = []
+    for number, raw in enumerate(
+        PERMIT_SIDECAR.read_text(encoding="utf-8").splitlines(), start=1
+    ):
+        if not raw.strip() or raw.lstrip().startswith("#"):
+            continue
+        fields = raw.split("\t")
+        if len(fields) != 2:
+            print(
+                f"{PERMIT_SIDECAR}:{number}: expected '<hex><TAB><regex>'",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+        encoded, expression = fields[0].strip(), fields[1].strip()
+        if not re.fullmatch(r"(?:[0-9a-f]{2})+", encoded) or not expression:
+            print(
+                f"{PERMIT_SIDECAR}:{number}: first field must be lowercase hex pairs "
+                "and the pattern must not be empty",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+        try:
+            permits.append(
+                re.compile(
+                    bytes.fromhex(encoded).decode("ascii") + expression, re.IGNORECASE
+                )
+            )
+        except (UnicodeDecodeError, re.error) as exc:
+            print(f"{PERMIT_SIDECAR}:{number}: unusable permit: {exc}", file=sys.stderr)
+            raise SystemExit(2) from exc
+    if not permits:
+        print(f"{PERMIT_SIDECAR}: carries no permit", file=sys.stderr)
+        raise SystemExit(2)
+    return permits
+
+
+PERMITS = load_permits()
 
 
 def permit(line: str) -> str:
     """Blank owner-qualified repository paths, preserving every offset.
 
-    Same-length filler, so a window that starts inside the masked span can no
-    longer hash to a rule, and a second mention on the same line that is not
-    owner-qualified still reaches both passes below.
+    The filler is the same length as what it replaces, so a later hit on the same
+    line is still reported at its true position, and a second mention that is NOT
+    owner-qualified still reaches the rules below.
     """
-    return PERMITTED_PATH.sub(lambda m: "." * len(m.group(0)), line)
+    for pattern in PERMITS:
+        line = pattern.sub(lambda match: "." * len(match.group(0)), line)
+    return line
 
 
 def main(argv: list[str]) -> int:

@@ -46,6 +46,14 @@ no extra rules.
 lines as additional rules. Suitable for anything whose pattern is not itself
 sensitive.
 
+`commit-msg.permitted-paths`, if present, contributes owner-qualified
+repository paths that the identity rules below must not refuse. A permit is
+the one rule shape that can only ever loosen, and the two tree scanners
+beside this hook rule on the same strings, so the pattern is held in that one
+file and read by all three rather than hand-copied into each. The hook held
+no permit at all while the scanners held one each, which is how a
+module-path rename came to be unable to name the path it was changing.
+
 `commit-msg.forbidden-tokens`, if present, contributes a salted hash per
 forbidden word. It exists because a regex has to spell what it forbids, and
 one of these repositories is public and product-neutral: a rule written there
@@ -228,6 +236,21 @@ EXTRA_PATTERNS_FILENAME = "commit-msg.extra-patterns"
 #: docstring for why a hash rather than a pattern.
 FORBIDDEN_WORDS_FILENAME = "commit-msg.forbidden-words"
 
+#: Sidecar of owner-qualified repository paths the identity rules must not
+#: refuse. Held in data rather than in this file for two reasons. The pattern
+#: names an organisation and a repository family, which differ per repository,
+#: so a literal here would fork a file that is byte-identical everywhere. And
+#: the two tree scanners beside this hook rule on the same strings from the same
+#: sidecar directory, so one definition read by three guards is the only shape
+#: in which they cannot disagree -- they did disagree, and the hook was the one
+#: with no permit.
+#:
+#: Absent means no permitted paths, which is the fail-closed direction and is
+#: what keeps this file shareable with a repository that has none. Malformed is
+#: a hard failure, for the reason the two sidecars above give: a permit that
+#: failed to load reads exactly like the guard working.
+PERMITTED_PATHS_FILENAME = "commit-msg.permitted-paths"
+
 #: Optional per-repository commit from which `--check-range` takes effect. Same
 #: sidecar convention as the extra patterns above, and for the same reason: the
 #: value differs per repository, so holding it in data keeps this file
@@ -397,6 +420,77 @@ def parse_forbidden_words(
     return salt, widths["i"], widths["s"], table
 
 
+def load_permitted_paths() -> list[re.Pattern[str]]:
+    """Load the optional path permits that sit beside this hook.
+
+    An absent file yields no permits, which leaves every identity rule as wide
+    as it was written.
+    """
+    path = Path(__file__).resolve().parent / PERMITTED_PATHS_FILENAME
+    if not path.is_file():
+        return []
+    return parse_permitted_paths(path.read_text(encoding="utf-8"), str(path))
+
+
+def parse_permitted_paths(text: str, origin: str) -> list[re.Pattern[str]]:
+    """Parse `<hex><TAB><regex>` lines into compiled, case-insensitive permits.
+
+    Exactly two tab-separated fields per line. A third field would silently
+    become part of the pattern, and this is a rule that loosens: a permit that
+    compiled into something wider than it reads is the one parse error whose
+    result looks like the guard passing.
+
+    The first field is hex-encoded because this file's readers are scanned by
+    the guards they implement, so a rule surface that spells the name it permits
+    refuses its own commit. A hex field with nothing after it is refused rather
+    than accepted as a bare-name permit, which is the single thing a PATH permit
+    exists not to be.
+    """
+    permits: list[re.Pattern[str]] = []
+    for number, raw in enumerate(text.splitlines(), start=1):
+        if not raw.strip() or raw.lstrip().startswith("#"):
+            continue
+        fields = raw.split("\t")
+        if len(fields) != 2:
+            raise ValueError(
+                f"{origin}:{number}: expected exactly two tab-separated fields "
+                f"'<hex><TAB><regex>', found {len(fields)}: {raw!r}"
+            )
+        encoded, expression = fields[0].strip(), fields[1].strip()
+        if not re.fullmatch(r"(?:[0-9a-f]{2})+", encoded):
+            raise ValueError(
+                f"{origin}:{number}: the first field must be lowercase hex pairs"
+            )
+        if not expression:
+            raise ValueError(
+                f"{origin}:{number}: a hex prefix with nothing after it would permit "
+                "the bare name, which is what a path permit exists not to do"
+            )
+        try:
+            prefix = bytes.fromhex(encoded).decode("ascii")
+        except UnicodeDecodeError as exc:
+            raise ValueError(f"{origin}:{number}: hex field is not ASCII") from exc
+        try:
+            permits.append(re.compile(prefix + expression, re.IGNORECASE))
+        except re.error as exc:
+            raise ValueError(f"{origin}:{number}: pattern does not compile: {exc}") from exc
+    return permits
+
+
+def permit(text: str, permits: list[re.Pattern[str]]) -> str:
+    """Blank every permitted owner-qualified path, preserving every offset.
+
+    The filler is the same length as what it replaces, so a hash window that
+    starts inside the masked span can no longer match a rule, while a second
+    mention on the same line that is NOT owner-qualified still reaches every
+    rule unchanged. That asymmetry is the whole permit: the path passes, the
+    bare name does not.
+    """
+    for pattern in permits:
+        text = pattern.sub(lambda match: "." * len(match.group(0)), text)
+    return text
+
+
 def forbidden_word_errors(
     text: str,
     salt: str,
@@ -458,6 +552,7 @@ def lint(
     message: str,
     extra: list[tuple[re.Pattern[str], str]] | None = None,
     forbidden: tuple[str, list[int], list[int], dict[str, str]] | None = None,
+    permits: list[re.Pattern[str]] | None = None,
 ) -> list[str]:
     """Return a list of human-readable violations; empty means the message passes."""
     lines = strip_noise(message)
@@ -489,13 +584,23 @@ def lint(
             )
 
     full = "\n".join(lines)
-    for patterns in (JARGON_PATTERNS, ATTRIBUTION_PATTERNS, extra or []):
+    # The permit masks owner-qualified repository paths, and it is applied to the
+    # two DATA-DRIVEN rule surfaces only. Those are the surfaces a repository
+    # uses to refuse its own names, so they are the surfaces a repository needs a
+    # way to name its own URLs through. The jargon and attribution rules are
+    # about message hygiene and cannot fire on a path of this shape, so masking
+    # anything for them could only ever hide a real hit.
+    permitted = permit(full, permits or [])
+    for patterns in (JARGON_PATTERNS, ATTRIBUTION_PATTERNS):
         for pattern, label in patterns:
             for match in pattern.finditer(full):
                 errors.append(f"forbidden {label}: {match.group(0).strip()!r}")
+    for pattern, label in extra or []:
+        for match in pattern.finditer(permitted):
+            errors.append(f"forbidden {label}: {match.group(0).strip()!r}")
 
     salt, nocase, cased, table = forbidden or ("", [], [], {})
-    errors.extend(forbidden_word_errors(full, salt, nocase, cased, table))
+    errors.extend(forbidden_word_errors(permitted, salt, nocase, cased, table))
 
     return errors
 
@@ -728,6 +833,57 @@ def selftest() -> int:
             f"forbidden-words: {why}",
         )
 
+    # The permit surface. A permit is the one rule shape that can only ever
+    # loosen, so every case below asserts a direction and the refusals outnumber
+    # the permission. The fixture owner and the fixture forbidden word are local
+    # to this test, so the selftest proves the mechanism without this file ever
+    # carrying a real name -- which matters here, because this file is scanned by
+    # the guard it implements.
+    fixture_owner = "acmeorg"
+    permits = parse_permitted_paths(
+        f"# comment\n\n{fixture_owner.encode('ascii').hex()}\t/{fixture_word}-repo\\b\n",
+        "<fixture>",
+    )
+    check(len(permits) == 1, "permitted-paths: parse produced the wrong number of permits")
+    owned = f"feat: bump {fixture_owner}/{fixture_word}-repo"
+    check(
+        not [e for e in lint(owned, None, hashed, permits) if "product name" in e],
+        "permitted-paths: an owner-qualified path was still refused",
+    )
+    # The same line with no permits must refuse, or the case above proves nothing
+    # about the permit and only that the rule does not fire on this shape.
+    check(
+        [e for e in lint(owned, None, hashed) if "product name" in e] != [],
+        "permitted-paths: the path passed with NO permit loaded, so the permit is not what allowed it",
+    )
+    for what, probe in (
+        ("the bare name", f"feat: ship the {fixture_word}"),
+        (
+            "a second mention that is not owner-qualified",
+            f"feat: bump {fixture_owner}/{fixture_word}-repo and the {fixture_word} runtime",
+        ),
+        (
+            "a repository outside the permit",
+            f"feat: bump {fixture_owner}/{fixture_word}-other",
+        ),
+    ):
+        check(
+            [e for e in lint(probe, None, hashed, permits) if "product name" in e] != [],
+            f"permitted-paths: {what} passed, which widens the permit past a path",
+        )
+    for bad_permit, why in (
+        (f"{fixture_owner.encode('ascii').hex()}\t/a\tlabel\n", "a third field accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\n", "a line with no pattern accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\t\n", "an empty pattern accepted"),
+        ("nothex\t/a\n", "a non-hex first field accepted"),
+        ("ff\t/a\n", "a non-ASCII hex field accepted"),
+        (f"{fixture_owner.encode('ascii').hex()}\t/a(\n", "a pattern that does not compile accepted"),
+    ):
+        check(
+            raises(parse_permitted_paths, bad_permit, "<fixture>"),
+            f"permitted-paths: {why}",
+        )
+
     for message, expected in SELFTEST_CASES:
         errors = lint(message)
         label = message.splitlines()[0][:58] if message.strip() else "<empty>"
@@ -750,6 +906,7 @@ def check_range(rev_range: str) -> int:
     """Lint every commit message in a revision range (used by CI)."""
     extra = load_extra_patterns()
     forbidden = load_forbidden_words()
+    permits = load_permitted_paths()
     baseline = load_baseline()
     # `^<baseline>` drops everything the baseline already reaches, which is what
     # makes the gate effective-from rather than retroactive. It is passed to the
@@ -780,7 +937,7 @@ def check_range(rev_range: str) -> int:
             check=True,
         )
         message = shown.stdout.decode("utf-8", errors="surrogateescape")
-        errors = lint(message, extra, forbidden)
+        errors = lint(message, extra, forbidden, permits)
         if errors:
             bad += 1
             report(errors, f"commit {revision[:12]}")
@@ -810,7 +967,9 @@ def main(argv: list[str]) -> int:
     except OSError as exc:
         print(f"commit-msg: cannot read {path}: {exc}", file=sys.stderr)
         return 2
-    errors = lint(message, load_extra_patterns(), load_forbidden_words())
+    errors = lint(
+        message, load_extra_patterns(), load_forbidden_words(), load_permitted_paths()
+    )
     if errors:
         report(errors, "the commit message")
         return 1

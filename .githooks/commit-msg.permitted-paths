@@ -1,0 +1,41 @@
+# Owner-qualified repository paths the identity rules must not refuse.
+#
+# This repository is public and deliberately product-neutral, so the salted
+# digests in commit-msg.forbidden-words refuse the first-party names anywhere in
+# a commit message or a tracked file. The organisation that owns these
+# repositories is named in their own URLs, and a URL cannot avoid naming its
+# owner: a clone command, a badge target, a citation file, an action reference
+# and a Go module path all have to spell it.
+#
+# So the permit is a PATH permit and not a word permit. The handle passes only
+# where a slash and one of this family's repository names follow it. The handle
+# standing alone is still refused, every other form of the name is still
+# refused, and a sentence tying the organisation to anything is refused exactly
+# as before, so a reader of a public repository sees an owner and learns nothing
+# from it.
+#
+# THIS FILE IS THE ONLY DEFINITION, and that is the point of it. Three guards
+# rule on the same strings -- .githooks/commit-msg (commit messages, as a hook
+# and in CI), scripts/pre-push-identity-scan.py (pushed history) and
+# scripts/forbidden-word-scan.py (tracked file contents). The two scanners held
+# one hand-copied regex each and the hook held none, so the hook refused a
+# module path the scanners explicitly permitted: a module-path rename could not
+# state the path it was changing in the message of the commit that changed it.
+# A permit is the one rule shape that can only ever loosen, and a loosening
+# nobody notices looks exactly like the control working, so it is held in one
+# place and asserted in both directions by scripts/pre-push-identity-scan-test.py.
+#
+# FORMAT: one permit per line, exactly two tab-separated fields,
+# `<hex><TAB><regex>`. The compiled pattern is
+# `bytes.fromhex(<hex>).decode("ascii") + <regex>`, case-insensitive. The owner
+# half is held hex-encoded because all three readers, and this file, are
+# themselves scanned by the guards above: a rule file that spells what its
+# siblings forbid refuses its own commit. `#` comments and blank lines are
+# ignored.
+#
+# An ABSENT file means no permitted paths at all. That is the fail-closed
+# direction and it is what keeps the hook byte-shareable with a repository that
+# has none. A MALFORMED line is a hard failure rather than a dropped permit: a
+# guard whose rule surface failed to load has verified nothing, and a permit
+# that failed to load reads as the guard working.
+70726f626974796169	/agent-evidence-(?:vectors|vocabulary|admission)\b
