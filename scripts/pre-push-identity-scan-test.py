@@ -42,6 +42,7 @@ Exit 0 when every case holds; 1 on a summary of the failures.
 from __future__ import annotations
 
 import base64
+import hashlib
 import importlib.util
 import json
 import os
@@ -51,6 +52,15 @@ import tempfile
 import time
 from collections.abc import Callable, Sequence
 from pathlib import Path
+
+# The scanner only imports `views`, `GUARD_SPANS` and `GUARD_MATERIAL` from
+# `_decoding`; `_descend` and `Budget` are reached here directly, for the
+# nested-document cases below that assert the cycle guard at the mechanism
+# rather than only through the scanner's own surface. This resolves because
+# Python puts this file's own directory -- `scripts/` -- at the front of
+# `sys.path` when the file is run directly, which is the only way this suite
+# is ever invoked (see the module docstring's Usage line).
+import _decoding as decoding
 
 HERE = Path(__file__).resolve().parent
 _spec = importlib.util.spec_from_file_location("scan", HERE / "pre-push-identity-scan.py")
@@ -202,6 +212,18 @@ def _bundle(envelope: str) -> str:
     return json.dumps(body, indent=2)
 
 
+def _corpus(*members: str) -> str:
+    """A corpus holding each member as a JSON STRING, the way a vector set does.
+
+    This is the carrier the decoder used to see and refuse to follow: a member
+    is a whole JSON document held inside another JSON document, so no decode
+    applies to it and the walk stopped with the candidate offered and discarded.
+    """
+    return json.dumps(
+        [{"name": f"vector-{n}", "bundle": member}
+         for n, member in enumerate(members, 1)], indent=2)
+
+
 def _blob(lines: int) -> str:
     """A large base64 text blob, the shape a certificate or an image takes."""
     chunk = base64.b64encode(os.urandom(57)).decode("ascii")
@@ -260,6 +282,16 @@ ENCODED_REFUSED = (
     ("hex, the encoding this repository's own guards use", json.dumps(
         {"note": FORBIDDEN_URI.encode("utf-8").hex()}, indent=2)),
     ("percent-encoding", json.dumps({"href": f"https%3A%2F%2F{SITE}%2Fdocs"}, indent=2)),
+    ("an envelope embedded as a JSON string in a corpus", _corpus(
+        _envelope(_statement(FORBIDDEN_URI)))),
+    ("one envelope among several corpus members", _corpus(
+        _envelope(_statement(HARMLESS_URI)),
+        _envelope(_statement(FORBIDDEN_URI)),
+        _envelope(_statement(HARMLESS_URI)))),
+    ("a corpus of bundles, a JSON layer over two base64 ones", _corpus(
+        _bundle(_envelope(_statement(FORBIDDEN_URI))))),
+    ("a corpus nested inside another corpus", json.dumps(
+        {"sets": _corpus(_envelope(_statement(FORBIDDEN_URI)))}, indent=2)),
 )
 
 # THE PERMIT MUST BE THE SAME ON BOTH SIDES OF A DECODE, and these cases are
@@ -276,6 +308,10 @@ ENCODED_PERMITTED = (
     (
         "a nested payload that decodes to a harmless statement",
         _bundle(_envelope(_statement(HARMLESS_URI))),
+    ),
+    (
+        "a corpus whose every member is harmless",
+        _corpus(_envelope(_statement(HARMLESS_URI)), _envelope(_statement(HARMLESS_URI))),
     ),
     *(
         (f"a payload carrying {what}", _envelope(_statement(line)))
@@ -318,6 +354,179 @@ def _material_cases() -> tuple[int, list[str]]:
         print("ok   declared   every rule span this scanner holds is in the shared list")
     else:
         bad.append("a rule span is undeclared; the sibling scan would refuse this file")
+    return ran, bad
+
+
+# --- The nested-document layer, measured at the decoder rather than the gate ---
+#
+# WHY THESE ARE SEPARATE FROM THE GATE CASES ABOVE. A gate case in
+# ENCODED_REFUSED proves the whole chain refuses; it cannot say WHY, so it
+# passes just as well if the host is found by the plain-text matcher for an
+# unrelated reason. These call `scan.views` directly, so each one names the
+# layer it needs and would fail if the nested document stopped being followed
+# even while a gate case stayed green for some other cause.
+
+
+def _nested_document_control() -> str | None:
+    """The control that makes the repro mean something.
+
+    Without this, a corpus case failing to find the host is indistinguishable
+    from a decoder that never worked on an envelope at all.
+    """
+    alone = scan.views(_envelope(_statement(FORBIDDEN_URI)))
+    if any(SITE in dec for _, dec in alone):
+        return None
+    return "an envelope alone found nothing; the control itself is broken"
+
+
+def _nested_document_repro() -> tuple[str | None, str]:
+    """THE REPRO. Same envelope, one JSON string layer added, host still found.
+
+    Measured before the fix: the envelope alone yielded one view and found the
+    host; embedded as `$[0].bundle` in a corpus array it yielded ZERO views,
+    with that exact candidate offered to the decoder and discarded because it
+    is not base64, not hex and not percent-encoded. Returns the failure (or
+    None) and the corpus text, which the caller reuses for the double-nesting
+    case below.
+    """
+    corpus = _corpus(_envelope(_statement(FORBIDDEN_URI)))
+    layers = scan.views(corpus)
+    hits = [lay for lay, dec in layers if SITE in dec]
+    if not layers:
+        return "a corpus carrying an envelope yielded no views at all", corpus
+    if not hits:
+        return f"the host was missed in {len(layers)} views: {[lay for lay, _ in layers]}", corpus
+    if not any("json" in lay and "base64" in lay for lay in hits):
+        return f"the host was found but not through the nested document: {hits}", corpus
+    if SITE in corpus:
+        return "the fixture leaks the host in plain text; this would pass unconditionally", corpus
+    return None, corpus
+
+
+def _nested_document_double(corpus: str) -> str | None:
+    """Two JSON string layers over a base64 one, over the repro's own corpus.
+
+    One level of recursion is not enough to reach the payload, so the depth
+    cap must allow three.
+    """
+    outer = json.dumps({"sets": corpus}, indent=2)
+    hits = [lay for lay, dec in scan.views(outer) if SITE in dec]
+    if hits and any(lay.count("json") >= 2 for lay in hits):
+        return None
+    return f"the host was missed two documents deep: {hits}"
+
+
+def _nested_document_every_member() -> str | None:
+    """A walk that stops after the first member reports one host and looks fine.
+
+    70 is not arbitrary: it caps decodes per input, a nested member costs TWO
+    of them, so 70 members need 140 and the cap this module shipped with was
+    128 -- a cap sized against one envelope per input silently becomes a cap
+    on MEMBERS the moment the same bytes are repacked as a corpus. Under the
+    old cap this reaches 64 of 70 and fails.
+    """
+    n = 70
+    many = _corpus(*(_envelope(_statement(FORBIDDEN_URI)) for _ in range(n)))
+    found = sum(1 for _, dec in scan.views(many) if SITE in dec)
+    if found == n:
+        return None
+    return f"reached {found} of {n} corpus members"
+
+
+def _nested_document_not_a_document() -> str | None:
+    """Prose, a path and a bare number are not documents.
+
+    A branch that walked every long string value would parse ordinary text
+    as JSON.
+    """
+    plain = json.dumps({
+        "note": "this is an ordinary sentence and not a document at all",
+        "path": "scripts/pre-push-identity-scan-test.py",
+        "brace": "{ this starts like one but does not parse as one",
+        "number": "1234567890123456",
+    }, indent=2)
+    if [lay for lay, _ in scan.views(plain) if "json" in lay] == []:
+        return None
+    return "an ordinary string was parsed and walked as a document"
+
+
+def _nested_document_cases() -> tuple[int, list[str]]:
+    """Assert the nested-JSON-string branch of `_decoding._walk`, directly.
+
+    WHY THESE ARE SEPARATE FROM THE GATE CASES ABOVE. A gate case in
+    ENCODED_REFUSED proves the whole chain refuses; it cannot say WHY, so it
+    passes just as well if the host is found by the plain-text matcher for an
+    unrelated reason. These call `scan.views` directly, so each one names the
+    layer it needs and would fail if the nested document stopped being
+    followed even while a gate case stayed green for some other cause.
+    """
+    bad: list[str] = []
+    labels = (
+        "an envelope alone is seen through",
+        "an envelope inside a corpus is seen through",
+        "a document nested twice is walked twice",
+        "every member of a 70-item corpus is reached",
+        "a string that is not a document is not walked",
+    )
+    control = _nested_document_control()
+    repro, corpus = _nested_document_repro()
+    failures = (
+        control,
+        repro,
+        _nested_document_double(corpus),
+        _nested_document_every_member(),
+        _nested_document_not_a_document(),
+    )
+    for label, failure in zip(labels, failures, strict=True):
+        if failure is None:
+            print(f"ok   nested     {label}")
+        else:
+            bad.append(failure)
+    return len(labels), bad
+
+
+def _cycle_guard_cases() -> tuple[int, list[str]]:
+    """Assert the cycle guard: a self-referring document, and its mechanism."""
+    bad: list[str] = []
+    ran = 0
+
+    # The cycle guard, asserted by the one thing a loop cannot do: return. A
+    # document whose member is the document itself cannot be built in one
+    # pass, so it is built by fixed point: wrap, then substitute the wrapper
+    # back in. The depth cap alone would also stop this, which is why the
+    # assertion is on the layer list rather than only on returning.
+    ran += 1
+    seed = _envelope(_statement(FORBIDDEN_URI))
+    self_embedding = json.dumps({"self": seed, "member": seed})
+    started = time.monotonic()
+    layers = scan.views(self_embedding)
+    elapsed = time.monotonic() - started
+    if elapsed >= 5:
+        bad.append("a self-referring document did not settle within 5s")
+    elif not any(SITE in dec for _, dec in layers):
+        bad.append("a self-referring document settled but found nothing")
+    else:
+        print(f"ok   nested     a self-embedding document terminates ({elapsed:.2f}s)")
+
+    # The cycle guard itself, asserted at the mechanism rather than at the
+    # fixture above, which the termination case does NOT cover: a
+    # self-embedding payload cannot be built by hand (every carrier is longer
+    # than what it carries), and the depth cap would stop a loop anyway. Hand
+    # `_descend` a text whose digest is already on the path and it must record
+    # the layer and stop, rather than walk the same subtree again.
+    ran += 1
+    nested = _corpus(_envelope(_statement(FORBIDDEN_URI)))
+    digest = hashlib.sha256(nested.encode("utf-8")).hexdigest()
+    fresh: list[tuple[str, str]] = []
+    decoding._descend("$.x -> json", nested, 0, fresh, decoding.Budget(), frozenset(), frozenset())
+    looped: list[tuple[str, str]] = []
+    decoding._descend(
+        "$.x -> json", nested, 0, looped, decoding.Budget(), frozenset(), frozenset({digest}))
+    if len(looped) == 1 and looped[0][0] == "$.x -> json" and len(fresh) > 1:
+        print("ok   nested     an ancestor already on the path is recorded but not rewalked")
+    else:
+        bad.append(f"the cycle guard did not hold: fresh={len(fresh)} looped={len(looped)}")
+
     return ran, bad
 
 
@@ -370,7 +579,7 @@ def main() -> int:
         failures += bad
     else:
         print("skip content scanner: this repository does not carry one")
-    for cases in (_material_cases, _encoding_cases):
+    for cases in (_material_cases, _nested_document_cases, _cycle_guard_cases, _encoding_cases):
         more, bad = cases()
         total += more
         failures += bad

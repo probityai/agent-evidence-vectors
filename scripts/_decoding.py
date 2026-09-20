@@ -38,6 +38,17 @@ decoded result is fed back in up to `MAX_DEPTH` levels, and the layers crossed
 are reported so a reader knows where the string actually sits rather than being
 told only which file it was in.
 
+A NESTED JSON DOCUMENT IS ONE OF THOSE LAYERS, and for a while it was the one
+this module could see and would not follow. A corpus holds its members as
+strings, so an envelope arriving as a member is a JSON document held inside
+another JSON document -- not base64, not hex, not percent-encoded, so no decode
+applies to it and the walk used to stop at the outer level with the candidate
+offered and discarded. Measured: an envelope that on its own yields one view
+and finds the host yielded ZERO views once embedded as `$[0].bundle`, and a
+34 KB corpus returned nothing while the host sat in 19 places. A string that
+parses as a document is now walked as one, under the same depth cap and a cycle
+guard, so `$[0].bundle -> json $.payload -> base64` reads all the way through.
+
 WHAT KEEPS THIS CHEAP. Decoding is attempted only on spans long enough to carry
 anything, a decode is kept only when it yields printable UTF-8 (which discards
 every digest, key and image blob without the caller ever seeing it), and one
@@ -79,7 +90,20 @@ MAX_DEPTH = 4
 # many decoded characters are produced. A large binary blob yields neither,
 # because it is not printable, but a file of concatenated base64 would otherwise
 # grow the work without bound.
-MAX_DECODES = 128
+#
+# MAX_OUTPUT IS THE REAL BOUND AND THE COUNT IS ONLY A PROXY FOR IT, which is
+# why the count is loose. A count caps a number of ITEMS, so it is a claim about
+# how the input happens to be chunked, and repacking the same bytes makes it go
+# stale without a word: 128 was sized against one envelope per input, and the
+# moment envelopes arrive packed as members of one corpus it is a cap on
+# MEMBERS. Measured at 128, a corpus of 100 envelopes reported 64 of its 100
+# hosts and a corpus of 100 bundles reported 42 -- the module stopped looking
+# two thirds of the way through and returned a short list that reads exactly
+# like a thorough one. Raised to 1024, both report every host, a 400-member
+# corpus costs 208 ms against 43 ms, and a 300 KB random-base64 blob is
+# unchanged because it keeps nothing and its cost is the regex scan. Bytes, not
+# items, are what a pre-send gate can afford to bound on.
+MAX_DECODES = 1024
 MAX_OUTPUT = 1 << 19
 
 # A span that is only a prefix of a longer run would decode to a truncation, so
@@ -281,6 +305,38 @@ def candidates(text: str) -> Iterator[tuple[str, str]]:
             yield path, value
 
 
+def _descend(
+    layer: str,
+    text: str,
+    depth: int,
+    found: list[tuple[str, str]],
+    budget: Budget,
+    exempt: frozenset[str],
+    chain: frozenset[str],
+) -> bool:
+    """Record one layer's text as a view and walk what it reveals.
+
+    False means the input's budget is spent and the caller must stop, which is
+    the same contract the budget always had: a guard that keeps going past its
+    cap is a guard slow enough to be worth skipping.
+
+    THE CYCLE GUARD IS THE `chain`, which carries the digest of every text
+    already open on this path from the input downwards. Depth alone bounds a
+    chain that keeps producing NEW text; it does not stop a payload that
+    re-produces one of its own ancestors, which would then be walked again at
+    every remaining level for no new finding. Skipping a text already on the
+    path costs one digest and cannot lose anything, because the identical text
+    was walked where it first appeared and its findings are already recorded.
+    """
+    if not budget.take(text):
+        return False
+    found.append((layer, text))
+    digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    if digest not in chain:
+        _walk(text, f"{layer} ", depth + 1, found, budget, exempt, chain | {digest})
+    return True
+
+
 def _walk(
     text: str,
     prefix: str,
@@ -288,18 +344,59 @@ def _walk(
     found: list[tuple[str, str]],
     budget: Budget,
     exempt: frozenset[str],
+    chain: frozenset[str],
 ) -> None:
+    """Every layer `text` offers, recorded and then followed one level deeper.
+
+    A NESTED JSON DOCUMENT IS A CARRIER IN ITS OWN RIGHT, and treating it as one
+    is what this second branch does. `candidates` parses a document and hands
+    back its string VALUES, so an envelope that arrives as a member of a corpus
+    -- one JSON document held as a string inside another -- was offered to the
+    rules as an opaque string and then dropped, because it is not base64, not
+    hex and not percent-encoded, so `decodings` yielded nothing and the walk
+    stopped at the outer level. Measured: the same envelope that yields one view
+    and one found host on its own yielded ZERO views once embedded as
+    `$[0].bundle` in a corpus array, and on a 34 KB corpus the module returned
+    nothing at all while the host sat in 19 places. The candidate was offered
+    and discarded, which is the worst shape a guard can have -- it looked.
+
+    THE NESTED DOCUMENT IS RECORDED AS A VIEW AND NOT ONLY WALKED, because
+    unescaping is itself a decoding and this is where the CARRIER's escapes
+    resolve. A carrier may hold the nested document with a name written
+    `\\u0065xample.invalid`, which is legal JSON, invisible to a text match over
+    the raw bytes, and restored to `g` by the one parse that produced this
+    value -- so the view carries a plain name the file does not. That is
+    measured, and it is the whole reason for recording: `views` over such a
+    carrier returns one view whose text holds the name while `HOST in raw` is
+    false. The layer name also makes a reader's path complete, which a walked
+    but unrecorded layer would leave with a gap in the middle.
+
+    WHAT THIS DOES NOT REACH, so nobody reads the case above as more than it
+    is. The escape has to belong to the CARRIER. A `\\u` escape applied by the
+    nested document's own producer survives into this view unresolved, and it
+    resolves only when that document is parsed one level down -- where the name
+    lands in a plain string VALUE, and a plain value is offered to `decodings`,
+    decodes as nothing and is never recorded. So a name hidden by a unicode
+    escape one level below its carrier is still missed, and so is the same
+    escape in a top-level document with no nesting at all. That gap is older
+    than this branch and is not narrowed by it; closing it means recording a
+    parsed value whose unescaping changed its bytes, which is a different rule
+    with a false-positive profile of its own (every string holding a newline
+    differs from its carrier) and is not decided here.
+    """
     if depth >= MAX_DEPTH:
         return
     for path, value in candidates(text):
         if hashlib.sha256(value.encode("utf-8")).hexdigest() in exempt:
             continue  # a guard's own rule material; see `material`
         for name, decoded in decodings(value):
-            layer = f"{prefix}{path} -> {name}"
-            if not budget.take(decoded):
+            if not _descend(f"{prefix}{path} -> {name}", decoded,
+                             depth, found, budget, exempt, chain):
                 return
-            found.append((layer, decoded))
-            _walk(decoded, f"{layer} ", depth + 1, found, budget, exempt)
+        if _parsed(value) is not None and not _descend(
+                f"{prefix}{path} -> json", value,
+                depth, found, budget, exempt, chain):
+            return
 
 
 def views(text: str, exempt: frozenset[str] = frozenset()) -> list[tuple[str, str]]:
@@ -308,11 +405,16 @@ def views(text: str, exempt: frozenset[str] = frozenset()) -> list[tuple[str, st
     The layers read left to right from the outside in, so a caller can print
     where a string sits: `$.payload -> base64 $.predicateType` says the hit is
     in the `predicateType` member of the JSON that the envelope's base64
-    `payload` decodes to.
+    `payload` decodes to, and `$[0].bundle -> json $.payload -> base64` says the
+    same envelope arrived as one member of a corpus.
 
     `exempt` holds digests from `material`: the exact spans the calling guard
     carries as its own rule material, which are skipped rather than decoded.
+
+    The input's own digest seeds the cycle guard, so a document that embeds
+    itself verbatim is followed once and not again.
     """
     found: list[tuple[str, str]] = []
-    _walk(text, "", 0, found, Budget(), exempt)
+    seed = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    _walk(text, "", 0, found, Budget(), exempt, frozenset({seed}))
     return found
