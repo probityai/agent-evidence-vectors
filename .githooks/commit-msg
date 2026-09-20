@@ -54,7 +54,7 @@ file and read by all three rather than hand-copied into each. The hook held
 no permit at all while the scanners held one each, which is how a
 module-path rename came to be unable to name the path it was changing.
 
-`commit-msg.forbidden-tokens`, if present, contributes a salted hash per
+`commit-msg.forbidden-words`, if present, contributes a salted hash per
 forbidden word. It exists because a regex has to spell what it forbids, and
 one of these repositories is public and product-neutral: a rule written there
 as a literal would publish the very names it is meant to keep out, and a rule
