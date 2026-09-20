@@ -15,9 +15,11 @@ package corpora_test
 // a deleted check does.
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"testing"
 
@@ -36,8 +38,14 @@ type findingCase struct {
 // the committed tree.
 func stage(t *testing.T, dir string) string {
 	t.Helper()
-	copied := filepath.Join(t.TempDir(), dir)
+	root := t.TempDir()
+	copied := filepath.Join(root, dir)
 	copyTree(t, corpusPath(dir), copied)
+	// One reader reads the predicate's Type URI out of the document that defines
+	// it, resolved through dir/.., so a corpus staged alone cannot be judged at
+	// all and every case against it would report an unreadable corpus instead of
+	// the finding it exists to assert.
+	stageSiblingSpec(t, root)
 	return copied
 }
 
@@ -156,6 +164,7 @@ func TestEveryFindingIsReachable(t *testing.T) {
 	cases = append(cases, agentActionFindings()...)
 	cases = append(cases, aeeFindings()...)
 	cases = append(cases, aciFindings()...)
+	cases = append(cases, observedEffectFindings()...)
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			dir := stage(t, tc.dir)
@@ -963,4 +972,295 @@ func aciAddCodeTo(m map[string]any, code string) {
 		expected["codes"] = append(codes, code)
 		return
 	}
+}
+
+// observedEffectFindings provokes every finding the Observed Effect reader can
+// report.
+//
+// The reader arrived with no case of its own: the clean run judged its corpus and
+// nothing established that any of its refusals could fire, which left its file at
+// 72.1% of statements under an 80% floor. The floor is the symptom. The defect is
+// that a refusal nothing provokes is indistinguishable from a refusal that works,
+// and one of them turned out to be exactly that -- see
+// TestTheObservedBitIsTheRecomputedTier for the guard that could not fail.
+//
+// Every case below mutates a staged copy and requires the reader to say a
+// specific thing about it. The wanted text is a fragment, so rewording a message
+// does not fail the case while deleting the check does.
+func observedEffectFindings() []findingCase {
+	const dir = "vectors-observed-effect"
+	return []findingCase{
+		{"oe/no-file", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["file"] = ""
+			})
+		}, "MANIFEST row declares no file"},
+		{"oe/missing-body", dir, func(t *testing.T, d string) {
+			removeFile(t, d, oeMemberFile(t, d, kindIs("reject")))
+		}, "vector body missing"},
+		{"oe/id-does-not-hash", dir, func(t *testing.T, d string) {
+			writeFile(t, d, oeMemberFile(t, d, kindIs("accept")), "{}\n")
+		}, "file bytes hash to"},
+		{"oe/unknown-kind", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["kind"] = "maybe"
+			})
+		}, "which this reader does not replay"},
+		{"oe/wrong-verdict", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")), "valid", "expected", "verdict")
+			})
+		}, "expected valid, got"},
+		{"oe/wrong-codes", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")),
+					[]any{"a-code-no-rule-emits"}, "expected", "codes")
+			})
+		}, "expected codes [a-code-no-rule-emits], got"},
+		{"oe/indeterminate-no-readings", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("indeterminate"))["readings"] = []any{}
+			})
+		}, "names no readings, so no answer can be wrong"},
+		{"oe/indeterminate-outside-the-set", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("indeterminate"))["readings"] = []any{
+					map[string]any{"verdict": "a-verdict-no-rail-emits"},
+					map[string]any{"verdict": "another-one"},
+				}
+			})
+		}, "which is outside the declared set"},
+		{"oe/predicate-type", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["predicateType"] = "https://example.invalid/predicate/v1/not-this-one"
+			})
+		}, "is not the Type URI"},
+		{"oe/empty-tree-unknown-algorithm", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				constants, _ := m["emptyTree"].(map[string]any)
+				constants["sha3-512"] = strings.Repeat("0", 128)
+			})
+		}, "this rail knows none"},
+		{"oe/empty-tree-wrong", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				constants, _ := m["emptyTree"].(map[string]any)
+				constants["sha256"] = strings.Repeat("0", 64)
+			})
+		}, "empty-tree constant is not the one this rail holds"},
+		{"oe/blob-named-by-nobody", dir, oeUnnameTheBlob,
+			"named by no read row"},
+		{"oe/counts", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["counts"] = map[string]any{"accept": 1.0, "reject": 1.0}
+			})
+		}, "counts disagree"},
+		{"oe/corpus-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["corpusDigest"] = strings.Repeat("0", 64)
+			})
+		}, "does not recompute"},
+		{"oe/condition-only-rejected", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				oeStripConditionFromAccepts(t, m)
+			})
+		}, "is exercised only by reject members"},
+		{"oe/condition-unexercised", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				conditions, _ := m["conditions"].(map[string]any)
+				conditions["oe-nobody-forces-this"] = "declared and exercised by nothing"
+			})
+		}, "is declared and no member exercises it"},
+		{"oe/condition-undeclared", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, kindIs("reject"))
+				carried, _ := row["conditions"].([]any)
+				row["conditions"] = append(carried, "oe-never-declared")
+			})
+		}, "is used by a member and not declared"},
+		{"oe/condition-has-no-reject", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				conditions, _ := m["conditions"].(map[string]any)
+				conditions["oe-accepted-only"] = "carried by an accept member and by no reject one"
+				row := firstRowWhere(t, m, kindIs("accept"))
+				carried, _ := row["conditions"].([]any)
+				row["conditions"] = append(carried, "oe-accepted-only")
+			})
+		}, "has no reject member"},
+		{"oe/reject-without-parent", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				delete(firstRowWhere(t, m, kindIs("reject")), "parent")
+			})
+		}, "a reject member names no parent"},
+		{"oe/parent-is-not-a-member", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["parent"] = "vnotamemberatall"
+			})
+		}, "is not a member"},
+		{"oe/manifest-shape", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["counts"] = "not an object" })
+		}, "does not parse"},
+		{"oe/no-vectors", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["vectors"] = []any{} })
+		}, "carries no vectors"},
+		{"oe/no-predicate-spec", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { delete(m, "predicateSpec") })
+		}, "names no predicateSpec"},
+	}
+}
+
+// oeMemberFile is the file of the first member the picker chooses.
+func oeMemberFile(t *testing.T, dir string, pick func(map[string]any) bool) string {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join(dir, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest map[string]any
+	if err := json.Unmarshal(raw, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	rel, _ := firstRowWhere(t, manifest, pick)["file"].(string)
+	if rel == "" {
+		t.Fatal("the chosen member names no file, so this case would mutate nothing")
+	}
+	return rel
+}
+
+// oeStripConditionFromAccepts removes one condition from every accept member
+// while leaving it on a reject member, which is the state that gives a
+// refuse-everything verifier full marks on it. The condition is chosen from the
+// corpus rather than named here: a literal goes stale the day the corpus is
+// regenerated, and a case whose selector matches nothing asserts nothing.
+func oeStripConditionFromAccepts(t *testing.T, m map[string]any) {
+	t.Helper()
+	accepted, rejected := map[string]bool{}, map[string]bool{}
+	for _, item := range vectorsOf(m) {
+		row, _ := item.(map[string]any)
+		kind, _ := row["kind"].(string)
+		carried, _ := row["conditions"].([]any)
+		for _, value := range carried {
+			if text, ok := value.(string); ok {
+				switch kind {
+				case "accept":
+					accepted[text] = true
+				case "reject":
+					rejected[text] = true
+				}
+			}
+		}
+	}
+	shared := make([]string, 0, len(accepted))
+	for condition := range accepted {
+		if rejected[condition] {
+			shared = append(shared, condition)
+		}
+	}
+	if len(shared) == 0 {
+		t.Fatal("no condition is carried by both an accept and a reject member, so " +
+			"stripping one cannot orphan anything and this case would assert nothing")
+	}
+	sort.Strings(shared)
+	target := shared[0]
+	for _, item := range vectorsOf(m) {
+		row, _ := item.(map[string]any)
+		if kind, _ := row["kind"].(string); kind != "accept" {
+			continue
+		}
+		carried, _ := row["conditions"].([]any)
+		kept := make([]any, 0, len(carried))
+		for _, value := range carried {
+			if text, ok := value.(string); ok && text == target {
+				continue
+			}
+			kept = append(kept, value)
+		}
+		row["conditions"] = kept
+	}
+}
+
+// oeUnnameTheBlob rewrites every member's payload so that no read row names the
+// blob the reader reconstructs.
+//
+// The reader states that blob itself and checks that some member's payload names
+// its digest, because the range-preimage rule SKIPS a row whose blob it does not
+// hold: a corpus that narrated a different blob would leave that rule exercised
+// by nothing and still be reported clean. Every member is rewritten rather than
+// one, because the check asks whether ANY payload names it.
+func oeUnnameTheBlob(t *testing.T, d string) {
+	t.Helper()
+	raw, err := os.ReadFile(filepath.Join(d, corpora.ManifestName)) // #nosec G304 -- a test reading its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	var manifest map[string]any
+	if err := json.Unmarshal(raw, &manifest); err != nil {
+		t.Fatal(err)
+	}
+	rewritten := 0
+	for _, item := range vectorsOf(manifest) {
+		row, _ := item.(map[string]any)
+		rel, _ := row["file"].(string)
+		if rel == "" {
+			continue
+		}
+		if oeRenameBlobIn(t, filepath.Join(d, rel)) {
+			rewritten++
+		}
+	}
+	if rewritten == 0 {
+		t.Fatal("no member carried a read row to rewrite, so the blob was never named " +
+			"and this case would assert nothing")
+	}
+}
+
+// oeRenameBlobIn points every read row in one member at a different blob, and
+// reports whether it changed anything.
+func oeRenameBlobIn(t *testing.T, path string) bool {
+	t.Helper()
+	raw, err := os.ReadFile(path) // #nosec G304 -- a test editing its own copy
+	if err != nil {
+		t.Fatal(err)
+	}
+	var envelope map[string]any
+	if err := json.Unmarshal(raw, &envelope); err != nil {
+		return false
+	}
+	encoded, _ := envelope["payload"].(string)
+	payload, err := base64.StdEncoding.DecodeString(encoded)
+	if err != nil {
+		return false
+	}
+	var statement map[string]any
+	if err := json.Unmarshal(payload, &statement); err != nil {
+		return false
+	}
+	predicate, _ := statement["predicate"].(map[string]any)
+	reads, _ := predicate["reads"].([]any)
+	changed := false
+	for _, item := range reads {
+		read, _ := item.(map[string]any)
+		if read == nil {
+			continue
+		}
+		if _, has := read["blobDigest"]; has {
+			read["blobDigest"] = strings.Repeat("b", 64)
+			changed = true
+		}
+	}
+	if !changed {
+		return false
+	}
+	body, err := json.Marshal(statement)
+	if err != nil {
+		t.Fatal(err)
+	}
+	envelope["payload"] = base64.StdEncoding.EncodeToString(body)
+	out, err := json.Marshal(envelope)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, out, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return true
 }
