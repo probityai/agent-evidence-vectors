@@ -26,21 +26,21 @@ jobs:
           go-version: '1.24'
       - name: gofmt (no diffs)
         run: |
-          unformatted=$(gofmt -l aee cmd witnessattestor)
+          unformatted=$(gofmt -l aee cmd corpora observedeffect witnessattestor)
           if [ -n "$unformatted" ]; then
             echo "gofmt needs to run on:"; echo "$unformatted"; exit 1
           fi
       - name: build
         run: |
-          go build ./aee/... ./cmd/...
+          go build ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && go build ./...)
       - name: vet
         run: |
-          go vet ./aee/... ./cmd/...
+          go vet ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && go vet ./...)
       - name: test (race)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... -race -count=1
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
           (cd witnessattestor && go test ./... -race -count=1)
       # The README advertises cmd/aee-verify as a consumer implementation and
       # separately tells a third party how to wire a rail into the harness.
@@ -117,7 +117,7 @@ jobs:
 
       - name: coverage (per-file 80% minimum)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... -coverprofile=core.cov -count=1
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -coverprofile=core.cov -count=1
           (cd witnessattestor && go test ./... -coverprofile=../wa.cov -count=1)
           # The aee-witness-demo command is a runnable library-mode example; its
           # attest lifecycle is covered by the attestor tests, so it is excluded.
@@ -126,7 +126,7 @@ jobs:
       - name: staticcheck
         run: |
           go install honnef.co/go/tools/cmd/staticcheck@latest
-          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpora/...
+          "$(go env GOPATH)/bin/staticcheck" ./aee/... ./cmd/... ./corpora/... ./observedeffect/...
           (cd witnessattestor && "$(go env GOPATH)/bin/staticcheck" ./...)
       # The accepted-complexity table in docs/architecture/DESIGN_DECISIONS.md
       # names each branch-heavy Go function and its measured complexity. This
