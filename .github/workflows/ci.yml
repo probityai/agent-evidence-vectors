@@ -219,8 +219,23 @@ jobs:
       # for it. It proves its own instrument first, against an identity map
       # after an insertion -- the shape a lazy remap has -- and refuses to
       # report on the real re-vendor unless that mutation went red.
+      # --synthetic, and the flag is the whole point. This check has two halves.
+      # The synthetic half constructs an insertion and a replacement and proves the
+      # remap carries every anchor onto the same prose; it needs nothing but this
+      # checkout and it is what runs here. The other half compares against the
+      # PINNED upstream revision in spec/VENDOR-PIN.json, read out of a local clone
+      # of the upstream fork -- which a hosted runner does not have and cannot get,
+      # because the pinned revision is not on any remote yet.
+      #
+      # That half has therefore never run on a runner. It did not say so: it
+      # printed SKIPPED and exited 0, so every green CI run has reported a pass for
+      # a question nobody asked. It now REFUSES when it cannot be asked, which is
+      # why it is not invoked here: a check that must refuse in CI forever is not a
+      # CI check. Run it before a re-vendor, where it is the whole point:
+      #
+      #     python3 scripts/vendor-remap-test.py
       - name: the vendor remap keeps every anchor on its own prose
-        run: python3 scripts/vendor-remap-test.py
+        run: python3 scripts/vendor-remap-test.py --synthetic
       # The two citation gates are one check over two spellings. Each holds a
       # ledger pinning every citation to a digest of the prose it addresses, so
       # both fail when a citation comes off its subject rather than only when

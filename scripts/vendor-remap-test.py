@@ -22,14 +22,22 @@ anchor cannot land on identical bytes and the case says so explicitly rather
 than passing on a substring; those are reported as EDITED and listed, so a
 reader sees which rules moved and can check them by eye.
 
+The upstream side is PINNED. spec/VENDOR-PIN.json names a revision and a path,
+and the bytes are read out of an object store with `git show` rather than from any
+working tree, so this check answers the same way twice at one repository revision
+however a sibling clone is being edited meanwhile. It used to read a clone's
+working tree, which made its verdict a function of what another lane happened to
+be doing; see pinned_upstream for what that cost.
+
 Usage:
-  python3 scripts/vendor-remap-test.py            # against the real next re-vendor
+  python3 scripts/vendor-remap-test.py            # against the pinned upstream
   python3 scripts/vendor-remap-test.py --synthetic # against constructed edits only
 
 Exit 0 when every anchor survives, 1 when one lands on different prose, 2 when
-the question could not be asked -- an absent fork, an unreadable spec, or a
-pinned anchor this script cannot parse. A run that could not ask must never
-report that the remap is sound.
+the question could not be asked -- no pin, no checkout holding the pinned
+revision, a path absent from it, an unreadable spec, or a pinned anchor this
+script cannot parse. A run that could not ask must never report that the remap is
+sound, so none of those is an exit 0.
 """
 
 from __future__ import annotations
@@ -37,6 +45,8 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
+import subprocess
 import sys
 from collections.abc import Callable
 from pathlib import Path
@@ -46,6 +56,9 @@ from typing import NamedTuple
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SPEC_REL = "spec/predicates/adversarial-execution-evidence.md"
 PINS = REPO_ROOT / "spec" / "ANCHOR-PINS.json"
+VENDOR_PIN = REPO_ROOT / "spec" / "VENDOR-PIN.json"
+#: Where the upstream checkout lives when the pin does not say. Only ever used to
+#: locate an OBJECT STORE: no working tree is read through it.
 FORK = Path.home() / "Documents" / "git-clones" / "attestation"
 
 
@@ -321,6 +334,83 @@ def prove_the_instrument(old_text: str, new_text: str) -> int:
     return 1
 
 
+def pinned_upstream() -> tuple[str | None, str | None]:
+    """The upstream page at the PINNED re-vendor target, or why it could not be read.
+
+    Never reads a working tree. `remapTarget.commit` in spec/VENDOR-PIN.json names the
+    revision the next re-vendor moves to, and the bytes come out of an object store
+    with `git show`, so this check answers the same way twice at one repository
+    revision however that clone is being edited meanwhile.
+
+    The target is deliberately NOT `commit` in the same file. That one records what
+    the vendored copy already IS -- scripts/spec-drift-gate.py holds the bytes to its
+    digest -- and the question here is what the next move would do to every anchor,
+    which is a different revision by construction.
+
+    This replaces a read of `FORK / SPEC_REL`, a sibling clone's working tree. On
+    2026-09-20 a lane reduced that file from 2322 lines to 278 while amending it three
+    times in two hours, and three branches went red at different times; one of them had
+    no commits but a run-ledger entry and a fix to an unrelated gate.
+
+    Every failure returns a REASON and the caller exits 2. An absent checkout, an
+    unrecorded target, a revision nobody fetched, a path missing from it: each is a
+    question that could not be asked, and a check that could not run has not passed.
+    """
+    if not VENDOR_PIN.is_file():
+        return None, (
+            f"{VENDOR_PIN.relative_to(REPO_ROOT)} is absent, so no upstream revision is "
+            "pinned and there is nothing to compare against."
+        )
+    try:
+        pin = json.loads(VENDOR_PIN.read_text(encoding="utf-8"))
+    except ValueError as exc:
+        return None, f"{VENDOR_PIN.relative_to(REPO_ROOT)} does not parse: {exc}"
+
+    rel = VENDOR_PIN.relative_to(REPO_ROOT)
+    target = pin.get("remapTarget")
+    if not isinstance(target, dict) or not isinstance(target.get("commit"), str):
+        return None, (
+            f"{rel} records no `remapTarget.commit`. That is the revision the next "
+            "re-vendor moves to, and without it this check has nothing to compare the "
+            "vendored page against. Record it, or run with --synthetic, which asks a "
+            "question that needs no upstream."
+        )
+    revision = target["commit"]
+    path = pin.get("specPath")
+    if not isinstance(path, str) or not path:
+        return None, f"{rel} records no `specPath`."
+
+    if not FORK.is_dir():
+        return None, (
+            f"no checkout at {FORK}, so the pinned revision {revision[:12]} cannot be "
+            f"read. Clone {pin.get('commitRepo', 'the upstream fork')} there."
+        )
+    present = subprocess.run(
+        ["git", "-C", str(FORK), "cat-file", "-e", f"{revision}^{{commit}}"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if present.returncode != 0:
+        return None, (
+            f"{revision[:12]} is not in the object store at {FORK}. It is pinned and has "
+            f"to be fetched before this check can be asked: git -C {FORK} fetch "
+            f"{pin.get('commitRepo', '<remote>')} {pin.get('ref', revision)}"
+        )
+    shown = subprocess.run(
+        ["git", "-C", str(FORK), "show", f"{revision}:{path}"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if shown.returncode != 0:
+        return None, (
+            f"{path} is not in {revision[:12]}: {shown.stderr.strip()}. The pin names a "
+            "revision and a path together; one without the other says nothing."
+        )
+    return shown.stdout, None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -348,14 +438,11 @@ def main() -> int:
     if rc != 0 or args.synthetic:
         return rc
 
-    fork_spec = FORK / SPEC_REL
-    if not fork_spec.is_file():
-        print(
-            f"[real re-vendor] SKIPPED: no fork at {fork_spec}. This says nothing "
-            "about the remap; run with the fork present before re-vendoring."
-        )
-        return 0
-    return check(old_text, fork_spec.read_text(encoding="utf-8"), "real re-vendor")
+    upstream, why = pinned_upstream()
+    if upstream is None:
+        print(f"REFUSED [real re-vendor]: {why}", file=sys.stderr)
+        return 2
+    return check(old_text, upstream, "real re-vendor")
 
 
 if __name__ == "__main__":

@@ -77,6 +77,32 @@ worth reading before writing rather than after failing.
 | `.githooks/commit-msg` | a subject over seventy-two characters, any non-ASCII byte, an AI-attribution trailer, or project-internal jargon that will not resolve for a reader six months later |
 | `.github/workflows/no-internal-drafts.yml` | internal drafting notes, `DRAFT-` files, tool-state directories, absolute home paths, and first-party product names. This repository is deliberately product-neutral |
 
+**A gate's verdict may depend on the revision under test, and on nothing else on
+the machine.** Not on the clock, not on a sibling checkout, not on which files a
+previous run left behind, not on the interpreter's hash seed. The test is simple:
+run the gate twice at one revision, on two machines or in two processes, and it
+must say the same thing. A gate that fails this is worse than no gate, because it
+spends its failures on the wrong commits and its passes on questions it never
+asked. Three of them were found here on one day:
+
+- `scripts/surface-leakage-gate.py` summed a row's features while iterating a
+  `frozenset`. Python salts string hashing per process and floating-point
+  addition is not associative, so identical rows tied in one process and ranked
+  in another. One corpus measured 0.5304 under most seeds, 0.5343 under others
+  and 0.5054 in the run that caught it -- a refusal for a leak that was not
+  there, and a refusal for slack that was not there, on an untouched corpus. Sum
+  in sorted order.
+- `scripts/vendor-remap-test.py` compared the vendored specification against a
+  sibling clone's WORKING TREE. A lane reduced that clone's copy from 2322 lines
+  to 278 and amended it three times in two hours; three branches went red at
+  different times, one of whose only commits were a run-ledger entry and a fix to
+  an unrelated gate. Pin the revision in `spec/VENDOR-PIN.json` and read the bytes
+  out of an object store, never a working tree.
+- The same check printed `SKIPPED` and exited 0 when the clone was absent, which
+  is every run on a hosted runner. Absence is not a pass. **A check that could not
+  run must exit non-zero and name what was missing** -- and if that means it can
+  never run in CI, it does not belong in CI.
+
 **Zero warnings.** A build with a warning is not done. That covers `gofmt`,
 `go vet`, `staticcheck`, `golangci-lint`, `mypy --strict` and `ruff` — all of them
 run on every push and none of them is allowed to be noisy.

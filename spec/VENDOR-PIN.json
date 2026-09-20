@@ -6,5 +6,20 @@
   "refKind": "branch",
   "commit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "specPath": "spec/predicates/adversarial-execution-evidence.md",
-  "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0"
+  "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
+  "remapTarget": {
+    "commit": "5ab5dd8897de56ddd2bd9683afca5df578a368e2",
+    "recorded": "2026-09-20",
+    "why": [
+      "The revision the NEXT re-vendor moves to, which is not the revision we are",
+      "vendoring now: `commit` above says what spec/predicates/... currently IS and the",
+      "drift gate holds the bytes to it. scripts/vendor-remap-test.py compares the",
+      "current vendored text against THIS revision, to prove the remap carries every",
+      "anchor onto the same prose before the move rather than after it.",
+      "It is pinned because that check used to read a sibling clone's WORKING TREE. On",
+      "2026-09-20 a lane cut that clone's copy from 2322 lines to 278 and amended it",
+      "three times in two hours; three branches that touch neither the vendored page nor",
+      "any citation went red at different times for a reason none of them contained."
+    ]
+  }
 }
