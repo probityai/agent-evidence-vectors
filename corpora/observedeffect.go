@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/astrogilda/agent-evidence-vectors/observedeffect"
+	"github.com/probityai/agent-evidence-vectors/observedeffect"
 )
 
 func init() { register(observedEffect{}) }
