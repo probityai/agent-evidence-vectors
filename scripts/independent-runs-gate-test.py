@@ -45,6 +45,12 @@ STAGED = (
 )
 LEDGER = "docs/INDEPENDENT-RUNS.json"
 README = "README.md"
+# How many attempts the ledger holds, read from the ledger rather than written
+# down here. The first case asserts that the gate's accepting output names the
+# number it found, and a literal in this file would be a second place that number
+# lives: it was written as two, a third dispatch was recorded, and the case then
+# failed for the count rather than for anything the gate does.
+ATTEMPT_COUNT = len(json.loads((REPO_ROOT / LEDGER).read_text(encoding="utf-8"))["attempts"])
 
 Mutation = Callable[[Path], None]
 # name, what to do to the staged copy, whether the gate must accept, and words
@@ -166,7 +172,10 @@ CASES: tuple[Case, ...] = (
         "the staged copy, unmutated, is accepted",
         unchanged,
         True,
-        ("2 dispatch(es) that returned no figure", "none of them licenses one"),
+        (
+            f"{ATTEMPT_COUNT} dispatch(es) that returned no figure",
+            "none of them licenses one",
+        ),
     ),
     (
         "an attempt carrying a figure is refused",
