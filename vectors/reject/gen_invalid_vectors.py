@@ -933,6 +933,7 @@ PARENTS = {
 INHERENT_EXTRA: dict[str, list[str]] = {
     **{vid: ["observed-set-mismatch"] for vid in (
         "bad-202-payload-bignum",
+        "bad-209-payload-exponent-unsafe-integer",
         "bad-203-payload-duplicate-member",
         "bad-739-payload-lone-surrogate-escape",
         "bad-740-payload-cesu8",
@@ -992,6 +993,7 @@ INHERENT_EXTRA: dict[str, list[str]] = {
 OBSERVED_EXTRA: dict[str, list[str]] = {
     **{vid: ["caught-row-uncovered"] for vid in (
         "bad-202-payload-bignum",
+        "bad-209-payload-exponent-unsafe-integer",
         "bad-203-payload-duplicate-member",
         "bad-204-payload-media-type",
         "bad-739-payload-lone-surrogate-escape",
@@ -1002,6 +1004,9 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
     )},
     **{vid: ["caught-row-uncovered", "observed-set-mismatch"] for vid in (
         "bad-201-payload-unsorted-keys",
+        "bad-210-payload-exponent-uppercase-marker",
+        "bad-211-payload-exponent-decimal-point",
+        "bad-212-payload-exponent-negative-zero",
         "bad-208-payload-member-non-bmp",
     )},
     **{vid: ["sealed-record-absent"] for vid in (
@@ -1279,6 +1284,120 @@ vec("bad-202-payload-bignum", "ok-001",
     "covering payload gains an integer member 2^53+1",
     ["re-sign-record", "recompute-batch-root"], [18], ["payload-not-ijson"],
     _b202, spec="L1312-1316; L99-102", note="rawBytes")
+
+
+# --- (b0b) exponent NOTATION, which the corpus carried no literal of ---------
+#
+# The covering-payload rule (spec:req-fields-dsse-envelope-per-observation-payload@b25ccffb96b860aa) puts TWO independent number rules
+# on the same bytes: the payload must be "canonical per RFC 8785" AND "valid
+# I-JSON per RFC 7493 (... integers within the safe range ...)". The safe-range
+# half is over the VALUE a literal denotes; the canonicality half is over the
+# SPELLING. Every number literal in this corpus was written in integer form, so
+# no vector separated the two halves, and none distinguished a rail reading the
+# safe-integer rule over values from one reading it over notation -- the latter
+# accepts `1e21`, which both first-party rails refuse with exact rational
+# arithmetic and a comment naming that exact literal (`aee/jcs.go`,
+# `checkSafeInteger`).
+#
+# The four below are the whole notation axis, and they split across the two
+# halves rather than piling onto one:
+#
+#   1e21   value 10^21, integral, magnitude at or above 2^53 -> the SAFE-RANGE
+#          half refuses it. This is the discriminating case: a rail holding the
+#          written-form reading accepts the statement this one refuses.
+#   1E2    value 100, integral, magnitude below the bound -> the safe-range half
+#          ADMITS it. It is refused by the canonicality half alone, whose
+#          spelling for that value is `100`.
+#   1.0e2  value 100 again, reached through a decimal point rather than an
+#          uppercase exponent marker. Same verdict, different notation, and the
+#          spelling `aee/jcs.go` singles out as one "a notation-blind check
+#          would miss".
+#   -0e0   value negative zero, whose canonical spelling is `0`: the sign
+#          survives in IEEE 754 and not in RFC 8785 output, so a rail
+#          round-tripping through a float and re-serialising agrees while a rail
+#          comparing carried bytes does not.
+#
+# Each carries its literal through a byte-level splice into an OTHERWISE
+# CANONICAL payload, because the fault has to be the literal and nothing else.
+# Hand-assembling the member list the way bad-201 does leaves nested objects in
+# input order, which is a second canonicality fault that refuses the control
+# too. The control here -- the same payload carrying the canonical `100` -- is
+# VALID on both rails, which is what makes these single-fault.
+_EXPONENT_SENTINEL = b'"extraA":100'
+
+
+def _exponent_payload(literal: str) -> Callable[[], dict[str, Any]]:
+    def b() -> dict[str, Any]:
+        st = P_caught()
+        obj = json.loads(unb64(
+            st["predicate"]["observationRecords"][0]["payload"]))
+        obj["extraA"] = 100
+        canonical = jcs(obj)
+        if canonical.count(_EXPONENT_SENTINEL) != 1:
+            raise SystemExit(
+                "the exponent-notation splice found "
+                f"{canonical.count(_EXPONENT_SENTINEL)} copies of its sentinel "
+                "in the canonical payload, so the literal would land somewhere "
+                "nobody chose. The splice must be exact or the vector is not "
+                "the vector it says it is."
+            )
+        body = canonical.replace(
+            _EXPONENT_SENTINEL, b'"extraA":' + literal.encode())
+        return raw_record_bytes(st, 0, body)
+
+    return b
+
+
+vec("bad-209-payload-exponent-unsafe-integer", "ok-001",
+    "covering payload gains a producer member spelled 1e21, whose value is an "
+    "integer at or above 2^53",
+    ["re-sign-record", "recompute-batch-root"], [18], ["payload-not-ijson"],
+    _exponent_payload("1e21"), spec="L1312-1316; L99-102",
+    note="rawBytes. THE discriminating vector for the safe-integer rule's "
+         "domain: the rule is over the value a literal denotes and not over "
+         "the notation it is written in, so 10^21 spelled in exponent form is "
+         "refused exactly as 9007199254740993 is. A rail reading the rule as "
+         "reaching only integer-form literals accepts this statement, and "
+         "until this vector landed the corpus contained no exponent-form number "
+         "literal at all -- measured by decoding every payload rather than by "
+         "searching the text, which cannot see inside base64")
+vec("bad-210-payload-exponent-uppercase-marker", "ok-001",
+    "covering payload gains a producer member spelled 1E2, whose value is the "
+    "integer 100",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("1E2"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. The other side of the notation axis, and the reason both "
+         "sides are needed. 100 is an integer of magnitude below 2^53, so the "
+         "safe-range half of the covering-payload rule ADMITS this literal; "
+         "the refusal comes from the canonicality half alone, whose spelling "
+         "for that value is 100. The pair with bad-209 separates the two "
+         "halves: one literal refused for its value and three for their "
+         "spelling, where a rail conflating the two rules reports one code for "
+         "all four")
+vec("bad-211-payload-exponent-decimal-point", "ok-001",
+    "covering payload gains a producer member spelled 1.0e2, whose value is "
+    "the integer 100",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("1.0e2"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. The decimal-point spelling of an integral value, which is "
+         "the form aee/jcs.go names as one a notation-blind check would miss. "
+         "Its value is integral, so the non-integer rule does not reach it "
+         "either, and the refusal is canonicality alone")
+vec("bad-212-payload-exponent-negative-zero", "ok-001",
+    "covering payload gains a producer member spelled -0e0, whose canonical "
+    "spelling is 0",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("-0e0"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. Negative zero is the one value whose sign survives IEEE "
+         "754 and not RFC 8785 output. A rail that parses to a double and "
+         "re-serialises derives the canonical bytes the producer should have "
+         "written and sees no fault; a rail comparing the carried bytes "
+         "against the canonicalization refuses. Those are different verdicts "
+         "on identical bytes, which is why the spelling is worth a vector "
+         "rather than a sentence")
 
 
 def _b203() -> dict[str, Any]:

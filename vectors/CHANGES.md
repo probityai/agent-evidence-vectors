@@ -46,10 +46,27 @@ byte-identically from the generators.
   accumulates, which `vectors/MANIFEST.json` already declares measured rather than
   normative, and closing them would mean rewriting a rail's reporting
   architecture.
-- Corpus: **277 vectors (61 accept, 214 reject, 2 indeterminate)**, two more than
-  suiteRevision 29. No existing vector file changes, so only the two new
+- **The corpus contained no exponent-form number literal at all, so the
+  safe-integer rule's own domain was untested.** The covering-payload rule puts
+  two independent number rules on the same bytes -- the payload MUST be
+  "canonical per RFC 8785" AND "valid I-JSON per RFC 7493 (... integers within
+  the safe range ...)" -- and the first is over a literal's SPELLING while the
+  second is over the VALUE it denotes. Every number in the corpus was written in
+  integer form, so nothing separated them and nothing distinguished a rail
+  reading the safe-integer bound over values from one reading it over notation.
+  The second reading accepts `1e21`, which both first-party rails refuse with
+  exact rational arithmetic and a comment naming that exact literal. Four vectors
+  close the axis and split across the two rules rather than piling onto one:
+  `vd3ead02f7ed16d0a` carries `1e21`, whose value is integral and at or above
+  2^53, and is refused by the safe-range half; `vd5e0b3f3d1fabb05` (`1E2`),
+  `v97c6888cf7e88f42` (`1.0e2`) and `v13ede3e42645eb1a` (`-0e0`) all carry values
+  the safe-range half ADMITS and are refused by the canonicality half alone. The
+  absence they close was measured by decoding every payload in the corpus rather
+  than by searching its text, which cannot see inside base64.
+- Corpus: **281 vectors (61 accept, 218 reject, 2 indeterminate)**, six more than
+  suiteRevision 29. No existing vector file changes, so only the six new
   statements and `corpusDigest` in `vectors/MANIFEST.json` move; the vendored
-  specification does not move, because the reading this revision fixes is the one
+  specification does not move, because every reading this revision fixes is one
   its current text already states.
 
 ## suiteRevision 29 (the three empty predicate states are one input)

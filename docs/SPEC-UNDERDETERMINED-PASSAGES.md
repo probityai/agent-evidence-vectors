@@ -570,5 +570,33 @@ Loosening a published anti-scoreability ratchet to admit one accept vector into 
 structurally unbalanced family trades a measured guarantee for a single edge case.
 The edge is worth having and lands the moment the family can be balanced.
 
-**Owed, as one follow-up:** the payload-carrying vector shape for the number
-family, its reject counterpart, and `1e-7` behind them.
+**Owed, as one follow-up, and now designed rather than owed in the abstract:**
+[docs/NUMBER-FAMILY-BALANCE.md](NUMBER-FAMILY-BALANCE.md) carries the
+payload-carrying vector shape for the number family, its reject counterpart, the
+measured arithmetic of the refusal that blocks it, and the ordered sequence that
+lands it. Two corrections to the paragraphs above belong with it.
+
+**The block is the fingerprint-drift check, not the two surface measurements this
+file named.** `scripts/surface-leakage-gate.py` pins each corpus's nulls to the
+class counts they were calibrated over and refuses when either class moves by
+more than ten per cent. `vectors-ai-agent-action` is recorded at 16 rejects and
+holds 17, so the budget is already 6.25 per cent spent and the next reject is
+12.5 per cent and over the bound -- for any reject, number or not. Measured by
+staging the tree and running the real gate, a matched accept-and-reject pair
+moves every leakage-bearing surface DOWN (`lexicon` 0.7886 to 0.7405, `paths`
+0.7862 to 0.7571, `all` 0.7785 to 0.7408) and pulls `identifier` to 0.5175, under
+its null; a reject alone pushes `identifier` to 0.5285, over it. So the pair is
+required and the ratchet is not loosened by landing it, which is the opposite of
+what this file previously implied.
+
+**`vf1492a40d7a7c2c9` has never existed in this repository.** `git log -S` and
+`git grep` across all 1172 commits on all refs both return nothing for it,
+against a control that returns two commits and three files in the same session.
+Identifiers here are digests of the bytes, so a vector written in a working tree
+and never committed mints none. The vector was real; the identifier is not, and
+it should not be quoted as though a vector had been removed.
+
+**Four of the notation cases landed here instead, in the corpus where they can
+be decided.** See passage one's vector note: `vd3ead02f7ed16d0a` (`1e21`),
+`vd5e0b3f3d1fabb05` (`1E2`), `v97c6888cf7e88f42` (`1.0e2`) and
+`v13ede3e42645eb1a` (`-0e0`).

@@ -8,7 +8,7 @@
   "specUpstreamCommit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "counts": {
     "accept": 61,
-    "reject": 214,
+    "reject": 218,
     "indeterminate": 2
   },
   "comparisonSurface": {
@@ -21,7 +21,7 @@
     ],
     "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
   },
-  "corpusDigest": "b5106312f0710011bb3e3ecec10126139b3edf2540ad033acb509598e084e63d",
+  "corpusDigest": "a635848598e68686ada6ea41d2bc9a886033bac41ae111814127881495c3bd45",
   "vectors": [
     {
       "id": "vcf20eae7df4f1f1b",
@@ -1182,6 +1182,80 @@
         ],
         "alsoEmits": [
           "caught-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "vd3ead02f7ed16d0a",
+      "kind": "reject",
+      "file": "statements/vd3ead02f7ed16d0a.json",
+      "conditions": [
+        "aee-c-18"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-ijson"
+        ],
+        "alsoCarries": [
+          "observed-set-mismatch"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "vd5e0b3f3d1fabb05",
+      "kind": "reject",
+      "file": "statements/vd5e0b3f3d1fabb05.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v97c6888cf7e88f42",
+      "kind": "reject",
+      "file": "statements/v97c6888cf7e88f42.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v13ede3e42645eb1a",
+      "kind": "reject",
+      "file": "statements/v13ede3e42645eb1a.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
         ]
       }
     },
