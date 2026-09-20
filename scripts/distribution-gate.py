@@ -27,6 +27,29 @@ file does not know about sends a citation into a permanent record naming bytes
 no tag holds, and `scripts/citation-metadata-gate.py` already refuses that for
 the deposit without ever reading the prose a human follows.
 
+The MODULE PATH. The `go install` line pins a tag, and the tag check above
+establishes that the tag is the released one. It establishes nothing about the
+PATH in front of the `@`, and that half is where a Go consumer actually breaks:
+released tags are immutable, so a repository whose module path moves keeps
+serving the OLD path at every tag cut before the move. The proxy answers 200 on
+`@v/list`, `@latest` and `@v/<tag>.info` for both spellings -- the forge
+redirects a renamed owner -- so nothing looks wrong until `go get` reads the
+`.mod` and refuses with "module declares its path as". That state shipped on
+this page and this gate passed it.
+
+So two statements are checked, and they are separate because each can be true
+while the other is false. The page's install path must be the path `go.mod`
+declares, or the page sends a stranger to a module this repository does not
+publish. And the module path must RESOLVE at the tag the page pins, which is
+exactly what `<proxy>/<path>/@v/<tag>.mod` answers -- and that answer is the
+repository's own `go.mod` at that tag, byte for byte, so it is read here with
+`git show <tag>:go.mod` instead of over the network. That is the same primary
+artifact rather than a stand-in for it, it needs no digest recorded at release
+time to go stale, and it keeps this gate under the rule
+`scripts/release-gate.py` states for all of them: a gate that runs on every push
+must not depend on a third party being reachable. A tag this clone does not hold
+is reported as a check that did not run, never as one that passed.
+
 The CORPORA. The inbound page tables the corpora this repository ships, and the
 independent-run issue form offers them as the choices a reporter picks from. The
 set of tracked `<dir>/MANIFEST.json` files is what a tag actually publishes, and
@@ -67,7 +90,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 README_REL = "README.md"
 PAGE_REL = "DISTRIBUTION.md"
 CITATION_REL = "CITATION.cff"
+GOMOD_REL = "go.mod"
 FORM_REL = ".github/ISSUE_TEMPLATE/independent-run.yml"
+
+#: The page's one pinned install command, captured as (package path, tag). One
+#: pattern rather than one per reader: the tag check and the module-path check
+#: must rule on the SAME line, and two regexes over one line is how they come to
+#: rule on different ones.
+INSTALL_LINE = re.compile(r"^go install (\S+)@(v\S+)\s*$", re.MULTILINE)
 
 #: The heading both files put the verification recipe under. Matching on the
 #: heading rather than on a line number keeps the gate working when either file
@@ -147,13 +177,13 @@ def tags_claimed(page: str, recipe: str) -> dict[str, str]:
         )
     claims["the recipe's `git checkout`"] = checkout.group(1)
 
-    install = re.search(r"^go install \S+@(v\S+)\s*$", page, re.MULTILINE)
+    install = INSTALL_LINE.search(page)
     if install is None:
         raise GateError(
             f"{PAGE_REL} has no `go install ...@vX` line. `@latest` moves, and a verifier that "
             "moves cannot be what a reported run was run with."
         )
-    claims["the `go install` pin"] = install.group(1)
+    claims["the `go install` pin"] = install.group(2)
 
     heading = re.search(
         r"^#+\s+The tag to cite\s*$\s*\n\s*`(v[^`]+)`", page, re.MULTILINE
@@ -175,6 +205,82 @@ def tags_claimed(page: str, recipe: str) -> dict[str, str]:
     for token in sorted(set(re.findall(r"`(v\d+\.\d+\.\d+)`", page))):
         claims.setdefault(f"the backticked version token `{token}`", token)
     return claims
+
+
+def declared_module(text: str, rel: str) -> str:
+    """The module path a `go.mod` declares, read without a Go toolchain.
+
+    Exactly one top-level `module` line is readable. Two is not a longer answer,
+    it is two spellings of what this repository publishes, which is the drift
+    this whole gate exists to refuse.
+    """
+    found = re.findall(r"^module\s+(\S+)\s*$", text, re.MULTILINE)
+    if len(found) != 1:
+        raise GateError(
+            f"{rel} carries {len(found)} top-level `module` lines; exactly one is readable."
+        )
+    return str(found[0])
+
+
+def module_at_tag(root: Path, tag: str) -> str:
+    """The module path `go.mod` declared at `tag`, read from the object store.
+
+    This is the byte-for-byte content the module proxy serves as
+    `<proxy>/<path>/@v/<tag>.mod`, which is why no network call is needed to
+    learn what a consumer's toolchain will be told.
+
+    A tag this clone does not hold raises rather than returning anything. "The
+    tag is absent" and "the tag declares a different path" are different states
+    and must never print the same way: a clone with no tags would otherwise turn
+    the check into a pass.
+    """
+    shown = subprocess.run(
+        ["git", "-C", str(root), "show", f"{tag}:{GOMOD_REL}"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if shown.returncode != 0:
+        raise GateError(
+            f"{GOMOD_REL} at {tag} could not be read ({shown.stderr.strip() or 'git failed'}), "
+            f"so whether the module path resolves at {tag} was NOT checked. This is not a pass: "
+            "a tag this clone does not hold and a tag declaring the wrong path report the same "
+            "way from here. Fetch the tags and run again."
+        )
+    return declared_module(shown.stdout, f"{GOMOD_REL} at {tag}")
+
+
+def _module_path_failures(root: Path, page: str) -> list[str]:
+    """The page's install path must be ours, and must resolve at the pinned tag."""
+    try:
+        module = declared_module(_read(root, GOMOD_REL), GOMOD_REL)
+    except GateError as exc:
+        return [str(exc)]
+    install = INSTALL_LINE.search(page)
+    if install is None:
+        return []  # A page with no install line is already a failure above.
+    package, tag = install.group(1), install.group(2)
+
+    found: list[str] = []
+    if package != module and not package.startswith(f"{module}/"):
+        found.append(
+            f"{PAGE_REL} tells a reader to `go install {package}@{tag}` and {GOMOD_REL} "
+            f"declares this module as `{module}`. The page sends a stranger to a path this "
+            "repository does not publish, which is the one command on the page they cannot "
+            "recover from by reading the repository."
+        )
+    try:
+        at_tag = module_at_tag(root, tag)
+    except GateError as exc:
+        return found + [str(exc)]
+    if at_tag != module:
+        found.append(
+            f"the `go install` pin names {tag}, and {GOMOD_REL} at {tag} declares the module "
+            f"as `{at_tag}` while this tree declares `{module}`. Tags are immutable, so that "
+            f"is what the module proxy serves for {tag}: `go get {module}@{tag}` fails with "
+            f"'module declares its path as: {at_tag}'. Pin a tag cut after the path moved."
+        )
+    return found
 
 
 def tracked_corpora(root: Path) -> dict[str, str]:
@@ -343,7 +449,11 @@ def failures(root: Path) -> list[str]:
     except GateError as exc:
         return [str(exc)]
 
-    return _recipe_and_tag_failures(readme, page, citation) + _corpus_failures(root, page, form)
+    return (
+        _recipe_and_tag_failures(readme, page, citation)
+        + _module_path_failures(root, page)
+        + _corpus_failures(root, page, form)
+    )
 
 
 def main() -> int:
@@ -359,8 +469,8 @@ def main() -> int:
         return 1
     print(
         "OK: the verification recipe is one recipe, every tag on the inbound page is the "
-        "released version, and the corpora table and the run form both name the tracked "
-        "corpus set."
+        "released version, the `go install` path is this module's and resolves at the tag "
+        "it pins, and the corpora table and the run form both name the tracked corpus set."
     )
     return 0
 
