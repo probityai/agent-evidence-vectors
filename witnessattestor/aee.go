@@ -45,7 +45,7 @@ import (
 	"github.com/in-toto/go-witness/registry"
 	"github.com/invopop/jsonschema"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
 const (

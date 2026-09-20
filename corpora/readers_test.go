@@ -22,7 +22,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/astrogilda/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpora"
 )
 
 // corpusCase is one registered reader, the directory it judges, and the member

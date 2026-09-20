@@ -7,7 +7,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
 func TestCanonicalizeSortsAndMinifies(t *testing.T) {
