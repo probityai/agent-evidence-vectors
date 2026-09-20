@@ -63,8 +63,15 @@ disagreement rather than trusting the person cutting the release:
 `scripts/distribution-gate.py` holds the inbound page and `CITATION.cff` to each
 other and refuses any version token on the page that is not the released one.
 `scripts/citation-metadata-gate.py` holds the deposit metadata. The wheel is held
-to the tag by the release workflow itself, which is the only check that cannot be
-run before the tag exists.
+to the tag by the release workflow itself, which is the only check that cannot
+run until the tag is PUSHED.
+
+The distribution gate goes one step further than agreement: it resolves the
+page's `go install` pin against the object store and reads the module path
+`go.mod` declared at that tag, which is byte-for-byte what a module proxy will
+serve. An absent tag is a refusal and not a pass, because a clone that fetched
+no tags and a tag that declares the wrong path look identical from inside the
+check. That is why the tag is cut before the mirror runs rather than after it.
 
 A module-path move is the one case where a pinned command deliberately does NOT
 take the new spelling: an install pinned to a tag that predates the move must
@@ -73,9 +80,11 @@ new path takes over. Do not "fix" that inconsistency; it is the honest one.
 
 ## The steps
 
-Run them in this order. The order matters twice: the digest list must be written
-before it is signed, and the signature must exist before it is stamped, because
-the stamps cover the signature bytes rather than the list.
+Run them in this order. The order matters three times. The digest list must be
+written before it is signed, and the signature must exist before it is stamped,
+because the stamps cover the signature bytes rather than the list. And the tag
+must exist before the mirror runs, because one gate resolves the page's install
+pin through it.
 
 ```sh
 # 1. The digest list is what the corpora on disk hash to. A generator writes it;
@@ -101,14 +110,34 @@ git add release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig \
         release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots
 git commit -m "chore(release): cut vX.Y.Z"
 
-# 5. Push the branch and let the remote run conclude BEFORE tagging. A tag on a
-#    commit whose CI has not concluded is a tag that may have to be withdrawn,
-#    and a withdrawn tag is the one thing a citation cannot survive.
-
-# 6. Tag and push the tag. The tag is what triggers the release workflow.
+# 5. Tag the bump commit LOCALLY, before pushing anything. The tag is not
+#    optional at this point and it is not early: the bump in step 4 made the
+#    inbound page tell a reader `go install <module>@vX.Y.Z`, and the
+#    distribution gate reads that pin and resolves it against the object store.
+#    Between the bump commit and its tag the page names bytes no tag holds, and
+#    the gate refuses that rather than treating an absent tag as a pass -- so
+#    the two refs are one state and must not exist apart.
 git tag vX.Y.Z
-git push origin vX.Y.Z
+
+# 6. Run the local mirror of every workflow step against the tagged revision.
+#    This is what step 5's ordering costs and it is the whole payment: the tag
+#    now precedes the remote run, so the evidence that the run will pass has to
+#    come from here instead. Nothing is pushed until this is green.
+python3 scripts/workflow-steps-gate.py
+
+# 7. Push the commit and the tag in ONE push. Two pushes leave a window in
+#    which the default branch carries a page pinned to a tag the remote does
+#    not have, which is the same refusal as step 5 seen from the runner.
+git push origin <branch>:main tag vX.Y.Z
 ```
+
+A tag that precedes its remote run cannot publish a bad release, and that is
+why the order above is safe rather than merely convenient: `release.yml`'s
+`publish` job declares `needs: verify`, so the tag triggers a verification
+first and PyPI is reached only if the digest list, the signature, the
+timestamps and the manifest all hold. If `ci` on the default branch then fails
+anyway, the tag is deleted on both sides before anything can cite it -- the
+release the tag would have produced never published.
 
 The signing key is not a CI secret and this is deliberate: a key in an Actions
 secret is readable by every workflow that ever runs and by anyone who can land a
