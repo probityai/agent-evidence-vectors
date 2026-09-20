@@ -85,6 +85,26 @@ run is named where the report reserves that description, but whether a paragraph
 elsewhere leans on a figure it should not is a reading, not a match, and a gate
 that pretended otherwise would be measuring prose shape.
 
+A dispatch that returned nothing
+--------------------------------
+
+A row in ``runs`` is what licenses a figure, and every row there carries a
+``figures`` array, so the file had no shape at all for a dispatch that was
+authorised, ran, and produced no score. Two such dispatches existed before this
+array did, and the gate could not see either of them: it reads ``runs``, and
+nothing else was written down. The file's own opening comment already argued the
+other way -- an absent field and an unrecorded fact read the same in a diff --
+which is why the fix is an ``attempts`` array rather than a silence.
+
+An attempt carries ``figures: null`` beside a note saying why there is none, and
+carries no ``suiteRevision`` at all. That omission is enforced rather than
+observed: the not-run set is computed over ``runs``, so a suiteRevision on an
+attempt would shrink that set and let a dispatch with no figure license the very
+figure it does not have. What it binds instead is the corpus commit, the checker
+ref, the authorization packet, the dispatch, and where the artifacts survive with
+how long for. ``outcome`` is a closed token so that "it produced no score" cannot
+be written two ways.
+
 Usage: python3 scripts/independent-runs-gate.py
 Exit 0 when the published prose is the ledger; 1 on any disagreement.
 """
@@ -292,6 +312,182 @@ def _pair_failures(run: dict[str, Any], where: str) -> list[str]:
             )
     return out
 
+
+# An attempt is a dispatch that ran and returned no figure, and the closed set of
+# ways that can happen is spelled once here so the file cannot say the same thing
+# two ways. `withheld` is a gate refusing publication, `completed-no-figure` is a
+# run that finished and publishes no score by its own design, and `void` is a
+# dispatch that never reached a terminal state.
+ATTEMPT_OUTCOMES = ("withheld", "completed-no-figure", "void")
+# Exactly the keys an attempt carries, asserted as a set rather than checked one
+# at a time. An unexpected key fails as loudly as a missing one, because the
+# whole point of this shape is that a reader can tell an unrecorded fact from an
+# overlooked field, and a row carrying a field nothing here reads is the second
+# thing wearing the clothes of the first. `suiteRevision` is absent on purpose
+# and its absence is enforced: the not-run set is computed over `runs`, so a
+# suiteRevision on an attempt would shrink that set and let a dispatch with no
+# figure license the figure it does not have.
+ATTEMPT_FIELDS = frozenset(
+    {
+        "attempt",
+        "implementation",
+        "suiteCommit",
+        "suiteCommitNote",
+        "checkerRef",
+        "checkerSourceDigest",
+        "digestNote",
+        "packet",
+        "dispatch",
+        "date",
+        "dateNote",
+        "outcome",
+        "figures",
+        "figuresNote",
+        "artifacts",
+        "posting",
+        "note",
+    }
+)
+# Every locator an attempt records is a URL that was resolved before it was
+# written down. A bare identifier would be a fact nobody can check from here.
+URL = re.compile(r"^https://\S+$")
+# `.../actions/runs/35194072925` -- the dispatch identifier, which is what the
+# prose check below looks for in the two publishing documents.
+RUN_ID = re.compile(r"/actions/runs/(\d+)")
+SENTENCE = re.compile(r"(?<=[.!?]) ")
+# A figure as the prose states one. Reused against a sentence rather than a whole
+# field, so it is not anchored like SCORE is.
+FIGURE_IN_PROSE = re.compile(r"\b\d+/\d+\b")
+
+
+def attempt_failures(attempts: list[dict[str, Any]]) -> list[str]:
+    """Every attempt carries the whole shape, and no attempt carries a figure."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for attempt in attempts:
+        name = str(attempt.get("attempt", "")).strip()
+        where = f"attempt {name or '(unnamed)'}"
+        if not name:
+            out.append(
+                f"{where}: names no attempt. A dispatch nothing can be referred to by "
+                "cannot be discussed in the thread it was authorised in."
+            )
+        elif name in seen:
+            out.append(f"{where}: recorded twice; one row per dispatch.")
+        seen.add(name)
+        out.extend(_attempt_shape_failures(attempt, where))
+        out.extend(_pair_failures(attempt, where))
+    return out
+
+
+def _attempt_shape_failures(attempt: dict[str, Any], where: str) -> list[str]:
+    out: list[str] = []
+    keys = set(attempt)
+    for missing in sorted(ATTEMPT_FIELDS - keys):
+        out.append(
+            f"{where}: carries no {missing}. This file records null beside a note "
+            "rather than leaving a field out, because an absent field and an "
+            "unrecorded fact read the same in a diff."
+        )
+    for extra in sorted(keys - ATTEMPT_FIELDS):
+        reason = (
+            "the not-run set is computed over the runs array, so a suiteRevision here "
+            "would shrink it and let a dispatch with no figure license one"
+            if extra == "suiteRevision"
+            else "nothing here reads it, so it is a fact recorded where no check can see it"
+        )
+        out.append(f"{where}: carries an unexpected field {extra!r}: {reason}.")
+    out.extend(_attempt_value_failures(attempt, where))
+    return out
+
+
+def _attempt_value_failures(attempt: dict[str, Any], where: str) -> list[str]:
+    out: list[str] = []
+    if attempt.get("figures") is not None:
+        out.append(
+            f"{where}: figures must be null. An attempt is a dispatch that returned no "
+            "figure; a row that carries one is a run, and a run belongs in the runs "
+            "array where the not-run set and the carried-in counts can check it."
+        )
+    if not str(attempt.get("figuresNote", "") or "").strip():
+        out.append(
+            f"{where}: figures is null and figuresNote says nothing. The note is what "
+            "makes the null a record rather than a gap."
+        )
+    if attempt.get("outcome") not in ATTEMPT_OUTCOMES:
+        out.append(
+            f"{where}: outcome must be one of {', '.join(ATTEMPT_OUTCOMES)}, so that "
+            "'it produced no score' cannot be written two ways."
+        )
+    for field in ("packet", "dispatch", "posting"):
+        if not URL.match(str(attempt.get(field, ""))):
+            out.append(
+                f"{where}: {field} must be a resolved https URL. An identifier nobody "
+                "can follow from here is not a record of anything."
+            )
+    out.extend(_artifact_failures(attempt.get("artifacts"), where))
+    if not str(attempt.get("note", "") or "").strip():
+        out.append(f"{where}: carries no note saying what the dispatch was and was not.")
+    return out
+
+
+def _artifact_failures(artifacts: Any, where: str) -> list[str]:
+    if not isinstance(artifacts, list) or not artifacts:
+        return [
+            f"{where}: artifacts must list at least one location. What an attempt "
+            "leaves behind is the only thing a reader can check it against, and where "
+            "that expires belongs beside it."
+        ]
+    out: list[str] = []
+    for artifact in artifacts:
+        if not URL.match(str(artifact.get("url", ""))):
+            out.append(f"{where}: an artifact names no resolved https url.")
+        if not str(artifact.get("retention", "") or "").strip():
+            out.append(
+                f"{where}: the artifact {artifact.get('url')!r} records no retention. "
+                "An artifact with no expiry beside it reads as permanent, and these "
+                "are not."
+            )
+    return out
+
+
+def attempt_prose_failures(attempts: list[dict[str, Any]]) -> list[str]:
+    """An attempt licenses no figure, and the two publishing documents are read
+    for the one way that can be broken by prose alone.
+
+    The ledger checks above stop an attempt from CARRYING a figure. They say
+    nothing about a paragraph that names the dispatch and a score in one breath,
+    which is how a run that measured nothing about this corpus would come to read
+    as one that did. So for every attempt, any sentence in either publishing
+    document that names its dispatch identifier must state no figure. This is a
+    match on a sentence rather than a reading of an argument, and it is deliberately
+    the narrowest thing that closes the gap: it does not decide whether a nearby
+    paragraph leans on the attempt, which would be measuring prose shape.
+    """
+    out: list[str] = []
+    for rel in PUBLISHING_DOCS:
+        text = read(REPO_ROOT / rel)
+        for sentence in SENTENCE.split(text):
+            out.extend(_sentence_failures(attempts, rel, sentence))
+    return out
+
+
+def _sentence_failures(attempts: list[dict[str, Any]], rel: str, sentence: str) -> list[str]:
+    figures = FIGURE_IN_PROSE.findall(sentence)
+    if not figures:
+        return []
+    out: list[str] = []
+    for attempt in attempts:
+        found = RUN_ID.search(str(attempt.get("dispatch", "")))
+        if found and found.group(1) in sentence:
+            out.append(
+                f"{rel}: a sentence names the dispatch of attempt "
+                f"{attempt.get('attempt')!r} and the figure(s) {', '.join(figures)}. "
+                "That dispatch returned no figure, and this file records why beside a "
+                "null; a sentence carrying both invites a reader to take one as the "
+                "other."
+            )
+    return out
 
 def ledger_failures(runs: list[dict[str, Any]], current: int) -> list[str]:
     out: list[str] = []
@@ -516,15 +712,28 @@ def current_revision_failures(report: str, current: int) -> list[str]:
     return out
 
 
-def collect() -> tuple[list[str], int, list[int]]:
+def collect() -> tuple[list[str], int, list[int], int]:
     current, failures = current_revision()
     if failures:
-        return failures, current, []
+        return failures, current, [], 0
     ledger: dict[str, Any] = json.loads(LEDGER.read_text(encoding="utf-8"))
     runs: list[dict[str, Any]] = ledger["runs"]
     failures = ledger_failures(runs, current)
+    # The attempts array is required to exist, empty or not. Made optional it
+    # would be indistinguishable from a file nobody has taught the shape to, and
+    # the reason this array exists at all is that a dispatch returning nothing
+    # used to be recorded nowhere.
+    if "attempts" not in ledger:
+        failures.append(
+            "docs/INDEPENDENT-RUNS.json: carries no attempts array. A dispatch that "
+            "ran and returned no figure has no shape in the runs array, because every "
+            "row there carries figures; recording it nowhere is the gap this array "
+            "closes, and an absent array and no attempts read the same in a diff."
+        )
+    attempts: list[dict[str, Any]] = ledger.get("attempts") or []
+    failures.extend(attempt_failures(attempts))
     if failures:
-        return failures, current, []
+        return failures, current, [], len(attempts)
     expected = not_run(runs, current)
     report = read(REPORT)
     for site in SITES:
@@ -533,11 +742,12 @@ def collect() -> tuple[list[str], int, list[int]]:
     failures.extend(unprompted_failures(runs, report))
     failures.extend(quote_failures(ledger["quotedWording"]))
     failures.extend(current_revision_failures(report, current))
-    return failures, current, expected
+    failures.extend(attempt_prose_failures(attempts))
+    return failures, current, expected, len(attempts)
 
 
 def main() -> int:
-    failures, current, expected = collect()
+    failures, current, expected, attempts = collect()
     if failures:
         print(
             f"FAIL: {len(failures)} independent-run claim(s) do not hold:",
@@ -557,7 +767,8 @@ def main() -> int:
     print(
         f"OK: the corpus is at suiteRevision {current}; the independent checker has "
         f"posted no run for suiteRevision(s) {listed}, and every published claim "
-        "names exactly that set."
+        f"names exactly that set. {attempts} dispatch(es) that returned no figure are "
+        "recorded as attempts, and none of them licenses one."
     )
     return 0
 

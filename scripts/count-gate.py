@@ -1626,6 +1626,32 @@ FROZEN: tuple[Frozen, ...] = (
         "definition it resolves to), both copies verbatim from the upstream text.",
         occurrences=2,
     ),
+    # ---- the two synthetic figures in the independence gate's own self-test.
+    # A gate's self-test feeds it fixed input and asserts what it answers. These
+    # two are that input: a score on a fabricated attempt, and a sentence the test
+    # appends to a temporary file to check that a figure can attach to an attempt
+    # through prose alone. Neither is a measurement of any corpus, and both must
+    # stay exactly what they are: a fixture that tracked the corpus would change
+    # what the test means every time the corpus grew, which is the one thing a
+    # test's input may never do. They are ratio-shaped because the parser under
+    # test only reads ratios, so the census sees a denominator and asks -- rightly,
+    # since it cannot tell a fixture from a claim, and this is the answer.
+    Frozen(
+        "scripts/independent-runs-gate-test.py",
+        "the fabricated score on the synthetic attempt",
+        '{"figure": "9/9", "role": "score"',
+        "Input to a self-test, not a figure about a corpus. The gate asserts that "
+        "this value attaches to the attempt it is given; deriving it from the "
+        "corpus would make the assertion move with bytes the test never reads.",
+    ),
+    Frozen(
+        "scripts/independent-runs-gate-test.py",
+        "the synthetic prose sentence the attachment case appends",
+        "The contained dispatch at actions/runs/35194072925 returned 9/9.",
+        "The one sentence the prose-attachment case writes into a temporary file, "
+        "naming a dispatch and a score together. It is the input that proves the "
+        "prose path works and describes no run of this corpus.",
+    ),
 )
 
 
