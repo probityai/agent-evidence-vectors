@@ -1,10 +1,10 @@
 // go-witness-compatible attestor module. See BUILD-NOTES.md for the
 // two-module layout and the workspace build against go-witness.
 //
-// Wiring: github.com/astrogilda/agent-evidence-vectors is the sibling core module in this
+// Wiring: github.com/probityai/agent-evidence-vectors is the sibling core module in this
 // tree; resolve it with a Go workspace (see ../go.work.example and
 // BUILD-NOTES.md). No replace directives are committed.
-module github.com/astrogilda/agent-evidence-vectors/witnessattestor
+module github.com/probityai/agent-evidence-vectors/witnessattestor
 
 go 1.24
 

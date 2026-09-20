@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/astrogilda/agent-evidence-vectors/aeetest"
 	"github.com/in-toto/go-witness/attestation"
 	"github.com/in-toto/go-witness/cryptoutil"
 	"github.com/in-toto/go-witness/registry"
 	"github.com/invopop/jsonschema"
+	"github.com/probityai/agent-evidence-vectors/aeetest"
 )
 
 // fakeProducer is a minimal product-run attestor that publishes a fixed product

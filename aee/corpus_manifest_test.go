@@ -24,7 +24,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
 // Fabricated digests. Each is a syntactically canonical lowercase 64-hex

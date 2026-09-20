@@ -25,7 +25,7 @@ import (
 
 	// The attestor package sits at the module root (see BUILD-NOTES.md for
 	// the two-module layout and the workspace build).
-	witnessattestor "github.com/astrogilda/agent-evidence-vectors/witnessattestor"
+	witnessattestor "github.com/probityai/agent-evidence-vectors/witnessattestor"
 )
 
 func main() {

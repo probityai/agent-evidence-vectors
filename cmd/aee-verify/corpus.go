@@ -6,7 +6,7 @@ import (
 	"io"
 	"sort"
 
-	"github.com/astrogilda/agent-evidence-vectors/corpora"
+	"github.com/probityai/agent-evidence-vectors/corpora"
 )
 
 // runCorpus judges one corpus directory and returns the process exit code:

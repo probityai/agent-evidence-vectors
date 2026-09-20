@@ -29,7 +29,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
 type request struct {

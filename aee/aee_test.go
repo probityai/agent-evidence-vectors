@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
-	"github.com/astrogilda/agent-evidence-vectors/aeetest"
+	"github.com/probityai/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aeetest"
 )
 
 func pinnedPolicy() *aee.ConsumerPolicy {

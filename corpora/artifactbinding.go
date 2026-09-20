@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/astrogilda/agent-evidence-vectors/aee"
+	"github.com/probityai/agent-evidence-vectors/aee"
 )
 
 func init() { register(artifactBinding{}) }
