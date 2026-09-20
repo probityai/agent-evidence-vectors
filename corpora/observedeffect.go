@@ -150,17 +150,14 @@ func (o observedEffect) checkDeclared(v observedEffectVector, report *observedef
 			"%s: expected codes %v, got %v", v.Slug, v.Expected.Codes, report.Codes))
 		return
 	}
-	// A valid member may not be read as independently observed unless the tier
-	// RECOMPUTED to authoritative. This is the vocabulary's prohibition checked
-	// rather than quoted: a verifier must not read a voluntary attestation as
-	// evidence that the attested content corresponds to an independently observed
-	// fact, and a report that carried the bit on a voluntary record would be doing
-	// exactly that.
-	if report.Verdict == "valid" && report.IndependentlyObserved && report.DerivedTier != "authoritative" {
-		out.Findings = append(out.Findings, fmt.Sprintf(
-			"%s: reported as independently observed with a recomputed tier of %q",
-			v.Slug, report.DerivedTier))
-	}
+	// The vocabulary's prohibition -- a voluntary record may never be read as
+	// evidence of independent observation -- was asserted here and could not fail.
+	// Verify sets IndependentlyObserved to `derivedTier == "authoritative"`, so
+	// `IndependentlyObserved && DerivedTier != "authoritative"` was a
+	// contradiction: a guard in the shape of the central prohibition, reporting a
+	// clean member in the same words a working guard would. It is gone, and the
+	// invariant is asserted where it can fail instead, over every member, in
+	// TestTheObservedBitIsTheRecomputedTier.
 }
 
 func (o observedEffect) checkIndeterminate(v observedEffectVector, report *observedeffect.Report, out *Member) {

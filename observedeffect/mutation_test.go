@@ -191,22 +191,48 @@ func TestEmptyTreeConstantsMatchTheCorpus(t *testing.T) {
 func TestVoluntaryIsNeverReadAsIndependentlyObserved(t *testing.T) {
 	m := loadManifest(t)
 	policy := testPolicy(t, m)
-	seenVoluntary := false
+	seenVoluntary, seenAuthoritative := false, false
 	for _, v := range m.Vectors {
 		report := Verify(readVector(t, v), policy)
 		if report.Verdict != verdictValid {
+			// A refused record establishes nothing about what was observed, whatever
+			// tier its fields would have derived, so the bit may not survive a
+			// refusal either.
+			if report.IndependentlyObserved {
+				t.Errorf("%s (%s): verdict %q and independentlyObserved is set. A record this "+
+					"rail refused is not evidence of an independent observation.",
+					v.ID, v.Slug, report.Verdict)
+			}
 			continue
+		}
+		// The EQUIVALENCE, not one side of it. This test asserted only the
+		// prohibition direction, which a rail that never sets the bit at all
+		// passes: a consumer would then be denied the evidence an authoritative
+		// record is supposed to carry, and nothing here would say so. The
+		// reader also carried the same claim per member, where it could not fail
+		// (the bit IS this comparison inside Verify), so the assertion lives here
+		// alone now and covers both directions.
+		authoritative := report.DerivedTier == "authoritative"
+		if report.IndependentlyObserved != authoritative {
+			t.Errorf("%s (%s): valid, derivedTier %q, independentlyObserved %v. The bit and "+
+				"the recomputed tier must agree in both directions: a consumer reads the bit "+
+				"and gets the tier's guarantee, or it gets a guarantee nothing recomputed.",
+				v.ID, v.Slug, report.DerivedTier, report.IndependentlyObserved)
+		}
+		if authoritative {
+			seenAuthoritative = true
 		}
 		if report.DerivedTier == "voluntary" {
 			seenVoluntary = true
-			if report.IndependentlyObserved {
-				t.Errorf("%s (%s): voluntary and reported as independently observed", v.ID, v.Slug)
-			}
 		}
 	}
 	if !seenVoluntary {
 		t.Error("no member recomputed to a voluntary tier, so the prohibition was not exercised " +
 			"by anything and this test would pass against a rail that ignores it")
+	}
+	if !seenAuthoritative {
+		t.Error("no member recomputed to an authoritative tier, so the equivalence was only " +
+			"ever checked where the bit is false")
 	}
 }
 
