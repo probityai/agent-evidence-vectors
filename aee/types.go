@@ -397,20 +397,43 @@ func ParseStatement(b []byte) (*Statement, error) {
 	if shadow.PredicateType != nil {
 		s.PredicateType = *shadow.PredicateType
 	}
-	if len(shadow.Predicate) == 0 {
-		return nil, errors.New("statement carries no predicate")
+	// The three empty predicate states are ONE input (spec/v1/statement.md):
+	// an absent member, "predicate": null and "predicate": {} decode to the
+	// empty predicate object, and everything downstream is therefore identical
+	// for all three. An absent member used to return an error here, which
+	// Verify maps to statement-malformed, so the spelling the producer chose
+	// decided which reason a relying party was handed for identical bytes.
+	// PredicateRaw keeps the carried bytes rather than the normalized form:
+	// it is what the attestor re-emits, and normalizing it would rewrite a
+	// producer's own JSON.
+	raw := shadow.Predicate
+	if len(raw) == 0 {
+		raw = emptyPredicate
 	}
-	p, codes := parsePredicate(shadow.Predicate)
+	p, codes := parsePredicate(raw)
 	s.Predicate = p
 	s.ParseCodes = codes
 	return s, nil
 }
+
+// emptyPredicate is the decoded form the three empty predicate states share.
+// It is spelled once so no caller can normalize one state and miss another.
+var emptyPredicate = json.RawMessage(`{}`)
 
 func parsePredicate(raw json.RawMessage) (*Predicate, []Code) {
 	var codes []Code
 	p := &Predicate{}
 	if err := json.Unmarshal(raw, &p.Raw); err != nil {
 		return p, appendCode(codes, CodeStatementMalformed)
+	}
+	// "predicate": null unmarshals into a nil map, which is the same VALUE as
+	// the absent member and a different REPRESENTATION from "{}". The states
+	// are equivalent normatively, so they are made indistinguishable here by
+	// construction rather than left to coincide: every member lookup below
+	// already reads a nil map as empty, and a later reader that keyed on
+	// Raw == nil would silently reintroduce the distinction the rule forbids.
+	if p.Raw == nil {
+		p.Raw = map[string]json.RawMessage{}
 	}
 
 	if r, ok := p.Raw["result"]; ok {
