@@ -13,8 +13,8 @@ The predicate states rules. A rule nothing exercises is a sentence. Every member
 here exists because some rule would otherwise be untested, and six of them close
 an attack the predicate's own attack section constructs against itself.
 
-One member is a shape this repository did not have before. Our 267 existing
-vectors contain no **claim whose own carried evidence refutes it**. The gap was
+One member is a shape this repository did not have before. No other vector here
+carries a **claim whose own evidence refutes it**. The gap was
 found the way gaps like it usually are: by finding the same defect live in
 somebody else's verifier, where an evidence check ran only when a producer-set
 list was non-empty, so a record could assert one thing and carry the
