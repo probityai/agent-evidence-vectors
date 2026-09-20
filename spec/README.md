@@ -40,3 +40,19 @@ and a pin naming the wrong commit either reports a drift that does not exist or
 conceals one that does. `spec-drift-gate.py` now fails closed unless the
 vendored bytes, the pin, and the digest the corpus was generated against all
 agree.
+
+## Long-form specification material
+
+The registry entry in the in-toto catalog is sized to that registry: type URI,
+schema, parsing rules, one line per field, examples, changelog. The material the
+specification argues rather than states -- the recompute split, each encoding
+rule with the divergence it closes, the eleven coverage validity requirements
+and where each stops, the consumer policy obligations, and the per-version
+history -- lives beside it in
+[`predicates/adversarial-execution-evidence/`](predicates/adversarial-execution-evidence/),
+verbatim from the single-document revision. That directory is what the registry
+page links to, and its README says which file holds what.
+
+It is not a second source of truth. Where a companion and the registry page
+differ on a normative rule, the page governs and the difference is a defect to
+report.
