@@ -3,7 +3,7 @@ name: history-identity-audit
 # The push-range scan gates what is about to land. This reads what already has:
 # every commit origin/main reaches, first to tip, with the same rules and the
 # same rule sidecar. It is the instrument that names a leak that walked past an
-# older guard, so it runs on a schedule rather than waiting for a reader.
+# older guard, so it runs on a schedule. It does not wait for a reader.
 
 on:
   schedule:

@@ -4,7 +4,7 @@
 The pre-push scan beside this one gates what is ABOUT to be pushed. This one
 reads what already HAS been: every commit `origin/main` reaches, first commit to
 tip, with the same rules and the same rule sidecar, so a leak that walked past
-an older guard is found by the schedule rather than by a reader. It is the
+an older guard is found by the schedule, not by a reader. It is the
 instrument that would have named the four 2026-09 commits the day they landed.
 
     scripts/history-identity-audit.py              # origin/main, end to end

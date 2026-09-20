@@ -24,7 +24,7 @@ jobs:
     steps:
       # The whole history: the range below reaches back past the pushed tip,
       # and a shallow clone would turn "could not compute the range" into a
-      # pass. The scanner exits 2 rather than 0 when that happens, but a
+      # pass. The scanner exits 2, not 0, when that happens, and a
       # complete clone is the cheaper way to never ask.
       - uses: actions/checkout@v4
         with:
