@@ -89,6 +89,7 @@ CFF_REL = "CITATION.cff"
 MANIFEST_REL = "vectors/MANIFEST.json"
 CHANGES_REL = "vectors/CHANGES.md"
 PYPROJECT_REL = "pyproject.toml"
+LOCK_REL = "uv.lock"
 
 ORCID_PREFIX = "https://orcid.org/"
 
@@ -273,12 +274,42 @@ def check_agreement(zenodo: dict[str, Any], cff: dict[str, Any]) -> list[str]:
     return errors
 
 
-def check_version(cff: dict[str, Any]) -> list[str]:
-    """The released version is one fact, and two files state it.
+def locked_version() -> str | None:
+    """The version `uv.lock` pins for this project, or None if it pins none.
 
-    `pyproject.toml` is what a build stamps and `CITATION.cff` is what a citation
-    quotes. Nothing tied them together, so a release bump in one was a silent
-    no-op in the other.
+    Read by pattern rather than by a TOML parse of the whole lock, because the
+    only thing wanted here is the one `[[package]]` table whose source is this
+    directory: every other version in the file belongs to a dependency and must
+    not be compared to anything.
+    """
+    path = REPO_ROOT / LOCK_REL
+    if not path.is_file():
+        return None
+    locked = tomllib.loads(path.read_text(encoding="utf-8"))
+    for package in locked.get("package", []):
+        if not isinstance(package, dict):
+            continue
+        source = package.get("source")
+        if isinstance(source, dict) and source.get("virtual") == ".":
+            return fold(package.get("version"))
+    return None
+
+
+def check_version(cff: dict[str, Any]) -> list[str]:
+    """The released version is one fact, and THREE files state it.
+
+    `pyproject.toml` is what a build stamps, `CITATION.cff` is what a citation
+    quotes, and `uv.lock` is what a locked install resolves. Nothing tied the
+    first two together, so a release bump in one was a silent no-op in the other.
+
+    The lock joined them on 2026-09-20 and it joined them the hard way: the 0.12.0
+    bump edited four files, the lock was not one of them, and the mismatch
+    surfaced only because a site build happened to invoke uv, which rewrote the
+    line as a side effect. A version carried by a file no gate reads is a version
+    that travels by accident. An ABSENT lock is not a failure -- a checkout that
+    does not lock its own dependencies is a legitimate shape -- but a lock that
+    pins a DIFFERENT version is, because a locked install then resolves bytes
+    under a version nobody released.
     """
     path = REPO_ROOT / PYPROJECT_REL
     if not path.is_file():
@@ -290,6 +321,12 @@ def check_version(cff: dict[str, Any]) -> list[str]:
         return [
             f"CITATION.cff cites version {cited!r} and {PYPROJECT_REL} declares "
             f"{declared!r}; a citation names a release that was never built"
+        ]
+    locked = locked_version()
+    if locked is not None and locked != declared:
+        return [
+            f"{PYPROJECT_REL} declares version {declared!r} and {LOCK_REL} pins "
+            f"{locked!r}; a locked install resolves a version that was never released"
         ]
     return []
 
