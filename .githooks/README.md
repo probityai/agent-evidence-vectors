@@ -53,28 +53,58 @@ Run the gate's own fixtures, or lint a range of history, without committing:
 The file is stdlib-only and imports nothing from this repository on purpose.
 A hook runs before anything has been installed, so a hook that imports a
 repo-local module cannot be shared with another repository -- and the two
-earlier copies of this gate drifted apart for exactly that reason.
+earlier copies of this gate drifted apart for exactly that reason. Everything
+that differs per repository therefore arrives as a DATA file beside the hook,
+never as a branch inside it: `commit-msg.baseline`, `commit-msg.extra-patterns`,
+`commit-msg.forbidden-words` and `commit-msg.permitted-paths`. Each is optional
+and an absent one simply means that rule is not configured here.
 
 ## Other hooks in this directory
 
 None yet. This repository had no hooks and no `core.hooksPath` at all before
 the commit-message gate landed here.
 
-## commit-msg.extra-patterns (this repository only)
+## commit-msg.forbidden-words (this repository only)
 
 The gate file itself is byte-identical across the four repositories. This
-repository adds one rule through the hook's extension point, in
-`commit-msg.extra-patterns`: a commit message may not name the first-party
-products.
+repository adds one rule through a sidecar: a commit message may not name the
+first-party products. The rule is carried as salted digests rather than as a
+pattern, because a pattern has to spell what it forbids and this repository is
+public -- see the hook's module docstring for the argument and the format.
 
-That rule is real rather than decorative. This repository is public and
-deliberately product-neutral, and
+That rule is real rather than decorative.
 `.github/workflows/no-internal-drafts.yml` already refuses a tracked FILE
 containing a product name -- but it greps files, and a commit message is not
 a file. Three message bodies in this history name the products, which is the
 same leak the file gate was built to stop, arriving through a surface nobody
 checked. The other three repositories do not get this rule, where it would
 forbid them from naming themselves.
+
+## commit-msg.permitted-paths (this repository only)
+
+The rule above refuses the first-party names anywhere in a message. The
+organisation that owns these repositories is named in their own URLs, and a URL
+cannot avoid naming its owner: a clone command, a badge target, a citation file,
+an action reference and a Go module path all have to spell it. This sidecar
+carries the narrow permit that lets them -- a PATH permit, so the handle passes
+only where a slash and one of this family's repository names follow it, and the
+handle standing alone stays refused.
+
+It is a sidecar and not a constant because three guards rule on the same
+strings: this hook on commit messages, `scripts/pre-push-identity-scan.py` on
+pushed history, and `scripts/forbidden-word-scan.py` on tracked content. The two
+scanners each held a hand-copied regex and the hook held none, so the hook
+refused a Go module path the scanners explicitly permitted, and the commit that
+moved the module path could not name the path it was moving. A permit is the one
+rule shape that can only ever loosen, so it gets exactly one definition, and
+`scripts/pre-push-identity-scan-test.py` runs all three guards over the same two
+populations -- the shapes that must pass and the larger set that must not.
+
+An absent sidecar means no permitted paths. That is the fail-closed direction
+for the hook and is what keeps it shareable with the other three repositories,
+which carry no such file. For the two scanners an absent or malformed sidecar is
+exit 2, because "the rule surface failed to load" and "the rule surface says no"
+must not print the same way.
 
 ## Bypass
 
