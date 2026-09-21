@@ -42,32 +42,35 @@ jobs:
         env:
           PUSH_BEFORE: ${{ github.event.before }}
           PR_BASE: ${{ github.event.pull_request.base.sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -uo pipefail
-          # A pull request is scanned from its base; a push from the tip the
-          # remote held before it (github.event.before). A first push or a
-          # branch creation reports the all-zero sha, and a run outside
-          # Actions has neither: both fall back to the last 50 commits, which
-          # is a bound on the range, never a pass.
-          range=""
-          if [ -n "${PR_BASE:-}" ] && git cat-file -e "${PR_BASE}^{commit}" 2>/dev/null; then
-            range="${PR_BASE}..HEAD"
-          else
-            case "${PUSH_BEFORE:-}" in
-              *[!0]*)
-                if git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
-                  range="${PUSH_BEFORE}..HEAD"
-                fi
-                ;;
-            esac
+          # Which commits a push carries has four arms and one trap, so it is
+          # decided by a script with a selftest rather than by a fragment here.
+          #
+          # The arm that was wrong: a branch creation reports the all-zero
+          # before-sha, and the fallback for it read the last fifty commits of
+          # HEAD. On a branch cut from the default branch that is mostly the
+          # default branch's own history, so every new branch was scanned
+          # against commits it did not introduce and refused for a defect only
+          # a rewrite of published history can clear.
+          #
+          # The trap: a range resolving to no commits makes the scanner print
+          # "0 commit(s) scanned, clean" and exit 0, so a mis-resolved range
+          # does not fail -- it passes, having read nothing. The resolver never
+          # returns an empty range, and falls back to a bound that is a bound
+          # and not a pass.
+          if ! python3 scripts/push-scan-range.py --selftest; then
+            echo "::error::The push-range resolver failed its own selftest; nothing was verified."
+            exit 1
           fi
-          if [ -n "$range" ]; then
-            echo "scanning $range"
-            python3 scripts/pre-push-identity-scan.py --range "$range"
-          else
-            echo "no push range available; scanning the last 50 commits of HEAD"
-            python3 scripts/pre-push-identity-scan.py --recent 50
+          mapfile -t scan_args < <(python3 scripts/push-scan-range.py --why)
+          if [ "${#scan_args[@]}" -eq 0 ]; then
+            echo "::error::The push range could not be resolved; nothing was verified."
+            exit 1
           fi
+          echo "scanning with: ${scan_args[*]}"
+          python3 scripts/pre-push-identity-scan.py "${scan_args[@]}"
           status=$?
           if [ "$status" -eq 1 ]; then
             echo "::error::A commit in this range carries a private path, a dossier name or a product name. The tip may be clean; the history is not. Rewrite the commits."
