@@ -6,7 +6,9 @@ Predicate: [https://probityai.github.io/agent-evidence-vectors/predicate/v1/obse
 
 Corpus digest: `3208fe4f8d38a67c131f018ceb66477bfdc68339e6ba43693ca2b5b7c2548bc0`
 
-7 accept, 41 reject, 1 indeterminate, 39 conditions.
+1 member(s) are indeterminate, and the corpus exercises 39 conditions.
+
+This corpus is 49 vectors, of which 7 a conformant verifier must not fail closed on and 41 it must reject.
 
 | id | kind | verdict | slug | conditions |
 | --- | --- | --- | --- | --- |

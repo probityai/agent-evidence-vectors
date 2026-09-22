@@ -210,6 +210,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-acs-core",
     "vectors-mcp-record-contract",
     "vectors-w3c-report",
+    "vectors-observed-effect",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1846,6 +1847,50 @@ MASKS = tuple(
         # are safe, and it is the same one the line-number mask relies on.
         r"\brules?\s+\d+\b",
         r"\bsections?\s+\d+(?:\s+and\s+\d+)*\b",
+        # The four shapes below all arrived on one run, when the fifth corpus was
+        # registered and reserved 49 and 41. Thirteen sites were reported at once
+        # and not one of them had changed or claimed anything about a corpus, so
+        # they belong to the same family as `\d+ bytes` and `line \d+` above: the
+        # shape says what the digit measures, and what it measures is not vectors.
+        # They are written as SHAPES rather than frozen per site on purpose -- the
+        # w3c rule-id comment above gives the argument, and a freeze would have to
+        # be rewritten every time a count walked onto another clock second.
+        #
+        # A CLOCK TIME. `"timestamp": "2026-08-18T14:33:41.882Z"` inside four
+        # fixture records read as the reject count, because a seconds field is a
+        # two-digit integer and 41 is a second like any other. A time of day
+        # counts nothing and the colons are what separate it from a quantity.
+        #
+        # The boundary is written as a digit lookaround rather than `\b`, and the
+        # first draft of this mask used `\b` and matched nothing at all: in an
+        # ISO-8601 instant the hour is preceded by the date separator `T`, which
+        # is a word character, so there is no word boundary in front of `14` in
+        # `2026-08-18T14:33:41.882Z` and the whole time slipped past. Five sites
+        # still failed while the mask looked right.
+        r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # A LENGTH IN LINES, the `\d+ bytes` argument in the other unit. Six
+        # sites measure a stream: `default branch carries 49 lines`, `main held 49
+        # lines at read time`, `(24 vs 49 lines)`. The unit must be adjacent, so a
+        # bare quantity is still read; this repository publishes no count spelled
+        # `49 lines`, exactly as it publishes none spelled `447 bytes`.
+        #
+        # The `from N lines to M` idiom comes FIRST because the masks substitute
+        # in order and the second number carries no unit of its own: the sentence
+        # `main went from 24 lines to 49` states one measurement in two halves,
+        # and blanking the first half would leave the second reading as a bare
+        # quantity.
+        r"\bfrom\s+\d+\s+lines?\s+to\s+\d+\b",
+        r"\b\d+\s+lines?\b",
+        # AN OCCURRENCE COUNT IN HISTORY. `it occurs 49 times` in .githooks/README.md
+        # measures how often a word appears across four repositories' commits. It
+        # is a quantity, but not of this corpus, and nothing here derives it.
+        r"\b\d+\s+times\b",
+        # A NUMERIC RANGE. `(90-100 Full Compliance, 70-89 Partial, 50-69 Minimal,
+        # 0-49 Non-Compliant)` quotes an upstream document's scoring bands, and the
+        # tail of the last band is the corpus total. A hyphen-joined pair with no
+        # spaces is a range wherever it appears; no count in this repository is
+        # written that way, and a subtraction would carry spaces.
+        r"\b\d{1,4}-\d{1,4}\b",
     )
 )
 

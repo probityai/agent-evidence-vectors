@@ -1938,8 +1938,28 @@ def emit() -> None:
         "",
         f"Corpus digest: `{manifest['corpusDigest']}`",
         "",
-        f"{counts['accept']} accept, {counts['reject']} reject, "
-        f"{counts['indeterminate']} indeterminate, {len(CONDITIONS)} conditions.",
+        # This line used to restate the accept and the reject counts beside the
+        # two quantities the registration sentence below does not carry. Once the
+        # corpus was registered in scripts/count-gate.py those two became derived
+        # and published, and a second sentence publishing the same two is the
+        # drift that gate exists to refuse: two sentences about one corpus, going
+        # stale at two rates, both looking authoritative. So this line now carries
+        # only what nothing else does.
+        f"{counts['indeterminate']} member(s) are indeterminate, and the corpus "
+        f"exercises {len(CONDITIONS)} conditions.",
+        "",
+        # The sentence scripts/count-gate.py checks a registered corpus's counts
+        # against, in the wording that gate fixes. It is emitted here rather than
+        # written into INDEX.md because this file rewrites INDEX.md on every run,
+        # so a hand-added sentence would vanish on the next regeneration and the
+        # gate would then fail on a claim site that had silently disappeared.
+        # The wording says "of which" rather than equating the total to the sum:
+        # this corpus carries a third bucket for the member whose reading the
+        # predicate does not choose between, so accept plus reject is less than
+        # the total by exactly that one.
+        f"This corpus is {len(vectors)} vectors, of which {counts['accept']} a "
+        f"conformant verifier must not fail closed on and {counts['reject']} it "
+        "must reject.",
         "",
         "| id | kind | verdict | slug | conditions |",
         "| --- | --- | --- | --- | --- |",
