@@ -1,0 +1,24 @@
+{
+  "event": "tools/call",
+  "phase": "response",
+  "policy": {
+    "decision": "pass"
+  },
+  "request": {
+    "arguments": {
+      "city": "Paris"
+    },
+    "method": "tools/call",
+    "name": "get_wather"
+  },
+  "upstreamCompletion": {
+    "error": {
+      "code": -32602,
+      "data": {
+        "hint": "did you mean get_weather"
+      },
+      "message": "unknown tool: get_wather"
+    },
+    "kind": "error"
+  }
+}

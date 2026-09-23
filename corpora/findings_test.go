@@ -165,6 +165,7 @@ func TestEveryFindingIsReachable(t *testing.T) {
 	cases = append(cases, aeeFindings()...)
 	cases = append(cases, aciFindings()...)
 	cases = append(cases, observedEffectFindings()...)
+	cases = append(cases, mcpResponsePhaseFindings()...)
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			dir := stage(t, tc.dir)
@@ -534,6 +535,94 @@ func w3cFindings() []findingCase {
 				removeFile(t, d, firstRowWhere(t, m, kindIs("reject"))["file"].(string))
 			})
 		}, "the manifest names a vector file that does not exist"},
+	}
+}
+
+func mcpResponsePhaseFindings() []findingCase {
+	const dir = "vectors-mcp-response-phase"
+	return []findingCase{
+		{"mrp/counts", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				m["counts"] = map[string]any{"accept": 1.0, "reject": 1.0}
+			})
+		}, "counts disagree"},
+		{"mrp/corpus-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["corpusDigest"] = strings.Repeat("0", 64) })
+		}, "corpusDigest does not match the operation files on disk"},
+		{"mrp/criterion-missing", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["criterion"] = "docs/NO-SUCH-CRITERION.md" })
+		}, "corpus measures a rule nobody can read"},
+		{"mrp/spec-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) { m["specDigest"] = strings.Repeat("0", 64) })
+		}, "does not match its pinned digest"},
+		{"mrp/undefined-condition", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["conditions"] = []any{"mrp-c-nope"}
+			})
+		}, "the manifest does not define"},
+		{"mrp/no-condition", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["conditions"] = []any{}
+			})
+		}, "cites no condition"},
+		{"mrp/unknown-kind", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				firstRowWhere(t, m, kindIs("reject"))["kind"] = "maybe"
+			})
+		}, "declares kind \"maybe\""},
+		{"mrp/file-gone", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				removeFile(t, d, firstRowWhere(t, m, kindIs("reject"))["file"].(string))
+			})
+		}, "the manifest names an operation file that does not exist"},
+		{"mrp/no-invoked-axis", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				expected := firstRowWhere(t, m, kindIs("reject"))["expected"].(map[string]any)
+				delete(expected, "policyInvoked")
+			})
+		}, "declares no expectation on policyInvoked"},
+		{"mrp/no-receives-axis", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				expected := firstRowWhere(t, m, kindIs("accept"))["expected"].(map[string]any)
+				delete(expected, "callerReceives")
+			})
+		}, "declares no expectation on callerReceives"},
+		{"mrp/accept-not-invoked", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("accept")), false, "expected", "policyInvoked")
+			})
+		}, "accept member declaring policyInvoked=false"},
+		{"mrp/accept-wrong-receives", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("accept")), map[string]any{"kind": "error"}, "expected", "callerReceives")
+			})
+		}, "callerReceives is not what the policy applied"},
+		{"mrp/reject-no-defect", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				// The mrp-c-2 reject differs from its twin only on policyInvoked;
+				// setting it true makes the member agree on both axes.
+				row := firstRowWhere(t, m, func(r map[string]any) bool {
+					if r["kind"] != "reject" {
+						return false
+					}
+					return r["expected"].(map[string]any)["policyInvoked"] == false
+				})
+				setDeep(t, row, true, "expected", "policyInvoked")
+			})
+		}, "encodes no defect"},
+		{"mrp/reject-both-axes", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				// A reject whose callerReceives already differs from the conformant
+				// outcome: flipping policyInvoked to false fails both axes at once.
+				row := firstRowWhere(t, m, func(r map[string]any) bool {
+					if r["kind"] != "reject" {
+						return false
+					}
+					return r["expected"].(map[string]any)["policyInvoked"] == true
+				})
+				setDeep(t, row, false, "expected", "policyInvoked")
+			})
+		}, "failing both axes at once"},
 	}
 }
 

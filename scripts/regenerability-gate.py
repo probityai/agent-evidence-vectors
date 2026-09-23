@@ -100,6 +100,11 @@ GENERATORS = (
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
+    # The MCP response-phase corpus. It builds its manifest and index in the
+    # same run, so it has no ordering relationship with anything above; every
+    # member identifier and the corpus digest are functions of the operation
+    # bytes, which is the reason it is derived rather than hand-placed.
+    "vectors-mcp-response-phase/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -167,6 +172,12 @@ OWNED = (
     ("vectors-w3c-report", "INDEX.md"),
     ("vectors-w3c-report", "MUTATION-SWEEP.md"),
     ("docs", "W3C-V01-CONFORMANCE-APPENDIX.md"),
+    # The MCP response-phase corpus. Its INDEX.md is emitted from the manifest,
+    # and its members are named after their own bytes, so the digest and every
+    # identifier move together whenever any member does.
+    ("vectors-mcp-response-phase/vectors", "v*.json"),
+    ("vectors-mcp-response-phase", "MANIFEST.json"),
+    ("vectors-mcp-response-phase", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

@@ -1,0 +1,26 @@
+{
+  "event": "tools/call",
+  "phase": "response",
+  "policy": {
+    "decision": "pass"
+  },
+  "request": {
+    "arguments": {
+      "city": "Atlantis"
+    },
+    "method": "tools/call",
+    "name": "get_weather"
+  },
+  "upstreamCompletion": {
+    "kind": "result",
+    "result": {
+      "content": [
+        {
+          "text": "the weather is fine",
+          "type": "text"
+        }
+      ],
+      "isError": true
+    }
+  }
+}
