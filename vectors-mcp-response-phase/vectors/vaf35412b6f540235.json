@@ -1,0 +1,30 @@
+{
+  "event": "tools/call",
+  "phase": "response",
+  "policy": {
+    "decision": "fail",
+    "error": {
+      "code": -32001,
+      "message": "blocked by response policy"
+    }
+  },
+  "request": {
+    "arguments": {
+      "city": "Paris"
+    },
+    "method": "tools/call",
+    "name": "get_weather"
+  },
+  "upstreamCompletion": {
+    "kind": "result",
+    "result": {
+      "content": [
+        {
+          "text": "the weather is fine",
+          "type": "text"
+        }
+      ],
+      "isError": false
+    }
+  }
+}

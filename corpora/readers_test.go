@@ -41,6 +41,7 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-acs-core", memberFileKey: "file"},
 	{dir: "vectors-anchor-stream", memberFileKey: "stream"},
 	{dir: "vectors-mcp-record-contract", memberFileKey: "record"},
+	{dir: "vectors-mcp-response-phase", memberFileKey: "file"},
 	{dir: "vectors-artifact-binding", memberFileKey: "manifest"},
 	// One ACI member is a whole deployment serialised into one file, so the
 	// key is "file" as for a statement and the bytes flipped are a manifest the
