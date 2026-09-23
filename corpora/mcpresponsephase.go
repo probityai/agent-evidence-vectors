@@ -225,10 +225,11 @@ func (mcpResponsePhase) checkAgainstCriterion(dir string, v mrpVector, out *Memb
 		// A reject member encodes the defect on exactly one axis: it must differ
 		// from the conformant outcome, and on only one axis, or it cannot tell a
 		// reader which rule caught it.
-		if agreeing == 2 {
+		switch agreeing {
+		case 2:
 			out.Findings = append(out.Findings,
 				"is a reject member declaring the conformant outcome on both axes, so it encodes no defect")
-		} else if agreeing == 0 {
+		case 0:
 			out.Findings = append(out.Findings, fmt.Sprintf(
 				"is a reject member failing both axes at once, so it cannot tell you which rule "+
 					"caught it. declared policyInvoked=%t callerReceives=%s, criterion policyInvoked=true "+
