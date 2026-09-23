@@ -128,6 +128,24 @@ trust chain rather than a bare name. Verdicts (pass/fail against an
 organization's policy) are deliberately out of scope; they belong in a
 downstream summary predicate such as [VSA], computed over this evidence.
 
+## What the page used to argue
+
+Two passages below stood on the registry page and argue rather than state, which
+is what this file is for. They moved here when the page gained its pointer at the
+settled readings, so the page paid for two normative additions with prose that was
+never normative. Rewrapped, otherwise unchanged.
+
+**The recompute split, stated as an argument.** The substrate proves what was
+observed; the assembly plane asserts what it means, and that second half is an
+assertion no verifier can check, because the substrate sees a dropped packet or a
+changed inode and has no notion of where one attack begins and another ends.
+
+**Why the disclosure path is the one a producer should take.** The same statement
+with a non-empty `routedElsewhere` recomputes to `degraded` on rows that have not
+changed, which is the disclosure path: a producer that leaves a class out instead
+reports a narrower run as a full one, and a consumer that demanded the class
+refuses it under the third consumer policy obligation.
+
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [ResourceDescriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
 [Runtime Traces]: https://github.com/in-toto/attestation/blob/main/spec/predicates/runtime-trace.md
