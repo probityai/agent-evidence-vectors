@@ -14,15 +14,14 @@ Predicate Name: Observed Effect
 > document is the shape a promotion filing would carry, and it is normative for
 > the implementation that emits it now.
 >
-> The URI does not resolve yet. GitHub Pages is not enabled for this repository,
-> so a reader following it today gets a 404, and this document at
-> `spec/predicates/observed-effect.md` is the authority in the meantime. A
+> The URI resolves. This repository's GitHub Pages site serves this document,
+> `spec/predicates/observed-effect.md`, at the URI, and the file in the
+> repository is the authority the page is built from. A
 > `predicateType` is an identifier rather than a retrieval address and the in-toto
-> guidelines require no dereference, so nothing depends on it resolving; enabling
-> Pages is the small change that makes it resolve, and it is tracked. The URI
+> guidelines require no dereference, so nothing depends on it resolving. The URI
 > itself is stable and will not move: every vector in
 > `vectors-observed-effect/` carries it inside signed bytes, so changing it
-> re-signs the corpus and changes all 31 member identifiers.
+> re-signs the corpus and changes every member identifier.
 
 ## Purpose
 

@@ -4,8 +4,9 @@ Conformance corpus for the predicate at
 [`spec/predicates/observed-effect.md`](../spec/predicates/observed-effect.md),
 type URI `https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect`.
 
-31 members: 5 accept, 25 reject, 1 indeterminate, over 24 conditions.
-Corpus digest `25f91637066e787c429c242f052c9053ae276fcc49433bc4005fe514382a0262`.
+The member count, the split by expected verdict, the conditions and the corpus
+digest are in [`MANIFEST.json`](MANIFEST.json), under `vectors`, `counts`,
+`conditions` and `corpusDigest`. This page copies none of them.
 
 ## What this corpus is for
 

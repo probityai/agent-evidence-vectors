@@ -284,15 +284,16 @@ wrong.
 
 ## Cite this
 
-Every release is archived on Zenodo. The concept DOI
+Zenodo archives releases 0.10.1 and 0.11.1. The concept DOI
 [10.5281/zenodo.22758687](https://doi.org/10.5281/zenodo.22758687) always resolves to the newest
 archived release; a version DOI names one release and never moves, and the
-Zenodo record lists one for each release under "Versions". Cite the version
-DOI of the release you ran, the suite revision and the corpus digest together,
+Zenodo record lists one for each archived release under "Versions". Cite the
+version DOI of the release you ran where it has one, the suite revision and the
+corpus digest together,
 for the reason [`DISTRIBUTION.md`](DISTRIBUTION.md) gives: a citation that names
 only the repository names a moving target. [`CITATION.cff`](CITATION.cff)
 carries the concept DOI and, under `identifiers`, the version DOI of the
-release named in its `version` field. The tag never carries that second one:
+newest archived release. The tag never carries that second one:
 a release is tagged before Zenodo archives it, so the DOI is written to the
 default branch after the deposit and the tagged tree records only the
 concept. The entry below cites the concept for the same reason. GitHub
