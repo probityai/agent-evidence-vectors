@@ -2703,7 +2703,7 @@ class VerifierNotRun(Exception):
     the corpus on its own reference rail and print that rail's totals under the
     caller's request. A verifier that rejected everything, a file without the
     execute bit, a path that did not exist and every command found through PATH
-    all produced ``272 vectors, 272 pass`` and exit 0, and the composite action
+    all produced a full pass and exit 0, and the composite action
     turned that into a green job for a verifier that never started. Whether the
     named command speaks this predicate is for the corpus to find out by running
     it, never for the harness to guess from its bytes.

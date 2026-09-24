@@ -6,7 +6,7 @@ Why this file exists
 Until this test existed, ``--verifier`` was a request the harness could decline
 without saying so in any way a caller acted on. It probed the first token of the
 command line for the predicate type URI, and when the probe failed it ran the
-corpus on its own reference rail instead, printed ``272 vectors, 272 pass`` and
+corpus on its own reference rail instead, printed a full pass and
 exited 0. The probe failed for a verifier that rejects everything, for a file
 that is not executable, for a path that does not exist, and for every command
 resolved through PATH, because it tested ``os.path.isfile`` on the bare name.
@@ -262,14 +262,14 @@ def case_action_summary(work: Path) -> list[str]:
     """The action's verdict needs the named verifier to have run on every vector."""
     errors: list[str] = []
     checks = [
-        ("reference rail, exit 0", synthetic("reference", 272, None), "fail"),
-        ("zero executed, exit 0", synthetic("external", 272, 0), "fail"),
-        ("short count, exit 0", synthetic("external", 272, 271), "fail"),
+        ("reference rail, exit 0", synthetic("reference", 50, None), "fail"),
+        ("zero executed, exit 0", synthetic("external", 50, 0), "fail"),
+        ("short count, exit 0", synthetic("external", 50, 49), "fail"),
         ("zero vectors, exit 0", synthetic("external", 0, 0), "fail"),
-        ("full count, exit 0", synthetic("external", 272, 272), "pass"),
+        ("full count, exit 0", synthetic("external", 50, 50), "pass"),
         # A report from a harness older than the executed count: the rail field
         # is the only statement about which verifier ran, and it must say external.
-        ("older harness, external", synthetic("external", 272, None), "pass"),
+        ("older harness, external", synthetic("external", 50, None), "pass"),
     ]
     for label, report, want in checks:
         got = summarise(work, report, "0").get("result")
