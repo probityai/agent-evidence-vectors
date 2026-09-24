@@ -57,20 +57,22 @@ suite from that checkout, and then:
 - Uploads the report JSON as the artifact `agent-evidence-vectors-results`.
   The report is the same `conformance-report.json` the harness writes locally,
   and a scoreboard in another repository pulls it by that name.
-- Fails the job when any vector disagreed or the suite raised a refusal.
+- Fails the job when any vector disagreed, the suite raised a refusal, or the
+  named verifier did not run on every vector.
 
 Inputs, all optional except the first:
 
 | Input | What it does |
 | --- | --- |
-| `verifier` | Command line of the verifier under test. The first token is probed for the predicate type and must be on `PATH` or a path relative to the workspace. |
-| `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. |
+| `verifier` | Command line of the verifier under test. The first token must be on `PATH` or a path relative to the workspace. This verifier is always the program that runs: the job fails when it cannot be started or when it answered fewer vectors than the corpus holds. |
+| `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. `vectors-w3c-report` and `vectors-observed-effect` are judged only by the package's own reader and define no verifier contract, so a run naming a verifier against either is refused. |
 | `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.0`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
 
 Outputs: `report` (the report's path), `vectors` and `conform` (the totals),
-and `result` (`pass` or `fail`), so a later step can act on the count rather
+`executed` (how many vectors the named verifier ran on), and `result` (`pass`
+or `fail`), so a later step can act on the count rather
 than re-read the file.
 
 The package is stdlib-only and carries every corpus, so `pip install

@@ -19,8 +19,9 @@ inputs:
   verifier:
     description: >-
       Command line of the verifier under test, for example `./aee-verify -json`.
-      The first token is probed for the predicate type and must be on PATH or a
-      path relative to the workspace.
+      The first token must be on PATH or a path relative to the workspace. This
+      verifier is always the program that runs: the job fails when it cannot be
+      started or when it answered fewer vectors than the corpus holds.
     required: true
   corpus:
     description: >-
@@ -59,8 +60,13 @@ outputs:
   conform:
     description: "How many vectors the verifier conformed on, by verdict and result."
     value: ${{ steps.summary.outputs.conform }}
+  executed:
+    description: "How many vectors the named verifier actually ran on."
+    value: ${{ steps.summary.outputs.executed }}
   result:
-    description: "`pass` when every vector passed and the suite raised no refusal, else `fail`."
+    description: >-
+      `pass` when the named verifier ran on every vector, every vector passed,
+      and the suite raised no refusal; else `fail`.
     value: ${{ steps.summary.outputs.result }}
 
 runs:
@@ -130,11 +136,20 @@ runs:
         overwrite: true
         retention-days: 30
 
-    - name: Fail the job when the replay did
-      if: ${{ steps.replay.outputs.status != '0' }}
+    # Keyed on the summary's verdict as well as the exit status. The status
+    # alone once turned a replay on the harness's own reference rail into a
+    # green job for a verifier that never started; the summary refuses any
+    # report that does not show the named verifier answering every vector.
+    - name: Fail the job when the replay did, or the verifier did not run
+      if: ${{ !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
       shell: bash
       env:
         STATUS: ${{ steps.replay.outputs.status }}
+        EXECUTED: ${{ steps.summary.outputs.executed }}
       run: |
-        echo "::error::agent-evidence-vectors exited $STATUS; the job summary names the vectors that disagreed."
-        exit "$STATUS"
+        if [ "$STATUS" != "0" ]; then
+          echo "::error::agent-evidence-vectors exited $STATUS; the job summary names the vectors that disagreed, or the log says the verifier did NOT run."
+          exit "$STATUS"
+        fi
+        echo "::error::the harness exited 0 but the report does not show the named verifier answering every vector (executed: ${EXECUTED:-unreported}); the job summary says why."
+        exit 1
