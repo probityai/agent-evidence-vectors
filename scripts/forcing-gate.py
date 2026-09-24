@@ -533,7 +533,7 @@ def ground_truth_gate(
     if report.get("rail") != "external":
         die(
             "the harness fell back to its reference rail "
-            f"({report.get('externalVerifierProbe')!r}), so the ground-truth "
+            f"({report.get('railNote')!r}), so the ground-truth "
             "comparison tested the harness against itself"
         )
     errors += compare_report(rows, report)

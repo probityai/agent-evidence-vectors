@@ -19,11 +19,13 @@ Rails
 -----
 1. EXTERNAL RAIL (optional): pass ``--verifier <path>`` (or set the
    ``AEE_EXTERNAL_VERIFIER`` environment variable) to run every vector
-   through an external verifier.  The harness first probes the verifier
-   for capability by scanning its bytes for the predicate type URI this
-   rail implements; a verifier that does not know that type is reported and
-   harness falls back to the reference rail, so the suite is verifiable
-   standalone.
+   through an external verifier.  A named verifier is ALWAYS the program
+   that runs: when it cannot be started (not found, not executable, an
+   empty or unparseable setting) the harness exits 2 saying it did NOT
+   run, and it never substitutes the reference rail.  The report's
+   ``verifier.vectorsExecuted`` counts the vectors it answered, and a count
+   below the vector count fails the run.  Without ``--verifier`` the
+   reference rail below runs, so the suite is verifiable standalone.
 
    External-implementation contract: a third-party verifier is invoked as
    ``<cmd> <vector-file>``; exit 0 means valid, non-zero means invalid; and
@@ -101,6 +103,7 @@ import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -2692,22 +2695,48 @@ def _sfa_binding_scan(
 # ---------------------------------------------------------------------------
 
 
-def probe_external_verifier(path: str) -> tuple[bool, str]:
-    """Return (capable of the predicate type this rail implements, note)."""
-    if not os.path.isfile(path):
-        return False, "external verifier not found at the given path"
+class VerifierNotRun(Exception):
+    """A verifier was named and this harness cannot run it.
+
+    There is deliberately no fallback from this. The harness used to probe the
+    named executable for the predicate type URI and, when the probe failed, run
+    the corpus on its own reference rail and print that rail's totals under the
+    caller's request. A verifier that rejected everything, a file without the
+    execute bit, a path that did not exist and every command found through PATH
+    all produced ``272 vectors, 272 pass`` and exit 0, and the composite action
+    turned that into a green job for a verifier that never started. Whether the
+    named command speaks this predicate is for the corpus to find out by running
+    it, never for the harness to guess from its bytes.
+    """
+
+
+def resolve_verifier(setting: str) -> list[str]:
+    """The argv prefix that runs the named verifier, or ``VerifierNotRun``.
+
+    The setting is a COMMAND LINE, not a path: it is split with shlex and the
+    first token is the executable, resolved the way a shell would -- through
+    PATH when it carries no directory separator, relative to the working
+    directory when it does. A ``.py`` first token that is a readable file is run
+    with this interpreter, so it needs no execute bit.
+    """
     try:
-        with open(path, "rb") as f:
-            data = f.read()
-    except OSError as e:
-        return False, f"external verifier unreadable: {e}"
-    if AEE_PREDICATE_TYPE.encode() in data:
-        return True, f"{AEE_PREDICATE_TYPE} found in the verifier; external rail enabled"
-    return (
-        False,
-        f"external verifier located but {AEE_PREDICATE_TYPE} was not found in "
-        "it; using the self-contained reference rail",
-    )
+        parts = shlex.split(setting)
+    except ValueError as e:
+        raise VerifierNotRun(f"the command line {setting!r} does not parse: {e}") from None
+    if not parts:
+        raise VerifierNotRun("the verifier setting is empty")
+    exe = parts[0]
+    if exe.endswith(".py") and os.path.isfile(exe):
+        return [sys.executable, *parts]
+    if os.sep in exe or (os.altsep is not None and os.altsep in exe):
+        if not os.path.isfile(exe):
+            raise VerifierNotRun(f"{exe!r} is not a file")
+        if not os.access(exe, os.X_OK):
+            raise VerifierNotRun(f"{exe!r} is not executable")
+        return parts
+    if shutil.which(exe) is None:
+        raise VerifierNotRun(f"{exe!r} was not found on PATH")
+    return parts
 
 
 EXTERNAL_KEYS_ENV = "AEE_SUBSTRATE_KEYS"
@@ -2817,19 +2846,27 @@ def run_external(
         # A hung external verifier must not kill the whole suite run: report a
         # non-verdict for this vector so the loop continues.
         print(f"external verifier timed out on {name}", file=sys.stderr)
-        return external_failure(
-            [f"external-verifier-timeout: {name}: the rail did not terminate"]
-        )
+        # It started and did not exit, so it answered nothing: not counted
+        # among the vectors the verifier ran on.
+        return {
+            **external_failure(
+                [f"external-verifier-timeout: {name}: the rail did not terminate"]
+            ),
+            "ran": False,
+        }
     except OSError as e:
         # Covers a missing, non-executable, or otherwise unrunnable --verifier.
         print(f"external verifier could not run on {name}: {e}", file=sys.stderr)
-        return external_failure([f"external-verifier-unrunnable: {name}: {e}"])
+        return {
+            **external_failure([f"external-verifier-unrunnable: {name}: {e}"]),
+            "ran": False,
+        }
     # Surface the external verifier's own diagnostics rather than swallowing
     # them: captured stderr is otherwise invisible when a run misbehaves.
     stderr_txt = proc.stderr.decode("utf-8", "replace").strip()
     if stderr_txt:
         print(f"external verifier stderr on {name}:\n{stderr_txt}", file=sys.stderr)
-    return parse_external(proc, name, keys_path)
+    return {**parse_external(proc, name, keys_path), "ran": True}
 
 
 def parse_external(
@@ -3586,26 +3623,56 @@ def write_pinned_key_policy(keys: dict[str, dict[str, Any]], directory: str) -> 
     return path
 
 
+def _run_own_reader(
+    manifest: dict[str, Any] | None, suite_dir: str, external_cmd: list[str] | None
+) -> int | None:
+    """Judge a corpus that has a reader of its own; None for every other corpus.
+
+    These corpora define no external-verifier contract, so a named verifier has
+    nothing to be asked and the run is refused. Printing the built-in reader's
+    verdict under the caller's request would be the silent substitution
+    ``VerifierNotRun`` exists to refuse.
+    """
+    suite = manifest.get("suite") if manifest is not None else None
+    if suite not in (w3creport.SUITE, observedeffect.SUITE):
+        return None
+    if external_cmd is not None:
+        return refuse_verifier(
+            f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
+            f"{suite!r} is judged only by this package's own reader and has no "
+            "external-verifier contract"
+        )
+    if suite == w3creport.SUITE:
+        # The W3C per-check report corpus is judged by its own validator, in
+        # the same words the Go reader prints, so the two rails can be diffed.
+        judged = w3creport.judge(suite_dir)
+        sys.stdout.write(w3creport.render(judged, w3creport.SUITE))
+        return 0 if judged.ok() else 1
+    # Same arrangement for the Observed Effect corpus: a predicate of its own
+    # gets a reader of its own, and the printed lines are the ones
+    # corpora/observedeffect.go prints from Go.
+    oe_judged = observedeffect.judge(suite_dir)
+    sys.stdout.write(observedeffect.render(oe_judged, observedeffect.SUITE))
+    return 0 if oe_judged.ok() else 1
+
+
 def run_suite(args: argparse.Namespace) -> int:
     suite_dir = os.path.abspath(args.vectors)
     if not os.path.isdir(suite_dir):
         print(f"suite directory not found: {args.vectors}", file=sys.stderr)
         return 2
 
+    # Resolved before anything is judged, so a named verifier that cannot run
+    # stops the harness here instead of reaching a branch that never calls it.
+    try:
+        external_cmd, rail_note = _run_rail_selection(args)
+    except VerifierNotRun as e:
+        return refuse_verifier(str(e))
+
     manifest = load_manifest(suite_dir)
-    if manifest is not None and manifest.get("suite") == w3creport.SUITE:
-        # The W3C per-check report corpus is judged by its own validator, in
-        # the same words the Go reader prints, so the two rails can be diffed.
-        judged = w3creport.judge(suite_dir)
-        sys.stdout.write(w3creport.render(judged, w3creport.SUITE))
-        return 0 if judged.ok() else 1
-    if manifest is not None and manifest.get("suite") == observedeffect.SUITE:
-        # Same arrangement for the Observed Effect corpus: a predicate of its own
-        # gets a reader of its own, and the printed lines are the ones
-        # corpora/observedeffect.go prints from Go.
-        oe_judged = observedeffect.judge(suite_dir)
-        sys.stdout.write(observedeffect.render(oe_judged, observedeffect.SUITE))
-        return 0 if oe_judged.ok() else 1
+    judged_own = _run_own_reader(manifest, suite_dir, external_cmd)
+    if judged_own is not None:
+        return judged_own
     idx = manifest_index(manifest)
     # The kinds to walk come from the MANIFEST when there is one, so a kind the
     # corpus grows is replayed rather than skipped by a literal that predates
@@ -3623,8 +3690,6 @@ def run_suite(args: argparse.Namespace) -> int:
             "empty or missing); nothing to run"
         )
         return 2
-
-    external_cmd, probe_note = _run_rail_selection(args)
 
     keys = derive_test_keys()
     pinned = [keys[PINNED_ROLE]["public"]]
@@ -3647,6 +3712,9 @@ def run_suite(args: argparse.Namespace) -> int:
     # the manifest's own counts block
     suite_notes, note_failures = _run_manifest_closure(manifest, idx, suite_dir, rows_out)
     failures += note_failures
+    executed, short = verifier_execution(external_cmd, rows_out)
+    suite_notes.extend(short)
+    failures += len(short)
 
     # The cross-member half of the indeterminate contract. A failure is written
     # onto every member of the family as well as into the suite notes: the
@@ -3679,36 +3747,74 @@ def run_suite(args: argparse.Namespace) -> int:
     # repository exists to stop shipping.
     suite_refusals = failures - sum(1 for r in rows_out if r["status"] == "FAIL")
     report, report_path = _run_write_report(
-        args, suite_dir, report_base, external_cmd, probe_note, suite_notes, rows_out,
-        max(suite_refusals, 0),
+        args, suite_dir, report_base, external_cmd, rail_note, suite_notes, rows_out,
+        max(suite_refusals, 0), executed,
     )
-    _run_print_table(report, rows_out, suite_notes, probe_note, report_path, report_base)
+    args.report_written = report_path
+    _run_print_table(report, rows_out, suite_notes, rail_note, report_path, report_base)
+    return _run_exit_status(failures, executed)
+
+
+def _run_exit_status(failures: int, executed: int | None) -> int:
+    """0 clean, 1 any check failed, 2 when the named verifier answered nothing."""
+    if executed == 0:
+        # Nothing the named verifier said reached a single vector, so this run
+        # is the "did not run" case rather than a failing census.
+        print(f"the named verifier {DID_NOT_RUN} on any vector")
+        return 2
     return 1 if failures else 0
 
 
 def _run_rail_selection(args: argparse.Namespace) -> tuple[list[str] | None, str]:
     """Resolve --verifier (or AEE_EXTERNAL_VERIFIER) to an argv prefix.
 
-    The setting is a COMMAND LINE, not a path: it is split with shlex and the
-    first token is the executable that gets probed. Taking a path alone meant a
-    rail whose machine-readable output sits behind a flag could not be driven at
-    all without a wrapper script, and the wrapper would then have to carry the
-    predicate type URI in its own bytes to survive the probe. This repository's
-    own cmd/aee-verify is such a rail.
+    Returns ``(None, note)`` only when no verifier was named at all. A named
+    verifier either resolves or raises ``VerifierNotRun``; an empty setting is a
+    named verifier that cannot run, not an absent one.
     """
-    probe_note = "no external verifier supplied; using the reference rail"
-    verifier = args.verifier or os.environ.get("AEE_EXTERNAL_VERIFIER")
-    if not verifier:
-        return None, probe_note
-    parts = shlex.split(verifier)
-    if not parts:
-        return None, "external verifier setting is empty; using the reference rail"
-    capable, probe_note = probe_external_verifier(parts[0])
-    if not capable:
-        return None, probe_note
-    if parts[0].endswith(".py"):
-        return [sys.executable, *parts], probe_note
-    return parts, probe_note
+    verifier = args.verifier
+    if verifier is None:
+        verifier = os.environ.get("AEE_EXTERNAL_VERIFIER")
+    if verifier is None:
+        return None, "no external verifier supplied; using the reference rail"
+    try:
+        argv = resolve_verifier(verifier)
+    except VerifierNotRun as e:
+        reason = f"the verifier {verifier!r} {DID_NOT_RUN}: {e}"
+        raise VerifierNotRun(reason) from None
+    return argv, f"external verifier: {verifier}"
+
+
+DID_NOT_RUN = "did NOT run"
+
+
+def refuse_verifier(reason: str) -> int:
+    """Say the named verifier did not run, on both streams, and exit 2."""
+    msg = f"{reason}\nno vector was checked and no report was written."
+    print(msg)
+    print(msg, file=sys.stderr)
+    return 2
+
+
+def verifier_execution(
+    external_cmd: list[str] | None, rows_out: list[dict[str, Any]]
+) -> tuple[int | None, list[str]]:
+    """How many vectors the named verifier answered, and the refusal when short.
+
+    A vector counts only when BOTH of its invocations started and exited. The
+    count is published beside the totals, so a reader never has to infer from a
+    pass count which program produced it.
+    """
+    if external_cmd is None:
+        return None, []
+    executed = sum(1 for r in rows_out if r.get("verifierRan"))
+    total = len(rows_out)
+    if executed == total and total > 0:
+        return executed, []
+    return executed, [
+        f"the verifier {shlex.join(external_cmd)!r} ran on {executed} of {total} "
+        f"vectors; {total - executed} were never answered by it"
+    ]
 
 
 # How one pass's report members are named once the two passes are merged. The
@@ -3774,6 +3880,7 @@ def observe_external(external_cmd: list[str], path: str, keys_path: str) -> dict
         "result_without_key": without_key["result"],
         "absent": sorted(absent),
         "errors": errors,
+        "ran": bool(with_key.get("ran")) and bool(without_key.get("ran")),
     }
 
 
@@ -3894,6 +4001,7 @@ def _run_process_vector(
             "status": "FAIL",
             "gates": {g: "FAIL" for g in GATE_NAMES},
             "reasons": [f"vector unreadable: {e}"],
+            "verifierRan": False if external_cmd is not None else None,
         }, True
 
     observed = _run_observe(external_cmd, ref_with, ref_without, path, stmt, raw, keys_path)
@@ -3956,6 +4064,9 @@ def _run_process_vector(
         # this as its cause.
         "declaredExclusion": declared_exclusion((entry or {}).get("expected") or {}),
         "inManifest": entry is not None,
+        # Whether the named verifier started and exited on BOTH key-policy
+        # passes of this vector. Null on the reference rail.
+        "verifierRan": observed.get("ran") if external_cmd is not None else None,
         "reasons": [*ev.reasons, *ev.parity],
         "conformanceReasons": ev.reasons,
         "reasonParityFindings": ev.parity,
@@ -4201,16 +4312,27 @@ def _run_write_report(
     suite_dir: str,
     report_base: str,
     external_cmd: list[str] | None,
-    probe_note: str,
+    rail_note: str,
     suite_notes: list[str],
     rows_out: list[dict[str, Any]],
     suite_refusals: int,
+    executed: int | None,
 ) -> tuple[dict[str, Any], str]:
     report: dict[str, Any] = {
         "suite": os.path.relpath(suite_dir, report_base),
         "predicateType": AEE_PREDICATE_TYPE,
         "rail": "external" if external_cmd else "reference",
-        "externalVerifierProbe": probe_note,
+        "railNote": rail_note,
+        # Which program answered, and on how many vectors. Null on the
+        # reference rail. A consumer holds the executed count to the vector
+        # count; the composite action does, and fails the job on any gap.
+        "verifier": None
+        if external_cmd is None
+        else {
+            "command": shlex.join(external_cmd),
+            "vectorsExecuted": executed,
+            "vectors": len(rows_out),
+        },
         "pinnedTestKeyRole": PINNED_ROLE,
         "totals": {
             "vectors": len(rows_out),
@@ -4262,12 +4384,12 @@ def _run_print_table(
     report: dict[str, Any],
     rows_out: list[dict[str, Any]],
     suite_notes: list[str],
-    probe_note: str,
+    rail_note: str,
     report_path: str,
     report_base: str,
 ) -> None:
     # stdout coverage table (gate x vector)
-    print(f"rail: {report['rail']}  ({probe_note})")
+    print(f"rail: {report['rail']}  ({rail_note})")
     gate_cols = " ".join(f"{g:<10}" for g in GATE_NAMES)
     header = f"{'vector':<42} {'status':<6} {gate_cols}"
     print(header)
@@ -4294,6 +4416,13 @@ def _run_print_table(
         f"totals: {t['vectors']} vectors, {t['pass']} pass, {t['fail']} fail{refusals}"
         f"{parity}; report written to {shown_path(report_path, report_base)}"
     )
+    verifier = report.get("verifier")
+    if verifier is not None:
+        ran, total = verifier["vectorsExecuted"], verifier["vectors"]
+        line = f"verifier: {verifier['command']} ran on {ran} of {total} vectors"
+        if ran != total:
+            line += f"; MISMATCH: {total - ran} vector(s) were never answered by it"
+        print(line)
 
 
 # ---------------------------------------------------------------------------
@@ -4733,7 +4862,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors",
         description="AEE v0.7 conformance vector harness (differential when an "
-        "external v0.7-capable verifier is supplied; self-contained otherwise)",
+        "external verifier is named, which then always runs; self-contained otherwise)",
     )
     parser.add_argument(
         "--vectors",
@@ -4756,9 +4885,9 @@ def main() -> int:
         "--verifier",
         default=None,
         help="command line for an external verifier to run differentially, e.g. "
-        "'./aee-verify -json' (also read from AEE_EXTERNAL_VERIFIER); the first "
-        "token is probed for that predicate type, and the key policy is handed to it "
-        f"in ${EXTERNAL_KEYS_ENV}",
+        "'./aee-verify -json' (also read from AEE_EXTERNAL_VERIFIER); it always "
+        "runs, and a verifier that cannot be started exits 2 rather than falling "
+        f"back to the reference rail; the key policy is handed to it in ${EXTERNAL_KEYS_ENV}",
     )
     parser.add_argument(
         "--report",
@@ -4791,18 +4920,25 @@ def main() -> int:
         # report written there is one nobody finds. The working directory is
         # where a relying party's CI looks for it.
         args.report = "conformance-report.json"
+    args.report_written = None
     status = run_suite(args)
     if args.emit_w3c_report is not None:
+        if args.report_written is None:
+            # Reading whatever report sits at the path would emit a v0.1 report
+            # for a run that never happened, from a file an earlier run left.
+            print(
+                f"v0.1 per-check report NOT written to {args.emit_w3c_report}: this "
+                "run wrote no conformance report to crosswalk from",
+                file=sys.stderr,
+            )
+            return status or 2
         _emit_w3c(args)
     return status
 
 
 def _emit_w3c(args: argparse.Namespace) -> None:
     """Write the v0.1 report beside the harness report, from the harness report."""
-    source = args.report or os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
-    )
-    with open(source, encoding="utf-8") as handle:
+    with open(args.report_written, encoding="utf-8") as handle:
         harness = json.load(handle)
     with open(args.emit_w3c_report, "w", encoding="utf-8") as handle:
         json.dump(w3creport.emit(harness), handle, indent=2, sort_keys=True)
