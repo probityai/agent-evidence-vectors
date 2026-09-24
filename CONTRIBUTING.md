@@ -70,6 +70,7 @@ worth reading before writing rather than after failing.
 | `scripts/external-rail-gate.py` | the shipped CLI failing the shipped corpus through the documented third-party contract. Both existed and nobody had run one against the other |
 | `scripts/forcing-gate.py` | a corpus that has stopped forcing a rule the baseline records it as forcing. Tighten-only |
 | `scripts/independent-runs-gate.py` | prose about what an outside implementation ran that disagrees with the run ledger |
+| `scripts/suite-commit-gate.py` | a suite commit in the run ledger, or a rewritten commit in `docs/REWRITE-MAP-2026-09-18.json`, that neither the default branch nor a tag reaches, so a fresh clone does not carry it |
 | `scripts/consumer-lag-gate.py` | a corpus change on the default branch that the repositories vendoring it have not carried. Measured against the default branch, because a rail cannot vendor a branch nobody has merged |
 | `scripts/dispositions-gate.py` | a disposition row whose revision, vectors or cited record do not resolve, and a published table that is not the one the ledger renders |
 | `scripts/coverage-gate.py` | any single file below the coverage floor. Per file, not on average |
