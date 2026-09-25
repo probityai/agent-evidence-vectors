@@ -38,7 +38,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 
 | row | class | status | reject | accept | sentence | digest |
 |---|---|---|---|---|---|---|
-| `W3C-R-013` ((a) roll-up) | evidence | agreed | `vaeb76896b202e837`, `vc58647a590befbb7` | `va213bada85cc9abe`, `vb195f23e8436fd19`, `vd8d93fd735111aa5` | a roll-up states whether the checks it aggregates were capable of a negative verdict | `f73fd10347201018` |
+| `W3C-R-013` ((a) roll-up) | evidence | agreed | `v1660acd2e4efb7c7`, `v4e4face5dd4ff492`, `vaeb76896b202e837`, `vc58647a590befbb7` | `va213bada85cc9abe`, `vb195f23e8436fd19`, `vd8d93fd735111aa5` | a roll-up states whether the checks it aggregates were capable of a negative verdict | `f73fd10347201018` |
 | `W3C-R-014` ((a) prior run) | consistency | agreed | `v66fd68ad7d106fac` | `v04934d23180f6d9c` | a prior discriminating run only counts where check identity survives across runs | `2da5682dbbb4be1f` |
 | `W3C-R-015` ((b) set binding) | evidence | agreed | `v28820b464a335617`, `v4a06b866afca0d49`, `v7c22f1451e51aeb5`, `v88935f0b29397a80`, `vfbc5db1c2a012359` | `v1032eb59a7cdb30f`, `v148fc59046a8548a`, `v86e1560a0d27b432` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses | `c6fe2b8552666e81` |
 

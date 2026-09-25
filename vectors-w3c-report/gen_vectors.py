@@ -891,6 +891,18 @@ def build_roll_up(m: Members) -> None:
              "a control built to fail that did fail, over the run's own declared checks")
     m.accept("w3c-f-13", "W3C-R-013", report([PASS, FAIL]),
              "a run that already shows a non-pass, so the counts carry the answer")
+    # A negative verdict, not any non-pass: an inconclusive check ran and reached
+    # no conclusion, which shows nothing about whether the checks can reject.
+    m.reject("w3c-f-13", "W3C-R-013",
+             report([PASS, INCONCLUSIVE], negative={"kind": "shown-by-run"}),
+             "shown-by-run asserted on a run whose only non-pass is inconclusive: a non-pass "
+             "that is not a fail verdict")
+    inconclusive_control = {"kind": "control-failed",
+                            "control": {"checks": ["c-pass", "c-pass-2"],
+                                        "state": "inconclusive"}}
+    m.reject("w3c-f-13", "W3C-R-013", report(ALL_PASS, negative=inconclusive_control),
+             "a control built to fail that ran and reached no conclusion: failing to execute "
+             "does not show the check can reject the input")
     prior_ref = {"sha256": sha(b"prior-run"), "leaf-count": 2, "tree-shape": "flat"}
     prior = {"kind": "prior-discriminating-run", "reference": prior_ref}
     m.reject("w3c-f-14", "W3C-R-014", report(ALL_PASS, negative=prior),

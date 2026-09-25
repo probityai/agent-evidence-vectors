@@ -6,10 +6,10 @@ truth: 14 texts vendored in `spec-vendored/` and pinned by sha256 in
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 230 vectors, of which 116 a conformant verifier must not fail closed
-on and 114 it must reject.
+This corpus is 232 vectors, of which 116 a conformant verifier must not fail closed
+on and 116 it must reject.
 
-**Three subject types, one manifest.** 164 members are whole
+**Three subject types, one manifest.** 166 members are whole
 v0.1 reports, judged by the rows of the format; 44
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
@@ -200,6 +200,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v1158315f2ce233a8` | reject | report | w3c-f-22 | W3C-R-022 | W3C-R-022 |
 | `v12f1e7e27b3f59c5` | reject | llm-context-discovery | lcd-f-consumer | LCD-R-006 | LCD-R-006 |
 | `v148fc59046a8548a` | accept | report | w3c-f-15 | W3C-R-015 | none |
+| `v1660acd2e4efb7c7` | reject | report | w3c-f-13 | W3C-R-013 | W3C-R-013 |
 | `v183b37dea5ad4159` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `v1910c8190bcd1b5c` | accept | llm-context-discovery | lcd-f-publisher | LCD-R-002 | none |
 | `v191fc069115f8706` | accept | llm-context-discovery | lcd-f-consumer | LCD-R-007 | none |
@@ -244,6 +245,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v49afe44cc51bc376` | accept | report | w3c-f-29 | W3C-R-029 | none |
 | `v4a06b866afca0d49` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
 | `v4c778d3ee20deb35` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `v4e4face5dd4ff492` | reject | report | w3c-f-13 | W3C-R-013 | W3C-R-013 |
 | `v4f343e8bd3d6af08` | accept | report | w3c-f-20 | W3C-R-020 | none |
 | `v518aa8d55ab5460b` | accept | report | w3c-f-16 | W3C-R-016 | none |
 | `v5390d3d7133f3963` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
