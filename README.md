@@ -8,7 +8,7 @@
   <a href="https://pypi.org/project/agent-evidence-vectors/"><img src="https://img.shields.io/pypi/v/agent-evidence-vectors?label=PyPI&color=3775a9" alt="agent-evidence-vectors on PyPI"></a>
   <a href="https://doi.org/10.5281/zenodo.22758687"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22758687.svg" alt="DOI 10.5281/zenodo.22758687"></a>
   <img src="https://img.shields.io/badge/AEE%20vectors-275-e8951c" alt="275 AEE conformance vectors">
-  <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-53-e8951c" alt="53 AI Agent Action conformance vectors">
+  <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-61-e8951c" alt="61 AI Agent Action conformance vectors">
   <img src="https://img.shields.io/badge/artifact--binding%20vectors-8-e8951c" alt="8 artifact-binding conformance vectors">
   <img src="https://img.shields.io/badge/SCITT%2FCOSE%20vectors-27-e8951c" alt="27 SCITT/COSE carriage conformance vectors">
   <img src="https://img.shields.io/badge/rails-Go%20%C2%B7%20Python-546274" alt="Go and Python rails">
@@ -112,15 +112,19 @@ first: each records a question RFC 9943 and RFC 9942 leave open, and the reading
 a conforming verifier could take, because a corpus that answered them would be
 inventing a rule the standards do not carry.
 
-**The 53 AI Agent Action vectors test proposed strengthening text, not #588 as
-it stands.** Their accept members are conformant under the pull request's own
-text; their reject members are rejectable under the canonicalization
-strengthening this project offers into that pull request
-([`docs/ai-agent-action-canonicalization.md`](docs/ai-agent-action-canonicalization.md)),
-because the text as it stands leaves those divergences open. The badge above
-counts that suite, so the count travels with this sentence: read as a
-measurement of the pull request today, it claims more than the pull request
-currently requires.
+**The AI Agent Action vectors test #588 as it reads at `a5dd509`, and every
+rejection names the text it rests on.** Each reject member in
+`vectors-ai-agent-action/MANIFEST.json` declares a basis: the lines of the
+vendored specification that make it rejectable, with a quotation `aee-verify`
+finds in those lines on every run. All but one rest on the pull request's own
+text. The exception is the member-name ordering condition, `aia-c-15`, which
+rests on the BMP-only rule this project offers into that pull request
+([`docs/ai-agent-action-canonicalization.md`](docs/ai-agent-action-canonicalization.md));
+its basis also cites the #588 lines that read the other way, so a verifier
+conforming to #588 alone accepts that member and should say so rather than be
+scored against it. Members whose verdict depends on a deployment choice #588
+leaves to configuration, whether a chain_break with `priorHead: null` is
+permitted, name the profile they hold under.
 
 **Three different numbers on this page are called a version, so every one of
 them names its axis.** A *predicate* version belongs to a specification in

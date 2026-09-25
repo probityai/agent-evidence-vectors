@@ -1,31 +1,31 @@
 [
   {
     "attack": "A1 chain hash diverges on integer-like extension keys",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "one logical record has exactly one chain hash",
     "artifact": "artifacts/a1-integer-like-key-order.json"
   },
   {
     "attack": "A2 chain hash diverges on string escaping policy",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "one logical record has exactly one chain hash",
     "artifact": "artifacts/a2-string-escaping.json"
   },
   {
     "attack": "A3 the chain-hash preimage has two readings in one paragraph",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "the chain-hash preimage is a single named byte string",
     "artifact": "artifacts/a3-preimage-reading-split.json"
   },
   {
     "attack": "A4 a duplicate member makes two logical records share a hash",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "distinct logical records have distinct chain hashes",
     "artifact": "artifacts/a4-duplicate-member.json"
   },
   {
     "attack": "A5 the chain forks; the short branch verifies completely",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "a chain has one head, and the predecessor relation is injective",
     "artifact": "artifacts/a5-chain-fork.json"
   },
@@ -37,19 +37,19 @@
   },
   {
     "attack": "A7 the safe-integer constraint contradicts the content-digest form",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "a conformant implementer reaches one verdict per payload",
     "artifact": "artifacts/a7-float-rule-contradiction.json"
   },
   {
     "attack": "A8 a failed tool call has no defined response preimage",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "every content digest names exactly one preimage",
     "artifact": "artifacts/a8-error-response-preimage.json"
   },
   {
     "attack": "A9 previousHash case, length and algorithm are unpinned",
-    "verdict": "SUCCEEDED",
+    "verdict": "FORECLOSED",
     "invariant": "one logical link has exactly one spelling",
     "artifact": "artifacts/a9-previoushash-unpinned.json"
   },
@@ -58,6 +58,12 @@
     "verdict": "FORECLOSED",
     "invariant": "a signed form is reproducible from the text alone",
     "artifact": "artifacts/a10-signing-field-list-absent.json"
+  },
+  {
+    "attack": "A11 a planted priorHead-null break keeps the abandoned identifier",
+    "verdict": "FORECLOSED",
+    "invariant": "a break-rooted segment cannot pass for the history it abandons",
+    "artifact": "artifacts/a11-planted-null-priorhead-break.json"
   },
   {
     "attack": "F1 detaching a mid-chain record by deleting predicate.chain",

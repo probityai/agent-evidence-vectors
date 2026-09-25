@@ -1,6 +1,20 @@
 {
   "attack": "a8-error-response-has-no-preimage",
-  "spec_clause": "payload is the JSON-RPC params object (for requests) or result object (for responses)",
+  "originally_attacked_clause": "payload is the JSON-RPC params object (for requests) or result object (for responses)",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "contentDigest.response",
+      "occurrences": 3
+    },
+    "foreclosing_rule_phrasings": [
+      "An error response carries no `result` member at all, and the digest is over the `error` member",
+      "A producer MUST NOT digest `null`, an empty object, or the whole response envelope in place of the named member"
+    ],
+    "found": [
+      "An error response carries no `result` member at all, and the digest is over the `error` member",
+      "A producer MUST NOT digest `null`, an empty object, or the whole response envelope in place of the named member"
+    ]
+  },
   "failed_response": {
     "jsonrpc": "2.0",
     "id": 7,

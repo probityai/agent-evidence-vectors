@@ -1,0 +1,25 @@
+{
+  "attack": "a11-planted-null-priorhead-break",
+  "abandoned_chain_identifier": "b0d809de11d290e490b0ab36101cdaeadbe7a2f52b7e0e0b6b2ed90768b11ae3",
+  "break_record_chain_hash": "813a59865382ea81f64712feeedc8da665cf450ee45595224b159764ad8b97b3",
+  "presented_segment": [
+    "{\"id\":\"brk_1\",\"priorHead\":null,\"priorRecordCount\":null,\"priorSequence\":null,\"reason\":\"crash_recovery\",\"type\":\"chain_break\"}",
+    "{\"id\":\"r2\",\"previousHash\":\"813a59865382ea81f64712feeedc8da665cf450ee45595224b159764ad8b97b3\",\"toolName\":\"create_pull_request\",\"type\":\"tool_call\"}"
+  ],
+  "identifier_the_attacker_wants_on_the_segment": "b0d809de11d290e490b0ab36101cdaeadbe7a2f52b7e0e0b6b2ed90768b11ae3",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "chain_break",
+      "occurrences": 39
+    },
+    "foreclosing_rule_phrasings": [
+      "A statement in a break-rooted segment MUST NOT carry any other chain's identifier",
+      "MUST forbid `priorHead: null` in the deployment profile"
+    ],
+    "found": [
+      "A statement in a break-rooted segment MUST NOT carry any other chain's identifier",
+      "MUST forbid `priorHead: null` in the deployment profile"
+    ]
+  },
+  "note": "Both rules are needed. The identifier rule makes the split visible to a policy that targets the pre-break chain; the prohibition removes the planted break from a deployment claiming resistance to this attacker, because every field on the break is one the restarted attestor controls."
+}

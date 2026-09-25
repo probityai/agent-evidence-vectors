@@ -1,6 +1,18 @@
 {
   "attack": "a9-previoushash-case-and-length-unpinned",
-  "spec_clause": "previousHash | string | Yes | Chain hash of the preceding record",
+  "originally_attacked_clause": "previousHash | string | Yes | Chain hash of the preceding record",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "previousHash",
+      "occurrences": 62
+    },
+    "foreclosing_rule_phrasings": [
+      "Uppercase hex is not canonical. A digest of any other length is not admissible"
+    ],
+    "found": [
+      "Uppercase hex is not canonical. A digest of any other length is not admissible"
+    ]
+  },
   "note": "The type is string. No case, no length, no algorithm identifier. A verifier that compares hex case-insensitively accepts both spellings as the same link, while the two successors serialize to different bytes and therefore to different chain hashes of their own. A 40-hex value is not excluded by anything written.",
   "successor_chain_hash_by_previousHash_spelling": {
     "cd26e6c4930f34da6dbbb53988f4920b13eedc7e3354ac51a82efeac9574e664": "62d4570eb67be94bd2aabebcd99a1dd97a6789f58e05434038a9227a8fb4ea82",

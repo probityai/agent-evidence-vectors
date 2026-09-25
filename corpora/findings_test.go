@@ -162,6 +162,7 @@ func TestEveryFindingIsReachable(t *testing.T) {
 	cases = append(cases, mcpFindings()...)
 	cases = append(cases, bindingFindings()...)
 	cases = append(cases, agentActionFindings()...)
+	cases = append(cases, agentActionChainFindings()...)
 	cases = append(cases, aeeFindings()...)
 	cases = append(cases, aciFindings()...)
 	cases = append(cases, observedEffectFindings()...)

@@ -28,7 +28,7 @@
         },
         "lexicon": {
           "separability": 0.5513,
-          "null": 0.5831
+          "null": 0.583
         },
         "all": {
           "separability": 0.5568,
@@ -38,39 +38,39 @@
     },
     "vectors-ai-agent-action": {
       "fingerprint": {
-        "accept": 37,
-        "reject": 16
+        "accept": 41,
+        "reject": 20
       },
       "surfaces": {
         "identifier": {
-          "separability": 0.5245,
-          "null": 0.5245
+          "separability": 0.5098,
+          "null": 0.5098
         },
         "file": {
-          "separability": 0.6314,
-          "null": 0.6659
+          "separability": 0.6063,
+          "null": 0.6441
         },
         "shape": {
-          "separability": 0.5122,
-          "null": 0.5664
+          "separability": 0.5104,
+          "null": 0.6127
         },
         "paths": {
-          "separability": 0.7846,
-          "null": 0.6495,
+          "separability": 0.746,
+          "null": 0.6608,
           "blockedBy": "the Appendix B family having no reject counterpart",
-          "reason": "Real, and outside the null by a wide margin rather than by a hair. The accept side carries `predicate.contentDigest` on 26 of its 37 members and the reject side on 1 of 16, because 24 of the accepts are the RFC 8785 Appendix B number-serialization family, generated in one loop, with no reject counterpart at all. The presence of one member path therefore very nearly names the label. This is the leak that SURVIVED the identifier fix, which has now landed for this corpus: content-addressed and flat, it still measures 0.7810 against a null of 0.6458. The fix is on the reject side, Appendix B rows that serialize the number wrongly built from the same template, and it is corpus authorship rather than anything a gate can do."
+          "reason": "Real, and outside the null by a wide margin rather than by a hair. The accept side carries `predicate.contentDigest` on 26 of its 41 members and the reject side on 1 of 20, because 24 of the accepts are the RFC 8785 Appendix B number-serialization family, generated in one loop, with no reject counterpart at all. The presence of one member path therefore very nearly names the label. This is the leak that SURVIVED the identifier fix, which has now landed for this corpus: content-addressed and flat, it measured 0.7810 against a null of 0.6458 when that fix landed, and 0.7460 against 0.6608 once the chain-break members joined both sides. The fix is on the reject side, Appendix B rows that serialize the number wrongly built from the same template, and it is corpus authorship rather than anything a gate can do."
         },
         "lexicon": {
-          "separability": 0.7916,
-          "null": 0.6462,
+          "separability": 0.7466,
+          "null": 0.6924,
           "blockedBy": "the Appendix B family having no reject counterpart",
-          "reason": "The member names and the shared digest string of the same Appendix B family described in the paths row. One string value appears in 25 of the 37 accept vectors and in no reject vector."
+          "reason": "The member names and the shared digest string of the same Appendix B family described in the paths row. One string value appears in 25 of the 41 accept vectors and in no reject vector."
         },
         "all": {
-          "separability": 0.781,
-          "null": 0.6456,
+          "separability": 0.7465,
+          "null": 0.6792,
           "blockedBy": "the Appendix B family having no reject counterpart",
-          "reason": "The identifier half of this is fixed: this corpus is content-addressed and flat, its identifier surface measures at its own null, and the whole surface fell from 0.9238 to 0.7810. What is left is content, and it is real rather than noise -- 0.7810 against a null of 0.6458, with the paths and lexicon rows above carrying it. The cause is the Appendix B family described in those rows, and the fix is reject members for it."
+          "reason": "The identifier half of this is fixed: this corpus is content-addressed and flat, its identifier surface measures at its own null, and the whole surface fell from 0.9238 to 0.7810. What is left is content, and it is real rather than noise -- 0.7465 against a null of 0.6792 once the chain-break members joined both sides, with the paths and lexicon rows above carrying it. The cause is the Appendix B family described in those rows, and the fix is reject members for it."
         }
       }
     },

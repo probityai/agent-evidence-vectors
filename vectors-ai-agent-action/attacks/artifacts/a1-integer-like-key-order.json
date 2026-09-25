@@ -1,6 +1,20 @@
 {
   "attack": "a1-chain-hash-integer-like-key-order",
-  "spec_clause": "chain hash = SHA-256(JSON.stringify(record))",
+  "originally_attacked_clause": "chain hash = SHA-256(JSON.stringify(record))",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "record canonical form",
+      "occurrences": 21
+    },
+    "foreclosing_rule_phrasings": [
+      "`JSON.stringify` MUST NOT be used to derive the record canonical form",
+      "JCS fixes the order to"
+    ],
+    "found": [
+      "`JSON.stringify` MUST NOT be used to derive the record canonical form",
+      "JCS fixes the order to"
+    ]
+  },
   "logical_record_is_identical_across_all_three": true,
   "serializations": {
     "ecmascript-JSON.stringify": {
