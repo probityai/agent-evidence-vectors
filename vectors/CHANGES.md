@@ -5,6 +5,58 @@ The vector corpus is a versioned, immutable-per-revision artifact. A published
 or a corpus addition bumps the revision and regenerates the vectors
 byte-identically from the generators.
 
+## suiteRevision 29 (the three empty predicate states are one input)
+
+- **Three reject vectors, one per empty `predicate` state**, under a new condition
+  `aee-c-109`: the member absent, present as `null`, and present as `{}`. Each is
+  ok-002 with one edit to the `predicate` member, so the three differ from a valid
+  statement and from each other in nothing but how `predicate` is spelled.
+- Corpus: **275 vectors (61 accept, 212 reject, 2 indeterminate)**, up from 272.
+- **Nothing in the corpus had exercised any of the three.** No vector carried an
+  absent, null or empty `predicate`, and `"predicate": null` did not occur in the
+  repository at all. Under that silence the two rails had drifted: the Go rail
+  refused an absent member with a parse error mapped to `statement-malformed` and
+  read `null` as empty, while the Python rail answered `predicate-type-unsupported`
+  -- a code about the type URI -- for both absent and null, on statements whose type
+  URI was correct, and gave the empty object one code fewer than the Go rail.
+- **The rule is written down.** `spec/v1/statement.md` is new and carries this
+  repository's statement-layer conformance profile: a verifier treats all three
+  spellings as one input and emits the identical verdict and the identical reason
+  codes for all three. It quotes the in-toto sentence that resolves unset against
+  set-but-empty, and lifts verbatim the SLSA build-provenance sentence that resolves
+  `null` alongside them.
+- **Both rails were changed to implement it**, and both now emit the identical
+  six-code set for all three states. The Python rail also reports an absent
+  `attackResults` member as `statement-malformed`, which the Go rail always did and
+  which the empty predicate is the first vector to reach.
+- **The traceability gap widens by one, and this one cannot be closed.** The
+  pairing still holds at the coarser granularity: all 212 reject vectors declare
+  a parent that ships as an accept vector. The finer one is the conditions cited
+  only by refusals, measured and ratcheted against
+  `docs/ACCEPT-ANCHOR-BASELINE.json`. That second number is 34 of 77 today, up
+  one because `aee-c-109` is cited by three reject vectors and by no accepting
+  one. Unlike the rest of that list it is not a gap an accept vector could
+  close: the empty predicate is missing every required member, so no valid
+  statement exercises the equivalence.
+- **165 of the 212 reject vectors are now exactly one mutation from their declared
+  parent**, two more than at revision 28: the absent and null spellings each carry
+  a single edit to a single member of ok-002. The remaining 47 cannot express their
+  declared fault in a single edit and stay declared in
+  `docs/MULTI-MUTATION-VECTORS.json` with a count and a reason each. The empty
+  object joins that list: `predicate` becoming `{}` removes all seven members at
+  once and cannot be fewer, while the absent and null spellings measure one because
+  the member goes with them.
+- **The equivalence is enforced by a gate rather than by the corpus contract.**
+  `vectors/MANIFEST.json` declares reject codes measured rather than normative and
+  the reject contract grades by intersecting the declared and observed code sets, so
+  two rails rejecting one statement for different reasons both pass. That is right
+  for a third-party rail and wrong for the two rails here, which share one code
+  vocabulary, so `scripts/predicate-state-gate.py` drives both directly and refuses
+  unless every outcome is identical.
+- **What this revision does not exercise.** A `predicate` that is present and
+  neither an object nor `null` -- a string, a number, an array -- is a different
+  fault, keeps its own code, and no vector in this revision carries one.
+
 ## suiteRevision 28 (identifiers name the bytes, not the answer)
 
 - **This corrects a defect in our own corpus, found by a gate in this repository.**

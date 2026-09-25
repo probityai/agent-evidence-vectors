@@ -184,6 +184,10 @@
     "vc19ea5aaacc5b72a": {
       "mutations": 2,
       "reason": "two indexes are the fewest that can put an out-of-range reference BEHIND an in-range one, and the parent's artifact row carries an empty observationRefs array. bad-724 is the one-index form and both readings of the scan find it; the second index is what this vector is"
+    },
+    "v3759daaee191d532": {
+      "mutations": 7,
+      "reason": "bad-851-predicate-empty-object. The three empty predicate states are one input and the vector's whole subject is which of the three spellings the producer chose, so the mutation is `predicate` becoming the empty object. Measured against the parent's leaves that is the removal of all seven members at once, and it cannot be fewer: an empty object is empty. Its two siblings, the absent member and the null, remove the same seven and measure one because the member itself goes with them, which is the distance metric describing the spelling rather than the edit"
     }
   }
 }

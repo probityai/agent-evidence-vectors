@@ -33,13 +33,16 @@ of those independent knobs, not tangled control flow.
 """
 
 ["vectors/reject/gen_invalid_vectors.py::second_fault_absence"]
-complexity = 16
+complexity = 17
 rationale = """
 second_fault_absence runs a sequence of independent second-fault checks (root
 family, vocabulary, corpus, binding, signatures, result recompute, and the
 run-end record-set commitment) to assert each reject vector is broken exactly
 one way. The checks are independent by construction; the branch count is the
-number of fault families guarded, one per family.
+number of fault families guarded, one per family, plus one guard on the
+predicate itself: a statement whose predicate is absent or null carries no
+derived commitment to re-check, and that guard has to come before any family
+is read.
 """
 
 ["vectors/accept/gen_valid_vectors.py::verify_commitments"]

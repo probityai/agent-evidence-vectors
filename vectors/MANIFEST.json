@@ -1,6 +1,6 @@
 {
   "suite": "adversarial-execution-evidence-conformance",
-  "suiteRevision": 28,
+  "suiteRevision": 29,
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "specPath": "spec/predicates/adversarial-execution-evidence.md",
   "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
@@ -8,7 +8,7 @@
   "specUpstreamCommit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "counts": {
     "accept": 61,
-    "reject": 209,
+    "reject": 212,
     "indeterminate": 2
   },
   "comparisonSurface": {
@@ -21,7 +21,7 @@
     ],
     "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
   },
-  "corpusDigest": "8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52",
+  "corpusDigest": "0546242b7f42a478d1979c2f86f872b68239ec4f4ff7232a56af777fd40fcaaf",
   "vectors": [
     {
       "id": "vcf20eae7df4f1f1b",
@@ -2393,6 +2393,69 @@
         "verdict": "invalid",
         "codes": [
           "coverage-incomplete"
+        ]
+      }
+    },
+    {
+      "id": "vf69a30acc0a70642",
+      "kind": "reject",
+      "file": "statements/vf69a30acc0a70642.json",
+      "conditions": [
+        "aee-c-109"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
+        ]
+      }
+    },
+    {
+      "id": "v3759daaee191d532",
+      "kind": "reject",
+      "file": "statements/v3759daaee191d532.json",
+      "conditions": [
+        "aee-c-109"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
+        ]
+      }
+    },
+    {
+      "id": "v2fdd6bb8fd622fea",
+      "kind": "reject",
+      "file": "statements/v2fdd6bb8fd622fea.json",
+      "conditions": [
+        "aee-c-109"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
         ]
       }
     },
