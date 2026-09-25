@@ -51,6 +51,9 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-w3c-report", memberFileKey: "file"},
 	// A member of the Observed Effect corpus is one DSSE envelope in one file.
 	{dir: "vectors-observed-effect", memberFileKey: "file"},
+	// A member of the AI generation corpus is one attestation envelope, or the
+	// golden statement, in one file.
+	{dir: "vectors-ai-generation", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }

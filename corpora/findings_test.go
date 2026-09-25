@@ -166,6 +166,7 @@ func TestEveryFindingIsReachable(t *testing.T) {
 	cases = append(cases, aciFindings()...)
 	cases = append(cases, observedEffectFindings()...)
 	cases = append(cases, mcpResponsePhaseFindings()...)
+	cases = append(cases, aiGenerationFindings()...)
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			dir := stage(t, tc.dir)
