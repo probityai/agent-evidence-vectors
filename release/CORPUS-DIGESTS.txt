@@ -2,13 +2,15 @@
 # Regenerate: python3 scripts/release-digests.py    Check: --check
 # Every digest is recomputed from the vector files on disk, never copied from the manifest.
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
-2e0c66a00d23e64e2a2c6279e636f3ca3836a8cd535673d02f730cade6b0319e  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=32  no-suiteRevision
-7ca4db853dc416774167cfdb9ae5e5d31c11fefe793bbca0938dc79d26a01379  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=53  no-suiteRevision
+b50bf6123949cde58b572019f5d07d923b0466e04bb30c7b6df68e692ab57668  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=34  no-suiteRevision
+905c8fe54d799ca01dd9b3bd9fe387cbd4534fce0b93e628002a21186dbf8052  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=61  no-suiteRevision
+a6c9e746919dbb6d6afb940bbe6377ea487715987807227415a39e57a0039c2d  vectors-ai-generation/MANIFEST.json  ai-generation-v01-conformance  vectors=34  no-suiteRevision
 6bc10ebd3b65776e96e78797101f85687437bcff89963864067795de2f2948be  vectors-anchor-stream/MANIFEST.json  anchor-stream-conformance  vectors=32  no-suiteRevision
 e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef  vectors-artifact-binding/MANIFEST.json  artifact-binding-conformance  vectors=8  no-suiteRevision
 90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26  vectors-mcp-record-contract/MANIFEST.json  cross-run-record-contract  vectors=15  no-suiteRevision
 caa09e57af6e6ee85feff1fa5117095fa424c11a57a7518ca127d19676bfd5bc  vectors-mcp-response-phase/MANIFEST.json  mcp-response-phase-interception  vectors=8  no-suiteRevision
-3208fe4f8d38a67c131f018ceb66477bfdc68339e6ba43693ca2b5b7c2548bc0  vectors-observed-effect/MANIFEST.json  observed-effect-conformance  vectors=49  no-suiteRevision
+cd5e6db629277ad64c902913c610b7b23964d42fe1c5231fa5210e17717fc624  vectors-observed-effect/MANIFEST.json  observed-effect-conformance  vectors=52  no-suiteRevision
+07845b4582146c42a1482824e76c0b8e04043efed880f37e613459574766310e  vectors-receipt-signature/MANIFEST.json  receipt-signature-conformance  vectors=13  no-suiteRevision
 79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da  vectors-scitt-cose/MANIFEST.json  scitt-cose-carriage-conformance  vectors=27  no-suiteRevision
-b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033  vectors-w3c-report/MANIFEST.json  w3c-report-v01-conformance  vectors=222  no-suiteRevision
-8b035678def9e5ac00ba761b8c640e4412c57163134afb9d2c1a90f49d573a52  vectors/MANIFEST.json  adversarial-execution-evidence-conformance  vectors=272  suiteRevision=28
+55c26ea4f504c417b412f8671cef757a46f196ded5589bb465980a793d337522  vectors-w3c-report/MANIFEST.json  w3c-report-v01-conformance  vectors=232  no-suiteRevision
+0546242b7f42a478d1979c2f86f872b68239ec4f4ff7232a56af777fd40fcaaf  vectors/MANIFEST.json  adversarial-execution-evidence-conformance  vectors=275  suiteRevision=29
