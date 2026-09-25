@@ -1,5 +1,11 @@
 # Vendored predicate specification
 
+Alongside the vendored copy, [`v1/statement.md`](v1/statement.md) carries this
+repository's own statement-layer conformance profile: the rules the corpus tests
+at the in-toto Statement layer, for the cases the framework's text leaves a rail
+free to choose. It is not vendored and it edits nothing upstream; every rule in
+it cites the framework text it resolves.
+
 [`predicates/adversarial-execution-evidence.md`](predicates/adversarial-execution-evidence.md)
 is a version-locked copy of the Adversarial Execution Evidence predicate
 specification, vendored so this repository is self-contained: a relying party

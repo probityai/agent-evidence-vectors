@@ -68,6 +68,7 @@ worth reading before writing rather than after failing.
 | `scripts/spec-drift-gate.py` | vendored bytes that are not upstream's |
 | `scripts/code-contract-gate.py` | prose describing a failure-code behaviour the evaluator does not have |
 | `scripts/external-rail-gate.py` | the shipped CLI failing the shipped corpus through the documented third-party contract. Both existed and nobody had run one against the other |
+| `scripts/predicate-state-gate.py` | the two rails here answering an absent, null or empty `predicate` differently. The corpus contract cannot refuse this: it grades a reject vector by intersecting the declared and observed code sets, so two rails rejecting one statement for different reasons both pass |
 | `scripts/forcing-gate.py` | a corpus that has stopped forcing a rule the baseline records it as forcing. Tighten-only |
 | `scripts/independent-runs-gate.py` | prose about what an outside implementation ran that disagrees with the run ledger |
 | `scripts/suite-commit-gate.py` | a suite commit in the run ledger, or a rewritten commit in `docs/REWRITE-MAP-2026-09-18.json`, that neither the default branch nor a tag reaches, so a fresh clone does not carry it |

@@ -54,6 +54,20 @@ jobs:
       - name: the shipped CLI clears the published corpus as an external rail
         run: python3 scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
 
+      # The step above asks whether each rail clears the corpus. It cannot ask
+      # whether the two rails AGREE on a reason, because the MANIFEST declares
+      # codes measured rather than normative and the reject contract grades by
+      # intersecting the declared and observed code sets -- so two rails that
+      # reject one statement for entirely different reasons both pass. That is
+      # the right contract for a third-party rail and the wrong one for the two
+      # rails in this repository, which share one code vocabulary. This step
+      # drives both directly over the three empty predicate states and refuses
+      # unless every outcome is identical, within each rail and between them.
+      # It lives here because it builds the Go binary, and it refuses rather
+      # than skips when the toolchain is absent.
+      - name: both rails read the three empty predicate states identically
+        run: python3 scripts/predicate-state-gate.py
+
       # One binary judges every corpus in this repository. Each corpus used to
       # ship a Python runner beside its vectors, so the command a third party
       # was told to run was a different command per corpus and three of the six
@@ -169,7 +183,7 @@ jobs:
       - name: sync toolchain
         run: uv sync --extra dev --extra generators
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/independent-runs-gate-test.py
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
       # written out on the line above, and a list is only accurate on the day it
@@ -664,6 +678,14 @@ jobs:
       # ambiguity.
       - name: the manifest's suite revision is the changelog's
         run: python3 scripts/manifest-revision-test.py
+      # Three members carry a Statement-layer verdict beside the AEE one: the
+      # empty predicate, spelled three ways, is an invalid AEE statement and a
+      # valid in-toto Statement. A verdict written into a manifest and never
+      # executed is a sentence, so this runs a Statement-layer check over the
+      # members that carry one and holds the recorded verdict to it, with
+      # controls that refuse a check which accepts everything.
+      - name: the recorded Statement-layer verdicts are the executed ones
+        run: python3 scripts/statement-layer-test.py
       # Whether every corpus BEHAVES as its manifest claims is a different
       # question from whether its bytes regenerate, and it is asked once for
       # all six corpora by the "one harness judges every corpus" step in the Go
@@ -754,7 +776,7 @@ jobs:
       # so a corpus change fails on the push that makes it rather than on the
       # revision that outdates the name. A checked copy of a derived number is
       # what the census asks for; an unchecked one is what it refuses.
-      - name: replay every vector on the Python rail (must be 272/272)
+      - name: replay every vector on the Python rail (must be 275/275)
         run: python3 packaging/run_vectors.py
       # The replay above says a rail cleared the corpus. This step says the
       # corpus can refuse one, which is a different claim and the one nothing
@@ -783,7 +805,7 @@ jobs:
   # upper bound on forcing and never a measurement of it: a vector declaring
   # several expected codes is satisfied by any one of them, so deleting the
   # result-vocabulary emission from the rail turns two vectors' gate-0 column
-  # FAIL and the suite still reports 272 of 272, exit 0. The only way to know
+  # FAIL and the suite still reports 275 of 275, exit 0. The only way to know
   # what this corpus obliges a third party to implement is to switch one rule
   # off at a time and replay, which is what this job does.
   #

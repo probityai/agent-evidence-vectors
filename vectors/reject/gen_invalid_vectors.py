@@ -2425,6 +2425,103 @@ vec("bad-732-routedelsewhere-unknown-class", "ok-004",
          "partition-membership rule (in-toto/attestation#570 round-8).")
 
 
+# --- (k2) the three empty predicate states, which are one input ------------
+#
+# The framework types `predicate` as optional and says what optional means:
+# "Unset is treated the same as set-but-empty" (in-toto/attestation
+# spec/v1/statement.md:64-65). It does not name `null`; SLSA does, as a MUST,
+# in its own parsing rules ("Unset, null, and empty field values MUST be
+# interpreted equivalently", slsa spec/build-provenance.md, cited with its
+# line in spec/v1/statement.md). This
+# repository's statement-layer profile at spec/v1/statement.md resolves all
+# three and binds the REASON as well as the verdict, and these three vectors
+# are what force it.
+#
+# Nothing in this corpus exercised any of the three before: a walk of every
+# vector JSON across all shipped corpora found no statement carrying an absent,
+# null or empty `predicate`, and `"predicate": null` did not occur anywhere in
+# the repository. The two rails had drifted apart underneath that silence -- Go
+# refused an absent member with a parse error mapped to statement-malformed and
+# admitted null as empty; this suite's Python rail answered
+# predicate-type-unsupported for both absent and null, a code about the type
+# URI, on statements whose type URI was correct.
+#
+# Each is ok-002 with ONE mutation to one member, which is the corpus invariant
+# and also the sharpest form of the claim: the three differ from a fully valid
+# statement, and from each other, in nothing but how `predicate` is spelled. All
+# three therefore carry the same six codes, because the empty predicate is
+# missing every required member and each absence is reported under its own name.
+# That is the point -- the six are what the input earns, and which spelling
+# carried it changes nothing.
+
+
+# The empty predicate is missing every required member, so it earns six codes.
+# The EXPECTATION is the one both rails name first, and the other five are
+# declared companions: an expectation naming all six would be satisfied by any
+# one of them, which pins no reading at all (scripts/expectation-slack-gate.py),
+# and declaring them keeps the second-fault check exempting the faults the
+# vector carries on purpose without widening what it measures. The equivalence
+# these three vectors exist to force is not any single code -- it is that all
+# six arrive identically for all three spellings -- and that is asserted where
+# it can be, on both rails directly, by scripts/predicate-state-gate.py.
+_PREDICATE_STATE_CODES = ["result-vocabulary"]
+_PREDICATE_STATE_ALSO = [
+    "issued-at-missing",
+    "environment-incomplete",
+    "vocabulary-missing",
+    "coverage-missing",
+    "statement-malformed",
+]
+
+
+def _b850() -> dict[str, Any]:
+    st = P_clean()
+    del st["predicate"]
+    return st
+
+
+vec("bad-850-predicate-member-absent", "ok-002",
+    "`predicate` member removed", [], [109],
+    _PREDICATE_STATE_CODES, _b850, compound=True,
+    also_carries=_PREDICATE_STATE_ALSO, spec="L388",
+    note="the framework permits the omission and defines it as set-but-empty, "
+         "so the statement is invalid for the members the empty predicate "
+         "lacks and for nothing about the omission itself. Go used to refuse "
+         "this one before decoding, which is a different answer from the one it "
+         "gave the other two spellings.")
+
+
+def _b851() -> dict[str, Any]:
+    st = P_clean()
+    st["predicate"] = {}
+    return st
+
+
+vec("bad-851-predicate-empty-object", "ok-002",
+    "`predicate` replaced by the empty object", [], [109],
+    _PREDICATE_STATE_CODES, _b851, compound=True,
+    also_carries=_PREDICATE_STATE_ALSO, spec="L388",
+    note="the spelling the framework's own sentence calls set-but-empty, and "
+         "the only one of the three both rails already read as the empty "
+         "predicate.")
+
+
+def _b852() -> dict[str, Any]:
+    st = P_clean()
+    st["predicate"] = None
+    return st
+
+
+vec("bad-852-predicate-null", "ok-002",
+    "`predicate` replaced by JSON null", [], [109],
+    _PREDICATE_STATE_CODES, _b852, compound=True,
+    also_carries=_PREDICATE_STATE_ALSO, spec="L388",
+    note="the state the in-toto sentence does not name and SLSA does. It cannot "
+         "be given a meaning of its own: the member is a google.protobuf.Struct "
+         "and protobuf's canonical JSON mapping skips the field on null, so "
+         "absent and null reach a protojson-built rail as the same nil Struct.")
+
+
 # --- (l) byte-level string well-formedness -------------------------------
 #
 # This quadrant had ZERO corpus coverage until now. Decoding all 140 vector
@@ -5111,7 +5208,15 @@ def second_fault_absence(v: dict[str, Any], st: Any) -> None:  # noqa: C901 -- o
         # not introspectable as a dict. No derived-commitment cross-check applies.
         return
     conds = set(v["conds"])
-    p = st["predicate"]
+    p = st.get("predicate")
+    if not isinstance(p, dict):
+        # An absent or null `predicate` carries no derived commitment to
+        # re-check, and the absence is itself the state under test. The harness
+        # copy of this check has always had this guard (run_vectors.py,
+        # second_fault_absence); this one read st["predicate"] unguarded, so the
+        # two implementations of one rule disagreed about a statement neither
+        # had ever been handed.
+        return
     env = p.get("observationEnvironment", {})
     recs = p.get("observationRecords")
     # (i) batchRoot recomputes unless a root condition is targeted
@@ -5357,6 +5462,14 @@ COND = {
                                   "valid sealed record is present, this asks "
                                   "whether an invalid one is carried beside "
                                   "it"),
+    109: ("L388", "an absent `predicate` member, `\"predicate\": null` and "
+                  "`\"predicate\": {}` are ONE input: all three decode to the "
+                  "empty predicate object and a verifier emits the identical "
+                  "verdict and the identical reason codes for all three. The "
+                  "anchor is the predicate's own opt-in to the framework "
+                  "parsing rules, which is what makes the framework's sentence "
+                  "binding here; the rule is stated in full, with the in-toto "
+                  "and SLSA text it lifts, at spec/v1/statement.md"),
 }
 
 

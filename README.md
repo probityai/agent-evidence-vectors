@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="license Apache-2.0">
   <a href="https://pypi.org/project/agent-evidence-vectors/"><img src="https://img.shields.io/pypi/v/agent-evidence-vectors?label=PyPI&color=3775a9" alt="agent-evidence-vectors on PyPI"></a>
   <a href="https://doi.org/10.5281/zenodo.22758687"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22758687.svg" alt="DOI 10.5281/zenodo.22758687"></a>
-  <img src="https://img.shields.io/badge/AEE%20vectors-272-e8951c" alt="272 AEE conformance vectors">
+  <img src="https://img.shields.io/badge/AEE%20vectors-275-e8951c" alt="275 AEE conformance vectors">
   <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-53-e8951c" alt="53 AI Agent Action conformance vectors">
   <img src="https://img.shields.io/badge/artifact--binding%20vectors-8-e8951c" alt="8 artifact-binding conformance vectors">
   <img src="https://img.shields.io/badge/SCITT%2FCOSE%20vectors-27-e8951c" alt="27 SCITT/COSE carriage conformance vectors">
@@ -528,6 +528,32 @@ rails go through. Read the array as a published measurement of our verifier —
 useful if you are chasing a reason-parity figure, and safe to ignore entirely if
 you are not.
 
+### Two layers, one set of bytes: `statementLayer`
+
+A few entries carry a second verdict, in a `statementLayer` object beside
+`expected`. It answers a different question from the rest of the manifest:
+not what an AEE verifier must do with the statement, but what an in-toto
+**Statement** parser must do with it, before any predicate is read.
+
+Today the field sits on the three members citing `aee-c-109`: the same ok-002
+statement with `predicate` absent, set to `null`, and set to `{}`. An **AEE
+verifier must reject all three**, with identical codes, because the empty
+predicate is missing every member this predicate requires. A **Statement parser
+must accept all three**: the framework types `predicate` as optional and says
+"Unset is treated the same as set-but-empty"
+([`spec/v1/statement.md`](https://github.com/in-toto/attestation/blob/fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md#L62-L66)),
+and `spec/v1/statement.md` in this repository records why `null` joins them.
+The reference in-toto bindings refused the absent and null spellings until
+[in-toto/attestation#598](https://github.com/in-toto/attestation/pull/598), so
+running a Statement parser over these three tells you which side of that fix it
+is on.
+
+The field is additive and informative. Nothing in the replay harness reads it,
+the comparison surface is unchanged, and a rail that implements only the AEE
+layer can ignore it. `scripts/statement-layer-test.py` executes the recorded
+verdict with a Statement-layer check rather than trusting it, and the generator
+refuses a `statementLayer` key that no member cites.
+
 ### The registry
 
 The codes are this suite's registry rather than the specification's. The
@@ -630,7 +656,7 @@ A vector count is an upper bound on forcing and never a measurement of it. The
 evaluator satisfies a vector when ANY expected code in a stage is observed, and
 the per-stage column the runner prints is a display rather than a verdict: delete
 the `result-vocabulary` emission from the rail and two vectors' gate-0 column goes
-FAIL while the suite still reports 272 of 272, exit 0. A rail with no
+FAIL while the suite still reports 275 of 275, exit 0. A rail with no
 result-vocabulary check at all clears this corpus.
 
 So forcing is measured instead. `scripts/forcing-gate.py` switches off exactly one
@@ -878,17 +904,17 @@ directed 153/153 says the corrected rule is implementable by someone who has onl
 the text. It is not the same evidence as 125/125 and this suite does not present
 it as such.
 
-It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26 or 27, so
+It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 or 29, so
 this suite publishes no score for it at any of them. They are on that list for
 three different reasons, and only one of them is that the requirement went
-unexercised. Two of the four at the end of the list fall between that v0.7 run
+unexercised. Two of the five at the end of the list fall between that v0.7 run
 and the suiteRevision-25 one: suiteRevision 23 added sixteen reject vectors and a
 second declared condition on a seventeenth, and suiteRevision 24 moved the
 vendored text without moving a vector. The other two fall between the
 suiteRevision-25 run and the suiteRevision-28 one: suiteRevision 26 added eight
 boundary vectors and moved no vendored text, and suiteRevision 27 pinned what the
 reference rail emits beyond each reject vector's declared codes without changing a
-vector file. The suiteRevision-28 corpus carries every vector both added. suiteRevisions
+vector file. The suiteRevision-28 corpus carries every vector both added. suiteRevision 29 came after that run and added three reject vectors, one per empty predicate state. suiteRevisions
 7 through 21 are the opposite case and the distinction is worth being exact
 about. Every vector those revisions added is inside the suiteRevision-22 corpus
 that run covered, so the requirements they carry, the signature-entry requirement

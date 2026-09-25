@@ -1360,8 +1360,22 @@ class ReferenceVerifier:
         if stmt.get("predicateType") != AEE_PREDICATE_TYPE:
             out.add("predicate-type-unsupported")
 
+        # The three empty predicate states are ONE input (spec/v1/statement.md):
+        # an absent member, "predicate": null and "predicate": {} decode to the
+        # empty predicate object. json.loads hands this rail None for the first
+        # two indistinguishably -- which is itself the argument for the rule --
+        # and both used to exit here with predicate-type-unsupported, a code
+        # about the TYPE URI, while "{}" went on to earn the five codes the
+        # empty predicate actually fails on. So the spelling decided the reason,
+        # and two of the three spellings were told their predicate type was
+        # unsupported when the type was the one member they carried correctly.
         pred = stmt.get("predicate")
+        if pred is None:
+            pred = {}
         if not isinstance(pred, dict):
+            # Present and neither an object nor null: a different fault, and it
+            # keeps its own code. The equivalence class is the three empty
+            # states, not every ill-typed value.
             out.add("predicate-type-unsupported")
             return True
         st.pred = pred
@@ -1546,6 +1560,18 @@ class ReferenceVerifier:
                 seen.add(aid)
 
     def _check_rows_setup(self, st: _VerifyState, out: Outcome) -> None:
+        # attackResults is a required member
+        # (spec:req-fields-row-per-executed-attack-attackid-2@8177bcb6a7441371)
+        # and its ABSENCE is a malformed statement, which the Go rail has always
+        # reported and this
+        # one silently coerced to an empty row list. No vector exercised an
+        # absent attackResults, so the two rails disagreed on the one member
+        # whose absence a reader is most likely to hit -- it is what an empty
+        # predicate is missing -- with every gate green. Presence with the wrong
+        # JSON type is a different fault and keeps its own code, which is the
+        # arm the Go rail also leaves to the member's own type check.
+        if "attackResults" not in st.pred:
+            out.add("statement-malformed")
         rows = st.pred.get("attackResults")
         rows = rows if isinstance(rows, list) else []
         rows = [r for r in rows if isinstance(r, dict)]

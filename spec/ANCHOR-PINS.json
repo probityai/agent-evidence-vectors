@@ -872,6 +872,24 @@
       "opens": "Coverage integrity is checked at attack granularity: the union of attackIds",
       "closes": "producer still reports as assessed."
     },
+    "vectors/reject/gen_invalid_vectors.py::bad-850-predicate-member-absent#0": {
+      "anchor": "L388",
+      "digest": "7e094c5c237aea3f1914907057f092d82c8908f17087ac362024ed6950c7e1c6",
+      "opens": "The predicate opts in to the framework's standard parsing rules, including the",
+      "closes": "The predicate opts in to the framework's standard parsing rules, including the"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-851-predicate-empty-object#0": {
+      "anchor": "L388",
+      "digest": "7e094c5c237aea3f1914907057f092d82c8908f17087ac362024ed6950c7e1c6",
+      "opens": "The predicate opts in to the framework's standard parsing rules, including the",
+      "closes": "The predicate opts in to the framework's standard parsing rules, including the"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-852-predicate-null#0": {
+      "anchor": "L388",
+      "digest": "7e094c5c237aea3f1914907057f092d82c8908f17087ac362024ed6950c7e1c6",
+      "opens": "The predicate opts in to the framework's standard parsing rules, including the",
+      "closes": "The predicate opts in to the framework's standard parsing rules, including the"
+    },
     "vectors/reject/gen_invalid_vectors.py::bad-733-statement-lone-high-surrogate-escape#0": {
       "anchor": "L104-130",
       "digest": "4f0ab3ae484746a450d7d45b35b1953b35d305e91407287398c861298a26bdde",
@@ -2179,6 +2197,12 @@
       "digest": "c688aeb970ba25fc0be01ece66162e1c52ea24fbf63bb4d013f4dcbc53dae9d1",
       "opens": "- `aeeKind` _string_: `interception` (per-event capture, covers caught",
       "closes": "so failing it is a coverage validity failure, never a silent pass. The"
+    },
+    "vectors/reject/gen_invalid_vectors.py::109#0": {
+      "anchor": "L388",
+      "digest": "7e094c5c237aea3f1914907057f092d82c8908f17087ac362024ed6950c7e1c6",
+      "opens": "The predicate opts in to the framework's standard parsing rules, including the",
+      "closes": "The predicate opts in to the framework's standard parsing rules, including the"
     },
     "vectors/reject/gen_invalid_vectors.py::write_index#0": {
       "anchor": "L1901-1903",
