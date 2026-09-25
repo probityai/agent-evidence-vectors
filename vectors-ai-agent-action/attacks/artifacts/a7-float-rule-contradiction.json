@@ -6,8 +6,18 @@
   "clause_b_present": true,
   "read_path_control": {
     "phrase": "safe integer",
-    "occurrences": 5
+    "occurrences": 6
   },
+  "reconciling_rule_phrasings": [
+    "drawn by where the bytes live",
+    "This form admits no non-integer numbers",
+    "Non-integer numbers *inside* a record or a Statement, by contrast, are malformed"
+  ],
+  "reconciling_rule_found": [
+    "drawn by where the bytes live",
+    "This form admits no non-integer numbers",
+    "Non-integer numbers *inside* a record or a Statement, by contrast, are malformed"
+  ],
   "payload": {
     "temperature": 0.7,
     "maxTokens": 4096

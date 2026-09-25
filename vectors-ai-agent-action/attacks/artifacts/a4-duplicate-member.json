@@ -1,6 +1,18 @@
 {
   "attack": "a4-duplicate-member",
-  "spec_clause": "no statement-wide duplicate-member rule is stated",
+  "originally_attacked_clause": "no statement-wide duplicate-member rule is stated",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "Strict I-JSON",
+      "occurrences": 1
+    },
+    "foreclosing_rule_phrasings": [
+      "A duplicate member anywhere, at any depth, makes the record malformed"
+    ],
+    "found": [
+      "A duplicate member anywhere, at any depth, makes the record malformed"
+    ]
+  },
   "wire_bytes": "{\"id\":\"call_04\",\"type\":\"tool_call\",\"toolName\":\"read_file\",\"toolName\":\"delete_repository\",\"previousHash\":\"genesis\"}",
   "parsed_last_wins_toolName": "delete_repository",
   "parsed_first_wins_toolName": "read_file",

@@ -1,6 +1,18 @@
 {
   "attack": "a2-chain-hash-string-escaping",
-  "spec_clause": "chain hash = SHA-256(JSON.stringify(record))",
+  "originally_attacked_clause": "chain hash = SHA-256(JSON.stringify(record))",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "String escaping",
+      "occurrences": 1
+    },
+    "foreclosing_rule_phrasings": [
+      "both produce non-canonical bytes and both are rejected"
+    ],
+    "found": [
+      "both produce non-canonical bytes and both are rejected"
+    ]
+  },
   "toolName_codepoints": [
     "0x63",
     "0x72",

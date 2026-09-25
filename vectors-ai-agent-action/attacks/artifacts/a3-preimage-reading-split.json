@@ -1,7 +1,19 @@
 {
   "attack": "a3-preimage-reading-split",
-  "spec_clause_a": "SHA-256(JSON.stringify(record))",
-  "spec_clause_b": "the complete JSON-serialized audit record as written to the JSONL log",
+  "originally_attacked_clause_a": "SHA-256(JSON.stringify(record))",
+  "originally_attacked_clause_b": "the complete JSON-serialized audit record as written to the JSONL log",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "chain hash preimage",
+      "occurrences": 4
+    },
+    "foreclosing_rule_phrasings": [
+      "MUST reject, fail-closed, any line whose bytes differ from the recomputation"
+    ],
+    "found": [
+      "MUST reject, fail-closed, any line whose bytes differ from the recomputation"
+    ]
+  },
   "readings": {
     "bytes-as-written": {
       "bytes": "{\"id\": \"call_03\", \"type\": \"tool_call\", \"previousHash\": \"genesis\"}",

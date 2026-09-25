@@ -1,5 +1,17 @@
 {
   "attack": "a5-chain-fork",
+  "foreclosing_rule": {
+    "read_path_control": {
+      "phrase": "One head, and one predecessor",
+      "occurrences": 1
+    },
+    "foreclosing_rule_phrasings": [
+      "Exactly one record in a chain MUST carry any given `previousHash` value"
+    ],
+    "found": [
+      "Exactly one record in a chain MUST carry any given `previousHash` value"
+    ]
+  },
   "genesis_record_chain_hash": "61230533577c697a6a6614b9e1bbff44096ef9db1db23722164a461383d99d69",
   "subject_digest_both_branches": "61230533577c697a6a6614b9e1bbff44096ef9db1db23722164a461383d99d69",
   "honest_branch_records": 4,

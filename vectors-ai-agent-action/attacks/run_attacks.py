@@ -3,7 +3,13 @@
 
 Every attack constructs concrete artifacts on disk and reports SUCCEEDED
 (the text as written permits the divergence) or FORECLOSED (the text
-already rules it out). Nothing here is a claim about the reference
+already rules it out). The verdict is read off the vendored text: each attack
+names the rule that would foreclose it, finds a read-path control phrase first
+so that an absence is measured through a path that can see a presence, and
+reports SUCCEEDED only when the divergence is constructible AND no phrasing of
+the rule is in the text. Until 2026-09-25 seven of these attacks never opened
+the specification and printed SUCCEEDED against any revision of it, including
+ones that had closed them. Nothing here is a claim about the reference
 implementation; the target is the specification text, because a second
 implementer has only the text.
 
@@ -28,6 +34,35 @@ RESULTS: list[tuple[str, str, str, str]] = []
 
 with open(os.path.join(HERE, "..", "MANIFEST.json"), encoding="utf-8") as _fh:
     SPEC = os.path.join(HERE, "..", json.load(_fh)["specVendored"])
+
+
+def spec_flat() -> str:
+    """The vendored text with its hard wrapping flattened to single spaces."""
+    with open(SPEC, encoding="utf-8") as fh:
+        return " ".join(fh.read().split())
+
+
+def text_rule(attack: str, control: str, phrasings: tuple[str, ...]) -> dict:
+    """Look for the rule that forecloses an attack, after a read-path control.
+
+    `control` is a phrase the section under attack must contain whether or not
+    the rule is there. If it is absent the harness refuses rather than report a
+    rule as missing: an absence read through a path that cannot find a present
+    thing is not a finding.
+    """
+    flat = spec_flat()
+    count = flat.count(control)
+    if count == 0:
+        raise SystemExit(
+            f"run_attacks: REFUSED -- {attack}'s read-path control {control!r} is not "
+            "in the vendored spec, so an absent rule would not be a finding.")
+    return {"read_path_control": {"phrase": control, "occurrences": count},
+            "foreclosing_rule_phrasings": list(phrasings),
+            "found": [p for p in phrasings if p in flat]}
+
+
+def divergence_verdict(constructible: bool, rule: dict) -> str:
+    return "SUCCEEDED" if constructible and not rule["found"] else "FORECLOSED"
 
 
 def sha256_hex(b: bytes) -> str:
@@ -131,10 +166,14 @@ def attack_a1() -> None:
         "go-encoding-json-sorted-keys": (go_bytes, sha256_hex(go_bytes)),
     }
     distinct = {h for _, h in hashes.values()}
+    rule = text_rule("A1", "record canonical form", (
+        "`JSON.stringify` MUST NOT be used to derive the record canonical form",
+        "JCS fixes the order to"))
 
     body = {
         "attack": "a1-chain-hash-integer-like-key-order",
-        "spec_clause": "chain hash = SHA-256(JSON.stringify(record))",
+        "originally_attacked_clause": "chain hash = SHA-256(JSON.stringify(record))",
+        "foreclosing_rule": rule,
         "logical_record_is_identical_across_all_three": True,
         "serializations": {
             k: {"bytes": v.decode(), "chainHash": h}
@@ -144,7 +183,7 @@ def attack_a1() -> None:
     }
     path = emit("a1-integer-like-key-order.json",
                 json.dumps(body, indent=2).encode() + b"\n")
-    verdict = "SUCCEEDED" if len(distinct) == 3 else "FORECLOSED"
+    verdict = divergence_verdict(len(distinct) == 3, rule)
     record("A1 chain hash diverges on integer-like extension keys", verdict,
            "one logical record has exactly one chain hash", path)
 
@@ -176,10 +215,13 @@ def attack_a2() -> None:
     }
     hashes = {k: sha256_hex(v) for k, v in variants.items()}
     distinct = set(hashes.values())
+    rule = text_rule("A2", "String escaping", (
+        "both produce non-canonical bytes and both are rejected",))
 
     body = {
         "attack": "a2-chain-hash-string-escaping",
-        "spec_clause": "chain hash = SHA-256(JSON.stringify(record))",
+        "originally_attacked_clause": "chain hash = SHA-256(JSON.stringify(record))",
+        "foreclosing_rule": rule,
         "toolName_codepoints": [hex(ord(c)) for c in tool],
         "serializations": {k: {"bytes": v.decode(), "chainHash": hashes[k]}
                            for k, v in variants.items()},
@@ -187,7 +229,7 @@ def attack_a2() -> None:
     }
     path = emit("a2-string-escaping.json",
                 json.dumps(body, indent=2, ensure_ascii=False).encode() + b"\n")
-    verdict = "SUCCEEDED" if len(distinct) > 1 else "FORECLOSED"
+    verdict = divergence_verdict(len(distinct) > 1, rule)
     record("A2 chain hash diverges on string escaping policy", verdict,
            "one logical record has exactly one chain hash", path)
 
@@ -200,12 +242,16 @@ def attack_a3() -> None:
     reserialized = json.dumps(json.loads(on_disk),
                               separators=(",", ":")).encode()
     h_disk, h_re = sha256_hex(on_disk), sha256_hex(reserialized)
+    rule = text_rule("A3", "chain hash preimage", (
+        "MUST reject, fail-closed, any line whose bytes differ from the "
+        "recomputation",))
 
     body = {
         "attack": "a3-preimage-reading-split",
-        "spec_clause_a": "SHA-256(JSON.stringify(record))",
-        "spec_clause_b": "the complete JSON-serialized audit record as written "
-                         "to the JSONL log",
+        "originally_attacked_clause_a": "SHA-256(JSON.stringify(record))",
+        "originally_attacked_clause_b": "the complete JSON-serialized audit "
+                                        "record as written to the JSONL log",
+        "foreclosing_rule": rule,
         "readings": {
             "bytes-as-written": {"bytes": on_disk.decode(), "chainHash": h_disk},
             "reserialize-parsed-object": {"bytes": reserialized.decode(),
@@ -218,7 +264,7 @@ def attack_a3() -> None:
     }
     path = emit("a3-preimage-reading-split.json",
                 json.dumps(body, indent=2).encode() + b"\n")
-    verdict = "SUCCEEDED" if h_disk != h_re else "FORECLOSED"
+    verdict = divergence_verdict(h_disk != h_re, rule)
     record("A3 the chain-hash preimage has two readings in one paragraph",
            verdict, "the chain-hash preimage is a single named byte string",
            path)
@@ -239,10 +285,14 @@ def attack_a4() -> None:
     h_dup_bytes = sha256_hex(dup)
     h_re = sha256_hex(json.dumps(last_wins, separators=(",", ":")).encode())
     h_hostile = sha256_hex(json.dumps(hostile, separators=(",", ":")).encode())
+    rule = text_rule("A4", "Strict I-JSON", (
+        "A duplicate member anywhere, at any depth, makes the record malformed",))
 
     body = {
         "attack": "a4-duplicate-member",
-        "spec_clause": "no statement-wide duplicate-member rule is stated",
+        "originally_attacked_clause": "no statement-wide duplicate-member "
+                                      "rule is stated",
+        "foreclosing_rule": rule,
         "wire_bytes": dup.decode(),
         "parsed_last_wins_toolName": last_wins["toolName"],
         "parsed_first_wins_toolName": "read_file",
@@ -259,8 +309,8 @@ def attack_a4() -> None:
     }
     path = emit("a4-duplicate-member.json",
                 json.dumps(body, indent=2).encode() + b"\n")
-    verdict = "SUCCEEDED" if h_re == h_hostile and h_dup_bytes != h_re \
-        else "FORECLOSED"
+    verdict = divergence_verdict(h_re == h_hostile and h_dup_bytes != h_re,
+                                 rule)
     record("A4 a duplicate member makes two logical records share a hash",
            verdict, "distinct logical records have distinct chain hashes",
            path)
@@ -299,8 +349,13 @@ def attack_a5() -> None:
     p_honest = emit("a5-chain-fork-honest.jsonl", honest_log)
     p_pres = emit("a5-chain-fork-presented.jsonl", presented_log)
 
+    rule = text_rule("A5", "One head, and one predecessor", (
+        "Exactly one record in a chain MUST carry any given `previousHash` "
+        "value",))
+
     body = {
         "attack": "a5-chain-fork",
+        "foreclosing_rule": rule,
         "genesis_record_chain_hash": h1,
         "subject_digest_both_branches": h1,
         "honest_branch_records": 4,
@@ -320,7 +375,7 @@ def attack_a5() -> None:
     }
     path = emit("a5-chain-fork.json", json.dumps(body, indent=2).encode() + b"\n")
     record("A5 the chain forks; the short branch verifies completely",
-           "SUCCEEDED",
+           divergence_verdict(fork_head != honest_head, rule),
            "a chain has one head, and the predecessor relation is injective",
            path)
 
@@ -403,6 +458,20 @@ def attack_a7() -> None:
                      or "tool payloads are arbitrary JSON that may contain floats" in flat
                      or "Floats are permitted here and only here" in flat)
 
+    # THE RECONCILING RULE. Both clauses survive in the text by design: the
+    # safe-integer bound on the signing and record forms, and floats in content
+    # payloads. What decides the verdict is whether a rule says which one binds
+    # where. Probing only for the two clauses coexisting reported SUCCEEDED
+    # against a text that had written the reconciliation down -- the same
+    # defect as F2's literal probe, with the opposite sign.
+    reconciling = (
+        "drawn by where the bytes live",
+        "This form admits no non-integer numbers",
+        "Non-integer numbers *inside* a record or a Statement, by contrast, "
+        "are malformed",
+    )
+    reconciled = [phrase for phrase in reconciling if phrase in flat]
+
     payload = {"temperature": 0.7, "maxTokens": 4096}
     jcs = json.dumps(payload, separators=(",", ":"), sort_keys=True).encode()
 
@@ -416,6 +485,8 @@ def attack_a7() -> None:
                     "rejects by design.",
         "clause_b_present": floats_needed,
         "read_path_control": {"phrase": control_phrase, "occurrences": control},
+        "reconciling_rule_phrasings": list(reconciling),
+        "reconciling_rule_found": reconciled,
         "payload": payload,
         "implementer_reading_clause_a": "reject the record",
         "implementer_reading_clause_b": "accept and digest under JCS",
@@ -426,7 +497,11 @@ def attack_a7() -> None:
     }
     path = emit("a7-float-rule-contradiction.json",
                 json.dumps(body, indent=2).encode() + b"\n")
-    verdict = "SUCCEEDED" if both_forms and floats_needed else "FORECLOSED"
+    # All three phrasings are one rule: where the boundary is drawn, the record
+    # side of it, and the Statement side of it. Any of them missing leaves a
+    # reading on which the two clauses still collide.
+    verdict = "SUCCEEDED" if both_forms and floats_needed and \
+        len(reconciled) < len(reconciling) else "FORECLOSED"
     record("A7 the safe-integer constraint contradicts the content-digest form",
            verdict, "a conformant implementer reaches one verdict per payload",
            path)
@@ -451,11 +526,18 @@ def attack_a8() -> None:
     digests = {k: (None if v is None else sha256_hex(v))
                for k, v in candidates.items()}
     distinct = {d for d in digests.values() if d}
+    rule = text_rule("A8", "contentDigest.response", (
+        "An error response carries no `result` member at all, and the digest "
+        "is over the `error` member",
+        "A producer MUST NOT digest `null`, an empty object, or the whole "
+        "response envelope in place of the named member"))
 
     body = {
         "attack": "a8-error-response-has-no-preimage",
-        "spec_clause": "payload is the JSON-RPC params object (for requests) "
-                       "or result object (for responses)",
+        "originally_attacked_clause": "payload is the JSON-RPC params object "
+                                      "(for requests) or result object (for "
+                                      "responses)",
+        "foreclosing_rule": rule,
         "failed_response": err,
         "candidate_preimages": {
             k: {"bytes": (v.decode() if v else None), "digest": digests[k]}
@@ -468,7 +550,7 @@ def attack_a8() -> None:
     }
     path = emit("a8-error-response-preimage.json",
                 json.dumps(body, indent=2).encode() + b"\n")
-    verdict = "SUCCEEDED" if len(distinct) >= 2 else "FORECLOSED"
+    verdict = divergence_verdict(len(distinct) >= 2, rule)
     record("A8 a failed tool call has no defined response preimage", verdict,
            "every content digest names exactly one preimage", path)
 
@@ -488,10 +570,14 @@ def attack_a9() -> None:
                           separators=(",", ":")).encode()
 
     hashes = {k: sha256_hex(succ(k)) for k in (lower, upper, sha1_len)}
+    rule = text_rule("A9", "previousHash", (
+        "Uppercase hex is not canonical. A digest of any other length is not "
+        "admissible",))
     body = {
         "attack": "a9-previoushash-case-and-length-unpinned",
-        "spec_clause": "previousHash | string | Yes | Chain hash of the "
-                       "preceding record",
+        "originally_attacked_clause": "previousHash | string | Yes | Chain "
+                                      "hash of the preceding record",
+        "foreclosing_rule": rule,
         "note": "The type is string. No case, no length, no algorithm "
                 "identifier. A verifier that compares hex case-insensitively "
                 "accepts both spellings as the same link, while the two "
@@ -504,7 +590,7 @@ def attack_a9() -> None:
     path = emit("a9-previoushash-unpinned.json",
                 json.dumps(body, indent=2).encode() + b"\n")
     record("A9 previousHash case, length and algorithm are unpinned",
-           "SUCCEEDED",
+           divergence_verdict(len(set(hashes.values())) == 3, rule),
            "one logical link has exactly one spelling", path)
 
 
@@ -547,6 +633,58 @@ def attack_a10() -> None:
 # ---------------------------------------------------------------------------
 # Foreclosed probes: attacks the text already stops
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# A11 A planted chain_break with priorHead null hides the prefix it abandons
+# ---------------------------------------------------------------------------
+def attack_a11() -> None:
+    """Restart the attestor, emit a priorHead-null break, keep the old identifier.
+
+    A compromised attestor that wants records A-B-C to disappear emits a
+    well-formed chain_break with priorHead null and roots a new segment. No
+    hash link breaks and no second genesis appears. If the segment's
+    statements may keep carrying the pre-break chain's identifier, a policy
+    targeting that identifier accepts the segment as the session's history.
+    Two rules close it: the break-rooted segment's identifier is the break's
+    own chain hash and nothing else, and a deployment claiming resistance
+    against a compromised attestor forbids priorHead null outright.
+    """
+    def line(rec: dict) -> bytes:
+        return json.dumps(rec, separators=(",", ":"), sort_keys=True).encode()
+
+    genesis = {"id": "r1", "type": "tool_call", "toolName": "read_secrets",
+               "previousHash": "genesis"}
+    pre_break_id = sha256_hex(line(genesis))
+    planted = {"id": "brk_1", "type": "chain_break", "reason": "crash_recovery",
+               "priorHead": None, "priorSequence": None, "priorRecordCount": None}
+    break_id = sha256_hex(line(planted))
+    successor = {"id": "r2", "type": "tool_call", "toolName": "create_pull_request",
+                 "previousHash": break_id}
+
+    rule = text_rule("A11", "chain_break", (
+        "A statement in a break-rooted segment MUST NOT carry any other "
+        "chain's identifier",
+        "MUST forbid `priorHead: null` in the deployment profile"))
+    body = {
+        "attack": "a11-planted-null-priorhead-break",
+        "abandoned_chain_identifier": pre_break_id,
+        "break_record_chain_hash": break_id,
+        "presented_segment": [line(planted).decode(), line(successor).decode()],
+        "identifier_the_attacker_wants_on_the_segment": pre_break_id,
+        "foreclosing_rule": rule,
+        "note": "Both rules are needed. The identifier rule makes the split "
+                "visible to a policy that targets the pre-break chain; the "
+                "prohibition removes the planted break from a deployment "
+                "claiming resistance to this attacker, because every field on "
+                "the break is one the restarted attestor controls.",
+    }
+    path = emit("a11-planted-null-priorhead-break.json",
+                json.dumps(body, indent=2).encode() + b"\n")
+    verdict = "SUCCEEDED" if len(rule["found"]) < 2 else "FORECLOSED"
+    record("A11 a planted priorHead-null break keeps the abandoned identifier",
+           verdict, "a break-rooted segment cannot pass for the history it "
+           "abandons", path)
+
+
 def attack_f1() -> None:
     """Strip predicate.chain from a mid-chain record to detach it."""
     def line(rec: dict) -> bytes:
@@ -656,6 +794,7 @@ def attack_f3() -> None:
 def main() -> None:
     for fn in (attack_a1, attack_a2, attack_a3, attack_a4, attack_a5,
                attack_a6, attack_a7, attack_a8, attack_a9, attack_a10,
+               attack_a11,
                attack_f1, attack_f2, attack_f3):
         fn()
     print("\n=== SUMMARY ===")
