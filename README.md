@@ -83,6 +83,18 @@ Every other corpus is refused by name with exit 2 and is judged by
 `agent-evidence-vectors --self-test` runs the reference rail against its own
 oracle, which is the first thing to run when a result looks wrong.
 
+### What a conformance claim must show
+
+A claim that an implementation passes a corpus here is a claim about one
+report, and that report has to show that the implementation answered every
+vector, not this package's reference rail. The report settles it in its own
+fields: `rail` reads `external`, `verifier.vectorsExecuted` equals
+`totals.vectors`, and `totals.conform` equals `totals.vectors` with
+`totals.suiteRefusals` at zero. A specification that makes passing this suite
+a requirement should require all of those in the same sentence. A pass printed
+without them is the defect `SECURITY.md` records under "A named verifier could
+be replaced by the reference rail", which releases before 0.12.1 carry.
+
 ## What the suite judges
 
 This is a recomputable execution attestation toolkit for two in-toto predicates:
