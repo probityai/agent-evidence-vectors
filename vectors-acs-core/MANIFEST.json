@@ -243,16 +243,46 @@
       "sentence": "Accept `X.Y.Z` matching major version",
       "sentenceDigest": "d045577eea0fab7a23515af26a38e922da0f8e70ac856e24d55bbdd851c60438",
       "specVersion": "0.1.0"
+    },
+    {
+      "id": "ACS-R-020",
+      "role": "guardian",
+      "file": "specification",
+      "vendored": "spec-vendored/specification-9d4a9da.md",
+      "line": 293,
+      "sentence": "canonical input is REQUIRED in ACS-Core",
+      "sentenceDigest": "4aba06b38783dc5783af3cd41e4b1a925bc3b83d9ca011a00fa285884d347781",
+      "specVersion": "0.1.0"
     }
   ],
   "counts": {
-    "accept": 10,
-    "reject": 21,
+    "accept": 11,
+    "reject": 22,
     "indeterminate": 1
   },
-  "corpusDigest": "2e0c66a00d23e64e2a2c6279e636f3ca3836a8cd535673d02f730cade6b0319e",
+  "corpusDigest": "b50bf6123949cde58b572019f5d07d923b0466e04bb30c7b6df68e692ab57668",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
+    {
+      "id": "v0577dc8ccd4d7e47",
+      "kind": "accept",
+      "file": "vectors/v0577dc8ccd4d7e47.json",
+      "family": "acs-f-1",
+      "requirements": [
+        "ACS-R-020"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same envelope carrying its signature, so a deployment that refuses every request scores zero on the signature requirement rather than full marks."
+    },
     {
       "id": "v07180a3ca8f10123",
       "kind": "accept",
@@ -832,6 +862,26 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "the same envelope requesting a capability the intent carries. It is a mandatory allow, so a deployment that denies everything scores zero on this family rather than full marks."
+    },
+    {
+      "id": "vf80a81054d3f0862",
+      "kind": "reject",
+      "file": "vectors/vf80a81054d3f0862.json",
+      "family": "acs-f-1",
+      "requirements": [
+        "ACS-R-020"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a request envelope with no signature member at all. Section 10 makes a signature REQUIRED in ACS-Core and the error table defines SIGNATURE_INVALID for a required signature that is missing, while request-envelope.json lists no signature among its required members and section 10.1 calls signatures field-optional, so an implementation that validates the schema and verifies only the signatures it finds admits this envelope. The members above all carry a signature, which is why none of them could see that."
     },
     {
       "id": "vfcab242ddb38d018",
