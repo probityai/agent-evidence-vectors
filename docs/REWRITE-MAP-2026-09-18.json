@@ -1,0 +1,399 @@
+{
+  "$comment": "Every commit of this repository that a public record outside it cites by ID, translated across the history rewrite of 2026-09-18. That rewrite ran git filter-repo over every branch and tag and force-pushed the result, so every commit received a new ID and the old IDs stopped resolving in a clone. A record that names an old ID can use this file to find the commit it meant. The file lists only commits cited somewhere public (a run record, a pinned document, an issue or pull request comment), not every commit the rewrite touched. How each row was checked: the old commit was read through the GitHub API, which still served every one of them on 2026-09-24, and the rewritten commit was read in a fresh clone with GIT_NO_LAZY_FETCH=1. For every row the commit message and author date are unchanged, each parent maps through the rewrite to the rewritten commit's parent, and the vendored specification under spec/ is unchanged. vectorsTree compares the corpus directory: identical means the same tree object, byte for byte. Where it is not identical, vectorsDifferences names each file that differs and what changed in it. tag is the annotated tag cited/<first seven characters of the old ID> that keeps the rewritten commit reachable, so a clone always carries it; it is null where no record pins the commit as a suite revision. scripts/suite-commit-gate.py checks that every rewritten ID here resolves in a clone and that every tag named here points at its row.",
+  "rewrite": {
+    "date": "2026-09-18",
+    "tool": "git filter-repo",
+    "scope": "every branch and every tag"
+  },
+  "commits": [
+    {
+      "old": "1bc6a5a2362260514d35fe3757f35dcc8723f6b6",
+      "rewritten": "de6eb40ed7eacaa035be8d95e5da93c2904880a4",
+      "tag": "cited/1bc6a5a",
+      "vectorsTree": {
+        "old": "e5cdc8a99007ac68dc4555bb6840425676b0eca6",
+        "rewritten": "e5cdc8a99007ac68dc4555bb6840425676b0eca6",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PARITY-REPORT.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json"
+      ]
+    },
+    {
+      "old": "55ee73321cd40edd2b4a814948506a60074543a2",
+      "rewritten": "ab947b57f4d56cde0d94039f5675d78e23c143d3",
+      "tag": "cited/55ee733",
+      "vectorsTree": {
+        "old": "98fb672eaa7402ff3d4737e3a725b87a37fe620c",
+        "rewritten": "98fb672eaa7402ff3d4737e3a725b87a37fe620c",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PARITY-REPORT.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/1"
+      ]
+    },
+    {
+      "old": "cf0d5402327ae5a451efebc914852d1c687753ca",
+      "rewritten": "7a081d47456adcbdec0119a8b52c991f2ee5a75f",
+      "tag": "cited/cf0d540",
+      "vectorsTree": {
+        "old": "15b2ccfdbabf223237fac3d5b285bd4354bb9825",
+        "rewritten": "15b2ccfdbabf223237fac3d5b285bd4354bb9825",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PARITY-REPORT.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/2",
+        "https://github.com/probityai/agent-evidence-vectors/pull/1"
+      ]
+    },
+    {
+      "old": "ea25a1e218e94843e018dffc0eae4f3fcab1749e",
+      "rewritten": "61619ae5fe7e1c481c61ca313371234b1ba04209",
+      "tag": "cited/ea25a1e",
+      "vectorsTree": {
+        "old": "89af6f50def818e374404645f3ec3b50d2b10b9d",
+        "rewritten": "89af6f50def818e374404645f3ec3b50d2b10b9d",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/3",
+        "https://github.com/Rul1an/aee-checker/pull/4",
+        "https://github.com/probityai/agent-evidence-vectors/pull/2"
+      ]
+    },
+    {
+      "old": "8959bd3293600c10516894e731ed1ef280a21b5c",
+      "rewritten": "6aa7c607ddc73fa7cb2f61814ab2932087fc4988",
+      "tag": "cited/8959bd3",
+      "vectorsTree": {
+        "old": "a80682356a1e6ba0f9e8623296563d05b661487b",
+        "rewritten": "c34ea3ef1d96c01e1f3efeac0456b1f23717a56d",
+        "identical": false
+      },
+      "vectorsDifferences": [
+        {
+          "path": "vectors/coverage-unforced.json",
+          "oldBlob": "0d840eea1384a87d74332dc67f5dfb75728048ec",
+          "rewrittenBlob": "ea5808df76c15de547aa46ec178d36ce123d8da3",
+          "change": "one prose \"reason\" field named an internal file by its path; the rewrite replaced the path with a description of the file. No verdict, code, condition or digest in the file changed."
+        }
+      ],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/README.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/21",
+        "https://github.com/Rul1an/aee-checker/pull/5",
+        "https://github.com/Rul1an/aee-checker/pull/5#issuecomment-5147991745",
+        "https://github.com/probityai/agent-evidence-vectors/pull/2#issuecomment-5147989073"
+      ]
+    },
+    {
+      "old": "84ba227155f55b653deed5051027f9aecdd2159f",
+      "rewritten": "4cd65a16cbb9bac84966613af8995cb2a9a54bb0",
+      "tag": "cited/84ba227",
+      "vectorsTree": {
+        "old": "b6e41467c6869c05c6744084e12db89ccabb6a73",
+        "rewritten": "b6e41467c6869c05c6744084e12db89ccabb6a73",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-v0.7-RUN.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/v0.7-RUN.md",
+        "https://github.com/Rul1an/aee-checker/pull/10#issuecomment-5225114759",
+        "https://github.com/Rul1an/aee-checker/pull/7"
+      ]
+    },
+    {
+      "old": "7de79ab812ee862580b2241281f9716633cfef23",
+      "rewritten": "44ff8e9c52aa9d08d42ad55f86806150b1ddf6bd",
+      "tag": "cited/7de79ab",
+      "vectorsTree": {
+        "old": "9bd493a70c28322718b99fe9f524e63e91d56bd1",
+        "rewritten": "9bd493a70c28322718b99fe9f524e63e91d56bd1",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/12"
+      ]
+    },
+    {
+      "old": "5019931751041c815463faa569fbb159e01612a0",
+      "rewritten": "97ba4ff6295ec9adb991065e84a921a0567b05b0",
+      "tag": "cited/5019931",
+      "vectorsTree": {
+        "old": "d3b5a63e96b1367dd33b4df610282085a3dab084",
+        "rewritten": "d3b5a63e96b1367dd33b4df610282085a3dab084",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-rev27-RUN.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-v0.7-RUN.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/src/check.rs",
+        "https://github.com/Rul1an/aee-checker/pull/14",
+        "https://github.com/Rul1an/aee-checker/pull/16",
+        "https://github.com/Rul1an/aee-checker/pull/18",
+        "https://github.com/Rul1an/aee-checker/pull/21"
+      ]
+    },
+    {
+      "old": "94c163c8e4d9b52a7056c63bc489932329d42a42",
+      "rewritten": "e98de66d7296c4eb01abc38b6aee0b51b0c87a8e",
+      "tag": "cited/94c163c",
+      "vectorsTree": {
+        "old": "80d1d1691bd4e0b076b1c660726b5998cf599737",
+        "rewritten": "80d1d1691bd4e0b076b1c660726b5998cf599737",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/.github/workflows/conformance.yml",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-rev27-RUN.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/README.md",
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/21",
+        "https://github.com/Rul1an/aee-checker/pull/25"
+      ]
+    },
+    {
+      "old": "59faf842098183ae7b5387ad13e6351c44687279",
+      "rewritten": "21acb2854a8d6dbb076ddcaa04efeef2f9081587",
+      "tag": "cited/59faf84",
+      "vectorsTree": {
+        "old": "1c2192742f6fe66d63ac954cc2dc9a78eac67811",
+        "rewritten": "1c2192742f6fe66d63ac954cc2dc9a78eac67811",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/docs/design/aee-instrument-comparability.md",
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/measurements/aee-checker-25b9dfa/pins.json",
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/measurements/aee-go-run/prepare.v0.json",
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/tests/test_aee_checker_sealed_prepare_low_risk.py",
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/tests/test_aee_checker_sealed_prereg.py",
+        "https://github.com/corpus-adequacy/corpus-adequacy/blob/a106df3ef228367924b4e7b18d118dc13adae71b/tests/test_aee_checker_sealed_run.py",
+        "https://github.com/corpus-adequacy/corpus-adequacy/issues/107#issuecomment-5694507560",
+        "https://github.com/corpus-adequacy/corpus-adequacy/issues/107#issuecomment-5710767172",
+        "https://github.com/corpus-adequacy/corpus-adequacy/pull/47#issuecomment-5380634095",
+        "https://github.com/corpus-adequacy/corpus-adequacy/pull/76#issuecomment-5384930817",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5464590241",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5629996920",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5654986136",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5685320312",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5694507350",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5707920621",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5710768786",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5740668483",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5744369810",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5745764109",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5745831940",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5745862491",
+        "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5753021992"
+      ]
+    },
+    {
+      "old": "0c4e27ec4f28b03d9688885bb5a00c6e96334d1e",
+      "rewritten": "d25f00d3f7344fed80f65f2a74a4f69a68c0ffed",
+      "tag": null,
+      "vectorsTree": {
+        "old": "89b01fac5d73200a2427b2a6b9fea486dc1bfd0e",
+        "rewritten": "89b01fac5d73200a2427b2a6b9fea486dc1bfd0e",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-v0.7-RUN.md"
+      ]
+    },
+    {
+      "old": "92a4340e557615418b1d59f7482f73259beb0b75",
+      "rewritten": "98d4f99d1deddc8862c1fd5e4c5d603f1e5f37e2",
+      "tag": null,
+      "vectorsTree": {
+        "old": "399d67357b5d097261d2de432aedab972c4bafd8",
+        "rewritten": "399d67357b5d097261d2de432aedab972c4bafd8",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vectors/blob/main/vectors-ai-agent-action/spec-vendored/ai-agent-action-8783c6b.md"
+      ]
+    },
+    {
+      "old": "b886c0a9d73f548f1251792b617c0a68ef758f25",
+      "rewritten": "800286cd51c45b1e4351c22d0ce777fe46009a8c",
+      "tag": null,
+      "vectorsTree": {
+        "old": "4a583fafccc65d2366763656d6a20a5e440a651d",
+        "rewritten": "4a583fafccc65d2366763656d6a20a5e440a651d",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/NOTES.md"
+      ]
+    },
+    {
+      "old": "be67a7430bc74722b2039e48998e122f380bb6da",
+      "rewritten": "4ec847412c74e29c871b4e755bf1e1b9e920ab4c",
+      "tag": null,
+      "vectorsTree": {
+        "old": "6f6dca0426500e89a0d147944b810f7c39a01a93",
+        "rewritten": "6f6dca0426500e89a0d147944b810f7c39a01a93",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-v0.7-RUN.md"
+      ]
+    },
+    {
+      "old": "f347c82f75a27f2e3d4b3abf7f1e4a6bc8020999",
+      "rewritten": "21f63649fb4e766f2a3589656af444792d808369",
+      "tag": null,
+      "vectorsTree": {
+        "old": "8c664d0e41af9f5ba8970fb212e5b2fe7f4d00d1",
+        "rewritten": "8c664d0e41af9f5ba8970fb212e5b2fe7f4d00d1",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/PIN-v0.7-RUN.md"
+      ]
+    },
+    {
+      "old": "7098f4e6b7d04c8394969ed81b4025d4d9038324",
+      "rewritten": "6aa7c607ddc73fa7cb2f61814ab2932087fc4988",
+      "tag": null,
+      "vectorsTree": {
+        "old": "a80682356a1e6ba0f9e8623296563d05b661487b",
+        "rewritten": "c34ea3ef1d96c01e1f3efeac0456b1f23717a56d",
+        "identical": false
+      },
+      "vectorsDifferences": [
+        {
+          "path": "vectors/coverage-unforced.json",
+          "oldBlob": "0d840eea1384a87d74332dc67f5dfb75728048ec",
+          "rewrittenBlob": "ea5808df76c15de547aa46ec178d36ce123d8da3",
+          "change": "one prose \"reason\" field named an internal file by its path; the rewrite replaced the path with a description of the file. No verdict, code, condition or digest in the file changed."
+        }
+      ],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/blob/2de7bc98f12f73c4237cdbbbc154745fdc88c27d/reports/INDEX.json",
+        "https://github.com/Rul1an/aee-checker/pull/4",
+        "https://github.com/Rul1an/aee-checker/pull/5",
+        "https://github.com/probityai/agent-evidence-vectors/pull/2",
+        "https://github.com/probityai/agent-evidence-vectors/pull/2#issuecomment-5147989073"
+      ]
+    },
+    {
+      "old": "1c82aba83391ec7c6e7cedfab52c221b27da65ec",
+      "rewritten": "155c803b27d6e321fc3558670a92bbf94554b14a",
+      "tag": null,
+      "vectorsTree": {
+        "old": "80d1d1691bd4e0b076b1c660726b5998cf599737",
+        "rewritten": "80d1d1691bd4e0b076b1c660726b5998cf599737",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vocabulary/pull/2#issuecomment-5731488397"
+      ]
+    },
+    {
+      "old": "297636c25472b207c56e90ab13b5a15cc40d6f25",
+      "rewritten": "41fa04b8621c79b1334604c58b865739b85dcabf",
+      "tag": null,
+      "vectorsTree": {
+        "old": "aac41fdccf68ae96424f5d5c756948eb66d1c8d6",
+        "rewritten": "aac41fdccf68ae96424f5d5c756948eb66d1c8d6",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vectors/pull/4#issuecomment-5447244673",
+        "https://github.com/probityai/agent-evidence-vectors/pull/4#issuecomment-5447525943"
+      ]
+    },
+    {
+      "old": "2aa5a23d0e0cf93921a59510a755ccfe1e103a47",
+      "rewritten": "47fad3b447245f1c48750799e2e2370e030ee03a",
+      "tag": null,
+      "vectorsTree": {
+        "old": "399d67357b5d097261d2de432aedab972c4bafd8",
+        "rewritten": "399d67357b5d097261d2de432aedab972c4bafd8",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vectors/pull/4#issuecomment-5416338700",
+        "https://github.com/probityai/agent-evidence-vectors/pull/4#issuecomment-5422819787"
+      ]
+    },
+    {
+      "old": "c08b208c4da97a288d3c1a6d335023f8a6b3bdc6",
+      "rewritten": "d271bd219b9c44dd68f64ce2f84cca330d9475f4",
+      "tag": null,
+      "vectorsTree": {
+        "old": "82b833edfcebfba2f2130b27d006f6520f3a1a70",
+        "rewritten": "82b833edfcebfba2f2130b27d006f6520f3a1a70",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vectors/issues/3",
+        "https://github.com/probityai/agent-evidence-vectors/issues/3#issuecomment-5350179073"
+      ]
+    },
+    {
+      "old": "d6e9d739a49fd902b833bc9d5ca8fa6e551a3154",
+      "rewritten": "9984bf020c5cced43f010e90cf8e49ec07f99cb1",
+      "tag": null,
+      "vectorsTree": {
+        "old": "1e3782304ede58e66347ec75a12e804e360af030",
+        "rewritten": "1e3782304ede58e66347ec75a12e804e360af030",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/probityai/agent-evidence-vectors/issues/3#issuecomment-5388176073",
+        "https://github.com/probityai/agent-evidence-vectors/pull/4#issuecomment-5391249939"
+      ]
+    },
+    {
+      "old": "f73b5d920403b3ee82419925aa1ecb0f2670d2be",
+      "rewritten": "e787cf41696936c26247a513fba1d5c5c706547d",
+      "tag": null,
+      "vectorsTree": {
+        "old": "10fd0d1009a1f25e720b000a1c3aee6ea9bf0a73",
+        "rewritten": "10fd0d1009a1f25e720b000a1c3aee6ea9bf0a73",
+        "identical": true
+      },
+      "vectorsDifferences": [],
+      "citedIn": [
+        "https://github.com/Rul1an/aee-checker/pull/10#discussion_r3740271763"
+      ]
+    }
+  ]
+}

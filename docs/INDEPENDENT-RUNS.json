@@ -408,7 +408,7 @@
       "digestNote": "the comment names no checker source digest, and this repository does not have one to transcribe. What it does name is the suite commit, the vendored spec digest 759d2383 that commit carries, and a public CI run said to check the spec digest before it counts anything. That is a weaker binding than the revision-6 record: it fixes what was run against, not what did the running, so this row records null rather than treating the workflow run identifier as if it named a build.",
       "suiteCommit": "97ba4ff6295ec9adb991065e84a921a0567b05b0",
       "suiteCommitNote": null,
-      "note": "the run against the current corpus, and the only one in this ledger posted as a thread comment rather than as a run report in the checker's own provenance index. The suite commit resolves here and its manifest carries 250 vectors partitioned exactly as posted, 55 accept, 193 reject and 2 indeterminate, under corpusDigest b5aa5fdb and vendored spec digest 759d2383, both identical to the values at the head of this repository. The run is directed on its author's own opening words, 'Repinned and implemented first, then measured your open question' -- the checker was brought to this revision before it was measured, so the figure says the revision-25 text is implementable from it, not that an unaided reader arrived at it. The indeterminate 2/2 is stated in the prose but is not bound as a figure here, because '2/2' occurs in both publishing documents for unrelated reasons and a count over it would assert nothing about this run. The commit no ref reached is now held by the annotated tag cited/97ba4ff, so a reproducer can fetch it from a clone."
+      "note": "the run against the current corpus, and the only one in this ledger posted as a thread comment rather than as a run report in the checker's own provenance index. The suite commit resolves here and its manifest carries 250 vectors partitioned exactly as posted, 55 accept, 193 reject and 2 indeterminate, under corpusDigest b5aa5fdb and vendored spec digest 759d2383, both identical to the values at the head of this repository. The run is directed on its author's own opening words, 'Repinned and implemented first, then measured your open question' -- the checker was brought to this revision before it was measured, so the figure says the revision-25 text is implementable from it, not that an unaided reader arrived at it. The indeterminate 2/2 is stated in the prose but is not bound as a figure here, because '2/2' occurs in both publishing documents for unrelated reasons and a count over it would assert nothing about this run. The commit no ref reached is now held by the annotated tag cited/5019931, named for the ID the run cited before the history rewrite of 2026-09-18, so a reproducer can fetch it from a clone."
     }
   ],
   "attemptsComment": "Every dispatch by that same independent implementation that was authorised, ran, and returned no figure, one row per dispatch. The runs array above is what licenses a figure in the prose, and it has no shape for a run that reported nothing: every element of it carries a figures array, so an attempt recorded there would have to invent one. Recording nothing instead is the defect this file's own $comment argues against, because an absent field and an unrecorded fact read the same in a diff, and a dispatch that produced no score is exactly the fact a reader of the independence column would otherwise never learn was made. So an attempt carries figures null beside a figuresNote saying why there is none, and it carries no suiteRevision at all: the not-run set is computed over the runs array, and a suiteRevision here would shrink that set and let an attempt license the very figure it has none of. What an attempt binds instead is the corpus commit the dispatch was pinned to, the checker ref it ran, the authorization packet it came from, the dispatch itself, and where its artifacts survive with how long for. outcome is a closed token so that 'it did not produce a score' cannot be written two ways: withheld is a gate refusing publication, completed-no-figure is a run that finished and publishes no score by its own design, and void is a dispatch that did not reach a terminal state at all.",
@@ -416,7 +416,7 @@
     {
       "attempt": "r1",
       "implementation": "Rul1an/aee-checker, dispatched by the hosted contained runner at corpus-adequacy/corpus-adequacy",
-      "suiteCommit": "59faf842",
+      "suiteCommit": "21acb2854a8d6dbb076ddcaa04efeef2f9081587",
       "suiteCommitNote": null,
       "checkerRef": "25b9dfa",
       "checkerSourceDigest": null,
@@ -435,12 +435,12 @@
         }
       ],
       "posting": "https://github.com/probityai/agent-evidence-vectors/issues/5#issuecomment-5694507350",
-      "note": "the first hosted dispatch, authorised for one run against this corpus at 59faf842 with the seven named sites and the control, and not rerun. Its author reported it as a mistake of his own as well as a withheld run: the packet was built before a fix that had landed the day before, and one reading of the kept material is that the candidate ran as a non-root user against a source directory it could not read, the defect at https://github.com/corpus-adequacy/corpus-adequacy/issues/178 fixed in https://github.com/corpus-adequacy/corpus-adequacy/issues/179. That is a reading of the code and not the only thing that fits what was kept. Whatever the cause, the run produced no finding about this corpus or its Go rail, which is why it earns no figure anywhere in this repository."
+      "note": "the first hosted dispatch, authorised for one run against this corpus at 59faf842 with the seven named sites and the control, and not rerun. Its author reported it as a mistake of his own as well as a withheld run: the packet was built before a fix that had landed the day before, and one reading of the kept material is that the candidate ran as a non-root user against a source directory it could not read, the defect at https://github.com/corpus-adequacy/corpus-adequacy/issues/178 fixed in https://github.com/corpus-adequacy/corpus-adequacy/issues/179. That is a reading of the code and not the only thing that fits what was kept. Whatever the cause, the run produced no finding about this corpus or its Go rail, which is why it earns no figure anywhere in this repository. The packets for this dispatch and the two after it name the corpus as 59faf842, its ID before the history rewrite of 2026-09-18; suiteCommit records the rewritten ID, and docs/REWRITE-MAP-2026-09-18.json and the tag cited/59faf84 translate one to the other."
     },
     {
       "attempt": "r4",
       "implementation": "Rul1an/aee-checker, dispatched by the hosted contained runner at corpus-adequacy/corpus-adequacy",
-      "suiteCommit": "59faf842",
+      "suiteCommit": "21acb2854a8d6dbb076ddcaa04efeef2f9081587",
       "suiteCommitNote": null,
       "checkerRef": "25b9dfa",
       "checkerSourceDigest": null,
@@ -468,7 +468,7 @@
     {
       "attempt": "r5",
       "implementation": "Rul1an/aee-checker, dispatched by the hosted contained runner at corpus-adequacy/corpus-adequacy",
-      "suiteCommit": "59faf842",
+      "suiteCommit": "21acb2854a8d6dbb076ddcaa04efeef2f9081587",
       "suiteCommitNote": null,
       "checkerRef": "25b9dfa",
       "checkerSourceDigest": null,
