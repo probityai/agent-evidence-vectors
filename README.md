@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="license Apache-2.0">
   <a href="https://pypi.org/project/agent-evidence-vectors/"><img src="https://img.shields.io/pypi/v/agent-evidence-vectors?label=PyPI&color=3775a9" alt="agent-evidence-vectors on PyPI"></a>
   <a href="https://doi.org/10.5281/zenodo.22758687"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22758687.svg" alt="DOI 10.5281/zenodo.22758687"></a>
-  <img src="https://img.shields.io/badge/AEE%20vectors-272-e8951c" alt="272 AEE conformance vectors">
+  <img src="https://img.shields.io/badge/AEE%20vectors-275-e8951c" alt="275 AEE conformance vectors">
   <img src="https://img.shields.io/badge/AI%20Agent%20Action%20vectors-53-e8951c" alt="53 AI Agent Action conformance vectors">
   <img src="https://img.shields.io/badge/artifact--binding%20vectors-8-e8951c" alt="8 artifact-binding conformance vectors">
   <img src="https://img.shields.io/badge/SCITT%2FCOSE%20vectors-27-e8951c" alt="27 SCITT/COSE carriage conformance vectors">
@@ -618,7 +618,7 @@ A vector count is an upper bound on forcing and never a measurement of it. The
 evaluator satisfies a vector when ANY expected code in a stage is observed, and
 the per-stage column the runner prints is a display rather than a verdict: delete
 the `result-vocabulary` emission from the rail and two vectors' gate-0 column goes
-FAIL while the suite still reports 272 of 272, exit 0. A rail with no
+FAIL while the suite still reports 275 of 275, exit 0. A rail with no
 result-vocabulary check at all clears this corpus.
 
 So forcing is measured instead. `scripts/forcing-gate.py` switches off exactly one
@@ -866,7 +866,7 @@ directed 153/153 says the corrected rule is implementable by someone who has onl
 the text. It is not the same evidence as 125/125 and this suite does not present
 it as such.
 
-It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 or 28, so
+It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28 or 29, so
 this suite publishes no score for it at any of them. They are on that list for
 three different reasons, and only one of them is that the requirement went
 unexercised. Two of the three at the end of the list fall between that v0.7 run

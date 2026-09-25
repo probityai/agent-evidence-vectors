@@ -7,10 +7,10 @@
     "url": "https://github.com/probityai/agent-evidence-vectors",
     "upstream": "https://github.com/in-toto/attestation/pull/570",
     "conformance_suite": {
-      "revision": 28,
-      "vectors": 272,
+      "revision": 29,
+      "vectors": 275,
       "accept": 61,
-      "reject": 209,
+      "reject": 212,
       "indeterminate": 2,
       "derived_by": "python3 -c \"import json,re,pathlib; m=json.loads(pathlib.Path('vectors/MANIFEST.json').read_text()); r=re.search(r'^## suiteRevision (\\d+)\\b', pathlib.Path('vectors/CHANGES.md').read_text(), re.M).group(1); print(r, len(m['vectors']), m['counts'])\""
     }

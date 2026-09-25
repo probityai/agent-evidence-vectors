@@ -1019,6 +1019,18 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # ---- the measured complexity values in the rationale table.
+    # Each is what gocyclo reported for one function, and the accepted-complexity
+    # gate holds them against a fresh measurement. One of them came to equal the
+    # suiteRevision when the corpus grew, which is the arithmetic coincidence this
+    # route exists for: the value is not a count of anything in the corpus and
+    # re-deriving it here would read a second ledger for a figure another gate owns.
+    Delegated(
+        "docs/complexity-rationales.toml",
+        "the measured complexity of each accepted function",
+        r"complexity\s*=\s*\d+",
+        "scripts/complexity-table-gate.py",
+    ),
     Delegated(
         "docs/IMPLEMENTATION-REPORT.md",
         "the implementations table, the vendored-set cells",
@@ -1109,6 +1121,54 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- four figures that came to collide with suiteRevision 29.
+    # Each records something measured once, and none is a count of this corpus.
+    # They are frozen rather than corrected because the corpus growing does not
+    # change how many releases another project had published, how many agents sat
+    # in a past debate, which lines a function occupies in another repository, or
+    # what one historical revision of this suite contained. Rewriting any of them
+    # to follow the revision would state a measurement nobody took.
+    Frozen(
+        "docs/SIGNING-PRECEDENT.md",
+        "the survey row for sigstore-conformance, as read",
+        "| sigstore/sigstore-conformance | Sigstore client conformance suite "
+        "| 29 | 0 | 0 | 29 releases listed |",
+        "One row of a survey of third-party repositories, recording what the "
+        "release API returned on the day it was queried. The count belongs to "
+        "that project and that date.",
+    ),
+    Frozen(
+        "docs/SIGNING-PRECEDENT.md",
+        "the releases each sibling conformance suite had published, as read",
+        "8 and 29 of them",
+        "Release counts of two third-party repositories on the day they were "
+        "read. Neither tracks this corpus, and re-deriving them would require "
+        "reading two projects this gate does not fetch.",
+    ),
+    Frozen(
+        "docs/interpretation-decisions-open.md",
+        "the size of the adversarial debate the direction converged from",
+        "29-agent adversarial debate",
+        "How many agents a past debate ran. The debate has not re-run, and the "
+        "number is a fact about that pass rather than a measurement of the "
+        "corpus as it stands.",
+    ),
+    Frozen(
+        "docs/proposals/harbor-3123-regrade-from-archive.md",
+        "the line range of read_artifact_manifest in the third-party repository",
+        "regrade.py:191-212",
+        "A line range in a citation into harbor-framework/harbor at a pinned "
+        "commit. It is a location, not a count, and its upper bound coming to "
+        "equal the reject count is arithmetic coincidence.",
+    ),
+    Frozen(
+        "vectors/CHANGES.md",
+        "the accept-and-reject split one historical revision replayed",
+        "29 accept and 97 reject",
+        "What one earlier revision of this suite contained. A published "
+        "suiteRevision is never mutated in place, so its figures must not "
+        "follow later growth.",
+    ),
     # ---- the remap figure in the corpus changelog.
     # A changelog entry says what one pass did on the day it ran. This one
     # records that the completing pass of that revision moved 110 anchors onto
