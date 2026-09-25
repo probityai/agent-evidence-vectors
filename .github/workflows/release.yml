@@ -110,15 +110,41 @@ jobs:
       # path that only resolves inside the repository is caught here and not
       # by the first relying party. --no-project keeps uv from reading the
       # checkout's own pyproject.toml through the working directory.
-      - name: the wheel runs from outside the checkout and replays the corpus
+      #
+      # EVERY corpus the wheel ships is replayed, not only the default one, and
+      # each must end in one of two states: judged clean by a reader in this
+      # package, or refused by name (exit 2) because its suite has no reader
+      # here. A third state -- a verdict printed by a rail that does not
+      # implement the suite -- fails the release; the harness produced exactly
+      # that for eight corpora until it learned to refuse them. The refused
+      # suites are judged by the Go readers, which CI runs over every
+      # committed corpus (corpora.TestEveryCommittedCorpusIsClean).
+      - name: the wheel runs from outside the checkout and replays every corpus
         run: |
           wheel="$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)"
           scratch="$(mktemp -d)"
           cd "$scratch"
-          uv run --no-project --with "$wheel" agent-evidence-vectors --list-corpora
+          uv run --no-project --with "$wheel" agent-evidence-vectors --list-corpora > corpora.txt
+          test -s corpora.txt
           uv run --no-project --with "$wheel" agent-evidence-vectors --self-test
           uv run --no-project --with "$wheel" agent-evidence-vectors --report report.json
           python3 -c "import json; t = json.load(open('report.json'))['totals']; assert t['fail'] == 0 and t['suiteRefusals'] == 0, t; print(t)"
+          while read -r corpus; do
+            if uv run --no-project --with "$wheel" agent-evidence-vectors --corpus "$corpus" \
+                 --report "report-$corpus.json" > "out-$corpus.txt" 2>&1; then
+              echo "$corpus: judged clean by the packaged rail"
+              continue
+            else
+              rc=$?
+            fi
+            if [ "$rc" = 2 ] && grep -q "has no reader in this package" "out-$corpus.txt"; then
+              echo "$corpus: refused by name; judged in CI by aee-verify <corpus-dir>"
+              continue
+            fi
+            cat "out-$corpus.txt"
+            echo "::error::corpus $corpus exited $rc and was neither judged clean nor refused by name"
+            exit 1
+          done < corpora.txt
 
       # GITHUB_REF_NAME is empty under scripts/workflow-steps-gate.py, which
       # runs this step before a push; the version check then has no tag to
