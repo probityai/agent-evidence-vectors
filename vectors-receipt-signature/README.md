@@ -112,3 +112,34 @@ agent-evidence-vectors --corpus vectors-receipt-signature \
 
 Runs of a third-party verifier through the contract above, recorded with the
 date and the exact version.
+
+### @veritasacta/verify 0.10.19, 25 September 2026
+
+Run through `tools/veritasacta-verify.py` (`--jwks <key set> --mode receipt
+--json`) on Node.js 24.19.0, with the packaged harness at the commit that added
+this section. The verifier answered every member in both passes.
+
+| member | kind | with windows | without windows | graded |
+|---|---|---|---|---|
+| `ve116653dd041dda0` (signature-input-drift reject) | reject | invalid `signature_invalid` | invalid `signature_invalid` | pass |
+| `v4f9fe96e52a39bfb` (its twin) | accept | valid | valid | pass |
+| `vc4b43c5739979581` (superseded-key reject) | indeterminate | valid | valid | not honouring Section 9.2 |
+| `vea8370fb85e1b4b1` (its twin) | accept | valid | valid | pass |
+| `v4ec9fa36ae77ce07` (before `valid_from`) | indeterminate | valid | valid | not honouring Section 9.2 |
+| `vbc25ef71da0567f9` (at `valid_until`) | indeterminate | valid | valid | not honouring Section 9.2 |
+| `vb19450def8dcc5cd` (at `valid_from`) | accept | valid | valid | pass |
+| `v0340fed8ef07e072` (pre-hashed signature) | reject | invalid `signature_invalid` | invalid `signature_invalid` | pass |
+| `vad088133176d7114` (its twin) | accept | valid | valid | pass |
+| `v1adc0db0267a742b` (flat rule on an envelope) | reject | invalid `signature_invalid` | invalid `signature_invalid` | pass |
+| `vaafe541bbd74c320` (its twin) | accept | valid | valid | pass |
+| `v5397adb77c3e6754` (`"signature": null` in the payload) | reject | valid | valid | **fail** |
+| `v03377fbbac6d12f8` (its twin) | accept | valid | valid | pass |
+
+Two findings. The receipt JWKS path of this release does not read `valid_from`
+or `valid_until`, so every window member is accepted with the windows present:
+that is the gap giskard09 reported, and under draft-03 it is graded as not
+honouring a SHOULD rather than as a failure. And it accepts a receipt whose
+payload carries `"signature": null` and whose signature was made over the
+canonical bytes of that payload. Section 6.6 says the canonicalized object MUST
+NOT contain a signature member, null included, so that acceptance is a failure
+under a MUST.
