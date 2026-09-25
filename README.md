@@ -72,14 +72,16 @@ Inputs, all optional except the first:
 
 Outputs: `report` (the report's path), `vectors` and `conform` (the totals),
 `executed` (how many vectors the named verifier ran on), and `result` (`pass`
-or `fail`), so a later step can act on the count rather
-than re-read the file.
+or `fail`), so a later step can act on the count rather than re-read the file.
 
 The package is stdlib-only and carries every corpus, so `pip install
-agent-evidence-vectors` on a machine with no network access to this repository
-is a complete install. `agent-evidence-vectors --self-test` runs the reference
-rail against its own oracle, which is the first thing to run when a result
-looks wrong.
+agent-evidence-vectors` needs no network access to this repository. Without
+`--verifier` it judges three corpora itself: `vectors` with the reference rail,
+and `vectors-w3c-report` and `vectors-observed-effect` with their own readers.
+Every other corpus is refused by name with exit 2 and is judged by
+`aee-verify <corpus-dir>`, whose readers cover every corpus in the tree.
+`agent-evidence-vectors --self-test` runs the reference rail against its own
+oracle, which is the first thing to run when a result looks wrong.
 
 ## What the suite judges
 

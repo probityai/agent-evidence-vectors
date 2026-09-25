@@ -3623,18 +3623,36 @@ def write_pinned_key_policy(keys: dict[str, dict[str, Any]], directory: str) -> 
     return path
 
 
-def _run_own_reader(
+#: The one suite the reference rail below implements. Every other suite in the
+#: tree is judged by a reader of its own: two of them ship in this package, and
+#: the rest are read by ``aee-verify <corpus-dir>`` (the Go readers in
+#: ``corpora/``, which CI runs over every committed corpus).
+REFERENCE_SUITE = "adversarial-execution-evidence-conformance"
+
+
+def _run_non_reference_suite(
     manifest: dict[str, Any] | None, suite_dir: str, external_cmd: list[str] | None
 ) -> int | None:
-    """Judge a corpus that has a reader of its own; None for every other corpus.
+    """Judge or refuse a corpus the reference rail does not implement.
 
-    These corpora define no external-verifier contract, so a named verifier has
-    nothing to be asked and the run is refused. Printing the built-in reader's
-    verdict under the caller's request would be the silent substitution
-    ``VerifierNotRun`` exists to refuse.
+    Returns None only for the reference suite (and for a directory with no
+    MANIFEST, which the rail reads by its accept/reject layout). Every other
+    suite is either judged by this package's own reader for it or REFUSED BY
+    NAME with exit 2, the contract ``corpora.Judge`` keeps in Go. Running the
+    AEE reference rail over another predicate's corpus printed that rail's
+    failures as though they were a verdict on the corpus: the same substitution
+    as replacing a named verifier, pointed the other way.
+
+    A named verifier still runs against any suite whose manifest the generic
+    evaluator reads, because the verifier under test is the caller's. The two
+    suites with readers here define no external-verifier contract, so a named
+    verifier is refused on them rather than silently not asked.
     """
     suite = manifest.get("suite") if manifest is not None else None
-    if suite not in (w3creport.SUITE, observedeffect.SUITE):
+    if suite is None or suite == REFERENCE_SUITE:
+        return None
+    own_reader = suite in (w3creport.SUITE, observedeffect.SUITE)
+    if not own_reader and external_cmd is not None:
         return None
     if external_cmd is not None:
         return refuse_verifier(
@@ -3642,6 +3660,15 @@ def _run_own_reader(
             f"{suite!r} is judged only by this package's own reader and has no "
             "external-verifier contract"
         )
+    if not own_reader:
+        print(
+            f"corpus {suite!r} has no reader in this package: the reference rail "
+            f"implements {REFERENCE_SUITE!r} only, so nothing was judged. Judge it "
+            f"with `aee-verify {suite_dir}`, or name a verifier with "
+            "--verifier.",
+            file=sys.stderr,
+        )
+        return 2
     if suite == w3creport.SUITE:
         # The W3C per-check report corpus is judged by its own validator, in
         # the same words the Go reader prints, so the two rails can be diffed.
@@ -3670,7 +3697,7 @@ def run_suite(args: argparse.Namespace) -> int:
         return refuse_verifier(str(e))
 
     manifest = load_manifest(suite_dir)
-    judged_own = _run_own_reader(manifest, suite_dir, external_cmd)
+    judged_own = _run_non_reference_suite(manifest, suite_dir, external_cmd)
     if judged_own is not None:
         return judged_own
     idx = manifest_index(manifest)
