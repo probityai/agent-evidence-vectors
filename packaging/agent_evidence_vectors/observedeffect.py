@@ -219,18 +219,29 @@ class Report:
     codes: list[str]
     derived_tier: str = ""
 
-    @property
-    def independently_observed(self) -> bool:
-        """The one bit a consumer may read as evidence that somebody other than
-        the observed party watched this interval.
+    vantage: str = ""
 
-        Derived here rather than stored, which is the vocabulary's prohibition
-        made unbypassable: a verifier MUST NOT read a voluntary attestation as
-        evidence that its content corresponds to any independently observed
-        fact, and here it cannot, because there is no field to copy one into. A
-        refused record establishes nothing about what was observed whatever tier
-        its fields would have derived, so the verdict is part of the condition.
+    @property
+    def effects_independently_observed(self) -> bool:
+        """The reads and writes this record carries were seen by somebody other
+        than the observed party: it verified, and its vantage is below-observed,
+        which stage one admits only from a first-hand observer holding a
+        commitment signed before the interval.
+
+        Independent of the tier. A below-observed record naming a blind spot
+        inside its own scope recomputes to voluntary, and the writes it did see
+        are still witnessed; reading them as self-report would make an observer
+        who discloses a gap worth less than one who hides it. Derived, never
+        copied from the record.
         """
+        return self.verdict == "valid" and self.vantage == "below-observed"
+
+    @property
+    def absence_established(self) -> bool:
+        """The record establishes that nothing it does not carry happened inside
+        pathScope: it verified and the recomputed tier is authoritative. This is
+        the reading the predicate forbids for a voluntary record, made
+        unbypassable because there is no field to copy one into."""
         return self.verdict == "valid" and self.derived_tier == "authoritative"
 
 
@@ -1054,7 +1065,8 @@ def _verify_envelope(envelope: dict[str, Any], payload: bytes, state: _State) ->
     message = _pae(envelope["payloadType"], payload)
     if not _ed25519_verify(public_key, message, signature):
         return Report("invalid", ["envelope-signature-invalid"], state.derived_tier)
-    return Report("valid", [], state.derived_tier)
+    vantage = str(state.predicate["observation"]["vantage"])
+    return Report("valid", [], state.derived_tier, vantage)
 
 
 # --------------------------------------------------------------------------
@@ -1167,7 +1179,28 @@ def _declared_findings(entry: dict[str, Any], report: Report) -> list[str]:
     codes = expected.get("codes") or []
     if codes and report.codes != codes:
         return [f"{slug}: expected codes {codes}, got {report.codes}"]
-    return []
+    if report.verdict != "valid":
+        return []
+    return _reading_findings(slug, expected, report)
+
+
+def _reading_findings(slug: Any, expected: dict[str, Any], report: Report) -> list[str]:
+    """A valid member declares what a consumer may read from it. A reading the
+    manifest does not carry is refused, not skipped: the bits are where a
+    consumer's decision lives, and a member silent about them tests nothing
+    there."""
+    observed = {
+        "derivedTier": report.derived_tier,
+        "effectsIndependentlyObserved": report.effects_independently_observed,
+        "absenceEstablished": report.absence_established,
+    }
+    out: list[str] = []
+    for key, got in observed.items():
+        if key not in expected:
+            out.append(f"{slug}: a valid member declares no {key}")
+        elif expected[key] != got:
+            out.append(f"{slug}: expected {key} {expected[key]!r}, got {got!r}")
+    return out
 
 
 def _indeterminate_findings(entry: dict[str, Any], report: Report) -> list[str]:

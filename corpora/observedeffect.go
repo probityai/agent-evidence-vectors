@@ -50,6 +50,11 @@ type observedEffectVector struct {
 	Expected   struct {
 		Verdict string   `json:"verdict"`
 		Codes   []string `json:"codes"`
+		// The reading a consumer takes from a valid member. Pointers, because
+		// an absent reading must be told apart from a declared false.
+		DerivedTier                  *string `json:"derivedTier"`
+		EffectsIndependentlyObserved *bool   `json:"effectsIndependentlyObserved"`
+		AbsenceEstablished           *bool   `json:"absenceEstablished"`
 	} `json:"expected"`
 	Readings []struct {
 		Verdict string `json:"verdict"`
@@ -150,14 +155,32 @@ func (o observedEffect) checkDeclared(v observedEffectVector, report *observedef
 			"%s: expected codes %v, got %v", v.Slug, v.Expected.Codes, report.Codes))
 		return
 	}
-	// The vocabulary's prohibition -- a voluntary record may never be read as
-	// evidence of independent observation -- was asserted here and could not fail.
-	// Verify sets IndependentlyObserved to `derivedTier == "authoritative"`, so
-	// `IndependentlyObserved && DerivedTier != "authoritative"` was a
-	// contradiction: a guard in the shape of the central prohibition, reporting a
-	// clean member in the same words a working guard would. It is gone, and the
-	// invariant is asserted where it can fail instead, over every member, in
-	// TestTheObservedBitIsTheRecomputedTier.
+	if report.Verdict != "valid" {
+		return
+	}
+	// A valid member declares what a consumer may read from it, and a member
+	// silent about it is refused rather than skipped: the bits are where a
+	// consumer's decision lives.
+	e := v.Expected
+	if e.DerivedTier == nil || e.EffectsIndependentlyObserved == nil || e.AbsenceEstablished == nil {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"%s: a valid member declares no complete reading", v.Slug))
+		return
+	}
+	if *e.DerivedTier != report.DerivedTier {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"%s: expected derivedTier %s, got %s", v.Slug, *e.DerivedTier, report.DerivedTier))
+	}
+	if *e.EffectsIndependentlyObserved != report.EffectsIndependentlyObserved {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"%s: expected effectsIndependentlyObserved %v, got %v",
+			v.Slug, *e.EffectsIndependentlyObserved, report.EffectsIndependentlyObserved))
+	}
+	if *e.AbsenceEstablished != report.AbsenceEstablished {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"%s: expected absenceEstablished %v, got %v",
+			v.Slug, *e.AbsenceEstablished, report.AbsenceEstablished))
+	}
 }
 
 func (o observedEffect) checkIndeterminate(v observedEffectVector, report *observedeffect.Report, out *Member) {
