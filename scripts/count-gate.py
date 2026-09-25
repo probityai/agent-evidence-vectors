@@ -328,7 +328,7 @@ class Sources:
         other = {
             value
             for value, noun in self._published()
-            if not (noun.startswith("the accept count of ") or noun.startswith("the reject count of "))
+            if not noun.startswith(("the accept count of ", "the reject count of "))
         }
         return frozenset(per_kind - other)
 
