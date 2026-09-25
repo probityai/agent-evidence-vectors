@@ -38,25 +38,30 @@ const (
 )
 
 type agentActionManifest struct {
-	PredicateType      string              `json:"predicateType"`
-	SpecUpstreamRepo   string              `json:"specUpstreamRepo"`
-	SpecUpstreamRef    string              `json:"specUpstreamRef"`
-	SpecUpstreamCommit string              `json:"specUpstreamCommit"`
-	SpecAuthority      string              `json:"specAuthority"`
-	SpecProvenanceNote string              `json:"specProvenanceNote"`
-	SpecVendored       string              `json:"specVendored"`
-	SpecDigest         string              `json:"specDigest"`
-	Counts             map[string]int      `json:"counts"`
-	CorpusDigest       string              `json:"corpusDigest"`
-	Vectors            []agentActionVector `json:"vectors"`
+	PredicateType      string                        `json:"predicateType"`
+	TracksUpstream     string                        `json:"tracksUpstream"`
+	ProposedText       string                        `json:"proposedText"`
+	Profiles           map[string]agentActionProfile `json:"profiles"`
+	SpecUpstreamRepo   string                        `json:"specUpstreamRepo"`
+	SpecUpstreamRef    string                        `json:"specUpstreamRef"`
+	SpecUpstreamCommit string                        `json:"specUpstreamCommit"`
+	SpecAuthority      string                        `json:"specAuthority"`
+	SpecProvenanceNote string                        `json:"specProvenanceNote"`
+	SpecVendored       string                        `json:"specVendored"`
+	SpecDigest         string                        `json:"specDigest"`
+	Counts             map[string]int                `json:"counts"`
+	CorpusDigest       string                        `json:"corpusDigest"`
+	Vectors            []agentActionVector           `json:"vectors"`
 }
 
 type agentActionVector struct {
-	ID         string   `json:"id"`
-	Kind       string   `json:"kind"`
-	File       string   `json:"file"`
-	Records    string   `json:"records"`
-	Conditions []string `json:"conditions"`
+	ID         string            `json:"id"`
+	Kind       string            `json:"kind"`
+	File       string            `json:"file"`
+	Records    string            `json:"records"`
+	Conditions []string          `json:"conditions"`
+	Profile    string            `json:"profile"`
+	Basis      *agentActionBasis `json:"basis"`
 	Expected   struct {
 		ChainHash          string  `json:"chainHash"`
 		ChainHashCodePoint *string `json:"chainHashCodePoint"`
@@ -64,6 +69,8 @@ type agentActionVector struct {
 		CanonicalNumber    *string `json:"canonicalNumber"`
 		IEEE754            *string `json:"ieee754"`
 		RequestDigest      *string `json:"requestDigest"`
+		ChainRoot          *string `json:"chainRoot"`
+		PreBreakIdentifier *string `json:"preBreakIdentifier"`
 	} `json:"expected"`
 }
 
@@ -73,6 +80,7 @@ func (a agentAction) Judge(dir string, raw []byte) (*Result, error) {
 		return nil, fmt.Errorf("%s/MANIFEST.json does not parse: %w", dir, err)
 	}
 	result := &Result{}
+	ctx := newAgentActionContext(dir, &m)
 	seen := map[string]bool{}
 	accepted, rejected := map[string]bool{}, map[string]bool{}
 	ids, files := make([]string, 0, len(m.Vectors)), make([]string, 0, len(m.Vectors))
@@ -87,12 +95,12 @@ func (a agentAction) Judge(dir string, raw []byte) (*Result, error) {
 		for _, c := range v.Conditions {
 			switch v.Kind {
 			case "accept":
-				accepted[c] = true
+				accepted[twinKey(c, v.Profile)] = true
 			case "reject":
-				rejected[c] = true
+				rejected[twinKey(c, v.Profile)] = true
 			}
 		}
-		a.judgeMember(dir, &m, v, &member)
+		a.judgeMember(dir, &m, ctx, v, &member)
 		result.Members = append(result.Members, member)
 	}
 
@@ -108,6 +116,7 @@ func (a agentAction) Judge(dir string, raw []byte) (*Result, error) {
 		result.Findings = append(result.Findings, "corpusDigest does not match the files on disk")
 	}
 	result.Findings = append(result.Findings, a.checkProvenance(dir, &m)...)
+	result.Findings = append(result.Findings, ctx.checkProfiles()...)
 	measured := map[string]int{"accept": 0, "reject": 0}
 	for _, v := range m.Vectors {
 		if _, k := measured[v.Kind]; k {
@@ -120,7 +129,8 @@ func (a agentAction) Judge(dir string, raw []byte) (*Result, error) {
 	return result, nil
 }
 
-func (a agentAction) judgeMember(dir string, m *agentActionManifest, v agentActionVector, out *Member) {
+func (a agentAction) judgeMember(dir string, m *agentActionManifest, ctx *agentActionContext,
+	v agentActionVector, out *Member) {
 	if !existsIn(dir, v.File) {
 		out.Findings = append(out.Findings, "manifest names a file that does not exist")
 		return
@@ -161,6 +171,8 @@ func (a agentAction) judgeMember(dir string, m *agentActionManifest, v agentActi
 	}
 
 	a.dispatchDeclaredChecks(v, statement, body, lines, out)
+	ctx.checkBasis(v, out)
+	ctx.checkChainBreaks(v, statement, lines, out)
 }
 
 // readSidecar reads a member's record sidecar, where it has one, and returns
