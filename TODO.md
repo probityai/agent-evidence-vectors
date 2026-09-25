@@ -265,6 +265,37 @@ under suiteRevision 17.
 
 ## Known gaps in the gates
 
+- [ ] **The packaged harness judges three of the eleven corpora it ships** -- found
+  2026-09-25 while cutting 0.12.1. Until then `agent-evidence-vectors --corpus <name>`
+  ran the AEE reference rail over eight other predicates' corpora and printed that rail's
+  failures as the corpus verdict (`vectors-aci` 22 fail, `vectors-scitt-cose` 27 fail,
+  each judged clean by its Go reader). The harness now refuses those suites by name with
+  exit 2 and points at `aee-verify <corpus-dir>`, and the release replays every shipped
+  corpus and accepts only judged-clean or refused-by-name. What remains: a `pip install`
+  user cannot judge eight shipped corpora without Go. Fix: port the eight readers in
+  `corpora/` (aci, acs-core, ai-agent-action, anchor-stream, artifact-binding,
+  mcp-record-contract, mcp-response-phase, scitt-cose) into
+  `packaging/agent_evidence_vectors/`, each with a parity test against its Go reader in
+  the shape of `scripts/w3c-rails-parity-test.py`. Gain: the wheel alone judges every
+  corpus it ships, and the release replay can then require exit 0 for all of them.
+- [ ] **The external-verifier contract is written for the AEE corpus only, yet a named
+  verifier runs against every suite whose manifest the generic evaluator reads.** A
+  verifier run over `vectors-aci` reports conform and reason-parity figures computed by
+  the AEE evaluator's reading of another predicate's manifest, and no document says the
+  comparison means the same thing there. Fix: write a per-suite external contract
+  (verdict, codes, what `expected` means) beside each corpus, and have the harness refuse
+  a named verifier on a suite with no written contract, as it already does for the W3C
+  report and Observed Effect corpora. Gain: every figure the action reports for a
+  non-default corpus is backed by a stated contract.
+- [ ] **A merge subject is linted only after it lands on `main`.** On 2026-09-25 the
+  merge `fb24c6d` carried a 76-character subject and `commit-message-lint` failed on
+  `main`. The next push cleared it, because the lint scopes each push to `before..HEAD`,
+  but `main` sat red in between. `gh pr merge --subject` posts the subject as typed and
+  nothing checks it first. Fix: a `pull_request` job that lints the subject this
+  repository composes for a merge (`merge: <lowercase PR title>`), and a line in
+  CONTRIBUTING.md stating that convention so the subject is derived rather than typed.
+  Gain: no red `main` from a merge subject.
+
 - [ ] **The pre-push gate reads the revision it was handed and the push sends whatever
   the ref points at when it connects** — observed 2026-09-11. The hook was handed
   `b0da972` on stdin, printed `running every workflow shell step against b0da972`, ran
@@ -628,6 +659,14 @@ under suiteRevision 17.
 
 ## Recently landed
 
+- [x] **A named verifier runs, or the run fails** (2026-09-25, released as 0.12.1) --
+  `--verifier` used to probe the command's first token for the predicate type URI and,
+  when the probe missed, replace the verifier with the reference rail and exit 0 on that
+  rail's pass. The harness now resolves the command the way a shell would, refuses one
+  it cannot start with exit 2, records `verifier.vectorsExecuted`, and fails a short
+  count; the action fails a job unless the verifier ran on every vector.
+  `scripts/verifier-must-run-test.py` restores the fallback in a copy of the harness and
+  requires itself to go red. Affected releases are listed in SECURITY.md.
 - [x] **Make forcing a measured property rather than a periodic audit** (2026-07-30) -- what the
   corpus obliges a verifier to implement is now a number CI holds, not an argument. A vector
   count never measured it: the evaluator satisfies a vector when any expected code in a stage is

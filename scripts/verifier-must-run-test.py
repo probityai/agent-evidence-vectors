@@ -280,6 +280,38 @@ def case_action_summary(work: Path) -> list[str]:
     return errors
 
 
+REFERENCE_SCOPE_ANCHOR = "    if not own_reader:\n        print(\n"
+REFERENCE_SCOPE_MUTANT = "    if False:\n        print(\n"
+
+
+def shipped_corpora() -> list[str]:
+    return sorted(
+        d.name for d in REPO_ROOT.iterdir()
+        if (d.name == "vectors" or d.name.startswith("vectors-"))
+        and (d / "MANIFEST.json").is_file()
+    )
+
+
+def case_no_rail_judges_a_suite_it_does_not_implement(work: Path) -> list[str]:
+    """Without a verifier, every shipped corpus is judged by a reader for its
+    suite or refused by name. The AEE reference rail used to run over every
+    other predicate's corpus and print its failures as the corpus's verdict."""
+    errors: list[str] = []
+    for corpus in shipped_corpora():
+        run = harness(work, None, "--corpus", corpus)
+        if run.code == 0:
+            continue
+        if run.code == 2 and "has no reader in this package" in run.out:
+            if run.report is not None:
+                errors.append(f"reference-scope {corpus}: refused, yet a report was written")
+            continue
+        errors.append(
+            f"reference-scope {corpus}: exit {run.code}, neither judged clean nor "
+            f"refused by name: {run.out[-200:]!r}"
+        )
+    return errors
+
+
 def case_mutation_restores_fallback(work: Path) -> list[str]:
     """Restore the fallback in a copy of the harness; this file must go red."""
     if os.environ.get("AEV_HARNESS_UNDER_TEST"):
@@ -293,6 +325,11 @@ def case_mutation_restores_fallback(work: Path) -> list[str]:
             "mutation: the anchor that raises VerifierNotRun is not present exactly once, "
             "so the mutation would rewrite nothing and prove nothing"
         ]
+    if source.count(REFERENCE_SCOPE_ANCHOR) != 1:
+        return [
+            "mutation: the anchor that refuses an unread suite is not present exactly "
+            "once, so the second mutation would rewrite nothing"
+        ]
     target.write_text(source.replace(MUTATION_ANCHOR, MUTATION_FALLBACK), encoding="utf-8")
     proc = subprocess.run(
         [sys.executable, __file__, "--core"],
@@ -305,6 +342,30 @@ def case_mutation_restores_fallback(work: Path) -> list[str]:
     # verifier never started. Red for anything else would prove nothing.
     if "expected 2 (the verifier did not run)" not in proc.stderr:
         return [f"mutation: went red, but not on a refusal case: {proc.stderr[-400:]!r}"]
+    return []
+
+
+def case_mutation_lets_the_reference_rail_judge_everything(work: Path) -> list[str]:
+    """Remove the refusal in a copy of the harness; the scope case must go red."""
+    if os.environ.get("AEV_HARNESS_UNDER_TEST"):
+        return []
+    copy = work / "mutant-scope"
+    shutil.copytree(REPO_ROOT / "packaging", copy / "packaging")
+    target = copy / "packaging" / "run_vectors.py"
+    source = target.read_text(encoding="utf-8")
+    if source.count(REFERENCE_SCOPE_ANCHOR) != 1:
+        return ["mutation-scope: the refusal anchor is not present exactly once"]
+    target.write_text(
+        source.replace(REFERENCE_SCOPE_ANCHOR, REFERENCE_SCOPE_MUTANT), encoding="utf-8"
+    )
+    global HARNESS
+    saved, HARNESS = HARNESS, target
+    try:
+        found = case_no_rail_judges_a_suite_it_does_not_implement(work)
+    finally:
+        HARNESS = saved
+    if not found:
+        return ["mutation-scope: the scope case stayed GREEN with the refusal removed"]
     return []
 
 
@@ -323,7 +384,9 @@ FULL: list[Callable[[Path], list[str]]] = [
     case_own_reader_corpora,
     case_no_w3c_report_from_a_stale_file,
     case_action_summary,
+    case_no_rail_judges_a_suite_it_does_not_implement,
     case_mutation_restores_fallback,
+    case_mutation_lets_the_reference_rail_judge_everything,
 ]
 
 
@@ -342,7 +405,8 @@ def main() -> int:
     print(
         "OK: a named verifier runs on every vector or the harness exits non-zero "
         "saying it did not; the report and the action's verdict carry the executed "
-        "count; and restoring the fallback turns this test red."
+        "count; every shipped corpus is judged by a reader for its suite or refused "
+        "by name; and restoring either substitution turns this test red."
     )
     return 0
 

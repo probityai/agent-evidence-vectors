@@ -168,10 +168,19 @@ before. The wheel carries the corpora as data, so **a corpus absent from the
 `[tool.hatch.build.targets.wheel]` and `sdist` lists in `pyproject.toml` does not
 reach a consumer who installs the package**, however green the tag is — a user
 who installs the release and counts members will count the ones the wheel
-carries, not the ones the repository holds. And the replay asserts
-`suiteRefusals == 0`, so a corpus in the wheel that the packaged rail cannot
-judge fails the release: adding a corpus to those lists means giving the rail a
-reader for it in the same change.
+carries, not the ones the repository holds. And every corpus the wheel carries
+must end the replay in one of two states: judged clean by a reader in the
+package (the reference rail for `vectors`, and the W3C report and Observed
+Effect readers), or refused by name with exit 2 because the package has no
+reader for its suite. Any other outcome fails the release. The refused suites
+are judged by the Go readers in `corpora/`, which CI runs over every committed
+corpus, so a release is covered corpus by corpus but not yet by the wheel
+alone.
+
+This paragraph said, until 0.12.1, that the replay "asserts `suiteRefusals ==
+0`, so a corpus in the wheel that the packaged rail cannot judge fails the
+release". The step replayed `vectors` only, and the harness ran its AEE rail
+over the eight other suites and printed that rail's failures as a verdict.
 
 ## Before you start
 
