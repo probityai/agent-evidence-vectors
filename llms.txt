@@ -38,6 +38,7 @@ One directory each, each with its own `MANIFEST.json`, `corpusDigest` and genera
 
 - [vectors/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors): `adversarial-execution-evidence-conformance`, the AEE predicate; the per-revision ledger is `vectors/CHANGES.md`.
 - [vectors-ai-agent-action/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-ai-agent-action): `ai-agent-action-conformance`, the AI Agent Action predicate plus the canonicalization text this repository proposes for it.
+- [vectors-ai-generation/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-ai-generation): `ai-generation-v01-conformance`, the generation predicate for AI-authored code at specification revision 0.1.3, attest-only verification, plus proposed text for what the revision leaves open.
 - [vectors-scitt-cose/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-scitt-cose): `scitt-cose-carriage-conformance`, carriage of the AEE predicate as a SCITT Transparent Statement under `profiles/scitt-cose.md`.
 - [vectors-artifact-binding/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-artifact-binding): `artifact-binding-conformance`, the contract in `spec/artifact-binding/v1.md`, over three verdicts.
 - [vectors-aci/](https://github.com/probityai/agent-evidence-vectors/tree/main/vectors-aci): `aci`, the agent capability interface levels and their serialization.

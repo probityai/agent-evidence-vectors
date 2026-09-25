@@ -210,7 +210,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-observed-effect scripts
+        run: uv run ruff check packaging vectors vectors-observed-effect vectors-ai-generation scripts
       # The other half of the accepted-complexity gate. It runs here rather than
       # beside the Go half because it measures with ruff, and it measures with
       # --ignore-noqa because the marker that brings a function into

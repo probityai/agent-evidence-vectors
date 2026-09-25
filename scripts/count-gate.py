@@ -212,6 +212,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-mcp-response-phase",
     "vectors-w3c-report",
     "vectors-observed-effect",
+    "vectors-ai-generation",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1477,6 +1478,15 @@ FROZEN: tuple[Frozen, ...] = (
         "which is the collision the MASKS note above already records happening at "
         "suiteRevision 20: a digit that names a complexity, read as a count because "
         "a published quantity happened to equal it.",
+    ),
+    Frozen(
+        "scripts/complexity-table-gate.py",
+        "the drift incident's other Go-side measurement",
+        "grew from 33 to 34",
+        "The same gocyclo reading at suiteRevision 15, for Gate0. It surfaced when "
+        "the AI generation corpus was registered with a total that happens to equal "
+        "the second figure, the collision the entry above describes, arriving "
+        "through a corpus total instead of the revision counter.",
     ),
     Frozen(
         "README.md",

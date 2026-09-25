@@ -66,6 +66,7 @@ only-include = [
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
+    "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",
     "vectors-mcp-record-contract",
@@ -88,6 +89,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
 "vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
+"vectors-ai-generation" = "agent_evidence_vectors/corpora/vectors-ai-generation"
 "vectors-anchor-stream" = "agent_evidence_vectors/corpora/vectors-anchor-stream"
 "vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
@@ -115,6 +117,7 @@ only-include = [
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
+    "vectors-ai-generation",
     "vectors-anchor-stream",
     "vectors-artifact-binding",
     "vectors-mcp-record-contract",
@@ -185,7 +188,7 @@ files = ["packaging", "vectors", "tools"]
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
 include = ["docs/proposals", "docs/site", "packaging", "scripts", "tools", "vectors",
-           "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action",
+           "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding",
            "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect",

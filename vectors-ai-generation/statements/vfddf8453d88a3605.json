@@ -1,0 +1,64 @@
+{
+  "payload_type": "application/vnd.in-toto+json",
+  "payload_sha256": "3b102ce280a12ff77a3c5491fce088844257ac4fc336b918f595558a6917f0a3",
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "golden-v1",
+        "digest": {
+          "sha256": "7a1726b35a733cc2ac787bc829e40d4a002349d0f7e9c26fbe13859e5e9568fa"
+        }
+      }
+    ],
+    "predicateType": "https://open-fab.ai/attestation/generation/v0.1",
+    "predicate": {
+      "spec_ref": "golden#v1",
+      "builder": {
+        "id": "openfab/0.1",
+        "base": "golden"
+      },
+      "agent": {
+        "did": "did:key:z6MkGOLDEN",
+        "base": "golden",
+        "model": "test-model",
+        "id": "golden:test-model"
+      },
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "params": {},
+      "generated": [
+        {
+          "path": "app/fee.js",
+          "lines": "1-20",
+          "sha256": "0faa01ae44691e4c238bf716312bc2179d59f92821e163494b68973174007b80",
+          "author": "ai"
+        },
+        {
+          "path": "app/fee.js",
+          "lines": "10-30",
+          "sha256": "dd6ffb137d8004e4d60c9d7cd27318097eacdb309cac77a2b782a691c91b6189",
+          "author": "human"
+        }
+      ],
+      "materials": [],
+      "acceptance_passed": true,
+      "acceptance": [
+        {
+          "id": "a1",
+          "check": "js:true",
+          "must_pass": true,
+          "passed": true
+        }
+      ],
+      "timestamp": "2026-09-22T00:00:00Z"
+    }
+  },
+  "signatures": [
+    {
+      "keyid": "did:key:z6MkhWdETinMi4rUTLoSgu2zegCuDn2P5hAf1RMotccZpAMW",
+      "sig": "FbS4M7YOMHubUKndpbOBpHF7bwx+7El07YT0SqsOHSBB5WbMgHdchp/C+4H/ZY+/X3TIi3HH7lwmncrHg1NJCw==",
+      "algo": "ed25519",
+      "role": "fab"
+    }
+  ]
+}

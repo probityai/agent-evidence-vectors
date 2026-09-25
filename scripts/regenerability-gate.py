@@ -105,6 +105,10 @@ GENERATORS = (
     # member identifier and the corpus digest are functions of the operation
     # bytes, which is the reason it is derived rather than hand-placed.
     "vectors-mcp-response-phase/gen_vectors.py",
+    # The AI generation predicate corpus. It signs with fixed test keys, so its
+    # members, sidecars, manifest and index are all functions of the generator
+    # and the vendored text; nothing in it is placed by hand.
+    "vectors-ai-generation/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -178,6 +182,15 @@ OWNED = (
     ("vectors-mcp-response-phase/vectors", "v*.json"),
     ("vectors-mcp-response-phase", "MANIFEST.json"),
     ("vectors-mcp-response-phase", "INDEX.md"),
+    # The AI generation predicate corpus: the members, the artifact and trailer
+    # sidecars they are checked against, and the manifest and index built from
+    # them. A sidecar no generator writes would let a member's digest name bytes
+    # nobody can reproduce.
+    ("vectors-ai-generation/statements", "v*.json"),
+    ("vectors-ai-generation/artifacts", "*.txt"),
+    ("vectors-ai-generation/trailers", "*.txt"),
+    ("vectors-ai-generation", "MANIFEST.json"),
+    ("vectors-ai-generation", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

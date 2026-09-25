@@ -140,6 +140,7 @@ belongs to is not a figure about anything.
 | `vectors-aci/` | `aci` | the agent capability interface levels and their serialization |
 | `vectors-acs-core/` | `acs-core-negative-conformance` | the mandatory profile of the agent control standard, by negative members against vendored specification text |
 | `vectors-ai-agent-action/` | `ai-agent-action-conformance` | the AI Agent Action predicate proposed at in-toto/attestation#588, plus the canonicalization text this repository puts forward for it |
+| `vectors-ai-generation/` | `ai-generation-v01-conformance` | the generation predicate for AI-authored code under discussion at ossf/tac#628, at specification revision 0.1.3 in its attest-only mode, plus the text this repository proposes for what that revision leaves open |
 | `vectors-anchor-stream/` | `anchor-stream-conformance` | the anchor-stream verification contract published by aos-standard/catalog |
 | `vectors-artifact-binding/` | `artifact-binding-conformance` | the artifact-binding contract, over three verdicts rather than two |
 | `vectors-mcp-record-contract/` | `cross-run-record-contract` | what a cross-implementation run record has to carry to mean anything |

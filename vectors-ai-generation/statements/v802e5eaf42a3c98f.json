@@ -1,0 +1,58 @@
+{
+  "payload_type": "application/vnd.in-toto+json",
+  "payload_sha256": "af75fdee6d7c98c9beefa7eedcdea256ca9819ce9819496227663a5eb22ac9e0",
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "golden-v1",
+        "digest": {
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        }
+      }
+    ],
+    "predicateType": "https://open-fab.ai/attestation/generation/v0.1",
+    "predicate": {
+      "spec_ref": "golden#v1",
+      "builder": {
+        "id": "openfab/0.1",
+        "base": "golden"
+      },
+      "agent": {
+        "did": "did:key:z6MkGOLDEN",
+        "base": "golden",
+        "model": "test-model",
+        "id": "golden:test-model"
+      },
+      "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "params": {},
+      "generated": [
+        {
+          "path": "app/中文 \"quoted\"\npath.js",
+          "lines": "1-1",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73",
+          "author": "ai"
+        }
+      ],
+      "materials": [],
+      "acceptance_passed": true,
+      "acceptance": [
+        {
+          "id": "a1",
+          "check": "js:true",
+          "must_pass": true,
+          "passed": true
+        }
+      ],
+      "timestamp": "2026-09-22T00:00:00Z"
+    }
+  },
+  "signatures": [
+    {
+      "keyid": "did:key:z6MkhWdETinMi4rUTLoSgu2zegCuDn2P5hAf1RMotccZpAMW",
+      "sig": "c3M7iGXMiSyJTU9xMTW7T2whjNTzNSm6bxLyCjHdsW5EbL3gUeaMGsR/a7K4trIYfypaGl8PzKrVT1q+Pk7aBg==",
+      "algo": "ed25519",
+      "role": "fab"
+    }
+  ]
+}
