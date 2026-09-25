@@ -5,8 +5,8 @@ Ground truth: the four normative files vendored in `spec-vendored/`, read at
 `9d4a9da` of `GenAI-Security-Project/agent-control-standard`, each pinned by sha256 in
 `MANIFEST.json`.
 
-This corpus is 32 vectors, of which 10 a conformant verifier must
-not fail closed on and 21 it must reject.
+This corpus is 34 vectors, of which 11 a conformant verifier must
+not fail closed on and 22 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -60,6 +60,7 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `ACS-R-017` | guardian | `spec-vendored/specification-9d4a9da.md:71` | `802968dc8adb1d91` | Version mismatch terminates with `UNSUPPORTED_VERSION` |
 | `ACS-R-018` | guardian | `spec-vendored/specification-9d4a9da.md:282` | `e141df498745672d` | When the Guardian determines that the client cannot resolve `ASK`, the Guardian MUST NOT return `ASK` |
 | `ACS-R-019` | guardian | `spec-vendored/specification-9d4a9da.md:57` | `d045577eea0fab7a` | Accept `X.Y.Z` matching major version |
+| `ACS-R-020` | guardian | `spec-vendored/specification-9d4a9da.md:293` | `4aba06b38783dc57` | canonical input is REQUIRED in ACS-Core |
 
 ## Families
 
@@ -91,6 +92,7 @@ now is a vector rewritten when it lands.
 
 | id | kind | family | requirements | verdict | code | basis | witness scope |
 |---|---|---|---|---|---|---|---|
+| `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | none | substrate | PEER |
 | `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | none | substrate | SELF |
 | `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | none | substrate | SELF |
 | `v100f74962fbb8b94` | reject | acs-f-4 | ACS-R-011 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
@@ -120,6 +122,7 @@ now is a vector rewritten when it lands.
 | `vd67cd207a4eb6798` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vef655ce2a45f618b` | reject | acs-f-2 | ACS-R-002 | deny | `REPLAY_DETECTED` | substrate | SELF |
 | `vf3679e6ac60fd250` | accept | acs-f-1 | ACS-R-013 | allow | none | substrate | SELF |
+| `vf80a81054d3f0862` | reject | acs-f-1 | ACS-R-020 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vfcab242ddb38d018` | reject | acs-f-4 | ACS-R-012 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
 | `vfdd68340c2094962` | reject | acs-f-5 | ACS-R-005 | deny | none | substrate | SELF |
 | `vff6b4d46f470f2ad` | accept | acs-f-4 | ACS-R-011 | allow | none | substrate | PEER |

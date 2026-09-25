@@ -263,6 +263,12 @@ REQUIREMENTS: tuple[dict, ...] = (
         "file": "specification",
         "sentence": "Accept `X.Y.Z` matching major version",
     },
+    {
+        "id": "ACS-R-020",
+        "role": "guardian",
+        "file": "specification",
+        "sentence": "canonical input is REQUIRED in ACS-Core",
+    },
 )
 
 
@@ -471,6 +477,46 @@ def build() -> list[dict]:
             "implementation with no verification at all passes all of them, and "
             "a signature is the one thing the mandatory profile requires "
             "unconditionally."
+        ),
+    )
+
+    unsigned = tool_call()
+    del unsigned["signature"]
+    add(
+        kind="reject",
+        family="acs-f-1",
+        requirements=["ACS-R-020"],
+        payload={"request": unsigned, "signature_state": "ABSENT"},
+        verdict="deny",
+        code="SIGNATURE_INVALID",
+        evidence_basis="substrate",
+        witness_scope="PEER",
+        coverage="effective",
+        cites=(
+            "a request envelope with no signature member at all. Section 10 makes "
+            "a signature REQUIRED in ACS-Core and the error table defines "
+            "SIGNATURE_INVALID for a required signature that is missing, while "
+            "request-envelope.json lists no signature among its required members "
+            "and section 10.1 calls signatures field-optional, so an implementation "
+            "that validates the schema and verifies only the signatures it finds "
+            "admits this envelope. The members above all carry a signature, which "
+            "is why none of them could see that."
+        ),
+    )
+    add(
+        kind="accept",
+        family="acs-f-1",
+        requirements=["ACS-R-020"],
+        payload={"request": tool_call(), "signature_state": "VALID"},
+        verdict="allow",
+        code=None,
+        evidence_basis="substrate",
+        witness_scope="PEER",
+        coverage="effective",
+        cites=(
+            "the same envelope carrying its signature, so a deployment that "
+            "refuses every request scores zero on the signature requirement "
+            "rather than full marks."
         ),
     )
 
