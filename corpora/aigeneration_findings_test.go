@@ -83,16 +83,16 @@ func aiGenerationFindings() []findingCase {
 	signoffs := declares("distinctSignoffKeys")
 	overlap := agAll(kindIs("proposed"), agCarries("ofg-p-6"))
 	return []findingCase{
-		{"ag/unknown-kind", agDir, agEdit(reject, func(t *testing.T, r map[string]any) { r["kind"] = "maybe" }),
+		{"ag/unknown-kind", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) { r["kind"] = "maybe" }),
 			"which this reader does not grade"},
-		{"ag/no-condition", agDir, agEdit(reject, func(t *testing.T, r map[string]any) { r["conditions"] = []any{} }),
+		{"ag/no-condition", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) { r["conditions"] = []any{} }),
 			"cites no condition"},
-		{"ag/undeclared-condition", agDir, agEdit(reject, func(t *testing.T, r map[string]any) {
+		{"ag/undeclared-condition", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) {
 			r["conditions"] = []any{"ofg-c-nope"}
 		}), "the manifest does not define"},
-		{"ag/no-parent", agDir, agEdit(reject, func(t *testing.T, r map[string]any) { delete(r, "parent") }),
+		{"ag/no-parent", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) { delete(r, "parent") }),
 			"names no parent"},
-		{"ag/parent-not-a-member", agDir, agEdit(reject, func(t *testing.T, r map[string]any) {
+		{"ag/parent-not-a-member", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) {
 			r["parent"] = "vnotamemberatall"
 		}), "which is not a member"},
 		{"ag/parent-not-accept", agDir, func(t *testing.T, d string) {
@@ -109,9 +109,9 @@ func aiGenerationFindings() []findingCase {
 		}, "the trailer file is missing"},
 		{"ag/identifier", agDir, agWriteMember(reject, "{}\n"),
 			"identifier does not recompute"},
-		{"ag/unknown-form", agDir, agEdit(reject, func(t *testing.T, r map[string]any) { r["form"] = "blob" }),
+		{"ag/unknown-form", agDir, agEdit(reject, func(_ *testing.T, r map[string]any) { r["form"] = "blob" }),
 			"neither statement nor attestation"},
-		{"ag/golden-kind", agDir, agEdit(golden, func(t *testing.T, r map[string]any) { r["kind"] = "proposed" }),
+		{"ag/golden-kind", agDir, agEdit(golden, func(_ *testing.T, r map[string]any) { r["kind"] = "proposed" }),
 			"the golden member is not an accept member"},
 		{"ag/golden-declaration", agDir, agEdit(golden, func(t *testing.T, r map[string]any) {
 			setDeep(t, r, strings.Repeat("0", 64), "expected", "canonicalSha256")
@@ -137,7 +137,7 @@ func aiGenerationFindings() []findingCase {
 				first["file"] = "artifacts/absent.txt"
 			})
 		}, "the artifact file is missing"},
-		{"ag/accept-refused", agDir, agEdit(accept, func(t *testing.T, r map[string]any) { r["artifacts"] = []any{} }),
+		{"ag/accept-refused", agDir, agEdit(accept, func(_ *testing.T, r map[string]any) { r["artifacts"] = []any{} }),
 			"an accept member that revision 0.1.3 refuses"},
 		{"ag/accept-refused-by-proposal", agDir, func(t *testing.T, d string) {
 			editManifest(t, d, func(m map[string]any) {
@@ -151,7 +151,7 @@ func aiGenerationFindings() []findingCase {
 		{"ag/reject-wrong-code", agDir, agEdit(reject, func(t *testing.T, r map[string]any) {
 			setDeep(t, r, "a-code-no-rule-emits", "expected", "code")
 		}), "under revision 0.1.3, got"},
-		{"ag/proposed-half-declared", agDir, agEdit(overlap, func(t *testing.T, r map[string]any) {
+		{"ag/proposed-half-declared", agDir, agEdit(overlap, func(_ *testing.T, r map[string]any) {
 			expected, _ := r["expected"].(map[string]any)
 			delete(expected, "rev013")
 		}), "does not declare both"},
@@ -162,7 +162,7 @@ func aiGenerationFindings() []findingCase {
 		{"ag/proposed-same-outcomes", agDir, agEdit(overlap, func(t *testing.T, r map[string]any) {
 			setDeep(t, r, map[string]any{"verdict": "valid"}, "expected", "proposal")
 		}), "the proposal changes nothing"},
-		{"ag/signoffs-undeclared", agDir, agEdit(signoffs, func(t *testing.T, r map[string]any) {
+		{"ag/signoffs-undeclared", agDir, agEdit(signoffs, func(_ *testing.T, r map[string]any) {
 			expected, _ := r["expected"].(map[string]any)
 			delete(expected, "distinctSignoffKeys")
 		}), "declares no distinctSignoffKeys"},
@@ -190,10 +190,10 @@ func aiGenerationFindings() []findingCase {
 			editManifest(t, d, func(m map[string]any) { m["corpusDigest"] = strings.Repeat("0", 64) })
 		}, "corpusDigest does not recompute"},
 		{"ag/refused-never-accepted", agDir, agEdit(agAll(kindIs("accept"), agCarries("ofg-c-6")),
-			func(t *testing.T, r map[string]any) { r["conditions"] = []any{"ofg-c-7"} }),
+			func(_ *testing.T, r map[string]any) { r["conditions"] = []any{"ofg-c-7"} }),
 			"conditions refused and never accepted"},
 		{"ag/proposal-refuses-never-accepts", agDir, agEdit(agAll(kindIs("accept"), agCarries("ofg-p-6")),
-			func(t *testing.T, r map[string]any) { r["conditions"] = []any{"ofg-p-7"} }),
+			func(_ *testing.T, r map[string]any) { r["conditions"] = []any{"ofg-p-7"} }),
 			"conditions the proposal refuses and never accepts"},
 		{"ag/idle-condition", agDir, func(t *testing.T, d string) {
 			editManifest(t, d, func(m map[string]any) {
