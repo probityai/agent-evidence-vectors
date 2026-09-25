@@ -263,13 +263,20 @@ def tool_call(previous_hash: str, tool: str = "create_pull_request",
     return pred
 
 
+CALL_TIME = "2026-08-18T14:33:41.882Z"
+BREAK_TIME = "2026-08-18T15:01:00.000Z"
+# A record that follows a break is written after it. Every successor used to
+# carry CALL_TIME, which put it half an hour BEFORE the break it chains from.
+AFTER_BREAK_TIME = "2026-08-18T15:01:05.000Z"
+
+
 def underlying(previous_hash: str, tool: str = "create_pull_request",
                extensions: dict | None = None, rid: str = "r1",
-               success: bool = True) -> dict:
+               success: bool = True, timestamp: str = CALL_TIME) -> dict:
     rec = {
         "id": rid,
         "type": "tool_call",
-        "timestamp": "2026-08-18T14:33:41.882Z",
+        "timestamp": timestamp,
         "toolName": tool,
         "durationMs": 412,
         "success": success,
@@ -638,6 +645,20 @@ def nested(levels: int) -> dict:
     return node
 
 
+def break_record(prior_head: str | None, reason: str = "crash_recovery",
+                 prior_record_count: int | None = None) -> dict:
+    """A chain_break record as #588 lays it out at the record layer.
+
+    The linkage lives in `priorHead`, not in a `previousHash` member, and all
+    three prior* members are present even when their value is null: two
+    producers with the same knowledge must not disagree about whether a member
+    appears, because JCS would then give them two chain hashes.
+    """
+    return {"id": "brk_1", "type": "chain_break", "timestamp": BREAK_TIME,
+            "reason": reason, "priorHead": prior_head, "priorSequence": None,
+            "priorRecordCount": prior_record_count}
+
+
 # ---------------------------------------------------------------------------
 # REJECT: one declared fault each.
 # ---------------------------------------------------------------------------
@@ -791,11 +812,14 @@ def build_reject() -> None:
         basis=spec_basis("685-692",
                          'A digest of any other length is not admissible'))
 
+    # The break carries all three prior* members, as #588 requires of every
+    # chain_break record. It used to omit priorSequence and priorRecordCount,
+    # so a conformant verifier could reject this member as a malformed break
+    # before it ever reached the second genesis the member exists to show.
     g1 = underlying("genesis", tool="list_files", rid="r1")
-    brk = {"id": "brk_1", "type": "chain_break",
-           "timestamp": "2026-08-18T15:01:00.000Z",
-           "reason": "crash_recovery", "priorHead": chain_hash(g1)}
-    g2 = underlying("genesis", tool="create_pull_request", rid="r2")
+    brk = break_record(chain_hash(g1), prior_record_count=1)
+    g2 = underlying("genesis", tool="create_pull_request", rid="r2",
+                    timestamp=AFTER_BREAK_TIME)
     add("bad-112-second-genesis-after-break", "reject",
         tool_call("genesis"), chain_hash(g1), ["aia-c-7"],
         {"verdict": "invalid", "codes": ["duplicate-genesis"]},

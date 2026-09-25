@@ -14,7 +14,7 @@
     "accept": 37,
     "reject": 16
   },
-  "corpusDigest": "7ca4db853dc416774167cfdb9ae5e5d31c11fefe793bbca0938dc79d26a01379",
+  "corpusDigest": "6da92ac708aa395d78f973f23abb04e6bd27b3b4c2ad97f71a70d35d8545125d",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
     {
@@ -243,27 +243,6 @@
         "lines": "685-692",
         "quote": "A digest of any other length is not admissible"
       }
-    },
-    {
-      "id": "v5866a1997c7b2d76",
-      "kind": "reject",
-      "file": "statements/v5866a1997c7b2d76.json",
-      "conditions": [
-        "aia-c-7"
-      ],
-      "expected": {
-        "verdict": "invalid",
-        "codes": [
-          "duplicate-genesis"
-        ]
-      },
-      "cites": "F3: the successor of a break restarts at genesis instead of chaining from the break, discarding the scar. Detection is a MUST, not a SHOULD",
-      "basis": {
-        "source": "in-toto/attestation#588@a5dd509",
-        "lines": "775-779,796-797",
-        "quote": "A verifier MUST reject, fail-closed, a log in which `genesis` appears more than once"
-      },
-      "records": "records/v5866a1997c7b2d76.jsonl"
     },
     {
       "id": "v663dae0ae9cfda97",
@@ -734,6 +713,27 @@
         "requestDigest": "17bbcee02a424651437941b51c2946a9a056230709f6738643d65a0cc5aeadbe"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 21. The IEEE 754 double 41b3de4355555556 is the JSON number 333333333.3333334, and no other text."
+    },
+    {
+      "id": "vc4898200910d84a2",
+      "kind": "reject",
+      "file": "statements/vc4898200910d84a2.json",
+      "conditions": [
+        "aia-c-7"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "duplicate-genesis"
+        ]
+      },
+      "cites": "F3: the successor of a break restarts at genesis instead of chaining from the break, discarding the scar. Detection is a MUST, not a SHOULD",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "775-779,796-797",
+        "quote": "A verifier MUST reject, fail-closed, a log in which `genesis` appears more than once"
+      },
+      "records": "records/vc4898200910d84a2.jsonl"
     },
     {
       "id": "vc79800639733ed68",
