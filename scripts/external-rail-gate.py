@@ -116,7 +116,7 @@ def check_full_corpus(binary: str, work_dir: str) -> list[str]:
     if report.get("rail") != "external":
         errors.append(
             "the harness fell back to the reference rail "
-            f"({report.get('externalVerifierProbe')!r}), so nothing below tested "
+            f"({report.get('railNote')!r}), so nothing below tested "
             "the shipped CLI at all"
         )
     totals = report.get("totals") or {}

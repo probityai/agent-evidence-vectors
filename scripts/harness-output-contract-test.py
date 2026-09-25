@@ -79,9 +79,9 @@ def manifest_entry(vector_id: str) -> dict[str, Any]:
 def write_rail(work: Path, name: str, body: str) -> str:
     """A synthetic rail as a shell script.
 
-    The predicate type is written into the script's bytes because
-    ``probe_external_verifier`` reads the executable and refuses a file that
-    does not carry it -- the same probe a real rail passes.
+    The predicate type URI sits in a comment. The harness no longer probes a
+    verifier's bytes for it (a named verifier always runs), so nothing depends
+    on it; it stays so the rails read as what they stand in for.
     """
     path = work / f"rail-{name}.sh"
     path.write_text(
@@ -286,7 +286,7 @@ def control_census(work: Path, label: str, body: str) -> list[str]:
     if report.get("rail") != "external":
         errors.append(
             f"{label}: the harness fell back to its reference rail "
-            f"({report.get('externalVerifierProbe')!r}), so this control tested nothing"
+            f"({report.get('railNote')!r}), so this control tested nothing"
         )
         return errors
     totals = report.get("totals") or {}

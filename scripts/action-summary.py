@@ -73,18 +73,30 @@ def main() -> int:
         report: dict[str, Any] = json.load(handle)
     totals = report["totals"]
 
-    # The verdict is the harness's exit status, not a recount of the table. A
-    # suite that refused partway through can leave totals that add up and still
-    # not have replayed the corpus, so the status is what decides.
-    result = "pass" if status == "0" else "fail"
+    # The verdict is the harness's exit status AND proof that the named
+    # verifier answered every vector. The status alone is not enough: harness
+    # releases up to v0.12.0 ran their own reference rail whenever a probe of
+    # the named verifier failed, and exited 0 on that rail's pass. The `tag`
+    # input can still install one of those, so the report is read for which
+    # rail ran and how many vectors the verifier answered, and a report that
+    # cannot show both is a failure.
+    refusal = verifier_refusal(report)
+    result = "pass" if status == "0" and refusal is None else "fail"
+    executed = (report.get("verifier") or {}).get("vectorsExecuted")
     outputs.append(f"vectors={totals['vectors']}\n")
     outputs.append(f"conform={totals['conform']}\n")
+    outputs.append(f"executed={executed if executed is not None else ''}\n")
     outputs.append(f"result={result}\n")
 
+    # railNote since the fix; externalVerifierProbe is what older harness
+    # releases wrote, and the `tag` input can install one of them.
+    note = report.get("railNote", report.get("externalVerifierProbe", ""))
     summary.append(f"## agent-evidence-vectors: {result}\n\n")
-    summary.append(
-        f"Corpus `{corpus}`, rail `{report['rail']}`. {report['externalVerifierProbe']}\n\n"
-    )
+    summary.append(f"Corpus `{corpus}`, rail `{report['rail']}`. {note}\n\n")
+    if refusal is not None:
+        summary.append(f"**The verifier under test did NOT answer this run:** {refusal}\n\n")
+    elif executed is not None:
+        summary.append(f"The verifier ran on {executed} of {totals['vectors']} vectors.\n\n")
     summary.append(
         "| vectors | pass | fail | conform | reason-parity mismatches | suite refusals |\n"
     )
@@ -112,6 +124,27 @@ def main() -> int:
 
     _write(summary_path, summary, output_path, outputs)
     return 0
+
+
+def verifier_refusal(report: dict[str, Any]) -> str | None:
+    """Why this report does not show the named verifier answering every vector."""
+    if report.get("rail") != "external":
+        return (
+            f"the report's rail is {report.get('rail')!r}, so the harness judged the "
+            "corpus with its own reference rail and never ran the verifier named"
+        )
+    vectors = report["totals"]["vectors"]
+    if not vectors:
+        return "the report holds no vectors"
+    verifier = report.get("verifier")
+    if verifier is None:
+        # A harness older than the executed count: an external rail there ran
+        # every vector through the named command, which is all it could say.
+        return None
+    executed = verifier.get("vectorsExecuted")
+    if executed != vectors:
+        return f"it ran on {executed} of {vectors} vectors"
+    return None
 
 
 def _write(summary_path: str, summary: list[str], output_path: str, outputs: list[str]) -> None:

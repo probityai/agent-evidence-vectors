@@ -145,7 +145,10 @@ def own_action(inputs: dict[str, Any]) -> Local:
         f"echo report={shlex.quote(report_path)} >> \"$GITHUB_OUTPUT\"\n"
         f"REPORT={shlex.quote(report_path)} STATUS=\"$status\" CORPUS={shlex.quote(corpus)} \\\n"
         "  python3 scripts/action-summary.py\n"
-        'exit "$status"\n',
+        # The action's last step fails the job on the exit status OR on a
+        # summary verdict other than pass, so the mirror does both.
+        'if [ "$status" != 0 ]; then exit "$status"; fi\n'
+        'grep -qx "result=pass" "$GITHUB_OUTPUT" || exit 1\n',
         "",
     )
 
@@ -245,6 +248,11 @@ class Step(NamedTuple):
     # whose assertions read variables set here ran with none of them set, which
     # is a check reporting a verdict on an input it never received.
     env: dict[str, Any] = {}
+    # `continue-on-error: true`. A failing step so marked does not fail the job
+    # on the runner; its `outcome` is failure and its `conclusion` is success,
+    # which is how a workflow asserts that something MUST fail. Ignoring the key
+    # made every such negative step a red push the remote would accept.
+    continue_on_error: bool = False
 
     @property
     def label(self) -> str:
@@ -268,6 +276,7 @@ def steps_of(doc, path: pathlib.Path):
                 inputs=step.get("with") or {},
                 ident=str(step.get("id") or ""),
                 env=step.get("env") or {},
+                continue_on_error=step.get("continue-on-error") is True,
             )
 
 
@@ -295,9 +304,14 @@ SHELL_FLAGS = ("-e",)
 # `${{ ... }}`, the only interpolation Actions performs in an `env:` value.
 EXPRESSION = re.compile(r"\$\{\{(.+?)\}\}")
 STEP_OUTPUT = re.compile(r"^steps\.([A-Za-z0-9_-]+)\.outputs\.([A-Za-z0-9_-]+)$")
+STEP_STATUS = re.compile(r"^steps\.([A-Za-z0-9_-]+)\.(outcome|conclusion)$")
 
 
-def expand(value: str, outputs: dict[str, dict[str, str]]) -> tuple[str, str]:
+def expand(
+    value: str,
+    outputs: dict[str, dict[str, str]],
+    statuses: dict[str, dict[str, str]] | None = None,
+) -> tuple[str, str]:
     """Resolve one `env:` value. Returns (expanded, reason it could not be).
 
     Two kinds of expression appear in these workflows and they are not treated
@@ -322,6 +336,20 @@ def expand(value: str, outputs: dict[str, dict[str, str]]) -> tuple[str, str]:
     def one(match: re.Match[str]) -> str:
         nonlocal missing
         expression = match.group(1).strip()
+        status = STEP_STATUS.match(expression)
+        if status is not None:
+            # A step's outcome is recorded by this gate when it runs the step,
+            # exactly as the runner records it; one not run here is not guessed.
+            step_id, which = status.groups()
+            recorded_status = (statuses or {}).get(step_id)
+            if recorded_status is None:
+                missing = (
+                    f"its env reads ${{{{ {expression} }}}}, and step `{step_id}` was "
+                    "not run here, so this gate has no outcome for it and will not "
+                    "invent one"
+                )
+                return ""
+            return recorded_status[which]
         reference = STEP_OUTPUT.match(expression)
         if reference is None:
             return ""
@@ -348,7 +376,10 @@ def expand(value: str, outputs: dict[str, dict[str, str]]) -> tuple[str, str]:
 
 
 def step_environment(
-    step: Step, outputs: dict[str, dict[str, str]], scratch: str
+    step: Step,
+    outputs: dict[str, dict[str, str]],
+    scratch: str,
+    statuses: dict[str, dict[str, str]] | None = None,
 ) -> tuple[dict[str, str], str]:
     """The environment for one step, or the reason it cannot be assembled.
 
@@ -361,7 +392,7 @@ def step_environment(
         "GITHUB_STEP_SUMMARY": str(pathlib.Path(scratch) / f"summary-{step.job}-{step.position}"),
     }
     for key, raw in step.env.items():
-        value, missing = expand(str(raw), outputs)
+        value, missing = expand(str(raw), outputs, statuses)
         if missing:
             return env, missing
         env[str(key)] = value
@@ -455,6 +486,9 @@ def execute(files: list[pathlib.Path]) -> int:
     # What each step with an `id:` wrote to $GITHUB_OUTPUT, so a later step that
     # names it in an `env:` value gets the value the runner would have given it.
     outputs: dict[str, dict[str, str]] = {}
+    # Each step with an `id:` also has an outcome and a conclusion, which a later
+    # step reads as steps.<id>.outcome; they differ only under continue-on-error.
+    statuses: dict[str, dict[str, str]] = {}
 
     with tempfile.TemporaryDirectory(prefix="aee-workflow-steps-") as scratch:
         for path in files:
@@ -471,7 +505,7 @@ def execute(files: list[pathlib.Path]) -> int:
                     not_run.append(f"{step.label}  ({suffix})")
                     print(f"  NOT RUN  {step.label}  ({suffix})")
                     continue
-                env, missing = step_environment(step, outputs, scratch)
+                env, missing = step_environment(step, outputs, scratch, statuses)
                 if missing:
                     not_run.append(f"{step.label}  ({missing})")
                     print(f"  NOT RUN  {step.label}  ({missing})")
@@ -479,10 +513,18 @@ def execute(files: list[pathlib.Path]) -> int:
                 print(f"  RUN   {step.label}{suffix}")
                 proc = run_step(block, {**base, **env})
                 ran += 1
-                if proc.returncode != 0:
+                outcome = "success" if proc.returncode == 0 else "failure"
+                if proc.returncode != 0 and step.continue_on_error:
+                    print(f"  FAILED, continue-on-error  {step.label}  (exit {proc.returncode})")
+                elif proc.returncode != 0:
                     failed += 1
                     report_failure(step.label, proc)
                 record_outputs(step, env, outputs)
+                if step.ident:
+                    statuses[step.ident] = {
+                        "outcome": outcome,
+                        "conclusion": "success" if step.continue_on_error else outcome,
+                    }
 
     return summarise("ran", ran, failed, not_run)
 
