@@ -301,6 +301,64 @@ def the_action_mirror_produces_the_declared_outputs() -> None:
     )
 
 
+def a_recorded_step_outcome_is_supplied() -> None:
+    """steps.<id>.outcome resolves to what this gate recorded when it ran the step."""
+    statuses = {"neg": {"outcome": "failure", "conclusion": "success"}}
+    value, missing = GATE.expand("${{ steps.neg.outcome }}", {}, statuses)  # type: ignore[attr-defined]
+    assert not missing and value == "failure", f"{value!r} / {missing!r}"
+    value, missing = GATE.expand("${{ steps.neg.conclusion }}", {}, statuses)  # type: ignore[attr-defined]
+    assert not missing and value == "success", f"{value!r} / {missing!r}"
+
+
+def an_outcome_of_an_unrun_step_is_not_run() -> None:
+    """An outcome this gate never recorded is not guessed, same as an output."""
+    value, missing = GATE.expand("${{ steps.neg.outcome }}", {}, {})  # type: ignore[attr-defined]
+    assert value == "" and missing and "neg" in missing, f"{value!r} / {missing!r}"
+
+
+def continue_on_error_is_honoured_end_to_end() -> None:
+    """A failing step marked continue-on-error does not fail the run, and a later
+    step reads its outcome as failure. Without this, every negative step in a
+    workflow -- the one that asserts something MUST fail -- was a red local run
+    for a push the remote accepts."""
+    workflow = (
+        "jobs:\n"
+        "  neg:\n"
+        "    steps:\n"
+        "      - name: this must fail\n"
+        "        id: must_fail\n"
+        "        continue-on-error: true\n"
+        "        run: exit 3\n"
+        "      - name: and it did\n"
+        "        env:\n"
+        "          OUTCOME: ${{ steps.must_fail.outcome }}\n"
+        "        run: test \"$OUTCOME\" = failure\n"
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        path = pathlib.Path(tmp) / "neg.yml"
+        path.write_text(workflow, encoding="utf-8")
+        with contextlib.redirect_stdout(open(pathlib.Path(tmp) / "out.txt", "w")):
+            rc = GATE.execute([path])  # type: ignore[attr-defined]
+    assert rc == 0, f"a continue-on-error failure failed the run (exit {rc})"
+    # The balance: the same failure WITHOUT the key still fails the run.
+    with tempfile.TemporaryDirectory() as tmp:
+        path = pathlib.Path(tmp) / "pos.yml"
+        path.write_text(workflow.replace("        continue-on-error: true\n", ""), encoding="utf-8")
+        with contextlib.redirect_stdout(open(pathlib.Path(tmp) / "out.txt", "w")):
+            rc = GATE.execute([path])  # type: ignore[attr-defined]
+    assert rc != 0, "a failing step without continue-on-error passed the run"
+
+
+def the_action_mirror_fails_on_a_non_pass_verdict() -> None:
+    """The action fails a job on the exit status OR on the summary verdict; so must its mirror."""
+    local = GATE.local_equivalent("./", {"verifier": "./aee-verify -json"})  # type: ignore[attr-defined]
+    assert local.run is not None, local.reason
+    assert "result=pass" in local.run, (
+        "the mirror exits on the harness status alone, so a report that does not "
+        f"show the verifier running every vector would pass it: {local.run!r}"
+    )
+
+
 def main() -> int:
     check("a failing first command is caught", first_command_failing_is_caught)
     check("a failing middle command is caught", middle_command_failing_is_caught)
@@ -321,13 +379,20 @@ def main() -> int:
     )
     check("an unsupplied context is empty", an_unsupplied_context_is_empty_as_it_is_on_a_runner)
     check("the action mirror produces its outputs", the_action_mirror_produces_the_declared_outputs)
+    check("a recorded step outcome is supplied", a_recorded_step_outcome_is_supplied)
+    check("an outcome of an unrun step is not run", an_outcome_of_an_unrun_step_is_not_run)
+    check("continue-on-error is honoured end to end", continue_on_error_is_honoured_end_to_end)
+    check(
+        "the action mirror fails on a non-pass verdict",
+        the_action_mirror_fails_on_a_non_pass_verdict,
+    )
 
     if FAILURES:
         print(f"FAIL: {len(FAILURES)} case(s) do not hold:")
         for line in FAILURES:
             print(f"  {line}")
         return 1
-    print("OK: 16 case(s); the local mirror runs steps the way GitHub Actions does.")
+    print("OK: 20 case(s); the local mirror runs steps the way GitHub Actions does.")
     return 0
 
 
