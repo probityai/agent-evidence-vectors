@@ -1,0 +1,61 @@
+name: dco
+
+# Checks that every commit a pull request adds carries a Developer Certificate
+# of Origin sign-off from its author. CONTRIBUTING.md says what the sign-off
+# certifies and how to add one.
+#
+# It runs on pull_request_target so that the script judging a pull request
+# comes from the base branch; on pull_request, the pull request could edit the
+# script that judges it. Nothing from the pull request is checked out or run:
+# the script reads the pull request through the API. The verdict is posted as
+# the `dco/sign-off` commit status on the pull request's head commit, which is
+# the name to require in a branch ruleset.
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+jobs:
+  dco:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Self-test the sign-off rule
+        run: bash .github/scripts/dco-check.sh --selftest
+
+      - name: Check the sign-off on every commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Logins whose own commits need no sign-off, space separated.
+          DCO_MAINTAINERS: astrogilda
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$PR" ]; then
+            echo "This event carries no pull request, so no sign-off was checked."
+            exit 0
+          fi
+          set +e
+          bash .github/scripts/dco-check.sh "$REPO" "$PR"
+          rc=$?
+          set -e
+          case "$rc" in
+            0) state=success; description="Every commit that needs a sign-off has one" ;;
+            1) state=failure; description="A commit lacks a sign-off; the run log names it" ;;
+            *) state=error; description="The check could not run; nothing was verified" ;;
+          esac
+          gh api "repos/$REPO/statuses/$HEAD_SHA" -f state="$state" \
+            -f context=dco/sign-off -f description="$description" \
+            -f target_url="$RUN_URL" > /dev/null
+          exit "$rc"

@@ -77,6 +77,7 @@ worth reading before writing rather than after failing.
 | `scripts/coverage-gate.py` | any single file below the coverage floor. Per file, not on average |
 | `scripts/complexity-table-gate.py` | a function whose measured complexity has drifted from the accepted-complexity table |
 | `.githooks/commit-msg` | a subject over seventy-two characters, any non-ASCII byte, an AI-attribution trailer, or project-internal jargon that will not resolve for a reader six months later |
+| `.github/workflows/dco.yml` | a commit in a pull request whose message carries no sign-off from its author. See [Signing off your commits](#signing-off-your-commits) |
 | `.github/workflows/no-internal-drafts.yml` | internal drafting notes, `DRAFT-` files, tool-state directories, absolute home paths, and first-party product names. This repository is deliberately product-neutral |
 
 **A gate's verdict may depend on the revision under test, and on nothing else on
@@ -268,5 +269,33 @@ the rule fixtures, and CI lints the range your push introduces from the same fil
 ## Licence
 
 Contributions are accepted under the repository's licence,
-[Apache-2.0](LICENSE), per section 5 of that licence. There is no separate
-agreement to sign.
+[Apache-2.0](LICENSE), per section 5 of that licence. There is no contributor
+licence agreement to sign; the one thing asked beyond the licence is the
+sign-off below.
+
+## Signing off your commits
+
+Every commit in a pull request carries a sign-off: a line at the end of the
+commit message, in the name and email of the commit's author.
+
+    Signed-off-by: Your Name <you@example.org>
+
+The line certifies the [Developer Certificate of Origin](DCO): that you wrote the
+change or otherwise have the right to submit it under this repository's licence,
+and that the record of your contribution is public. The text in [`DCO`](DCO) is
+the Linux Foundation's Developer Certificate of Origin, version 1.1, unmodified.
+It is the sign-off that in-toto and the Linux Foundation's projects ask for,
+written the same way, so a commit you have signed off for one of them needs
+nothing extra here.
+
+`git commit --signoff` (or `-s`) adds the line. To add it to commits already on
+your branch, run `git rebase --signoff main` and force-push the branch.
+
+The `dco/sign-off` check verifies the line on every pull request and names each
+commit that lacks one. It does not ask for a sign-off on a merge commit, on a
+commit by a bot account, or on a maintainer's own commits, which the maintainers
+license by publishing them.
+
+A sign-off is a statement a person makes. If a coding assistant or another tool
+wrote part of a change, you review the change, you are the commit's author, and
+the sign-off is yours; a tool does not add one on your behalf.
