@@ -184,56 +184,78 @@ func TestEmptyTreeConstantsMatchTheCorpus(t *testing.T) {
 	}
 }
 
-// TestVoluntaryIsNeverReadAsIndependentlyObserved is the vocabulary's prohibition
-// as an assertion over every member that verifies: a verifier must not read a
-// voluntary attestation as evidence that the attested content corresponds to any
-// independently observed fact.
-func TestVoluntaryIsNeverReadAsIndependentlyObserved(t *testing.T) {
+// TestTheReadingIsDerivedFromTheRecord holds the two bits a consumer reads to
+// the fields they are derived from, in both directions, over every member. A
+// refused record establishes nothing. A valid record establishes an absence
+// exactly when its recomputed tier is authoritative, which is the predicate's
+// prohibition on reading a voluntary record that way. Its effects were observed
+// independently exactly when its vantage is below-observed, whatever the tier.
+func TestTheReadingIsDerivedFromTheRecord(t *testing.T) {
 	m := loadManifest(t)
 	policy := testPolicy(t, m)
-	seenVoluntary, seenAuthoritative := false, false
+	seenVoluntaryWitnessed, seenVoluntaryUnwitnessed, seenAuthoritative := false, false, false
 	for _, v := range m.Vectors {
 		report := Verify(readVector(t, v), policy)
 		if report.Verdict != verdictValid {
-			// A refused record establishes nothing about what was observed, whatever
-			// tier its fields would have derived, so the bit may not survive a
-			// refusal either.
-			if report.IndependentlyObserved {
-				t.Errorf("%s (%s): verdict %q and independentlyObserved is set. A record this "+
-					"rail refused is not evidence of an independent observation.",
-					v.ID, v.Slug, report.Verdict)
+			if report.AbsenceEstablished || report.EffectsIndependentlyObserved {
+				t.Errorf("%s (%s): verdict %q and a reading bit is set. A record this "+
+					"rail refused establishes nothing.", v.ID, v.Slug, report.Verdict)
 			}
 			continue
 		}
-		// The EQUIVALENCE, not one side of it. This test asserted only the
-		// prohibition direction, which a rail that never sets the bit at all
-		// passes: a consumer would then be denied the evidence an authoritative
-		// record is supposed to carry, and nothing here would say so. The
-		// reader also carried the same claim per member, where it could not fail
-		// (the bit IS this comparison inside Verify), so the assertion lives here
-		// alone now and covers both directions.
 		authoritative := report.DerivedTier == "authoritative"
-		if report.IndependentlyObserved != authoritative {
-			t.Errorf("%s (%s): valid, derivedTier %q, independentlyObserved %v. The bit and "+
-				"the recomputed tier must agree in both directions: a consumer reads the bit "+
-				"and gets the tier's guarantee, or it gets a guarantee nothing recomputed.",
-				v.ID, v.Slug, report.DerivedTier, report.IndependentlyObserved)
+		if report.AbsenceEstablished != authoritative {
+			t.Errorf("%s (%s): valid, derivedTier %q, absenceEstablished %v. The bit and "+
+				"the recomputed tier must agree in both directions.",
+				v.ID, v.Slug, report.DerivedTier, report.AbsenceEstablished)
 		}
-		if authoritative {
+		below := vantageOf(t, v) == "below-observed"
+		if report.EffectsIndependentlyObserved != below {
+			t.Errorf("%s (%s): valid, vantage below-observed %v, effectsIndependentlyObserved %v. "+
+				"The bit and the vantage must agree in both directions.",
+				v.ID, v.Slug, below, report.EffectsIndependentlyObserved)
+		}
+		switch {
+		case authoritative:
 			seenAuthoritative = true
+		case below:
+			seenVoluntaryWitnessed = true
+		default:
+			seenVoluntaryUnwitnessed = true
 		}
-		if report.DerivedTier == "voluntary" {
-			seenVoluntary = true
-		}
 	}
-	if !seenVoluntary {
-		t.Error("no member recomputed to a voluntary tier, so the prohibition was not exercised " +
-			"by anything and this test would pass against a rail that ignores it")
+	if !seenAuthoritative || !seenVoluntaryWitnessed || !seenVoluntaryUnwitnessed {
+		t.Errorf("the corpus must exercise all three readings: authoritative %v, voluntary "+
+			"and witnessed %v, voluntary and unwitnessed %v",
+			seenAuthoritative, seenVoluntaryWitnessed, seenVoluntaryUnwitnessed)
 	}
-	if !seenAuthoritative {
-		t.Error("no member recomputed to an authoritative tier, so the equivalence was only " +
-			"ever checked where the bit is false")
+}
+
+// vantageOf reads the member's declared vantage from its own bytes, so the test
+// compares the report against the record and not against the rail's own state.
+func vantageOf(t *testing.T, v manifestVector) string {
+	t.Helper()
+	var env struct {
+		Payload string `json:"payload"`
 	}
+	if err := json.Unmarshal(readVector(t, v), &env); err != nil {
+		t.Fatalf("%s: %v", v.ID, err)
+	}
+	raw, err := base64.StdEncoding.DecodeString(env.Payload)
+	if err != nil {
+		t.Fatalf("%s: %v", v.ID, err)
+	}
+	var stmt struct {
+		Predicate struct {
+			Observation struct {
+				Vantage string `json:"vantage"`
+			} `json:"observation"`
+		} `json:"predicate"`
+	}
+	if err := json.Unmarshal(raw, &stmt); err != nil {
+		t.Fatalf("%s: %v", v.ID, err)
+	}
+	return stmt.Predicate.Observation.Vantage
 }
 
 // TestPayloadDuplicateMemberIsRefused proves the decoder's own refusal rather than

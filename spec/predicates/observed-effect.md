@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.3.0
+Version: 0.4.0
 
 Predicate Name: Observed Effect
 
@@ -302,10 +302,23 @@ and a producer that accepts a caller-supplied tier value MUST drop it before
 signing. This rule and its wording are adopted from [ASQAV] Section 8.1, which
 states it for its own two tiers.
 
-The normative prohibition that gives `voluntary` its meaning is adopted verbatim
-from that section: **a verifier MUST NOT read a voluntary attestation as
-evidence that the attested content corresponds to any independently observed
-fact.**
+The prohibition that gives `voluntary` its meaning is adapted from that section,
+which states it for a tier that means self-reported: **a verifier MUST NOT read
+a voluntary attestation as establishing that nothing it does not carry happened
+inside `pathScope`, and MUST NOT read the effects a record carries as
+independently observed unless its `observation.vantage` is `below-observed`.**
+
+The two halves are separate because this predicate reaches `voluntary` in two
+ways ASQAV does not. A record observed from `self` or `peer` is voluntary, and
+nothing in it was independently observed. A record observed from
+`below-observed` that names a gap inside its own scope is also voluntary, by
+clause 3 below, and the reads and writes it does carry were still seen by an
+observer the observed party does not control. Adopting the ASQAV sentence
+verbatim forbade reading those writes as witnessed, which made an observer that
+discloses a blind spot worth less than one that hides it. So the tier decides
+whether a record establishes an absence, and the vantage decides whether its
+effects were independently observed. A verifier reports both, derived from the
+record, and neither is a field the record carries.
 
 The recompute: `tier` is `authoritative` if and only if all of the following
 hold, and is `voluntary` otherwise.
@@ -966,10 +979,22 @@ A consumer implementing this predicate MUST, at minimum:
     declared scope.
 5.  Decide explicitly what a `disagree` in `dualValues` means for admission, and
     never treat its presence as a reason to reject the record.
-6.  Refuse to read a `voluntary` record as evidence of any independently
-    observed fact, per the prohibition under [`tier`].
+6.  Refuse to read a `voluntary` record as establishing that nothing it does
+    not carry happened inside `pathScope`, and refuse to read the effects of a
+    record whose `observation.vantage` is not `below-observed` as independently
+    observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.4.0 splits the voluntary prohibition in two and changes no verdict. At 0.3.0 a
+verifier could not read any voluntary record as evidence of an independently
+observed fact, which forbade reading the writes of a `below-observed` record
+that names a gap inside its own scope as witnessed. The tier now decides only
+whether a record establishes an absence inside `pathScope`, and the vantage
+decides whether its effects were independently observed. Every statement 0.3.0
+accepted or refused is accepted or refused the same way; what moves is what a
+consumer may read from a valid `below-observed` voluntary record, so the version
+moves with it. The corpus declares both readings on every valid member.
 
 0.3.0 adds one rule and one conditionally required member: `observation.runtime`,
 carrying `platform`, required where `origin` is `third-party-control-plane` or

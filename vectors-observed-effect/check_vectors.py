@@ -463,7 +463,7 @@ def rule_coverage_coherence(pred: dict[str, Any]) -> None:
 def rule_coverage_gaps_named(pred: dict[str, Any]) -> None:
     """An incomplete observation says WHERE it was blind.
 
-    Clause 4 of the tier recompute reads "every member of gaps names a path outside
+    Clause 3 of the tier recompute reads "every member of gaps names a path outside
     pathScope", and an empty gaps list satisfies that vacuously, so a record could
     admit that it did not cover its own scope, name no gap, and still grade
     authoritative. The blind spot is where the writes went.

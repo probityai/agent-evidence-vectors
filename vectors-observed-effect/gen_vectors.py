@@ -424,6 +424,10 @@ CONDITIONS: dict[str, str] = {
         "observation.origin: only a first-hand producer may claim below-observed "
         "(attack A31)"
     ),
+    "oe-tier-coverage": (
+        "tier: a gap named inside pathScope grades the record voluntary, and an "
+        "authoritative claim over it is invalid (clause 3 of the tier recompute)"
+    ),
     "oe-authoritative-rows": (
         "tier: an authoritative record carries at least one read or one write "
         "(attack A2, second spelling)"
@@ -477,7 +481,19 @@ def add(
     parent: str | None = None,
     raw_payload: bytes | None = None,
     readings: list[dict[str, Any]] | None = None,
+    reading: tuple[str, bool, bool] | None = None,
 ) -> None:
+    """``reading`` is what a verifier reports about a VALID member beyond its
+    verdict: the recomputed tier, whether the effects it carries were observed
+    independently, and whether it establishes that nothing else happened in its
+    scope. It is declared here, never derived, because deriving it would be the
+    generator grading its own tier recompute; and it is required of every valid
+    member, because a valid record is exactly where a consumer reads those bits.
+    """
+    if (verdict == "valid") != (reading is not None):
+        raise SystemExit(
+            f"{slug}: a valid member declares its reading and nothing else does"
+        )
     DRAFTS.append(
         {
             "slug": slug,
@@ -489,6 +505,7 @@ def add(
             "cites": cites,
             "parent": parent,
             "readings": readings,
+            "reading": reading,
         }
     )
 
@@ -541,6 +558,7 @@ add(
     "prior commitment signed before the interval opened under a key the observed "
     "party does not hold, a non-empty literal path scope, and a write chain that "
     "reproduces afterRoot.",
+    reading=("authoritative", True, True),
 )
 
 add(
@@ -570,6 +588,7 @@ add(
     "thread reached the same conclusion from the other side, where a published "
     "production case study was a session whose whole evidentiary value was that it "
     "produced nothing.",
+    reading=("authoritative", True, True),
 )
 
 add(
@@ -615,6 +634,7 @@ add(
     "authoritative attestation rather than infer a base from the commit parents, "
     "which are ambiguous for merge and squash commits'. The constant here is the "
     "sha256 empty tree object name, because this record's hashAlgorithm is sha256.",
+    reading=("authoritative", True, True),
 )
 
 add(
@@ -646,6 +666,7 @@ add(
     "independently observed fact.' The record is well-formed and it is not evidence "
     "of an independently observed fact, and a verifier that conflates those two "
     "readings scores this member and its authoritative twin identically.",
+    reading=("voluntary", False, False),
 )
 
 add(
@@ -669,6 +690,7 @@ add(
     "would delete the finding. A verifier that treats disagree as a fault scores "
     "zero on this member while a verifier that ignores dualValues entirely scores "
     "zero on its reject twin.",
+    reading=("authoritative", True, True),
 )
 
 # --- reject members, each one mutation from a named accept -----------------
@@ -1518,10 +1540,119 @@ add(
     "malformed",
     ["coverage-incomplete-without-gaps"],
     "The observation admits it did not cover its own scope and names no gap, and it "
-    "graded authoritative: clause 4 of the tier recompute asks whether every member "
+    "graded authoritative: clause 3 of the tier recompute asks whether every member "
     "of gaps lies outside pathScope, and an empty list satisfies that vacuously. The "
     "gap a producer declines to name is where the writes went.",
     parent=BASELINE,
+)
+
+_NAMED_GAP = "/srv/app/vendor/"
+
+
+def _gap_observation(interval_id: str) -> dict[str, Any]:
+    """Observed from below, committed before the interval, and blind in one
+    named place inside its own scope."""
+    return {
+        "vantage": "below-observed",
+        "origin": "first-hand",
+        "coverage": {"scopeComplete": False, "gaps": [_NAMED_GAP]},
+        "observedSigners": [OBSERVED_KEYID],
+        "priorCommitment": commitment(before_root=R0, interval_id=interval_id),
+    }
+
+
+def _unchanged_interval() -> dict[str, Any]:
+    return {
+        "beforeRoot": R0,
+        "afterRoot": R0,
+        "baseResolution": "supplied",
+        "openedAt": T_OPEN,
+        "sealedAt": T_SEAL,
+    }
+
+
+_GAP_DOES_NOT_ASSERT = [
+    "that the observed party performed no action outside pathScope",
+    "that the authority document permits what the writes did",
+    f"that no write occurred under {_NAMED_GAP}",
+]
+
+add(
+    "mutation-none-with-a-named-gap-in-scope",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0301",
+            tier="voluntary",
+            mutation="none",
+            interval=_unchanged_interval(),
+            writes=[],
+            dualValues=[dual("writes.count", "0", "0", "agree")],
+            observation=_gap_observation("iv-0301"),
+            doesNotAssert=_GAP_DOES_NOT_ASSERT,
+        )
+    ),
+    ["oe-tier-coverage"],
+    "valid",
+    [],
+    "The record that verifies and still cannot say nothing was written. The observer "
+    "sat below the observed party and committed before the interval, and it names the "
+    "one place inside its scope it could not see, so clause 3 of the tier recompute "
+    "grades it voluntary and the record says in doesNotAssert what it therefore cannot "
+    "establish. A consumer asking whether any write landed under /srv/app/ gets no "
+    "answer from it; asking the same of a scope that excludes the gap, it answers.",
+    reading=("voluntary", True, False),
+)
+
+add(
+    "authoritative-with-a-named-gap-in-scope",
+    "reject",
+    statement(
+        predicate(
+            intervalId="iv-0302",
+            mutation="none",
+            interval=_unchanged_interval(),
+            writes=[],
+            dualValues=[dual("writes.count", "0", "0", "agree")],
+            observation=_gap_observation("iv-0302"),
+            doesNotAssert=_GAP_DOES_NOT_ASSERT,
+        )
+    ),
+    ["oe-tier-coverage"],
+    "invalid",
+    ["authoritative-coverage-incomplete"],
+    "The same record claiming the independent tier. The gap is named, so stage one "
+    "passes; clause 3 of the tier recompute fails on it, and an authoritative claim "
+    "that fails a clause is invalid rather than downgraded. Until this member, no "
+    "member reached that clause with a named gap, and the code it emits was expected "
+    "by nothing.",
+    parent="mutation-none-with-a-named-gap-in-scope",
+)
+
+add(
+    "write-observed-despite-a-named-gap",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0303",
+            tier="voluntary",
+            observation=_gap_observation("iv-0303"),
+            doesNotAssert=[
+                "that the observed party performed no action outside pathScope",
+                "that the authority document permits what the writes did",
+                f"that the write set is complete under {_NAMED_GAP}",
+            ],
+        )
+    ),
+    ["oe-tier-coverage"],
+    "valid",
+    [],
+    "One write seen from below the observed party settles that a write happened, "
+    "whatever else the observer missed. The record is voluntary for the same named "
+    "gap, so it establishes no absence; the two writes it carries were still observed "
+    "independently, and a verifier that refused to read them as such would make an "
+    "observer who discloses a blind spot worth less than one who hides it.",
+    reading=("voluntary", True, False),
 )
 
 add(
@@ -1764,6 +1895,7 @@ add(
     "the fourth is the one that matters. The predicate says this in its own residual "
     "section; the member is here so that a later change which starts refusing it is "
     "visible as a change rather than as a fix.",
+    reading=("authoritative", True, True),
 )
 
 
@@ -1801,6 +1933,7 @@ add(
     "the exporting platform measured. This is the member the two refusals below are "
     "one mutation from, and it is why refusing every imported record scores zero "
     "rather than full marks.",
+    reading=("voluntary", False, False),
 )
 
 add(
@@ -1880,6 +2013,11 @@ def emit() -> None:
             "expected": {"verdict": draft["verdict"], "codes": draft["codes"]},
             "cites": draft["cites"],
         }
+        if draft["reading"] is not None:
+            tier, effects, absence = draft["reading"]
+            entry["expected"]["derivedTier"] = tier
+            entry["expected"]["effectsIndependentlyObserved"] = effects
+            entry["expected"]["absenceEstablished"] = absence
         if draft["parent"] is not None:
             entry["parent"] = slug_to_id[draft["parent"]]
         if draft["readings"] is not None:

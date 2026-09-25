@@ -54,14 +54,20 @@ type Report struct {
 	// record claims. Empty where the statement was refused before the recompute
 	// could run.
 	DerivedTier string `json:"derivedTier,omitempty"`
-	// IndependentlyObserved is the one bit a consumer may read as evidence that
-	// somebody other than the observed party watched this interval. It is true
-	// only where the recomputed tier is authoritative and the statement verified,
-	// which is the vocabulary's prohibition made unbypassable: a verifier MUST
-	// NOT read a voluntary attestation as evidence that the attested content
-	// corresponds to any independently observed fact, and here it cannot, because
-	// the field is not copied from the record.
-	IndependentlyObserved bool `json:"independentlyObserved"`
+	// EffectsIndependentlyObserved says the reads and writes this record carries
+	// were seen by somebody other than the observed party: the statement verified
+	// and its vantage is below-observed, which stage one only admits from a
+	// first-hand observer holding a commitment signed before the interval. It is
+	// independent of the tier. A below-observed record that names a blind spot
+	// inside its own scope recomputes to voluntary, and the writes it did see are
+	// still witnessed; reading them as self-report would make an observer who
+	// discloses a gap worth less than one who hides it.
+	EffectsIndependentlyObserved bool `json:"effectsIndependentlyObserved"`
+	// AbsenceEstablished says the record establishes that nothing it does not
+	// carry happened inside pathScope: the statement verified and the recomputed
+	// tier is authoritative. This is the reading the predicate forbids for a
+	// voluntary record. Neither bit is copied from the record.
+	AbsenceEstablished bool `json:"absenceEstablished"`
 }
 
 // fault is one refusal on its way out of a rule.
@@ -276,10 +282,11 @@ func verify(raw []byte, policy Policy, skip string) *Report {
 		return &Report{Verdict: f.stage, Codes: []string{f.code}, DerivedTier: c.derivedTier}
 	}
 	return &Report{
-		Verdict:               verdictValid,
-		Codes:                 []string{},
-		DerivedTier:           c.derivedTier,
-		IndependentlyObserved: c.derivedTier == "authoritative",
+		Verdict:                      verdictValid,
+		Codes:                        []string{},
+		DerivedTier:                  c.derivedTier,
+		EffectsIndependentlyObserved: c.str(c.observation(), "vantage") == "below-observed",
+		AbsenceEstablished:           c.derivedTier == "authoritative",
 	}
 }
 

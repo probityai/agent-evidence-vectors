@@ -74,7 +74,13 @@ only-include = [
     "vectors-scitt-cose",
     "vectors-w3c-report",
 ]
-exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
+# Corpus directories carry their generators and checkers beside the data. They
+# are repository tools: they read the tree around them, and several import build
+# dependencies (cryptography, cbor2) that a stdlib-only package does not carry.
+# Shipped in the wheel they were dead weight that crashed on import, and nothing
+# in the package loads them, so the wheel carries the data and the packaged
+# readers only. The sdist keeps them, because it is the source.
+exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py"]
 
 [tool.hatch.build.targets.wheel.sources]
 "packaging/agent_evidence_vectors" = "agent_evidence_vectors"
@@ -94,11 +100,17 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
 # so the rail module is placed by name.
 [tool.hatch.build.targets.wheel.force-include]
 "packaging/run_vectors.py" = "agent_evidence_vectors/run_vectors.py"
+# The observed-effect predicate is normative for its corpus, and the packaged
+# reader cross-checks the manifest's predicateType against the specification's
+# Type URI line. It looks for the file at <corpus>/../spec/predicates/, so the
+# specification ships at that path beside the corpora.
+"spec/predicates/observed-effect.md" = "agent_evidence_vectors/corpora/spec/predicates/observed-effect.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
     "packaging/agent_evidence_vectors",
     "packaging/run_vectors.py",
+    "spec/predicates/observed-effect.md",
     "vectors",
     "vectors-aci",
     "vectors-acs-core",

@@ -37,6 +37,7 @@
     "oe-self-refuting": "mutation: a record whose own writes refute its own claim is malformed (attack A6)",
     "oe-subject-binding": "subject: the single subject digest is the interval's afterRoot under hashAlgorithm (attack A20)",
     "oe-tier-commitment": "priorCommitment: required wherever vantage is below-observed, which is why the tier recompute carries no clause for it",
+    "oe-tier-coverage": "tier: a gap named inside pathScope grades the record voluntary, and an authoritative claim over it is invalid (clause 3 of the tier recompute)",
     "oe-tier-scope": "tier: authoritative requires a non-empty pathScope (attack A2)",
     "oe-tier-vantage": "tier: a record is authoritative only where vantage is below-observed",
     "oe-timestamp-grammar": "timestamps: RFC 3339 UTC with Z and no fractional second, so a lexical comparison is an instant comparison (attack A21)",
@@ -44,11 +45,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "3208fe4f8d38a67c131f018ceb66477bfdc68339e6ba43693ca2b5b7c2548bc0",
+  "corpusDigest": "cd5e6db629277ad64c902913c610b7b23964d42fe1c5231fa5210e17717fc624",
   "counts": {
-    "accept": 7,
+    "accept": 9,
     "indeterminate": 1,
-    "reject": 41
+    "reject": 42
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -109,7 +110,10 @@
         "oe-authoritative-rows"
       ],
       "expected": {
+        "absenceEstablished": true,
         "codes": [],
+        "derivedTier": "authoritative",
+        "effectsIndependentlyObserved": true,
         "verdict": "valid"
       },
       "file": "statements/v1c6fdd82db5229e4.json",
@@ -125,7 +129,10 @@
         "oe-self-refuting"
       ],
       "expected": {
+        "absenceEstablished": true,
         "codes": [],
+        "derivedTier": "authoritative",
+        "effectsIndependentlyObserved": true,
         "verdict": "valid"
       },
       "file": "statements/v162352770f2f6c1c.json",
@@ -141,7 +148,10 @@
         "oe-empty-tree-read"
       ],
       "expected": {
+        "absenceEstablished": true,
         "codes": [],
+        "derivedTier": "authoritative",
+        "effectsIndependentlyObserved": true,
         "verdict": "valid"
       },
       "file": "statements/veb623011cbf1b744.json",
@@ -156,7 +166,10 @@
         "oe-agreement"
       ],
       "expected": {
+        "absenceEstablished": false,
         "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": false,
         "verdict": "valid"
       },
       "file": "statements/v68921dec001a6df3.json",
@@ -170,7 +183,10 @@
         "oe-agreement"
       ],
       "expected": {
+        "absenceEstablished": true,
         "codes": [],
+        "derivedTier": "authoritative",
+        "effectsIndependentlyObserved": true,
         "verdict": "valid"
       },
       "file": "statements/v620e7755ba36aa0a.json",
@@ -731,7 +747,7 @@
       "slug": "bytes-read-from-the-empty-tree"
     },
     {
-      "cites": "The observation admits it did not cover its own scope and names no gap, and it graded authoritative: clause 4 of the tier recompute asks whether every member of gaps lies outside pathScope, and an empty list satisfies that vacuously. The gap a producer declines to name is where the writes went.",
+      "cites": "The observation admits it did not cover its own scope and names no gap, and it graded authoritative: clause 3 of the tier recompute asks whether every member of gaps lies outside pathScope, and an empty list satisfies that vacuously. The gap a producer declines to name is where the writes went.",
       "conditions": [
         "oe-coverage-named"
       ],
@@ -746,6 +762,57 @@
       "kind": "reject",
       "parent": "v1c6fdd82db5229e4",
       "slug": "incomplete-coverage-naming-no-gap"
+    },
+    {
+      "cites": "The record that verifies and still cannot say nothing was written. The observer sat below the observed party and committed before the interval, and it names the one place inside its scope it could not see, so clause 3 of the tier recompute grades it voluntary and the record says in doesNotAssert what it therefore cannot establish. A consumer asking whether any write landed under /srv/app/ gets no answer from it; asking the same of a scope that excludes the gap, it answers.",
+      "conditions": [
+        "oe-tier-coverage"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/v5b9ea5001ad5ce1a.json",
+      "id": "v5b9ea5001ad5ce1a",
+      "kind": "accept",
+      "slug": "mutation-none-with-a-named-gap-in-scope"
+    },
+    {
+      "cites": "The same record claiming the independent tier. The gap is named, so stage one passes; clause 3 of the tier recompute fails on it, and an authoritative claim that fails a clause is invalid rather than downgraded. Until this member, no member reached that clause with a named gap, and the code it emits was expected by nothing.",
+      "conditions": [
+        "oe-tier-coverage"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-coverage-incomplete"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v895c39cafad19175.json",
+      "id": "v895c39cafad19175",
+      "kind": "reject",
+      "parent": "v5b9ea5001ad5ce1a",
+      "slug": "authoritative-with-a-named-gap-in-scope"
+    },
+    {
+      "cites": "One write seen from below the observed party settles that a write happened, whatever else the observer missed. The record is voluntary for the same named gap, so it establishes no absence; the two writes it carries were still observed independently, and a verifier that refused to read them as such would make an observer who discloses a blind spot worth less than one who hides it.",
+      "conditions": [
+        "oe-tier-coverage"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/vd5e05b0f5d3cde4e.json",
+      "id": "vd5e05b0f5d3cde4e",
+      "kind": "accept",
+      "slug": "write-observed-despite-a-named-gap"
     },
     {
       "cites": "observedSigners names the committing key itself, uppercased, and the commitment carries it lowercased. The record therefore SAYS the key that made the prior commitment is a key the observed party signs with, and the disjointness check -- the predicate's offline discriminator -- passed, because it is a string comparison and two spellings of one key are two strings. No second key was needed.",
@@ -873,7 +940,10 @@
         "oe-read-chain"
       ],
       "expected": {
+        "absenceEstablished": true,
         "codes": [],
+        "derivedTier": "authoritative",
+        "effectsIndependentlyObserved": true,
         "verdict": "valid"
       },
       "file": "statements/v3497fc0f2b555764.json",
@@ -887,7 +957,10 @@
         "oe-origin-platform"
       ],
       "expected": {
+        "absenceEstablished": false,
         "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": false,
         "verdict": "valid"
       },
       "file": "statements/v10a3d08be60ead2b.json",
