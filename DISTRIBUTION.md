@@ -13,7 +13,7 @@ distribution heading, and it would tell a reader nothing they can check.
 
 ## The tag to cite
 
-`v0.12.0`. The same version is in [`CITATION.cff`](CITATION.cff), which is what
+`v0.12.1`. The same version is in [`CITATION.cff`](CITATION.cff), which is what
 GitHub's citation panel reads and what an archive deposit is cut from, and
 `scripts/distribution-gate.py` refuses if this page and that file disagree.
 
@@ -25,24 +25,24 @@ a claim about whatever `main` said on a day nobody recorded.
 ## The one-command run
 
 The module path is `github.com/probityai/agent-evidence-vectors`, and the
-verifier is the `cmd/aee-verify` package inside it. Every tag before this release
-was published before the path moved, and a released tag never changes, so an
-install pinned to one of those still names the former owner, which the redirect
-keeps resolvable. This release is the first one the path above resolves for,
-which is why the pinned command names it rather than the former owner. The harness and every corpus are on PyPI as
+verifier is the `cmd/aee-verify` package inside it. A tag published before the
+path moved never changes, so an install pinned to one of those still names the
+former owner, which the redirect keeps resolvable. Every tag published since the
+move, this one included, resolves under the path above, which is why the pinned
+command names it rather than the former owner. The harness and every corpus are on PyPI as
 `agent-evidence-vectors`, at the same version as the tag, so the run needs no
 clone:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.12.0
-uvx agent-evidence-vectors==0.12.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.12.1
+uvx agent-evidence-vectors==0.12.1 --verifier "aee-verify --json"
 ```
 
 From a checkout, which is the same harness read from the tree:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.12.0
+cd agent-evidence-vectors && git checkout v0.12.1
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -77,7 +77,7 @@ start, without a maintainer's word and without this page's word.
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.12.0
+git checkout v0.12.1
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -189,7 +189,7 @@ valuable there than one that agreed.
 | --- | --- | --- |
 | Source of record | `github.com/probityai/agent-evidence-vectors` | live |
 | Go module | `github.com/probityai/agent-evidence-vectors`, verifier at `cmd/aee-verify` | live |
-| Releases | git tags, with a GitHub Release object per tag; `v0.12.0` is current | live |
+| Releases | git tags, with a GitHub Release object per tag; `v0.12.1` is current | live |
 | Signed corpus digests | `release/CORPUS-DIGESTS.txt`, one line per corpus, with a detached signature, an RFC 3161 token and an OpenTimestamps proof beside it | live, derived |
 | Archival DOI | concept DOI `10.5281/zenodo.22758687`, which resolves to the newest archived release; the record lists a version DOI per release, and `CITATION.cff` carries the concept DOI so a citation stays stable | live |
 | Package registries | PyPI `agent-evidence-vectors`: the harness and every corpus, built and uploaded by the release workflow from the tag, at the tag's version | live |

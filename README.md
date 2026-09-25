@@ -29,7 +29,7 @@
 Add one step to the workflow that builds your verifier:
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.12.0
+- uses: probityai/agent-evidence-vectors@v0.12.1
   with:
     verifier: ./path/to/your-verifier --json
 ```
@@ -66,7 +66,7 @@ Inputs, all optional except the first:
 | --- | --- |
 | `verifier` | Command line of the verifier under test. The first token must be on `PATH` or a path relative to the workspace. This verifier is always the program that runs: the job fails when it cannot be started or when it answered fewer vectors than the corpus holds. |
 | `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. `vectors-w3c-report` and `vectors-observed-effect` are judged only by the package's own reader and define no verifier contract, so a run naming a verifier against either is refused. |
-| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.0`. The default is the action's own ref. |
+| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.1`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
 
@@ -221,7 +221,7 @@ for it, and without taking this page's word. Four commands settle it.
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.12.0
+git checkout v0.12.1
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -305,7 +305,7 @@ renders a citation from the same file.
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.12.0},
+  version   = {0.12.1},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.22758687},
