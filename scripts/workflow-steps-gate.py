@@ -33,7 +33,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from typing import Any, NamedTuple
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -213,7 +213,7 @@ def local_equivalent(uses: str, inputs: dict[str, Any]) -> Local:
     )
 
 
-def load_yaml(path: pathlib.Path):
+def load_yaml(path: pathlib.Path) -> Any:
     """Parse a workflow, or fail loudly. Never return a partial parse."""
     try:
         import yaml  # noqa: PLC0415 -- optional dependency, reported explicitly below
@@ -259,7 +259,7 @@ class Step(NamedTuple):
         return f"{self.job}[{self.position}] {self.name}"
 
 
-def steps_of(doc, path: pathlib.Path):
+def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
     """Yield every step, in declaration order."""
     jobs = (doc or {}).get("jobs") or {}
     if not jobs:
@@ -413,7 +413,7 @@ def record_outputs(step: Step, env: dict[str, str], outputs: dict[str, dict[str,
     outputs[step.ident] = written
 
 
-def run_step(run: str, env: dict) -> subprocess.CompletedProcess:
+def run_step(run: str, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(  # noqa: S603 -- running the repo's own workflow steps is the point
         [SHELL, *SHELL_FLAGS, "-c", run],
         cwd=REPO,
@@ -423,7 +423,7 @@ def run_step(run: str, env: dict) -> subprocess.CompletedProcess:
     )
 
 
-def report_failure(label: str, proc: subprocess.CompletedProcess) -> None:
+def report_failure(label: str, proc: subprocess.CompletedProcess[str]) -> None:
     print(f"  FAIL  {label}  (exit {proc.returncode})")
     for stream in (proc.stdout, proc.stderr):
         for line in (stream or "").splitlines():

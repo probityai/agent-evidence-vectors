@@ -35,7 +35,7 @@ import importlib.util
 import pathlib
 import sys
 import tempfile
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from typing import Any
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -57,7 +57,7 @@ FAILURES: list[str] = []
 
 
 @contextlib.contextmanager
-def installed(version: str):
+def installed(version: str) -> Iterator[None]:
     """Answer the version probe with `version` for the duration of the block.
 
     The three golangci-lint branches are decided by what is on PATH, and PATH is
@@ -90,13 +90,14 @@ def _step(run: str, env: dict[str, str] | None = None, ident: str = "") -> Any:
 
 
 @contextlib.contextmanager
-def _scratch():
+def _scratch() -> Iterator[str]:
     with tempfile.TemporaryDirectory(prefix="aee-gate-test-") as directory:
         yield directory
 
 
 def run(block: str) -> int:
-    return GATE.run_step(block, {"PATH": "/usr/bin:/bin"}).returncode  # type: ignore[attr-defined]
+    code: int = GATE.run_step(block, {"PATH": "/usr/bin:/bin"}).returncode  # type: ignore[attr-defined]
+    return code
 
 
 def first_command_failing_is_caught() -> None:
