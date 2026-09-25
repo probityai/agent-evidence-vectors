@@ -58,6 +58,8 @@ VENDORED = {
     "0069": "spec-vendored/0069-arsentev-2026-09-18-late-additions.txt",
     "0072": "spec-vendored/0072-rocchia-2026-09-18-handover.txt",
     "0073": "spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt",
+    "0076": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+    "0077": "spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
     "draft-arsentev-agent-run-metrics-00": "spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
     "draft-arsentev-llm-context-discovery-00": (
         "spec-vendored/draft-arsentev-llm-context-discovery-00.txt"
@@ -76,6 +78,8 @@ AUTHORS = {
     "0069": "Evgenii Arsentev",
     "0072": "Nicolas Rocchia",
     "0073": "Evgenii Arsentev",
+    "0076": "Roel Schuurkes",
+    "0077": "Nicolas Rocchia",
     "draft-arsentev-agent-run-metrics-00": "Evgenii Arsentev",
     "draft-arsentev-llm-context-discovery-00": "Evgenii Arsentev",
 }
@@ -240,6 +244,19 @@ W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
         "14 moved asserted on an evidence object that neither carries both\n"
         "observations nor references them with digests",
         FORM,
+        PROPOSED,
+    ),
+    # Proposed in the v0.1 comment window as an amendment to section 5.4, and
+    # supported on the list, not yet in the editor's text: the control is bound
+    # to the checker and the constraint set of the checks it speaks for.
+    requirement(
+        "W3C-R-029",
+        "(a) control binding",
+        "0076",
+        "say that the control uses the same checker revision and relevant\n"
+        "configuration and constraints as the checks whose negative\n"
+        "capability is being reported",
+        CONSISTENCY,
         PROPOSED,
     ),
     # Two rules of the handover's Part 1 the editor took in as agreed text.
@@ -413,7 +430,7 @@ FAMILIES = {
     "w3c-f-2": "row 2: void with a cause that describes a unit never examined",
     "w3c-f-3": "row 3: not-exercised with integrity-failure",
     "w3c-f-4": (
-        "row 4: a confinement control failed while the check ran, and the state is not void"
+        "row 4: a confinement failure during the check as the cause, and the state is not void"
     ),
     "w3c-f-5": "row 5: a declared exclusion whose state is not not-exercised",
     "w3c-f-6": "row 6: a non-verdict state carrying a qualifier",
@@ -436,6 +453,10 @@ FAMILIES = {
         "shape; domain separation alone is not the fix"
     ),
     "w3c-f-16": "declared slots: moved is contained in the declared compared set",
+    "w3c-f-29": (
+        "late addition (a), amended in the comment window: a control built to fail is bound "
+        "to the checker and constraint set of the checks it speaks for"
+    ),
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
     "w3c-f-19": "closed vocabulary: a value outside a registry is not read",
@@ -628,6 +649,7 @@ def report(
     shape: str = "flat",
     negative: dict[str, Any] | None = None,
     domain: dict[str, Any] | None = None,
+    fixed: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     checks = copy.deepcopy(checks)
     evidence_list = copy.deepcopy(evidence_list or [])
@@ -638,7 +660,7 @@ def report(
         negative = {"kind": "shown-by-run"} if counts["fail"] else {"kind": "nothing"}
     rollup: dict[str, Any] = dict(counts, carried=carried, referenced=referenced)
     rollup["negative-capable"] = negative
-    return {
+    built: dict[str, Any] = {
         "format": w3creport.FORMAT,
         "domain": dict(domain or DOMAIN),
         "checks": checks,
@@ -650,6 +672,11 @@ def report(
             "tree-shape": shape,
         },
     }
+    if fixed is not None:
+        # The checker and constraint set the run's declared checks ran under,
+        # declared once at run level, as the domain is.
+        built["fixed"] = dict(fixed)
+    return built
 
 
 class Members:
@@ -759,13 +786,22 @@ def build_rows_1_to_7(m: Members) -> None:
         "a not-exercised record whose cause is a failure of evidence it never examined",
         "the same record with a cause that describes a unit left out of the count",
     )
-    confined = {"confinement-failed-during-check": True}
+    # Row 4 reads the cause cell against the state, as row 3 does, so the fact
+    # that confinement failed during the check is a cause value admitted only
+    # under void and nothing is added to the record. The reject member is
+    # inconclusive rather than fail: a verdict state carrying any cause is also
+    # row 7, and a member is rejected under one row only.
+    confined = {
+        "code": w3creport.CONFINEMENT_CAUSE,
+        "detail": "the sandbox's egress control failed while the check ran",
+    }
     m.pair(
         "w3c-f-4", "W3C-R-004",
-        report([PASS, check("c-fail", "fail", None, confined)]),
-        report([PASS, check("c-void", "void", {"code": "integrity-failure"}, confined)]),
-        "a confinement control failed while the check ran and the record still reports fail",
-        "the same run reported void, the only state the pair table allows it",
+        report([PASS, check("c-confined", "inconclusive", confined)]),
+        report([PASS, check("c-confined", "void", confined)]),
+        "a confinement failure during the check recorded as its cause while the state is "
+        "inconclusive",
+        "the same record reported void, the only state that cause is admitted under",
     )
     m.pair(
         "w3c-f-5", "W3C-R-005",
@@ -855,6 +891,18 @@ def build_roll_up(m: Members) -> None:
              "a control built to fail that did fail, over the run's own declared checks")
     m.accept("w3c-f-13", "W3C-R-013", report([PASS, FAIL]),
              "a run that already shows a non-pass, so the counts carry the answer")
+    # A negative verdict, not any non-pass: an inconclusive check ran and reached
+    # no conclusion, which shows nothing about whether the checks can reject.
+    m.reject("w3c-f-13", "W3C-R-013",
+             report([PASS, INCONCLUSIVE], negative={"kind": "shown-by-run"}),
+             "shown-by-run asserted on a run whose only non-pass is inconclusive: a non-pass "
+             "that is not a fail verdict")
+    inconclusive_control = {"kind": "control-failed",
+                            "control": {"checks": ["c-pass", "c-pass-2"],
+                                        "state": "inconclusive"}}
+    m.reject("w3c-f-13", "W3C-R-013", report(ALL_PASS, negative=inconclusive_control),
+             "a control built to fail that ran and reached no conclusion: failing to execute "
+             "does not show the check can reject the input")
     prior_ref = {"sha256": sha(b"prior-run"), "leaf-count": 2, "tree-shape": "flat"}
     prior = {"kind": "prior-discriminating-run", "reference": prior_ref}
     m.reject("w3c-f-14", "W3C-R-014", report(ALL_PASS, negative=prior),
@@ -862,6 +910,43 @@ def build_roll_up(m: Members) -> None:
     m.accept("w3c-f-14", "W3C-R-014",
              report(ALL_PASS, negative=dict(prior, **{"check-identity": ["c-pass", "c-pass-2"]})),
              "the same prior run binding the check identity that survived across runs")
+
+
+#: What the run's declared checks ran under, in the evidence object's own keys.
+RUN_FIXED = {"checker": "checker-1", "constraint-set": "cs-1"}
+
+
+def build_control_binding(m: Members) -> None:
+    """A control built to fail binds the checker and constraint set it ran under.
+
+    The case the list gave: a check keeps its identifier while its threshold
+    changes, so a control rejected under the stricter setting is evidence about
+    that setting and not about the one the run reports. A control that declares
+    no binding is not refused here; only a binding that differs from the run's.
+    """
+    def control(checker: str, constraint_set: str) -> dict[str, Any]:
+        return {"kind": "control-failed", "control": {
+            "checks": ["c-pass", "c-pass-2"], "state": "fail",
+            "fixed": {"checker": checker, "constraint-set": constraint_set},
+        }}
+
+    m.reject("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-2"), fixed=RUN_FIXED),
+             "a control that failed under constraint set cs-2, offered for checks that ran "
+             "under cs-1: the check kept its identifier and its configuration changed, so "
+             "the failure is evidence about another configuration")
+    m.reject("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-2", "cs-1"), fixed=RUN_FIXED),
+             "a control that failed under another checker than the one the reported checks "
+             "ran under")
+    m.accept("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-1"), fixed=RUN_FIXED),
+             "the same control bound to the checker and constraint set the reported checks "
+             "ran under")
+    m.accept("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-2")),
+             "a control that declares its binding in a run that declares none: nothing to "
+             "compare, and the proposal does not yet require the run's slot")
 
 
 def build_set_binding(m: Members) -> None:
@@ -889,6 +974,18 @@ def build_set_binding(m: Members) -> None:
              "the check set bound under the RFC 6962 tree shape, with its count")
     m.accept("w3c-f-15", "W3C-R-015", report([PASS, FAIL], shape="flat"),
              "the check set bound under the flat shape, with its count")
+    # RFC9162_SHA256 is the RFC 9942 registry identifier for the Merkle tree of
+    # RFC 9162 section 2.1.1 over SHA-256. The pair differs in the spelling of
+    # the shape alone: the root and the count are the same bytes in both.
+    registered = report(ALL_PASS, shape="RFC9162_SHA256")
+    free_text = copy.deepcopy(registered)
+    free_text["check-set"]["tree-shape"] = "RFC 9162 SHA-256"
+    m.reject("w3c-f-15", "W3C-R-015", free_text,
+             "the RFC 9162 tree named in free text: the closed set admits the registry "
+             "identifier and nothing else, because free text does not aggregate")
+    m.accept("w3c-f-15", "W3C-R-015", registered,
+             "the check set bound under RFC9162_SHA256, the RFC 9942 identifier for the "
+             "RFC 9162 Merkle tree over SHA-256, with its count")
 
 
 def build_rules(m: Members) -> None:
@@ -938,6 +1035,17 @@ def build_rules(m: Members) -> None:
         "repeated: the count says three and the digest does not recompute, so domain "
         "separation retained beside duplicate-last padding is still a mismatch",
         "the root recomputed over exactly the three leaves the count binds",
+    )
+    padded_9162 = report(three, shape="RFC9162_SHA256")
+    padded_9162["check-set"]["sha256"] = w3creport.check_set_root(
+        [*three, three[-1]], "RFC9162_SHA256"
+    )
+    m.pair(
+        "w3c-f-20", "W3C-R-020", padded_9162, report(three, shape="RFC9162_SHA256"),
+        "a root declared RFC9162_SHA256 and computed over the leaf set with its last leaf "
+        "repeated: the count says three and the RFC 9162 tree over three leaves does not "
+        "recompute to it",
+        "the RFC 9162 tree recomputed over exactly the three leaves the count binds",
     )
     demonstrated_pair = report([PASS, demonstrated], [evidence("e-1")])
     mismatched = store()
@@ -1485,6 +1593,7 @@ def build() -> list[dict[str, Any]]:
     build_rows_1_to_7(m)
     build_rows_8_to_12(m)
     build_roll_up(m)
+    build_control_binding(m)
     build_set_binding(m)
     build_rules(m)
     build_people_rules(m)
@@ -1755,6 +1864,54 @@ def build_requirements(members: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+#: Where the reference emitter's published runs live, one directory per run,
+#: each with the RUN.json that records what ran and the files it wrote.
+OBSERVED = "observed"
+
+
+def reference_emitter_runs() -> list[dict[str, Any]]:
+    """The reference emitter's published runs, pinned by digest and re-judged.
+
+    Kept apart from ``observedRuns``, which is reserved for runs by an
+    implementation this repository did not write. The build refuses a run
+    whose files do not hash to what its RUN.json records, a recorded re-run
+    that did not reproduce the published bytes, and a report the validator
+    does not accept as it stands.
+    """
+    runs = []
+    for name in sorted(os.listdir(os.path.join(HERE, OBSERVED))):
+        where = f"{OBSERVED}/{name}"
+        record_bytes = read(f"{where}/RUN.json")
+        record = json.loads(record_bytes)
+        pins = {}
+        for key in ("report", "conformanceReport"):
+            rel = f"{where}/{record[key]['file']}"
+            digest = sha(read(rel))
+            if digest != record[key]["sha256"]:
+                raise SystemExit(f"FAIL: {rel} does not hash to what {where}/RUN.json records")
+            pins[key] = {"path": rel, "sha256": digest}
+        for run in record["runs"]:
+            if run["reportSha256"] != pins["report"]["sha256"]:
+                raise SystemExit(f"FAIL: the run of {run['at']} in {where}/RUN.json did not "
+                                 "reproduce the published report")
+        report = json.loads(read(pins["report"]["path"]))
+        if shape := w3creport.shape_errors(report):
+            raise SystemExit(f"FAIL: {pins['report']['path']} is not a v0.1 report: {shape}")
+        if rejected := w3creport.rejections(report):
+            raise SystemExit(f"FAIL: {pins['report']['path']} is rejected under {rejected}")
+        runs.append({
+            "path": pins["report"]["path"], "sha256": pins["report"]["sha256"],
+            "conformanceReport": pins["conformanceReport"],
+            "run": {"path": f"{where}/RUN.json", "sha256": sha(record_bytes)},
+            "emittedBy": f"{record['package']} {record['version']}",
+            "tag": record["tag"], "commit": record["commit"], "command": record["command"],
+            "reproducedAt": [run["at"] for run in record["runs"]],
+            "counts": w3creport._counts(report["checks"]),
+            "judged": "no shape error, and no row fires",
+        })
+    return runs
+
+
 #: The evidence rows whose recomputed slot is a resolved observation, so the
 #: measurement above must agree with the class; the other evidence rows
 #: recompute from the report's own records (counts, roots, populations).
@@ -1838,6 +1995,7 @@ def build_manifest() -> tuple[dict[str, Any], dict[str, bytes]]:
         },
         "mutationSweep": {"file": "MUTATION-SWEEP.md", "rows": len(sweep), "leaks": 0},
         "observedRuns": [],
+        "referenceEmitterRuns": reference_emitter_runs(),
         "requirements": requirements,
         "counts": counts,
         "corpusDigest": sha(b"".join(files[entry["file"]] for entry in entries)),

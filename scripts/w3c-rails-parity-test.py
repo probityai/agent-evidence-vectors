@@ -14,7 +14,11 @@ requirement (the validator's answer against the manifest's), a member whose
 report loses its roll-up field (a row firing where none was expected), and a
 member whose check-set count is edited (the set-binding row), a member whose
 store resolves a reference to other bytes (the reading table's mismatch line),
-and a member whose fixed slot restates the domain (the domain-once row).
+a member whose fixed slot restates the domain (the domain-once row), a member
+whose check-set names a tree shape outside the closed set, a pass carrying the
+confinement cause (two rows at once), a control rebound to another constraint
+set, and the reference emitter's published run with a wrong digest and with a
+report the validator would reject.
 
 Usage: python3 scripts/w3c-rails-parity-test.py
 Exit 0 when every case prints identically on both rails; 1 otherwise.
@@ -22,6 +26,7 @@ Exit 0 when every case prints identically on both rails; 1 otherwise.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -76,12 +81,16 @@ def wrong_row(corpus: Path) -> None:
 
 
 def edit_member(
-    corpus: Path, edit: Callable[[dict[str, Any]], None], with_evidence: bool = False
+    corpus: Path,
+    edit: Callable[[dict[str, Any]], None],
+    with_evidence: bool = False,
+    family: str | None = None,
 ) -> None:
     entry = next(
         e for e in manifest_of(corpus)["vectors"]
         if e["kind"] == "accept" and e["subjectType"] == "report"
         and (not with_evidence or e["family"] == "w3c-f-21")
+        and (family is None or e["family"] == family)
     )
     path = corpus / entry["file"]
     document = json.loads(path.read_text(encoding="utf-8"))
@@ -125,6 +134,65 @@ def float_count(corpus: Path) -> None:
     edit_member(corpus, edit)
 
 
+def unregistered_shape(corpus: Path) -> None:
+    """A check-set naming its tree in free text: the closed set refuses it (rule 15)."""
+    def edit(document: dict[str, Any]) -> None:
+        document["subject"]["check-set"]["tree-shape"] = "RFC 9162 SHA-256"
+
+    edit_member(corpus, edit)
+
+
+def confinement_on_pass(corpus: Path) -> None:
+    """The confinement cause on a pass: rows 4 and 7 both fire, on both rails."""
+    def edit(document: dict[str, Any]) -> None:
+        document["subject"]["checks"][0]["cause"] = {"code": "confinement-failed-during-check"}
+
+    edit_member(corpus, edit)
+
+
+def rebound_control(corpus: Path) -> None:
+    """A bound control moved to another constraint set than the run's (rule 29)."""
+    def edit(document: dict[str, Any]) -> None:
+        control = document["subject"]["roll-up"]["negative-capable"]["control"]
+        control["fixed"]["constraint-set"] = "cs-3"
+
+    def bound(document: dict[str, Any]) -> bool:
+        return "fixed" in document["subject"]
+
+    manifest = manifest_of(corpus)
+    for entry in manifest["vectors"]:
+        if entry["family"] != "w3c-f-29" or entry["kind"] != "accept":
+            continue
+        path = corpus / entry["file"]
+        document = json.loads(path.read_text(encoding="utf-8"))
+        if bound(document):
+            edit(document)
+            path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n",
+                            encoding="utf-8")
+            return
+    raise SystemExit("no bound control member to rebind")
+
+
+def emitter_run_digest(corpus: Path) -> None:
+    manifest = manifest_of(corpus)
+    manifest["referenceEmitterRuns"][0]["sha256"] = "0" * 64
+    write_manifest(corpus, manifest)
+
+
+def emitter_run_rejected(corpus: Path) -> None:
+    """A published report the validator would reject, re-pinned so its digest holds."""
+    manifest = manifest_of(corpus)
+    run = manifest["referenceEmitterRuns"][0]
+    path = corpus / run["path"]
+    report = json.loads(path.read_text(encoding="utf-8"))
+    report["checks"][0]["state"] = "pass"
+    report["checks"][0]["cause"] = {"code": "out_of_scope"}
+    body = json.dumps(report, indent=2, sort_keys=True).encode("utf-8") + b"\n"
+    path.write_bytes(body)
+    run["sha256"] = hashlib.sha256(body).hexdigest()
+    write_manifest(corpus, manifest)
+
+
 CASES: list[tuple[str, Callable[[Path], None] | None]] = [
     ("committed", None),
     ("flipped-byte", flip_first_member),
@@ -134,6 +202,11 @@ CASES: list[tuple[str, Callable[[Path], None] | None]] = [
     ("float-count", float_count),
     ("mismatched-store", mismatched_store),
     ("restated-domain", restated_domain),
+    ("unregistered-shape", unregistered_shape),
+    ("confinement-on-pass", confinement_on_pass),
+    ("rebound-control", rebound_control),
+    ("emitter-run-digest", emitter_run_digest),
+    ("emitter-run-rejected", emitter_run_rejected),
 ]
 
 

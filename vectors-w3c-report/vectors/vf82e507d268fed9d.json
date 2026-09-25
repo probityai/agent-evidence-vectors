@@ -1,0 +1,70 @@
+{
+  "expected": {
+    "rejects": [],
+    "verdict": "accept"
+  },
+  "family": "w3c-f-4",
+  "id": "vf82e507d268fed9d",
+  "kind": "accept",
+  "requirements": [
+    "W3C-R-004"
+  ],
+  "resolves": {
+    "obs-fail": {
+      "rules": [
+        "R-1"
+      ],
+      "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+      "verdict": "fail"
+    },
+    "obs-pass": {
+      "rules": [],
+      "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 2,
+      "sha256": "9a6764b0dcbb1b3ef5e603b3ff12186439a650b42a91874501133101f1f0b43a",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "check": "c-pass",
+        "state": "pass"
+      },
+      {
+        "cause": {
+          "code": "confinement-failed-during-check",
+          "detail": "the sandbox's egress control failed while the check ran"
+        },
+        "check": "c-confined",
+        "state": "void"
+      }
+    ],
+    "domain": {
+      "description": "the run's declared domain, referenced by identifier",
+      "id": "d-run"
+    },
+    "evidence": [],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 2,
+      "exercised": 2,
+      "fail": 0,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "nothing"
+      },
+      "not-exercised": 0,
+      "pass": 1,
+      "referenced": 0,
+      "void": 1
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}

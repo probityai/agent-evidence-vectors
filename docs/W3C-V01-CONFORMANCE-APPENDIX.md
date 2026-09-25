@@ -17,7 +17,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-001` (1) | consistency | agreed | `vb11134a37e7c0c2b` | `ve5d916a50130739e`, `ve70386fdb6f071d3`, `vfbd7379026575f04` | a non-verdict state with no cause | `87893835a3e13451` |
 | `W3C-R-002` (2) | consistency | agreed | `vf374114fe7f28e7d` | `v804ca6858fa22efe`, `vfbd7379026575f04` | void with not_applicable, out_of_scope or withheld | `05fb9274ff0859d9` |
 | `W3C-R-003` (3) | consistency | agreed | `v98252c989e84999d` | `v822b02c01fe9ddd2` | not-exercised with integrity-failure | `587e9bc351daaed2` |
-| `W3C-R-004` (4) | consistency | proposed | `v8a977b50ac8c5d36` | `vbe0d0e4267dd64af` | a confinement control that failed while the check ran | `32dd6b74795b02bd` |
+| `W3C-R-004` (4) | consistency | proposed | `vec36e393a92b69eb` | `vf82e507d268fed9d` | a confinement control that failed while the check ran | `32dd6b74795b02bd` |
 | `W3C-R-005` (5) | consistency | agreed | `v7cac3bda7403c268` | `v320406e03fff4faa`, `ve5d916a50130739e` | a declared exclusion with any state but not-exercised | `ed9007c6e8a11eb2` |
 | `W3C-R-006` (6) | consistency | agreed | `v8981e0830c69b869` | `vaad2cb64c5b0646b` | a non-verdict state carrying either qualifier | `4ef6f3c9383ae454` |
 | `W3C-R-007` (7) | consistency | agreed | `vdcbd067d047bfbd0` | `v8a7442b19984a1ff` | a verdict state carrying a cause | `831dc816ea23fa26` |
@@ -38,9 +38,9 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 
 | row | class | status | reject | accept | sentence | digest |
 |---|---|---|---|---|---|---|
-| `W3C-R-013` ((a) roll-up) | evidence | agreed | `vaeb76896b202e837`, `vc58647a590befbb7` | `va213bada85cc9abe`, `vb195f23e8436fd19`, `vd8d93fd735111aa5` | a roll-up states whether the checks it aggregates were capable of a negative verdict | `f73fd10347201018` |
+| `W3C-R-013` ((a) roll-up) | evidence | agreed | `v1660acd2e4efb7c7`, `v4e4face5dd4ff492`, `vaeb76896b202e837`, `vc58647a590befbb7` | `va213bada85cc9abe`, `vb195f23e8436fd19`, `vd8d93fd735111aa5` | a roll-up states whether the checks it aggregates were capable of a negative verdict | `f73fd10347201018` |
 | `W3C-R-014` ((a) prior run) | consistency | agreed | `v66fd68ad7d106fac` | `v04934d23180f6d9c` | a prior discriminating run only counts where check identity survives across runs | `2da5682dbbb4be1f` |
-| `W3C-R-015` ((b) set binding) | evidence | agreed | `v28820b464a335617`, `v7c22f1451e51aeb5`, `v88935f0b29397a80`, `vfbc5db1c2a012359` | `v148fc59046a8548a`, `v86e1560a0d27b432` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses | `c6fe2b8552666e81` |
+| `W3C-R-015` ((b) set binding) | evidence | agreed | `v28820b464a335617`, `v4a06b866afca0d49`, `v7c22f1451e51aeb5`, `v88935f0b29397a80`, `vfbc5db1c2a012359` | `v1032eb59a7cdb30f`, `v148fc59046a8548a`, `v86e1560a0d27b432` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses | `c6fe2b8552666e81` |
 
 ## The rules the freeze list and the editor's restatement carry
 
@@ -50,7 +50,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-017` (roll-up denominator) | evidence | agreed | `v1c020dd1ed49874c` | `v735efb00ce85d044` | never emitted without its complete denominator | `526d7694de57f6c5` |
 | `W3C-R-018` (roll-up counter) | evidence | agreed | `v48877f27bbd03b55` | `vdf05d359490e7833` | the counter over carried against referenced | `31c3dfd19fc59147` |
 | `W3C-R-019` (closed vocabulary) | form | agreed | `v27a01b14321f6ae5` | `v2a251ae413920da5` | because free text does not aggregate | `1b376a60d7520ff7` |
-| `W3C-R-020` (reference mismatch) | evidence | agreed | `v6cd84ff1aea45153`, `vab508347e605c0af` | `v472759709d82c585`, `vfa24e4f45c2e826e` | resolves with a mismatch (an integrity failure) | `af507f1056e619da` |
+| `W3C-R-020` (reference mismatch) | evidence | agreed | `v499412698a1dd50e`, `v6cd84ff1aea45153`, `vab508347e605c0af` | `v472759709d82c585`, `v4f343e8bd3d6af08`, `vfa24e4f45c2e826e` | resolves with a mismatch (an integrity failure) | `af507f1056e619da` |
 
 ## The rules the thread settled beside the table
 
@@ -68,16 +68,22 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-027` (arity recomputed) | form | agreed | `v20a798b25fc2ec0b` | `vc938b2ab36cae34a` | so arity is recomputed from the delta | `8d4a3be209be152c` |
 | `W3C-R-028` (domain once) | form | agreed | `vd2ae28ba9140bc89` | `va0620b488f2ff2f5` | The domain is declared once at run level | `fc883a4e2664fb33` |
 
+## Proposed in the v0.1 comment window
+
+| row | class | status | reject | accept | sentence | digest |
+|---|---|---|---|---|---|---|
+| `W3C-R-029` ((a) control binding) | consistency | proposed | `va86e962a5024f152`, `ve9c436f93e42e394` | `v49afe44cc51bc376`, `v796a6048345b8f58` | say that the control uses the same checker revision and relevant configuration and constraints as the checks whose negative capability is being reported | `c3507c44c022f601` |
+
 ## Proposed classification of rows 4, 10, 11, 12 and 13
 
 The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and row 14 into the form class, and leaves five rows unclassified: 4, 10, 11, 12 and 13. Each of the five is classified here from the record definitions in the handover's own terms, with the vector pair that demonstrates the class under it. The part of the class a validator can measure is measured: every reject member of the corpus is re-judged by a reader that resolves nothing, and a row whose members stop firing reads a resolved slot (`resolvedRead` in the manifest). Rows 4, 10, 11 and 12 fire under that reader; row 13 does not.
 
 ### Row 4, `W3C-R-004`: a confinement control that failed while the check ran
 
-**Consistency.** The row reads one declared cell against another: the `confinement-failed-during-check` flag the emitter wrote, and the `state` the emitter wrote. Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires it from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). It is the same shape as row 5, a declared exclusion read against the state, which the handover already places in the consistency class.
+**Consistency.** The row reads the record's own `cause` cell against its `state`, the same construction as row 3, which reads the cause value `integrity-failure` against `not-exercised`. The fact that a confinement control failed while the check ran is written as the cause value `confinement-failed-during-check`, admitted only under `void`, so the four-field record of section 1 carries no extra cell for it. That answers the question Schuurkes put on the list of how the antecedent is represented for a reader (`0076`), with the construction Rocchia proposed in reply (`0077`). Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires the row from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). The reject member is `inconclusive` rather than `fail`, because a verdict state carrying any cause is also row 7 and a member is rejected under one row only. What a row over declarations cannot establish, as Schuurkes noted, is that a producer disclosed every confinement control that failed. The value's name is proposed, pending the editor's v0.1 text.
 
-- reject `v8a977b50ac8c5d36`: a confinement control failed while the check ran and the record still reports fail
-- accept `vbe0d0e4267dd64af`: the same run reported void, the only state the pair table allows it
+- reject `vec36e393a92b69eb`: a confinement failure during the check recorded as its cause while the state is inconclusive
+- accept `vf82e507d268fed9d`: the same record reported void, the only state that cause is admitted under
 
 ### Row 10, `W3C-R-010`: foreclosed without a constraint set and a domain
 
@@ -110,11 +116,15 @@ The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and
 
 ## The value for void
 
-The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
+The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`, and this corpus adds one more under void, proposed with row 4: `confinement-failed-during-check`, the cause row 4 reads against the state. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
 
 ## The reading table, as members
 
 Carry-or-reference is fixed as: the format permits both and requires one, the form is decidable from the object alone (row 14), and reading a well-formed object is a table rather than a row. The three lines of the table are each a member. Resolves with matching digests: the accept members of families `w3c-f-20`, `w3c-f-21` and `w3c-f-25`, where the reader's store carries the observation the reference names and `moved` recomputes from it. Resolves with a mismatch: the `w3c-f-20` reject member whose store resolves the reference to bytes with another digest, an integrity failure, beside the check-set member whose RFC 6962 root was computed with domain separation over a duplicated last leaf, which is the same failure over the set. Does not resolve: the second accept member of `w3c-f-25`, the report that a reader with the suite rejects, read by a reader without it, unchecked, with the rows that read `moved` degrading rather than firing. The Merkle line the editor took from the narrowing on the list, that binding the count is necessary and is not a general membership proof and that domain separation added while duplicate-last padding is retained does not remove the ambiguity, is the `w3c-f-15` reject member that binds its count and asserts domain separation with no tree shape declared, rejected because the producer declares the shape.
+
+## The tree shapes, as a closed set
+
+Section 3.1 of the v0.1 draft requires a report to declare which tree shape its digest over a collection uses and leaves the vocabulary open (Q7). This corpus holds it closed, for the reason the cause vocabulary is closed: free text does not aggregate. The set is `flat`, `rfc6962`, `RFC9162_SHA256`. `RFC9162_SHA256` is the identifier RFC 9942 section 5.1 registers for the Merkle tree of RFC 9162 section 2.1.1 over SHA-256, whose tree hash is the RFC 6962 one, so the two names denote one construction and a report may use either. Its admission is proposed, following the closed, versioned set of construction identifiers Schuurkes asked for on the list, and it enters with its members: in `w3c-f-15` an accept member bound under `RFC9162_SHA256` and a reject member naming the same tree in free text, and in `w3c-f-20` a reject member whose `RFC9162_SHA256` root was computed over a duplicated last leaf with its accepting twin. Each reader maps every name in the set to its own root function and refuses any other name, so a shape outside the set can never be hashed as one inside it.
 
 ## The counts on open row B, labelled as the editor labels them
 
@@ -137,6 +147,12 @@ EOF
 ```
 
 The figure is pinned to `v0.11.1` and does not track the live suite, because row B is an argument about what a corpus at a stated revision already asserts. The measurements do not contradict each other: one field is a property of how a corpus was built, not one the format can assume, and arity is therefore recomputed from the delta (`W3C-R-027`) and read by no row while the question is open.
+
+## Section 9.1: the reference emitter's run, published
+
+The v0.1 draft records as a known gap (section 9.1) the report the reference emitter writes over the adversarial-execution corpus, and asks for a check by a second reader. That report is published beside this corpus, pinned in the manifest's `referenceEmitterRuns` and re-judged by both readers on every run, which refuse the corpus if the file is gone, its bytes have changed, or the validator would reject it. It is kept apart from `observedRuns`, which is reserved for runs by an implementation this repository did not write.
+
+- `vectors-w3c-report/observed/aee-v0.12.0/report.json`, sha256 `37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2`, written by `uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json` (agent-evidence-vectors 0.12.0, tag `v0.12.0`, commit `2f3aee40a454df6de0f571d119f057d7dbb8dd67`) from the harness report `vectors-w3c-report/observed/aee-v0.12.0/conformance-report.json`, with the record of the run at `vectors-w3c-report/observed/aee-v0.12.0/RUN.json`. It holds one record per member of the AEE corpus at tag `v0.12.0` (239 fail, 31 pass, 2 inconclusive), with no shape error and no row firing, and runs made at `2026-09-24T13:11:34Z` and `2026-09-25T15:46:07Z` wrote the same bytes.
 
 ## The crosswalk from the harness's report, and the known gaps
 
@@ -205,5 +221,7 @@ The same manifest carries members of two other subject types, judged by their ow
 | `0069` | Evgenii Arsentev | `40153b17403b0e6594dfe00a9e9a5c01e5b978b6ce47b12a4ef0bbe31817514b` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0069.html |
 | `0072` | Nicolas Rocchia | `27cea4f3ffd48ed4fd0cab47ae08df3542f3cdded2aded7163a489e2edf8b831` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0072.html |
 | `0073` | Evgenii Arsentev | `42fa833367e0e1d5b484f988da520c96936f009bbe2578fa7d0f22691830a134` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
+| `0076` | Roel Schuurkes | `7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
+| `0077` | Nicolas Rocchia | `88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `13081268c70a19e9b3f74a6f772b657c56403ce6c45623da39a188394eefd411` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |

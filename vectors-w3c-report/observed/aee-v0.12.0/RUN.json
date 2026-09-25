@@ -1,0 +1,35 @@
+{
+  "what": "The v0.1 per-check report the reference emitter writes from the AEE corpus, as released at 0.12.0: the run the v0.1 draft's known gap on the reference emitter refers to, published beside the corpus with the release it ran at.",
+  "command": "uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json",
+  "package": "agent-evidence-vectors",
+  "version": "0.12.0",
+  "tag": "v0.12.0",
+  "commit": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+  "wheel": {
+    "file": "agent_evidence_vectors-0.12.0-py3-none-any.whl",
+    "sha256": "cb346a41f715029f8e68542150560b08a71ac23eb7660eaa411aea4fd2ec1f59",
+    "source": "https://pypi.org/pypi/agent-evidence-vectors/0.12.0/json"
+  },
+  "rail": "reference",
+  "interpreter": "CPython 3.14.3, Linux x86_64",
+  "report": {
+    "file": "report.json",
+    "sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2"
+  },
+  "conformanceReport": {
+    "file": "conformance-report.json",
+    "sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+  },
+  "runs": [
+    {
+      "at": "2026-09-24T13:11:34Z",
+      "reportSha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+      "note": "the run the list message of that day reported; its conformance report was not kept"
+    },
+    {
+      "at": "2026-09-25T15:46:07Z",
+      "reportSha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+      "note": "a fresh run in an empty directory with no package cache; both files here are its output, and its report is byte-identical to the earlier run's"
+    }
+  ]
+}

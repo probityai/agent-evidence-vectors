@@ -28,12 +28,11 @@ var (
 	w3cStates      = set("pass", "fail", "inconclusive", "not-exercised", "void")
 	w3cVerdict     = set("pass", "fail")
 	w3cNonVerdict  = set("inconclusive", "not-exercised", "void")
-	w3cCauses      = set("not_applicable", "disabled_by_policy", "unsupported_input", "resource_exhausted", "failed", "unavailable", "out_of_scope", "withheld", "evidence-does-not-hold", "integrity-failure", "availability-failure", "precondition-unsatisfiable")
+	w3cCauses      = set("not_applicable", "disabled_by_policy", "unsupported_input", "resource_exhausted", "failed", "unavailable", "out_of_scope", "withheld", "evidence-does-not-hold", "integrity-failure", "availability-failure", "precondition-unsatisfiable", w3cConfinementCause)
 	w3cNeverExam   = set("not_applicable", "out_of_scope", "withheld")
 	w3cOther       = set("unknown", "possible-not-demonstrated", "demonstrated", "foreclosed")
 	w3cDisc        = set("unknown", "demonstrated")
 	w3cNegative    = set("shown-by-run", "control-failed", "prior-discriminating-run", "nothing")
-	w3cShapes      = set("flat", "rfc6962")
 	w3cChanged     = set("input artifact", "checker rule", "constraint")
 	w3cSlots       = set("verdict", "fired-rule list", "error list")
 	w3cKinds       = set("accept", "reject")
@@ -43,6 +42,11 @@ var (
 	w3cCoverageStr = []string{"surface", "scan-depth", "point-in-time", "linked-repo"}
 	w3cClaims      = set("satisfied", "not-satisfied", "not-claimable")
 )
+
+// w3cConfinementCause is row 4's antecedent as a cause value admitted only
+// under void, so row 4 reads cause against state the way row 3 does and the
+// four-field record carries no extra cell. Proposed, as in the Python module.
+const w3cConfinementCause = "confinement-failed-during-check"
 
 func set(values ...string) map[string]bool {
 	out := map[string]bool{}
@@ -62,6 +66,22 @@ type w3cManifest struct {
 	Counts       map[string]int             `json:"counts"`
 	CorpusDigest string                     `json:"corpusDigest"`
 	Vectors      []w3cVector                `json:"vectors"`
+	EmitterRuns  []w3cEmitterRun            `json:"referenceEmitterRuns"`
+}
+
+// w3cEmitterRun is one published run of the reference emitter: the v0.1 report
+// it wrote, the harness report it wrote that from, and the record of the run,
+// each pinned by digest.
+type w3cEmitterRun struct {
+	Path              string `json:"path"`
+	Sha256            string `json:"sha256"`
+	ConformanceReport w3cPin `json:"conformanceReport"`
+	Run               w3cPin `json:"run"`
+}
+
+type w3cPin struct {
+	Path   string `json:"path"`
+	Sha256 string `json:"sha256"`
 }
 
 type w3cVector struct {
@@ -309,6 +329,7 @@ func (w w3cReport) checkCorpus(dir string, m *w3cManifest, known map[string]bool
 		findings = append(findings, "families declared and carried by no member: "+w3cList(unused))
 	}
 	findings = append(findings, w3cVendoredFindings(dir, m)...)
+	findings = append(findings, w3cEmitterRunFindings(dir, m)...)
 	if bad := countsDisagree(m.Counts, tally.measured); bad != "" {
 		findings = append(findings, bad)
 	}
@@ -373,6 +394,55 @@ func w3cVendoredFindings(dir string, m *w3cManifest) []string {
 	return findings
 }
 
+// w3cEmitterRunFindings: every published run of the reference emitter is on
+// disk with the digests the manifest pins, and the report it wrote is one the
+// validator accepts as it stands.
+func w3cEmitterRunFindings(dir string, m *w3cManifest) []string {
+	var findings []string
+	for _, run := range m.EmitterRuns {
+		reportHolds := true
+		for _, pin := range []w3cPin{{run.Path, run.Sha256}, run.ConformanceReport, run.Run} {
+			if finding := w3cPinFinding(dir, pin); finding != "" {
+				findings = append(findings, finding)
+				reportHolds = reportHolds && pin.Path != run.Path
+			}
+		}
+		if reportHolds {
+			findings = append(findings, w3cEmittedReportFindings(dir, run.Path)...)
+		}
+	}
+	return findings
+}
+
+func w3cPinFinding(dir string, pin w3cPin) string {
+	if !existsIn(dir, pin.Path) {
+		return fmt.Sprintf("referenceEmitterRuns: %s is missing", pin.Path)
+	}
+	body, err := readIn(dir, pin.Path)
+	if err != nil || sha(body) != pin.Sha256 {
+		return fmt.Sprintf("referenceEmitterRuns: %s does not match its pinned digest", pin.Path)
+	}
+	return ""
+}
+
+func w3cEmittedReportFindings(dir, path string) []string {
+	body, err := readIn(dir, path)
+	if err != nil {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s does not parse", path)}
+	}
+	document, err := decodeJSONNumbers(body)
+	if err != nil {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s does not parse", path)}
+	}
+	if shape := w3cShapeErrors(document); len(shape) > 0 {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s is not a v0.1 report: %s", path, strings.Join(shape, "; "))}
+	}
+	if rejected := w3cRejections(document.(map[string]any), nil); len(rejected) > 0 {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s is rejected under %s", path, w3cList(rejected))}
+	}
+	return nil
+}
+
 // ---------------------------------------------------------------------------
 // Shape.
 // ---------------------------------------------------------------------------
@@ -406,11 +476,9 @@ func w3cShapeCheck(check any, index int, out *[]string) {
 			*out = append(*out, where+"."+slot+" carries no string value")
 		}
 	}
-	for _, flag := range []string{"declared-exclusion", "confinement-failed-during-check"} {
-		if value, present := object[flag]; present {
-			if _, isBool := value.(bool); !isBool {
-				*out = append(*out, where+"."+flag+" is present and is not a boolean")
-			}
+	if value, present := object["declared-exclusion"]; present {
+		if _, isBool := value.(bool); !isBool {
+			*out = append(*out, where+".declared-exclusion is present and is not a boolean")
 		}
 	}
 }
@@ -526,7 +594,7 @@ func w3cShapeErrors(value any) []string {
 		out = append(out, "two evidence objects carry one id")
 	}
 	w3cShapeDomain(report, &out)
-	for _, slot := range []string{"roll-up", "check-set"} {
+	for _, slot := range []string{"roll-up", "check-set", "fixed"} {
 		if value, present := report[slot]; present && !isObj(value) {
 			out = append(out, slot+" is present and is not an object")
 		}
@@ -584,12 +652,12 @@ func w3cRowCause(check map[string]any, state string, out w3cRejects) {
 	if state == "not-exercised" && code == "integrity-failure" {
 		out.add(3)
 	}
+	if code == w3cConfinementCause && state != "void" {
+		out.add(4)
+	}
 }
 
 func w3cRowPairs(check map[string]any, state string, out w3cRejects) {
-	if flag, _ := check["confinement-failed-during-check"].(bool); flag && state != "void" {
-		out.add(4)
-	}
 	if flag, _ := check["declared-exclusion"].(bool); flag && state != "not-exercised" {
 		out.add(5)
 	}
@@ -933,7 +1001,7 @@ func w3cIdentity(v any, ids map[string]bool) bool {
 	return true
 }
 
-func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[string]bool, out w3cRejects) {
+func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[string]bool, runFixed any, out w3cRejects) {
 	field, ok := rollup["negative-capable"].(map[string]any)
 	if !ok || !isStr(field["kind"]) {
 		out.add(13)
@@ -951,6 +1019,8 @@ func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[strin
 			out.add(13)
 		} else if state, _ := control["state"].(string); state != "fail" {
 			out.add(13)
+		} else {
+			w3cRowControlBinding(control["fixed"], runFixed, out)
 		}
 	case kind == "prior-discriminating-run":
 		if !w3cIdentity(field["check-identity"], ids) {
@@ -1120,11 +1190,53 @@ func w3cRowsRollup(report map[string]any, checks []map[string]any, out w3cReject
 		id, _ := check["check"].(string)
 		ids[id] = true
 	}
-	w3cRowsNegative(rollup, counts, ids, out)
+	w3cRowsNegative(rollup, counts, ids, report["fixed"], out)
 	w3cRowsCompleteness(rollup, checks, counts, out)
 }
 
+// w3cRoots is the closed set of tree shapes and the construction each name
+// denotes. w3cShapes is derived from its keys, so a name cannot enter the set
+// without a root function and a name outside it has none to fall through to.
+var w3cRoots = map[string]func([][]byte) []byte{
+	"flat":    flatRoot,
+	"rfc6962": mth,
+	// RFC 9942 section 5.1 registers RFC9162_SHA256 as the Merkle tree of RFC
+	// 9162 section 2.1.1 over SHA-256, whose Merkle Tree Hash is the RFC 6962
+	// one: the same leaf and node prefixes and the same split.
+	"RFC9162_SHA256": mth,
+}
+
+var w3cShapes = func() map[string]bool {
+	out := map[string]bool{}
+	for name := range w3cRoots {
+		out[name] = true
+	}
+	return out
+}()
+
+// w3cRowControlBinding is rule 29 (proposed): a control ran under the checker
+// and constraint set of the checks it speaks for. It is read only where both
+// the control and the run declare the binding, so a binding that differs from
+// the run's is refused and a missing one is not.
+func w3cRowControlBinding(bound, runFixed any, out w3cRejects) {
+	control, okControl := bound.(map[string]any)
+	run, okRun := runFixed.(map[string]any)
+	if !okControl || !okRun {
+		return
+	}
+	for _, slot := range []string{"checker", "constraint-set"} {
+		if !jsonEqual(control[slot], run[slot]) {
+			out.add(29)
+			return
+		}
+	}
+}
+
 func w3cCheckSetRoot(checks []map[string]any, shape string) (string, error) {
+	root, registered := w3cRoots[shape]
+	if !registered {
+		return "", fmt.Errorf("tree shape %q is not in the closed set", shape)
+	}
 	leaves := make([][]byte, 0, len(checks))
 	for _, check := range checks {
 		leaf, err := pythonCompactJSON(check)
@@ -1133,15 +1245,17 @@ func w3cCheckSetRoot(checks []map[string]any, shape string) (string, error) {
 		}
 		leaves = append(leaves, leaf)
 	}
-	if shape == "rfc6962" {
-		return hex.EncodeToString(mth(leaves)), nil
-	}
+	return hex.EncodeToString(root(leaves)), nil
+}
+
+// flatRoot is SHA-256 over the concatenated SHA-256 of each leaf, in order.
+func flatRoot(leaves [][]byte) []byte {
 	h := sha256.New()
 	for _, leaf := range leaves {
 		sum := sha256.Sum256(leaf)
 		h.Write(sum[:])
 	}
-	return hex.EncodeToString(h.Sum(nil)), nil
+	return h.Sum(nil)
 }
 
 // mth is the Merkle tree hash of RFC 6962 section 2.1: leaf prefix 0x00, node

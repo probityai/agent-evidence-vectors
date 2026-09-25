@@ -30,7 +30,7 @@ REPO = Path(__file__).resolve().parent.parent
 MANIFEST = REPO / "vectors-w3c-report" / "MANIFEST.json"
 TARGET = REPO / "docs" / "W3C-V01-CONFORMANCE-APPENDIX.md"
 
-ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 29)}
+ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
 
 SECTIONS = (
     ("The twelve rejection rows", [ROW[n] for n in range(1, 13)]),
@@ -39,6 +39,7 @@ SECTIONS = (
     ("The rules the freeze list and the editor's restatement carry", [ROW[n] for n in range(16, 21)]),
     ("The rules the thread settled beside the table", [ROW[n] for n in range(21, 25)]),
     ("Arity and domain, from the handover's record definitions", [ROW[27], ROW[28]]),
+    ("Proposed in the v0.1 comment window", [ROW[29]]),
 )
 
 #: The five rows the handover left unclassified, each classified here with its
@@ -47,7 +48,7 @@ UNCLASSIFIED = (ROW[4], ROW[10], ROW[11], ROW[12], ROW[25])
 
 RATIONALE = {
     ROW[4]: (
-        "**Consistency.** The row reads one declared cell against another: the `confinement-failed-during-check` flag the emitter wrote, and the `state` the emitter wrote. Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires it from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). It is the same shape as row 5, a declared exclusion read against the state, which the handover already places in the consistency class."
+        "**Consistency.** The row reads the record's own `cause` cell against its `state`, the same construction as row 3, which reads the cause value `integrity-failure` against `not-exercised`. The fact that a confinement control failed while the check ran is written as the cause value `confinement-failed-during-check`, admitted only under `void`, so the four-field record of section 1 carries no extra cell for it. That answers the question Schuurkes put on the list of how the antecedent is represented for a reader (`0076`), with the construction Rocchia proposed in reply (`0077`). Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires the row from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). The reject member is `inconclusive` rather than `fail`, because a verdict state carrying any cause is also row 7 and a member is rejected under one row only. What a row over declarations cannot establish, as Schuurkes noted, is that a producer disclosed every confinement control that failed. The value's name is proposed, pending the editor's v0.1 text."
     ),
     ROW[10]: (
         "**Consistency.** The row reads a declared value, `foreclosed`, against the presence of the two parameters that value must carry, the constraint set and the domain identifier. The handover's own sort settles what a presence check within one record is: rows 1 and 7 are presence checks (a non-verdict state with no cause; a verdict state with a cause) and both sit in the consistency class. Row 10 is the same reading applied to the other-verdict cell, so it takes the same class. It is not a form row, because the object's shape is fine; what contradicts is the value and its own arguments."
@@ -85,13 +86,19 @@ The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and
 VOID = """
 ## The value for void
 
-The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
+The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`, and this corpus adds one more under void, proposed with row 4: `confinement-failed-during-check`, the cause row 4 reads against the state. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
 """
 
 READING_TABLE = """
 ## The reading table, as members
 
 Carry-or-reference is fixed as: the format permits both and requires one, the form is decidable from the object alone (row 14), and reading a well-formed object is a table rather than a row. The three lines of the table are each a member. Resolves with matching digests: the accept members of families `w3c-f-20`, `w3c-f-21` and `w3c-f-25`, where the reader's store carries the observation the reference names and `moved` recomputes from it. Resolves with a mismatch: the `w3c-f-20` reject member whose store resolves the reference to bytes with another digest, an integrity failure, beside the check-set member whose RFC 6962 root was computed with domain separation over a duplicated last leaf, which is the same failure over the set. Does not resolve: the second accept member of `w3c-f-25`, the report that a reader with the suite rejects, read by a reader without it, unchecked, with the rows that read `moved` degrading rather than firing. The Merkle line the editor took from the narrowing on the list, that binding the count is necessary and is not a general membership proof and that domain separation added while duplicate-last padding is retained does not remove the ambiguity, is the `w3c-f-15` reject member that binds its count and asserts domain separation with no tree shape declared, rejected because the producer declares the shape.
+"""
+
+TREE_SHAPES = """
+## The tree shapes, as a closed set
+
+Section 3.1 of the v0.1 draft requires a report to declare which tree shape its digest over a collection uses and leaves the vocabulary open (Q7). This corpus holds it closed, for the reason the cause vocabulary is closed: free text does not aggregate. The set is {shapes}. `RFC9162_SHA256` is the identifier RFC 9942 section 5.1 registers for the Merkle tree of RFC 9162 section 2.1.1 over SHA-256, whose tree hash is the RFC 6962 one, so the two names denote one construction and a report may use either. Its admission is proposed, following the closed, versioned set of construction identifiers Schuurkes asked for on the list, and it enters with its members: in `w3c-f-15` an accept member bound under `RFC9162_SHA256` and a reject member naming the same tree in free text, and in `w3c-f-20` a reject member whose `RFC9162_SHA256` root was computed over a duplicated last leaf with its accepting twin. Each reader maps every name in the set to its own root function and refuses any other name, so a shape outside the set can never be hashed as one inside it.
 """
 
 COUNTS = """
@@ -129,6 +136,32 @@ Two things the emitter says out loud rather than quietly fixing. The indetermina
 
 The same manifest carries members of two other subject types, judged by their own sentences in their own modules: the Run object of `draft-arsentev-agent-run-metrics-00`, twenty-two rows over the members and invariants a validator can read off one Report, and the discovery snapshot of `draft-arsentev-llm-context-discovery-00`, eleven rows over what an origin advertises and what a consumer resolves. Their tables follow the same shape and are listed after the report rows.
 """
+
+
+EMITTER_RUN = """
+## Section 9.1: the reference emitter's run, published
+
+The v0.1 draft records as a known gap (section 9.1) the report the reference emitter writes over the adversarial-execution corpus, and asks for a check by a second reader. That report is published beside this corpus, pinned in the manifest's `referenceEmitterRuns` and re-judged by both readers on every run, which refuse the corpus if the file is gone, its bytes have changed, or the validator would reject it. It is kept apart from `observedRuns`, which is reserved for runs by an implementation this repository did not write.
+
+{runs}
+"""
+
+
+def emitter_runs(manifest: dict[str, Any]) -> str:
+    lines = []
+    for run in manifest["referenceEmitterRuns"]:
+        counts = run["counts"]
+        states = ", ".join(f"{counts[k]} {k}" for k in ("fail", "pass", "inconclusive", "not-exercised", "void") if counts[k])
+        lines.append(
+            f"- `vectors-w3c-report/{run['path']}`, sha256 `{run['sha256']}`, written by `{run['command']}` "
+            f"({run['emittedBy']}, tag `{run['tag']}`, commit `{run['commit']}`) from the harness report "
+            f"`vectors-w3c-report/{run['conformanceReport']['path']}`, with the record of the run at `vectors-w3c-report/{run['run']['path']}`. "
+            f"It holds one record per member of the AEE corpus at tag `{run['tag']}` ({states}), "
+            f"with no shape error and no row firing, and runs made at "
+            + " and ".join(f"`{at}`" for at in run["reproducedAt"])
+            + " wrote the same bytes."
+        )
+    return EMITTER_RUN.format(runs="\n".join(lines))
 
 
 def load() -> dict[str, Any]:
@@ -191,7 +224,10 @@ def render(manifest: dict[str, Any]) -> str:
     parts.append(classification(manifest))
     parts.append(VOID)
     parts.append(READING_TABLE)
+    shapes = ", ".join(f"`{name}`" for name in manifest["codeRegistry"]["tree-shape"])
+    parts.append(TREE_SHAPES.format(shapes=shapes))
     parts.append(COUNTS)
+    parts.append(emitter_runs(manifest))
     parts.append(OUTRO)
     for prefix, heading in (("ARM-R-", "Run object rows"), ("LCD-R-", "Discovery snapshot rows")):
         rows = [r["id"] for r in manifest["requirements"] if r["id"].startswith(prefix)]

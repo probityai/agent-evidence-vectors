@@ -38,6 +38,7 @@ import hashlib
 import json
 import os
 import sys
+from collections.abc import Callable
 from typing import Any
 
 if __package__ in (None, ""):
@@ -83,16 +84,22 @@ CAUSES = (
     "integrity-failure",
     "availability-failure",
     "precondition-unsatisfiable",
+    "confinement-failed-during-check",
 )
 #: The value for void, proposed by this corpus; see CAUSES.
 VOID_CAUSE = "evidence-does-not-hold"
+#: Row 4's antecedent, as a cause value admitted only under void. A confinement
+#: control that failed while the check ran is written in the record's own cause
+#: cell, so row 4 reads cause against state the way row 3 does and nothing is
+#: added to the four-field record. Proposed: the construction is the one put to
+#: the list in answer to the question of how the antecedent is represented.
+CONFINEMENT_CAUSE = "confinement-failed-during-check"
 #: Row 2: a unit that was never examined has no evidence that can fail to hold up.
 NEVER_EXAMINED = ("not_applicable", "out_of_scope", "withheld")
 
 OTHER_VERDICT = ("unknown", "possible-not-demonstrated", "demonstrated", "foreclosed")
 DISCRIMINATION = ("unknown", "demonstrated")
 NEGATIVE_CAPABLE = ("shown-by-run", "control-failed", "prior-discriminating-run", "nothing")
-TREE_SHAPES = ("flat", "rfc6962")
 CHANGED = ("input artifact", "checker rule", "constraint")
 #: What an evidence object may declare it compared or found moved. The error
 #: list is the recompute-opaque slot the editor recorded as a fourth kind
@@ -102,7 +109,7 @@ SLOTS = ("verdict", "fired-rule list", "error list")
 
 #: Requirement identifiers, minted by the corpus. The sentence each binds to
 #: is in vectors-w3c-report/MANIFEST.json and the corpus's INDEX.md.
-R = {n: f"W3C-R-{n:03d}" for n in range(1, 29)}
+R = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
 
 
 # --------------------------------------------------------------------------
@@ -171,11 +178,30 @@ def _mth(leaves: list[bytes]) -> bytes:
     return hashlib.sha256(b"\x01" + _mth(leaves[:k]) + _mth(leaves[k:])).digest()
 
 
+class UnregisteredShape(ValueError):
+    """A tree shape outside the closed set, refused rather than hashed as another."""
+
+
+#: The closed set of tree shapes, and the construction each name denotes. The
+#: set IS this table's keys, so a name cannot enter the set without a root
+#: function, and a name outside it has none to fall through to.
+ROOTS: dict[str, Callable[[list[bytes]], str]] = {
+    "flat": flat_root,
+    "rfc6962": rfc6962_root,
+    # RFC 9942 section 5.1 registers RFC9162_SHA256 as "a Merkle Tree where
+    # SHA256 is used as the hash algorithm", pointing at RFC 9162 section 2.1.1,
+    # whose Merkle Tree Hash is the RFC 6962 one: the same leaf and node
+    # prefixes and the same split. Two names, one construction.
+    "RFC9162_SHA256": rfc6962_root,
+}
+TREE_SHAPES = tuple(ROOTS)
+
+
 def check_set_root(checks: list[dict[str, Any]], shape: str) -> str:
-    leaves = [compact(check) for check in checks]
-    if shape == "rfc6962":
-        return rfc6962_root(leaves)
-    return flat_root(leaves)
+    root = ROOTS.get(shape)
+    if root is None:
+        raise UnregisteredShape(f"tree shape {shape!r} is not in the closed set {TREE_SHAPES}")
+    return root([compact(check) for check in checks])
 
 
 # --------------------------------------------------------------------------
@@ -221,9 +247,8 @@ def _shape_check(check: Any, index: int, out: list[str]) -> None:
     if not _is_str(check.get("state")):
         out.append(f"{where} carries no string state")
     _shape_slots(check, where, out)
-    for flag in ("declared-exclusion", "confinement-failed-during-check"):
-        if flag in check and not isinstance(check[flag], bool):
-            out.append(f"{where}.{flag} is present and is not a boolean")
+    if "declared-exclusion" in check and not isinstance(check["declared-exclusion"], bool):
+        out.append(f"{where}.declared-exclusion is present and is not a boolean")
 
 
 def _shape_evidence(item: Any, index: int, out: list[str]) -> None:
@@ -317,7 +342,7 @@ def shape_errors(report: Any) -> list[str]:
         out.append(f"the report does not declare format '{FORMAT}'")
     _shape_lists(report, out)
     _shape_domain(report, out)
-    for slot in ("roll-up", "check-set"):
+    for slot in ("roll-up", "check-set", "fixed"):
         if slot in report and not _is_obj(report[slot]):
             out.append(f"{slot} is present and is not an object")
     return out
@@ -344,11 +369,11 @@ def _row_cause(check: dict[str, Any], state: str, out: set[str]) -> None:
         out.add(R[2])
     if state == "not-exercised" and code == "integrity-failure":
         out.add(R[3])
+    if code == CONFINEMENT_CAUSE and state != "void":
+        out.add(R[4])
 
 
 def _row_pairs(check: dict[str, Any], state: str, out: set[str]) -> None:
-    if check.get("confinement-failed-during-check") is True and state != "void":
-        out.add(R[4])
     if check.get("declared-exclusion") is True and state != "not-exercised":
         out.add(R[5])
 
@@ -582,16 +607,41 @@ def _identity(checks: Any, ids: set[str]) -> bool:
     return all(_is_str(c) and c in ids for c in checks)
 
 
-def _row_control(field: dict[str, Any], ids: set[str], out: set[str]) -> None:
+#: The slots a control's binding and the run's declaration are compared on.
+BINDING_SLOTS = ("checker", "constraint-set")
+
+
+def _row_control(
+    field: dict[str, Any], ids: set[str], run_fixed: Any, out: set[str]
+) -> None:
     control = _get(field, "control")
     if not _is_obj(control) or not _identity(control.get("checks"), ids):
         out.add(R[13])
     elif control.get("state") != "fail":
         out.add(R[13])
+    else:
+        _row_control_binding(control.get("fixed"), run_fixed, out)
+
+
+def _row_control_binding(bound: Any, run_fixed: Any, out: set[str]) -> None:
+    """Rule 29 (proposed): a control ran under the checker and constraint set it speaks for.
+
+    Read only where both the control and the run declare the binding: a
+    binding that differs from the run's is refused, and a missing one is not,
+    because the list proposed the rule and has not yet required the slot.
+    """
+    if not (_is_obj(bound) and _is_obj(run_fixed)):
+        return
+    if any(bound.get(slot) != run_fixed.get(slot) for slot in BINDING_SLOTS):
+        out.add(R[29])
 
 
 def _rows_negative_capable(
-    rollup: dict[str, Any], counts: dict[str, int], ids: set[str], out: set[str]
+    rollup: dict[str, Any],
+    counts: dict[str, int],
+    ids: set[str],
+    run_fixed: Any,
+    out: set[str],
 ) -> None:
     field = _get(rollup, "negative-capable")
     if not _is_obj(field) or not _is_str(field.get("kind")):
@@ -603,7 +653,7 @@ def _rows_negative_capable(
     elif kind == "shown-by-run" and counts["fail"] < 1:
         out.add(R[13])
     elif kind == "control-failed":
-        _row_control(field, ids, out)
+        _row_control(field, ids, run_fixed, out)
     elif kind == "prior-discriminating-run":
         if not _identity(field.get("check-identity"), ids):
             out.add(R[14])
@@ -717,7 +767,9 @@ def _rows_rollup(report: dict[str, Any], checks: list[dict[str, Any]], out: set[
     carried, referenced = _carried_referenced(report)
     if rollup.get("carried") != carried or rollup.get("referenced") != referenced:
         out.add(R[18])
-    _rows_negative_capable(rollup, counts, {c["check"] for c in checks}, out)
+    _rows_negative_capable(
+        rollup, counts, {c["check"] for c in checks}, report.get("fixed"), out
+    )
     _rows_completeness(rollup, checks, counts, out)
 
 
@@ -989,6 +1041,42 @@ def _vendored(directory: str, manifest: dict[str, Any], out: list[str]) -> None:
                 )
 
 
+def _pin_finding(directory: str, pin: dict[str, Any]) -> str | None:
+    path = os.path.join(directory, pin["path"])
+    if not os.path.isfile(path):
+        return f"referenceEmitterRuns: {pin['path']} is missing"
+    with open(path, "rb") as handle:
+        if sha(handle.read()) != pin["sha256"]:
+            return f"referenceEmitterRuns: {pin['path']} does not match its pinned digest"
+    return None
+
+
+def _emitted_report_findings(directory: str, rel: str) -> list[str]:
+    try:
+        with open(os.path.join(directory, rel), "rb") as handle:
+            document = json.loads(handle.read(), parse_float=decimal.Decimal)
+    except (OSError, ValueError):
+        return [f"referenceEmitterRuns: {rel} does not parse"]
+    if shape := shape_errors(document):
+        return [f"referenceEmitterRuns: {rel} is not a v0.1 report: " + "; ".join(shape)]
+    if rejected := rejections(document):
+        return [f"referenceEmitterRuns: {rel} is rejected under {_list(rejected)}"]
+    return []
+
+
+def _emitter_runs(directory: str, manifest: dict[str, Any], out: list[str]) -> None:
+    """Every published run of the reference emitter is on disk as pinned, and conforms."""
+    for run in manifest.get("referenceEmitterRuns", []):
+        report_holds = True
+        for pin in ({"path": run["path"], "sha256": run["sha256"]},
+                    run["conformanceReport"], run["run"]):
+            if finding := _pin_finding(directory, pin):
+                out.append(finding)
+                report_holds = report_holds and pin["path"] != run["path"]
+        if report_holds:
+            out.extend(_emitted_report_findings(directory, run["path"]))
+
+
 def _corpus(
     directory: str, manifest: dict[str, Any], known: set[str], entries: list[dict[str, Any]]
 ) -> list[str]:
@@ -1003,6 +1091,7 @@ def _corpus(
     if unused := sorted(set(manifest.get("families", {})) - accepted - rejected):
         out.append(f"families declared and carried by no member: {_list(unused)}")
     _vendored(directory, manifest, out)
+    _emitter_runs(directory, manifest, out)
     measured = {"accept": 0, "reject": 0}
     for entry in entries:
         if entry.get("kind") in measured:

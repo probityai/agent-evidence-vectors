@@ -16,6 +16,22 @@ same manifest carries members of two further subject types, the Run object of
 `draft-arsentev-agent-run-metrics-00` and the discovery snapshot of
 `draft-arsentev-llm-context-discovery-00`, judged by their own sentences.
 
+## Rules this corpus proposes, pending the editor's v0.1 text
+
+The rules below answer questions put to the v0.1 draft during its comment
+window and are marked `proposed` until the editor's text settles them:
+
+- Row 4 reads the cause cell against the state, as row 3 does. The fact that a
+  confinement control failed while the check ran is the cause value
+  `confinement-failed-during-check`, admitted only under `void`, so the record
+  carries no extra cell for it (the construction put to the list in `0077`, in
+  answer to the question in `0076`).
+- The tree shapes are a closed set, and `RFC9162_SHA256`, the RFC 9942 section
+  5.1 identifier for the RFC 9162 Merkle tree over SHA-256, is a member of it.
+- A control built to fail is bound to the checker and the constraint set of
+  the checks it speaks for (`W3C-R-029`, from `0076`). A binding that differs
+  from the one the run declares is refused; a missing binding is not yet.
+
 ## The text is vendored and every identifier is a sentence
 
 The list messages and the two drafts carry no requirement identifiers. Each
@@ -72,6 +88,15 @@ the disensor domain once, at run level.
 module: `agent-evidence-vectors --emit-w3c-report PATH` writes a v0.1 report
 from the harness's own conformance report, under the crosswalk the module
 states, and the report it writes from the AEE corpus conforms.
+
+The report that emitter wrote from the AEE corpus as released at 0.12.0,
+the run section 9.1 of the v0.1 draft refers to, is published under
+`observed/aee-v0.12.0/` with the harness report it was written from and a
+`RUN.json` recording the command, tag, commit and wheel digest. The manifest
+pins all three files in `referenceEmitterRuns`, generated from `RUN.json`, and
+both readers refuse the corpus if a file is missing, its bytes have changed, or
+the validator would reject the report. `observedRuns` stays reserved for runs by
+an implementation this repository did not write.
 
 Regenerate byte-identically: `python3 gen_vectors.py`. Refuse a drifted tree:
 `python3 gen_vectors.py --check`.

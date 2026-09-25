@@ -69,6 +69,18 @@
       "author": "Evgenii Arsentev",
       "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html"
     },
+    "0076": {
+      "path": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "sha256": "7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751",
+      "author": "Roel Schuurkes",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html"
+    },
+    "0077": {
+      "path": "spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
+      "sha256": "88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a",
+      "author": "Nicolas Rocchia",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html"
+    },
     "draft-arsentev-agent-run-metrics-00": {
       "path": "spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
       "sha256": "0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0",
@@ -103,7 +115,8 @@
       "evidence-does-not-hold",
       "integrity-failure",
       "availability-failure",
-      "precondition-unsatisfiable"
+      "precondition-unsatisfiable",
+      "confinement-failed-during-check"
     ],
     "other-verdict": [
       "unknown",
@@ -123,7 +136,8 @@
     ],
     "tree-shape": [
       "flat",
-      "rfc6962"
+      "rfc6962",
+      "RFC9162_SHA256"
     ],
     "changed": [
       "input artifact",
@@ -161,7 +175,7 @@
     "w3c-f-1": "row 1: a non-verdict state with no cause",
     "w3c-f-2": "row 2: void with a cause that describes a unit never examined",
     "w3c-f-3": "row 3: not-exercised with integrity-failure",
-    "w3c-f-4": "row 4: a confinement control failed while the check ran, and the state is not void",
+    "w3c-f-4": "row 4: a confinement failure during the check as the cause, and the state is not void",
     "w3c-f-5": "row 5: a declared exclusion whose state is not not-exercised",
     "w3c-f-6": "row 6: a non-verdict state carrying a qualifier",
     "w3c-f-7": "row 7: a verdict state carrying a cause",
@@ -174,6 +188,7 @@
     "w3c-f-14": "late addition (a): a prior discriminating run binds the check identity that survived",
     "w3c-f-15": "late addition (b): a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix",
     "w3c-f-16": "declared slots: moved is contained in the declared compared set",
+    "w3c-f-29": "late addition (a), amended in the comment window: a control built to fail is bound to the checker and constraint set of the checks it speaks for",
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
     "w3c-f-19": "closed vocabulary: a value outside a registry is not read",
@@ -210,10 +225,42 @@
   },
   "mutationSweep": {
     "file": "MUTATION-SWEEP.md",
-    "rows": 61,
+    "rows": 62,
     "leaks": 0
   },
   "observedRuns": [],
+  "referenceEmitterRuns": [
+    {
+      "path": "observed/aee-v0.12.0/report.json",
+      "sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+      "conformanceReport": {
+        "path": "observed/aee-v0.12.0/conformance-report.json",
+        "sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+      },
+      "run": {
+        "path": "observed/aee-v0.12.0/RUN.json",
+        "sha256": "00007b271fd027a5c952c17a8100190b8af360929f906936be352bb806c97448"
+      },
+      "emittedBy": "agent-evidence-vectors 0.12.0",
+      "tag": "v0.12.0",
+      "commit": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+      "command": "uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json",
+      "reproducedAt": [
+        "2026-09-24T13:11:34Z",
+        "2026-09-25T15:46:07Z"
+      ],
+      "counts": {
+        "declared": 272,
+        "exercised": 272,
+        "pass": 31,
+        "fail": 239,
+        "inconclusive": 2,
+        "not-exercised": 0,
+        "void": 0
+      },
+      "judged": "no shape error, and no row fires"
+    }
+  ],
   "requirements": [
     {
       "id": "W3C-R-001",
@@ -550,6 +597,19 @@
       "sentenceDigest": "021af13381601bcf1dc65d5ebb073b2dc276c186156a7cd74d0291532f53277e",
       "specVersion": "0.1",
       "class": "form",
+      "status": "proposed",
+      "resolvedRead": false
+    },
+    {
+      "id": "W3C-R-029",
+      "row": "(a) control binding",
+      "file": "0076",
+      "vendored": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "line": 42,
+      "sentence": "say that the control uses the same checker revision and relevant\nconfiguration and constraints as the checks whose negative\ncapability is being reported",
+      "sentenceDigest": "c3507c44c022f601b4abebed4bcd678d7ce90e1c5fc0b822dbf804a5eeba4f46",
+      "specVersion": "0.1",
+      "class": "consistency",
       "status": "proposed",
       "resolvedRead": false
     },
@@ -911,10 +971,10 @@
     }
   ],
   "counts": {
-    "accept": 112,
-    "reject": 110
+    "accept": 116,
+    "reject": 116
   },
-  "corpusDigest": "b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033",
+  "corpusDigest": "55c26ea4f504c417b412f8671cef757a46f196ded5589bb465980a793d337522",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -1119,6 +1179,22 @@
       "cites": "each invocation identified once"
     },
     {
+      "id": "v1032eb59a7cdb30f",
+      "kind": "accept",
+      "file": "vectors/v1032eb59a7cdb30f.json",
+      "family": "w3c-f-15",
+      "requirements": [
+        "W3C-R-015"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the check set bound under RFC9162_SHA256, the RFC 9942 identifier for the RFC 9162 Merkle tree over SHA-256, with its count"
+    },
+    {
       "id": "v10aaaebb49b0bcd3",
       "kind": "reject",
       "file": "vectors/v10aaaebb49b0bcd3.json",
@@ -1198,6 +1274,24 @@
         "rejects": []
       },
       "cites": "the check set bound under the RFC 6962 tree shape, with its count"
+    },
+    {
+      "id": "v1660acd2e4efb7c7",
+      "kind": "reject",
+      "file": "vectors/v1660acd2e4efb7c7.json",
+      "family": "w3c-f-13",
+      "requirements": [
+        "W3C-R-013"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-013"
+        ]
+      },
+      "cites": "shown-by-run asserted on a run whose only non-pass is inconclusive: a non-pass that is not a fail verdict"
     },
     {
       "id": "v183b37dea5ad4159",
@@ -2091,6 +2185,58 @@
       }
     },
     {
+      "id": "v499412698a1dd50e",
+      "kind": "reject",
+      "file": "vectors/v499412698a1dd50e.json",
+      "family": "w3c-f-20",
+      "requirements": [
+        "W3C-R-020"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-020"
+        ]
+      },
+      "cites": "a root declared RFC9162_SHA256 and computed over the leaf set with its last leaf repeated: the count says three and the RFC 9162 tree over three leaves does not recompute to it"
+    },
+    {
+      "id": "v49afe44cc51bc376",
+      "kind": "accept",
+      "file": "vectors/v49afe44cc51bc376.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "a control that declares its binding in a run that declares none: nothing to compare, and the proposal does not yet require the run's slot"
+    },
+    {
+      "id": "v4a06b866afca0d49",
+      "kind": "reject",
+      "file": "vectors/v4a06b866afca0d49.json",
+      "family": "w3c-f-15",
+      "requirements": [
+        "W3C-R-015"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-015"
+        ]
+      },
+      "cites": "the RFC 9162 tree named in free text: the closed set admits the registry identifier and nothing else, because free text does not aggregate"
+    },
+    {
       "id": "v4c778d3ee20deb35",
       "kind": "accept",
       "file": "vectors/v4c778d3ee20deb35.json",
@@ -2116,6 +2262,40 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "v4e4face5dd4ff492",
+      "kind": "reject",
+      "file": "vectors/v4e4face5dd4ff492.json",
+      "family": "w3c-f-13",
+      "requirements": [
+        "W3C-R-013"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-013"
+        ]
+      },
+      "cites": "a control built to fail that ran and reached no conclusion: failing to execute does not show the check can reject the input"
+    },
+    {
+      "id": "v4f343e8bd3d6af08",
+      "kind": "accept",
+      "file": "vectors/v4f343e8bd3d6af08.json",
+      "family": "w3c-f-20",
+      "requirements": [
+        "W3C-R-020"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the RFC 9162 tree recomputed over exactly the three leaves the count binds"
     },
     {
       "id": "v518aa8d55ab5460b",
@@ -2627,6 +2807,22 @@
       "cites": "an advertised index retrieved without evaluating the exclusion that covers it"
     },
     {
+      "id": "v796a6048345b8f58",
+      "kind": "accept",
+      "file": "vectors/v796a6048345b8f58.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same control bound to the checker and constraint set the reported checks ran under"
+    },
+    {
       "id": "v7aca350e00458527",
       "kind": "reject",
       "file": "vectors/v7aca350e00458527.json",
@@ -3031,24 +3227,6 @@
       "cites": "the same pass with no cause slot"
     },
     {
-      "id": "v8a977b50ac8c5d36",
-      "kind": "reject",
-      "file": "vectors/v8a977b50ac8c5d36.json",
-      "family": "w3c-f-4",
-      "requirements": [
-        "W3C-R-004"
-      ],
-      "specVersion": "0.1",
-      "subjectType": "report",
-      "expected": {
-        "verdict": "reject",
-        "rejects": [
-          "W3C-R-004"
-        ]
-      },
-      "cites": "a confinement control failed while the check ran and the record still reports fail"
-    },
-    {
       "id": "v8b06a7e78dc8d039",
       "kind": "reject",
       "file": "vectors/v8b06a7e78dc8d039.json",
@@ -3431,6 +3609,24 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "va86e962a5024f152",
+      "kind": "reject",
+      "file": "vectors/va86e962a5024f152.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-029"
+        ]
+      },
+      "cites": "a control that failed under another checker than the one the reported checks ran under"
     },
     {
       "id": "va91d537fa714f2d3",
@@ -4045,22 +4241,6 @@
         },
         "cause": "moved asserts the recompute-opaque error list outside the declared compared set"
       }
-    },
-    {
-      "id": "vbe0d0e4267dd64af",
-      "kind": "accept",
-      "file": "vectors/vbe0d0e4267dd64af.json",
-      "family": "w3c-f-4",
-      "requirements": [
-        "W3C-R-004"
-      ],
-      "specVersion": "0.1",
-      "subjectType": "report",
-      "expected": {
-        "verdict": "accept",
-        "rejects": []
-      },
-      "cites": "the same run reported void, the only state the pair table allows it"
     },
     {
       "id": "vbe6937292f4f1614",
@@ -5078,6 +5258,24 @@
       }
     },
     {
+      "id": "ve9c436f93e42e394",
+      "kind": "reject",
+      "file": "vectors/ve9c436f93e42e394.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-029"
+        ]
+      },
+      "cites": "a control that failed under constraint set cs-2, offered for checks that ran under cs-1: the check kept its identifier and its configuration changed, so the failure is evidence about another configuration"
+    },
+    {
       "id": "ve9cefed56bbc8359",
       "kind": "accept",
       "file": "vectors/ve9cefed56bbc8359.json",
@@ -5202,6 +5400,24 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "vec36e393a92b69eb",
+      "kind": "reject",
+      "file": "vectors/vec36e393a92b69eb.json",
+      "family": "w3c-f-4",
+      "requirements": [
+        "W3C-R-004"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-004"
+        ]
+      },
+      "cites": "a confinement failure during the check recorded as its cause while the state is inconclusive"
     },
     {
       "id": "vecd8b7bb20fed3a3",
@@ -5434,6 +5650,22 @@
         "rejects": []
       },
       "cites": "the cross-origin index attributed to the origin that serves it"
+    },
+    {
+      "id": "vf82e507d268fed9d",
+      "kind": "accept",
+      "file": "vectors/vf82e507d268fed9d.json",
+      "family": "w3c-f-4",
+      "requirements": [
+        "W3C-R-004"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same record reported void, the only state that cause is admitted under"
     },
     {
       "id": "vf86d92beb5a12905",

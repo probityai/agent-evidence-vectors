@@ -1,15 +1,13 @@
 {
   "expected": {
-    "rejects": [
-      "W3C-R-004"
-    ],
-    "verdict": "reject"
+    "rejects": [],
+    "verdict": "accept"
   },
-  "family": "w3c-f-4",
-  "id": "v8a977b50ac8c5d36",
-  "kind": "reject",
+  "family": "w3c-f-20",
+  "id": "v4f343e8bd3d6af08",
+  "kind": "accept",
   "requirements": [
-    "W3C-R-004"
+    "W3C-R-020"
   ],
   "resolves": {
     "obs-fail": {
@@ -28,9 +26,9 @@
   "specVersion": "0.1",
   "subject": {
     "check-set": {
-      "leaf-count": 2,
-      "sha256": "040d954dc4b9467ab46dc891412e97bbabd28f821cfd91cbdc423dc84844a25d",
-      "tree-shape": "flat"
+      "leaf-count": 3,
+      "sha256": "65c36eb82baa43224bfe985d1d8b4d9539e5e6d2747f845b64fe6f35da972eec",
+      "tree-shape": "RFC9162_SHA256"
     },
     "checks": [
       {
@@ -38,9 +36,12 @@
         "state": "pass"
       },
       {
-        "check": "c-fail",
-        "confinement-failed-during-check": true,
-        "state": "fail"
+        "check": "c-pass-2",
+        "state": "pass"
+      },
+      {
+        "check": "c-pass-3",
+        "state": "pass"
       }
     ],
     "domain": {
@@ -51,15 +52,15 @@
     "format": "public-agent-conformance/report/v0.1",
     "roll-up": {
       "carried": 0,
-      "declared": 2,
-      "exercised": 2,
-      "fail": 1,
+      "declared": 3,
+      "exercised": 3,
+      "fail": 0,
       "inconclusive": 0,
       "negative-capable": {
-        "kind": "shown-by-run"
+        "kind": "nothing"
       },
       "not-exercised": 0,
-      "pass": 1,
+      "pass": 3,
       "referenced": 0,
       "void": 0
     }

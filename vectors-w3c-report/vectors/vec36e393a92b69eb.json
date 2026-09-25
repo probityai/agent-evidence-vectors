@@ -1,11 +1,13 @@
 {
   "expected": {
-    "rejects": [],
-    "verdict": "accept"
+    "rejects": [
+      "W3C-R-004"
+    ],
+    "verdict": "reject"
   },
   "family": "w3c-f-4",
-  "id": "vbe0d0e4267dd64af",
-  "kind": "accept",
+  "id": "vec36e393a92b69eb",
+  "kind": "reject",
   "requirements": [
     "W3C-R-004"
   ],
@@ -27,7 +29,7 @@
   "subject": {
     "check-set": {
       "leaf-count": 2,
-      "sha256": "d3ed4df10501607072b858dadc945accce084cf12b30857a7f59dc79572e3601",
+      "sha256": "6953084b66b94d6be19c0083c8f4d5754705608c1e44fa241e86c0bc7f8da3f3",
       "tree-shape": "flat"
     },
     "checks": [
@@ -37,11 +39,11 @@
       },
       {
         "cause": {
-          "code": "integrity-failure"
+          "code": "confinement-failed-during-check",
+          "detail": "the sandbox's egress control failed while the check ran"
         },
-        "check": "c-void",
-        "confinement-failed-during-check": true,
-        "state": "void"
+        "check": "c-confined",
+        "state": "inconclusive"
       }
     ],
     "domain": {
@@ -55,14 +57,14 @@
       "declared": 2,
       "exercised": 2,
       "fail": 0,
-      "inconclusive": 0,
+      "inconclusive": 1,
       "negative-capable": {
         "kind": "nothing"
       },
       "not-exercised": 0,
       "pass": 1,
       "referenced": 0,
-      "void": 1
+      "void": 0
     }
   },
   "subjectType": "report",
