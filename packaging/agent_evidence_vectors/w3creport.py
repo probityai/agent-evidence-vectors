@@ -1041,6 +1041,42 @@ def _vendored(directory: str, manifest: dict[str, Any], out: list[str]) -> None:
                 )
 
 
+def _pin_finding(directory: str, pin: dict[str, Any]) -> str | None:
+    path = os.path.join(directory, pin["path"])
+    if not os.path.isfile(path):
+        return f"referenceEmitterRuns: {pin['path']} is missing"
+    with open(path, "rb") as handle:
+        if sha(handle.read()) != pin["sha256"]:
+            return f"referenceEmitterRuns: {pin['path']} does not match its pinned digest"
+    return None
+
+
+def _emitted_report_findings(directory: str, rel: str) -> list[str]:
+    try:
+        with open(os.path.join(directory, rel), "rb") as handle:
+            document = json.loads(handle.read(), parse_float=decimal.Decimal)
+    except (OSError, ValueError):
+        return [f"referenceEmitterRuns: {rel} does not parse"]
+    if shape := shape_errors(document):
+        return [f"referenceEmitterRuns: {rel} is not a v0.1 report: " + "; ".join(shape)]
+    if rejected := rejections(document):
+        return [f"referenceEmitterRuns: {rel} is rejected under {_list(rejected)}"]
+    return []
+
+
+def _emitter_runs(directory: str, manifest: dict[str, Any], out: list[str]) -> None:
+    """Every published run of the reference emitter is on disk as pinned, and conforms."""
+    for run in manifest.get("referenceEmitterRuns", []):
+        report_holds = True
+        for pin in ({"path": run["path"], "sha256": run["sha256"]},
+                    run["conformanceReport"], run["run"]):
+            if finding := _pin_finding(directory, pin):
+                out.append(finding)
+                report_holds = report_holds and pin["path"] != run["path"]
+        if report_holds:
+            out.extend(_emitted_report_findings(directory, run["path"]))
+
+
 def _corpus(
     directory: str, manifest: dict[str, Any], known: set[str], entries: list[dict[str, Any]]
 ) -> list[str]:
@@ -1055,6 +1091,7 @@ def _corpus(
     if unused := sorted(set(manifest.get("families", {})) - accepted - rejected):
         out.append(f"families declared and carried by no member: {_list(unused)}")
     _vendored(directory, manifest, out)
+    _emitter_runs(directory, manifest, out)
     measured = {"accept": 0, "reject": 0}
     for entry in entries:
         if entry.get("kind") in measured:

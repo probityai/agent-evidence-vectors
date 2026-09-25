@@ -15,7 +15,9 @@ package corpora_test
 // a deleted check does.
 
 import (
+	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -535,6 +537,39 @@ func w3cFindings() []findingCase {
 				removeFile(t, d, firstRowWhere(t, m, kindIs("reject"))["file"].(string))
 			})
 		}, "the manifest names a vector file that does not exist"},
+		{"w3c/emitter-run-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				run := m["referenceEmitterRuns"].([]any)[0].(map[string]any)
+				run["sha256"] = strings.Repeat("0", 64)
+			})
+		}, "referenceEmitterRuns: observed/aee-v0.12.0/report.json does not match its pinned digest"},
+		{"w3c/emitter-run-gone", dir, func(t *testing.T, d string) {
+			removeFile(t, d, "observed/aee-v0.12.0/conformance-report.json")
+		}, "referenceEmitterRuns: observed/aee-v0.12.0/conformance-report.json is missing"},
+		{"w3c/emitter-run-rejected", dir, func(t *testing.T, d string) {
+			// A published report the validator would reject, re-pinned so the
+			// digest holds: the finding must come from judging the report.
+			const rel = "observed/aee-v0.12.0/report.json"
+			body, err := os.ReadFile(filepath.Join(d, rel))
+			if err != nil {
+				t.Fatal(err)
+			}
+			var report map[string]any
+			if err := json.Unmarshal(body, &report); err != nil {
+				t.Fatal(err)
+			}
+			first := report["checks"].([]any)[0].(map[string]any)
+			first["state"], first["cause"] = "pass", map[string]any{"code": "out_of_scope"}
+			edited, err := json.Marshal(report)
+			if err != nil {
+				t.Fatal(err)
+			}
+			writeFile(t, d, rel, string(edited))
+			sum := sha256.Sum256(edited)
+			editManifest(t, d, func(m map[string]any) {
+				m["referenceEmitterRuns"].([]any)[0].(map[string]any)["sha256"] = hex.EncodeToString(sum[:])
+			})
+		}, "referenceEmitterRuns: observed/aee-v0.12.0/report.json is rejected under"},
 	}
 }
 

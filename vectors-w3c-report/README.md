@@ -89,5 +89,14 @@ module: `agent-evidence-vectors --emit-w3c-report PATH` writes a v0.1 report
 from the harness's own conformance report, under the crosswalk the module
 states, and the report it writes from the AEE corpus conforms.
 
+The report that emitter wrote from the AEE corpus as released at 0.12.0,
+the run section 9.1 of the v0.1 draft refers to, is published under
+`observed/aee-v0.12.0/` with the harness report it was written from and a
+`RUN.json` recording the command, tag, commit and wheel digest. The manifest
+pins all three files in `referenceEmitterRuns`, generated from `RUN.json`, and
+both readers refuse the corpus if a file is missing, its bytes have changed, or
+the validator would reject the report. `observedRuns` stays reserved for runs by
+an implementation this repository did not write.
+
 Regenerate byte-identically: `python3 gen_vectors.py`. Refuse a drifted tree:
 `python3 gen_vectors.py --check`.

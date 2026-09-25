@@ -66,6 +66,22 @@ type w3cManifest struct {
 	Counts       map[string]int             `json:"counts"`
 	CorpusDigest string                     `json:"corpusDigest"`
 	Vectors      []w3cVector                `json:"vectors"`
+	EmitterRuns  []w3cEmitterRun            `json:"referenceEmitterRuns"`
+}
+
+// w3cEmitterRun is one published run of the reference emitter: the v0.1 report
+// it wrote, the harness report it wrote that from, and the record of the run,
+// each pinned by digest.
+type w3cEmitterRun struct {
+	Path              string `json:"path"`
+	Sha256            string `json:"sha256"`
+	ConformanceReport w3cPin `json:"conformanceReport"`
+	Run               w3cPin `json:"run"`
+}
+
+type w3cPin struct {
+	Path   string `json:"path"`
+	Sha256 string `json:"sha256"`
 }
 
 type w3cVector struct {
@@ -313,6 +329,7 @@ func (w w3cReport) checkCorpus(dir string, m *w3cManifest, known map[string]bool
 		findings = append(findings, "families declared and carried by no member: "+w3cList(unused))
 	}
 	findings = append(findings, w3cVendoredFindings(dir, m)...)
+	findings = append(findings, w3cEmitterRunFindings(dir, m)...)
 	if bad := countsDisagree(m.Counts, tally.measured); bad != "" {
 		findings = append(findings, bad)
 	}
@@ -375,6 +392,55 @@ func w3cVendoredFindings(dir string, m *w3cManifest) []string {
 		}
 	}
 	return findings
+}
+
+// w3cEmitterRunFindings: every published run of the reference emitter is on
+// disk with the digests the manifest pins, and the report it wrote is one the
+// validator accepts as it stands.
+func w3cEmitterRunFindings(dir string, m *w3cManifest) []string {
+	var findings []string
+	for _, run := range m.EmitterRuns {
+		reportHolds := true
+		for _, pin := range []w3cPin{{run.Path, run.Sha256}, run.ConformanceReport, run.Run} {
+			if finding := w3cPinFinding(dir, pin); finding != "" {
+				findings = append(findings, finding)
+				reportHolds = reportHolds && pin.Path != run.Path
+			}
+		}
+		if reportHolds {
+			findings = append(findings, w3cEmittedReportFindings(dir, run.Path)...)
+		}
+	}
+	return findings
+}
+
+func w3cPinFinding(dir string, pin w3cPin) string {
+	if !existsIn(dir, pin.Path) {
+		return fmt.Sprintf("referenceEmitterRuns: %s is missing", pin.Path)
+	}
+	body, err := readIn(dir, pin.Path)
+	if err != nil || sha(body) != pin.Sha256 {
+		return fmt.Sprintf("referenceEmitterRuns: %s does not match its pinned digest", pin.Path)
+	}
+	return ""
+}
+
+func w3cEmittedReportFindings(dir, path string) []string {
+	body, err := readIn(dir, path)
+	if err != nil {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s does not parse", path)}
+	}
+	document, err := decodeJSONNumbers(body)
+	if err != nil {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s does not parse", path)}
+	}
+	if shape := w3cShapeErrors(document); len(shape) > 0 {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s is not a v0.1 report: %s", path, strings.Join(shape, "; "))}
+	}
+	if rejected := w3cRejections(document.(map[string]any), nil); len(rejected) > 0 {
+		return []string{fmt.Sprintf("referenceEmitterRuns: %s is rejected under %s", path, w3cList(rejected))}
+	}
+	return nil
 }
 
 // ---------------------------------------------------------------------------

@@ -229,6 +229,38 @@
     "leaks": 0
   },
   "observedRuns": [],
+  "referenceEmitterRuns": [
+    {
+      "path": "observed/aee-v0.12.0/report.json",
+      "sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+      "conformanceReport": {
+        "path": "observed/aee-v0.12.0/conformance-report.json",
+        "sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+      },
+      "run": {
+        "path": "observed/aee-v0.12.0/RUN.json",
+        "sha256": "00007b271fd027a5c952c17a8100190b8af360929f906936be352bb806c97448"
+      },
+      "emittedBy": "agent-evidence-vectors 0.12.0",
+      "tag": "v0.12.0",
+      "commit": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+      "command": "uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json",
+      "reproducedAt": [
+        "2026-09-24T13:11:34Z",
+        "2026-09-25T15:46:07Z"
+      ],
+      "counts": {
+        "declared": 272,
+        "exercised": 272,
+        "pass": 31,
+        "fail": 239,
+        "inconclusive": 2,
+        "not-exercised": 0,
+        "void": 0
+      },
+      "judged": "no shape error, and no row fires"
+    }
+  ],
   "requirements": [
     {
       "id": "W3C-R-001",

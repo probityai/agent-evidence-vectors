@@ -53,6 +53,14 @@ jobs:
       # absent.
       - name: the shipped CLI clears the published corpus as an external rail
         run: python3 scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
+      # The W3C report corpus is judged by two readers, corpora/w3creport.go and
+      # packaging/agent_evidence_vectors/w3creport.py, and the README says a test
+      # holds them identical. That test existed and no workflow ran it, so the
+      # two statements of the rules could drift with every check green. It runs
+      # here because it builds aee-verify, and it compares every line both rails
+      # print over the committed corpus and over mutated copies of it.
+      - name: the two W3C report readers print the same bytes
+        run: python3 scripts/w3c-rails-parity-test.py
 
       # One binary judges every corpus in this repository. Each corpus used to
       # ship a Python runner beside its vectors, so the command a third party

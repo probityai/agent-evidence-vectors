@@ -138,6 +138,32 @@ The same manifest carries members of two other subject types, judged by their ow
 """
 
 
+EMITTER_RUN = """
+## Section 9.1: the reference emitter's run, published
+
+The v0.1 draft records as a known gap (section 9.1) the report the reference emitter writes over the adversarial-execution corpus, and asks for a check by a second reader. That report is published beside this corpus, pinned in the manifest's `referenceEmitterRuns` and re-judged by both readers on every run, which refuse the corpus if the file is gone, its bytes have changed, or the validator would reject it. It is kept apart from `observedRuns`, which is reserved for runs by an implementation this repository did not write.
+
+{runs}
+"""
+
+
+def emitter_runs(manifest: dict[str, Any]) -> str:
+    lines = []
+    for run in manifest["referenceEmitterRuns"]:
+        counts = run["counts"]
+        states = ", ".join(f"{counts[k]} {k}" for k in ("fail", "pass", "inconclusive", "not-exercised", "void") if counts[k])
+        lines.append(
+            f"- `vectors-w3c-report/{run['path']}`, sha256 `{run['sha256']}`, written by `{run['command']}` "
+            f"({run['emittedBy']}, tag `{run['tag']}`, commit `{run['commit']}`) from the harness report "
+            f"`vectors-w3c-report/{run['conformanceReport']['path']}`, with the record of the run at `vectors-w3c-report/{run['run']['path']}`. "
+            f"It holds one record per member of the AEE corpus at tag `{run['tag']}` ({states}), "
+            f"with no shape error and no row firing, and runs made at "
+            + " and ".join(f"`{at}`" for at in run["reproducedAt"])
+            + " wrote the same bytes."
+        )
+    return EMITTER_RUN.format(runs="\n".join(lines))
+
+
 def load() -> dict[str, Any]:
     with open(MANIFEST, encoding="utf-8") as handle:
         data: dict[str, Any] = json.load(handle)
@@ -201,6 +227,7 @@ def render(manifest: dict[str, Any]) -> str:
     shapes = ", ".join(f"`{name}`" for name in manifest["codeRegistry"]["tree-shape"])
     parts.append(TREE_SHAPES.format(shapes=shapes))
     parts.append(COUNTS)
+    parts.append(emitter_runs(manifest))
     parts.append(OUTRO)
     for prefix, heading in (("ARM-R-", "Run object rows"), ("LCD-R-", "Discovery snapshot rows")):
         rows = [r["id"] for r in manifest["requirements"] if r["id"].startswith(prefix)]

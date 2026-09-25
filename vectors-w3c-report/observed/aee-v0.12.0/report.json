@@ -1,0 +1,3445 @@
+{
+  "check-set": {
+    "leaf-count": 272,
+    "sha256": "8777195248be4c35a09f52a3cd1f66652d2cacb51e22b37e858641bf1448b561",
+    "tree-shape": "flat"
+  },
+  "checks": [
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vcf20eae7df4f1f1b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vcc938c6038536dcb",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v02f2be8cd63828f4",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "degraded",
+        "verdict": "valid"
+      },
+      "check": "v393e5fb361cedaae",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "degraded",
+        "verdict": "valid"
+      },
+      "check": "vcebc3fca7e54f763",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "vc8db427883cd80ea",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "vc2782e6c3cbdb9b7",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v51e9223d08fcc4e1",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v87d0a19d4b41aafc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vea21d85d4e531e66",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v097ad0cc5b7c0490",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v12389306fa02ce0c",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v26db60a5d09ec82c",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v3bf3c0fa0e6a52b3",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "va1881488724114fd",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vba7081ad0eae11bf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v194265397248929b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v79735e29bd3c1c55",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vfcb846afff2d6979",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v550c91df0d36a218",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vfa152052ea49dfdb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vdf9d432c5a63e441",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v05e2e6ba0093d37a",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vcf5a4601dee5c2ee",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v774eb1ad06e94311",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v4130b125a1c2d5b1",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v48542b44ffd26237",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v085acd94abf21364",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "v9cc570167acf4ae8",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v0099f25838779fcc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v3fbc377adbe6dcf1",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v948fbb64b96197e6",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "degraded",
+        "verdict": "valid"
+      },
+      "check": "vc7a74e2cef5586ed",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vf720662dff34b8f5",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v164cf7f3f529eaff",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vb2af33bb3cc0da77",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "v4dfeab58a9cbdf24",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v9a886701250e5a06",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v5ec463cdbbe6dab5",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v0a8a7826e4499ff6",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vdb34a3c9aca2ad5c",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v44c5b469882b4a0e",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "v15e3a93a59a65391",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass_indirect"
+      },
+      "check": "vf1fcbad160189ca5",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vf88590533f7b3599",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v9383066da404cbda",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v1b2d2d26efeb7835",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vb9ffa071ee33678b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v7d2a79cb1ddc59a5",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vd1aa74416099f3f0",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vda285efc96ac6e75",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v73244f2068e58c68",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v7400cd757fd046e9",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v36fe88ae1da31194",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "vd601fae914a58643",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [],
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "fail",
+        "verdict": "valid"
+      },
+      "check": "v18bdbadef67b38f4",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v4f78835e75e8a400",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "va4d6b048f2e9cc5f",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "v9aa8ed2b3bfb4042",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vd024efc41945fe54",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "accept",
+        "result": "pass"
+      },
+      "check": "vb835ee95031d6e97",
+      "state": "pass"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-vocabulary",
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf35474dd75d6b14a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vcb23d2c4509c9daf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v27930cf8d66b2b90",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v621854cac9e3b77b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va1d44b528c20101b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "ve7d572bb5e39fe9e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "ve7fa00ccb08c9987",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-vocabulary",
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v87a339f53f689d9f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v14d9059f14696fe6",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vaec3b6d70dfbbc47",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "refs-empty",
+          "caught-row-uncovered",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v131478f1be775746",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-out-of-range"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbe54956653060e0c",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va06ffeb35650b992",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "caught-row-uncovered",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v59e16f48a28bec9d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "reconstructed-row-uncovered",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf362be6b8302b409",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-uncovered"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "ve025b4bed04cfb68",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-uncovered"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v132435a4d6d10043",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va507b8f9a9cc675c",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-canonical",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v85caf3c6f7516ba2",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v61efcc48543d8cea",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v94d877ffcc3a30fe",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-media-type",
+          "caught-row-uncovered"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbea799eb2cd2852c",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-canonical",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v9d1f7c44f94cb929",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-missing-reserved"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v08584c6c7d501f77",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-missing-reserved",
+          "record-kind-unknown-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6c900389fd3f9a1b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-missing-reserved"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2c7c29f498719ddf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0cf043f1bc09bccb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "method-cap-exceeded"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5a93b650d229c1bf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v89cc66f8a44a1977",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v081d9eeddbd5634f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "method-cap-exceeded"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v093aa7f10f378951",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-missing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vdad33f132b5b08ef",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v28b0cf874ea02de1",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4a2da6bda218a1fb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0ec069decbfbc59f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "duplicate-record"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vd70d546cef512eff",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v44881386e8e5c467",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "records-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v02fe83a8a13cd303",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v577011f7dd9a08fe",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "batch-root-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v090ca9dadcff9e20",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "record-undecodable",
+          "duplicate-record"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7622b2c58c2e272d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vcac966c6b2ba6295",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "malformed-missing-actual-layer"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v9df7fc4321c024c5",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-layer-not-none"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v8b78d15e86851925",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-layer-not-none"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf44cfce2b3744894",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-layer-not-none"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v692f9605520a617d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v539055896bf3a954",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v84f40e16772e5f91",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3eb268f467674845",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-missing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v089e746847cd0af2",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-caught-not-subset"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v109b606952f6ee6c",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v62e5552063975fc9",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vded1d495746a647a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-digest-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7ecdfe261d1dcd84",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-entropy-missing",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3d70f1cdb9050246",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "subject-cardinality"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6f6941efba2cbe28",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "digest-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v495bb03f306ef6aa",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "digest-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbd93d974436e11eb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va54b6faefcfb1f9e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "subject-sha256-missing",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v886b2a92cf14bd54",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4fb9c4caa3a2cd8d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6b15bd108cb9c27a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v05f8f5c8bb0b1d43",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing",
+          "sealed-covers-nothing",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb704d6c2420a1c43",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb730e62ac8f072b0",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc994d0402bf6b129",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1471516f09370430",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vea5ff2dabe340db7",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vab69ab3304958ebd",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v9982646034457eb6",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v9d0f50db6d287d35",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "examination-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v205d5ea1079eb8e5",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc05cf94374f0d0d6",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "record-kind-unknown-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5dcc150714259e09",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6a727606acc4b146",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v73659435d1998490",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc79ff8c5db77cc00",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1b0b0cafb5ee8d08",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "subject-cardinality"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v423dab49f4ed4d29",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf14f5310b2f02875",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v70e970d18ae52833",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vef2571e9001d7bd1",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3cf298b019a0405f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2bac3fa36d7a5947",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v8a7008d1673711a9",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4360d4e15f84145f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v04993666ec44cda9",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v8a7532ae4cffa163",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-out-of-range"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3300d78454ab852f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-out-of-range"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc19ea5aaacc5b72a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "ref-out-of-range"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1a3d0ce04c3f7524",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5155dde01a4538fd",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "predicate-type-unsupported"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v8a866332628b4b6f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "environment-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6275ec117f5e7e99",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "corpus-digest-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v02fd1bc1d7916002",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-duplicate-attack"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3b58f7a2e30d8cad",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "row-attack-unknown",
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v210a8e2d17bfcc47",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vaf114f3145d4a55a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbbbcb6a491ac43c0",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v212f439c82b123ed",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5a842871df5bfe33",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb3c92d4ecb62bbfb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "ved230b46692c0ada",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5717f72827e39413",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v198c19b52cf8890e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v86f3484735f41acb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf5599bb2dbe66e12",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbc7012fb2fcbf1f8",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb705b260669aedc7",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vdef377fb4f572b4d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v5e14357c80f6239b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v08251931ec038e91",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v83f4b7fe6068ef86",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va501d76c995de6d3",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-not-ijson",
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0e731123ead5b96e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "record-signatures-empty"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vca61adf35d265632",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "record-signatures-empty"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "ve0e5dddf8f3b812a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "corpus-manifest-no-attacks"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3418101227718535",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "corpus-manifest-no-attacks"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v22f545b6ff400646",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "record-undecodable",
+          "payload-not-canonical",
+          "reconstructed-row-uncovered",
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4ff6cb70764bf703",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-missing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7236a3440b6a398a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "member-spelling"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3c3a76f63bf8dda8",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "issued-at-missing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vd873c2f37814b8f8",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "issued-at-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2729ba35eb041b05",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "environment-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb2f1fb954c994515",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "environment-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2adb319fc7515885",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "environment-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v8966a040c3decefc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "statement-type-unsupported"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2be8b19383a5c613",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3c527c28aa2da8db",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v65fa8117aa487fbe",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "issued-at-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc9f401685f448104",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "issued-at-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v28d48cc69a324b81",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "issued-at-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7d4d7d92a346c7a5",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "posture-vocabulary"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1d1ba5041819e108",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "posture-vocabulary"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc0340fb3e51cb2b3",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "posture-vocabulary"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va729442fd496e59a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc8e3b44ea967460b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v51dd58a56a16716d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v77fb0077815e78cc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "clean-row-contradicted"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v26f7c477598f8207",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "caught-row-uncovered",
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2d1f9da3e912c63a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vdec5ea66f3ff63d5",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc66a19c407888f78",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc2432d962eedc6a8",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-set-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vea599b89dfdc6a0a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-attack-uncaught"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v98eef7d31c9870b6",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "assessed-set-exceeds-declaration"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v559ea641021fea75",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-attack-uncaught"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v41de149d50373e9e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "observed-attack-uncaught"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v320cc6344593c639",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "coverage-incomplete",
+          "observed-attack-uncaught"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vde0891384c1018ae",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "assessed-set-exceeds-declaration"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vfae885f5e5f78197",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "caught-row-uncovered",
+          "attribution-pinned-recordless"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v99fb4ac5cb385049",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-unpinnable"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va246c9dbdf73e8cf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-pin-unmatched"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4730792ca7a8691e",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6662e73ba03dfd36",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v2dd443f340e8a1c7",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf8029fa61d5f1b13",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1a8005dac6c3e806",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-commitment-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc7111b58eecb4d0c",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-commitment-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf6717a2ded406b68",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-commitment-malformed"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0ac6d948f2af5b6f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "payload-missing-reserved"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v244bd03c59cd03cc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v590d80afd6a67f0f",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "fail-closed-substrate-row"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb370622a59690b75",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v9d92e2e234987c76",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v38dc376c7746314b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vbc974f64e9105f97",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-pinned-recordless"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vacd28b5127a54254",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v42c1c063e3ecf305",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v81c4d6a0592c51d9",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1b77d64eede0add3",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v84c52616decf0653",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "interception-record-orphaned"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v37b29638601ce5ba",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va763626ffc99b681",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vea9deaa7d7ef8934",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "moat-drop-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0639562eb10e87fb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "uncommitted-observation-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vece82b6a9a07327a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-pin-unmatched"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v6ed1e2626b2af5ad",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-pin-unmatched"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1e9751e918994a98",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed",
+          "attribution-unpinnable"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v3772d801e5cae557",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "manifest-expected-payloads-malformed",
+          "attribution-unpinnable"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v113349f8afb946bf",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-pin-unmatched"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1043dbabae5f8ace",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "attribution-unpinnable"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0e22ac9c30338ad5",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "caught-row-uncovered",
+          "attribution-pinned-recordless"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v21e964dddeba0d08",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7f62f32c0ccda2fb",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v1ec06de44fe4000d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing",
+          "sealed-record-absent",
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7f35f318b31ca92a",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "vocabulary-not-canonical"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v300ab22f5f2fe523",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "environment-incomplete"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v03547f8918e0d7dc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v59b24935f1fa8a4b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v755ceccd7c4da990",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v4da2f99ac2897154",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v80e2a3fba582ed4d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vd7be865fc69eacc2",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7258b9f4ed52a08d",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vfb979cb9ce40f1be",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v7fefd467a21566ca",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v0d364d8f9d815092",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "veb0e5002608390cc",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb1337e5ecad985c2",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vd9041fbad8a6b721",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "va62d3b1847c9e0bd",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v47fc43d883b16a9b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "arming-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vc325d584b58dcc99",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "examination-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb877a9c1703557b2",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "sealed-record-absent",
+          "sealed-covers-nothing"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vd538496f284b4761",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vb79f5508ae0c97d4",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "subject-cardinality"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "v399c693cbf60143b",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "codes": [
+          "run-binding-mismatch",
+          "sealed-record-absent"
+        ],
+        "harness-status": "PASS",
+        "kind": "reject",
+        "result": null,
+        "verdict": "invalid"
+      },
+      "check": "vf6d46cca59bd2748",
+      "state": "fail"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "indeterminate"
+      },
+      "cause": {
+        "code": "unsupported_input",
+        "detail": "reading committed: record-signatures-empty"
+      },
+      "check": "v78efec12284a51d6",
+      "state": "inconclusive"
+    },
+    {
+      "annotations": {
+        "harness-status": "PASS",
+        "kind": "indeterminate"
+      },
+      "cause": {
+        "code": "unsupported_input",
+        "detail": "reading committed: record-signatures-empty"
+      },
+      "check": "v7cd4ebe08eb1605a",
+      "state": "inconclusive"
+    }
+  ],
+  "crosswalk": {
+    "fail": "verdict valid and result fail or degraded, or verdict invalid; the codes are carried in annotations",
+    "inconclusive": "the indeterminate kind, a vector whose specification admits more than one reading: cause unsupported_input, the nearest closed disposition, with the reading the rail committed to or the declared readings as detail; the vocabulary has no value for an input the specification leaves undetermined, and that is recorded as a known gap rather than named here",
+    "not-exercised": "a manifest entry declaring expected.unmeasurableBecause, reported with cause precondition-unsatisfiable and that text; or a report member the manifest expects and the rail left absent, with cause unavailable",
+    "pass": "verdict valid and result pass or pass_indirect; the result is carried in annotations as the qualifier",
+    "void": "the harness could not establish a verdict: cause evidence-does-not-hold, the value for void, with the rail's errors or exit as detail"
+  },
+  "domain": {
+    "description": "the AEE corpus replayed by the harness: the artifacts its manifests pin",
+    "id": "d-aee-replay"
+  },
+  "evidence": [],
+  "format": "public-agent-conformance/report/v0.1",
+  "roll-up": {
+    "carried": 0,
+    "declared": 272,
+    "exercised": 272,
+    "fail": 239,
+    "inconclusive": 2,
+    "negative-capable": {
+      "kind": "shown-by-run"
+    },
+    "not-exercised": 0,
+    "pass": 31,
+    "referenced": 0,
+    "void": 0
+  },
+  "source": {
+    "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+    "rail": "reference",
+    "suite": "vectors"
+  }
+}

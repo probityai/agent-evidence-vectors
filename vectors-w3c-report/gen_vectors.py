@@ -1864,6 +1864,54 @@ def build_requirements(members: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+#: Where the reference emitter's published runs live, one directory per run,
+#: each with the RUN.json that records what ran and the files it wrote.
+OBSERVED = "observed"
+
+
+def reference_emitter_runs() -> list[dict[str, Any]]:
+    """The reference emitter's published runs, pinned by digest and re-judged.
+
+    Kept apart from ``observedRuns``, which is reserved for runs by an
+    implementation this repository did not write. The build refuses a run
+    whose files do not hash to what its RUN.json records, a recorded re-run
+    that did not reproduce the published bytes, and a report the validator
+    does not accept as it stands.
+    """
+    runs = []
+    for name in sorted(os.listdir(os.path.join(HERE, OBSERVED))):
+        where = f"{OBSERVED}/{name}"
+        record_bytes = read(f"{where}/RUN.json")
+        record = json.loads(record_bytes)
+        pins = {}
+        for key in ("report", "conformanceReport"):
+            rel = f"{where}/{record[key]['file']}"
+            digest = sha(read(rel))
+            if digest != record[key]["sha256"]:
+                raise SystemExit(f"FAIL: {rel} does not hash to what {where}/RUN.json records")
+            pins[key] = {"path": rel, "sha256": digest}
+        for run in record["runs"]:
+            if run["reportSha256"] != pins["report"]["sha256"]:
+                raise SystemExit(f"FAIL: the run of {run['at']} in {where}/RUN.json did not "
+                                 "reproduce the published report")
+        report = json.loads(read(pins["report"]["path"]))
+        if shape := w3creport.shape_errors(report):
+            raise SystemExit(f"FAIL: {pins['report']['path']} is not a v0.1 report: {shape}")
+        if rejected := w3creport.rejections(report):
+            raise SystemExit(f"FAIL: {pins['report']['path']} is rejected under {rejected}")
+        runs.append({
+            "path": pins["report"]["path"], "sha256": pins["report"]["sha256"],
+            "conformanceReport": pins["conformanceReport"],
+            "run": {"path": f"{where}/RUN.json", "sha256": sha(record_bytes)},
+            "emittedBy": f"{record['package']} {record['version']}",
+            "tag": record["tag"], "commit": record["commit"], "command": record["command"],
+            "reproducedAt": [run["at"] for run in record["runs"]],
+            "counts": w3creport._counts(report["checks"]),
+            "judged": "no shape error, and no row fires",
+        })
+    return runs
+
+
 #: The evidence rows whose recomputed slot is a resolved observation, so the
 #: measurement above must agree with the class; the other evidence rows
 #: recompute from the report's own records (counts, roots, populations).
@@ -1947,6 +1995,7 @@ def build_manifest() -> tuple[dict[str, Any], dict[str, bytes]]:
         },
         "mutationSweep": {"file": "MUTATION-SWEEP.md", "rows": len(sweep), "leaks": 0},
         "observedRuns": [],
+        "referenceEmitterRuns": reference_emitter_runs(),
         "requirements": requirements,
         "counts": counts,
         "corpusDigest": sha(b"".join(files[entry["file"]] for entry in entries)),
