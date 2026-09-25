@@ -1823,7 +1823,8 @@ MASKS = tuple(
         # The w3c-report rule ids. Same family as `aee-c-NN` above, and added
         # for the reason that family's comment predicts: the digit names a rule
         # and counts nothing, and it stayed invisible only while no published
-        # quantity equalled it. These ids run `w3c-f-1` to `w3c-f-28`, and the
+        # quantity equalled it. These ids ran `w3c-f-1` to `w3c-f-28` when this
+        # mask was added (the family keeps growing), and the
         # census reports an integer that equals the CURRENT suiteRevision -- so
         # the collision arrived the day the counter reached 28 and landed on
         # `w3c-f-28`, five times across the corpus index and its generator.
@@ -1834,7 +1835,7 @@ MASKS = tuple(
         # count and is not entitled to one of the five routes.
         # Re-derive the family with:
         #     git grep -ohE '\bw3c-f-[0-9]+\b' | sort -u
-        # The upper-case siblings `W3C-R-001` to `W3C-R-028` are zero-padded by
+        # The upper-case siblings, `W3C-R-001` upward, are zero-padded by
         # construction and are already masked by the `\b0\d+\b` rule above.
         r"\bw3c-f-\d+\b",
         # A rule or a section, named by its number. Both are POSITIONS in a
