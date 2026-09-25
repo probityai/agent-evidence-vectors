@@ -2,20 +2,20 @@
   "suite": "ai-agent-action-conformance",
   "predicateType": "https://in-toto.io/attestation/ai-agent-action/v0.1",
   "tracksUpstream": "in-toto/attestation#588",
-  "specUpstreamCommit": "8783c6b800247f2ffe34714a32a9b722e438d851",
+  "specUpstreamCommit": "a5dd509c7476bcd7c738bee1afc3c02a57ac9e91",
   "specUpstreamRepo": "elang2/attestation",
   "specUpstreamRef": "add-ai-agent-action-predicate",
   "specAuthority": "specDigest",
-  "specProvenanceNote": "tracksUpstream names where the predicate is REVIEWED. specUpstreamRepo and specUpstreamRef name the fork branch the pull request is opened from, which is where specUpstreamCommit lived; that branch has since been rewritten, so the commit is orphaned and a plain clone of any of the three repositories exits 128 on it. The pin a verifier acts on is specDigest over specVendored, which is in this directory and which aee-verify recomputes on every run.",
-  "specVendored": "spec-vendored/ai-agent-action-8783c6b.md",
-  "specDigest": "273eb3475d11610b5f868661abb7b5538546c482a1a7d589a07a635ef2a79c02",
+  "specProvenanceNote": "tracksUpstream names where the predicate is REVIEWED. specUpstreamRepo and specUpstreamRef name the fork branch the pull request is opened from. On 2026-09-25 specUpstreamCommit is the head of that branch and of refs/pull/588/head in the review venue, so `git fetch origin pull/588/head` retrieves it; a plain clone does not, because it fetches no pull refs. The branch has been rewritten before and may be again, so the pin a verifier acts on is specDigest over specVendored, which is in this directory and which aee-verify recomputes on every run.",
+  "specVendored": "spec-vendored/ai-agent-action-a5dd509.md",
+  "specDigest": "5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c",
   "proposedText": "docs/ai-agent-action-canonicalization.md",
   "counts": {
     "accept": 37,
     "reject": 16
   },
   "corpusDigest": "7ca4db853dc416774167cfdb9ae5e5d31c11fefe793bbca0938dc79d26a01379",
-  "note": "A reject member is rejectable under the proposed canonicalization text, not under #588 as it stands. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
+  "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
     {
       "id": "v0805461f7a5c9a1f",
@@ -31,6 +31,11 @@
         ]
       },
       "cites": "A8: one of four readings a verifier could take of an absent result member, and the only one this suite forbids by naming the other",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "434-442",
+        "quote": "A producer MUST NOT digest `null`, an empty object, or the whole response envelope in place of the named member"
+      },
       "records": "records/v0805461f7a5c9a1f.jsonl"
     },
     {
@@ -47,6 +52,11 @@
         ]
       },
       "cites": "A4: a first-wins reader displays read_file while the hash commits to delete_repository",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "604-609",
+        "quote": "A duplicate member anywhere, at any depth, makes the record malformed"
+      },
       "records": "records/v0f4f2093061d303f.jsonl"
     },
     {
@@ -105,6 +115,11 @@
         ]
       },
       "cites": "A1: JSON.stringify orders 2 before 10 and leaves zz before aa; JCS orders 10, 2, aa, zz. Three languages, three chain hashes.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "379-383,387-391,400-409",
+        "quote": "`JSON.stringify` MUST NOT be used to derive the record canonical form"
+      },
       "records": "records/v26230ff87959bda5.jsonl"
     },
     {
@@ -222,7 +237,12 @@
           "previoushash-not-canonical"
         ]
       },
-      "cites": "A9b: 40 hex digits. Nothing in the current text excludes a digest from another algorithm"
+      "cites": "A9b: 40 hex digits. Nothing in the current text excludes a digest from another algorithm",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "685-692",
+        "quote": "A digest of any other length is not admissible"
+      }
     },
     {
       "id": "v5866a1997c7b2d76",
@@ -237,7 +257,12 @@
           "duplicate-genesis"
         ]
       },
-      "cites": "F3: the successor of a break restarts at genesis instead of chaining from the break, discarding the scar. #588 makes detection SHOULD; this member makes it MUST",
+      "cites": "F3: the successor of a break restarts at genesis instead of chaining from the break, discarding the scar. Detection is a MUST, not a SHOULD",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "775-779,796-797",
+        "quote": "A verifier MUST reject, fail-closed, a log in which `genesis` appears more than once"
+      },
       "records": "records/v5866a1997c7b2d76.jsonl"
     },
     {
@@ -267,7 +292,12 @@
           "unsafe-integer"
         ]
       },
-      "cites": "bounds: 2^53 + 1, the first value the I-JSON profile excludes"
+      "cites": "bounds: 2^53 + 1, the first value the I-JSON profile excludes",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "1320-1323",
+        "quote": "Implementations MUST reject records with integers at or above this bound"
+      }
     },
     {
       "id": "v6d21ff18cfa69ef8",
@@ -341,6 +371,11 @@
         ]
       },
       "cites": "A3: the record parses identically and hashes differently; any log shipper that reserializes produces this",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "387-391",
+        "quote": "MUST reject, fail-closed, any line whose bytes differ from the recomputation"
+      },
       "records": "records/v79fbd4b605a4d914.jsonl"
     },
     {
@@ -353,7 +388,7 @@
       "expected": {
         "verdict": "valid"
       },
-      "cites": "canonicalization: the safe-integer profile binds signed record fields; content payloads are JCS and admit floats"
+      "cites": "canonicalization: the float boundary is where the bytes live. A payload behind its content digest may carry floats; a record or a Statement may not"
     },
     {
       "id": "v7d78f7f696236714",
@@ -413,6 +448,11 @@
         ]
       },
       "cites": "A5: two records carry one previousHash. Every hash verifies, the genesis hash and therefore the subject digest are unchanged, and the presenter chooses which branch the auditor sees.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "700-704",
+        "quote": "Exactly one record in a chain MUST carry any given `previousHash` value"
+      },
       "records": "records/v861f20f3fa63ce2b.jsonl"
     },
     {
@@ -429,6 +469,11 @@
         ]
       },
       "cites": "F2: already forbidden by #588's own text. The vector is what stops the rule from being advice",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "611-615",
+        "quote": "an unpaired escape of either half is malformed"
+      },
       "records": "records/v86bb8bc8908fea42.jsonl"
     },
     {
@@ -474,6 +519,11 @@
         ]
       },
       "cites": "A2: a producer whose serializer defaults to ASCII escaping emits different bytes for the same string",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "411-415",
+        "quote": "both produce non-canonical bytes and both are rejected"
+      },
       "records": "records/v925e6daf8ac78ef3.jsonl"
     },
     {
@@ -489,7 +539,12 @@
           "non-integer-in-signed-field"
         ]
       },
-      "cites": "A7: the safe-integer profile binds signed record fields; the content-digest form is where a float belongs",
+      "cites": "A7: a float inside the record itself. The record canonical form admits no non-integer number, whatever the content digests bind; the content-digest form is where a float belongs",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "384-387,461-466",
+        "quote": "Non-integer numbers *inside* a record or a Statement, by contrast, are malformed and MUST be rejected fail-closed"
+      },
       "records": "records/v97f5d8777e514257.jsonl"
     },
     {
@@ -520,7 +575,12 @@
           "previoushash-not-canonical"
         ]
       },
-      "cites": "A9: a case-normalizing verifier links it and a byte-comparing one does not, so the same logical link has two spellings"
+      "cites": "A9: a case-normalizing verifier links it and a byte-comparing one does not, so the same logical link has two spellings",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "685-692",
+        "quote": "Uppercase hex is not canonical."
+      }
     },
     {
       "id": "v9cc43bcbf367a00e",
@@ -536,6 +596,11 @@
         ]
       },
       "cites": "A2b: Go's encoding/json escapes <, > and & by default, so a Go gateway and a Node gateway disagree on identical input",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "411-415",
+        "quote": "both produce non-canonical bytes and both are rejected"
+      },
       "records": "records/v9cc43bcbf367a00e.jsonl"
     },
     {
@@ -628,6 +693,16 @@
         "chainHashCodePoint": "d6037ab7134f90983da5db5894790d3228c0386b62f3eabfc8e2488cb66af4eb"
       },
       "cites": "strings: U+1F680 is encoded UTF-16 as D83D DE80, so it sorts before U+FF3A by code unit and after it by code point. The record is well formed and every field is untouched; it has two canonical byte strings and therefore two chain hashes, so the successor's previousHash and the chain's subject digest both fork.",
+      "basis": {
+        "source": "docs/ai-agent-action-canonicalization.md",
+        "section": "Member names are BMP-only",
+        "against": {
+          "source": "in-toto/attestation#588@a5dd509",
+          "lines": "611-612,624-625",
+          "quote": "A verifier that rejects it is over-rejecting"
+        },
+        "note": "The one reject condition #588 does not carry. Its string rule admits a well-formed supplementary-plane character in member-name position, and its record canonical form sorts that name by UTF-16 code unit, so a verifier conforming to #588 alone accepts this member. It is rejectable under the proposed BMP-only rule, carried over from in-toto/attestation#570."
+      },
       "records": "records/vb1f091f42efd0715.jsonl"
     },
     {
@@ -733,7 +808,12 @@
           "depth-exceeded"
         ]
       },
-      "cites": "bounds: one level past the stated cap, so the counting rule is exercised rather than assumed"
+      "cites": "bounds: one level past the stated cap, so the counting rule is exercised rather than assumed",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "602,627-629",
+        "quote": "A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128"
+      }
     },
     {
       "id": "vdd8899ebf08f5040",
@@ -763,6 +843,11 @@
         ]
       },
       "cites": "A6: the successor chains past the checkpoint to the record before it, so the checkpoint is deletable and the anti-truncation mechanism carries no weight",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "719-722",
+        "quote": "the record following any record of any type carries that record's chain hash"
+      },
       "records": "records/ve763abe0a98c932f.jsonl"
     },
     {

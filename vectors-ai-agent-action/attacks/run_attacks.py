@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adversarial harness against in-toto/attestation#588 at 8783c6b.
+"""Adversarial harness against in-toto/attestation#588 at the vendored revision.
 
 Every attack constructs concrete artifacts on disk and reports SUCCEEDED
 (the text as written permits the divergence) or FORECLOSED (the text
@@ -7,9 +7,10 @@ already rules it out). Nothing here is a claim about the reference
 implementation; the target is the specification text, because a second
 implementer has only the text.
 
-Ground truth: ../spec-vendored/ai-agent-action-8783c6b.md, fetched from
-repos/elang2/attestation/contents/spec/predicates/ai-agent-action.md
-at ref 8783c6b800247f2ffe34714a32a9b722e438d851.
+Ground truth: the file MANIFEST.json names as specVendored, at the commit it
+names as specUpstreamCommit. Both are read from the manifest rather than
+spelled here, so re-vendoring the specification is one edit to the generator
+and not five edits to this file.
 """
 
 from __future__ import annotations
@@ -24,6 +25,9 @@ OUT = os.path.join(HERE, "artifacts")
 os.makedirs(OUT, exist_ok=True)
 
 RESULTS: list[tuple[str, str, str, str]] = []
+
+with open(os.path.join(HERE, "..", "MANIFEST.json"), encoding="utf-8") as _fh:
+    SPEC = os.path.join(HERE, "..", json.load(_fh)["specVendored"])
 
 
 def sha256_hex(b: bytes) -> str:
@@ -325,7 +329,7 @@ def attack_a5() -> None:
 # A6  Checkpoint records are not on the chain the Fields table defines
 # ---------------------------------------------------------------------------
 def attack_a6() -> None:
-    spec = os.path.join(HERE, "..", "spec-vendored", "ai-agent-action-8783c6b.md")
+    spec = SPEC
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
 
@@ -371,7 +375,7 @@ def attack_a6() -> None:
 # A7  The float rule contradicts itself
 # ---------------------------------------------------------------------------
 def attack_a7() -> None:
-    spec = os.path.join(HERE, "..", "spec-vendored", "ai-agent-action-8783c6b.md")
+    spec = SPEC
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
     # The spec is hard-wrapped, so a phrase spanning a line break is absent
@@ -508,7 +512,7 @@ def attack_a9() -> None:
 # A10 The signing canonical form's field list is not in the specification
 # ---------------------------------------------------------------------------
 def attack_a10() -> None:
-    spec = os.path.join(HERE, "..", "spec-vendored", "ai-agent-action-8783c6b.md")
+    spec = SPEC
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
     flat = " ".join(text.split())
@@ -581,7 +585,7 @@ def attack_f1() -> None:
 
 def attack_f2() -> None:
     """Unpaired surrogate in a signed string."""
-    spec = os.path.join(HERE, "..", "spec-vendored", "ai-agent-action-8783c6b.md")
+    spec = SPEC
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
     # PROBE THE RULE, NOT THE SENTENCE. This was a single literal search for
@@ -621,7 +625,7 @@ def attack_f2() -> None:
 
 def attack_f3() -> None:
     """Replay a second genesis to restart the chain and drop history."""
-    spec = os.path.join(HERE, "..", "spec-vendored", "ai-agent-action-8783c6b.md")
+    spec = SPEC
     with open(spec, encoding="utf-8") as fh:
         text = fh.read()
     must = "MUST" in section(

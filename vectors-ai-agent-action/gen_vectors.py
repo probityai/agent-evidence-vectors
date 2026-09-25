@@ -4,18 +4,19 @@
 Regenerate byte-identically: python3 gen_vectors.py
 
 Ground truth: in-toto/attestation#588, spec/predicates/ai-agent-action.md at
-8783c6b800247f2ffe34714a32a9b722e438d851.
+a5dd509c7476bcd7c738bee1afc3c02a57ac9e91.
 
 Every member is a complete in-toto Statement. Members whose claim is about
 the hash chain carry a sidecar under records/, the JSONL lines the chain hash
 is computed over, because the chain hash's preimage is the underlying gateway
 record and not the Statement.
 
-A reject member here is rejectable under the canonicalization text this suite
-proposes (docs/ai-agent-action-canonicalization.md), not under #588 as it
-currently stands. That is the point: the divergences are constructible today
-precisely because no rule forbids them, and a vector is how the rule stops
-being advice.
+Every reject member declares its BASIS: the lines of the vendored #588 text
+that make it rejectable, or, for the one condition #588 does not yet carry,
+the section of the canonicalization text this suite proposes
+(docs/ai-agent-action-canonicalization.md). A blanket sentence saying which
+text the rejects rest on was true of one revision and false of the next; a
+basis per member is checked against the vendored bytes on every run.
 """
 
 from __future__ import annotations
@@ -28,23 +29,23 @@ import struct
 HERE = os.path.dirname(os.path.abspath(__file__))
 PREDICATE_TYPE = "https://in-toto.io/attestation/ai-agent-action/v0.1"
 UPSTREAM_PR = "in-toto/attestation#588"
-UPSTREAM_COMMIT = "8783c6b800247f2ffe34714a32a9b722e438d851"
+UPSTREAM_COMMIT = "a5dd509c7476bcd7c738bee1afc3c02a57ac9e91"
 
-# WHERE THE COMMIT LIVED, AND WHY THAT IS PAST TENSE.
+# WHERE THE COMMIT LIVES.
 #
-# in-toto/attestation#588 is opened from a branch on a third party's fork, so
-# the commit was never in the review venue: a plain clone of
-# in-toto/attestation resolves its own HEAD and exits 128 on this commit. It is
-# not in astrogilda/attestation either. As of 2026-08-26 it is not reachable in
-# a plain clone of the head fork below either -- that branch has been rewritten
-# and now heads at 66de88f6, so this commit is orphaned in every repository and
-# survives only as an unreferenced object GitHub has not yet collected.
+# in-toto/attestation#588 is opened from a branch on a third party's fork. On
+# 2026-09-25 this commit is the head of that branch and of the review venue's
+# refs/pull/588/head, so `git fetch origin pull/588/head` in a clone of
+# in-toto/attestation retrieves it; a plain clone does not, because it fetches
+# no refs/pull/* at all. The branch has been rewritten before (on 2026-08-26 it
+# headed at 66de88f6 and an earlier pinned commit was unreachable), so a later
+# review round may move it again.
 #
 # THE DIGEST IS THEREFORE THE PIN, AND THE COMMIT IS ONLY PROVENANCE. A commit
-# id names bytes nobody can fetch; `specDigest` names bytes that are in this
-# directory, and `aee-verify` refuses a copy whose bytes moved. That
-# refusal is what keeps the corpus honest about what it certifies against, and
-# it is why losing the commit costs the suite nothing.
+# id names bytes that may stop being fetchable; `specDigest` names bytes that
+# are in this directory, and `aee-verify` refuses a copy whose bytes moved.
+# That refusal is what keeps the corpus honest about what it certifies
+# against, and it is why a rewritten branch costs the suite nothing.
 SPEC_UPSTREAM_REPO = "elang2/attestation"
 SPEC_UPSTREAM_REF = "add-ai-agent-action-predicate"
 
@@ -281,7 +282,7 @@ def underlying(previous_hash: str, tool: str = "create_pull_request",
 
 def add(slug: str, kind: str, predicate: dict, subject: str,
         conditions: list[str], expected: dict, records: list[bytes] | None,
-        cites: str) -> None:
+        cites: str, basis: dict | None = None) -> None:
     """Record what a vector IS. Naming it is emit()'s job, once it has bytes.
 
     `slug` is the authoring name -- the thing a person types when writing the
@@ -292,10 +293,14 @@ def add(slug: str, kind: str, predicate: dict, subject: str,
     what made the corpus scoreable without reading it -- an `ok-`/`bad-` prefix
     on the input's own name is the answer, handed to the rail with the question.
     """
+    if (kind == "reject") != (basis is not None):
+        raise SystemExit(
+            f"{slug}: a reject member declares the text that makes it "
+            "rejectable, and an accept member declares none")
     DRAFTS.append({"slug": slug, "kind": kind,
                    "statement": statement(subject, predicate),
                    "conditions": conditions, "expected": expected,
-                   "records": records, "cites": cites})
+                   "records": records, "cites": cites, "basis": basis})
 
 
 def emit() -> None:
@@ -321,6 +326,8 @@ def emit() -> None:
         entry = {"id": vid, "kind": draft["kind"], "file": rel,
                  "conditions": draft["conditions"], "expected": draft["expected"],
                  "cites": draft["cites"]}
+        if draft["basis"] is not None:
+            entry["basis"] = draft["basis"]
         if record_bytes is not None:
             rec_rel = f"records/{vid}.jsonl"
             write(rec_rel, record_bytes)
@@ -517,8 +524,9 @@ def build_accept() -> None:
         tool_call("genesis", content=content), PARENT_HASH,
         ["aia-c-9"],
         {"verdict": "valid"}, None,
-        "canonicalization: the safe-integer profile binds signed record "
-        "fields; content payloads are JCS and admit floats")
+        "canonicalization: the float boundary is where the bytes live. A "
+        "payload behind its content digest may carry floats; a record or a "
+        "Statement may not")
 
     err_content = {"request": {"sha256": h(jcs(REQ))},
                    "response": {"sha256": h(jcs(ERR))}}
@@ -581,19 +589,32 @@ def build_accept() -> None:
 
 
 SPEC_VENDORED_REL = f"spec-vendored/ai-agent-action-{UPSTREAM_COMMIT[:7]}.md"
+SPEC_SOURCE = f"{UPSTREAM_PR}@{UPSTREAM_COMMIT[:7]}"
+PROPOSED_TEXT = "docs/ai-agent-action-canonicalization.md"
+
+
+def spec_basis(lines: str, quote: str) -> dict:
+    """The lines of the vendored #588 text a reject member rests on.
+
+    `quote` must occur in those lines once their hard wrapping is flattened,
+    and aee-verify checks that it does. A bare line range survives an edit
+    that moves the text it pointed at; a range and the words it is supposed
+    to hold do not, so the next re-vendor reopens every basis whose text
+    moved instead of carrying it forward as though it still held.
+    """
+    return {"source": SPEC_SOURCE, "lines": lines, "quote": quote}
 
 
 def spec_digest() -> str:
     """The digest of the vendored specification copy.
 
-    The suite certifies against #588 as it read at UPSTREAM_COMMIT plus the
-    proposed canonicalization strengthening, never against #588 as it stands
-    alone: the reject members are rejectable under the proposal and not under
-    the pull request's current text. The vendored file is the only evidence on
-    disk of what that upstream text said. Pinning
-    its bytes here is what lets aee-verify refuse a copy edited in place:
-    without the pin the manifest names a commit, which anyone can write, rather
-    than the bytes, which they cannot.
+    The suite certifies against #588 as it read at UPSTREAM_COMMIT, and each
+    reject member names the lines of that text it rests on (or, for the one
+    condition #588 does not carry, the proposed text). The vendored file is the
+    evidence on disk of what that upstream text said. Pinning its bytes here is
+    what lets aee-verify refuse a copy edited in place: without the pin the
+    manifest names a commit, which anyone can write, rather than the bytes,
+    which they cannot.
     """
     with open(os.path.join(HERE, SPEC_VENDORED_REL), "rb") as fh:
         return h(fh.read())
@@ -632,7 +653,9 @@ def build_reject() -> None:
         ["aia-c-1"], {"verdict": "invalid", "codes": ["chain-hash-mismatch"]},
         [js_bytes],
         "A1: JSON.stringify orders 2 before 10 and leaves zz before aa; JCS "
-        "orders 10, 2, aa, zz. Three languages, three chain hashes.")
+        "orders 10, 2, aa, zz. Three languages, three chain hashes.",
+        basis=spec_basis("379-383,387-391,400-409",
+                         '`JSON.stringify` MUST NOT be used to derive the record canonical form'))
 
     # A2: escaping policy.
     esc_rec = underlying("genesis", tool="creer_fichier_été")
@@ -643,7 +666,9 @@ def build_reject() -> None:
         h(esc_bytes), ["aia-c-3"],
         {"verdict": "invalid", "codes": ["chain-hash-mismatch"]}, [esc_bytes],
         "A2: a producer whose serializer defaults to ASCII escaping emits "
-        "different bytes for the same string")
+        "different bytes for the same string",
+        basis=spec_basis("411-415",
+                         'both produce non-canonical bytes and both are rejected'))
 
     html_rec = underlying("genesis", tool="run<script>")
     html_bytes = (json.dumps(html_rec, separators=(",", ":"),
@@ -655,7 +680,9 @@ def build_reject() -> None:
         ["aia-c-3"], {"verdict": "invalid", "codes": ["chain-hash-mismatch"]},
         [html_bytes],
         "A2b: Go's encoding/json escapes <, > and & by default, so a Go "
-        "gateway and a Node gateway disagree on identical input")
+        "gateway and a Node gateway disagree on identical input",
+        basis=spec_basis("411-415",
+                         'both produce non-canonical bytes and both are rejected'))
 
     # A3: the log line carries insignificant whitespace.
     ws_bytes = json.dumps(PARENT_REC, separators=(", ", ": "),
@@ -665,7 +692,9 @@ def build_reject() -> None:
         ["aia-c-4"], {"verdict": "invalid", "codes": ["noncanonical-bytes"]},
         [ws_bytes],
         "A3: the record parses identically and hashes differently; any log "
-        "shipper that reserializes produces this")
+        "shipper that reserializes produces this",
+        basis=spec_basis("387-391",
+                         'MUST reject, fail-closed, any line whose bytes differ from the recomputation'))
 
     # A4: duplicate member.
     dup = (b'{"durationMs":412,"id":"r1","previousHash":"genesis",'
@@ -677,7 +706,9 @@ def build_reject() -> None:
         ["aia-c-5"], {"verdict": "invalid", "codes": ["duplicate-member"]},
         [dup],
         "A4: a first-wins reader displays read_file while the hash commits "
-        "to delete_repository")
+        "to delete_repository",
+        basis=spec_basis("604-609",
+                         'A duplicate member anywhere, at any depth, makes the record malformed'))
 
     # A5: the chain forks.
     f1 = underlying("genesis", tool="list_files", rid="r1")
@@ -690,7 +721,9 @@ def build_reject() -> None:
         [jcs(f1), jcs(f2a), jcs(f2b)],
         "A5: two records carry one previousHash. Every hash verifies, the "
         "genesis hash and therefore the subject digest are unchanged, and "
-        "the presenter chooses which branch the auditor sees.")
+        "the presenter chooses which branch the auditor sees.",
+        basis=spec_basis("700-704",
+                         'Exactly one record in a chain MUST carry any given `previousHash` value'))
 
     ck_nolink = {"id": "ckpt_1", "type": "checkpoint",
                  "timestamp": "2026-08-18T14:33:42.101Z",
@@ -710,7 +743,9 @@ def build_reject() -> None:
         [jcs(PARENT_REC), jcs(ck_nolink), jcs(succ)],
         "A6: the successor chains past the checkpoint to the record before "
         "it, so the checkpoint is deletable and the anti-truncation "
-        "mechanism carries no weight")
+        "mechanism carries no weight",
+        basis=spec_basis("719-722",
+                         "the record following any record of any type carries that record's chain hash"))
 
     float_rec = dict(PARENT_REC)
     float_rec["durationMs"] = 412.5
@@ -719,8 +754,11 @@ def build_reject() -> None:
         chain_hash(float_rec), ["aia-c-9"],
         {"verdict": "invalid", "codes": ["non-integer-in-signed-field"]},
         [jcs(float_rec)],
-        "A7: the safe-integer profile binds signed record fields; the "
-        "content-digest form is where a float belongs")
+        "A7: a float inside the record itself. The record canonical form "
+        "admits no non-integer number, whatever the content digests bind; "
+        "the content-digest form is where a float belongs",
+        basis=spec_basis("384-387,461-466",
+                         'Non-integer numbers *inside* a record or a Statement, by contrast, are malformed and MUST be rejected fail-closed'))
 
     err_null = {"request": {"sha256": h(jcs(REQ))},
                 "response": {"sha256": h(b"null")}}
@@ -732,20 +770,26 @@ def build_reject() -> None:
         {"verdict": "invalid", "codes": ["content-digest-mismatch"]},
         [jcs(err_rec)],
         "A8: one of four readings a verifier could take of an absent result "
-        "member, and the only one this suite forbids by naming the other")
+        "member, and the only one this suite forbids by naming the other",
+        basis=spec_basis("434-442",
+                         'A producer MUST NOT digest `null`, an empty object, or the whole response envelope in place of the named member'))
 
     add("bad-110-previoushash-uppercase-hex", "reject",
         tool_call(PARENT_HASH.upper()), PARENT_HASH, ["aia-c-11"],
         {"verdict": "invalid", "codes": ["previoushash-not-canonical"]}, None,
         "A9: a case-normalizing verifier links it and a byte-comparing one "
-        "does not, so the same logical link has two spellings")
+        "does not, so the same logical link has two spellings",
+        basis=spec_basis("685-692",
+                         'Uppercase hex is not canonical.'))
 
     add("bad-111-previoushash-wrong-length", "reject",
         tool_call("da39a3ee5e6b4b0d3255bfef95601890afd80709"), PARENT_HASH,
         ["aia-c-11"],
         {"verdict": "invalid", "codes": ["previoushash-not-canonical"]}, None,
         "A9b: 40 hex digits. Nothing in the current text excludes a digest "
-        "from another algorithm")
+        "from another algorithm",
+        basis=spec_basis("685-692",
+                         'A digest of any other length is not admissible'))
 
     g1 = underlying("genesis", tool="list_files", rid="r1")
     brk = {"id": "brk_1", "type": "chain_break",
@@ -757,8 +801,10 @@ def build_reject() -> None:
         {"verdict": "invalid", "codes": ["duplicate-genesis"]},
         [jcs(g1), jcs(brk), jcs(g2)],
         "F3: the successor of a break restarts at genesis instead of "
-        "chaining from the break, discarding the scar. #588 makes detection "
-        "SHOULD; this member makes it MUST")
+        "chaining from the break, discarding the scar. Detection is a MUST, "
+        "not a SHOULD",
+        basis=spec_basis("775-779,796-797",
+                         'A verifier MUST reject, fail-closed, a log in which `genesis` appears more than once'))
 
     sur = ('{"id":"r1","previousHash":"genesis","toolName":"bad\\ud800",'
            '"type":"tool_call"}').encode()
@@ -766,20 +812,26 @@ def build_reject() -> None:
         tool_call("genesis", tool="bad"), h(sur), ["aia-c-13"],
         {"verdict": "invalid", "codes": ["ill-formed-string"]}, [sur],
         "F2: already forbidden by #588's own text. The vector is what stops "
-        "the rule from being advice")
+        "the rule from being advice",
+        basis=spec_basis("611-615",
+                         'an unpaired escape of either half is malformed'))
 
     add("bad-114-extensions-depth-129", "reject",
         tool_call("genesis", extensions=nested(129)), PARENT_HASH,
         ["aia-c-12"], {"verdict": "invalid", "codes": ["depth-exceeded"]},
         None,
         "bounds: one level past the stated cap, so the counting rule is "
-        "exercised rather than assumed")
+        "exercised rather than assumed",
+        basis=spec_basis("602,627-629",
+                         'A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128'))
 
     add("bad-115-unsafe-integer-durationms", "reject",
         tool_call("genesis", duration=9007199254740993), PARENT_HASH,
         ["aia-c-14"], {"verdict": "invalid", "codes": ["unsafe-integer"]},
         None,
-        "bounds: 2^53 + 1, the first value the I-JSON profile excludes")
+        "bounds: 2^53 + 1, the first value the I-JSON profile excludes",
+        basis=spec_basis("1320-1323",
+                         'Implementations MUST reject records with integers at or above this bound'))
 
     # ok-013 with one member name lifted out of the BMP. The sidecar carries
     # the bytes RFC 8785 requires, sorted by UTF-16 code unit, which this
@@ -799,7 +851,19 @@ def build_reject() -> None:
         "U+FF3A by code unit and after it by code point. The record is "
         "well formed and every field is untouched; it has two canonical byte "
         "strings and therefore two chain hashes, so the successor's "
-        "previousHash and the chain's subject digest both fork.")
+        "previousHash and the chain's subject digest both fork.",
+        basis={"source": PROPOSED_TEXT,
+               "section": "Member names are BMP-only",
+               "against": {"source": SPEC_SOURCE, "lines": "611-612,624-625",
+                           "quote": "A verifier that rejects it is "
+                                    "over-rejecting"},
+               "note": "The one reject condition #588 does not carry. Its "
+                       "string rule admits a well-formed supplementary-plane "
+                       "character in member-name position, and its record "
+                       "canonical form sorts that name by UTF-16 code unit, "
+                       "so a verifier conforming to #588 alone accepts this "
+                       "member. It is rejectable under the proposed BMP-only "
+                       "rule, carried over from in-toto/attestation#570."})
 
 
 def main() -> None:
@@ -821,22 +885,25 @@ def main() -> None:
         "specProvenanceNote":
             "tracksUpstream names where the predicate is REVIEWED. "
             "specUpstreamRepo and specUpstreamRef name the fork branch the "
-            "pull request is opened from, which is where specUpstreamCommit "
-            "lived; that branch has since been rewritten, so the commit is "
-            "orphaned and a plain clone of any of the three repositories "
-            "exits 128 on it. The pin a verifier acts on is specDigest over "
-            "specVendored, which is in this directory and which "
-            "aee-verify recomputes on every run.",
+            "pull request is opened from. On 2026-09-25 specUpstreamCommit is "
+            "the head of that branch and of refs/pull/588/head in the review "
+            "venue, so `git fetch origin pull/588/head` retrieves it; a plain "
+            "clone does not, because it fetches no pull refs. The branch has "
+            "been rewritten before and may be again, so the pin a verifier "
+            "acts on is specDigest over specVendored, which is in this "
+            "directory and which aee-verify recomputes on every run.",
         "specVendored": SPEC_VENDORED_REL,
         "specDigest": spec_digest(),
-        "proposedText": "docs/ai-agent-action-canonicalization.md",
+        "proposedText": PROPOSED_TEXT,
         "counts": counts,
         "corpusDigest": corpus,
-        "note": "A reject member is rejectable under the proposed "
-                "canonicalization text, not under #588 as it stands. Each "
-                "accept member is the conformant twin of the reject member "
-                "sharing its condition, so a verifier that rejects "
-                "everything scores zero rather than full marks.",
+        "note": "Each reject member declares its basis: the lines of the "
+                "vendored #588 text that make it rejectable, with a quotation "
+                "aee-verify finds in them, or the section of proposedText for "
+                "the one condition #588 does not carry. Each accept member is "
+                "the conformant twin of the reject member sharing its "
+                "condition, so a verifier that rejects everything scores zero "
+                "rather than full marks.",
         "vectors": sorted(MANIFEST, key=lambda m: m["id"]),
     }
     write("MANIFEST.json",
