@@ -301,9 +301,10 @@ def as_observed(line: dict[str, Any]) -> Observation:
     harness's own rule rather than restated: a member the rail did not emit, or
     emitted as null, was never established, and the evaluator fails a comparison
     that has an expectation for it. `errors` is empty because this path runs the
-    rail in process and has no invocation to fail; the ground-truth gate compares
-    both fields against the real CLI, so a divergence stops the run rather than
-    being scored.
+    rail in process and has no invocation to fail, and `ran` is True for the same
+    reason: the rail answered this vector. The ground-truth gate compares all three
+    fields against the real CLI, so a divergence stops the run rather than being
+    scored.
     """
     observed: Observation = {
         "verdict": line["verdict"],
@@ -315,6 +316,7 @@ def as_observed(line: dict[str, Any]) -> Observation:
         "tiers_without_key": line.get("tiersWithoutKey") or None,
         "result_without_key": line.get("resultWithoutKey") or None,
         "errors": [],
+        "ran": True,
     }
     observed["absent"] = sorted(
         name
