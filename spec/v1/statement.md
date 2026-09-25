@@ -93,3 +93,14 @@ on both rails this repository ships, because the corpus harness scores reject
 codes disjunctively and by design (see `comparisonSurface` in
 `vectors/MANIFEST.json`) and therefore cannot fail a rail that rejects all three
 for three different reasons.
+
+The same three members carry a second, Statement-layer verdict in the manifest,
+`statementLayer: {"verdict": "valid", ...}`, because at the in-toto Statement
+layer all three are well formed: the rule above says a verifier must reject them
+identically, and the framework sentence it quotes says a Statement parser must
+accept them. The in-toto reference bindings refused the absent and `null`
+spellings until
+[in-toto/attestation#598](https://github.com/in-toto/attestation/pull/598), and
+the framework sentence reads the same at in-toto/attestation commit `fd2609c1`
+as at `512e386d`. `scripts/statement-layer-test.py` executes that verdict rather
+than trusting it.
