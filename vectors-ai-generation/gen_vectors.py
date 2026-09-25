@@ -33,6 +33,7 @@ import hashlib
 import json
 import os
 import sys
+import tempfile
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -47,7 +48,7 @@ from cryptography.hazmat.primitives.serialization import (  # noqa: E402
 )
 
 # One preimage, one spelling. release-digests.py reaches the same function.
-from digest import ordered_digest  # noqa: E402
+from digest import corpus_digest  # noqa: E402
 
 SUITE = "ai-generation-v01-conformance"
 PREDICATE_TYPE = "https://open-fab.ai/attestation/generation/v0.1"
@@ -1074,8 +1075,18 @@ def build_manifest() -> tuple[dict[str, Any], dict[str, bytes]]:
 
 
 def digest_of(entries: list[dict[str, Any]], files: dict[str, bytes]) -> str:
-    """The corpus digest over the bytes about to be written, through the one spelling."""
-    return ordered_digest(entries, files.__getitem__)
+    """The corpus digest over the bytes about to be written, through the one spelling.
+
+    corpus_digest reads members from a directory, and in --check mode nothing may be
+    written into this one, so the members are staged in a temporary directory.
+    """
+    with tempfile.TemporaryDirectory() as root:
+        for entry in entries:
+            path = os.path.join(root, entry["file"])
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "wb") as handle:
+                handle.write(files[entry["file"]])
+        return corpus_digest({"vectors": entries}, root)
 
 
 def outcome_text(outcome: dict[str, Any]) -> str:

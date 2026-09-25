@@ -10,25 +10,15 @@ from __future__ import annotations
 
 import hashlib
 import os
-from collections.abc import Callable
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-def ordered_digest(entries: list[dict[str, Any]], read: Callable[[str], bytes]) -> str:
+def corpus_digest(manifest: dict[str, Any], root: str = HERE) -> str:
     """sha256 over every member's file bytes, concatenated in identifier order."""
     digest = hashlib.sha256()
-    for entry in sorted(entries, key=lambda entry: entry["id"]):
-        digest.update(read(entry["file"]))
+    for entry in sorted(manifest["vectors"], key=lambda entry: entry["id"]):
+        with open(os.path.join(root, entry["file"]), "rb") as handle:
+            digest.update(handle.read())
     return digest.hexdigest()
-
-
-def corpus_digest(manifest: dict[str, Any], root: str = HERE) -> str:
-    """The digest of the member files on disk under root."""
-
-    def read(rel: str) -> bytes:
-        with open(os.path.join(root, rel), "rb") as handle:
-            return handle.read()
-
-    return ordered_digest(manifest["vectors"], read)
