@@ -1,0 +1,1052 @@
+{
+  "suite": "ai-generation-v01-conformance",
+  "predicateType": "https://open-fab.ai/attestation/generation/v0.1",
+  "tracksUpstream": "ossf/tac#628",
+  "specUpstreamRepo": "Open-fab-ai/openfab",
+  "specUpstreamCommit": "f558da05aae82a7d98f18287f2bcc17e2f1d8aee",
+  "specRevision": "0.1.3",
+  "specAuthority": "specDigest",
+  "specProvenanceNote": "tracksUpstream names where the predicate is discussed for adoption. The specification text, its JSON Schema and its licence are vendored unchanged from specUpstreamRepo at specUpstreamCommit; the pin a verifier acts on is each file's digest, which aee-verify recomputes on every run.",
+  "specVendored": "spec-vendored/generation-predicate-v0.1-f558da05.md",
+  "specDigest": "17754a3a4b53297e0c7569968fd8e30ee83aa8dcdb1992fa7a1a56d525a1c1cd",
+  "schemaVendored": "spec-vendored/generation-predicate-schema-f558da05.json",
+  "schemaDigest": "a66870141435585d4e4715c7936ad415b0c882be7d71a18ceab2605c2375169c",
+  "licenseVendored": "spec-vendored/LICENSE-f558da05",
+  "licenseDigest": "cfa7f062b75afdeb88f4a8d8540f6536b98fc4440354e9f32e4f9da90f60870b",
+  "goldenSource": {
+    "repo": "Open-fab-ai/openfab",
+    "commit": "f558da05aae82a7d98f18287f2bcc17e2f1d8aee",
+    "path": "src/core/provenance.rs",
+    "test": "canonical_encoding_golden_vector",
+    "canonicalLength": 756,
+    "canonicalSha256": "7051cb7073a3bee0a038255fd59d4679c95443bd6a81bb92d0ff3e765713bacd"
+  },
+  "proposedText": "docs/proposals/ai-generation-v01-findings.md",
+  "keys": {
+    "fab": "did:key:z6MkhWdETinMi4rUTLoSgu2zegCuDn2P5hAf1RMotccZpAMW",
+    "reviewer-a": "did:key:z6MkiFdcwVdm5PgmPrX7DU4xTNXah6HB64FUdN4cqN2mTPZh",
+    "reviewer-b": "did:key:z6Mkqs6p6Czb5pztUotsmqWjZBvu6TEQSE6n9kF34Co6Y9YD",
+    "reviewer-c": "did:key:z6MkiVcmVBvuaS1TV7WQ1T3mwz4pFYEMbJryuArM2151jAxg"
+  },
+  "keyNote": "PUBLISHED TEST KEYS. Each seed is the sha256 of the ASCII string 'agent-evidence-vectors ai-generation test key: ' followed by the key's name. They sign nothing outside this directory.",
+  "conditions": {
+    "ofg-c-1": {
+      "requires": "The canonical form of the pinned golden statement is the pinned bytes.",
+      "clause": "Envelope encoding: the golden conformance vector, whose canonical form the upstream repository pins by length and sha256."
+    },
+    "ofg-c-2": {
+      "requires": "payload_sha256 is the sha256 of the canonical statement bytes.",
+      "clause": "Envelope encoding: the bytes the signatures cover, and that payload_sha256 digests, are the UTF-8 encoding of the canonical form of statement."
+    },
+    "ofg-c-3": {
+      "requires": "A signature covers the canonical bytes, not another serialization.",
+      "clause": "Envelope encoding: objects carry no insignificant whitespace."
+    },
+    "ofg-c-4": {
+      "requires": "Non-ASCII characters are emitted as literal UTF-8.",
+      "clause": "Envelope encoding: all other characters (including non-ASCII) emitted as literal UTF-8, not escaped."
+    },
+    "ofg-c-5": {
+      "requires": "String escaping is minimal; a solidus is not escaped.",
+      "clause": "Envelope encoding: standard JSON escaping, minimal."
+    },
+    "ofg-c-6": {
+      "requires": "No floating-point number appears in the statement.",
+      "clause": "Envelope encoding: the value domain contains no floating-point numbers. Producers MUST NOT introduce them."
+    },
+    "ofg-c-7": {
+      "requires": "No number of any kind appears in the statement.",
+      "clause": "Envelope encoding: the value domain is strings, booleans, objects, arrays only."
+    },
+    "ofg-c-8": {
+      "requires": "An empty acceptance or signoffs array is omitted.",
+      "clause": "Producer omission rule: empty acceptance / signoffs arrays are omitted entirely, never serialized as empty arrays."
+    },
+    "ofg-c-9": {
+      "requires": "An absent optional field is omitted, never serialized as null.",
+      "clause": "Producer omission rule: absent optional fields (agent.id, agent.tools, materials[].sha256) are omitted entirely, never serialized as null."
+    },
+    "ofg-c-10": {
+      "requires": "The statement is canonicalized as received, so a member added after signing is covered and breaks the digest.",
+      "clause": "Envelope encoding: verifiers canonicalize the statement as parsed."
+    },
+    "ofg-c-11": {
+      "requires": "Every ed25519 signature verifies over the canonical bytes.",
+      "clause": "Verification step 2: verify the ed25519 signatures against their keyid."
+    },
+    "ofg-c-12": {
+      "requires": "A keyid is an ed25519 did:key.",
+      "clause": "Verification step 2: signatures are verified against their keyid (did:key); the envelope algorithm is ed25519."
+    },
+    "ofg-c-13": {
+      "requires": "generated[].author is ai or human.",
+      "clause": "Predicate fields: author is one of ai or human."
+    },
+    "ofg-c-14": {
+      "requires": "In attest-only mode acceptance_passed is reported as the producer's self-report and the verdict records its mode.",
+      "clause": "Verification: in this mode acceptance_passed MUST be treated as the producer's self-report; a verifier MUST record which mode produced its verdict."
+    },
+    "ofg-p-1": {
+      "requires": "Each signature covers a stated part of the statement once sign-offs exist: the fab signature and payload_sha256 the statement without signoffs, the n-th sign-off signature the statement with the first n records.",
+      "gap": "Revision 0.1.3 says every signature covers the canonical statement, so a verifier built from the text rejects every attestation that carries a sign-off."
+    },
+    "ofg-p-2": {
+      "requires": "Every sign-off record is covered by the signature of the key it names.",
+      "gap": "Under the coverage both implementations use, the last record is covered by no signature and can be rewritten after signing."
+    },
+    "ofg-p-3": {
+      "requires": "There is exactly one sign-off signature per sign-off record.",
+      "gap": "Nothing binds the number of records to the number of signatures."
+    },
+    "ofg-p-4": {
+      "requires": "signoffs[n].did is the keyid of the n-th sign-off signature.",
+      "gap": "Nothing binds a record to the key that signed it."
+    },
+    "ofg-p-5": {
+      "requires": "N-of-M counts distinct signing keys, not records or names.",
+      "gap": "The revision calls signoffs an N-of-M gate and never says what is counted."
+    },
+    "ofg-p-6": {
+      "requires": "Attribution ranges for one path do not overlap.",
+      "gap": "The revision permits two ranges to claim different origins for one line."
+    },
+    "ofg-p-7": {
+      "requires": "A supplied Assisted-by trailer matches agent.id and agent.tools.",
+      "gap": "The revision makes the cross-check a MAY, so a disagreeing trailer passes."
+    },
+    "ofg-p-8": {
+      "requires": "Member names are ordered by UTF-16 code units, as RFC 8785 orders them.",
+      "gap": "The revision orders keys by code point and also says its form coincides with RFC 8785; for a member name outside the Basic Multilingual Plane the two orders differ."
+    },
+    "ofg-p-9": {
+      "requires": "An integer is permitted inside the I-JSON safe range and refused outside it.",
+      "gap": "The revision's value domain has no numbers, while the reference tests sign an integer parameter."
+    },
+    "ofg-p-10": {
+      "requires": "A statement with a duplicate member name is refused.",
+      "gap": "The revision does not say how a duplicate name is parsed, so two verifiers keeping different copies both conform."
+    }
+  },
+  "counts": {
+    "accept": 9,
+    "reject": 12,
+    "proposed": 13
+  },
+  "vectors": [
+    {
+      "id": "v032d7f6446838c86",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v032d7f6446838c86.json",
+      "conditions": [
+        "ofg-c-7"
+      ],
+      "parent": "v803b44c6310c58dd",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "number-outside-value-domain"
+      },
+      "cites": "params.temperature as the integer 0, signed consistently. The revision's value domain lists strings, booleans, objects and arrays only; the upstream implementation's own tests sign such an integer."
+    },
+    {
+      "id": "v0bf84efb855e9983",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v0bf84efb855e9983.json",
+      "conditions": [
+        "ofg-c-4"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "payload-digest-mismatch"
+      },
+      "cites": "digest and signature computed over a form that writes the path's CJK characters as \\u escapes. The canonical form carries them as literal UTF-8."
+    },
+    {
+      "id": "v20dc6144915cb64e",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v20dc6144915cb64e.json",
+      "conditions": [
+        "ofg-c-11"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature-invalid"
+      },
+      "cites": "the fab signature with one bit of its first byte flipped."
+    },
+    {
+      "id": "v26773fbfe7219804",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v26773fbfe7219804.json",
+      "conditions": [
+        "ofg-p-9"
+      ],
+      "parent": "v7e8378a3cb6f3beb",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "number-outside-value-domain"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "unsafe-integer"
+        }
+      },
+      "cites": "params.seed as 2^53 + 1. JavaScript reads it as 2^53; a 64-bit integer reader keeps it, so two verifiers hash different bytes."
+    },
+    {
+      "id": "v41ffc689ab691f38",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v41ffc689ab691f38.json",
+      "conditions": [
+        "ofg-c-10"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "payload-digest-mismatch"
+      },
+      "cites": "a member added to generated[0] after signing. Canonicalized as received it is covered, so the digest and the signature no longer hold; a verifier that drops unknown members before hashing accepts it."
+    },
+    {
+      "id": "v43c29d9aa9dab8e2",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/v43c29d9aa9dab8e2.json",
+      "conditions": [
+        "ofg-c-8"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "the base statement with no acceptance checks, the array omitted as the producer omission rule requires."
+    },
+    {
+      "id": "v551d84ac66f33adf",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v551d84ac66f33adf.json",
+      "conditions": [
+        "ofg-c-13"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "author-not-in-enum"
+      },
+      "cites": "generated[0].author as \"AI\", signed consistently."
+    },
+    {
+      "id": "v57ddc0d49453510f",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/v57ddc0d49453510f.json",
+      "conditions": [
+        "ofg-c-9"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "the base statement with agent.id absent, omitted rather than null."
+    },
+    {
+      "id": "v67b343a989ac7a32",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v67b343a989ac7a32.json",
+      "conditions": [
+        "ofg-p-7"
+      ],
+      "parent": "ve290fc80af586834",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "trailer": "trailers/e0b0c7214c5ebff3.txt",
+      "expected": {
+        "rev013": {
+          "verdict": "valid"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "trailer-disagrees"
+        }
+      },
+      "cites": "the base attestation beside a commit whose Assisted-by trailer names a different model. The revision lets a verifier skip the cross-check."
+    },
+    {
+      "id": "v6898f23bf0d63e43",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v6898f23bf0d63e43.json",
+      "conditions": [
+        "ofg-p-2"
+      ],
+      "parent": "vc9321aca5c878ff9",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "signoff-signature-invalid"
+        },
+        "distinctSignoffKeys": 2
+      },
+      "cites": "the last sign-off record's name changed after signing. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "v690a27cba702a6a1",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v690a27cba702a6a1.json",
+      "conditions": [
+        "ofg-p-10"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "indeterminate"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "duplicate-member"
+        }
+      },
+      "cites": "generated[0] carries author twice, human and then ai; the signature covers the ai reading. A parser keeping the first copy reads a human-written range."
+    },
+    {
+      "id": "v6bc1c5c4275d451d",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v6bc1c5c4275d451d.json",
+      "conditions": [
+        "ofg-p-3"
+      ],
+      "parent": "vc9321aca5c878ff9",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "signoff-records-and-signatures-disagree"
+        },
+        "distinctSignoffKeys": 2
+      },
+      "cites": "a third sign-off record appended with no signature behind it. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "v6e5279605cfa8ad5",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v6e5279605cfa8ad5.json",
+      "conditions": [
+        "ofg-c-6"
+      ],
+      "parent": "vfe6a26f63e566bac",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "floating-point-number"
+      },
+      "cites": "params.temperature as the number 0.7, signed consistently."
+    },
+    {
+      "id": "v7e8378a3cb6f3beb",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v7e8378a3cb6f3beb.json",
+      "conditions": [
+        "ofg-p-9"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "number-outside-value-domain"
+        },
+        "proposal": {
+          "verdict": "valid"
+        }
+      },
+      "cites": "params.seed as 2^53 - 1, the largest I-JSON safe integer."
+    },
+    {
+      "id": "v802e5eaf42a3c98f",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v802e5eaf42a3c98f.json",
+      "conditions": [
+        "ofg-c-5"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "payload-digest-mismatch"
+      },
+      "cites": "digest and signature computed over a form that escapes the path's solidus as \\/, an escape the minimal set does not include."
+    },
+    {
+      "id": "v803b44c6310c58dd",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/v803b44c6310c58dd.json",
+      "conditions": [
+        "ofg-c-7"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "params.temperature carried as the string \"0\", inside the value domain."
+    },
+    {
+      "id": "v80bef8e6efc805c4",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/v80bef8e6efc805c4.json",
+      "conditions": [
+        "ofg-p-8"
+      ],
+      "parent": "vb6ce4da91879b6b0",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "valid"
+        }
+      },
+      "cites": "the same statement signed in RFC 8785 order, which the revision says its form coincides with."
+    },
+    {
+      "id": "v813737ad828668c4",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/v813737ad828668c4.json",
+      "conditions": [
+        "ofg-c-2",
+        "ofg-c-3",
+        "ofg-c-4",
+        "ofg-c-5",
+        "ofg-c-10",
+        "ofg-c-11",
+        "ofg-c-12",
+        "ofg-c-13",
+        "ofg-p-10"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "the golden statement with real artifact digests, signed by the fab test key over its canonical bytes. Every required reject is one change to it."
+    },
+    {
+      "id": "v96859833d810730f",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/v96859833d810730f.json",
+      "conditions": [
+        "ofg-c-3"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature-invalid"
+      },
+      "cites": "a signature over the statement printed with indentation and sorted keys, while payload_sha256 names the canonical bytes. A verifier that hashes and verifies the canonical form refuses the signature."
+    },
+    {
+      "id": "va169259bece657d5",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/va169259bece657d5.json",
+      "conditions": [
+        "ofg-c-14"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid",
+        "mode": "attest-only",
+        "acceptance": "self-reported"
+      },
+      "cites": "an embedded check that would fail if executed, with acceptance_passed true. Attest-only verification executes nothing, so the verdict is valid and the acceptance bit is reported as the producer's claim, never as conformance."
+    },
+    {
+      "id": "va18c8786b0c58d4e",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/va18c8786b0c58d4e.json",
+      "conditions": [
+        "ofg-p-1"
+      ],
+      "parent": "vc9321aca5c878ff9",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "signoff-signature-invalid"
+        },
+        "distinctSignoffKeys": 2
+      },
+      "cites": "two sign-offs built the way both upstream implementations build them: the n-th covers only the records before it, so the last record is signed by nobody. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "va35bcfb26910a2cb",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/va35bcfb26910a2cb.json",
+      "conditions": [
+        "ofg-c-8"
+      ],
+      "parent": "v43c29d9aa9dab8e2",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "empty-array-serialized"
+      },
+      "cites": "acceptance serialized as an empty array and signed that way."
+    },
+    {
+      "id": "va8e599224ef5a13a",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/va8e599224ef5a13a.json",
+      "conditions": [
+        "ofg-c-9"
+      ],
+      "parent": "v57ddc0d49453510f",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "null-optional-serialized"
+      },
+      "cites": "agent.id serialized as null and signed that way."
+    },
+    {
+      "id": "vb6ce4da91879b6b0",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/vb6ce4da91879b6b0.json",
+      "conditions": [
+        "ofg-p-8"
+      ],
+      "parent": "v80bef8e6efc805c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "valid"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        }
+      },
+      "cites": "params names U+FF61 and U+1F600, signed in code-point order as the revision's bullet says. RFC 8785 puts U+1F600 first."
+    },
+    {
+      "id": "vc3f6b78452e8e684",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/vc3f6b78452e8e684.json",
+      "conditions": [
+        "ofg-p-6"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/7a1726b35a733cc2.txt"
+        },
+        {
+          "name": "app/fee.js",
+          "file": "artifacts/7a1726b35a733cc2.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "two attribution ranges over one file that do not overlap."
+    },
+    {
+      "id": "vc9321aca5c878ff9",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/vc9321aca5c878ff9.json",
+      "conditions": [
+        "ofg-p-1",
+        "ofg-p-2",
+        "ofg-p-3",
+        "ofg-p-4",
+        "ofg-p-5"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "valid"
+        },
+        "distinctSignoffKeys": 2
+      },
+      "cites": "two sign-offs by two keys, each covering the records up to its own. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "ve290fc80af586834",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/ve290fc80af586834.json",
+      "conditions": [
+        "ofg-p-7"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "trailer": "trailers/b6bb2f80db956d0a.txt",
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "the base attestation beside a commit whose Assisted-by trailer is agent.id."
+    },
+    {
+      "id": "ve519b6be46ced66e",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/ve519b6be46ced66e.json",
+      "conditions": [
+        "ofg-p-5"
+      ],
+      "parent": "vc9321aca5c878ff9",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "valid"
+        },
+        "distinctSignoffKeys": 1
+      },
+      "cites": "two sign-off records under two names, both signed by one key: one identity. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "ve654d0e0e28896ad",
+      "kind": "accept",
+      "form": "statement",
+      "file": "statements/ve654d0e0e28896ad.json",
+      "conditions": [
+        "ofg-c-1"
+      ],
+      "expected": {
+        "canonicalLength": 756,
+        "canonicalSha256": "7051cb7073a3bee0a038255fd59d4679c95443bd6a81bb92d0ff3e765713bacd"
+      },
+      "cites": "the golden conformance vector, transcribed from the upstream test that pins it. A verifier's canonicalization must reproduce the pinned bytes exactly."
+    },
+    {
+      "id": "vef2bf7309281aaa1",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/vef2bf7309281aaa1.json",
+      "conditions": [
+        "ofg-c-2"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "payload-digest-mismatch"
+      },
+      "cites": "payload_sha256 with its last hex digit changed. The signature still verifies over the canonical bytes; the digest does not name them."
+    },
+    {
+      "id": "vf1e654cbe3174418",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/vf1e654cbe3174418.json",
+      "conditions": [
+        "ofg-p-4"
+      ],
+      "parent": "vc9321aca5c878ff9",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "invalid",
+          "code": "payload-digest-mismatch"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "signoff-signer-mismatch"
+        },
+        "distinctSignoffKeys": 2
+      },
+      "cites": "the second record's did replaced by a key that did not sign it. Revision 0.1.3 says every signature covers the whole canonical statement, so a verifier built from its text refuses every signed-off member."
+    },
+    {
+      "id": "vf7158c5a325fd632",
+      "kind": "reject",
+      "form": "attestation",
+      "file": "statements/vf7158c5a325fd632.json",
+      "conditions": [
+        "ofg-c-12"
+      ],
+      "parent": "v813737ad828668c4",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "code": "keyid-not-ed25519-did-key"
+      },
+      "cites": "the fab keyid re-encoded under the secp256k1 multicodec prefix. The key bytes are the fab key's, but the did:key does not name an ed25519 key."
+    },
+    {
+      "id": "vfddf8453d88a3605",
+      "kind": "proposed",
+      "form": "attestation",
+      "file": "statements/vfddf8453d88a3605.json",
+      "conditions": [
+        "ofg-p-6"
+      ],
+      "parent": "vc3f6b78452e8e684",
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/7a1726b35a733cc2.txt"
+        },
+        {
+          "name": "app/fee.js",
+          "file": "artifacts/7a1726b35a733cc2.txt"
+        }
+      ],
+      "expected": {
+        "rev013": {
+          "verdict": "valid"
+        },
+        "proposal": {
+          "verdict": "invalid",
+          "code": "attribution-ranges-overlap"
+        }
+      },
+      "cites": "lines 10 to 20 of one file claimed as both AI-generated and human-written. Revision 0.1.3 has no rule against it."
+    },
+    {
+      "id": "vfe6a26f63e566bac",
+      "kind": "accept",
+      "form": "attestation",
+      "file": "statements/vfe6a26f63e566bac.json",
+      "conditions": [
+        "ofg-c-6"
+      ],
+      "artifacts": [
+        {
+          "name": "golden-v1",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        },
+        {
+          "name": "app/中文 \"quoted\"\npath.js",
+          "file": "artifacts/017d2d28f2dac641.txt"
+        }
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "params.temperature carried as the string \"0.7\", inside the value domain."
+    }
+  ],
+  "corpusDigest": "a6c9e746919dbb6d6afb940bbe6377ea487715987807227415a39e57a0039c2d",
+  "note": "accept and reject members are graded against revision 0.1.3 as written, and a reject names its conformant parent. A proposed member declares both what the revision says of it and what proposedText says; no verifier is failed on one."
+}
