@@ -69,7 +69,7 @@ digest is pinned and CI-checked (`scripts/spec-drift-gate.py`).
 |---|---|---|---|---|
 | Reference rail (`aee/`) | Go | spec author | reference corpus, suiteRevision 28 | **272 / 272** |
 | Reference rail (`packaging/run_vectors.py`) | Python | spec author | reference corpus, suiteRevision 28 | **272 / 272** |
-| `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`) and suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 and 28 not run by its author | **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 and 28 not run by author (see note 1) |
+| `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`), suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570) and suiteRevision 28 (272), 2026-09-06 (aee-checker#21); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26 and 27 not run by its author | **272 / 272** at suiteRevision 28, directed; **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26 and 27 not run by author (see note 1) |
 | `ts-verify` | TypeScript | spec author | its vendored set (272 vectors) + cross-rail parity tests | pass (see note 2) |
 | `py-verify` | Python | spec author | its vendored set (272 vectors) + parity tests | pass (see note 2) |
 | MCP server rail `_aee.py` | Python | spec author | its vendored set (272 vectors) + parity tests | pass (see note 2) |
@@ -233,20 +233,37 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    exceptions the head of this note names, and this report states that rather than
    leaving a reader to assume a digest exists.
 
+   **The run at suiteRevision 28 is 272/272, on 2026-09-06**, recorded in the
+   checker's own provenance index by aee-checker#21, and at suiteRevision 28 that is
+   accepts 61/61, rejects 209/209 and indeterminate 2/2, with reason parity 80/209,
+   against suite commit `94c163c`, whose manifest carries the 272 vectors of
+   suiteRevision 28 in that partition. The checker labels it
+   revision 27 because it counts one run per corpus it read and it read
+   suiteRevision 25 twice; the corpus at that commit opens its changelog at
+   suiteRevision 28, and this report uses the corpus's number. The run is
+   directed and pre-registered, and its author claims one property only: the
+   build predates every vector in the corpus and its source digest did not move,
+   so no vector-driven fix is possible in either direction. It called the checker
+   on the vectors directly, not through this package's `--verifier` path, so the
+   reference-rail fallback that 0.12.1 fixed could not have supplied the figure.
+
    The three figures that carry unprompted evidence are the blind 125/125 at
    suiteRevision 1, the first-run 140/140 at suiteRevision 3, and the blind
    179/232 at suiteRevision 22; no other figure here may be described that way. In
    particular the 138/138 was spec-diff-led and the 140/140 was not, and the two
    are not to be stated together as one result.
 
-   **The checker has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 or 28, so this report
+   **The checker has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26 or 27, so this report
    publishes no score for it at any of them.** Three different things put a
    revision on that list, and only one of them is that the requirement went
-   unexercised. Two of the three at the end of the list fall between that v0.7 run
+   unexercised. Two of the four at the end of the list fall between that v0.7 run
    and the suiteRevision-25 one: suiteRevision 23 added sixteen reject vectors and
    a second declared condition on a seventeenth, and suiteRevision 24 moved the
-   vendored text without moving a vector. The third came after it: suiteRevision 26
-   added eight boundary vectors and moved no vendored text.
+   vendored text without moving a vector. The other two fall between the
+   suiteRevision-25 run and the suiteRevision-28 one: suiteRevision 26 added eight
+   boundary vectors and moved no vendored text, and suiteRevision 27 pinned what the
+   reference rail emits beyond each reject vector's declared codes without changing
+   a vector file. The suiteRevision-28 corpus carries every vector both added.
    suiteRevisions 7 through 21 are a different case. Every vector they added is
    inside the suiteRevision-22 corpus that run covered, so the requirements they carry
    are not unread; what no record of that checker names is the corpus AT any of those

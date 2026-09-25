@@ -19,7 +19,7 @@
 
 - [in-toto's AI Agent Action predicate proposal](https://github.com/in-toto/attestation/pull/588/files) names this suite as its conformance corpus, pins release `v0.8.0` by commit and digest, and makes passing it a MUST.
 - Listed in the OECD.AI [Catalogue of Tools and Metrics for Trustworthy AI](https://oecd.ai/en/catalogue/tools/agent-evidence-conformance-suite), published 2026-09-14.
-- [Rul1an/aee-checker](https://github.com/Rul1an/aee-checker/pull/21), an independent Rust verifier written from the specification alone, scores 272/272 on suiteRevision 27 with its build frozen before the corpus moved.
+- [Rul1an/aee-checker](https://github.com/Rul1an/aee-checker/pull/21), an independent Rust verifier written from the specification alone, scores 272/272 on suiteRevision 28 (its own index calls the run revision 27) with its build frozen before the corpus moved.
 - [giskard09](https://github.com/a2aproject/a2a-tck/pull/228#issuecomment-5359047401) ran the 57 RFC 8785 vectors blind against argentum-core before opening the generators: 57/57.
 - The maintainer of [VATE](https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope/blob/main/docs/interop/aee-native-boundary-review.md) regenerated all 308 generated files byte for byte and recorded 258/258 in his own repository.
 - Curated in [awesome-agent-runtime-security](https://github.com/bureado/awesome-agent-runtime-security/blob/main/README.md) under attestation and recompute-verify, and on the [awesome-ai-security-tools watchlist](https://github.com/scadastrangelove/awesome-ai-security-tools/blob/main/WATCHLIST.md) with `Co-authored-by` credit on the curation commit.
@@ -878,14 +878,17 @@ directed 153/153 says the corrected rule is implementable by someone who has onl
 the text. It is not the same evidence as 125/125 and this suite does not present
 it as such.
 
-It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27 or 28, so
+It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26 or 27, so
 this suite publishes no score for it at any of them. They are on that list for
 three different reasons, and only one of them is that the requirement went
-unexercised. Two of the three at the end of the list fall between that v0.7 run
+unexercised. Two of the four at the end of the list fall between that v0.7 run
 and the suiteRevision-25 one: suiteRevision 23 added sixteen reject vectors and a
 second declared condition on a seventeenth, and suiteRevision 24 moved the
-vendored text without moving a vector. The third came after it: suiteRevision 26
-added eight boundary vectors and moved no vendored text. suiteRevisions
+vendored text without moving a vector. The other two fall between the
+suiteRevision-25 run and the suiteRevision-28 one: suiteRevision 26 added eight
+boundary vectors and moved no vendored text, and suiteRevision 27 pinned what the
+reference rail emits beyond each reject vector's declared codes without changing a
+vector file. The suiteRevision-28 corpus carries every vector both added. suiteRevisions
 7 through 21 are the opposite case and the distinction is worth being exact
 about. Every vector those revisions added is inside the suiteRevision-22 corpus
 that run covered, so the requirements they carry, the signature-entry requirement

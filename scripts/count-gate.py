@@ -1162,21 +1162,29 @@ FROZEN: tuple[Frozen, ...] = (
     # for the same runs; these declarations cover the reader-facing scoreboard.
     Frozen(
         "RUNS.md",
-        "the revision-27 run's per-outcome figures, as posted",
+        "the suiteRevision-28 run's per-outcome figures, as posted",
         "61/61 accepts, 209/209 rejects, 2/2 indeterminate",
-        "The outcome split an outside verifier posted against suiteRevision 27 "
-        "at Rul1an/aee-checker#21. Frozen to that run: the accept and reject "
+        "The outcome split an outside verifier posted against suiteRevision 28 "
+        "(its own index says revision 27) at Rul1an/aee-checker#21. Frozen to that run: the accept and reject "
         "totals equal the corpus's own at the time, which is the collision this "
         "census exists to surface, and restating either against a later corpus "
         "would attribute a run to bytes it never saw.",
     ),
     Frozen(
         "RUNS.md",
-        "the revision-27 run's reason-parity figure, as posted",
+        "the suiteRevision-28 run's reason-parity figure, as posted",
         "80/209",
         "A reason-parity figure its own author reports and declines to promote. "
         "It is not verdict parity and not a corpus size; it is one measurement "
         "of one build against one revision.",
+    ),
+    Frozen(
+        "RUNS.md",
+        "the revision the outside run was measured on",
+        "| suiteRevision | 28, which the checker's own index labels revision 27",
+        "The corpus revision at the suite commit the run pinned, read from that "
+        "commit's CHANGES.md, beside the checker's own label for the same run. It "
+        "records a past run and must not track the corpus.",
     ),
     Frozen(
         "RUNS.md",
@@ -1190,11 +1198,12 @@ FROZEN: tuple[Frozen, ...] = (
     Frozen(
         "README.md",
         "the independent Rust verifier's score, as posted",
-        "scores 272/272 on suiteRevision 27",
-        "What one outside build answered against suiteRevision 27, with its own "
-        "author recording that the build was frozen before the corpus moved. The "
-        "revision is named in the same sentence, so the figure is readable "
-        "against the corpus it was measured on rather than against this one.",
+        "scores 272/272 on suiteRevision 28",
+        "What one outside build answered against suiteRevision 28, which its own "
+        "index labels revision 27, with its author recording that the build was "
+        "frozen before the corpus moved. The revision is named in the same "
+        "sentence, so the figure is readable against the corpus it was measured "
+        "on rather than against this one.",
     ),
     Frozen(
         "README.md",
