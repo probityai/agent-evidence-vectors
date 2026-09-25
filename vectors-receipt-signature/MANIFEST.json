@@ -1,0 +1,400 @@
+{
+  "suite": "receipt-signature-conformance",
+  "subject": "a verifier of signed decision receipts",
+  "profile": "draft-farley-acta-signed-receipts-03, envelope shape (Section 2.1), archival verification (Section 9.1): no freshness window is applied",
+  "tracksUpstream": "https://datatracker.ietf.org/doc/draft-farley-acta-signed-receipts/03/",
+  "specVendored": "spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+  "specDigest": "bcde71799a621305254ea8b442fc829ac6d65fcff039f365e8a2349d8e902f19",
+  "contract": "README.md",
+  "keySets": {
+    "withWindows": {
+      "file": "keys/jwks.json",
+      "sha256": "d87ce8558523c32ed1ee6cd4204ddc02bd074c1f9e2f81161811dc9ccdb3ba1f"
+    },
+    "withoutWindows": {
+      "file": "keys/jwks-no-window.json",
+      "sha256": "134748071cc4f8210e2d7b365c5868fa727620e25723acb9ae163417b1a57c23"
+    }
+  },
+  "testKeys": "TEST ONLY. Each Ed25519 seed is SHA-256(\"agent-evidence-vectors/test-only/\" + label), labels \"key-A-superseded\" and \"key-B-current\"; the recipe is upstream's, kept so the lifted receipts stay byte-identical.",
+  "origin": {
+    "repository": "giskard09/argentum-core",
+    "commit": "541ce84b4f970c1dd3d9e53f2a4562dbbc354e46",
+    "path": "examples/conformance/farley-receipt-signature",
+    "author": "giskard09",
+    "indexSha256": "6b9460491cdf479a85d731b4a2c6fb4fef4dde862bba4c2ba3bb91b69e71e9ec",
+    "license": "Apache-2.0",
+    "members": [
+      {
+        "upstreamFile": "signature-input-drift.reject.json",
+        "id": "ve116653dd041dda0",
+        "sha256": "e116653dd041dda0d00164fae31d899a27baffc5c8ee8f5d649fbd7d95313c06"
+      },
+      {
+        "upstreamFile": "signature-input-drift.conformant.json",
+        "id": "v4f9fe96e52a39bfb",
+        "sha256": "4f9fe96e52a39bfb332e405381beeca347a3283a491cf81aaa51717ab84ec440"
+      },
+      {
+        "upstreamFile": "superseded-key.reject.json",
+        "id": "vc4b43c5739979581",
+        "sha256": "c4b43c5739979581d7ccac7275c2caf78754f53188ca22ac23ac32d3abaa5508"
+      },
+      {
+        "upstreamFile": "superseded-key.conformant.json",
+        "id": "vea8370fb85e1b4b1",
+        "sha256": "ea8370fb85e1b4b143d88e349fb38581f30a37a86b1d8bdc7539f2cae77cb1ee"
+      }
+    ],
+    "note": "giskard09 wrote the signature-input-drift and superseded-key cases, each a reject and its conformant twin, for this corpus. superseded-key is the stale-external-key case. The second expected outcome on the window member follows the scoring his suite adopted at this commit."
+  },
+  "grade": "Section 9.2 of draft-03 makes the window check a SHOULD, so a member whose only defect is the window is indeterminate here: a verifier given the windows that rejects it with key_outside_validity_window honours Section 9.2, one that accepts it is reported by name as not honouring it and is not failed, and one that rejects it without the windows, or with another code, fails. The draft's next revision makes the check a MUST (Section 5.5 of draft-farley-acta-signed-receipts-04, open as VeritasActa/drafts#3 and not yet on the datatracker). When that revision is published these members become reject members and the not-honouring case becomes a failure.",
+  "codeRegistry": {
+    "signature_invalid": "the signature does not verify over JCS(payload) under the key the external key set resolves for kid",
+    "key_outside_validity_window": "issued_at is before the key's valid_from or at or after its valid_until",
+    "signature_in_signing_input": "the canonicalized object carries a signature member (Section 6.6)"
+  },
+  "requirements": [
+    {
+      "id": "RS-R-001",
+      "section": "6.6",
+      "level": "MUST",
+      "sentence": "The signature MUST cover the canonical JCS bytes of the _signing input_ directly",
+      "sentenceDigest": "4966ab8e5e09380e3504e78291876ee22bb0a66f20a7458d96671ba42a68e26e"
+    },
+    {
+      "id": "RS-R-002",
+      "section": "9.2",
+      "level": "SHOULD",
+      "sentence": "Verifiers SHOULD check key validity windows when available.",
+      "sentenceDigest": "9c791ced32ec22bc79eeb8881ff0fa779e741ff99a9089869c0f0dcc5dcfac79"
+    },
+    {
+      "id": "RS-R-003",
+      "section": "6.6",
+      "level": "MUST",
+      "sentence": "implementations MUST NOT pre-hash the canonical bytes (for example with SHA-256) before signing.",
+      "sentenceDigest": "01c085992884e838bef83b9e9ea3e7b158f15cbb09bec9980d1277e4e0bda2ac"
+    },
+    {
+      "id": "RS-R-004",
+      "section": "6.6",
+      "level": "MUST",
+      "sentence": "An implementation MUST determine the shape before computing the signing input, and MUST NOT apply one shape's rule to the other",
+      "sentenceDigest": "ebf3ad3c2157713098e3c41d61ce27438f9ed8277f2e8b1224636e84f3a6e4fd"
+    },
+    {
+      "id": "RS-R-005",
+      "section": "6.6",
+      "level": "MUST",
+      "sentence": "In either shape the object canonicalized MUST NOT contain a signature member, and that member MUST NOT be included as null or as the empty string",
+      "sentenceDigest": "9c53821e2bda94fff389bbd766933f97070256929f1e15159f6df655ed341faa"
+    }
+  ],
+  "conditions": {
+    "rs-c-1": {
+      "requires": "The signature is computed over JCS(payload), and a verifier recomputes that byte string rather than trusting the bytes the payload arrived in.",
+      "requirements": [
+        "RS-R-001"
+      ]
+    },
+    "rs-c-2": {
+      "requires": "A receipt whose issued_at falls outside its key's validity window, as the external key set publishes it, is not reported valid by a verifier that applies the window.",
+      "requirements": [
+        "RS-R-002"
+      ]
+    },
+    "rs-c-3": {
+      "requires": "The window includes valid_from and excludes valid_until, as RFC 7519 treats nbf and exp. Section 9.2 of the vendored text does not fix the boundary.",
+      "requirements": [
+        "RS-R-002"
+      ]
+    },
+    "rs-c-4": {
+      "requires": "The canonical bytes are the message given to Ed25519, with no intermediate hash, so a signature over their SHA-256 digest does not verify.",
+      "requirements": [
+        "RS-R-001",
+        "RS-R-003"
+      ]
+    },
+    "rs-c-5": {
+      "requires": "An envelope receipt is verified under the envelope rule. A signature made under the flat rule, over the receipt with its signature member removed, does not verify as an envelope.",
+      "requirements": [
+        "RS-R-004"
+      ]
+    },
+    "rs-c-6": {
+      "requires": "A payload that carries a signature member, null included, is refused even though a signature over its canonical bytes verifies.",
+      "requirements": [
+        "RS-R-005"
+      ]
+    }
+  },
+  "counts": {
+    "accept": 6,
+    "indeterminate": 3,
+    "reject": 4
+  },
+  "corpusDigest": "07845b4582146c42a1482824e76c0b8e04043efed880f37e613459574766310e",
+  "vectors": [
+    {
+      "id": "v03377fbbac6d12f8",
+      "kind": "accept",
+      "file": "receipts/v03377fbbac6d12f8.json",
+      "conditions": [
+        "rs-c-6"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227265636f7264732e7368617265222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the same payload without the null signature member, signed over JCS(payload)."
+    },
+    {
+      "id": "v0340fed8ef07e072",
+      "kind": "reject",
+      "file": "receipts/v0340fed8ef07e072.json",
+      "conditions": [
+        "rs-c-4"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "signedInputHex": "182f0fee5514ac5f1d877d4e6f59437e5b1c77b5d927ef04f7908bb67b30dff0",
+      "cites": "signed over SHA-256(JCS(payload)) instead of JCS(payload). PureEdDSA hashes the message itself, and a pre-hashed signature verifies only for a verifier that pre-hashes too."
+    },
+    {
+      "id": "v1adc0db0267a742b",
+      "kind": "reject",
+      "file": "receipts/v1adc0db0267a742b.json",
+      "conditions": [
+        "rs-c-5"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "signedInputHex": "7b227061796c6f6164223a7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227265636f7264732e64656c657465222c2274797065223a2270726f746563746d63703a6465636973696f6e227d7d",
+      "cites": "an envelope receipt signed under the flat rule: the receipt with its signature member removed, canonicalized, which for an envelope is JCS({\"payload\": payload}). A verifier that applies one rule to both shapes accepts it and refuses its twin."
+    },
+    {
+      "id": "v4ec9fa36ae77ce07",
+      "kind": "indeterminate",
+      "file": "receipts/v4ec9fa36ae77ce07.json",
+      "conditions": [
+        "rs-c-2"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "invalid",
+        "code": "key_outside_validity_window"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedIfNotHonoured": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032352d31322d30315430303a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "a valid signature under key A with issued_at a month before key A's valid_from: the other side of the window from the stale-external-key case."
+    },
+    {
+      "id": "v4f9fe96e52a39bfb",
+      "kind": "accept",
+      "file": "receipts/v4f9fe96e52a39bfb.json",
+      "conditions": [
+        "rs-c-1"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the same payload, signed over JCS(payload)."
+    },
+    {
+      "id": "v5397adb77c3e6754",
+      "kind": "reject",
+      "file": "receipts/v5397adb77c3e6754.json",
+      "conditions": [
+        "rs-c-6"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature_in_signing_input"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "signature_in_signing_input"
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c227369676e6174757265223a6e756c6c2c22746f6f6c5f6e616d65223a227265636f7264732e7368617265222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the payload carries \"signature\": null and the signature is over JCS of that payload, so the signature verifies. Only the rule that the canonicalized object carries no signature member, not even as null, refuses it."
+    },
+    {
+      "id": "vaafe541bbd74c320",
+      "kind": "accept",
+      "file": "receipts/vaafe541bbd74c320.json",
+      "conditions": [
+        "rs-c-5"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227265636f7264732e64656c657465222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the same payload, signed under the envelope rule over JCS(payload)."
+    },
+    {
+      "id": "vad088133176d7114",
+      "kind": "accept",
+      "file": "receipts/vad088133176d7114.json",
+      "conditions": [
+        "rs-c-4"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a337a3275566777364c5a5972222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227265636f7264732e6578706f7274222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the same payload, with JCS(payload) given to Ed25519 unhashed."
+    },
+    {
+      "id": "vb19450def8dcc5cd",
+      "kind": "accept",
+      "file": "receipts/vb19450def8dcc5cd.json",
+      "conditions": [
+        "rs-c-3"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30312d30315430303a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "issued_at exactly at key A's valid_from, the start of the window, which is inside it as with nbf in RFC 7519 Section 4.1.5."
+    },
+    {
+      "id": "vbc25ef71da0567f9",
+      "kind": "indeterminate",
+      "file": "receipts/vbc25ef71da0567f9.json",
+      "conditions": [
+        "rs-c-3"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "invalid",
+        "code": "key_outside_validity_window"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedIfNotHonoured": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30362d30315430303a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "issued_at exactly at key A's valid_until. The moment a key stops being valid is outside its validity, as with exp in RFC 7519 Section 4.1.4. A verifier that reads the end as inclusive accepts this member; draft-03 leaves that reading open, so it is reported with the not-honouring case."
+    },
+    {
+      "id": "vc4b43c5739979581",
+      "kind": "indeterminate",
+      "file": "receipts/vc4b43c5739979581.json",
+      "conditions": [
+        "rs-c-2"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "invalid",
+        "code": "key_outside_validity_window"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedIfNotHonoured": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30372d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "a valid signature under key A with issued_at after key A's valid_until. issued_at is asserted by the signer, so this catches a key still in use after an honest rotation, not a compromised key dated into its window. This is the stale-external-key case."
+    },
+    {
+      "id": "ve116653dd041dda0",
+      "kind": "reject",
+      "file": "receipts/ve116653dd041dda0.json",
+      "conditions": [
+        "rs-c-1"
+      ],
+      "keyId": "sb:issuer:3z2uVgw6LZYr",
+      "expected": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "expectedWithoutWindows": {
+        "verdict": "invalid",
+        "code": "signature_invalid"
+      },
+      "signedInputHex": "7b0a20202274797065223a202270726f746563746d63703a6465636973696f6e222c0a2020226973737565645f6174223a2022323032362d30372d31355431323a30303a30305a222c0a2020226973737565725f6964223a202273623a6973737565723a337a3275566777364c5a5972222c0a202022746f6f6c5f6e616d65223a20227061796d656e74732e7472616e73666572222c0a2020226465636973696f6e223a2022616c6c6f77222c0a202022706f6c6963795f646967657374223a20227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838220a7d",
+      "cites": "signed over the pretty-printed payload bytes, Python json.dumps(payload, indent=2), and not over JCS(payload). The signature verifies over the bytes it was made over and fails over the bytes a verifier must recompute."
+    },
+    {
+      "id": "vea8370fb85e1b4b1",
+      "kind": "accept",
+      "file": "receipts/vea8370fb85e1b4b1.json",
+      "conditions": [
+        "rs-c-2"
+      ],
+      "keyId": "sb:issuer:6XRv8ZfPuxt1",
+      "expected": {
+        "verdict": "valid",
+        "code": null
+      },
+      "expectedWithoutWindows": {
+        "verdict": "valid",
+        "code": null
+      },
+      "signedInputHex": "7b226465636973696f6e223a22616c6c6f77222c226973737565645f6174223a22323032362d30332d31355431323a30303a30305a222c226973737565725f6964223a2273623a6973737565723a36585276385a665075787431222c22706f6c6963795f646967657374223a227368613235363a38636139326637646661616636663466656538386633383932636437313232616234383931326330663936363666373064663739623239373336323762383838222c22746f6f6c5f6e616d65223a227061796d656e74732e7472616e73666572222c2274797065223a2270726f746563746d63703a6465636973696f6e227d",
+      "cites": "the minimal twin: the same key, issued_at inside key A's window. issued_at is the only difference from the member above."
+    }
+  ]
+}

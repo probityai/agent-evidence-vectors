@@ -1,0 +1,18 @@
+{
+  "keys": [
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "kid": "sb:issuer:6XRv8ZfPuxt1",
+      "x": "UhYIFG8QFIVT9nNeKL1fcXp5akfQa3DkjOtjsN-w1Uo",
+      "use": "sig"
+    },
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "kid": "sb:issuer:3z2uVgw6LZYr",
+      "x": "LFOiUSPIwhEYKf2eeA2naJTjVzErz9LBpMG3DmmZwAA",
+      "use": "sig"
+    }
+  ]
+}

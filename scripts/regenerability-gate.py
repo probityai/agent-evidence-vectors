@@ -105,6 +105,11 @@ GENERATORS = (
     # member identifier and the corpus digest are functions of the operation
     # bytes, which is the reason it is derived rather than hand-placed.
     "vectors-mcp-response-phase/gen_vectors.py",
+    # The receipt-signature corpus. It builds its own manifest, index and key
+    # sets in the same run, and its lifted members are re-signed from a public
+    # key recipe rather than copied, so the generator is the only place their
+    # bytes come from.
+    "vectors-receipt-signature/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -178,6 +183,12 @@ OWNED = (
     ("vectors-mcp-response-phase/vectors", "v*.json"),
     ("vectors-mcp-response-phase", "MANIFEST.json"),
     ("vectors-mcp-response-phase", "INDEX.md"),
+    # The receipt-signature corpus: receipts named after their own bytes, both
+    # key sets, and the manifest and index emitted from them.
+    ("vectors-receipt-signature/receipts", "v*.json"),
+    ("vectors-receipt-signature/keys", "*.json"),
+    ("vectors-receipt-signature", "MANIFEST.json"),
+    ("vectors-receipt-signature", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

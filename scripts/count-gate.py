@@ -212,6 +212,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-mcp-response-phase",
     "vectors-w3c-report",
     "vectors-observed-effect",
+    "vectors-receipt-signature",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"

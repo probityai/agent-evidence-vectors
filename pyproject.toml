@@ -71,6 +71,7 @@ only-include = [
     "vectors-mcp-record-contract",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
+    "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-w3c-report",
 ]
@@ -87,6 +88,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
 "vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
 "vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
 "vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
+"vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -108,6 +110,7 @@ only-include = [
     "vectors-mcp-record-contract",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
+    "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-w3c-report",
     "README.md",
@@ -176,7 +179,7 @@ include = ["docs/proposals", "docs/site", "packaging", "scripts", "tools", "vect
            "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action",
            "vectors-anchor-stream", "vectors-artifact-binding",
            "vectors-mcp-record-contract", "vectors-mcp-response-phase",
-           "vectors-observed-effect",
+           "vectors-observed-effect", "vectors-receipt-signature",
            "vectors-scitt-cose", "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
