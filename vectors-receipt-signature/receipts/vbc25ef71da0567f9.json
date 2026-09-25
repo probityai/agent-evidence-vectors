@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "type": "protectmcp:decision",
+    "issued_at": "2026-06-01T00:00:00Z",
+    "issuer_id": "sb:issuer:6XRv8ZfPuxt1",
+    "tool_name": "payments.transfer",
+    "decision": "allow",
+    "policy_digest": "sha256:8ca92f7dfaaf6f4fee88f3892cd7122ab48912c0f9666f70df79b2973627b888"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "sb:issuer:6XRv8ZfPuxt1",
+    "sig": "0871a897fd637b3ef5bd9a96b6a3efd4dce12df945b16e44a7a9e50bc49521f8d87e632b25a5092ac12512eeb19b9bd6108f36fefff6c206ecf2bab274dd8a03"
+  }
+}

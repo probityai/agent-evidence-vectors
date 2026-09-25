@@ -122,7 +122,11 @@ from typing import Any, NamedTuple, TypeGuard
 # verifier for the predicate below and refused every one of them with
 # predicate-type-unsupported, which is a rail answering about the wrong predicate
 # rather than a corpus that fails.
-from agent_evidence_vectors import observedeffect, w3creport
+#
+# receiptsignature is the third, and the first whose corpus defines an
+# external-verifier contract of its own: a named verifier runs over it through
+# that contract instead of being refused.
+from agent_evidence_vectors import observedeffect, receiptsignature, w3creport
 
 AEE_PREDICATE_TYPE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
@@ -3657,7 +3661,11 @@ REFERENCE_SUITE = "adversarial-execution-evidence-conformance"
 
 
 def _run_non_reference_suite(
-    manifest: dict[str, Any] | None, suite_dir: str, external_cmd: list[str] | None
+    manifest: dict[str, Any] | None,
+    suite_dir: str,
+    external_cmd: list[str] | None,
+    report_path: str,
+    rail_note: str,
 ) -> int | None:
     """Judge or refuse a corpus the reference rail does not implement.
 
@@ -3670,16 +3678,20 @@ def _run_non_reference_suite(
     as replacing a named verifier, pointed the other way.
 
     A named verifier still runs against any suite whose manifest the generic
-    evaluator reads, because the verifier under test is the caller's. The two
-    suites with readers here define no external-verifier contract, so a named
-    verifier is refused on them rather than silently not asked.
+    evaluator reads, because the verifier under test is the caller's. The
+    receipt-signature corpus writes its own external-verifier contract, so a
+    named verifier runs over it through that contract. The other two suites with
+    readers here define none, so a named verifier is refused on them rather
+    than silently not asked.
     """
     suite = manifest.get("suite") if manifest is not None else None
     if suite is None or suite == REFERENCE_SUITE:
         return None
-    own_reader = suite in (w3creport.SUITE, observedeffect.SUITE)
+    own_reader = suite in (w3creport.SUITE, observedeffect.SUITE, receiptsignature.SUITE)
     if not own_reader and external_cmd is not None:
         return None
+    if external_cmd is not None and suite == receiptsignature.SUITE:
+        return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -3695,6 +3707,10 @@ def _run_non_reference_suite(
             file=sys.stderr,
         )
         return 2
+    if suite == receiptsignature.SUITE:
+        rs_judged = receiptsignature.judge(suite_dir)
+        sys.stdout.write(receiptsignature.render(rs_judged, receiptsignature.SUITE))
+        return 0 if rs_judged.ok() else 1
     if suite == w3creport.SUITE:
         # The W3C per-check report corpus is judged by its own validator, in
         # the same words the Go reader prints, so the two rails can be diffed.
@@ -3723,7 +3739,13 @@ def run_suite(args: argparse.Namespace) -> int:
         return refuse_verifier(str(e))
 
     manifest = load_manifest(suite_dir)
-    judged_own = _run_non_reference_suite(manifest, suite_dir, external_cmd)
+    judged_own = _run_non_reference_suite(
+        manifest,
+        suite_dir,
+        external_cmd,
+        _report_path(args),
+        rail_note,
+    )
     if judged_own is not None:
         return judged_own
     idx = manifest_index(manifest)
@@ -4360,6 +4382,13 @@ def _run_manifest_closure(
     return suite_notes, len(failures)
 
 
+def _report_path(args: argparse.Namespace) -> str:
+    """Where the report goes: --report, else beside this file."""
+    return str(args.report) if args.report else os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
+    )
+
+
 def _run_write_report(
     args: argparse.Namespace,
     suite_dir: str,
@@ -4424,9 +4453,7 @@ def _run_write_report(
         "gateColumns": list(GATE_NAMES),
         "vectors": rows_out,
     }
-    report_path = args.report or os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "conformance-report.json"
-    )
+    report_path = _report_path(args)
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, sort_keys=False)
         f.write("\n")

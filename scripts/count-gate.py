@@ -213,6 +213,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-w3c-report",
     "vectors-observed-effect",
     "vectors-ai-generation",
+    "vectors-receipt-signature",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1226,7 +1227,8 @@ FROZEN: tuple[Frozen, ...] = (
         "the suiteRevision-28 run's per-outcome figures, as posted",
         "61/61 accepts, 209/209 rejects, 2/2 indeterminate",
         "The outcome split an outside verifier posted against suiteRevision 28 "
-        "(its own index says revision 27) at Rul1an/aee-checker#21. Frozen to that run: the accept and reject "
+        "(its own index says revision 27) at Rul1an/aee-checker#21. Frozen to "
+        "that run: the accept and reject "
         "totals equal the corpus's own at the time, which is the collision this "
         "census exists to surface, and restating either against a later corpus "
         "would attribute a run to bytes it never saw.",

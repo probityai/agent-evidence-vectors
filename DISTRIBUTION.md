@@ -146,6 +146,7 @@ belongs to is not a figure about anything.
 | `vectors-mcp-record-contract/` | `cross-run-record-contract` | what a cross-implementation run record has to carry to mean anything |
 | `vectors-mcp-response-phase/` | `mcp-response-phase-interception` | whether a response-phase MCP interceptor is invoked on JSON-RPC error frames, and whether its decision governs what the caller receives |
 | `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
+| `vectors-receipt-signature/` | `receipt-signature-conformance` | signed decision receipts under draft-farley-acta-signed-receipts-03: the signing input, the key's validity window and the Section 6.6 rules, judged against an external key set with and without its windows |
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-w3c-report/` | `w3c-report-v01-conformance` | the v0.1 per-check report of the W3C public-agent-conformance group: the five states, the cause rule, the twelve rejection rows and the two late additions, as whole reports |
 

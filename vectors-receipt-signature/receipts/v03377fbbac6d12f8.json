@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "type": "protectmcp:decision",
+    "issued_at": "2026-07-15T12:00:00Z",
+    "issuer_id": "sb:issuer:3z2uVgw6LZYr",
+    "tool_name": "records.share",
+    "decision": "allow",
+    "policy_digest": "sha256:8ca92f7dfaaf6f4fee88f3892cd7122ab48912c0f9666f70df79b2973627b888"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "sb:issuer:3z2uVgw6LZYr",
+    "sig": "6b9d861af27f6e4e0352e887383e67498106b9b66803ed93697d53fe9c887bca1b9f0c5340dbaa8fc31dfe3ed9e10c343054890053ad4265ab03a0a5e5d5040a"
+  }
+}

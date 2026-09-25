@@ -54,6 +54,8 @@ var corpusCases = []corpusCase{
 	// A member of the AI generation corpus is one attestation envelope, or the
 	// golden statement, in one file.
 	{dir: "vectors-ai-generation", memberFileKey: "file"},
+	// A member of the receipt-signature corpus is one signed receipt in one file.
+	{dir: "vectors-receipt-signature", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }

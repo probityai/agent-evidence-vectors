@@ -109,6 +109,11 @@ GENERATORS = (
     # members, sidecars, manifest and index are all functions of the generator
     # and the vendored text; nothing in it is placed by hand.
     "vectors-ai-generation/gen_vectors.py",
+    # The receipt-signature corpus. It builds its own manifest, index and key
+    # sets in the same run, and its lifted members are re-signed from a public
+    # key recipe rather than copied, so the generator is the only place their
+    # bytes come from.
+    "vectors-receipt-signature/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -191,6 +196,12 @@ OWNED = (
     ("vectors-ai-generation/trailers", "*.txt"),
     ("vectors-ai-generation", "MANIFEST.json"),
     ("vectors-ai-generation", "INDEX.md"),
+    # The receipt-signature corpus: receipts named after their own bytes, both
+    # key sets, and the manifest and index emitted from them.
+    ("vectors-receipt-signature/receipts", "v*.json"),
+    ("vectors-receipt-signature/keys", "*.json"),
+    ("vectors-receipt-signature", "MANIFEST.json"),
+    ("vectors-receipt-signature", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

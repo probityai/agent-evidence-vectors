@@ -65,7 +65,7 @@ Inputs, all optional except the first:
 | Input | What it does |
 | --- | --- |
 | `verifier` | Command line of the verifier under test. The first token must be on `PATH` or a path relative to the workspace. This verifier is always the program that runs: the job fails when it cannot be started or when it answered fewer vectors than the corpus holds. |
-| `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. `vectors-w3c-report` and `vectors-observed-effect` are judged only by the package's own reader and define no verifier contract, so a run naming a verifier against either is refused. |
+| `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. `vectors-w3c-report` and `vectors-observed-effect` are judged only by the package's own reader and define no verifier contract, so a run naming a verifier against either is refused. `vectors-receipt-signature` defines one in its README, so a named verifier runs over it through that contract. |
 | `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.1`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
@@ -76,8 +76,9 @@ or `fail`), so a later step can act on the count rather than re-read the file.
 
 The package is stdlib-only and carries every corpus, so `pip install
 agent-evidence-vectors` needs no network access to this repository. Without
-`--verifier` it judges three corpora itself: `vectors` with the reference rail,
-and `vectors-w3c-report` and `vectors-observed-effect` with their own readers.
+`--verifier` it judges four corpora itself: `vectors` with the reference rail,
+and `vectors-w3c-report`, `vectors-observed-effect` and
+`vectors-receipt-signature` with their own readers.
 Every other corpus is refused by name with exit 2 and is judged by
 `aee-verify <corpus-dir>`, whose readers cover every corpus in the tree.
 `agent-evidence-vectors --self-test` runs the reference rail against its own
@@ -166,6 +167,22 @@ emitter that writes a v0.1 report from this harness's own report
 (`agent-evidence-vectors --emit-w3c-report`), and
 [`docs/W3C-V01-CONFORMANCE-APPENDIX.md`](docs/W3C-V01-CONFORMANCE-APPENDIX.md)
 is the appendix rendered from the manifest for the editor to reference.
+
+`vectors-receipt-signature/` tests verifiers of signed decision receipts under
+`draft-farley-acta-signed-receipts-03`: whether the signature is checked over
+the canonical signing input, whether the key comes from an external key set and
+is held to its validity window, and three further rules of Section 6.6. Each
+member is judged twice, with the key set's windows and without them, so the
+expected verdict is a property of the receipt and the keys presented rather
+than of what a verifier says about itself. The window check is a SHOULD in that
+draft, so those members are graded as the corpus README describes. Two of its
+cases, each a reject and its conformant twin, were written by giskard09 and are
+reproduced byte for byte from `giskard09/argentum-core`. Two readers judge it,
+`corpora/receiptsignature.go` and
+`packaging/agent_evidence_vectors/receiptsignature.py`, held to the same output
+by `scripts/receipt-signature-rails-test.py`. Besides `vectors`, it is the only
+corpus whose README writes down the contract the packaged harness runs a named
+verifier through.
 
 Neither predicate version above is typed by hand. Both are derived from the
 `predicateType` each corpus manifest declares, and `scripts/count-gate.py`

@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "type": "protectmcp:decision",
+    "issued_at": "2026-07-15T12:00:00Z",
+    "issuer_id": "sb:issuer:3z2uVgw6LZYr",
+    "tool_name": "records.export",
+    "decision": "allow",
+    "policy_digest": "sha256:8ca92f7dfaaf6f4fee88f3892cd7122ab48912c0f9666f70df79b2973627b888"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "sb:issuer:3z2uVgw6LZYr",
+    "sig": "9a609771fbaa90b76e279a471ab0a322d6a932f7616fd672e830dd849ec0c9d2dc52a6810c0e1a517836b5b6b040f27b5c73351a0b8d7ba4218ec77647184102"
+  }
+}

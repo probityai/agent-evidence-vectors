@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "type": "protectmcp:decision",
+    "issued_at": "2026-07-15T12:00:00Z",
+    "issuer_id": "sb:issuer:3z2uVgw6LZYr",
+    "tool_name": "records.delete",
+    "decision": "allow",
+    "policy_digest": "sha256:8ca92f7dfaaf6f4fee88f3892cd7122ab48912c0f9666f70df79b2973627b888"
+  },
+  "signature": {
+    "alg": "EdDSA",
+    "kid": "sb:issuer:3z2uVgw6LZYr",
+    "sig": "0d8c03e0c3df489fa59aee9135b6a9d813693ed0b30afd427cb87a693ad848f1a3dff54cbcac918cf8434880ec4d8e01be84ca75ef6e1c424dc774fb37084805"
+  }
+}
