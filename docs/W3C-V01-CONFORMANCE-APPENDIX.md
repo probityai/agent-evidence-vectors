@@ -17,7 +17,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-001` (1) | consistency | agreed | `vb11134a37e7c0c2b` | `ve5d916a50130739e`, `ve70386fdb6f071d3`, `vfbd7379026575f04` | a non-verdict state with no cause | `87893835a3e13451` |
 | `W3C-R-002` (2) | consistency | agreed | `vf374114fe7f28e7d` | `v804ca6858fa22efe`, `vfbd7379026575f04` | void with not_applicable, out_of_scope or withheld | `05fb9274ff0859d9` |
 | `W3C-R-003` (3) | consistency | agreed | `v98252c989e84999d` | `v822b02c01fe9ddd2` | not-exercised with integrity-failure | `587e9bc351daaed2` |
-| `W3C-R-004` (4) | consistency | proposed | `v8a977b50ac8c5d36` | `vbe0d0e4267dd64af` | a confinement control that failed while the check ran | `32dd6b74795b02bd` |
+| `W3C-R-004` (4) | consistency | proposed | `vec36e393a92b69eb` | `vf82e507d268fed9d` | a confinement control that failed while the check ran | `32dd6b74795b02bd` |
 | `W3C-R-005` (5) | consistency | agreed | `v7cac3bda7403c268` | `v320406e03fff4faa`, `ve5d916a50130739e` | a declared exclusion with any state but not-exercised | `ed9007c6e8a11eb2` |
 | `W3C-R-006` (6) | consistency | agreed | `v8981e0830c69b869` | `vaad2cb64c5b0646b` | a non-verdict state carrying either qualifier | `4ef6f3c9383ae454` |
 | `W3C-R-007` (7) | consistency | agreed | `vdcbd067d047bfbd0` | `v8a7442b19984a1ff` | a verdict state carrying a cause | `831dc816ea23fa26` |
@@ -74,10 +74,10 @@ The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and
 
 ### Row 4, `W3C-R-004`: a confinement control that failed while the check ran
 
-**Consistency.** The row reads one declared cell against another: the `confinement-failed-during-check` flag the emitter wrote, and the `state` the emitter wrote. Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires it from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). It is the same shape as row 5, a declared exclusion read against the state, which the handover already places in the consistency class.
+**Consistency.** The row reads the record's own `cause` cell against its `state`, the same construction as row 3, which reads the cause value `integrity-failure` against `not-exercised`. The fact that a confinement control failed while the check ran is written as the cause value `confinement-failed-during-check`, admitted only under `void`, so the four-field record of section 1 carries no extra cell for it. That answers the question Schuurkes put on the list of how the antecedent is represented for a reader (`0076`), with the construction Rocchia proposed in reply (`0077`). Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires the row from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). The reject member is `inconclusive` rather than `fail`, because a verdict state carrying any cause is also row 7 and a member is rejected under one row only. What a row over declarations cannot establish, as Schuurkes noted, is that a producer disclosed every confinement control that failed. The value's name is proposed, pending the editor's v0.1 text.
 
-- reject `v8a977b50ac8c5d36`: a confinement control failed while the check ran and the record still reports fail
-- accept `vbe0d0e4267dd64af`: the same run reported void, the only state the pair table allows it
+- reject `vec36e393a92b69eb`: a confinement failure during the check recorded as its cause while the state is inconclusive
+- accept `vf82e507d268fed9d`: the same record reported void, the only state that cause is admitted under
 
 ### Row 10, `W3C-R-010`: foreclosed without a constraint set and a domain
 
@@ -110,7 +110,7 @@ The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and
 
 ## The value for void
 
-The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
+The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`, and this corpus adds one more under void, proposed with row 4: `confinement-failed-during-check`, the cause row 4 reads against the state. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
 
 ## The reading table, as members
 
@@ -209,5 +209,7 @@ The same manifest carries members of two other subject types, judged by their ow
 | `0069` | Evgenii Arsentev | `40153b17403b0e6594dfe00a9e9a5c01e5b978b6ce47b12a4ef0bbe31817514b` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0069.html |
 | `0072` | Nicolas Rocchia | `27cea4f3ffd48ed4fd0cab47ae08df3542f3cdded2aded7163a489e2edf8b831` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0072.html |
 | `0073` | Evgenii Arsentev | `42fa833367e0e1d5b484f988da520c96936f009bbe2578fa7d0f22691830a134` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
+| `0076` | Roel Schuurkes | `7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
+| `0077` | Nicolas Rocchia | `88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `13081268c70a19e9b3f74a6f772b657c56403ce6c45623da39a188394eefd411` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |

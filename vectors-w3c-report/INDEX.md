@@ -1,8 +1,8 @@
 # Conformance vectors (v0.1 per-check report)
 
 Every member of this suite in one table, rejected and accepted alike. Ground
-truth: 12 texts vendored in `spec-vendored/` and pinned by sha256 in
-`MANIFEST.json`: 10 messages of the W3C public-agent-conformance list that
+truth: 14 texts vendored in `spec-vendored/` and pinned by sha256 in
+`MANIFEST.json`: 12 messages of the W3C public-agent-conformance list that
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
@@ -59,6 +59,8 @@ the same lines.
 | `0069` | Evgenii Arsentev | `spec-vendored/0069-arsentev-2026-09-18-late-additions.txt` | `40153b17403b0e65` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0069.html |
 | `0072` | Nicolas Rocchia | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `27cea4f3ffd48ed4` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0072.html |
 | `0073` | Evgenii Arsentev | `spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt` | `42fa833367e0e1d5` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
+| `0076` | Roel Schuurkes | `spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt` | `7622d0dc1cf7fc1d` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
+| `0077` | Nicolas Rocchia | `spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt` | `88531111f9d8c424` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `0ef9e7fbc39d04bf` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | `13081268c70a19e9` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |
 
@@ -142,7 +144,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `w3c-f-1` | row 1: a non-verdict state with no cause |
 | `w3c-f-2` | row 2: void with a cause that describes a unit never examined |
 | `w3c-f-3` | row 3: not-exercised with integrity-failure |
-| `w3c-f-4` | row 4: a confinement control failed while the check ran, and the state is not void |
+| `w3c-f-4` | row 4: a confinement failure during the check as the cause, and the state is not void |
 | `w3c-f-5` | row 5: a declared exclusion whose state is not not-exercised |
 | `w3c-f-6` | row 6: a non-verdict state carrying a qualifier |
 | `w3c-f-7` | row 7: a verdict state carrying a cause |
@@ -284,7 +286,6 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v88935f0b29397a80` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
 | `v8981e0830c69b869` | reject | report | w3c-f-6 | W3C-R-006 | W3C-R-006 |
 | `v8a7442b19984a1ff` | accept | report | w3c-f-7 | W3C-R-007 | none |
-| `v8a977b50ac8c5d36` | reject | report | w3c-f-4 | W3C-R-004 | W3C-R-004 |
 | `v8b06a7e78dc8d039` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v8c15455bb3d933cb` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `v8d4e61737e9ee6a6` | reject | agent-run-metrics | arm-f-serialization | ARM-R-019 | ARM-R-019 |
@@ -331,7 +332,6 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `vbca0a5030104e2f3` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `vbdcffc81f99b2078` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `vbdf5d0dc993f1310` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
-| `vbe0d0e4267dd64af` | accept | report | w3c-f-4 | W3C-R-004 | none |
 | `vbe6937292f4f1614` | reject | report | w3c-f-10 | W3C-R-010 | W3C-R-010 |
 | `vbec908a03edd1250` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `vbf88ec51ebd083b6` | accept | agent-run-metrics | arm-f-steps | ARM-R-008 | none |
@@ -385,6 +385,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `vea3ee7919ceb2e10` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `vea598711b897286e` | accept | agent-run-metrics | arm-f-usage | ARM-R-011 | none |
 | `vea80ece35200e349` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `vec36e393a92b69eb` | reject | report | w3c-f-4 | W3C-R-004 | W3C-R-004 |
 | `vecd8b7bb20fed3a3` | accept | report | w3c-f-21 | W3C-R-021 | none |
 | `vecddffbd8678e5ef` | reject | agent-run-metrics | arm-f-run | ARM-R-004 | ARM-R-004 |
 | `vee997c119f09258b` | reject | report | w3c-f-11 | W3C-R-011 | W3C-R-011 |
@@ -397,6 +398,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `vf414a4c9065ad7b8` | reject | agent-run-metrics | arm-f-steps | ARM-R-015 | ARM-R-015 |
 | `vf7334aa7dcf00826` | accept | agent-run-metrics | arm-f-run | ARM-R-004 | none |
 | `vf753bb908231e0a1` | accept | llm-context-discovery | lcd-f-consumer | LCD-R-008 | none |
+| `vf82e507d268fed9d` | accept | report | w3c-f-4 | W3C-R-004 | none |
 | `vf86d92beb5a12905` | reject | llm-context-discovery | lcd-f-publisher | LCD-R-002 | LCD-R-002 |
 | `vf9b5623144960dda` | accept | report | w3c-f-9 | W3C-R-009 | none |
 | `vfa24e4f45c2e826e` | accept | report | w3c-f-20 | W3C-R-020 | none |

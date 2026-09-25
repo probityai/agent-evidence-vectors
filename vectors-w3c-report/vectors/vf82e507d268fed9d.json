@@ -4,7 +4,7 @@
     "verdict": "accept"
   },
   "family": "w3c-f-4",
-  "id": "vbe0d0e4267dd64af",
+  "id": "vf82e507d268fed9d",
   "kind": "accept",
   "requirements": [
     "W3C-R-004"
@@ -27,7 +27,7 @@
   "subject": {
     "check-set": {
       "leaf-count": 2,
-      "sha256": "d3ed4df10501607072b858dadc945accce084cf12b30857a7f59dc79572e3601",
+      "sha256": "9a6764b0dcbb1b3ef5e603b3ff12186439a650b42a91874501133101f1f0b43a",
       "tree-shape": "flat"
     },
     "checks": [
@@ -37,10 +37,10 @@
       },
       {
         "cause": {
-          "code": "integrity-failure"
+          "code": "confinement-failed-during-check",
+          "detail": "the sandbox's egress control failed while the check ran"
         },
-        "check": "c-void",
-        "confinement-failed-during-check": true,
+        "check": "c-confined",
         "state": "void"
       }
     ],

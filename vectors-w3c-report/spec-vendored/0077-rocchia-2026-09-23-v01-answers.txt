@@ -1,0 +1,82 @@
+Evgenii, all,
+
+Answers to the nine in your order, then the check you asked for in 9.1.
+
+Q1. Nothing to add. Publish it open.
+
+Q2. Four of the five, row 12 included. Rows 10 and 11 read the two
+qualifiers, 12 reads changed and 13 reads moved. Those are cells the
+record has, and the class follows what is read: consistency for 10, 11
+and 12, evidence for 13. The handover leaned the other way on 12 and did
+not classify it, so there is less disagreement in 8.2 than it records.
+Sankalp's manifest makes the sort measurable, one bit per requirement
+saying whether the row read a resolved slot.
+
+Row 4 waits on Roel's question. The appendix classifies it against a
+declared cell named confinement-failed-during-check, and the record in
+section 1 has no such cell. One way to give it one is already in the
+table: row 3 reads the cause value integrity-failure against state. If a
+confinement failure during the check is a cause value under void, row 4
+reads cause against state the way row 3 does. It is then a consistency
+row by the same construction, with nothing added to the record.
+
+Q3. The numbers are my proposal, so my +1 is not one. One from anyone
+else numbers them.
+
+Q4. On the merit, yes. An implementation conforms when it rejects every
+reject member under its row and accepts every accept member, and that is
+what the table was written to be checked against. The disensor corpus at
+1e36257 is already in the set and pinned to the commit; that is carry or
+reference applied to its own source. The same rule fixes what normative
+points at: the corpusDigest the text cites, so the reference is to bytes
+and not to a repository. Who edits the text is for the editor and the
+chair.
+
+Q5. +1 to evidence-does-not-hold.
+
+Q6. Not the same measurement. tools/emitir-42.py runs the pinned checker
+over every vector and emits the 42 pairs, their suite split, the count
+of carried against referenced and the 69 string errors. That is what
+Sankalp re-ran and what came out the same. The 0 and the 132 are a count
+over MUST-FAIL pairs by fired-rule list at one field and at two, from a
+second script that runs no checker and is not in the repository. His
+manifest carries them as attributed to me and not as reproducible, which
+is the correct standing. In 7.2 the sentence about his re-run belongs
+under the bullet for the 42 and not under the one for the 0 and the 132.
+The second script can go into the repository the way the first did;
+until it does, the label stays.
+
+Q7. A closed set, as Roel says. The reason is the one 1.2 gives for
+cause: free text does not aggregate, and a tree shape in free text is
+that mistake one section over. One named member is enough for v0.1. Each
+member that enters the set comes with a vector, which is where Sankalp's
+corpus already puts the reading table. The declaration stays the
+producer's, which is what 0067 asked for.
+
+Q8. The list. It is what everyone has been citing.
+
+Q9. Declared checks. That is the population in 0039, and the reason
+given there was that none of the three claims covers void.
+
+On 5.4, +1 to Roel's two changes: a fail verdict from a declared check
+and not any non-pass, and the control bound to the same checker revision
+and configuration as the checks it speaks for. The first is his roll-up
+rule read from the other side: inconclusive and void improve nothing, so
+they show nothing either. The second is the fixed slot of the evidence
+object at run level.
+
+On 9.1, as the second reader you asked for. Roel cites commit
+b91648940b2042ff1cc34d11ed2ac1d97b3e42d4. At that commit,
+vectors-w3c-report/MANIFEST.json has corpusDigest
+b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033
+and observedRuns empty. The 222 members, the origin block and the
+per-requirement bits are all there; the run over the 272 is not. If it
+lives elsewhere, a pointer closes it.
+
+Nicolás
+
+Nicolás Rocchia
+disensor.dev · San Francisco, Córdoba, Argentina
+
+El mar, 22 sept 2026, 19:43, Roel Schuurkes <roelschuurkes@gmail.com>
+escribió:

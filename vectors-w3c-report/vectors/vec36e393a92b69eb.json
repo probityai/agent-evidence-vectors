@@ -6,7 +6,7 @@
     "verdict": "reject"
   },
   "family": "w3c-f-4",
-  "id": "v8a977b50ac8c5d36",
+  "id": "vec36e393a92b69eb",
   "kind": "reject",
   "requirements": [
     "W3C-R-004"
@@ -29,7 +29,7 @@
   "subject": {
     "check-set": {
       "leaf-count": 2,
-      "sha256": "040d954dc4b9467ab46dc891412e97bbabd28f821cfd91cbdc423dc84844a25d",
+      "sha256": "6953084b66b94d6be19c0083c8f4d5754705608c1e44fa241e86c0bc7f8da3f3",
       "tree-shape": "flat"
     },
     "checks": [
@@ -38,9 +38,12 @@
         "state": "pass"
       },
       {
-        "check": "c-fail",
-        "confinement-failed-during-check": true,
-        "state": "fail"
+        "cause": {
+          "code": "confinement-failed-during-check",
+          "detail": "the sandbox's egress control failed while the check ran"
+        },
+        "check": "c-confined",
+        "state": "inconclusive"
       }
     ],
     "domain": {
@@ -53,10 +56,10 @@
       "carried": 0,
       "declared": 2,
       "exercised": 2,
-      "fail": 1,
-      "inconclusive": 0,
+      "fail": 0,
+      "inconclusive": 1,
       "negative-capable": {
-        "kind": "shown-by-run"
+        "kind": "nothing"
       },
       "not-exercised": 0,
       "pass": 1,

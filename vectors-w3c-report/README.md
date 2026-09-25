@@ -16,6 +16,19 @@ same manifest carries members of two further subject types, the Run object of
 `draft-arsentev-agent-run-metrics-00` and the discovery snapshot of
 `draft-arsentev-llm-context-discovery-00`, judged by their own sentences.
 
+## Rules this corpus proposes, pending the editor's v0.1 text
+
+The rules below answer questions put to the v0.1 draft during its comment
+window and are marked `proposed` until the editor's text settles them:
+
+- Row 4 reads the cause cell against the state, as row 3 does. The fact that a
+  confinement control failed while the check ran is the cause value
+  `confinement-failed-during-check`, admitted only under `void`, so the record
+  carries no extra cell for it (the construction put to the list in `0077`, in
+  answer to the question in `0076`).
+- The tree shapes are a closed set, and `RFC9162_SHA256`, the RFC 9942 section
+  5.1 identifier for the RFC 9162 Merkle tree over SHA-256, is a member of it.
+
 ## The text is vendored and every identifier is a sentence
 
 The list messages and the two drafts carry no requirement identifiers. Each

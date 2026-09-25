@@ -1,0 +1,124 @@
+Hi Evgenii, all,
+
+Thanks for putting the draft together. Section 5.1 carries the
+aggregate clause I asked to retain in 0063, including why exercised
+alone is insufficient. The definitions in 1.1 and the fourth claim
+in 5.2 also keep the distinction Nicolás and Kenne asked for. Those
+parts read correctly to me.
+
+I have two wording changes for 5.4, and a few answers to the open
+questions. The common question is what observation supports the
+claim a reader is being asked to accept.
+
+1. Section 5.4: a negative verdict, rather than any non-pass.
+
+Could the first branch require at least one declared check with
+state fail? A run with one pass and one inconclusive check, where
+the latter started but timed out without a conclusion, has a
+non-pass. It has not produced a negative verdict. Replacing that
+inconclusive record with void does not supply one either.
+
+The same distinction should apply to the control: the declared
+check must return fail on the control input. Failure to execute
+that check does not demonstrate that it can reject the relevant
+input.
+
+This is already the narrower reading in the Python validator at
+b91648940b2042ff1cc34d11ed2ac1d97b3e42d4: shown-by-run requires a
+positive fail count, and control-failed requires the control's
+state to be fail. I checked those branches in the source; I have
+not rerun the corpus for this comment.
+
+https://github.com/probityai/agent-evidence-vectors/blob/b91648940b2042ff1cc34d11ed2ac1d97b3e42d4/packaging/agent_evidence_vectors/w3creport.py#L585
+
+The smallest edit is to replace non-pass with a fail verdict from
+a declared check, and use that same meaning of fail for the control
+and prior-run alternatives. Nothing remains a permitted answer;
+this does not make a report fail because it has no such witness.
+
+2. Section 5.4: bind the control to the check's configuration too.
+
+The declared-check binding from 0066 is now explicit. Could it also
+say that the control uses the same checker revision and relevant
+configuration and constraints as the checks whose negative
+capability is being reported? This binds whichever declared check
+is used as the witness; it does not require a separate negative
+witness for every check in the run.
+
+For example, a check can retain its identifier while its threshold
+changes. A control input rejected under the stricter threshold is
+evidence about that configuration. It does not establish that the
+check under the reported run's threshold would reject it. Keeping
+the identifier fixed has not kept the check's behavior fixed.
+
+My 0007 proposal bound results to the engine source or digest and
+configuration. Section 1.3 now fixes the context for a delta-related
+pair, but 5.4 correctly says that its run-level disclosure answers a
+different question. I would make the binding explicit here rather
+than rely on a reader importing the qualifier's conditions.
+
+For a prior run, the reference should let the reader establish that
+same revision/configuration binding for the declared checks it is
+used to support. A matching artifact digest establishes which prior
+report was obtained; the reader still needs to establish that it
+is about the relevant checks and settings.
+
+https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0007.html
+https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0066.html
+
+3. Q2, row 4: name what the row reads before fixing its class.
+
+The state consequence is already clear: if a confinement control
+failed while the check ran, the check's record is void. My remaining
+question is how that antecedent is represented for the reader.
+
+The appendix's consistency reading uses a declared boolean,
+confinement-failed-during-check. That makes sense as a comparison
+between two declared cells, but the four-field record in section 1
+does not name that cell. Naming a general cause for void does not
+by itself say that confinement failed during the check.
+
+https://github.com/probityai/agent-evidence-vectors/blob/b91648940b2042ff1cc34d11ed2ac1d97b3e42d4/docs/W3C-V01-CONFORMANCE-APPENDIX.md#L75
+
+Could the text choose how that fact is expressed? If it is an
+explicit cause value or a declared flag, the row can check its
+consistency with state. If it is established by reading a control's
+observed result, the text also needs to identify the relationship
+between that control and the affected check. Those are different
+things for a reader to verify. I would settle that small
+representation question before assigning the row its class.
+
+This does not ask the state record to prove that a producer has
+disclosed every failed confinement control. A consistency check
+over declarations cannot establish that on its own.
+
+4. Q5 and Q9: the void name and the fourth claim.
+
+evidence-does-not-hold is fine with me as the named cause value.
+The state definition still does the work of separating a check
+that ran from one that never started; a cause name should not
+change that distinction.
+
+For Q9, declared checks is also my reading of the population.
+With a nonempty declared set, the fourth claim is satisfied when
+the void count is zero, and not satisfied otherwise. With no
+declared checks, it is not claimable, as 5.2 already requires.
+
+That claim remains separate from execution completeness. A run
+with a declared check that never started may have no void records
+and still fail the execution-completeness claim. Likewise, a run
+in which every check ran may contain void. Keeping the two claims
+separate makes each conclusion visible without changing which
+checks count as exercised.
+
+5. Q7: named tree constructions.
+
+I would use a closed, versioned set of construction/hash identifiers
+rather than free text, with RFC9162_SHA256 (RFC 9942, section 5) as
+one named member; RFC 6962 already fixes its construction and hash,
+so this need not disallow that identifier or change the count and
+proof-scope requirements.
+
+https://www.rfc-editor.org/rfc/rfc9942.html#section-5
+
+Roel

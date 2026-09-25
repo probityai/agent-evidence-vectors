@@ -69,6 +69,18 @@
       "author": "Evgenii Arsentev",
       "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html"
     },
+    "0076": {
+      "path": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "sha256": "7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751",
+      "author": "Roel Schuurkes",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html"
+    },
+    "0077": {
+      "path": "spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
+      "sha256": "88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a",
+      "author": "Nicolas Rocchia",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html"
+    },
     "draft-arsentev-agent-run-metrics-00": {
       "path": "spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
       "sha256": "0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0",
@@ -103,7 +115,8 @@
       "evidence-does-not-hold",
       "integrity-failure",
       "availability-failure",
-      "precondition-unsatisfiable"
+      "precondition-unsatisfiable",
+      "confinement-failed-during-check"
     ],
     "other-verdict": [
       "unknown",
@@ -162,7 +175,7 @@
     "w3c-f-1": "row 1: a non-verdict state with no cause",
     "w3c-f-2": "row 2: void with a cause that describes a unit never examined",
     "w3c-f-3": "row 3: not-exercised with integrity-failure",
-    "w3c-f-4": "row 4: a confinement control failed while the check ran, and the state is not void",
+    "w3c-f-4": "row 4: a confinement failure during the check as the cause, and the state is not void",
     "w3c-f-5": "row 5: a declared exclusion whose state is not not-exercised",
     "w3c-f-6": "row 6: a non-verdict state carrying a qualifier",
     "w3c-f-7": "row 7: a verdict state carrying a cause",
@@ -915,7 +928,7 @@
     "accept": 114,
     "reject": 112
   },
-  "corpusDigest": "da429801cf52d35b7547bef90e12c652986119cb5863508af09e7f612b6aa304",
+  "corpusDigest": "0be27ab33bcaa6004570fb21fcf161c3109757722b72d097d699e9dca04235cf",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -3100,24 +3113,6 @@
       "cites": "the same pass with no cause slot"
     },
     {
-      "id": "v8a977b50ac8c5d36",
-      "kind": "reject",
-      "file": "vectors/v8a977b50ac8c5d36.json",
-      "family": "w3c-f-4",
-      "requirements": [
-        "W3C-R-004"
-      ],
-      "specVersion": "0.1",
-      "subjectType": "report",
-      "expected": {
-        "verdict": "reject",
-        "rejects": [
-          "W3C-R-004"
-        ]
-      },
-      "cites": "a confinement control failed while the check ran and the record still reports fail"
-    },
-    {
       "id": "v8b06a7e78dc8d039",
       "kind": "reject",
       "file": "vectors/v8b06a7e78dc8d039.json",
@@ -4114,22 +4109,6 @@
         },
         "cause": "moved asserts the recompute-opaque error list outside the declared compared set"
       }
-    },
-    {
-      "id": "vbe0d0e4267dd64af",
-      "kind": "accept",
-      "file": "vectors/vbe0d0e4267dd64af.json",
-      "family": "w3c-f-4",
-      "requirements": [
-        "W3C-R-004"
-      ],
-      "specVersion": "0.1",
-      "subjectType": "report",
-      "expected": {
-        "verdict": "accept",
-        "rejects": []
-      },
-      "cites": "the same run reported void, the only state the pair table allows it"
     },
     {
       "id": "vbe6937292f4f1614",
@@ -5273,6 +5252,24 @@
       }
     },
     {
+      "id": "vec36e393a92b69eb",
+      "kind": "reject",
+      "file": "vectors/vec36e393a92b69eb.json",
+      "family": "w3c-f-4",
+      "requirements": [
+        "W3C-R-004"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-004"
+        ]
+      },
+      "cites": "a confinement failure during the check recorded as its cause while the state is inconclusive"
+    },
+    {
       "id": "vecd8b7bb20fed3a3",
       "kind": "accept",
       "file": "vectors/vecd8b7bb20fed3a3.json",
@@ -5503,6 +5500,22 @@
         "rejects": []
       },
       "cites": "the cross-origin index attributed to the origin that serves it"
+    },
+    {
+      "id": "vf82e507d268fed9d",
+      "kind": "accept",
+      "file": "vectors/vf82e507d268fed9d.json",
+      "family": "w3c-f-4",
+      "requirements": [
+        "W3C-R-004"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same record reported void, the only state that cause is admitted under"
     },
     {
       "id": "vf86d92beb5a12905",

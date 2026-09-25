@@ -84,9 +84,16 @@ CAUSES = (
     "integrity-failure",
     "availability-failure",
     "precondition-unsatisfiable",
+    "confinement-failed-during-check",
 )
 #: The value for void, proposed by this corpus; see CAUSES.
 VOID_CAUSE = "evidence-does-not-hold"
+#: Row 4's antecedent, as a cause value admitted only under void. A confinement
+#: control that failed while the check ran is written in the record's own cause
+#: cell, so row 4 reads cause against state the way row 3 does and nothing is
+#: added to the four-field record. Proposed: the construction is the one put to
+#: the list in answer to the question of how the antecedent is represented.
+CONFINEMENT_CAUSE = "confinement-failed-during-check"
 #: Row 2: a unit that was never examined has no evidence that can fail to hold up.
 NEVER_EXAMINED = ("not_applicable", "out_of_scope", "withheld")
 
@@ -240,9 +247,8 @@ def _shape_check(check: Any, index: int, out: list[str]) -> None:
     if not _is_str(check.get("state")):
         out.append(f"{where} carries no string state")
     _shape_slots(check, where, out)
-    for flag in ("declared-exclusion", "confinement-failed-during-check"):
-        if flag in check and not isinstance(check[flag], bool):
-            out.append(f"{where}.{flag} is present and is not a boolean")
+    if "declared-exclusion" in check and not isinstance(check["declared-exclusion"], bool):
+        out.append(f"{where}.declared-exclusion is present and is not a boolean")
 
 
 def _shape_evidence(item: Any, index: int, out: list[str]) -> None:
@@ -363,11 +369,11 @@ def _row_cause(check: dict[str, Any], state: str, out: set[str]) -> None:
         out.add(R[2])
     if state == "not-exercised" and code == "integrity-failure":
         out.add(R[3])
+    if code == CONFINEMENT_CAUSE and state != "void":
+        out.add(R[4])
 
 
 def _row_pairs(check: dict[str, Any], state: str, out: set[str]) -> None:
-    if check.get("confinement-failed-during-check") is True and state != "void":
-        out.add(R[4])
     if check.get("declared-exclusion") is True and state != "not-exercised":
         out.add(R[5])
 

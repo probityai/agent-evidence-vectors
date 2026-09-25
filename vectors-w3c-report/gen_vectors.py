@@ -58,6 +58,8 @@ VENDORED = {
     "0069": "spec-vendored/0069-arsentev-2026-09-18-late-additions.txt",
     "0072": "spec-vendored/0072-rocchia-2026-09-18-handover.txt",
     "0073": "spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt",
+    "0076": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+    "0077": "spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
     "draft-arsentev-agent-run-metrics-00": "spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
     "draft-arsentev-llm-context-discovery-00": (
         "spec-vendored/draft-arsentev-llm-context-discovery-00.txt"
@@ -76,6 +78,8 @@ AUTHORS = {
     "0069": "Evgenii Arsentev",
     "0072": "Nicolas Rocchia",
     "0073": "Evgenii Arsentev",
+    "0076": "Roel Schuurkes",
+    "0077": "Nicolas Rocchia",
     "draft-arsentev-agent-run-metrics-00": "Evgenii Arsentev",
     "draft-arsentev-llm-context-discovery-00": "Evgenii Arsentev",
 }
@@ -413,7 +417,7 @@ FAMILIES = {
     "w3c-f-2": "row 2: void with a cause that describes a unit never examined",
     "w3c-f-3": "row 3: not-exercised with integrity-failure",
     "w3c-f-4": (
-        "row 4: a confinement control failed while the check ran, and the state is not void"
+        "row 4: a confinement failure during the check as the cause, and the state is not void"
     ),
     "w3c-f-5": "row 5: a declared exclusion whose state is not not-exercised",
     "w3c-f-6": "row 6: a non-verdict state carrying a qualifier",
@@ -759,13 +763,22 @@ def build_rows_1_to_7(m: Members) -> None:
         "a not-exercised record whose cause is a failure of evidence it never examined",
         "the same record with a cause that describes a unit left out of the count",
     )
-    confined = {"confinement-failed-during-check": True}
+    # Row 4 reads the cause cell against the state, as row 3 does, so the fact
+    # that confinement failed during the check is a cause value admitted only
+    # under void and nothing is added to the record. The reject member is
+    # inconclusive rather than fail: a verdict state carrying any cause is also
+    # row 7, and a member is rejected under one row only.
+    confined = {
+        "code": w3creport.CONFINEMENT_CAUSE,
+        "detail": "the sandbox's egress control failed while the check ran",
+    }
     m.pair(
         "w3c-f-4", "W3C-R-004",
-        report([PASS, check("c-fail", "fail", None, confined)]),
-        report([PASS, check("c-void", "void", {"code": "integrity-failure"}, confined)]),
-        "a confinement control failed while the check ran and the record still reports fail",
-        "the same run reported void, the only state the pair table allows it",
+        report([PASS, check("c-confined", "inconclusive", confined)]),
+        report([PASS, check("c-confined", "void", confined)]),
+        "a confinement failure during the check recorded as its cause while the state is "
+        "inconclusive",
+        "the same record reported void, the only state that cause is admitted under",
     )
     m.pair(
         "w3c-f-5", "W3C-R-005",

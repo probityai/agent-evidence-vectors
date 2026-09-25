@@ -28,7 +28,7 @@ var (
 	w3cStates      = set("pass", "fail", "inconclusive", "not-exercised", "void")
 	w3cVerdict     = set("pass", "fail")
 	w3cNonVerdict  = set("inconclusive", "not-exercised", "void")
-	w3cCauses      = set("not_applicable", "disabled_by_policy", "unsupported_input", "resource_exhausted", "failed", "unavailable", "out_of_scope", "withheld", "evidence-does-not-hold", "integrity-failure", "availability-failure", "precondition-unsatisfiable")
+	w3cCauses      = set("not_applicable", "disabled_by_policy", "unsupported_input", "resource_exhausted", "failed", "unavailable", "out_of_scope", "withheld", "evidence-does-not-hold", "integrity-failure", "availability-failure", "precondition-unsatisfiable", w3cConfinementCause)
 	w3cNeverExam   = set("not_applicable", "out_of_scope", "withheld")
 	w3cOther       = set("unknown", "possible-not-demonstrated", "demonstrated", "foreclosed")
 	w3cDisc        = set("unknown", "demonstrated")
@@ -42,6 +42,11 @@ var (
 	w3cCoverageStr = []string{"surface", "scan-depth", "point-in-time", "linked-repo"}
 	w3cClaims      = set("satisfied", "not-satisfied", "not-claimable")
 )
+
+// w3cConfinementCause is row 4's antecedent as a cause value admitted only
+// under void, so row 4 reads cause against state the way row 3 does and the
+// four-field record carries no extra cell. Proposed, as in the Python module.
+const w3cConfinementCause = "confinement-failed-during-check"
 
 func set(values ...string) map[string]bool {
 	out := map[string]bool{}
@@ -405,11 +410,9 @@ func w3cShapeCheck(check any, index int, out *[]string) {
 			*out = append(*out, where+"."+slot+" carries no string value")
 		}
 	}
-	for _, flag := range []string{"declared-exclusion", "confinement-failed-during-check"} {
-		if value, present := object[flag]; present {
-			if _, isBool := value.(bool); !isBool {
-				*out = append(*out, where+"."+flag+" is present and is not a boolean")
-			}
+	if value, present := object["declared-exclusion"]; present {
+		if _, isBool := value.(bool); !isBool {
+			*out = append(*out, where+".declared-exclusion is present and is not a boolean")
 		}
 	}
 }
@@ -583,12 +586,12 @@ func w3cRowCause(check map[string]any, state string, out w3cRejects) {
 	if state == "not-exercised" && code == "integrity-failure" {
 		out.add(3)
 	}
+	if code == w3cConfinementCause && state != "void" {
+		out.add(4)
+	}
 }
 
 func w3cRowPairs(check map[string]any, state string, out w3cRejects) {
-	if flag, _ := check["confinement-failed-during-check"].(bool); flag && state != "void" {
-		out.add(4)
-	}
 	if flag, _ := check["declared-exclusion"].(bool); flag && state != "not-exercised" {
 		out.add(5)
 	}
