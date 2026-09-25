@@ -268,8 +268,8 @@ under suiteRevision 17.
 - [ ] **The packaged harness judges three of the eleven corpora it ships** -- found
   2026-09-25 while cutting 0.12.1. Until then `agent-evidence-vectors --corpus <name>`
   ran the AEE reference rail over eight other predicates' corpora and printed that rail's
-  failures as the corpus verdict (`vectors-aci` 22 fail, `vectors-scitt-cose` 27 fail,
-  each judged clean by its Go reader). The harness now refuses those suites by name with
+  failures as the corpus verdict: most members of `vectors-aci` and every member of
+  `vectors-scitt-cose` printed as failing, and each corpus is judged clean by its Go reader. The harness now refuses those suites by name with
   exit 2 and points at `aee-verify <corpus-dir>`, and the release replays every shipped
   corpus and accepts only judged-clean or refused-by-name. What remains: a `pip install`
   user cannot judge eight shipped corpora without Go. Fix: port the eight readers in

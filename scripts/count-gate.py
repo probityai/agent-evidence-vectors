@@ -309,6 +309,29 @@ class Sources:
                 nouns.append(noun)
         return {value: " and ".join(nouns) for value, nouns in by_value.items()}
 
+    def noun_bound(self) -> frozenset[int]:
+        """The values whose only source is a per-kind count of a registered corpus.
+
+        A corpus total stays count-shaped wherever it appears. The accept and
+        reject counts of the registered corpora do not: each is one of a dozen
+        small integers, and read bare they refused a sentence about 42 one-field
+        pairs in another project's corpus, an issue number and a line range, on
+        the revision that grew a corpus into that value. Beside a count noun
+        they still fire. A value some other source also publishes is not
+        noun-bound, because that source's reading still applies.
+        """
+        per_kind = {
+            value
+            for _, _, accept, reject in self.extra
+            for value in (accept, reject)
+        }
+        other = {
+            value
+            for value, noun in self._published()
+            if not (noun.startswith("the accept count of ") or noun.startswith("the reject count of "))
+        }
+        return frozenset(per_kind - other)
+
     def _published(self) -> tuple[tuple[int, str], ...]:
         """Every (value, what it is) pair the sources publish, order preserved."""
         return (
@@ -1875,6 +1898,12 @@ MASKS = tuple(
         # unaccounted the moment the revision counter reached that value.
         r"U\+[0-9A-Fa-f]{4,6}",  # Unicode code points: U+0020
         r"\\u[0-9A-Fa-f]{4}",  # escaped code points:
+        # A numbered rule of a registered corpus, `Rule 22` or `rule 29`, names a
+        # row of that corpus's requirement table. It is an identifier, and the
+        # W3C reader's docstrings spell every rule that way, so its numbers
+        # collided with the suiteRevision and a reject count while claiming
+        # nothing about either.
+        r"\b[Rr]ules?\s+\d{1,3}\b",
         r"\b0\d+\b",  # zero-padded: a count is never written 0020
         r"\b\d+\s*(?:<<|>>)\s*\d+\b",  # shift expressions: 20 << 20
         r"\b\d+\s*[KMGT]i?B\b",  # byte sizes: 20 MiB
@@ -2127,6 +2156,7 @@ def quantities(src: Sources) -> Quantities:
     """What the sources currently publish, what they have published, what was posted."""
     return Quantities(
         current=src.current(),
+        noun_bound=src.noun_bound(),
         historical=src.historical(),
         posted=src.figures,
         posted_why="a score docs/INDEPENDENT-RUNS.json records as posted",

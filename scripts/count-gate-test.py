@@ -313,6 +313,14 @@ PREDICATE_VERSION = manifest_predicate_version(REPO_ROOT, "vectors")
 ACCEPT = corpus_figure(REPO_ROOT, "accept")
 REJECT = corpus_figure(REPO_ROOT, "reject")
 INDETERMINATE = corpus_figure(REPO_ROOT, "indeterminate")
+# A per-kind count of a registered corpus, read from its own manifest. The
+# census treats it as count-shaped only beside a count noun, and these cases
+# hold both sides of that line.
+OBSERVED_EFFECT_REJECT = int(
+    json.loads(
+        (REPO_ROOT / "vectors-observed-effect" / "MANIFEST.json").read_text(encoding="utf-8")
+    )["counts"]["reject"]
+)
 
 
 # --------------------------------------------------------------------------
@@ -616,6 +624,18 @@ SOURCE_CASES: list[Case] = [
     ),
 ]
 
+CENSUS_CASES.append(
+    (
+        "a registered corpus's reject count typed beside a count noun",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe sweep records {OBSERVED_EFFECT_REJECT} unforced rules today.\n",
+        ),
+        ("equal to the reject count of vectors-observed-effect",),
+    )
+)
+
 # --------------------------------------------------------------------------
 # The accepting cases
 # --------------------------------------------------------------------------
@@ -632,6 +652,24 @@ ACCEPT_CASES: list[Case] = [
             root,
             "BUILD-NOTES.md",
             "\nThe checker cleared all 140 vectors of suiteRevision 3.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a registered corpus's reject count used bare for something else",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe other project publishes {OBSERVED_EFFECT_REJECT} one-field pairs.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a numbered rule is an identifier, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nRule {OBSERVED_EFFECT_REJECT} of the report table reads the control.\n",
         ),
         ("are accounted for",),
     ),

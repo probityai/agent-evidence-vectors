@@ -139,6 +139,12 @@ class Quantities:
 
     current: Mapping[int, str]
     historical: Mapping[int, set[int]] = field(default_factory=dict)
+    #: Values in ``current`` that are count-shaped only beside a count noun,
+    #: the way a value below ``Census.small_value`` is. A per-kind count of a
+    #: secondary corpus is one small integer among many a document uses for
+    #: other things, and read bare it refused prose about pairs, line ranges
+    #: and issue numbers every time a corpus grew into that value.
+    noun_bound: frozenset[int] = frozenset()
     posted: frozenset[str] = frozenset()
     posted_why: str = "a figure a ledger records as posted"
 
@@ -417,9 +423,8 @@ def count_tokens(
             if value not in live:
                 continue
             span = (start + hit.start(), start + hit.end())
-            if value < census.small_value and not near_noun(
-                census, window, hit.start(), hit.end()
-            ):
+            needs_noun = value < census.small_value or value in quantities.noun_bound
+            if needs_noun and not near_noun(census, window, hit.start(), hit.end()):
                 continue
             found.setdefault(
                 span,
