@@ -28,6 +28,9 @@ window and are marked `proposed` until the editor's text settles them:
   answer to the question in `0076`).
 - The tree shapes are a closed set, and `RFC9162_SHA256`, the RFC 9942 section
   5.1 identifier for the RFC 9162 Merkle tree over SHA-256, is a member of it.
+- A control built to fail is bound to the checker and the constraint set of
+  the checks it speaks for (`W3C-R-029`, from `0076`). A binding that differs
+  from the one the run declares is refused; a missing binding is not yet.
 
 ## The text is vendored and every identifier is a sentence
 

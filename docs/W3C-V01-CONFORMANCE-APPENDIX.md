@@ -68,6 +68,12 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-027` (arity recomputed) | form | agreed | `v20a798b25fc2ec0b` | `vc938b2ab36cae34a` | so arity is recomputed from the delta | `8d4a3be209be152c` |
 | `W3C-R-028` (domain once) | form | agreed | `vd2ae28ba9140bc89` | `va0620b488f2ff2f5` | The domain is declared once at run level | `fc883a4e2664fb33` |
 
+## Proposed in the v0.1 comment window
+
+| row | class | status | reject | accept | sentence | digest |
+|---|---|---|---|---|---|---|
+| `W3C-R-029` ((a) control binding) | consistency | proposed | `va86e962a5024f152`, `ve9c436f93e42e394` | `v49afe44cc51bc376`, `v796a6048345b8f58` | say that the control uses the same checker revision and relevant configuration and constraints as the checks whose negative capability is being reported | `c3507c44c022f601` |
+
 ## Proposed classification of rows 4, 10, 11, 12 and 13
 
 The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and row 14 into the form class, and leaves five rows unclassified: 4, 10, 11, 12 and 13. Each of the five is classified here from the record definitions in the handover's own terms, with the vector pair that demonstrates the class under it. The part of the class a validator can measure is measured: every reject member of the corpus is re-judged by a reader that resolves nothing, and a row whose members stop firing reads a resolved slot (`resolvedRead` in the manifest). Rows 4, 10, 11 and 12 fire under that reader; row 13 does not.

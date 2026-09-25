@@ -6,10 +6,10 @@ truth: 14 texts vendored in `spec-vendored/` and pinned by sha256 in
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 226 vectors, of which 114 a conformant verifier must not fail closed
-on and 112 it must reject.
+This corpus is 230 vectors, of which 116 a conformant verifier must not fail closed
+on and 114 it must reject.
 
-**Three subject types, one manifest.** 160 members are whole
+**Three subject types, one manifest.** 164 members are whole
 v0.1 reports, judged by the rows of the format; 44
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
@@ -101,6 +101,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `W3C-R-024` | delta-related pair | consistency | agreed | `spec-vendored/0036-arsentev-2026-09-14-discrimination-and-populations.txt` | `d75ca465cf824295` | Unrelated pass and fail records in one corpus must not qualify |
 | `W3C-R-025` | 13 (proposed) | evidence | proposed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `01119b86460f6112` | other-verdict demonstrated citing an evidence object whose moved does not contain the verdict |
 | `W3C-R-026` | 14 (proposed) | form | proposed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `021af13381601bcf` | 14 moved asserted on an evidence object that neither carries both observations nor references them with digests |
+| `W3C-R-029` | (a) control binding | consistency | proposed | `spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt` | `c3507c44c022f601` | say that the control uses the same checker revision and relevant configuration and constraints as the checks whose negative capability is being reported |
 | `W3C-R-027` | arity recomputed | form | agreed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `8d4a3be209be152c` | so arity is recomputed from the delta |
 | `W3C-R-028` | domain once | form | agreed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `fc883a4e2664fb33` | The domain is declared once at run level |
 | `ARM-R-001` | 5.1 | - | - | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `f313511759b2f6ce` | Reporter MUST emit "1" while conforming to this specification |
@@ -157,6 +158,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `w3c-f-14` | late addition (a): a prior discriminating run binds the check identity that survived |
 | `w3c-f-15` | late addition (b): a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix |
 | `w3c-f-16` | declared slots: moved is contained in the declared compared set |
+| `w3c-f-29` | late addition (a), amended in the comment window: a control built to fail is bound to the checker and constraint set of the checks it speaks for |
 | `w3c-f-17` | roll-up: the aggregate carries its complete denominator |
 | `w3c-f-18` | roll-up: the counter over carried against referenced recomputes |
 | `w3c-f-19` | closed vocabulary: a value outside a registry is not read |
@@ -239,6 +241,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v48d22035dc3a5f54` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v494ac13464d685ee` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `v499412698a1dd50e` | reject | report | w3c-f-20 | W3C-R-020 | W3C-R-020 |
+| `v49afe44cc51bc376` | accept | report | w3c-f-29 | W3C-R-029 | none |
 | `v4a06b866afca0d49` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
 | `v4c778d3ee20deb35` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `v4f343e8bd3d6af08` | accept | report | w3c-f-20 | W3C-R-020 | none |
@@ -266,6 +269,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v76c0022fb2a7f21e` | accept | report | w3c-f-25 | W3C-R-025 | none |
 | `v77f27a301818a512` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v79266aba771310af` | reject | llm-context-discovery | lcd-f-consumer | LCD-R-011 | LCD-R-011 |
+| `v796a6048345b8f58` | accept | report | w3c-f-29 | W3C-R-029 | none |
 | `v7aca350e00458527` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v7bc7c1460093e973` | reject | llm-context-discovery | lcd-f-publisher | LCD-R-003 | LCD-R-003 |
 | `v7c22f1451e51aeb5` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
@@ -305,6 +309,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `va32bdaeb5f8aed8f` | accept | agent-run-metrics | arm-f-steps | ARM-R-006 | none |
 | `va3c277aa6743807a` | reject | report | w3c-f-24 | W3C-R-024 | W3C-R-024 |
 | `va4fc9fc8f711bd58` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `va86e962a5024f152` | reject | report | w3c-f-29 | W3C-R-029 | W3C-R-029 |
 | `va91d537fa714f2d3` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `va934761de6c65857` | reject | agent-run-metrics | arm-f-run | ARM-R-001 | ARM-R-001 |
 | `vaac3a24b2552738b` | reject | agent-run-metrics | arm-f-serialization | ARM-R-017 | ARM-R-017 |
@@ -380,6 +385,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `ve70386fdb6f071d3` | accept | report | w3c-f-1 | W3C-R-001 | none |
 | `ve7520b18160365d2` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `ve784e75da615e795` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
+| `ve9c436f93e42e394` | reject | report | w3c-f-29 | W3C-R-029 | W3C-R-029 |
 | `ve9cefed56bbc8359` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `ve9ebdb7db94e0b9d` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `vea3ee7919ceb2e10` | accept | report | w3c-f-disensor | W3C-R-016 | none |

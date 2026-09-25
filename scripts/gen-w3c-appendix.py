@@ -30,7 +30,7 @@ REPO = Path(__file__).resolve().parent.parent
 MANIFEST = REPO / "vectors-w3c-report" / "MANIFEST.json"
 TARGET = REPO / "docs" / "W3C-V01-CONFORMANCE-APPENDIX.md"
 
-ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 29)}
+ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
 
 SECTIONS = (
     ("The twelve rejection rows", [ROW[n] for n in range(1, 13)]),
@@ -39,6 +39,7 @@ SECTIONS = (
     ("The rules the freeze list and the editor's restatement carry", [ROW[n] for n in range(16, 21)]),
     ("The rules the thread settled beside the table", [ROW[n] for n in range(21, 25)]),
     ("Arity and domain, from the handover's record definitions", [ROW[27], ROW[28]]),
+    ("Proposed in the v0.1 comment window", [ROW[29]]),
 )
 
 #: The five rows the handover left unclassified, each classified here with its

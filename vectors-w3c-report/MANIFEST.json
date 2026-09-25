@@ -188,6 +188,7 @@
     "w3c-f-14": "late addition (a): a prior discriminating run binds the check identity that survived",
     "w3c-f-15": "late addition (b): a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix",
     "w3c-f-16": "declared slots: moved is contained in the declared compared set",
+    "w3c-f-29": "late addition (a), amended in the comment window: a control built to fail is bound to the checker and constraint set of the checks it speaks for",
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
     "w3c-f-19": "closed vocabulary: a value outside a registry is not read",
@@ -224,7 +225,7 @@
   },
   "mutationSweep": {
     "file": "MUTATION-SWEEP.md",
-    "rows": 61,
+    "rows": 62,
     "leaks": 0
   },
   "observedRuns": [],
@@ -564,6 +565,19 @@
       "sentenceDigest": "021af13381601bcf1dc65d5ebb073b2dc276c186156a7cd74d0291532f53277e",
       "specVersion": "0.1",
       "class": "form",
+      "status": "proposed",
+      "resolvedRead": false
+    },
+    {
+      "id": "W3C-R-029",
+      "row": "(a) control binding",
+      "file": "0076",
+      "vendored": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "line": 42,
+      "sentence": "say that the control uses the same checker revision and relevant\nconfiguration and constraints as the checks whose negative\ncapability is being reported",
+      "sentenceDigest": "c3507c44c022f601b4abebed4bcd678d7ce90e1c5fc0b822dbf804a5eeba4f46",
+      "specVersion": "0.1",
+      "class": "consistency",
       "status": "proposed",
       "resolvedRead": false
     },
@@ -925,10 +939,10 @@
     }
   ],
   "counts": {
-    "accept": 114,
-    "reject": 112
+    "accept": 116,
+    "reject": 114
   },
-  "corpusDigest": "0be27ab33bcaa6004570fb21fcf161c3109757722b72d097d699e9dca04235cf",
+  "corpusDigest": "b0fa308820fd819638b38839e82f2bb7abbfcaa673bf2040620a22d8decabb2e",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -2139,6 +2153,22 @@
       "cites": "a root declared RFC9162_SHA256 and computed over the leaf set with its last leaf repeated: the count says three and the RFC 9162 tree over three leaves does not recompute to it"
     },
     {
+      "id": "v49afe44cc51bc376",
+      "kind": "accept",
+      "file": "vectors/v49afe44cc51bc376.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "a control that declares its binding in a run that declares none: nothing to compare, and the proposal does not yet require the run's slot"
+    },
+    {
       "id": "v4a06b866afca0d49",
       "kind": "reject",
       "file": "vectors/v4a06b866afca0d49.json",
@@ -2707,6 +2737,22 @@
         ]
       },
       "cites": "an advertised index retrieved without evaluating the exclusion that covers it"
+    },
+    {
+      "id": "v796a6048345b8f58",
+      "kind": "accept",
+      "file": "vectors/v796a6048345b8f58.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same control bound to the checker and constraint set the reported checks ran under"
     },
     {
       "id": "v7aca350e00458527",
@@ -3495,6 +3541,24 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "va86e962a5024f152",
+      "kind": "reject",
+      "file": "vectors/va86e962a5024f152.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-029"
+        ]
+      },
+      "cites": "a control that failed under another checker than the one the reported checks ran under"
     },
     {
       "id": "va91d537fa714f2d3",
@@ -5124,6 +5188,24 @@
         },
         "cause": "moved asserts the recompute-opaque error list outside the declared compared set"
       }
+    },
+    {
+      "id": "ve9c436f93e42e394",
+      "kind": "reject",
+      "file": "vectors/ve9c436f93e42e394.json",
+      "family": "w3c-f-29",
+      "requirements": [
+        "W3C-R-029"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-029"
+        ]
+      },
+      "cites": "a control that failed under constraint set cs-2, offered for checks that ran under cs-1: the check kept its identifier and its configuration changed, so the failure is evidence about another configuration"
     },
     {
       "id": "ve9cefed56bbc8359",

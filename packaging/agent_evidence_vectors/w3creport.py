@@ -109,7 +109,7 @@ SLOTS = ("verdict", "fired-rule list", "error list")
 
 #: Requirement identifiers, minted by the corpus. The sentence each binds to
 #: is in vectors-w3c-report/MANIFEST.json and the corpus's INDEX.md.
-R = {n: f"W3C-R-{n:03d}" for n in range(1, 29)}
+R = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
 
 
 # --------------------------------------------------------------------------
@@ -342,7 +342,7 @@ def shape_errors(report: Any) -> list[str]:
         out.append(f"the report does not declare format '{FORMAT}'")
     _shape_lists(report, out)
     _shape_domain(report, out)
-    for slot in ("roll-up", "check-set"):
+    for slot in ("roll-up", "check-set", "fixed"):
         if slot in report and not _is_obj(report[slot]):
             out.append(f"{slot} is present and is not an object")
     return out
@@ -607,16 +607,41 @@ def _identity(checks: Any, ids: set[str]) -> bool:
     return all(_is_str(c) and c in ids for c in checks)
 
 
-def _row_control(field: dict[str, Any], ids: set[str], out: set[str]) -> None:
+#: The slots a control's binding and the run's declaration are compared on.
+BINDING_SLOTS = ("checker", "constraint-set")
+
+
+def _row_control(
+    field: dict[str, Any], ids: set[str], run_fixed: Any, out: set[str]
+) -> None:
     control = _get(field, "control")
     if not _is_obj(control) or not _identity(control.get("checks"), ids):
         out.add(R[13])
     elif control.get("state") != "fail":
         out.add(R[13])
+    else:
+        _row_control_binding(control.get("fixed"), run_fixed, out)
+
+
+def _row_control_binding(bound: Any, run_fixed: Any, out: set[str]) -> None:
+    """Rule 29 (proposed): a control ran under the checker and constraint set it speaks for.
+
+    Read only where both the control and the run declare the binding: a
+    binding that differs from the run's is refused, and a missing one is not,
+    because the list proposed the rule and has not yet required the slot.
+    """
+    if not (_is_obj(bound) and _is_obj(run_fixed)):
+        return
+    if any(bound.get(slot) != run_fixed.get(slot) for slot in BINDING_SLOTS):
+        out.add(R[29])
 
 
 def _rows_negative_capable(
-    rollup: dict[str, Any], counts: dict[str, int], ids: set[str], out: set[str]
+    rollup: dict[str, Any],
+    counts: dict[str, int],
+    ids: set[str],
+    run_fixed: Any,
+    out: set[str],
 ) -> None:
     field = _get(rollup, "negative-capable")
     if not _is_obj(field) or not _is_str(field.get("kind")):
@@ -628,7 +653,7 @@ def _rows_negative_capable(
     elif kind == "shown-by-run" and counts["fail"] < 1:
         out.add(R[13])
     elif kind == "control-failed":
-        _row_control(field, ids, out)
+        _row_control(field, ids, run_fixed, out)
     elif kind == "prior-discriminating-run":
         if not _identity(field.get("check-identity"), ids):
             out.add(R[14])
@@ -742,7 +767,9 @@ def _rows_rollup(report: dict[str, Any], checks: list[dict[str, Any]], out: set[
     carried, referenced = _carried_referenced(report)
     if rollup.get("carried") != carried or rollup.get("referenced") != referenced:
         out.add(R[18])
-    _rows_negative_capable(rollup, counts, {c["check"] for c in checks}, out)
+    _rows_negative_capable(
+        rollup, counts, {c["check"] for c in checks}, report.get("fixed"), out
+    )
     _rows_completeness(rollup, checks, counts, out)
 
 

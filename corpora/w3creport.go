@@ -528,7 +528,7 @@ func w3cShapeErrors(value any) []string {
 		out = append(out, "two evidence objects carry one id")
 	}
 	w3cShapeDomain(report, &out)
-	for _, slot := range []string{"roll-up", "check-set"} {
+	for _, slot := range []string{"roll-up", "check-set", "fixed"} {
 		if value, present := report[slot]; present && !isObj(value) {
 			out = append(out, slot+" is present and is not an object")
 		}
@@ -935,7 +935,7 @@ func w3cIdentity(v any, ids map[string]bool) bool {
 	return true
 }
 
-func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[string]bool, out w3cRejects) {
+func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[string]bool, runFixed any, out w3cRejects) {
 	field, ok := rollup["negative-capable"].(map[string]any)
 	if !ok || !isStr(field["kind"]) {
 		out.add(13)
@@ -953,6 +953,8 @@ func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[strin
 			out.add(13)
 		} else if state, _ := control["state"].(string); state != "fail" {
 			out.add(13)
+		} else {
+			w3cRowControlBinding(control["fixed"], runFixed, out)
 		}
 	case kind == "prior-discriminating-run":
 		if !w3cIdentity(field["check-identity"], ids) {
@@ -1122,7 +1124,7 @@ func w3cRowsRollup(report map[string]any, checks []map[string]any, out w3cReject
 		id, _ := check["check"].(string)
 		ids[id] = true
 	}
-	w3cRowsNegative(rollup, counts, ids, out)
+	w3cRowsNegative(rollup, counts, ids, report["fixed"], out)
 	w3cRowsCompleteness(rollup, checks, counts, out)
 }
 
@@ -1145,6 +1147,24 @@ var w3cShapes = func() map[string]bool {
 	}
 	return out
 }()
+
+// w3cRowControlBinding is rule 29 (proposed): a control ran under the checker
+// and constraint set of the checks it speaks for. It is read only where both
+// the control and the run declare the binding, so a binding that differs from
+// the run's is refused and a missing one is not.
+func w3cRowControlBinding(bound, runFixed any, out w3cRejects) {
+	control, okControl := bound.(map[string]any)
+	run, okRun := runFixed.(map[string]any)
+	if !okControl || !okRun {
+		return
+	}
+	for _, slot := range []string{"checker", "constraint-set"} {
+		if !jsonEqual(control[slot], run[slot]) {
+			out.add(29)
+			return
+		}
+	}
+}
 
 func w3cCheckSetRoot(checks []map[string]any, shape string) (string, error) {
 	root, registered := w3cRoots[shape]

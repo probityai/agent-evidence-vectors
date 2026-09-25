@@ -246,6 +246,19 @@ W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
         FORM,
         PROPOSED,
     ),
+    # Proposed in the v0.1 comment window as an amendment to section 5.4, and
+    # supported on the list, not yet in the editor's text: the control is bound
+    # to the checker and the constraint set of the checks it speaks for.
+    requirement(
+        "W3C-R-029",
+        "(a) control binding",
+        "0076",
+        "say that the control uses the same checker revision and relevant\n"
+        "configuration and constraints as the checks whose negative\n"
+        "capability is being reported",
+        CONSISTENCY,
+        PROPOSED,
+    ),
     # Two rules of the handover's Part 1 the editor took in as agreed text.
     requirement(
         "W3C-R-027", "arity recomputed", "0072", "so arity is recomputed from the delta", FORM
@@ -440,6 +453,10 @@ FAMILIES = {
         "shape; domain separation alone is not the fix"
     ),
     "w3c-f-16": "declared slots: moved is contained in the declared compared set",
+    "w3c-f-29": (
+        "late addition (a), amended in the comment window: a control built to fail is bound "
+        "to the checker and constraint set of the checks it speaks for"
+    ),
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
     "w3c-f-19": "closed vocabulary: a value outside a registry is not read",
@@ -632,6 +649,7 @@ def report(
     shape: str = "flat",
     negative: dict[str, Any] | None = None,
     domain: dict[str, Any] | None = None,
+    fixed: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     checks = copy.deepcopy(checks)
     evidence_list = copy.deepcopy(evidence_list or [])
@@ -642,7 +660,7 @@ def report(
         negative = {"kind": "shown-by-run"} if counts["fail"] else {"kind": "nothing"}
     rollup: dict[str, Any] = dict(counts, carried=carried, referenced=referenced)
     rollup["negative-capable"] = negative
-    return {
+    built: dict[str, Any] = {
         "format": w3creport.FORMAT,
         "domain": dict(domain or DOMAIN),
         "checks": checks,
@@ -654,6 +672,11 @@ def report(
             "tree-shape": shape,
         },
     }
+    if fixed is not None:
+        # The checker and constraint set the run's declared checks ran under,
+        # declared once at run level, as the domain is.
+        built["fixed"] = dict(fixed)
+    return built
 
 
 class Members:
@@ -875,6 +898,43 @@ def build_roll_up(m: Members) -> None:
     m.accept("w3c-f-14", "W3C-R-014",
              report(ALL_PASS, negative=dict(prior, **{"check-identity": ["c-pass", "c-pass-2"]})),
              "the same prior run binding the check identity that survived across runs")
+
+
+#: What the run's declared checks ran under, in the evidence object's own keys.
+RUN_FIXED = {"checker": "checker-1", "constraint-set": "cs-1"}
+
+
+def build_control_binding(m: Members) -> None:
+    """A control built to fail binds the checker and constraint set it ran under.
+
+    The case the list gave: a check keeps its identifier while its threshold
+    changes, so a control rejected under the stricter setting is evidence about
+    that setting and not about the one the run reports. A control that declares
+    no binding is not refused here; only a binding that differs from the run's.
+    """
+    def control(checker: str, constraint_set: str) -> dict[str, Any]:
+        return {"kind": "control-failed", "control": {
+            "checks": ["c-pass", "c-pass-2"], "state": "fail",
+            "fixed": {"checker": checker, "constraint-set": constraint_set},
+        }}
+
+    m.reject("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-2"), fixed=RUN_FIXED),
+             "a control that failed under constraint set cs-2, offered for checks that ran "
+             "under cs-1: the check kept its identifier and its configuration changed, so "
+             "the failure is evidence about another configuration")
+    m.reject("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-2", "cs-1"), fixed=RUN_FIXED),
+             "a control that failed under another checker than the one the reported checks "
+             "ran under")
+    m.accept("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-1"), fixed=RUN_FIXED),
+             "the same control bound to the checker and constraint set the reported checks "
+             "ran under")
+    m.accept("w3c-f-29", "W3C-R-029",
+             report(ALL_PASS, negative=control("checker-1", "cs-2")),
+             "a control that declares its binding in a run that declares none: nothing to "
+             "compare, and the proposal does not yet require the run's slot")
 
 
 def build_set_binding(m: Members) -> None:
@@ -1521,6 +1581,7 @@ def build() -> list[dict[str, Any]]:
     build_rows_1_to_7(m)
     build_rows_8_to_12(m)
     build_roll_up(m)
+    build_control_binding(m)
     build_set_binding(m)
     build_rules(m)
     build_people_rules(m)
