@@ -6,10 +6,10 @@
   "verifier": null,
   "pinnedTestKeyRole": "substrate-observation-test",
   "totals": {
-    "vectors": 272,
-    "pass": 272,
+    "vectors": 275,
+    "pass": 275,
     "fail": 0,
-    "conform": 272,
+    "conform": 275,
     "reasonParityMismatch": 0,
     "suiteRefusals": 0,
     "notExercised": 0
@@ -6859,6 +6859,171 @@
         "verdict": "invalid",
         "codes": [
           "coverage-incomplete"
+        ]
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "vf69a30acc0a70642",
+      "file": "vectors/statements/vf69a30acc0a70642.json",
+      "kind": "reject",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "PASS",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "-",
+        "recompute": "-",
+        "tier": "-",
+        "self-check": "PASS"
+      },
+      "observed": {
+        "verdict": "invalid",
+        "verdictWithoutKey": "invalid",
+        "codes": [
+          "result-vocabulary",
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "statement-malformed",
+          "coverage-missing"
+        ],
+        "primaryCode": "result-vocabulary",
+        "result": null,
+        "absent": [
+          "result",
+          "result_without_key",
+          "tiers_with_key",
+          "tiers_without_key"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
+        ]
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "v3759daaee191d532",
+      "file": "vectors/statements/v3759daaee191d532.json",
+      "kind": "reject",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "PASS",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "-",
+        "recompute": "-",
+        "tier": "-",
+        "self-check": "PASS"
+      },
+      "observed": {
+        "verdict": "invalid",
+        "verdictWithoutKey": "invalid",
+        "codes": [
+          "result-vocabulary",
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "statement-malformed",
+          "coverage-missing"
+        ],
+        "primaryCode": "result-vocabulary",
+        "result": null,
+        "absent": [
+          "result",
+          "result_without_key",
+          "tiers_with_key",
+          "tiers_without_key"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
+        ]
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "v2fdd6bb8fd622fea",
+      "file": "vectors/statements/v2fdd6bb8fd622fea.json",
+      "kind": "reject",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "PASS",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "-",
+        "recompute": "-",
+        "tier": "-",
+        "self-check": "PASS"
+      },
+      "observed": {
+        "verdict": "invalid",
+        "verdictWithoutKey": "invalid",
+        "codes": [
+          "result-vocabulary",
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "statement-malformed",
+          "coverage-missing"
+        ],
+        "primaryCode": "result-vocabulary",
+        "result": null,
+        "absent": [
+          "result",
+          "result_without_key",
+          "tiers_with_key",
+          "tiers_without_key"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-vocabulary"
+        ],
+        "alsoCarries": [
+          "issued-at-missing",
+          "environment-incomplete",
+          "vocabulary-missing",
+          "coverage-missing",
+          "statement-malformed"
         ]
       },
       "declaredExclusion": null,
