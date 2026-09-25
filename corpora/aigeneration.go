@@ -905,7 +905,7 @@ func agVerify(sig agSignature, message []byte) string {
 const agBase58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 // agDidKey recovers an ed25519 public key from a did:key: multibase base58btc
-// over the multicodec prefix 0xed 0x01 and the 32 key bytes.
+// over the multicodec prefix 0xed 0x01 and the raw key bytes.
 func agDidKey(did string) (ed25519.PublicKey, bool) {
 	encoded, ok := strings.CutPrefix(did, "did:key:z")
 	if !ok {
