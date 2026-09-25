@@ -588,7 +588,8 @@ def build_accept() -> None:
     # here and unequal in bad-116, which is the whole measurement.
     bmp_ext = {BMP_NAME_LOW: "first", BMP_NAME_HIGH: "last"}
     bmp_rec = underlying("genesis", extensions=bmp_ext)
-    assert jcs(bmp_rec) == jcs_utf16(bmp_rec), "a BMP-only record must canonicalize identically under both orders"
+    assert jcs(bmp_rec) == jcs_utf16(bmp_rec), (
+        "a BMP-only record must canonicalize identically under both orders")
     add("ok-013-bmp-extension-member-names", "accept",
         tool_call("genesis", extensions=bmp_ext), chain_hash(bmp_rec),
         ["aia-c-15"],
@@ -682,7 +683,8 @@ def build_reject() -> None:
         "A1: JSON.stringify orders 2 before 10 and leaves zz before aa; JCS "
         "orders 10, 2, aa, zz. Three languages, three chain hashes.",
         basis=spec_basis("379-383,387-391,400-409",
-                         '`JSON.stringify` MUST NOT be used to derive the record canonical form'))
+                         "`JSON.stringify` MUST NOT be used to derive the record "
+                         "canonical form"))
 
     # A2: escaping policy.
     esc_rec = underlying("genesis", tool="creer_fichier_été")
@@ -695,7 +697,7 @@ def build_reject() -> None:
         "A2: a producer whose serializer defaults to ASCII escaping emits "
         "different bytes for the same string",
         basis=spec_basis("411-415",
-                         'both produce non-canonical bytes and both are rejected'))
+                         "both produce non-canonical bytes and both are rejected"))
 
     html_rec = underlying("genesis", tool="run<script>")
     html_bytes = (json.dumps(html_rec, separators=(",", ":"),
@@ -709,7 +711,7 @@ def build_reject() -> None:
         "A2b: Go's encoding/json escapes <, > and & by default, so a Go "
         "gateway and a Node gateway disagree on identical input",
         basis=spec_basis("411-415",
-                         'both produce non-canonical bytes and both are rejected'))
+                         "both produce non-canonical bytes and both are rejected"))
 
     # A3: the log line carries insignificant whitespace.
     ws_bytes = json.dumps(PARENT_REC, separators=(", ", ": "),
@@ -721,7 +723,8 @@ def build_reject() -> None:
         "A3: the record parses identically and hashes differently; any log "
         "shipper that reserializes produces this",
         basis=spec_basis("387-391",
-                         'MUST reject, fail-closed, any line whose bytes differ from the recomputation'))
+                         "MUST reject, fail-closed, any line whose bytes differ from "
+                         "the recomputation"))
 
     # A4: duplicate member.
     dup = (b'{"durationMs":412,"id":"r1","previousHash":"genesis",'
@@ -735,7 +738,8 @@ def build_reject() -> None:
         "A4: a first-wins reader displays read_file while the hash commits "
         "to delete_repository",
         basis=spec_basis("604-609",
-                         'A duplicate member anywhere, at any depth, makes the record malformed'))
+                         "A duplicate member anywhere, at any depth, makes the record "
+                         "malformed"))
 
     # A5: the chain forks.
     f1 = underlying("genesis", tool="list_files", rid="r1")
@@ -750,7 +754,8 @@ def build_reject() -> None:
         "genesis hash and therefore the subject digest are unchanged, and "
         "the presenter chooses which branch the auditor sees.",
         basis=spec_basis("700-704",
-                         'Exactly one record in a chain MUST carry any given `previousHash` value'))
+                         "Exactly one record in a chain MUST carry any given "
+                         "`previousHash` value"))
 
     ck_nolink = {"id": "ckpt_1", "type": "checkpoint",
                  "timestamp": "2026-08-18T14:33:42.101Z",
@@ -772,7 +777,8 @@ def build_reject() -> None:
         "it, so the checkpoint is deletable and the anti-truncation "
         "mechanism carries no weight",
         basis=spec_basis("719-722",
-                         "the record following any record of any type carries that record's chain hash"))
+                         "the record following any record of any type "
+                         "carries that record's chain hash"))
 
     float_rec = dict(PARENT_REC)
     float_rec["durationMs"] = 412.5
@@ -785,7 +791,8 @@ def build_reject() -> None:
         "admits no non-integer number, whatever the content digests bind; "
         "the content-digest form is where a float belongs",
         basis=spec_basis("384-387,461-466",
-                         'Non-integer numbers *inside* a record or a Statement, by contrast, are malformed and MUST be rejected fail-closed'))
+                         "Non-integer numbers *inside* a record or a Statement, by "
+                         "contrast, are malformed and MUST be rejected fail-closed"))
 
     err_null = {"request": {"sha256": h(jcs(REQ))},
                 "response": {"sha256": h(b"null")}}
@@ -799,7 +806,8 @@ def build_reject() -> None:
         "A8: one of four readings a verifier could take of an absent result "
         "member, and the only one this suite forbids by naming the other",
         basis=spec_basis("434-442",
-                         'A producer MUST NOT digest `null`, an empty object, or the whole response envelope in place of the named member'))
+                         "A producer MUST NOT digest `null`, an empty object, or the "
+                         "whole response envelope in place of the named member"))
 
     add("bad-110-previoushash-uppercase-hex", "reject",
         tool_call(PARENT_HASH.upper()), PARENT_HASH, ["aia-c-11"],
@@ -807,7 +815,7 @@ def build_reject() -> None:
         "A9: a case-normalizing verifier links it and a byte-comparing one "
         "does not, so the same logical link has two spellings",
         basis=spec_basis("685-692",
-                         'Uppercase hex is not canonical.'))
+                         "Uppercase hex is not canonical."))
 
     add("bad-111-previoushash-wrong-length", "reject",
         tool_call("da39a3ee5e6b4b0d3255bfef95601890afd80709"), PARENT_HASH,
@@ -816,7 +824,7 @@ def build_reject() -> None:
         "A9b: 40 hex digits. Nothing in the current text excludes a digest "
         "from another algorithm",
         basis=spec_basis("685-692",
-                         'A digest of any other length is not admissible'))
+                         "A digest of any other length is not admissible"))
 
     # The break carries all three prior* members, as #588 requires of every
     # chain_break record. It used to omit priorSequence and priorRecordCount,
@@ -834,17 +842,18 @@ def build_reject() -> None:
         "chaining from the break, discarding the scar. Detection is a MUST, "
         "not a SHOULD",
         basis=spec_basis("775-779,796-797",
-                         'A verifier MUST reject, fail-closed, a log in which `genesis` appears more than once'))
+                         "A verifier MUST reject, fail-closed, a log in which "
+                         "`genesis` appears more than once"))
 
-    sur = ('{"id":"r1","previousHash":"genesis","toolName":"bad\\ud800",'
-           '"type":"tool_call"}').encode()
+    sur = (b'{"id":"r1","previousHash":"genesis","toolName":"bad\\ud800",'
+           b'"type":"tool_call"}')
     add("bad-113-unpaired-surrogate-in-toolname", "reject",
         tool_call("genesis", tool="bad"), h(sur), ["aia-c-13"],
         {"verdict": "invalid", "codes": ["ill-formed-string"]}, [sur],
         "F2: already forbidden by #588's own text. The vector is what stops "
         "the rule from being advice",
         basis=spec_basis("611-615",
-                         'an unpaired escape of either half is malformed'))
+                         "an unpaired escape of either half is malformed"))
 
     add("bad-114-extensions-depth-129", "reject",
         tool_call("genesis", extensions=nested(129)), PARENT_HASH,
@@ -853,7 +862,8 @@ def build_reject() -> None:
         "bounds: one level past the stated cap, so the counting rule is "
         "exercised rather than assumed",
         basis=spec_basis("602,627-629",
-                         'A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128'))
+                         "A verifier MUST reject, fail-closed, a record whose JSON "
+                         "nesting depth exceeds 128"))
 
     add("bad-115-unsafe-integer-durationms", "reject",
         tool_call("genesis", duration=9007199254740993), PARENT_HASH,
@@ -861,7 +871,8 @@ def build_reject() -> None:
         None,
         "bounds: 2^53 + 1, the first value the I-JSON profile excludes",
         basis=spec_basis("1320-1323",
-                         'Implementations MUST reject records with integers at or above this bound'))
+                         "Implementations MUST reject records with integers at or "
+                         "above this bound"))
 
     # ok-013 with one member name lifted out of the BMP. The sidecar carries
     # the bytes RFC 8785 requires, sorted by UTF-16 code unit, which this
@@ -869,7 +880,8 @@ def build_reject() -> None:
     # it is why the two declared digests differ.
     astral_ext = {ASTRAL_NAME: "first", BMP_NAME_HIGH: "last"}
     astral_rec = underlying("genesis", extensions=astral_ext)
-    assert jcs(astral_rec) != jcs_utf16(astral_rec), "the astral member name must split the two orders"
+    assert jcs(astral_rec) != jcs_utf16(astral_rec), (
+        "the astral member name must split the two orders")
     add("bad-116-astral-extension-member-name", "reject",
         tool_call("genesis", extensions=astral_ext), h(jcs_utf16(astral_rec)),
         ["aia-c-15"],
