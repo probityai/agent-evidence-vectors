@@ -51,6 +51,8 @@ var corpusCases = []corpusCase{
 	{dir: "vectors-w3c-report", memberFileKey: "file"},
 	// A member of the Observed Effect corpus is one DSSE envelope in one file.
 	{dir: "vectors-observed-effect", memberFileKey: "file"},
+	// A member of the receipt-signature corpus is one signed receipt in one file.
+	{dir: "vectors-receipt-signature", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }
