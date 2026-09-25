@@ -38,6 +38,7 @@ import hashlib
 import json
 import os
 import sys
+from collections.abc import Callable
 from typing import Any
 
 if __package__ in (None, ""):
@@ -92,7 +93,6 @@ NEVER_EXAMINED = ("not_applicable", "out_of_scope", "withheld")
 OTHER_VERDICT = ("unknown", "possible-not-demonstrated", "demonstrated", "foreclosed")
 DISCRIMINATION = ("unknown", "demonstrated")
 NEGATIVE_CAPABLE = ("shown-by-run", "control-failed", "prior-discriminating-run", "nothing")
-TREE_SHAPES = ("flat", "rfc6962")
 CHANGED = ("input artifact", "checker rule", "constraint")
 #: What an evidence object may declare it compared or found moved. The error
 #: list is the recompute-opaque slot the editor recorded as a fourth kind
@@ -171,11 +171,25 @@ def _mth(leaves: list[bytes]) -> bytes:
     return hashlib.sha256(b"\x01" + _mth(leaves[:k]) + _mth(leaves[k:])).digest()
 
 
+class UnregisteredShape(ValueError):
+    """A tree shape outside the closed set, refused rather than hashed as another."""
+
+
+#: The closed set of tree shapes, and the construction each name denotes. The
+#: set IS this table's keys, so a name cannot enter the set without a root
+#: function, and a name outside it has none to fall through to.
+ROOTS: dict[str, Callable[[list[bytes]], str]] = {
+    "flat": flat_root,
+    "rfc6962": rfc6962_root,
+}
+TREE_SHAPES = tuple(ROOTS)
+
+
 def check_set_root(checks: list[dict[str, Any]], shape: str) -> str:
-    leaves = [compact(check) for check in checks]
-    if shape == "rfc6962":
-        return rfc6962_root(leaves)
-    return flat_root(leaves)
+    root = ROOTS.get(shape)
+    if root is None:
+        raise UnregisteredShape(f"tree shape {shape!r} is not in the closed set {TREE_SHAPES}")
+    return root([compact(check) for check in checks])
 
 
 # --------------------------------------------------------------------------

@@ -33,7 +33,6 @@ var (
 	w3cOther       = set("unknown", "possible-not-demonstrated", "demonstrated", "foreclosed")
 	w3cDisc        = set("unknown", "demonstrated")
 	w3cNegative    = set("shown-by-run", "control-failed", "prior-discriminating-run", "nothing")
-	w3cShapes      = set("flat", "rfc6962")
 	w3cChanged     = set("input artifact", "checker rule", "constraint")
 	w3cSlots       = set("verdict", "fired-rule list", "error list")
 	w3cKinds       = set("accept", "reject")
@@ -1124,7 +1123,27 @@ func w3cRowsRollup(report map[string]any, checks []map[string]any, out w3cReject
 	w3cRowsCompleteness(rollup, checks, counts, out)
 }
 
+// w3cRoots is the closed set of tree shapes and the construction each name
+// denotes. w3cShapes is derived from its keys, so a name cannot enter the set
+// without a root function and a name outside it has none to fall through to.
+var w3cRoots = map[string]func([][]byte) []byte{
+	"flat":    flatRoot,
+	"rfc6962": mth,
+}
+
+var w3cShapes = func() map[string]bool {
+	out := map[string]bool{}
+	for name := range w3cRoots {
+		out[name] = true
+	}
+	return out
+}()
+
 func w3cCheckSetRoot(checks []map[string]any, shape string) (string, error) {
+	root, registered := w3cRoots[shape]
+	if !registered {
+		return "", fmt.Errorf("tree shape %q is not in the closed set", shape)
+	}
 	leaves := make([][]byte, 0, len(checks))
 	for _, check := range checks {
 		leaf, err := pythonCompactJSON(check)
@@ -1133,15 +1152,17 @@ func w3cCheckSetRoot(checks []map[string]any, shape string) (string, error) {
 		}
 		leaves = append(leaves, leaf)
 	}
-	if shape == "rfc6962" {
-		return hex.EncodeToString(mth(leaves)), nil
-	}
+	return hex.EncodeToString(root(leaves)), nil
+}
+
+// flatRoot is SHA-256 over the concatenated SHA-256 of each leaf, in order.
+func flatRoot(leaves [][]byte) []byte {
 	h := sha256.New()
 	for _, leaf := range leaves {
 		sum := sha256.Sum256(leaf)
 		h.Write(sum[:])
 	}
-	return hex.EncodeToString(h.Sum(nil)), nil
+	return h.Sum(nil)
 }
 
 // mth is the Merkle tree hash of RFC 6962 section 2.1: leaf prefix 0x00, node
