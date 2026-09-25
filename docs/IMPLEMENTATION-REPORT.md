@@ -236,7 +236,8 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    **The run at suiteRevision 28 is 272/272, on 2026-09-06**, recorded in the
    checker's own provenance index by aee-checker#21, and at suiteRevision 28 that is
    accepts 61/61, rejects 209/209 and indeterminate 2/2, with reason parity 80/209,
-   against suite commit `94c163c`, whose manifest carries the 272 vectors of
+   against suite commit `94c163c` as posted (`e98de66` after the 2026-09-18 history
+   rewrite, which left its vectors unchanged), whose manifest carries the 272 vectors of
    suiteRevision 28 in that partition. The checker labels it
    revision 27 because it counts one run per corpus it read and it read
    suiteRevision 25 twice; the corpus at that commit opens its changelog at
