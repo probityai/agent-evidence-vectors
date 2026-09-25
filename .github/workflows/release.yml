@@ -145,6 +145,25 @@ jobs:
             echo "::error::corpus $corpus exited $rc and was neither judged clean nor refused by name"
             exit 1
           done < corpora.txt
+          # A reader that cannot find its specification says so and still
+          # passes, which is how the observed-effect reader ran unchecked from
+          # every wheel up to 0.12.1: the note printed and the release went out.
+          if grep -q "is not beside this corpus" out-*.txt; then
+            grep -h "is not beside this corpus" out-*.txt
+            echo "::error::a packaged reader ran without the specification it cross-checks against"
+            exit 1
+          fi
+          # The corpus directories' generators and checkers are repository
+          # tools. In the wheel they crashed on import (a repository-relative
+          # specification path, build-only dependencies) and nothing loaded them.
+          python3 - "$wheel" <<'PY'
+          import sys, zipfile
+          names = zipfile.ZipFile(sys.argv[1]).namelist()
+          stray = [n for n in names if n.startswith("agent_evidence_vectors/corpora/") and n.endswith(".py")]
+          if stray:
+              sys.exit("the wheel ships corpus-directory scripts: " + ", ".join(stray))
+          print("the wheel carries corpus data and the packaged readers only")
+          PY
 
       # GITHUB_REF_NAME is empty under scripts/workflow-steps-gate.py, which
       # runs this step before a push; the version check then has no tag to
