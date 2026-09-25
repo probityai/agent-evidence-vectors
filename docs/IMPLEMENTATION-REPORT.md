@@ -130,7 +130,7 @@ What the two figures separate is what the blind half reached. Three of the rules
 the directed pass implemented recovered no vector and the first run never reached
 them, namely the registered `networkPosture.posture` vocabulary, non-empty `signatures`,
 and `attribution` as a substrate-row validity requirement, each forced by a vector
-the 232 rests on (`bad-823`, `bad-745`, `bad-968`), so their correctness in this
+of the 232 at suiteRevision 22 (`bad-823`, `bad-745`, `bad-968`), so their correctness in this
 run is directed and says nothing about whether the text determines them. The
 report corrects its own earlier claim that no vector was a blind mismatch on any of
 them: `ok-047` and `ok-048` are attribution vectors and both were blind
