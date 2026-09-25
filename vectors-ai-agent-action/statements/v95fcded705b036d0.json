@@ -1,0 +1,27 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "action": {
+      "timestamp": "2026-08-18T15:01:00.000Z",
+      "type": "chain_break"
+    },
+    "chainBreak": {
+      "priorHead": null,
+      "priorRecordCount": null,
+      "priorSequence": null,
+      "reason": "crash_recovery"
+    },
+    "metadata": {
+      "attestorVersion": "example-gateway/0.4.0"
+    }
+  },
+  "predicateType": "https://in-toto.io/attestation/ai-agent-action/v0.1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab"
+      },
+      "name": "session:agent-workspace-4f2a"
+    }
+  ]
+}

@@ -289,7 +289,8 @@ def underlying(previous_hash: str, tool: str = "create_pull_request",
 
 def add(slug: str, kind: str, predicate: dict, subject: str,
         conditions: list[str], expected: dict, records: list[bytes] | None,
-        cites: str, basis: dict | None = None) -> None:
+        cites: str, basis: dict | None = None,
+        profile: str | None = None) -> None:
     """Record what a vector IS. Naming it is emit()'s job, once it has bytes.
 
     `slug` is the authoring name -- the thing a person types when writing the
@@ -304,10 +305,13 @@ def add(slug: str, kind: str, predicate: dict, subject: str,
         raise SystemExit(
             f"{slug}: a reject member declares the text that makes it "
             "rejectable, and an accept member declares none")
+    if profile is not None and profile not in PROFILES:
+        raise SystemExit(f"{slug}: profile {profile!r} is not defined")
     DRAFTS.append({"slug": slug, "kind": kind,
                    "statement": statement(subject, predicate),
                    "conditions": conditions, "expected": expected,
-                   "records": records, "cites": cites, "basis": basis})
+                   "records": records, "cites": cites, "basis": basis,
+                   "profile": profile})
 
 
 def emit() -> None:
@@ -335,6 +339,8 @@ def emit() -> None:
                  "cites": draft["cites"]}
         if draft["basis"] is not None:
             entry["basis"] = draft["basis"]
+        if draft["profile"] is not None:
+            entry["profile"] = draft["profile"]
         if record_bytes is not None:
             rec_rel = f"records/{vid}.jsonl"
             write(rec_rel, record_bytes)
@@ -890,10 +896,165 @@ def build_reject() -> None:
                        "rule, carried over from in-toto/attestation#570."})
 
 
+# ---------------------------------------------------------------------------
+# PROFILES. #588 makes one verdict depend on a deployment choice: a deployment
+# claiming resistance against a compromised attestor MUST forbid a chain_break
+# with priorHead null, and absent that claim such a break is accepted and
+# should be surfaced. The text names no place the choice is carried, so a
+# verifier learns it as configuration, and a member whose verdict depends on it
+# names the profile its kind and expected verdict hold under.
+# ---------------------------------------------------------------------------
+DEFAULT = "default"
+RESISTANT = "compromised-attestor-resistant"
+PROFILES = {
+    DEFAULT: {
+        "nullPriorHead": "permitted",
+        "description": "No claim of resistance against a compromised "
+                       "attestor. A chain_break with priorHead null roots a "
+                       "new segment, and a verifier should surface it as an "
+                       "unattested discontinuity.",
+        "cites": spec_basis(
+            "1275-1277",
+            "Absent this prohibition, a planted break is an accepted "
+            "residual risk"),
+    },
+    RESISTANT: {
+        "nullPriorHead": "forbidden",
+        "description": "The deployment claims resistance against a "
+                       "compromised attestor, so a chain_break with priorHead "
+                       "null is rejected wherever it appears.",
+        "cites": spec_basis(
+            "1271-1274",
+            "MUST forbid `priorHead: null` in the deployment profile"),
+    },
+}
+
+
+def break_predicate(rec: dict) -> dict:
+    """The Statement predicate a chain_break record surfaces as.
+
+    `predicate.chain` carries the linkage only when the prior head is known;
+    a break with priorHead null carries none. No `parties`: v0.1 does not
+    admit them on a chain_break.
+    """
+    pred = {"action": {"type": "chain_break", "timestamp": rec["timestamp"]},
+            "chainBreak": {"reason": rec["reason"],
+                           "priorHead": rec["priorHead"],
+                           "priorSequence": rec["priorSequence"],
+                           "priorRecordCount": rec["priorRecordCount"]},
+            "metadata": {"attestorVersion": "example-gateway/0.4.0"}}
+    if rec["priorHead"] is not None:
+        pred["chain"] = {"previousHash": rec["priorHead"]}
+    return pred
+
+
+# ---------------------------------------------------------------------------
+# CHAIN BREAKS. Which record roots a chain, and therefore which digest every
+# statement in it carries as its subject: a genesis record, or a chain_break
+# whose priorHead is null. A break with a known prior head is not a root.
+# PARENT_HASH, the genesis identifier ok-001 declares, stands for the chain an
+# unrecoverable crash abandoned.
+# ---------------------------------------------------------------------------
+def build_chain_break() -> None:
+    brk_a = break_record(None)
+    root_a = chain_hash(brk_a)
+    succ_a = underlying(root_a, rid="r2", timestamp=AFTER_BREAK_TIME)
+    brk_b = break_record(None, reason="forced_rotation")
+    root_b = chain_hash(brk_b)
+    brk_n = break_record(PARENT_HASH, prior_record_count=1)
+    link_n = chain_hash(brk_n)
+    succ_n = underlying(link_n, rid="r2", timestamp=AFTER_BREAK_TIME)
+
+    add("ok-017-break-rooted-successor", "accept", tool_call(root_a), root_a,
+        ["aia-c-17"],
+        {"verdict": "valid", "chainHash": chain_hash(succ_a),
+         "chainRoot": root_a},
+        [jcs(brk_a), jcs(succ_a)],
+        "chain breaks: a segment rooted at a chain_break with priorHead null "
+        "is identified by the break record's own chain hash, and its "
+        "successor carries that hash as its subject digest",
+        profile=DEFAULT)
+    add("ok-018-break-rooted-own-statement", "accept", break_predicate(brk_b),
+        root_b, ["aia-c-17"],
+        {"verdict": "valid", "chainHash": root_b, "chainRoot": root_b},
+        [jcs(brk_b)],
+        "chain breaks: the break record's own Statement is in the segment it "
+        "roots, so it carries its own chain hash, and it carries no "
+        "predicate.chain because the prior head is unrecoverable",
+        profile=DEFAULT)
+    add("bad-117-break-rooted-successor-pre-break-identifier", "reject",
+        tool_call(root_a), PARENT_HASH, ["aia-c-17"],
+        {"verdict": "invalid", "codes": ["break-rooted-foreign-identifier"],
+         "chainRoot": root_a, "preBreakIdentifier": PARENT_HASH},
+        [jcs(brk_a), jcs(succ_a)],
+        "chain breaks: the successor claims the identifier of the chain the "
+        "crash abandoned. The attestor holds no truthful value for it, and "
+        "carrying it would let a break-rooted segment pass for the complete "
+        "history of the session",
+        basis=spec_basis("784-790",
+                         "A statement in a break-rooted segment MUST NOT "
+                         "carry any other chain's identifier"),
+        profile=DEFAULT)
+    add("bad-118-break-own-statement-pre-break-identifier", "reject",
+        break_predicate(brk_b), PARENT_HASH, ["aia-c-17"],
+        {"verdict": "invalid", "codes": ["break-rooted-foreign-identifier"],
+         "chainRoot": root_b, "preBreakIdentifier": PARENT_HASH},
+        [jcs(brk_b)],
+        "chain breaks: the break record's own Statement claims the abandoned "
+        "chain's identifier, which the rule forbids for every statement in "
+        "the segment, the break's own included",
+        basis=spec_basis("784-790",
+                         "A statement in a break-rooted segment MUST NOT "
+                         "carry any other chain's identifier"),
+        profile=DEFAULT)
+    add("bad-119-null-priorhead-under-prohibition", "reject",
+        break_predicate(brk_a), root_a, ["aia-c-18"],
+        {"verdict": "invalid", "codes": ["null-priorhead-forbidden"],
+         "chainRoot": root_a},
+        [jcs(brk_a)],
+        "planted break: under a profile claiming resistance against a "
+        "compromised attestor, a chain_break with priorHead null is rejected "
+        "however well formed it is, because every field on it is one the "
+        "restarted attestor controls",
+        basis=spec_basis("1271-1274",
+                         "verifiers MUST reject, fail-closed, any such record "
+                         "they receive"),
+        profile=RESISTANT)
+    add("ok-019-known-prior-head-under-prohibition", "accept",
+        break_predicate(brk_n), PARENT_HASH, ["aia-c-18"],
+        {"verdict": "valid", "chainHash": link_n, "chainRoot": PARENT_HASH},
+        [jcs(PARENT_REC), jcs(brk_n)],
+        "planted break: the prohibition forbids an unrecoverable prior head, "
+        "not a break. A break whose priorHead is the chain hash of the record "
+        "before it, and whose predicate.chain carries the same value, is "
+        "accepted under that profile",
+        profile=RESISTANT)
+    add("ok-020-known-prior-head-keeps-genesis-identifier", "accept",
+        tool_call(link_n), PARENT_HASH, ["aia-c-19"],
+        {"verdict": "valid", "chainHash": chain_hash(succ_n),
+         "chainRoot": PARENT_HASH},
+        [jcs(PARENT_REC), jcs(brk_n), jcs(succ_n)],
+        "chain breaks: a break with a known prior head does not root a chain, "
+        "so the successor chains from the break and still carries the "
+        "genesis record's chain hash as its subject digest")
+    add("bad-120-known-prior-head-re-roots-identifier", "reject",
+        tool_call(link_n), link_n, ["aia-c-19"],
+        {"verdict": "invalid", "codes": ["subject-not-chain-root"],
+         "chainRoot": PARENT_HASH},
+        [jcs(PARENT_REC), jcs(brk_n), jcs(succ_n)],
+        "chain breaks: the successor re-roots its identifier at a break whose "
+        "prior head is known. Only a genesis record or a break with priorHead "
+        "null roots a chain, so one session now carries two identifiers",
+        basis=spec_basis("771-773",
+                         "a root is either a genesis record or a "
+                         "`chain_break` with `priorHead: null`"))
+
+
 def main() -> None:
     build_accept()
     build_appendix_b()
     build_reject()
+    build_chain_break()
     emit()
     counts = {"accept": sum(1 for m in MANIFEST if m["kind"] == "accept"),
               "reject": sum(1 for m in MANIFEST if m["kind"] == "reject")}
@@ -919,6 +1080,7 @@ def main() -> None:
         "specVendored": SPEC_VENDORED_REL,
         "specDigest": spec_digest(),
         "proposedText": PROPOSED_TEXT,
+        "profiles": PROFILES,
         "counts": counts,
         "corpusDigest": corpus,
         "note": "Each reject member declares its basis: the lines of the "

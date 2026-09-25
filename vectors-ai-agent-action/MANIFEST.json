@@ -10,11 +10,31 @@
   "specVendored": "spec-vendored/ai-agent-action-a5dd509.md",
   "specDigest": "5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c",
   "proposedText": "docs/ai-agent-action-canonicalization.md",
-  "counts": {
-    "accept": 37,
-    "reject": 16
+  "profiles": {
+    "default": {
+      "nullPriorHead": "permitted",
+      "description": "No claim of resistance against a compromised attestor. A chain_break with priorHead null roots a new segment, and a verifier should surface it as an unattested discontinuity.",
+      "cites": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "1275-1277",
+        "quote": "Absent this prohibition, a planted break is an accepted residual risk"
+      }
+    },
+    "compromised-attestor-resistant": {
+      "nullPriorHead": "forbidden",
+      "description": "The deployment claims resistance against a compromised attestor, so a chain_break with priorHead null is rejected wherever it appears.",
+      "cites": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "1271-1274",
+        "quote": "MUST forbid `priorHead: null` in the deployment profile"
+      }
+    }
   },
-  "corpusDigest": "6da92ac708aa395d78f973f23abb04e6bd27b3b4c2ad97f71a70d35d8545125d",
+  "counts": {
+    "accept": 41,
+    "reject": 20
+  },
+  "corpusDigest": "905c8fe54d799ca01dd9b3bd9fe387cbd4534fce0b93e628002a21186dbf8052",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
     {
@@ -243,6 +263,30 @@
         "lines": "685-692",
         "quote": "A digest of any other length is not admissible"
       }
+    },
+    {
+      "id": "v5e1aca8594076334",
+      "kind": "reject",
+      "file": "statements/v5e1aca8594076334.json",
+      "conditions": [
+        "aia-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "break-rooted-foreign-identifier"
+        ],
+        "chainRoot": "6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab",
+        "preBreakIdentifier": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "cites": "chain breaks: the successor claims the identifier of the chain the crash abandoned. The attestor holds no truthful value for it, and carrying it would let a break-rooted segment pass for the complete history of the session",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "784-790",
+        "quote": "A statement in a break-rooted segment MUST NOT carry any other chain's identifier"
+      },
+      "profile": "default",
+      "records": "records/v5e1aca8594076334.jsonl"
     },
     {
       "id": "v663dae0ae9cfda97",
@@ -506,6 +550,29 @@
       "records": "records/v925e6daf8ac78ef3.jsonl"
     },
     {
+      "id": "v95fcded705b036d0",
+      "kind": "reject",
+      "file": "statements/v95fcded705b036d0.json",
+      "conditions": [
+        "aia-c-18"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "null-priorhead-forbidden"
+        ],
+        "chainRoot": "6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab"
+      },
+      "cites": "planted break: under a profile claiming resistance against a compromised attestor, a chain_break with priorHead null is rejected however well formed it is, because every field on it is one the restarted attestor controls",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "1271-1274",
+        "quote": "verifiers MUST reject, fail-closed, any such record they receive"
+      },
+      "profile": "compromised-attestor-resistant",
+      "records": "records/v95fcded705b036d0.jsonl"
+    },
+    {
       "id": "v97f5d8777e514257",
       "kind": "reject",
       "file": "statements/v97f5d8777e514257.json",
@@ -540,6 +607,22 @@
         "requestDigest": "23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 2. The IEEE 754 double 8000000000000000 is the JSON number 0, and no other text. Minus zero."
+    },
+    {
+      "id": "v9b57de6db73c1f29",
+      "kind": "accept",
+      "file": "statements/v9b57de6db73c1f29.json",
+      "conditions": [
+        "aia-c-17"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "chainHash": "dad1f497b3b2161e8133a09b282d04f288190624e50695dada6249613d24df67",
+        "chainRoot": "6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab"
+      },
+      "cites": "chain breaks: a segment rooted at a chain_break with priorHead null is identified by the break record's own chain hash, and its successor carries that hash as its subject digest",
+      "profile": "default",
+      "records": "records/v9b57de6db73c1f29.jsonl"
     },
     {
       "id": "v9bcf0d6fd251418f",
@@ -627,6 +710,21 @@
       "cites": "number serialization: RFC 8785 Appendix B row 11. The IEEE 754 double 44b52d02c7e14af6 is the JSON number 1e+23, and no other text."
     },
     {
+      "id": "vaec7f1c565e1a91a",
+      "kind": "accept",
+      "file": "statements/vaec7f1c565e1a91a.json",
+      "conditions": [
+        "aia-c-19"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "chainHash": "82a1374d5ed62cedc76ae3047036efc76a8fe640a5ca18016906d9eae037f03f",
+        "chainRoot": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "cites": "chain breaks: a break with a known prior head does not root a chain, so the successor chains from the break and still carries the genesis record's chain hash as its subject digest",
+      "records": "records/vaec7f1c565e1a91a.jsonl"
+    },
+    {
       "id": "vaf1b67f038ffff84",
       "kind": "accept",
       "file": "statements/vaf1b67f038ffff84.json",
@@ -640,6 +738,28 @@
         "requestDigest": "bc1c982dd4e677d72ff5821cc67554e045e838a31ddc55fa0fdb1a32d5a1dce9"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 17. The IEEE 754 double 3eb0c6f7a0b5ed8d is the JSON number 0.000001, and no other text."
+    },
+    {
+      "id": "vb1262555f2fd8afe",
+      "kind": "reject",
+      "file": "statements/vb1262555f2fd8afe.json",
+      "conditions": [
+        "aia-c-19"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "subject-not-chain-root"
+        ],
+        "chainRoot": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "cites": "chain breaks: the successor re-roots its identifier at a break whose prior head is known. Only a genesis record or a break with priorHead null roots a chain, so one session now carries two identifiers",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "771-773",
+        "quote": "a root is either a genesis record or a `chain_break` with `priorHead: null`"
+      },
+      "records": "records/vb1262555f2fd8afe.jsonl"
     },
     {
       "id": "vb177ef3b3a945a72",
@@ -736,6 +856,30 @@
       "records": "records/vc4898200910d84a2.jsonl"
     },
     {
+      "id": "vc6a1b1b8e0388411",
+      "kind": "reject",
+      "file": "statements/vc6a1b1b8e0388411.json",
+      "conditions": [
+        "aia-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "break-rooted-foreign-identifier"
+        ],
+        "chainRoot": "d19dcc45db12f051f71a35d88ee21c23e96a25453f7075d3874f8137d99b352b",
+        "preBreakIdentifier": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "cites": "chain breaks: the break record's own Statement claims the abandoned chain's identifier, which the rule forbids for every statement in the segment, the break's own included",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "784-790",
+        "quote": "A statement in a break-rooted segment MUST NOT carry any other chain's identifier"
+      },
+      "profile": "default",
+      "records": "records/vc6a1b1b8e0388411.jsonl"
+    },
+    {
       "id": "vc79800639733ed68",
       "kind": "accept",
       "file": "statements/vc79800639733ed68.json",
@@ -830,6 +974,22 @@
       "records": "records/vdd8899ebf08f5040.jsonl"
     },
     {
+      "id": "ve49e9dafdd7f4df9",
+      "kind": "accept",
+      "file": "statements/ve49e9dafdd7f4df9.json",
+      "conditions": [
+        "aia-c-17"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "chainHash": "d19dcc45db12f051f71a35d88ee21c23e96a25453f7075d3874f8137d99b352b",
+        "chainRoot": "d19dcc45db12f051f71a35d88ee21c23e96a25453f7075d3874f8137d99b352b"
+      },
+      "cites": "chain breaks: the break record's own Statement is in the segment it roots, so it carries its own chain hash, and it carries no predicate.chain because the prior head is unrecoverable",
+      "profile": "default",
+      "records": "records/ve49e9dafdd7f4df9.jsonl"
+    },
+    {
       "id": "ve763abe0a98c932f",
       "kind": "reject",
       "file": "statements/ve763abe0a98c932f.json",
@@ -894,6 +1054,22 @@
         "requestDigest": "f1ad5ca9e0c403a896658b2c5125b3dbfb0336899ab21ca1eb6ce1c875825a3a"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 16. The IEEE 754 double 3eb0c6f7a0b5ed8c is the JSON number 9.999999999999997e-7, and no other text."
+    },
+    {
+      "id": "vf89ec86066d8cf9b",
+      "kind": "accept",
+      "file": "statements/vf89ec86066d8cf9b.json",
+      "conditions": [
+        "aia-c-18"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "chainHash": "e72061c4f29a0105b1367555197247418fda3c4033549ca9aab5aee9e0bffebd",
+        "chainRoot": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "cites": "planted break: the prohibition forbids an unrecoverable prior head, not a break. A break whose priorHead is the chain hash of the record before it, and whose predicate.chain carries the same value, is accepted under that profile",
+      "profile": "compromised-attestor-resistant",
+      "records": "records/vf89ec86066d8cf9b.jsonl"
     }
   ]
 }
