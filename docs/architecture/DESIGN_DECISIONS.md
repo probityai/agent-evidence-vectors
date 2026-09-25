@@ -78,7 +78,7 @@ gate will not invent one.
 | `aee/statement.go` `gate0CoverageIntegrity` | 19 | The coverage-partition invariant across three disjoint sets against the manifest. |
 | `aee/jcs.go` `decodeValue` | 18 | Recursive JSON value dispatch with the I-JSON profile checks. |
 | `corpora/pyjson.go` `encodePythonOpts` | 18 | Type dispatch over every JSON value CPython's `json.dumps` writes, one arm each, all of them trivial. The branch count is the JSON value-kind count plus the two refusals that keep a float from being spelled by guess. Two corpora name a member by the digest of exactly these bytes, so an arm quietly absent from a shorter table-driven form would move a digest rather than fail. |
-| `aee/types.go` `parsePredicate` | 18 | One guarded decode per optional predicate member. Each member must record presence separately from value, because the gates distinguish an absent member from one that is present but malformed, so the branch count is the predicate's member count. |
+| `aee/types.go` `parsePredicate` | 19 | One guarded decode per optional predicate member, plus the normalization that makes the three empty predicate states one value. Each member must record presence separately from value, because the gates distinguish an absent member from one that is present but malformed, so the branch count is the predicate's member count; the extra branch turns the nil map `null` decodes to into an empty one, so no later reader can key on the difference the framework says does not exist. |
 
 The Python generators' functions carrying `# noqa: C901` are explained in
 [`docs/complexity-rationales.toml`](../complexity-rationales.toml), and
