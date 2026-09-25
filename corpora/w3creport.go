@@ -1129,6 +1129,10 @@ func w3cRowsRollup(report map[string]any, checks []map[string]any, out w3cReject
 var w3cRoots = map[string]func([][]byte) []byte{
 	"flat":    flatRoot,
 	"rfc6962": mth,
+	// RFC 9942 section 5.1 registers RFC9162_SHA256 as the Merkle tree of RFC
+	// 9162 section 2.1.1 over SHA-256, whose Merkle Tree Hash is the RFC 6962
+	// one: the same leaf and node prefixes and the same split.
+	"RFC9162_SHA256": mth,
 }
 
 var w3cShapes = func() map[string]bool {

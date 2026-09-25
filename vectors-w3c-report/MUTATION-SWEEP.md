@@ -28,12 +28,12 @@ corpus and every row of its manifest. Rows that leak: 0.
 | `W3C-R-012` | 1 | 1 | 0 | isolated |
 | `W3C-R-013` | 2 | 2 | 0 | isolated |
 | `W3C-R-014` | 1 | 1 | 0 | isolated |
-| `W3C-R-015` | 4 | 4 | 0 | isolated |
+| `W3C-R-015` | 5 | 5 | 0 | isolated |
 | `W3C-R-016` | 43 | 43 | 0 | isolated |
 | `W3C-R-017` | 1 | 1 | 0 | isolated |
 | `W3C-R-018` | 1 | 1 | 0 | isolated |
 | `W3C-R-019` | 1 | 1 | 0 | isolated |
-| `W3C-R-020` | 2 | 2 | 0 | isolated |
+| `W3C-R-020` | 3 | 3 | 0 | isolated |
 | `W3C-R-021` | 1 | 1 | 0 | isolated |
 | `W3C-R-022` | 2 | 2 | 0 | isolated |
 | `W3C-R-023` | 2 | 2 | 0 | isolated |

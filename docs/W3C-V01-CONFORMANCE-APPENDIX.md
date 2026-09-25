@@ -40,7 +40,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 |---|---|---|---|---|---|---|
 | `W3C-R-013` ((a) roll-up) | evidence | agreed | `vaeb76896b202e837`, `vc58647a590befbb7` | `va213bada85cc9abe`, `vb195f23e8436fd19`, `vd8d93fd735111aa5` | a roll-up states whether the checks it aggregates were capable of a negative verdict | `f73fd10347201018` |
 | `W3C-R-014` ((a) prior run) | consistency | agreed | `v66fd68ad7d106fac` | `v04934d23180f6d9c` | a prior discriminating run only counts where check identity survives across runs | `2da5682dbbb4be1f` |
-| `W3C-R-015` ((b) set binding) | evidence | agreed | `v28820b464a335617`, `v7c22f1451e51aeb5`, `v88935f0b29397a80`, `vfbc5db1c2a012359` | `v148fc59046a8548a`, `v86e1560a0d27b432` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses | `c6fe2b8552666e81` |
+| `W3C-R-015` ((b) set binding) | evidence | agreed | `v28820b464a335617`, `v4a06b866afca0d49`, `v7c22f1451e51aeb5`, `v88935f0b29397a80`, `vfbc5db1c2a012359` | `v1032eb59a7cdb30f`, `v148fc59046a8548a`, `v86e1560a0d27b432` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses | `c6fe2b8552666e81` |
 
 ## The rules the freeze list and the editor's restatement carry
 
@@ -50,7 +50,7 @@ The reject member's `subject` is the report; its `expected.rejects` names the on
 | `W3C-R-017` (roll-up denominator) | evidence | agreed | `v1c020dd1ed49874c` | `v735efb00ce85d044` | never emitted without its complete denominator | `526d7694de57f6c5` |
 | `W3C-R-018` (roll-up counter) | evidence | agreed | `v48877f27bbd03b55` | `vdf05d359490e7833` | the counter over carried against referenced | `31c3dfd19fc59147` |
 | `W3C-R-019` (closed vocabulary) | form | agreed | `v27a01b14321f6ae5` | `v2a251ae413920da5` | because free text does not aggregate | `1b376a60d7520ff7` |
-| `W3C-R-020` (reference mismatch) | evidence | agreed | `v6cd84ff1aea45153`, `vab508347e605c0af` | `v472759709d82c585`, `vfa24e4f45c2e826e` | resolves with a mismatch (an integrity failure) | `af507f1056e619da` |
+| `W3C-R-020` (reference mismatch) | evidence | agreed | `v499412698a1dd50e`, `v6cd84ff1aea45153`, `vab508347e605c0af` | `v472759709d82c585`, `v4f343e8bd3d6af08`, `vfa24e4f45c2e826e` | resolves with a mismatch (an integrity failure) | `af507f1056e619da` |
 
 ## The rules the thread settled beside the table
 
@@ -115,6 +115,10 @@ The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity
 ## The reading table, as members
 
 Carry-or-reference is fixed as: the format permits both and requires one, the form is decidable from the object alone (row 14), and reading a well-formed object is a table rather than a row. The three lines of the table are each a member. Resolves with matching digests: the accept members of families `w3c-f-20`, `w3c-f-21` and `w3c-f-25`, where the reader's store carries the observation the reference names and `moved` recomputes from it. Resolves with a mismatch: the `w3c-f-20` reject member whose store resolves the reference to bytes with another digest, an integrity failure, beside the check-set member whose RFC 6962 root was computed with domain separation over a duplicated last leaf, which is the same failure over the set. Does not resolve: the second accept member of `w3c-f-25`, the report that a reader with the suite rejects, read by a reader without it, unchecked, with the rows that read `moved` degrading rather than firing. The Merkle line the editor took from the narrowing on the list, that binding the count is necessary and is not a general membership proof and that domain separation added while duplicate-last padding is retained does not remove the ambiguity, is the `w3c-f-15` reject member that binds its count and asserts domain separation with no tree shape declared, rejected because the producer declares the shape.
+
+## The tree shapes, as a closed set
+
+Section 3.1 of the v0.1 draft requires a report to declare which tree shape its digest over a collection uses and leaves the vocabulary open (Q7). This corpus holds it closed, for the reason the cause vocabulary is closed: free text does not aggregate. The set is `flat`, `rfc6962`, `RFC9162_SHA256`. `RFC9162_SHA256` is the identifier RFC 9942 section 5.1 registers for the Merkle tree of RFC 9162 section 2.1.1 over SHA-256, whose tree hash is the RFC 6962 one, so the two names denote one construction and a report may use either. Its admission is proposed, following the closed, versioned set of construction identifiers Schuurkes asked for on the list, and it enters with its members: in `w3c-f-15` an accept member bound under `RFC9162_SHA256` and a reject member naming the same tree in free text, and in `w3c-f-20` a reject member whose `RFC9162_SHA256` root was computed over a duplicated last leaf with its accepting twin. Each reader maps every name in the set to its own root function and refuses any other name, so a shape outside the set can never be hashed as one inside it.
 
 ## The counts on open row B, labelled as the editor labels them
 

@@ -181,6 +181,11 @@ class UnregisteredShape(ValueError):
 ROOTS: dict[str, Callable[[list[bytes]], str]] = {
     "flat": flat_root,
     "rfc6962": rfc6962_root,
+    # RFC 9942 section 5.1 registers RFC9162_SHA256 as "a Merkle Tree where
+    # SHA256 is used as the hash algorithm", pointing at RFC 9162 section 2.1.1,
+    # whose Merkle Tree Hash is the RFC 6962 one: the same leaf and node
+    # prefixes and the same split. Two names, one construction.
+    "RFC9162_SHA256": rfc6962_root,
 }
 TREE_SHAPES = tuple(ROOTS)
 

@@ -65,6 +65,19 @@ def test_every_registered_shape_has_its_own_root() -> None:
         w3creport.check_set_root(CHECKS, shape)
 
 
+def test_rfc9162_sha256_is_the_rfc_9162_tree() -> None:
+    """RFC9162_SHA256 (RFC 9942 section 5.1) hashes by RFC 9162 section 2.1.1."""
+    if "RFC9162_SHA256" not in w3creport.TREE_SHAPES:
+        raise AssertionError("RFC9162_SHA256 is not in the closed set")
+    leaves = [w3creport.compact(check) for check in CHECKS]
+    expected = rfc9162_mth(leaves).hex()
+    got = w3creport.check_set_root(CHECKS, "RFC9162_SHA256")
+    if got != expected:
+        raise AssertionError(f"RFC9162_SHA256 root {got} is not the RFC 9162 tree {expected}")
+    if got == w3creport.flat_root(leaves):
+        raise AssertionError("RFC9162_SHA256 hashed as the flat shape")
+
+
 def run(cases: list[Callable[[], None]]) -> int:
     failures = 0
     for case in cases:
@@ -82,4 +95,5 @@ if __name__ == "__main__":
     raise SystemExit(run([
         test_unregistered_shape_is_refused,
         test_every_registered_shape_has_its_own_root,
+        test_rfc9162_sha256_is_the_rfc_9162_tree,
     ]))

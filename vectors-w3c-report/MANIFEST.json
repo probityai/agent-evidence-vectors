@@ -123,7 +123,8 @@
     ],
     "tree-shape": [
       "flat",
-      "rfc6962"
+      "rfc6962",
+      "RFC9162_SHA256"
     ],
     "changed": [
       "input artifact",
@@ -911,10 +912,10 @@
     }
   ],
   "counts": {
-    "accept": 112,
-    "reject": 110
+    "accept": 114,
+    "reject": 112
   },
-  "corpusDigest": "b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033",
+  "corpusDigest": "da429801cf52d35b7547bef90e12c652986119cb5863508af09e7f612b6aa304",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -1117,6 +1118,22 @@
         "rejects": []
       },
       "cites": "each invocation identified once"
+    },
+    {
+      "id": "v1032eb59a7cdb30f",
+      "kind": "accept",
+      "file": "vectors/v1032eb59a7cdb30f.json",
+      "family": "w3c-f-15",
+      "requirements": [
+        "W3C-R-015"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the check set bound under RFC9162_SHA256, the RFC 9942 identifier for the RFC 9162 Merkle tree over SHA-256, with its count"
     },
     {
       "id": "v10aaaebb49b0bcd3",
@@ -2091,6 +2108,42 @@
       }
     },
     {
+      "id": "v499412698a1dd50e",
+      "kind": "reject",
+      "file": "vectors/v499412698a1dd50e.json",
+      "family": "w3c-f-20",
+      "requirements": [
+        "W3C-R-020"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-020"
+        ]
+      },
+      "cites": "a root declared RFC9162_SHA256 and computed over the leaf set with its last leaf repeated: the count says three and the RFC 9162 tree over three leaves does not recompute to it"
+    },
+    {
+      "id": "v4a06b866afca0d49",
+      "kind": "reject",
+      "file": "vectors/v4a06b866afca0d49.json",
+      "family": "w3c-f-15",
+      "requirements": [
+        "W3C-R-015"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-015"
+        ]
+      },
+      "cites": "the RFC 9162 tree named in free text: the closed set admits the registry identifier and nothing else, because free text does not aggregate"
+    },
+    {
       "id": "v4c778d3ee20deb35",
       "kind": "accept",
       "file": "vectors/v4c778d3ee20deb35.json",
@@ -2116,6 +2169,22 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "v4f343e8bd3d6af08",
+      "kind": "accept",
+      "file": "vectors/v4f343e8bd3d6af08.json",
+      "family": "w3c-f-20",
+      "requirements": [
+        "W3C-R-020"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the RFC 9162 tree recomputed over exactly the three leaves the count binds"
     },
     {
       "id": "v518aa8d55ab5460b",

@@ -889,6 +889,18 @@ def build_set_binding(m: Members) -> None:
              "the check set bound under the RFC 6962 tree shape, with its count")
     m.accept("w3c-f-15", "W3C-R-015", report([PASS, FAIL], shape="flat"),
              "the check set bound under the flat shape, with its count")
+    # RFC9162_SHA256 is the RFC 9942 registry identifier for the Merkle tree of
+    # RFC 9162 section 2.1.1 over SHA-256. The pair differs in the spelling of
+    # the shape alone: the root and the count are the same bytes in both.
+    registered = report(ALL_PASS, shape="RFC9162_SHA256")
+    free_text = copy.deepcopy(registered)
+    free_text["check-set"]["tree-shape"] = "RFC 9162 SHA-256"
+    m.reject("w3c-f-15", "W3C-R-015", free_text,
+             "the RFC 9162 tree named in free text: the closed set admits the registry "
+             "identifier and nothing else, because free text does not aggregate")
+    m.accept("w3c-f-15", "W3C-R-015", registered,
+             "the check set bound under RFC9162_SHA256, the RFC 9942 identifier for the "
+             "RFC 9162 Merkle tree over SHA-256, with its count")
 
 
 def build_rules(m: Members) -> None:
@@ -938,6 +950,17 @@ def build_rules(m: Members) -> None:
         "repeated: the count says three and the digest does not recompute, so domain "
         "separation retained beside duplicate-last padding is still a mismatch",
         "the root recomputed over exactly the three leaves the count binds",
+    )
+    padded_9162 = report(three, shape="RFC9162_SHA256")
+    padded_9162["check-set"]["sha256"] = w3creport.check_set_root(
+        [*three, three[-1]], "RFC9162_SHA256"
+    )
+    m.pair(
+        "w3c-f-20", "W3C-R-020", padded_9162, report(three, shape="RFC9162_SHA256"),
+        "a root declared RFC9162_SHA256 and computed over the leaf set with its last leaf "
+        "repeated: the count says three and the RFC 9162 tree over three leaves does not "
+        "recompute to it",
+        "the RFC 9162 tree recomputed over exactly the three leaves the count binds",
     )
     demonstrated_pair = report([PASS, demonstrated], [evidence("e-1")])
     mismatched = store()

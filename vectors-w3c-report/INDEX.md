@@ -6,10 +6,10 @@ truth: 12 texts vendored in `spec-vendored/` and pinned by sha256 in
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 222 vectors, of which 112 a conformant verifier must not fail closed
-on and 110 it must reject.
+This corpus is 226 vectors, of which 114 a conformant verifier must not fail closed
+on and 112 it must reject.
 
-**Three subject types, one manifest.** 156 members are whole
+**Three subject types, one manifest.** 160 members are whole
 v0.1 reports, judged by the rows of the format; 44
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
@@ -191,6 +191,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v0e286b53de78162a` | reject | report | w3c-f-8 | W3C-R-008 | W3C-R-008 |
 | `v0f620037c42bbfc3` | accept | report | w3c-f-22 | W3C-R-022 | none |
 | `v0f648c5f3080e1b1` | accept | agent-run-metrics | arm-f-steps | ARM-R-015 | none |
+| `v1032eb59a7cdb30f` | accept | report | w3c-f-15 | W3C-R-015 | none |
 | `v10aaaebb49b0bcd3` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v1158315f2ce233a8` | reject | report | w3c-f-22 | W3C-R-022 | W3C-R-022 |
 | `v12f1e7e27b3f59c5` | reject | llm-context-discovery | lcd-f-consumer | LCD-R-006 | LCD-R-006 |
@@ -235,7 +236,10 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v48877f27bbd03b55` | reject | report | w3c-f-18 | W3C-R-018 | W3C-R-018 |
 | `v48d22035dc3a5f54` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v494ac13464d685ee` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `v499412698a1dd50e` | reject | report | w3c-f-20 | W3C-R-020 | W3C-R-020 |
+| `v4a06b866afca0d49` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
 | `v4c778d3ee20deb35` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `v4f343e8bd3d6af08` | accept | report | w3c-f-20 | W3C-R-020 | none |
 | `v518aa8d55ab5460b` | accept | report | w3c-f-16 | W3C-R-016 | none |
 | `v5390d3d7133f3963` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v54dea8bab0674755` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |

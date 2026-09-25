@@ -1,0 +1,72 @@
+{
+  "expected": {
+    "rejects": [
+      "W3C-R-020"
+    ],
+    "verdict": "reject"
+  },
+  "family": "w3c-f-20",
+  "id": "v499412698a1dd50e",
+  "kind": "reject",
+  "requirements": [
+    "W3C-R-020"
+  ],
+  "resolves": {
+    "obs-fail": {
+      "rules": [
+        "R-1"
+      ],
+      "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+      "verdict": "fail"
+    },
+    "obs-pass": {
+      "rules": [],
+      "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 3,
+      "sha256": "1a8a8b8b685a7f028d93e5d39165561e4102d3c5f2d08031ee130faba05f228c",
+      "tree-shape": "RFC9162_SHA256"
+    },
+    "checks": [
+      {
+        "check": "c-pass",
+        "state": "pass"
+      },
+      {
+        "check": "c-pass-2",
+        "state": "pass"
+      },
+      {
+        "check": "c-pass-3",
+        "state": "pass"
+      }
+    ],
+    "domain": {
+      "description": "the run's declared domain, referenced by identifier",
+      "id": "d-run"
+    },
+    "evidence": [],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 3,
+      "exercised": 3,
+      "fail": 0,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "nothing"
+      },
+      "not-exercised": 0,
+      "pass": 3,
+      "referenced": 0,
+      "void": 0
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}
