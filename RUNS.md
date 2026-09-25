@@ -33,7 +33,7 @@ with a record, it does not get a row, however good the figure was.
 
 ## The runs
 
-### Rul1an, `Rul1an/aee-checker`, revision 27 of the AEE corpus
+### Rul1an, `Rul1an/aee-checker`, suiteRevision 28 of the AEE corpus
 
 | | |
 | --- | --- |
@@ -41,7 +41,7 @@ with a record, it does not get a row, however good the figure was.
 | Implementation | `Rul1an/aee-checker`, an independent Rust verifier with its own I-JSON parser, RFC 8785 serializer, RFC 6962 Merkle root, run-binding derivation and Ed25519 tier |
 | Posted at | [`Rul1an/aee-checker#21`](https://github.com/Rul1an/aee-checker/pull/21), opened and merged 2026-09-06 |
 | Corpus | `vectors/`, at the corpus commit that pull request pins |
-| suiteRevision | 27 |
+| suiteRevision | 28, which the checker's own index labels revision 27: it counts one run per corpus it read, and it read suiteRevision 25 twice |
 | Result | 61/61 accepts, 209/209 rejects, 2/2 indeterminate, zero mismatches |
 | Reason parity | 80/209, which its author reports and explicitly does not promote |
 | Label, by its author | **directed** |
@@ -78,6 +78,16 @@ His summary of what the frozen build did across the advance:
 > The corpus advanced 282 commits and 250 → 272 vectors and the frozen build
 > agreed on all of them.
 
+### The 0.12.1 harness fix and this row
+
+Releases 0.6.0 to 0.12.0 printed the reference rail's pass when the verifier
+named with `--verifier` never ran, which `SECURITY.md` records. This row is not
+touched by it: the run called `aee-checker` on the corpus directly, through its
+own conformance workflow, and never went through this package's `--verifier`
+path, so the fallback could not have supplied its figure. A run that does go
+through the harness shows it in its report: `rail` reads `external` and
+`verifier.vectorsExecuted` equals the vector count.
+
 ## The ledger this file is not
 
 [`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json) is the gated record
@@ -101,13 +111,6 @@ survive, with `figures` null beside a note saying why there is none; it carries 
 there would let a dispatch with no figure license the one it has none of. The
 gate reads the array, holds it to that shape, and refuses a sentence in either
 publishing document that names an attempt's dispatch and a figure together.
-
-**Known divergence, stated rather than left for a reader to find.** That ledger
-carries rows up to revision 25 and does not yet carry the revision-27 run above.
-Until it does, the independence column's not-run set still names revision 27,
-which is now wrong in the direction of understating what was run. The repair is
-a ledger row transcribed from the posting, and it is a change to the gated
-ledger and the prose it governs rather than to this file.
 
 ## Reporting your own
 
