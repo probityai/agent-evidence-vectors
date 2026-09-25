@@ -29,7 +29,7 @@
 Add one step to the workflow that builds your verifier:
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.12.1
+- uses: probityai/agent-evidence-vectors@v0.13.0
   with:
     verifier: ./path/to/your-verifier --json
 ```
@@ -66,7 +66,7 @@ Inputs, all optional except the first:
 | --- | --- |
 | `verifier` | Command line of the verifier under test. The first token must be on `PATH` or a path relative to the workspace. This verifier is always the program that runs: the job fails when it cannot be started or when it answered fewer vectors than the corpus holds. |
 | `corpus` | The shipped corpus to replay. Defaults to `vectors`, the Adversarial Execution Evidence corpus the reference rail judges. `agent-evidence-vectors --list-corpora` prints every name. `vectors-w3c-report` and `vectors-observed-effect` are judged only by the package's own reader and define no verifier contract, so a run naming a verifier against either is refused. `vectors-receipt-signature` defines one in its README, so a named verifier runs over it through that contract. |
-| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.12.1`. The default is the action's own ref. |
+| `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.13.0`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
 
@@ -256,7 +256,7 @@ for it, and without taking this page's word. Four commands settle it.
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.12.1
+git checkout v0.13.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -340,7 +340,7 @@ renders a citation from the same file.
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.12.1},
+  version   = {0.13.0},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.22758687},
@@ -682,7 +682,7 @@ result-vocabulary check at all clears this corpus.
 
 So forcing is measured instead. `scripts/forcing-gate.py` switches off exactly one
 rule in the reference rail, replays every vector, and asks whether the corpus
-notices — 807 single-site weakenings of `aee/`, one rebuild and one full replay
+notices — 808 single-site weakenings of `aee/`, one rebuild and one full replay
 each. A rule the corpus never notices losing is a rule no third-party implementer
 is obliged to build, whatever the vector count says.
 
@@ -695,7 +695,7 @@ the member the weakened rail still looks at. That is a gap no amount of switchin
 guards off can see, and the sites it finds are published below with the rest.
 
 [`docs/FORCING-BASELINE.json`](docs/FORCING-BASELINE.json) is the result, held as a
-tighten-only ratchet: **459 rules forced, 32 seen-but-tolerated, 311 unforced, 5
+tighten-only ratchet: **465 rules forced, 36 seen-but-tolerated, 302 unforced, 5
 unmeasurable.** The four outcomes stay apart on purpose — "we could not measure it"
 and "the corpus does not force it" are different claims and only one is a gap — and
 four sites carry an annotation saying that "unforced" is the wrong word for them,
@@ -705,7 +705,7 @@ annotations are claims the gate falsifies: an annotated site that is ever killed
 fails the build.
 
 CI runs the ratchet on every push over the rules the baseline records as forced —
-the complete set where a regression is possible — and sweeps all 807 sites nightly,
+the complete set where a regression is possible — and sweeps all 808 sites nightly,
 which is what can see forcing improve.
 
 **What that campaign cannot see, said here before anybody else says it.** Every

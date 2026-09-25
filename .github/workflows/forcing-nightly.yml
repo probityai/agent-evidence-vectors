@@ -27,7 +27,7 @@ name: forcing (full sweep)
 # than unforced and are excluded from the per-push subset precisely so they
 # cannot hold that job open.
 #
-# Measured on a 16-worker workstation: 807 sites, ~3370 CPU-seconds, 137-264 seconds
+# Measured on a 16-worker workstation: 808 sites, ~3370 CPU-seconds, 137-264 seconds
 # of wall time depending on load. Two independent full sweeps produced a
 # byte-identical baseline. The site count is derived and current; the CPU-second and
 # wall-time figures beside it were taken on that workstation before the quantifier

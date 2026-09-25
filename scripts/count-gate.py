@@ -1044,6 +1044,15 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # A row of the accepted-complexity table is a gocyclo measurement of one Go
+    # function, re-measured and gated by complexity-table-gate.py. Gate0's 36
+    # collided with the seen-but-tolerated count when the forcing baseline moved.
+    Delegated(
+        "docs/architecture/DESIGN_DECISIONS.md",
+        "the accepted-complexity table's measured values",
+        r"(?m)^\| `[^`]+` `[^`]+` \| \d+ \|",
+        "scripts/complexity-table-gate.py",
+    ),
     # ---- the measured complexity values in the rationale table.
     # Each is what gocyclo reported for one function, and the accepted-complexity
     # gate holds them against a fresh measurement. One of them came to equal the
