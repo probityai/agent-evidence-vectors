@@ -2,9 +2,9 @@
   "$comment": "What the conformance corpus FORCES, measured by mutation rather than counted. Each row is one single-site weakening of the Go rail in aee/, replayed over the whole corpus: KILLED means some vector goes PASS->FAIL and the corpus forces the rule; SILENT means the corpus sees the rail change and stays green; DEAD means nothing in the corpus depends on the rule; INCONCLUSIVE means the mutant did not build, crash-free, terminate, and nothing is asserted about it. `annotations` records the sites where 'unforced' would be the wrong word -- `unkillable` for a true equivalent mutant no vector can ever kill, `masked` for a real rule an earlier check reaches first, which is unmintable rather than unminted. Both are claims this gate falsifies: an annotated site that is ever KILLED fails it. scripts/forcing-gate.py holds every KILLED row as a tighten-only ratchet and rewrites this file with --scope all --sync.",
   "suite": "adversarial-execution-evidence-conformance",
   "counts": {
-    "KILLED": 459,
-    "SILENT": 32,
-    "DEAD": 311,
+    "KILLED": 465,
+    "SILENT": 36,
+    "DEAD": 302,
     "INCONCLUSIVE": 5
   },
   "annotations": {
@@ -2958,11 +2958,13 @@
         "v2c7c29f498719ddf",
         "v2d1f9da3e912c63a",
         "v2dd443f340e8a1c7",
+        "v2fdd6bb8fd622fea",
         "v300ab22f5f2fe523",
         "v320cc6344593c639",
         "v3300d78454ab852f",
         "v3418101227718535",
         "v36fe88ae1da31194",
+        "v3759daaee191d532",
         "v3772d801e5cae557",
         "v37b29638601ce5ba",
         "v38dc376c7746314b",
@@ -3150,6 +3152,7 @@
         "vf362be6b8302b409",
         "vf44cfce2b3744894",
         "vf6717a2ded406b68",
+        "vf69a30acc0a70642",
         "vf6d46cca59bd2748",
         "vf720662dff34b8f5",
         "vf8029fa61d5f1b13",
@@ -3278,11 +3281,13 @@
         "v2c7c29f498719ddf",
         "v2d1f9da3e912c63a",
         "v2dd443f340e8a1c7",
+        "v2fdd6bb8fd622fea",
         "v300ab22f5f2fe523",
         "v320cc6344593c639",
         "v3300d78454ab852f",
         "v3418101227718535",
         "v36fe88ae1da31194",
+        "v3759daaee191d532",
         "v3772d801e5cae557",
         "v37b29638601ce5ba",
         "v38dc376c7746314b",
@@ -3470,6 +3475,7 @@
         "vf362be6b8302b409",
         "vf44cfce2b3744894",
         "vf6717a2ded406b68",
+        "vf69a30acc0a70642",
         "vf6d46cca59bd2748",
         "vf720662dff34b8f5",
         "vf8029fa61d5f1b13",
@@ -6617,9 +6623,13 @@
       "branch": "never-taken"
     },
     "statement.go::Gate0::CODE_OFF::0aef97156261": {
-      "class": "SILENT",
+      "class": "KILLED",
       "snippet": "appendCode(codes, CodeResultVocabulary)",
-      "branch": "taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::CODE_OFF::0f862f737a14": {
       "class": "KILLED",
@@ -6643,9 +6653,9 @@
       ]
     },
     "statement.go::Gate0::CODE_OFF::5389d1247932": {
-      "class": "DEAD",
+      "class": "SILENT",
       "snippet": "appendCode(codes, CodeStatementMalformed)",
-      "branch": "never-taken"
+      "branch": "taken"
     },
     "statement.go::Gate0::CODE_OFF::59ae1bec36f0": {
       "class": "KILLED",
@@ -6683,9 +6693,9 @@
       ]
     },
     "statement.go::Gate0::CODE_OFF::7e72e9ea438b": {
-      "class": "DEAD",
+      "class": "SILENT",
       "snippet": "appendCode(codes, CodeEnvironmentIncomplete)",
-      "branch": "never-taken"
+      "branch": "taken"
     },
     "statement.go::Gate0::CODE_OFF::7e72e9ea438b#2": {
       "class": "KILLED",
@@ -6705,9 +6715,9 @@
       ]
     },
     "statement.go::Gate0::CODE_OFF::b60cdbc4e154": {
-      "class": "DEAD",
+      "class": "SILENT",
       "snippet": "appendCode(codes, CodeVocabularyMissing)",
-      "branch": "never-taken"
+      "branch": "taken"
     },
     "statement.go::Gate0::CODE_OFF::b60cdbc4e154#2": {
       "class": "KILLED",
@@ -6747,19 +6757,31 @@
       ]
     },
     "statement.go::Gate0::IF_CONJ::162f83e2c6ad": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "env != nil",
-      "branch": "taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::IF_CONJ::162f83e2c6ad#2": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "env != nil",
-      "branch": "taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::IF_CONJ::162f83e2c6ad#3": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "env != nil",
-      "branch": "taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::IF_CONJ::180b43200038": {
       "class": "KILLED",
@@ -7270,9 +7292,9 @@
       "branch": "taken"
     },
     "statement.go::Gate0::IF_OFF::0262df763cc3": {
-      "class": "DEAD",
+      "class": "SILENT",
       "snippet": "if !p.RowsPresent { codes = appendCode(codes, CodeStatementMalformed) }",
-      "branch": "never-taken"
+      "branch": "taken"
     },
     "statement.go::Gate0::IF_OFF::08cc77e8398e": {
       "class": "KILLED",
@@ -7308,9 +7330,13 @@
       ]
     },
     "statement.go::Gate0::IF_OFF::46147b14b2c7": {
-      "class": "SILENT",
+      "class": "KILLED",
       "snippet": "if !p.ResultPresent || !isResultToken(p.Result) { codes = appendCode(codes, CodeResultVocabulary) }",
-      "branch": "taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::IF_OFF::4ba11dc19cc0": {
       "class": "KILLED",
@@ -7405,9 +7431,13 @@
       ]
     },
     "statement.go::Gate0::IF_OFF::bb60c9ecd108": {
-      "class": "DEAD",
+      "class": "KILLED",
       "snippet": "if env == nil { codes = appendCode(codes, CodeEnvironmentIncomplete) codes = appendCode(codes, CodeVocabularyMissing) } else { if env.Substrate == nil...",
-      "branch": "never-taken"
+      "killers": [
+        "v2fdd6bb8fd622fea",
+        "v3759daaee191d532",
+        "vf69a30acc0a70642"
+      ]
     },
     "statement.go::Gate0::IF_OFF::d3ef01a21d00": {
       "class": "KILLED",
@@ -11433,6 +11463,11 @@
         "vf5599bb2dbe66e12"
       ]
     },
+    "types.go::ParseStatement::IF_OFF::51f9cc6506e0": {
+      "class": "SILENT",
+      "snippet": "if len(raw) == 0 { raw = emptyPredicate }",
+      "branch": "taken"
+    },
     "types.go::ParseStatement::IF_OFF::81857823c01e": {
       "class": "KILLED",
       "snippet": "if shadow.PredicateType != nil { s.PredicateType = *shadow.PredicateType }",
@@ -11646,14 +11681,9 @@
       ]
     },
     "types.go::ParseStatement::IF_OFF::da04b00201ac": {
-      "class": "DEAD",
+      "class": "SILENT",
       "snippet": "if err := json.Unmarshal(b, &shadow); err != nil { return nil, fmt.Errorf(\"statement does not parse: %w\", err) }",
       "branch": "taken"
-    },
-    "types.go::ParseStatement::IF_OFF::e31feb446c3e": {
-      "class": "DEAD",
-      "snippet": "if len(shadow.Predicate) == 0 { return nil, errors.New(\"statement carries no predicate\") }",
-      "branch": "never-taken"
     },
     "types.go::decodeManifest::IF_OFF::06d53045d470": {
       "class": "KILLED",
@@ -15381,6 +15411,11 @@
       "snippet": "if err := json.Unmarshal(covRaw, cov); err != nil { codes = appendCode(codes, CodeStatementMalformed) } else { p.Coverage = cov }",
       "branch": "never-taken"
     },
+    "types.go::parsePredicate::IF_OFF::f8330fddbb44": {
+      "class": "DEAD",
+      "snippet": "if p.Raw == nil { p.Raw = map[string]json.RawMessage{} }",
+      "branch": "taken"
+    },
     "types.go::parsePredicate::LOOP_FIRST::feafa88a8499": {
       "class": "KILLED",
       "snippet": "for _, rr := range rawRows { row, rowCodes := parseRow(rr) p.Rows = append(p.Rows, row) for _, c := range rowCodes { codes = appendCode(codes, c) } }",
@@ -18755,8 +18790,10 @@
         "v2adb319fc7515885",
         "v2be8b19383a5c613",
         "v2dd443f340e8a1c7",
+        "v2fdd6bb8fd622fea",
         "v300ab22f5f2fe523",
         "v3418101227718535",
+        "v3759daaee191d532",
         "v3772d801e5cae557",
         "v399c693cbf60143b",
         "v3b58f7a2e30d8cad",
@@ -18794,6 +18831,7 @@
         "ved230b46692c0ada",
         "vf14f5310b2f02875",
         "vf44cfce2b3744894",
+        "vf69a30acc0a70642",
         "vf8029fa61d5f1b13"
       ]
     },
@@ -18894,10 +18932,12 @@
         "v2c7c29f498719ddf",
         "v2d1f9da3e912c63a",
         "v2dd443f340e8a1c7",
+        "v2fdd6bb8fd622fea",
         "v300ab22f5f2fe523",
         "v320cc6344593c639",
         "v3300d78454ab852f",
         "v3418101227718535",
+        "v3759daaee191d532",
         "v3772d801e5cae557",
         "v37b29638601ce5ba",
         "v38dc376c7746314b",
@@ -19044,6 +19084,7 @@
         "vf362be6b8302b409",
         "vf44cfce2b3744894",
         "vf6717a2ded406b68",
+        "vf69a30acc0a70642",
         "vf6d46cca59bd2748",
         "vf8029fa61d5f1b13",
         "vfae885f5e5f78197",

@@ -19,19 +19,19 @@ the data it summarises.
 
 ## The figure, and what it measures
 
-**Of the 93 normative conditions this corpus cites, 66 are forced by a vector no other
+**Of the 94 normative conditions this corpus cites, 67 are forced by a vector no other
 condition's vectors duplicate, 27 are covered only redundantly, and 0 are not forced at
 all.**
 
 | what | value |
 |---|---|
 | suite | `adversarial-execution-evidence-conformance` |
-| corpus | suiteRevision 28, 272 vectors (61 accept, 209 reject, 2 indeterminate) |
+| corpus | suiteRevision 29, 275 vectors (61 accept, 212 reject, 2 indeterminate) |
 | vendored specification | commit `0dbe10bcc959b63dc42370a5db09812c9476f59a`, fetchable from `astrogilda/attestation` at branch `predicate/adversarial-execution-evidence` |
 | reviewed at | `in-toto/attestation#570` |
-| `vectors/MANIFEST.json` | `sha256:bfa066d422881e03d0b5af3f2674c4743a7e60a78b08348955679499ab1e8c5e` |
-| `docs/FORCING-BASELINE.json` | `sha256:8a108f068cb98418661a9a84b4b94dbf9655a99d8cb4be7c4f537cae812de5fb` |
-| campaign | 807 single-site weakenings: 459 KILLED, 32 SILENT, 311 DEAD, 5 INCONCLUSIVE |
+| `vectors/MANIFEST.json` | `sha256:71cb209fdf2ab8b2affb72775548d96a4b35573b1df627ac8aae5022abd4da8e` |
+| `docs/FORCING-BASELINE.json` | `sha256:70727ff626507e23a0e6abad1899e225bab8b71ec1340f78734dca289422707c` |
+| campaign | 808 single-site weakenings: 465 KILLED, 36 SILENT, 302 DEAD, 5 INCONCLUSIVE |
 
 Every vector in the corpus is depended on by at least one recorded weakening, so no
 vector is wholly redundant and the campaign covers the corpus as it stands.
@@ -179,7 +179,6 @@ implementer to produce these codes.
 |---|---|
 | `corpus-anchor-mismatch` | 1 DEAD |
 | `record-undecodable` | 2 SILENT |
-| `result-vocabulary` | 1 DEAD, 1 SILENT |
 | `row-attack-unknown` | 1 SILENT |
 | `substrate-anchor-mismatch` | 1 DEAD |
 
