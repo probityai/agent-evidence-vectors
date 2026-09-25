@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -32,6 +33,26 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _load_digest_of() -> Any:
+    """The preimage lives in digest.py beside this file, loaded by path.
+
+    By path rather than by module name, because every corpus that owns a
+    stdlib preimage names its module digest.py, and an import by name reaches
+    whichever of them is first on the search path.
+    """
+    spec = importlib.util.spec_from_file_location(
+        "receipt_signature_digest", os.path.join(HERE, "digest.py")
+    )
+    if spec is None or spec.loader is None:
+        raise SystemExit("FAIL: digest.py beside this generator cannot be loaded")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.digest_of
+
+
+digest_of = _load_digest_of()
 
 SUITE = "receipt-signature-conformance"
 SPEC_NAME = "draft-farley-acta-signed-receipts-03"
@@ -186,16 +207,6 @@ GRADE_NOTE = (
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
-
-
-def corpus_digest(manifest: dict[str, Any], root: str = HERE) -> str:
-    """The digest this corpus publishes, recomputed from the receipts on disk.
-
-    Members are taken in identifier order. scripts/release-digests.py loads this
-    function by path rather than restating the concatenation.
-    """
-    entries = sorted(manifest["vectors"], key=lambda entry: entry["id"])
-    return sha(b"".join(open(os.path.join(root, e["file"]), "rb").read() for e in entries))
 
 
 def jcs(value: Any) -> bytes:
@@ -575,7 +586,7 @@ def build_manifest() -> tuple[dict[str, Any], dict[str, bytes]]:
         "requirements": requirements(),
         "conditions": CONDITIONS,
         "counts": counts,
-        "corpusDigest": sha(b"".join(files[entry["file"]] for entry in entries)),
+        "corpusDigest": digest_of(entries, lambda rel: files[rel]),
         "vectors": entries,
     }
     files["MANIFEST.json"] = json.dumps(manifest, indent=2).encode("utf-8") + b"\n"
