@@ -2415,6 +2415,11 @@
           "coverage-missing",
           "statement-malformed"
         ]
+      },
+      "statementLayer": {
+        "verdict": "valid",
+        "spec": "https://github.com/in-toto/attestation/blob/fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md#L62-L66",
+        "rule": "Unset is treated the same as set-but-empty."
       }
     },
     {
@@ -2436,6 +2441,11 @@
           "coverage-missing",
           "statement-malformed"
         ]
+      },
+      "statementLayer": {
+        "verdict": "valid",
+        "spec": "https://github.com/in-toto/attestation/blob/fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md#L62-L66",
+        "rule": "Unset is treated the same as set-but-empty."
       }
     },
     {
@@ -2457,6 +2467,11 @@
           "coverage-missing",
           "statement-malformed"
         ]
+      },
+      "statementLayer": {
+        "verdict": "valid",
+        "spec": "https://github.com/in-toto/attestation/blob/fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md#L62-L66",
+        "rule": "Unset is treated the same as set-but-empty."
       }
     },
     {

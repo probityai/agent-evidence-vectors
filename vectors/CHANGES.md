@@ -46,6 +46,15 @@ byte-identically from the generators.
   object joins that list: `predicate` becoming `{}` removes all seven members at
   once and cannot be fewer, while the absent and null spellings measure one because
   the member goes with them.
+- **Each of the three carries a `statementLayer` verdict in the manifest: `valid`.**
+  The same bytes answer two questions. An AEE verifier must reject them, because the
+  empty predicate lacks every required member; an in-toto Statement parser must
+  accept them, because the framework types `predicate` as optional. The in-toto
+  reference bindings refused the absent and null spellings until
+  in-toto/attestation#598, so a Statement parser can be run against these three to
+  see which side of that fix it is on. The field is additive and informative; the
+  comparison surface is unchanged, and `scripts/statement-layer-test.py` executes
+  the recorded verdict rather than trusting it.
 - **The equivalence is enforced by a gate rather than by the corpus contract.**
   `vectors/MANIFEST.json` declares reject codes measured rather than normative and
   the reject contract grades by intersecting the declared and observed code sets, so

@@ -515,6 +515,54 @@ def check_tier_claims(claimed: set[str]) -> None:
         )
 
 
+# The verdict the in-toto Statement layer reaches on a member, for the members
+# whose point is a disagreement BETWEEN the two layers. Keyed by condition id,
+# because the members are found by the rule they force and an identifier moves
+# on every regeneration.
+#
+# The three empty predicate states are invalid AEE statements -- the empty
+# predicate lacks every required member -- and valid in-toto Statements: the
+# framework types `predicate` as optional and says "Unset is treated the same
+# as set-but-empty". Both halves are claims a reader can check, so both are
+# written down. The Statement-layer half is what the reference in-toto bindings
+# got wrong until in-toto/attestation#598, which refused an omitted and a null
+# predicate while accepting the empty object; recorded here, the same bytes
+# answer both questions and a Statement parser can be run against them.
+STATEMENT_LAYER = {
+    "aee-c-109": {
+        "verdict": "valid",
+        "spec": (
+            "https://github.com/in-toto/attestation/blob/"
+            "fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md"
+            "#L62-L66"
+        ),
+        "rule": "Unset is treated the same as set-but-empty.",
+    },
+}
+
+
+def apply_statement_layer(vectors: list[dict[str, Any]]) -> None:
+    """Attach the Statement-layer verdict to every member citing a keyed condition.
+
+    Refuses a key that reaches no member, for the reason check_tier_claims
+    gives: a table read by lookup pins nothing when its key goes stale, and says
+    nothing while it does.
+    """
+    reached: set[str] = set()
+    for entry in vectors:
+        for cond in entry["conditions"]:
+            if cond in STATEMENT_LAYER:
+                entry["statementLayer"] = dict(STATEMENT_LAYER[cond])
+                reached.add(cond)
+    if unreached := sorted(set(STATEMENT_LAYER) - reached):
+        raise SystemExit(
+            "STATEMENT_LAYER names "
+            + ", ".join(unreached)
+            + ", which no vector cites. A Statement-layer verdict keyed to a "
+            "condition nothing carries is a claim the manifest silently drops."
+        )
+
+
 def main() -> int:
     vectors: list[dict[str, Any]] = []
     # Which accept vectors were actually offered a tier pin. TIER_EXPECTATIONS is
@@ -568,6 +616,7 @@ def main() -> int:
     vectors.extend(
         indeterminate_entries(os.path.join(HERE, "indeterminate", "INDEX.md"))
     )
+    apply_statement_layer(vectors)
 
     # Closure check: every vector file must have exactly one INDEX row and vice
     # versa. Without this a malformed INDEX row is silently skipped by table_rows

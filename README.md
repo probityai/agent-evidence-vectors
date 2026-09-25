@@ -516,6 +516,32 @@ rails go through. Read the array as a published measurement of our verifier —
 useful if you are chasing a reason-parity figure, and safe to ignore entirely if
 you are not.
 
+### Two layers, one set of bytes: `statementLayer`
+
+A few entries carry a second verdict, in a `statementLayer` object beside
+`expected`. It answers a different question from the rest of the manifest:
+not what an AEE verifier must do with the statement, but what an in-toto
+**Statement** parser must do with it, before any predicate is read.
+
+Today the field sits on the three members citing `aee-c-109`: the same ok-002
+statement with `predicate` absent, set to `null`, and set to `{}`. An **AEE
+verifier must reject all three**, with identical codes, because the empty
+predicate is missing every member this predicate requires. A **Statement parser
+must accept all three**: the framework types `predicate` as optional and says
+"Unset is treated the same as set-but-empty"
+([`spec/v1/statement.md`](https://github.com/in-toto/attestation/blob/fd2609c16bcb0ac53443e2b4612977f997e8f9a5/spec/v1/statement.md#L62-L66)),
+and `spec/v1/statement.md` in this repository records why `null` joins them.
+The reference in-toto bindings refused the absent and null spellings until
+[in-toto/attestation#598](https://github.com/in-toto/attestation/pull/598), so
+running a Statement parser over these three tells you which side of that fix it
+is on.
+
+The field is additive and informative. Nothing in the replay harness reads it,
+the comparison surface is unchanged, and a rail that implements only the AEE
+layer can ignore it. `scripts/statement-layer-test.py` executes the recorded
+verdict with a Statement-layer check rather than trusting it, and the generator
+refuses a `statementLayer` key that no member cites.
+
 ### The registry
 
 The codes are this suite's registry rather than the specification's. The
