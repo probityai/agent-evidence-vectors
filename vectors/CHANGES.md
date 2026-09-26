@@ -20,7 +20,13 @@ byte-identically from the generators.
   published a result token the definition never produces. The guard is gone: an
   absent or unreadable vocabulary contributes empty carried sets, which places
   every row's label outside the carried labels, and an absent or empty
-  `attackResults` contributes zero rows.
+  `attackResults` contributes zero rows. The function is total; the comparison
+  still needs something to compare against. A predicate that carries no `result`
+  member at all is not compared, because `result-vocabulary` already names that
+  fault and a mismatch against a missing member would count it twice. Comparing
+  there would also split the two rails on the three empty predicate states of
+  revision 29, where the Go pipeline stops before the comparison, and
+  `scripts/predicate-state-gate.py` refuses that split.
 - **Two new vectors, and the reason they are two.** `ve3c7f7a8d918c70c` carries the
   discriminating shape above and both rails now refuse it with the same single
   code, so a rail that declines to recompute over zero rows fails it on the
@@ -72,6 +78,17 @@ byte-identically from the generators.
   bytes, the run binding section of the wire profile fixes it, and the same
   section says a change to the construction names a new binding version. No vector's binding moves and none
   was regenerated for it.
+- **The pairing still holds across the six additions**: all 218 reject vectors declare a
+  parent that ships as an accept vector. **169 of the 218 reject vectors are now
+  exactly one mutation from their declared parent**, four more than at revision 29.
+  The remaining 49 cannot express their declared fault in a single edit and stay
+  declared in `docs/MULTI-MUTATION-VECTORS.json` with a count and a reason each; the
+  two recompute vectors join that list, because each has to move the members the
+  recompute reads together or be refused at an earlier gate. The finer measure, the
+  conditions cited only by refusals, is ratcheted against
+  `docs/ACCEPT-ANCHOR-BASELINE.json`. That second number is 34 of 77 today, as it was at
+  revision 29: every condition the new vectors cite is one an accepting vector already
+  cites or one that was already on the list.
 - Corpus: **281 vectors (61 accept, 218 reject, 2 indeterminate)**, six more than
   suiteRevision 29. No existing vector file changes, so only the six new
   statements and `corpusDigest` in `vectors/MANIFEST.json` move; the vendored
