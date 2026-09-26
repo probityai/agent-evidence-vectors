@@ -222,6 +222,14 @@ extraPaths = ["packaging", "vectors", "tools/artifact-binding",
 typeCheckingMode = "standard"
 pythonVersion = "3.13"
 
+# Two corpora each carry a module named `canonical`, and `vectors-observed-effect`
+# sits on extraPaths above, which pyright searches before the importing file's
+# own directory. The self-reported-record corpus therefore gets its own
+# execution root, so its `from canonical import jcs` resolves to the module
+# beside it -- the one Python itself imports when the script runs.
+[[tool.pyright.executionEnvironments]]
+root = "vectors-self-reported-record"
+
 [tool.ruff]
 line-length = 100
 target-version = "py313"
