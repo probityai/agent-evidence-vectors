@@ -7,68 +7,69 @@
     "vectors": {
       "fingerprint": {
         "accept": 61,
-        "reject": 209
+        "reject": 218
       },
       "surfaces": {
         "identifier": {
-          "separability": 0.5075,
-          "null": 0.5075
+          "separability": 0.5074,
+          "null": 0.5074
         },
         "file": {
-          "separability": 0.5176,
-          "null": 0.6141
+          "separability": 0.5126,
+          "null": 0.5852
         },
         "shape": {
-          "separability": 0.5059,
-          "null": 0.5754
+          "separability": 0.5018,
+          "null": 0.5843
         },
         "paths": {
-          "separability": 0.5453,
-          "null": 0.5775
+          "separability": 0.5472,
+          "null": 0.5767
         },
         "lexicon": {
-          "separability": 0.5513,
-          "null": 0.583
+          "separability": 0.5607,
+          "null": 0.6018
         },
         "all": {
-          "separability": 0.5568,
-          "null": 0.5816
+          "separability": 0.5643,
+          "null": 0.5861
         }
       }
     },
     "vectors-ai-agent-action": {
       "fingerprint": {
         "accept": 41,
-        "reject": 20
+        "reject": 21
       },
       "surfaces": {
         "identifier": {
-          "separability": 0.5098,
-          "null": 0.5098
+          "separability": 0.5093,
+          "null": 0.5093
         },
         "file": {
-          "separability": 0.6063,
-          "null": 0.6441
+          "separability": 0.6301,
+          "null": 0.6654,
+          "reason": "Raised by hand from 0.6063 when the decode-boundary vector joined the reject side at suiteRevision 30. The file surface is byte length and line count, bucketed; one more reject member moves which buckets the classifier can separate on a corpus of 62, and the figure stays inside its own null of 0.6441, so label-shuffled noise reproduces it. Recorded rather than engineered away: padding a vector to change its size bucket would be tuning the corpus to the instrument."
         },
         "shape": {
-          "separability": 0.5104,
-          "null": 0.6127
+          "separability": 0.5045,
+          "null": 0.6112
         },
         "paths": {
-          "separability": 0.746,
-          "null": 0.6608,
+          "separability": 0.7354,
+          "null": 0.635,
           "blockedBy": "the Appendix B family having no reject counterpart",
           "reason": "Real, and outside the null by a wide margin rather than by a hair. The accept side carries `predicate.contentDigest` on 26 of its 41 members and the reject side on 1 of 20, because 24 of the accepts are the RFC 8785 Appendix B number-serialization family, generated in one loop, with no reject counterpart at all. The presence of one member path therefore very nearly names the label. This is the leak that SURVIVED the identifier fix, which has now landed for this corpus: content-addressed and flat, it measured 0.7810 against a null of 0.6458 when that fix landed, and 0.7460 against 0.6608 once the chain-break members joined both sides. The fix is on the reject side, Appendix B rows that serialize the number wrongly built from the same template, and it is corpus authorship rather than anything a gate can do."
         },
         "lexicon": {
-          "separability": 0.7466,
-          "null": 0.6924,
+          "separability": 0.7235,
+          "null": 0.6447,
           "blockedBy": "the Appendix B family having no reject counterpart",
           "reason": "The member names and the shared digest string of the same Appendix B family described in the paths row. One string value appears in 25 of the 41 accept vectors and in no reject vector."
         },
         "all": {
-          "separability": 0.7465,
-          "null": 0.6792,
+          "separability": 0.7267,
+          "null": 0.6252,
           "blockedBy": "the Appendix B family having no reject counterpart",
           "reason": "The identifier half of this is fixed: this corpus is content-addressed and flat, its identifier surface measures at its own null, and the whole surface fell from 0.9238 to 0.7810. What is left is content, and it is real rather than noise -- 0.7465 against a null of 0.6792 once the chain-break members joined both sides, with the paths and lexicon rows above carrying it. The cause is the Appendix B family described in those rows, and the fix is reject members for it."
         }
