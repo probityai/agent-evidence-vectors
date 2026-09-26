@@ -97,6 +97,11 @@ GENERATORS = (
     # running it, which is the same state this file's header records for the
     # AI Agent Action suite.
     "vectors-observed-effect/gen_vectors.py",
+    # The self-reported-record corpus. Every member carries Ed25519 signatures
+    # over canonical sub-objects of itself, so a hand-placed member is a member
+    # whose signatures nobody recomputed. It builds its own manifest and index
+    # in the same run and has no ordering relationship with anything else.
+    "vectors-self-reported-record/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -202,6 +207,9 @@ OWNED = (
     ("vectors-receipt-signature/keys", "*.json"),
     ("vectors-receipt-signature", "MANIFEST.json"),
     ("vectors-receipt-signature", "INDEX.md"),
+    ("vectors-self-reported-record/statements", "v*.json"),
+    ("vectors-self-reported-record", "MANIFEST.json"),
+    ("vectors-self-reported-record", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

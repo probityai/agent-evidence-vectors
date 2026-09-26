@@ -1,0 +1,64 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attestationTier": "voluntary",
+    "attestingKey": {
+      "keyid": "a8d855c3788875463eca66a3f11d3228dac9e0f60918c0740de97908aadf9f6a",
+      "publicKey": "0e2ca753a2932a6c4d622e76050620b95da73e9f053f8778f532c1ee85d24cc4"
+    },
+    "doesNotAssert": [
+      "no claim that any carried value was observed from outside this runtime",
+      "no claim that the caller-supplied values are correct"
+    ],
+    "fields": [],
+    "hashAlgorithm": "sha256",
+    "issuedAt": "2026-09-20T00:00:05Z",
+    "ledgers": [
+      {
+        "members": [
+          "change-70caae782ed8e45c"
+        ],
+        "name": "session"
+      },
+      {
+        "members": [
+          "change-70caae782ed8e45c"
+        ],
+        "name": "change-log"
+      }
+    ],
+    "memoryReads": [],
+    "observationDirectness": "reconstructed",
+    "observationVantage": "artifact",
+    "originKind": "third-party-control-plane",
+    "recordId": "record-00d822e9ddb2de1e",
+    "selfSigners": [
+      "2fbfe807743da96fc1c24c108801a8826eee9881f0f4e5cbd66551a26d6512b7",
+      "60189ee73ee7f879dc714d0e5df04af8d145cb96d1287ec8a744531f357b10d2"
+    ],
+    "sessionId": "session-5cb93f9bad0cef5b",
+    "turns": [
+      {
+        "attestedBy": {
+          "keyid": "a8d855c3788875463eca66a3f11d3228dac9e0f60918c0740de97908aadf9f6a",
+          "sig": "xyAZjyAUcYjqCfFIbkabb8pMCIwRjhz8rS5kyQwoPovlbEcF0EDuew0hxYm+XC6jC+RACyeUTYPvmZHtJDrtDA=="
+        },
+        "changeIds": [
+          "change-70caae782ed8e45c"
+        ],
+        "goalMarker": "Set the deployment replica count to three.",
+        "priorTurn": null,
+        "turnId": "turn-02eb2458a470bb3e"
+      }
+    ]
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "15d7b4e594b6d2112e7a4840197782b2347dc104e8348ccd47f4c4309d174cc5"
+      },
+      "name": "session-5cb93f9bad0cef5b"
+    }
+  ]
+}

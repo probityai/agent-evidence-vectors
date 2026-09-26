@@ -1005,7 +1005,16 @@ def posture_preimage_digest(env: dict[str, Any]) -> str:
 
 def binding_preimage(env: dict[str, Any], subject_sha: Any) -> dict[str, Any] | None:
     """The eight-member version-2 pre-image object, or None when a member the
-    construction reads verbatim is absent."""
+    construction reads verbatim is absent.
+
+    The ``networkPosture`` MEMBER below does not carry the environment member's
+    own digest. It carries ``posture_preimage_digest``, the RFC 8785 canonical
+    digest of the whole carried object, which is a different 64-hex value from
+    the one ``aeePostureDigest`` holds. The member name is the specification's
+    (the pre-image member list in the wire profile's run binding section) and
+    cannot move without naming a new binding version, as the same section says;
+    the function name beside it is ours and says which digest this is.
+    """
     try:
         return {
             "aeeBindingVersion": BINDING_VERSION,
@@ -2420,18 +2429,54 @@ class ReferenceVerifier:
                     return
 
     def _check_result_recompute(self, st: _VerifyState, out: Outcome) -> None:
-        labels = st.labels
-        caught = st.caught
-        rows = st.rows
-        result = st.result
-        coverage = st.coverage
-        if labels is not None and caught is not None and rows:
-            recomputed = self._recompute(rows, labels, caught, coverage)
-            if result in RESULT_ORDER and recomputed != result:
-                out.add("result-recompute-mismatch")
-            elif result not in RESULT_ORDER:
-                # unknown token can never equal the recompute
-                out.add("result-recompute-mismatch")
+        """The recompute is TOTAL and runs on every parseable predicate.
+
+        The specification defines `result` as "a total, deterministic,
+        severity-independent function of the predicate"
+        (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da).
+        Total is the operative word: the function is defined on every predicate in
+        its domain, so it answers rather than declines, and a member the
+        predicate does not carry contributes the fail-closed reading of its
+        own axis. An absent or unreadable `observationVocabulary` therefore
+        yields EMPTY carried label and caught sets, which places every row's
+        label outside the carried labels and contributes `fail`; an absent or
+        empty `attackResults` yields zero rows, over which no condition holds.
+
+        This rail used to guard on
+        ``labels is not None and caught is not None and rows`` and emit
+        nothing at all when the guard failed, while the Go rail built the empty
+        sets and proceeded (`aee/recompute.go`, `Recompute`). The two answered
+        differently over identical bytes, and the divergence was a VERDICT and
+        not merely a code: a statement carrying `attackResults: []`, a coverage
+        map that accounts for every manifested attack, and a declared `result`
+        the recompute does not produce was INVALID on the Go rail
+        (`result-recompute-mismatch`) and VALID here -- this rail handing a
+        consumer a result token the predicate's own definition never derives.
+        No vector carried that shape, so no run could see it.
+
+        TOTAL IS A PROPERTY OF THE FUNCTION, NOT OF THE COMPARISON. The
+        recompute answers on every predicate; the equality check needs a
+        declared `result` to compare that answer against. A predicate carrying
+        no `result` member at all has nothing to compare, and GATE 0 has
+        already named that fault as `result-vocabulary`. Reporting a mismatch
+        against a member that is not there would count one missing member
+        twice, and it would split this rail from the Go rail on the three empty
+        predicate states, where the Go pipeline never reaches the comparison.
+        A `result` that IS carried but is not a vocabulary token is still
+        compared, and still mismatches, as the check below says.
+        """
+        if "result" not in st.pred:
+            return
+        recomputed = self._recompute(
+            st.rows,
+            st.labels if st.labels is not None else [],
+            st.caught if st.caught is not None else [],
+            st.coverage,
+        )
+        # An unknown result token can never equal the recompute, which only
+        # ever returns a member of the ordered vocabulary.
+        if st.result not in RESULT_ORDER or recomputed != st.result:
+            out.add("result-recompute-mismatch")
 
     # ---- GATE 2: evidence tier per key policy ---------------------------
 

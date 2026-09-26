@@ -38,14 +38,15 @@ repository's history, not through its matching helpers. A helper can be made to
 agree with itself; only the real range proves the push would be refused.
 
 The control matters as much as the refusals. A base64 payload that decodes to
-text with no forbidden term must still PASS, or the fix is just a guard that
+text with no forbidden term must still PASS, or the fix is merely a guard that
 refuses everything, and a large base64 blob must not make the scan cost more
 than it is worth.
 
-The encoded fixtures are built by encoding those hex-held tokens here, rather
-than by pasting a payload that would itself carry a forbidden string past this
-repository's own content scan.
-
+The tokens are built from hex at run time, exactly as the scanner holds its own,
+so this file can be read by anyone without carrying the strings it is about --
+including the encoded fixtures, which are built by encoding those tokens here
+and never by pasting a payload that would carry one past this repository's own
+content scan.
 
 Usage: python3 scripts/pre-push-identity-scan-test.py
 Exit 0 when every case holds; 1 on a summary of the failures.
@@ -68,7 +69,7 @@ from pathlib import Path
 # The scanner only imports `views`, `GUARD_SPANS` and `GUARD_MATERIAL` from
 # `_decoding`; `_descend` and `Budget` are reached here directly, for the
 # nested-document cases below that assert the cycle guard at the mechanism
-# rather than only through the scanner's own surface. This resolves because
+# and not only through the scanner's own surface. This resolves because
 # Python puts this file's own directory -- `scripts/` -- at the front of
 # `sys.path` when the file is run directly, which is the only way this suite
 # is ever invoked (see the module docstring's Usage line).
@@ -93,7 +94,7 @@ OTHER = _hex("6d617463686c6f636b")
 _sidecar = scan.Sidecar()
 
 # `views`, `GUARD_SPANS` and `GUARD_MATERIAL` are reached through the scanner
-# module rather than imported again here, so these cases exercise the objects
+# module and not imported again here, so these cases exercise the objects
 # the scanner actually runs with and cannot drift onto a second copy.
 
 
@@ -291,7 +292,7 @@ def history_status(contents: str) -> int:
     """The scanner's exit status over a one-commit range adding `contents`.
 
     Three-valued, like the scanner: 0 clean, 1 a hit, 2 it could not look. The
-    status is returned rather than turned into a boolean here so a case that
+    status is returned, never turned into a boolean here, so a case that
     never ran can never read as a case that passed.
     """
     env = {**os.environ, "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull}
@@ -352,7 +353,7 @@ ENCODED_REFUSED = (
 )
 
 # THE PERMIT MUST BE THE SAME ON BOTH SIDES OF A DECODE, and these cases are
-# generated from the permitted shapes above rather than written out, so they
+# generated from the permitted shapes above and never written out, so they
 # cannot drift apart from them. A decoding step with a narrower permit than the
 # text step is a guard that refuses a legitimate clone URL, a badge target or a
 # predicate type URI the moment it travels inside a signed payload -- which is
@@ -414,11 +415,11 @@ def _material_cases() -> tuple[int, list[str]]:
     return ran, bad
 
 
-# --- The nested-document layer, measured at the decoder rather than the gate ---
+# --- The nested-document layer, measured at the decoder and not the gate ---
 #
 # WHY THESE ARE SEPARATE FROM THE GATE CASES ABOVE. A gate case in
 # ENCODED_REFUSED proves the whole chain refuses; it cannot say WHY, so it
-# passes just as well if the host is found by the plain-text matcher for an
+# passes equally well if the host is found by the plain-text matcher for an
 # unrelated reason. These call `scan.views` directly, so each one names the
 # layer it needs and would fail if the nested document stopped being followed
 # even while a gate case stayed green for some other cause.
@@ -512,7 +513,7 @@ def _nested_document_cases() -> tuple[int, list[str]]:
 
     WHY THESE ARE SEPARATE FROM THE GATE CASES ABOVE. A gate case in
     ENCODED_REFUSED proves the whole chain refuses; it cannot say WHY, so it
-    passes just as well if the host is found by the plain-text matcher for an
+    passes equally well if the host is found by the plain-text matcher for an
     unrelated reason. These call `scan.views` directly, so each one names the
     layer it needs and would fail if the nested document stopped being
     followed even while a gate case stayed green for some other cause.
@@ -551,7 +552,7 @@ def _cycle_guard_cases() -> tuple[int, list[str]]:
     # document whose member is the document itself cannot be built in one
     # pass, so it is built by fixed point: wrap, then substitute the wrapper
     # back in. The depth cap alone would also stop this, which is why the
-    # assertion is on the layer list rather than only on returning.
+    # assertion is on the layer list and not only on returning.
     ran += 1
     seed = _envelope(_statement(FORBIDDEN_URI))
     self_embedding = json.dumps({"self": seed, "member": seed})
@@ -565,12 +566,12 @@ def _cycle_guard_cases() -> tuple[int, list[str]]:
     else:
         print(f"ok   nested     a self-embedding document terminates ({elapsed:.2f}s)")
 
-    # The cycle guard itself, asserted at the mechanism rather than at the
+    # The cycle guard itself, asserted at the mechanism and not at the
     # fixture above, which the termination case does NOT cover: a
     # self-embedding payload cannot be built by hand (every carrier is longer
     # than what it carries), and the depth cap would stop a loop anyway. Hand
     # `_descend` a text whose digest is already on the path and it must record
-    # the layer and stop, rather than walk the same subtree again.
+    # the layer and stop; it must not walk the same subtree again.
     ran += 1
     nested = _corpus(_envelope(_statement(FORBIDDEN_URI)))
     digest = hashlib.sha256(nested.encode("utf-8")).hexdigest()

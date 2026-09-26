@@ -74,6 +74,18 @@
       "opens": "independent claim. A consumer MUST be able to recompute it from the rest of",
       "closes": "follow the same verify-then-read discipline: the fields inside a payload mean"
     },
+    "vectors/reject/gen_invalid_vectors.py::bad-011-result-recompute-over-zero-rows#0": {
+      "anchor": "L390-393",
+      "digest": "9cf3be673cdc32f4526decdd99438fdb3a215f280b9579e77d4511d68dd988f3",
+      "opens": "independent claim. A consumer MUST be able to recompute it from the rest of",
+      "closes": "follow the same verify-then-read discipline: the fields inside a payload mean"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-011-result-recompute-over-zero-rows#1": {
+      "anchor": "L436-438",
+      "digest": "a4802bc224cbf4d88159071b2484de393fb55dc95fd181cb4aaa80a9a5c712e2",
+      "opens": "`fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,",
+      "closes": "the minimum under that order of three independent conditions rather than as"
+    },
     "vectors/reject/gen_invalid_vectors.py::bad-101-refs-empty#0": {
       "anchor": "L552",
       "digest": "0e58a086044abd53b0cebee42c9ca93ff2d2c951583bf5cc32e1c066c6ff1e1a",
@@ -169,6 +181,54 @@
       "digest": "7626ef786fad30267657e4eae066e69f11672ee68555f5720909afaa296aeab5",
       "opens": "canonical JSON, which the digest bindings are defined over. Producers MUST",
       "closes": "(producer and verifier, in any language) derives identical bytes."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-209-payload-exponent-unsafe-integer#0": {
+      "anchor": "L1312-1316",
+      "digest": "99c171ba35ad2c641dfcfe712d85116f5129bddc0bd592871a50a57a782b960c",
+      "opens": "RFC 7493 (no duplicate members, integers within the safe range, member",
+      "closes": "media type ends in `+json`, and which carries these reserved members as"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-209-payload-exponent-unsafe-integer#1": {
+      "anchor": "L99-102",
+      "digest": "7626ef786fad30267657e4eae066e69f11672ee68555f5720909afaa296aeab5",
+      "opens": "canonical JSON, which the digest bindings are defined over. Producers MUST",
+      "closes": "(producer and verifier, in any language) derives identical bytes."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-210-payload-exponent-uppercase-marker#0": {
+      "anchor": "L561-562",
+      "digest": "c1577383616d0779d242fda232e97183638997631435010fd68f5103a85fb5ce",
+      "opens": "- every referenced payload parses as a canonical `+json` object (see",
+      "closes": "`observationRecords`), carries the reserved members, and its"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-210-payload-exponent-uppercase-marker#1": {
+      "anchor": "L1310-1317",
+      "digest": "647a40095ace8fc4136a505d4cb31ceb3b0029702a63519e8b68904ca332087c",
+      "opens": "to cover a `basis: substrate` row MUST carry a",
+      "closes": "top-level fields; a record whose payload is not so parseable, or whose"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-211-payload-exponent-decimal-point#0": {
+      "anchor": "L561-562",
+      "digest": "c1577383616d0779d242fda232e97183638997631435010fd68f5103a85fb5ce",
+      "opens": "- every referenced payload parses as a canonical `+json` object (see",
+      "closes": "`observationRecords`), carries the reserved members, and its"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-211-payload-exponent-decimal-point#1": {
+      "anchor": "L1310-1317",
+      "digest": "647a40095ace8fc4136a505d4cb31ceb3b0029702a63519e8b68904ca332087c",
+      "opens": "to cover a `basis: substrate` row MUST carry a",
+      "closes": "top-level fields; a record whose payload is not so parseable, or whose"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-212-payload-exponent-negative-zero#0": {
+      "anchor": "L561-562",
+      "digest": "c1577383616d0779d242fda232e97183638997631435010fd68f5103a85fb5ce",
+      "opens": "- every referenced payload parses as a canonical `+json` object (see",
+      "closes": "`observationRecords`), carries the reserved members, and its"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-212-payload-exponent-negative-zero#1": {
+      "anchor": "L1310-1317",
+      "digest": "647a40095ace8fc4136a505d4cb31ceb3b0029702a63519e8b68904ca332087c",
+      "opens": "to cover a `basis: substrate` row MUST carry a",
+      "closes": "top-level fields; a record whose payload is not so parseable, or whose"
     },
     "vectors/reject/gen_invalid_vectors.py::bad-203-payload-duplicate-member#0": {
       "anchor": "L1312-1316",
@@ -445,6 +505,18 @@
       "digest": "f799432041ad760164a9a1ed7c907288ffe39983a6f6dadfa1c1f1298484f88f",
       "opens": "`observationVocabulary` (the",
       "closes": "of these is malformed)."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-602-vocabulary-absent-result-rederived#0": {
+      "anchor": "L796-804",
+      "digest": "f799432041ad760164a9a1ed7c907288ffe39983a6f6dadfa1c1f1298484f88f",
+      "opens": "`observationVocabulary` (the",
+      "closes": "of these is malformed)."
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-602-vocabulary-absent-result-rederived#1": {
+      "anchor": "L436-438",
+      "digest": "a4802bc224cbf4d88159071b2484de393fb55dc95fd181cb4aaa80a9a5c712e2",
+      "opens": "`fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,",
+      "closes": "the minimum under that order of three independent conditions rather than as"
     },
     "vectors/reject/gen_invalid_vectors.py::bad-602-caught-not-subset#0": {
       "anchor": "L800-802",

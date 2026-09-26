@@ -29,10 +29,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-# A sibling module in this directory, resolved from this file rather than from
+# A sibling module in this directory, resolved from this file and never from
 # the caller's path, the same way scripts/forcing-gate.py reaches
-# scripts/_lockfile.py. The sidecar loader below is still copied rather than
-# imported, for the reason its own comment gives.
+# scripts/_lockfile.py. The sidecar loader below is still a copy and not an
+# import, for the reason its own comment gives.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _decoding import GUARD_MATERIAL, GUARD_SPANS, views  # noqa: E402

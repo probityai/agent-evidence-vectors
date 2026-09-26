@@ -188,6 +188,14 @@
     "v3759daaee191d532": {
       "mutations": 7,
       "reason": "bad-851-predicate-empty-object. The three empty predicate states are one input and the vector's whole subject is which of the three spellings the producer chose, so the mutation is `predicate` becoming the empty object. Measured against the parent's leaves that is the removal of all seven members at once, and it cannot be fewer: an empty object is empty. Its two siblings, the absent member and the null, remove the same seven and measure one because the member itself goes with them, which is the distance metric describing the spelling rather than the edit"
+    },
+    "v6945133925a03e15": {
+      "mutations": 2,
+      "reason": "the twin of the shipped no-vocabulary vector: the carried observationVocabulary is removed and the carried result is re-derived under the total recompute. Removing the vocabulary moves the value the recompute derives, so a statement that removed it and kept the parent's result would be refused for a stale result rather than exercise the empty-vocabulary reading; the re-derived result is what makes this the discriminating member of the pair"
+    },
+    "ve3c7f7a8d918c70c": {
+      "mutations": 3,
+      "reason": "attackResults emptied, and the coverage map re-derived so it still accounts for every manifested attack: the one class the emptied row assessed leaves assessedClasses and enters outOfScope. Without the two coverage edits the statement is refused for coverage before the recompute is reached, and the shape this vector exists to put into the corpus -- zero rows, complete coverage, a declared result the recompute does not derive -- would never be judged"
     }
   }
 }

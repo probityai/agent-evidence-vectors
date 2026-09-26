@@ -32,9 +32,9 @@
   },
   "counts": {
     "accept": 41,
-    "reject": 20
+    "reject": 21
   },
-  "corpusDigest": "905c8fe54d799ca01dd9b3bd9fe387cbd4534fce0b93e628002a21186dbf8052",
+  "corpusDigest": "b80da5c5506f4c566503456dfa0d49bf78c731e0f02cc01d857e2ef1215cbf64",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
     {
@@ -108,6 +108,28 @@
         "requestDigest": "f90641db2d34a12b1031df0a732b1386073d883ef4340b20541a1c110c0ce386"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 8. The IEEE 754 double c340000000000000 is the JSON number -9007199254740992, and no other text. Max neg int."
+    },
+    {
+      "id": "v1a09354386e0ed57",
+      "kind": "reject",
+      "file": "statements/v1a09354386e0ed57.json",
+      "conditions": [
+        "aia-c-14"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "unsafe-integer"
+        ],
+        "carriedLiteral": "1234567890123456789",
+        "lossyDoubleCanonical": "1234567890123456800"
+      },
+      "cites": "decode boundary: the carried literal is not representable as a double, so a rail that converts before checking refuses a value the producer never wrote. Both placements refuse here, so the vector pins the refusal and declares both renderings rather than claiming to separate the placements",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "1320-1323",
+        "quote": "Implementations MUST reject records with integers at or above this bound"
+      }
     },
     {
       "id": "v1aa63bb62de9b357",

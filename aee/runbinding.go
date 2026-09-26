@@ -21,27 +21,49 @@ const BindingVersion = "2"
 // verbatim (no case-folding, no null fill, spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530); a value that is not
 // lowercase 64-hex has already been rejected at GATE 0 for any statement
 // that reaches a binding derivation, with the two exceptions the version-2
-// construction introduces: networkPosture is a digest OVER the carried object
-// rather than a value read from it, and observationVocabulary carries no
-// canonicality rule of its own because the vocabulary digest-integrity check
-// recomputes it from the arrays beside it. Hex strings never require JSON
-// string escaping, so direct formatting below emits exactly the JCS bytes.
-func RunBindingPreimage(catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate string) []byte {
+// construction introduces: the networkPosture member carries a digest OVER the
+// carried object rather than a value read from it, and observationVocabulary
+// carries no canonicality rule of its own because the vocabulary
+// digest-integrity check recomputes it from the arrays beside it. Hex strings
+// never require JSON string escaping, so direct formatting below emits exactly
+// the JCS bytes.
+//
+// THE PARAMETER IS NAMED FOR THE VALUE, AND THE MEMBER IS NOT. The third
+// argument used to be called networkPosture, which is also the name of the
+// environment member and also the name of that member's OWN digest, and the
+// three are two different 64-hex values and one object. A reader who met this
+// signature first took the member's carried digest, which is what
+// aeePostureDigest holds, and every substrate row then diverged. The parameter
+// says what it is now; the MEMBER NAME cannot follow it, because the member
+// name is inside the hashed bytes. The pre-image member list in the run binding
+// section of wire-profile.md fixes it as networkPosture, and the same section
+// says a change to the construction "names a new binding version", so renaming the member is version 3, an upstream specification
+// change, a regeneration of every substrate statement and a break of every
+// rail that implements version 2 from the published text. Held on that basis
+// and written down in docs/SPEC-UNDERDETERMINED-PASSAGES.md rather than half
+// done here.
+func RunBindingPreimage(catchPolicy, corpus, networkPostureObjectDigest, observationVocabulary, runEntropy, subject, substrate string) []byte {
 	return []byte(fmt.Sprintf(
 		`{"aeeBindingVersion":%q,"catchPolicy":%q,"corpus":%q,"networkPosture":%q,"observationVocabulary":%q,"runEntropy":%q,"subject":%q,"substrate":%q}`,
-		BindingVersion, catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate))
+		BindingVersion, catchPolicy, corpus, networkPostureObjectDigest, observationVocabulary, runEntropy, subject, substrate))
 }
 
 // DeriveRunBinding returns the lowercase 64-hex SHA-256 of the binding
 // pre-image. A verifier derives this from the statement alone; no field
-// carries it (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530).
-func DeriveRunBinding(catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate string) string {
-	return SHA256Hex(RunBindingPreimage(catchPolicy, corpus, networkPosture, observationVocabulary, runEntropy, subject, substrate))
+// carries it (spec:req-wireprofile-run-binding-statement-carrying-least@4a906dd0fb911530). The third argument is the digest over the WHOLE
+// carried networkPosture object, never that object's own digest member -- see
+// RunBindingPreimage on why the parameter can say so and the member cannot.
+func DeriveRunBinding(catchPolicy, corpus, networkPostureObjectDigest, observationVocabulary, runEntropy, subject, substrate string) string {
+	return SHA256Hex(RunBindingPreimage(catchPolicy, corpus, networkPostureObjectDigest, observationVocabulary, runEntropy, subject, substrate))
 }
 
 // posturePreimageDigest is the version-2 networkPosture input: the RFC 8785
 // canonical digest of the CARRIED networkPosture object, never of that
-// object's own digest member. Binding the member's digest (which is what
+// object's own digest member -- and never the value aeePostureDigest carries,
+// which IS that digest member and is compared against something else entirely
+// (aee/commitments.go). Two digests over one environment member, one of which
+// the specification names with the bare phrase "the pinned networkPosture
+// digest"; the phrase means the member's own, and this function is the other. Binding the member's digest (which is what
 // version 1 did) leaves the posture string beside it unsigned, and the posture
 // configuration that digest is taken over travels nowhere in the statement, so
 // nothing could ever have compared the string against it. Hashing the object

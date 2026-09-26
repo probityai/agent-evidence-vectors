@@ -1782,6 +1782,46 @@ FROZEN: tuple[Frozen, ...] = (
         "A past behaviour of a cap that no longer ships. The figure explains why "
         "the constant was raised; tracking it to the present would erase that.",
     ),
+    # ---- the number-family balance design note. Every figure below is either a
+    # property of RFC 8785's own Appendix B table or a measurement taken by
+    # staging the tree and running the real surface-leakage gate against it on
+    # 2026-09-20. None of them tracks this corpus, and rewriting any of them
+    # when it grows would restate an experiment nobody re-ran.
+    Frozen(
+        "docs/NUMBER-FAMILY-BALANCE.md",
+        "the size of RFC 8785's Appendix B Table 1, as the family quotes it",
+        "carries 24 accept vectors",
+        "The number of Appendix B Table 1 rows that have a JSON representation, "
+        "one vector each. It is a property of the RFC's own table rather than of "
+        "any corpus here, and the family exists to carry exactly that table.",
+    ),
+    Frozen(
+        "docs/NUMBER-FAMILY-BALANCE.md",
+        "the drift already spent against the recorded reject count",
+        "`1/16 = 6.25%`",
+        "The fraction of the surface-leakage gate's fingerprint budget already "
+        "spent, computed against the count RECORDED in the baseline rather than "
+        "against today's corpus. Its denominator is a past calibration and moves "
+        "only when that calibration is redone.",
+    ),
+    Frozen(
+        "docs/NUMBER-FAMILY-BALANCE.md",
+        "the drift one further reject would spend against the same recorded count",
+        "`2/16 = 12.5%`",
+        "The same arithmetic one reject further on, against the same recorded "
+        "calibration. Deriving it from the live corpus would change what the "
+        "sentence is about.",
+    ),
+    Frozen(
+        "docs/NUMBER-FAMILY-BALANCE.md",
+        "the class counts of the three staged trees the leakage table was measured over",
+        "| surface | today (37/17) | +1 reject (37/18) | +1 accept +1 reject "
+        "(38/18) | recorded null |",
+        "The accept/reject counts of three staged copies of the tree, naming "
+        "which experiment each measured column came from. They are the inputs to "
+        "a measurement that was performed once; two of the three trees do not "
+        "exist and never will.",
+    ),
 )
 
 
@@ -1852,6 +1892,18 @@ MASKS = tuple(
         # at all -- an id whose digits equal a published corpus count is reported
         # the moment nothing masks it.
         r"\baee-c-\d+\b",
+        # Condition identifiers of the self-reported-record corpus, srr-c-N. The
+        # same class as the two ids masked here and at `w3c-f-\d+` below, and it
+        # arrived the same way: `srr-c-5` sits a few characters from the word
+        # "rule" in that corpus's Go reader, the small-value vocabulary looks 32
+        # characters either side of an integer for exactly that noun, and 5 is the
+        # count of unmeasurable rules the forcing sources publish. So the gate
+        # reported an identifier as a stale copy of a derived count. An id is not a
+        # count and is not entitled to one of the five routes; freezing the one
+        # collision would leave the class open for srr-c-6 at the next value the
+        # counter reaches. Re-derive the family with:
+        #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
+        r"\bsrr-c-\d+\b",
         # Disposition-row identifiers, DC-NN. A row in the objection ledger is
         # named, not counted, and the number is as much an identifier as a vector
         # id is. Unmasked it collides on value with whatever small count the
@@ -1867,6 +1919,19 @@ MASKS = tuple(
         r"\bL\d+(?:-\d+)?\b",  # spec anchors in the vector tables
         r"spec:\d+(?:-\d+)?",  # spec line citations in the sources
         r"\b\d{4}-\d{2}-\d{2}\b",  # dates
+        # A CLOCK TIME, masked here rather than beside its sibling shapes below
+        # because the masks substitute in order: the zero-padded rule
+        # `\b0\d+\b` further down blanks the `00` minutes of `10:00:30`, and
+        # the clock shape can no longer match the remains, so the seconds field
+        # was read as a bare integer. It surfaced the day the suiteRevision
+        # reached 30 and a fixture's `T10:00:30.000Z` was reported against it.
+        # The rationale for the shape itself is in the comment further down.
+        r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # A WORKFLOW LIMIT. `timeout-minutes: 30` and `retention-days: 30` are
+        # settings of a CI job and of an uploaded artifact; they count nothing
+        # in any corpus. The key has to sit next to the number, so a bare
+        # quantity in a workflow is still read and still checked.
+        r"\b(?:timeout-minutes|retention-days):\s*\d+",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and
@@ -1988,7 +2053,8 @@ MASKS = tuple(
         # is a word character, so there is no word boundary in front of `14` in
         # `2026-08-18T14:33:41.882Z` and the whole time slipped past. Five sites
         # still failed while the mask looked right.
-        r"(?<!\d)\d{1,2}:\d{2}:\d{2}(?:\.\d+)?(?!\d)",
+        # (The clock-time mask itself is applied earlier, right after the date
+        # mask: see the comment there for why its position matters.)
         # A LENGTH IN LINES, the `\d+ bytes` argument in the other unit. Six
         # sites measure a stream: `default branch carries 49 lines`, `main held 49
         # lines at read time`, `(24 vs 49 lines)`. The unit must be adjacent, so a

@@ -50,10 +50,10 @@ What is matched, and where each rule comes from:
     decodes base64 (both alphabets, padded or not), hex and percent-encoding,
     follows nesting, and every rule above is applied to what comes back. A
     finding names the layers crossed and the JSON key path, so a reader learns
-    where the string sits rather than only which file held it.
+    where the string sits, and not only which file held it.
   * The salted-digest sidecar `.githooks/commit-msg.forbidden-words`, loaded
     exactly as `scripts/forbidden-word-scan.py` loads it (that function is
-    copied here verbatim rather than imported, so this hook has no import path
+    copied here verbatim, never imported, so this hook has no import path
     to break when it runs from a detached worktree).
 
 Nothing matched is ever echoed. Printing it would reproduce the string into a
@@ -70,7 +70,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-# A sibling module in this directory, resolved from this file rather than from
+# A sibling module in this directory, resolved from this file and never from
 # the caller's path, so the hook still imports it when git runs it from a
 # detached worktree. The same insert-then-import is how scripts/forcing-gate.py
 # reaches scripts/_lockfile.py. The sidecar loader below is still copied rather
@@ -112,7 +112,7 @@ RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 # The same three rules over text that carries no diff marker: a commit message,
 # and the decoded view of an added line. `ABSOLUTE_HOME` is anchored to the `+`
-# of a diff line, so it is restated here unanchored rather than reused, and the
+# of a diff line, so it is restated here unanchored, not reused, and the
 # order matches the one the message scan has always printed in.
 HOME_ANYWHERE = re.compile(r"(/home/[a-z]+/|/Users/[A-Za-z]+/)")
 BARE_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
@@ -191,11 +191,11 @@ PERMITS = load_permits()
 # The spans above are rule material, and decoding is what made that a problem:
 # the first run of this scan after the decoding step was added refused this
 # file's own commit, naming the line the word list is built from.
-# `_decoding.material` explains why the answer is the literals rather than the
+# `_decoding.material` explains why the answer is the literals and not the
 # path, and `_decoding.GUARD_SPANS` explains why one list covers every guard
-# rather than one list each. This check is what keeps that list honest: a span
+# in place of one list each. This check is what keeps that list honest: a span
 # used here and not declared there would be refused by the sibling scan that
-# reads this file, so the mismatch stops the guard instead of a push.
+# reads this file, so the mismatch stops the guard and not a push.
 UNDECLARED = (set(IDENTITY_SPANS) | {OWNER_SPAN}) - set(GUARD_SPANS)
 if UNDECLARED:
     print(
@@ -340,7 +340,7 @@ def _decoded_hits(where: str, text: str, sidecar: Sidecar) -> list[str]:
 
     The layers crossed are printed and the matched string is not, which is the
     same trade the rest of this file makes: a reader needs to know that the hit
-    is in the base64 `payload` of an envelope rather than in its prose, and does
+    is in the base64 `payload` of an envelope and not in its prose, and does
     not need the string reproduced into a CI log to act on it.
     """
     hits: list[str] = []
@@ -450,7 +450,7 @@ def ranges_from_stdin(lines: list[str]) -> list[list[str]]:
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--range", action="append", default=[], metavar="OLD..NEW",
-                        help="a revision range to scan instead of reading stdin")
+                        help="a revision range to scan; stdin is not read")
     parser.add_argument("--recent", type=int, metavar="N",
                         help="scan the last N commits reachable from HEAD")
     args = parser.parse_args(argv[1:])

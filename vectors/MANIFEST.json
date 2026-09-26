@@ -1,6 +1,6 @@
 {
   "suite": "adversarial-execution-evidence-conformance",
-  "suiteRevision": 29,
+  "suiteRevision": 30,
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "specPath": "spec/predicates/adversarial-execution-evidence.md",
   "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
@@ -8,7 +8,7 @@
   "specUpstreamCommit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "counts": {
     "accept": 61,
-    "reject": 212,
+    "reject": 218,
     "indeterminate": 2
   },
   "comparisonSurface": {
@@ -21,7 +21,7 @@
     ],
     "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
   },
-  "corpusDigest": "0546242b7f42a478d1979c2f86f872b68239ec4f4ff7232a56af777fd40fcaaf",
+  "corpusDigest": "a635848598e68686ada6ea41d2bc9a886033bac41ae111814127881495c3bd45",
   "vectors": [
     {
       "id": "vcf20eae7df4f1f1b",
@@ -1004,6 +1004,21 @@
       }
     },
     {
+      "id": "ve3c7f7a8d918c70c",
+      "kind": "reject",
+      "file": "statements/ve3c7f7a8d918c70c.json",
+      "conditions": [
+        "aee-c-2",
+        "aee-c-6"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-recompute-mismatch"
+        ]
+      }
+    },
+    {
       "id": "v131478f1be775746",
       "kind": "reject",
       "file": "statements/v131478f1be775746.json",
@@ -1167,6 +1182,80 @@
         ],
         "alsoEmits": [
           "caught-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "vd3ead02f7ed16d0a",
+      "kind": "reject",
+      "file": "statements/vd3ead02f7ed16d0a.json",
+      "conditions": [
+        "aee-c-18"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-ijson"
+        ],
+        "alsoCarries": [
+          "observed-set-mismatch"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "vd5e0b3f3d1fabb05",
+      "kind": "reject",
+      "file": "statements/vd5e0b3f3d1fabb05.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v97c6888cf7e88f42",
+      "kind": "reject",
+      "file": "statements/v97c6888cf7e88f42.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v13ede3e42645eb1a",
+      "kind": "reject",
+      "file": "statements/v13ede3e42645eb1a.json",
+      "conditions": [
+        "aee-c-17"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "payload-not-canonical"
+        ],
+        "alsoEmits": [
+          "caught-row-uncovered",
+          "observed-set-mismatch"
         ]
       }
     },
@@ -1620,6 +1709,23 @@
       "id": "v089e746847cd0af2",
       "kind": "reject",
       "file": "statements/v089e746847cd0af2.json",
+      "conditions": [
+        "aee-c-51"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "vocabulary-missing"
+        ],
+        "alsoEmits": [
+          "result-recompute-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v6945133925a03e15",
+      "kind": "reject",
+      "file": "statements/v6945133925a03e15.json",
       "conditions": [
         "aee-c-51"
       ],
@@ -3726,6 +3832,9 @@
         "verdict": "invalid",
         "codes": [
           "vocabulary-not-canonical"
+        ],
+        "alsoEmits": [
+          "result-recompute-mismatch"
         ]
       }
     },

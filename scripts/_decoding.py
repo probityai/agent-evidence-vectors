@@ -35,8 +35,8 @@ WHAT IS TREATED AS A CARRIER, and why each one is plausible here.
 NESTING. A bundle holds an envelope, an envelope holds a statement, a statement
 holds a field that may itself be encoded, so decoding once is not enough. Each
 decoded result is fed back in up to `MAX_DEPTH` levels, and the layers crossed
-are reported so a reader knows where the string actually sits rather than being
-told only which file it was in.
+are reported so a reader knows where the string actually sits, and is not told
+only which file it was in.
 
 A NESTED JSON DOCUMENT IS ONE OF THOSE LAYERS, and for a while it was the one
 this module could see and would not follow. A corpus holds its members as
@@ -76,7 +76,7 @@ from typing import Any
 # shortest string these guards forbid is seven characters, which encodes to
 # twelve, and a threshold at twelve matches almost every identifier in a source
 # file. Sixteen is the smallest value that keeps ordinary code quiet, and a
-# JSON string VALUE is delimited rather than guessed at, so it is chased from
+# JSON string VALUE is delimited and never guessed at, so it is chased from
 # eight and the gap the threshold leaves is only in unstructured prose.
 MIN_SPAN = 16
 MIN_VALUE = 8
@@ -125,13 +125,13 @@ PRINTABLE_FLOOR = 0.9
 
 # EVERY ENCODED SPAN THIS REPOSITORY'S OWN GUARDS HOLD AS RULE MATERIAL.
 #
-# One list rather than one per guard, because the guards read each other's
+# One list, not one per guard, because the guards read each other's
 # source: the tracked-content scan reads every tracked file, so the history
 # scanner's word list is an input to it, and a per-guard list would leave each
 # guard refusing the other's rules. Each guard checks that its own spans appear
 # here and refuses to run if they do not, so the list cannot fall behind a rule
 # it is supposed to cover. See `material` for why the exemption is the literal
-# rather than the file.
+# and not the file.
 GUARD_SPANS: tuple[str, ...] = (
     "67657470726f62697479",
     "70726f62697479",
@@ -224,7 +224,7 @@ def _hexadecimal(span: str) -> str | None:
 
 
 def _percent(span: str) -> str | None:
-    """`span` percent-decoded, via BYTES rather than via `unquote`.
+    """`span` percent-decoded, via BYTES and never via `unquote`.
 
     `unquote(..., errors="strict")` raises on an escape that is not valid UTF-8,
     and an uncaught raise here stops the whole scan: the first full-tree run
@@ -409,7 +409,7 @@ def views(text: str, exempt: frozenset[str] = frozenset()) -> list[tuple[str, st
     same envelope arrived as one member of a corpus.
 
     `exempt` holds digests from `material`: the exact spans the calling guard
-    carries as its own rule material, which are skipped rather than decoded.
+    carries as its own rule material, which are skipped and never decoded.
 
     The input's own digest seeds the cycle guard, so a document that embeds
     itself verbatim is followed once and not again.

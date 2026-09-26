@@ -320,8 +320,13 @@ gate_revision() {
 	# fall back to the interpreter and let the gate itself say what it needs -- it
 	# exits non-zero with the exact command to run, which is more useful than this
 	# hook guessing.
+	#
+	# cryptography rides along because the go job's steps call the runner's system
+	# python3, and the runner image ships it: the obligation proof loads the reject
+	# generator, which signs with Ed25519. Without it here the mirror failed a step
+	# the remote passes, on an import rather than on anything the step checks.
 	if command -v uv >/dev/null 2>&1; then
-		(cd "$iso" && uv run --quiet --with pyyaml python "$gate")
+		(cd "$iso" && uv run --quiet --with pyyaml --with cryptography python "$gate")
 	else
 		(cd "$iso" && python3 "$gate")
 	fi

@@ -933,6 +933,7 @@ PARENTS = {
 INHERENT_EXTRA: dict[str, list[str]] = {
     **{vid: ["observed-set-mismatch"] for vid in (
         "bad-202-payload-bignum",
+        "bad-209-payload-exponent-unsafe-integer",
         "bad-203-payload-duplicate-member",
         "bad-739-payload-lone-surrogate-escape",
         "bad-740-payload-cesu8",
@@ -992,6 +993,7 @@ INHERENT_EXTRA: dict[str, list[str]] = {
 OBSERVED_EXTRA: dict[str, list[str]] = {
     **{vid: ["caught-row-uncovered"] for vid in (
         "bad-202-payload-bignum",
+        "bad-209-payload-exponent-unsafe-integer",
         "bad-203-payload-duplicate-member",
         "bad-204-payload-media-type",
         "bad-739-payload-lone-surrogate-escape",
@@ -1002,6 +1004,9 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
     )},
     **{vid: ["caught-row-uncovered", "observed-set-mismatch"] for vid in (
         "bad-201-payload-unsorted-keys",
+        "bad-210-payload-exponent-uppercase-marker",
+        "bad-211-payload-exponent-decimal-point",
+        "bad-212-payload-exponent-negative-zero",
         "bad-208-payload-member-non-bmp",
     )},
     **{vid: ["sealed-record-absent"] for vid in (
@@ -1025,6 +1030,21 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
     **{vid: ["attribution-unpinnable"] for vid in (
         "bad-991-expected-payloads-later-entry-not-hex",
         "bad-992-expected-payloads-later-key-undeclared",
+    )},
+    # The two vectors whose predicate reaches the recompute with NO readable
+    # carried vocabulary. The recompute is total
+    # (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da),
+    # so absent or unreadable carried sets are EMPTY sets rather than a reason to decline,
+    # every row's label is then outside the carried labels, and the recompute
+    # derives `fail` over a parent that declares something above it. This rail
+    # reports that alongside the vocabulary fault because it evaluates every
+    # independent condition; the shipped CLI stops at GATE 0 and prints the
+    # vocabulary code alone. Both readings are conformant -- the manifest calls
+    # the codes beyond the primary measured and not normative -- and the clause
+    # records what this rail does without obliging anyone to follow it.
+    **{vid: ["result-recompute-mismatch"] for vid in (
+        "bad-601-vocabulary-absent",
+        "bad-905-vocabulary-labels-absent",
     )},
     "bad-206-payload-missing-kind": ["record-kind-unknown-covers-nothing"],
     "bad-806-coverage-attack-omitted": ["interception-record-orphaned"],
@@ -1150,6 +1170,38 @@ vec("bad-010-result-pass-indirect-on-direct-clean-row", "ok-002",
     note="the new token is not a floor a producer may volunteer down to; "
          "equality is two-directional here exactly as it is for bad-006")
 
+
+def _b011() -> dict[str, Any]:
+    """Empty attackResults, with coverage re-derived so the statement stays
+    single-fault: the manifest's only class moves to outOfScope, because a
+    class that no row assesses and no coverage member accounts for is a
+    coverage fault rather than the recompute fault this vector declares."""
+    st = P_artifact()
+    st["predicate"]["attackResults"] = []
+    st["predicate"]["coverage"] = {
+        "assessedClasses": [],
+        "outOfScope": {"XA": "example: class not assessed in this run"},
+        "routedElsewhere": {},
+    }
+    return st
+
+
+vec("bad-011-result-recompute-over-zero-rows", "ok-007",
+    "attackResults emptied; the parent's carried pass_indirect kept",
+    ["rederive-coverage"], [2, 6], ["result-recompute-mismatch"], _b011,
+    spec="L390-393; L436-438",
+    note="the recompute is TOTAL "
+         "(spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), "
+         "so a predicate carrying no "
+         "rows is evaluated rather than skipped: no condition holds over zero "
+         "rows, the disclosed coverage gap contributes degraded, and the "
+         "carried pass_indirect is therefore not the derivation. A rail that "
+         "declines to recompute when there are no rows to read ACCEPTS this "
+         "statement and publishes a result token the definition never "
+         "produces, which is what this vector exists to refuse. The Python "
+         "reference rail did exactly that until the guard on "
+         "`labels is not None and caught is not None and rows` was removed")
+
 # --- (b1) refs / class-match ---------------------------------------------
 
 vec("bad-101-refs-empty", "ok-001",
@@ -1235,6 +1287,121 @@ vec("bad-202-payload-bignum", "ok-001",
     "covering payload gains an integer member 2^53+1",
     ["re-sign-record", "recompute-batch-root"], [18], ["payload-not-ijson"],
     _b202, spec="L1312-1316; L99-102", note="rawBytes")
+
+
+# --- (b0b) exponent NOTATION, which the corpus carried no literal of ---------
+#
+# The covering-payload rule
+# (spec:req-fields-dsse-envelope-per-observation-payload@b25ccffb96b860aa)
+# puts TWO independent number rules on the same bytes: the payload must be
+# "canonical per RFC 8785" AND "valid I-JSON per RFC 7493 (... integers within
+# the safe range ...)". The safe-range half is over the VALUE a literal denotes;
+# the canonicality half is over the SPELLING. Every number literal in this
+# corpus was written in integer form, so no vector separated the two halves, and
+# none distinguished a rail reading the safe-integer rule over values from one
+# reading it over notation -- the latter accepts `1e21`, which both first-party
+# rails refuse with exact rational arithmetic and a comment naming that exact
+# literal (`aee/jcs.go`, `checkSafeInteger`).
+#
+# The four below are the whole notation axis, and they split across the two
+# halves rather than piling onto one:
+#
+#   1e21   value 10^21, integral, magnitude at or above 2^53 -> the SAFE-RANGE
+#          half refuses it. This is the discriminating case: a rail holding the
+#          written-form reading accepts the statement this one refuses.
+#   1E2    value 100, integral, magnitude below the bound -> the safe-range half
+#          ADMITS it. It is refused by the canonicality half alone, whose
+#          spelling for that value is `100`.
+#   1.0e2  value 100 again, reached through a decimal point rather than an
+#          uppercase exponent marker. Same verdict, different notation, and the
+#          spelling `aee/jcs.go` singles out as one "a notation-blind check
+#          would miss".
+#   -0e0   value negative zero, whose canonical spelling is `0`: the sign
+#          survives in IEEE 754 and not in RFC 8785 output, so a rail
+#          round-tripping through a float and re-serialising agrees while a rail
+#          comparing carried bytes does not.
+#
+# Each carries its literal through a byte-level splice into an OTHERWISE
+# CANONICAL payload, because the fault has to be the literal and nothing else.
+# Hand-assembling the member list the way bad-201 does leaves nested objects in
+# input order, which is a second canonicality fault that refuses the control
+# too. The control here -- the same payload carrying the canonical `100` -- is
+# VALID on both rails, which is what makes these single-fault.
+_EXPONENT_SENTINEL = b'"extraA":100'
+
+
+def _exponent_payload(literal: str) -> Callable[[], dict[str, Any]]:
+    def b() -> dict[str, Any]:
+        st = P_caught()
+        obj = json.loads(unb64(
+            st["predicate"]["observationRecords"][0]["payload"]))
+        obj["extraA"] = 100
+        canonical = jcs(obj)
+        if canonical.count(_EXPONENT_SENTINEL) != 1:
+            raise SystemExit(
+                "the exponent-notation splice found "
+                f"{canonical.count(_EXPONENT_SENTINEL)} copies of its sentinel "
+                "in the canonical payload, so the literal would land somewhere "
+                "nobody chose. The splice must be exact or the vector is not "
+                "the vector it says it is."
+            )
+        body = canonical.replace(
+            _EXPONENT_SENTINEL, b'"extraA":' + literal.encode())
+        return raw_record_bytes(st, 0, body)
+
+    return b
+
+
+vec("bad-209-payload-exponent-unsafe-integer", "ok-001",
+    "covering payload gains a producer member spelled 1e21, whose value is an "
+    "integer at or above 2^53",
+    ["re-sign-record", "recompute-batch-root"], [18], ["payload-not-ijson"],
+    _exponent_payload("1e21"), spec="L1312-1316; L99-102",
+    note="rawBytes. THE discriminating vector for the safe-integer rule's "
+         "domain: the rule is over the value a literal denotes and not over "
+         "the notation it is written in, so 10^21 spelled in exponent form is "
+         "refused exactly as 9007199254740993 is. A rail reading the rule as "
+         "reaching only integer-form literals accepts this statement, and "
+         "until this vector landed the corpus contained no exponent-form number "
+         "literal at all -- measured by decoding every payload rather than by "
+         "searching the text, which cannot see inside base64")
+vec("bad-210-payload-exponent-uppercase-marker", "ok-001",
+    "covering payload gains a producer member spelled 1E2, whose value is the "
+    "integer 100",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("1E2"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. The other side of the notation axis, and the reason both "
+         "sides are needed. 100 is an integer of magnitude below 2^53, so the "
+         "safe-range half of the covering-payload rule ADMITS this literal; "
+         "the refusal comes from the canonicality half alone, whose spelling "
+         "for that value is 100. The pair with bad-209 separates the two "
+         "halves: one literal refused for its value and three for their "
+         "spelling, where a rail conflating the two rules reports one code for "
+         "all four")
+vec("bad-211-payload-exponent-decimal-point", "ok-001",
+    "covering payload gains a producer member spelled 1.0e2, whose value is "
+    "the integer 100",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("1.0e2"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. The decimal-point spelling of an integral value, which is "
+         "the form aee/jcs.go names as one a notation-blind check would miss. "
+         "Its value is integral, so the non-integer rule does not reach it "
+         "either, and the refusal is canonicality alone")
+vec("bad-212-payload-exponent-negative-zero", "ok-001",
+    "covering payload gains a producer member spelled -0e0, whose canonical "
+    "spelling is 0",
+    ["re-sign-record", "recompute-batch-root"], [17],
+    ["payload-not-canonical"], _exponent_payload("-0e0"),
+    spec="L561-562; L1310-1317",
+    note="rawBytes. Negative zero is the one value whose sign survives IEEE "
+         "754 and not RFC 8785 output. A rail that parses to a double and "
+         "re-serialises derives the canonical bytes the producer should have "
+         "written and sees no fault; a rail comparing the carried bytes "
+         "against the canonicalization refuses. Those are different verdicts "
+         "on identical bytes, which is why the spelling is worth a vector "
+         "rather than a sentence")
 
 
 def _b203() -> dict[str, Any]:
@@ -1673,10 +1840,35 @@ def _b601() -> dict[str, Any]:
     return st
 
 
+def _b602() -> dict[str, Any]:
+    """bad-601's mutation with the carried result re-derived under the total
+    recompute, so the vocabulary absence is the statement's ONLY fault."""
+    st = _b601()
+    st["predicate"]["result"] = "fail"
+    return st
+
+
 vec("bad-601-vocabulary-absent", "ok-007",
-    "drop observationVocabulary; carried fail kept", [], [51],
+    "drop observationVocabulary; the parent's carried result kept", [], [51],
     ["vocabulary-missing"], _b601, spec="L796-804",
-    note="artifact-only parent: no digest or binding cascade")
+    note="artifact-only parent: no digest or binding cascade. The parent "
+         "carries pass_indirect, and the recompute is total over an absent "
+         "vocabulary (empty carried sets, so the row's label is outside them "
+         "and the derivation is fail), which is why this rail reports the "
+         "recompute alongside the vocabulary code")
+vec("bad-602-vocabulary-absent-result-rederived", "ok-007",
+    "drop observationVocabulary; the carried result re-derived to fail",
+    ["rederive-result"], [51], ["vocabulary-missing"], _b602,
+    spec="L796-804; L436-438",
+    note="bad-601's twin, and the pair is the discriminator. An absent "
+         "observationVocabulary yields EMPTY carried label and caught sets, "
+         "so every row's label is outside the carried labels and the total "
+         "recompute derives fail. Under that reading this vector matches and "
+         "reports the vocabulary absence alone, while bad-601's stale "
+         "pass_indirect does not. A rail reading an absent vocabulary as "
+         "admitting every label inverts both answers: it reports a recompute "
+         "mismatch here and none on bad-601. The two readings are separable "
+         "by emission across the pair, which neither vector can do alone")
 
 
 def _vocab_mut(labels: list[str] | None = None,

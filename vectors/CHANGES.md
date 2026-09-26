@@ -5,6 +5,96 @@ The vector corpus is a versioned, immutable-per-revision artifact. A published
 or a corpus addition bumps the revision and regenerates the vectors
 byte-identically from the generators.
 
+## suiteRevision 30 (the result recompute is total, and the two rails are measured against each other)
+
+- **This corrects a defect in one of our own reference rails, and the defect was a
+  VERDICT rather than a code.** The specification defines `result` as "a total,
+  deterministic, severity-independent function of the predicate". The Python rail
+  declined to evaluate it when the predicate carried no readable
+  `observationVocabulary` or no `attackResults` rows, guarding on
+  `labels is not None and caught is not None and rows`; the Go rail built empty
+  carried sets and answered. On a statement carrying `attackResults: []`, a
+  coverage map that accounts for every manifested attack, and a declared `result`
+  the recompute does not derive, the Go rail answered **invalid**
+  (`result-recompute-mismatch`) and the Python rail answered **valid** and
+  published a result token the definition never produces. The guard is gone: an
+  absent or unreadable vocabulary contributes empty carried sets, which places
+  every row's label outside the carried labels, and an absent or empty
+  `attackResults` contributes zero rows. The function is total; the comparison
+  still needs something to compare against. A predicate that carries no `result`
+  member at all is not compared, because `result-vocabulary` already names that
+  fault and a mismatch against a missing member would count it twice. Comparing
+  there would also split the two rails on the three empty predicate states of
+  revision 29, where the Go pipeline stops before the comparison, and
+  `scripts/predicate-state-gate.py` refuses that split.
+- **Two new vectors, and the reason they are two.** `ve3c7f7a8d918c70c` carries the
+  discriminating shape above and both rails now refuse it with the same single
+  code, so a rail that declines to recompute over zero rows fails it on the
+  verdict. `v6945133925a03e15` is the twin of the shipped no-vocabulary vector with
+  its carried result re-derived under the total recompute; across the pair, a rail
+  reading an absent vocabulary as admitting every label inverts both emissions,
+  which neither vector can show alone.
+- **Nothing in this repository compared the two rails, and now something does.**
+  `aee/vectors_test.go` asserts the Go rail's PRIMARY code is in each vector's
+  declared set. `scripts/observed-code-closure-gate.py` pins what the Python rail
+  emits and says in its own words that it is a check over "the REFERENCE rail",
+  singular. Both looked complete and neither looked at the other.
+  `scripts/rail-parity-gate.py` replays both over every member, refuses a verdict
+  split outright, and holds every code-set difference to a recorded row in
+  `docs/RAIL-PARITY-BASELINE.json` -- thirty today, twenty-seven of them the Go
+  pipeline stopping at an earlier gate than the one that produced the code.
+- **What this revision does NOT exercise.** The gate compares the rails on the
+  shapes the corpus carries, so it would have passed the day before this fix: the
+  defect was reachable only on a shape no vector had. The vector is what puts the
+  shape into the membership and the gate is what stops the next one drifting. The
+  thirty recorded divergences are also not closed by this revision; they are a
+  consequence of one rail stopping at the first failing gate while the other
+  accumulates, which `vectors/MANIFEST.json` already declares measured rather than
+  normative, and closing them would mean rewriting a rail's reporting
+  architecture.
+- **The corpus contained no exponent-form number literal at all, so the
+  safe-integer rule's own domain was untested.** The covering-payload rule puts
+  two independent number rules on the same bytes -- the payload MUST be
+  "canonical per RFC 8785" AND "valid I-JSON per RFC 7493 (... integers within
+  the safe range ...)" -- and the first is over a literal's SPELLING while the
+  second is over the VALUE it denotes. Every number in the corpus was written in
+  integer form, so nothing separated them and nothing distinguished a rail
+  reading the safe-integer bound over values from one reading it over notation.
+  The second reading accepts `1e21`, which both first-party rails refuse with
+  exact rational arithmetic and a comment naming that exact literal. Four vectors
+  close the axis and split across the two rules rather than piling onto one:
+  `vd3ead02f7ed16d0a` carries `1e21`, whose value is integral and at or above
+  2^53, and is refused by the safe-range half; `vd5e0b3f3d1fabb05` (`1E2`),
+  `v97c6888cf7e88f42` (`1.0e2`) and `v13ede3e42645eb1a` (`-0e0`) all carry values
+  the safe-range half ADMITS and are refused by the canonicality half alone. The
+  absence they close was measured by decoding every payload in the corpus rather
+  than by searching its text, which cannot see inside base64.
+- **The run binding's third input is named for the value it carries, in our own
+  rail.** `RunBindingPreimage`'s third parameter was called `networkPosture`,
+  which is also the environment member's name and also the name of that member's
+  own digest -- three things, two of them distinct 64-hex values that accept and
+  refuse disjoint sets of statements. It is `networkPostureObjectDigest` now. The
+  pre-image MEMBER name is unchanged and deliberately so: it is inside the hashed
+  bytes, the run binding section of the wire profile fixes it, and the same
+  section says a change to the construction names a new binding version. No vector's binding moves and none
+  was regenerated for it.
+- **The pairing still holds across the six additions**: all 218 reject vectors declare a
+  parent that ships as an accept vector. **169 of the 218 reject vectors are now
+  exactly one mutation from their declared parent**, four more than at revision 29.
+  The remaining 49 cannot express their declared fault in a single edit and stay
+  declared in `docs/MULTI-MUTATION-VECTORS.json` with a count and a reason each; the
+  two recompute vectors join that list, because each has to move the members the
+  recompute reads together or be refused at an earlier gate. The finer measure, the
+  conditions cited only by refusals, is ratcheted against
+  `docs/ACCEPT-ANCHOR-BASELINE.json`. That second number is 34 of 77 today, as it was at
+  revision 29: every condition the new vectors cite is one an accepting vector already
+  cites or one that was already on the list.
+- Corpus: **281 vectors (61 accept, 218 reject, 2 indeterminate)**, six more than
+  suiteRevision 29. No existing vector file changes, so only the six new
+  statements and `corpusDigest` in `vectors/MANIFEST.json` move; the vendored
+  specification does not move, because every reading this revision fixes is one
+  its current text already states.
+
 ## suiteRevision 29 (the three empty predicate states are one input)
 
 - **Three reject vectors, one per empty `predicate` state**, under a new condition

@@ -11,7 +11,7 @@ a password manager, a file under `~` -- and pass its path here.
 One word per line; blank lines and `#` comments are ignored. Each word is lowercased and must
 contain no whitespace: readers slide a fixed-width window over a lowercased
 line, so a word with a space in it could never be produced by any window and
-would be a rule that can never fire. That is refused here rather than shipped
+would be a rule that can never fire. That is refused here, never shipped
 as a silent no-op.
 
 Re-running with the same salt is deterministic, so regenerating after adding a
@@ -33,7 +33,7 @@ WORD = re.compile(r"[^\n]+\Z")
 def read_wordlist(path: Path, default_label: str) -> list[tuple[str, str, str]]:
     """Read the private list into `(word, case_flag, label)` triples, or refuse.
 
-    An entry no window could ever produce is refused here rather than shipped
+    An entry no window could ever produce is refused here, never shipped
     as a rule that silently never fires.
     """
     words: list[tuple[str, str, str]] = []
@@ -109,7 +109,7 @@ def main(argv: list[str]) -> int:
     print("# longer identifier is still caught. The lengths must be declared for")
     print("# the window to exist; leaking a word length is far less than the word.")
     print("#")
-    print("# This is obscurity rather than secrecy -- the candidate space is small")
+    print("# This is obscurity, not secrecy: the candidate space is small")
     print("# enough to brute-force -- and it is sized to the actual threat: a")
     print("# careless paste, a search engine, and a casual reader.")
     print(f"# salt: {salt}")

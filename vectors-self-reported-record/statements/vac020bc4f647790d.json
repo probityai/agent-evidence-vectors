@@ -1,0 +1,78 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attestationTier": "voluntary",
+    "attestingKey": {
+      "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+      "publicKey": "04fed927233cca4518bc14982d3ee0b8a10a3b4dc0e1aa952323b2a7ad0d9c8e"
+    },
+    "doesNotAssert": [
+      "no claim that any carried value was observed from outside this runtime",
+      "no claim that the caller-supplied values are correct",
+      "no claim that the removed change never existed"
+    ],
+    "fields": [],
+    "hashAlgorithm": "sha256",
+    "issuedAt": "2026-09-20T00:00:05Z",
+    "ledgers": [
+      {
+        "members": [
+          "change-70caae782ed8e45c",
+          "change-0831aa85bf4abde4"
+        ],
+        "name": "session"
+      },
+      {
+        "members": [
+          "change-70caae782ed8e45c",
+          "change-0831aa85bf4abde4"
+        ],
+        "name": "change-log"
+      }
+    ],
+    "memoryReads": [],
+    "observationDirectness": "reconstructed",
+    "observationVantage": "artifact",
+    "originKind": "self",
+    "recordId": "record-2a6e193f74f1770c",
+    "selfSigners": [
+      "2fbfe807743da96fc1c24c108801a8826eee9881f0f4e5cbd66551a26d6512b7"
+    ],
+    "sessionId": "session-5cb93f9bad0cef5b",
+    "turns": [
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "KbY6ODGMk2J0sGviXi+u9I7hnjNEkYla0M+3zMDtulp/WHiVFO/F3//fVriZwrDH2JgxUQJfjtQPXTbk3cSfCA=="
+        },
+        "changeIds": [
+          "change-70caae782ed8e45c"
+        ],
+        "goalMarker": "Set the deployment replica count to three.",
+        "priorTurn": null,
+        "turnId": "turn-02eb2458a470bb3e"
+      },
+      {
+        "attestedBy": {
+          "keyid": "2d2c792e5078d18646889f6a080e0f4bc4842b3492028597ad97e151a2055277",
+          "sig": "sL49MaEqoFITq+tBUmEQQpHzHzGJXtom1AFlDcfCL2RAKwoXy1MIiyGsEF86+LLXOKUZezWPgSGC1FfJlK4tAw=="
+        },
+        "changeIds": [
+          "change-0831aa85bf4abde4"
+        ],
+        "goalMarker": "Record that the security review passed.",
+        "priorTurn": "turn-02eb2458a470bb3e",
+        "turnId": "turn-c8d5bc9d0135c4e5"
+      }
+    ]
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/self-reported-record",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "4c8f383b375a29dd8304c3c0574cf91cdb02dede44c3f16e495adb5d44e9831c"
+      },
+      "name": "session-5cb93f9bad0cef5b"
+    }
+  ]
+}
