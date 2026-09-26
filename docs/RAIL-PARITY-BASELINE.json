@@ -1,6 +1,6 @@
 {
   "note": "Per-member code-set divergence between the two first-party rails. The verdict is NOT recorded here and never can be: a verdict split is an unconditional refusal in scripts/rail-parity-gate.py. These rows exist because the Go pipeline stops at the first failing gate and the Python rail accumulates every independent fault, which vectors/MANIFEST.json already declares measured rather than normative. The list is a ratchet: a new row is a refusal until somebody writes it down, and a row that has stopped describing the corpus is a refusal too.",
-  "members": 274,
+  "members": 281,
   "divergences": [
     {
       "id": "v08251931ec038e91",
@@ -44,6 +44,16 @@
       "goOnly": [],
       "pythonOnly": [
         "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "v13ede3e42645eb1a",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered",
+        "observed-set-mismatch"
       ],
       "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
@@ -196,6 +206,16 @@
       "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
     {
+      "id": "v97c6888cf7e88f42",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered",
+        "observed-set-mismatch"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
       "id": "v9d1f7c44f94cb929",
       "kind": "reject",
       "goOnly": [],
@@ -247,6 +267,25 @@
       "goOnly": [],
       "pythonOnly": [
         "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vd3ead02f7ed16d0a",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
+      "id": "vd5e0b3f3d1fabb05",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "caught-row-uncovered",
+        "observed-set-mismatch"
       ],
       "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
