@@ -1032,8 +1032,9 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
         "bad-992-expected-payloads-later-key-undeclared",
     )},
     # The two vectors whose predicate reaches the recompute with NO readable
-    # carried vocabulary. The recompute is total (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), so absent or
-    # unreadable carried sets are EMPTY sets rather than a reason to decline,
+    # carried vocabulary. The recompute is total
+    # (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da),
+    # so absent or unreadable carried sets are EMPTY sets rather than a reason to decline,
     # every row's label is then outside the carried labels, and the recompute
     # derives `fail` over a parent that declares something above it. This rail
     # reports that alongside the vocabulary fault because it evaluates every
@@ -1189,7 +1190,9 @@ vec("bad-011-result-recompute-over-zero-rows", "ok-007",
     "attackResults emptied; the parent's carried pass_indirect kept",
     ["rederive-coverage"], [2, 6], ["result-recompute-mismatch"], _b011,
     spec="L390-393; L436-438",
-    note="the recompute is TOTAL (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), so a predicate carrying no "
+    note="the recompute is TOTAL "
+         "(spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da), "
+         "so a predicate carrying no "
          "rows is evaluated rather than skipped: no condition holds over zero "
          "rows, the disclosed coverage gap contributes degraded, and the "
          "carried pass_indirect is therefore not the derivation. A rail that "
@@ -1288,16 +1291,17 @@ vec("bad-202-payload-bignum", "ok-001",
 
 # --- (b0b) exponent NOTATION, which the corpus carried no literal of ---------
 #
-# The covering-payload rule (spec:req-fields-dsse-envelope-per-observation-payload@b25ccffb96b860aa) puts TWO independent number rules
-# on the same bytes: the payload must be "canonical per RFC 8785" AND "valid
-# I-JSON per RFC 7493 (... integers within the safe range ...)". The safe-range
-# half is over the VALUE a literal denotes; the canonicality half is over the
-# SPELLING. Every number literal in this corpus was written in integer form, so
-# no vector separated the two halves, and none distinguished a rail reading the
-# safe-integer rule over values from one reading it over notation -- the latter
-# accepts `1e21`, which both first-party rails refuse with exact rational
-# arithmetic and a comment naming that exact literal (`aee/jcs.go`,
-# `checkSafeInteger`).
+# The covering-payload rule
+# (spec:req-fields-dsse-envelope-per-observation-payload@b25ccffb96b860aa)
+# puts TWO independent number rules on the same bytes: the payload must be
+# "canonical per RFC 8785" AND "valid I-JSON per RFC 7493 (... integers within
+# the safe range ...)". The safe-range half is over the VALUE a literal denotes;
+# the canonicality half is over the SPELLING. Every number literal in this
+# corpus was written in integer form, so no vector separated the two halves, and
+# none distinguished a rail reading the safe-integer rule over values from one
+# reading it over notation -- the latter accepts `1e21`, which both first-party
+# rails refuse with exact rational arithmetic and a comment naming that exact
+# literal (`aee/jcs.go`, `checkSafeInteger`).
 #
 # The four below are the whole notation axis, and they split across the two
 # halves rather than piling onto one:

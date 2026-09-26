@@ -2432,8 +2432,9 @@ class ReferenceVerifier:
         """The recompute is TOTAL and runs on every parseable predicate.
 
         The specification defines `result` as "a total, deterministic,
-        severity-independent function of the predicate" (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da). Total
-        is the operative word: the function is defined on every predicate in
+        severity-independent function of the predicate"
+        (spec:req-fields-fail-degraded-pass-indirect-pass@1496facaec24f2da).
+        Total is the operative word: the function is defined on every predicate in
         its domain, so it answers rather than declines, and a member the
         predicate does not carry contributes the fail-closed reading of its
         own axis. An absent or unreadable `observationVocabulary` therefore
@@ -2452,7 +2453,20 @@ class ReferenceVerifier:
         (`result-recompute-mismatch`) and VALID here -- this rail handing a
         consumer a result token the predicate's own definition never derives.
         No vector carried that shape, so no run could see it.
+
+        TOTAL IS A PROPERTY OF THE FUNCTION, NOT OF THE COMPARISON. The
+        recompute answers on every predicate; the equality check needs a
+        declared `result` to compare that answer against. A predicate carrying
+        no `result` member at all has nothing to compare, and GATE 0 has
+        already named that fault as `result-vocabulary`. Reporting a mismatch
+        against a member that is not there would count one missing member
+        twice, and it would split this rail from the Go rail on the three empty
+        predicate states, where the Go pipeline never reaches the comparison.
+        A `result` that IS carried but is not a vocabulary token is still
+        compared, and still mismatches, as the check below says.
         """
+        if "result" not in st.pred:
+            return
         recomputed = self._recompute(
             st.rows,
             st.labels if st.labels is not None else [],
