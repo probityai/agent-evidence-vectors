@@ -184,12 +184,12 @@ RANKING_CAP_TO = (
 
 # A rail that reads the carried result instead of evaluating the coverage
 # preconditions first, which is the reading L625-629 exists to refuse.
-PRECONDITION_FROM = """            if result in RESULT_ORDER and recomputed != result:
-                out.add("result-recompute-mismatch")"""
-PRECONDITION_TO = """            if result in RESULT_ORDER and recomputed == result:
-                out.codes = [c for c in out.codes if c != "payload-not-canonical"]
-            if result in RESULT_ORDER and recomputed != result:
-                out.add("result-recompute-mismatch")"""
+PRECONDITION_FROM = """        if st.result not in RESULT_ORDER or recomputed != st.result:
+            out.add("result-recompute-mismatch")"""
+PRECONDITION_TO = """        if st.result in RESULT_ORDER and recomputed == st.result:
+            out.codes = [c for c in out.codes if c != "payload-not-canonical"]
+        if st.result not in RESULT_ORDER or recomputed != st.result:
+            out.add("result-recompute-mismatch")"""
 
 # A rail that reads an uncoverable substrate row as a weaker claim rather than
 # as the invalid statement L1031-1033 says it makes.
@@ -231,8 +231,17 @@ MUTATIONS: tuple[tuple[str, str, str, list[str]], ...] = (
      ["v3300d78454ab852f", "vc19ea5aaacc5b72a", "v1a3d0ce04c3f7524"]),
     ("ranking_cap", RANKING_CAP_FROM, RANKING_CAP_TO,
      ["v7400cd757fd046e9"]),
+    # Five, where this pin named two. The exponent-notation vectors added at
+    # suiteRevision 30 carry a valid result and are refused on payload
+    # canonicality alone -- `1E2`, `1.0e2` and `-0e0` are values the safe range
+    # admits, spelled in a form RFC 8785 never emits -- so a rail that trusts
+    # the carried result before the coverage preconditions admits all three.
+    # `1e21` is not among them: it is refused on its value, which this mutation
+    # does not touch. Each of the three forces the sentence in its own
+    # spelling, so the set is widened with them rather than read as duplicates.
     ("precondition", PRECONDITION_FROM, PRECONDITION_TO,
-     ["v85caf3c6f7516ba2", "v9d1f7c44f94cb929"]),
+     ["v85caf3c6f7516ba2", "v9d1f7c44f94cb929", "vd5e0b3f3d1fabb05",
+      "v97c6888cf7e88f42", "v13ede3e42645eb1a"]),
     ("uncoverable", UNCOVERABLE_FROM, UNCOVERABLE_TO,
      ["ve025b4bed04cfb68", "v132435a4d6d10043",
       "v5dcc150714259e09"]),
