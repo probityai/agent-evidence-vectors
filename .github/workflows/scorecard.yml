@@ -63,7 +63,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          private="$(gh api "repos/${{ github.repository }}" --jq .private)"
+          # Visibility is a fact about the remote repository, and only a runner
+          # is told which repository it is. Off a runner there is nothing to
+          # decide, and the analysis this gates cannot run here either. The
+          # repository comes from the runner's own environment rather than an
+          # expression spliced into the script.
+          if [ "${GITHUB_ACTIONS:-}" != "true" ]; then
+            echo "not on a runner: repository visibility is read on the remote only."
+            exit 0
+          fi
+          private="$(gh api "repos/${GITHUB_REPOSITORY}" --jq .private)"
           case "$private" in
             false)
               echo "public=true" >> "$GITHUB_OUTPUT"
