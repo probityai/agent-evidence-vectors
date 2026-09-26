@@ -39,6 +39,7 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import shutil
 import subprocess
@@ -52,10 +53,26 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "vector-distinctness-gate.py"
 LEDGER_REL = "docs/VECTOR-COLLISIONS.json"
 
+
+
+def _gate_corpora() -> tuple[str, ...]:
+    """The corpus directories the gate itself reads, taken from the gate."""
+    spec = importlib.util.spec_from_file_location("vector_distinctness_gate", GATE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"test setup: cannot load {GATE}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return tuple(module.CORPORA)
+
+
 # What the gate reads, and therefore what a copy of the tree has to carry. Named
 # rather than copied wholesale: staging eight thousand files to ask a question
-# about two directories is slow enough that the cases stop being run.
-STAGED = ("vectors/", "vectors-ai-agent-action/", LEDGER_REL)
+# about a few directories is slow enough that the cases stop being run. The
+# corpus list is READ FROM THE GATE rather than restated here: when a corpus was
+# registered with the gate and this list was not updated, every case failed on
+# a manifest the staged tree did not carry, which is a fixture defect reading as
+# a gate refusal.
+STAGED = (*(f"{corpus}/" for corpus in _gate_corpora()), LEDGER_REL)
 
 Mutation = Callable[[Path], None]
 Case = tuple[str, Mutation, tuple[str, ...]]
