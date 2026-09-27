@@ -47,7 +47,7 @@ STAGED = (
     PUBLISHED,
     "vectors/CHANGES.md",
     "vectors/MANIFEST.json",
-    "README.md",
+    "docs/ADOPTION.md",
     "docs/interpretation-decisions-open.md",
 )
 

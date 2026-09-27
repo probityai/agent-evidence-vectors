@@ -40,11 +40,11 @@ STAGED = (
     "scripts/independent-runs-gate.py",
     "docs/INDEPENDENT-RUNS.json",
     "docs/IMPLEMENTATION-REPORT.md",
-    "README.md",
+    "docs/ADOPTION.md",
     "vectors/CHANGES.md",
 )
 LEDGER = "docs/INDEPENDENT-RUNS.json"
-README = "README.md"
+README = "docs/ADOPTION.md"
 # How many attempts the ledger holds, read from the ledger rather than written
 # down here. The first case asserts that the gate's accepting output names the
 # number it found, and a literal in this file would be a second place that number

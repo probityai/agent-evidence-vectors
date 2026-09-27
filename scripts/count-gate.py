@@ -44,7 +44,7 @@ Second, the numbers live inside sentences that argue. A sentence of the shape
 "N rules forced, N seen-but-tolerated, N unforced, N unmeasurable" sits in a
 paragraph explaining why the four outcomes are kept apart. An emitter would have
 to either drop that argument or carry it inside a script no reviewer of the
-README opens.
+published prose opens.
 
 Third, an emitting generator over a reviewed artifact defeats the review gate: a
 reviewer approves prose and a later run rewrites it underneath them. A check
@@ -863,84 +863,84 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
             str(len(gemara["cases"])),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AEE vector-count badge, its image",
             "badge/AEE%20vectors-",
             "-e8951c",
             str(src.total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AEE vector-count badge, its alt text",
             'alt="',
             ' AEE conformance vectors"',
             str(src.total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AI Agent Action vector-count badge, its image",
             "badge/AI%20Agent%20Action%20vectors-",
             "-e8951c",
             str(src.agent_action_total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AI Agent Action vector-count badge, its alt text",
             'alt="',
             ' AI Agent Action conformance vectors"',
             str(src.agent_action_total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the artifact-binding vector-count badge, its image",
             "badge/artifact--binding%20vectors-",
             "-e8951c",
             str(src.binding_total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the artifact-binding vector-count badge, its alt text",
             'alt="',
             ' artifact-binding conformance vectors"',
             str(src.binding_total),
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AEE predicate version, in the badge",
             "badge/predicate-in--toto%20AEE%20v",
             "-6f57c2",
             src.predicate_version,
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AEE predicate version, in the opening sentence",
             "**Adversarial Execution Evidence**, predicate version ",
             ", and **AI Agent",
             src.predicate_version,
         ),
         Claim(
-            "README.md",
+            "docs/CORPORA.md",
             "the AI Agent Action predicate version, in the opening sentence",
             "**AI Agent\nAction**, predicate version ",
             ", proposed in",
             src.agent_action_predicate_version,
         ),
         Claim(
-            "README.md",
+            "docs/FORCING.md",
             "what a full replay reports, in the forcing section",
             "the suite still reports ",
             ", exit 0. A rail with no",
             f"{src.total} of {src.total}",
         ),
         Claim(
-            "README.md",
+            "docs/FORCING.md",
             "the size of the mutation sweep",
             "notices — ",
             " single-site weakenings of",
             str(src.sites),
         ),
         Claim(
-            "README.md",
+            "docs/FORCING.md",
             "the four forcing outcomes",
             "tighten-only ratchet: **",
             ".** The four outcomes",
@@ -948,14 +948,14 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
             f"{src.unforced} unforced, {src.unmeasurable}\nunmeasurable",
         ),
         Claim(
-            "README.md",
+            "docs/FORCING.md",
             "how many forcing sites carry an annotation",
             "is a gap — and",
             "sites carry an annotation saying",
             WORDS.get(src.annotated, str(src.annotated)),
         ),
         Claim(
-            "README.md",
+            "docs/FORCING.md",
             "the nightly sweep's size",
             "sweeps all ",
             " sites nightly",
@@ -1120,7 +1120,7 @@ DELEGATED: tuple[Delegated, ...] = (
         Delegated(path, "the action's report retention default in days", pattern,
                   "scripts/action-retention-test.py")
         for path, pattern in (
-            ("README.md", r"uploaded report \(default: `\d+`\)"),
+            ("docs/RUNNING.md", r"uploaded report \(default: `\d+`\)"),
             ("action.yml", r"The default, \d+, is what"),
             ("action.yml", r'default: "\d+"'),
             ("scripts/action-retention-test.py", r'OLD_DEFAULT = "\d+"'),
@@ -1172,7 +1172,7 @@ DELEGATED: tuple[Delegated, ...] = (
         "scripts/consumer-lag-gate.py",
     ),
     Delegated(
-        "README.md",
+        "docs/ADOPTION.md",
         "the independence section's scoping sentence",
         r"It\s+has\s+not\s+been\s+run\s+against\s+suiteRevision\s+[\d,\s]*(?:and|or)\s+\d+,",
         "scripts/independent-runs-gate.py",
@@ -1475,7 +1475,7 @@ FROZEN: tuple[Frozen, ...] = (
         "track a later corpus would misquote him.",
     ),
     Frozen(
-        "README.md",
+        "docs/ADOPTION.md",
         "the independent Rust verifier's score, as posted",
         "scores 272/272 on suiteRevision 28",
         "What one outside build answered against suiteRevision 28, which its own "
@@ -1485,7 +1485,7 @@ FROZEN: tuple[Frozen, ...] = (
         "on rather than against this one.",
     ),
     Frozen(
-        "README.md",
+        "docs/ADOPTION.md",
         "the blind RFC 8785 run's figures, as posted",
         "ran the 57 RFC 8785 vectors blind against argentum-core before opening "
         "the generators: 57/57",
@@ -1495,7 +1495,7 @@ FROZEN: tuple[Frozen, ...] = (
         "rerun nobody performed and would destroy what blind means here.",
     ),
     Frozen(
-        "README.md",
+        "docs/ADOPTION.md",
         "the reproduction figure an outside maintainer posted, as posted",
         "recorded 258/258 in his own repository",
         "What the VATE maintainer's own regeneration answered on the day he ran "
@@ -1757,7 +1757,7 @@ FROZEN: tuple[Frozen, ...] = (
         "of that member, not of the AI generation corpus.",
     ),
     Frozen(
-        "README.md",
+        "docs/VERIFIER-CONTRACT.md",
         "the external-rail contract, the shipped CLI's score",
         "it scored 0 of 186.",
         "An incident record. The CLI scored zero against the corpus as it stood, and "
@@ -1911,7 +1911,7 @@ FROZEN: tuple[Frozen, ...] = (
         "The same dated entry: the baseline as written, not as it stands.",
     ),
     Frozen(
-        "README.md",
+        "docs/VERIFIER-CONTRACT.md",
         "the condition-registry section's account of the unresolvable ids",
         "so 17 ids cited by accept vectors",
         "A count of condition ids that resolved to nothing before the registry was "

@@ -64,7 +64,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE_REL = Path("scripts") / "distribution-gate.py"
-README_REL = Path("README.md")
+README_REL = Path("docs") / "VERIFY-A-RELEASE.md"
 PAGE_REL = Path("DISTRIBUTION.md")
 CITATION_REL = Path("CITATION.cff")
 GOMOD_REL = Path("go.mod")
@@ -129,6 +129,7 @@ def _staged_copy(tmp: Path) -> Path:
     (root / FORM_REL.parent).mkdir(parents=True)
     shutil.copy2(REPO_ROOT / GATE_REL, root / GATE_REL)
     for rel in (README_REL, PAGE_REL, CITATION_REL, FORM_REL, GOMOD_REL):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO_ROOT / rel, root / rel)
     for manifest in sorted(REPO_ROOT.glob("vectors*/MANIFEST.json")):
         target = root / manifest.parent.name / "MANIFEST.json"

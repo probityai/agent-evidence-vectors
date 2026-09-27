@@ -365,7 +365,7 @@ CLAIM_CASES: list[Case] = [
     ),
     (
         "a published count drifts from the corpus",
-        lambda root: retype(root, "README.md", r"AEE%20vectors-(\d+)-e8951c"),
+        lambda root: retype(root, "docs/CORPORA.md", r"AEE%20vectors-(\d+)-e8951c"),
         (f"says '{TOTAL + 1}' where the sources say '{TOTAL}'",),
     ),
     (
@@ -373,7 +373,7 @@ CLAIM_CASES: list[Case] = [
         # one, so a badge could understate a repository that ships two while
         # every case passed. The count was never wrong; the SCOPE was.
         "the second corpus's count drifts from its manifest",
-        lambda root: retype(root, "README.md", r"AI%20Agent%20Action%20vectors-(\d+)-e8951c"),
+        lambda root: retype(root, "docs/CORPORA.md", r"AI%20Agent%20Action%20vectors-(\d+)-e8951c"),
         (f"says '{AGENT_ACTION_TOTAL + 1}' where the sources say '{AGENT_ACTION_TOTAL}'",),
     ),
     (
@@ -398,14 +398,14 @@ CLAIM_CASES: list[Case] = [
     ),
     (
         "a forcing count drifts from the baseline",
-        lambda root: retype(root, "README.md", r"ratchet: \*\*(\d+) rules forced"),
+        lambda root: retype(root, "docs/FORCING.md", r"ratchet: \*\*(\d+) rules forced"),
         ("the four forcing outcomes says",),
     ),
     (
         "a claim is reworded, so the check would silently stop running",
         # No number here on purpose: this case is about the WORDING the claim is
         # anchored on, and naming the figure beside it is what made the case rot.
-        lambda root: edit(root, "README.md", "sweeps all ", "covers "),
+        lambda root: edit(root, "docs/FORCING.md", "sweeps all ", "covers "),
         ("the nightly sweep's size was found 0 time(s), expected 1",),
     ),
     (
@@ -436,7 +436,9 @@ CLAIM_CASES: list[Case] = [
     ),
     (
         "a frozen incident figure is quietly made to track the corpus",
-        lambda root: edit(root, "README.md", "it scored\n0 of 186.", "it scored\n0 of 190."),
+        lambda root: edit(
+            root, "docs/VERIFIER-CONTRACT.md", "it scored\n0 of 186.", "it scored\n0 of 190."
+        ),
         (
             "the frozen figure \"the external-rail contract, the shipped CLI's "
             'score" was found 0 time(s)',

@@ -30,7 +30,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ACTION = Path(os.environ.get("AEV_ACTION_UNDER_TEST", REPO_ROOT / "action.yml"))
-README = REPO_ROOT / "README.md"
+README = REPO_ROOT / "docs" / "RUNNING.md"
 EXPRESSION = "${{ inputs.retention-days }}"
 UPLOAD = "actions/upload-artifact@"
 # The fixed period every release before the input used.
@@ -67,7 +67,7 @@ def case_upload_reads_the_input(work: Path) -> None:
 def case_readme_documents_it(work: Path) -> None:
     del work
     text = README.read_text(encoding="utf-8")
-    assert "| `retention-days` |" in text, "README's input table has no retention-days row"
+    assert "| `retention-days` |" in text, "docs/RUNNING.md input table has no retention-days row"
 
 
 def case_mutation_goes_red(work: Path) -> None:

@@ -124,7 +124,7 @@ here.
 
 **Note.** The corpus did not exercise the new rule at the revision that made it normative, and the changelog entry says so in its own words rather than leaving a reader to discover it. The vector arrived at the next revision, and the boundary case at the one after that, under DC-02.
 
-**Recorded in** `vectors/CHANGES.md`, `README.md`.
+**Recorded in** `vectors/CHANGES.md`, `docs/ADOPTION.md`.
 
 ### DC-02 · Rul1an/aee-checker#3
 
@@ -136,7 +136,7 @@ here.
 
 **Note.** The pair also closed a split between this repository's own two reference rails, which had disagreed on identical bytes at one exact depth for as long as both existed. Five rails written by one author could not show it to each other; one outside reader surfaced it on contact.
 
-**Recorded in** `vectors/CHANGES.md`, `README.md`.
+**Recorded in** `vectors/CHANGES.md`, `docs/ADOPTION.md`.
 
 ### DC-03 · in-toto/attestation#570
 

@@ -10,13 +10,13 @@ it appears, so these are checked here rather than trusted.
 What is checked, and what each one costs when it is wrong.
 
 The RECIPE. The four-command release-verification block appears under the same
-heading in `README.md` and in `DISTRIBUTION.md`. It is the one block in this
+heading in `docs/VERIFY-A-RELEASE.md` and in `DISTRIBUTION.md`. It is the one block in this
 repository whose reader has, by construction, decided to trust nobody here: a
 command that no longer works fails in the hands of exactly the person the page
 was written for, and it fails silently in the sense that nothing in CI runs a
 markdown fence. The two blocks are required to be byte-identical, which does not
-prove either one runs and does mean that fixing one fixes both. The README
-section is the explanatory home; this gate makes the second copy a copy rather
+prove either one runs and does mean that fixing one fixes both. The docs page
+is the explanatory home; this gate makes the second copy a copy rather
 than a fork.
 
 The TAG. The recipe checks out a tag, the inbound page names a tag to cite, and
@@ -87,7 +87,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-README_REL = "README.md"
+README_REL = "docs/VERIFY-A-RELEASE.md"
 PAGE_REL = "DISTRIBUTION.md"
 CITATION_REL = "CITATION.cff"
 GOMOD_REL = "go.mod"

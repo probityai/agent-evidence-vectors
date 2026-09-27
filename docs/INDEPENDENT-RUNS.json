@@ -1,5 +1,5 @@
 {
-  "$comment": "Every run of this conformance corpus by an implementation independent of the specification's author, one row per posted run. This file is the record the independence column's prose is derived from: scripts/independent-runs-gate.py computes the not-run set as the revisions from 1 to the current suiteRevision that no row here names, and fails when the prose in README.md or docs/IMPLEMENTATION-REPORT.md names a different set. A row is what licenses a figure in the prose, so do not add one for a run that was not posted with a record. Each figure is transcribed exactly as posted and names every document that carries it, so a figure cannot be quietly inflated in one of them: never rounded, never restated as a fraction of a different corpus, and never re-characterised as unprompted when their author called the run directed. Where this repository does not carry a value it records null beside a note saying so, rather than leaving the field out, because an absent field and an unrecorded fact read the same in a diff.",
+  "$comment": "Every run of this conformance corpus by an implementation independent of the specification's author, one row per posted run. This file is the record the independence column's prose is derived from: scripts/independent-runs-gate.py computes the not-run set as the revisions from 1 to the current suiteRevision that no row here names, and fails when the prose in docs/ADOPTION.md or docs/IMPLEMENTATION-REPORT.md names a different set. A row is what licenses a figure in the prose, so do not add one for a run that was not posted with a record. Each figure is transcribed exactly as posted and names every document that carries it, so a figure cannot be quietly inflated in one of them: never rounded, never restated as a fraction of a different corpus, and never re-characterised as unprompted when their author called the run directed. Where this repository does not carry a value it records null beside a note saying so, rather than leaving the field out, because an absent field and an unrecorded fact read the same in a diff.",
   "implementation": "Rul1an/aee-checker",
   "independence": "from-spec Rust verifier with its own I-JSON parser, RFC 8785 serializer, RFC 6962 Merkle root, run-binding derivation and Ed25519 tier, built with no sight of the reference code",
   "currentRevisionSource": "vectors/CHANGES.md, the per-revision changelog that owns revision numbering. It is read rather than restated here: a revision number written in this file could only ever agree with itself.",
@@ -12,7 +12,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 3
             },
             {
@@ -41,7 +41,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -55,7 +55,7 @@
           "role": "unchanged-build",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -84,7 +84,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 3
             },
             {
@@ -117,7 +117,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -160,7 +160,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 3
             },
             {
@@ -178,7 +178,7 @@
           "role": "unchanged-build",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -196,7 +196,7 @@
           "role": "accepts",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -214,7 +214,7 @@
           "role": "rejects",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -248,7 +248,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 3
             },
             {
@@ -262,7 +262,7 @@
           "role": "accepts",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -276,7 +276,7 @@
           "role": "rejects",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -290,7 +290,7 @@
           "role": "directed",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -304,7 +304,7 @@
           "role": "directed-accepts",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -318,7 +318,7 @@
           "role": "directed-rejects",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -347,7 +347,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -361,7 +361,7 @@
           "role": "accepts",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -375,7 +375,7 @@
           "role": "rejects",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -389,7 +389,7 @@
           "role": "reason-parity",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -418,7 +418,7 @@
           "role": "score",
           "carriedIn": [
             {
-              "file": "README.md",
+              "file": "docs/ADOPTION.md",
               "times": 1
             },
             {
@@ -560,7 +560,7 @@
       "about": 6,
       "utterance": "the round-8 characterisation of the revision-6 run as directed",
       "carriedIn": [
-        "README.md"
+        "docs/ADOPTION.md"
       ]
     },
     {
@@ -577,7 +577,7 @@
       "about": 25,
       "utterance": "the opening words of the 2026-08-12 thread comment posting the revision-25 run",
       "carriedIn": [
-        "README.md",
+        "docs/ADOPTION.md",
         "docs/IMPLEMENTATION-REPORT.md"
       ]
     }
