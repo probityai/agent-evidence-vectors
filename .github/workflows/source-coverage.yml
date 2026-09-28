@@ -1,0 +1,26 @@
+name: source-coverage
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  external-verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+      - name: Corpus cases against the pinned external CLI
+        env:
+          PROBITY_VERIFY_COMMAND: uv run --with git+https://github.com/probityai/probity-verify@e6b2063fbac3ad8240809e7ae1a3c9b0bba56b26 probity-verify
+        run: |
+          $PROBITY_VERIFY_COMMAND --help >/dev/null
+          uv run --extra dev pytest vectors-source-coverage/tests -q
+          python3 vectors-source-coverage/check_vectors.py --verifier "$PROBITY_VERIFY_COMMAND"
