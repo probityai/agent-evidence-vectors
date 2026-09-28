@@ -151,6 +151,12 @@ something required was never captured. The tool that produces and checks those
 records is `tools/artifact-binding/`, and `demo/four-arms.sh` runs the four
 demonstrations end to end from a fresh clone.
 
+[`vectors-source-coverage/`](vectors-source-coverage/README.md) tests a
+separate claim: whether selected source passages appear in a bound report
+under a consumer-pinned capture and time window. Its six synthetic cases run
+against a named external CLI. The workflow pins `probity-verify` by commit and
+checks all three outcomes; this corpus is not an AEE predicate extension.
+
 `vectors-w3c-report/` is the conformance set for v0.1 of the per-check
 reporting format of the W3C public-agent-conformance community group: every
 rejection row of the frozen table backed by a report that must be rejected
