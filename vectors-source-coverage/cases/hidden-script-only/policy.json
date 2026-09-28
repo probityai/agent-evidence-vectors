@@ -1,0 +1,32 @@
+{
+  "assessments": {
+    "source-coverage-hidden-script-only": {
+      "claim_type": "source_text_coverage/v1",
+      "record_artifact": "record",
+      "record_sha256": "150d71bef972e934e9d40547c18740855d92168e52a16eaac6efbcfe779cc6e3",
+      "record_version": "synthetic-v1",
+      "required_spans": [
+        {
+          "id": "selected",
+          "text": "A hidden claim was never published."
+        }
+      ],
+      "source_window": {
+        "end": "2019-06-26T23:59:59Z",
+        "start": "2019-06-26T00:00:00Z"
+      },
+      "source_witness": "capture"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capture": {
+      "artifact": "source",
+      "authority": "Synthetic fixture; no public archive claim",
+      "captured_at": "2019-06-26T12:00:00Z",
+      "sha256": "b497e65589d2f1d1bc13564cfae7742169239e0159f1fbc26061db7362d4d176",
+      "source_format": "html_article_text/v1",
+      "source_url": "https://example.org/synthetic-source"
+    }
+  }
+}
