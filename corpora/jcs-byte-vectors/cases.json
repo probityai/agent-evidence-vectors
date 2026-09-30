@@ -1,0 +1,59 @@
+{
+  "format": "jcs-byte-vectors/v1",
+  "canonicalCases": [
+    {
+      "id": "ordinary-unicode",
+      "input": "[{\"data\":{\"label\":\"caf\\u00e9\"}}]",
+      "canonicalHex": "5b7b2264617461223a7b226c6162656c223a22636166c3a9227d7d5d",
+      "sha256": "449662001f0da68df179cd0a18291c1a8c1d78f55716737a22f395380a9865ea",
+      "bounded": "accept"
+    },
+    {
+      "id": "utf16-nested-key-order",
+      "input": "[{\"data\":{\"\\ue000\":\"bmp\",\"\\ud83d\\ude00\":\"astral\"}}]",
+      "canonicalHex": "5b7b2264617461223a7b22f09f9880223a2261737472616c222c22ee8080223a22626d70227d7d5d",
+      "sha256": "48ad516000b8c05c487cc36935a30440576bc387f885194490808cdb7c6abda6",
+      "bounded": "accept"
+    },
+    {
+      "id": "exponent-switch",
+      "input": "[{\"data\":{\"small\":1e-7,\"switch\":1e-6}}]",
+      "canonicalHex": "5b7b2264617461223a7b22736d616c6c223a31652d372c22737769746368223a302e3030303030317d7d5d",
+      "sha256": "42b3611ce7b1610fede21adbffc83a51ff099bbbbf318fbf2faab6ebfe217e43",
+      "bounded": "reject",
+      "boundedError": "non-integer"
+    },
+    {
+      "id": "largest-safe-integer",
+      "input": "[{\"data\":{\"count\":9007199254740991}}]",
+      "canonicalHex": "5b7b2264617461223a7b22636f756e74223a393030373139393235343734303939317d7d5d",
+      "sha256": "fbae72b21fc9c00d97e61f5035f8d1f2fe2c9e06daa764d62f1c1eb7ecd16256",
+      "bounded": "accept"
+    },
+    {
+      "id": "first-unsafe-integer",
+      "input": "[{\"data\":{\"count\":9007199254740992}}]",
+      "canonicalHex": "5b7b2264617461223a7b22636f756e74223a393030373139393235343734303939327d7d5d",
+      "sha256": "30c15dd310b6d6559a72ef5c32a61a9712b0928dfd6cef42bf6d07bdbd0f9126",
+      "bounded": "reject",
+      "boundedError": "unsafe-integer"
+    }
+  ],
+  "rejectCases": [
+    {
+      "id": "duplicate-member",
+      "input": "[{\"data\":{\"decision\":\"allow\",\"decision\":\"deny\"}}]",
+      "jcsError": "duplicate-member"
+    },
+    {
+      "id": "lone-surrogate",
+      "input": "[{\"data\":{\"label\":\"\\ud800\"}}]",
+      "jcsError": "invalid-unicode"
+    },
+    {
+      "id": "rounded-unsafe-integer",
+      "input": "[{\"data\":{\"count\":9007199254740993}}]",
+      "boundedError": "unsafe-integer"
+    }
+  ]
+}
