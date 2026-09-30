@@ -31,6 +31,7 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import shutil
@@ -313,14 +314,44 @@ PREDICATE_VERSION = manifest_predicate_version(REPO_ROOT, "vectors")
 ACCEPT = corpus_figure(REPO_ROOT, "accept")
 REJECT = corpus_figure(REPO_ROOT, "reject")
 INDETERMINATE = corpus_figure(REPO_ROOT, "indeterminate")
-# A per-kind count of a registered corpus, read from its own manifest. The
-# census treats it as count-shaped only beside a count noun, and these cases
-# hold both sides of that line.
-OBSERVED_EFFECT_REJECT = int(
-    json.loads(
-        (REPO_ROOT / "vectors-observed-effect" / "MANIFEST.json").read_text(encoding="utf-8")
-    )["counts"]["reject"]
-)
+
+
+def noun_bound_reject() -> tuple[str, int]:
+    """A reject count of a registered corpus that the census reads as noun-bound.
+
+    The census treats a per-kind count as count-shaped only beside a count noun,
+    and the cases below hold both sides of that line. The value is chosen by
+    the gate's own rule rather than named here: these cases used the
+    observed-effect reject count until that corpus grew to 47 rejects, which is
+    also the agent-audit-record total, and a total is count-shaped everywhere.
+    The count must also belong to one corpus only, so the refusal names it, and
+    it must be a value the census checks at all: `current()` leaves out every
+    value below the small-value threshold, so a reject count of 20 is never
+    read and would pass the refusal case for a reason the case is not about.
+    """
+    sys.path.insert(0, str(GATE.parent))
+    spec = importlib.util.spec_from_file_location("count_gate_under_test", GATE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"FAIL: cannot load {GATE}")
+    module = importlib.util.module_from_spec(spec)
+    # A dataclass resolves its own module through sys.modules while the class
+    # body runs, so the module must be registered before it executes.
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    src = module.load_sources()
+    bound = src.noun_bound()
+    checked = src.current()
+    per_kind = [value for _, _, accept, reject in src.extra for value in (accept, reject)]
+    for directory, _, _, reject in src.extra:
+        if reject in bound and reject in checked and per_kind.count(reject) == 1:
+            return directory, reject
+    raise SystemExit(
+        "FAIL: no registered corpus has a reject count that is noun-bound and its "
+        "own, so the cases that hold the noun-bound line have no value to use."
+    )
+
+
+BARE_REJECT_CORPUS, BARE_REJECT = noun_bound_reject()
 
 
 # --------------------------------------------------------------------------
@@ -630,9 +661,9 @@ CENSUS_CASES.append(
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nThe sweep records {OBSERVED_EFFECT_REJECT} unforced rules today.\n",
+            f"\nThe sweep records {BARE_REJECT} unforced rules today.\n",
         ),
-        ("equal to the reject count of vectors-observed-effect",),
+        (f"equal to the reject count of {BARE_REJECT_CORPUS}",),
     )
 )
 
@@ -660,7 +691,7 @@ ACCEPT_CASES: list[Case] = [
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nThe other project publishes {OBSERVED_EFFECT_REJECT} one-field pairs.\n",
+            f"\nThe other project publishes {BARE_REJECT} one-field pairs.\n",
         ),
         ("are accounted for",),
     ),
@@ -669,7 +700,7 @@ ACCEPT_CASES: list[Case] = [
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nRule {OBSERVED_EFFECT_REJECT} of the report table reads the control.\n",
+            f"\nRule {BARE_REJECT} of the report table reads the control.\n",
         ),
         ("are accounted for",),
     ),
