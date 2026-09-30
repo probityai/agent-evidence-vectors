@@ -1,0 +1,9 @@
+[package]
+name = "acp-authorship-ingress-oracle"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+dsse = "=0.1.1"
+serde_json = "1"
