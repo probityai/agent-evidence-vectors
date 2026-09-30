@@ -45,11 +45,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "d708b2d69d7051adbc2f5c849a43f03e4330b0e36a05ac099948b5af33dbd042",
+  "corpusDigest": "1d0a25ce6c4624f94157daa731c6c9ff956e59b4d510896981a6c22202fe33b8",
   "counts": {
     "accept": 12,
     "indeterminate": 1,
-    "reject": 44
+    "reject": 47
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -1002,6 +1002,57 @@
       "kind": "reject",
       "parent": "v1c6fdd82db5229e4",
       "slug": "byte-range-past-the-ijson-bound"
+    },
+    {
+      "cites": "An extension member holding 1e21, which is 10^21 written with an exponent. It is an integer by value, far past the bound, in a member nothing else types, so only the integer rule can refuse it, and a reader that decides by spelling reads a float and lets it through.",
+      "conditions": [
+        "oe-ijson-integer"
+      ],
+      "expected": {
+        "codes": [
+          "integer-not-ijson-safe"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1f7fea8bbfa38a57.json",
+      "id": "v1f7fea8bbfa38a57",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "extension-integer-in-exponent-form"
+    },
+    {
+      "cites": "An extension member holding 9007199254740993.0. A double reads it as 2^53, an integer by value at the bound; the fraction part must not carry it past the integer rule.",
+      "conditions": [
+        "oe-ijson-integer"
+      ],
+      "expected": {
+        "codes": [
+          "integer-not-ijson-safe"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vc8557daf9b76edc8.json",
+      "id": "vc8557daf9b76edc8",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "extension-integer-with-a-fraction-part"
+    },
+    {
+      "cites": "An extension member holding NaN, a token JSON does not have. Python's parser accepts it as a float unless told not to, so a reader built on it takes a non-JSON document as a statement.",
+      "conditions": [
+        "oe-ijson-integer"
+      ],
+      "expected": {
+        "codes": [
+          "not-parseable"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v040bc3906a01fc16.json",
+      "id": "v040bc3906a01fc16",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "extension-non-json-constant"
     },
     {
       "cites": "A record assembled from another vendor's exported log and emitted as a first-hand observation made below the party it describes. Before the origin member existed, this record was the honest baseline with a different narrator: no field in it was false, because there was no field in which an importer had to say it imported. The sibling vocabulary registers the enum and the rule that binds the vantage to it. The platform declaration is correct here, which is what leaves the vantage as the only lie and the vantage rule as the only thing refusing it.",

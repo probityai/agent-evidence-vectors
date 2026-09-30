@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"testing"
@@ -1340,6 +1341,9 @@ func oeUnnameTheBlob(t *testing.T, d string) {
 	}
 }
 
+// blobDigestMember is a read row's blob digest as canonical JSON spells it.
+var blobDigestMember = regexp.MustCompile(`"blobDigest":"[0-9a-f]{64}"`)
+
 // oeRenameBlobIn points every read row in one member at a different blob, and
 // reports whether it changed anything.
 func oeRenameBlobIn(t *testing.T, path string) bool {
@@ -1357,30 +1361,13 @@ func oeRenameBlobIn(t *testing.T, path string) bool {
 	if err != nil {
 		return false
 	}
-	var statement map[string]any
-	if err := json.Unmarshal(payload, &statement); err != nil {
+	// Rewrite on the bytes, not through a JSON round trip: a member this decoder
+	// cannot parse (a NaN token, say) would otherwise keep naming the blob and
+	// hide the finding this case exists to provoke.
+	if !blobDigestMember.Match(payload) {
 		return false
 	}
-	predicate, _ := statement["predicate"].(map[string]any)
-	reads, _ := predicate["reads"].([]any)
-	changed := false
-	for _, item := range reads {
-		read, _ := item.(map[string]any)
-		if read == nil {
-			continue
-		}
-		if _, has := read["blobDigest"]; has {
-			read["blobDigest"] = strings.Repeat("b", 64)
-			changed = true
-		}
-	}
-	if !changed {
-		return false
-	}
-	body, err := json.Marshal(statement)
-	if err != nil {
-		t.Fatal(err)
-	}
+	body := blobDigestMember.ReplaceAll(payload, []byte(`"blobDigest":"`+strings.Repeat("b", 64)+`"`))
 	envelope["payload"] = base64.StdEncoding.EncodeToString(body)
 	out, err := json.Marshal(envelope)
 	if err != nil {

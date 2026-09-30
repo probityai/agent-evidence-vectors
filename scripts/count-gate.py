@@ -1983,6 +1983,12 @@ MASKS = tuple(
         # in any corpus. The key has to sit next to the number, so a bare
         # quantity in a workflow is still read and still checked.
         r"\b(?:timeout-minutes|retention-days):\s*\d+",
+        # A SLEEP DURATION. `time.sleep(60)` holds a helper process alive for a
+        # minute in scripts/_lockfile-test.py; it counts nothing in any corpus. It
+        # surfaced the day the observed-effect corpus reached 60 members. As with
+        # the workflow limits, the call has to sit around the number, so a bare 60
+        # in prose is still read and still checked.
+        r"\bsleep\(\s*\d+(?:\.\d+)?\s*\)",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and

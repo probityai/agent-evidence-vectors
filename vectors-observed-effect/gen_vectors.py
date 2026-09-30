@@ -2012,6 +2012,58 @@ add(
     raw_payload=_ijson_payload,
 )
 
+# The same bound, spelled so that a parser hands back a float, in a member no other
+# rule types. The integer rule says "anywhere, at any depth"; a reader that walks
+# only `int` values reads 1e21 and 9007199254740993.0 as floats and never applies
+# it. Whether a number is an integer is decided by its value, not its spelling.
+# Found first in a canonicalizer outside this repository that kept integer digits,
+# then in this corpus's own reader.
+_extension_predicate = predicate(intervalId="iv-0214")
+# A member the baseline does not have, added outside predicate() on purpose: the
+# builder refuses unknown names so that no other member grows one by accident.
+_extension_predicate["observerSequence"] = 27
+_extension_statement = statement(_extension_predicate)
+for _slug, _spelling, _why in (
+    (
+        "extension-integer-in-exponent-form",
+        b"1e21",
+        "An extension member holding 1e21, which is 10^21 written with an exponent. It "
+        "is an integer by value, far past the bound, in a member nothing else types, so "
+        "only the integer rule can refuse it, and a reader that decides by spelling "
+        "reads a float and lets it through.",
+    ),
+    (
+        "extension-integer-with-a-fraction-part",
+        b"9007199254740993.0",
+        "An extension member holding 9007199254740993.0. A double reads it as 2^53, an "
+        "integer by value at the bound; the fraction part must not carry it past the "
+        "integer rule.",
+    ),
+    (
+        "extension-non-json-constant",
+        b"NaN",
+        "An extension member holding NaN, a token JSON does not have. Python's parser "
+        "accepts it as a float unless told not to, so a reader built on it takes a "
+        "non-JSON document as a statement.",
+    ),
+):
+    _payload = canonical_bytes(_extension_statement).replace(
+        b'"observerSequence":27', b'"observerSequence":' + _spelling, 1
+    )
+    if b'"observerSequence":' + _spelling not in _payload:
+        raise SystemExit(f"the {_slug} byte edit did not apply")
+    add(
+        _slug,
+        "reject",
+        _extension_statement,
+        ["oe-ijson-integer"],
+        "malformed",
+        ["not-parseable"] if _spelling == b"NaN" else ["integer-not-ijson-safe"],
+        _why,
+        parent=BASELINE,
+        raw_payload=_payload,
+    )
+
 add(
     "log-import-wearing-a-vantage",
     "reject",
