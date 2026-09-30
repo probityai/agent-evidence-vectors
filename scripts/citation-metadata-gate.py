@@ -619,10 +619,12 @@ def deposit_claims(corpus: Corpus) -> list[Claim]:
 
 # Digit-carrying forms in these two files that are not corpus counts, blanked to
 # same-length filler so every offset into the file stays exact: an ORCID, a
-# semantic version, the CFF schema version, an SPDX identifier, a hexadecimal
-# digest and any URL.
+# semantic version, the CFF schema version, a release date, an SPDX identifier,
+# a hexadecimal digest and any URL. The release date is checked against git
+# separately; its day can happen to equal the suite revision.
 MASKS = (
     re.compile(r"\d{4}-\d{4}-\d{4}-\d{3}[\dXx]"),
+    re.compile(r"\b\d{4}-\d{2}-\d{2}\b"),
     re.compile(r"\b\d+\.\d+(?:\.\d+)?\b"),
     re.compile(r"\b[A-Za-z][A-Za-z0-9]*-\d+(?:\.\d+)*\b"),
     re.compile(r"\b[0-9a-f]{40,}\b"),
