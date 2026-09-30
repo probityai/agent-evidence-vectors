@@ -167,6 +167,7 @@ CANNOT_RUN = {
         "inside a checkout of the revision under test"
     ),
     "actions/setup-go": "provisions a Go toolchain on the runner; the one on PATH is used here",
+    "actions/setup-node": "provisions Node.js on the runner; the one on PATH is used here",
     "actions/setup-python": "provisions a Python on the runner; the one on PATH is used here",
     "pypa/gh-action-pypi-publish": (
         "uploads the built distributions to PyPI under the workflow's OIDC "
