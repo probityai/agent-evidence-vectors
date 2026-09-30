@@ -42,6 +42,11 @@ jobs:
         run: |
           go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
           (cd witnessattestor && go test ./... -race -count=1)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: check canonical JSON transcript bytes
+        run: node corpora/jcs-byte-vectors/check.mjs
       # The README advertises cmd/aee-verify as a consumer implementation and
       # separately tells a third party how to wire a rail into the harness.
       # Nothing ran the one against the other, and the shipped CLI scored 0 of
