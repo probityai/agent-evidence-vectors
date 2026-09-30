@@ -58,6 +58,7 @@ import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from decimal import Decimal
 from typing import Any
 
 if __package__ in (None, ""):
@@ -261,6 +262,11 @@ class _State:
 # --------------------------------------------------------------------------
 
 
+def _no_constant(token: str) -> Any:
+    """NaN, Infinity and -Infinity are not JSON; Python's parser accepts them unless told not to."""
+    raise Malformed("not-parseable")
+
+
 def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     """Refuse a repeated member name at any depth.
 
@@ -406,23 +412,42 @@ SELF_DERIVABLE: dict[str, Callable[[dict[str, Any]], str]] = {
 # --------------------------------------------------------------------------
 
 
+def _over_bound(number: Decimal) -> bool:
+    """An integer by value at or past the I-JSON bound, whatever its spelling.
+
+    1e21 and 9007199254740993.0 are integers past the bound. The value is exact
+    because the statement is parsed with Decimal, so this rail decides the same
+    way as the Go rails, which use exact rationals (attack A32).
+    """
+    return number == number.to_integral_value() and abs(number) >= IJSON_LIMIT
+
+
+def _number_over_bound(node: Any) -> bool:
+    """True for an integer or an exact decimal that is an integer at or past the bound."""
+    if isinstance(node, bool):
+        return False
+    if isinstance(node, int):
+        return abs(node) >= IJSON_LIMIT
+    return isinstance(node, Decimal) and _over_bound(node)
+
+
 def _rule_ijson_integers(state: _State) -> None:
     """No integer at or above 2**53 anywhere in the statement, at any depth.
 
-    A number carrying a fraction or an exponent is a float and the bound is
-    stated over integers, so a float is exempt. The producer side refuses to
-    encode past the bound and nothing refused it on the way in, so a byteRange of
+    Whether a number is an integer is decided by its value, not its spelling:
+    1e21 and 9007199254740993.0 are integers at or past the bound, and a double
+    reads the second as 2^53, so every number is held to the bound by its value
+    (attack A32; a spelling reading let the attack below back in). The producer
+    side refuses to encode past the bound and nothing refused it on the way in, so
+    a byteRange of
     9007199254740993 was accepted and two rails read two different numbers out of
     one set of bytes.
     """
 
     def walk(node: Any) -> None:
-        if isinstance(node, bool):
-            return
-        if isinstance(node, int):
-            if abs(node) >= IJSON_LIMIT:
-                raise Malformed("integer-not-ijson-safe")
-        elif isinstance(node, dict):
+        if _number_over_bound(node):
+            raise Malformed("integer-not-ijson-safe")
+        if isinstance(node, dict):
             for value in node.values():
                 walk(value)
         elif isinstance(node, list):
@@ -1011,9 +1036,16 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
     whether that rule is load-bearing. Production verification never passes it.
     """
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=_no_constant
+        )
         payload = base64.b64decode(envelope["payload"], validate=True)
-        statement = json.loads(payload, object_pairs_hook=_no_duplicates)
+        statement = json.loads(
+            payload,
+            object_pairs_hook=_no_duplicates,
+            parse_constant=_no_constant,
+            parse_float=Decimal,
+        )
     except Malformed as exc:
         return Report("malformed", [exc.code])
     except Exception:

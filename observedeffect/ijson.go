@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"math/big"
 	"sort"
-	"strconv"
-	"strings"
 	"unicode/utf16"
 )
 
@@ -101,23 +100,22 @@ func decodeArray(dec *json.Decoder) (any, *fault) {
 }
 
 // integerOverBound reports whether a decoded number is an integer at or above the
-// I-JSON bound. A number carrying a fraction or an exponent is a float, and the
-// bound is stated over integers, so a float is exempt here exactly as it is in the
-// reference verifier.
+// I-JSON bound. Whether a number is an integer is decided by its exact value, not
+// its spelling: 1e21 and 9007199254740993.0 are integers past the bound, and a
+// check that skipped any token carrying '.', 'e' or 'E' let attack A32 through.
+// Exact rational arithmetic keeps this rail in lockstep with the aee rail and the
+// Python reader, which decide the same way.
 func integerOverBound(number json.Number) bool {
-	text := number.String()
-	if strings.ContainsAny(text, ".eE") {
-		return false
-	}
-	value, err := strconv.ParseInt(text, 10, 64)
-	if err != nil {
-		// Out of int64 range entirely, which is well past 2**53.
+	value, ok := new(big.Rat).SetString(number.String())
+	if !ok {
+		// A json.Number always has JSON number grammar; math/big refuses only an
+		// exponent past its own limit, which is far past the bound.
 		return true
 	}
-	if value < 0 {
-		value = -value
+	if !value.IsInt() {
+		return false
 	}
-	return value >= ijsonLimit
+	return new(big.Int).Abs(value.Num()).Cmp(big.NewInt(ijsonLimit)) >= 0
 }
 
 // canonicalStringMap is RFC 8785 for the one shape this predicate signs over: a

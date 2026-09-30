@@ -121,6 +121,10 @@ producer emitted, and a hostile rail is exactly the one that does not call the
 reference encoder. While the bound was enforced only on emission, a byte range
 ending at 9007199254740993 was accepted, and a rail that reads it into a double
 reads 9007199254740992 out of bytes whose signature verifies.
+Whether a number is an integer is decided by its value, not its spelling: `1e21`
+and `9007199254740993.0` are integers at or past the bound, and a verifier MUST
+refuse them exactly as it refuses `9007199254740993`. `NaN`, `Infinity` and
+`-Infinity` are not JSON, and a statement carrying one is malformed.
 
 The whole statement is parsed as strict I-JSON. A duplicate member anywhere, at
 any depth, makes the statement malformed, and a verifier MUST reject it
@@ -949,6 +953,17 @@ spelling available for this predicate's own records was `self`. A required field
 with no true value is a field that gets filled with a false one. `first-hand` is
 registered there now, with the same binding rule, and the departure is recorded
 in that repository's TRACE crosswalk.
+
+**A32. The same bound, spelled as a float. CLOSED.** An extension member holding
+`1e21` or `9007199254740993.0`. A reader that applies the I-JSON bound only to
+values its parser returns as integers reads both as floats and lets them through,
+which is attack A30 again under another spelling; the second is 2^53 to any rail
+that reads doubles. The reference reader and the packaged reader both judged such
+a statement valid until the bound was decided by value, and both accepted `NaN`
+because the parser they share does unless told not to. Closed by deciding
+integers by value at any depth and refusing the non-JSON constants at parse.
+The same defect was found first in a canonicalizer outside this repository, which
+kept the digits of integers past the bound.
 
 **A6. The self-refuting record. CLOSED, and it is the vector shape this
 repository lacked.** A record declares `mutation: none` with `beforeRoot` equal
