@@ -17,6 +17,26 @@ permissions:
   contents: read
 
 jobs:
+  package-python:
+    runs-on: ubicloud-standard-2
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: astral-sh/setup-uv@v5
+      - name: build and check the installed wheel
+        run: |
+          uv build --wheel
+          wheel="$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)"
+          cd "$(mktemp -d)"
+          python -m pip install --no-deps "$wheel"
+          agent-evidence-vectors --self-test
+          agent-evidence-vectors --corpus vectors-observed-effect
+
   go:
     runs-on: ubicloud-standard-2
     steps:
