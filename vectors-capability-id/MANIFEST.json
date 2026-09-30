@@ -1,0 +1,57 @@
+{
+  "corpus": "capability-id",
+  "status": "draft",
+  "derivation": "sha256 over RFC 8785 bytes of the admitted descriptor",
+  "members": [
+    {
+      "id": "CAP-A1",
+      "expect": "valid",
+      "why": "the decision mints the id from its descriptor and the gateway copies it"
+    },
+    {
+      "id": "CAP-A2",
+      "expect": "valid",
+      "why": "member order and whitespace differ; the canonical bytes, and so the id, do not"
+    },
+    {
+      "id": "CAP-A3",
+      "expect": "valid",
+      "why": "a constraint at the largest I-JSON safe integer is admitted"
+    },
+    {
+      "id": "CAP-R1",
+      "expect": "duplicate-member",
+      "why": "the action member appears twice, so two parsers can derive two ids"
+    },
+    {
+      "id": "CAP-R2",
+      "expect": "integer-not-ijson-safe",
+      "why": "a constraint at 2^53 + 1 aliases 2^53 in a double-based reader"
+    },
+    {
+      "id": "CAP-R3",
+      "expect": "number-not-integer",
+      "why": "the same bound written as a float is refused, not rounded"
+    },
+    {
+      "id": "CAP-R4",
+      "expect": "invoker-chosen-id",
+      "why": "the gateway reports an id of its own instead of the decision's"
+    },
+    {
+      "id": "CAP-R5",
+      "expect": "id-not-derived",
+      "why": "the decision carries a readable name where the digest belongs"
+    },
+    {
+      "id": "CAP-R6",
+      "expect": "descriptor-mismatch",
+      "why": "the gateway copies a granted id onto a call to a different tool"
+    },
+    {
+      "id": "CAP-R7",
+      "expect": "ill-formed-string",
+      "why": "a lone surrogate in a member name has no UTF-8 encoding to hash"
+    }
+  ]
+}

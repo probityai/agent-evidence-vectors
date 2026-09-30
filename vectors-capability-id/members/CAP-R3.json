@@ -1,0 +1,10 @@
+{
+  "decision": {
+    "capability_id": "sha256:63a9ab0e183e7fc63921e03fc2b957fe6e3de272fa9ae43272e613c387cd895f",
+    "descriptor_text": "{\"action\":\"invoke\",\"resource\":{\"type\":\"tool\",\"id\":\"payment-authorization\"},\"constraints\":{\"max_amount_cents\":1.0e3}}"
+  },
+  "invocation": {
+    "capability_id": "sha256:63a9ab0e183e7fc63921e03fc2b957fe6e3de272fa9ae43272e613c387cd895f",
+    "descriptor_text": "{\"action\":\"invoke\",\"resource\":{\"type\":\"tool\",\"id\":\"payment-authorization\"},\"constraints\":{\"max_amount_cents\":9007199254740991}}"
+  }
+}

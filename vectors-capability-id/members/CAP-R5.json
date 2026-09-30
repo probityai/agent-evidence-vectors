@@ -1,0 +1,10 @@
+{
+  "decision": {
+    "capability_id": "invoke:payment-authorization",
+    "descriptor_text": "{\"action\":\"invoke\",\"resource\":{\"type\":\"tool\",\"id\":\"payment-authorization\"}}"
+  },
+  "invocation": {
+    "capability_id": "invoke:payment-authorization",
+    "descriptor_text": "{\"action\":\"invoke\",\"resource\":{\"type\":\"tool\",\"id\":\"payment-authorization\"}}"
+  }
+}
