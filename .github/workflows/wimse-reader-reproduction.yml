@@ -34,7 +34,7 @@ jobs:
         run: python -m pip install cryptography==46.0.0
       - name: Fetch pinned sources
         run: python fetch_inputs.py
-      - name: Reproduce 47 results
+      - name: Reproduce reader results
         run: python run_reproduction.py
       - name: Retain stage outputs
         if: success()

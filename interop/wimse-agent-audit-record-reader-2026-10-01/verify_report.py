@@ -99,7 +99,11 @@ def build(corpus, compare=True):
     if compare:
         if report != load(HERE / "RESULTS.json"):
             raise ValueError("rerun differs from RESULTS.json")
-        print("47/47 conform: 9 accept valid, 36 reject malformed, N1/N2 valid")
+        summary = report["summary"]
+        print(f"{summary['conform']}/{summary['vectors']} conform: "
+              f"{summary['acceptValid']} accept valid, "
+              f"{summary['rejectMalformed']} reject malformed, "
+              "N1/N2 valid")
     return report
 
 
