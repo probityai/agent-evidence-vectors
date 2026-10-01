@@ -1,0 +1,59 @@
+name: Validate merged vectors main through native CI
+
+on:
+  push:
+    branches: ['ops/validate-vectors-main-a430a9c']
+    paths: ['.github/workflows/validate-main.yml', 'ops/pr-completion/dispatch_merged.py']
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: validate-vectors-main-a430a9c
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Verify the reviewed dispatch driver
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          expected = '874634c39cf427d1ffd997554a7597d33cf97c747c7f955db47885633fb340bb'
+          actual = hashlib.sha256(Path('ops/pr-completion/dispatch_merged.py').read_bytes()).hexdigest()
+          if actual != expected:
+              raise SystemExit(f'Dispatch driver changed: expected={expected} actual={actual}')
+          print(f'Reviewed dispatch driver sha256={actual}')
+          PY
+      - name: Validate the already merged PR and dispatch native jobs
+        run: |
+          python3 ops/pr-completion/dispatch_merged.py \
+            --repository 'probityai/agent-evidence-vectors' \
+            --pr-number 28 \
+            --approved-head '142c01a9843b70857ae0e64660cc7eab0e5c1fd1' \
+            --expected-merge 'a430a9cf7a4b137d6cb899506119a1b320d1cf16' \
+            --workflow 'ci.yml' \
+            --workflow 'e2-reproduction.yml' \
+            --workflow 'gemara-method-link.yml' \
+            --audit "$GITHUB_WORKSPACE/native-validation-audit"
+      - name: Retain the actual merge and native run observations
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: native-validation-vectors-a430a9c
+          path: native-validation-audit/
+          if-no-files-found: error
+          retention-days: 14
