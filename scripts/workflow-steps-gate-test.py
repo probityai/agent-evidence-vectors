@@ -360,6 +360,87 @@ def the_action_mirror_fails_on_a_non_pass_verdict() -> None:
     )
 
 
+def _execute(workflow: str, root: pathlib.Path | None = None) -> tuple[int, str]:
+    """Run one synthetic workflow through the gate; return (exit, printed log)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = pathlib.Path(tmp) / "wf.yml"
+        path.write_text(workflow, encoding="utf-8")
+        out = pathlib.Path(tmp) / "out.txt"
+        original = GATE.REPO  # type: ignore[attr-defined]
+        if root is not None:
+            GATE.REPO = root  # type: ignore[attr-defined]
+        try:
+            with open(out, "w") as handle, contextlib.redirect_stdout(handle):
+                rc = GATE.execute([path])  # type: ignore[attr-defined]
+        finally:
+            GATE.REPO = original  # type: ignore[attr-defined]
+        return rc, out.read_text()
+
+
+def a_default_working_directory_is_honoured() -> None:
+    """A job's defaults.run.working-directory is where its run blocks start.
+
+    The 2026-10-01 regression: e2-reproduction.yml declares a default directory
+    and runs `pytest test_reproduction.py` from it; the gate ran it from the
+    root and failed a step the remote passes. A step's own key wins over it.
+    """
+    with tempfile.TemporaryDirectory() as tmp:
+        root = pathlib.Path(tmp)
+        (root / "sub" / "deeper").mkdir(parents=True)
+        (root / "sub" / "marker").write_text("x")
+        (root / "sub" / "deeper" / "other").write_text("x")
+        workflow = (
+            "defaults:\n  run:\n    working-directory: nowhere\n"
+            "jobs:\n  j:\n    defaults:\n      run:\n        working-directory: sub\n"
+            "    steps:\n"
+            "      - run: test -f marker\n"
+            "      - working-directory: sub/deeper\n        run: test -f other\n"
+        )
+        rc, log = _execute(workflow, root)
+    assert rc == 0, f"a run block did not start in its declared directory:\n{log}"
+
+
+def github_env_and_runner_temp_carry_within_a_job() -> None:
+    """$RUNNER_TEMP exists, and $GITHUB_ENV and $GITHUB_PATH reach later steps.
+
+    gemara-method-link.yml writes a binary to $RUNNER_TEMP and names it in
+    $GITHUB_ENV; the next step reads the variable. Before, the first step died
+    on KeyError: 'RUNNER_TEMP' and the rest failed after it.
+    """
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - run: |\n"
+        "          test -d \"$RUNNER_TEMP\"\n"
+        "          test -n \"$GITHUB_WORKSPACE\"\n"
+        "          mkdir -p \"$RUNNER_TEMP/bin\"\n"
+        "          printf '#!/bin/sh\\necho hi\\n' > \"$RUNNER_TEMP/bin/tool-xyz\"\n"
+        "          chmod +x \"$RUNNER_TEMP/bin/tool-xyz\"\n"
+        "          echo \"TOOL=$RUNNER_TEMP/bin/tool-xyz\" >> \"$GITHUB_ENV\"\n"
+        "          printf 'MULTI<<EOF\\na\\nb\\nEOF\\n' >> \"$GITHUB_ENV\"\n"
+        "          echo \"$RUNNER_TEMP/bin\" >> \"$GITHUB_PATH\"\n"
+        "      - run: |\n"
+        "          test -x \"$TOOL\"\n"
+        "          test \"$MULTI\" = \"$(printf 'a\\nb')\"\n"
+        "          test \"$(tool-xyz)\" = hi\n"
+        "  k:\n    steps:\n"
+        "      - run: test -z \"${TOOL:-}\"\n"
+    )
+    rc, log = _execute(workflow)
+    assert rc == 0, f"runner variables did not carry within a job, or leaked across jobs:\n{log}"
+
+
+def setup_python_is_mirrored_with_pip() -> None:
+    """setup-python is mirrored by a pip-seeded interpreter put on $GITHUB_PATH.
+
+    Leaving it NOT RUN ran `python -m pip install` against the hook's uv venv,
+    which has no pip.
+    """
+    local = GATE.local_equivalent("actions/setup-python@abc", {"python-version": "3.13.15"})  # type: ignore[attr-defined]
+    assert local.run is not None, f"setup-python is not mirrored: {local.reason}"
+    assert "--seed" in local.run, "the mirrored interpreter is not seeded with pip"
+    assert "3.13.15" in local.run and "GITHUB_PATH" in local.run, local.run
+
+
 def main() -> int:
     check("a failing first command is caught", first_command_failing_is_caught)
     check("a failing middle command is caught", middle_command_failing_is_caught)
@@ -388,12 +469,16 @@ def main() -> int:
         the_action_mirror_fails_on_a_non_pass_verdict,
     )
 
+    check("a default working directory is honoured", a_default_working_directory_is_honoured)
+    check("runner variables carry within a job", github_env_and_runner_temp_carry_within_a_job)
+    check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
+
     if FAILURES:
         print(f"FAIL: {len(FAILURES)} case(s) do not hold:")
         for line in FAILURES:
             print(f"  {line}")
         return 1
-    print("OK: 20 case(s); the local mirror runs steps the way GitHub Actions does.")
+    print("OK: 23 case(s); the local mirror runs steps the way GitHub Actions does.")
     return 0
 
 

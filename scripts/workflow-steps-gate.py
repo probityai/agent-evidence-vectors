@@ -153,8 +153,37 @@ def own_action(inputs: dict[str, Any]) -> Local:
     )
 
 
+def setup_python(inputs: dict[str, Any]) -> Local:
+    """Mirror actions/setup-python with a fresh, pip-seeded interpreter from uv.
+
+    The runner's step puts a Python WITH pip on PATH, and the workflows that use
+    it start with `python -m pip install ...`. Leaving the step NOT RUN meant the
+    next steps ran against the hook's uv-built project venv, which has no pip,
+    and three workflows failed here on 2026-10-01 while passing on the remote.
+
+    The new interpreter is announced through $GITHUB_PATH, exactly as the action
+    does, so it lasts for the rest of the job and no longer. When uv cannot
+    provide the pinned patch release it falls back to the same minor version and
+    says so on stderr, rather than running the job against whatever is on PATH.
+    """
+    wanted = str(inputs.get("python-version", "")).strip()
+    if not wanted:
+        return Local(None, "actions/setup-python was used without a python-version input")
+    minor = ".".join(wanted.split(".")[:2])
+    target = '"$RUNNER_TEMP/setup-python"'
+    return Local(
+        f"if ! uv venv -q --seed --python {shlex.quote(wanted)} {target} 2>/dev/null; then\n"
+        f"  echo \"setup-python mirror: uv cannot provide {wanted}; using {minor}\" >&2\n"
+        f"  uv venv -q --seed --python {shlex.quote(minor)} {target}\n"
+        "fi\n"
+        'echo "$RUNNER_TEMP/setup-python/bin" >> "$GITHUB_PATH"\n',
+        "",
+    )
+
+
 MIRRORED: dict[str, Callable[[dict[str, Any]], Local]] = {
     "golangci/golangci-lint-action": golangci_lint,
+    "actions/setup-python": setup_python,
     "./": own_action,
 }
 
@@ -168,7 +197,6 @@ CANNOT_RUN = {
     ),
     "actions/setup-go": "provisions a Go toolchain on the runner; the one on PATH is used here",
     "actions/setup-node": "provisions Node.js on the runner; the one on PATH is used here",
-    "actions/setup-python": "provisions a Python on the runner; the one on PATH is used here",
     "pypa/gh-action-pypi-publish": (
         "uploads the built distributions to PyPI under the workflow's OIDC "
         "identity, which only the runner holds"
@@ -254,6 +282,11 @@ class Step(NamedTuple):
     # which is how a workflow asserts that something MUST fail. Ignoring the key
     # made every such negative step a red push the remote would accept.
     continue_on_error: bool = False
+    # The directory a `run:` block starts in, relative to the checkout: the
+    # step's own `working-directory`, else the job's `defaults.run`, else the
+    # workflow's. Ignoring it ran every step of a job declaring a default
+    # directory from the repository root, where its scripts are not found.
+    workdir: str = ""
 
     @property
     def label(self) -> str:
@@ -265,7 +298,9 @@ def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
     jobs = (doc or {}).get("jobs") or {}
     if not jobs:
         sys.exit(f"workflow-steps-gate: {path.name} declares no jobs. Refusing to call it covered.")
+    workflow_dir = default_directory(doc)
     for job_name, job in jobs.items():
+        job_dir = default_directory(job) or workflow_dir
         for i, step in enumerate(job.get("steps") or []):
             name = step.get("name") or f"step {i}"
             yield Step(
@@ -278,7 +313,14 @@ def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
                 ident=str(step.get("id") or ""),
                 env=step.get("env") or {},
                 continue_on_error=step.get("continue-on-error") is True,
+                workdir=str(step.get("working-directory") or job_dir),
             )
+
+
+def default_directory(node: Any) -> str:
+    """`defaults.run.working-directory` of a workflow or a job, or ""."""
+    defaults = (node or {}).get("defaults") or {}
+    return str((defaults.get("run") or {}).get("working-directory") or "")
 
 
 # The runner's default shell is bash, and workflow steps rely on it: `set -o pipefail`
@@ -391,15 +433,70 @@ def step_environment(
     env: dict[str, str] = {
         "GITHUB_OUTPUT": str(pathlib.Path(scratch) / f"output-{step.job}-{step.position}"),
         "GITHUB_STEP_SUMMARY": str(pathlib.Path(scratch) / f"summary-{step.job}-{step.position}"),
+        "GITHUB_ENV": str(pathlib.Path(scratch) / f"env-{step.job}-{step.position}"),
+        "GITHUB_PATH": str(pathlib.Path(scratch) / f"path-{step.job}-{step.position}"),
     }
     for key, raw in step.env.items():
         value, missing = expand(str(raw), outputs, statuses)
         if missing:
             return env, missing
         env[str(key)] = value
-    pathlib.Path(env["GITHUB_OUTPUT"]).touch()
-    pathlib.Path(env["GITHUB_STEP_SUMMARY"]).touch()
+    for key in ("GITHUB_OUTPUT", "GITHUB_STEP_SUMMARY", "GITHUB_ENV", "GITHUB_PATH"):
+        pathlib.Path(env[key]).write_text("", encoding="utf-8")
     return env, ""
+
+
+def read_github_env(text: str) -> dict[str, str]:
+    """Parse a $GITHUB_ENV file: `NAME=value` lines and `NAME<<DELIM` blocks."""
+    found: dict[str, str] = {}
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
+        if "<<" in line and ("=" not in line or line.index("<<") < line.index("=")):
+            name, delimiter = line.split("<<", 1)
+            body: list[str] = []
+            while i < len(lines) and lines[i] != delimiter:
+                body.append(lines[i])
+                i += 1
+            i += 1
+            found[name.strip()] = "\n".join(body)
+            continue
+        key, sep, value = line.partition("=")
+        if sep:
+            found[key.strip()] = value
+    return found
+
+
+class JobState:
+    """What one job carries between its steps on a runner and nowhere else.
+
+    $RUNNER_TEMP is a directory private to the job; $GITHUB_ENV and $GITHUB_PATH
+    are how one step sets variables and PATH entries for the steps after it in
+    the same job. None of the three existed here, so a step that wrote a binary
+    to $RUNNER_TEMP and named it through $GITHUB_ENV crashed on the KeyError,
+    and the steps that read the variable failed after it.
+    """
+
+    def __init__(self, scratch: str, label: str) -> None:
+        self.temp = pathlib.Path(scratch) / f"runner-temp-{label}"
+        self.temp.mkdir(parents=True, exist_ok=True)
+        self.env: dict[str, str] = {}
+        self.path: list[str] = []
+
+    def environment(self, base: dict[str, str]) -> dict[str, str]:
+        env = {**base, **self.env, "RUNNER_TEMP": str(self.temp), "GITHUB_WORKSPACE": str(REPO)}
+        if self.path:
+            env["PATH"] = os.pathsep.join([*reversed(self.path), env.get("PATH", "")])
+        return env
+
+    def absorb(self, env: dict[str, str]) -> None:
+        """Carry what the step just wrote to $GITHUB_ENV and $GITHUB_PATH forward."""
+        self.env.update(read_github_env(pathlib.Path(env["GITHUB_ENV"]).read_text(encoding="utf-8")))
+        for line in pathlib.Path(env["GITHUB_PATH"]).read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                self.path.append(line.strip())
 
 
 def record_outputs(step: Step, env: dict[str, str], outputs: dict[str, dict[str, str]]) -> None:
@@ -414,10 +511,10 @@ def record_outputs(step: Step, env: dict[str, str], outputs: dict[str, dict[str,
     outputs[step.ident] = written
 
 
-def run_step(run: str, env: dict[str, str]) -> subprocess.CompletedProcess[str]:
+def run_step(run: str, env: dict[str, str], workdir: str = "") -> subprocess.CompletedProcess[str]:
     return subprocess.run(  # noqa: S603 -- running the repo's own workflow steps is the point
         [SHELL, *SHELL_FLAGS, "-c", run],
-        cwd=REPO,
+        cwd=REPO / workdir,
         env=env,
         capture_output=True,
         text=True,
@@ -495,7 +592,13 @@ def execute(files: list[pathlib.Path]) -> int:
         for path in files:
             doc = load_yaml(path)
             print(f"\n=== {path.name} ===")
+            job: JobState | None = None
+            job_name = None
             for step in steps_of(doc, path):
+                if step.job != job_name:
+                    job_name = step.job
+                    job = JobState(scratch, f"{path.stem}-{step.job}")
+                assert job is not None
                 block, suffix, fault = resolve(step)
                 if fault:
                     failed += 1
@@ -512,7 +615,10 @@ def execute(files: list[pathlib.Path]) -> int:
                     print(f"  NOT RUN  {step.label}  ({missing})")
                     continue
                 print(f"  RUN   {step.label}{suffix}")
-                proc = run_step(block, {**base, **env})
+                # A `working-directory` applies to `run:` blocks only; a mirrored
+                # action's shell starts at the root, as the action itself does.
+                workdir = step.workdir if step.run is not None else ""
+                proc = run_step(block, {**job.environment(base), **env}, workdir)
                 ran += 1
                 outcome = "success" if proc.returncode == 0 else "failure"
                 if proc.returncode != 0 and step.continue_on_error:
@@ -521,6 +627,7 @@ def execute(files: list[pathlib.Path]) -> int:
                     failed += 1
                     report_failure(step.label, proc)
                 record_outputs(step, env, outputs)
+                job.absorb(env)
                 if step.ident:
                     statuses[step.ident] = {
                         "outcome": outcome,
