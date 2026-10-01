@@ -19,14 +19,19 @@ PRIMARY = {
     "inputSchema": {"type": "object", "properties": {"invoiceId": {"type": "string"}}},
     "annotations": {"readOnlyHint": False},
 }
-SECONDARY = {"name": "list_invoices", "description": "List drafts.", "inputSchema": {"type": "object"}}
+SECONDARY = {
+    "name": "list_invoices",
+    "description": "List drafts.",
+    "inputSchema": {"type": "object"},
+}
 
 
 def content() -> bytes:
     selected = {key: PRIMARY[key] for key in (
         "name", "title", "description", "inputSchema", "outputSchema", "annotations"
     ) if PRIMARY.get(key) is not None}
-    digest = "sha256:" + hashlib.sha256(jcs_dumps({"profile": PROFILE, "tool": selected})).hexdigest()
+    preimage = jcs_dumps({"profile": PROFILE, "tool": selected})
+    digest = "sha256:" + hashlib.sha256(preimage).hexdigest()
     pin = {"endpoint": ENDPOINT, "toolName": PRIMARY["name"], "toolDigest": digest}
     cases = []
 

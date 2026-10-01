@@ -36,7 +36,8 @@ class LiveMcpDefinitionTests(unittest.TestCase):
         capture = {"endpoint": pin["endpoint"], "tools": [build_cases.PRIMARY]}
         self.assertEqual(compare(pin, capture)["verdict"], "match")
         self.assertEqual(compare(pin, {**capture, "tools": []})["reason"], "tool_missing")
-        self.assertEqual(compare(pin, {**capture, "tools": [build_cases.PRIMARY] * 2})["reason"], "name_ambiguous")
+        ambiguous = {**capture, "tools": [build_cases.PRIMARY] * 2}
+        self.assertEqual(compare(pin, ambiguous)["reason"], "name_ambiguous")
 
     def test_visible_change_and_out_of_contract_metadata(self) -> None:
         pin = self.fixture["pin"]
