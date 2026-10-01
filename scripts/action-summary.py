@@ -93,6 +93,12 @@ def main() -> int:
     note = report.get("railNote", report.get("externalVerifierProbe", ""))
     summary.append(f"## agent-evidence-vectors: {result}\n\n")
     summary.append(f"Corpus `{corpus}`, rail `{report['rail']}`. {note}\n\n")
+    provenance = report.get("corpus") or {}
+    summary.append(
+        f"Release `{provenance.get('release') or 'none (source checkout)'}`, "
+        f"corpus digest `{provenance.get('corpusDigest') or 'not declared'}`, "
+        f"manifest sha256 `{provenance.get('manifestSha256') or 'unread'}`.\n\n"
+    )
     if refusal is not None:
         summary.append(f"**The verifier under test did NOT answer this run:** {refusal}\n\n")
     elif executed is not None:

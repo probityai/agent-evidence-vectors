@@ -4448,6 +4448,53 @@ def _run_manifest_closure(
     return suite_notes, len(failures)
 
 
+DISTRIBUTION_NAME = "agent-evidence-vectors"
+
+
+def _installed_release() -> str | None:
+    """The released version this run came from, or None from a checkout.
+
+    Only the wheel layout answers. A checkout may have an editable install whose
+    metadata names a version, but the tree beside it can sit at any commit, so a
+    version read there would name a release the corpus bytes need not match.
+    """
+    if not installed_layout():
+        return None
+    from importlib import metadata
+
+    try:
+        return metadata.version(DISTRIBUTION_NAME)
+    except metadata.PackageNotFoundError:
+        return None
+
+
+def corpus_provenance(suite_dir: str) -> dict[str, Any]:
+    """Which corpus bytes this run read: the release, and the digests to match.
+
+    `corpusDigest` is the value the corpus manifest declares. It is the value
+    `release/CORPUS-DIGESTS.txt` carries for the same manifest, and that list
+    is the file a release signature covers, so a reader matches this field
+    against one line of a signed file. `manifestSha256` is computed here over
+    the manifest bytes this run read, so a manifest edited after release shows
+    up as a hash no release published even when its declared digest was kept.
+    """
+    manifest_path = os.path.join(suite_dir, "MANIFEST.json")
+    try:
+        with open(manifest_path, "rb") as handle:
+            raw = handle.read()
+    except OSError:
+        return {"release": _installed_release(), "corpusDigest": None, "manifestSha256": None}
+    try:
+        declared = json.loads(raw).get("corpusDigest")
+    except (ValueError, AttributeError):
+        declared = None
+    return {
+        "release": _installed_release(),
+        "corpusDigest": declared if isinstance(declared, str) else None,
+        "manifestSha256": sha256_hex(raw),
+    }
+
+
 def _report_path(args: argparse.Namespace) -> str:
     """Where the report goes: --report, else beside this file."""
     return str(args.report) if args.report else os.path.join(
@@ -4469,6 +4516,9 @@ def _run_write_report(
     report: dict[str, Any] = {
         "suite": os.path.relpath(suite_dir, report_base),
         "predicateType": AEE_PREDICATE_TYPE,
+        # The release and digests of the corpus this run read. Without them a
+        # report says how a verifier scored and not on which bytes.
+        "corpus": corpus_provenance(suite_dir),
         "rail": "external" if external_cmd else "reference",
         "railNote": rail_note,
         # Which program answered, and on how many vectors. Null on the

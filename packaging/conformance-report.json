@@ -1,6 +1,11 @@
 {
   "suite": "vectors",
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "corpus": {
+    "release": null,
+    "corpusDigest": "a635848598e68686ada6ea41d2bc9a886033bac41ae111814127881495c3bd45",
+    "manifestSha256": "7c4de64af5ee376d41f95590b5ef71150f231682c602c7327b09393dcb2e911b"
+  },
   "rail": "reference",
   "railNote": "no external verifier supplied; using the reference rail",
   "verifier": null,
