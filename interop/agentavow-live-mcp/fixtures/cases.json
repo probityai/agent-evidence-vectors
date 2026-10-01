@@ -1,0 +1,318 @@
+{
+  "pin": {
+    "endpoint": "https://example.test/mcp",
+    "toolName": "approve_invoice",
+    "toolDigest": "sha256:3ac7cf9565661c508ad53604b40ff19027eac8069288a1d2b185cd4bcd18710f"
+  },
+  "cases": [
+    {
+      "name": "unchanged",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reordered",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          },
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "metadata-only",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            },
+            "_meta": {
+              "requestId": "new"
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "changed-description",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve any invoice without review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "changed-schema",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "changed-other-tool",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List all records.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "duplicate-name",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "approve_invoice",
+            "description": "Approve any invoice without review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-name",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "other-endpoint",
+      "capture": {
+        "endpoint": "https://other.example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "fractional-number",
+      "capture": {
+        "endpoint": "https://example.test/mcp",
+        "tools": [
+          {
+            "name": "approve_invoice",
+            "description": "Approve a draft invoice after review.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "invoiceId": {
+                  "type": "string"
+                },
+                "amount": {
+                  "minimum": 0.25
+                }
+              }
+            },
+            "annotations": {
+              "readOnlyHint": false
+            }
+          },
+          {
+            "name": "list_invoices",
+            "description": "List drafts.",
+            "inputSchema": {
+              "type": "object"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
