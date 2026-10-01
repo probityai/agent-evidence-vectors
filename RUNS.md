@@ -88,6 +88,55 @@ path, so the fallback could not have supplied its figure. A run that does go
 through the harness shows it in its report: `rail` reads `external` and
 `verifier.vectorsExecuted` equals the vector count.
 
+### MoltyCel, `MoltyCel/moltrust-api`, the a2a-jcs-v01 corpus
+
+This corpus is not in this repository. It is the A2A Agent Card
+canonicalisation set, `conformance-vectors/a2a-jcs-v01` in
+[`a2aproject/a2a-tck`](https://github.com/a2aproject/a2a-tck), written by this
+repository's maintainer. It has no suiteRevision; the row pins it by commit and
+corpus digest instead, and it is not a row of the ledger below, which counts AEE
+revisions only.
+
+| | |
+| --- | --- |
+| Reporter | `MoltyCel` |
+| Implementation | `MoltyCel/moltrust-api` at commit `c81b57165d6d62bda1548b55db96fcf75d367db4`, with `lib/agent_card_verify.py` at blob `dc908ba47ed9622263484a6fb6f8f2597beddaf8` and `app/signature.py` at blob `f7193f49c09bac55d9a9882d4518820fa2e5b05e` |
+| Posted at | [`a2aproject/A2A#1882`, comment of 2026-10-01](https://github.com/a2aproject/A2A/pull/1882#issuecomment-5932794122), and the repository's own CI, [run 36871040292](https://github.com/MoltyCel/moltrust-api/actions/runs/36871040292), on a merge ref that includes that commit, under Python 3.9 and 3.12 |
+| Corpus | `a2a-jcs-v01` at `a2aproject/a2a-tck` commit `97b007237ee4c3b802ed563829e3937a5529244e`, corpus digest `29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c` |
+| Raw canonicaliser, `app/signature.py` `canonicalize` | 53/53, target `rfc8785` |
+| Card signing, `app/signature.py` `sign_agent_card` | 57/57, target `card-signing-input` |
+| Card verify, `lib/agent_card_verify.py` `verify_agent_card` | 57/57, target `card-signing-input`, refusal class `CardVerificationError` |
+| Label, by its author | none given |
+
+Each path is listed with its own refusal class because a score means nothing
+without the class the runner counted as a refusal. The author said so, and
+corrected his own earlier figure on exactly that ground:
+
+> That number depended on a setting in the runner I used.
+
+The earlier runner counted any exception on a reject vector as a refusal.
+Under `CardVerificationError` the verify path then scored 52/57; under the
+runner's default of `ValueError` it scored 54/57. The five vectors that
+separate them are the lone-surrogate rejects A3-REJECT-011, A3-REJECT-012 and
+A4-REJECT-013 to 015, where the path refused the input but raised
+`UnicodeEncodeError`. Commit `c81b571` makes those raise `CardVerificationError`,
+and the class now derives from `ValueError`.
+
+The CI run above declared both `CardVerificationError` and `builtins:ValueError`
+as refusals for the verify path. The figure in the table is the narrower one:
+the same scorer at the same corpus commit, with `CardVerificationError` as the
+only refusal, gives 57/57 on the verify path over that commit's code, and 52/57
+over `lib/agent_card_verify.py` from the parent commit `a708e98`. The
+`builtins:ValueError` declaration is being removed from the workflow, which the
+author said was no longer needed after his fix.
+
+The author gave the run no blind or directed label, and this file does not
+supply one. It is not a cold-start result: the fix it measures was made after
+the author saw which vectors failed, and the scoring workflow was contributed
+to his repository by this repository's maintainer. What it shows is that the
+corrected text is implementable on three paths of one codebase, each scored
+against the function it provides.
+
 ## The ledger this file is not
 
 [`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json) is the gated record

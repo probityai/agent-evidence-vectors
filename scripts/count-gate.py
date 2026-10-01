@@ -1290,6 +1290,83 @@ FROZEN: tuple[Frozen, ...] = (
     # for the same runs; these declarations cover the reader-facing scoreboard.
     Frozen(
         "RUNS.md",
+        "the a2a-jcs-v01 raw canonicaliser score",
+        "53/53, target `rfc8785`",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 card signing score",
+        "| 57/57, target `card-signing-input` |",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 card verify score",
+        "57/57, target `card-signing-input`, refusal class",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 verify score before the fix, narrow class",
+        "then scored 52/57",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 verify score before the fix, ValueError",
+        "it scored 54/57",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 verify score rescored with the narrow class",
+        "gives 57/57 on the verify path",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the a2a-jcs-v01 verify score of the parent commit",
+        "and 52/57",
+        (
+            "A path score an outside implementation posted for the a2a-jcs-v01 corpus, "
+            "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
+            "Its denominator is that corpus's size, not any corpus in this tree, and "
+            "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
         "the suiteRevision-28 run's per-outcome figures, as posted",
         "61/61 accepts, 209/209 rejects, 2/2 indeterminate",
         "The outcome split an outside verifier posted against suiteRevision 28 "
