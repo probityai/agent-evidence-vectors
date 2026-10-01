@@ -62,6 +62,22 @@ jobs:
             uv run python scripts/release-gate.py
           fi
 
+      # The tag itself, which the digest-list signature does not cover: anyone
+      # who can push can move or recreate a tag. It must be an annotated tag
+      # signed by the key in release/tag-signing-key.asc, pinned by fingerprint
+      # in the script. The tag object is fetched explicitly because a checkout
+      # may hold the commit without the annotated tag that signs it. With no
+      # tag (the local workflow mirror), there is nothing to check and the step
+      # says so rather than reporting a pass.
+      - name: the release tag is signed by the published tag key
+        run: |
+          if [ -z "${GITHUB_REF_NAME:-}" ] || [ "${GITHUB_REF_TYPE:-}" != "tag" ]; then
+            echo "no release tag in this run; the tag signature check did not run"
+            exit 0
+          fi
+          git fetch --force origin "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+          python3 scripts/verify-release-tag.py "${GITHUB_REF_NAME}"
+
       # The time evidence, which reaches the network and therefore decides
       # nothing on its own. What it enforces is offline and absolute: the RFC
       # 3161 token chains to the root pinned in spec/tsa-roots.pem and is over

@@ -123,7 +123,11 @@ git commit -m "chore(release): cut vX.Y.Z"
 #    Between the bump commit and its tag the page names bytes no tag holds, and
 #    the gate refuses that rather than treating an absent tag as a pass -- so
 #    the two refs are one state and must not exist apart.
-git tag vX.Y.Z
+#    The tag is annotated and signed with the tag key, whose public half is
+#    release/tag-signing-key.asc. release.yml refuses a tag that key did not
+#    sign, so a lightweight or unsigned tag fails the release.
+git tag -s -u 494767A5F0B0494C3A8878F320D2E0E72DF45D39 -m vX.Y.Z vX.Y.Z
+python3 scripts/verify-release-tag.py vX.Y.Z
 
 # 6. Run the local mirror of every workflow step against the tagged revision.
 #    This is what step 5's ordering costs and it is the whole payment: the tag
@@ -144,6 +148,14 @@ first and PyPI is reached only if the digest list, the signature, the
 timestamps and the manifest all hold. If `ci` on the default branch then fails
 anyway, the tag is deleted on both sides before anything can cite it -- the
 release the tag would have produced never published.
+
+A stranger checks a tag the same way the workflow does, against the key file
+rather than their own keyring:
+
+```sh
+git fetch --tags https://github.com/probityai/agent-evidence-vectors
+python3 scripts/verify-release-tag.py vX.Y.Z
+```
 
 The signing key is not a CI secret and this is deliberate: a key in an Actions
 secret is readable by every workflow that ever runs and by anyone who can land a
