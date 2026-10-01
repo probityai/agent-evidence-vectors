@@ -1,0 +1,71 @@
+{
+  "reader": {
+    "repo": "Mayur021/agent-audit-record-reader",
+    "commit": "0ad911a39d7942d5fabd9a4ea0b9093bb04f88a7",
+    "sha256": {
+      "aimsreader/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "aimsreader/envelope_reader.py": "f03a3b6f7f04c45d962c3133d47950d8edfb80cfbc55e22b71f869497802ed47",
+      "aimsreader/stage2_members.py": "58e3c1cb805a3e117b39fab56c4b7148480b02c71f5a1b6061102a24fce8c7bb",
+      "aimsreader/stage34_recompute.py": "069b13499c06b8a97a38471aeae797b661f96dbe6bddbd04be80f5f89c82b381"
+    }
+  },
+  "corpus": {
+    "repo": "probityai/agent-evidence-vectors",
+    "commit": "8d6295fb5db3e57c52df09f2fbeeb758b09f5c7d",
+    "corpusDigest": "9617291fd6c1721dfd9430d3f15987da716ee5c722094f74431a95a2d4b3c3c6",
+    "sha256": {
+      "MANIFEST.json": "e944f85af55ae08e408a730beb03a49b47c94d9a9313874bc788ec2f3b7b6d8a",
+      "statements/vded6715a80437cfb.json": "ded6715a80437cfbdb0b2f112a10dbb9ce3e3d15cb401e4b35ca61d41d6cdc87",
+      "statements/vf410c7b4b792c0b3.json": "f410c7b4b792c0b30bfb7c0a96f59a3213e4100def30f3c8a2dda11522e3e758",
+      "statements/v91afc5ba76960569.json": "91afc5ba76960569cd511adc2099bf706671ba742a539cb136297ba8f73c749d",
+      "statements/v49db892b2464179b.json": "49db892b2464179bcb9731179603b26cca7489b961deff0db7189786f3122b1a",
+      "statements/v092586b714b43901.json": "092586b714b4390153417bd1fdd784c41ac8557b467c826187de614bf0f96a12",
+      "statements/v43e2fe48bc27164d.json": "43e2fe48bc27164d414b64027f52d9a468a03d21ceb893df27c533bbcd9cf37e",
+      "statements/v3843cd0f05c512e2.json": "3843cd0f05c512e252a06f6974d7a349a6d393ddffad6348ce63d102a1c60939",
+      "statements/v8a9e5deb2888e02c.json": "8a9e5deb2888e02cff6a49ece2d77c5880cacb9a9cba59ce8a3aec24e34a636c",
+      "statements/vf9473c2b0e833da1.json": "f9473c2b0e833da10308cc80a7c1f7a0bd32a1cef6453eb85346354ba099b5cf",
+      "statements/v89164703a3e83dec.json": "89164703a3e83dec932d13acde70887e4ad6d6edf5ea2c985ee10eb610190ddf",
+      "statements/vcf95da9b01a6664b.json": "cf95da9b01a6664ba1192231dead1a7695164a47d1890d864fb14fe90b350c43",
+      "statements/vb5b9abc4f83111a8.json": "b5b9abc4f83111a8da9cfb3140d1c51922b47809e6d08d74d2fe08355a3efda6",
+      "statements/v3d316ca718c2dfd5.json": "3d316ca718c2dfd5b667c6624043bab370d884d3d5d8726288b9540037322323",
+      "statements/v48b0a2fe9334a263.json": "48b0a2fe9334a263c24f1c4ad8f8944ff17816746ebd93c3ab1a760a864bcb1e",
+      "statements/vf3cf268dae0800ff.json": "f3cf268dae0800ff3c902003d62e57d12d89c8a3426727f2b1006328978478c4",
+      "statements/v4a450d67a3e14bd9.json": "4a450d67a3e14bd9ba64913c86867158b96eda54bbe051dc9d57eaafe10ddd11",
+      "statements/vce25f7662e4f70cd.json": "ce25f7662e4f70cd1a7a0e29d75f08dbedbfd09e09b81b8b7c5ea34ee0ab1f66",
+      "statements/v55decc76bf3738b2.json": "55decc76bf3738b2286cc874a9bf64121bff6d96d8700a2f856ea0166f69b3a3",
+      "statements/v7fad746721358d9d.json": "7fad746721358d9d4d4e3599320737c1e3321a237479be10dc2d7cf7c9ab14e3",
+      "statements/v9ec5a5a966dc0028.json": "9ec5a5a966dc0028a20f6ef6c27e9e9258713856b4c81207d686f7d785243923",
+      "statements/ve440c8b917ea6945.json": "e440c8b917ea6945ce0dfd4e714bef5a79149744e1f54f04a0727d852dea8275",
+      "statements/vceed0855efea9660.json": "ceed0855efea966081b8d15f0d9c7d4715a783a8a976022ae292a5da60703473",
+      "statements/v95d01f289bf873d3.json": "95d01f289bf873d31baedeb50114e02a6b5a994d5b748153b12fed4e116fc61e",
+      "statements/v7c9a446636835696.json": "7c9a4466368356968a757d3ba7f4b31c289d6e0c8f6b5eb25dcf922ccc4cfdc6",
+      "statements/v60025ea9854b9e10.json": "60025ea9854b9e100adc5929429e6e5c2779f29924027cbc68121c08f29eb18c",
+      "statements/v411cfaf5151d4cc5.json": "411cfaf5151d4cc5e73bcbb11ae9ada0acf8bf3f07fcc95961edbd97b4a7b22a",
+      "statements/v5d7952e7b60ac201.json": "5d7952e7b60ac2014b6ea63d86f439aea196f76a5965e0d46b80718f419f3b3b",
+      "statements/v4669a6b6d8bbeb60.json": "4669a6b6d8bbeb60750e84a5ce4f5d02bca7ededf300608e09262a5c8fc35666",
+      "statements/v0f658d55b9e959cc.json": "0f658d55b9e959cc80acbf6590d1df78cc8f56ed0834c12b47e4d618fae915ec",
+      "statements/vbca32cc3ca51563a.json": "bca32cc3ca51563a43b735cb0d140c66bc51f3f48c58f860d957e5c10c6cfc19",
+      "statements/v310861912d1046c5.json": "310861912d1046c568220c8019f8c9a6d70fcf4edd3b89a4dd6445082bc09bec",
+      "statements/vd72e111dbe5e296f.json": "d72e111dbe5e296ff2466a2e5638ce09e11380c76f3bd2e92552b5d0069334f4",
+      "statements/vf5c19153992ba091.json": "f5c19153992ba0910676cb1e322a9d33162fac34e343a54d7079714fdf3ada48",
+      "statements/v508be6e23e8482f5.json": "508be6e23e8482f5bb6480a1570ac7e9f972714b1ab7386caa31c8188c6546d9",
+      "statements/v2a395d68e9697680.json": "2a395d68e9697680f1f466b0298690b0416e7b7f3976d0c92d8da4128a3c345c",
+      "statements/v1cbe908c9c03f36d.json": "1cbe908c9c03f36d46eb2a0c9c10e8d13dae33b762f3d831239803065b93b7ba",
+      "statements/v27b72ac64d5ebd54.json": "27b72ac64d5ebd5448bc0ce21b0184dd1d0774ab54b06bc770319e033cdbb8e6",
+      "statements/vdf178c2ef7928a19.json": "df178c2ef7928a194e3f8c130e605b2436543d84ada46df487f1cacce4025da6",
+      "statements/v826af5b27db24da5.json": "826af5b27db24da521f1c713e8347a734c8726c696f202e1503340a3e0f9ebcf",
+      "statements/vd8d79e7a61cca51f.json": "d8d79e7a61cca51fa148d998600e6cc658b064b9609525010b79cb26b99a1bd0",
+      "statements/v061304592ad49c52.json": "061304592ad49c52d80534c0e5739fed0f68f4e7eb148a88559f24cec7416a3b",
+      "statements/v8a6cc076ed9ea03a.json": "8a6cc076ed9ea03aa5f3880d09d71523b9b2a97488018bc4d24eec99bcbe3f43",
+      "statements/v806b41e10fa621b2.json": "806b41e10fa621b2788497628a3de0363cc7f3172814875ea4d241986bef3dbe",
+      "statements/vb5fa3c46a923c472.json": "b5fa3c46a923c472be1047e17cdc711a4a87af6ba579c346dd00cc6ba8cdc3c5",
+      "statements/v66d14f47a3d0cf0b.json": "66d14f47a3d0cf0b7ba667c097ab31da5152a09167a1c2e6411e22854df12aee",
+      "statements/v9aaa90d371011e59.json": "9aaa90d371011e59acb4a35821f52114fb7e93d89e3b420b5926692447c20858",
+      "statements/vf8180cde8874edb6.json": "f8180cde8874edb663ac3793f118f113907be244bd56f1c4e8fd1464f41b1729"
+    }
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "cryptography": "46.0.0"
+  }
+}

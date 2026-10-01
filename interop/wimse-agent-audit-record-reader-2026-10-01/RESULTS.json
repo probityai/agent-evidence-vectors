@@ -1,0 +1,852 @@
+{
+  "source": {
+    "readerRepo": "Mayur021/agent-audit-record-reader",
+    "readerCommit": "0ad911a39d7942d5fabd9a4ea0b9093bb04f88a7",
+    "corpusRepo": "probityai/agent-evidence-vectors",
+    "corpusCommit": "8d6295fb5db3e57c52df09f2fbeeb758b09f5c7d",
+    "corpusDigest": "9617291fd6c1721dfd9430d3f15987da716ee5c722094f74431a95a2d4b3c3c6",
+    "runtime": {
+      "python": "3.12.14",
+      "cryptography": "46.0.0"
+    }
+  },
+  "summary": {
+    "vectors": 47,
+    "conform": 47,
+    "acceptValid": 9,
+    "rejectMalformed": 36,
+    "indeterminateValid": 2
+  },
+  "results": [
+    {
+      "draftId": "A1",
+      "id": "vded6715a80437cfb",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A2",
+      "id": "vf410c7b4b792c0b3",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A3",
+      "id": "v91afc5ba76960569",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A4",
+      "id": "v49db892b2464179b",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A5",
+      "id": "v092586b714b43901",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A6",
+      "id": "v43e2fe48bc27164d",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A7",
+      "id": "v3843cd0f05c512e2",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A8",
+      "id": "v8a9e5deb2888e02c",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "A9",
+      "id": "vf9473c2b0e833da1",
+      "kind": "accept",
+      "allowed": [
+        "valid"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F1",
+      "id": "v89164703a3e83dec",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "member-absent:agent"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F2",
+      "id": "vcf95da9b01a6664b",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "delegation-none-mismatch:subject='user:alice@example.org'"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F3",
+      "id": "vb5b9abc4f83111a8",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "digest-bound-without-argumentsDigest"
+      ],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "request-digest-mismatch"
+      ]
+    },
+    {
+      "draftId": "F3b",
+      "id": "v3d316ca718c2dfd5",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "not-bindable-carries-argumentsDigest:None"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F3c",
+      "id": "v48b0a2fe9334a263",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "not-bindable-carries-argumentsDigest:''"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F4",
+      "id": "vf3cf268dae0800ff",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "request-digest-mismatch"
+      ]
+    },
+    {
+      "draftId": "F5",
+      "id": "v4a450d67a3e14bd9",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "beacon-anchored-without-externalAnchor"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "F6",
+      "id": "vce25f7662e4f70cd",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "posture-agreement-underivable:declared='agree',derived='disagree'"
+      ]
+    },
+    {
+      "draftId": "F7",
+      "id": "v55decc76bf3738b2",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "remediation[0]-enforcedAt-before-signalReceivedAt"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "T1",
+      "id": "v7fad746721358d9d",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "effect-observed-underivable:declared='none',derived='occurred'",
+        "agreement-underivable:declared='agree',derived='not-exercised'"
+      ]
+    },
+    {
+      "draftId": "T2",
+      "id": "v9ec5a5a966dc0028",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "refuse",
+      "stage1Code": "signature-not-verified",
+      "stage2": "not-reached",
+      "stage2Findings": [],
+      "stage34": "not-reached",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "T3",
+      "id": "ve440c8b917ea6945",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "refuse",
+      "stage1Code": "json-profile",
+      "stage2": "not-reached",
+      "stage2Findings": [],
+      "stage34": "not-reached",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "T4",
+      "id": "vceed0855efea9660",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "refuse",
+      "stage1Code": "json-profile",
+      "stage2": "not-reached",
+      "stage2Findings": [],
+      "stage34": "not-reached",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "T5",
+      "id": "v95d01f289bf873d3",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "refuse",
+      "stage1Code": "json-profile",
+      "stage2": "not-reached",
+      "stage2Findings": [],
+      "stage34": "not-reached",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "D1",
+      "id": "v7c9a446636835696",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "agreement-underivable:declared='disagree',derived='agree'"
+      ]
+    },
+    {
+      "draftId": "D2",
+      "id": "v60025ea9854b9e10",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "agreement-reserved-value"
+      ]
+    },
+    {
+      "draftId": "D3",
+      "id": "v411cfaf5151d4cc5",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "agreement-underivable:declared='disagree',derived='not-exercised'"
+      ]
+    },
+    {
+      "draftId": "S1",
+      "id": "v5d7952e7b60ac201",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "subject-after-entry-absent-with-interval"
+      ]
+    },
+    {
+      "draftId": "S2",
+      "id": "v4669a6b6d8bbeb60",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "subject-after-root-mismatch"
+      ]
+    },
+    {
+      "draftId": "I1r",
+      "id": "v0f658d55b9e959cc",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "subject-after-entry-present-without-interval",
+        "write-chain-broken-at-0",
+        "commitment-digest-mismatch"
+      ]
+    },
+    {
+      "draftId": "TI1",
+      "id": "vbca32cc3ca51563a",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "substrate-covered-while-vantage-self"
+      ],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "tier-overclaim:vantage-below-observed"
+      ]
+    },
+    {
+      "draftId": "TI2",
+      "id": "v310861912d1046c5",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "tier-overclaim:prior-commitment-complete"
+      ]
+    },
+    {
+      "draftId": "TI3",
+      "id": "vd72e111dbe5e296f",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "write-scope-mismatch-at-0",
+        "tier-overclaim:path-scope-non-empty"
+      ]
+    },
+    {
+      "draftId": "TI4",
+      "id": "vf5c19153992ba091",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "tier-overclaim:coverage-complete-or-gaps-outside-scope"
+      ]
+    },
+    {
+      "draftId": "TI5",
+      "id": "v508be6e23e8482f5",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "tier-overclaim:binding-digest-bound"
+      ]
+    },
+    {
+      "draftId": "C1",
+      "id": "v2a395d68e9697680",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "commitment-key-is-agent-signer"
+      ]
+    },
+    {
+      "draftId": "C2",
+      "id": "v1cbe908c9c03f36d",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "commitment-not-strictly-before-interval"
+      ]
+    },
+    {
+      "draftId": "C3",
+      "id": "v27b72ac64d5ebd54",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "commitment-digest-mismatch"
+      ]
+    },
+    {
+      "draftId": "E1",
+      "id": "vdf178c2ef7928a19",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "effect-observed-underivable:declared='none',derived='occurred'"
+      ]
+    },
+    {
+      "draftId": "E2",
+      "id": "v826af5b27db24da5",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "write-chain-broken-at-1"
+      ]
+    },
+    {
+      "draftId": "E3",
+      "id": "vd8d79e7a61cca51f",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "write-chain-broken-at-0",
+        "empty-tree-constant-mismatch",
+        "commitment-digest-mismatch"
+      ]
+    },
+    {
+      "draftId": "V1",
+      "id": "v061304592ad49c52",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "vocabulary:remediation[0].enforcement='quarantined'"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "V2",
+      "id": "v8a6cc076ed9ea03a",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "pathScope-glob:'/srv/ledger/*'"
+      ],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "write-scope-mismatch-at-0"
+      ]
+    },
+    {
+      "draftId": "V3",
+      "id": "v806b41e10fa621b2",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "refuse",
+      "stage34Findings": [
+        "write-scope-mismatch-at-0"
+      ]
+    },
+    {
+      "draftId": "FE1",
+      "id": "vb5fa3c46a923c472",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "fieldEvidence-key-count:6"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "FE2",
+      "id": "v66d14f47a3d0cf0b",
+      "kind": "reject",
+      "allowed": [
+        "malformed"
+      ],
+      "observed": "malformed",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "refuse",
+      "stage2Findings": [
+        "substrate-covered-while-vantage-self"
+      ],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "N1",
+      "id": "v9aaa90d371011e59",
+      "kind": "indeterminate",
+      "allowed": [
+        "valid",
+        "indeterminate"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    },
+    {
+      "draftId": "N2",
+      "id": "vf8180cde8874edb6",
+      "kind": "indeterminate",
+      "allowed": [
+        "valid",
+        "indeterminate"
+      ],
+      "observed": "valid",
+      "conform": true,
+      "stage1": "open",
+      "stage1Code": "",
+      "stage2": "pass",
+      "stage2Findings": [],
+      "stage34": "pass",
+      "stage34Findings": []
+    }
+  ]
+}
