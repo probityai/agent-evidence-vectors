@@ -1,0 +1,41 @@
+name: Approved pull request landing
+on:
+  push:
+    branches: ['ops/land-gemara-60fd65a']
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: approved-landing-gemara-26
+  cancel-in-progress: false
+jobs:
+  land:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: landing-tools
+      - uses: actions/checkout@v4
+        with:
+          ref: '60fd65af247aec3038ee11885b32204db77c3ae3'
+          path: target
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run unchanged guards for the approved head
+        run: |
+          gh --version
+          python landing-tools/ops/pr-completion/run_landing.py \
+            --repository "$GITHUB_WORKSPACE/target" \
+            --helper "$GITHUB_WORKSPACE/landing-tools/ops/pr-completion/pr_land.py" \
+            --pr 'https://github.com/probityai/agent-evidence-vectors/pull/26' \
+            --head '60fd65af247aec3038ee11885b32204db77c3ae3' \
+            --audit "$GITHUB_WORKSPACE/landing-audit"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: landing-audit-gemara
+          path: landing-audit/
