@@ -156,6 +156,11 @@ demonstrations end to end from a fresh clone.
 selected passages appear in a bound report under a consumer-pinned capture and
 time window. Six synthetic cases ship in the wheel and require a named verifier.
 
+The [optional WS4 prior-witness candidate](interop/ws4-prior-witness-candidate/README.md)
+exercises provenance for the proposed CoSAI WS4 Section 7.4 integration draft.
+Its fixtures use an author-held test key and consumer-stipulated pins; they
+establish no outside witness custody or WS4 conformance.
+
 `vectors-w3c-report/` is the conformance set for v0.1 of the per-check
 reporting format of the W3C public-agent-conformance community group: every
 rejection row of the frozen table backed by a report that must be rejected
