@@ -18,7 +18,8 @@ def fetch(kind):
         relative = Path(name)
         if relative.is_absolute() or ".." in relative.parts:
             raise ValueError(f"invalid path: {name}")
-        url = f"https://raw.githubusercontent.com/{pin['repo']}/{pin['commit']}/{name}"
+        source_path = "/".join(filter(None, (pin.get("directory", ""), name)))
+        url = f"https://raw.githubusercontent.com/{pin['repo']}/{pin['commit']}/{source_path}"
         with urlopen(url, timeout=30) as response:
             data = response.read()
         if hashlib.sha256(data).hexdigest() != expected:
