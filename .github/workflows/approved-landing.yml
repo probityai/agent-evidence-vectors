@@ -1,0 +1,79 @@
+name: Land vectors CI maintenance and dispatch native main validation
+
+on:
+  push:
+    branches: ['ops/land-vectors-ci-142c01a']
+    paths: ['.github/workflows/approved-landing.yml', 'ops/pr-completion/**']
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: approved-landing-vectors-28-142c01a
+  cancel-in-progress: false
+
+jobs:
+  land-and-dispatch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: landing-tools
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: '142c01a9843b70857ae0e64660cc7eab0e5c1fd1'
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Require unchanged shipped landing guards and driver
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          expected = {
+              'pr_land.py': 'b2f4b23b35689e4dd7e03286f643e9f5c307ac763b507382a9357c9a0fe12f5f',
+              'pr_watch.py': 'f4d4a2fc1cfa21adafb2c771cf456dd8b15a5f255425e75b66f4dc4c7199b517',
+              'run_landing.py': 'fea584d3fa3f99cc56931f7918c86ba708a4b886dd2247f1ddbda0a07c64bf4e',
+          }
+          directory = Path('landing-tools/ops/pr-completion')
+          for filename, digest in expected.items():
+              actual = hashlib.sha256((directory / filename).read_bytes()).hexdigest()
+              if actual != digest:
+                  raise SystemExit(f'Landing helper changed: {filename} expected={digest} actual={actual}')
+              print(f'Unchanged landing helper: {filename} sha256={digest}')
+          PY
+      - name: Run unchanged guards for the standing-authorized owned head
+        run: |
+          python3 landing-tools/ops/pr-completion/run_landing.py \
+            --repository "$GITHUB_WORKSPACE/target" \
+            --helper "$GITHUB_WORKSPACE/landing-tools/ops/pr-completion/pr_land.py" \
+            --pr 'https://github.com/probityai/agent-evidence-vectors/pull/28' \
+            --head '142c01a9843b70857ae0e64660cc7eab0e5c1fd1' \
+            --audit "$GITHUB_WORKSPACE/landing-audit"
+      - name: Verify observed merge and dispatch native jobs on exact main
+        run: |
+          python3 landing-tools/ops/pr-completion/dispatch_merged.py \
+            --repository 'probityai/agent-evidence-vectors' \
+            --pr-number 28 \
+            --approved-head '142c01a9843b70857ae0e64660cc7eab0e5c1fd1' \
+            --workflow 'ci.yml' \
+            --workflow 'e2-reproduction.yml' \
+            --workflow 'gemara-method-link.yml' \
+            --audit "$GITHUB_WORKSPACE/landing-audit/post-merge"
+      - name: Retain landing observations and actual native run identities
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: landing-and-native-dispatch-vectors-28
+          path: landing-audit/
+          if-no-files-found: error
+          retention-days: 14
