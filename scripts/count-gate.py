@@ -1080,6 +1080,19 @@ DELEGATED: tuple[Delegated, ...] = (
             "interop/agentid-offline/test_reader.py",
         )
     ),
+    # The action's report retention default is a number of days, not a count
+    # of anything in the corpus; it equals the suiteRevision by coincidence.
+    # action-retention-test.py holds the input, its default and the README row.
+    *(
+        Delegated(path, "the action's report retention default in days", pattern,
+                  "scripts/action-retention-test.py")
+        for path, pattern in (
+            ("README.md", r"uploaded report \(default: `\d+`\)"),
+            ("action.yml", r"The default, \d+, is what"),
+            ("action.yml", r'default: "\d+"'),
+            ("scripts/action-retention-test.py", r'OLD_DEFAULT = "\d+"'),
+        )
+    ),
     # A row of the accepted-complexity table is a gocyclo measurement of one Go
     # function, re-measured and gated by complexity-table-gate.py. Gate0's 36
     # collided with the seen-but-tolerated count when the forcing baseline moved.

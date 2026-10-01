@@ -56,7 +56,8 @@ suite from that checkout, and then:
   with the corpus, and the suite notes.
 - Uploads the report JSON as the artifact `agent-evidence-vectors-results`.
   The report is the same `conformance-report.json` the harness writes locally,
-  and a scoreboard in another repository pulls it by that name.
+  and a scoreboard in another repository pulls it by that name. It
+  records the corpus release and digest the run read.
 - Fails the job when any vector disagreed, the suite raised a refusal, or the
   named verifier did not run on every vector.
 
@@ -69,6 +70,7 @@ Inputs, all optional except the first:
 | `tag` | A release to replay other than the one the action itself is pinned to, such as `v0.15.0`. The default is the action's own ref. |
 | `artifact-name` | The results artifact's name. Change it only when the action runs more than once in one workflow. |
 | `report-path` | Where the report is written, relative to the workspace. |
+| `retention-days` | Days GitHub keeps the uploaded report (default: `30`). The repository's own retention setting caps it. |
 
 Outputs: `report` (the report's path), `vectors` and `conform` (the totals),
 `executed` (how many vectors the named verifier ran on), and `result` (`pass`

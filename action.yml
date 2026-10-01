@@ -49,6 +49,13 @@ inputs:
     description: "Where the report JSON is written, relative to the workspace."
     required: false
     default: "agent-evidence-vectors-report.json"
+  retention-days:
+    description: >-
+      Days GitHub keeps the uploaded report artifact. The default, 30, is what
+      every earlier release of this action used. The repository or organisation
+      retention setting caps it, and GitHub refuses a value outside 1 to 90.
+    required: false
+    default: "30"
 
 outputs:
   report:
@@ -134,7 +141,7 @@ runs:
         name: ${{ inputs.artifact-name }}
         path: ${{ steps.replay.outputs.report }}
         overwrite: true
-        retention-days: 30
+        retention-days: ${{ inputs.retention-days }}
 
     # Keyed on the summary's verdict as well as the exit status. The status
     # alone once turned a replay on the harness's own reference rail into a
