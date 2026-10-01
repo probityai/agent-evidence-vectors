@@ -33,7 +33,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping
 from typing import Any, NamedTuple
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -142,8 +142,8 @@ def own_action(inputs: dict[str, Any]) -> Local:
         f" --corpus {shlex.quote(corpus)}"
         f" --verifier {shlex.quote(verifier)}"
         f" --report {shlex.quote(report_path)} || status=$?\n"
-        f"echo report={shlex.quote(report_path)} >> \"$GITHUB_OUTPUT\"\n"
-        f"REPORT={shlex.quote(report_path)} STATUS=\"$status\" CORPUS={shlex.quote(corpus)} \\\n"
+        f'echo report={shlex.quote(report_path)} >> "$GITHUB_OUTPUT"\n'
+        f'REPORT={shlex.quote(report_path)} STATUS="$status" CORPUS={shlex.quote(corpus)} \\\n'
         "  python3 scripts/action-summary.py\n"
         # The action's last step fails the job on the exit status OR on a
         # summary verdict other than pass, so the mirror does both.
@@ -191,7 +191,7 @@ def setup_python(inputs: dict[str, Any]) -> Local:
             "cannot provide; the job's later steps are not run on a different interpreter",
         )
     return Local(
-        f"uv venv -q --seed --python {shlex.quote(wanted)} \"$RUNNER_TEMP/setup-python\"\n"
+        f'uv venv -q --seed --python {shlex.quote(wanted)} "$RUNNER_TEMP/setup-python"\n'
         'echo "$RUNNER_TEMP/setup-python/bin" >> "$GITHUB_PATH"\n',
         "",
     )
@@ -230,8 +230,7 @@ CANNOT_RUN = {
         "what base URL the site will be served from"
     ),
     "actions/upload-pages-artifact": (
-        "packs the built directory into the run's artifact store, which is only "
-        "on the remote"
+        "packs the built directory into the run's artifact store, which is only on the remote"
     ),
     "actions/deploy-pages": (
         "publishes an uploaded artifact to the repository's Pages site, which "
@@ -512,7 +511,9 @@ class JobState:
 
     def absorb(self, env: dict[str, str]) -> None:
         """Carry what the step just wrote to $GITHUB_ENV and $GITHUB_PATH forward."""
-        self.env.update(read_github_env(pathlib.Path(env["GITHUB_ENV"]).read_text(encoding="utf-8")))
+        self.env.update(
+            read_github_env(pathlib.Path(env["GITHUB_ENV"]).read_text(encoding="utf-8"))
+        )
         for line in pathlib.Path(env["GITHUB_PATH"]).read_text(encoding="utf-8").splitlines():
             if line.strip():
                 self.path.append(line.strip())
@@ -596,10 +597,29 @@ def plan(files: list[pathlib.Path]) -> int:
     return summarise("planned", planned, 0, not_run)
 
 
+def step_base_environment(ambient: Mapping[str, str]) -> dict[str, str]:
+    """The environment every step starts from.
+
+    The hook runs this gate through `uv run --with pyyaml ...`, which exports
+    VIRTUAL_ENV naming a throwaway environment. Steps inherited it, so a
+    workflow's `uv pip install --no-deps .` installed the package into that
+    throwaway environment while every later `uv run` used the project one,
+    which never received it. A runner sets no VIRTUAL_ENV at all; its `uv pip`
+    finds the project's environment. So VIRTUAL_ENV here is the project
+    environment the hook names in UV_PROJECT_ENVIRONMENT, or nothing.
+    """
+    base = {**ambient, "CI": "1", "GITHUB_ACTIONS": ""}
+    base.pop("VIRTUAL_ENV", None)
+    project_env = ambient.get("UV_PROJECT_ENVIRONMENT", "")
+    if project_env:
+        base["VIRTUAL_ENV"] = project_env
+    return base
+
+
 def execute(files: list[pathlib.Path]) -> int:
     ran = failed = 0
     not_run: list[str] = []
-    base = {**os.environ, "CI": "1", "GITHUB_ACTIONS": ""}
+    base = step_base_environment(os.environ)
     # What each step with an `id:` wrote to $GITHUB_OUTPUT, so a later step that
     # names it in an `env:` value gets the value the runner would have given it.
     outputs: dict[str, dict[str, str]] = {}
