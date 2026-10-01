@@ -93,6 +93,10 @@ def case_report_names_signed_digest(work: Path) -> None:
         f"corpusDigest {corpus.get('corpusDigest')} != signed {want}"
     )
     raw = (REPO_ROOT / "vectors" / "MANIFEST.json").read_bytes()
+    revision = json.loads(raw)["suiteRevision"]
+    assert corpus.get("suiteRevision") == revision, (
+        f"suiteRevision {corpus.get('suiteRevision')!r} != manifest {revision!r}"
+    )
     assert corpus.get("manifestSha256") == hashlib.sha256(raw).hexdigest(), (
         "manifestSha256 is not the manifest's"
     )
@@ -137,6 +141,7 @@ def case_unreadable_manifest_is_null_not_invented(work: Path) -> None:
     module = load_harness()
     got = module.corpus_provenance(str(work / "no-such-corpus"))
     assert got["corpusDigest"] is None and got["manifestSha256"] is None, got
+    assert got["suiteRevision"] is None, got
 
 
 def case_summary_shows_provenance(work: Path) -> None:

@@ -96,6 +96,7 @@ def main() -> int:
     provenance = report.get("corpus") or {}
     summary.append(
         f"Release `{provenance.get('release') or 'none (source checkout)'}`, "
+        f"suiteRevision `{provenance.get('suiteRevision') or 'none'}`, "
         f"corpus digest `{provenance.get('corpusDigest') or 'not declared'}`, "
         f"manifest sha256 `{provenance.get('manifestSha256') or 'unread'}`.\n\n"
     )

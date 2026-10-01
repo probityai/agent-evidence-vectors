@@ -4469,7 +4469,7 @@ def _installed_release() -> str | None:
 
 
 def corpus_provenance(suite_dir: str) -> dict[str, Any]:
-    """Which corpus bytes this run read: the release, and the digests to match.
+    """Which corpus bytes this run read: release, revision, and digests to match.
 
     `corpusDigest` is the value the corpus manifest declares. It is the value
     `release/CORPUS-DIGESTS.txt` carries for the same manifest, and that list
@@ -4483,13 +4483,24 @@ def corpus_provenance(suite_dir: str) -> dict[str, Any]:
         with open(manifest_path, "rb") as handle:
             raw = handle.read()
     except OSError:
-        return {"release": _installed_release(), "corpusDigest": None, "manifestSha256": None}
+        return {
+            "release": _installed_release(),
+            "suiteRevision": None,
+            "corpusDigest": None,
+            "manifestSha256": None,
+        }
     try:
-        declared = json.loads(raw).get("corpusDigest")
-    except (ValueError, AttributeError):
-        declared = None
+        manifest = json.loads(raw)
+    except ValueError:
+        manifest = None
+    if not isinstance(manifest, dict):
+        manifest = {}
+    declared = manifest.get("corpusDigest")
+    revision = manifest.get("suiteRevision")
     return {
         "release": _installed_release(),
+        # Only the AEE corpus keeps a revision ledger; the others carry none.
+        "suiteRevision": revision if isinstance(revision, int) else None,
         "corpusDigest": declared if isinstance(declared, str) else None,
         "manifestSha256": sha256_hex(raw),
     }
