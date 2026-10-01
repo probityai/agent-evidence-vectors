@@ -1,0 +1,19 @@
+{
+  "format": "probity-agentavow-live-mcp-candidate/v0",
+  "source": {
+    "repository": "AgentAvow/AgentAvow",
+    "commit": "9a65bd96b02ab3e81359a7e1f4a909abf32e837c",
+    "profile": "agentavow.mcp-tool-definition.v1",
+    "files": {
+      "src/scanner/mcp_scan.py": "66eb4c5c1147812e21eb09744b6e5de6f181659e",
+      "src/scanner/scan.py": "b115e9429a071327f3fb16fff6d648c350972876",
+      "src/api/public_scan_router.py": "0631964e02bae0116af16220192e15ecd7e425d6",
+      "LICENSE": "184ce28d72f43f677ea8cbe2c0a4cca3d73d0999"
+    },
+    "license": "Source-available for viewing and evaluation; rights reserved except separately licensed subdirectories"
+  },
+  "casesSha256": "1df79bc2ca9d3a0c4f97ce45c6eaddd64f981523c8b22336a7722a3583601f26",
+  "expectedSha256": "ad59b063f3802d52737cd8ce3c1f316a5746c06525b5ad3e355e01898c339233",
+  "authoring": "Probity synthetic definitions and independent reader",
+  "scope": "Single named-tool digest comparison after a separately trusted pin; no JWS, source, or action authorization proof"
+}

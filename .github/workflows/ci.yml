@@ -242,13 +242,18 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate
+        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp
       - name: E2 compatibility tests in the shared development environment
         run: uv run python -m pytest -q interop/aps-priorseal-e2-2026-09-30/test_reproduction.py
       - name: WS4 prior witness candidate cases
         run: |
           PYTHONPATH=packaging uv run python interop/ws4-prior-witness-candidate/gen_fixture.py --check
           PYTHONPATH=packaging uv run python -m unittest discover -s interop/ws4-prior-witness-candidate -p 'test_profile.py'
+      - name: Live MCP named-tool definition cases
+        run: |
+          PYTHONPATH=packaging uv run python interop/agentavow-live-mcp/build_cases.py --check
+          PYTHONPATH=packaging uv run python interop/agentavow-live-mcp/run.py
+          PYTHONPATH=packaging uv run python -m unittest discover -s interop/agentavow-live-mcp -p 'test_definition_pin.py'
       - name: E2 reports reproduce in the shared development environment
         run: |
           cd interop/aps-priorseal-e2-2026-09-30

@@ -161,6 +161,8 @@ exercises provenance for the proposed CoSAI WS4 Section 7.4 integration draft.
 Its fixtures use an author-held test key and consumer-stipulated pins; they
 establish no outside witness custody or WS4 conformance.
 
+The [live MCP named-tool case](interop/agentavow-live-mcp/README.md) uses author-owned synthetic definitions to compare a prior digest with later served definitions; it does not verify a JWS or a live endpoint.
+
 `vectors-w3c-report/` is the conformance set for v0.1 of the per-check
 reporting format of the W3C public-agent-conformance community group: every
 rejection row of the frozen table backed by a report that must be rejected

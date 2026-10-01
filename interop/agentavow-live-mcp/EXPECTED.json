@@ -1,0 +1,48 @@
+{
+  "unchanged": {
+    "verdict": "match",
+    "reason": "digest_matches",
+    "observedDigest": "sha256:3ac7cf9565661c508ad53604b40ff19027eac8069288a1d2b185cd4bcd18710f"
+  },
+  "reordered": {
+    "verdict": "match",
+    "reason": "digest_matches",
+    "observedDigest": "sha256:3ac7cf9565661c508ad53604b40ff19027eac8069288a1d2b185cd4bcd18710f"
+  },
+  "metadata-only": {
+    "verdict": "match",
+    "reason": "digest_matches",
+    "observedDigest": "sha256:3ac7cf9565661c508ad53604b40ff19027eac8069288a1d2b185cd4bcd18710f"
+  },
+  "changed-description": {
+    "verdict": "changed",
+    "reason": "digest_differs",
+    "observedDigest": "sha256:01dc14b0170abe9b88676eec83cf3098ed4a6b6376457cff175f1633e4b65723"
+  },
+  "changed-schema": {
+    "verdict": "changed",
+    "reason": "digest_differs",
+    "observedDigest": "sha256:2b780a230315cc792cae80a3830f5db3cfd591bd2f12a223e79c5c49ad4857bc"
+  },
+  "changed-other-tool": {
+    "verdict": "match",
+    "reason": "digest_matches",
+    "observedDigest": "sha256:3ac7cf9565661c508ad53604b40ff19027eac8069288a1d2b185cd4bcd18710f"
+  },
+  "duplicate-name": {
+    "verdict": "not_established",
+    "reason": "name_ambiguous"
+  },
+  "missing-name": {
+    "verdict": "not_established",
+    "reason": "tool_missing"
+  },
+  "other-endpoint": {
+    "verdict": "not_established",
+    "reason": "endpoint_differs"
+  },
+  "fractional-number": {
+    "verdict": "not_established",
+    "reason": "definition_unreadable"
+  }
+}
