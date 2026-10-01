@@ -153,6 +153,19 @@ def own_action(inputs: dict[str, Any]) -> Local:
     )
 
 
+def uv_python_available(version: str) -> bool:
+    """Whether uv can provide exactly this CPython release, installed or downloadable."""
+    if shutil.which("uv") is None:
+        return False
+    proc = subprocess.run(  # noqa: S603 -- asking uv what it can install
+        ["uv", "python", "list", "--all-versions", version],  # noqa: S607
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return proc.returncode == 0 and f"cpython-{version}-" in proc.stdout
+
+
 def setup_python(inputs: dict[str, Any]) -> Local:
     """Mirror actions/setup-python with a fresh, pip-seeded interpreter from uv.
 
@@ -161,21 +174,24 @@ def setup_python(inputs: dict[str, Any]) -> Local:
     next steps ran against the hook's uv-built project venv, which has no pip,
     and three workflows failed here on 2026-10-01 while passing on the remote.
 
-    The new interpreter is announced through $GITHUB_PATH, exactly as the action
-    does, so it lasts for the rest of the job and no longer. When uv cannot
-    provide the pinned patch release it falls back to the same minor version and
-    says so on stderr, rather than running the job against whatever is on PATH.
+    The interpreter is announced through $GITHUB_PATH, exactly as the action
+    does, so it lasts for the rest of the job and no longer. The pinned release
+    is used or nothing is: when uv cannot provide that exact version, the step
+    is NOT RUN and so is the rest of its job (see `execute`). A nearby release
+    is not a mirror -- the WIMSE reproduction refuses any interpreter but its
+    pinned one, so a fallback fails a push the remote accepts.
     """
     wanted = str(inputs.get("python-version", "")).strip()
     if not wanted:
         return Local(None, "actions/setup-python was used without a python-version input")
-    minor = ".".join(wanted.split(".")[:2])
-    target = '"$RUNNER_TEMP/setup-python"'
+    if not uv_python_available(wanted):
+        return Local(
+            None,
+            f"actions/setup-python pins CPython {wanted}, which uv on this workstation "
+            "cannot provide; the job's later steps are not run on a different interpreter",
+        )
     return Local(
-        f"if ! uv venv -q --seed --python {shlex.quote(wanted)} {target} 2>/dev/null; then\n"
-        f"  echo \"setup-python mirror: uv cannot provide {wanted}; using {minor}\" >&2\n"
-        f"  uv venv -q --seed --python {shlex.quote(minor)} {target}\n"
-        "fi\n"
+        f"uv venv -q --seed --python {shlex.quote(wanted)} \"$RUNNER_TEMP/setup-python\"\n"
         'echo "$RUNNER_TEMP/setup-python/bin" >> "$GITHUB_PATH"\n',
         "",
     )
@@ -484,6 +500,9 @@ class JobState:
         self.temp.mkdir(parents=True, exist_ok=True)
         self.env: dict[str, str] = {}
         self.path: list[str] = []
+        # Set when a step that provisions the job's toolchain could not run;
+        # every later step of the job is then NOT RUN with this reason.
+        self.blocked = ""
 
     def environment(self, base: dict[str, str]) -> dict[str, str]:
         env = {**base, **self.env, "RUNNER_TEMP": str(self.temp), "GITHUB_WORKSPACE": str(REPO)}
@@ -599,7 +618,7 @@ def execute(files: list[pathlib.Path]) -> int:
                     job_name = step.job
                     job = JobState(scratch, f"{path.stem}-{step.job}")
                 assert job is not None
-                block, suffix, fault = resolve(step)
+                block, suffix, fault = resolve_in_job(step, job)
                 if fault:
                     failed += 1
                     not_run.append(f"{step.label}  ({suffix})")
@@ -635,6 +654,20 @@ def execute(files: list[pathlib.Path]) -> int:
                     }
 
     return summarise("ran", ran, failed, not_run)
+
+
+def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
+    """`resolve`, inside a job whose toolchain step may have failed to provision.
+
+    Once setup-python cannot be mirrored, every later step of the job is NOT RUN
+    rather than run on an interpreter the remote job never has.
+    """
+    if job.blocked:
+        return None, job.blocked, False
+    block, suffix, fault = resolve(step)
+    if block is None and step.uses.split("@", 1)[0] == "actions/setup-python":
+        job.blocked = f"the job's interpreter was not provisioned: {suffix}"
+    return block, suffix, fault
 
 
 def resolve(step: Step) -> tuple[str | None, str, bool]:

@@ -333,7 +333,7 @@ def continue_on_error_is_honoured_end_to_end() -> None:
         "      - name: and it did\n"
         "        env:\n"
         "          OUTCOME: ${{ steps.must_fail.outcome }}\n"
-        "        run: test \"$OUTCOME\" = failure\n"
+        '        run: test "$OUTCOME" = failure\n'
     )
     with tempfile.TemporaryDirectory() as tmp:
         path = pathlib.Path(tmp) / "neg.yml"
@@ -410,23 +410,34 @@ def github_env_and_runner_temp_carry_within_a_job() -> None:
     workflow = (
         "jobs:\n  j:\n    steps:\n"
         "      - run: |\n"
-        "          test -d \"$RUNNER_TEMP\"\n"
-        "          test -n \"$GITHUB_WORKSPACE\"\n"
-        "          mkdir -p \"$RUNNER_TEMP/bin\"\n"
+        '          test -d "$RUNNER_TEMP"\n'
+        '          test -n "$GITHUB_WORKSPACE"\n'
+        '          mkdir -p "$RUNNER_TEMP/bin"\n'
         "          printf '#!/bin/sh\\necho hi\\n' > \"$RUNNER_TEMP/bin/tool-xyz\"\n"
-        "          chmod +x \"$RUNNER_TEMP/bin/tool-xyz\"\n"
-        "          echo \"TOOL=$RUNNER_TEMP/bin/tool-xyz\" >> \"$GITHUB_ENV\"\n"
+        '          chmod +x "$RUNNER_TEMP/bin/tool-xyz"\n'
+        '          echo "TOOL=$RUNNER_TEMP/bin/tool-xyz" >> "$GITHUB_ENV"\n'
         "          printf 'MULTI<<EOF\\na\\nb\\nEOF\\n' >> \"$GITHUB_ENV\"\n"
-        "          echo \"$RUNNER_TEMP/bin\" >> \"$GITHUB_PATH\"\n"
+        '          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"\n'
         "      - run: |\n"
-        "          test -x \"$TOOL\"\n"
-        "          test \"$MULTI\" = \"$(printf 'a\\nb')\"\n"
-        "          test \"$(tool-xyz)\" = hi\n"
+        '          test -x "$TOOL"\n'
+        '          test "$MULTI" = "$(printf \'a\\nb\')"\n'
+        '          test "$(tool-xyz)" = hi\n'
         "  k:\n    steps:\n"
-        "      - run: test -z \"${TOOL:-}\"\n"
+        '      - run: test -z "${TOOL:-}"\n'
     )
     rc, log = _execute(workflow)
     assert rc == 0, f"runner variables did not carry within a job, or leaked across jobs:\n{log}"
+
+
+@contextlib.contextmanager
+def uv_provides(available: bool) -> Iterator[None]:
+    """Answer the uv availability probe, so the case does not depend on the host."""
+    original = GATE.uv_python_available  # type: ignore[attr-defined]
+    GATE.uv_python_available = lambda version: available  # type: ignore[attr-defined]
+    try:
+        yield
+    finally:
+        GATE.uv_python_available = original  # type: ignore[attr-defined]
 
 
 def setup_python_is_mirrored_with_pip() -> None:
@@ -435,10 +446,30 @@ def setup_python_is_mirrored_with_pip() -> None:
     Leaving it NOT RUN ran `python -m pip install` against the hook's uv venv,
     which has no pip.
     """
-    local = GATE.local_equivalent("actions/setup-python@abc", {"python-version": "3.13.15"})  # type: ignore[attr-defined]
+    with uv_provides(True):
+        local = GATE.local_equivalent("actions/setup-python@abc", {"python-version": "3.13.15"})  # type: ignore[attr-defined]
     assert local.run is not None, f"setup-python is not mirrored: {local.reason}"
     assert "--seed" in local.run, "the mirrored interpreter is not seeded with pip"
     assert "3.13.15" in local.run and "GITHUB_PATH" in local.run, local.run
+
+
+def an_unprovidable_python_stops_its_job() -> None:
+    """A pinned Python uv cannot provide is NOT RUN, and so is the rest of the job.
+
+    A nearby release is not a mirror: the WIMSE reproduction refuses any
+    interpreter but its pin, so running on 3.12.13 for a 3.12.14 pin failed a
+    push the remote accepts. Another job in the same workflow still runs.
+    """
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - uses: actions/setup-python@abc\n        with:\n          python-version: '9.9.9'\n"
+        "      - run: exit 1\n"
+        "  k:\n    steps:\n      - run: exit 7\n"
+    )
+    with uv_provides(False):
+        rc, log = _execute(workflow)
+    assert "NOT RUN  j[1]" in log, f"a step ran on an interpreter the job never got:\n{log}"
+    assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
 
 
 def main() -> int:
@@ -472,13 +503,14 @@ def main() -> int:
     check("a default working directory is honoured", a_default_working_directory_is_honoured)
     check("runner variables carry within a job", github_env_and_runner_temp_carry_within_a_job)
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
+    check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
 
     if FAILURES:
         print(f"FAIL: {len(FAILURES)} case(s) do not hold:")
         for line in FAILURES:
             print(f"  {line}")
         return 1
-    print("OK: 23 case(s); the local mirror runs steps the way GitHub Actions does.")
+    print("OK: 24 case(s); the local mirror runs steps the way GitHub Actions does.")
     return 0
 
 
