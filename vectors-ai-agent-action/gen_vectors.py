@@ -558,10 +558,15 @@ def build_accept() -> None:
         {"verdict": "valid"}, None,
         "chain shape: previousHash is lowercase 64-hex or the literal genesis")
 
-    add("ok-010-extensions-depth-128", "accept",
-        tool_call("genesis", extensions=nested(128)), PARENT_HASH,
+    # The bound is statement-wide: depth counts from the outermost brace of
+    # the whole Statement, so the Statement and the predicate object each add
+    # one level above the extensions object. extensions at 126 puts the
+    # Statement at exactly 128.
+    add("ok-010-statement-depth-128", "accept",
+        tool_call("genesis", extensions=nested(MAX_DEPTH - 2)), PARENT_HASH,
         ["aia-c-12"], {"verdict": "valid"}, None,
-        "bounds: 128 is admissible; the counting rule is #570's")
+        "bounds: a Statement exactly 128 deep is admissible; the counting "
+        "rule is #570's, from the Statement's outermost brace")
 
     # The twin of bad-113. A surrogate PAIR is one supplementary-plane
     # character and is well formed; only a lone half is not.
@@ -632,6 +637,11 @@ def spec_digest() -> str:
     """
     with open(os.path.join(HERE, SPEC_VENDORED_REL), "rb") as fh:
         return h(fh.read())
+
+
+# The normative nesting bound. Depth is counted over the whole Statement,
+# outermost brace as 1, scalars adding nothing.
+MAX_DEPTH = 128
 
 
 def nested(levels: int) -> dict:
@@ -855,8 +865,8 @@ def build_reject() -> None:
         basis=spec_basis("611-615",
                          "an unpaired escape of either half is malformed"))
 
-    add("bad-114-extensions-depth-129", "reject",
-        tool_call("genesis", extensions=nested(129)), PARENT_HASH,
+    add("bad-114-statement-depth-129", "reject",
+        tool_call("genesis", extensions=nested(MAX_DEPTH - 1)), PARENT_HASH,
         ["aia-c-12"], {"verdict": "invalid", "codes": ["depth-exceeded"]},
         None,
         "bounds: one level past the stated cap, so the counting rule is "

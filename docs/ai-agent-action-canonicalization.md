@@ -225,9 +225,11 @@ merely forbidden. Values are untouched. A supplementary-plane character in a
 `toolName`, in a content payload, or in any other value position stays
 admissible, because nothing sorts it.
 
-A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128.
-Depth is the number of arrays and objects open at a point, counting the outermost
-brace as depth 1; scalars do not increase it. The bound is normative rather than a
+A verifier MUST reject, fail-closed, a record or a Statement whose JSON nesting
+depth exceeds 128. Depth is the number of arrays and objects open at a point,
+counting the outermost brace of the whole document as depth 1; scalars do not
+increase it. A record carried as a Statement's predicate is therefore measured
+inside the Statement, where its own outermost brace is at depth 2. The bound is normative rather than a
 resource limit, because with no bound stated two conforming verifiers disagree
 about whether identical bytes are evidence at all across the whole range between
 their private choices.

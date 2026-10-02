@@ -34,7 +34,7 @@
     "accept": 41,
     "reject": 21
   },
-  "corpusDigest": "b80da5c5506f4c566503456dfa0d49bf78c731e0f02cc01d857e2ef1215cbf64",
+  "corpusDigest": "29ddec0b82f92a4ffc3f07d29b8c58660537d3eec76fbe0d868e0665174b4bd9",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
     {
@@ -180,6 +180,18 @@
       "cites": "number serialization: RFC 8785 Appendix B row 5. The IEEE 754 double 7fefffffffffffff is the JSON number 1.7976931348623157e+308, and no other text. Max pos number."
     },
     {
+      "id": "v288bb68e53e8e8b4",
+      "kind": "accept",
+      "file": "statements/v288bb68e53e8e8b4.json",
+      "conditions": [
+        "aia-c-12"
+      ],
+      "expected": {
+        "verdict": "valid"
+      },
+      "cites": "bounds: a Statement exactly 128 deep is admissible; the counting rule is #570's, from the Statement's outermost brace"
+    },
+    {
       "id": "v2d317372d8b62a5b",
       "kind": "accept",
       "file": "statements/v2d317372d8b62a5b.json",
@@ -240,16 +252,24 @@
       "cites": "number serialization: RFC 8785 Appendix B row 6. The IEEE 754 double ffefffffffffffff is the JSON number -1.7976931348623157e+308, and no other text. Max neg number."
     },
     {
-      "id": "v43175cd2ad003639",
-      "kind": "accept",
-      "file": "statements/v43175cd2ad003639.json",
+      "id": "v4163675fb8d766a9",
+      "kind": "reject",
+      "file": "statements/v4163675fb8d766a9.json",
       "conditions": [
         "aia-c-12"
       ],
       "expected": {
-        "verdict": "valid"
+        "verdict": "invalid",
+        "codes": [
+          "depth-exceeded"
+        ]
       },
-      "cites": "bounds: 128 is admissible; the counting rule is #570's"
+      "cites": "bounds: one level past the stated cap, so the counting rule is exercised rather than assumed",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "602,627-629",
+        "quote": "A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128"
+      }
     },
     {
       "id": "v4c882a9f1bbeb7f0",
@@ -960,26 +980,6 @@
       },
       "cites": "strings: extension member names inside the BMP sort the same way under UTF-16 code units and under code points, so the record has one canonical form and one chain hash",
       "records": "records/vd473932a82fd8779.jsonl"
-    },
-    {
-      "id": "vd94ac70c9f0d84bf",
-      "kind": "reject",
-      "file": "statements/vd94ac70c9f0d84bf.json",
-      "conditions": [
-        "aia-c-12"
-      ],
-      "expected": {
-        "verdict": "invalid",
-        "codes": [
-          "depth-exceeded"
-        ]
-      },
-      "cites": "bounds: one level past the stated cap, so the counting rule is exercised rather than assumed",
-      "basis": {
-        "source": "in-toto/attestation#588@a5dd509",
-        "lines": "602,627-629",
-        "quote": "A verifier MUST reject, fail-closed, a record whose JSON nesting depth exceeds 128"
-      }
     },
     {
       "id": "vdd8899ebf08f5040",

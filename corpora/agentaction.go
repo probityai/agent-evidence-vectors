@@ -28,13 +28,16 @@ func (agentAction) Suite() string { return "ai-agent-action-conformance" }
 var canonicalBytesConditions = map[string]bool{"aia-c-1": true, "aia-c-3": true, "aia-c-4": true}
 
 // The two conditions whose members carry a structural bound rather than a
-// digest: the extensions-depth pair and the unsafe-integer member. The
+// digest: the Statement-depth pair and the unsafe-integer member. The
 // accepting side of the depth pair sits at the maximum and the rejecting side
 // one past it, which is what makes the pair a boundary rather than a claim.
 const (
 	depthCondition         = "aia-c-12"
 	unsafeIntegerCondition = "aia-c-14"
-	maximumExtensionsDepth = 128
+	// maximumStatementDepth is the normative nesting bound, counted over the
+	// whole Statement from its outermost brace, as the canonicalization text
+	// states it and as the I-JSON parser enforces it.
+	maximumStatementDepth = 128
 )
 
 type agentActionManifest struct {
@@ -240,7 +243,7 @@ func (a agentAction) dispatchDeclaredChecks(v agentActionVector, statement map[s
 		conditions[c] = true
 	}
 	if conditions[depthCondition] {
-		a.checkDeclaredDepth(v, predicate["extensions"], out)
+		a.checkDeclaredDepth(v, statement, out)
 	}
 	if conditions[unsafeIntegerCondition] && v.Kind == "reject" {
 		a.checkUnsafeInteger(body, out)
@@ -251,17 +254,19 @@ func (a agentAction) dispatchDeclaredChecks(v agentActionVector, statement map[s
 	a.checkAppendixB(v, predicate, out)
 }
 
-// checkDeclaredDepth measures the extensions object against the bound its
+// checkDeclaredDepth measures the whole Statement against the bound its
 // condition names: the accepting member sits exactly at the maximum and the
-// rejecting member exactly one past it.
-func (agentAction) checkDeclaredDepth(v agentActionVector, extensions any, out *Member) {
-	want := maximumExtensionsDepth
+// rejecting member exactly one past it. It measured the extensions object
+// alone until the corpus shipped an accepting member whose extensions were
+// 128 deep inside a Statement 130 deep, which the normative rule rejects.
+func (agentAction) checkDeclaredDepth(v agentActionVector, statement map[string]any, out *Member) {
+	want := maximumStatementDepth
 	if v.Kind == "reject" {
-		want = maximumExtensionsDepth + 1
+		want = maximumStatementDepth + 1
 	}
-	if measured := jsonDepth(extensions, 1); measured != want {
+	if measured := jsonDepth(statement, 1); measured != want {
 		out.Findings = append(out.Findings, fmt.Sprintf(
-			"cites %s as a %s member, so its extensions must be %d deep, and they measure %d",
+			"cites %s as a %s member, so its Statement must be %d deep, and it measures %d",
 			depthCondition, v.Kind, want, measured))
 	}
 }
