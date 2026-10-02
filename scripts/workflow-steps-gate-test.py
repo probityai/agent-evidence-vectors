@@ -54,6 +54,7 @@ def load_gate() -> object:
 
 GATE = load_gate()
 FAILURES: list[str] = []
+RAN: list[str] = []
 
 
 @contextlib.contextmanager
@@ -76,6 +77,7 @@ def installed(version: str) -> Iterator[None]:
 
 
 def check(name: str, fn: Callable[[], None]) -> None:
+    RAN.append(name)
     try:
         fn()
     except AssertionError as exc:
@@ -529,7 +531,7 @@ def main() -> int:
         for line in FAILURES:
             print(f"  {line}")
         return 1
-    print("OK: 25 case(s); the local mirror runs steps the way GitHub Actions does.")
+    print(f"OK: {len(RAN)} case(s); the local mirror runs steps the way GitHub Actions does.")
     return 0
 
 
