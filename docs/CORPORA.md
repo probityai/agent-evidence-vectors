@@ -93,6 +93,15 @@ recomputes 13 source-pinned signature cases. It accepts signer-side dual signing
 while rejecting verifier fallback that would leave an altered legacy URL unsigned.
 This optional consumer policy is separate from A2A's pending canonicalization ruling.
 
+The [separate JEP Core 0.7 reader](../interop/jep-core07-reader/README.md) runs the
+pinned JEP fixtures without importing JEP's own validator or runner, under a
+protocol committed before execution, and reports the validation, producer and
+acceptance assertions separately.
+
+The [separate REMORA E7 reader](../interop/remora-e7-reader/README.md) checks the
+native `runtime-surface-e7-v0.1` fixtures against the producer-pinned package
+digest and computes each result without reading the case's expected answer.
+
 `vectors-w3c-report/` is the conformance set for v0.1 of the per-check
 reporting format of the W3C public-agent-conformance community group: every
 rejection row of the frozen table backed by a report that must be rejected
