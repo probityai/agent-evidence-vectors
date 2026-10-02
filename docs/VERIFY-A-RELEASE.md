@@ -10,7 +10,7 @@ for it, and without taking this page's word. Four commands settle it.
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.16.0
+git checkout v0.15.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -94,7 +94,7 @@ renders a citation from the same file.
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.16.0},
+  version   = {0.15.0},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.22758687},
