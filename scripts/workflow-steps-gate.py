@@ -693,6 +693,20 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
 def resolve(step: Step) -> tuple[str | None, str, bool]:
     """(shell to run, the parenthetical or reason, whether it is a fault)."""
     if step.run is not None:
+        if "${{" in step.run:
+            # Actions substitutes an expression into a `run:` block as text
+            # before the shell sees it, which this mirror does not do: bash
+            # reads the leftover `${{ ... }}` as a bad substitution and the step
+            # fails here while it passes on the runner. Interpolating untrusted
+            # context into shell text is also the script-injection pattern
+            # GitHub's hardening guide tells workflows to avoid. The expression
+            # belongs in the step's `env:`, which this gate does resolve.
+            return (
+                None,
+                "its run block interpolates a ${{ }} expression; move it into the "
+                "step's env: and read it as a shell variable",
+                True,
+            )
         return step.run, "", False
     local = local_equivalent(step.uses, step.inputs)
     if local.run is not None:

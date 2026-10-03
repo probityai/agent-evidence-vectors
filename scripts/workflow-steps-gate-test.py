@@ -291,6 +291,14 @@ def an_unsupplied_context_is_empty_as_it_is_on_a_runner() -> None:
     )
 
 
+def an_expression_in_a_run_block_is_a_fault() -> None:
+    """A `${{ }}` left inside `run:` is refused by name, not run as broken bash."""
+    block, reason, fault = GATE.resolve(_step('echo "${{ github.sha }}"'))  # type: ignore[attr-defined]
+    assert block is None and fault and "env:" in reason, (block, reason, fault)
+    block, reason, fault = GATE.resolve(_step('echo "$SHA"', {"SHA": "${{ github.sha }}"}))  # type: ignore[attr-defined]
+    assert block == 'echo "$SHA"' and not fault, (block, reason, fault)
+
+
 def the_action_mirror_produces_the_declared_outputs() -> None:
     """The mirror runs the action's own summary script, not a copy of its sums."""
     local = GATE.local_equivalent("./", {"verifier": "./aee-verify -json"})  # type: ignore[attr-defined]
@@ -508,6 +516,7 @@ def main() -> int:
         an_output_the_mirror_never_wrote_is_not_run,
     )
     check("an unsupplied context is empty", an_unsupplied_context_is_empty_as_it_is_on_a_runner)
+    check("an expression in a run block is a fault", an_expression_in_a_run_block_is_a_fault)
     check("the action mirror produces its outputs", the_action_mirror_produces_the_declared_outputs)
     check("a recorded step outcome is supplied", a_recorded_step_outcome_is_supplied)
     check("an outcome of an unrun step is not run", an_outcome_of_an_unrun_step_is_not_run)
