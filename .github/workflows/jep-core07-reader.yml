@@ -28,11 +28,13 @@ jobs:
       - name: Test signatures and acceptance refusals
         run: python -m pytest -q interop/jep-core07-reader/test_jep_reader.py
       - name: Retain fresh 25/4/8 assertion execution
+        env:
+          READER_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: >-
           python interop/jep-core07-reader/run.py
           --upstream interop/jep-core07-reader/upstream
           --output .build/jep-core07-result
-          --reader-revision "${{ github.event.pull_request.head.sha || github.sha }}"
+          --reader-revision "${READER_REVISION:-$(git rev-parse HEAD)}"
       - name: Retain complete exchanges and committed synthetic state
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

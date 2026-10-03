@@ -28,11 +28,13 @@ jobs:
       - name: Test frozen bytes and refusal paths
         run: python -m pytest -q interop/remora-e7-reader/test_reader.py
       - name: Retain native E7 results
+        env:
+          READER_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
         run: >-
           python interop/remora-e7-reader/run.py
           --upstream interop/remora-e7-reader/upstream
           --output .build/remora-e7-result
-          --reader-revision "${{ github.event.pull_request.head.sha || github.sha }}"
+          --reader-revision "${READER_REVISION:-$(git rev-parse HEAD)}"
           --operator EXTERNAL
           --run-ref https://probityai.github.io/agent-evidence-atlas/lab.html
       - name: Retain report and external run record

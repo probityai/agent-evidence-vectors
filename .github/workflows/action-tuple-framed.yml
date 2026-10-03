@@ -36,7 +36,7 @@ jobs:
         run: |
           python interop/action-tuple-framed-v1/reader.py corpus interop/action-tuple-framed-v1/MANIFEST.json \
             --manifest-sha256 b77fb91733b21710e183553e95af3ce552d578e35d600d56f056ca5a8007ae39 \
-            --output-dir "${{ runner.temp }}/action-tuple-first-attempt"
+            --output-dir "$RUNNER_TEMP/action-tuple-first-attempt"
       - name: Retain the per-case result
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
