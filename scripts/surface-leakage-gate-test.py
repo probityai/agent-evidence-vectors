@@ -361,23 +361,13 @@ def row_of(data: dict[str, Any], corpus: str, surface: str) -> dict[str, Any]:
     return row
 
 
-DECLARED = ("vectors-ai-agent-action", "paths")
-"""The row a blocker is dropped from, and it is pinned rather than searched for.
-
-Searching the baseline for whichever row happens to carry a `blockedBy` would
-make this case quietly weaker every time one is retired, and silently vacuous
-once the last is: nothing to drop reads exactly like nothing to refuse. Pinned,
-the case names the row it is about, and when that row's declaration is retired --
-which is what should eventually happen to this one -- the case refuses to
-construct and says so, which is the prompt to repoint it at a row that still has
-one, or to retire it deliberately.
-
-This is the defect this pin exists to prevent, and it has already happened once:
-the case dropped `vectors`/`identifier`'s blocker until content-addressing the
-corpus brought that surface back inside its null and the ratchet removed the
-declaration. The case then raised `KeyError` mid-run, taking every other case's
-verdict with it.
-"""
+# A case once dropped the `blockedBy` declaration off a surface that was really
+# outside its null, pinned to vectors-ai-agent-action/paths. That leak closed
+# when the Appendix B family gained its reject twins and the ratchet removed the
+# last declaration in the baseline, so no row is left to construct it from. The
+# refusal it checked -- a surface outside its null with nothing named for it --
+# is still checked by "a recorded null edited below the corpus's real noise
+# floor", which builds that state rather than waiting for a real leak.
 
 
 def lower_a_recorded_figure(root: Path) -> None:
@@ -389,24 +379,6 @@ def lower_a_recorded_figure(root: Path) -> None:
 def raise_a_recorded_figure(root: Path) -> None:
     data = baseline(root)
     row_of(data, "vectors", "paths")["separability"] = 0.90
-    write_baseline(root, data)
-
-
-def drop_a_blocker(root: Path) -> None:
-    """Strip the declaration off a surface that is genuinely outside its null."""
-    corpus, surface = DECLARED
-    data = baseline(root)
-    row = row_of(data, corpus, surface)
-    require(row, "blockedBy", f"{BASELINE_REL} {corpus}/{surface}")
-    if float(row.get("separability", 0.0)) <= float(row.get("null", 1.0)):
-        raise CannotConstruct(
-            f"{BASELINE_REL} {corpus}/{surface} records "
-            f"{row.get('separability')} against a null of {row.get('null')}, so it "
-            "is inside its null and dropping its blocker would test the stale-"
-            "declaration rule instead of this one. Repoint the case at a row that "
-            "is genuinely outside its null."
-        )
-    del row["blockedBy"]
     write_baseline(root, data)
 
 
@@ -526,11 +498,6 @@ REFUSALS: list[Case] = [
         "a recorded figure holding slack the corpus does not need",
         raise_a_recorded_figure,
         ("--sync",),
-    ),
-    (
-        "a surface outside its null with no blocker named",
-        drop_a_blocker,
-        ("outside its own null",),
     ),
     (
         "a surface inside its null still naming a blocker",
