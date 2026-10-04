@@ -3,8 +3,8 @@
 # Every digest is recomputed from the vector files on disk, never copied from the manifest.
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 b50bf6123949cde58b572019f5d07d923b0466e04bb30c7b6df68e692ab57668  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=34  no-suiteRevision
-9617291fd6c1721dfd9430d3f15987da716ee5c722094f74431a95a2d4b3c3c6  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=47  no-suiteRevision
-29ddec0b82f92a4ffc3f07d29b8c58660537d3eec76fbe0d868e0665174b4bd9  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=62  no-suiteRevision
+048ddde8c8ce7e65368c4c46bd91192765444d287b4fcd35c3260bfcf9bb80aa  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=55  no-suiteRevision
+36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=75  no-suiteRevision
 786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037  vectors-ai-generation/MANIFEST.json  ai-generation-v01-conformance  vectors=38  no-suiteRevision
 6bc10ebd3b65776e96e78797101f85687437bcff89963864067795de2f2948be  vectors-anchor-stream/MANIFEST.json  anchor-stream-conformance  vectors=32  no-suiteRevision
 e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef  vectors-artifact-binding/MANIFEST.json  artifact-binding-conformance  vectors=8  no-suiteRevision

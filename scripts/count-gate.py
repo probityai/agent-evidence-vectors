@@ -1219,6 +1219,18 @@ FROZEN: tuple[Frozen, ...] = (
             ("the Gemara license-only test boundary", "the 32 pytest tests were not repeated."),
         )
     ),
+    # The W3C v0.1 text's own count of the delta-related pairs re-cut against it.
+    # It is a figure of that text (section 10, list message 2026Sep/0087), and it
+    # came to equal the audit record corpus's reject count when revision 02 of
+    # that draft added six reject members; the two are unrelated.
+    Frozen(
+        "docs/guides/corpora.md",
+        "the W3C v0.1 delta-related pair count",
+        "42 delta-related pairs recut against v0.1",
+        "A figure of the W3C reporting format v0.1 text, section 10 (list message "
+        "2026Sep/0087): the delta-related pairs re-cut against v0.1. It records "
+        "what that text says, not a count of any manifest.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not

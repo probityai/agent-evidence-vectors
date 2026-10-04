@@ -574,6 +574,49 @@ def an_unprovidable_python_stops_its_job() -> None:
     assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
 
 
+def a_foreign_checkout_stops_its_job() -> None:
+    """A job that checks out another repository runs nothing after that step.
+
+    The APS comparison checks a third-party repository out at source/aps and
+    its next step runs there; this gate fetches nothing, so the step crashed
+    the whole gate on a missing directory and refused every push.
+    """
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - uses: actions/checkout@abc\n"
+        "        with:\n          repository: example/other\n          path: source/other\n"
+        "      - run: exit 1\n        working-directory: source/other\n"
+        "  k:\n    steps:\n      - run: exit 7\n"
+    )
+    rc, log = _execute(workflow)
+    assert "NOT RUN  j[1]" in log and "example/other" in log, (
+        f"a step read bytes never fetched:\n{log}"
+    )
+    assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
+
+
+def a_step_guarded_to_another_event_is_not_run() -> None:
+    """A step whose `if:` names another event does not run for a push.
+
+    The merge-subject lint is guarded to pull_request and reads the PR title;
+    run for a push it failed on an empty title the remote never gives it. A
+    step guarded to push, or with an expression this gate cannot decide, runs.
+    """
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - if: github.event_name == 'pull_request'\n        run: exit 3\n"
+        "      - if: github.event_name != 'push'\n        run: exit 4\n"
+        "      - if: github.event_name == 'push'\n        run: exit 5\n"
+        "      - if: always()\n        run: exit 6\n"
+    )
+    rc, log = _execute(workflow)
+    assert "NOT RUN  j[0]" in log and "NOT RUN  j[1]" in log, f"a guarded step ran:\n{log}"
+    assert "FAIL  j[2]" in log and "FAIL  j[3]" in log, (
+        f"a step that runs on a push was skipped:\n{log}"
+    )
+    assert rc != 0
+
+
 def an_ambient_virtual_env_does_not_reach_the_steps() -> None:
     """`uv pip install` in a step must land in the project environment.
 
@@ -627,6 +670,8 @@ def main() -> int:
     )
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
+    check("a foreign checkout stops its job", a_foreign_checkout_stops_its_job)
+    check("a step guarded to another event is not run", a_step_guarded_to_another_event_is_not_run)
     check(
         "an ambient VIRTUAL_ENV does not reach the steps",
         an_ambient_virtual_env_does_not_reach_the_steps,

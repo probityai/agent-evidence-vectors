@@ -455,6 +455,104 @@ def build_appendix_b() -> None:
 
 
 # ---------------------------------------------------------------------------
+# The two ECMAScript exponent switches, held from both sides.
+#
+# RFC 8785 section 3.2.2.3 serializes a number with ECMAScript
+# Number::toString, which writes exponent notation for magnitudes at or above
+# 1e21 and below 1e-6 and plain digits between them. A serializer that skips
+# either switch writes the same value as plain digits, and the digest it takes
+# is then over bytes no conforming canonicalizer produces. Appendix B already
+# accepts 1e+21; it has no member below 1e-6 that is exactly a power of ten,
+# so 1e-7 is added beside the table rather than inside it, because the table
+# is a fixed quotation of the RFC. Each reject member carries the digest of
+# the plain-digit spelling of the same double, which is the request digest a
+# verifier holding the payload recomputes differently.
+#
+# (IEEE 754 hex, canonical JSON number, the plain-digit spelling, slug)
+# ---------------------------------------------------------------------------
+NUMBER_NOTATION: list[tuple[str, str, str, str]] = [
+    ("444b1ae4d6e2ef50", "1e+21", "1000000000000000000000", "integral-1e21"),
+    ("3e7ad7f29abcaf48", "1e-7", "0.0000001", "fraction-1e-7"),
+    # The Appendix B rows Python's json.dumps writes differently. It uses repr,
+    # which switches to exponent notation at 1e16 and below 1e-4 rather than at
+    # 1e21 and 1e-6, and writes an integral double with a trailing ".0". A
+    # canonicalizer built on it is the most common way an RFC 8785
+    # implementation goes wrong, so each spelling is the one such a rail emits.
+    ("0000000000000000", "0", "0.0", "python-repr-zero"),
+    ("8000000000000000", "0", "-0.0", "python-repr-minus-zero"),
+    ("4340000000000000", "9007199254740992", "9007199254740992.0",
+     "python-repr-max-pos-int"),
+    ("c340000000000000", "-9007199254740992", "-9007199254740992.0",
+     "python-repr-max-neg-int"),
+    ("4430000000000000", "295147905179352830000", "2.9514790517935283e+20",
+     "python-repr-two-to-the-68"),
+    ("444b1ae4d6e2ef4e", "999999999999999700000", "9.999999999999997e+20",
+     "python-repr-below-1e21"),
+    ("444b1ae4d6e2ef4f", "999999999999999900000", "9.999999999999999e+20",
+     "python-repr-just-below-1e21"),
+    ("3eb0c6f7a0b5ed8c", "9.999999999999997e-7", "9.999999999999997e-07",
+     "python-repr-below-1e-6"),
+    ("3eb0c6f7a0b5ed8d", "0.000001", "1e-06", "python-repr-at-1e-6"),
+    ("becbf647612f3696", "-0.0000033333333333333333", "-3.3333333333333333e-06",
+     "python-repr-negative-small-fraction"),
+]
+
+# The rows above whose accepting twin is not already an Appendix B row.
+NUMBER_NOTATION_NEW_ACCEPTS = ("fraction-1e-7",)
+
+# The lines of #588 the reject members rest on, and the words they must hold.
+NUMBER_NOTATION_LINES = "430-432,458-462"
+NUMBER_NOTATION_QUOTE = ("RFC 8785 canonicalizes the payload bytes, SHA-256 "
+                         "reduces them to a lowercase 64-hex string")
+
+
+def payload_digests(text: str) -> dict:
+    return {"request": {"sha256": h(('{"value":' + text + "}").encode())},
+            "response": {"sha256": h(jcs(RESP_OK))}}
+
+
+def build_number_notation() -> None:
+    """An accept and a reject at each exponent switch of Number::toString."""
+    for hexpat, want, plain, slug in NUMBER_NOTATION:
+        value = struct.unpack(">d", bytes.fromhex(hexpat))[0]
+        canonical = jcs_es6({"value": value})
+        assert canonical == ('{"value":' + want + "}").encode(), (
+            f"{hexpat} canonicalizes to {canonical!r}, not {want}")
+        assert struct.pack(">d", float(plain)) == bytes.fromhex(hexpat) and plain != want, (
+            f"{plain} must spell the double {hexpat} other than canonically")
+        if slug in NUMBER_NOTATION_NEW_ACCEPTS:
+            add(f"ok-number-notation-{slug}", "accept",
+                tool_call("genesis", tool=f"canonicalize_{hexpat}",
+                          content=payload_digests(want)),
+                PARENT_HASH, ["aia-c-16"],
+                {"verdict": "valid", "ieee754": hexpat,
+                 "canonicalNumber": want, "requestDigest": h(canonical)},
+                None,
+                f"number serialization: the IEEE 754 double {hexpat} is the "
+                f"JSON number {want}, and no other text. Below 1e-6 "
+                "Number::toString writes exponent notation; this row is "
+                "beside Appendix B, not in it.")
+        add(f"bad-number-notation-{slug}-plain-digits", "reject",
+            tool_call("genesis", tool=f"canonicalize_{hexpat}",
+                      content=payload_digests(plain)),
+            PARENT_HASH, ["aia-c-16"],
+            {"verdict": "invalid", "codes": ["content-digest-mismatch"],
+             "ieee754": hexpat, "canonicalNumber": want,
+             "carriedNumber": plain, "requestDigest": h(canonical)},
+            None,
+            f"number serialization: the request digest is taken over "
+            f"{plain}, a spelling of the double {hexpat} that RFC 8785 does "
+            f"not produce. RFC 8785 writes it {want}, so a verifier holding "
+            "the payload recomputes a different digest. "
+            + ("A canonicalizer built on Python's json.dumps writes this "
+               "spelling and accepts this member."
+               if slug.startswith("python-repr") else
+               "A serializer that skips the exponent switch accepts this "
+               "member."),
+            basis=spec_basis(NUMBER_NOTATION_LINES, NUMBER_NOTATION_QUOTE))
+
+
+# ---------------------------------------------------------------------------
 # ACCEPT: the conformant twin of every reject member below.
 # ---------------------------------------------------------------------------
 def build_accept() -> None:
@@ -1112,6 +1210,7 @@ def build_chain_break() -> None:
 def main() -> None:
     build_accept()
     build_appendix_b()
+    build_number_notation()
     build_reject()
     build_chain_break()
     emit()

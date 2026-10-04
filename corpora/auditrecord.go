@@ -19,7 +19,7 @@ import (
 func init() { register(auditRecord{}) }
 
 // auditRecord judges vectors-agent-audit-record/, the conformance corpus of
-// Appendix B of draft-gilda-wimse-agent-audit-record-01.
+// Appendix B of draft-gilda-wimse-agent-audit-record-02.
 //
 // It is the Go rail over that corpus, restated from the draft rather than
 // imported from the Python reader at packaging/agent_evidence_vectors/
@@ -73,7 +73,17 @@ var arVocabularies = []struct {
 	{"posture.observed", []string{"no_network", "allowlist", "sinkhole", "unsafe_bypass_egress"}},
 	{"posture.agreement", []string{"agree", "disagree"}},
 	{"observation.vantage", []string{"below-observed", "peer", "self"}},
+	{"evaluation.status", []string{"evaluated", "not-evaluated"}},
+	{"oversight.act", []string{"observation", "check", "decision", "release"}},
 }
+
+// arUnavailableInputs is the closed set an evaluation that did not happen
+// names its missing inputs from: the standing source, the key source and the
+// consumption state a verifier reads before it can decide.
+var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state"}
+
+// arOversightMembers are the only members an oversight object may carry.
+var arOversightMembers = []string{"act", "recordDigest"}
 
 var arRemediationVocab = map[string][]string{
 	"cause": {"session-revoked", "risk-elevated", "subject-disabled", "token-replay-suspected",
@@ -86,7 +96,7 @@ var arRemediationVocab = map[string][]string{
 var arTopMembers = []string{
 	"recordId", "tier", "hashAlgorithm", "agent", "delegation", "resource", "decision",
 	"effect", "agreement", "correlation", "posture", "remediation", "observation",
-	"fieldEvidence", "doesNotAssert", "issuedAt",
+	"fieldEvidence", "doesNotAssert", "issuedAt", "evaluation",
 }
 
 var arNestedMembers = []struct {
@@ -103,6 +113,7 @@ var arNestedMembers = []struct {
 	{"posture", []string{"reported", "reportedDigest", "observed", "observedDigest", "assessedAt", "agreement"}},
 	{"observation", []string{"vantage", "coverage"}},
 	{"observation.coverage", []string{"scopeComplete", "gaps"}},
+	{"evaluation", []string{"status"}},
 }
 
 var (
@@ -358,6 +369,8 @@ func arRules(predicateType string) []arRule {
 		{"subject-interval", arRuleSubjectInterval},
 		{"required-members", arRuleRequiredMembers},
 		{"closed-vocabularies", arRuleVocabularies},
+		{"evaluation", arRuleEvaluation},
+		{"oversight", arRuleOversight},
 		{"delegation", func(s *arState) error {
 			if arStr(s.pred, "delegation.subjectKind") == "none" && arStr(s.pred, "delegation.subject") != "none" {
 				return arRefuse("delegation-subject-inconsistent")
@@ -502,6 +515,79 @@ func arRuleVocabularies(s *arState) error {
 		}
 	}
 	return nil
+}
+
+// arRuleEvaluation holds the evaluation member to its two shapes. An evaluated
+// decision names no unavailable input; a decision that could not be evaluated
+// names at least one, each once, from the closed set. The reported decision and
+// the agreement table are not read here: a verifier that could not evaluate
+// still reports what it enforced, and this member says why.
+func arRuleEvaluation(s *arState) error {
+	evaluation := arObj(s.pred, "evaluation")
+	raw, carried := evaluation["unavailableInput"]
+	if evaluation["status"] == "evaluated" {
+		if carried {
+			return arRefuse("evaluation-inconsistent")
+		}
+		return nil
+	}
+	inputs, ok := raw.([]any)
+	if !carried || !ok || len(inputs) == 0 {
+		return arRefuse("evaluation-inconsistent")
+	}
+	seen := map[string]bool{}
+	for _, item := range inputs {
+		text, _ := item.(string)
+		if !arContains(arUnavailableInputs, text) {
+			return arRefuse("value-outside-vocabulary")
+		}
+		if seen[text] {
+			return arRefuse("evaluation-inconsistent")
+		}
+		seen[text] = true
+	}
+	return nil
+}
+
+// arRuleOversight checks the optional oversight member when it is present: an
+// act from the closed set, which the vocabulary rule already held, and at most
+// a digest of the overseer's own signed record beside it.
+func arRuleOversight(s *arState) error {
+	raw, present := s.pred["oversight"]
+	if !present {
+		return nil
+	}
+	oversight, ok := raw.(map[string]any)
+	if !ok {
+		return arRefuse("oversight-malformed")
+	}
+	if _, has := oversight["act"]; !has {
+		return arRefuse("member-missing")
+	}
+	for name, value := range oversight {
+		if !arContains(arOversightMembers, name) {
+			return arRefuse("oversight-malformed")
+		}
+		if name == "recordDigest" {
+			text, _ := value.(string)
+			if !arIsDigest(text) {
+				return arRefuse("oversight-malformed")
+			}
+		}
+	}
+	return nil
+}
+
+func arIsDigest(text string) bool {
+	if len(text) != 64 {
+		return false
+	}
+	for _, r := range text {
+		if !strings.ContainsRune("0123456789abcdef", r) {
+			return false
+		}
+	}
+	return true
 }
 
 func arRuleBinding(s *arState) error {

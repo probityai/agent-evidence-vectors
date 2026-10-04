@@ -866,6 +866,42 @@ func agentActionFindings() []findingCase {
 				setDeep(t, row, "1111111111111111", "expected", "ieee754")
 			})
 		}, "not the declared"},
+		{"agent-action/carried-number-canonical", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, declares("carriedNumber"))
+				expected := row["expected"].(map[string]any)
+				setDeep(t, row, expected["canonicalNumber"], "expected", "carriedNumber")
+			})
+		}, "carriedNumber is the canonical spelling"},
+		{"agent-action/carried-number-other-value", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, declares("carriedNumber"))
+				setDeep(t, row, "7", "expected", "carriedNumber")
+			})
+		}, "does not spell the double"},
+		{"agent-action/carried-number-digest", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, func(r map[string]any) bool {
+					expected, _ := r["expected"].(map[string]any)
+					return expected["canonicalNumber"] == "1e+21" && declares("carriedNumber")(r)
+				})
+				setDeep(t, row, "1e21", "expected", "carriedNumber")
+			})
+		}, "is not the digest of carriedNumber"},
+		{"agent-action/carried-number-missing", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, declares("carriedNumber"))
+				delete(row["expected"].(map[string]any), "carriedNumber")
+			})
+		}, "declares no carriedNumber"},
+		{"agent-action/carried-number-on-accept", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, func(r map[string]any) bool {
+					return r["kind"] == "accept" && declares("requestDigest")(r)
+				})
+				setDeep(t, row, "1000000000000000000000", "expected", "carriedNumber")
+			})
+		}, "only a reject member carries"},
 		{"agent-action/ordering-digest", dir, func(t *testing.T, d string) {
 			editManifest(t, d, func(m map[string]any) {
 				row := firstRowWhere(t, m, declares("chainHashUtf16"))

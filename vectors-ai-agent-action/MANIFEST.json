@@ -31,12 +31,36 @@
     }
   },
   "counts": {
-    "accept": 41,
-    "reject": 21
+    "accept": 42,
+    "reject": 33
   },
-  "corpusDigest": "29ddec0b82f92a4ffc3f07d29b8c58660537d3eec76fbe0d868e0665174b4bd9",
+  "corpusDigest": "36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
+    {
+      "id": "v031c8b3d46725200",
+      "kind": "reject",
+      "file": "statements/v031c8b3d46725200.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "3e7ad7f29abcaf48",
+        "canonicalNumber": "1e-7",
+        "carriedNumber": "0.0000001",
+        "requestDigest": "910750038eb30a40d06da88009b6259aabaf3751b3cb212c616d51abb6b008a4"
+      },
+      "cites": "number serialization: the request digest is taken over 0.0000001, a spelling of the double 3e7ad7f29abcaf48 that RFC 8785 does not produce. RFC 8785 writes it 1e-7, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
     {
       "id": "v0805461f7a5c9a1f",
       "kind": "reject",
@@ -93,6 +117,30 @@
         "requestDigest": "ae8992f4ba3b38d67e3b504f5c0356d51bc8c5b8394a2aeea6241623003c0635"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 20. The IEEE 754 double 41b3de4355555555 is the JSON number 333333333.3333333, and no other text."
+    },
+    {
+      "id": "v16f7e58b18eed9ce",
+      "kind": "reject",
+      "file": "statements/v16f7e58b18eed9ce.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "c340000000000000",
+        "canonicalNumber": "-9007199254740992",
+        "carriedNumber": "-9007199254740992.0",
+        "requestDigest": "f90641db2d34a12b1031df0a732b1386073d883ef4340b20541a1c110c0ce386"
+      },
+      "cites": "number serialization: the request digest is taken over -9007199254740992.0, a spelling of the double c340000000000000 that RFC 8785 does not produce. RFC 8785 writes it -9007199254740992, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
     },
     {
       "id": "v19200ece1a40066b",
@@ -304,6 +352,30 @@
         "source": "in-toto/attestation#588@a5dd509",
         "lines": "685-692",
         "quote": "A digest of any other length is not admissible"
+      }
+    },
+    {
+      "id": "v5441e430ab64dcbe",
+      "kind": "reject",
+      "file": "statements/v5441e430ab64dcbe.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "444b1ae4d6e2ef4f",
+        "canonicalNumber": "999999999999999900000",
+        "carriedNumber": "9.999999999999999e+20",
+        "requestDigest": "23dd4ee5341464abe01689237ed41c9ab80ddd78bc418c7d3e4583c3b396d3fa"
+      },
+      "cites": "number serialization: the request digest is taken over 9.999999999999999e+20, a spelling of the double 444b1ae4d6e2ef4f that RFC 8785 does not produce. RFC 8785 writes it 999999999999999900000, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
       }
     },
     {
@@ -592,6 +664,30 @@
       "records": "records/v925e6daf8ac78ef3.jsonl"
     },
     {
+      "id": "v92de4e2cb2a687c8",
+      "kind": "reject",
+      "file": "statements/v92de4e2cb2a687c8.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "3eb0c6f7a0b5ed8c",
+        "canonicalNumber": "9.999999999999997e-7",
+        "carriedNumber": "9.999999999999997e-07",
+        "requestDigest": "f1ad5ca9e0c403a896658b2c5125b3dbfb0336899ab21ca1eb6ce1c875825a3a"
+      },
+      "cites": "number serialization: the request digest is taken over 9.999999999999997e-07, a spelling of the double 3eb0c6f7a0b5ed8c that RFC 8785 does not produce. RFC 8785 writes it 9.999999999999997e-7, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "v95fcded705b036d0",
       "kind": "reject",
       "file": "statements/v95fcded705b036d0.json",
@@ -708,6 +804,30 @@
       "records": "records/v9cc43bcbf367a00e.jsonl"
     },
     {
+      "id": "v9e2642dc299801e5",
+      "kind": "reject",
+      "file": "statements/v9e2642dc299801e5.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "3eb0c6f7a0b5ed8d",
+        "canonicalNumber": "0.000001",
+        "carriedNumber": "1e-06",
+        "requestDigest": "bc1c982dd4e677d72ff5821cc67554e045e838a31ddc55fa0fdb1a32d5a1dce9"
+      },
+      "cites": "number serialization: the request digest is taken over 1e-06, a spelling of the double 3eb0c6f7a0b5ed8d that RFC 8785 does not produce. RFC 8785 writes it 0.000001, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "va1ecbadeabba7b77",
       "kind": "accept",
       "file": "statements/va1ecbadeabba7b77.json",
@@ -782,6 +902,30 @@
       "cites": "number serialization: RFC 8785 Appendix B row 17. The IEEE 754 double 3eb0c6f7a0b5ed8d is the JSON number 0.000001, and no other text."
     },
     {
+      "id": "vb0d8a7a7dbeb9f87",
+      "kind": "reject",
+      "file": "statements/vb0d8a7a7dbeb9f87.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "444b1ae4d6e2ef4e",
+        "canonicalNumber": "999999999999999700000",
+        "carriedNumber": "9.999999999999997e+20",
+        "requestDigest": "87b1b35f24fc744edaa61cdc8f99025ee9c540f4579cb1695bc0be3e73abe7be"
+      },
+      "cites": "number serialization: the request digest is taken over 9.999999999999997e+20, a spelling of the double 444b1ae4d6e2ef4e that RFC 8785 does not produce. RFC 8785 writes it 999999999999999700000, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "vb1262555f2fd8afe",
       "kind": "reject",
       "file": "statements/vb1262555f2fd8afe.json",
@@ -847,6 +991,54 @@
       "records": "records/vb1f091f42efd0715.jsonl"
     },
     {
+      "id": "vb5fff22526265bef",
+      "kind": "reject",
+      "file": "statements/vb5fff22526265bef.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "444b1ae4d6e2ef50",
+        "canonicalNumber": "1e+21",
+        "carriedNumber": "1000000000000000000000",
+        "requestDigest": "776bf0d292f3767fdfca3fdc9683d0ba51886b8e6e79cd228a41bafcfa9a1a6f"
+      },
+      "cites": "number serialization: the request digest is taken over 1000000000000000000000, a spelling of the double 444b1ae4d6e2ef50 that RFC 8785 does not produce. RFC 8785 writes it 1e+21, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
+      "id": "vb7ceb3d8d07bbeab",
+      "kind": "reject",
+      "file": "statements/vb7ceb3d8d07bbeab.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "0000000000000000",
+        "canonicalNumber": "0",
+        "carriedNumber": "0.0",
+        "requestDigest": "23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d"
+      },
+      "cites": "number serialization: the request digest is taken over 0.0, a spelling of the double 0000000000000000 that RFC 8785 does not produce. RFC 8785 writes it 0, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "vb7dd5fb8dcb6e345",
       "kind": "accept",
       "file": "statements/vb7dd5fb8dcb6e345.json",
@@ -860,6 +1052,54 @@
         "requestDigest": "26c6ab71e1be17098d15e39e8df6e19023008270262a02f17608c3c86f0eaa8a"
       },
       "cites": "number serialization: RFC 8785 Appendix B row 12. The IEEE 754 double 44b52d02c7e14af7 is the JSON number 1.0000000000000001e+23, and no other text."
+    },
+    {
+      "id": "vbbea645b85eb9836",
+      "kind": "reject",
+      "file": "statements/vbbea645b85eb9836.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "8000000000000000",
+        "canonicalNumber": "0",
+        "carriedNumber": "-0.0",
+        "requestDigest": "23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d"
+      },
+      "cites": "number serialization: the request digest is taken over -0.0, a spelling of the double 8000000000000000 that RFC 8785 does not produce. RFC 8785 writes it 0, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
+      "id": "vbc437bec9fff72d6",
+      "kind": "reject",
+      "file": "statements/vbc437bec9fff72d6.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "becbf647612f3696",
+        "canonicalNumber": "-0.0000033333333333333333",
+        "carriedNumber": "-3.3333333333333333e-06",
+        "requestDigest": "f01e9ea24f5f68778c6f381bbd9d740666a34e6b9d3b9689d666d38feb79e5cc"
+      },
+      "cites": "number serialization: the request digest is taken over -3.3333333333333333e-06, a spelling of the double becbf647612f3696 that RFC 8785 does not produce. RFC 8785 writes it -0.0000033333333333333333, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
     },
     {
       "id": "vbd5d1d64de299ed7",
@@ -982,6 +1222,30 @@
       "records": "records/vd473932a82fd8779.jsonl"
     },
     {
+      "id": "vdb3c544d148ad808",
+      "kind": "reject",
+      "file": "statements/vdb3c544d148ad808.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "4430000000000000",
+        "canonicalNumber": "295147905179352830000",
+        "carriedNumber": "2.9514790517935283e+20",
+        "requestDigest": "57c82398dfd8be4a4ac903d1d2d01beee4c1d7179c9a5afc574bdf972646783b"
+      },
+      "cites": "number serialization: the request digest is taken over 2.9514790517935283e+20, a spelling of the double 4430000000000000 that RFC 8785 does not produce. RFC 8785 writes it 295147905179352830000, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "vdd8899ebf08f5040",
       "kind": "accept",
       "file": "statements/vdd8899ebf08f5040.json",
@@ -1048,6 +1312,30 @@
       "cites": "number serialization: RFC 8785 Appendix B row 22. The IEEE 754 double 41b3de4355555557 is the JSON number 333333333.33333343, and no other text."
     },
     {
+      "id": "ve82a71e39c20e5a7",
+      "kind": "reject",
+      "file": "statements/ve82a71e39c20e5a7.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "4340000000000000",
+        "canonicalNumber": "9007199254740992",
+        "carriedNumber": "9007199254740992.0",
+        "requestDigest": "3b0d9a238f369ef1d4cb7182e6ca467e10b5501cbab84e9c80d1d91053253504"
+      },
+      "cites": "number serialization: the request digest is taken over 9007199254740992.0, a spelling of the double 4340000000000000 that RFC 8785 does not produce. RFC 8785 writes it 9007199254740992, so a verifier holding the payload recomputes a different digest. A canonicalizer built on Python's json.dumps writes this spelling and accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "ve8b9155afcbd8224",
       "kind": "accept",
       "file": "statements/ve8b9155afcbd8224.json",
@@ -1061,6 +1349,21 @@
       },
       "cites": "canonicalization: member ordering is JCS, never the host language's property order",
       "records": "records/ve8b9155afcbd8224.jsonl"
+    },
+    {
+      "id": "vf1492a40d7a7c2c9",
+      "kind": "accept",
+      "file": "statements/vf1492a40d7a7c2c9.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "ieee754": "3e7ad7f29abcaf48",
+        "canonicalNumber": "1e-7",
+        "requestDigest": "910750038eb30a40d06da88009b6259aabaf3751b3cb212c616d51abb6b008a4"
+      },
+      "cites": "number serialization: the IEEE 754 double 3e7ad7f29abcaf48 is the JSON number 1e-7, and no other text. Below 1e-6 Number::toString writes exponent notation; this row is beside Appendix B, not in it."
     },
     {
       "id": "vf2f6991c55096b1a",

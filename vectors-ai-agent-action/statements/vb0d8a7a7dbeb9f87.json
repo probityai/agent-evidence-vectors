@@ -1,0 +1,52 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "action": {
+      "durationMs": 412,
+      "method": "tools/call",
+      "protocol": "mcp",
+      "success": true,
+      "timestamp": "2026-08-18T14:33:41.882Z",
+      "toolName": "canonicalize_444b1ae4d6e2ef4e",
+      "type": "tool_call"
+    },
+    "agent": {
+      "principal": "svc:agent-workspace",
+      "sessionId": "sess-4f2a"
+    },
+    "chain": {
+      "previousHash": "genesis"
+    },
+    "contentDigest": {
+      "request": {
+        "sha256": "679b947a47aec1947c1724bd9c5e761329c5488b0c80a452851babba1956cba3"
+      },
+      "response": {
+        "sha256": "8e6cb0185364dbd094892c31442e833150e457768f03b6c3654b8331845f35ac"
+      }
+    },
+    "metadata": {
+      "attestorVersion": "example-gateway/0.4.0"
+    },
+    "parties": [
+      {
+        "party": "gateway",
+        "role": "witness",
+        "scope": [
+          "toolName",
+          "timestamp",
+          "durationMs"
+        ]
+      }
+    ]
+  },
+  "predicateType": "https://in-toto.io/attestation/ai-agent-action/v0.1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e"
+      },
+      "name": "session:agent-workspace-4f2a"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ Regenerate byte-identically:
     uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
 
 The corpus is Appendix B of the Internet-Draft
-draft-gilda-wimse-agent-audit-record-01, member for member. Every member is a
+draft-gilda-wimse-agent-audit-record-02, member for member. Every member is a
 complete DSSE envelope whose payload is an in-toto Statement v1 carrying an agent
 audit record. The vector file carries the bytes and nothing else; the verdict a
 verifier must reach, and the Appendix B identifier the member answers to, live in
@@ -48,8 +48,8 @@ SUITE = "agent-audit-record-conformance"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
 )
-PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/01/"
-DRAFT = "draft-gilda-wimse-agent-audit-record-01"
+PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/"
+DRAFT = "draft-gilda-wimse-agent-audit-record-02"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 ID_HEX = 16
@@ -212,6 +212,7 @@ def baseline() -> dict[str, Any]:
             "that the reported decision is the decision the policy engine evaluated",
         ],
         "issuedAt": "2026-09-19T11:04:11Z",
+        "evaluation": {"status": "evaluated"},
     }
     request = request_digest(pred)
     pred["decision"]["requestDigest"] = request
@@ -416,6 +417,21 @@ def build_a9() -> Built:
     pred["effect"]["observed"] = "none"
     pred["agreement"] = "not-exercised"
     return accept("A9", pred)
+
+
+def build_a10() -> Built:
+    """A2's bytes with one difference: the decision point could not evaluate,
+    because its standing source was unavailable, and enforced a deny. Under -01
+    this record and A2 were the same record."""
+    pred = from_pred("A2")
+    pred["evaluation"] = {"status": "not-evaluated", "unavailableInput": ["standing-source"]}
+    return accept("A10", pred)
+
+
+def build_a11() -> Built:
+    pred = baseline()
+    pred["oversight"] = {"act": "check", "recordDigest": h("overseer/signed-record")}
+    return accept("A11", pred)
 
 
 # --- reject members -------------------------------------------------------
@@ -669,6 +685,24 @@ def define() -> None:
         None,
         "A1 with permit beside an empty write set, equal roots, effect.observed of none",
         build_a9,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A10",
+        "a10-deny-not-evaluated-standing-source",
+        None,
+        "A2 with evaluation of not-evaluated and unavailableInput of standing-source",
+        build_a10,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A11",
+        "a11-oversight-check-with-record-digest",
+        None,
+        "A1 plus oversight with act of check and the overseer's record digest",
+        build_a11,
         "valid",
         tier="authoritative",
     )
@@ -961,6 +995,54 @@ def define() -> None:
             "substrate-covered declared beside vantage of self",
             mutate("A5", _set("fieldEvidence.resource", "substrate-covered")),
             "field-evidence-self-substrate",
+        ),
+        (
+            "EV1",
+            "ev1-not-evaluated-without-unavailable-input",
+            "A10",
+            "not-evaluated with unavailableInput removed",
+            mutate("A10", _drop("evaluation.unavailableInput")),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV2",
+            "ev2-evaluated-naming-unavailable-input",
+            "A2",
+            "evaluated carrying unavailableInput of standing-source",
+            mutate("A2", _set("evaluation.unavailableInput", ["standing-source"])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV3",
+            "ev3-evaluation-member-removed",
+            "A1",
+            "the evaluation member removed, the shape of a revision 01 record",
+            mutate("A1", _drop("evaluation")),
+            "member-missing",
+        ),
+        (
+            "EV4",
+            "ev4-unavailable-input-outside-closed-set",
+            "A10",
+            "unavailableInput of network, outside the closed set",
+            mutate("A10", _set("evaluation.unavailableInput", ["network"])),
+            "value-outside-vocabulary",
+        ),
+        (
+            "OV1",
+            "ov1-oversight-act-outside-closed-set",
+            "A11",
+            "oversight act of approval, outside the closed set",
+            mutate("A11", _set("oversight.act", "approval")),
+            "value-outside-vocabulary",
+        ),
+        (
+            "OV2",
+            "ov2-oversight-carrying-an-undefined-member",
+            "A11",
+            "oversight carrying an overseer member the draft does not define",
+            mutate("A11", _set("oversight.overseer", "user:bob@example.org")),
+            "oversight-malformed",
         ),
     ]
     for draft_id, slug, parent, row, build, code in rejects:

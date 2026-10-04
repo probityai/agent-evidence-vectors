@@ -72,6 +72,7 @@ type agentActionVector struct {
 		CanonicalNumber    *string `json:"canonicalNumber"`
 		IEEE754            *string `json:"ieee754"`
 		RequestDigest      *string `json:"requestDigest"`
+		CarriedNumber      *string `json:"carriedNumber"`
 		ChainRoot          *string `json:"chainRoot"`
 		PreBreakIdentifier *string `json:"preBreakIdentifier"`
 	} `json:"expected"`
@@ -569,10 +570,56 @@ func (agentAction) checkAppendixB(v agentActionVector, predicate map[string]any,
 			carried, _ = request["sha256"].(string)
 		}
 	}
+	if v.Kind == "reject" {
+		checkCarriedNumber(v, hexPattern, want, declared, carried, out)
+		return
+	}
+	if v.CarriedNumberDeclared() {
+		out.Findings = append(out.Findings,
+			"an accept member declares carriedNumber, which only a reject member carries")
+	}
 	if carried != declared {
 		out.Findings = append(out.Findings, fmt.Sprintf(
 			"the statement carries request digest %s and the manifest declares %s",
 			short(carried), short(declared)))
+	}
+}
+
+// CarriedNumberDeclared reports whether the member names the spelling its
+// statement's request digest was taken over.
+func (v agentActionVector) CarriedNumberDeclared() bool { return v.Expected.CarriedNumber != nil }
+
+// checkCarriedNumber holds a number-notation reject member to what makes it a
+// discriminator: the statement's request digest is over a spelling of the SAME
+// double that is not the canonical one, so a verifier that serializes the
+// value canonically recomputes a different digest and one that writes plain
+// digits recomputes the carried one. A carried spelling of another value, or
+// the canonical spelling itself, would catch nothing about notation.
+func checkCarriedNumber(v agentActionVector, hexPattern, want, declared, carried string, out *Member) {
+	if !v.CarriedNumberDeclared() {
+		out.Findings = append(out.Findings,
+			"a number reject member declares no carriedNumber, so the spelling it is caught on is unstated")
+		return
+	}
+	plain := *v.Expected.CarriedNumber
+	if plain == want {
+		out.Findings = append(out.Findings,
+			"carriedNumber is the canonical spelling, so nothing is being caught")
+	}
+	// The bits, not the value: minus zero compares equal to zero, and the
+	// member that carries -0.0 is about which of the two it spells.
+	value, err := strconv.ParseFloat(plain, 64)
+	if err != nil || fmt.Sprintf("%016x", math.Float64bits(value)) != hexPattern {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"carriedNumber %q does not spell the double ieee754 %s names", plain, hexPattern))
+	}
+	if sha([]byte(`{"value":`+plain+"}")) != carried {
+		out.Findings = append(out.Findings, fmt.Sprintf(
+			"the statement's request digest is not the digest of carriedNumber %q", plain))
+	}
+	if carried == declared {
+		out.Findings = append(out.Findings,
+			"a reject member's request digest is the canonical one, so nothing is being caught")
 	}
 }
 
