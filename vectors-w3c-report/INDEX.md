@@ -1,8 +1,8 @@
 # Conformance vectors (v0.1 per-check report)
 
 Every member of this suite in one table, rejected and accepted alike. Ground
-truth: 14 texts vendored in `spec-vendored/` and pinned by sha256 in
-`MANIFEST.json`: 12 messages of the W3C public-agent-conformance list that
+truth: 16 texts vendored in `spec-vendored/` and pinned by sha256 in
+`MANIFEST.json`: 14 messages of the W3C public-agent-conformance list that
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
@@ -61,6 +61,8 @@ the same lines.
 | `0073` | Evgenii Arsentev | `spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt` | `42fa833367e0e1d5` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
 | `0076` | Roel Schuurkes | `spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt` | `7622d0dc1cf7fc1d` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
 | `0077` | Nicolas Rocchia | `spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt` | `88531111f9d8c424` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
+| `0087` | Evgenii Arsentev | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `35625d73baa56f27` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0087.html |
+| `0088` | Roel Schuurkes | `spec-vendored/0088-schuurkes-2026-09-30-v01-row4.txt` | `d22914e6146f1fb1` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0088.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `0ef9e7fbc39d04bf` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | `13081268c70a19e9` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |
 

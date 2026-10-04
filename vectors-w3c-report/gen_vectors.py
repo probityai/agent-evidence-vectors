@@ -5,8 +5,9 @@
     python3 gen_vectors.py --check    # refuse when the tree on disk differs
 
 The text this corpus tests is vendored in ``spec-vendored/`` and pinned by
-digest: ten messages of the W3C public-agent-conformance list that together
-fix what v0.1 of the reporting format freezes, and the two Internet-Drafts the
+digest: the messages of the W3C public-agent-conformance list that fixed v0.1
+of the reporting format, the v0.1 text of 30 September among them, and the
+two Internet-Drafts the
 format's editor holds, whose Run object and discovery snapshot are judged here
 as further subjects. None of them carries a requirement identifier, so each is
 minted here and bound to its sentence by sha256, the way ``vectors-acs-core/``
@@ -60,6 +61,8 @@ VENDORED = {
     "0073": "spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt",
     "0076": "spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
     "0077": "spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
+    "0087": "spec-vendored/0087-arsentev-2026-09-30-v01.txt",
+    "0088": "spec-vendored/0088-schuurkes-2026-09-30-v01-row4.txt",
     "draft-arsentev-agent-run-metrics-00": "spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
     "draft-arsentev-llm-context-discovery-00": (
         "spec-vendored/draft-arsentev-llm-context-discovery-00.txt"
@@ -80,6 +83,8 @@ AUTHORS = {
     "0073": "Evgenii Arsentev",
     "0076": "Roel Schuurkes",
     "0077": "Nicolas Rocchia",
+    "0087": "Evgenii Arsentev",
+    "0088": "Roel Schuurkes",
     "draft-arsentev-agent-run-metrics-00": "Evgenii Arsentev",
     "draft-arsentev-llm-context-discovery-00": "Evgenii Arsentev",
 }

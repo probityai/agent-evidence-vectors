@@ -223,5 +223,7 @@ The same manifest carries members of two other subject types, judged by their ow
 | `0073` | Evgenii Arsentev | `42fa833367e0e1d5b484f988da520c96936f009bbe2578fa7d0f22691830a134` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
 | `0076` | Roel Schuurkes | `7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
 | `0077` | Nicolas Rocchia | `88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
+| `0087` | Evgenii Arsentev | `35625d73baa56f2705bb2fffe7e2a4075293fa6df075bc61bdd349a5d3618d9d` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0087.html |
+| `0088` | Roel Schuurkes | `d22914e6146f1fb11d404d8d3e63cd5282af42e2a8acf5cee4a227d113a41798` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0088.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `13081268c70a19e9b3f74a6f772b657c56403ce6c45623da39a188394eefd411` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |
