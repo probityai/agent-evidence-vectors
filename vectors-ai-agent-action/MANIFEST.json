@@ -31,12 +31,36 @@
     }
   },
   "counts": {
-    "accept": 41,
-    "reject": 21
+    "accept": 42,
+    "reject": 23
   },
-  "corpusDigest": "29ddec0b82f92a4ffc3f07d29b8c58660537d3eec76fbe0d868e0665174b4bd9",
+  "corpusDigest": "54c502bdc041961852c9349934e4829b3db4a7a5a7895eff3c0f5787fa225230",
   "note": "Each reject member declares its basis: the lines of the vendored #588 text that make it rejectable, with a quotation aee-verify finds in them, or the section of proposedText for the one condition #588 does not carry. Each accept member is the conformant twin of the reject member sharing its condition, so a verifier that rejects everything scores zero rather than full marks.",
   "vectors": [
+    {
+      "id": "v031c8b3d46725200",
+      "kind": "reject",
+      "file": "statements/v031c8b3d46725200.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "3e7ad7f29abcaf48",
+        "canonicalNumber": "1e-7",
+        "carriedNumber": "0.0000001",
+        "requestDigest": "910750038eb30a40d06da88009b6259aabaf3751b3cb212c616d51abb6b008a4"
+      },
+      "cites": "number serialization: the request digest is taken over 0.0000001, the plain-digit spelling of the double 3e7ad7f29abcaf48. RFC 8785 writes it 1e-7, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
     {
       "id": "v0805461f7a5c9a1f",
       "kind": "reject",
@@ -847,6 +871,30 @@
       "records": "records/vb1f091f42efd0715.jsonl"
     },
     {
+      "id": "vb5fff22526265bef",
+      "kind": "reject",
+      "file": "statements/vb5fff22526265bef.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-digest-mismatch"
+        ],
+        "ieee754": "444b1ae4d6e2ef50",
+        "canonicalNumber": "1e+21",
+        "carriedNumber": "1000000000000000000000",
+        "requestDigest": "776bf0d292f3767fdfca3fdc9683d0ba51886b8e6e79cd228a41bafcfa9a1a6f"
+      },
+      "cites": "number serialization: the request digest is taken over 1000000000000000000000, the plain-digit spelling of the double 444b1ae4d6e2ef50. RFC 8785 writes it 1e+21, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member.",
+      "basis": {
+        "source": "in-toto/attestation#588@a5dd509",
+        "lines": "430-432,458-462",
+        "quote": "RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a lowercase 64-hex string"
+      }
+    },
+    {
       "id": "vb7dd5fb8dcb6e345",
       "kind": "accept",
       "file": "statements/vb7dd5fb8dcb6e345.json",
@@ -1061,6 +1109,21 @@
       },
       "cites": "canonicalization: member ordering is JCS, never the host language's property order",
       "records": "records/ve8b9155afcbd8224.jsonl"
+    },
+    {
+      "id": "vf1492a40d7a7c2c9",
+      "kind": "accept",
+      "file": "statements/vf1492a40d7a7c2c9.json",
+      "conditions": [
+        "aia-c-16"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "ieee754": "3e7ad7f29abcaf48",
+        "canonicalNumber": "1e-7",
+        "requestDigest": "910750038eb30a40d06da88009b6259aabaf3751b3cb212c616d51abb6b008a4"
+      },
+      "cites": "number serialization: the IEEE 754 double 3e7ad7f29abcaf48 is the JSON number 1e-7, and no other text. Below 1e-6 Number::toString writes exponent notation; this row is beside Appendix B, not in it."
     },
     {
       "id": "vf2f6991c55096b1a",

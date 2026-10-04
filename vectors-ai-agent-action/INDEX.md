@@ -101,6 +101,21 @@ implementations disagree on. `aee-verify` recomputes each row from the
 declared text rather than from the generator's serializer, so a generator
 that agreed only with itself would not pass.
 
+The `number-notation` members hold the two exponent switches of ECMAScript
+Number::toString, which RFC 8785 section 3.2.2.3 adopts: exponent notation at
+or above 1e21 and below 1e-6, plain digits between. Each reject member carries
+the request digest of the plain-digit spelling of the same double, declared in
+`MANIFEST.json` as `carriedNumber` beside the canonical `canonicalNumber`, so a
+verifier holding the payload recomputes a different digest and refuses it. A
+serializer that writes 1e21 as `1000000000000000000000`, or 1e-7 as
+`0.0000001`, recomputes the carried digest and accepts the member. The accept
+side of 1e21 is Appendix B row 15; the accept side of 1e-7 sits beside the
+table, because the table is a fixed quotation of the RFC. These are the first
+reject members `aia-c-16` has: before them a verifier that accepted a digest
+over either spelling scored every `aia-c-16` member correctly. `aee-verify`
+checks that `carriedNumber` spells the same double, is not the canonical text,
+and is what the statement's digest was taken over.
+
 ## Vectors
 
 Vectors are named after their own bytes and live together in
@@ -151,8 +166,10 @@ where a scoring harness is supposed to look for it.
 | `ve49e9dafdd7f4df9` | accept | aia-c-17 | default | valid | - | chain breaks: the break record's own Statement is in the segment it roots, so it carries its own chain hash, and it carries no predicate.chain because the prior head is unrecoverable |
 | `ve78d80f4d7221cd9` | accept | aia-c-16 | - | valid | - | number serialization: RFC 8785 Appendix B row 22. The IEEE 754 double 41b3de4355555557 is the JSON number 333333333.33333343, and no other text. |
 | `ve8b9155afcbd8224` | accept | aia-c-1, aia-c-2 | - | valid | - | canonicalization: member ordering is JCS, never the host language's property order |
+| `vf1492a40d7a7c2c9` | accept | aia-c-16 | - | valid | - | number serialization: the IEEE 754 double 3e7ad7f29abcaf48 is the JSON number 1e-7, and no other text. Below 1e-6 Number::toString writes exponent notation; this row is beside Appendix B, not in it. |
 | `vf2f6991c55096b1a` | accept | aia-c-16 | - | valid | - | number serialization: RFC 8785 Appendix B row 16. The IEEE 754 double 3eb0c6f7a0b5ed8c is the JSON number 9.999999999999997e-7, and no other text. |
 | `vf89ec86066d8cf9b` | accept | aia-c-18 | compromised-attestor-resistant | valid | - | planted break: the prohibition forbids an unrecoverable prior head, not a break. A break whose priorHead is the chain hash of the record before it, and whose predicate.chain carries the same value, is accepted under that profile |
+| `v031c8b3d46725200` | reject | aia-c-16 | - | invalid / content-digest-mismatch | #588 430-432, 458-462 | number serialization: the request digest is taken over 0.0000001, the plain-digit spelling of the double 3e7ad7f29abcaf48. RFC 8785 writes it 1e-7, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member. |
 | `v0805461f7a5c9a1f` | reject | aia-c-10 | - | invalid / content-digest-mismatch | #588 434-442 | A8: one of four readings a verifier could take of an absent result member, and the only one this suite forbids by naming the other |
 | `v0f4f2093061d303f` | reject | aia-c-5 | - | invalid / duplicate-member | #588 604-609 | A4: a first-wins reader displays read_file while the hash commits to delete_repository |
 | `v1a09354386e0ed57` | reject | aia-c-14 | - | invalid / unsafe-integer | #588 1320-1323 | decode boundary: the carried literal 1234567890123456789 is not representable as a double, so a rail that converts before checking refuses 1234567890123456800, a value the producer never wrote. Both check placements refuse here, so this pins the refusal and declares both renderings rather than claiming to separate the placements. |
@@ -171,6 +188,7 @@ where a scoring harness is supposed to look for it.
 | `v9cc43bcbf367a00e` | reject | aia-c-3 | - | invalid / chain-hash-mismatch | #588 411-415 | A2b: Go's encoding/json escapes <, > and & by default, so a Go gateway and a Node gateway disagree on identical input |
 | `vb1262555f2fd8afe` | reject | aia-c-19 | - | invalid / subject-not-chain-root | #588 771-773 | chain breaks: the successor re-roots its identifier at a break whose prior head is known. Only a genesis record or a break with priorHead null roots a chain, so one session now carries two identifiers |
 | `vb1f091f42efd0715` | reject | aia-c-15 | - | invalid / non-bmp-member-name | proposal | strings: U+1F680 is encoded UTF-16 as D83D DE80, so it sorts before U+FF3A by code unit and after it by code point. The record is well formed and every field is untouched; it has two canonical byte strings and therefore two chain hashes, so the successor's previousHash and the chain's subject digest both fork. |
+| `vb5fff22526265bef` | reject | aia-c-16 | - | invalid / content-digest-mismatch | #588 430-432, 458-462 | number serialization: the request digest is taken over 1000000000000000000000, the plain-digit spelling of the double 444b1ae4d6e2ef50. RFC 8785 writes it 1e+21, so a verifier holding the payload recomputes a different digest. A serializer that skips the exponent switch accepts this member. |
 | `vc4898200910d84a2` | reject | aia-c-7 | - | invalid / duplicate-genesis | #588 775-779, 796-797 | F3: the successor of a break restarts at genesis instead of chaining from the break, discarding the scar. Detection is a MUST, not a SHOULD |
 | `vc6a1b1b8e0388411` | reject | aia-c-17 | default | invalid / break-rooted-foreign-identifier | #588 784-790 | chain breaks: the break record's own Statement claims the abandoned chain's identifier, which the rule forbids for every statement in the segment, the break's own included |
 | `ve763abe0a98c932f` | reject | aia-c-8 | - | invalid / checkpoint-not-linked | #588 719-722 | A6: the successor chains past the checkpoint to the record before it, so the checkpoint is deletable and the anti-truncation mechanism carries no weight |
