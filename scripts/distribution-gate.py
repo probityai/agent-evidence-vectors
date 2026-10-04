@@ -29,6 +29,7 @@ PAGE_REL = "DISTRIBUTION.md"
 CITATION_REL = "CITATION.cff"
 GOMOD_REL = "go.mod"
 FORM_REL = ".github/ISSUE_TEMPLATE/independent-run.yml"
+INSTALL_PAGES = ("README.md", PAGE_REL, "docs/guides/runner.md")
 
 #: The page's one pinned install command, captured as (package path, tag). One
 #: pattern rather than one per reader: the tag check and the module-path check
@@ -385,6 +386,41 @@ def _corpus_failures(root: Path, page: str, form: str) -> list[str]:
     return found
 
 
+def _pin_failures(text: str, rel: str, label: str, pattern: re.Pattern[str],
+                  expected: str, group: int = 1) -> list[str]:
+    pins = [match.group(group) for match in pattern.finditer(text)]
+    if not pins:
+        return [f"{rel} has no pinned {label} command"]
+    return [f"{rel}: {label} pin {pin} differs from release {expected}"
+            for pin in pins if pin != expected]
+
+
+def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
+    """Check the current consumer entry points, including Python and Action pins."""
+    found: list[str] = []
+    try:
+        version = released_version(citation)
+    except GateError as exc:
+        return [str(exc)]
+    patterns = (
+        ("Go install", INSTALL_LINE, f"v{version}", 2),
+        ("Python install", re.compile(r"^uvx agent-evidence-vectors==(\S+)", re.MULTILINE),
+         version, 1),
+    )
+    for rel in INSTALL_PAGES:
+        try:
+            text = _read(root, rel)
+        except GateError as exc:
+            found.append(str(exc))
+            continue
+        for label, pattern, expected, group in patterns:
+            found.extend(_pin_failures(text, rel, label, pattern, expected, group))
+        if rel == "docs/guides/runner.md":
+            action = re.compile(r"^- uses: probityai/agent-evidence-vectors@(\S+)", re.MULTILINE)
+            found.extend(_pin_failures(text, rel, "GitHub Action", action, f"v{version}"))
+    return found
+
+
 def failures(root: Path) -> list[str]:
     """Every disagreement, collected rather than raised one at a time.
 
@@ -402,6 +438,7 @@ def failures(root: Path) -> list[str]:
 
     return (
         _recipe_and_tag_failures(reference, page, citation)
+        + _consumer_pin_failures(root, citation)
         + _module_path_failures(root, page)
         + _corpus_failures(root, page, form)
     )

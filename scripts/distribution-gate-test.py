@@ -87,7 +87,8 @@ def _staged_copy(tmp: Path) -> Path:
     (root / "scripts").mkdir(parents=True)
     (root / FORM_REL.parent).mkdir(parents=True)
     shutil.copy2(REPO_ROOT / GATE_REL, root / GATE_REL)
-    for rel in (RECIPE_REL, PAGE_REL, CITATION_REL, FORM_REL, GOMOD_REL):
+    for rel in (RECIPE_REL, PAGE_REL, CITATION_REL, FORM_REL, GOMOD_REL,
+                Path("README.md"), Path("docs/guides/runner.md")):
         (root / rel.parent).mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO_ROOT / rel, root / rel)
     for manifest in sorted(REPO_ROOT.glob("vectors*/MANIFEST.json")):
@@ -379,7 +380,40 @@ def case_recipe_pin_stale(root: Path) -> str:
     return "the recipe's `git checkout` names v99.0.0"
 
 
+def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
+    """Mutate an actual install command while other entry points stay correct."""
+    def mutate(root: Path) -> str:
+        patterns = {
+            "Go install": r"(go install \S+@)v[^\s]+",
+            "Python install": r"(uvx agent-evidence-vectors==)[^\s]+",
+            "GitHub Action": r"(- uses: probityai/agent-evidence-vectors@)v[^\s]+",
+        }
+        prefix = "" if route == "Python install" else "v"
+        _edit(root, Path(rel), lambda text: re.sub(patterns[route],
+              rf"\g<1>{prefix}99.0.0", text, count=1))
+        return f"{rel}: {route} pin"
+    return mutate
+
+
+def missing_python_command(root: Path) -> str:
+    _edit(root, Path("README.md"), lambda text: re.sub(
+        r"^uvx agent-evidence-vectors==[^\n]+\n", "", text, count=1, flags=re.MULTILINE))
+    return "README.md has no pinned Python install command"
+
+
+def missing_runner_page(root: Path) -> str:
+    (root / "docs/guides/runner.md").unlink()
+    return "docs/guides/runner.md does not exist"
+
+
 CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
+    *((f"{rel} retains a stale {route} pin", stale_consumer_pin(rel, route))
+      for rel in ("README.md", "DISTRIBUTION.md", "docs/guides/runner.md")
+      for route in ("Go install", "Python install")),
+    ("runner retains a stale Action pin",
+     stale_consumer_pin("docs/guides/runner.md", "GitHub Action")),
+    ("README Python command disappears", missing_python_command),
+    ("runner guide disappears", missing_runner_page),
     ("a command fixed in one copy of the recipe and not the other", case_recipe_drift),
     ("the citation file released ahead of the prose", case_tag_behind),
     ("a version token in prose left behind by a release", case_stale_tag_in_prose),

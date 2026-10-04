@@ -33,6 +33,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import tomllib
 from collections.abc import Callable
 from pathlib import Path
 
@@ -375,8 +376,48 @@ DATE_CASES: list[Case] = [
 
 def released_at_its_tag(root: Path) -> None:
     """The state the rule prescribes: a tag, and the date of that tag's commit."""
-    tag(root, "v0.10.0")
     set_release_date(root, head_date(root))
+    fixture_commit(root, "date the historical release")
+    tag(root, f"v{source_version(root)}")
+
+
+def source_version(root: Path) -> str:
+    project = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+    return str(project["project"]["version"])
+
+
+def fixture_commit(root: Path, message: str) -> None:
+    subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
+    subprocess.run(
+        ["git", "-c", "user.email=citation-gate-test@example.invalid", "-c",
+         "user.name=citation gate test", "-c", "commit.gpgsign=false", "commit",
+         "--allow-empty", "-qm", message],
+        cwd=root, check=True, capture_output=True,
+    )
+
+
+def newer_divergent_release(root: Path, *, advance: bool) -> None:
+    """A newer release on another branch, with an exact old or advanced HEAD."""
+    released_at_its_tag(root)
+    historical = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                                check=True, capture_output=True, text=True).stdout.strip()
+    fixture_commit(root, "a release cut separately from the default branch")
+    major, minor, patch = (int(part) for part in source_version(root).split("."))
+    tag(root, f"v{major}.{minor + 1}.{patch}")
+    # Reset is confined to this disposable fixture, never a real source checkout.
+    subprocess.run(["git", "reset", "--hard", historical], cwd=root,
+                   check=True, capture_output=True)
+    if advance:
+        fixture_commit(root, "default branch advances without release metadata")
+
+
+IDENTITY_CASES: list[Case] = [
+    (
+        "advanced source metadata misses a divergent newer release",
+        lambda root: newer_divergent_release(root, advance=True),
+        ("source metadata still names", "not the exact cited historical checkout"),
+    ),
+]
 
 
 ACCEPT_CASES: list[Case] = [
@@ -385,6 +426,11 @@ ACCEPT_CASES: list[Case] = [
         "the version is tagged and the date is that tag's commit date",
         released_at_its_tag,
         ("release date consistent with the tag",),
+    ),
+    (
+        "an exact historical release remains valid with a newer divergent tag",
+        lambda root: newer_divergent_release(root, advance=False),
+        ("are accounted for",),
     ),
     (
         "an ordinary number that stands for nothing about the corpus",
@@ -427,6 +473,7 @@ def main() -> int:
         failures.extend(check("drift", DRIFT_CASES, True, tmp))
         failures.extend(check("source", SOURCE_CASES, True, tmp))
         failures.extend(check("date", DATE_CASES, True, tmp))
+        failures.extend(check("identity", IDENTITY_CASES, True, tmp))
         failures.extend(check("accept", ACCEPT_CASES, False, tmp))
     total = (
         len(STALE_CASES)
@@ -434,6 +481,7 @@ def main() -> int:
         + len(DRIFT_CASES)
         + len(SOURCE_CASES)
         + len(DATE_CASES)
+        + len(IDENTITY_CASES)
         + len(ACCEPT_CASES)
     )
     if failures:
