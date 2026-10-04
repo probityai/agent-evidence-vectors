@@ -302,6 +302,8 @@ class Step(NamedTuple):
     # workflow's. Ignoring it ran every step of a job declaring a default
     # directory from the repository root, where its scripts are not found.
     workdir: str = ""
+    # The step's `if:` expression, verbatim, or "" when it has none.
+    condition: str = ""
 
     @property
     def label(self) -> str:
@@ -329,6 +331,7 @@ def steps_of(doc: Any, path: pathlib.Path) -> Iterator[Step]:
                 env=step.get("env") or {},
                 continue_on_error=step.get("continue-on-error") is True,
                 workdir=str(step.get("working-directory") or job_dir),
+                condition=str(step.get("if") or ""),
             )
 
 
@@ -703,8 +706,36 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
     return block, suffix, fault
 
 
+# The event a local run stands for. The pre-push hook mirrors a push, so a step
+# guarded to another event would not run on the remote for this push either.
+LOCAL_EVENT = "push"
+EVENT_TEST = re.compile(
+    r"^\s*(?:\$\{\{\s*)?github\.event_name\s*(==|!=)\s*'([a-z_]+)'\s*(?:\}\})?\s*$"
+)
+
+
+def event_excludes(condition: str) -> str:
+    """The reason a step's `if:` is false for a push, or "" when it is not.
+
+    Only a bare comparison of github.event_name is decided here. Any other
+    expression is left to run as before, because deciding it wrongly would turn
+    a step the remote runs into one this gate silently skips.
+    """
+    match = EVENT_TEST.match(condition)
+    if not match:
+        return ""
+    operator, event = match.groups()
+    holds = (LOCAL_EVENT == event) if operator == "==" else (LOCAL_EVENT != event)
+    if holds:
+        return ""
+    return f"its condition `{condition.strip()}` is false for a {LOCAL_EVENT}"
+
+
 def resolve(step: Step) -> tuple[str | None, str, bool]:
     """(shell to run, the parenthetical or reason, whether it is a fault)."""
+    excluded = event_excludes(step.condition)
+    if excluded:
+        return None, excluded, False
     if step.run is not None:
         return step.run, "", False
     local = local_equivalent(step.uses, step.inputs)
