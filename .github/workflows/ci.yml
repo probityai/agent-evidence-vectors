@@ -49,6 +49,15 @@ jobs:
           node-version: '22'
       - name: check canonical JSON transcript bytes
         run: node corpora/jcs-byte-vectors/check.mjs
+      # These readers use the package's supported Python runtime. The
+      # obligation proof also loads the reject generator to re-sign a record,
+      # so this job needs its declared dependencies. The separate Python
+      # job's sync cannot supply this runner.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: sync the Python readers' generator dependencies
+        run: uv sync --locked --extra generators
       # The README advertises cmd/aee-verify as a consumer implementation and
       # separately tells a third party how to wire a rail into the harness.
       # Nothing ran the one against the other, and the shipped CLI scored 0 of
@@ -59,7 +68,7 @@ jobs:
       # toolchain, and it refuses rather than skips when that toolchain is
       # absent.
       - name: the shipped CLI clears the published corpus as an external rail
-        run: python3 scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
+        run: uv run --locked --extra generators python scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
       # The W3C report corpus is judged by two readers, corpora/w3creport.go and
       # packaging/agent_evidence_vectors/w3creport.py, and the README says a test
       # holds them identical. That test existed and no workflow ran it, so the
@@ -67,14 +76,14 @@ jobs:
       # here because it builds aee-verify, and it compares every line both rails
       # print over the committed corpus and over mutated copies of it.
       - name: the two W3C report readers print the same bytes
-        run: python3 scripts/w3c-rails-parity-test.py
+        run: uv run --locked --extra generators python scripts/w3c-rails-parity-test.py
       # The receipt-signature corpus is judged by a Go reader in aee-verify and a
       # Python reader in the packaged harness, and a named verifier runs through
       # the harness's contract. This holds the two readers to identical output on
       # the committed corpus and on mutated copies, and drives stub verifiers
       # through the contract so the executed count is measured, not assumed.
       - name: the two receipt-signature readers print the same bytes
-        run: python3 scripts/receipt-signature-rails-test.py
+        run: uv run --locked --extra generators python scripts/receipt-signature-rails-test.py
 
       # The step above asks whether each rail clears the corpus. It cannot ask
       # whether the two rails AGREE on a reason, because the MANIFEST declares
@@ -88,7 +97,7 @@ jobs:
       # It lives here because it builds the Go binary, and it refuses rather
       # than skips when the toolchain is absent.
       - name: both rails read the three empty predicate states identically
-        run: python3 scripts/predicate-state-gate.py
+        run: uv run --locked --extra generators python scripts/predicate-state-gate.py
 
       # Each rail was measured against the corpus and neither was ever measured
       # against the other. The Go vector test asserts the Go rail's PRIMARY code
@@ -101,8 +110,8 @@ jobs:
       - name: the two first-party rails agree, member by member
         run: |
           set -euo pipefail
-          python3 scripts/rail-parity-gate.py --check
-          python3 scripts/rail-parity-gate-test.py
+          uv run --locked --extra generators python scripts/rail-parity-gate.py --check
+          uv run --locked --extra generators python scripts/rail-parity-gate-test.py
 
       # One binary judges every corpus in this repository. Each corpus used to
       # ship a Python runner beside its vectors, so the command a third party
@@ -164,8 +173,8 @@ jobs:
       # source rather than trusting a binary beside the corpus.
       - name: every newly cited obligation is paid for by a rail that gets it wrong
         run: |
-          python3 scripts/uncited-obligations-proof.py
-          python3 scripts/uncited-obligations-proof-test.py
+          uv run --locked --extra generators python scripts/uncited-obligations-proof.py
+          uv run --locked --extra generators python scripts/uncited-obligations-proof-test.py
 
       - name: coverage (per-file 80% minimum)
         run: |
@@ -173,7 +182,7 @@ jobs:
           (cd witnessattestor && go test ./... -coverprofile=../wa.cov -count=1)
           # The aee-witness-demo command is a runnable library-mode example; its
           # attest lifecycle is covered by the attestor tests, so it is excluded.
-          python3 scripts/coverage-gate.py --threshold 80 \
+          uv run --locked --extra generators python scripts/coverage-gate.py --threshold 80 \
             --exclude cmd/aee-witness-demo core.cov wa.cov
       - name: staticcheck
         run: |
@@ -194,7 +203,7 @@ jobs:
           # is counted would fail an unrelated PR. Bump deliberately, then run
           # the gate with --sync.
           go install github.com/fzipp/gocyclo/cmd/gocyclo@v0.6.0
-          python3 scripts/complexity-table-gate.py --rail go \
+          uv run --locked --extra generators python scripts/complexity-table-gate.py --rail go \
             --gocyclo "$(go env GOPATH)/bin/gocyclo"
       - name: golangci-lint (core module)
         uses: golangci/golangci-lint-action@v7
