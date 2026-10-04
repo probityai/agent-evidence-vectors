@@ -4,7 +4,7 @@ Build a verifier, then pass its command to the harness. This example uses the re
 
 ```yaml
 - run: GOWORK=off go build -o aee-verify ./cmd/aee-verify
-- uses: probityai/agent-evidence-vectors@v0.15.0
+- uses: probityai/agent-evidence-vectors@v0.16.0
   with:
     verifier: ./aee-verify --json
 ```
@@ -12,8 +12,8 @@ Build a verifier, then pass its command to the harness. This example uses the re
 For a shell run with the released tools:
 
 ```sh
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.15.0
-uvx agent-evidence-vectors==0.15.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.16.0
+uvx agent-evidence-vectors==0.16.0 --verifier "aee-verify --json"
 ```
 
 The command invokes your verifier for each vector using the [external-verifier contract](../reference/verifier-contract.md). Reports keep normative conformance and reason-code agreement separate. Both still affect row status and the command's exit status.

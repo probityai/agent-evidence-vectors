@@ -9,8 +9,8 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 Install the released Go verifier, then run the packaged harness against it. You need Go 1.24+, Python 3.13+ and [uv](https://docs.astral.sh/uv/), with Go's executable directory on your PATH.
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.15.0
-uvx agent-evidence-vectors==0.15.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.16.0
+uvx agent-evidence-vectors==0.16.0 --verifier "aee-verify --json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement.
