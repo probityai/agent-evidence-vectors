@@ -66,11 +66,13 @@ carried bytes instead of accepting an asserted one.
   which fixes this URI in revision 00 and defines the format. It is not
   vendored here.
 - Envelope: an in-toto Statement carried in a DSSE envelope.
-- Predicate body: sixteen members, defined in Section 5 of the draft. Each is
-  required unless a rule in that section makes it conditional, and no member
-  has a default.
+- Predicate body: seventeen required members and one optional member, defined
+  in Section 5 of the draft. Each required member is required unless a rule in
+  that section makes it conditional, and no member has a default. Revision 02
+  added the required `evaluation` member and the optional `oversight` member,
+  so a revision 01 record is malformed under revision 02.
 - Corpus: `vectors-agent-audit-record/`, suite `agent-audit-record-conformance`,
-  one member per row of Appendix B of revision 01, each carrying its Appendix B
+  one member per row of Appendix B of revision 02, each carrying its Appendix B
   identifier. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.

@@ -1,7 +1,7 @@
 # Agent audit record conformance vectors
 
 The conformance corpus of the Internet-Draft
-[`draft-gilda-wimse-agent-audit-record-01`](https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/01/),
+[`draft-gilda-wimse-agent-audit-record-02`](https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/),
 Appendix B, published member for member. Every row of that table is one member
 here, and each [`MANIFEST.json`](MANIFEST.json) entry carries the row's
 identifier in `draftId` (`A1`, `F3b`, `TI4`, ...) and its `from` column in
@@ -29,7 +29,7 @@ uv run --extra generators python vectors-agent-audit-record/check_vectors.py
 To score your own verifier, run it over each `statements/<id>.json` with the
 observer public key from `keys.observer.publicKey`, then score each verdict:
 
-- an accept or reject member (45 rows) conforms when your verdict equals
+- an accept or reject member (53 rows) conforms when your verdict equals
   `expected.verdict`;
 - an indeterminate member (`N1`, `N2`) is a row the draft leaves open. It
   carries no `expected.verdict`, and your verifier conforms on it when its
@@ -49,6 +49,24 @@ conforms = my_verdict in conforming_verdicts(entry)
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
 
+## Could not evaluate, and the human act behind a permit
+
+`A2` and `A10` are one record twice. Both report a deny beside no effect, so
+both derive `agreement` of `agree`. `A2` says the decision point evaluated the
+request; `A10` says it could not, because its standing source was unavailable,
+and denied anyway. Under revision 01 there was no member to say which, so a
+verifier that lost its input wrote a record identical to a correctly enforced
+denial. Revision 02 carries `evaluation.status` and `evaluation.unavailableInput`
+beside the decision and leaves `decision.reported` and the agreement table as
+they were. `EV1` to `EV4` refuse the shapes that would blur the two, and `EV3`
+is a revision 01 record: it has no `evaluation` member, and revision 02 gives no
+member a default, so it is malformed.
+
+`A11` carries the optional `oversight` member: the kind of act a person took
+behind the permit (`observation`, `check`, `decision` or `release`) and the
+digest of the overseer's own signed record. `OV1` and `OV2` refuse an act outside
+that set and a member the draft does not define.
+
 ## What the members are built from
 
 Every reject member is its `from` member with the one mutation its row names.
@@ -67,7 +85,7 @@ Three readings the draft leaves to the corpus, stated so they can be checked:
   `timeBasis` on `A1`, which carries `asserted` and no anchor. `N1` is `A1`
   with an anchor carried under `beacon-anchored`, so `A1` itself raises no
   anchor question.
-- `priorCommitment.sig` is carried and not checked: revision 01 names the
+- `priorCommitment.sig` is carried and not checked: revision 02 names the
   member and defines no preimage for it.
 
 ## What the rule sweep reports

@@ -1,7 +1,7 @@
 """The agent audit record, and the corpus that holds its conformance set.
 
 The record format is defined by the Internet-Draft
-``draft-gilda-wimse-agent-audit-record-01``: one in-toto Statement in a DSSE
+``draft-gilda-wimse-agent-audit-record-02``: one in-toto Statement in a DSSE
 envelope, sixteen predicate members carrying the seven minimum audit fields of
 Section 11 of ``draft-ietf-wimse-aims``, and the recomputes that make those
 fields checkable. Appendix B of the draft lists the conformance corpus, and
@@ -103,7 +103,15 @@ VOCABULARIES: dict[str, frozenset[str]] = {
     ),
     "remediation[].postEnforcementEffect": frozenset({"occurred", "none", "unknown"}),
     "observation.vantage": frozenset({"below-observed", "peer", "self"}),
+    "evaluation.status": frozenset({"evaluated", "not-evaluated"}),
+    "oversight.act": frozenset({"observation", "check", "decision", "release"}),
 }
+
+#: What a decision that could not be evaluated names as missing: the standing
+#: source, the key source and the consumption state.
+UNAVAILABLE_INPUTS = frozenset({"standing-source", "key-source", "consumption-state"})
+#: The only members an oversight object may carry.
+OVERSIGHT_MEMBERS = frozenset({"act", "recordDigest"})
 
 #: The sixteen predicate members, and the members each object member requires.
 #: ``resource.argumentsDigest``, ``correlation.externalAnchor`` and
@@ -126,6 +134,7 @@ TOP_MEMBERS = (
     "fieldEvidence",
     "doesNotAssert",
     "issuedAt",
+    "evaluation",
 )
 NESTED_MEMBERS: dict[str, tuple[str, ...]] = {
     "agent": ("id", "credentialDigest", "authentication", "signers"),
@@ -152,6 +161,7 @@ NESTED_MEMBERS: dict[str, tuple[str, ...]] = {
     ),
     "observation": ("vantage", "coverage"),
     "observation.coverage": ("scopeComplete", "gaps"),
+    "evaluation": ("status",),
 }
 WRITE_MEMBERS = ("path", "preStateDigest", "postStateDigest", "requestDigest", "inScope")
 REMEDIATION_MEMBERS = (
@@ -480,8 +490,9 @@ def _vocabulary_values(pred: dict[str, Any], dotted: str) -> list[Any]:
         return [row[dotted.split(".", 1)[1]] for row in pred["remediation"]]
     try:
         return [_at(pred, dotted)]
-    except KeyError:
-        # correlation.externalAnchor is conditional; its rule runs later.
+    except (KeyError, TypeError):
+        # correlation.externalAnchor and oversight are conditional; their
+        # rules run later.
         return []
 
 
@@ -495,6 +506,42 @@ def _rule_closed_vocabularies(state: _State) -> None:
     for value in pred["fieldEvidence"].values():
         if value not in FIELD_EVIDENCE_VALUES:
             raise Malformed("value-outside-vocabulary")
+
+
+def _rule_evaluation(state: _State) -> None:
+    """Evaluated names no unavailable input; not-evaluated names one or more, once each."""
+    evaluation = state.predicate["evaluation"]
+    if evaluation["status"] == "evaluated":
+        if "unavailableInput" in evaluation:
+            raise Malformed("evaluation-inconsistent")
+        return
+    inputs = evaluation.get("unavailableInput")
+    if not isinstance(inputs, list) or not inputs:
+        raise Malformed("evaluation-inconsistent")
+    for value in inputs:
+        if value not in UNAVAILABLE_INPUTS:
+            raise Malformed("value-outside-vocabulary")
+    if len(set(inputs)) != len(inputs):
+        raise Malformed("evaluation-inconsistent")
+
+
+def _is_digest(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+
+
+def _rule_oversight(state: _State) -> None:
+    """The optional oversight member: an act, and at most the overseer's record digest."""
+    if "oversight" not in state.predicate:
+        return
+    oversight = state.predicate["oversight"]
+    if not isinstance(oversight, dict):
+        raise Malformed("oversight-malformed")
+    if "act" not in oversight:
+        raise Malformed("member-missing")
+    if set(oversight) - OVERSIGHT_MEMBERS:
+        raise Malformed("oversight-malformed")
+    if "recordDigest" in oversight and not _is_digest(oversight["recordDigest"]):
+        raise Malformed("oversight-malformed")
 
 
 def _rule_delegation(state: _State) -> None:
@@ -651,6 +698,8 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("subject-interval", _rule_subject_interval),
     ("required-members", _rule_required_members),
     ("closed-vocabularies", _rule_closed_vocabularies),
+    ("evaluation", _rule_evaluation),
+    ("oversight", _rule_oversight),
     ("delegation", _rule_delegation),
     ("binding", _rule_binding),
     ("request-digest", _rule_request_digest),
