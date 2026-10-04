@@ -983,10 +983,10 @@
     }
   ],
   "counts": {
-    "accept": 116,
-    "reject": 116
+    "accept": 117,
+    "reject": 118
   },
-  "corpusDigest": "55c26ea4f504c417b412f8671cef757a46f196ded5589bb465980a793d337522",
+  "corpusDigest": "f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -1938,6 +1938,24 @@
       }
     },
     {
+      "id": "v37729703d471ba9b",
+      "kind": "reject",
+      "file": "vectors/v37729703d471ba9b.json",
+      "family": "w3c-f-23",
+      "requirements": [
+        "W3C-R-023"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-023"
+        ]
+      },
+      "cites": "no declared check is void, counted over the verdict records rather than the declared checks it quantifies over"
+    },
+    {
       "id": "v388dee224f53c2c1",
       "kind": "reject",
       "file": "vectors/v388dee224f53c2c1.json",
@@ -2603,6 +2621,24 @@
         ]
       },
       "cites": "a completed Run with no end"
+    },
+    {
+      "id": "v6b1ea60273861c5a",
+      "kind": "reject",
+      "file": "vectors/v6b1ea60273861c5a.json",
+      "family": "w3c-f-23",
+      "requirements": [
+        "W3C-R-023"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-023"
+        ]
+      },
+      "cites": "no declared check is void, claimed satisfied over a run that holds a void record"
     },
     {
       "id": "v6cd84ff1aea45153",
@@ -4643,6 +4679,22 @@
         },
         "cause": "none: moved is contained in the declared set and the verdict moved"
       }
+    },
+    {
+      "id": "vd2a25cb35e1b8bce",
+      "kind": "accept",
+      "file": "vectors/vd2a25cb35e1b8bce.json",
+      "family": "w3c-f-23",
+      "requirements": [
+        "W3C-R-023"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same run reporting the claim not satisfied over its three declared checks"
     },
     {
       "id": "vd2ae28ba9140bc89",

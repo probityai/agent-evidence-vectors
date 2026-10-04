@@ -1169,6 +1169,29 @@ def build_people_rules(m: Members) -> None:
         "an accounting claim over a population the report does not carry",
         "each claim carrying the count of the population it quantifies over",
     )
+    # The fourth claim of v0.1 section 5.2, "no declared check is void": its
+    # population is the declared checks, and with a nonempty declared set it is
+    # satisfied when the void count is zero and not satisfied otherwise.
+    three_claims = {
+        "accounting": {"population": 3, "claim": "satisfied"},
+        "execution": {"population": 3, "claim": "satisfied"},
+        "evidence": {"population": 2, "claim": "not-satisfied"},
+    }
+
+    def with_void_claim(population: int, claim: str) -> dict[str, Any]:
+        built = report([PASS, FAIL, VOID])
+        built["roll-up"]["completeness"] = dict(
+            three_claims, **{"no-void": {"population": population, "claim": claim}}
+        )
+        return built
+
+    m.reject("w3c-f-23", "W3C-R-023", with_void_claim(2, "not-satisfied"),
+             "no declared check is void, counted over the verdict records rather than the "
+             "declared checks it quantifies over")
+    m.reject("w3c-f-23", "W3C-R-023", with_void_claim(3, "satisfied"),
+             "no declared check is void, claimed satisfied over a run that holds a void record")
+    m.accept("w3c-f-23", "W3C-R-023", with_void_claim(3, "not-satisfied"),
+             "the same run reporting the claim not satisfied over its three declared checks")
     unrelated = evidence("e-1")
     del unrelated["delta"]
     witnessed = with_slots(FAIL, other_verdict=qualifier("demonstrated", "e-1"),

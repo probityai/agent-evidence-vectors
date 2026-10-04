@@ -695,6 +695,11 @@ def _rows_coverage(report: dict[str, Any], out: set[str]) -> None:
 
 
 CLAIMS = ("satisfied", "not-satisfied", "not-claimable")
+#: The fourth completeness claim of v0.1 section 5.2, "no declared check is
+#: void": its population is the declared checks and it is satisfied when the
+#: void count is zero. Judged when a report makes it; the three claims of 0036
+#: stay required as before, so no member that already shipped changes verdict.
+NO_VOID = "no-void"
 
 
 def _claim_holds(
@@ -704,6 +709,7 @@ def _claim_holds(
         "accounting": counts["declared"],
         "execution": counts["declared"],
         "evidence": counts["pass"] + counts["fail"],
+        NO_VOID: counts["declared"],
     }
     population, value = claim.get("population"), claim.get("claim")
     if population != populations[name] or value not in CLAIMS:
@@ -716,6 +722,8 @@ def _claim_holds(
         return counts["exercised"] == counts["declared"]
     if name == "evidence":
         return all(_demonstrated(c) for c in checks if c["state"] == "pass")
+    if name == NO_VOID:
+        return counts["void"] == 0
     return True
 
 
@@ -739,6 +747,10 @@ def _rows_completeness(
         if not _is_obj(claim) or not _claim_holds(name, claim, checks, counts):
             out.add(R[23])
             return
+    if NO_VOID in claims:
+        claim = claims[NO_VOID]
+        if not _is_obj(claim) or not _claim_holds(NO_VOID, claim, checks, counts):
+            out.add(R[23])
 
 
 def _carried_referenced(report: dict[str, Any]) -> tuple[int, int]:

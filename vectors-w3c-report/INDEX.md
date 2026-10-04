@@ -6,10 +6,10 @@ truth: 16 texts vendored in `spec-vendored/` and pinned by sha256 in
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 232 vectors, of which 116 a conformant verifier must not fail closed
-on and 116 it must reject.
+This corpus is 235 vectors, of which 117 a conformant verifier must not fail closed
+on and 118 it must reject.
 
-**Three subject types, one manifest.** 166 members are whole
+**Three subject types, one manifest.** 169 members are whole
 v0.1 reports, judged by the rows of the format; 44
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
@@ -231,6 +231,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `v32c1e0be1a7bf104` | reject | agent-run-metrics | arm-f-run | ARM-R-016 | ARM-R-016 |
 | `v32c6afab9eb5888a` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v36999d5568e9aacf` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
+| `v37729703d471ba9b` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `v388dee224f53c2c1` | reject | llm-context-discovery | lcd-f-publisher | LCD-R-005 | LCD-R-005 |
 | `v3a14f94887e53e0d` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v3add8861d36c2543` | reject | agent-run-metrics | arm-f-steps | ARM-R-008 | ARM-R-008 |
@@ -263,6 +264,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `v67727ceb5f2f7932` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v67e996a3fa03e959` | reject | report | w3c-f-22 | W3C-R-022 | W3C-R-022 |
 | `v696c5dd5918c854b` | reject | agent-run-metrics | arm-f-run | ARM-R-002 | ARM-R-002 |
+| `v6b1ea60273861c5a` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `v6cd84ff1aea45153` | reject | report | w3c-f-20 | W3C-R-020 | W3C-R-020 |
 | `v6cfd1d72b49d8853` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v70533f1029ed78e6` | reject | llm-context-discovery | lcd-f-consumer | LCD-R-009 | LCD-R-009 |
@@ -360,6 +362,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `vd02cc7abe1dbc2bf` | reject | agent-run-metrics | arm-f-usage | ARM-R-011 | ARM-R-011 |
 | `vd1eb6a3fb13eb97d` | reject | report | w3c-f-12 | W3C-R-012 | W3C-R-012 |
 | `vd27e483fe63e78c0` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `vd2a25cb35e1b8bce` | accept | report | w3c-f-23 | W3C-R-023 | none |
 | `vd2ae28ba9140bc89` | reject | report | w3c-f-28 | W3C-R-028 | W3C-R-028 |
 | `vd2e50306dcd6c470` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `vd302fdc2d7a97e6e` | reject | agent-run-metrics | arm-f-serialization | ARM-R-018 | ARM-R-018 |

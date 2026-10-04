@@ -1,0 +1,94 @@
+{
+  "expected": {
+    "rejects": [
+      "W3C-R-023"
+    ],
+    "verdict": "reject"
+  },
+  "family": "w3c-f-23",
+  "id": "v37729703d471ba9b",
+  "kind": "reject",
+  "requirements": [
+    "W3C-R-023"
+  ],
+  "resolves": {
+    "obs-fail": {
+      "rules": [
+        "R-1"
+      ],
+      "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+      "verdict": "fail"
+    },
+    "obs-pass": {
+      "rules": [],
+      "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 3,
+      "sha256": "6f1a777934cd4b5ebca4fa3fe0c4d2d5c174ecfbdb0abe6b1ae8c2935aa78cb6",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "check": "c-pass",
+        "state": "pass"
+      },
+      {
+        "check": "c-fail",
+        "state": "fail"
+      },
+      {
+        "cause": {
+          "code": "integrity-failure",
+          "detail": "the evidence signature does not verify"
+        },
+        "check": "c-void",
+        "state": "void"
+      }
+    ],
+    "domain": {
+      "description": "the run's declared domain, referenced by identifier",
+      "id": "d-run"
+    },
+    "evidence": [],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "completeness": {
+        "accounting": {
+          "claim": "satisfied",
+          "population": 3
+        },
+        "evidence": {
+          "claim": "not-satisfied",
+          "population": 2
+        },
+        "execution": {
+          "claim": "satisfied",
+          "population": 3
+        },
+        "no-void": {
+          "claim": "not-satisfied",
+          "population": 2
+        }
+      },
+      "declared": 3,
+      "exercised": 3,
+      "fail": 1,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "shown-by-run"
+      },
+      "not-exercised": 0,
+      "pass": 1,
+      "referenced": 0,
+      "void": 1
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}

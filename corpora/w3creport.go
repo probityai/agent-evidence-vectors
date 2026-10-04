@@ -48,6 +48,11 @@ var (
 // four-field record carries no extra cell (v0.1 sections 1.2 and 4).
 const w3cConfinementCause = "confinement-failed-during-check"
 
+// w3cNoVoid is the fourth completeness claim of v0.1 section 5.2, "no
+// declared check is void": population the declared checks, satisfied when
+// the void count is zero. Judged when present, as in the Python module.
+const w3cNoVoid = "no-void"
+
 func set(values ...string) map[string]bool {
 	out := map[string]bool{}
 	for _, v := range values {
@@ -1111,6 +1116,7 @@ func w3cClaimHolds(name string, claim map[string]any, checks []map[string]any, c
 		"accounting": counts["declared"],
 		"execution":  counts["declared"],
 		"evidence":   counts["pass"] + counts["fail"],
+		w3cNoVoid:    counts["declared"],
 	}
 	value, _ := claim["claim"].(string)
 	if !numberEquals(claim["population"], populations[name]) || !w3cClaims[value] {
@@ -1123,6 +1129,8 @@ func w3cClaimHolds(name string, claim map[string]any, checks []map[string]any, c
 		return true
 	}
 	switch name {
+	case w3cNoVoid:
+		return counts["void"] == 0
 	case "execution":
 		return counts["exercised"] == counts["declared"]
 	case "evidence":
@@ -1152,6 +1160,12 @@ func w3cRowsCompleteness(rollup map[string]any, checks []map[string]any, counts 
 		if !ok || !w3cClaimHolds(name, claim, checks, counts) {
 			out.add(23)
 			return
+		}
+	}
+	if raw, present := claims[w3cNoVoid]; present {
+		claim, ok := raw.(map[string]any)
+		if !ok || !w3cClaimHolds(w3cNoVoid, claim, checks, counts) {
+			out.add(23)
 		}
 	}
 }
