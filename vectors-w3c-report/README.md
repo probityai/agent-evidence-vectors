@@ -1,19 +1,19 @@
 # v0.1 per-check report conformance corpus
 
 The conformance set for v0.1 of the per-check reporting format of the W3C
-public-agent-conformance community group, as the v0.1 text of 30 September
-states it (list message `0087`, the copy the text names as canonical,
-vendored under `spec-vendored/`), as whole reports. Every row of the section 4
-rejection table, rows 1 to 14 under the numbers and classes v0.1 gives them, is
-backed by a member that must be rejected under that row alone and a member
-that must pass, and so is every rule v0.1 states outside the table: the cause
-vocabulary and the qualifiers (section 1), the evidence object (section 2),
-carry or reference and digests over a collection (sections 3 and 3.1), and the
-roll-up (section 5), the control binding of section 5.4 included. Each row is
-anchored to the v0.1 sentence it tests. The same manifest carries members of
-two further subject types, the Run object of
-`draft-arsentev-agent-run-metrics-00` and the discovery snapshot of
-`draft-arsentev-llm-context-discovery-00`, judged by their own sentences.
+public-agent-conformance community group, as the v0.1 text states it (list
+message `0087`, the copy the text names as canonical, vendored under
+`spec-vendored/`), as whole reports. Every row of the section 4 rejection
+table, rows 1 to 14 under the numbers and classes v0.1 gives them, is backed by
+a member that must be rejected under that row alone and a member that must
+pass, and so is every rule v0.1 states outside the table: the cause vocabulary
+and the qualifiers (section 1), the evidence object (section 2), carry or
+reference and digests over a collection (sections 3 and 3.1), and the roll-up
+(section 5), the control binding of section 5.4 included. Each row is anchored
+to the v0.1 sentence it tests. The same manifest carries members of two further
+subject types, the Run object of `draft-arsentev-agent-run-metrics-00` and the
+discovery snapshot of `draft-arsentev-llm-context-discovery-00`, judged by
+their own sentences.
 
 ## Where the corpus and the v0.1 text differ
 

@@ -6,7 +6,7 @@
 
 The text this corpus tests is vendored in ``spec-vendored/`` and pinned by
 digest: the messages of the W3C public-agent-conformance list that fixed v0.1
-of the reporting format, the v0.1 text of 30 September among them, and the
+of the reporting format, the v0.1 text among them, and the
 two Internet-Drafts the
 format's editor holds, whose Run object and discovery snapshot are judged here
 as further subjects. None of them carries a requirement identifier, so each is
