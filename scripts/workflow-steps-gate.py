@@ -685,8 +685,21 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
     if job.blocked:
         return None, job.blocked, False
     block, suffix, fault = resolve(step)
-    if block is None and step.uses.split("@", 1)[0] == "actions/setup-python":
+    action = step.uses.split("@", 1)[0]
+    if block is None and action == "actions/setup-python":
         job.blocked = f"the job's interpreter was not provisioned: {suffix}"
+    foreign = str(step.inputs.get("repository") or "") if action == "actions/checkout" else ""
+    if foreign:
+        # The runner fetches another repository into the workspace and the
+        # job's later steps read it. This gate runs inside one checkout and
+        # fetches nothing, so those steps would run against bytes that are not
+        # there and report the absence as the job's failure.
+        ref = str(step.inputs.get("ref") or "its default branch")
+        where = str(step.inputs.get("path") or ".")
+        job.blocked = (
+            f"the job checks out {foreign} at {ref} into {where}, which only the "
+            "runner fetches; its later steps read those bytes"
+        )
     return block, suffix, fault
 
 

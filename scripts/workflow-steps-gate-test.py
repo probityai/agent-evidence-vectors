@@ -474,6 +474,25 @@ def an_unprovidable_python_stops_its_job() -> None:
     assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
 
 
+def a_foreign_checkout_stops_its_job() -> None:
+    """A job that checks out another repository runs nothing after that step.
+
+    The APS comparison checks a third-party repository out at source/aps and
+    its next step runs there; this gate fetches nothing, so the step crashed
+    the whole gate on a missing directory and refused every push.
+    """
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - uses: actions/checkout@abc\n"
+        "        with:\n          repository: example/other\n          path: source/other\n"
+        "      - run: exit 1\n        working-directory: source/other\n"
+        "  k:\n    steps:\n      - run: exit 7\n"
+    )
+    rc, log = _execute(workflow)
+    assert "NOT RUN  j[1]" in log and "example/other" in log, f"a step read bytes never fetched:\n{log}"
+    assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
+
+
 def an_ambient_virtual_env_does_not_reach_the_steps() -> None:
     """`uv pip install` in a step must land in the project environment.
 
@@ -521,6 +540,7 @@ def main() -> int:
     check("runner variables carry within a job", github_env_and_runner_temp_carry_within_a_job)
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
+    check("a foreign checkout stops its job", a_foreign_checkout_stops_its_job)
     check(
         "an ambient VIRTUAL_ENV does not reach the steps",
         an_ambient_virtual_env_does_not_reach_the_steps,
