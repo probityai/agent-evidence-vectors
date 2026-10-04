@@ -42,14 +42,31 @@ def es6_number(value: float) -> str:
         raise ValueError("RFC 8785 Section 3.2.2.3 forbids NaN and Infinity")
     if value == 0:
         return "0"
-    if value == int(value) and abs(value) < 1e21:
-        return str(int(value))
-    text = repr(value)
-    if "e" in text:
-        mantissa, exponent = text.split("e")
-        sign = "+" if not exponent.startswith("-") else "-"
-        return f"{mantissa}e{sign}{exponent.lstrip('+-')}"
-    return text
+    sign = "-" if value < 0 else ""
+    # repr gives the shortest round-tripping digits, which is what ECMA-262 asks
+    # for; only where the decimal point goes differs. repr switches to exponent
+    # form below 1e-4 and pads the exponent, where ECMA-262 writes 0.00001 down
+    # to 1e-6 and then 1e-7, so the point is placed here from the digits.
+    mantissa, _, exponent = repr(abs(value)).partition("e")
+    whole, _, fraction = mantissa.partition(".")
+    if whole.strip("0"):
+        point = len(whole.lstrip("0"))
+        digits = (whole.lstrip("0") + fraction).rstrip("0")
+    else:
+        stripped = fraction.lstrip("0")
+        point = -(len(fraction) - len(stripped))
+        digits = stripped.rstrip("0")
+    n = point + (int(exponent) if exponent else 0)
+    k = len(digits)
+    if k <= n <= 21:
+        return sign + digits + "0" * (n - k)
+    if 0 < n <= 21:
+        return sign + digits[:n] + "." + digits[n:]
+    if -6 < n <= 0:
+        return sign + "0." + "0" * (-n) + digits
+    e = n - 1
+    lead = digits[0] + ("." + digits[1:] if k > 1 else "")
+    return f"{sign}{lead}e{'+' if e >= 0 else '-'}{abs(e)}"
 
 
 def _encode_scalar(node: JSONValue) -> str | None:
