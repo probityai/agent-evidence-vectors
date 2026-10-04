@@ -526,7 +526,8 @@ def _rule_evaluation(state: _State) -> None:
 
 
 def _is_digest(value: Any) -> bool:
-    return isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
+    hex_digits = "0123456789abcdef"
+    return isinstance(value, str) and len(value) == 64 and all(c in hex_digits for c in value)
 
 
 def _rule_oversight(state: _State) -> None:
