@@ -571,7 +571,7 @@ func (agentAction) checkAppendixB(v agentActionVector, predicate map[string]any,
 		}
 	}
 	if v.Kind == "reject" {
-		checkCarriedNumber(v, parsed, want, declared, carried, out)
+		checkCarriedNumber(v, hexPattern, want, declared, carried, out)
 		return
 	}
 	if v.CarriedNumberDeclared() {
@@ -595,7 +595,7 @@ func (v agentActionVector) CarriedNumberDeclared() bool { return v.Expected.Carr
 // value canonically recomputes a different digest and one that writes plain
 // digits recomputes the carried one. A carried spelling of another value, or
 // the canonical spelling itself, would catch nothing about notation.
-func checkCarriedNumber(v agentActionVector, parsed float64, want, declared, carried string, out *Member) {
+func checkCarriedNumber(v agentActionVector, hexPattern, want, declared, carried string, out *Member) {
 	if !v.CarriedNumberDeclared() {
 		out.Findings = append(out.Findings,
 			"a number reject member declares no carriedNumber, so the spelling it is caught on is unstated")
@@ -606,10 +606,12 @@ func checkCarriedNumber(v agentActionVector, parsed float64, want, declared, car
 		out.Findings = append(out.Findings,
 			"carriedNumber is the canonical spelling, so nothing is being caught")
 	}
+	// The bits, not the value: minus zero compares equal to zero, and the
+	// member that carries -0.0 is about which of the two it spells.
 	value, err := strconv.ParseFloat(plain, 64)
-	if err != nil || math.Float64bits(value) != math.Float64bits(parsed) {
+	if err != nil || fmt.Sprintf("%016x", math.Float64bits(value)) != hexPattern {
 		out.Findings = append(out.Findings, fmt.Sprintf(
-			"carriedNumber %q does not spell the double canonicalNumber %q names", plain, want))
+			"carriedNumber %q does not spell the double ieee754 %s names", plain, hexPattern))
 	}
 	if sha([]byte(`{"value":`+plain+"}")) != carried {
 		out.Findings = append(out.Findings, fmt.Sprintf(
