@@ -19,13 +19,11 @@ nothing installed.
    the crosswalk stated in ``CROSSWALK`` below rather than left to a reader.
 
 The record shape, the five states, the cause rule, the two qualifier slots and
-the twelve rejection rows are the group's, as the editor fixed them on
-2026-09-18 from the handover of the same day: rows 13 and 14 are carried under
-the numbering that handover proposes and marked proposed (W3C-R-025 and
-W3C-R-026); the late additions of 18 September, the rules of the freeze list
-and the editor's restatement, and the rules the thread settled beside the
-table are carried under their own identifiers without a row number, because
-nobody on the list has numbered them. A referenced observation is read through
+the fourteen rejection rows are the group's, as the v0.1 text of 2026-09-30
+states them: rows 1 to 12 keep their numbers and rows 13 and 14 are W3C-R-025
+and W3C-R-026; the rules v0.1 states outside the table, in sections 1, 2, 3,
+3.1 and 5, are carried under their own identifiers without a row number,
+because the text does not number them. A referenced observation is read through
 the reading table: resolves with a matching digest, resolves with a mismatch,
 does not resolve. Nothing here is a product and no field is ours.
 """
@@ -63,12 +61,11 @@ STATES = ("pass", "fail", "inconclusive", "not-exercised", "void")
 VERDICT_STATES = ("pass", "fail")
 NON_VERDICT_STATES = ("inconclusive", "not-exercised", "void")
 
-#: The cause vocabulary as the editor fixed it: CAP-1's eight closed
-#: dispositions, a value for void, integrity-failure kept apart from
-#: availability-failure, and precondition-unsatisfiable. The list named the
-#: void slot and not its value; ``evidence-does-not-hold`` is the name this
-#: corpus proposes for it, in the words of the message that found the gap (a
-#: unit that was examined and whose evidence does not hold up). Nothing else
+#: The cause vocabulary of v0.1 section 1.2: CAP-1's eight closed
+#: dispositions, ``evidence-does-not-hold`` as the value for void,
+#: integrity-failure kept apart from availability-failure,
+#: precondition-unsatisfiable, and confinement-failed-during-check, admitted
+#: only under void. Nothing else
 #: is admitted: an emitter with a case the vocabulary cannot name says so in
 #: the detail beside the nearest disposition, and records the gap.
 CAUSES = (
@@ -86,13 +83,12 @@ CAUSES = (
     "precondition-unsatisfiable",
     "confinement-failed-during-check",
 )
-#: The value for void, proposed by this corpus; see CAUSES.
+#: The value for void, v0.1 section 1.2; see CAUSES.
 VOID_CAUSE = "evidence-does-not-hold"
 #: Row 4's antecedent, as a cause value admitted only under void. A confinement
 #: control that failed while the check ran is written in the record's own cause
 #: cell, so row 4 reads cause against state the way row 3 does and nothing is
-#: added to the four-field record. Proposed: the construction is the one put to
-#: the list in answer to the question of how the antecedent is represented.
+#: added to the four-field record (v0.1 sections 1.2 and 4).
 CONFINEMENT_CAUSE = "confinement-failed-during-check"
 #: Row 2: a unit that was never examined has no evidence that can fail to hold up.
 NEVER_EXAMINED = ("not_applicable", "out_of_scope", "withheld")
@@ -551,7 +547,7 @@ def _digest_referenced(observation: dict[str, Any]) -> bool:
 
 
 def _rows_evidence_form(item: dict[str, Any], out: set[str]) -> None:
-    """The form rows, decidable from the object alone: 14 (proposed), arity, domain."""
+    """The form rows, decidable from the object alone: 14, arity, domain."""
     if item["moved"] and not all(_digest_referenced(o) for o in item["observations"]):
         out.add(R[26])
     delta: Any = item.get("delta")
@@ -624,11 +620,11 @@ def _row_control(
 
 
 def _row_control_binding(bound: Any, run_fixed: Any, out: set[str]) -> None:
-    """Rule 29 (proposed): a control ran under the checker and constraint set it speaks for.
+    """Rule 29, v0.1 section 5.4: a control ran under the checker and constraint set it speaks for.
 
     Read only where both the control and the run declare the binding: a
     binding that differs from the run's is refused, and a missing one is not,
-    because the list proposed the rule and has not yet required the slot.
+    because v0.1 fixes no slot for the run's binding (section 5.5, open item O7).
     """
     if not (_is_obj(bound) and _is_obj(run_fixed)):
         return

@@ -110,12 +110,12 @@ def requirement(
 ) -> dict[str, str]:
     """One requirement: its sentence, its row class and whether the list agreed it.
 
-    The class is the handover's: a consistency row reads declared slots against
-    each other and catches a contradiction; an evidence row reads a declared slot
-    against a recomputed or resolved one and catches a falsehood; a form row is
-    decidable from the object alone. The handover left rows 4, 10, 11, 12 and 13
-    unclassified; the class given here for those five is this corpus's proposal,
-    and ``resolved_read`` measures the part of it a validator can measure.
+    The class is v0.1's (section 2.2): a consistency row reads declared slots
+    against each other and catches a contradiction; an evidence row reads a
+    declared slot against a recomputed or resolved one and catches a falsehood;
+    a form row is decidable from the object alone. Section 4 classes rows 1 to
+    14; the class of a rule outside the table is this corpus's, and
+    ``resolved_read`` measures the part of it a validator can measure.
     """
     return {
         "id": ident, "row": row, "file": file, "sentence": sentence,
@@ -125,91 +125,156 @@ def requirement(
 
 #: One row per requirement: the verbatim sentence, located in the vendored
 #: copy and hashed. A sentence spanning a line break is quoted with the break.
+#: Every row v0.1 carries is anchored to the v0.1 text (0087), which governs
+#: where it and an earlier message differ: rows 1 to 14 to its section 4 table,
+#: which numbers 13 and 14 and classes all fourteen, and the other rules to the
+#: section that states them. Each is agreed: the text adopts it (0087, change
+#: log entries 3 to 12) and no message in the window objected (0087, "Comments
+#: counted"; row 4 confirmed by its questioner in 0088).
 W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
-    requirement("W3C-R-001", "1", "0043", "a non-verdict state with no cause"),
-    requirement("W3C-R-002", "2", "0043", "void with not_applicable, out_of_scope or withheld"),
-    requirement("W3C-R-003", "3", "0043", "not-exercised with integrity-failure"),
-    # Rows 4, 10, 11, 12 and 13 are the five the handover left unclassified;
-    # their class here is proposed, and the appendix carries the rationale.
     requirement(
-        "W3C-R-004", "4", "0043", "a confinement control that failed while the check ran",
-        CONSISTENCY, PROPOSED,
+        "W3C-R-001", "1", "0087",
+        "a non-verdict state with no cause",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-005", "5", "0043", "a declared exclusion with any state but not-exercised"
-    ),
-    requirement("W3C-R-006", "6", "0043", "a non-verdict state carrying either qualifier"),
-    requirement("W3C-R-007", "7", "0043", "a verdict state carrying a cause"),
-    requirement(
-        "W3C-R-008", "8", "0043", "other-verdict foreclosed with discrimination demonstrated"
+        "W3C-R-002", "2", "0087",
+        "void with not_applicable, out_of_scope or withheld",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-009", "9", "0043", "discrimination demonstrated with other-verdict unknown"
+        "W3C-R-003", "3", "0087",
+        "not-exercised with integrity-failure",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-010", "10", "0043", "foreclosed without a constraint set and a domain",
-        CONSISTENCY, PROPOSED,
+        "W3C-R-004", "4", "0087",
+        "cause confinement-failed-during-check with any\n      state but void",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-011", "11", "0043", "an asserted value without its evidence reference",
-        CONSISTENCY, PROPOSED,
+        "W3C-R-005", "5", "0087",
+        "a declared exclusion with any state but\n      not-exercised",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-012", "12", "0043", "whose changed slot is the checker", CONSISTENCY, PROPOSED
+        "W3C-R-006", "6", "0087",
+        "a non-verdict state carrying either qualifier",
+        CONSISTENCY,
     ),
     requirement(
-        "W3C-R-013",
-        "(a) roll-up",
-        "0069",
-        "a roll-up states whether the checks it aggregates\n"
-        "were capable of a negative verdict",
+        "W3C-R-007", "7", "0087",
+        "a verdict state carrying a cause",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-008", "8", "0087",
+        "other-verdict foreclosed with discrimination\n      demonstrated",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-009", "9", "0087",
+        "discrimination demonstrated with other-verdict\n      unknown or possible-not-demonstrated",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-010", "10", "0087",
+        "foreclosed without a constraint set and a domain",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-011", "11", "0087",
+        "an asserted value without its evidence reference,\n      on either field, foreclosed included",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-012", "12", "0087",
+        "discrimination demonstrated citing an evidence\n      object whose changed slot is the checker",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-025", "13", "0087",
+        "13 other-verdict demonstrated citing an evidence object whose\n      moved does not contain the verdict",
         EVIDENCE,
     ),
     requirement(
-        "W3C-R-014",
-        "(a) prior run",
-        "0069",
-        "a prior discriminating run only counts where check identity survives across\nruns",
+        "W3C-R-026", "14", "0087",
+        "14 moved asserted on an evidence object that neither carries both\n      observations nor references them with digests",
+        FORM,
     ),
     requirement(
-        "W3C-R-015",
-        "(b) set binding",
-        "0069",
-        "digest match establishes a set only when the count of leaves is bound too,\n"
-        "and a report says which tree shape it uses",
+        "W3C-R-019", "1.2 closed vocabulary", "0087",
+        "Free text is refused in place of a disposition",
+        FORM,
+    ),
+    requirement(
+        "W3C-R-024", "1.3 delta-related pair", "0087",
+        "Unrelated pass and fail\nrecords in one corpus do not qualify",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-016", "2 declared slots", "0087",
+        "an object whose moved\nis not contained in its declared compared set is rejected",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-021", "2 recomputed moved", "0087",
+        "moved is recomputed, not declared",
         EVIDENCE,
     ),
     requirement(
-        "W3C-R-016",
-        "declared slots",
-        "0062",
-        "an object whose moved is not contained in its declared set is\nrejected",
+        "W3C-R-027", "2 arity recomputed", "0087",
+        "arity is recomputed from the delta",
+        FORM,
     ),
     requirement(
-        "W3C-R-017", "roll-up denominator", "0060",
-        "never emitted without its complete denominator", EVIDENCE,
+        "W3C-R-028", "2 domain once", "0087",
+        "The domain is a declared object, declared once at run level",
+        FORM,
     ),
     requirement(
-        "W3C-R-018", "roll-up counter", "0060",
-        "the counter over carried against referenced", EVIDENCE,
-    ),
-    requirement(
-        "W3C-R-019", "closed vocabulary", "0025", "because free text does not aggregate", FORM
-    ),
-    requirement(
-        "W3C-R-020",
-        "reference mismatch",
-        "0062",
-        "resolves with a mismatch (an integrity failure)",
+        "W3C-R-020", "3 reference mismatch", "0087",
+        "resolves, digests differ integrity failure",
         EVIDENCE,
     ),
     requirement(
-        "W3C-R-021",
-        "recomputed delta",
-        "0050",
-        "they read moved\nas recomputed from the two observations the object names",
+        "W3C-R-015", "3.1 set binding", "0087",
+        "A digest match establishes a set only when the count of leaves is\nbound into what is signed or hashed, and a report MUST declare which\ntree shape it uses",
         EVIDENCE,
     ),
+    requirement(
+        "W3C-R-017", "5.1 denominator", "0087",
+        "It is never emitted without its complete denominator",
+        EVIDENCE,
+    ),
+    requirement(
+        "W3C-R-023", "5.2 population", "0087",
+        "A claim over an empty population is reported as not claimable, not\nas satisfied",
+        EVIDENCE,
+    ),
+    requirement(
+        "W3C-R-018", "5.3 counter", "0087",
+        "carried against referenced is recomputable by anyone\nholding the report and cannot be understated",
+        EVIDENCE,
+    ),
+    requirement(
+        "W3C-R-013", "5.4 roll-up", "0087",
+        "A roll-up states whether the checks it aggregates were capable of\nproducing a negative verdict",
+        EVIDENCE,
+    ),
+    requirement(
+        "W3C-R-014", "5.4 prior run", "0087",
+        "A prior run only counts where check identity survives across\n    runs",
+        CONSISTENCY,
+    ),
+    requirement(
+        "W3C-R-029", "5.4 control binding", "0087",
+        "The control runs under the same checker revision and the same\n    relevant configuration and constraints as the declared checks\n    whose negative capability it is reported for",
+        CONSISTENCY,
+    ),
+    # Kenne Ives's coverage block (0001) is not in the v0.1 text: no section of
+    # 0087 carries it. It stays proposed, and the appendix lists it among the
+    # places the corpus and the text still differ.
     requirement(
         "W3C-R-022",
         "coverage block",
@@ -217,59 +282,7 @@ W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
         "a sampled / full_coverage flag\n"
         "with the count of scannable files recorded before the per-repo cap",
         FORM,
-    ),
-    requirement(
-        "W3C-R-023",
-        "population denominator",
-        "0036",
-        "a claim over an empty population is reported as not claimable, not as\nsatisfied",
-        EVIDENCE,
-    ),
-    requirement(
-        "W3C-R-024",
-        "delta-related pair",
-        "0036",
-        "Unrelated pass and fail records in one corpus must not qualify",
-    ),
-    # The two rows the handover numbers 13 and 14 and marks as proposed, because
-    # nobody on the list has numbered them; rows 1 to 12 keep their numbers.
-    requirement(
-        "W3C-R-025",
-        "13 (proposed)",
-        "0072",
-        "other-verdict demonstrated citing an evidence object whose moved\n"
-        "does not contain the verdict",
-        EVIDENCE,
         PROPOSED,
-    ),
-    requirement(
-        "W3C-R-026",
-        "14 (proposed)",
-        "0072",
-        "14 moved asserted on an evidence object that neither carries both\n"
-        "observations nor references them with digests",
-        FORM,
-        PROPOSED,
-    ),
-    # Proposed in the v0.1 comment window as an amendment to section 5.4, and
-    # supported on the list, not yet in the editor's text: the control is bound
-    # to the checker and the constraint set of the checks it speaks for.
-    requirement(
-        "W3C-R-029",
-        "(a) control binding",
-        "0076",
-        "say that the control uses the same checker revision and relevant\n"
-        "configuration and constraints as the checks whose negative\n"
-        "capability is being reported",
-        CONSISTENCY,
-        PROPOSED,
-    ),
-    # Two rules of the handover's Part 1 the editor took in as agreed text.
-    requirement(
-        "W3C-R-027", "arity recomputed", "0072", "so arity is recomputed from the delta", FORM
-    ),
-    requirement(
-        "W3C-R-028", "domain once", "0072", "The domain is declared once at run level", FORM
     ),
 )
 
@@ -449,18 +462,18 @@ FAMILIES = {
     "w3c-f-12": (
         "row 12: discrimination demonstrated citing evidence whose changed slot is the checker"
     ),
-    "w3c-f-13": "late addition (a): a roll-up says whether its checks could have gone negative",
+    "w3c-f-13": "section 5.4: a roll-up says whether its checks could have gone negative",
     "w3c-f-14": (
-        "late addition (a): a prior discriminating run binds the check identity that survived"
+        "section 5.4: a prior discriminating run binds the check identity that survived"
     ),
     "w3c-f-15": (
-        "late addition (b): a digest over a set binds its leaf count and names its tree "
+        "section 3.1: a digest over a set binds its leaf count and names its tree "
         "shape; domain separation alone is not the fix"
     ),
     "w3c-f-16": "declared slots: moved is contained in the declared compared set",
     "w3c-f-29": (
-        "late addition (a), amended in the comment window: a control built to fail is bound "
-        "to the checker and constraint set of the checks it speaks for"
+        "section 5.4: a control built to fail is bound to the checker and constraint set of "
+        "the checks it speaks for"
     ),
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
@@ -478,11 +491,11 @@ FAMILIES = {
     "w3c-f-23": "population denominator: a completeness claim carries the size of its population",
     "w3c-f-24": "delta-related pair: unrelated pass and fail records do not witness discrimination",
     "w3c-f-25": (
-        "row 13 (proposed): other-verdict demonstrated citing an object whose recomputed moved "
+        "row 13: other-verdict demonstrated citing an object whose recomputed moved "
         "does not contain the verdict; unresolvable, the row degrades"
     ),
     "w3c-f-26": (
-        "row 14 (proposed): moved asserted on an object that neither carries its observations "
+        "row 14: moved asserted on an object that neither carries its observations "
         "nor references them with digests"
     ),
     "w3c-f-27": "arity: recomputed from the delta, never declared",
@@ -951,7 +964,8 @@ def build_control_binding(m: Members) -> None:
     m.accept("w3c-f-29", "W3C-R-029",
              report(ALL_PASS, negative=control("checker-1", "cs-2")),
              "a control that declares its binding in a run that declares none: nothing to "
-             "compare, and the proposal does not yet require the run's slot")
+             "compare, and v0.1 fixes no slot for the run's binding, since the fixture "
+             "record that would carry it is not normative (section 5.5, open item O7)")
 
 
 def build_set_binding(m: Members) -> None:
@@ -1167,8 +1181,8 @@ def build_people_rules(m: Members) -> None:
     )
 
 
-def build_proposed_rows(m: Members) -> None:
-    """Rows 13 and 14 under the handover's proposed numbering, and arity and domain."""
+def build_numbered_rows(m: Members) -> None:
+    """Rows 13 and 14, numbered in v0.1 section 4, and arity and domain."""
     demonstrated = with_slots(FAIL, other_verdict=qualifier("demonstrated", "e-1"))
     two_fails: Outcomes = (("fail", ["R-A"]), ("fail", ["R-B"]))
     rules_only = report([PASS, demonstrated], [evidence("e-1", moved=["fired-rule list"])])
@@ -1602,7 +1616,7 @@ def build() -> list[dict[str, Any]]:
     build_set_binding(m)
     build_rules(m)
     build_people_rules(m)
-    build_proposed_rows(m)
+    build_numbered_rows(m)
     build_gaps(m)
     build_disensor(m)
     build_run_metrics(m)
@@ -1777,12 +1791,12 @@ the same lines.
 
 ## Requirements
 
-The class column is the handover's sort of the rows: consistency rows read
+The class column is the sort of v0.1 section 2.2: consistency rows read
 declared slots against each other, evidence rows read a declared slot against
 a recomputed or resolved one, form rows are decidable from the object alone.
-The status column says whether the list agreed the row or this corpus proposes
-it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
-13, which the handover left unclassified).
+Section 4 of v0.1 numbers and classes rows 1 to 14. The status column says
+whether the v0.1 text adopts the row (agreed) or only this corpus carries it
+(proposed). Every agreed row is anchored to the v0.1 text, `0087`.
 
 | id | row | class | status | vendored in | sentence digest | normative sentence |
 |---|---|---|---|---|---|---|

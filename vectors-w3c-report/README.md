@@ -1,40 +1,40 @@
 # v0.1 per-check report conformance corpus
 
 The conformance set for v0.1 of the per-check reporting format of the W3C
-public-agent-conformance community group, as the editor fixed its scope on
-18 September from the handover of the same day, as whole reports: every
-rejection row of the consolidated table backed by a member that must be
-rejected under that row alone and a member that must pass; rows 13 and 14 under
-the numbering the handover proposes, marked proposed; the two additions of
-18 September; the rules the freeze list and the editor's restatement carry; the
-rules the thread settled beside the table; and the handover's two
-record-definition rules, arity recomputed from the delta and the domain
-declared once at run level. Each row carries its class under the handover's
-sort (consistency, evidence, form), and the five rows the handover left
-unclassified carry a proposed class with the vector pair that shows it. The
-same manifest carries members of two further subject types, the Run object of
+public-agent-conformance community group, as the v0.1 text of 30 September
+states it (list message `0087`, the copy the text names as canonical,
+vendored under `spec-vendored/`), as whole reports. Every row of the section 4
+rejection table, rows 1 to 14 under the numbers and classes v0.1 gives them, is
+backed by a member that must be rejected under that row alone and a member
+that must pass, and so is every rule v0.1 states outside the table: the cause
+vocabulary and the qualifiers (section 1), the evidence object (section 2),
+carry or reference and digests over a collection (sections 3 and 3.1), and the
+roll-up (section 5), the control binding of section 5.4 included. Each row is
+anchored to the v0.1 sentence it tests. The same manifest carries members of
+two further subject types, the Run object of
 `draft-arsentev-agent-run-metrics-00` and the discovery snapshot of
 `draft-arsentev-llm-context-discovery-00`, judged by their own sentences.
 
-## Rules this corpus proposes, pending the editor's v0.1 text
+## Where the corpus and the v0.1 text differ
 
-The rules below answer questions put to the v0.1 draft during its comment
-window and are marked `proposed` until the editor's text settles them:
+Section 10 of v0.1 says the text governs where the two differ. The three
+changes the corpus carried as proposed while the text was in comment (row 4
+read as the cause value `confinement-failed-during-check` under `void`,
+`RFC9162_SHA256` in the closed set of tree shapes, and the section 5.4 control
+binding, `W3C-R-029`) are in the v0.1 text and are agreed here. What remains:
 
-- Row 4 reads the cause cell against the state, as row 3 does. The fact that a
-  confinement control failed while the check ran is the cause value
-  `confinement-failed-during-check`, admitted only under `void`, so the record
-  carries no extra cell for it (the construction put to the list in `0077`, in
-  answer to the question in `0076`).
-- The tree shapes are a closed set, and `RFC9162_SHA256`, the RFC 9942 section
-  5.1 identifier for the RFC 9162 Merkle tree over SHA-256, is a member of it.
-- A control built to fail is bound to the checker and the constraint set of
-  the checks it speaks for (`W3C-R-029`, from `0076`). A binding that differs
-  from the one the run declares is refused; a missing binding is not yet.
+- `W3C-R-022`, the coverage block of `0001`, is not in v0.1 and is marked
+  proposed.
+- The run-metrics and context-discovery members are judged by their drafts,
+  not by v0.1.
+- A run that declares no checker and constraint-set binding is not refused
+  under `W3C-R-029`, because v0.1 fixes no slot for it (section 5.5, open item
+  O7).
 
 ## The text is vendored and every identifier is a sentence
 
-The list messages and the two drafts carry no requirement identifiers. Each
+The list messages, the v0.1 text and the two drafts carry no requirement
+identifiers. Each
 row here quotes its normative sentence, `gen_vectors.py` locates that sentence
 in the vendored copy under `spec-vendored/`, records the line it derived, and
 hashes the bytes; `MANIFEST.json` pins every vendored file by sha256 and names
