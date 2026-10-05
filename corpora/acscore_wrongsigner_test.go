@@ -167,7 +167,7 @@ func TestACSSymmetricHeadClaimedExternalIsRefused(t *testing.T) {
 	if len(manifest.Vectors) == 0 {
 		t.Fatal("the ACS-Core manifest lists no members, so an absence below would prove nothing")
 	}
-	var claimed, undeterminable []wrongSignerRow
+	var claimed, peer, undeterminable []wrongSignerRow
 	for _, row := range manifest.Vectors {
 		body, err := os.ReadFile(filepath.Join(dir, row.File))
 		if err != nil {
@@ -189,11 +189,20 @@ func TestACSSymmetricHeadClaimedExternalIsRefused(t *testing.T) {
 			p.GuardianResponse.Signature.Algorithm != "HMAC-SHA256" {
 			continue
 		}
-		if p.PresentedAs != nil && p.PresentedAs.WitnessScope == "EXTERNAL" {
+		switch {
+		case p.PresentedAs != nil && p.PresentedAs.WitnessScope == "EXTERNAL":
 			claimed = append(claimed, row)
-		} else if row.Expected.Verdict == "unmeasurable" {
+		case p.PresentedAs != nil && p.PresentedAs.WitnessScope == "PEER":
+			peer = append(peer, row)
+		case row.Expected.Verdict == "unmeasurable":
 			undeterminable = append(undeterminable, row)
 		}
+	}
+	// The refusal must be of the claim, not of the algorithm: the same head
+	// presented to a key-holder is allowed, or a verifier refusing every HMAC
+	// head passes the member above.
+	if len(peer) != 1 || peer[0].Kind != "accept" || peer[0].Expected.Verdict != "allow" {
+		t.Errorf("want one accepting twin presenting the same HMAC head at PEER scope, found %d", len(peer))
 	}
 	if len(claimed) != 1 {
 		t.Fatalf("want exactly one ACS-Core HMAC head presented as EXTERNAL evidence, found %d", len(claimed))

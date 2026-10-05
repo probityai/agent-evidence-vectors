@@ -5,8 +5,8 @@ Ground truth: the four normative files vendored in `spec-vendored/`, read at
 `9d4a9da` of `GenAI-Security-Project/agent-control-standard`, each pinned by sha256 in
 `MANIFEST.json`.
 
-This corpus is 41 vectors, of which 14 a conformant verifier must
-not fail closed on and 25 it must reject.
+This corpus is 43 vectors, of which 15 a conformant verifier must
+not fail closed on and 26 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -113,6 +113,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v10351021bf6e46b1` | reject | acs-f-7 | ACS-R-009 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v221edeb22c4e8634` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | EXTERNAL |
 | `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | none | artifact | PEER |
+| `v3232493ab40ae031` | reject | acs-f-10 | ACS-R-021 | deny | none | artifact | EXTERNAL |
 | `v3c03d4e4ce213e9c` | accept | acs-f-6 | ACS-R-016 | allow | none | artifact | PEER |
 | `v3e946bcfde26bbe2` | accept | acs-f-2 | ACS-R-002 | allow | none | substrate | SELF |
 | `v412653087b92cb07` | reject | acs-f-9 | ACS-R-017 | deny | `UNSUPPORTED_VERSION` | substrate | PEER |
@@ -126,6 +127,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v7b0b32fb369136c1` | reject | acs-f-8 | ACS-R-006 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v82b6d110b4d68e7c` | indeterminate | acs-f-3 | ACS-R-003 | unmeasurable | none | artifact | EXTERNAL |
 | `v8557c978bf12ca55` | reject | acs-f-6 | ACS-R-016 | deny | `CHAIN_MISMATCH` | artifact | PEER |
+| `v855c3b68b325eec1` | accept | acs-f-10 | ACS-R-021 | allow | none | artifact | PEER |
 | `v986429a577e03404` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v9f011986566cb7bc` | indeterminate | acs-f-10 | ACS-R-022, ACS-R-021 | unmeasurable | none | artifact | SELF |
 | `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | none | substrate | SELF |

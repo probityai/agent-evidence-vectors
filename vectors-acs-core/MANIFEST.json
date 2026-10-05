@@ -281,11 +281,11 @@
     }
   ],
   "counts": {
-    "accept": 14,
-    "reject": 25,
+    "accept": 15,
+    "reject": 26,
     "indeterminate": 2
   },
-  "corpusDigest": "1e86285323850a97e3d57e8f7803f42ec87caddeb5d917b66b965044845227ac",
+  "corpusDigest": "990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -428,6 +428,26 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "the same response with the chain head inside the signed set."
+    },
+    {
+      "id": "v3232493ab40ae031",
+      "kind": "reject",
+      "file": "vectors/v3232493ab40ae031.json",
+      "family": "acs-f-10",
+      "requirements": [
+        "ACS-R-021"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "effective",
+      "cites": "an HMAC-SHA256 chain head the Guardian did sign, presented to a third party as evidence that this Guardian issued it. The member rejects the external claim, not the signature: the MAC verifies, and section 8.6 says proving to a third party that a specific Guardian issued a specific head requires ACS-Crypto. No registry code names a refused claim over a valid signature, so none is asserted. The member is EXTERNAL because the algorithm and the claim both sit in the presented bytes, so a party outside the trust domain can refuse it without the Guardian's account and without holding the key."
     },
     {
       "id": "v3c03d4e4ce213e9c",
@@ -691,6 +711,26 @@
       "witnessScope": "PEER",
       "coverage": "configured",
       "cites": "a context entry with the request digest absent under a profile that requires it. The chain then commits to step metadata and not to request content, which is the difference between a chain that witnesses what happened and one that witnesses that something did."
+    },
+    {
+      "id": "v855c3b68b325eec1",
+      "kind": "accept",
+      "file": "vectors/v855c3b68b325eec1.json",
+      "family": "acs-f-10",
+      "requirements": [
+        "ACS-R-021"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same HMAC head presented to the Observed Agent, a key-holder, as integrity evidence, which section 8.6 says the baseline gives. A verifier that refuses every HMAC head scores zero here, so the member above measures the external claim rather than the algorithm."
     },
     {
       "id": "v986429a577e03404",

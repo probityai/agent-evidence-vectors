@@ -157,6 +157,15 @@ of who signed are the two key-holders' own. A verifier has to report "the
 signer is wrong" and "the signer cannot be determined" as different outcomes,
 so the corpus does not give them one shape.
 
+A third member refuses the claim rather than the signature. An HMAC head the
+Guardian did sign, presented to a third party as proof of which Guardian issued
+it, is graded `deny` with no registry code, because the symmetric tier cannot
+carry that claim and a surface that only calls it weak lets it through. It is
+`EXTERNAL`: the algorithm and the claim are both in the presented bytes, so an
+outside party can refuse it without the Guardian's account or the key. Its
+accepting twin presents the same head to a key-holder as integrity evidence, so
+a verifier that refuses every HMAC head fails the family rather than passing it.
+
 Nothing here tests content filtering, model robustness, or prompt injection
 detection. The member about attributed content tests one property: that
 provenance establishes lineage and confers no authority. A suite that reached

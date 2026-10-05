@@ -1463,6 +1463,70 @@ def build() -> list[dict]:
         ),
     )
 
+    # The same symmetric head, signed honestly by the Guardian, offered to a
+    # third party as proof of which Guardian issued it. The signature is not
+    # what fails: the claim is one the symmetric tier cannot carry, and a
+    # surface that can only call it weak lets it through.
+    claimed_external = attributed_head(
+        "ACS-Core", "HMAC-SHA256", "session-k1", "symmetric",
+        ["guardian", "observed_agent"], "guardian", "session-k1",
+    )
+    claimed_external["presented_as"] = {
+        "witness_scope": "EXTERNAL",
+        "claim": "non_repudiation",
+        "audience": "third_party",
+    }
+    add(
+        kind="reject",
+        family="acs-f-10",
+        requirements=["ACS-R-021"],
+        payload=claimed_external,
+        verdict="deny",
+        code=None,
+        evidence_basis="artifact",
+        witness_scope="EXTERNAL",
+        coverage="effective",
+        cites=(
+            "an HMAC-SHA256 chain head the Guardian did sign, presented to a "
+            "third party as evidence that this Guardian issued it. The member "
+            "rejects the external claim, not the signature: the MAC verifies, "
+            "and section 8.6 says proving to a third party that a specific "
+            "Guardian issued a specific head requires ACS-Crypto. No registry "
+            "code names a refused claim over a valid signature, so none is "
+            "asserted. The member is EXTERNAL because the algorithm and the "
+            "claim both sit in the presented bytes, so a party outside the "
+            "trust domain can refuse it without the Guardian's account and "
+            "without holding the key."
+        ),
+    )
+    claimed_peer = attributed_head(
+        "ACS-Core", "HMAC-SHA256", "session-k1", "symmetric",
+        ["guardian", "observed_agent"], "guardian", "session-k1",
+    )
+    claimed_peer["presented_as"] = {
+        "witness_scope": "PEER",
+        "claim": "integrity",
+        "audience": "key_holder",
+    }
+    add(
+        kind="accept",
+        family="acs-f-10",
+        requirements=["ACS-R-021"],
+        payload=claimed_peer,
+        verdict="allow",
+        code=None,
+        evidence_basis="artifact",
+        witness_scope="PEER",
+        coverage="effective",
+        cites=(
+            "the same HMAC head presented to the Observed Agent, a key-holder, "
+            "as integrity evidence, which section 8.6 says the baseline gives. "
+            "A verifier that refuses every HMAC head scores zero here, so the "
+            "member above measures the external claim rather than the "
+            "algorithm."
+        ),
+    )
+
     return members
 
 
