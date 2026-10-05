@@ -144,11 +144,16 @@ def _staged_copy(tmp: Path) -> Path:
     # The live page may pin the tag check to the real release's commit and tag
     # object, which the staged tag does not hold. Every staged copy carries the
     # bare command; the pin cases and the pinned control add pins of their own.
+    # A page that carries no tag check at all gets one, as the install pages get
+    # a source command, so the cases test the gate whatever the page shows.
     page = root / PAGE_REL
     text = re.sub(
         r"(python3 scripts/verify-release-tag\.py v\S+)"
         r"(?:[ \t]*\\\n[ \t]*--expected-(?:commit|tag-object)[ \t]+\S+)+",
         r"\g<1>", page.read_text(encoding="utf-8"))
+    if not re.search(TAG_CHECK, text, re.MULTILINE):
+        tag = _install_of(root)[1]
+        text += f"\n```bash\npython3 scripts/verify-release-tag.py {tag}\n```\n"
     page.write_text(text, encoding="utf-8")
     if not re.search(TAG_CHECK, text, re.MULTILINE):
         raise AssertionError(
