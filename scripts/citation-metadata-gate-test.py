@@ -28,6 +28,7 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -113,6 +114,7 @@ def head_date(root: Path) -> str:
         capture_output=True,
         text=True,
         check=True,
+        env={**os.environ, "TZ": "UTC"},
     )
     return done.stdout.strip()
 
@@ -121,12 +123,20 @@ def set_release_date(root: Path, value: str) -> None:
     reword(root, CFF, r'date-released: "[^"]+"', f'date-released: "{value}"')
 
 
+# Every case runs the gate twelve hours behind UTC. A gate that renders a commit
+# date in the process's own zone then disagrees with the UTC runner on every
+# commit made in the first twelve hours of a UTC day, which is how one release
+# commit was dated 2026-10-04 locally and 2026-10-05 in CI.
+GATE_TZ = "Etc/GMT+12"
+
+
 def run(root: Path) -> tuple[int, str]:
     proc = subprocess.run(
         [sys.executable, str(GATE), "--root", str(root)],
         capture_output=True,
         text=True,
         check=False,
+        env={**os.environ, "TZ": GATE_TZ},
     )
     return proc.returncode, proc.stdout + proc.stderr
 
@@ -379,11 +389,32 @@ def released_at_its_tag(root: Path) -> None:
     set_release_date(root, head_date(root))
 
 
+def released_on_an_evening_west_of_utc(root: Path) -> None:
+    """A commit at 22:00 -04:00 is the next day in UTC, and that is its date."""
+    subprocess.run(
+        ["git", "-c", "user.email=citation-gate-test@example.invalid",
+         "-c", "user.name=citation gate test", "-c", "commit.gpgsign=false",
+         "commit", "-q", "--allow-empty", "-m", "evening release"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        env={**os.environ, "GIT_COMMITTER_DATE": "2026-10-04T22:00:00-04:00",
+             "GIT_AUTHOR_DATE": "2026-10-04T22:00:00-04:00"},
+    )
+    tag(root, "v0.10.0")
+    set_release_date(root, "2026-10-05")
+
+
 ACCEPT_CASES: list[Case] = [
     ("the repository as it stands", lambda root: None, ("are accounted for",)),
     (
         "the version is tagged and the date is that tag's commit date",
         released_at_its_tag,
+        ("release date consistent with the tag",),
+    ),
+    (
+        "the tag's commit is dated by its UTC day, whatever zone the gate runs in",
+        released_on_an_evening_west_of_utc,
         ("release date consistent with the tag",),
     ),
     (

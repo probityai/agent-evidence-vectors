@@ -65,6 +65,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -335,12 +336,18 @@ DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
 def _git(root: Path, *arguments: str) -> str | None:
-    """A git read, or None when it did not succeed. Never a value on failure."""
+    """A git read, or None when it did not succeed. Never a value on failure.
+
+    TZ is pinned to UTC: `--date=format-local` renders in the process's zone,
+    so an evening commit in America/New_York dated one day here and the next
+    day on a UTC runner, and the gate gave opposite verdicts on one revision.
+    """
     done = subprocess.run(
         ["git", "-C", str(root), *arguments],
         capture_output=True,
         text=True,
         check=False,
+        env={**os.environ, "TZ": "UTC"},
     )
     if done.returncode != 0:
         return None
