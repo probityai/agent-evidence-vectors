@@ -1,31 +1,9 @@
 name: ots-upgrade
 
-# Move the OpenTimestamps proof from pending to attested, weekly.
-#
-# `ots stamp` returns a proof that the calendars received the digest. The
-# Bitcoin attestation it will eventually reduce to lands roughly a day later,
-# and until it does the proof is worth the calendars' word. `ots upgrade`
-# rewrites the proof with the completed path once the block is in, and after
-# that the proof stands on its own: a verifier needs the file and a view of the
-# chain, and needs nothing from the calendars or from this repository.
-#
-# So the proof committed at tag time is deliberately not final, and this job
-# exists to finish it. It runs weekly rather than daily because the upgrade is
-# idempotent and there is nothing to gain from asking more often, and it opens a
-# pull request rather than pushing, because a commit that changes a signed
-# release's artifacts is a thing a person should look at.
-#
-# A pending proof exits this job GREEN. `ots upgrade` says "Failed! Timestamp
-# not complete" and exits non-zero for a proof whose block has not landed, which
-# is a fact about the Bitcoin blockchain rather than about this repository.
-# scripts/release-timestamps.sh distinguishes the two by reading the output, and
-# a weekly job that goes red for the passage of time is a job people learn to
-# ignore.
-
+# Capture reached attempts and grade ordinary review eligibility. Never rewrite a bot
+# branch, change an immutable release, or claim chain validation from upgrade.
 on:
   schedule:
-    # Mondays, 07:00 UTC. A fixed weekday so a reader can tell a missed run from
-    # a run that found nothing to do.
     - cron: '0 7 * * 1'
   workflow_dispatch:
 
@@ -35,53 +13,46 @@ permissions:
 jobs:
   upgrade:
     runs-on: ubuntu-latest
-    # The pull-request step pushes a branch and opens the request with the
-    # workflow token, so this job needs write on contents and on pull requests.
-    # The top-level grant stays read: nothing else in the file writes. The first
-    # scheduled run (2026-09-14, run 34818068691) failed with 403 on the push for
-    # want of exactly this block.
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: upgrade the proof if its attestation has landed
-        run: |
-          command -v ots >/dev/null || python3 -m pip install --quiet opentimestamps-client
-          scripts/release-timestamps.sh upgrade
-
-      # The upgraded proof must still be over the same signature. An upgrade
-      # rewrites the file, and a rewritten proof that no longer carries this
-      # signature's digest would be a silent substitution of the one artifact
-      # nobody re-reads.
-      - name: the upgraded proof still covers the same signature
-        run: |
-          command -v ots >/dev/null || python3 -m pip install --quiet opentimestamps-client
-          scripts/release-timestamps.sh verify
-
-      - name: say whether anything changed
-        run: |
-          if git diff --quiet -- release; then
-            echo "nothing to commit: the attestation has not landed yet."
-          else
-            git --no-pager diff --stat -- release
-            echo "the proof was upgraded. Open a pull request with this change."
-          fi
-
-      # A marketplace action, so scripts/workflow-steps-gate.py lists it as not
-      # covered locally rather than running it. That is the correct division: the
-      # steps above are checkable on a laptop, and opening a pull request is not
-      # something a local mirror should ever do.
-      - uses: peter-evans/create-pull-request@v7
         with:
-          add-paths: release
-          branch: ots-upgrade
-          title: 'chore(release): upgrade the OpenTimestamps proof'
-          body: |
-            `ots upgrade` completed the Bitcoin attestation path for the corpus
-            signature's OpenTimestamps proof. The digest the proof covers is
-            unchanged and was re-checked offline in the job that opened this;
-            what changed is that the proof no longer needs a calendar to be
-            believed.
-          commit-message: 'chore(release): upgrade the OpenTimestamps proof'
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: check candidate custody and refusal controls
+        run: python3 scripts/retain-timestamp-candidate-test.py
+      - name: upgrade the working proof and record output
+        id: upgrade
+        run: |
+          set -euo pipefail
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          candidate_dir="$RUNNER_TEMP/timestamp-candidate"
+          mkdir -p "$candidate_dir"
+          uv run --no-project --with opentimestamps-client==0.7.2 \
+            bash scripts/release-timestamps.sh upgrade 2>&1 | tee "$candidate_dir/upgrade.log"
+      - name: check the signature binding and record the actual chain result
+        id: verify
+        run: |
+          set -euo pipefail
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          uv run --no-project --with opentimestamps-client==0.7.2 \
+            bash scripts/release-timestamps.sh verify 2>&1 | tee "$RUNNER_TEMP/timestamp-candidate/verify.log"
+      - name: capture available attempt bytes before grading
+        if: always()
+        env:
+          UPGRADE_OUTCOME: ${{ steps.upgrade.outcome }}
+          VERIFY_OUTCOME: ${{ steps.verify.outcome }}
+        run: |
+          set -euo pipefail
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          python3 scripts/retain-timestamp-candidate.py \
+            "$RUNNER_TEMP/timestamp-candidate" "$UPGRADE_OUTCOME" "$VERIFY_OUTCOME"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: timestamp-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/timestamp-candidate/
+          if-no-files-found: error
+          overwrite: false
+          retention-days: 90
