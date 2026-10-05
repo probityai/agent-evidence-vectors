@@ -22,7 +22,7 @@ Open `conformance-report.json` for the per-vector results. A complete external r
 
 See [installation routes and release identity](DISTRIBUTION.md) for package availability and signature checks.
 
-After the signed tag and PyPI wheel are published, install the matching release (with Go's executable directory on your PATH):
+`v0.17.4` is published on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.4) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.17.4/). Install the matching release with Go's executable directory on your `PATH`:
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.4

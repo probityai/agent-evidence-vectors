@@ -12,8 +12,9 @@ population.
 
 This version packages the criterion documents for AI generation, MCP record
 contract and MCP response phase. These files were missing from the prior wheel
-and source archive. Use the published route after both artifacts are available,
-or build from a reviewed source checkout.
+and source archive. Its [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.4) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.17.4/) are published.
+Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
 that checkout's full commit ID. A source pin identifies selected bytes; it
@@ -22,14 +23,14 @@ unchanged as historical evidence.
 
 ## Install the published release
 
-After both the signed tag and PyPI wheel are published, install matching versions:
+Install matching published versions:
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.4
 uvx agent-evidence-vectors==0.17.4 --verifier "aee-verify --json"
 ```
 
-After the signed tag is published, run the same harness from its checkout:
+Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
@@ -43,7 +44,7 @@ If your verifier disagrees with a vector, [report the run](docs/guides/report-ru
 
 ## Verify a release without trusting us
 
-After the signed tag is published, recompute the corpus digests, then check the signature and timestamp proofs:
+Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
