@@ -167,7 +167,10 @@ code (`forbidsRegistryCode`) rather than leaving the code unasserted:
 `SIGNATURE_INVALID` there would report a signer nobody can determine as one
 determined to be wrong, which is the ACS-Crypto member's answer, so a verifier
 that gives it fails. That is where the corpus keeps "the signer is wrong" and
-"the signer cannot be determined" from taking one shape. It is
+"the signer cannot be determined" from taking one shape. The member names the
+wrong answer and not the right one: until the specification gives a verifier
+an answer for an undeterminable signer, a deny that carries no code is all it
+can require. It is
 `EXTERNAL`: the algorithm and the claim are both in the presented bytes, so an
 outside party can refuse it without the Guardian's account or the key. Its
 accepting twin presents the same head to a key-holder as integrity evidence, so
