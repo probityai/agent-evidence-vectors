@@ -1004,6 +1004,15 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The W3C report corpus's per-requirement mutation tally. The file is emitted
+    # by that corpus's generator and held byte-identical by the regenerability
+    # gate, so every figure in its table belongs to that ledger, not this one.
+    Delegated(
+        "vectors-w3c-report/MUTATION-SWEEP.md",
+        "the per-requirement mutation tally rows",
+        r"\| `W3C-R-\d+` \| \d+ \| \d+ \| \d+ \|",
+        "scripts/regenerability-gate.py",
+    ),
     Delegated(
         "interop/govops-capability-id/source/jcs-admit/README.md",
         "numeric example in the exact pinned admission source",
@@ -1243,6 +1252,30 @@ FROZEN: tuple[Frozen, ...] = (
         "and 24 of them carry",
         "A mutation-run figure for the quantifier operator: DEAD sites that "
         "carry branch: taken. It counts mutation sites, not ACS-Core members.",
+    ),
+    # ---- three figures that came to collide with the ACS-Core corpus when the
+    # wrong-signer family grew it to 43 members and 26 rejects. Each counts
+    # something else, so the corpus growing does not make any of them wrong.
+    Frozen(
+        "crosswalks/aee-to-ave.md",
+        "the evidence-basis engine table, the pattern row",
+        "| pattern | 43 |",
+        "A count of AVE records citing one engine, read from another project's "
+        "published corpus on a stated date. It is not a size of this corpus.",
+    ),
+    Frozen(
+        "TODO.md",
+        "the quantifier operator's DEAD-site count",
+        "records 26 DEAD sites",
+        "A mutation-run figure for the quantifier operator. It counts mutation "
+        "sites, not ACS-Core members.",
+    ),
+    Frozen(
+        "docs/research/independence.md",
+        "the revision pair in the historical account",
+        "26 and 27 in the historical account",
+        "Two suiteRevision numbers of the main corpus named in a past account. "
+        "They are revisions, not ACS-Core members.",
     ),
     # The W3C v0.1 text's own count of the delta-related pairs re-cut against it.
     # It is a figure of that text (section 10, list message 2026Sep/0087), and it
@@ -2186,6 +2219,15 @@ MASKS = tuple(
         # small-value window kept reporting.
         r"cron:\s*[\"']\s*[-\d,*/\s]+[\"']",
         r"#\d+",  # upstream issue and pull-request numbers
+        # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
+        # names a release of a dependency and counts nothing; the version-string
+        # mask below needs a dot and this form has none. It stayed invisible only
+        # while no published count equalled a bare major version, and surfaced
+        # when the ACS-Core corpus grew to that value.
+        r"[\"'][A-Za-z][\w.-]*(?:\[[\w,-]+\])?(?:>=|<=|==|~=|!=|<|>)\d+",
+        # A duration. "43 seconds" and "43 ms" measure time, never a quantity of
+        # vectors, rules or sites, and both surfaced on the same collision.
+        r"\b\d+\s*(?:ms|milliseconds?|seconds?|minutes?|hours?)\b",
         r"\bv?\d+\.\d+(?:\.\d+)*\b",  # version strings
         r"\bgo\d[\d.]*",  # toolchain versions
         r"\b[0-9a-f]{7,}\b",  # digests and short commit ids
