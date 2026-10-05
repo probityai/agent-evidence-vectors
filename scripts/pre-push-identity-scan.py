@@ -284,25 +284,50 @@ def load() -> tuple[str, list[int], list[int], dict[str, str]]:
 # ---------------------------------------------------------------------------
 # Matching
 # ---------------------------------------------------------------------------
+def _windows(haystack: str, width: int) -> list[bytes]:
+    """The UTF-8 bytes of every `width`-character window of `haystack`, in order.
+
+    An ASCII line is one byte per character, so its windows are slices of one
+    encoding; any other line is encoded window by window. Both give exactly the
+    bytes `haystack[start:start + width].encode()` gives.
+    """
+    if haystack.isascii():
+        encoded = haystack.encode("ascii")
+        return [encoded[start : start + width] for start in range(0, len(encoded) - width + 1)]
+    return [
+        haystack[start : start + width].encode("utf-8")
+        for start in range(0, len(haystack) - width + 1)
+    ]
+
+
 class Sidecar:
     def __init__(self) -> None:
         self.salt, self.nocase, self.cased, self.table = load()
+        self._salt_bytes = self.salt.encode("utf-8")
+        self._raw = {bytes.fromhex(digest): label for digest, label in self.table.items()}
+        # One answer per distinct line. The rules are fixed when this object is
+        # built, so a line met again is answered from the first reading. Most
+        # added lines in this repository's history repeat a line already read
+        # (the commit that added this memo records the measurement).
+        self._known: dict[str, list[str]] = {}
 
     def labels(self, line: str) -> list[str]:
         """Every sidecar label whose word occurs in `line`, each once."""
+        known = self._known.get(line)
+        if known is not None:
+            return list(known)
         found: list[str] = []
-        seen: set[str] = set()
+        seen: set[bytes] = set()
         for haystack, lengths in ((line.lower(), self.nocase), (line, self.cased)):
             for width in lengths:
-                for start in range(0, len(haystack) - width + 1):
-                    digest = hashlib.sha256(
-                        (self.salt + haystack[start : start + width]).encode("utf-8")
-                    ).hexdigest()
-                    label = self.table.get(digest)
+                for window in _windows(haystack, width):
+                    digest = hashlib.sha256(self._salt_bytes + window).digest()
+                    label = self._raw.get(digest)
                     if label is not None and digest not in seen:
                         seen.add(digest)
                         found.append(label)
-        return found
+        self._known[line] = found
+        return list(found)
 
 
 def _git(*args: str) -> str:
