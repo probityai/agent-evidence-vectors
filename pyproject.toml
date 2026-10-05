@@ -207,7 +207,7 @@ files = ["packaging", "vectors", "tools"]
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
 include = ["docs/proposals", "docs/site", "interop", "packaging", "scripts", "tools", "vectors",
-           "vectors-agent-audit-record", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-agent-audit-record", "vectors-agent-decision", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding",
            "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-signature",
@@ -246,6 +246,10 @@ pythonVersion = "3.13"
 # beside it -- the one Python itself imports when the script runs.
 [[tool.pyright.executionEnvironments]]
 root = "vectors-self-reported-record"
+
+# The agent-decision corpus carries a third `canonical` module, for the same reason.
+[[tool.pyright.executionEnvironments]]
+root = "vectors-agent-decision"
 
 # The retained generator imports its own historical check_vectors module.
 [[tool.pyright.executionEnvironments]]

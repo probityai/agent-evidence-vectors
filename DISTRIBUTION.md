@@ -67,6 +67,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | --- | --- | --- |
 | `vectors/` | `adversarial-execution-evidence-conformance` | the adversarial-execution-evidence predicate this repository vendors, tracked at in-toto/attestation#570 |
 | `vectors-agent-audit-record/` | `agent-audit-record-conformance` | the agent audit record of draft-gilda-wimse-agent-audit-record-02: the fifty-five members of its Appendix B, each carrying its Appendix B identifier, covering the canonical form, the request-digest and write-chain recomputes, the derived agreement, the recomputed tier, and whether the decision point could evaluate |
+| `vectors-agent-decision/` | `agent-decision-conformance` | the `args_hash` rule of the agent-decision predicate proposed at in-toto/attestation#554: SHA-256 over the RFC 8785 bytes of the arguments, number forms across the exponent range and the 2^53 - 1 boundary, and an `args_state` that keeps a redacted call apart from an unrecorded one |
 | `vectors-aci/` | `aci` | the agent capability interface levels and their serialization |
 | `vectors-acs-core/` | `acs-core-negative-conformance` | the mandatory profile of the agent control standard, by negative members against vendored specification text |
 | `vectors-ai-agent-action/` | `ai-agent-action-conformance` | the AI Agent Action predicate proposed at in-toto/attestation#588, plus the canonicalization text this repository puts forward for it |

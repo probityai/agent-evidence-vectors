@@ -1,0 +1,667 @@
+{
+  "suite": "agent-decision-conformance",
+  "predicateType": "https://auxidus.dev/attestation/agent-decision/v0.1",
+  "predicateDocument": "https://github.com/in-toto/attestation/issues/554",
+  "sources": {
+    "predicate": "https://github.com/in-toto/attestation/issues/554",
+    "argsStateAndCanonicalization": "https://github.com/in-toto/attestation/issues/554#issuecomment-4962035548",
+    "numberForms": "https://github.com/in-toto/attestation/issues/554#issuecomment-5874454918"
+  },
+  "payloadType": "application/vnd.in-toto+json",
+  "keyRecipe": "sha256(\"agent-evidence-agent-decision-test-key/producer/v1\")",
+  "keys": {
+    "producer": {
+      "publicKey": "fea50ec0fbaf046358de664734a32cafde56c31aa2d4452608557d5c6d2cbd67",
+      "keyid": "c065788bcb07e1c8fa8270581ce2a4633b3bd4050b302e168e64241bf92470c1"
+    }
+  },
+  "keyNote": "PUBLISHED TEST KEY, derived from a fixed seed in gen_vectors.py. It signs every envelope.",
+  "counts": {
+    "accept": 16,
+    "reject": 25
+  },
+  "rules": {
+    "signature": "the envelope's one signature verifies under the producer key over PAE",
+    "statement": "the payload is an in-toto Statement v1 naming the agent-decision predicate type",
+    "predicate-shape": "every field the RFC marks required is present with its type",
+    "args-state": "every tool call carries args_state from the closed set",
+    "args-hash-presence": "recorded and redacted calls carry args_hash; the other states carry none",
+    "args-hash-format": "args_hash is sha256: followed by 64 lowercase hex digits",
+    "arguments-json": "the disclosed arguments of a recorded call are one JSON object",
+    "arguments-duplicate": "no object in the disclosed arguments repeats a member name",
+    "arguments-integer": "an integer literal lies inside the RFC 7493 range, +-(2**53 - 1)",
+    "arguments-overflow": "a number with a fraction or exponent is a finite double",
+    "args-hash-match": "args_hash is SHA-256 over the RFC 8785 bytes of the disclosed arguments"
+  },
+  "codes": {
+    "signature": "signature-invalid",
+    "statement": "statement-malformed",
+    "predicate-shape": "predicate-malformed",
+    "args-hash-format": "args-hash-format",
+    "arguments-json": "arguments-not-json",
+    "arguments-duplicate": "arguments-duplicate-member",
+    "arguments-integer": "arguments-integer-unsafe",
+    "arguments-overflow": "arguments-number-overflow",
+    "args-hash-match": "args-hash-mismatch",
+    "args-state": [
+      "args-state-missing",
+      "args-state-unknown"
+    ],
+    "args-hash-presence": [
+      "args-hash-required",
+      "args-hash-forbidden"
+    ]
+  },
+  "comparisonSurface": {
+    "normative": [
+      "verdict"
+    ],
+    "measured": [
+      "codes"
+    ],
+    "note": "A verifier conforms on a member when its verdict equals expected.verdict. The codes name the reference reader's first refusal so two implementations can compare where they stopped; the RFC defines none. canonicalArguments is the RFC 8785 text of the disclosed arguments wherever they are admissible, so a canonicalizer can be scored on its bytes alone, one path at a time."
+  },
+  "note": "Each member is one DSSE envelope; a member whose call is recorded also discloses its arguments, as the exact bytes the producer read, in the file its arguments field names. Every reject member names the accept member it is one change from in parent, and hashedOver is the text its args_hash was taken over where that text is what a known defect writes.",
+  "vectors": [
+    {
+      "id": "v06a8c6ac559daa15",
+      "slug": "number-1e16-drift",
+      "kind": "reject",
+      "file": "statements/v06a8c6ac559daa15.json",
+      "row": "amount written 1e16, hashed over 1e+16: Python's repr, which switches to exponent form at 1e16 where ECMA-262 waits for 1e21",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/v06a8c6ac559daa15.json",
+      "canonicalArguments": "{\"amount\":10000000000000000,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":1e+16,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vf15b2cf59647c11e"
+    },
+    {
+      "id": "v12af945ff61fba34",
+      "slug": "number-min-subnormal",
+      "kind": "accept",
+      "file": "statements/v12af945ff61fba34.json",
+      "row": "amount written 5e-324: the smallest positive subnormal double",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v12af945ff61fba34.json",
+      "canonicalArguments": "{\"amount\":5e-324,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v15e3eb6b1879db28",
+      "slug": "number-1e21-drift",
+      "kind": "reject",
+      "file": "statements/v15e3eb6b1879db28.json",
+      "row": "amount written 1e21, hashed over 1000000000000000000000: an integral double at 1e21 written as plain digits, the formatter defect reported on #554",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/v15e3eb6b1879db28.json",
+      "canonicalArguments": "{\"amount\":1e+21,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":1000000000000000000000,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vaccea9396f8bdb6b"
+    },
+    {
+      "id": "v1e0f8f6020f36e17",
+      "slug": "payload-edited-after-signing",
+      "kind": "reject",
+      "file": "statements/v1e0f8f6020f36e17.json",
+      "row": "decided_at moved one second after the envelope was signed",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "signature-invalid"
+        ]
+      },
+      "arguments": "arguments/v1e0f8f6020f36e17.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v2014ef47ee7cee4e",
+      "slug": "decision-outside-set",
+      "kind": "reject",
+      "file": "statements/v2014ef47ee7cee4e.json",
+      "row": "a policy evaluation whose decision is maybe",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "predicate-malformed"
+        ]
+      },
+      "arguments": "arguments/v2014ef47ee7cee4e.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v2284940a27344c18",
+      "slug": "member-order-code-point",
+      "kind": "reject",
+      "file": "statements/v2284940a27344c18.json",
+      "row": "the same arguments hashed with member names in code point order, as Python's sort_keys writes them",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/v2284940a27344c18.json",
+      "canonicalArguments": "{\"to\":\"account-0b540007064d7a86\",\"💶\":\"EUR\",\"＄\":250}",
+      "hashedOver": "{\"to\":\"account-0b540007064d7a86\",\"＄\":250,\"💶\":\"EUR\"}",
+      "parent": "v70c03756e24bf80d"
+    },
+    {
+      "id": "v23495c55a6546e67",
+      "slug": "redacted-without-hash",
+      "kind": "reject",
+      "file": "statements/v23495c55a6546e67.json",
+      "row": "redacted with no args_hash: the same call as not-recorded except for the state, and refused",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-required"
+        ]
+      },
+      "parent": "v4ce5d82405dae406"
+    },
+    {
+      "id": "v29a3a6bc8748b8dc",
+      "slug": "unavailable",
+      "kind": "accept",
+      "file": "statements/v29a3a6bc8748b8dc.json",
+      "row": "unavailable: the producer could not read the arguments, no args_hash",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v2a767498599c917d",
+      "slug": "not-recorded-with-hash",
+      "kind": "reject",
+      "file": "statements/v2a767498599c917d.json",
+      "row": "not_recorded carrying an args_hash, a commitment to arguments it says it never kept",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-forbidden"
+        ]
+      },
+      "parent": "vcbe83ce9abf4720f"
+    },
+    {
+      "id": "v339183abc44352b6",
+      "slug": "number-1e-7",
+      "kind": "accept",
+      "file": "statements/v339183abc44352b6.json",
+      "row": "amount written 1e-7, hashed over its RFC 8785 spelling 1e-7",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v339183abc44352b6.json",
+      "canonicalArguments": "{\"amount\":1e-7,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v3fff2fc0450878c2",
+      "slug": "hash-unprefixed",
+      "kind": "reject",
+      "file": "statements/v3fff2fc0450878c2.json",
+      "row": "args_hash as bare hex with no sha256: prefix",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-format"
+        ]
+      },
+      "arguments": "arguments/v3fff2fc0450878c2.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v415f4c2e87fb8bcf",
+      "slug": "number-1e-6",
+      "kind": "accept",
+      "file": "statements/v415f4c2e87fb8bcf.json",
+      "row": "amount written 1e-6, hashed over its RFC 8785 spelling 0.000001",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v415f4c2e87fb8bcf.json",
+      "canonicalArguments": "{\"amount\":0.000001,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v4894d0a7d91c3fc7",
+      "slug": "number-1e20",
+      "kind": "accept",
+      "file": "statements/v4894d0a7d91c3fc7.json",
+      "row": "amount written 1e20: the largest power of ten ECMA-262 still writes in plain digits",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v4894d0a7d91c3fc7.json",
+      "canonicalArguments": "{\"amount\":100000000000000000000,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v495ecfd0aeb47262",
+      "slug": "recorded-without-hash",
+      "kind": "reject",
+      "file": "statements/v495ecfd0aeb47262.json",
+      "row": "recorded with the arguments disclosed and no args_hash",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-required"
+        ]
+      },
+      "arguments": "arguments/v495ecfd0aeb47262.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v4ce5d82405dae406",
+      "slug": "redacted-with-hash",
+      "kind": "accept",
+      "file": "statements/v4ce5d82405dae406.json",
+      "row": "redacted: arguments recorded and withheld, args_hash commits to them",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v4e1507f009cbc80d",
+      "slug": "hash-uppercase",
+      "kind": "reject",
+      "file": "statements/v4e1507f009cbc80d.json",
+      "row": "args_hash in uppercase hex",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-format"
+        ]
+      },
+      "arguments": "arguments/v4e1507f009cbc80d.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v56d4b6480ce48273",
+      "slug": "recorded-integer-amount",
+      "kind": "accept",
+      "file": "statements/v56d4b6480ce48273.json",
+      "row": "a recorded call with an integer amount, the base of the state members",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v56d4b6480ce48273.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v69fbd962dcd3778c",
+      "slug": "unavailable-with-hash",
+      "kind": "reject",
+      "file": "statements/v69fbd962dcd3778c.json",
+      "row": "unavailable carrying an args_hash over arguments it says it could not read",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-hash-forbidden"
+        ]
+      },
+      "parent": "v29a3a6bc8748b8dc"
+    },
+    {
+      "id": "v6e2e4e1f955a996f",
+      "slug": "statement-type-v0-1",
+      "kind": "reject",
+      "file": "statements/v6e2e4e1f955a996f.json",
+      "row": "the statement _type of in-toto Statement v0.1",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "statement-malformed"
+        ]
+      },
+      "arguments": "arguments/v6e2e4e1f955a996f.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "v6f68087a6f2ac0d0",
+      "slug": "number-1-point-0-drift",
+      "kind": "reject",
+      "file": "statements/v6f68087a6f2ac0d0.json",
+      "row": "amount written 1.0, hashed over 1.0: Python's json.dumps, which keeps the .0 of an integral double",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/v6f68087a6f2ac0d0.json",
+      "canonicalArguments": "{\"amount\":1,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":1.0,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vd24ab9accf98f4d1"
+    },
+    {
+      "id": "v70c03756e24bf80d",
+      "slug": "member-order-utf16",
+      "kind": "accept",
+      "file": "statements/v70c03756e24bf80d.json",
+      "row": "member names U+FF04 and U+1F4B6, which sort one way by code point and the other by UTF-16 code unit",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v70c03756e24bf80d.json",
+      "canonicalArguments": "{\"to\":\"account-0b540007064d7a86\",\"💶\":\"EUR\",\"＄\":250}"
+    },
+    {
+      "id": "v7448329eed2ae36f",
+      "slug": "integer-1e21-digits",
+      "kind": "reject",
+      "file": "statements/v7448329eed2ae36f.json",
+      "row": "the integer literal 10**21, hashed as the double 1e+21 a rounding library writes",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-integer-unsafe"
+        ]
+      },
+      "arguments": "arguments/v7448329eed2ae36f.json",
+      "hashedOver": "{\"amount\":1e+21,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vd71376868c0a727b"
+    },
+    {
+      "id": "v8a3aa5fbe538fc11",
+      "slug": "number-max-double",
+      "kind": "accept",
+      "file": "statements/v8a3aa5fbe538fc11.json",
+      "row": "amount written 1.7976931348623157e308: the largest finite double, written in exponent form",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/v8a3aa5fbe538fc11.json",
+      "canonicalArguments": "{\"amount\":1.7976931348623157e+308,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "v9bf8cf8798d17bd4",
+      "slug": "tool-calls-empty",
+      "kind": "reject",
+      "file": "statements/v9bf8cf8798d17bd4.json",
+      "row": "a decision record naming no tool call",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "predicate-malformed"
+        ]
+      },
+      "parent": "vcbe83ce9abf4720f"
+    },
+    {
+      "id": "va212e7ca11bb10d3",
+      "slug": "state-unknown",
+      "kind": "reject",
+      "file": "statements/va212e7ca11bb10d3.json",
+      "row": "args_state of omitted, a value outside the closed set",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-state-unknown"
+        ]
+      },
+      "parent": "vcbe83ce9abf4720f"
+    },
+    {
+      "id": "va49cc7eba1306281",
+      "slug": "number-negative-zero-drift",
+      "kind": "reject",
+      "file": "statements/va49cc7eba1306281.json",
+      "row": "amount written -0.0, hashed over -0.0: Python's json.dumps, which keeps the sign of negative zero",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/va49cc7eba1306281.json",
+      "canonicalArguments": "{\"amount\":0,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":-0.0,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vd5e7c5e20ab405df"
+    },
+    {
+      "id": "va8e8df4271c4ab93",
+      "slug": "duplicate-amount",
+      "kind": "reject",
+      "file": "statements/va8e8df4271c4ab93.json",
+      "row": "amount given twice, hashed over the last value as a last-wins parser keeps it",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-duplicate-member"
+        ]
+      },
+      "arguments": "arguments/va8e8df4271c4ab93.json",
+      "hashedOver": "{\"amount\":25000,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "vaa3f6d878cefece5",
+      "slug": "integer-2-53",
+      "kind": "reject",
+      "file": "statements/vaa3f6d878cefece5.json",
+      "row": "the integer literal 2**53, hashed as the double a rounding library reads it as",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-integer-unsafe"
+        ]
+      },
+      "arguments": "arguments/vaa3f6d878cefece5.json",
+      "hashedOver": "{\"amount\":9007199254740992,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vd71376868c0a727b"
+    },
+    {
+      "id": "vab9485aaa1cc16c6",
+      "slug": "state-absent",
+      "kind": "reject",
+      "file": "statements/vab9485aaa1cc16c6.json",
+      "row": "args_hash with no args_state: the tool call exactly as the v0.1 RFC example writes it",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "args-state-missing"
+        ]
+      },
+      "arguments": "arguments/vab9485aaa1cc16c6.json",
+      "canonicalArguments": "{\"amount\":250,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "vaccea9396f8bdb6b",
+      "slug": "number-1e21",
+      "kind": "accept",
+      "file": "statements/vaccea9396f8bdb6b.json",
+      "row": "amount written 1e21, hashed over its RFC 8785 spelling 1e+21",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/vaccea9396f8bdb6b.json",
+      "canonicalArguments": "{\"amount\":1e+21,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "vb131ab1e6d75fc35",
+      "slug": "number-1e-6-drift",
+      "kind": "reject",
+      "file": "statements/vb131ab1e6d75fc35.json",
+      "row": "amount written 1e-6, hashed over 1e-06: Python's json.dumps, which switches to exponent form below 1e-4 and pads the exponent",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/vb131ab1e6d75fc35.json",
+      "canonicalArguments": "{\"amount\":0.000001,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":1e-06,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v415f4c2e87fb8bcf"
+    },
+    {
+      "id": "vbb1394c46dace5ff",
+      "slug": "integer-2-53-plus-1",
+      "kind": "reject",
+      "file": "statements/vbb1394c46dace5ff.json",
+      "row": "the integer literal 2**53 + 1, which no double holds, hashed as 9007199254740992",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-integer-unsafe"
+        ]
+      },
+      "arguments": "arguments/vbb1394c46dace5ff.json",
+      "hashedOver": "{\"amount\":9007199254740992,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "vd71376868c0a727b"
+    },
+    {
+      "id": "vcbe83ce9abf4720f",
+      "slug": "not-recorded",
+      "kind": "accept",
+      "file": "statements/vcbe83ce9abf4720f.json",
+      "row": "not_recorded: the producer chose not to record the arguments, no args_hash",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "vcd4ff5dd804aa429",
+      "slug": "number-1e-7-drift",
+      "kind": "reject",
+      "file": "statements/vcd4ff5dd804aa429.json",
+      "row": "amount written 1e-7, hashed over 1e-07: a printf-style exponent, padded to two digits",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "args-hash-mismatch"
+        ]
+      },
+      "arguments": "arguments/vcd4ff5dd804aa429.json",
+      "canonicalArguments": "{\"amount\":1e-7,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "hashedOver": "{\"amount\":1e-07,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v339183abc44352b6"
+    },
+    {
+      "id": "vd24ab9accf98f4d1",
+      "slug": "number-1-point-0",
+      "kind": "accept",
+      "file": "statements/vd24ab9accf98f4d1.json",
+      "row": "amount written 1.0, hashed over its RFC 8785 spelling 1",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/vd24ab9accf98f4d1.json",
+      "canonicalArguments": "{\"amount\":1,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "vd5e7c5e20ab405df",
+      "slug": "number-negative-zero",
+      "kind": "accept",
+      "file": "statements/vd5e7c5e20ab405df.json",
+      "row": "amount written -0.0, hashed over its RFC 8785 spelling 0",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/vd5e7c5e20ab405df.json",
+      "canonicalArguments": "{\"amount\":0,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "vd71376868c0a727b",
+      "slug": "integer-max-safe",
+      "kind": "accept",
+      "file": "statements/vd71376868c0a727b.json",
+      "row": "amount is the integer literal 2**53 - 1, the last one RFC 7493 admits",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/vd71376868c0a727b.json",
+      "canonicalArguments": "{\"amount\":9007199254740991,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "ve0417c625a28533c",
+      "slug": "overflow-1e400",
+      "kind": "reject",
+      "file": "statements/ve0417c625a28533c.json",
+      "row": "amount written 1e400, which no double holds, hashed as the null JSON.stringify writes for Infinity",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-number-overflow"
+        ]
+      },
+      "arguments": "arguments/ve0417c625a28533c.json",
+      "hashedOver": "{\"amount\":null,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "ve8baaedbb81ba750",
+      "slug": "arguments-not-an-object",
+      "kind": "reject",
+      "file": "statements/ve8baaedbb81ba750.json",
+      "row": "the disclosed arguments are a JSON array, hashed over its own canonical bytes",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "arguments-not-json"
+        ]
+      },
+      "arguments": "arguments/ve8baaedbb81ba750.json",
+      "hashedOver": "[250]",
+      "parent": "v56d4b6480ce48273"
+    },
+    {
+      "id": "veca390969b070fe0",
+      "slug": "integer-past-boundary-as-double",
+      "kind": "accept",
+      "file": "statements/veca390969b070fe0.json",
+      "row": "amount written 9007199254740993.0: a fraction makes it a double by the writer's spelling, and it canonicalizes to the nearest double, 9007199254740992",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/veca390969b070fe0.json",
+      "canonicalArguments": "{\"amount\":9007199254740992,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    },
+    {
+      "id": "vf15b2cf59647c11e",
+      "slug": "number-1e16",
+      "kind": "accept",
+      "file": "statements/vf15b2cf59647c11e.json",
+      "row": "amount written 1e16, hashed over its RFC 8785 spelling 10000000000000000",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "arguments": "arguments/vf15b2cf59647c11e.json",
+      "canonicalArguments": "{\"amount\":10000000000000000,\"currency\":\"EUR\",\"to\":\"account-0b540007064d7a86\"}"
+    }
+  ],
+  "corpusDigest": "a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc"
+}

@@ -102,6 +102,10 @@ GENERATORS = (
     # whose signatures nobody recomputed. It builds its own manifest and index
     # in the same run and has no ordering relationship with anything else.
     "vectors-self-reported-record/gen_vectors.py",
+    # The agent-decision corpus. Every member is signed, and most carry a hash
+    # over disclosed argument bytes, so a hand-placed member is one whose hash and
+    # signature nobody recomputed. It builds its own manifest and index.
+    "vectors-agent-decision/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -216,6 +220,10 @@ OWNED = (
     ("vectors-self-reported-record/statements", "v*.json"),
     ("vectors-self-reported-record", "MANIFEST.json"),
     ("vectors-self-reported-record", "INDEX.md"),
+    ("vectors-agent-decision/statements", "v*.json"),
+    ("vectors-agent-decision/arguments", "v*.json"),
+    ("vectors-agent-decision", "MANIFEST.json"),
+    ("vectors-agent-decision", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.
