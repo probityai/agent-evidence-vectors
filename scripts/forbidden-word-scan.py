@@ -204,24 +204,48 @@ def permit(line: str) -> str:
     return line
 
 
+def windows(haystack: str, width: int) -> list[bytes]:
+    """The UTF-8 bytes of every `width`-character window of `haystack`, in order.
+
+    An ASCII line is one byte per character, so its windows are slices of one
+    encoding; any other line is encoded window by window, as before. Both give
+    exactly the bytes `haystack[start:start + width].encode()` gives.
+    """
+    if haystack.isascii():
+        encoded = haystack.encode("ascii")
+        return [encoded[start : start + width] for start in range(0, len(encoded) - width + 1)]
+    return [
+        haystack[start : start + width].encode("utf-8")
+        for start in range(0, len(haystack) - width + 1)
+    ]
+
+
+def raw_digests(table: dict[str, str]) -> dict[bytes, str]:
+    """The sidecar table keyed by the 32 bytes each hex digest spells."""
+    return {bytes.fromhex(digest): label for digest, label in table.items()}
+
+
 def labels(
-    line: str, salt: str, nocase_lengths: list[int], cased_lengths: list[int], table: dict[str, str]
+    line: str, salt: str, nocase_lengths: list[int], cased_lengths: list[int],
+    raw_table: dict[bytes, str],
 ) -> list[str]:
     """Every sidecar label whose word occurs in `line`, each reported once.
 
     Two passes: case-insensitive entries are probed against the lowercased line,
     case-sensitive ones against the line as written. Folding both into one pass
     would make an all-caps marker match ordinary lower-case prose.
+
+    The digest is compared as raw bytes against `raw_digests(table)`, which is
+    the same comparison without formatting a hex string for every window.
     """
+    salt_bytes = salt.encode("utf-8")
     found: list[str] = []
-    reported: set[str] = set()
+    reported: set[bytes] = set()
     for haystack, lengths in ((line.lower(), nocase_lengths), (line, cased_lengths)):
         for width in lengths:
-            for start in range(0, len(haystack) - width + 1):
-                digest = hashlib.sha256(
-                    (salt + haystack[start : start + width]).encode("utf-8")
-                ).hexdigest()
-                label = table.get(digest)
+            for window in windows(haystack, width):
+                digest = hashlib.sha256(salt_bytes + window).digest()
+                label = raw_table.get(digest)
                 if label is None or digest in reported:
                     continue
                 reported.add(digest)
@@ -246,8 +270,15 @@ def readings(line: str) -> list[tuple[str, str]]:
 
 def main(argv: list[str]) -> int:
     salt, nocase_lengths, cased_lengths, table = load()
+    raw_table = raw_digests(table)
     targets = [Path(a) for a in argv[1:]] or tracked_files()
 
+    # The labels of a reading depend on the reading and on the sidecar, which is
+    # loaded once above, so a reading met again is answered from the first time
+    # it was scanned. Most lines of the tracked tree repeat a line already read
+    # (the commit that added this memo records the measurement). Every hit is
+    # still printed at every place it occurs.
+    seen: dict[str, list[str]] = {}
     hits = 0
     scanned = 0
     for path in targets:
@@ -258,7 +289,11 @@ def main(argv: list[str]) -> int:
         scanned += 1
         for number, raw_line in enumerate(text.splitlines(), start=1):
             for where, reading in readings(permit(raw_line)):
-                for label in labels(reading, salt, nocase_lengths, cased_lengths, table):
+                found = seen.get(reading)
+                if found is None:
+                    found = labels(reading, salt, nocase_lengths, cased_lengths, raw_table)
+                    seen[reading] = found
+                for label in found:
                     hits += 1
                     # The word is never echoed. Printing it would reproduce the
                     # string into CI logs and scrollback -- committing, in the
