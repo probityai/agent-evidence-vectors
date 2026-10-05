@@ -29,6 +29,7 @@ type wrongSignerRow struct {
 	Expected     struct {
 		Verdict             string  `json:"verdict"`
 		Code                *string `json:"code"`
+		ForbidsRegistryCode bool    `json:"forbidsRegistryCode"`
 		UnmeasurableBecause *string `json:"unmeasurableBecause"`
 	} `json:"expected"`
 	WitnessScope string `json:"witnessScope"`
@@ -213,6 +214,14 @@ func TestACSSymmetricHeadClaimedExternalIsRefused(t *testing.T) {
 	}
 	if r.Expected.Code != nil {
 		t.Errorf("%s: the signature verifies, so no registry code names this refusal; got %q", r.ID, *r.Expected.Code)
+	}
+	// A null code alone asserts nothing, so a refusal carrying SIGNATURE_INVALID
+	// would score as a pass. That answer reports a signer nobody can determine
+	// as a signer determined to be wrong, which is the wrong-signer member's
+	// shape. The member has to forbid a registry code, not merely omit one.
+	if !r.Expected.ForbidsRegistryCode {
+		t.Errorf("%s: a deny that leaves the code unasserted lets SIGNATURE_INVALID pass, so the "+
+			"undeterminable signer and the wrong one read the same; want forbidsRegistryCode", r.ID)
 	}
 	cites := false
 	for _, id := range r.Requirements {

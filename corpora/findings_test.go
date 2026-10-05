@@ -465,6 +465,25 @@ func acsFindings() []findingCase {
 				setDeep(t, row, -1.0, "expected", "codeValue")
 			})
 		}, "carries a code value the registry does not pair with that name"},
+		{"acs/forbids-code-and-names-one", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				row := firstRowWhere(t, m, func(r map[string]any) bool {
+					expected, _ := r["expected"].(map[string]any)
+					return expected["code"] != nil
+				})
+				setDeep(t, row, true, "expected", "forbidsRegistryCode")
+			})
+		}, "names a registry code and forbids one"},
+		{"acs/forbids-code-off-deny", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("accept")), true, "expected", "forbidsRegistryCode")
+			})
+		}, "forbids a registry code on a verdict other than deny"},
+		{"acs/forbids-code-false", dir, func(t *testing.T, d string) {
+			editManifest(t, d, func(m map[string]any) {
+				setDeep(t, firstRowWhere(t, m, kindIs("reject")), false, "expected", "forbidsRegistryCode")
+			})
+		}, "carries forbidsRegistryCode false"},
 		{"acs/accept-not-allow", dir, func(t *testing.T, d string) {
 			editManifest(t, d, func(m map[string]any) {
 				setDeep(t, firstRowWhere(t, m, kindIs("accept")), "deny", "expected", "verdict")
