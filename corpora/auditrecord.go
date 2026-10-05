@@ -19,7 +19,7 @@ import (
 func init() { register(auditRecord{}) }
 
 // auditRecord judges vectors-agent-audit-record/, the conformance corpus of
-// Appendix B of draft-gilda-wimse-agent-audit-record-02.
+// Appendix B of draft-gilda-wimse-agent-audit-record-03.
 //
 // It is the Go rail over that corpus, restated from the draft rather than
 // imported from the Python reader at packaging/agent_evidence_vectors/
@@ -79,8 +79,13 @@ var arVocabularies = []struct {
 
 // arUnavailableInputs is the closed set an evaluation that did not happen
 // names its missing inputs from: the standing source, the key source and the
-// consumption state a verifier reads before it can decide.
-var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state"}
+// consumption state a verifier reads before it can decide, and the policy
+// source a decision point reads its policy from.
+var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state", "policy-source"}
+
+// arEvaluationMembers are the only members an evaluation object may carry. A
+// free-text reason beside the closed set would name an input nobody can compare.
+var arEvaluationMembers = []string{"status", "unavailableInput"}
 
 // arOversightMembers are the only members an oversight object may carry.
 var arOversightMembers = []string{"act", "recordDigest"}
@@ -524,6 +529,11 @@ func arRuleVocabularies(s *arState) error {
 // still reports what it enforced, and this member says why.
 func arRuleEvaluation(s *arState) error {
 	evaluation := arObj(s.pred, "evaluation")
+	for name := range evaluation {
+		if !arContains(arEvaluationMembers, name) {
+			return arRefuse("evaluation-malformed")
+		}
+	}
 	raw, carried := evaluation["unavailableInput"]
 	if evaluation["status"] == "evaluated" {
 		if carried {

@@ -1,7 +1,7 @@
 # Agent audit record conformance vectors
 
 The conformance corpus of the Internet-Draft
-[`draft-gilda-wimse-agent-audit-record-02`](https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/),
+[`draft-gilda-wimse-agent-audit-record-03`](https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/03/),
 Appendix B, published member for member. Every row of that table is one member
 here, and each [`MANIFEST.json`](MANIFEST.json) entry carries the row's
 identifier in `draftId` (`A1`, `F3b`, `TI4`, ...) and its `from` column in
@@ -29,7 +29,7 @@ uv run --extra generators python vectors-agent-audit-record/check_vectors.py
 To score your own verifier, run it over each `statements/<id>.json` with the
 observer public key from `keys.observer.publicKey`, then score each verdict:
 
-- an accept or reject member (53 rows) conforms when your verdict equals
+- an accept or reject member conforms when your verdict equals
   `expected.verdict`;
 - an indeterminate member (`N1`, `N2`) is a row the draft leaves open. It
   carries no `expected.verdict`, and your verifier conforms on it when its
@@ -58,9 +58,19 @@ and denied anyway. Under revision 01 there was no member to say which, so a
 verifier that lost its input wrote a record identical to a correctly enforced
 denial. Revision 02 carries `evaluation.status` and `evaluation.unavailableInput`
 beside the decision and leaves `decision.reported` and the agreement table as
-they were. `EV1` to `EV4` refuse the shapes that would blur the two, and `EV3`
-is a revision 01 record: it has no `evaluation` member, and revision 02 gives no
-member a default, so it is malformed.
+they were. `EV3` is a revision 01 record: it has no `evaluation` member, and no
+revision since gives a member a default, so it is malformed.
+
+Revision 03 closes the member. `A12` is a permit that was not evaluated because
+the policy source was unavailable: a decision point failing open, accepted so
+that it can be found. `A13` is the deny that leaked (`A3`) enforced while the
+key source and the consumption state were unavailable, and it still derives
+`disagree`, because evaluation is not an input to agreement. The rejects refuse
+each shape that would blur an outage into a decision: no input named (`EV1`,
+`EV6`), an input named twice (`EV5`), an input outside the closed set (`EV4`),
+an evaluated decision carrying the member in any spelling (`EV2`, `EV7`, `EV8`),
+a status outside its set (`EV9`), and a member the draft does not define, such
+as a free-text reason (`EV10`).
 
 `A11` carries the optional `oversight` member: the kind of act a person took
 behind the permit (`observation`, `check`, `decision` or `release`) and the
