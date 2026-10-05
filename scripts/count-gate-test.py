@@ -32,12 +32,14 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
 from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -802,39 +804,88 @@ ACCEPT_CASES: list[Case] = [
 ]
 
 
-def check(group: str, cases: list[Case], want_refusal: bool, tmp: Path) -> list[str]:
-    failures: list[str] = []
-    for index, (name, mutate, phrases) in enumerate(cases):
-        root = tmp / f"{group}{index}"
-        root.mkdir()
-        stage(root)
-        mutate(root)
-        code, output = run(root)
-        if want_refusal and code == 0:
-            failures.append(f"{name}: the gate accepted it")
-            continue
-        if not want_refusal and code != 0:
-            failures.append(f"{name}: the gate refused it:\n{output}")
-            continue
-        missing = [phrase for phrase in phrases if phrase not in output]
-        if missing:
-            failures.append(
-                f"{name}: the right exit status, and the output does not carry "
-                f"{missing!r}. A refusal that names the wrong thing sends the next "
-                f"person to the wrong file.\n{output}"
+def copy_staged(template: Path, destination: Path) -> None:
+    """Give one case its own copy of the staged checkout.
+
+    Staging hashes every tracked file into a fresh index, which cost about five
+    seconds a case, forty-four times a run. The template is staged once and each
+    case gets a byte copy of it, `.git` included: the same index entries, the
+    same objects and the same files, so `git ls-files` and every blob read see
+    what a fresh stage would have given them. The case then edits only its own
+    copy, so no case can see another's mutation.
+    """
+    shutil.copytree(template, destination, symlinks=True)
+
+
+def workers() -> int:
+    """How many cases run at once: COUNT_GATE_TEST_WORKERS, else up to four.
+
+    Each case is one single-threaded gate process, so this pool is the only layer
+    here that owns parallelism and the number is the number of processes. The
+    default never exceeds the processors this process may use, and never exceeds
+    four, so a run on a loaded workstation adds at most four busy processes.
+    """
+    raw = os.environ.get("COUNT_GATE_TEST_WORKERS", "")
+    if raw:
+        if not raw.isdigit() or int(raw) < 1:
+            raise SystemExit(
+                f"COUNT_GATE_TEST_WORKERS={raw!r} is not a positive integer; refusing "
+                "to guess a worker count."
             )
-    return failures
+        return int(raw)
+    return max(1, min(4, len(os.sched_getaffinity(0))))
+
+
+def judge(case: Case, want_refusal: bool, root: Path, template: Path) -> str | None:
+    """Run one case in its own copy and return its failure, or None if it holds."""
+    name, mutate, phrases = case
+    copy_staged(template, root)
+    mutate(root)
+    code, output = run(root)
+    if want_refusal and code == 0:
+        return f"{name}: the gate accepted it"
+    if not want_refusal and code != 0:
+        return f"{name}: the gate refused it:\n{output}"
+    missing = [phrase for phrase in phrases if phrase not in output]
+    if missing:
+        return (
+            f"{name}: the right exit status, and the output does not carry "
+            f"{missing!r}. A refusal that names the wrong thing sends the next "
+            f"person to the wrong file.\n{output}"
+        )
+    return None
 
 
 def main() -> int:
+    groups = (
+        ("claim", CLAIM_CASES, True),
+        ("census", CENSUS_CASES, True),
+        ("source", SOURCE_CASES, True),
+        ("accept", ACCEPT_CASES, False),
+    )
     failures: list[str] = []
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
-        failures.extend(check("claim", CLAIM_CASES, True, tmp))
-        failures.extend(check("census", CENSUS_CASES, True, tmp))
-        failures.extend(check("source", SOURCE_CASES, True, tmp))
-        failures.extend(check("accept", ACCEPT_CASES, False, tmp))
+        template = tmp / "template"
+        template.mkdir()
+        stage(template)
+        # Every case is submitted, and every result is collected in submission
+        # order, so the report reads the same as the serial run did. A case that
+        # raises (a rig that no longer matches its file) re-raises here when its
+        # result is read, exactly as it stopped the serial run.
+        with ThreadPoolExecutor(max_workers=workers()) as pool:
+            futures = [
+                pool.submit(judge, case, want_refusal, tmp / f"{group}{index}", template)
+                for group, cases, want_refusal in groups
+                for index, case in enumerate(cases)
+            ]
+            for future in futures:
+                failure = future.result()
+                if failure is not None:
+                    failures.append(failure)
     total = len(CLAIM_CASES) + len(CENSUS_CASES) + len(SOURCE_CASES) + len(ACCEPT_CASES)
+    if len(futures) != total:
+        raise SystemExit(f"judged {len(futures)} case(s) of {total}; refusing to report a pass")
     if failures:
         print(f"FAIL: {len(failures)} of {total} case(s) do not hold:", file=sys.stderr)
         for failure in failures:
