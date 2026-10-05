@@ -12,6 +12,8 @@ The spec is about 22,000 words, so plan on a couple of hours of reading before a
 
 Please don't look at my test set, its changelog or the two existing verifiers before you post your build. If you already have, you are still welcome. Tell me, and your build is reported in a group of its own.
 
+If you already wrote a verifier for this spec, I'd like to include it as it stands. Tell me which commit to run, and I record its SHA.
+
 ## The deadline, and why it is a fixed hour
 
 Please post your finished code by 12:00 UTC on 10 October 2026. That afternoon I generate a fresh set of test statements from a public random number that nobody, me included, can know in advance. Because your code is public before those statements exist, I can't shape them around your build.
@@ -20,13 +22,13 @@ To post it, reply where you were invited with three things. They are a link to t
 
 ## What happens next
 
-I run your build on the fresh statements and on the public test set, and I publish the raw outputs. You get your results before I write anything about them. Your first run is kept exactly as it came out. If you fix something afterwards, the fix is reported on its own and never replaces the first run.
+I run your build on the fresh statements and on the public test set, and I publish the statements and the raw outputs. You get your results before I write anything about them. Your first run is kept exactly as it came out. If you fix something afterwards, the fix is reported on its own and never replaces the first run.
 
 ## What you get
 
 I'd like to offer you co-authorship of the paper.
 
-The journal asks every author to help write or revise the paper, approve the submitted version, and stand behind all of it. So as a co-author you would read the whole draft before I submit it on 14 October. You would correct anything you think is wrong, check how your build is described, and approve the submission. The journal generally does not add authors after submission, which is why this all happens before the 14th.
+The journal asks every author to help write or revise the paper, approve the submitted version, and stand behind all of it. So as a co-author you would read the whole draft before I submit it on 14 October. You would correct anything you think is wrong, check how your build is described, and approve the submission. The journal generally does not add authors after submission, which is why this all happens before the 14th. The draft reaches you soon after the run, so you have a few days with it.
 
 Two things co-authorship does not touch: your build's first run, and the analysis plan, which was written down and timestamped before any build was scored. If you disagree with the analysis, say so and I will answer it in the paper. The numbers that count were fixed in advance.
 
@@ -48,7 +50,7 @@ Reply where you were invited and say you're building. Questions are welcome ther
 
 - A build posted after 12:00 goes in only if that list can still be timestamped before the round. Otherwise it waits for a later batch, and a seed is never regenerated.
 
-- What is recorded about each build: who built it, and the tools and model used. Also recorded: whether the builder had seen the test set, its changelog or another implementation.
+- What is recorded about each build: who built it, and the tools and model used, including whether a coding agent wrote it. Also recorded: whether the builder had seen the test set, its changelog or another implementation.
 
 ## Consent
 
