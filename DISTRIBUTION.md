@@ -4,26 +4,26 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.16.0`, also recorded in [CITATION.cff](CITATION.cff). Use a release tag or commit and the corpus digest when reporting a result.
+`v0.17.0`, also recorded in [CITATION.cff](CITATION.cff). Use a release tag or commit and the corpus digest when reporting a result.
 
-The default branch also carries source changes after that release. Its current
-corpus table describes the checkout. Use the tagged tree or installed wheel to
-inspect the released population.
+The installation examples are pinned to the version above. The corpus table
+describes this checkout; a release tag or installed wheel identifies its own
+population.
 
 ## The one-command run
 
 Install the Go verifier, then run the packaged harness:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.16.0
-uvx agent-evidence-vectors==0.16.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.0
+uvx agent-evidence-vectors==0.17.0 --verifier "aee-verify --json"
 ```
 
 Or run the same harness from a checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.16.0
+cd agent-evidence-vectors && git checkout v0.17.0
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -37,7 +37,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.16.0
+git checkout v0.17.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
