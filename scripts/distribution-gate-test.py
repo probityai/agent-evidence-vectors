@@ -477,6 +477,26 @@ def wrong_source_entry_point(root: Path) -> str:
     return "README.md: unrecognized Python install command"
 
 
+
+TAG_CHECK = r"^(python3 scripts/verify-release-tag\.py v\S+)$"
+
+
+def stale_tag_check_command(root: Path) -> str:
+    """The page tells a reader to confirm a tag the release does not carry."""
+    _edit(root, PAGE_REL, lambda text: _sub(
+        r"(python3 scripts/verify-release-tag\.py )v\S+", r"\g<1>v99.0.0", text))
+    return "the `verify-release-tag.py v99.0.0` command names v99.0.0"
+
+
+def tag_check_pin(flag: str) -> Callable[[Path], str]:
+    """A tag check pinned to bytes the named tag does not hold, as a copied-forward pin is."""
+    def mutate(root: Path) -> str:
+        _edit(root, PAGE_REL, lambda text: _sub(
+            TAG_CHECK, rf"\g<1> \\\n  {flag} {'0' * 40}", text, flags=re.MULTILINE))
+        return f"{flag} {'0' * 40}` names bytes"
+    return mutate
+
+
 CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ("a source command fetching another owner", wrong_source_pin(
         "git+https://github.com/other-owner/agent-evidence-vectors@" + "0" * 40)),
@@ -521,6 +541,10 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ("the recipe heading duplicated", case_heading_duplicated),
     ("the recipe reference page deleted", case_recipe_file_missing),
     ("both recipe copies retain a stale release pin", case_recipe_pin_stale),
+    ("the tag check names a tag the release does not carry", stale_tag_check_command),
+    ("the tag check pins a commit the tag does not hold", tag_check_pin("--expected-commit")),
+    ("the tag check pins a tag object the tag does not hold",
+     tag_check_pin("--expected-tag-object")),
 )
 
 
@@ -545,6 +569,25 @@ def registry_control_failures() -> list[str]:
     return []
 
 
+def tag_pin_control_failures() -> list[str]:
+    """A tag check pinned to the bytes the tag holds passes, continuation lines and all."""
+    with tempfile.TemporaryDirectory() as raw:
+        root = _staged_copy(Path(raw))
+        tag = _install_of(root)[1]
+        held = {flag: subprocess.check_output(
+            ["git", "-C", str(root), "rev-parse", ref], text=True).strip()
+            for flag, ref in (("--expected-commit", f"refs/tags/{tag}^{{commit}}"),
+                              ("--expected-tag-object", f"refs/tags/{tag}"))}
+        pins = "".join(f" \\\n  {flag} {sha}" for flag, sha in held.items())
+        literal = pins.replace("\\", "\\\\")
+        _edit(root, PAGE_REL, lambda text: _sub(TAG_CHECK, rf"\g<1>{literal}", text,
+                                                 flags=re.MULTILINE))
+        code, output = _run_gate(root)
+        if code != 0:
+            return [f"the pinned tag-check control failed:\n{output}"]
+    return []
+
+
 def harness_failures() -> list[str]:
     """The no-match refusal is itself under test, so deleting it turns this red."""
     try:
@@ -559,7 +602,7 @@ def main() -> int:
         print(f"distribution-gate-test: FAILED\n  - {found[0]}")
         return 1
     try:
-        failures = registry_control_failures()
+        failures = registry_control_failures() + tag_pin_control_failures()
     except AssertionError as exc:
         print(f"distribution-gate-test: FAILED\n  - staging: {exc}")
         return 1
