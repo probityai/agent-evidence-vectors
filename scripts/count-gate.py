@@ -1328,6 +1328,32 @@ FROZEN: tuple[Frozen, ...] = (
         "The generator's description of the same mutation as the INDEX row: a "
         "digest length fixed by the vector's bytes, not a count.",
     ),
+    # ---- three figures that came to collide with the audit record corpus when
+    # the write-chain replay members E4 to E6 took it to 66. None is a count of
+    # any corpus: two cite a line range in another project's specification and
+    # one is the number of noncharacters Unicode defines.
+    Frozen(
+        "spec/v1/statement.md",
+        "the line range of the optional-predicate rule in in-toto/attestation",
+        "lines 62-66 (read at in-toto/attestation commit `512e386d`)",
+        "A line range in a citation into in-toto/attestation at a pinned commit. "
+        "It is a location, not a count, and its upper bound equalling the audit "
+        "record corpus total is arithmetic coincidence.",
+    ),
+    Frozen(
+        "scripts/statement-layer-test.py",
+        "the same line range, cited in the test's docstring",
+        "lines 62-66). The manifest records",
+        "The same citation into in-toto/attestation as spec/v1/statement.md: a "
+        "location in another project's file, not a count.",
+    ),
+    Frozen(
+        "vectors/CHANGES.md",
+        "the number of Unicode noncharacters RFC 7493 forbids",
+        "66 Unicode noncharacters (U+FDD0..U+FDEF and U+nFFFE/U+nFFFF in every plane)",
+        "A constant of the Unicode standard (32 in U+FDD0..U+FDEF plus two in "
+        "each of 17 planes). It does not move with any corpus.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not

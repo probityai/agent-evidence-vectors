@@ -558,6 +558,28 @@ def _e3(pred: dict[str, Any]) -> None:
     pred["effect"]["interval"]["beforeRoot"] = EMPTY_TREE["sha1"]
 
 
+# E2, E4, E5 and E6 pin the replay one part at a time. The running root starts at
+# beforeRoot, each write's preStateDigest must equal it and its postStateDigest
+# replaces it, and the root after the last write must be afterRoot. E2 breaks a
+# link between two writes with both ends intact, E4 breaks only the start, E5
+# only the end, and E6 is the case with no write at all. A reader that drops any
+# one of those comparisons accepts exactly one of the four, which
+# scripts/write-chain-replay-test.py checks against weakened copies of both
+# packaged readers.
+
+
+def _e4(pred: dict[str, Any]) -> None:
+    pred["effect"]["writes"][0]["preStateDigest"] = h("root/state-before-the-interval")
+
+
+def _e5(pred: dict[str, Any]) -> None:
+    pred["effect"]["writes"][0]["postStateDigest"] = h("root/state-after-the-write")
+
+
+def _e6(pred: dict[str, Any]) -> None:
+    pred["effect"]["interval"]["afterRoot"] = h("root/after-with-no-write")
+
+
 def _v3(pred: dict[str, Any]) -> None:
     pred["effect"]["writes"][0]["path"] = "/srv/reports/settlements.jsonl"
 
@@ -997,6 +1019,33 @@ def define() -> None:
             "empty-tree under sha256 carrying the sha1 constant",
             mutate("A1", _e3),
             "empty-tree-constant-mismatch",
+        ),
+        (
+            "E4",
+            "e4-first-write-not-from-before-root",
+            "A1",
+            "the only write's pre-state is not the before-state root, its post-state is "
+            "the after-state root",
+            mutate("A1", _e4),
+            "write-chain-broken",
+        ),
+        (
+            "E5",
+            "e5-last-write-not-to-after-root",
+            "A1",
+            "the only write starts from the before-state root and its post-state is not "
+            "the after-state root",
+            mutate("A1", _e5),
+            "write-chain-broken",
+        ),
+        (
+            "E6",
+            "e6-no-write-and-unequal-roots",
+            "A2",
+            "an empty write set beside an after-state root unequal to the before-state "
+            "root, second subject moved to match",
+            mutate("A2", _e6),
+            "write-chain-broken",
         ),
         (
             "V1",

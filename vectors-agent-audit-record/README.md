@@ -77,6 +77,20 @@ behind the permit (`observation`, `check`, `decision` or `release`) and the
 digest of the overseer's own signed record. `OV1` and `OV2` refuse an act outside
 that set and a member the draft does not define.
 
+## Replaying the write chain
+
+The draft requires the ordered writes to reproduce `afterRoot` from
+`beforeRoot`. The replay is four comparisons: a running root starts at
+`beforeRoot`; each write in `effect.writes`, in array order and whatever its
+attribution or `inScope`, carries a `preStateDigest` equal to the running root,
+and its `postStateDigest` becomes the running root; the root after the last
+write equals `afterRoot`; and a record with no write carries equal roots. Each
+comparison has its own reject member: `E4` breaks only the start, `E2` a link
+between two writes, `E5` only the end, and `E6` is the empty case.
+[`scripts/write-chain-replay-test.py`](../scripts/write-chain-replay-test.py)
+drops each comparison from the reference reader in turn and requires the judge
+to catch exactly that member.
+
 ## What the members are built from
 
 Every reject member is its `from` member with the one mutation its row names.
