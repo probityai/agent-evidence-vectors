@@ -30,6 +30,7 @@ GOMOD_REL = Path("go.mod")
 FORM_REL = Path(".github") / "ISSUE_TEMPLATE" / "independent-run.yml"
 INSTALL_LINE = re.compile(r"^go install (\S+)@(v\S+)\s*$", re.MULTILINE)
 OTHER_OWNER = "github.com/not-this-owner/agent-evidence-vectors"
+TAG_CHECK = r"^(python3 scripts/verify-release-tag\.py v\S+)$"
 
 
 def _digest(text: str) -> str:
@@ -140,6 +141,20 @@ def _staged_copy(tmp: Path) -> Path:
                 f"the staged {rel} carries no `uvx` command pinned to the staged commit, "
                 "so the source-route cases would have nothing to mutate"
             )
+    # The live page may pin the tag check to the real release's commit and tag
+    # object, which the staged tag does not hold. Every staged copy carries the
+    # bare command; the pin cases and the pinned control add pins of their own.
+    page = root / PAGE_REL
+    text = re.sub(
+        r"(python3 scripts/verify-release-tag\.py v\S+)"
+        r"(?:[ \t]*\\\n[ \t]*--expected-(?:commit|tag-object)[ \t]+\S+)+",
+        r"\g<1>", page.read_text(encoding="utf-8"))
+    page.write_text(text, encoding="utf-8")
+    if not re.search(TAG_CHECK, text, re.MULTILINE):
+        raise AssertionError(
+            f"the staged {PAGE_REL} carries no bare `verify-release-tag.py` command, "
+            "so the tag-check cases would have nothing to mutate"
+        )
     return root
 
 
@@ -476,9 +491,6 @@ def wrong_source_entry_point(root: Path) -> str:
         text) + f"\nuvx agent-evidence-vectors=={version} --self-test\n")
     return "README.md: unrecognized Python install command"
 
-
-
-TAG_CHECK = r"^(python3 scripts/verify-release-tag\.py v\S+)$"
 
 
 def stale_tag_check_command(root: Path) -> str:
