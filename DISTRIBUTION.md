@@ -10,13 +10,17 @@ The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
 population.
 
+PyPI v0.17.0 was unavailable on 2026-10-05. The example below builds from the
+source commit associated with the signed v0.17.0 tag. A source pin identifies
+the selected bytes; use the signature checks below to verify the tag's signer.
+
 ## The one-command run
 
-Install the Go verifier, then run the packaged harness:
+Install the tagged Go verifier, then build and run the harness from its source:
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.0
-uvx agent-evidence-vectors==0.17.0 --verifier "aee-verify --json"
+uvx --from git+https://github.com/probityai/agent-evidence-vectors@906dca103e2fe2e1e719dc58f8337b1b90b6562d agent-evidence-vectors --verifier "aee-verify --json"
 ```
 
 Or run the same harness from a checkout:

@@ -404,8 +404,6 @@ def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
         return [str(exc)]
     patterns = (
         ("Go install", INSTALL_LINE, f"v{version}", 2),
-        ("Python install", re.compile(r"^uvx agent-evidence-vectors==(\S+)", re.MULTILINE),
-         version, 1),
     )
     for rel in INSTALL_PAGES:
         try:
@@ -415,9 +413,41 @@ def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
             continue
         for label, pattern, expected, group in patterns:
             found.extend(_pin_failures(text, rel, label, pattern, expected, group))
+        found.extend(_python_install_failures(root, text, rel, version))
         if rel == "docs/guides/runner.md":
             action = re.compile(r"^- uses: probityai/agent-evidence-vectors@(\S+)", re.MULTILINE)
             found.extend(_pin_failures(text, rel, "GitHub Action", action, f"v{version}"))
+    return found
+
+
+def _source_install_failures(root: Path, pins: list[str], rel: str,
+                             version: str) -> list[str]:
+    """Match documented source bytes to the local release tag, without authenticating it."""
+    selected = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "--verify", f"refs/tags/v{version}^{{commit}}"],
+        capture_output=True, text=True, check=False,
+    )
+    if selected.returncode != 0:
+        return [f"{rel}: Python source install tag v{version} does not resolve; fetch tags"]
+    expected = "git+https://github.com/probityai/agent-evidence-vectors@" + selected.stdout.strip()
+    return [f"{rel}: Python install pin {pin} differs from release source {expected}"
+            for pin in pins if pin != expected]
+
+
+def _python_install_failures(root: Path, text: str, rel: str, version: str) -> list[str]:
+    """Check registry or source pins; registry availability is qualified separately."""
+    registry = re.compile(r"^uvx agent-evidence-vectors==(\S+)", re.MULTILINE)
+    source = re.compile(r"^uvx --from (\S+) agent-evidence-vectors(?:\s|$)", re.MULTILINE)
+    source_pins = source.findall(text)
+    commands = re.findall(r"^uvx(?:\s[^\n]*)?$", text, re.MULTILINE)
+    if not commands:
+        return [f"{rel} has no pinned Python install command"]
+    found = [f"{rel}: unrecognized Python install command: {command}"
+             for command in commands if not registry.match(command) and not source.match(command)]
+    if source_pins:
+        found.extend(_source_install_failures(root, source_pins, rel, version))
+    if registry.search(text):
+        found.extend(_pin_failures(text, rel, "Python install", registry, version))
     return found
 
 
