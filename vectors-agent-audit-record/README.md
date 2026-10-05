@@ -49,6 +49,16 @@ conforms = my_verdict in conforming_verdicts(entry)
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
 
+## Independent runs
+
+The first reader from outside this repository is Mayur Agnihotri's
+[agent-audit-record-reader](https://github.com/Mayur021/agent-audit-record-reader),
+written from the draft, RFC 8785, RFC 7493 and DSSE and sharing no code with the
+reference reader. It agreed on 47 of 47 members of v0.16.0, the revision 01
+corpus. Our rerun of it, pinned by digest, is in
+[`interop/wimse-agent-audit-record-reader-2026-10-01`](../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
+Members added after v0.16.0 have no outside run yet.
+
 ## Could not evaluate, and the human act behind a permit
 
 `A2` and `A10` are one record twice. Both report a deny beside no effect, so
