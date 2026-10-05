@@ -1607,6 +1607,16 @@ FROZEN: tuple[Frozen, ...] = (
         "figure posted to the W3C list on 7 October 2026. A published digest is "
         "never mutated, so its split must not track the current manifest.",
     ),
+    Frozen(
+        "vectors-agent-audit-record/README.md",
+        "the first outside reader's posted score on the revision 01 corpus",
+        "It agreed on 47 of 47 members of v0.16.0, the revision 01",
+        "Mayur Agnihotri's run of his own reader against release v0.16.0, as he "
+        "posted it in ietf-wg-wimse/draft-ietf-wimse-aims#144 (comment "
+        "5934905211, 2026-10-01). The sentence names the release it was run "
+        "against, and the corpus growing since does not change what that run "
+        "scored; interop/wimse-agent-audit-record-reader-2026-10-01 pins it.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not
