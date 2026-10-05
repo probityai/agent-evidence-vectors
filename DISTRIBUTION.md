@@ -84,7 +84,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |
 | `vectors-self-reported-record/` | `self-reported-record-conformance` | a self-reported agent record: turn signatures under the named key, memory-read digests over the bytes at the named path, an attesting key outside the observed runtime's reach, ledgers that name one change set, and covering signatures on declared substrate coverage |
-| `vectors-w3c-report/` | `w3c-report-v01-conformance` | the v0.1 per-check report of the W3C public-agent-conformance group: the five states, the cause rule, the twelve rejection rows and the two late additions, as whole reports |
+| `vectors-w3c-report/` | `w3c-report-v01-conformance` | the W3C public-agent-conformance group's v0.1 per-check report: five states, the cause vocabulary, fourteen rejection rows and roll-up claims (including a declared no-void claim), as whole reports |
 
 The distribution gate checks the directory and suite names against the tracked manifests. Read vector counts and digests from those manifests or [release/CORPUS-DIGESTS.txt](release/CORPUS-DIGESTS.txt). The [corpus guide](docs/guides/corpora.md) describes the formats and packaged readers.
 
