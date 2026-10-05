@@ -126,9 +126,20 @@ def _staged_copy(tmp: Path) -> Path:
             + selected + " agent-evidence-vectors",
             path.read_text(encoding="utf-8"),
         )
-        path.write_text(re.sub(
+        text = re.sub(
             r"(uvx --from git\+https://github.com/probityai/agent-evidence-vectors@)\S+",
-            rf"\g<1>{selected}", text), encoding="utf-8")
+            rf"\g<1>{selected}", text)
+        path.write_text(text, encoding="utf-8")
+        # A post-condition, not a hope: a page that carries neither route would
+        # leave every source-route case below without a target, and the report
+        # would blame the cases or the gate instead of the staging.
+        source = ("uvx --from git+https://github.com/probityai/agent-evidence-vectors@"
+                  f"{selected} agent-evidence-vectors")
+        if not re.search(rf"^{re.escape(source)}(?:\s|$)", text, re.MULTILINE):
+            raise AssertionError(
+                f"the staged {rel} carries no `uvx` command pinned to the staged commit, "
+                "so the source-route cases would have nothing to mutate"
+            )
     return root
 
 
@@ -149,6 +160,20 @@ def _edit(root: Path, rel: Path, change: Callable[[str], str]) -> None:
     if _digest(before) == _digest(after):
         raise AssertionError(f"the mutation of {rel} changed nothing, so the case tests nothing")
     path.write_text(after, encoding="utf-8")
+
+
+def _sub(pattern: str, replacement: str, text: str, flags: int = 0) -> str:
+    """Replace the first match, and refuse when there is none.
+
+    ``_edit`` only sees whether the whole file changed. A mutation that
+    rewrites a command AND appends a line still changes the file when the
+    rewrite finds nothing, and the gate then rightly passes a tree that holds
+    no defect. The report blamed the gate for what was a missing target.
+    """
+    after, count = re.subn(pattern, replacement, text, count=1, flags=flags)
+    if count == 0:
+        raise AssertionError(f"the pattern {pattern!r} matched nothing, so the case tests nothing")
+    return after
 
 
 def case_recipe_drift(root: Path) -> str:
@@ -341,7 +366,7 @@ def case_recipe_missing(root: Path) -> str:
     _edit(
         root,
         RECIPE_REL,
-        lambda text: re.sub(r"(?ms)^```[^\n]*\n.*?^```[ \t]*$", "", text, count=1),
+        lambda text: _sub(r"(?ms)^```[^\n]*\n.*?^```[ \t]*$", "", text),
     )
     return "no fenced block under it"
 
@@ -361,7 +386,7 @@ def case_recipe_unclosed(root: Path) -> str:
     _edit(
         root,
         RECIPE_REL,
-        lambda text: re.sub(r"(?m)^```[ \t]*$", "", text, count=1),
+        lambda text: _sub(r"(?m)^```[ \t]*$", "", text),
     )
     return "is never closed"
 
@@ -406,19 +431,19 @@ def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
             "GitHub Action": r"(- uses: probityai/agent-evidence-vectors@)v[^\s]+",
         }
         if route == "Python install":
-            _edit(root, Path(rel), lambda text: re.sub(patterns[route],
-                  "uvx agent-evidence-vectors==99.0.0", text, count=1))
+            _edit(root, Path(rel), lambda text: _sub(patterns[route],
+                  "uvx agent-evidence-vectors==99.0.0", text))
             return f"{rel}: {route} pin"
         prefix = "v"
-        _edit(root, Path(rel), lambda text: re.sub(patterns[route],
-              rf"\g<1>{prefix}99.0.0", text, count=1))
+        _edit(root, Path(rel), lambda text: _sub(patterns[route],
+              rf"\g<1>{prefix}99.0.0", text))
         return f"{rel}: {route} pin"
     return mutate
 
 
 def missing_python_command(root: Path) -> str:
-    _edit(root, Path("README.md"), lambda text: re.sub(
-        r"^uvx --from [^\n]+\n", "", text, count=1, flags=re.MULTILINE))
+    _edit(root, Path("README.md"), lambda text: _sub(
+        r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE))
     return "README.md has no pinned Python install command"
 
 
@@ -430,9 +455,9 @@ def missing_runner_page(root: Path) -> str:
 def wrong_source_pin(pin: str) -> Callable[[Path], str]:
     """A present source command can still fetch the wrong owner, ref or bytes."""
     def mutate(root: Path) -> str:
-        _edit(root, Path("README.md"), lambda text: re.sub(
+        _edit(root, Path("README.md"), lambda text: _sub(
             r"(uvx --from )\S+( agent-evidence-vectors)",
-            rf"\g<1>{pin}\g<2>", text, count=1))
+            rf"\g<1>{pin}\g<2>", text))
         return "README.md: Python install pin"
     return mutate
 
@@ -446,9 +471,9 @@ def conflicting_source_pins(root: Path) -> str:
 
 def wrong_source_entry_point(root: Path) -> str:
     version = _install_of(root)[1][1:]
-    _edit(root, Path("README.md"), lambda text: re.sub(
+    _edit(root, Path("README.md"), lambda text: _sub(
         r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point",
-        text, count=1) + f"\nuvx agent-evidence-vectors=={version} --self-test\n")
+        text) + f"\nuvx agent-evidence-vectors=={version} --self-test\n")
     return "README.md: unrecognized Python install command"
 
 
@@ -506,18 +531,38 @@ def registry_control_failures() -> list[str]:
         version = _install_of(registry)[1][1:]
         for rel in (PAGE_REL, Path("README.md"), Path("docs/guides/runner.md")):
             path = registry / rel
-            path.write_text(re.sub(
+            text, count = re.subn(
                 r"uvx --from \S+ agent-evidence-vectors",
                 "uvx agent-evidence-vectors==" + version,
-                path.read_text(encoding="utf-8")), encoding="utf-8")
+                path.read_text(encoding="utf-8"))
+            if count == 0:
+                return [f"the registry-pin control converted nothing in {rel}, "
+                        "so it would pass on the source route and test no registry pin"]
+            path.write_text(text, encoding="utf-8")
         code, output = _run_gate(registry)
         if code != 0:
             return [f"the current registry-pin control failed:\n{output}"]
     return []
 
 
+def harness_failures() -> list[str]:
+    """The no-match refusal is itself under test, so deleting it turns this red."""
+    try:
+        _sub(r"uvx --from \S+", "", "uvx agent-evidence-vectors==99.0.0")
+    except AssertionError:
+        return []
+    return ["the harness accepted a substitution that matched nothing"]
+
+
 def main() -> int:
-    failures = registry_control_failures()
+    if found := harness_failures():
+        print(f"distribution-gate-test: FAILED\n  - {found[0]}")
+        return 1
+    try:
+        failures = registry_control_failures()
+    except AssertionError as exc:
+        print(f"distribution-gate-test: FAILED\n  - staging: {exc}")
+        return 1
 
     with tempfile.TemporaryDirectory() as raw:
         control = _staged_copy(Path(raw))
