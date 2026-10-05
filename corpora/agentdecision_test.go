@@ -3,6 +3,7 @@ package corpora
 import (
 	"encoding/json"
 	"errors"
+	"math"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -112,7 +113,7 @@ func TestAgentDecisionES6(t *testing.T) {
 			t.Errorf("adES6(%v) = %q, %v; want %q", in, got, err, want)
 		}
 	}
-	if got, err := adES6(-0.0); err != nil || got != "0" {
+	if got, err := adES6(math.Copysign(0, -1)); err != nil || got != "0" {
 		t.Errorf("negative zero = %q, %v", got, err)
 	}
 }

@@ -313,55 +313,71 @@ func adCalls(raw any, disabled string) ([]any, error) {
 		calls, _ := predicate["tool_calls"].([]any)
 		return calls, nil
 	}
-	bad := adMalformed("predicate-malformed")
-	if !isObject || !adText(predicate["agent_id"]) {
-		return nil, bad
-	}
-	principal, ok := predicate["principal"].(map[string]any)
-	if !ok || !adText(principal["subject"]) {
-		return nil, bad
-	}
-	evaluations, ok := predicate["policy_evaluations"].([]any)
-	if !ok || len(evaluations) == 0 {
-		return nil, bad
-	}
-	for _, e := range evaluations {
-		ev, ok := e.(map[string]any)
-		_, reasoned := ev["reason"].(string)
-		decision := ev["decision"]
-		if !ok || !adText(ev["policy"]) || !reasoned || (decision != "allow" && decision != "deny") {
-			return nil, bad
-		}
-	}
 	calls, ok := predicate["tool_calls"].([]any)
-	if !ok || len(calls) == 0 {
-		return nil, bad
-	}
-	for _, c := range calls {
-		call, ok := c.(map[string]any)
-		if !ok || !adText(call["name"]) {
-			return nil, bad
-		}
-	}
-	decidedAt, ok := predicate["decided_at"].(string)
-	if !ok || !adRFC3339.MatchString(decidedAt) {
-		return nil, bad
+	decidedAt, dated := predicate["decided_at"].(string)
+	if !isObject || !adHeadOK(predicate) || !ok || !adToolCallsOK(calls) ||
+		!dated || !adRFC3339.MatchString(decidedAt) {
+		return nil, adMalformed("predicate-malformed")
 	}
 	return calls, nil
 }
 
-func adCall(call map[string]any, arguments []byte, disabled string) error {
+// adHeadOK checks who decided and under which policies.
+func adHeadOK(predicate map[string]any) bool {
+	principal, ok := predicate["principal"].(map[string]any)
+	if !adText(predicate["agent_id"]) || !ok || !adText(principal["subject"]) {
+		return false
+	}
+	evaluations, ok := predicate["policy_evaluations"].([]any)
+	if !ok || len(evaluations) == 0 {
+		return false
+	}
+	for _, e := range evaluations {
+		if !adEvaluationOK(e) {
+			return false
+		}
+	}
+	return true
+}
+
+func adEvaluationOK(e any) bool {
+	ev, ok := e.(map[string]any)
+	_, reasoned := ev["reason"].(string)
+	decision := ev["decision"]
+	return ok && adText(ev["policy"]) && reasoned && (decision == "allow" || decision == "deny")
+}
+
+func adToolCallsOK(calls []any) bool {
+	if len(calls) == 0 {
+		return false
+	}
+	for _, c := range calls {
+		call, ok := c.(map[string]any)
+		if !ok || !adText(call["name"]) {
+			return false
+		}
+	}
+	return true
+}
+
+// adDeclarations checks args_state, then whether args_hash is present where
+// the state calls for one, then its format. It reports whether the state is
+// one of the closed set.
+func adDeclarations(call map[string]any, disabled string) (bool, error) {
 	stateValue, hasState := call["args_state"]
 	state, _ := stateValue.(string)
 	known := hasState && adContains(adStates, state)
-	if disabled != "args-state" {
-		if !hasState {
-			return adMalformed("args-state-missing")
-		}
-		if !known {
-			return adMalformed("args-state-unknown")
-		}
+	if disabled != "args-state" && !hasState {
+		return false, adMalformed("args-state-missing")
 	}
+	if disabled != "args-state" && !known {
+		return false, adMalformed("args-state-unknown")
+	}
+	return known, adHashDeclaration(call, known, state, disabled)
+}
+
+// adHashDeclaration checks args_hash against the state that governs it.
+func adHashDeclaration(call map[string]any, known bool, state, disabled string) error {
 	digestValue, present := call["args_hash"]
 	hashed := known && (state == "recorded" || state == "redacted")
 	if disabled != "args-hash-presence" {
@@ -376,7 +392,16 @@ func adCall(call map[string]any, arguments []byte, disabled string) error {
 	if present && disabled != "args-hash-format" && (!isText || !adHashPattern.MatchString(digest)) {
 		return adMalformed("args-hash-format")
 	}
-	if !known || state != "recorded" || arguments == nil || !isText {
+	return nil
+}
+
+func adCall(call map[string]any, arguments []byte, disabled string) error {
+	known, err := adDeclarations(call, disabled)
+	if err != nil {
+		return err
+	}
+	digest, isText := call["args_hash"].(string)
+	if !known || call["args_state"] != "recorded" || arguments == nil || !isText {
 		return nil
 	}
 	value, err := adAdmit(arguments, disabled)
