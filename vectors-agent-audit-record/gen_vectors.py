@@ -6,7 +6,7 @@ Regenerate byte-identically:
     uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
 
 The corpus is Appendix B of the Internet-Draft
-draft-gilda-wimse-agent-audit-record-02, member for member. Every member is a
+draft-gilda-wimse-agent-audit-record-03, member for member. Every member is a
 complete DSSE envelope whose payload is an in-toto Statement v1 carrying an agent
 audit record. The vector file carries the bytes and nothing else; the verdict a
 verifier must reach, and the Appendix B identifier the member answers to, live in
@@ -48,8 +48,8 @@ SUITE = "agent-audit-record-conformance"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
 )
-PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/"
-DRAFT = "draft-gilda-wimse-agent-audit-record-02"
+PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/03/"
+DRAFT = "draft-gilda-wimse-agent-audit-record-03"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 ID_HEX = 16
@@ -434,6 +434,28 @@ def build_a11() -> Built:
     return accept("A11", pred)
 
 
+def build_a12() -> Built:
+    """A1's bytes with one difference: the decision point could not load its
+    policy and permitted anyway. A decision point failing open is a fact the
+    record exists to carry, so a verifier accepts it; what it means for
+    admission is the consumer's call."""
+    pred = from_pred("A1")
+    pred["evaluation"] = {"status": "not-evaluated", "unavailableInput": ["policy-source"]}
+    return accept("A12", pred)
+
+
+def build_a13() -> Built:
+    """A3's bytes with one difference: the deny that leaked was enforced while
+    two inputs were unavailable. Evaluation is not an input to agreement, so a
+    leak during an outage still derives disagree."""
+    pred = from_pred("A3")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "unavailableInput": ["key-source", "consumption-state"],
+    }
+    return accept("A13", pred)
+
+
 # --- reject members -------------------------------------------------------
 
 
@@ -703,6 +725,26 @@ def define() -> None:
         None,
         "A1 plus oversight with act of check and the overseer's record digest",
         build_a11,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A12",
+        "a12-permit-not-evaluated-policy-source",
+        None,
+        "A1 with evaluation of not-evaluated and unavailableInput of policy-source: "
+        "a decision point failing open, agreement of agree",
+        build_a12,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A13",
+        "a13-leaked-deny-not-evaluated-two-inputs",
+        None,
+        "A3 with evaluation of not-evaluated and unavailableInput of key-source and "
+        "consumption-state: a leak during an outage, agreement of disagree",
+        build_a13,
         "valid",
         tier="authoritative",
     )
@@ -1027,6 +1069,57 @@ def define() -> None:
             "unavailableInput of network, outside the closed set",
             mutate("A10", _set("evaluation.unavailableInput", ["network"])),
             "value-outside-vocabulary",
+        ),
+        (
+            "EV5",
+            "ev5-unavailable-input-named-twice",
+            "A10",
+            "unavailableInput naming standing-source twice",
+            mutate(
+                "A10", _set("evaluation.unavailableInput", ["standing-source", "standing-source"])
+            ),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV6",
+            "ev6-not-evaluated-with-empty-unavailable-input",
+            "A10",
+            "not-evaluated with unavailableInput of the empty array",
+            mutate("A10", _set("evaluation.unavailableInput", [])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV7",
+            "ev7-evaluated-with-empty-unavailable-input",
+            "A2",
+            "evaluated carrying unavailableInput of the empty array",
+            mutate("A2", _set("evaluation.unavailableInput", [])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV8",
+            "ev8-evaluated-with-null-unavailable-input",
+            "A2",
+            "evaluated carrying unavailableInput of null",
+            mutate("A2", _set("evaluation.unavailableInput", None)),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV9",
+            "ev9-status-outside-closed-set",
+            "A10",
+            "evaluation.status of partially-evaluated, outside the closed set, "
+            "unavailableInput kept",
+            mutate("A10", _set("evaluation.status", "partially-evaluated")),
+            "value-outside-vocabulary",
+        ),
+        (
+            "EV10",
+            "ev10-evaluation-carrying-an-undefined-member",
+            "A10",
+            "evaluation carrying a free-text reason member the draft does not define",
+            mutate("A10", _set("evaluation.reason", "status list endpoint timed out")),
+            "evaluation-malformed",
         ),
         (
             "OV1",
