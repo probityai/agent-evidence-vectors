@@ -81,6 +81,14 @@
 
 set -euo pipefail
 
+# Select only where the same workflow gate runs. A pool run returns its native
+# capture before this ordinary Git push can continue. It does not publish.
+venue="${AEV_PRE_PUSH_VENUE:-local}"
+case "$venue" in
+local | pool) ;;
+*) echo "pre-push: ABORT -- AEV_PRE_PUSH_VENUE must be local or pool." >&2; exit 1 ;;
+esac
+
 # Read git's own answer about where this repository lives BEFORE removing the
 # variables it set, so discovery is exactly what git intended -- including from
 # a linked worktree, and including a repository whose core.bare is set, where
@@ -315,6 +323,17 @@ gate_revision() {
 	fi
 
 	echo "pre-push: running every workflow shell step against ${sha}..."
+
+	if [ "$venue" = pool ]; then
+		bridge="$iso/scripts/pre-push-pool.py"
+		if [ ! -f "$bridge" ]; then
+			echo "pre-push: ABORT -- the selected revision has no pool gate bridge." >&2
+			exit 1
+		fi
+		(cd "$iso" && python3 "$bridge" pool)
+		cleanup
+		return
+	fi
 
 	# uv carries PyYAML without touching the project environment. If uv is absent,
 	# fall back to the interpreter and let the gate itself say what it needs -- it

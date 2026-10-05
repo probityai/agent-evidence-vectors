@@ -719,6 +719,8 @@ jobs:
       # runs here rather than only in the hook it protects.
       - name: the local pre-push mirror agrees with this workflow's shell
         run: python3 scripts/workflow-steps-gate-test.py
+      - name: the pool venue retains source-bound native results and refuses incomplete runs
+        run: python3 scripts/pre-push-pool-test.py
       # Both vector indexes publish a determinism recipe saying the set
       # regenerates byte-identically from the generator beside it, and until
       # this gate nothing ran it. Seven vector files and seven manifest entries

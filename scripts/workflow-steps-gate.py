@@ -43,6 +43,7 @@ from typing import Any, NamedTuple
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+from _gate_json import decode_json  # noqa: E402
 from _lockfile import single_instance  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
@@ -1396,6 +1397,69 @@ def retain_reports(job: JobState, evidence: pathlib.Path) -> None:
             target = evidence / "reports" / label / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(path.read_bytes())
+    # Retain the original reports even if a declared public input later refuses.
+    retain_timestamp_inputs(job, evidence)
+
+
+def retain_timestamp_inputs(job: JobState, evidence: pathlib.Path) -> None:
+    """Keep only declared fixed public validation inputs, never arbitrary keys."""
+    candidate = job.temp / "timestamp-candidate"
+    manifest = candidate / "manifest.json"
+    if candidate.is_symlink() or manifest.is_symlink():
+        raise ValueError("timestamp capture manifest is a symbolic link")
+    if not manifest.exists():
+        return
+    if not manifest.is_file():
+        raise ValueError("timestamp capture manifest is not a regular file")
+    report = decode_json(manifest.read_bytes())
+    if (
+        report["sourceCommit"] != git(job.root, "rev-parse", "HEAD").decode().strip()
+        or report["sourceTree"] != git(job.root, "rev-parse", "HEAD^{tree}").decode().strip()
+    ):
+        raise ValueError("timestamp capture does not name the selected public source")
+    members = {member["path"]: member for member in report["members"]}
+    if len(members) != len(report["members"]):
+        raise ValueError("timestamp capture repeats a member")
+    for relative in (
+        "release/CORPUS-DIGESTS.txt.sig",
+        "release/CORPUS-DIGESTS.txt.sig.tsr",
+        "spec/tsa-roots.pem",
+    ):
+        member = members[relative]
+        if member["state"] not in {"present", "empty", "missing", "refused", "unreadable"}:
+            raise ValueError("timestamp capture has an unknown member state")
+        if member["state"] != "present":
+            continue
+        raw = timestamp_public_input(job, candidate, relative, member)
+        target = evidence / "reports/runner-temp/timestamp-candidate" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+
+
+def timestamp_public_input(
+    job: JobState,
+    candidate: pathlib.Path,
+    relative: str,
+    member: dict[str, Any],
+) -> bytes:
+    """Read only a fixed public member with no symbolic-link path component."""
+    path = candidate
+    for part in pathlib.PurePosixPath(relative).parts:
+        path /= part
+        if path.is_symlink():
+            raise ValueError("declared timestamp input is a symbolic link")
+    if not path.is_file():
+        raise ValueError("declared timestamp input is not a regular file")
+    raw = path.read_bytes()
+    public = git(job.root, "show", f"HEAD:{relative}")
+    if (
+        raw != public
+        or type(member["bytes"]) is not int
+        or len(raw) != member["bytes"]
+        or hashlib.sha256(raw).hexdigest() != member["sha256"]
+    ):
+        raise ValueError("declared timestamp input differs from its public source or manifest")
+    return raw
 
 
 def resolve_inputs(
