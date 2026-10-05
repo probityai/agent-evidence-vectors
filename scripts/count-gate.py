@@ -1302,6 +1302,32 @@ FROZEN: tuple[Frozen, ...] = (
         "2026Sep/0087): the delta-related pairs re-cut against v0.1. It records "
         "what that text says, not a count of any manifest.",
     ),
+    # ---- three figures that came to collide with the audit record corpus when
+    # revision 03 of its draft took it to 63 members. None is a count of any
+    # corpus: one is another project's pull request number and two are the
+    # length of a truncated digest in one reject vector's description.
+    Frozen(
+        "docs/proposals/ai-agent-action-round7.md",
+        "the in-toto ITE pull request that defines the external-corpus door",
+        "[in-toto/ITE#63](https://github.com/in-toto/ITE/pull/63)",
+        "A pull request number in another project's tracker. It identifies a "
+        "document, and its value equalling the audit record corpus total is "
+        "arithmetic coincidence.",
+    ),
+    Frozen(
+        "vectors/reject/INDEX.md",
+        "the truncated digest length bad-609 carries",
+        "substrate digest truncated to 63 hex chars",
+        "The mutation one reject vector applies: a 64-character digest cut to "
+        "63. It is a length fixed by that vector's bytes, not a count.",
+    ),
+    Frozen(
+        "vectors/reject/gen_invalid_vectors.py",
+        "the truncated digest length bad-609 carries, at its generator",
+        "substrate digest truncated to 63 hex chars",
+        "The generator's description of the same mutation as the INDEX row: a "
+        "digest length fixed by the vector's bytes, not a count.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not
