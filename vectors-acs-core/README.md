@@ -141,7 +141,8 @@ re-sign a shorter chain, so the Core half never claims a third-party witness.
 
 ## A wrong signer and an undeterminable one
 
-Family `acs-f-10` carries one substitution under both profiles: the Observed
+Family `acs-f-10` carries one substitution under both signature profiles, the
+HMAC baseline of ACS-Core and the asymmetric ACS-Crypto profile: the Observed
 Agent signs a chain head and presents it as the Guardian's. Here the two
 profiles do not differ only in witness scope; they give different verdicts.
 Under ACS-Crypto the signature verifies only under the Observed Agent's own key
@@ -153,18 +154,38 @@ hold the session key, the Observed Agent's MAC verifies under the key the
 `key_id` resolves to, and nothing in the head or the public material says who
 computed it. That member is `unmeasurable`, citing the section 8.6 sentence
 that puts non-repudiation in ACS-Crypto, and `SELF`, because the only accounts
-of who signed are the two key-holders' own. A verifier has to report "the
-signer is wrong" and "the signer cannot be determined" as different outcomes,
-so the corpus does not give them one shape.
+of who signed are the two key-holders' own. The specification gives a
+verifier no answer meaning "the signer cannot be determined", so that member
+is exempt rather than scored, and `awaitingText` in `MANIFEST.json` records
+the sentence it waits for.
 
 A third member refuses the claim rather than the signature. An HMAC head the
 Guardian did sign, presented to a third party as proof of which Guardian issued
-it, is graded `deny` with no registry code, because the symmetric tier cannot
-carry that claim and a surface that only calls it weak lets it through. It is
+it, is graded `deny`, because the symmetric tier cannot carry that claim and a
+surface that only calls it weak lets it through. The member forbids a registry
+code (`forbidsRegistryCode`) rather than leaving the code unasserted:
+`SIGNATURE_INVALID` there would report a signer nobody can determine as one
+determined to be wrong, which is the ACS-Crypto member's answer, so a verifier
+that gives it fails. That is where the corpus keeps "the signer is wrong" and
+"the signer cannot be determined" from taking one shape. It is
 `EXTERNAL`: the algorithm and the claim are both in the presented bytes, so an
 outside party can refuse it without the Guardian's account or the key. Its
 accepting twin presents the same head to a key-holder as integrity evidence, so
 a verifier that refuses every HMAC head fails the family rather than passing it.
+
+## The trust anchor is part of the input
+
+Every `acs-f-10` member carries `key_id_resolves_to`: which key a `key_id`
+names and who holds the signing half. Section 10 defines no in-band key
+exchange, so in a deployment that binding is distributed out of band and is
+the consumer's own trust anchor. The members take it as given and test what a
+verifier does with it: a signature that verifies only under a key the binding
+does not name is `SIGNATURE_INVALID`. No member asserts that `guardian-k1`
+belongs to any real Guardian, and none could, because that fact differs per
+deployment and a self-contained vector cannot fix it. This is the boundary row
+U5 of the AEE coverage matrix (`docs/COVERAGE-MATRIX.md`) draws for the AEE
+corpus, where the per-consumer anchor stays out of every vector and the
+evidence tier is pinned under two supplied key policies instead.
 
 Nothing here tests content filtering, model robustness, or prompt injection
 detection. The member about attributed content tests one property: that

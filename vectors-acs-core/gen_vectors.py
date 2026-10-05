@@ -84,6 +84,23 @@ OUT_OF_SCOPE = {
 #: the identifier is minted from that sentence once it lands. Recorded for the
 #: same reason as the scope-away list: a reader cannot see an absence.
 AWAITING_TEXT = {
+    "a chain head whose signing time is bounded by a public beacon": (
+        "the time-bound half of the checkpoint case raised on "
+        "GenAI-Security-Project/agent-control-standard#18. The pinned text "
+        "defines no beacon, no checkpoint and no signing-time source a head "
+        "could reference, so a member would cite a sentence that does not "
+        "exist. The signer half of the same case is family acs-f-10"
+    ),
+    "a verifier answering that it cannot determine the signer": (
+        "the pinned text gives a verifier no answer meaning the signer cannot "
+        "be determined: section 17.1 has SIGNATURE_INVALID for a signature that "
+        "fails and nothing for one that verifies under a key two parties hold. "
+        "So the HMAC substitution in acs-f-10 is unmeasurable rather than "
+        "scored, and a requirement that the two outcomes take different shapes "
+        "was raised on GenAI-Security-Project/agent-control-standard#18. Once a "
+        "sentence names the outcome, that member expects it instead of being "
+        "exempt"
+    ),
     "a session that began and was never sealed": (
         "the pinned text has no sentence requiring a party other than the "
         "Observed Agent to record that a session began, so a begun session with "
