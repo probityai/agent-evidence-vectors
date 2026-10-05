@@ -399,12 +399,13 @@ def setup_python(inputs: dict[str, Any]) -> Local:
     """
     wanted = str(inputs.get("python-version", "")).strip()
     if not wanted:
-        return Local(None, "actions/setup-python was used without a python-version input")
+        return Local(None, "actions/setup-python was used without a python-version input", True)
     if not uv_python_available(wanted):
         return Local(
             None,
             f"actions/setup-python pins CPython {wanted}, which uv on this workstation "
             "cannot provide; the job's later steps are not run on a different interpreter",
+            True,
         )
     return Local(
         f'uv venv -q --seed --python {shlex.quote(wanted)} "$RUNNER_TEMP/setup-python"\n'
@@ -991,6 +992,13 @@ class JobState:
         self.provider_probes: list[dict[str, Any]] = []
         self.repository = ""
         self.foreign: dict[str, dict[str, Any]] = {}
+
+    def block_failed_python_setup(self, step: Step, reason: str) -> bool:
+        """A failed interpreter binding blocks consumers, even when continued."""
+        if step.uses.split("@", 1)[0] != "actions/setup-python":
+            return False
+        self.blocked = f"the job's interpreter was not provisioned: {reason}"
+        return True
 
     def environment(self, base: dict[str, str]) -> dict[str, str]:
         project_env = str(self.temp / "project-env")
@@ -1598,6 +1606,7 @@ def execute_job(
             )
         except (OSError, ValueError) as exc:
             job.failed += 1
+            job.block_failed_python_setup(step, str(exc))
             write_json(
                 retained / "result.json",
                 {"label": step.label, "status": "NOT_RUN", "reason": str(exc), "fault": True},
@@ -1606,7 +1615,10 @@ def execute_job(
             print(f"  NOT RUN  {step.label}  ({exc})")
             continue
         job.ran += 1
-        job.failed += int(proc.returncode != 0 and not step.continue_on_error)
+        provision_fault = proc.returncode != 0 and job.block_failed_python_setup(
+            step, f"actions/setup-python exited {proc.returncode}"
+        )
+        job.failed += int(proc.returncode != 0 and (provision_fault or not step.continue_on_error))
         outcome = "success" if proc.returncode == 0 else "failure"
         write_json(
             retained / "result.json",
@@ -1619,7 +1631,7 @@ def execute_job(
                 "stderr_sha256": hashlib.sha256((retained / "stderr").read_bytes()).hexdigest(),
             },
         )
-        if proc.returncode != 0 and step.continue_on_error:
+        if proc.returncode != 0 and step.continue_on_error and not provision_fault:
             print(f"  FAILED, continue-on-error  {step.label}  (exit {proc.returncode})")
         elif proc.returncode != 0:
             report_failure(step.label, proc)
@@ -1799,7 +1811,7 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
                 return None, problem, True
             return ":", f"  (checked out {foreign} at {ref or 'HEAD'} into {where})", False
     block, suffix, fault = resolve(step)
-    if block is None and action == "actions/setup-python":
+    if block is None and action == "actions/setup-python" and not event_excludes(step.condition):
         job.blocked = f"the job's interpreter was not provisioned: {suffix}"
     if block is None and action in PROVIDES and not event_excludes(step.condition):
         job.blocked = provider_problem(step, job)

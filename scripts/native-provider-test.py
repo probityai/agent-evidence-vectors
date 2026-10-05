@@ -340,7 +340,13 @@ class ProviderControls(unittest.TestCase):
         self.assertEqual(list(outside.iterdir()), [])
 
     def setup_consumer(
-        self, action: str, key: str, selector: str, condition: str = ""
+        self,
+        action: str,
+        key: str,
+        selector: str,
+        condition: str = "",
+        uv_body: str | None = None,
+        continue_on_error: bool = False,
     ) -> tuple[Any, pathlib.Path, pathlib.Path]:
         repo = pathlib.Path(tempfile.mkdtemp(prefix="consumer-source-", dir=self.root))
         (repo / "README.md").write_text("Harmless provider dependency control.\n")
@@ -360,6 +366,11 @@ class ProviderControls(unittest.TestCase):
         with patch.dict(os.environ, {}, clear=True):
             source = GATE.Source(repo)
         job = GATE.JobState(str(self.root), repo.name, repo)
+        path = "/usr/bin:/bin"
+        if uv_body is not None:
+            fixture_bin = job.temp / "fixture-bin"
+            executable(fixture_bin / "uv", uv_body)
+            path = f"{fixture_bin}:{path}"
         sentinel = job.temp / "consumer.started"
         command = shlex.join(
             [
@@ -380,6 +391,7 @@ class ProviderControls(unittest.TestCase):
                 uses=f"{action}@v5",
                 inputs={key: selector},
                 condition=condition,
+                continue_on_error=continue_on_error,
             ),
             GATE.Step(
                 job="dependency",
@@ -391,7 +403,8 @@ class ProviderControls(unittest.TestCase):
             ),
         ]
         evidence = self.root / f"evidence-{repo.name}"
-        GATE.execute_job(steps, job, source, evidence, {"PATH": "/usr/bin:/bin"})
+        with patch.dict(os.environ, {"PATH": path}):
+            GATE.execute_job(steps, job, source, evidence, {"PATH": path})
         source.verify()
         return job, sentinel, evidence
 
@@ -441,6 +454,53 @@ class ProviderControls(unittest.TestCase):
                 self.assertIn("false for a push", setup["reason"])
                 self.assertEqual(child["status"], "EXECUTED")
                 self.assertEqual(child["returncode"], 0)
+
+    def test_unavailable_exact_python_fails_and_never_starts_actual_child(self) -> None:
+        for selector in ("9.9.9", ""):
+            with self.subTest(selector=selector):
+                job, sentinel, evidence = self.setup_consumer(
+                    "actions/setup-python",
+                    "python-version",
+                    selector,
+                    uv_body="echo no-exact-version; exit 0",
+                )
+                self.assertEqual(job.failed, 1)
+                self.assertEqual(job.ran, 0)
+                self.assertIn("interpreter was not provisioned", job.blocked)
+                self.assertFalse(sentinel.exists())
+                setup = json.loads((evidence / "steps/0/result.json").read_text())
+                child = json.loads((evidence / "steps/1/result.json").read_text())
+                self.assertTrue(setup["fault"])
+                self.assertEqual(child["status"], "NOT_RUN")
+                self.assertEqual(child["reason"], job.blocked)
+
+    def test_failed_python_provisioning_never_starts_actual_child(self) -> None:
+        for continued in (False, True):
+            with self.subTest(continue_on_error=continued):
+                job, sentinel, evidence = self.setup_consumer(
+                    "actions/setup-python",
+                    "python-version",
+                    "9.9.9",
+                    uv_body='if [ "$1" = python ]; then '
+                    "echo cpython-9.9.9-linux-x86_64-none; exit 0; fi\n"
+                    "echo provisioning-refused >&2; exit 7",
+                    continue_on_error=continued,
+                )
+                self.assertEqual(job.failed, 1)
+                self.assertEqual(job.ran, 1)
+                self.assertIn("actions/setup-python exited 7", job.blocked)
+                self.assertFalse(sentinel.exists())
+                setup = json.loads((evidence / "steps/0/result.json").read_text())
+                child = json.loads((evidence / "steps/1/result.json").read_text())
+                self.assertEqual(setup["status"], "EXECUTED")
+                self.assertEqual(setup["returncode"], 7)
+                self.assertEqual(setup["continue_on_error"], continued)
+                self.assertEqual(
+                    (evidence / "steps/0/stderr").read_text(), "provisioning-refused\n"
+                )
+                self.assertEqual(child["status"], "NOT_RUN")
+                self.assertEqual(child["reason"], job.blocked)
+                self.assertFalse((evidence / "steps/1/command.sh").exists())
 
     def test_original_archive_retention_and_symlink_refusal(self) -> None:
         archive(self.payload, self.members)

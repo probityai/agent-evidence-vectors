@@ -43,6 +43,9 @@ Required tool setup failures fail the native gate and stop dependent commands.
 Unresolved required setup inputs also fail and block consumers, including
 Python setup. A setup whose event condition is proven false is excluded before
 its inputs are resolved; it does not provision tools or block later commands.
+An unavailable exact Python version or failed Python provisioning also fails
+the gate and blocks consumers. `continue-on-error` cannot qualify a missing
+required interpreter.
 Go and Node selectors must be numeric versions. The gate probes the current
 tools and maintained installed inventory first. If they do not match, it selects
 the newest stable matching release from the official index, checks the official
