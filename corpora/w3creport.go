@@ -45,8 +45,13 @@ var (
 
 // w3cConfinementCause is row 4's antecedent as a cause value admitted only
 // under void, so row 4 reads cause against state the way row 3 does and the
-// four-field record carries no extra cell. Proposed, as in the Python module.
+// four-field record carries no extra cell (v0.1 sections 1.2 and 4).
 const w3cConfinementCause = "confinement-failed-during-check"
+
+// w3cNoVoid is the fourth completeness claim of v0.1 section 5.2, "no
+// declared check is void": population the declared checks, satisfied when
+// the void count is zero. Judged when present, as in the Python module.
+const w3cNoVoid = "no-void"
 
 func set(values ...string) map[string]bool {
 	out := map[string]bool{}
@@ -692,7 +697,7 @@ func w3cRowQualifiers(check map[string]any, state string, evidence map[string]ma
 
 // w3cRowOtherVerdict: the rows the other-verdict qualifier carries on its own:
 // a restated domain, an unbounded foreclosure, an asserted value with no
-// reference, and (row 13, proposed) a demonstration whose recomputed moved
+// reference, and (row 13) a demonstration whose recomputed moved
 // does not contain the verdict.
 func w3cRowOtherVerdict(other map[string]any, ov string, evidence map[string]map[string]any, resolves map[string]any, out w3cRejects) {
 	domain, hasDomain := other["domain"]
@@ -891,8 +896,8 @@ func w3cDigestReferenced(observation map[string]any) bool {
 	return ok && isStr(reference["sha256"])
 }
 
-// w3cRowsEvidenceForm: the form rows, decidable from the object alone: row 14
-// (proposed), a declared arity, a restated domain.
+// w3cRowsEvidenceForm: the form rows, decidable from the object alone: row 14,
+// a declared arity, a restated domain.
 func w3cRowsEvidenceForm(item map[string]any, out w3cRejects) {
 	moved, _ := stringList(item["moved"])
 	observations, _ := item["observations"].([]any)
@@ -1111,6 +1116,7 @@ func w3cClaimHolds(name string, claim map[string]any, checks []map[string]any, c
 		"accounting": counts["declared"],
 		"execution":  counts["declared"],
 		"evidence":   counts["pass"] + counts["fail"],
+		w3cNoVoid:    counts["declared"],
 	}
 	value, _ := claim["claim"].(string)
 	if !numberEquals(claim["population"], populations[name]) || !w3cClaims[value] {
@@ -1123,6 +1129,8 @@ func w3cClaimHolds(name string, claim map[string]any, checks []map[string]any, c
 		return true
 	}
 	switch name {
+	case w3cNoVoid:
+		return counts["void"] == 0
 	case "execution":
 		return counts["exercised"] == counts["declared"]
 	case "evidence":
@@ -1152,6 +1160,12 @@ func w3cRowsCompleteness(rollup map[string]any, checks []map[string]any, counts 
 		if !ok || !w3cClaimHolds(name, claim, checks, counts) {
 			out.add(23)
 			return
+		}
+	}
+	if raw, present := claims[w3cNoVoid]; present {
+		claim, ok := raw.(map[string]any)
+		if !ok || !w3cClaimHolds(w3cNoVoid, claim, checks, counts) {
+			out.add(23)
 		}
 	}
 }
@@ -1214,7 +1228,7 @@ var w3cShapes = func() map[string]bool {
 	return out
 }()
 
-// w3cRowControlBinding is rule 29 (proposed): a control ran under the checker
+// w3cRowControlBinding is rule 29, v0.1 section 5.4: a control ran under the checker
 // and constraint set of the checks it speaks for. It is read only where both
 // the control and the run declare the binding, so a binding that differs from
 // the run's is refused and a missing one is not.

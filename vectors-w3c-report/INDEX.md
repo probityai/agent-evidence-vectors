@@ -1,15 +1,15 @@
 # Conformance vectors (v0.1 per-check report)
 
 Every member of this suite in one table, rejected and accepted alike. Ground
-truth: 14 texts vendored in `spec-vendored/` and pinned by sha256 in
-`MANIFEST.json`: 12 messages of the W3C public-agent-conformance list that
+truth: 16 texts vendored in `spec-vendored/` and pinned by sha256 in
+`MANIFEST.json`: 14 messages of the W3C public-agent-conformance list that
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 232 vectors, of which 116 a conformant verifier must not fail closed
-on and 116 it must reject.
+This corpus is 235 vectors, of which 117 a conformant verifier must not fail closed
+on and 118 it must reject.
 
-**Three subject types, one manifest.** 166 members are whole
+**Three subject types, one manifest.** 169 members are whole
 v0.1 reports, judged by the rows of the format; 44
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
@@ -61,49 +61,51 @@ the same lines.
 | `0073` | Evgenii Arsentev | `spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt` | `42fa833367e0e1d5` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0073.html |
 | `0076` | Roel Schuurkes | `spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt` | `7622d0dc1cf7fc1d` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0076.html |
 | `0077` | Nicolas Rocchia | `spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt` | `88531111f9d8c424` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0077.html |
+| `0087` | Evgenii Arsentev | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `35625d73baa56f27` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0087.html |
+| `0088` | Roel Schuurkes | `spec-vendored/0088-schuurkes-2026-09-30-v01-row4.txt` | `d22914e6146f1fb1` | https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0088.html |
 | `draft-arsentev-agent-run-metrics-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `0ef9e7fbc39d04bf` | https://datatracker.ietf.org/doc/draft-arsentev-agent-run-metrics/ |
 | `draft-arsentev-llm-context-discovery-00` | Evgenii Arsentev | `spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | `13081268c70a19e9` | https://datatracker.ietf.org/doc/draft-arsentev-llm-context-discovery/ |
 
 ## Requirements
 
-The class column is the handover's sort of the rows: consistency rows read
+The class column is the sort of v0.1 section 2.2: consistency rows read
 declared slots against each other, evidence rows read a declared slot against
 a recomputed or resolved one, form rows are decidable from the object alone.
-The status column says whether the list agreed the row or this corpus proposes
-it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
-13, which the handover left unclassified).
+Section 4 of v0.1 numbers and classes rows 1 to 14. The status column says
+whether the v0.1 text adopts the row (agreed) or only this corpus carries it
+(proposed). Every agreed row is anchored to the v0.1 text, `0087`.
 
 | id | row | class | status | vendored in | sentence digest | normative sentence |
 |---|---|---|---|---|---|---|
-| `W3C-R-001` | 1 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `87893835a3e13451` | a non-verdict state with no cause |
-| `W3C-R-002` | 2 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `05fb9274ff0859d9` | void with not_applicable, out_of_scope or withheld |
-| `W3C-R-003` | 3 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `587e9bc351daaed2` | not-exercised with integrity-failure |
-| `W3C-R-004` | 4 | consistency | proposed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `32dd6b74795b02bd` | a confinement control that failed while the check ran |
-| `W3C-R-005` | 5 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `ed9007c6e8a11eb2` | a declared exclusion with any state but not-exercised |
-| `W3C-R-006` | 6 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `4ef6f3c9383ae454` | a non-verdict state carrying either qualifier |
-| `W3C-R-007` | 7 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `831dc816ea23fa26` | a verdict state carrying a cause |
-| `W3C-R-008` | 8 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `2c6f812fc2752889` | other-verdict foreclosed with discrimination demonstrated |
-| `W3C-R-009` | 9 | consistency | agreed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `111e3eb11cdcc313` | discrimination demonstrated with other-verdict unknown |
-| `W3C-R-010` | 10 | consistency | proposed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `139eba59f4dc4345` | foreclosed without a constraint set and a domain |
-| `W3C-R-011` | 11 | consistency | proposed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `f68cd56a997a5773` | an asserted value without its evidence reference |
-| `W3C-R-012` | 12 | consistency | proposed | `spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt` | `d2268e7db1d50fe5` | whose changed slot is the checker |
-| `W3C-R-013` | (a) roll-up | evidence | agreed | `spec-vendored/0069-arsentev-2026-09-18-late-additions.txt` | `f73fd10347201018` | a roll-up states whether the checks it aggregates were capable of a negative verdict |
-| `W3C-R-014` | (a) prior run | consistency | agreed | `spec-vendored/0069-arsentev-2026-09-18-late-additions.txt` | `2da5682dbbb4be1f` | a prior discriminating run only counts where check identity survives across runs |
-| `W3C-R-015` | (b) set binding | evidence | agreed | `spec-vendored/0069-arsentev-2026-09-18-late-additions.txt` | `c6fe2b8552666e81` | digest match establishes a set only when the count of leaves is bound too, and a report says which tree shape it uses |
-| `W3C-R-016` | declared slots | consistency | agreed | `spec-vendored/0062-arsentev-2026-09-17-editor-freeze-list.txt` | `303d488c14eed0d2` | an object whose moved is not contained in its declared set is rejected |
-| `W3C-R-017` | roll-up denominator | evidence | agreed | `spec-vendored/0060-rocchia-2026-09-16-freeze-list.txt` | `526d7694de57f6c5` | never emitted without its complete denominator |
-| `W3C-R-018` | roll-up counter | evidence | agreed | `spec-vendored/0060-rocchia-2026-09-16-freeze-list.txt` | `31c3dfd19fc59147` | the counter over carried against referenced |
-| `W3C-R-019` | closed vocabulary | form | agreed | `spec-vendored/0025-rocchia-2026-09-13-state-cause-pair-table.txt` | `1b376a60d7520ff7` | because free text does not aggregate |
-| `W3C-R-020` | reference mismatch | evidence | agreed | `spec-vendored/0062-arsentev-2026-09-17-editor-freeze-list.txt` | `af507f1056e619da` | resolves with a mismatch (an integrity failure) |
-| `W3C-R-021` | recomputed delta | evidence | agreed | `spec-vendored/0050-ives-2026-09-15-recomputed-delta.txt` | `bc4afdb28cee9c30` | they read moved as recomputed from the two observations the object names |
-| `W3C-R-022` | coverage block | form | agreed | `spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | `50c6f490bcf092b2` | a sampled / full_coverage flag with the count of scannable files recorded before the per-repo cap |
-| `W3C-R-023` | population denominator | evidence | agreed | `spec-vendored/0036-arsentev-2026-09-14-discrimination-and-populations.txt` | `04fa2499c017be72` | a claim over an empty population is reported as not claimable, not as satisfied |
-| `W3C-R-024` | delta-related pair | consistency | agreed | `spec-vendored/0036-arsentev-2026-09-14-discrimination-and-populations.txt` | `d75ca465cf824295` | Unrelated pass and fail records in one corpus must not qualify |
-| `W3C-R-025` | 13 (proposed) | evidence | proposed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `01119b86460f6112` | other-verdict demonstrated citing an evidence object whose moved does not contain the verdict |
-| `W3C-R-026` | 14 (proposed) | form | proposed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `021af13381601bcf` | 14 moved asserted on an evidence object that neither carries both observations nor references them with digests |
-| `W3C-R-029` | (a) control binding | consistency | proposed | `spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt` | `c3507c44c022f601` | say that the control uses the same checker revision and relevant configuration and constraints as the checks whose negative capability is being reported |
-| `W3C-R-027` | arity recomputed | form | agreed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `8d4a3be209be152c` | so arity is recomputed from the delta |
-| `W3C-R-028` | domain once | form | agreed | `spec-vendored/0072-rocchia-2026-09-18-handover.txt` | `fc883a4e2664fb33` | The domain is declared once at run level |
+| `W3C-R-001` | 1 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `87893835a3e13451` | a non-verdict state with no cause |
+| `W3C-R-002` | 2 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `05fb9274ff0859d9` | void with not_applicable, out_of_scope or withheld |
+| `W3C-R-003` | 3 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `587e9bc351daaed2` | not-exercised with integrity-failure |
+| `W3C-R-004` | 4 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `fa7afadb72dcc56f` | cause confinement-failed-during-check with any       state but void |
+| `W3C-R-005` | 5 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `2824f710983d7d64` | a declared exclusion with any state but       not-exercised |
+| `W3C-R-006` | 6 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `4ef6f3c9383ae454` | a non-verdict state carrying either qualifier |
+| `W3C-R-007` | 7 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `831dc816ea23fa26` | a verdict state carrying a cause |
+| `W3C-R-008` | 8 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `971c3d8c232fe9dc` | other-verdict foreclosed with discrimination       demonstrated |
+| `W3C-R-009` | 9 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `4cb5ee4206feba7a` | discrimination demonstrated with other-verdict       unknown or possible-not-demonstrated |
+| `W3C-R-010` | 10 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `139eba59f4dc4345` | foreclosed without a constraint set and a domain |
+| `W3C-R-011` | 11 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `82c27c355fd56b7d` | an asserted value without its evidence reference,       on either field, foreclosed included |
+| `W3C-R-012` | 12 | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `6931e04547093403` | discrimination demonstrated citing an evidence       object whose changed slot is the checker |
+| `W3C-R-025` | 13 | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `75f4aaa3f705171a` | 13 other-verdict demonstrated citing an evidence object whose       moved does not contain the verdict |
+| `W3C-R-026` | 14 | form | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `2f6eb3b103bf0ce1` | 14 moved asserted on an evidence object that neither carries both       observations nor references them with digests |
+| `W3C-R-019` | 1.2 closed vocabulary | form | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `c0c29df61ecbc5f4` | Free text is refused in place of a disposition |
+| `W3C-R-024` | 1.3 delta-related pair | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `5a597f4b8de5f831` | Unrelated pass and fail records in one corpus do not qualify |
+| `W3C-R-016` | 2 declared slots | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `913913ec0dc014c2` | an object whose moved is not contained in its declared compared set is rejected |
+| `W3C-R-021` | 2 recomputed moved | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `67d001c7a474766f` | moved is recomputed, not declared |
+| `W3C-R-027` | 2 arity recomputed | form | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `7ad91a2f2b6ce5f0` | arity is recomputed from the delta |
+| `W3C-R-028` | 2 domain once | form | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `88ed23692510e454` | The domain is a declared object, declared once at run level |
+| `W3C-R-020` | 3 reference mismatch | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `30544d50d0ecb7ca` | resolves, digests differ integrity failure |
+| `W3C-R-015` | 3.1 set binding | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `bae0f589fd14116e` | A digest match establishes a set only when the count of leaves is bound into what is signed or hashed, and a report MUST declare which tree shape it uses |
+| `W3C-R-017` | 5.1 denominator | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `9f8ec623178bd2fc` | It is never emitted without its complete denominator |
+| `W3C-R-023` | 5.2 population | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `7e37adc3e17eea94` | A claim over an empty population is reported as not claimable, not as satisfied |
+| `W3C-R-018` | 5.3 counter | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `f3cd13017eef9aab` | carried against referenced is recomputable by anyone holding the report and cannot be understated |
+| `W3C-R-013` | 5.4 roll-up | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `9b00061b244165aa` | A roll-up states whether the checks it aggregates were capable of producing a negative verdict |
+| `W3C-R-014` | 5.4 prior run | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `cc10241a9f88472c` | A prior run only counts where check identity survives across     runs |
+| `W3C-R-029` | 5.4 control binding | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `4160b21d27d64e6a` | The control runs under the same checker revision and the same     relevant configuration and constraints as the declared checks     whose negative capability it is reported for |
+| `W3C-R-022` | coverage block | form | proposed | `spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | `50c6f490bcf092b2` | a sampled / full_coverage flag with the count of scannable files recorded before the per-repo cap |
 | `ARM-R-001` | 5.1 | - | - | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `f313511759b2f6ce` | Reporter MUST emit "1" while conforming to this specification |
 | `ARM-R-002` | 3.1 | - | - | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `a82c8c4e90b439d6` | The "end" member MUST be present when "status" is "completed",    "failed" or "aborted", and MUST NOT be present when "status" is    "running" |
 | `ARM-R-003` | 3.1 | - | - | `spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | `1651e4aa28aef3c5` | When present, "end" MUST NOT be earlier than "start" |
@@ -154,11 +156,11 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `w3c-f-10` | row 10: foreclosed without its constraint set and domain |
 | `w3c-f-11` | row 11: an asserted qualifier value without its evidence reference |
 | `w3c-f-12` | row 12: discrimination demonstrated citing evidence whose changed slot is the checker |
-| `w3c-f-13` | late addition (a): a roll-up says whether its checks could have gone negative |
-| `w3c-f-14` | late addition (a): a prior discriminating run binds the check identity that survived |
-| `w3c-f-15` | late addition (b): a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix |
+| `w3c-f-13` | section 5.4: a roll-up says whether its checks could have gone negative |
+| `w3c-f-14` | section 5.4: a prior discriminating run binds the check identity that survived |
+| `w3c-f-15` | section 3.1: a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix |
 | `w3c-f-16` | declared slots: moved is contained in the declared compared set |
-| `w3c-f-29` | late addition (a), amended in the comment window: a control built to fail is bound to the checker and constraint set of the checks it speaks for |
+| `w3c-f-29` | section 5.4: a control built to fail is bound to the checker and constraint set of the checks it speaks for |
 | `w3c-f-17` | roll-up: the aggregate carries its complete denominator |
 | `w3c-f-18` | roll-up: the counter over carried against referenced recomputes |
 | `w3c-f-19` | closed vocabulary: a value outside a registry is not read |
@@ -167,8 +169,8 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `w3c-f-22` | coverage block: scope disclosure in controlled fields, with the pre-cap file count |
 | `w3c-f-23` | population denominator: a completeness claim carries the size of its population |
 | `w3c-f-24` | delta-related pair: unrelated pass and fail records do not witness discrimination |
-| `w3c-f-25` | row 13 (proposed): other-verdict demonstrated citing an object whose recomputed moved does not contain the verdict; unresolvable, the row degrades |
-| `w3c-f-26` | row 14 (proposed): moved asserted on an object that neither carries its observations nor references them with digests |
+| `w3c-f-25` | row 13: other-verdict demonstrated citing an object whose recomputed moved does not contain the verdict; unresolvable, the row degrades |
+| `w3c-f-26` | row 14: moved asserted on an object that neither carries its observations nor references them with digests |
 | `w3c-f-27` | arity: recomputed from the delta, never declared |
 | `w3c-f-28` | domain: declared once at run level, named by identifier and never restated |
 | `w3c-f-gaps` | the two known gaps of the reference emitter, closed: void has a slot and not-exercised carries a cause |
@@ -229,6 +231,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v32c1e0be1a7bf104` | reject | agent-run-metrics | arm-f-run | ARM-R-016 | ARM-R-016 |
 | `v32c6afab9eb5888a` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v36999d5568e9aacf` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
+| `v37729703d471ba9b` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `v388dee224f53c2c1` | reject | llm-context-discovery | lcd-f-publisher | LCD-R-005 | LCD-R-005 |
 | `v3a14f94887e53e0d` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v3add8861d36c2543` | reject | agent-run-metrics | arm-f-steps | ARM-R-008 | ARM-R-008 |
@@ -261,6 +264,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `v67727ceb5f2f7932` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v67e996a3fa03e959` | reject | report | w3c-f-22 | W3C-R-022 | W3C-R-022 |
 | `v696c5dd5918c854b` | reject | agent-run-metrics | arm-f-run | ARM-R-002 | ARM-R-002 |
+| `v6b1ea60273861c5a` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `v6cd84ff1aea45153` | reject | report | w3c-f-20 | W3C-R-020 | W3C-R-020 |
 | `v6cfd1d72b49d8853` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `v70533f1029ed78e6` | reject | llm-context-discovery | lcd-f-consumer | LCD-R-009 | LCD-R-009 |
@@ -358,6 +362,7 @@ it (the numbering of rows 13 and 14, and the class of rows 4, 10, 11, 12 and
 | `vd02cc7abe1dbc2bf` | reject | agent-run-metrics | arm-f-usage | ARM-R-011 | ARM-R-011 |
 | `vd1eb6a3fb13eb97d` | reject | report | w3c-f-12 | W3C-R-012 | W3C-R-012 |
 | `vd27e483fe63e78c0` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `vd2a25cb35e1b8bce` | accept | report | w3c-f-23 | W3C-R-023 | none |
 | `vd2ae28ba9140bc89` | reject | report | w3c-f-28 | W3C-R-028 | W3C-R-028 |
 | `vd2e50306dcd6c470` | reject | report | w3c-f-23 | W3C-R-023 | W3C-R-023 |
 | `vd302fdc2d7a97e6e` | reject | agent-run-metrics | arm-f-serialization | ARM-R-018 | ARM-R-018 |

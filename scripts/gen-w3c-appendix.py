@@ -7,9 +7,9 @@
 The appendix is the conformance set for v0.1 of the W3C public-agent-conformance
 reporting format, in the form the editor can reference: every rejection row
 with the vector that must be rejected under it and the vector that must pass,
-the sentence the row binds to and that sentence's digest, the class of each row
-under the handover's sort, and the proposed classification of the five rows the
-handover left unclassified, each with its vector pair under it. Every
+the sentence of the v0.1 text the row binds to and that sentence's digest, the
+class of each row under the v0.1 sort, and the reasoning behind the five
+classes v0.1 settled in its comment window, each with its vector pair under it. Every
 identifier in it is a function of the vectors' own bytes, so the file is
 rendered from the manifest rather than typed, and the regenerability gate
 refuses a copy that drifted from the corpus.
@@ -33,22 +33,20 @@ TARGET = REPO / "docs" / "W3C-V01-CONFORMANCE-APPENDIX.md"
 ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
 
 SECTIONS = (
-    ("The twelve rejection rows", [ROW[n] for n in range(1, 13)]),
-    ("Rows 13 and 14, under the numbering the handover proposes", [ROW[25], ROW[26]]),
-    ("The two late additions of 18 September", [ROW[13], ROW[14], ROW[15]]),
-    ("The rules the freeze list and the editor's restatement carry", [ROW[n] for n in range(16, 21)]),
-    ("The rules the thread settled beside the table", [ROW[n] for n in range(21, 25)]),
-    ("Arity and domain, from the handover's record definitions", [ROW[27], ROW[28]]),
-    ("Proposed in the v0.1 comment window", [ROW[29]]),
+    ("Section 4: the rejection table, rows 1 to 14", [*(ROW[n] for n in range(1, 13)), ROW[25], ROW[26]]),
+    ("Sections 1 and 2: the record and the evidence object", [ROW[19], ROW[24], ROW[16], ROW[21], ROW[27], ROW[28]]),
+    ("Section 3: carry or reference, and digests over a collection", [ROW[20], ROW[15]]),
+    ("Section 5: the roll-up", [ROW[17], ROW[23], ROW[18], ROW[13], ROW[14], ROW[29]]),
+    ("Carried by this corpus and not by the v0.1 text", [ROW[22]]),
 )
 
-#: The five rows the handover left unclassified, each classified here with its
-#: rationale read off the record definitions, in the handover's own terms.
-UNCLASSIFIED = (ROW[4], ROW[10], ROW[11], ROW[12], ROW[25])
+#: The five rows the handover left unclassified and v0.1 section 4 classes,
+#: each with the reading behind its class and the pair that shows it.
+SETTLED_IN_WINDOW = (ROW[4], ROW[10], ROW[11], ROW[12], ROW[25])
 
 RATIONALE = {
     ROW[4]: (
-        "**Consistency.** The row reads the record's own `cause` cell against its `state`, the same construction as row 3, which reads the cause value `integrity-failure` against `not-exercised`. The fact that a confinement control failed while the check ran is written as the cause value `confinement-failed-during-check`, admitted only under `void`, so the four-field record of section 1 carries no extra cell for it. That answers the question Schuurkes put on the list of how the antecedent is represented for a reader (`0076`), with the construction Rocchia proposed in reply (`0077`). Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires the row from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). The reject member is `inconclusive` rather than `fail`, because a verdict state carrying any cause is also row 7 and a member is rejected under one row only. What a row over declarations cannot establish, as Schuurkes noted, is that a producer disclosed every confinement control that failed. The value's name is proposed, pending the editor's v0.1 text."
+        "**Consistency.** The row reads the record's own `cause` cell against its `state`, the same construction as row 3, which reads the cause value `integrity-failure` against `not-exercised`. The fact that a confinement control failed while the check ran is written as the cause value `confinement-failed-during-check`, admitted only under `void`, so the four-field record of section 1 carries no extra cell for it. That answers the question Schuurkes put on the list of how the antecedent is represented for a reader (`0076`), with the construction Rocchia proposed in reply (`0077`). Nothing is recomputed and nothing is resolved; a reader with no suite and no checker fires the row from the record alone, and the reject member below fires under a reader that resolves nothing (`resolvedRead` false in the manifest). The reject member is `inconclusive` rather than `fail`, because a verdict state carrying any cause is also row 7 and a member is rejected under one row only. What a row over declarations cannot establish, as Schuurkes noted, is that a producer disclosed every confinement control that failed. v0.1 admits the value in section 1.2 and rewords row 4 to read it in section 4 (`0087`, change log entries 4, 7 and 9), and Schuurkes confirmed the construction the same day, so the reversion the change log held open does not apply (`0088`)."
     ),
     ROW[10]: (
         "**Consistency.** The row reads a declared value, `foreclosed`, against the presence of the two parameters that value must carry, the constraint set and the domain identifier. The handover's own sort settles what a presence check within one record is: rows 1 and 7 are presence checks (a non-verdict state with no cause; a verdict state with a cause) and both sit in the consistency class. Row 10 is the same reading applied to the other-verdict cell, so it takes the same class. It is not a form row, because the object's shape is fine; what contradicts is the value and its own arguments."
@@ -68,25 +66,27 @@ INTRO = """# Conformance appendix for v0.1 of the reporting format
 
 This is the conformance set for v0.1 of the per-check reporting format of the W3C public-agent-conformance community group, written so that an editor can reference it by row and an implementer can run it without reading the thread. Every row of the rejection table is backed by two members of the corpus `vectors-w3c-report/` in the `agent-evidence-vectors` repository: one report that a conforming validator must reject under that row and no other, and one report, as close to it as one change allows, that the validator must accept. The corpus judges itself with two independent readers, one in Go and one in Python, and a test holds their output identical over the committed members and over deliberately broken copies. An implementation conforms to v0.1 when it rejects every reject member under the row the member names and accepts every accept member; that is the whole test, and it is runnable with nothing installed.
 
-The rows are the group's, as the editor fixed the scope on 18 September from the handover of the same day. Rows 1 to 12 are the consolidated table of 15 September and keep their numbers. Rows 13 and 14 are carried under the numbering the handover proposes and are marked proposed, because nobody on the list has numbered them. The two late additions the editor took into sections 3 and 4, the rules the completed freeze list and the editor's restatement carry, the rules the thread settled beside the table, and the two record-definition rules of the handover (arity recomputed, domain declared once) are carried under their own identifiers with no row number, so that a later numbering costs nothing here. A row's identifier is minted by the corpus and bound to a sentence of the vendored message by digest, because the messages carry no identifiers and a message number names a position rather than a sentence. A reword of the sentence stops the corpus from building, which is the property that makes the identifier citable.
+The rows are the group's, as the v0.1 text states them (`0087`, the list archive copy the text names as canonical). Rows 1 to 14 are the table of section 4, which keeps the numbers of rows 1 to 12, numbers rows 13 and 14, and classes all fourteen. The other rules the corpus carries are the ones v0.1 states outside the table, in sections 1, 2, 3, 3.1 and 5, each under its own identifier with no row number and anchored to the section that states it. A row's identifier is minted by the corpus and bound to a sentence of the vendored text by digest, because the text carries no identifiers and a section number names a position rather than a sentence. A reword of the sentence stops the corpus from building, which is the property that makes the identifier citable.
+
+Section 10 of v0.1 is the conformance clause this appendix serves: "An implementation conforms to v0.1 when it rejects every reject member of vectors-w3c-report at corpusDigest <open, O2> under the row that member names, and accepts every accept member. That digest is listed in the signed CORPUS-DIGESTS.txt of the release that carries it." The digest it leaves open is the one of the release cut once text and corpus agree; this corpus, as rendered here, carries `corpusDigest` `{digest}`. The corpus digest is computed over the member files alone, so anchoring a row to a new sentence or changing its status leaves it unchanged; the manifest that carries anchors and status is pinned beside it in the same signed list.
 
 A member of the corpus is a whole report rather than one record, because two of the rules are properties of the report and not of any record in it: whether the roll-up says its checks were capable of a negative verdict, and whether the digest over the check set binds the leaf count and names the tree shape. Every report member also carries `resolves`, the store its reader resolves referenced observations against, so that the reading table's three lines are all members of the corpus rather than prose. The corpus carries the two gaps the editor recorded about the reference emitter on 18 September, that `void` had no slot and that `not-exercised` carried no cause, as members that show both closed, and it carries the 42 delta-related pairs Rocchia counted in his own corpus, each once as it was emitted before the freeze and once re-cut against v0.1. A mutation sweep, regenerated with the vectors and published beside them, relaxes each row in turn and records that only the members naming it flip.
 
 ## How to read a row
 
-The reject member's `subject` is the report; its `expected.rejects` names the one row; the accept member differs from it by the smallest change that satisfies the row. Both cite the requirement in `requirements`, so a specification change that reworded the sentence would fail the pair by name. The class column is the handover's sort: a consistency row reads declared slots against each other and catches a contradiction; an evidence row reads a declared slot against a recomputed or resolved one and catches a falsehood; a form row is decidable from the object alone. The status column says whether the list agreed the row or this corpus proposes it. The sentence column quotes the vendored text with its line break where the sentence spans one; the digest column is the first sixteen hex digits of the SHA-256 over those bytes, and the full digest is in the manifest.
+The reject member's `subject` is the report; its `expected.rejects` names the one row; the accept member differs from it by the smallest change that satisfies the row. Both cite the requirement in `requirements`, so a specification change that reworded the sentence would fail the pair by name. The class column is the sort of v0.1 section 2.2: a consistency row reads declared slots against each other and catches a contradiction; an evidence row reads a declared slot against a recomputed or resolved one and catches a falsehood; a form row is decidable from the object alone. The status column says whether the v0.1 text adopts the row (agreed) or only this corpus carries it (proposed). The sentence column quotes the vendored text with its line break where the sentence spans one; the digest column is the first sixteen hex digits of the SHA-256 over those bytes, and the full digest is in the manifest.
 """
 
 CLASSIFICATION_INTRO = """
-## Proposed classification of rows 4, 10, 11, 12 and 13
+## The classes of rows 4, 10, 11, 12 and 13
 
-The handover sorts rows 1, 2, 3, 5, 6, 7, 8 and 9 into the consistency class and row 14 into the form class, and leaves five rows unclassified: 4, 10, 11, 12 and 13. Each of the five is classified here from the record definitions in the handover's own terms, with the vector pair that demonstrates the class under it. The part of the class a validator can measure is measured: every reject member of the corpus is re-judged by a reader that resolves nothing, and a row whose members stop firing reads a resolved slot (`resolvedRead` in the manifest). Rows 4, 10, 11 and 12 fire under that reader; row 13 does not.
+The handover left five rows unclassified: 4, 10, 11, 12 and 13. Section 4 of v0.1 classes 4, 10, 11 and 12 as consistency and 13 as evidence, on the reading that the class follows what the row reads (change log entry 9; section 8.2). The reading behind each class is below, with the vector pair that demonstrates it. The part of the class a validator can measure is measured: every reject member of the corpus is re-judged by a reader that resolves nothing, and a row whose members stop firing reads a resolved slot (`resolvedRead` in the manifest). Rows 4, 10, 11 and 12 fire under that reader; row 13 does not.
 """
 
 VOID = """
 ## The value for void
 
-The fixed vocabulary is CAP-1's eight dispositions, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`, and this corpus adds one more under void, proposed with row 4: `confinement-failed-during-check`, the cause row 4 reads against the state. The list named the void slot and never its value. This corpus proposes `evidence-does-not-hold`, in the words of the message that found the gap: void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member. The name is proposed, not agreed; any closed identifier the list prefers replaces it in one constant on each rail.
+The cause vocabulary of v0.1 section 1.2 is CAP-1's eight dispositions with three changes made on the list, a value for void, `integrity-failure` kept apart from `availability-failure`, and `precondition-unsatisfiable`, and one made in the comment window, `confinement-failed-during-check`, admitted only under void, which row 4 reads against the state. The value for void is `evidence-does-not-hold` (section 1.2; section 8.3; change log entry 3): void is a unit that was examined and whose evidence does not hold up. The reference emitter writes it for a harness that could not establish a verdict, and family `w3c-f-gaps` carries the member.
 """
 
 READING_TABLE = """
@@ -98,13 +98,13 @@ Carry-or-reference is fixed as: the format permits both and requires one, the fo
 TREE_SHAPES = """
 ## The tree shapes, as a closed set
 
-Section 3.1 of the v0.1 draft requires a report to declare which tree shape its digest over a collection uses and leaves the vocabulary open (Q7). This corpus holds it closed, for the reason the cause vocabulary is closed: free text does not aggregate. The set is {shapes}. `RFC9162_SHA256` is the identifier RFC 9942 section 5.1 registers for the Merkle tree of RFC 9162 section 2.1.1 over SHA-256, whose tree hash is the RFC 6962 one, so the two names denote one construction and a report may use either. Its admission is proposed, following the closed, versioned set of construction identifiers Schuurkes asked for on the list, and it enters with its members: in `w3c-f-15` an accept member bound under `RFC9162_SHA256` and a reject member naming the same tree in free text, and in `w3c-f-20` a reject member whose `RFC9162_SHA256` root was computed over a duplicated last leaf with its accepting twin. Each reader maps every name in the set to its own root function and refuses any other name, so a shape outside the set can never be hashed as one inside it.
+Section 3.1 of v0.1 requires a report to declare which tree shape its digest over a collection uses, as an identifier from a closed, versioned set of tree construction and hash identifiers and not as free text, and it defines the v0.1 set as the members that have a vector pair in the corpus section 10 cites (open item O3). The set is {shapes}. `RFC9162_SHA256` is the identifier RFC 9942 section 5.1 registers for the Merkle tree of RFC 9162 section 2.1.1 over SHA-256, whose tree hash is the RFC 6962 one, so the two names denote one construction and a report may use either. It enters with its members, as section 3.1 requires: in `w3c-f-15` an accept member bound under `RFC9162_SHA256` and a reject member naming the same tree in free text, and in `w3c-f-20` a reject member whose `RFC9162_SHA256` root was computed over a duplicated last leaf with its accepting twin. Each reader maps every name in the set to its own root function and refuses any other name, so a shape outside the set can never be hashed as one inside it.
 """
 
 COUNTS = """
 ## The counts on open row B, labelled as the editor labels them
 
-Row B, whether a stated delta is bounded to one field, stays open, and the editor carries the figures with the standing each has. The 42 one-field pairs in the disensor corpus are reproducible: `tools/emitir-42.py` in `NicolasRocchia/disensor` runs the pinned checker over every vector, and this corpus's own derivation (`origin/derive_pairs.py`) and a re-run of that script on 18 September both give 42 (v0.2 4, v0.3 16, v0.4 22), 0 carried against 84 referenced, 69 errors serialised as strings, 0 vectors disagreeing with their declared expectation. The 0 (MUST-FAIL pairs with different fired-rule lists at one field) and the 132 (at two fields) come from a script that is not published, and the editor attributes those two to their author rather than presenting them as reproducible. Sankalp's 252 at v0.11.1 sits beside them with the same labelling, and it is reproducible: of the 315 reject entries across the eight manifests of `agent-evidence-vectors` at tag `v0.11.1`, 269 carry an `expected.codes` list and 252 of those hold exactly one code. Re-derive it from a clone with the tag fetched:
+Row B, whether a stated delta is bounded to one field, stays open in v0.1 (section 7.2, open item O1), and the text carries the figures with the standing each has. The 42 one-field pairs in the disensor corpus are reproducible: `tools/emitir-42.py` in `NicolasRocchia/disensor` runs the pinned checker over every vector, and this corpus's own derivation (`origin/derive_pairs.py`) and a re-run of that script on 18 September both give 42 (v0.2 4, v0.3 16, v0.4 22), 0 carried against 84 referenced, 69 errors serialised as strings, 0 vectors disagreeing with their declared expectation. The 0 (MUST-FAIL pairs with different fired-rule lists at one field) and the 132 (at two fields) come from a script that is not published, and the editor attributes those two to their author rather than presenting them as reproducible. Sankalp's 252 at v0.11.1 sits beside them with the same labelling, and it is reproducible: of the 315 reject entries across the eight manifests of `agent-evidence-vectors` at tag `v0.11.1`, 269 carry an `expected.codes` list and 252 of those hold exactly one code. Re-derive it from a clone with the tag fetched:
 
 ```
 python3 - <<'EOF'
@@ -141,7 +141,7 @@ The same manifest carries members of two other subject types, judged by their ow
 EMITTER_RUN = """
 ## Section 9.1: the reference emitter's run, published
 
-The v0.1 draft records as a known gap (section 9.1) the report the reference emitter writes over the adversarial-execution corpus, and asks for a check by a second reader. That report is published beside this corpus, pinned in the manifest's `referenceEmitterRuns` and re-judged by both readers on every run, which refuse the corpus if the file is gone, its bytes have changed, or the validator would reject it. It is kept apart from `observedRuns`, which is reserved for runs by an implementation this repository did not write.
+Section 9.1 of v0.1 records the report the reference emitter writes over the adversarial-execution corpus as published and re-run by its author, with a second reader's re-run still to come (open item O5). That report is published beside this corpus, pinned in the manifest's `referenceEmitterRuns` and re-judged by both readers on every run, which refuse the corpus if the file is gone, its bytes have changed, or the validator would reject it. It is kept apart from `observedRuns`, which is reserved for runs by an implementation this repository did not write.
 
 {runs}
 """
@@ -206,7 +206,7 @@ def classification(manifest: dict[str, Any]) -> str:
     requirements = {r["id"]: r for r in manifest["requirements"]}
     cites = {e["id"]: e["cites"] for e in manifest["vectors"]}
     parts = [CLASSIFICATION_INTRO]
-    for row in UNCLASSIFIED:
+    for row in SETTLED_IN_WINDOW:
         req = requirements[row]
         rejects, accepts = members_for(manifest, row)
         parts.append(f"\n### Row {req['row']}, `{row}`: {req['sentence'].replace(chr(10), ' ')}\n\n")
@@ -217,8 +217,19 @@ def classification(manifest: dict[str, Any]) -> str:
     return "".join(parts)
 
 
+DIFFERENCES = """
+## Where this corpus and the v0.1 text still differ
+
+Section 10 says the text governs where the two differ until the digest is filled in. Three places remain, each stated so a reader can weigh it.
+
+- `W3C-R-022`, the coverage block of `0001`, is not in the v0.1 text. Its members fire only on a report that carries a `coverage` block, and an implementation of v0.1 alone has no reason to reject them. It is marked proposed.
+- The members of subject types `agent-run-metrics` and `llm-context-discovery` are judged by the sentences of the two Internet-Drafts the editor holds, not by v0.1. They are in the same manifest and so under the same digest.
+- Section 5.4 binds a control built to fail to the checker revision and configuration of the checks it speaks for. `W3C-R-029` refuses a binding that differs from the one the run declares; a run that declares none is not refused, because v0.1 fixes no slot for it and the fixture record that would carry `checker_revision` and `config_digest` is not normative (section 5.5, open item O7).
+"""
+
+
 def render(manifest: dict[str, Any]) -> str:
-    parts = [INTRO]
+    parts = [INTRO.replace("{digest}", manifest["corpusDigest"])]
     for heading, rows in SECTIONS:
         parts.append(f"\n## {heading}\n\n{table(manifest, rows)}\n")
     parts.append(classification(manifest))
@@ -228,6 +239,7 @@ def render(manifest: dict[str, Any]) -> str:
     parts.append(TREE_SHAPES.format(shapes=shapes))
     parts.append(COUNTS)
     parts.append(emitter_runs(manifest))
+    parts.append(DIFFERENCES)
     parts.append(OUTRO)
     for prefix, heading in (("ARM-R-", "Run object rows"), ("LCD-R-", "Discovery snapshot rows")):
         rows = [r["id"] for r in manifest["requirements"] if r["id"].startswith(prefix)]

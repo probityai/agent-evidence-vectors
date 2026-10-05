@@ -1,0 +1,967 @@
+Hi all,
+
+v0.1 is out today. Text and change log are below. Biggest change -
+section 5.4 now requires a real fail from a control run under the same
+checker and configuration (Roel's change). Thanks Roel, Nicolás,
+Sankalp, Kenne, Nicholas, Anton, Guigui.
+
+I'd welcome Sankalp as co-editor if the group has no objection.
+Sankalp, you are not on the CG participant list yet. If you'd like to
+join, it is here: https://www.w3.org/community/agent-conformance/join
+
+=====================================================================
+Agent Conformance Reporting Format
+v0.1 - 30 September 2026
+=====================================================================
+
+Status. This is v0.1 of the reporting format deliverable of the W3C
+Agent Conformance and Benchmarking Community Group. It is not a W3C
+Standard and is not on the W3C Standards Track. It records what the
+group froze on this list between 16 and 19 September 2026 and the
+comments made on the draft (0075) between 22 and 30 September
+(0076-0086), with the open items published unanswered. Where the
+list still disagrees, both positions are quoted and nothing is
+settled by the editor.
+
+The canonical copy is the list archive (draft Q8: "The list.",
+Nicolás, 0077). At the AIKR chair's request, a pull request adds to
+the AIKR CG repository a pointer to this message, not a copy of the
+text.
+
+Editor: Evgenii Arsentev. Conformance appendix co-editor: Sankalp
+Gilda (agreed 18 September). Sankalp has offered to co-edit the whole
+text (0074, 0078); the editor proposes it, and it takes effect if the
+group and the chair have no objection (who edits is for the editor and
+the chair, Nicolás, 0077).
+
+Citations. A four-digit number is a message in the list archive for
+September 2026, for example 0020 is
+https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0020.html
+Every definition below names whose it is. The change log from the
+draft (0075) to this text is published beside it and cites each
+message by what it said.
+
+Terms. "Rejected" means a conforming validator refuses the object and
+names the row that refused it. "Declared" means written by the
+emitter. "Recomputed" means derived by re-running a pinned checker.
+
+---------------------------------------------------------------------
+1. The per-check record
+---------------------------------------------------------------------
+
+Four fields per check (record as consolidated by Nicolás, 0072):
+
+  state pass | fail | not-exercised | inconclusive | void
+  cause required on the three non-verdict states, absent
+                  on the two verdict states
+  other-verdict unknown | possible-not-demonstrated |
+                  demonstrated(<ref>) |
+                  foreclosed(<constraint set>, <domain>)
+  discrimination unknown | demonstrated(<evidence ref>)
+
+1.1 States (Roel, 0020; wording as restated by Nicolás, 0025)
+
+  pass the check ran and concluded in the affirmative
+  fail the check ran and concluded in the negative
+  not-exercised the check never ran
+  inconclusive the check ran and reached no conclusion
+  void the check ran and its evidence cannot be trusted
+
+The state is what a consumer may conclude, and it is the only field an
+aggregate counts (Roel). "Unavailable" is a cause, not a state, which
+is why it left the 1 September text (Roel, 0020).
+
+1.2 Cause
+
+cause answers "why is there no verdict". Its vocabulary is the eight
+closed dispositions of CAP-1 (draft-hillier-coverage-attestation-00):
+not_applicable, disabled_by_policy, unsupported_input,
+resource_exhausted, failed, unavailable, out_of_scope, withheld;
+with three changes made on this list (Nicolás, 0025):
+
+  - a value for void. Every CAP-1 disposition describes a unit that
+    was not examined or not disclosed; void is a unit that was
+    examined and whose evidence does not hold up. The gap is Roel's
+    (0020). The value is evidence-does-not-hold, the name Sankalp's
+    corpus carried (0074), accepted by Roel (0076) and Nicolás (0077).
+    The name does not do the work of the state: void still separates a
+    check that ran from one that never started (Roel, 0076).
+  - integrity-failure kept separate from availability-failure. A
+    signature that will not verify is a corruption signal; a key set
+    that cannot be fetched is an operations signal. Kenne's seam
+    (0021), crediting Isaac.
+  - precondition-unsatisfiable: the check cannot run because the
+    condition it tests cannot exist in any artifact the emitter is
+    allowed to produce. No surveyed format has it.
+
+and one change made in the comment window on the draft:
+
+  - confinement-failed-during-check, a cause value admitted only under
+    void. It gives row 4 a cell to read: row 4 reads cause against
+    state the way row 3 reads integrity-failure, with nothing added to
+    the record (construction by Nicolás, 0077, answering Roel's
+    question of how the antecedent is represented, 0076 item 3;
+    agreed by Sankalp, 0078). Roel named an explicit cause value as
+    one of the representations under which the row can check
+    consistency with state (0076). As Roel notes, a consistency row
+    over declarations cannot establish that a producer disclosed every
+    failed confinement control, and this value does not claim to.
+
+Free text is refused in place of a disposition, for CAP-1's reason:
+free text does not aggregate.
+
+precondition-unsatisfiable is narrow and is not foreclosure:
+
+  not-exercised + precondition-unsatisfiable
+      the runner never invoked the check
+  pass + foreclosed(...)
+      the check ran on every artifact and could not have failed
+
+1.3 The two qualifiers
+
+other-verdict answers "could this check have produced the other
+verdict, and on what constraint set and input domain". It is read
+against the record's own state: the other verdict of a pass is a
+fail, of a fail is a pass. The field is symmetric, so a gate that
+rejects everything is reportable and "a fail is its own
+demonstration" holds by construction. The symmetric field replaced
+constructibility (Evgenii, 0034, from the question Nicolás asked in
+0025; Kenne agreeing, 0040; rename recorded in 0072 part 1.7).
+
+discrimination answers "did this checker distinguish a changed input
+from the original, and where is the run that shows it".
+
+They are two fields, not one, for Roel's reason: evidence establishing
+foreclosure and evidence demonstrating discrimination establish
+different things. The two qualifiers and their default are Evgenii's:
+unknown on both, and no value is assertable without the artifact
+that carries it.
+
+discrimination demonstrated means (Evgenii, 0036, with projection
+since split, see 2): two observations from the same pinned checker,
+under the same constraints and domain, on two inputs related by a
+stated delta, differing on what moved. Unrelated pass and fail
+records in one corpus do not qualify; the unit is the delta-related
+pair, not the corpus. Evidence where the changed object is the
+checker is attribution, not discrimination (row 12).
+
+---------------------------------------------------------------------
+2. The evidence object
+---------------------------------------------------------------------
+
+Five slots (Evgenii, 0036; projection split per Nicolás and Sankalp,
+0068, 0072):
+
+  changed which object varied: input artifact | checker rule |
+             constraint (0072 part 1.3; input | checker in 0036)
+  fixed named, not implied: checker identity, constraint set,
+             domain
+  compared what was read on both sides
+  moved the subset of compared that differs
+  delta the concrete change
+
+moved is recomputed, not declared. It is recomputed over what the
+referenced observations actually contain, and an object whose moved
+is not contained in its declared compared set is rejected. This is
+Nicolás's version of declaring the record (0072), preferred by Kenne
+(0058) and taken by the editor over his own (0062), which left moved
+at the mercy of the declaration. It also makes visible an emitter
+reporting a difference in something it says it did not look at.
+
+The domain is a declared object, declared once at run level.
+foreclosed and the fixed slot reference it by identifier and no slot
+restates it (Nicolás; Kenne, 0040). This removed a rejection row
+instead of adding one: foreclosure over a domain that is not the
+run's domain can no longer be written.
+
+Arity is not a slot. A declared arity is forgeable the same way a
+declared moved is, so arity is recomputed from the delta (0072).
+
+2.1 The per-slot sort (Nicolás, 0072)
+
+  declared written by the emitter
+  recomputed derived by re-running a pinned checker
+  resolved fetched through a reference and checked
+  recomputed, opaque re-runnable, not machine comparable
+
+The fourth kind came out of Nicolás's emission of 42 objects
+(section 7) and no rejection row reads it (decision, section 6).
+
+2.2 Row classes (Nicolás, 0072)
+
+  consistency rows read declared slots against each other and catch
+                    a contradiction
+  evidence rows read a declared slot against a recomputed or
+                    resolved one and catch a falsehood
+  form rows decidable from the object alone
+
+The per-slot sort governs the evidence class only.
+
+---------------------------------------------------------------------
+3. Carry or reference
+---------------------------------------------------------------------
+
+The format permits both and requires one (Nicolás). An object that
+stays with its corpus can reference; an object that leaves it, handed
+to someone who does not have the suite, has no resolvable reference
+and has to carry. Form is decidable from the object alone and is row
+14 (proposed number).
+
+Reading a well-formed object is a table, not a row, because
+resolvability is a property of the reader and not of the object:
+
+  resolves, digests match moved and arity recompute, rows read
+                              them
+  resolves, digests differ integrity failure
+  does not resolve unchecked; the rows reading moved
+                              degrade
+
+The middle state is kept apart for the reason the cause vocabulary
+keeps integrity apart from availability: an unresolvable reference
+needs someone to supply an artifact, a mismatch needs someone to find
+out which side moved. A reader who cannot resolve the reference
+cannot recompute moved; the digest only tells them whether what they
+did resolve is what the object was written against, which is weaker
+than carrying.
+
+3.1 Digests over a collection
+
+A digest match establishes a set only when the count of leaves is
+bound into what is signed or hashed, and a report MUST declare which
+tree shape it uses. Binding the count is necessary and is not a
+general membership proof. Domain separation added while
+duplicate-last padding is retained does not remove the ambiguity
+between [A,B,C] and [A,B,C,C]; RFC 6962 section 2.1 also uses a
+different recursive tree shape. The text therefore presents neither
+count binding nor domain separation as the fix on its own; it
+requires the declaration. One inclusion proof does not establish
+append-only history.
+
+The declaration is an identifier from a closed, versioned set of
+tree construction and hash identifiers, not free text (Roel, 0076
+item 5; Nicolás, 0077, for the reason 1.2 gives for cause: free text
+does not aggregate, and a tree shape in free text is the same mistake
+one section over). The declaration stays the producer's, which is
+what 0067 asked for (Nicolás, 0077). A member enters the set together
+with a vector pair (Nicolás, 0077). One named member is enough for
+v0.1 (Nicolás, 0077). Roel proposes RFC9162_SHA256 (RFC 9942,
+section 5) as a member; since RFC 6962 already fixes its construction
+and hash, the set need not disallow that identifier, and naming a
+construction does not change the count and proof-scope requirements
+above (Roel, 0076). Sankalp's corpus already fixes tree shape as a
+closed set of two, flat and rfc6962, and he will add RFC9162_SHA256
+with its vector pair (0078). The v0.1 set is the members that have a
+vector pair in the corpus section 10 cites; see O3.
+
+Provenance: Nicholas's forgery against his own public root (0064),
+which passed every per-leaf digest check, every inclusion proof and
+the root comparison and failed only on the leaf count; his own
+narrowing (0070); Nicolás bringing the population-size rule down one
+level, "a digest over a collection is not evidence of membership
+unless the count travels inside what is signed or hashed" (0067);
+editor's commitment (0069, 0073).
+
+---------------------------------------------------------------------
+4. The rejection table
+---------------------------------------------------------------------
+
+Rows 1 to 12 keep their numbers (the list cites them). Consolidated
+by Nicolás on 15 September with later changes applied (0072 part 2).
+
+   1 a non-verdict state with no cause 0020
+   2 void with not_applicable, out_of_scope or withheld 0025
+   3 not-exercised with integrity-failure 0025
+   4 cause confinement-failed-during-check with any
+      state but void 0020; cell per 0077, 0078
+   5 a declared exclusion with any state but
+      not-exercised 0020
+   6 a non-verdict state carrying either qualifier narrowed 0038
+   7 a verdict state carrying a cause widened 0038
+   8 other-verdict foreclosed with discrimination
+      demonstrated now on both verdict states
+   9 discrimination demonstrated with other-verdict
+      unknown or possible-not-demonstrated 0033, reworded
+  10 foreclosed without a constraint set and a domain
+                                             now on both verdict states
+  11 an asserted value without its evidence reference,
+      on either field, foreclosed included extended 0038
+  12 discrimination demonstrated citing an evidence
+      object whose changed slot is the checker new, 0036
+
+Numbered in v0.1 (proposed by Nicolás, 0072; his own +1 did not
+count, 0077; +1 from Sankalp, 0078):
+
+  13 other-verdict demonstrated citing an evidence object whose
+      moved does not contain the verdict was row A
+  14 moved asserted on an evidence object that neither carries both
+      observations nor references them with digests was row C
+
+Row A was contested because projection was defined as what was
+compared and the row read it as what moved; the compared/moved split
+settles it. Row C originally said "resolvably references", which made
+rejection depend on the reader; removing "resolvably" makes it
+decidable from the object alone (Nicolás, 0072 part 2.2).
+
+Row classes:
+
+  consistency 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+  evidence 13
+  form 14
+
+Rows 8 and 9 read two declared qualifiers against each other, which
+is what puts them in the consistency class (Kenne's correction of
+Nicolás's earlier label, 0072 part 2.2). The class follows what the
+row reads (Nicolás, 0077; Sankalp, 0074, 0078): rows 10 and 11 read
+the two qualifiers and row 12 reads changed, all declared cells, so
+they are consistency rows; row 13 reads moved, which is recomputed
+and degrades when references do not resolve, so it is an evidence
+row. Row 4 reads cause against state once confinement failure is a
+cause value under void (1.2), and is a consistency row by the same
+construction as row 3 (Nicolás, 0077; Sankalp, 0078). The handover
+had left these five unclassified (0072 part 2.1); section 8.2 of the
+draft recorded more disagreement on row 12 than there was, since the
+handover had not classified it (Nicolás, 0077). Sankalp's manifest
+makes the sort measurable: one bit per requirement saying whether the
+row read a resolved slot (Nicolás, 0077).
+
+Run-level rejection (Evgenii, 0036, agreed by Nicolás, 0039): a
+report asserting a completeness claim without the count of the
+population it quantifies over.
+
+A rejection vector names the row that rejected it, and asserts on the
+rejection reason rather than on the fact of rejection (Kenne's rule
+isolation applied to the table, 0036).
+
+---------------------------------------------------------------------
+5. The roll-up
+---------------------------------------------------------------------
+
+What a report may add up from the records. Traced by Roel (0059,
+0063); the freeze list completed by Nicolás (0060).
+
+5.1 Aggregate
+  - An aggregate is computed only over declared, exercised checks
+    (Roel, 0007).
+  - It is never emitted without its complete denominator (Roel, 0020;
+    Kenne agreeing, 0021).
+  - Inconclusive and void cannot improve it (Roel, 0007, "unavailable"
+    corrected to "void" in 0020; Kenne, 0021). Inconclusive and void
+    are exercised checks, so "declared and exercised" alone does not
+    cover this (Roel, 0063).
+
+5.2 Completeness claims (Evgenii, 0036)
+Each claim carries the size of the population it counts over:
+
+  accounting completeness population: declared checks
+  execution completeness population: declared checks
+  evidence completeness population: verdict records
+  no declared check is void population: declared checks
+                             (claim: Nicolás, 0039; Kenne, 0040;
+                             population: Roel, 0076; Nicolás, 0077)
+
+A claim over an empty population is reported as not claimable, not
+as satisfied. The fourth claim gives void a count and a cost instead
+of a free-text field. With a nonempty declared set it is satisfied
+when the void count is zero and not satisfied otherwise (Roel, 0076).
+Declared checks is the population named in 0039, where the reason
+given was that none of the three other claims covers void (Nicolás,
+0077).
+
+The fourth claim stays separate from execution completeness. A run
+with a declared check that never started may have no void records and
+still fail execution completeness; a run in which every check ran may
+contain void. Keeping the two apart makes each conclusion visible
+without changing which checks count as exercised (Roel, 0076).
+
+5.3 The counter over carried against referenced
+The roll-up counts how many verdict records carry their evidence and
+how many reference it (Evgenii first put a counter on the roll-up;
+Nicolás changed what it counts, 0051). Unchecked is a state of the
+reader, so an emitter that resolves everything would honestly report
+zero unchecked; carried against referenced is recomputable by anyone
+holding the report and cannot be understated. The reader converts it
+on reading, through the table in section 3: resolved, mismatched,
+did not resolve.
+
+The counter is disclosure and not rejection. A reference that does
+not resolve is legitimate for a report that left its corpus and
+abusive for one that never meant to be checked, and the format
+cannot tell them apart; saying so here keeps the counter from being
+turned into a rejection row later (Nicolás, 0051).
+
+5.4 Discriminating power of the aggregated checks
+A roll-up states whether the checks it aggregates were capable of
+producing a negative verdict. Either the run produced at least one
+declared check with state fail, which the counts already show, or it
+did not, and then the report says so and names what the producer has
+instead:
+
+  - a control built to fail, on which the declared check returned
+    fail;
+  - a prior run of the same declared checks on a corpus where they
+    returned fail; or
+  - nothing.
+
+"Fail" here is the state fail, in all three places. A non-pass is not
+enough: a run with one pass and one inconclusive check (started,
+timed out, no conclusion) has a non-pass and has not produced a
+negative verdict, and replacing the inconclusive record with void
+does not supply one either. A control on which the check failed to
+execute does not show that the check can reject that input (Roel,
+0076 item 1; +1 Nicolás, 0077; Sankalp, 0078; Kenne, 0079). Nicolás
+reads this as the aggregate rule from the other side: inconclusive
+and void improve nothing, so they show nothing either (0077). Roel
+reports this is already the reading of the Python validator at
+b91648940b2042ff1cc34d11ed2ac1d97b3e42d4 (shown-by-run requires a
+positive fail count, control-failed requires the control's state to
+be fail), checked in source and not by re-running the corpus (0076);
+Sankalp reports the 0.12.0 validator checks it for shown-by-run and
+the control (0078).
+
+"Nothing" is a permitted answer. Silence in that field is not
+(Kenne, 0065; editor, 0069). An all-pass roll-up with nothing in the
+field is not a failed report; it is a report whose green has not
+been shown to be capable of being red, and the reader weighs that.
+
+Conditions on the fillings:
+  - The control is the run's declared checks exercised against an
+    input built to fail them, not a separate check beside them;
+    otherwise it reports over a population the roll-up does not count
+    (Roel, 0066, from the must-fail control in his 0007 proposal).
+  - The control runs under the same checker revision and the same
+    relevant configuration and constraints as the declared checks
+    whose negative capability it is reported for. This binds whichever
+    declared check serves as the witness; it does not require a
+    separate negative witness for every check in the run. A check can
+    keep its identifier while its threshold changes, and a control
+    rejected under the stricter threshold says nothing about the
+    reported run's threshold (Roel, 0076 item 2, carrying the
+    engine-and-configuration binding of his 0007 proposal; +1
+    Nicolás, 0077, who reads it as the fixed slot of the evidence
+    object at run level; Sankalp, 0078; Kenne, 0079: "a control only
+    discriminates if it ran under the conditions it claims").
+  - A prior run is a reference, so the reading table in section 3
+    applies: a prior run that reads as unchecked is not
+    discriminating power, and a mismatch is a different answer again
+    (Roel, 0066). Where the prior run names a set of observations,
+    3.1 applies (Nicolás, 0067). The reference lets the reader
+    establish the same revision and configuration binding for the
+    declared checks it supports: a matching artifact digest shows
+    which prior report was obtained, not that it is about the relevant
+    checks and settings (Roel, 0076 item 2).
+  - A prior run only counts where check identity survives across
+    runs. Where the run writes its own tests, it does not, and that
+    producer can offer only a control built to fail, or nothing
+    (Evgenii, 0062, from his Qeios paper, DOI 10.32388/0BV3Z8).
+
+Whether a run could have failed is independent of whether its
+denominator is complete, which is why the field sits beside the count
+and is not derived from it (Nicolás, 0067).
+
+Provenance and measured size. Proposed by Nicholas (0061, 0064) after
+CSOAI withdrew 44 of its own signed results on 14 September. Nicolás
+measured the published ledger (WITHDRAWN.jsonl, 35,952 bytes, SHA-256
+1ef6277b7d2913e70eb89e4a1935585bbdf3eb0fcdbfe26186adcfc228271da2):
+44 records, 26 MEASURED with n = 30, 18 UNMEASURED with n below 30,
+all reading accuracy 1 (0067). The denominator rule catches the 18;
+it does not catch the 26, which is the measured size of what this
+line closes. Nicholas confirmed the recount and corrected his earlier
+statement: the full-denominator subset is 26 of 44, not 44 (0070).
+Supported for v0.1 by Kenne (0065) and Roel (0066); moved from a
+proposed section into v0.1 text by the editor (0069).
+
+Note that this roll-up field and the per-record discrimination
+qualifier (1.3) answer different questions: one is about the run's
+aggregate, the other about one check and one delta-related pair.
+
+5.5 The control fixture record (proposed; placement is O7)
+
+Not normative in v0.1. Proposed by Nicholas (0080) as the record a
+reader receives when a producer names a 5.4 control, revised with
+Nicolás's three comments (0082) in 0084, where Nicholas agreed with
+all of them. It adds no state and no row: the control's result is an
+ordinary per-check record (0080; editor, 0081). Existing inputs a
+conforming implementation must reject, such as Guigui's mustfail-v1
+(0006) and the reject members of Sankalp's corpus, can be cited as
+fixtures (0080).
+
+  {
+    "fixture_id": "stable identifier",
+    "target_check": { "check_id": "the declared check",
+                       "checker_revision": "commit or artifact digest",
+                       "config_digest": "sha256 of configuration
+                                            and constraints" },
+    "input": { "carry": "<base64 bytes>" }
+                     | { "ref": "<uri>", "sha256": "<hex>" }
+                     | { "tree": { "entries": <n>,
+                                   "shape": "flat" | "nested",
+                                   "manifest": { "ref": "<uri>",
+                                                 "sha256": "<hex>" } } },
+    "derived_from": { "ref": "<uri>", "sha256": "<hex>",
+                       "change": "the concrete change" }, (optional)
+    "expected": { "state": "fail",
+                       "rule": "<the rule or cause id the checker
+                               reports>" },
+    "why_must_fail": "the requirement the input violates, one
+                      sentence",
+    "isolation": { "relaxed_rule": "<rule id>",
+                       "flipped": ["<fixture ids>"],
+                       "unchanged_count": <n>,
+                       "evidence": { "ref": "<uri>",
+                                     "sha256": "<hex>" } },
+    "provenance": { "author": "", "created": "", "source": "<uri>",
+                       "license": "" }
+  }
+
+Rules as proposed:
+  - expected.state is fail and nothing else; an inconclusive or void
+    result shows nothing (0080, following Roel, 0076 item 1).
+  - The control counts only when the checker reports the rule it was
+    built for, next to the state. This is the rejection-reason rule
+    of section 4 (Kenne's rule isolation) applied to controls
+    (Nicolás, 0082 item 1; Nicholas, 0084). why_must_fail stays as
+    the sentence a person reads.
+  - input follows section 3: carry the bytes or reference them with a
+    digest (0080). A set of files is declared as a tree under 3.1,
+    with the count bound into what is hashed; the manifest is one
+    line per file, "<sha256> <path>", sorted by path, with the entry
+    count as its first line (Nicolás, 0082 item 3; Nicholas, 0084).
+  - derived_from.change mirrors the evidence object's changed and
+    delta slots, so a reader sees that the control differs from a
+    passing input only by the named change (0080).
+  - The optional second-order check breaks the target rule, not the
+    checker: relax each rule in turn and confirm that only the
+    controls naming it flip, as 0013 did and as the mutation sweep in
+    Sankalp's manifest does. A checker broken as a whole shows only
+    that the checker is live (Nicolás, 0082 item 2; Nicholas, 0084,
+    who will re-run his own control 2 this way).
+  - A control result carries fixture_id, checker_revision,
+    config_digest, the observed state and the runner (0080).
+
+Published examples (0080): a byte flipped in the Merkle path of an
+OpenTimestamps proof; a tool server built not to bind its effects to
+the declared call; a leaf set with the last leaf duplicated, where
+only the leaf count check returns fail. Nicholas reports that a
+census of 592 published artifacts found 3 that record a control whose
+observed verdict was negative (0080).
+
+Also proposed in 0080 and not discussed since: a control counts as
+reproduced when two independent parties run the pinned checker
+revision and configuration on the same fixture bytes and both observe
+fail, which applies the group's first success criterion to controls
+(O8).
+
+---------------------------------------------------------------------
+6. Decisions recorded, with their cost
+---------------------------------------------------------------------
+
+6.1 The recompute-opaque observation is a fourth kind of slot that
+no row reads (editor, 0062; Nicolás, 0072 part 3.2).
+
+6.2 A digest over the error list was considered and declined,
+because it gives equality and nothing else (editor, 0062; Nicolás
+agreeing, 0072).
+
+Cost, stated as the handover asks. In Nicolás's corpus all 69 errors
+serialise as strings with no structure. The observation primitive is
+carried and recomputable, and no row in the table reads it: every
+row that fires on the 42 objects fires on a projection. One can
+establish that the message changed, not what about it changed.
+
+---------------------------------------------------------------------
+7. The open item: who declares what is counted
+---------------------------------------------------------------------
+
+Published unanswered, as one item (Nicolás, 0057; Kenne, 0058). v0.1
+does not settle it; in the comment window Nicolás asked for it to be
+published open and had nothing to add (0077), and no one proposed an
+answer. Two sides of one question:
+
+7.1 Output side: what composes the observation record
+The checker returns a list of errors; the verdict is whether the list
+is empty and the rule labels are derived from it, two projections of
+one primitive. The vocabulary for compared enumerates verdict, and
+verdict with rule list; there is no value for the list itself. All 42
+objects report moving something other than verdict and rule labels,
+and all 42 move the primitive and both projections together. So what
+the record composes is currently settled by the emitter, not by the
+format (Nicolás, 0072 part 3.1).
+
+7.2 Input side: what counts as one field (was row B)
+Measurements, each labelled with its standing:
+
+  - Nicolás's corpus at 1e36257: 42 one-field pairs, reproducible with
+    tools/emitir-42.py in the disensor repository. Stable across the
+    sixteen commits to 3950067 (0072 part 3). The script runs the
+    pinned checker over every vector and emits the 42 pairs, their
+    suite split, the count of carried against referenced and the 69
+    string errors (Nicolás, 0077). Sankalp re-ran it on 18 September
+    and got the same 42 pairs and suite split (0074; what was re-run
+    confirmed in 0077 and 0078).
+  - Nicolás's corpus: MUST-FAIL pairs with different fired-rule lists
+    number 0 at one field and 132 at two. This is a count by fired-rule
+    list from a second script that runs no checker and is not in the
+    repository, so it stands as Nicolás's assertion and not as a
+    reproduced measurement (0072; 0077). Sankalp's re-run does not
+    compute it (0078), and his manifest carries it as attributed and
+    not reproducible (0077). The label stays until the second script
+    is published (Nicolás, 0077).
+  - Guigui's corpus at 6b10485: 0 one-field pairs across all 66 pairs
+    under three scopes (tool_call, whole file, identity fields
+    stripped). Stripping identity metadata erases the test case: S01
+    is an envelope missing the required field tool_call_id
+    (Nicolás, 0072 part 3.3).
+  - agent-evidence-vectors v0.11.1: 252 reject vectors name exactly
+    one condition (Sankalp, 0068), reproducible with the printed
+    command (0074).
+
+These do not contradict each other. One field is a property of how a
+corpus was built, not something the format can assume (Nicolás;
+conceded by Kenne, 0058). Row 9 guards an empty set or a large one
+depending on the answer.
+
+Kenne's construction is carried with his caveat attached: "one field
+in my terms, not under a shared rule" (0058). Three participants said
+one field and meant three things: Kenne over the whole artifact,
+Nicolás's tool_call count, Guigui's not one field under any scope.
+
+
+---------------------------------------------------------------------
+8. The draft's proposals, as decided
+---------------------------------------------------------------------
+
+Section 8 of the draft (0075) held four proposals that were not
+frozen. The numbers are kept so that citations of 8.x still resolve.
+
+8.1 Numbers 13 and 14 for rows A and C. Numbered (section 4): +1
+from Sankalp (0078) on Nicolás's proposal (0072, 0077).
+
+8.2 Classification of rows 4, 10, 11, 12, 13. Classified (section
+4): 4, 10, 11 and 12 consistency, 13 evidence (Nicolás, 0077;
+Sankalp, 0074, 0078). Row 4 via the cause value in 1.2, which answers
+the representation question Roel asked be settled first (0076 item
+3).
+
+8.3 Name of the void cause value. evidence-does-not-hold (1.2; Roel,
+0076; Nicolás, 0077).
+
+8.4 Normative appendix. Adopted, pointed at bytes (section 10;
+Nicolás, 0077; Sankalp, 0078), with the digest it cites left as O2.
+
+---------------------------------------------------------------------
+9. Known gaps
+---------------------------------------------------------------------
+
+9.1 Reference emitter. On 18 September Sankalp reported that his
+emitter had no slot for void and that its not-exercised column carried
+no cause, so row 1 rejected his own output (0068). On 19 September he
+reported a v0.1 emitter that writes the record from a live harness
+run, and a report over the 272 members of the adversarial-execution
+corpus that conforms with no row firing (0074). Nicolás checked as
+second reader: at commit b91648940b2042ff1cc34d11ed2ac1d97b3e42d4,
+vectors-w3c-report/MANIFEST.json has corpusDigest
+b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033,
+the 222 members, the origin block and the per-requirement bits, and
+observedRuns empty; the run over the 272 is not there (0077). Sankalp
+replied that the run comes from one command,
+
+  uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json
+
+which on 24 September wrote one record per member (239 fail, 31
+pass, 2 inconclusive) with no shape error and no row firing, and that
+he will publish that report beside the corpus with the commit it ran
+at (0078). He has since published it in agent-evidence-vectors
+0.13.0, under vectors-w3c-report/observed/aee-v0.12.0/, with a
+RUN.json naming tag v0.12.0 and commit
+2f3aee40a454df6de0f571d119f057d7dbb8dd67; running the same command
+again on 27 September reproduced the 24 September bytes (0085). The
+run is now published and re-run by its author; a second reader's
+re-run is still to come (O5).
+
+9.2 The observation primitive is not nameable by the format (7.1),
+and no row reads it (6).
+
+The draft's 9.3 (five rows unclassified) is closed by section 4.
+
+---------------------------------------------------------------------
+10. Conformance appendix (normative)
+---------------------------------------------------------------------
+
+Co-edited by Sankalp Gilda, in agent-evidence-vectors. Text proposed
+by Sankalp (0078, 0085), pointed at bytes as Nicolás proposed (0077):
+
+  An implementation conforms to v0.1 when it rejects every reject
+  member of vectors-w3c-report at corpusDigest <open, O2> under the
+  row that member names, and accepts every accept member. That
+  digest is listed in the signed CORPUS-DIGESTS.txt of the release
+  that carries it.
+
+The value is left open. Any one of the corpus changes committed in
+0078 changes the digest, and the digest that belongs here is the one
+of the release cut after the comments are folded in, when text and
+corpus agree (Nicolás, 0082; agreed by Nicholas, 0084, and by the
+editor, 0083, 0086). The current candidate is the digest of
+agent-evidence-vectors 0.13.0,
+55c26ea4f504c417b412f8671cef757a46f196ded5589bb465980a793d337522,
+232 members, which Sankalp's section 10 wording now names (0085).
+The digest the draft cited, b0f68dd4..., is the 0.12.0 corpus.
+
+Proposed addition (Sankalp, 0085; O9): a claim of conformance comes
+with the implementation's own per-member output, so a reader can see
+that the implementation answered every member. Sankalp's reason:
+before 0.12.1 his own harness could print the reference reader's pass
+under the name of a verifier that never ran; its report now records
+how many members the named verifier executed.
+
+The reference is to a digest and not to a repository, which is carry
+or reference applied to the appendix's own source; the disensor
+corpus at 1e36257 is already in the set and pinned to its commit
+(Nicolás, 0077).
+
+Release. The vectors-w3c-report directory first ships in 0.12.0; its
+manifest returns 404 at 0.11.1, the release the draft pinned. The
+corpus runs with
+
+  uvx agent-evidence-vectors==0.12.0 --corpus vectors-w3c-report
+
+(Sankalp, 0078). The candidate release in O2 runs with the same
+command pinned to 0.13.0.
+
+Contents, as reported in 0068 and 0074 (232 members at 0.13.0,
+0085):
+
+  - vectors-w3c-report/ held 222 members at 0.12.0 in three
+    sections: the rejection table; the rules the freeze list
+    carries, with the reading table as members, one vector each for
+    resolves-and-matches, resolves-with-mismatch and
+    does-not-resolve; and the 42 delta-related pairs re-cut against
+    v0.1, each outcome resolving through the reader's store.
+  - docs/W3C-V01-CONFORMANCE-APPENDIX.md renders from
+    vectors-w3c-report/MANIFEST.json.
+  - Earlier cut: the twelve rows backed by a must-reject and a
+    must-pass record, against the 461 vectors the eight manifests
+    pin.
+
+Three changes in this text were not in the 0.12.0 corpus (0078).
+Sankalp reports all three in 0.13.0, marked proposed until this text
+lands (0085): row 4 is re-cut as Nicolás constructed it, with
+confinement-failed-during-check a cause value admitted only under
+void and the boolean flag gone from both readers; RFC9162_SHA256
+joins flat and rfc6962 as a tree shape, with a pair that accepts the
+registered name and rejects the same shape written as free text, and
+a third member that rejects a root built over a duplicated last leaf;
+and Roel's 5.4 binding is proposed corpus row 29, where a control
+that ran under a different constraint set or checker than the run it
+speaks for is rejected and a run that declares no binding is not.
+Where the corpus and this text differ, the text governs until the
+digest is filled in (O2).
+
+---------------------------------------------------------------------
+11. Open items after v0.1
+---------------------------------------------------------------------
+
+O1. Who declares what is counted (section 7). Published open (Nicolás,
+    0077).
+O2. The corpusDigest section 10 cites. Left open (0082, 0084).
+    0.13.0 carries the row 4 re-cut, the RFC9162_SHA256 pair and the
+    5.4 binding as proposed row 29, at 55c26ea4... (0085). When
+    Sankalp cuts the release that matches this text and posts its
+    digest, the editor fills in the value by a change log entry
+    citing that message.
+O3. Members of the tree construction set (3.1). The corpus carries
+    flat, rfc6962 and, from 0.13.0, RFC9162_SHA256 (0076, 0078,
+    0085). The
+    list has not said what flat denotes in the text's own terms; until
+    it does, a member is defined by its vector pair.
+O4. Publication of the second script behind the 0 and 132 counts
+    (7.2; Nicolás, 0077).
+O5. A second reader's re-run of the report over the 272 members,
+    now published with its commit (9.1; Sankalp, 0078, 0085).
+O6. Sankalp Gilda as co-editor of the whole text (0074, 0078),
+    proposed by the editor, subject to no objection from the group
+    and the chair (0077).
+O7. The control fixture record (5.5): normative in v0.1.x or in v0.2.
+    Nicholas is fine with v0.2 (0084); the editor said the group
+    would be asked after 30 September (0081, 0083, 0086).
+O8. The two-party reproduction rule for controls (5.5; Nicholas,
+    0080). No comment on the list yet.
+O9. Per-member output with every conformance claim (section 10;
+    Sankalp, 0085). No comment on the list yet.
+
+---------------------------------------------------------------------
+12. Related text in the AIKR CG
+---------------------------------------------------------------------
+
+Comparison semantics, the full text of section 4.1 of kroftrust.md,
+merged in AIKR PR #11 on 23 September:
+https://github.com/w3c-cg/aikr/blob/main/trust/comparison-semantics.md
+(merge announced on public-aikr, 2026Sep/0040). It covers whether
+two independently produced artefacts carrying the same identifier
+concern the same subject. v0.1 links to it and does not restate it
+(public-aikr 2026Sep/0041).
+
+Evgenii Arsentev, editor
+
+=====================================================================
+# Change log: reporting format, draft (0075) to v0.1
+
+Draft: https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0075.html
+(23 September 2026).
+Comment window: 22–30 September 2026. Messages after 0075 in the
+archive when the window closed: 0076 (Roel Schuurkes), 0077 (Nicolás
+Rocchia), 0078 (Sankalp Gilda), 0079 (Kenne Ives), 0080 (Nicholas
+Templeman), 0081 (editor), 0082 (Nicolás Rocchia), 0083 (editor), 0084
+(Nicholas Templeman), 0085 (Sankalp Gilda), 0086 (editor).
+A four-digit number is a message in public-agent-conformance/2026Sep/.
+"public-aikr NNNN" is a message in public-aikr/2026Sep/.
+
+## Changed in the text
+
+| # | Section | Change | Source |
+|---|---|---|---|
+| 1 | Header, status | "v0.1 DRAFT" → "v0.1 – 30 September 2026";
+status covers the comment window; canonical copy is the list archive;
+the AIKR repository gets a pointer to it by pull request, not a copy |
+draft Q8 answered "The list." by Nicolás, 0077; AIKR copy requested by
+Paola Di Maio, public-aikr 0038, 0040 |
+| 2 | Header, editors | Sankalp Gilda's offer to co-edit the whole
+text recorded; proposed by the editor, effective if the group and the
+chair do not object | Sankalp, 0074, 0078 ("I am glad to co-edit the
+whole text if the group agrees"); "Who edits the text is for the
+editor and the chair", Nicolás, 0077 |
+| 3 | 1.2 | Void cause value named evidence-does-not-hold; the name
+does not replace the state distinction | Roel, 0076 item 4; Nicolás,
+0077 (Q5); name from Sankalp's corpus, 0074 |
+| 4 | 1.2 | New cause value confinement-failed-during-check, admitted
+only under void | construction by Nicolás, 0077 (Q2), answering Roel,
+0076 item 3; agreed by Sankalp, 0078 |
+| 5 | 3.1 | Tree shape declared as an identifier from a closed,
+versioned set, not free text; member enters with a vector pair;
+RFC9162_SHA256 proposed; count and proof-scope requirements unchanged
+| Roel, 0076 item 5; Nicolás, 0077 (Q7); Sankalp, 0078 (corpus has
+flat and rfc6962, will add RFC9162_SHA256) |
+| 6 | 3.1 | "(late addition)" dropped from the heading | editorial |
+| 7 | 4, row 4 | Reworded: "cause confinement-failed-during-check with
+any state but void" | follows change 4 |
+| 8 | 4, rows 13–14 | Numbered; no longer "proposed" | Nicolás, 0072,
+0077 (his own +1 does not count); +1 Sankalp, 0078 |
+| 9 | 4, row classes | All 14 rows classified: consistency 1–12,
+evidence 13, form 14 | Nicolás, 0077 (Q2); Sankalp, 0074, 0078; draft
+8.2 overstated disagreement on row 12, Nicolás, 0077 |
+| 10 | 5.2 | Population of "no declared check is void" = declared
+checks; satisfied iff void count is zero on a nonempty declared set;
+kept separate from execution completeness | Roel, 0076 item 4 (Q9);
+Nicolás, 0077 (Q9, population as in 0039) |
+| 11 | 5.4 | First branch: at least one declared check with state
+fail, not any non-pass; the same meaning of fail for the control and
+the prior run | Roel, 0076 item 1; +1 Nicolás, 0077; Sankalp, 0078;
+Kenne, 0079 |
+| 12 | 5.4 | Control bound to the same checker revision and relevant
+configuration and constraints as the checks it speaks for; prior-run
+reference must let the reader establish the same binding | Roel, 0076
+item 2; +1 Nicolás, 0077; Sankalp, 0078; Kenne, 0079 |
+| 13 | 5.4 | "(late addition)" dropped from the heading | editorial |
+| 14 | 7 | Recorded that no answer to the open item was proposed and
+it is published open | Nicolás, 0077 (Q1) |
+| 15 | 7.2 | Sankalp's re-run moved from the 0/132 bullet to the
+42-pair bullet; 0/132 stays Nicolás's assertion from an unpublished
+script that runs no checker | Nicolás, 0077 (Q6); confirmed by
+Sankalp, 0078 |
+| 16 | 8 | Draft section 8 (proposed, not frozen) replaced by a
+one-line record of how each of 8.1–8.4 was decided; numbers kept |
+follows changes 3, 8, 9, 18 |
+| 17 | 9.1 | Nicolás's second-reader check added (MANIFEST at b916489:
+corpusDigest b0f68dd4…, observedRuns empty, 272-member run absent);
+Sankalp's command and 24 September counts (239 fail, 31 pass, 2
+inconclusive, no row firing) added; run stays Sankalp's report until
+published | Nicolás, 0077; Sankalp, 0078 |
+| 18 | 9.3 | Closed (all rows classified) | follows change 9 |
+| 19 | 10 | Appendix becomes normative; conformance defined by the
+vector set at corpusDigest
+b0f68dd4a2a5b0dfc8dcf78d47612ed0978db23873e39617131e2353985d0033
+(Sankalp's replacement text) | Nicolás, 0077 (Q4, "pointed at bytes");
+Sankalp, 0078 |
+| 20 | 10 | Pinned release 0.11.1 → 0.12.0; corpus command `uvx
+agent-evidence-vectors==0.12.0 --corpus vectors-w3c-report` | Sankalp,
+0078 (manifest 404 at 0.11.1) |
+| 21 | 10 | Recorded that the corpus at that digest does not yet carry
+the row 4 re-cut, the 5.4 configuration pair or the RFC9162_SHA256
+pair; text governs meanwhile | Sankalp, 0078 (all three announced as
+future work) |
+| 22 | 11 | Draft questions Q1–Q9 replaced by open items O1–O6 | see below |
+| 23 | 12 | New: link to trust/comparison-semantics.md in the AIKR
+repository, merged in PR #11 | Paola Di Maio, public-aikr 0038, 0040;
+editor, public-aikr 0041 |
+| 24 | 5.5 | New, not normative: the control fixture record for a 5.4
+control, in its revised form (expected carries state fail and the rule
+the checker reports; input may be a tree with the count bound into the
+manifest; isolation block for the second-order check) | Nicholas,
+0080, revised in 0084 with Nicolás's comments, 0082 items 1–3; editor,
+0081, 0083, 0086 |
+| 25 | 5.5 | Second-order check breaks the target rule, not the
+checker (as in 0013 and the mutation sweep) | Nicolás, 0082 item 2;
+agreed by Nicholas, 0084 |
+| 26 | 5.5 | Two-party reproduction rule for controls recorded as
+proposed | Nicholas, 0080 |
+| 27 | 9.1 | The 272-member report is published in 0.13.0 under
+vectors-w3c-report/observed/aee-v0.12.0/ with RUN.json (tag v0.12.0,
+commit 2f3aee40); author's re-run reproduced the 24 September bytes |
+Sankalp, 0085 |
+| 28 | 10 | corpusDigest left open in the text until the release cut
+after the comments are folded in; b0f68dd4… (0.12.0) replaced by
+<open, O2>; current candidate 55c26ea4… (0.13.0, 232 members) recorded
+| Nicolás, 0082; Nicholas, 0084; Sankalp, 0085; editor, 0083, 0086 |
+| 29 | 10 | The three changes missing from 0.12.0 (row 4 re-cut,
+RFC9162_SHA256 pair, 5.4 binding as proposed corpus row 29) recorded
+as present in 0.13.0, marked proposed until v0.1 lands | Sankalp, 0085
+|
+| 30 | 10 | Per-member output with every conformance claim recorded as
+a proposed addition | Sankalp, 0085 |
+| 31 | 11 | O2, O3, O5 updated; O7 (fixture: v0.1.x or v0.2), O8
+(two-party rule), O9 (per-member output) added | follows changes 24–30
+|
+| 32 | Status | Window stated as messages 0076–0086 | editorial |
+## Draft questions and where they went
+
+| Draft Q | Outcome | Source |
+|---|---|---|
+| Q1 who declares what is counted | still open → O1 | Nicolás, 0077 |
+| Q2 row classes 4, 10–13 | decided, change 9 | Nicolás, 0077;
+Sankalp, 0078; Roel's precondition, 0076 item 3 |
+| Q3 numbers 13, 14 | decided, change 8 | Sankalp, 0078 |
+| Q4 normative appendix | decided, change 19; digest → O2 | Nicolás,
+0077; Sankalp, 0078 |
+| Q4 co-editor of the whole text | proposed → O6 | Sankalp, 0078;
+Nicolás, 0077 |
+| Q5 void name | decided, change 3 | Roel, 0076; Nicolás, 0077 |
+| Q6 0/132 standing | decided, change 15; script → O4 | Nicolás, 0077;
+Sankalp, 0078 |
+| Q7 tree shape | decided in principle, change 5; members → O3 | Roel,
+0076; Nicolás, 0077; Sankalp, 0078 |
+| Q8 list or repository | list, change 1 | Nicolás, 0077 (chair did not post) |
+| Q9 fourth-claim population | decided, change 10 | Roel, 0076; Nicolás, 0077 |
+
+## Comments counted
+
+32 entries above from 11 messages (0076–0086, three of them the
+editor's acknowledgements) plus 3 on public-aikr (0038, 0040, 0041).
+Accepted in full: Roel's five items (0076), Nicolás's answers to Q1–Q9
+and his 9.1 check (0077), Sankalp's Q2–Q7 answers, 9.1 status and
+section 10 fixes (0078), Kenne's +1 on 5.4 (0079), Nicholas's fixture
+and its revision (0080, 0084), Nicolás's section 10 and fixture
+comments (0082), Sankalp's 0.13.0 release and per-member output
+proposal (0085). Placement of the fixture, the two-party rule and
+per-member output goes to the group as O7–O9. Nothing rejected. No
+message objected to any of it.
+
+## Not heard from in the window
+
+Chair (Julian Joseph), Guigui Wang: no message after 0075. Roel has
+not replied to the row 4 construction (0077, 0078, now in the corpus,
+0085) that answers his 0076 item 3; the text adopts the option he
+named as workable (an explicit cause value). If he objects, changes
+4/7/9 revert in v0.1.x to "row 4 unclassified" and go to section 11.
+
+Evgenii
+
+On Mon, Sep 28, 2026 at 10:08 AM Evgenii Arsentev <arsevgen22@gmail.com> wrote:

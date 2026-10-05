@@ -1,0 +1,21 @@
+Hi Evgenii, all,
+Thanks for putting v0.1 and the change log together.
+To answer the point at the end: I have no objection to the row 4
+construction. Nicolás’s explicit cause value, as carried into sections 1.2
+and 4, answers my representation question in 0076. The row compares the
+declared cause with state, with confinement-failed-during-check as the
+cause value. Classifying that comparison as consistency is right. The
+qualification in 1.2 also matters: checking those declarations does not
+establish that every failed confinement control was disclosed. No reversion
+is needed on my account.
+Section 5.4 also addresses my two wording requests. It makes clear that a
+negative witness must be an actual fail from the relevant declared check,
+binds the control to the same checker revision and relevant configuration
+and constraints, and requires the prior-run reference to establish that
+same binding. Keeping “nothing” available, without requiring a separate
+negative witness for every check, preserves the scope I intended.
+That closes my row 4 representation question and my two §5.4 wording
+requests. O2 still concerns aligning the release corpus with that text, and
+O5 concerns the second reader’s re-run of the historical 272-member report.
+Those remain separate from this confirmation.
+Roel
