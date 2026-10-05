@@ -1,28 +1,49 @@
-# Read test statements against the specification
+# Read some test statements against a spec: an invitation
 
-Part of the study "Agreement Is Not Independence", for the Empirical Software Engineering special issue on agentic software engineering.
+I'm writing a paper for the journal Empirical Software Engineering about a test set I built for a spec I proposed to in-toto. The spec is the Adversarial Execution Evidence predicate (in-toto/attestation#570). Every expected answer in that test set is mine, and nobody outside my group has checked them. A test set is only as good as its answers. So I'm asking a few careful readers to look at some of the statements and say, from the spec alone, what the right answer is.
 
-**Reply by:** 2026-10-08 for readings that go into the paper
+## What I'm asking
 
-Would you read some test statements against a specification and say what you think the right answer is?
+You get the spec and a batch of test statements under plain labels, with my answers hidden. For each statement, you say whether it is valid, invalid, or not decided by the spec. If it is valid, you give the result the spec says it produces. Then you quote the sentence of the spec that decides it.
 
-I maintain the conformance corpus for the Adversarial Execution Evidence predicate proposed in in-toto/attestation#570, and every expected answer in it is mine; no outside reader has checked them blind. You would get the pinned specification and a set of statements under neutral labels, with my answers withheld, and record for each one: valid, invalid, or not decided by the text; the result token if it is valid; and the clause that decides it. Where the text is silent, saying so is a valid answer. Nothing needs installing, and the answer sheet is a plain table. You can stop whenever you like.
+"The spec doesn't say" is a real answer and counts as one. The answer sheet is a plain table, nothing needs installing, and you can stop whenever you like.
 
-There are 272 statements and I am aiming for two independent readings of each, so any number from ten up helps, and you choose how many. Readings back by 2026-10-08 go into the paper, a study for an Empirical Software Engineering special issue.
+## How long it takes
 
-Disagreements with my answers are the point. Each one is settled by three adjudicators outside the author group, or reported as unsettled if there are fewer than three; I get no vote, and every one is published with the study. You get the results and acknowledgement by name or anonymously, as you prefer. The consent text is below; reply where you were invited if you are in, and I will send the statements.
+There are 272 statements, and I'm aiming for two readings of each, so any number from ten up helps. Ten statements take about three hours, most of it one read of the spec, whose rules run to about 18,500 words. Each statement after that takes five to fifteen minutes.
 
-## How to take part
+## By when, and why
 
-Reply where you were invited with how many statements you want to read (ten or more). The statements and the answer sheet follow by reply.
+Please send your readings by 8 October 2026. I submit the paper on 14 October, and I need the days between to settle any disagreements.
+
+## What happens to disagreements
+
+Disagreements with my answers are what I'm looking for. Each one is settled by three people outside my group, or reported as unsettled if fewer than three are available. I get no vote, and every disagreement is published along with how it was settled.
+
+## What you get
+
+Your name in the paper's acknowledgements, or no name if you'd rather stay anonymous. You also get the full results, including how your readings compared with mine and with the other readers'.
+
+## How to say yes
+
+Reply where you were invited and say how many statements you'd like. I'll send the statements and the answer sheet in reply.
 
 ## Consent
 
-- Taking part is voluntary. You can withdraw at any time before publication, and anything you sent is then removed from the study.
-- What is published: your builds, readings or codings and the results computed from them. Whether your name appears is your choice: by name, by a pseudonym you choose, or anonymously.
-- What is recorded about how you worked: the tools and models you tell me you used, and whether you had seen the corpus, its changelog or other implementations. Session logs are published only if you agree to that separately.
-- Nothing is published about you beyond what you send for the study and the choice above.
-- The study is run by the specification's author, which is a competing interest the paper declares.
-- Questions or withdrawal: reply in the thread or message where you were invited.
+- Taking part is voluntary. You can pull out at any time before publication, and whatever you sent is then removed from the study.
+
+- What gets published: your readings and the results worked out from them.
+
+- Your name appears only if you choose: by name in the thanks, under a pseudonym you pick, or not at all.
+
+- What I record about how you worked: the tools and models you tell me you used. I also record whether you had seen the test set, its changelog or other implementations.
+
+- Session logs are published only if you agree to that separately. Nothing else about you is published.
+
+- To ask a question or pull out, reply in the thread or message where you were invited.
+
+## Competing interest
+
+I wrote the spec and the test set, and I run the study. The paper says so.
 
 Other roles in the same study: [builders](builders.md), [readers](readers.md), [coders](coders.md).

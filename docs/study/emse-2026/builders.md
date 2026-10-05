@@ -1,30 +1,71 @@
-# Build a verifier from the specification alone
+# Build a verifier from the spec: an invitation
 
-Part of the study "Agreement Is Not Independence", for the Empirical Software Engineering special issue on agentic software engineering.
+I'm writing a paper for the journal Empirical Software Engineering about a plain question. When several people build a checker from the same written spec, do they make the same mistakes? If they do, then "every checker agrees" is weaker evidence than it looks.
 
-**Reply by:** freeze your build before 2026-10-10 12:00 UTC; the seed is fixed by drand round 6540566 at 2026-10-10 16:00 UTC
+The spec is one I proposed to in-toto for recording adversarial test runs, the Adversarial Execution Evidence predicate (in-toto/attestation#570). Two people outside my group have built verifiers for it so far. Their first runs failed on different statements, and two builds are too few to tell whether separate builds share mistakes. So I'm asking a few more people to build one, people who have not seen my test set.
 
-Build a verifier for a proposed in-toto predicate from the text alone, and help measure what agreement between verifiers is worth.
+## What I'm asking
 
-I am studying the conformance corpus for the Adversarial Execution Evidence predicate proposed in in-toto/attestation#570. Two people outside the author group have built verifiers so far, both with coding agents, and their first runs failed in different ways on different rules. Two is not enough to say whether independently built verifiers share their mistakes. I am asking for a few more builds, made under rules that keep the first run honest.
+Read the spec and write a verifier for it in any language. It reads one statement and says whether the statement is valid. When it is valid, the verifier prints the result it works out; when it is not, a reason. Use any tools you like, coding agents included; just tell me which ones, and which model.
 
-What a build involves: read the specification at the pinned revision, https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.12.1/spec/predicates/adversarial-execution-evidence.md (SHA-256 `759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0`), and write a verifier in any language that reads one statement and prints its verdict, the recomputed result token when valid, and a reason when not. The one-line output the test harness reads is documented under "What the suite compares" in the agent-evidence-vectors 0.12.1 README on PyPI (https://pypi.org/project/agent-evidence-vectors/0.12.1/). You may use any tools, including coding agents; please record which, and which model. Please do not read the conformance corpus, its changelog or either existing implementation before your build is frozen; if you already have, you are still welcome; just let me know, and your build is reported in a separate group.
+The spec is about 22,000 words, so plan on a couple of hours of reading before any code.
 
-Freezing: publish your source (a public repository or a tarball) and post its commit, the source's SHA-256 and the command that runs it before 2026-10-10 12:00 UTC. Four hours later a public randomness beacon (drand round 6540566) fixes the seed of a set of fresh test statements that nobody, including me, has seen. I run your frozen build on them and on the public corpus, publish the raw outputs, and send you the results before anything is written up. Your first run is kept exactly as it came out; any fix you make afterwards is reported separately and never replaces it.
+Please don't look at my test set, its changelog or the two existing verifiers before you post your build. If you already have, you are still welcome. Tell me, and your build is reported in a group of its own.
 
-What you get: your results, the full comparison with every other build, and acknowledgement in the paper by name or anonymously, as you prefer. The consent text is below. Questions are welcome in the thread where you were invited.
+## The deadline, and why it is a fixed hour
 
-## How to take part
+Please post your finished code by 12:00 UTC on 10 October 2026. That afternoon I generate a fresh set of test statements from a public random number that nobody, me included, can know in advance. Because your code is public before those statements exist, I can't shape them around your build.
 
-Reply where you were invited to say you are building, then post your frozen build (commit, source SHA-256, run command) there before the cutoff.
+To post it, reply where you were invited with three things. They are a link to the code (a public repository or a tarball), its commit and SHA-256, and the command that runs it.
+
+## What happens next
+
+I run your build on the fresh statements and on the public test set, and I publish the raw outputs. You get your results before I write anything about them. Your first run is kept exactly as it came out. If you fix something afterwards, the fix is reported on its own and never replaces the first run.
+
+## What you get
+
+I'd like to offer you co-authorship of the paper.
+
+The journal asks every author to help write or revise the paper, approve the submitted version, and stand behind all of it. So as a co-author you would read the whole draft before I submit it on 14 October. You would correct anything you think is wrong, check how your build is described, and approve the submission. The journal generally does not add authors after submission, which is why this all happens before the 14th.
+
+Two things co-authorship does not touch: your build's first run, and the analysis plan, which was written down and timestamped before any build was scored. If you disagree with the analysis, say so and I will answer it in the paper. The numbers that count were fixed in advance.
+
+If you'd rather not be an author, I'll thank you by name in the paper, or leave your name out if you prefer. Either way you get your results and the full comparison with every other build.
+
+## How to say yes
+
+Reply where you were invited and say you're building. Questions are welcome there too.
+
+## Exact rules, for anyone who wants them
+
+- Spec, at the pinned revision: https://raw.githubusercontent.com/probityai/agent-evidence-vectors/v0.12.1/spec/predicates/adversarial-execution-evidence.md (SHA-256 `759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0`).
+
+- Output: the one line the test harness reads is documented under "What the suite compares" in the agent-evidence-vectors 0.12.1 README on PyPI (https://pypi.org/project/agent-evidence-vectors/0.12.1/).
+
+- Timing: the fresh statements are seeded from drand round 6540566, published at 16:00 UTC on 10 October 2026.
+
+- The four hours after the 12:00 cutoff are for adding your build to a list that is committed and timestamped before that round.
+
+- A build posted after 12:00 goes in only if that list can still be timestamped before the round. Otherwise it waits for a later batch, and a seed is never regenerated.
+
+- What is recorded about each build: who built it, and the tools and model used. Also recorded: whether the builder had seen the test set, its changelog or another implementation.
 
 ## Consent
 
-- Taking part is voluntary. You can withdraw at any time before publication, and anything you sent is then removed from the study.
-- What is published: your builds, readings or codings and the results computed from them. Whether your name appears is your choice: by name, by a pseudonym you choose, or anonymously.
-- What is recorded about how you worked: the tools and models you tell me you used, and whether you had seen the corpus, its changelog or other implementations. Session logs are published only if you agree to that separately.
-- Nothing is published about you beyond what you send for the study and the choice above.
-- The study is run by the specification's author, which is a competing interest the paper declares.
-- Questions or withdrawal: reply in the thread or message where you were invited.
+- Taking part is voluntary. You can pull out at any time before publication, and whatever you sent is then removed from the study.
+
+- What gets published: your build and the results worked out from it.
+
+- Your name appears only if you choose: as a co-author, by name in the thanks, under a pseudonym you pick, or not at all.
+
+- What I record about how you worked: the tools and models you tell me you used. I also record whether you had seen the test set, its changelog or other implementations.
+
+- Session logs are published only if you agree to that separately. Nothing else about you is published.
+
+- To ask a question or pull out, reply in the thread or message where you were invited.
+
+## Competing interest
+
+I wrote the spec and the test set, and I run the study. The paper says so. If builders join as co-authors, the paper also says that some of its authors built verifiers it scores.
 
 Other roles in the same study: [builders](builders.md), [readers](readers.md), [coders](coders.md).
