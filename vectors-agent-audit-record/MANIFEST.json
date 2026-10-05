@@ -3,9 +3,9 @@
     "digest": "sha256",
     "envelope": "ed25519"
   },
-  "corpusDigest": "0f808649749b7a019e01b5c94835cf56a1cbd5bd6d3cfc795f6d63c129c58be5",
+  "corpusDigest": "b37731abaf0eee03d29c4af85f8a3df1aa14f3cd27729e9ce19e50cda658765a",
   "counts": {
-    "accept": 13,
+    "accept": 14,
     "indeterminate": 2,
     "reject": 51
   },
@@ -181,10 +181,10 @@
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/v6d6409c8d2da7221.json",
-      "id": "v6d6409c8d2da7221",
+      "file": "statements/v75165589db26c577.json",
+      "id": "v75165589db26c577",
       "kind": "accept",
-      "row": "A1 with evaluation of not-evaluated and unavailableInput of policy-source: a decision point failing open, agreement of agree",
+      "row": "A1 with evaluation of not-evaluated, unavailableInput of policy-source and the allow-all fallback's policyDigest: a decision point failing open, agreement of agree",
       "slug": "a12-permit-not-evaluated-policy-source"
     },
     {
@@ -199,6 +199,19 @@
       "kind": "accept",
       "row": "A3 with evaluation of not-evaluated and unavailableInput of key-source and consumption-state: a leak during an outage, agreement of disagree",
       "slug": "a13-leaked-deny-not-evaluated-two-inputs"
+    },
+    {
+      "draftId": "A14",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf61ddd7f6bdef18d.json",
+      "id": "vf61ddd7f6bdef18d",
+      "kind": "accept",
+      "row": "A2 with evaluation of not-evaluated, unavailableInput of policy-source and the deny-all fallback's policyDigest: a profile the decision point does not hold, failing closed, agreement of agree",
+      "slug": "a14-deny-not-evaluated-policy-not-held"
     },
     {
       "draftId": "F1",

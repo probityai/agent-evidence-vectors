@@ -441,6 +441,9 @@ def build_a12() -> Built:
     admission is the consumer's call."""
     pred = from_pred("A1")
     pred["evaluation"] = {"status": "not-evaluated", "unavailableInput": ["policy-source"]}
+    # policyDigest names the policy the decision point enforced. It never read
+    # its policy, so what it enforced was the allow-all fallback it fell back to.
+    pred["decision"]["policyDigest"] = h("policy/fallback-allow-all")
     return accept("A12", pred)
 
 
@@ -454,6 +457,18 @@ def build_a13() -> Built:
         "unavailableInput": ["key-source", "consumption-state"],
     }
     return accept("A13", pred)
+
+
+def build_a14() -> Built:
+    """A2's decision taken without the policy: the request names a profile the
+    receiving decision point does not hold, so it could not compare, and it
+    enforced its deny-all fallback. A2 is the same deny taken under a profile
+    the decision point holds and that grants no comparison, which no retry can
+    change. The two records differ only in evaluation and policyDigest."""
+    pred = from_pred("A2")
+    pred["evaluation"] = {"status": "not-evaluated", "unavailableInput": ["policy-source"]}
+    pred["decision"]["policyDigest"] = h("policy/fallback-deny-all")
+    return accept("A14", pred)
 
 
 # --- reject members -------------------------------------------------------
@@ -754,8 +769,9 @@ def define() -> None:
         "A12",
         "a12-permit-not-evaluated-policy-source",
         None,
-        "A1 with evaluation of not-evaluated and unavailableInput of policy-source: "
-        "a decision point failing open, agreement of agree",
+        "A1 with evaluation of not-evaluated, unavailableInput of policy-source and "
+        "the allow-all fallback's policyDigest: a decision point failing open, "
+        "agreement of agree",
         build_a12,
         "valid",
         tier="authoritative",
@@ -767,6 +783,17 @@ def define() -> None:
         "A3 with evaluation of not-evaluated and unavailableInput of key-source and "
         "consumption-state: a leak during an outage, agreement of disagree",
         build_a13,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A14",
+        "a14-deny-not-evaluated-policy-not-held",
+        None,
+        "A2 with evaluation of not-evaluated, unavailableInput of policy-source and "
+        "the deny-all fallback's policyDigest: a profile the decision point does not "
+        "hold, failing closed, agreement of agree",
+        build_a14,
         "valid",
         tier="authoritative",
     )
