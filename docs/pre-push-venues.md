@@ -30,7 +30,8 @@ reader through a buffered stream, so a highly compressed member does not
 expand into one allocation. The checker keeps the member metadata and four
 JSON contracts in memory; it streams the other original files. It checks the
 gzip footer and CRC. The archive validation record reports compressed bytes,
-expanded bytes, member count and largest member without imposing a size limit.
+original file bytes, original file count and largest original file. These totals
+exclude directory entries and the generated manifest. No size limit is imposed.
 If archive storage itself refuses, the original native scratch stays available
 at its printed location.
 

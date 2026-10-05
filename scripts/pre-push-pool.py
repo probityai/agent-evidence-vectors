@@ -317,9 +317,9 @@ def check_archive(
             raise ValueError("native archive source differs from the selected revision")
     return {
         "archiveBytes": receipt["bytes"],
-        "memberCount": len(actual),
-        "uncompressedBytes": sum(member["bytes"] for member in actual.values()),
-        "largestMemberBytes": max((member["bytes"] for member in actual.values()), default=0),
+        "originalFileCount": len(actual),
+        "originalFileBytes": sum(member["bytes"] for member in actual.values()),
+        "largestOriginalFileBytes": max((member["bytes"] for member in actual.values()), default=0),
     }
 
 
@@ -407,7 +407,7 @@ def pool() -> int:
     log = (retained / "runner.stdout").read_text()
     # box_run's console includes only a tail. Its LOCAL_LOG holds the full job.
     paths = [
-        line.split(" LOCAL_LOG ", 1)[1].split(" SSH_STATUS ", 1)[0]
+        line.split(" LOCAL_LOG ", 1)[1].split(" SSH_STATUS ", 1)[0].strip()
         for line in log.splitlines()
         if " LOCAL_LOG " in line
     ]

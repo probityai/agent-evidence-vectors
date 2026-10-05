@@ -190,7 +190,7 @@ path = root/'.build/driver-native.log'; path.parent.mkdir(exist_ok=True)
 with path.open('wb') as log:
     process = subprocess.run(sys.argv[4:],stdout=log,stderr=log)
 print('POLL ssh -o BatchMode=yes root@127.0.0.1 sh /tmp/poll job')
-print('BOX_LOG fixture LOCAL_LOG '+str(path)+' SSH_STATUS '+str(process.returncode))
+print('BOX_LOG fixture  LOCAL_LOG '+str(path)+'  SSH_STATUS '+str(process.returncode))
 sys.exit(process.returncode)
 """,
         )
@@ -288,6 +288,37 @@ time.sleep(30)
         with patch("shutil.which", return_value=None):
             with self.assertRaisesRegex(ValueError, "installed box_run"):
                 BRIDGE.pool()
+
+    def test_nonce_format_refuses_before_capture_or_source_mutation(self):
+        before = self.call("rev-parse", "HEAD")
+        for nonce in ("", "x" * 32, "A" * 32, "0" * 31, "0" * 33, "../capture"):
+            request = self.request()
+            request["nonce"] = nonce
+            with self.subTest(nonce=nonce), self.assertRaisesRegex(ValueError, "nonce"):
+                BRIDGE.remote(request)
+        self.assertEqual(self.call("rev-parse", "HEAD"), before)
+        self.assertFalse((self.root / ".build").exists())
+
+    def test_capture_statistics_measure_only_original_regular_files(self):
+        request = self.request()
+        _, receipt = self.native(request)
+        archive = Path(receipt["archive"])
+        actual = BRIDGE.check_archive(archive, receipt, request)
+        with tarfile.open(archive) as captured:
+            original = [
+                member
+                for member in captured
+                if member.isfile() and member.name != "capture/POOL-MANIFEST.json"
+            ]
+        self.assertEqual(
+            actual,
+            {
+                "archiveBytes": archive.stat().st_size,
+                "originalFileCount": len(original),
+                "originalFileBytes": sum(member.size for member in original),
+                "largestOriginalFileBytes": max(member.size for member in original),
+            },
+        )
 
     def test_archive_storage_refusal_keeps_original_native_capture(self):
         scratch = Path(self.temp.name) / "native-custody"
@@ -650,6 +681,7 @@ with (out/'large-native.bin').open('wb') as stream:
         hook = self.root / ".githooks/pre-push"
         zero = "0" * 40
         for venue, stdin, expected in [
+            ("", f"refs/heads/x {zero} refs/heads/x {zero}\n", 1),
             ("unknown", f"refs/heads/x {zero} refs/heads/x {zero}\n", 1),
             ("pool", "", 1),
             ("pool", f"refs/heads/x {zero} refs/heads/x {zero}\n", 0),

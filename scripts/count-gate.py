@@ -1004,6 +1004,19 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # These transport and fixture values have no corpus population meaning.
+    # The real process, nonce and large-member controls hold their contracts.
+    *(
+        Delegated(path, name, pattern, "scripts/pre-push-pool-test.py")
+        for path, name, pattern in (
+            ("scripts/pre-push-pool.py", "the fixed hexadecimal nonce width",
+             r"\[0-9a-f\]\{\d+\}"),
+            ("scripts/pre-push-pool-test.py", "the cancellation fixture wait in seconds",
+             r"time\.sleep\(\d+\)"),
+            ("scripts/pre-push-pool-test.py", "the large-member fixture block count",
+             r"for _ in range\(\d+\):"),
+        )
+    ),
     # The W3C report corpus's per-requirement mutation tally. The file is emitted
     # by that corpus's generator and held byte-identical by the regenerability
     # gate, so every figure in its table belongs to that ledger, not this one.

@@ -13,6 +13,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Any
 from unittest.mock import patch
 
 SOURCE = Path(__file__).with_name("retain-timestamp-candidate.py")
@@ -83,7 +84,8 @@ class CandidateTests(unittest.TestCase):
             message,
         )
 
-    def retain(self, upgrade: str = "success", verify: str = "success") -> dict[str, object]:
+    def retain(self, upgrade: str = "success", verify: str = "success") -> dict[str, Any]:
+        """Read the dynamic capture module's heterogeneous JSON report."""
         return candidate.retain(self.destination, upgrade, verify)
 
     def cli(

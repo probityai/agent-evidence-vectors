@@ -83,7 +83,7 @@ set -euo pipefail
 
 # Select only where the same workflow gate runs. A pool run returns its native
 # capture before this ordinary Git push can continue. It does not publish.
-venue="${AEV_PRE_PUSH_VENUE:-local}"
+venue="${AEV_PRE_PUSH_VENUE-local}"
 case "$venue" in
 local | pool) ;;
 *) echo "pre-push: ABORT -- AEV_PRE_PUSH_VENUE must be local or pool." >&2; exit 1 ;;
