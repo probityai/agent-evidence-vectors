@@ -12,7 +12,9 @@ population.
 
 PyPI v0.17.0 was unavailable on 2026-10-05. The example below builds from the
 source commit associated with the signed v0.17.0 tag. A source pin identifies
-the selected bytes; use the signature checks below to verify the tag's signer.
+the selected bytes. To verify the tag's signer, run
+`python3 scripts/verify-release-tag.py v0.17.0` from that checkout. The checks
+below verify the corpus signature and timestamp proofs.
 
 ## The one-command run
 
