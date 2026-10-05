@@ -16,7 +16,7 @@ If you already wrote a verifier for this spec, I'd like to include it as it stan
 
 ## The deadline, and why it is a fixed hour
 
-Please post your finished code by 12:00 UTC on 10 October 2026. That afternoon I generate a fresh set of test statements from a public random number that nobody, me included, can know in advance. Because your code is public before those statements exist, I can't shape them around your build.
+Please post your finished code by 12:00 UTC on 10 October 2026. That afternoon I generate a fresh set of test statements from a public random number that nobody, me included, can know in advance. The program that makes them is fixed, and its fingerprint timestamped, before that number exists, so I can't shape them around your build.
 
 To post it, reply where you were invited with three things. They are a link to the code (a public repository or a tarball), its commit and SHA-256, and the command that runs it.
 
