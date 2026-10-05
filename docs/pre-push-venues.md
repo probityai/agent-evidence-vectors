@@ -39,6 +39,17 @@ The native result lists steps that ran and steps that did not run locally.
 Pool execution does not turn hosting-only steps into passes. Check the remote
 workflows at the pushed commit after Git completes.
 
+Required tool setup failures fail the native gate and stop dependent commands.
+Go and Node selectors must be numeric versions. The gate probes the current
+tools and maintained installed inventory first. If they do not match, it selects
+the newest stable matching release from the official index, checks the official
+archive checksum, and extracts a contained runtime in that job's temporary
+directory. It probes the selected executables before any consumer runs.
+Only that job receives the new `PATH` and Go `GOROOT`; shared configuration and
+installed defaults stay unchanged. Original metadata, checksums, archive bytes,
+download logs and version probes remain in the native capture. Extracted vendor
+runtimes are excluded from generic report collection.
+
 Timestamp captures keep the three fixed public validation inputs only when
 their bytes match the selected public source and candidate manifest. Arbitrary
 certificate or key files do not enter the archive through their suffix.

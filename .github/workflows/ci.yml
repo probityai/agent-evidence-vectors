@@ -721,6 +721,8 @@ jobs:
         run: python3 scripts/workflow-steps-gate-test.py
       - name: the pool venue retains source-bound native results and refuses incomplete runs
         run: python3 scripts/pre-push-pool-test.py
+      - name: required native providers bind real tools and refuse unsafe archives
+        run: python3 scripts/native-provider-test.py
       # Both vector indexes publish a determinism recipe saying the set
       # regenerates byte-identically from the generator beside it, and until
       # this gate nothing ran it. Seven vector files and seven manifest entries
