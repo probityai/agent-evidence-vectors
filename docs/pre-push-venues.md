@@ -40,6 +40,9 @@ Pool execution does not turn hosting-only steps into passes. Check the remote
 workflows at the pushed commit after Git completes.
 
 Required tool setup failures fail the native gate and stop dependent commands.
+Unresolved required setup inputs also fail and block consumers, including
+Python setup. A setup whose event condition is proven false is excluded before
+its inputs are resolved; it does not provision tools or block later commands.
 Go and Node selectors must be numeric versions. The gate probes the current
 tools and maintained installed inventory first. If they do not match, it selects
 the newest stable matching release from the official index, checks the official

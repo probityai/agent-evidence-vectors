@@ -1503,6 +1503,12 @@ def resolve_inputs(
     step: Step, job: JobState, context: Mapping[str, str]
 ) -> tuple[Step, str | None, str, bool]:
     action = step.uses.split("@", 1)[0]
+    binds_job = action in PROVIDES or action in ("actions/checkout", "actions/setup-python")
+    # A proven false setup condition needs no inputs or provider. An attempted
+    # setup with unresolved inputs cannot leave consumers on ambient tools.
+    excluded = event_excludes(step.condition) if binds_job else ""
+    if excluded:
+        return step, None, excluded, False
     # Remote-only inputs cannot affect a command this mirror never runs.
     # Checkout and providers still need their local source/tool bindings.
     if (
@@ -1514,7 +1520,7 @@ def resolve_inputs(
         return step, *resolve_in_job(step, job)
     selected, problem = interpolate_inputs(step, job, context)
     if problem:
-        if step.uses.split("@", 1)[0] == "actions/checkout":
+        if binds_job:
             job.blocked = problem
         return selected, None, problem, True
     block, suffix, fault = resolve_in_job(selected, job)

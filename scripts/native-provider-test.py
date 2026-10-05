@@ -8,7 +8,9 @@ import io
 import json
 import os
 import pathlib
+import shlex
 import shutil
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -336,6 +338,109 @@ class ProviderControls(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "symbolic"):
             self.ensure()
         self.assertEqual(list(outside.iterdir()), [])
+
+    def setup_consumer(
+        self, action: str, key: str, selector: str, condition: str = ""
+    ) -> tuple[Any, pathlib.Path, pathlib.Path]:
+        repo = pathlib.Path(tempfile.mkdtemp(prefix="consumer-source-", dir=self.root))
+        (repo / "README.md").write_text("Harmless provider dependency control.\n")
+        GATE.git(repo, "init", "--quiet")
+        GATE.git(repo, "add", "README.md")
+        GATE.git(
+            repo,
+            "-c",
+            "user.name=Provider control",
+            "-c",
+            "user.email=provider-control@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "test: retain provider dependency input",
+        )
+        with patch.dict(os.environ, {}, clear=True):
+            source = GATE.Source(repo)
+        job = GATE.JobState(str(self.root), repo.name, repo)
+        sentinel = job.temp / "consumer.started"
+        command = shlex.join(
+            [
+                sys.executable,
+                "-I",
+                "-B",
+                "-c",
+                "import pathlib,sys;pathlib.Path(sys.argv[1]).write_text('started')",
+                str(sentinel),
+            ]
+        )
+        steps = [
+            GATE.Step(
+                job="dependency",
+                position=0,
+                name="required setup",
+                run=None,
+                uses=f"{action}@v5",
+                inputs={key: selector},
+                condition=condition,
+            ),
+            GATE.Step(
+                job="dependency",
+                position=1,
+                name="actual child",
+                run=command,
+                uses="",
+                inputs={},
+            ),
+        ]
+        evidence = self.root / f"evidence-{repo.name}"
+        GATE.execute_job(steps, job, source, evidence, {"PATH": "/usr/bin:/bin"})
+        source.verify()
+        return job, sentinel, evidence
+
+    def test_unresolved_setup_inputs_refuse_and_never_start_actual_child(self) -> None:
+        for action, key in (
+            ("actions/setup-go", "go-version"),
+            ("actions/setup-node", "node-version"),
+            ("actions/setup-python", "python-version"),
+        ):
+            for selector in ("${{ format('unsupported') }}", "${{ unknown.version }}"):
+                with self.subTest(action=action, selector=selector):
+                    job, sentinel, evidence = self.setup_consumer(action, key, selector)
+                    self.assertEqual(job.failed, 1)
+                    self.assertEqual(job.ran, 0)
+                    self.assertTrue(job.blocked)
+                    self.assertFalse(sentinel.exists())
+                    setup = json.loads((evidence / "steps/0/result.json").read_text())
+                    child = json.loads((evidence / "steps/1/result.json").read_text())
+                    self.assertEqual(setup["status"], "NOT_RUN")
+                    self.assertTrue(setup["fault"])
+                    self.assertEqual(child["status"], "NOT_RUN")
+                    self.assertFalse(child["fault"])
+                    self.assertEqual(child["reason"], job.blocked)
+                    self.assertFalse((evidence / "steps/1/command.sh").exists())
+
+    def test_proven_excluded_setup_does_not_resolve_inputs_or_block_child(self) -> None:
+        for action, key in (
+            ("actions/setup-go", "go-version"),
+            ("actions/setup-node", "node-version"),
+            ("actions/setup-python", "python-version"),
+        ):
+            with self.subTest(action=action):
+                job, sentinel, evidence = self.setup_consumer(
+                    action,
+                    key,
+                    "${{ format('unsupported') }}",
+                    "github.event_name == 'schedule'",
+                )
+                self.assertEqual(job.failed, 0)
+                self.assertEqual(job.ran, 1)
+                self.assertEqual(job.blocked, "")
+                self.assertEqual(sentinel.read_text(), "started")
+                setup = json.loads((evidence / "steps/0/result.json").read_text())
+                child = json.loads((evidence / "steps/1/result.json").read_text())
+                self.assertEqual(setup["status"], "NOT_RUN")
+                self.assertFalse(setup["fault"])
+                self.assertIn("false for a push", setup["reason"])
+                self.assertEqual(child["status"], "EXECUTED")
+                self.assertEqual(child["returncode"], 0)
 
     def test_original_archive_retention_and_symlink_refusal(self) -> None:
         archive(self.payload, self.members)

@@ -20,7 +20,6 @@ import time
 import tracemalloc
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any
 from unittest.mock import patch
 
@@ -593,7 +592,8 @@ with (out/'large-native.bin').open('wb') as stream:
                 GATE.retain_reports(job, Path(self.temp.name) / "retained")
 
     def timestamp(self):
-        candidate = Path(self.temp.name) / "job/timestamp-candidate"
+        job = GATE.JobState(self.temp.name, "timestamp-custody", self.root)
+        candidate = job.temp / "timestamp-candidate"
         members = []
         for name, raw in [
             ("release/CORPUS-DIGESTS.txt.sig", bytes(range(64))),
@@ -616,7 +616,7 @@ with (out/'large-native.bin').open('wb') as stream:
             "members": members,
         }
         (candidate / "manifest.json").write_text(json.dumps(report))
-        return candidate, SimpleNamespace(root=self.root, temp=candidate.parent)
+        return candidate, job
 
     def test_selected_public_timestamp_inputs_are_retained_byte_exact(self):
         candidate, job = self.timestamp()
