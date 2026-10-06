@@ -386,7 +386,10 @@ def pool() -> int:
     if runner is None:
         raise ValueError("pool venue needs the installed box_run.sh on PATH")
     request = {"nonce": secrets.token_hex(16), "bindings": bindings()}
-    storage = Path(git("rev-parse", "--path-format=absolute", "--git-common-dir")) / "aev-pre-push-pool"
+    storage = (
+        Path(git("rev-parse", "--path-format=absolute", "--git-common-dir"))
+        / "aev-pre-push-pool"
+    )
     if storage.is_symlink():
         raise ValueError("pool evidence storage is a symbolic link")
     storage.mkdir(exist_ok=True)
