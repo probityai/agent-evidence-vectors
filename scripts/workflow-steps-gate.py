@@ -36,6 +36,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import time
 from collections.abc import Callable, Iterator, Mapping
@@ -43,7 +44,10 @@ from typing import Any, NamedTuple
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+from _gate_json import decode_json  # noqa: E402
 from _lockfile import single_instance  # noqa: E402
+from _native_provider import digest as provider_digest  # noqa: E402
+from _native_provider import ensure as ensure_provider  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 WORKFLOWS = REPO / ".github" / "workflows"
@@ -395,12 +399,13 @@ def setup_python(inputs: dict[str, Any]) -> Local:
     """
     wanted = str(inputs.get("python-version", "")).strip()
     if not wanted:
-        return Local(None, "actions/setup-python was used without a python-version input")
+        return Local(None, "actions/setup-python was used without a python-version input", True)
     if not uv_python_available(wanted):
         return Local(
             None,
             f"actions/setup-python pins CPython {wanted}, which uv on this workstation "
             "cannot provide; the job's later steps are not run on a different interpreter",
+            True,
         )
     return Local(
         f'uv venv -q --seed --python {shlex.quote(wanted)} "$RUNNER_TEMP/setup-python"\n'
@@ -988,6 +993,13 @@ class JobState:
         self.repository = ""
         self.foreign: dict[str, dict[str, Any]] = {}
 
+    def block_failed_python_setup(self, step: Step, reason: str) -> bool:
+        """A failed interpreter binding blocks consumers, even when continued."""
+        if step.uses.split("@", 1)[0] != "actions/setup-python":
+            return False
+        self.blocked = f"the job's interpreter was not provisioned: {reason}"
+        return True
+
     def environment(self, base: dict[str, str]) -> dict[str, str]:
         project_env = str(self.temp / "project-env")
         env = {
@@ -1372,6 +1384,7 @@ def retain_reports(job: JobState, evidence: pathlib.Path) -> None:
                         "project-env",
                         "setup-python",
                         "baseline-python",
+                        "provider-runtime",
                         "node_modules",
                         "target",
                         ".git",
@@ -1396,12 +1409,114 @@ def retain_reports(job: JobState, evidence: pathlib.Path) -> None:
             target = evidence / "reports" / label / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(path.read_bytes())
+    retain_provider_archives(job, evidence)
+    # Retain the original reports even if a declared public input later refuses.
+    retain_timestamp_inputs(job, evidence)
+
+
+def retain_provider_archives(job: JobState, evidence: pathlib.Path) -> None:
+    """Retain only the checksum-bound official archives selected by this job."""
+    for probe in job.provider_probes:
+        if "actualSha256" not in probe:
+            continue
+        kind, wanted = probe["kind"], probe["wanted"]
+        if kind not in {"go", "node"} or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", wanted):
+            raise ValueError("provider archive has no bounded input identity")
+        directory = probe["inputDirectory"]
+        if not re.fullmatch(
+            rf"provider-inputs/{kind}-{re.escape(wanted)}-[A-Za-z0-9_]+", directory
+        ):
+            raise ValueError("provider archive directory has no owned canonical identity")
+        relative = pathlib.Path(directory) / "archive.tar.gz"
+        source = job.temp / relative
+        if any(
+            (job.temp / pathlib.Path(*relative.parts[:i])).is_symlink()
+            for i in range(1, len(relative.parts) + 1)
+        ):
+            raise ValueError("provider archive input is a symbolic link")
+        if (
+            not source.is_file()
+            or type(probe["archiveBytes"]) is not int
+            or source.stat().st_size != probe["archiveBytes"]
+            or provider_digest(source) != probe["actualSha256"]
+        ):
+            raise ValueError("provider archive differs from the actual selected download")
+        target = evidence / "reports/runner-temp" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+
+
+def retain_timestamp_inputs(job: JobState, evidence: pathlib.Path) -> None:
+    """Keep only declared fixed public validation inputs, never arbitrary keys."""
+    candidate = job.temp / "timestamp-candidate"
+    manifest = candidate / "manifest.json"
+    if candidate.is_symlink() or manifest.is_symlink():
+        raise ValueError("timestamp capture manifest is a symbolic link")
+    if not manifest.exists():
+        return
+    if not manifest.is_file():
+        raise ValueError("timestamp capture manifest is not a regular file")
+    report = decode_json(manifest.read_bytes())
+    if (
+        report["sourceCommit"] != git(job.root, "rev-parse", "HEAD").decode().strip()
+        or report["sourceTree"] != git(job.root, "rev-parse", "HEAD^{tree}").decode().strip()
+    ):
+        raise ValueError("timestamp capture does not name the selected public source")
+    members = {member["path"]: member for member in report["members"]}
+    if len(members) != len(report["members"]):
+        raise ValueError("timestamp capture repeats a member")
+    for relative in (
+        "release/CORPUS-DIGESTS.txt.sig",
+        "release/CORPUS-DIGESTS.txt.sig.tsr",
+        "spec/tsa-roots.pem",
+    ):
+        member = members[relative]
+        if member["state"] not in {"present", "empty", "missing", "refused", "unreadable"}:
+            raise ValueError("timestamp capture has an unknown member state")
+        if member["state"] != "present":
+            continue
+        raw = timestamp_public_input(job, candidate, relative, member)
+        target = evidence / "reports/runner-temp/timestamp-candidate" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+
+
+def timestamp_public_input(
+    job: JobState,
+    candidate: pathlib.Path,
+    relative: str,
+    member: dict[str, Any],
+) -> bytes:
+    """Read only a fixed public member with no symbolic-link path component."""
+    path = candidate
+    for part in pathlib.PurePosixPath(relative).parts:
+        path /= part
+        if path.is_symlink():
+            raise ValueError("declared timestamp input is a symbolic link")
+    if not path.is_file():
+        raise ValueError("declared timestamp input is not a regular file")
+    raw = path.read_bytes()
+    public = git(job.root, "show", f"HEAD:{relative}")
+    if (
+        raw != public
+        or type(member["bytes"]) is not int
+        or len(raw) != member["bytes"]
+        or hashlib.sha256(raw).hexdigest() != member["sha256"]
+    ):
+        raise ValueError("declared timestamp input differs from its public source or manifest")
+    return raw
 
 
 def resolve_inputs(
     step: Step, job: JobState, context: Mapping[str, str]
 ) -> tuple[Step, str | None, str, bool]:
     action = step.uses.split("@", 1)[0]
+    binds_job = action in PROVIDES or action in ("actions/checkout", "actions/setup-python")
+    # A proven false setup condition needs no inputs or provider. An attempted
+    # setup with unresolved inputs cannot leave consumers on ambient tools.
+    excluded = event_excludes(step.condition) if binds_job else ""
+    if excluded:
+        return step, None, excluded, False
     # Remote-only inputs cannot affect a command this mirror never runs.
     # Checkout and providers still need their local source/tool bindings.
     if (
@@ -1413,7 +1528,7 @@ def resolve_inputs(
         return step, *resolve_in_job(step, job)
     selected, problem = interpolate_inputs(step, job, context)
     if problem:
-        if step.uses.split("@", 1)[0] == "actions/checkout":
+        if binds_job:
             job.blocked = problem
         return selected, None, problem, True
     block, suffix, fault = resolve_in_job(selected, job)
@@ -1491,6 +1606,7 @@ def execute_job(
             )
         except (OSError, ValueError) as exc:
             job.failed += 1
+            job.block_failed_python_setup(step, str(exc))
             write_json(
                 retained / "result.json",
                 {"label": step.label, "status": "NOT_RUN", "reason": str(exc), "fault": True},
@@ -1499,7 +1615,10 @@ def execute_job(
             print(f"  NOT RUN  {step.label}  ({exc})")
             continue
         job.ran += 1
-        job.failed += int(proc.returncode != 0 and not step.continue_on_error)
+        provision_fault = proc.returncode != 0 and job.block_failed_python_setup(
+            step, f"actions/setup-python exited {proc.returncode}"
+        )
+        job.failed += int(proc.returncode != 0 and (provision_fault or not step.continue_on_error))
         outcome = "success" if proc.returncode == 0 else "failure"
         write_json(
             retained / "result.json",
@@ -1512,7 +1631,7 @@ def execute_job(
                 "stderr_sha256": hashlib.sha256((retained / "stderr").read_bytes()).hexdigest(),
             },
         )
-        if proc.returncode != 0 and step.continue_on_error:
+        if proc.returncode != 0 and step.continue_on_error and not provision_fault:
             print(f"  FAILED, continue-on-error  {step.label}  (exit {proc.returncode})")
         elif proc.returncode != 0:
             report_failure(step.label, proc)
@@ -1692,10 +1811,14 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
                 return None, problem, True
             return ":", f"  (checked out {foreign} at {ref or 'HEAD'} into {where})", False
     block, suffix, fault = resolve(step)
-    if block is None and action == "actions/setup-python":
+    if block is None and action == "actions/setup-python" and not event_excludes(step.condition):
         job.blocked = f"the job's interpreter was not provisioned: {suffix}"
     if block is None and action in PROVIDES and not event_excludes(step.condition):
         job.blocked = provider_problem(step, job)
+        suffix = job.blocked or (
+            f"{action} hosted action is not run here; declared native tools are bound, "
+            "with original capability probes retained"
+        )
     return block, suffix, fault
 
 
@@ -1714,42 +1837,32 @@ def self_checkout_problem(step: Step, job: JobState) -> str:
 
 
 def provider_problem(step: Step, job: JobState) -> str:
-    """Probe declared runner tools before any dependent shell starts."""
+    """Bind declared tools before dependent shells; required setup failures fail the gate."""
     action = step.uses.split("@", 1)[0]
     env = job.environment(step_base_environment(os.environ))
     tools = {tool: shutil.which(tool, path=env.get("PATH")) for tool in PROVIDES[action]}
     probe: dict[str, Any] = {"action": action, "tools": tools, "hosted_provisioning": False}
     job.provider_probes.append(probe)
-    if not all(tools.values()):
-        return f"{action} supplies tools not installed here: {tools}; no dependent shell ran"
     selector = {
-        "actions/setup-node": ("node-version", ["node", "--version"]),
-        "actions/setup-go": ("go-version", ["go", "version"]),
+        "actions/setup-node": ("node-version", "node"),
+        "actions/setup-go": ("go-version", "go"),
     }.get(action)
-    if selector is None or not step.inputs.get(selector[0]):
+    if selector is None:
+        if not all(tools.values()):
+            job.failed += 1
+            return f"{action} supplies tools not installed here: {tools}; no dependent shell ran"
         return ""
-    wanted = str(step.inputs[selector[0]]).removesuffix(".x")
-    proc = subprocess.run(selector[1], env=env, capture_output=True, check=False)  # noqa: S603 -- declared tool version probe
-    raw = job.temp / "provider-probes"
-    raw.mkdir(exist_ok=True)
-    index = len(job.provider_probes) - 1
-    (raw / f"{index}.stdout.txt").write_bytes(proc.stdout)
-    (raw / f"{index}.stderr.txt").write_bytes(proc.stderr)
-    job.failed += int(proc.returncode != 0)
-    probe.update(
-        command=selector[1],
-        returncode=proc.returncode,
-        stdout=proc.stdout.decode("utf-8", "replace"),
-        stderr=proc.stderr.decode("utf-8", "replace"),
-    )
-    installed = re.search(r"(?:go|v)([0-9]+(?:\.[0-9]+)+)", probe["stdout"])
-    if proc.returncode or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", wanted) or not installed:
-        return f"{action} version {wanted!r} could not be bound to an actual local tool"
-    if installed.group(1).split(".")[: len(wanted.split("."))] != wanted.split("."):
-        return (
-            f"{action} asks for {wanted}, actual local tool is {installed.group(1)}; "
-            "dependent steps not run"
-        )
+    wanted = str(step.inputs.get(selector[0], "")).removesuffix(".x")
+    try:
+        binary, goroot = ensure_provider(selector[1], wanted, env, job.temp, probe)
+        if binary is not None:
+            job.path.append(str(binary))
+        if goroot is not None:
+            job.env["GOROOT"] = str(goroot)
+    except (OSError, ValueError, KeyError, TypeError, tarfile.TarError) as exc:
+        job.failed += 1
+        probe["failure"] = str(exc)
+        return f"{action} could not bind version {wanted!r}: {exc}; no dependent shell ran"
     return ""
 
 

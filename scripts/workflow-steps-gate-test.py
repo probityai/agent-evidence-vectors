@@ -1169,7 +1169,7 @@ def a_tool_a_runner_step_provides_is_not_run_when_absent() -> None:
     with _provides("sigstore/cosign-installer", tool):
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log and f"{tool}" in log and "no dependent shell ran" in log, log
-    assert "NOT RUN  j[2]" in log and rc == 0, f"the job ran on past the missing tool:\n{log}"
+    assert "NOT RUN  j[2]" in log and rc != 0, f"missing required setup passed:\n{log}"
     assert "ran 0 steps" in log, f"a step that could not run was counted as run:\n{log}"
 
 
@@ -1186,7 +1186,7 @@ def a_script_that_cannot_spawn_the_tool_is_not_run() -> None:
     with _provides("sigstore/cosign-installer", tool):
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log and tool in log and "no dependent shell ran" in log, log
-    assert rc == 0, log
+    assert rc != 0, log
 
 
 def a_missing_command_nothing_provides_still_fails() -> None:
