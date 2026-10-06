@@ -387,7 +387,7 @@ def judge(
     mapping: dict[str, Any],
     disabled: frozenset[str] = frozenset(),
 ) -> dict[str, Any]:
-    on = set(RULES) - set(disabled)
+    on: set[str] = set(RULES) - set(disabled)
     records: list[dict[str, Any]] = []
     flags: list[str] = []
     try:
