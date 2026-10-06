@@ -9,7 +9,7 @@
 [project]
 name = "agent-evidence-vectors"
 version = "0.17.4"
-description = "Conformance vectors and reference verifier for the in-toto Adversarial Execution Evidence predicate"
+description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.13"
 license = { text = "Apache-2.0" }
 readme = "README.md"
@@ -30,6 +30,8 @@ dependencies = []
 [project.urls]
 Homepage = "https://github.com/probityai/agent-evidence-vectors"
 Repository = "https://github.com/probityai/agent-evidence-vectors"
+Documentation = "https://probityai.github.io/agent-evidence-vectors/start.html"
+Issues = "https://github.com/probityai/agent-evidence-vectors/issues"
 Changelog = "https://github.com/probityai/agent-evidence-vectors/releases"
 
 # The one console entry point. It is named after the distribution so that
