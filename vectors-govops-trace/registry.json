@@ -1,0 +1,54 @@
+{
+ "evidence_domain_id": "bank.example/payments",
+ "keys": [
+  {
+   "authorized_event_kinds": [
+    "AUTHORIZATION_DECISION"
+   ],
+   "key_type": "Ed25519",
+   "kid": "pdp-2026-01",
+   "producer_id": "cedarling-fleet-1",
+   "public_key_hex": "216b5514ba584b1fa0682d1cdfab9db5283ec62e6186ed3034bc2619573a348a",
+   "revoked_at": null,
+   "valid_from": 1759764000,
+   "valid_until": 1822836000
+  },
+  {
+   "authorized_event_kinds": [
+    "CAPABILITY_INVOKED"
+   ],
+   "key_type": "Ed25519",
+   "kid": "gw-2026-01",
+   "producer_id": "payments-gateway",
+   "public_key_hex": "8a68811be71e38409b4f307ab50b7155559ff95b014ea4fbada1c78690f86677",
+   "revoked_at": null,
+   "valid_from": 1759764000,
+   "valid_until": 1822836000
+  },
+  {
+   "authorized_event_kinds": [
+    "RUNTIME_EFFECT"
+   ],
+   "key_type": "Ed25519",
+   "kid": "ledger-2026-01",
+   "producer_id": "payments-ledger",
+   "public_key_hex": "799130cd8757c1ce3492f07f23f31705c349519800102643657e9ae258c5305b",
+   "revoked_at": null,
+   "valid_from": 1759764000,
+   "valid_until": 1822836000
+  },
+  {
+   "authorized_event_kinds": [
+    "AUTHORIZATION_DECISION"
+   ],
+   "key_type": "Ed25519",
+   "kid": "pdp-2025-09",
+   "producer_id": "cedarling-fleet-1",
+   "public_key_hex": "7546c6c12191ec0af4344765e5fa3e6cee665924e37dc5c9ef24a13177d73323",
+   "revocation_reason": "key_compromise",
+   "revoked_at": 1791296400,
+   "valid_from": 1759764000,
+   "valid_until": 1822836000
+  }
+ ]
+}

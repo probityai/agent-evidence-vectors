@@ -1,0 +1,480 @@
+{
+ "keyNote": "PUBLISHED TEST KEYS derived from fixed seeds in gen_vectors.py.",
+ "members": [
+  {
+   "basis": "profile sections 1, 5, 6, 8, 9",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "inv-0090": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "inv-0091": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [],
+   "id": "GT-A1",
+   "sha256": "84ba1c8492a108b1d747f4a5897aa7c70c2078c0416be32d7655e77c13e9df69",
+   "verdict": "accept",
+   "why": "The funds transfer: decision, invocation and effect from three producers, each with its predecessor."
+  },
+  {
+   "basis": "carriage proposal",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "inv-0090": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "inv-0091": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [],
+   "id": "GT-A2",
+   "sha256": "c440bf0d7824bc2e1546cf025f120df5fdc8ab35006fcae79eb338415465b2ea",
+   "verdict": "accept",
+   "why": "The same six records, each the predicate of an in-toto Statement in a DSSE envelope."
+  },
+  {
+   "basis": "profile sections 8 and 9",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "decision_id": "d1",
+      "resolution_status": "resolved"
+     },
+     {
+      "capability_ids": [
+       "read:account-balance"
+      ],
+      "decision_id": "d2",
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [],
+   "id": "GT-A3",
+   "sha256": "60b5ddcd864886029d7408f0df14da566f7df00eeac498d99c35100239e79d6f",
+   "verdict": "accept",
+   "why": "A batched decisions[] with mixed outcomes resolves one capability per decision_id."
+  },
+  {
+   "basis": "profile sections 9 and 12",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "consumer-derived-field-ignored"
+   ],
+   "id": "GT-F1",
+   "sha256": "69e107f59a4d72e3f78bb4e97d4eacd204776234cda6a55f453980848a538ef0",
+   "verdict": "flag",
+   "why": "The PDP signed a capability_id that disagrees with the mapping. It is ignored; resolution still gives invoke:funds-transfer."
+  },
+  {
+   "basis": "profile section 9",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [],
+      "resolution_status": "unmapped"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "capability-unmapped"
+   ],
+   "id": "GT-F2",
+   "sha256": "8a78dc18c0b646717d2a03cc20c7c965069735603be6b5a8c7cb4dbcd24ef6d3",
+   "verdict": "flag",
+   "why": "No mapping entry for the signed facts: resolution_status unmapped, recorded, not dropped."
+  },
+  {
+   "basis": "profile sections 5 and 12",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "chain-link-failure"
+   ],
+   "id": "GT-F3",
+   "sha256": "d66eddc1a4d61a60f582920281c9010f90787f69ae202c8ec10bcb1e3fe4ef7d",
+   "verdict": "flag",
+   "why": "prev_record_hash does not equal the content digest of the predecessor."
+  },
+  {
+   "basis": "profile section 12",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "coverage-gap"
+   ],
+   "id": "GT-F4",
+   "sha256": "fcf8b3c4567453dabaa86885ee056ad4a322ca2aad3e134c44883e104db0046c",
+   "verdict": "flag",
+   "why": "Sequence 41 is missing between 40 and 43."
+  },
+  {
+   "basis": "profile section 12",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "equivocation"
+   ],
+   "id": "GT-F5",
+   "sha256": "ad5d4009c30db90e784402b9b71227beb82675fa2acac4429f8f4ed0a63018d2",
+   "verdict": "flag",
+   "why": "Two different records claim sequence 41 of one chain."
+  },
+  {
+   "basis": "profile sections 6 and 9",
+   "capability_resolution": {
+    "inv-0090": [
+     {
+      "capability_ids": [],
+      "resolution_status": "unmapped"
+     }
+    ],
+    "inv-0091": [
+     {
+      "capability_ids": [],
+      "resolution_status": "unmapped"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "capability-unmapped",
+    "unresolved-parent"
+   ],
+   "id": "GT-F6",
+   "sha256": "cdd827ce1cc037db0972e85b5bd39463d3b3375a4b74dce8ab4c4cec8ba3d5e8",
+   "verdict": "flag",
+   "why": "The invocation's authorized edge names a decision that never arrived."
+  },
+  {
+   "basis": "profile section 1 (cnf not carried)",
+   "capability_resolution": {
+    "dec-0040": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ],
+    "dec-0041": [
+     {
+      "capability_ids": [
+       "invoke:funds-transfer"
+      ],
+      "resolution_status": "resolved"
+     }
+    ]
+   },
+   "code": null,
+   "flags": [
+    "cnf-ignored"
+   ],
+   "id": "GT-F7",
+   "sha256": "25925bf249baea991f7b2207125d2b4dd8ab5e8262b8dcfe07b90a478c7d41e8",
+   "verdict": "flag",
+   "why": "The body carries cnf. The key comes from the registry by kid; cnf is ignored and flagged."
+  },
+  {
+   "basis": "profile section 1",
+   "code": "bad-signature",
+   "flags": [],
+   "id": "GT-R1",
+   "sha256": "a3119dbcab20f01275c4b6e23812d4452084371c1eaca321b0e71063ac502985",
+   "verdict": "reject",
+   "why": "The outcome was changed after signing."
+  },
+  {
+   "basis": "profile section 10",
+   "code": "key-unresolved",
+   "flags": [],
+   "id": "GT-R2",
+   "sha256": "84c710b3e0f5aa0802b27c3698f1dcdff0b8a12533e482a232e0cbe325b6b73a",
+   "verdict": "reject",
+   "why": "kid names no registered key."
+  },
+  {
+   "basis": "profile sections 8 and 10",
+   "code": "producer-not-authorized-for-claim",
+   "flags": [],
+   "id": "GT-R3",
+   "sha256": "0007fd011588f16626289ae88e3b840ca3775f1d37c0e411ad4b60c88b9b5192",
+   "verdict": "reject",
+   "why": "The gateway's key signed an authorization decision."
+  },
+  {
+   "basis": "profile section 1",
+   "code": "producer-mismatch",
+   "flags": [],
+   "id": "GT-R4",
+   "sha256": "dfd1d1f3e19bc64a36f77cbd7b2f103075e775f103aab11dd1833b047b85c91c",
+   "verdict": "reject",
+   "why": "producer and producer_chain.producer_id differ."
+  },
+  {
+   "basis": "profile section 1 (cnf not carried)",
+   "code": "bad-signature",
+   "flags": [],
+   "id": "GT-R5",
+   "sha256": "5b197426cedab4b510bf0ed03cef09c94e3a28a6f7049b5393328a651916e91f",
+   "verdict": "reject",
+   "why": "The body carries cnf with the signer's own key. The registry key is the only key, so the signature fails."
+  },
+  {
+   "basis": "RFC 8785 section 3.1, I-JSON",
+   "code": "duplicate-member",
+   "flags": [],
+   "id": "GT-R6",
+   "sha256": "99380fe36f9e6c6c9ab0a155bc324f0094ce72e4da2a3d7cd78f3fceb9b6a295",
+   "verdict": "reject",
+   "why": "outcome appears twice. A last-wins parser reads ALLOW, while the signature covers DENY."
+  },
+  {
+   "basis": "profile section 8",
+   "code": "decision-form-ambiguous",
+   "flags": [],
+   "id": "GT-R7",
+   "sha256": "e19fe1ef9ea3a5e58b34f605feb676fda17a9c8b982397bf0dd46f9f88102815",
+   "verdict": "reject",
+   "why": "Both decision and decisions[] are present."
+  },
+  {
+   "basis": "profile section 10",
+   "code": "key-revoked",
+   "flags": [],
+   "id": "GT-R8",
+   "sha256": "f3be81b80a58fde00d7fce7bca37a1c9482c46c20f227d73921b804dd6b27b72",
+   "verdict": "reject",
+   "why": "Signed by a key revoked an hour before signed_at."
+  },
+  {
+   "basis": "profile section 10",
+   "code": "key-temporally-invalid",
+   "flags": [],
+   "id": "GT-R9",
+   "sha256": "ecc6e9928b045089e849c3e18f0981dd00582047963eb878b8ce1fef79fa06a9",
+   "verdict": "reject",
+   "why": "signed_at falls after the key's valid_until."
+  },
+  {
+   "basis": "profile section 2",
+   "code": "profile-mismatch",
+   "flags": [],
+   "id": "GT-R10",
+   "sha256": "6015f4139744bdc832608aa20575137b8690d96b265e47d4e9cbcea15a40b5fc",
+   "verdict": "reject",
+   "why": "A base TRACE v0.2 profile tag on a GovOps-shaped record."
+  },
+  {
+   "basis": "profile section 8",
+   "code": "missing-required-field",
+   "flags": [],
+   "id": "GT-R11",
+   "sha256": "605edecf4287ddeb78510af79cd95c24ebbb786d8ad26588abc87417363a4dc4",
+   "verdict": "reject",
+   "why": "An authorization decision without runtime.pdp_id."
+  },
+  {
+   "basis": "RFC 8785 section 3.2.2.3, RFC 7493",
+   "code": "number-not-ijson",
+   "flags": [],
+   "id": "GT-R12",
+   "sha256": "9ea150ad5ba92354717dd9c1bec14ae230dcd6328dfe708cc379fae2b901a6fb",
+   "verdict": "reject",
+   "why": "sequence_number of 2^53, beyond the integers every JSON reader agrees on."
+  },
+  {
+   "basis": "profile section 7",
+   "code": "unknown-event-kind",
+   "flags": [],
+   "id": "GT-R13",
+   "sha256": "a1daea526743d4ed9ca12506d4e6b5e95e6da8be6d04687321bd56c7c4e379d5",
+   "verdict": "reject",
+   "why": "A full-design event kind in an MVP-conformant stream."
+  },
+  {
+   "basis": "carriage proposal",
+   "code": "dsse-payload-type",
+   "flags": [],
+   "id": "GT-D1",
+   "sha256": "bae79779e3299db935b66961e2832a11cbd343bbff95b511919e6d47849c1bea",
+   "verdict": "reject",
+   "why": "The envelope's payloadType is not in-toto."
+  },
+  {
+   "basis": "carriage proposal",
+   "code": "predicate-type-mismatch",
+   "flags": [],
+   "id": "GT-D2",
+   "sha256": "2ab3c4bb9159bf46eb979ef54d529c1f197152c245881568a1a4b4cc32fb4efe",
+   "verdict": "reject",
+   "why": "The Statement names another predicate type."
+  },
+  {
+   "basis": "carriage proposal",
+   "code": "subject-digest-mismatch",
+   "flags": [],
+   "id": "GT-D3",
+   "sha256": "4cdc696fae2a840ea320678c15477700795413ffd72e64327121e1445897b468",
+   "verdict": "reject",
+   "why": "The subject digest is not the record's content digest."
+  },
+  {
+   "basis": "carriage proposal",
+   "code": "dsse-bad-signature",
+   "flags": [],
+   "id": "GT-D4",
+   "sha256": "a30c6433fa5593fb92a775dcb2ecf8c15f68c34666b1e7f1c510720d1d023415",
+   "verdict": "reject",
+   "why": "Signed by the gateway's key under the PDP's keyid."
+  }
+ ],
+ "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/govops-trace-record",
+ "profile": "tag:govops,2026:trace-v1",
+ "profileSource": "https://github.com/GovOpsWG/GovOps/blob/131cb66bc87cd266e224d7df6f7b9401c00f3ef7/govops-trace-profile.md"
+}
