@@ -405,11 +405,11 @@ def members() -> list[dict[str, Any]]:  # noqa: PLR0915 -- one flat table of cas
         flags=["chain-link-failure"],
         basis="profile sections 5 and 12",
     )
-    gap = resign(d1, "pdp", lambda r: r["producer_chain"].update(sequence_number=43))
+    gap = resign(d1, "pdp", lambda r: r["producer_chain"].update(sequence_number=45))
     add(
         "GT-F4",
         "flag",
-        "Sequence 41 is missing between 40 and 43.",
+        "The chain skips sequence 41.",
         inline([d0, gap]),
         flags=["coverage-gap"],
         basis="profile section 12",

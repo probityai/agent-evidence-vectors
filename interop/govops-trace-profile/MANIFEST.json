@@ -232,9 +232,9 @@
     "coverage-gap"
    ],
    "id": "GT-F4",
-   "sha256": "fcf8b3c4567453dabaa86885ee056ad4a322ca2aad3e134c44883e104db0046c",
+   "sha256": "77dc12c473c3945baa0ac90871d66b4517b76e6e85810088f0954894c1891b35",
    "verdict": "flag",
-   "why": "Sequence 41 is missing between 40 and 43."
+   "why": "The chain skips sequence 41."
   },
   {
    "basis": "profile section 12",

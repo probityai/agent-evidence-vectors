@@ -1,13 +1,12 @@
 """Judge the committed GovOps TRACE corpus and prove every rule is load-bearing.
 
-Exit 0 only when:
-  1. every member file matches the digest MANIFEST.json records for it;
-  2. the reference reader reaches each member's expected verdict, code and flags;
-  3. the capability resolutions the funds transfer depends on equal the values
-     written below by hand, so they are not the reader's own output read back;
-  4. turning off any single rule changes the result of every member that names
-     it. A rule no member depends on, or a member that passes without its rule,
-     fails the sweep.
+Exit 0 only when every member file matches the digest MANIFEST.json records for
+it; when the reference reader reaches each member's expected verdict, code and
+flags; when the capability resolutions the funds transfer depends on equal the
+values written below by hand, so they are not the reader's own output read back;
+and when turning off any single rule changes the result of every member that
+names it. A rule no member depends on, or a member that passes without its rule,
+fails the sweep.
 """
 
 from __future__ import annotations

@@ -15,8 +15,8 @@ Each producer also carries the record before it in its chain, so `prev_record_ha
 ## Run it
 
 ```sh
-uv run --extra generators python vectors-govops-trace/gen_vectors.py    # rebuild, byte-identical
-uv run --extra generators python vectors-govops-trace/check_vectors.py  # judge and sweep
+uv run --extra generators python interop/govops-trace-profile/gen_vectors.py    # rebuild, byte-identical
+uv run --extra generators python interop/govops-trace-profile/check_vectors.py  # judge and sweep
 ```
 
 `check_vectors.py` exits 0 only when every member file matches its recorded digest and the reference reader ([`verifier.py`](verifier.py)) reaches every expected verdict. The capability resolutions the funds transfer depends on must also equal values written by hand, and turning off any one of the 23 rules must change the result of every member that names it. That last check is the mutation sweep: a rule no member depends on, or a member that passes with its rule removed, fails CI.

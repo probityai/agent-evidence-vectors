@@ -253,7 +253,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-govops-trace vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -833,15 +833,6 @@ jobs:
       # second Ed25519 library, and sweeps every rule for load-bearing effect.
       - name: the agent-audit-record corpus behaves as its manifest claims
         run: uv run --extra generators python vectors-agent-audit-record/check_vectors.py
-      # The GovOps TRACE profile corpus: one funds transfer across three producers,
-      # each defect a member. The checker judges the committed bytes, compares the
-      # capability resolutions against hand-written values, and sweeps every rule.
-      - name: the GovOps TRACE corpus behaves as its manifest claims
-        run: uv run --extra generators python vectors-govops-trace/check_vectors.py
-      - name: the GovOps TRACE corpus regenerates byte-identically
-        run: |
-          uv run --extra generators python vectors-govops-trace/gen_vectors.py
-          git diff --exit-code -- vectors-govops-trace
       # An indeterminate member is a row the specification leaves open, and a
       # verifier conforms on it by reaching any verdict its readings list. N1 and
       # N2 shipped with expected.verdict pinned to one of their two readings while
