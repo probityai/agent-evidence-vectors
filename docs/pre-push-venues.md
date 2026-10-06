@@ -23,7 +23,11 @@ The bridge retains the original result, logs, source capture, and reports in a
 compressed archive. It receives the archive through the pool driver's SSH route
 and checks every member before the original Git push continues. A missing
 runner, receipt, archive, source binding, or native result refuses the push.
-Failure captures stay available at the printed evidence directory.
+Both success and failure captures stay available at the printed evidence
+directory. The coordinator stores them under `aev-pre-push-pool/` in the
+repository's common Git directory. They survive temporary-directory cleanup
+and removal of the isolated checkout that the hook creates. Each run gets a
+separate directory. Retain the archive elsewhere before deleting the repository.
 
 Archive and member hashes use 1 MiB read buffers. Gzip decoding feeds the tar
 reader through a buffered stream, so a highly compressed member does not

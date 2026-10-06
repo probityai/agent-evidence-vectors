@@ -214,7 +214,7 @@ sys.stdout.buffer.write(pathlib.Path(command[1]).read_bytes())
             code = BRIDGE.pool()
         self.assertEqual(code, 0)
         self.assertIn("full capture checked", output.getvalue())
-        retained = list(Path(self.temp.name).glob("aev-pre-push-pool-*"))
+        retained = list((self.root / ".git/aev-pre-push-pool").glob("capture-*"))
         self.assertEqual(len(retained), 1)
         self.assertTrue((retained[0] / "completion.json").is_file())
         self.assertTrue((retained[0] / "native.tar.gz").is_file())
@@ -229,6 +229,44 @@ sys.stdout.buffer.write(pathlib.Path(command[1]).read_bytes())
             self.assertRaisesRegex(ValueError, "could not be received"),
         ):
             BRIDGE.pool()
+
+    def test_pool_capture_survives_push_temporary_directory_cleanup(self):
+        self.install_transport_fixture()
+        wrapper_tmp = Path(self.temp.name) / "push-tmp"
+        wrapper_tmp.mkdir()
+        selected = wrapper_tmp / "selected-checkout"
+        self.call("worktree", "add", "--detach", str(selected), "HEAD")
+        output = io.StringIO()
+        with patch.object(BRIDGE, "ROOT", selected):
+            with (
+                patch.dict(os.environ, self.env, clear=True),
+                patch("tempfile.tempdir", str(wrapper_tmp)),
+                contextlib.redirect_stdout(output),
+            ):
+                self.assertEqual(BRIDGE.pool(), 0)
+        prefix = "pre-push: pool evidence retained at "
+        paths = [line[len(prefix):] for line in output.getvalue().splitlines()
+                 if line.startswith(prefix)]
+        self.assertEqual(len(paths), 1)
+        retained = Path(paths[0])
+        receipt = (retained / "completion.json").read_bytes()
+        archive = BRIDGE.file_metadata(retained / "native.tar.gz")
+        self.call("worktree", "remove", "--force", str(selected))
+        shutil.rmtree(wrapper_tmp)
+        self.assertTrue(retained.is_dir(), "push cleanup removed the native evidence")
+        self.assertEqual((retained / "completion.json").read_bytes(), receipt)
+        self.assertEqual(BRIDGE.file_metadata(retained / "native.tar.gz"), archive)
+
+    def test_pool_coordinator_refuses_linked_evidence_storage(self):
+        self.install_transport_fixture()
+        storage = self.root / ".git/aev-pre-push-pool"
+        storage.symlink_to(self.bin, target_is_directory=True)
+        with (
+            patch.dict(os.environ, self.env, clear=True),
+            self.assertRaisesRegex(ValueError, "evidence storage is a symbolic link"),
+        ):
+            BRIDGE.pool()
+        self.assertEqual(list(self.bin.glob("capture-*")), [])
 
     def test_cancelled_native_child_stops_and_keeps_its_actual_exit(self):
         self.gate.write_text("""import os, pathlib, time

@@ -386,7 +386,11 @@ def pool() -> int:
     if runner is None:
         raise ValueError("pool venue needs the installed box_run.sh on PATH")
     request = {"nonce": secrets.token_hex(16), "bindings": bindings()}
-    retained = Path(tempfile.mkdtemp(prefix="aev-pre-push-pool-"))
+    storage = Path(git("rev-parse", "--path-format=absolute", "--git-common-dir")) / "aev-pre-push-pool"
+    if storage.is_symlink():
+        raise ValueError("pool evidence storage is a symbolic link")
+    storage.mkdir(exist_ok=True)
+    retained = Path(tempfile.mkdtemp(prefix="capture-", dir=storage))
     (retained / "request.json").write_bytes(encode(request))
     print(f"pre-push: pool evidence retained at {retained}", flush=True)
     argument = base64.b64encode(encode(request)).decode()
