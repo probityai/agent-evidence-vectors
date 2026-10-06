@@ -70,5 +70,6 @@ jobs:
         if: always()
         with:
           name: trace-acta-receipts-${{ matrix.python }}-${{ github.run_attempt }}
-          path: .build/trace-acta-receipts.*/
+          path: ${{ env.TRACE_CAPTURE_DIR }}
+          include-hidden-files: true
           if-no-files-found: error
