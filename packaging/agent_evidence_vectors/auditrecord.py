@@ -1,8 +1,8 @@
 """The agent audit record, and the corpus that holds its conformance set.
 
 The record format is defined by the Internet-Draft
-``draft-gilda-wimse-agent-audit-record-02``: one in-toto Statement in a DSSE
-envelope, sixteen predicate members carrying the seven minimum audit fields of
+``draft-gilda-wimse-agent-audit-record-03``: one in-toto Statement in a DSSE
+envelope, seventeen required predicate members carrying the seven minimum audit fields of
 Section 11 of ``draft-ietf-wimse-aims``, and the recomputes that make those
 fields checkable. Appendix B of the draft lists the conformance corpus, and
 ``vectors-agent-audit-record/`` publishes it member for member: each manifest
@@ -108,8 +108,15 @@ VOCABULARIES: dict[str, frozenset[str]] = {
 }
 
 #: What a decision that could not be evaluated names as missing: the standing
-#: source, the key source and the consumption state.
-UNAVAILABLE_INPUTS = frozenset({"standing-source", "key-source", "consumption-state"})
+#: source, the key source and the consumption state of Section 5 of
+#: draft-jackson-wimse-evaluation, and the policy source a decision point reads
+#: its policy from.
+UNAVAILABLE_INPUTS = frozenset(
+    {"standing-source", "key-source", "consumption-state", "policy-source"}
+)
+#: The only members an evaluation object may carry. A free-text reason beside the
+#: closed set would let a record name an unavailable input nobody can compare.
+EVALUATION_MEMBERS = frozenset({"status", "unavailableInput"})
 #: The only members an oversight object may carry.
 OVERSIGHT_MEMBERS = frozenset({"act", "recordDigest"})
 
@@ -501,16 +508,19 @@ def _rule_closed_vocabularies(state: _State) -> None:
     pred = state.predicate
     for dotted, allowed in VOCABULARIES.items():
         for value in _vocabulary_values(pred, dotted):
-            if value not in allowed:
+            if not isinstance(value, str) or value not in allowed:
                 raise Malformed("value-outside-vocabulary")
     for value in pred["fieldEvidence"].values():
-        if value not in FIELD_EVIDENCE_VALUES:
+        if not isinstance(value, str) or value not in FIELD_EVIDENCE_VALUES:
             raise Malformed("value-outside-vocabulary")
 
 
 def _rule_evaluation(state: _State) -> None:
-    """Evaluated names no unavailable input; not-evaluated names one or more, once each."""
+    """Evaluated names no unavailable input; not-evaluated names one or more, once
+    each; and the member carries nothing else (EV10)."""
     evaluation = state.predicate["evaluation"]
+    if set(evaluation) - EVALUATION_MEMBERS:
+        raise Malformed("evaluation-malformed")
     if evaluation["status"] == "evaluated":
         if "unavailableInput" in evaluation:
             raise Malformed("evaluation-inconsistent")
@@ -519,7 +529,7 @@ def _rule_evaluation(state: _State) -> None:
     if not isinstance(inputs, list) or not inputs:
         raise Malformed("evaluation-inconsistent")
     for value in inputs:
-        if value not in UNAVAILABLE_INPUTS:
+        if not isinstance(value, str) or value not in UNAVAILABLE_INPUTS:
             raise Malformed("value-outside-vocabulary")
     if len(set(inputs)) != len(inputs):
         raise Malformed("evaluation-inconsistent")

@@ -3,13 +3,13 @@
     "digest": "sha256",
     "envelope": "ed25519"
   },
-  "corpusDigest": "048ddde8c8ce7e65368c4c46bd91192765444d287b4fcd35c3260bfcf9bb80aa",
+  "corpusDigest": "0f808649749b7a019e01b5c94835cf56a1cbd5bd6d3cfc795f6d63c129c58be5",
   "counts": {
-    "accept": 11,
+    "accept": 13,
     "indeterminate": 2,
-    "reject": 42
+    "reject": 51
   },
-  "draft": "draft-gilda-wimse-agent-audit-record-02",
+  "draft": "draft-gilda-wimse-agent-audit-record-03",
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
     "sha256": "6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"
@@ -27,7 +27,7 @@
   },
   "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
-  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/",
+  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/03/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
   "suite": "agent-audit-record-conformance",
   "vectors": [
@@ -173,6 +173,32 @@
       "kind": "accept",
       "row": "A1 plus oversight with act of check and the overseer's record digest",
       "slug": "a11-oversight-check-with-record-digest"
+    },
+    {
+      "draftId": "A12",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v6d6409c8d2da7221.json",
+      "id": "v6d6409c8d2da7221",
+      "kind": "accept",
+      "row": "A1 with evaluation of not-evaluated and unavailableInput of policy-source: a decision point failing open, agreement of agree",
+      "slug": "a12-permit-not-evaluated-policy-source"
+    },
+    {
+      "draftId": "A13",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v3d8a80e0605365c7.json",
+      "id": "v3d8a80e0605365c7",
+      "kind": "accept",
+      "row": "A3 with evaluation of not-evaluated and unavailableInput of key-source and consumption-state: a leak during an outage, agreement of disagree",
+      "slug": "a13-leaked-deny-not-evaluated-two-inputs"
     },
     {
       "draftId": "F1",
@@ -671,6 +697,54 @@
       "slug": "e3-empty-tree-carries-sha1-constant"
     },
     {
+      "draftId": "E4",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v0a8347d22528a482.json",
+      "id": "v0a8347d22528a482",
+      "kind": "reject",
+      "parent": "v0d65a70ec5288821",
+      "parentDraftId": "A1",
+      "row": "the only write's pre-state is not the before-state root, its post-state is the after-state root",
+      "slug": "e4-first-write-not-from-before-root"
+    },
+    {
+      "draftId": "E5",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vce5dd5d3016f0f98.json",
+      "id": "vce5dd5d3016f0f98",
+      "kind": "reject",
+      "parent": "v0d65a70ec5288821",
+      "parentDraftId": "A1",
+      "row": "the only write starts from the before-state root and its post-state is not the after-state root",
+      "slug": "e5-last-write-not-to-after-root"
+    },
+    {
+      "draftId": "E6",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb056ea9d796833dd.json",
+      "id": "vb056ea9d796833dd",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "an empty write set beside an after-state root unequal to the before-state root, second subject moved to match",
+      "slug": "e6-no-write-and-unequal-roots"
+    },
+    {
       "draftId": "V1",
       "expected": {
         "codes": [
@@ -813,6 +887,102 @@
       "parentDraftId": "A10",
       "row": "unavailableInput of network, outside the closed set",
       "slug": "ev4-unavailable-input-outside-closed-set"
+    },
+    {
+      "draftId": "EV5",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vad2441a259a50f00.json",
+      "id": "vad2441a259a50f00",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "unavailableInput naming standing-source twice",
+      "slug": "ev5-unavailable-input-named-twice"
+    },
+    {
+      "draftId": "EV6",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcd15c3c9acca0c11.json",
+      "id": "vcd15c3c9acca0c11",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with unavailableInput of the empty array",
+      "slug": "ev6-not-evaluated-with-empty-unavailable-input"
+    },
+    {
+      "draftId": "EV7",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vbf2ae20bcbffa955.json",
+      "id": "vbf2ae20bcbffa955",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of the empty array",
+      "slug": "ev7-evaluated-with-empty-unavailable-input"
+    },
+    {
+      "draftId": "EV8",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vda6b7e1f65949034.json",
+      "id": "vda6b7e1f65949034",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of null",
+      "slug": "ev8-evaluated-with-null-unavailable-input"
+    },
+    {
+      "draftId": "EV9",
+      "expected": {
+        "codes": [
+          "value-outside-vocabulary"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vfad2ab35b4431c44.json",
+      "id": "vfad2ab35b4431c44",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "evaluation.status of partially-evaluated, outside the closed set, unavailableInput kept",
+      "slug": "ev9-status-outside-closed-set"
+    },
+    {
+      "draftId": "EV10",
+      "expected": {
+        "codes": [
+          "evaluation-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcf98fa87f7b1fca1.json",
+      "id": "vcf98fa87f7b1fca1",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "evaluation carrying a free-text reason member the draft does not define",
+      "slug": "ev10-evaluation-carrying-an-undefined-member"
     },
     {
       "draftId": "OV1",
