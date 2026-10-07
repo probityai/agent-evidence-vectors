@@ -6,13 +6,9 @@ name: ACS-Core wire probes
 # of that pull request. Each run must match its recorded expectation exactly,
 # so a probe that starts passing, or stops, turns this red.
 
+# Pull requests only. The job runs a third party's code, so it never runs in
+# the default branch's context, where a cache it wrote could be read later.
 on:
-  workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - vectors-acs-core/wire-probes/**
-      - .github/workflows/acs-wire-probes.yml
   pull_request:
     paths:
       - vectors-acs-core/wire-probes/**
@@ -57,7 +53,7 @@ jobs:
 
       - name: Install the locked Guardian dependencies
         working-directory: source/acs/reference-implementations/agt
-        run: bun install --frozen-lockfile
+        run: bun install --frozen-lockfile --ignore-scripts
 
       - name: Run the probes against the recorded expectation
         run: >-
