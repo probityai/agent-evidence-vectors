@@ -54,7 +54,7 @@ CONSUMER_DERIVED = (
     "key_thumbprint",
 )
 
-RULES = (
+RULES: tuple[str, ...] = (
     # refusals, in the order a record meets them
     "duplicate-member",
     "number-not-ijson",
