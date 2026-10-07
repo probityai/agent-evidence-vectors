@@ -180,8 +180,9 @@ class Probe:
 
 def summary(rec: Json) -> Json:
     resp = rec.get("response") or {}
-    res = resp.get("result") if isinstance(resp.get("result"), dict) else {}
-    err = resp.get("error") if isinstance(resp.get("error"), dict) else {}
+    raw_res, raw_err = resp.get("result"), resp.get("error")
+    res: Json = raw_res if isinstance(raw_res, dict) else {}
+    err: Json = raw_err if isinstance(raw_err, dict) else {}
     return {"code": err.get("code"), "message": err.get("message"),
             "decision": res.get("decision"), "reason_codes": res.get("reason_codes") or [],
             "chain_hash": res.get("chain_hash"), "result": res,
