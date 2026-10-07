@@ -20,7 +20,7 @@ fix the HKDF salt or info. The defaults (empty salt, info = session_id,
 key_id = session_id) match the AGT reference Guardian; --hkdf-salt and
 --key-id-mode cover other readings.
 
-  ACS_HMAC_SECRET=$(head -c 32 /dev/urandom | base64) bun run guardian &
+  ACS_HMAC_SECRET=<base64 key material> bun run guardian &
   python3 acs_wire_probes.py --guardian http://127.0.0.1:8787/acs \\
       --ikm-b64 "$ACS_HMAC_SECRET" --out run
 

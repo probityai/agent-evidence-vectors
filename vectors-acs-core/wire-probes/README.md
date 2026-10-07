@@ -57,10 +57,10 @@ differently will not verify each other's signatures.
 `expected/` holds the status of every probe at two refs of the AGT Guardian,
 and `.github/workflows/acs-wire-probes.yml` re-runs both on every change here:
 
-| ref | what it is | MUST probes passing |
+| ref | what it is | expectation |
 |---|---|---|
-| `770f1e0` | `integration` before pull request 229 | 0 of 20 |
-| `beee5b5` | head of pull request 229 | 17 of 20 |
+| `770f1e0` | `integration` before pull request 229 | every probe fails |
+| `beee5b5` | head of pull request 229 | `expected/agt-pr229.json` |
 
 At `beee5b5` the open MUST rows are D2c (replay memory does not survive a
 restart), D6c (a method outside `methods_implemented` is answered) and D6d (a
