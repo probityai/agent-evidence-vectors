@@ -253,7 +253,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
