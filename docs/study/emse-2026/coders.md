@@ -1,6 +1,6 @@
 # Label 27 changelog entries by what caused them: an invitation
 
-I'd like you to read 27 changelog entries and label what caused each one. It takes about three hours, you don't need to know the spec, and I need your labels by 8 October 2026.
+I'd like you to read 27 changelog entries and label what caused each one. It takes about an hour, you don't need to know the spec, and I need your labels by 8 October 2026.
 
 Some background: I'm writing a paper for the journal Empirical Software Engineering about how a test set for a spec gets better over time. The test set is the one behind a spec I proposed to in-toto (in-toto/attestation#570). Its changelog records 27 revisions, and the paper asks what caused each one. There are six possible causes: an outside implementer, a comparison between my own verifiers, a mutation test, an attack someone found, the test set's own checks, or a change to the spec.
 
@@ -14,7 +14,7 @@ You fill in a plain table with one row per revision. Nothing needs installing, a
 
 ## How much time it takes
 
-It takes about three hours in all. The codebook and the 27 entries run to about 24,500 words, so the first round of labels is around two hours of reading. The second round takes longer if you read every commit closely.
+It takes about an hour in all. The codebook and the 27 entries run to about 24,500 words, and most of your time goes into that first read. The second round takes longer if you read every commit closely.
 
 ## Why 8 October
 

@@ -1,6 +1,6 @@
 # Read some test statements against a spec: an invitation
 
-I'd like you to read some test statements against a spec and tell me, from the spec alone, what the right answer to each one is. Ten statements take about three hours, and I need your readings by 8 October 2026.
+I'd like you to read some test statements against a spec and tell me, from the spec alone, what the right answer to each one is. Ten statements take about an hour, and I need your readings by 8 October 2026.
 
 I'm asking because I'm writing a paper for the journal Empirical Software Engineering about a test set I built for a spec I proposed to in-toto, the Adversarial Execution Evidence predicate (in-toto/attestation#570). I wrote every expected answer in that test set myself, and nobody outside my group has checked them. A test set is only as good as its answers, so I want careful readers who don't share my assumptions.
 
@@ -14,7 +14,7 @@ I send you the spec and a batch of test statements under plain labels, with my a
 
 There are 272 statements, and I'm aiming for two readings of each, so any number you can take from ten up helps.
 
-Most of your time goes into the first read of the spec, whose rules run to about 18,500 words. That's why ten statements take about three hours. Each statement after that takes five to fifteen minutes.
+Most of your time goes into the first read of the spec, whose rules run to about 18,500 words. Once you've read it, each statement goes quickly, so ten statements take about an hour.
 
 ## Why 8 October
 
