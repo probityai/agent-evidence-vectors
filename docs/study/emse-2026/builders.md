@@ -60,7 +60,7 @@ Taking part is voluntary. You can pull out at any time before publication, and i
 
 I publish your build and the results from it. Your name appears only if you choose, and you can choose any of four ways: as a co-author, by name in the thanks, under a pseudonym you pick, or not at all.
 
-I record only the tools and models you tell me you used, and whether you'd seen the test set, its changelog or other implementations. I publish your session logs only if you agree to that separately. I publish nothing else about you.
+All I write down is the tools and models you tell me you used, and whether you'd seen the test set, its changelog or other implementations. I publish your session logs only if you agree to that separately. I publish nothing else about you.
 
 To ask a question or pull out, reply in the thread or message where you were invited.
 

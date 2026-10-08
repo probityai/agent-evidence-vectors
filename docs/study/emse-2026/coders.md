@@ -14,7 +14,7 @@ You fill in a plain table with one row per revision. Nothing needs installing, a
 
 ## How much time it takes
 
-It takes about an hour in all. The codebook and the 27 entries run to about 24,500 words, and most of your time goes into that first read. The second round takes longer if you read every commit closely.
+The first round takes about an hour. The codebook and the 27 entries run to about 24,500 words, and most of your time goes into that first read. The second round takes longer if you read every commit closely.
 
 ## Why 8 October
 
