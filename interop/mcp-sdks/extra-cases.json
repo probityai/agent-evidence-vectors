@@ -1,0 +1,119 @@
+{
+  "format": "mcp-sdks-jcs-extra/v1",
+  "canonicalCases": [
+    {
+      "id": "negative-zero",
+      "input": "[-0]",
+      "canonicalHex": "5b305d",
+      "sha256": "d0bca111f8628137adc4c16f123496dcdd1d590d06cb5d9acd68b39fe656fb97"
+    },
+    {
+      "id": "one-point-zero",
+      "input": "[1.0]",
+      "canonicalHex": "5b315d",
+      "sha256": "080a9ed428559ef602668b4c00f114f1a11c3f6b02a435f0bdc154578e4d7f22"
+    },
+    {
+      "id": "integer-valued-1e20",
+      "input": "[1e20]",
+      "canonicalHex": "5b3130303030303030303030303030303030303030305d",
+      "sha256": "e7172a9602cb82291195c39a042201a2d0765d41138e05bed1ff800b6f83ecba"
+    },
+    {
+      "id": "exponent-1e21",
+      "input": "[1e21]",
+      "canonicalHex": "5b31652b32315d",
+      "sha256": "5f5f297c3b2ec0b2793ea5cfe3f242ad4bd3aa438734268b6c9b7251a643d86c"
+    },
+    {
+      "id": "point-three-ulp",
+      "input": "[0.30000000000000004]",
+      "canonicalHex": "5b302e33303030303030303030303030303030345d",
+      "sha256": "e54ec050d935c92d92de7fb92c3c071820ac2482daad8fc6e9fe7404ee3af41c"
+    },
+    {
+      "id": "min-subnormal",
+      "input": "[5e-324]",
+      "canonicalHex": "5b35652d3332345d",
+      "sha256": "36ae31cf02ccda095c0e10f6eb921c5c76dc4a045971112fdffbb8bf72329e47"
+    },
+    {
+      "id": "max-double",
+      "input": "[1.7976931348623157e308]",
+      "canonicalHex": "5b312e37393736393331333438363233313537652b3330385d",
+      "sha256": "dabeb6b2980d2d512888b69d2576387da2a30109b9308eb6674ea6c24fbc8dad"
+    },
+    {
+      "id": "control-char-escape",
+      "input": "[\"\\u001f\"]",
+      "canonicalHex": "5b225c7530303166225d",
+      "sha256": "9e3a6af65f50052e7e78746b066d4597504b039ccb21fc3a4e31accc5eb0bf56"
+    },
+    {
+      "id": "short-escapes",
+      "input": "[\"\\b\\f\\n\\r\\t\\\"\\\\\"]",
+      "canonicalHex": "5b225c625c665c6e5c725c745c225c5c225d",
+      "sha256": "62e2340838864356931208fe78012814e45a6e119a50705f55d07ebb3875efa5"
+    },
+    {
+      "id": "escaped-solidus",
+      "input": "[\"a\\/b\"]",
+      "canonicalHex": "5b22612f62225d",
+      "sha256": "1693b0cfc4dae1878cdb4234fe0c8d96b42766f997045bc65bc7db525d867213"
+    },
+    {
+      "id": "html-characters",
+      "input": "[\"<&>'\"]",
+      "canonicalHex": "5b223c263e27225d",
+      "sha256": "d953a234aad71474bacfbd9d2c2119ca5c756f25d2f6404d9e1766ffb97e7699"
+    },
+    {
+      "id": "nfd-combining-mark",
+      "input": "[\"cafe\\u0301\"]",
+      "canonicalHex": "5b2263616665cc81225d",
+      "sha256": "84faaba28c537ef20aa1b07c767ff5c5316b5397f03e2c88e864dd8ce22bfb87"
+    },
+    {
+      "id": "nbsp-and-line-separator",
+      "input": "[\"\\u00a0\\u2028\"]",
+      "canonicalHex": "5b22c2a0e280a8225d",
+      "sha256": "9da9c3e0b3bbed3367258e4ce2f821ebed4793099800dc7a0ab8c056158cddaa"
+    },
+    {
+      "id": "astral-value",
+      "input": "[\"\\ud83d\\ude00\"]",
+      "canonicalHex": "5b22f09f9880225d",
+      "sha256": "aff2a0387611973d359e99d65ccf8953b41a00e9415a4e83ee6aab1e3c72a4ab"
+    },
+    {
+      "id": "ascii-key-order",
+      "input": "{\"b\":1,\"a\":2,\"aa\":3,\"B\":4,\"\":5}",
+      "canonicalHex": "7b22223a352c2242223a342c2261223a322c226161223a332c2262223a317d",
+      "sha256": "17eafc48f3ed7c2b6d6e89c8bafe170f190f6fb48276b49775ab2d0cdc1e33b1"
+    },
+    {
+      "id": "insignificant-whitespace",
+      "input": "[ 1 , { \"k\" : true } , null ]",
+      "canonicalHex": "5b312c7b226b223a747275657d2c6e756c6c5d",
+      "sha256": "9a4dcc445d49da8caee5fbf79b375a9ed0089aa8f897c5b83ae0a2f35b9d40f8"
+    },
+    {
+      "id": "depth-64",
+      "input": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "canonicalHex": "5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d",
+      "sha256": "b3ff3b51ce17ef2a2a68203329ff0e73738c07df874044149c283b28841a0035"
+    }
+  ],
+  "rejectCases": [
+    {
+      "id": "non-finite-1e400",
+      "input": "[1e400]",
+      "jcsError": "NonFiniteNumber"
+    },
+    {
+      "id": "depth-129",
+      "input": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+      "jcsError": "TooDeep"
+    }
+  ]
+}
