@@ -196,6 +196,10 @@
     "ve3c7f7a8d918c70c": {
       "mutations": 3,
       "reason": "attackResults emptied, and the coverage map re-derived so it still accounts for every manifested attack: the one class the emptied row assessed leaves assessedClasses and enters outOfScope. Without the two coverage edits the statement is refused for coverage before the recompute is reached, and the shape this vector exists to put into the corpus -- zero rows, complete coverage, a declared result the recompute does not derive -- would never be judged"
+    },
+    "v8a1b8a3333981552": {
+      "mutations": 2,
+      "reason": "the file is hand-written bytes rather than the generator's serialization, AND it carries a vocabulary label the parent does not. Both follow from putting one noncharacter label, spelled as an escaped surrogate pair, in the vocabulary"
     }
   }
 }

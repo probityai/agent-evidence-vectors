@@ -1,14 +1,14 @@
 {
   "suite": "adversarial-execution-evidence-conformance",
-  "suiteRevision": 30,
+  "suiteRevision": 31,
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "specPath": "spec/predicates/adversarial-execution-evidence.md",
   "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
   "tracksUpstream": "in-toto/attestation#570",
   "specUpstreamCommit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "counts": {
-    "accept": 61,
-    "reject": 218,
+    "accept": 63,
+    "reject": 220,
     "indeterminate": 2
   },
   "comparisonSurface": {
@@ -21,7 +21,7 @@
     ],
     "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
   },
-  "corpusDigest": "a635848598e68686ada6ea41d2bc9a886033bac41ae111814127881495c3bd45",
+  "corpusDigest": "200f25888bafde0aee5f0f751d8c3282449aa25dda6fae2ae2473babb515690b",
   "vectors": [
     {
       "id": "vcf20eae7df4f1f1b",
@@ -139,6 +139,18 @@
       "id": "v87d0a19d4b41aafc",
       "kind": "accept",
       "file": "statements/v87d0a19d4b41aafc.json",
+      "conditions": [
+        "aee-c-4"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "result": "fail"
+      }
+    },
+    {
+      "id": "va8ff24a38152fc31",
+      "kind": "accept",
+      "file": "statements/va8ff24a38152fc31.json",
       "conditions": [
         "aee-c-4"
       ],
@@ -753,6 +765,24 @@
       "expected": {
         "verdict": "valid",
         "result": "fail"
+      }
+    },
+    {
+      "id": "vf56664ac324b6613",
+      "kind": "accept",
+      "file": "statements/vf56664ac324b6613.json",
+      "conditions": [
+        "aee-c-36"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "result": "fail",
+        "tierWithPinnedKey": [
+          "unattested"
+        ],
+        "tierWithoutKey": [
+          "unattested"
+        ]
       }
     },
     {
@@ -4090,6 +4120,35 @@
         ],
         "alsoCarries": [
           "sealed-covers-nothing"
+        ]
+      }
+    },
+    {
+      "id": "vc6934681b519c0ce",
+      "kind": "reject",
+      "file": "statements/vc6934681b519c0ce.json",
+      "conditions": [
+        "aee-c-2",
+        "aee-c-4"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-recompute-mismatch"
+        ]
+      }
+    },
+    {
+      "id": "v8a1b8a3333981552",
+      "kind": "reject",
+      "file": "statements/v8a1b8a3333981552.json",
+      "conditions": [
+        "aee-c-18"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "statement-malformed"
         ]
       }
     },

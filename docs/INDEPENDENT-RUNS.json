@@ -3,6 +3,7 @@
   "implementation": "Rul1an/aee-checker",
   "independence": "from-spec Rust verifier with its own I-JSON parser, RFC 8785 serializer, RFC 6962 Merkle root, run-binding derivation and Ed25519 tier, built with no sight of the reference code",
   "currentRevisionSource": "vectors/CHANGES.md, the per-revision changelog that owns revision numbering. It is read rather than restated here: a revision number written in this file could only ever agree with itself.",
+  "runLabelComment": "runLabel says who produced the run, on a closed scale of three: 'author-produced' (the corpus author ran their own code), 'second-party-same-code' (someone else ran the author's code), and 'independent' (someone else ran an implementation the author did not write). It is a different axis from evidence, which says whether the implementer read the answers first. Every row here was produced by Rul1an/aee-checker, an implementation this repository did not write, so every row is independent; an author-produced or same-code run belongs in this file only under its own label, never under this one.",
   "runs": [
     {
       "suiteRevision": 1,
@@ -23,6 +24,7 @@
         }
       ],
       "evidence": "blind",
+      "runLabel": "independent",
       "unprompted": true,
       "posting": "in-toto/attestation#570",
       "date": null,
@@ -66,6 +68,7 @@
         }
       ],
       "evidence": "directed",
+      "runLabel": "independent",
       "unprompted": false,
       "posting": "in-toto/attestation#570 (round 7)",
       "date": null,
@@ -99,6 +102,7 @@
         }
       ],
       "evidence": "first-run-unchanged-build",
+      "runLabel": "independent",
       "unprompted": true,
       "posting": "in-toto/attestation#570 (round 8)",
       "date": null,
@@ -142,6 +146,7 @@
         }
       ],
       "evidence": "directed",
+      "runLabel": "independent",
       "unprompted": false,
       "posting": "Rul1an/aee-checker#3",
       "date": "2026-07-28",
@@ -229,6 +234,7 @@
         }
       ],
       "evidence": "directed",
+      "runLabel": "independent",
       "unprompted": false,
       "posting": "Rul1an/aee-checker#4",
       "date": "2026-07-28",
@@ -329,6 +335,7 @@
         }
       ],
       "evidence": "blind",
+      "runLabel": "independent",
       "unprompted": true,
       "posting": "Rul1an/aee-checker reports/v0.7-RUN.md, pinned at 63b930e893dffe3258f3c861a5a9c1d9adeef751, with the two run records it indexes in reports/INDEX.json",
       "date": "2026-08-03",
@@ -400,6 +407,7 @@
         }
       ],
       "evidence": "directed",
+      "runLabel": "independent",
       "unprompted": false,
       "posting": "in-toto/attestation#570, comment 5265066942 of 2026-08-12, naming the run at Rul1an/aee-checker actions run 31583021880",
       "date": "2026-08-12",
@@ -459,6 +467,7 @@
         }
       ],
       "evidence": "directed",
+      "runLabel": "independent",
       "unprompted": false,
       "posting": "Rul1an/aee-checker#21, opened and merged 2026-09-06, recording the run as reports/v0.7-rev27-directed-run.json in the checker's provenance index",
       "date": "2026-09-06",

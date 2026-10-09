@@ -213,6 +213,21 @@ because it reads as evidence of scrutiny while being evidence of selection.
 later disagreement about an earlier row is a new row citing it, so the sequence of
 decisions stays readable rather than being replaced by its outcome.
 
+### A thread converges by a date, and silence is not agreement
+
+Every open proposal that asks more than one party to agree names a date by which
+it should converge. If it has not converged by then, whoever opened it posts the
+options that emerged and asks a narrower yes-or-no question. A reply that never
+came is recorded as no reply, never as consent: a proposal nobody answered stays
+`open`, and its row says what answer would settle it.
+
+### Every pull request with no reviewer is named until it has one
+
+A pull request that has waited a week with no reviewer goes on the next maintainer
+review as a standing line, with one question: who reviews it, by when. The line
+stays until a reviewer is named or the pull request is closed with a reason, so a
+change cannot wait in silence until it is merged unread or abandoned.
+
 ## How an outsider objects, and what they get
 
 Raise it in this repository's issue tracker, in the upstream pull request carrying

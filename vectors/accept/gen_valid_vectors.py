@@ -380,9 +380,14 @@ def sign_payload(
     payload_bytes = jcs(payload)
     priv = SUB_PRIV if signer == "substrate" else WRONG_PRIV
     keyid = SUB_KEYID if signer == "substrate" else WRONG_KEYID
-    signed_bytes = (
-        pae(PAYLOAD_TYPE, payload_bytes) if sig_mode == "pae" else payload_bytes
-    )
+    if sig_mode == "pae":
+        signed_bytes = pae(PAYLOAD_TYPE, payload_bytes)
+    elif sig_mode == "pae-over-base64-text":
+        # PAE taken over the base64 TEXT the envelope carries rather than the
+        # bytes it decodes to: the reading DSSE does not define.
+        signed_bytes = pae(PAYLOAD_TYPE, base64.b64encode(payload_bytes))
+    else:
+        signed_bytes = payload_bytes
     sig = base64.b64encode(priv.sign(signed_bytes)).decode()
 
     entry: dict[str, str] = {"sig": sig}
@@ -737,6 +742,23 @@ def build_vectors() -> dict[str, dict[str, Any]]:
                 [],
             )
         ],
+        with_entropy=False,
+    )
+
+    # ok-057 artifact row whose containmentObserved is ABSENT: absent is outside
+    # the carried labels, so it fail-closes exactly as ok-009 does; VALID
+    _absent_label = make_row(
+        "XA-EXAMPLE-1",
+        "no_egress",
+        "artifact",
+        "reconstructed",
+        "none",
+        [],
+    )
+    del _absent_label["containmentObserved"]
+    v["ok-057-artifact-absent-label-fail"] = make_statement(
+        man_1,
+        [_absent_label],
         with_entropy=False,
     )
 
@@ -1656,6 +1678,31 @@ def build_vectors() -> dict[str, dict[str, Any]]:
                 "interception", b_pin2, note="example interception observation b"
             ),
             make_record("sealed", b_pin2),
+        ],
+    )
+
+    # ok-056 the twin of ok-020: PAE over the base64 text the envelope carries
+    # instead of over the decoded bytes. Tier fault, never validity.
+    v["ok-056-pae-over-base64-text"] = make_statement(
+        man_1,
+        [
+            make_row(
+                "XA-EXAMPLE-1",
+                "egress_captured",
+                "substrate",
+                "intercepted",
+                "policy.egress_sinkhole",
+                [0],
+            )
+        ],
+        records=[
+            make_record(
+                "interception",
+                b_1,
+                note="example interception observation a",
+                sig_mode="pae-over-base64-text",
+            ),
+            make_record("sealed", b_1),
         ],
     )
 
@@ -2715,6 +2762,13 @@ ACCEPT_INDEX: dict[str, tuple[str, str, str]] = {
         'artifact row label outside carried `observationVocabulary.labels` '
         'fail-closes; VALID',
     ),
+    'ok-057-artifact-absent-label-fail': (
+        'fail',
+        'aee-c-4',
+        'artifact row whose `containmentObserved` is ABSENT: absent is outside the '
+        'carried labels and fail-closes exactly as an out-of-vocabulary label does; '
+        'VALID',
+    ),
     'ok-010-artifact-retired-basis-fail': (
         'fail',
         'aee-c-43',
@@ -3058,6 +3112,13 @@ ACCEPT_INDEX: dict[str, tuple[str, str, str]] = {
         'producer members too, but content-free ones, so it forces only that such a '
         'member does not stop the record covering; this is the vector the ranking rail '
         'fails',
+    ),
+    'ok-056-pae-over-base64-text': (
+        'fail',
+        'aee-c-36',
+        'record signed with DSSE PAE over the base64 text of its payload rather '
+        'than over the decoded bytes: tier fault (row unattested), never a validity '
+        'fault; tierWithPinnedKey ["unattested"], tierWithoutKey ["unattested"]',
     ),
     'ok-055-pinned-row-two-interceptions': (
         'fail',

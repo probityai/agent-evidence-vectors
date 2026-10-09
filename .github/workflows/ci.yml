@@ -650,8 +650,8 @@ jobs:
       # name the label and either alone is enough.
       - name: the corpus is not scoreable from its surface
         run: |
-          python3 scripts/surface-leakage-gate.py
-          python3 scripts/surface-leakage-gate-test.py
+          uv run python scripts/surface-leakage-gate.py
+          uv run python scripts/surface-leakage-gate-test.py
       # The corpus is vendored into rails that live in other repositories, and
       # each of those checks its own copy against its own stamp. Nothing asked
       # whether the copy was current, so the refresh ran when somebody
@@ -918,7 +918,7 @@ jobs:
       # so a corpus change fails on the push that makes it rather than on the
       # revision that outdates the name. A checked copy of a derived number is
       # what the census asks for; an unchecked one is what it refuses.
-      - name: replay every vector on the Python rail (must be 281/281)
+      - name: replay every vector on the Python rail (must be 285/285)
         run: python3 packaging/run_vectors.py
       # The replay above says a rail cleared the corpus. This step says the
       # corpus can refuse one, which is a different claim and the one nothing
@@ -962,7 +962,7 @@ jobs:
   # upper bound on forcing and never a measurement of it: a vector declaring
   # several expected codes is satisfied by any one of them, so deleting the
   # result-vocabulary emission from the rail turns two vectors' gate-0 column
-  # FAIL and the suite still reports 281 of 281, exit 0. The only way to know
+  # FAIL and the suite still reports 285 of 285, exit 0. The only way to know
   # what this corpus obliges a third party to implement is to switch one rule
   # off at a time and replay, which is what this job does.
   #
@@ -981,7 +981,7 @@ jobs:
   # run, by class and count, on every run.
   #
   # MEASURED on a 16-worker workstation, in CPU-seconds because that is the number
-  # that carries between machines: 465 of 808 sites and ~1670 CPU-seconds there, against
+  # that carries between machines: 466 of 808 sites and ~1670 CPU-seconds there, against
   # ~3370 for the full sweep. Wall time on that box was 88-110s at 8-16 workers. Both
   # CPU-second figures were taken while the sweep was smaller, before the quantifier
   # operator was added, and are not re-measured here: restating a figure for a machine

@@ -1652,6 +1652,18 @@
       "opens": "A `sealed` record covers no clean row unless its `aeeStillArmed` is",
       "closes": "so failing it is a coverage validity failure, never a silent pass. The"
     },
+    "vectors/reject/gen_invalid_vectors.py::bad-1018-result-mismatch-absent-label#0": {
+      "anchor": "L443-444",
+      "digest": "223e87a125f2c320604bad7ea061aa7f317d21cf4626a5ffed817fa863054d1b",
+      "opens": "`observationVocabulary.labels` (fail-closed), or a missing or",
+      "closes": "out-of-vocabulary `basis`, `method` or `attribution` (fail-closed, same"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-1019-statement-noncharacter-surrogate-pair#0": {
+      "anchor": "L110-137",
+      "digest": "85c807e9128a67637db4c9dee8c2f9b61676cbefc656bbb7337fa2e8398c909e",
+      "opens": "Strict I-JSON also constrains the bytes of every string, and for the same",
+      "closes": "any decoded string is read."
+    },
     "vectors/reject/gen_invalid_vectors.py::vate-1a-admission-receipt-substituted-splice#0": {
       "anchor": "L174-182",
       "digest": "cc59761773ec1a66f50e8308ba991057be1474575ab86aff14801229f95e640c",

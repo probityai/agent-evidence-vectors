@@ -19,8 +19,17 @@ For an unreleased checkout, cite the full source commit and corpus digest. The p
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.17.4},
+  version   = {0.17.5},
   year      = {2026},
-  url       = {https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.4}
+  url       = {https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.5}
 }
 ```
+
+## Cite a vector by its member id
+
+When your project changes because of a vector here, name the vector's member id
+(for example `bad-742` in `vectors/`, with the corpus directory when it is not
+`vectors/`) in your commit message or pull request body, beside the suite
+revision you ran. The member id is stable across releases and is how a later
+reader of your history finds the exact bytes and the rule they force, even after
+the surrounding text has been rewritten.

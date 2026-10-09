@@ -344,6 +344,41 @@ def one_more_reject_vector(root: Path) -> None:
     write_manifest(root, corpus, data)
 
 
+def one_more_pair(root: Path) -> None:
+    """The way CONTRIBUTING asks a family to grow: an accept and a reject together.
+
+    The reject is the ordinary one above; the accept is the parent it was built
+    from, re-serialised under its own digest, so the pair moves both class
+    counts by one -- the change that, under the old twenty-shuffle null, was
+    refused on the `all` surface for noise.
+    """
+    one_more_reject_vector(root)
+    corpus = "vectors"
+    data = manifest(root, corpus)
+    parent = next(
+        e for e in vector_rows(data, corpus)
+        if require(e, "kind", f"{corpus} manifest row") == "accept"
+    )
+    statement = json.loads(
+        (root / corpus / str(require(parent, "file", f"{corpus} manifest row")))
+        .read_text(encoding="utf-8")
+    )
+    raw = (json.dumps(statement, indent=1, sort_keys=True) + "\n").encode("utf-8")
+    identifier = "v" + hashlib.sha256(raw).hexdigest()[:16]
+    rel = f"statements/{identifier}.json"
+    (root / corpus / rel).write_bytes(raw)
+    data["vectors"].append(
+        {
+            "id": identifier,
+            "kind": "accept",
+            "file": rel,
+            "conditions": list(parent.get("conditions", [])),
+            "expected": dict(parent.get("expected", {})),
+        }
+    )
+    write_manifest(root, corpus, data)
+
+
 # --- baseline mutations ----------------------------------------------------
 
 
@@ -438,6 +473,99 @@ def move_the_fingerprint(root: Path) -> None:
     write_baseline(root, data)
 
 
+def hide_a_leak_behind_a_stale_null(root: Path) -> None:
+    """A real leak, hidden only by a null recorded at other class counts.
+
+    Every reject statement gains a giveaway member, the recorded lexicon figure
+    is raised to what that leak now measures so the ratchet has nothing to say,
+    and the lexicon null is inflated past it -- but recorded at class counts one
+    accept vector away from the corpus's, inside the drift the fingerprint
+    tolerates. A gate that judged against the recorded null would pass the leak.
+    The null is a function of the counts, so the gate must re-derive it at the
+    counts the corpus has, and refuse.
+    """
+    giveaway_member(root)
+    proc = subprocess.run(
+        [sys.executable, str(GATE), "--root", str(root), "--report"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    leaked: float | None = None
+    in_vectors = False
+    for line in proc.stdout.splitlines():
+        if line.startswith("  ") and not line.startswith("    "):
+            in_vectors = line.split()[0] == "vectors"
+        elif in_vectors and line.split()[:1] == ["lexicon"]:
+            leaked = float(line.split()[1])
+    if leaked is None:
+        raise CannotConstruct(
+            "the gate's report printed no vectors/lexicon figure, so the leak "
+            "could not be measured and the stale null could not be placed above it."
+        )
+    data = baseline(root)
+    row = row_of(data, "vectors", "lexicon")
+    require(row, "null", f"{BASELINE_REL} vectors/lexicon")
+    row["separability"] = leaked
+    row["null"] = 0.99
+    corpora = require(data, "corpora", BASELINE_REL)
+    recorded = require(corpora, "vectors", f"{BASELINE_REL} corpora")
+    shape = require(recorded, "fingerprint", f"{BASELINE_REL} vectors")
+    shape["accept"] = int(require(shape, "accept", f"{BASELINE_REL} vectors")) + 1
+    write_baseline(root, data)
+
+
+def _gate_module() -> Any:
+    spec = importlib.util.spec_from_file_location("surface_leakage_gate", GATE)
+    if spec is None or spec.loader is None:
+        raise CannotConstruct(f"{GATE} could not be loaded as a module")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def a_small_leak_over_the_figure(root: Path) -> None:
+    """A leak of practical size, about 0.03, and no bigger.
+
+    The giveaway member goes onto a growing share of the reject statements until
+    the vectors/lexicon surface measures at least 0.03 above the figure the
+    baseline records for it. That is the smallest leak worth catching, and the
+    family-wise threshold must not have bought its false-alarm rate by losing
+    it: the ratchet refuses any rise past TOLERANCE whatever the null says.
+    """
+    gate = _gate_module()
+    recorded = float(row_of(baseline(root), "vectors", "lexicon")["separability"])
+    rejects = [
+        e for e in rows_of(root, "vectors")
+        if require(e, "kind", "vectors manifest row") == "reject"
+    ]
+    originals = {
+        str(e["file"]): (root / "vectors" / str(e["file"])).read_bytes() for e in rejects
+    }
+    for share in range(1, 21):
+        tagged = 0
+        for index, entry in enumerate(rejects):
+            path = root / "vectors" / str(entry["file"])
+            path.write_bytes(originals[str(entry["file"])])
+            if index % 20 >= share:
+                continue
+            try:
+                statement = json.loads(path.read_text(encoding="utf-8"))
+            except (UnicodeDecodeError, ValueError):
+                continue
+            if isinstance(statement, dict):
+                statement["_buildTag"] = "invalid-side"
+                path.write_text(json.dumps(statement, indent=2) + "\n", encoding="utf-8")
+                tagged += 1
+        measured = gate.separability(gate.prepare(gate.load(root, "vectors"), "lexicon"))
+        if tagged and measured >= recorded + 0.03:
+            return
+    raise CannotConstruct(
+        "no share of tagged reject statements lifted vectors/lexicon 0.03 over "
+        "its recorded figure, so the small-leak case was never built."
+    )
+
+
 def remove_the_baseline(root: Path) -> None:
     path = root / BASELINE_REL
     if not path.is_file():
@@ -514,6 +642,16 @@ REFUSALS: list[Case] = [
         move_the_fingerprint,
         ("describe a different corpus",),
     ),
+    (
+        "a leak about 0.03 over the recorded figure",
+        a_small_leak_over_the_figure,
+        ("lexicon", "more predictable"),
+    ),
+    (
+        "a leak hidden behind a null recorded at other class counts",
+        hide_a_leak_behind_a_stale_null,
+        ("lexicon", "outside its own null"),
+    ),
     ("a surface the baseline records nothing for", drop_a_surface_row, ("records nothing",)),
     ("no baseline at all", remove_the_baseline, ("is absent",)),
 ]
@@ -521,6 +659,7 @@ REFUSALS: list[Case] = [
 ACCEPTANCES: list[Case] = [
     ("the corpus as it stands", lambda root: None, ()),
     ("one more reject vector, built the ordinary way", one_more_reject_vector, ()),
+    ("a matched accept and reject pair, built the ordinary way", one_more_pair, ()),
 ]
 
 
