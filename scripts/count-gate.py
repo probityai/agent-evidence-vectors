@@ -1652,6 +1652,14 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         "RUNS.md",
+        "the moltrust-api author's four reported results, as posted on A2A#1882",
+        "raw 53/53, signing 57/57, verify 57/57 and negative control 53/57",
+        "Results an outside author reported for his own runner on two named "
+        "corpus states. They record a past run of another project's code and "
+        "must not track this corpus.",
+    ),
+    Frozen(
+        "RUNS.md",
         "the suiteRevision-28 run's reason-parity figure, as posted",
         "80/209",
         "A reason-parity figure its own author reports and declines to promote. "
