@@ -67,6 +67,7 @@ only-include = [
     "vectors",
     "vectors-agent-audit-record",
     "vectors-anchored-chain",
+    "vectors-mcp-owasp",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
@@ -94,6 +95,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors" = "agent_evidence_vectors/corpora/vectors"
 "vectors-agent-audit-record" = "agent_evidence_vectors/corpora/vectors-agent-audit-record"
 "vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
+"vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
 "vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
 "vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
@@ -139,6 +141,7 @@ only-include = [
     "vectors",
     "vectors-agent-audit-record",
     "vectors-anchored-chain",
+    "vectors-mcp-owasp",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
@@ -229,7 +232,7 @@ files = ["packaging", "vectors", "tools"]
 include = ["docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-agent-audit-record", "vectors-anchored-chain", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding",
-           "vectors-mcp-record-contract", "vectors-mcp-response-phase",
+           "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-signature",
            "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-report"]

@@ -1,0 +1,15 @@
+{
+  "observation": {
+    "declaredParameters": [
+      "query"
+    ],
+    "requestLogKeys": [
+      "query"
+    ],
+    "sessionHeld": [
+      "messages",
+      "openFiles"
+    ]
+  },
+  "requirement": "MCPVS-12"
+}
