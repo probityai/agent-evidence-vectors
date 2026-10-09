@@ -255,9 +255,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v5
+      # The package floor is 3.12 (the held-out runner workflow proves it), so
+      # an unpinned sync would pick the runner's system 3.12. The development
+      # environment, and the pre-push hook this job tests, require 3.13.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
       - name: sync toolchain
-        run: uv sync --extra dev --extra generators
+        run: uv sync --locked --extra dev --extra generators
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
