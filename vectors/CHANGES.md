@@ -28,6 +28,12 @@ byte-identically from the generators.
   envelope carries. Per the rule that a signature is never a validity fault, the
   statement is valid and the row is `unattested` under both key policies. A rail
   that runs PAE over the text attests it, and the tier column catches that.
+- **The pairing still holds across the four additions**: all 220 reject vectors declare a
+  parent that ships as an accept vector. **170 of the 220 reject vectors are now
+  exactly one mutation from their declared parent**, one more than at revision 30.
+  The remaining 50 cannot express their declared fault in a single edit and stay
+  declared in `docs/MULTI-MUTATION-VECTORS.json` with a count and a reason each; the
+  surrogate-pair vector joins that list for the same reason as its single-escape sibling.
 - Corpus: **285 vectors (63 accept, 220 reject, 2 indeterminate)**, four more than
   suiteRevision 30. No existing vector file changes.
 - **The safe-integer rule binds a number's value, not its spelling.** The
