@@ -5069,6 +5069,22 @@ def shipped_corpora() -> list[str]:
     return sorted(found)
 
 
+#: The RFC 8785 byte cases, by their repository-relative path. The wheel keeps
+#: that path under corpora/, so the same join resolves in both layouts.
+JCS_BYTE_VECTORS = os.path.join("corpora", "jcs-byte-vectors", "cases.json")
+
+
+def jcs_byte_vectors_path() -> str:
+    """Absolute path of the RFC 8785 byte cases, ``cases.json``, in either layout.
+
+    An SDK's CI reads this file from the installed package after pinning
+    ``agent-evidence-vectors==X``, instead of fetching it from a tag. Its README
+    sits beside it. The path is resolved, never hard-coded, because where
+    site-packages lives is the consumer's business.
+    """
+    return os.path.join(corpora_root(), JCS_BYTE_VECTORS)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors",
@@ -5091,6 +5107,12 @@ def main() -> int:
         "--list-corpora",
         action="store_true",
         help="print the shipped corpus names, one per line, and exit",
+    )
+    parser.add_argument(
+        "--jcs-byte-vectors",
+        action="store_true",
+        help="print the absolute path of the shipped RFC 8785 byte cases "
+        "(corpora/jcs-byte-vectors/cases.json) and exit",
     )
     parser.add_argument(
         "--verifier",
@@ -5121,6 +5143,9 @@ def main() -> int:
     if args.list_corpora:
         for name in shipped_corpora():
             print(name)
+        return 0
+    if args.jcs_byte_vectors:
+        print(jcs_byte_vectors_path())
         return 0
     if args.self_test:
         return self_test()
