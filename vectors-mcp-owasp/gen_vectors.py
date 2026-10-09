@@ -360,12 +360,10 @@ def render_index(manifest: dict, registry: dict, by_requirement: dict[str, dict[
         f"{', '.join(t['testedBy'])} |"
         for t in registry["threats"]
     )
-    counts = manifest["counts"]
-    total = len(manifest["vectors"])
     return f"""# Conformance vectors (OWASP MCP verification, draft)
 
-This corpus is {total} vectors, of which {counts["accept"]} a conformant verifier must
-not fail closed on and {counts["reject"]} it must reject.
+Every requirement here has one member a conformant verifier must not fail
+closed on and one it must reject; MANIFEST.json carries the counts.
 
 Each member is the observation one acceptance test produced against a draft
 requirement. Every requirement has one accept and one reject member, and the

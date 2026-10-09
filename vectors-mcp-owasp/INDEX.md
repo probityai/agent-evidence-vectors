@@ -1,7 +1,7 @@
 # Conformance vectors (OWASP MCP verification, draft)
 
-This corpus is 24 vectors, of which 12 a conformant verifier must
-not fail closed on and 12 it must reject.
+Every requirement here has one member a conformant verifier must not fail
+closed on and one it must reject; MANIFEST.json carries the counts.
 
 Each member is the observation one acceptance test produced against a draft
 requirement. Every requirement has one accept and one reject member, and the
