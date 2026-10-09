@@ -23,10 +23,15 @@ fn every_committed_member_behaves_as_declared() {
     let dir = repo().join("vectors-w3c-report");
     let (status, text) = run(&[dir.to_str().unwrap_or_default()]);
     assert_eq!(status, 0, "{text}");
-    assert!(
-        text.starts_with("suite: w3c-report-v01-conformance\nmembers: 235\n"),
-        "{text}"
-    );
+    // The member count is the manifest's, never a literal that goes stale
+    // the next time the generator adds a member.
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &std::fs::read(dir.join("MANIFEST.json")).unwrap_or_else(|e| panic!("MANIFEST.json: {e}")),
+    )
+    .unwrap_or_else(|e| panic!("MANIFEST.json does not parse: {e}"));
+    let members = manifest["vectors"].as_array().map_or(0, Vec::len);
+    let head = format!("suite: w3c-report-v01-conformance\nmembers: {members}\n");
+    assert!(members > 0 && text.starts_with(&head), "{text}");
     assert!(
         text.ends_with("verdict: every member behaves as MANIFEST.json declares\n"),
         "{text}"

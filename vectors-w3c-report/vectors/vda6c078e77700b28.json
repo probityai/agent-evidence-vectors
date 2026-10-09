@@ -1,0 +1,73 @@
+{
+  "expected": {
+    "rejects": [
+      "ARM-R-014"
+    ],
+    "verdict": "reject"
+  },
+  "family": "arm-f-usage",
+  "id": "vda6c078e77700b28",
+  "kind": "reject",
+  "requirements": [
+    "ARM-R-014"
+  ],
+  "specVersion": "0.1",
+  "subject": {
+    "end": "2026-09-18T10:01:00.000Z",
+    "run_id": "run-1",
+    "start": "2026-09-18T10:00:00.000Z",
+    "status": "completed",
+    "step_count": 2,
+    "steps": [
+      {
+        "end": "2026-09-18T10:00:30.000Z",
+        "index": 0,
+        "invocation_id": "inv-1",
+        "kind": "model_invocation",
+        "model": {
+          "id": "model-a"
+        },
+        "start": "2026-09-18T10:00:00.000Z",
+        "usage": {
+          "cache_read_tokens": 20,
+          "cache_write_tokens": 10,
+          "cache_writes": [
+            {
+              "lifetime": "PT5M",
+              "tokens": "10"
+            }
+          ],
+          "input_tokens": 100,
+          "output_tokens": 30,
+          "reasoning_tokens": 5
+        }
+      },
+      {
+        "end": "2026-09-18T10:01:00.000Z",
+        "index": 1,
+        "kind": "tool_call",
+        "start": "2026-09-18T10:00:30.000Z",
+        "tool": {
+          "name": "search",
+          "outcome": "ok"
+        }
+      }
+    ],
+    "totals": {
+      "cache_read_tokens": 20,
+      "cache_write_tokens": 10,
+      "cache_writes": [
+        {
+          "lifetime": "PT5M",
+          "tokens": "10"
+        }
+      ],
+      "input_tokens": 100,
+      "output_tokens": 30,
+      "reasoning_tokens": 5
+    },
+    "version": "1"
+  },
+  "subjectType": "agent-run-metrics",
+  "suite": "w3c-report-v01-conformance"
+}
