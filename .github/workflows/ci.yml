@@ -650,8 +650,8 @@ jobs:
       # name the label and either alone is enough.
       - name: the corpus is not scoreable from its surface
         run: |
-          python3 scripts/surface-leakage-gate.py
-          python3 scripts/surface-leakage-gate-test.py
+          uv run python scripts/surface-leakage-gate.py
+          uv run python scripts/surface-leakage-gate-test.py
       # The corpus is vendored into rails that live in other repositories, and
       # each of those checks its own copy against its own stamp. Nothing asked
       # whether the copy was current, so the refresh ran when somebody

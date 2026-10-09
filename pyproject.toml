@@ -188,12 +188,16 @@ artifact-binding = ["cryptography>=43"]
 # from being two separate pins that drift apart.
 # Gemara and E2 share this development Hypothesis version. E2's dedicated
 # reproduction environment retains its separate hash-pinned requirements.
+# numpy carries the surface-leakage gate's permutation null: two thousand
+# label shuffles per surface are count-matrix products, and in pure Python they
+# did not fit the CI budget, which is why the null used to rest on twenty.
 # The source archive gate uses the PEP 508 parser maintained by PyPA. This is a development gate dependency; the rail stays
 # free of runtime dependencies.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
        "packaging>=25", "hypothesis==6.168.3", "pycryptodome==3.23.0", "jsonschema==4.25.1", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
-       "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6"]
+       "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
+       "numpy>=2.1"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
