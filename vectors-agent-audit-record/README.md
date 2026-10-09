@@ -73,7 +73,14 @@ revision since gives a member a default, so it is malformed.
 
 Revision 03 closes the member. `A12` is a permit that was not evaluated because
 the policy source was unavailable: a decision point failing open, accepted so
-that it can be found. `A13` is the deny that leaked (`A3`) enforced while the
+that it can be found. A decision point that never read its policy cannot name
+that policy's digest, so `decision.policyDigest` in `A12` names the allow-all
+fallback it enforced. `A14` is the same outage failing closed: the request names
+a profile the decision point does not hold, and it enforced a deny-all fallback.
+`A2` is the deny a decision point reaches when it holds the profile and the
+profile grants no comparison, which no retry can change, so `A2` and `A14`
+differ only in `evaluation` and `decision.policyDigest`. `A13` is the deny that
+leaked (`A3`) enforced while the
 key source and the consumption state were unavailable, and it still derives
 `disagree`, because evaluation is not an input to agreement. The rejects refuse
 each shape that would blur an outage into a decision: no input named (`EV1`,
