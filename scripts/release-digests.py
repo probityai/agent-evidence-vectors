@@ -161,6 +161,8 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-scitt-cose": _recompute_from_generator,
     "vectors-source-coverage": _recompute_from_generator,
     "vectors-anchored-chain": _recompute_from_generator,
+    "vectors-identity-binding": _recompute_from_generator,
+    "vectors-authority-at-dispatch": _recompute_from_generator,
     "vectors-w3c-report": _recompute_from_generator,
     "vectors-ai-generation": _recompute_from_generator,
     "vectors-self-reported-record": _recompute_from_generator,
