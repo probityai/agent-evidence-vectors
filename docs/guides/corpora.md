@@ -15,6 +15,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | SCITT/COSE carriage | [vectors-scitt-cose](../../vectors-scitt-cose/) | [SCITT/COSE profile](../../profiles/scitt-cose.md), COSE_Sign1 and RFC 9942 receipts |
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
+| Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
 | Per-check conformance reports | [vectors-w3c-report](../../vectors-w3c-report/) | W3C public-agent-conformance v0.1 |
 | Signed decision receipts | [vectors-receipt-signature](../../vectors-receipt-signature/) | `draft-farley-acta-signed-receipts-03` |

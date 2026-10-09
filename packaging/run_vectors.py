@@ -129,6 +129,7 @@ from typing import Any, NamedTuple, TypeGuard
 from agent_evidence_vectors import (
     anchoredchain,
     auditrecord,
+    gradefloor,
     observedeffect,
     receiptsignature,
     sourcecoverage,
@@ -3746,6 +3747,7 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        gradefloor.SUITE,
     )
     if not own_reader and external_cmd is not None:
         return None
@@ -3753,6 +3755,7 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        gradefloor.SUITE: gradefloor.run,
         sourcecoverage.SUITE: sourcecoverage.run_or_refuse,
     }.get(suite)
     if full_reader is not None:
