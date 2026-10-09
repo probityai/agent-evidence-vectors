@@ -1,0 +1,27 @@
+[package]
+name = "w3c-report-rs"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+publish = false
+description = "Independent reader for the W3C public-agent-conformance v0.1 per-check report corpus"
+license = "Apache-2.0"
+
+[workspace]
+
+[[bin]]
+name = "w3c-report-rs"
+path = "src/main.rs"
+
+[dependencies]
+jcs-admit = "=0.1.1"
+serde_json = { version = "1", features = ["preserve_order", "arbitrary_precision"] }
+sha2 = "0.10"
+
+[lints.rust]
+warnings = "deny"
+unsafe_code = "forbid"
+
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
