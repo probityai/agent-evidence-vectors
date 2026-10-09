@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""The two rails that judge vectors-w3c-report/ print the same bytes.
+"""The three rails that judge vectors-w3c-report/ print the same bytes.
 
-``aee-verify <dir>`` judges the corpus through corpora/w3creport.go and
+``aee-verify <dir>`` judges the corpus through corpora/w3creport.go,
 ``packaging/run_vectors.py --corpus vectors-w3c-report`` judges it through
-packaging/agent_evidence_vectors/w3creport.py. Each is a full statement of the
-v0.1 rows, and two statements of one set of rules drift unless something holds
-them together. This holds them together: the committed corpus and a set of
-mutated copies are judged by both, and every line of output is compared.
+packaging/agent_evidence_vectors/w3creport.py, and ``w3c-report-rs <dir>``
+judges it through readers/w3c-report-rs, a Rust reader written from the v0.1
+text and the corpus alone, with no code path shared with the other two (see
+docs/research/w3c-reader-independence.md). Each is a full statement of the
+v0.1 rows, and three statements of one set of rules drift unless something
+holds them together. This holds them together: the committed corpus and a set
+of mutated copies are judged by all three, and every line of output is
+compared. A rail that cannot be built fails the test; none is skipped.
 
 The mutations are chosen so that different parts of the reader answer: a
 flipped byte (identifier and corpus digest), a manifest row expecting the wrong
@@ -23,7 +27,7 @@ JSON type: robots exclusion rules as an integer, step_count as a string, a
 cache ledger's tokens as a string, and a delta's changes as a string.
 
 Usage: python3 scripts/w3c-rails-parity-test.py
-Exit 0 when every case prints identically on both rails; 1 otherwise.
+Exit 0 when every case prints identically on all three rails; 1 otherwise.
 """
 
 from __future__ import annotations
@@ -269,6 +273,25 @@ EXPECT: dict[str, str] = {
 }
 
 
+def build_rust_reader(work: Path) -> Path | None:
+    """Build the Rust reader into ``work``; a missing toolchain is a failure."""
+    manifest = REPO / "readers" / "w3c-report-rs" / "Cargo.toml"
+    target = work / "rs-target"
+    try:
+        status, output = run(
+            ["cargo", "build", "--release", "--locked", "--manifest-path", str(manifest),
+             "--target-dir", str(target)],
+            REPO,
+        )
+    except FileNotFoundError:
+        print("FAIL: cargo is not installed, so the Rust rail cannot be built")
+        return None
+    if status != 0:
+        print(f"FAIL: w3c-report-rs did not build:\n{output}")
+        return None
+    return target / "release" / "w3c-report-rs"
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory(prefix="w3c-parity-") as tmp:
         work = Path(tmp)
@@ -276,6 +299,9 @@ def main() -> int:
         status, output = run(["go", "build", "-o", str(binary), "./cmd/aee-verify"], REPO)
         if status != 0:
             print(f"FAIL: aee-verify did not build:\n{output}")
+            return 1
+        rust = build_rust_reader(work)
+        if rust is None:
             return 1
         failures = 0
         for name, mutate in CASES:
@@ -287,10 +313,17 @@ def main() -> int:
             py_status, py_out = run(
                 [sys.executable, "packaging/run_vectors.py", "--vectors", str(corpus)], REPO
             )
-            same = go_out == py_out and go_status == py_status
+            rs_status, rs_out = run([str(rust), str(corpus)], REPO)
+            same = (
+                go_out == py_out == rs_out
+                and go_status == py_status == rs_status
+            )
             findings = sum(1 for line in go_out.splitlines() if line.startswith("FAIL"))
             mark = "ok  " if same else "FAIL"
-            print(f"{mark} {name}: exit go={go_status} py={py_status}, {findings} finding line(s)")
+            print(
+                f"{mark} {name}: exit go={go_status} py={py_status} rs={rs_status}, "
+                f"{findings} finding line(s)"
+            )
             if mutate is not None and go_status == 0:
                 print(f"FAIL {name}: the mutation was not noticed, so the case asserted nothing")
                 failures += 1
@@ -300,7 +333,7 @@ def main() -> int:
                 failures += 1
             if not same:
                 failures += 1
-                for label, text in (("go", go_out), ("py", py_out)):
+                for label, text in (("go", go_out), ("py", py_out), ("rs", rs_out)):
                     print(f"--- {label}\n{text}")
         return 1 if failures else 0
 

@@ -1,0 +1,21 @@
+[
+  {"id": "negative-zero", "input": "[-0]"},
+  {"id": "one-point-zero", "input": "[1.0]"},
+  {"id": "integer-valued-1e20", "input": "[1e20]"},
+  {"id": "exponent-1e21", "input": "[1e21]"},
+  {"id": "point-three-ulp", "input": "[0.30000000000000004]"},
+  {"id": "min-subnormal", "input": "[5e-324]"},
+  {"id": "max-double", "input": "[1.7976931348623157e308]"},
+  {"id": "non-finite-1e400", "input": "[1e400]"},
+  {"id": "control-char-escape", "input": "[\"\\u001f\"]"},
+  {"id": "short-escapes", "input": "[\"\\b\\f\\n\\r\\t\\\"\\\\\"]"},
+  {"id": "escaped-solidus", "input": "[\"a\\/b\"]"},
+  {"id": "html-characters", "input": "[\"<&>'\"]"},
+  {"id": "nfd-combining-mark", "input": "[\"cafe\\u0301\"]"},
+  {"id": "nbsp-and-line-separator", "input": "[\"\\u00a0\\u2028\"]"},
+  {"id": "astral-value", "input": "[\"\\ud83d\\ude00\"]"},
+  {"id": "ascii-key-order", "input": "{\"b\":1,\"a\":2,\"aa\":3,\"B\":4,\"\":5}"},
+  {"id": "insignificant-whitespace", "input": "[ 1 , { \"k\" : true } , null ]"},
+  {"id": "depth-64", "depth": 64},
+  {"id": "depth-129", "depth": 129}
+]
