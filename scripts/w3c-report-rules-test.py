@@ -191,8 +191,8 @@ def test_delta_changes_type_is_read() -> None:
 def test_a_malformed_snapshot_is_judged_not_crashed() -> None:
     """robots.disallow as an integer in one member: that member fails, every other is judged.
 
-    The reader used to stop with a TypeError and print no verdict for any of
-    the 235 members.
+    The reader used to stop with a TypeError and print no verdict for any
+    member.
     """
     manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
     entry = next(
