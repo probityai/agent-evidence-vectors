@@ -122,7 +122,7 @@ func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := os.MkdirAll(filepath.Join(dir, sub), 0o755); err != nil {
+		if err := os.MkdirAll(filepath.Join(dir, sub), 0o750); err != nil {
 			t.Fatal(err)
 		}
 		for _, e := range entries {
@@ -133,7 +133,7 @@ func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if err := os.WriteFile(filepath.Join(dir, sub, e.Name()), b, 0o644); err != nil {
+			if err := os.WriteFile(filepath.Join(dir, sub, e.Name()), b, 0o600); err != nil {
 				t.Fatal(err)
 			}
 		}
@@ -149,7 +149,7 @@ func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
 	threats[1].(map[string]any)["testedBy"] = []any{"MCPVS-99"}
 	threats[2].(map[string]any)["id"] = "MCPTM-77"
 	out, _ := json.Marshal(reg)
-	if err := os.WriteFile(regPath, out, 0o644); err != nil {
+	if err := os.WriteFile(regPath, out, 0o600); err != nil {
 		t.Fatal(err)
 	}
 	manPath := filepath.Join(dir, ManifestName)
@@ -167,7 +167,7 @@ func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
 		}
 	}
 	man["counts"] = map[string]any{"accept": 1}
-	if err := os.WriteFile(filepath.Join(dir, "records", "garbage.json"), []byte("[1]"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "records", "garbage.json"), []byte("[1]"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 	vecs = append(vecs, map[string]any{"id": "vgarbage", "kind": "accept", "record": "records/garbage.json", "conditions": []any{"MCPVS-1"}})
@@ -186,7 +186,7 @@ func TestMCPOWASPRefusesBrokenCorpus(t *testing.T) {
 	if _, err := (mcpOWASP{}).Judge(dir, []byte(`{"registry":"nope.json"}`)); err == nil {
 		t.Error("a missing registry was not an error")
 	}
-	if err := os.WriteFile(filepath.Join(dir, "bad.json"), []byte("{"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "bad.json"), []byte("{"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := (mcpOWASP{}).Judge(dir, []byte(`{"registry":"bad.json"}`)); err == nil {
