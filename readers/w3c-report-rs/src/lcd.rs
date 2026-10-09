@@ -242,13 +242,13 @@ pub fn judge(subject: &Value) -> Judgement {
         }
     }
     // 7.4: the consumer imposes its own ceiling.
-    if !count(consumer.get("ceiling-octets")).is_some_and(|n| n > 0) {
+    if count(consumer.get("ceiling-octets")).is_none_or(|n| n <= 0) {
         add("LCD-R-009");
     }
     // 3.3: a negotiated response carries Content-Language.
     if served
         && wk.get("negotiated") == Some(&Value::Bool(true))
-        && !s(wk.get("content-language")).is_some_and(|l| !l.is_empty())
+        && s(wk.get("content-language")).is_none_or(str::is_empty)
     {
         add("LCD-R-010");
     }

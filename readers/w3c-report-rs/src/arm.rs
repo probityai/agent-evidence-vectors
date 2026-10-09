@@ -312,7 +312,7 @@ pub fn judge(subject: &Value) -> Judgement {
             if k == "cache_writes" {
                 continue;
             }
-            if !count(Some(v)).is_some_and(|n| n >= 0) || !v.is_number() {
+            if count(Some(v)).is_none_or(|n| n < 0) {
                 add("ARM-R-009");
             }
         }
