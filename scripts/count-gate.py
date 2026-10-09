@@ -2395,6 +2395,14 @@ MASKS = tuple(
         # counter reaches. Re-derive the family with:
         #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
         r"\bsrr-c-\d+\b",
+        # Draft OWASP MCP requirement and threat identifiers, MCPVS-N and MCPTM-N,
+        # minted once in vectors-mcp-owasp/REGISTRY.json. They are named, never
+        # counted: `MCPVS-4` sits in a threat page a few characters from words
+        # the small-value vocabulary reads as nouns, and 4 and 5 equal counts the
+        # forcing sources publish, so unmasked the gate reported identifiers as
+        # stale copies of derived counts. Re-derive the family with:
+        #     git grep -ohE '\bMCP(VS|TM)-[0-9]+\b' | sort -u
+        r"\bMCP(?:VS|TM)-\d+\b",
         # Disposition-row identifiers, DC-NN. A row in the objection ledger is
         # named, not counted, and the number is as much an identifier as a vector
         # id is. Unmasked it collides on value with whatever small count the
