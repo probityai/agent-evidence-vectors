@@ -589,6 +589,64 @@ def uv_provides(available: bool) -> Iterator[None]:
         GATE.uv_python_available = original  # type: ignore[attr-defined]
 
 
+def action_verifier_imports_resolve_to_the_checkout() -> None:
+    """A verifier the action names as `python -m agent_evidence_vectors.X` runs this revision.
+
+    The action pip-installs its own checkout before replaying, so a verifier
+    that imports the package gets the revision under test. The mirror skipped
+    the install, and an older copy installed in whatever interpreter was first
+    on PATH answered instead: the a2a-jcs replay failed every vector locally
+    while the remote run passed.
+    """
+    local = GATE.own_action(  # type: ignore[attr-defined]
+        {"verifier": "python3 -m agent_evidence_vectors.probe", "report-path": "r.json"}
+    )
+    assert local.run is not None
+    with tempfile.TemporaryDirectory(prefix="aee action imports ") as tmp:
+        root = pathlib.Path(tmp)
+        (root / "scripts").mkdir()
+        (root / "scripts" / "action-summary.py").write_bytes(
+            (HERE / "action-summary.py").read_bytes()
+        )
+        checkout_pkg = root / "packaging" / "agent_evidence_vectors"
+        checkout_pkg.mkdir(parents=True)
+        (checkout_pkg / "__init__.py").write_text("")
+        (checkout_pkg / "probe.py").write_text("print('checkout')\n")
+        # An older installed copy that lacks the module, ahead of everything else.
+        stale = root / "stale-site" / "agent_evidence_vectors"
+        stale.mkdir(parents=True)
+        (stale / "__init__.py").write_text("")
+        # The fixture harness runs the verifier and passes only on the checkout's answer.
+        (root / "packaging" / "run_vectors.py").write_text(
+            "import json,pathlib,shlex,subprocess,sys\n"
+            "cmd=shlex.split(sys.argv[sys.argv.index('--verifier')+1])\n"
+            "out=subprocess.run(cmd,capture_output=True,text=True).stdout.strip()\n"
+            "ok=1 if out=='checkout' else 0\n"
+            "p=pathlib.Path(sys.argv[sys.argv.index('--report')+1])\n"
+            "p.write_text(json.dumps({'rail':'external','totals':{'vectors':1,"
+            "'conform':ok,'pass':ok,'fail':1-ok,'reasonParityMismatch':0,'suiteRefusals':0},"
+            "'verifier':{'vectorsExecuted':1},'rows':[]}))\n"
+            "sys.exit(0 if ok else 1)\n"
+        )
+        runner = root / "job temp"
+        runner.mkdir()
+        env = {
+            "PATH": f"{pathlib.Path(sys.executable).parent}:/usr/bin:/bin",
+            "PYTHONPATH": str(root / "stale-site"),
+            "RUNNER_TEMP": str(runner),
+            "GITHUB_OUTPUT": str(root / "outputs"),
+            "GITHUB_STEP_SUMMARY": str(root / "summary"),
+        }
+        original = GATE.REPO  # type: ignore[attr-defined]
+        GATE.REPO = root  # type: ignore[attr-defined]
+        try:
+            proc = GATE.run_step(local.run, env)  # type: ignore[attr-defined]
+        finally:
+            GATE.REPO = original  # type: ignore[attr-defined]
+        assert proc.returncode == 0, proc.stdout + proc.stderr
+        assert "result=pass\n" in (root / "outputs").read_text()
+
+
 def setup_python_is_mirrored_with_pip() -> None:
     """setup-python is mirrored by a pip-seeded interpreter put on $GITHUB_PATH.
 
@@ -1700,6 +1758,10 @@ def main() -> int:
     check(
         "the action report reaches its consumers",
         action_report_path_reaches_the_summary_and_outputs,
+    )
+    check(
+        "the action's verifier imports this revision",
+        action_verifier_imports_resolve_to_the_checkout,
     )
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)

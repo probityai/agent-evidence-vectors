@@ -345,8 +345,12 @@ def own_action(inputs: dict[str, Any]) -> Local:
 
     The installation step is the runner's: it pip-installs the package into the
     job's environment, and the harness it installs is the file on disk here.
-    The job summary is written to a scratch file, and the artifact upload is
-    not mirrored at all.
+    A verifier the action names as `python -m agent_evidence_vectors.<module>`
+    imports that installed package, so the mirror puts this checkout's package
+    first on PYTHONPATH. Without it the import resolved to whatever older copy
+    the first interpreter on PATH had installed, and a replay the remote passed
+    failed every vector here. The job summary is written to a scratch file, and
+    the artifact upload is not mirrored at all.
     """
     verifier = str(inputs.get("verifier", "")).strip()
     if not verifier:
@@ -361,6 +365,7 @@ def own_action(inputs: dict[str, Any]) -> Local:
     return Local(
         ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
         f'report_path="$RUNNER_TEMP"/{shlex.quote(report_name)}\n'
+        'export PYTHONPATH="$PWD/packaging${PYTHONPATH:+:$PYTHONPATH}"\n'
         "status=0\n"
         "python3 packaging/run_vectors.py"
         f" --corpus {shlex.quote(corpus)}"
