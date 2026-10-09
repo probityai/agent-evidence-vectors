@@ -131,6 +131,9 @@ REVISION_HEADING = re.compile(r"^## suiteRevision (\d+)\b", re.MULTILINE)
 ENUMERATION = r"\d+(?:, \d+)*(?:,? (?:and|or) \d+)?"
 SCORE = re.compile(r"^\d+/\d+$")
 EVIDENCE = ("blind", "first-run-unchanged-build", "directed")
+# Who produced the run, a separate axis from how much of the answer the
+# implementer saw. Only an independent run licenses the independence column.
+RUN_LABEL = ("author-produced", "second-party-same-code", "independent")
 # The two documents that publish the independence column. A run's headline figure
 # has to be stated in both or in neither.
 #
@@ -258,6 +261,14 @@ def _run_field_failures(run: dict[str, Any], current: int) -> list[str]:
         )
     if run.get("evidence") not in EVIDENCE:
         out.append(f"{where}: evidence must be one of {', '.join(EVIDENCE)}.")
+    label = run.get("runLabel")
+    if label not in RUN_LABEL:
+        out.append(f"{where}: runLabel must be one of {', '.join(RUN_LABEL)}.")
+    elif label != "independent":
+        out.append(
+            f"{where}: runLabel is {label}, and only an independent run may stand in "
+            "the independence column."
+        )
     if run.get("unprompted") is not (run.get("evidence") != "directed"):
         out.append(
             f"{where}: a run its author called directed may not be flagged unprompted, "

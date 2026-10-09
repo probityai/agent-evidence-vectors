@@ -132,6 +132,23 @@ def carries_revision(root: Path) -> None:
     edit(root, change)
 
 
+def label_dropped(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        del ledger["runs"][0]["runLabel"]
+
+    edit(root, change)
+
+
+def label_same_code(root: Path) -> None:
+    """A run of the author's own code by someone else is a reproduction, and it
+    may not count toward independence however it is described."""
+
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["runs"][0]["runLabel"] = "second-party-same-code"
+
+    edit(root, change)
+
+
 def array_removed(root: Path) -> None:
     def change(ledger: dict[str, Any]) -> None:
         del ledger["attempts"]
@@ -245,6 +262,18 @@ CASES: tuple[Case, ...] = (
         carries_revision,
         False,
         ("unexpected field 'suiteRevision'", "would shrink it"),
+    ),
+    (
+        "a run with no runLabel is refused",
+        label_dropped,
+        False,
+        ("runLabel must be one of", "second-party-same-code"),
+    ),
+    (
+        "a same-code run cannot stand in the independence column",
+        label_same_code,
+        False,
+        ("runLabel is second-party-same-code", "only an independent run"),
     ),
     (
         "a ledger with no attempts array at all is refused",

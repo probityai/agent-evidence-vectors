@@ -170,6 +170,21 @@ cover both readings does not work: the harness compares code sets, so a set nami
 both conditions is satisfied by either answer and the vector stops measuring the
 question instead of starting to.
 
+### Describe the case before you generate it
+
+Write the case so a working group can lift it without reading the generator.
+Put these three lines in the vector's `description` or in the pull request body:
+
+```text
+Expected invariant: what a conformant verifier keeps true, in the specification's own words.
+Failure condition:  the exact bytes or field state that breaks it in this vector.
+Observable:         the verdict and the failure code a verifier must emit.
+```
+
+For example: "Expected invariant: the run binding equals the digest the statement
+derives. Failure condition: `aeeRunBinding` carries a digest of a different run.
+Observable: invalid, with the run-binding code."
+
 ## Adding a failure code
 
 Four things, and `scripts/code-contract-gate.py` checks the last three:
