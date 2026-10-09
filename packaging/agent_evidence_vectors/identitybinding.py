@@ -139,7 +139,7 @@ def jwk_thumbprint(public: bytes) -> str:
 
 
 def public_key(method: dict[str, Any]) -> bytes | None:
-    """The 32 Ed25519 public key bytes of a verification method, or None."""
+    """The raw Ed25519 public key bytes of a verification method, or None."""
     multibase = method.get("publicKeyMultibase")
     if isinstance(multibase, str) and multibase.startswith("z"):
         try:
