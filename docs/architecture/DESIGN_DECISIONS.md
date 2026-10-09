@@ -101,3 +101,34 @@ and only the second one was ever unchecked.
 enforces this at test time. The go-witness dependency lives only in the separate
 `witnessattestor/` module, so a relying party can vendor the core verifier with
 zero third-party supply-chain surface.
+
+## The surface-leakage null is precise, current and family-wise
+
+Recorded 2026-10-09, when adding the suiteRevision 31 vectors exposed it. The
+surface-leakage gate judged each surface against the 95th percentile of twenty
+label shuffles, recorded once and reused while the class counts drifted. Three
+measurements on the `vectors` corpus showed what that threshold was worth:
+
+- Twenty shuffles moved the null by 0.005 to 0.05 when one vector was added.
+  `paths` measured 0.5572 against a recorded 0.5577; with one more ordinary
+  reject its re-derived null was 0.5439, and with a hundred shuffles 0.5516.
+- At the 95th percentile of 2000 seeded shuffles the same `paths` figure sat at
+  its bound: 0.5516 against 0.5530 as it stands, and 0.5556 against 0.5548 with
+  one matched accept and reject pair added. No leak was added; the pair was
+  refused for noise.
+- The question is asked of every surface of every corpus at once. With thirteen
+  surfaces carrying any spread, a per-surface 95th percentile refuses a corpus
+  carrying no signal on about half of all runs.
+
+The gate now does three things. It re-derives the null at the corpus's current
+class counts whenever they differ from the counts the recorded null was taken
+at, so a stale threshold is never applied. It takes the null from 2000 shuffles
+drawn by a generator with a literal seed, computed as count-matrix products in
+numpy so that it fits the CI budget. And it judges at the family-wise quantile,
+one minus 0.05 divided by the number of surfaces judged, so the margin over the
+old per-surface percentile is read off each surface's own shuffle distribution.
+The false-alarm rate per run on a signal-free corpus falls from about 49% to at
+most 5%. Power where it matters stays with the ratchet, which refuses any rise
+past its tolerance whatever the null says; the gate's tests prove a giveaway
+leak, a leak of about 0.03 over the recorded figure, and a leak hidden behind a
+null recorded at other counts are all still refused.

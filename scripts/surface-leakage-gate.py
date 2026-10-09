@@ -96,7 +96,9 @@ the level it has reached, so a change that adds predictability fails on the
 change that added it.
 
 A measurement OUTSIDE ITS OWN NULL is a regularity that shuffling the labels does
-not reproduce, and it must be declared in the baseline with the constraint that
+not reproduce -- judged at the family-wise quantile of 2000 seeded shuffles,
+because every surface is asked at once (false alarms per run: about 49% before,
+at most 5% after) -- and it must be declared in the baseline with the constraint that
 blocks it. A declaration is not a permanent allowance: when a surface comes back
 inside its null the declaration is stale and the gate refuses until it is
 removed, so the ratchet turns in both directions.
@@ -126,9 +128,10 @@ import json
 import math
 import random
 import sys
-from collections import defaultdict
 from pathlib import Path
 from typing import Any
+
+import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BASELINE_REL = "docs/SURFACE-LEAKAGE-BASELINE.json"
@@ -163,8 +166,37 @@ SURFACES = ("identifier", "file", "shape", "paths", "lexicon", "all")
 # calibrates. It is pinned to a FINGERPRINT of the corpus it was computed over --
 # the class counts -- because those are what set the null's level, and a null
 # carried across a change in them is a threshold describing a different corpus.
-NULL_DRAWS = 20
-NULL_QUANTILE = 0.95
+#
+# Two corrections, measured on 2026-10-09 (DECISION_LOG.md records the figures).
+#
+# The null used to be the 95th percentile of TWENTY shuffles -- in practice the
+# largest of them -- and that estimate moved by 0.005 to 0.05 when one vector was
+# added, more than any margin the gate compared at. It is now taken from
+# NULL_DRAWS shuffles drawn from a generator with a literal seed, which the
+# vectorised estimator above makes affordable.
+#
+# And the gate asks the null question of every surface of every corpus at once,
+# so a 95th percentile per surface is a five-per-cent false alarm per surface:
+# with the surfaces that carry any spread, a corpus with no leak at all was
+# refused on some surface on a large share of runs. The quantile is therefore
+# the family-wise one, 1 - FAMILY_ALPHA / (number of surfaces judged): the
+# margin above the old per-surface 95th percentile is read off each surface's
+# own shuffle distribution rather than set once by hand, so a noisy surface
+# gets a wide margin and a tight one a narrow margin.
+#
+# False alarms per run on a corpus that carries no signal, before and after:
+#   before -- up to 1 - 0.95**13, about 49%, over the 13 surfaces with spread
+#             (identifier-like surfaces have none), on top of a threshold that
+#             itself moved with every added vector;
+#   after  -- at most FAMILY_ALPHA, 5%, by the union bound.
+# Power where it matters is not carried by this threshold: a change that lifts a
+# surface by more than TOLERANCE is refused by the ratchet below whatever its
+# null says, and the test file proves both a giveaway leak and a rise of about
+# 0.03 over the null are still refused.
+NULL_DRAWS = 2000
+NULL_SEED = 20261009
+FAMILY_ALPHA = 0.05
+NULL_QUANTILE = 1.0 - FAMILY_ALPHA / (len(CORPORA) * len(SURFACES))
 
 # How far the class counts may drift before the recorded null stops describing
 # this corpus. Not zero, and the reason is the difference between a threshold
@@ -283,111 +315,128 @@ def features(rel_path: str, raw: bytes) -> dict[str, set[str]]:
 # --- estimator -------------------------------------------------------------
 
 
-def auc(labelled: list[tuple[int, float]]) -> float:
-    """Area under the ROC curve, by the rank statistic, ties averaged."""
-    positives = sum(1 for y, _ in labelled if y == 1)
-    negatives = len(labelled) - positives
-    if positives == 0 or negatives == 0:
-        return float("nan")
-    ordered = sorted(labelled, key=lambda t: t[1])
-    rank_sum = 0.0
-    index = 0
-    rank = 1
-    while index < len(ordered):
-        last = index
-        while last + 1 < len(ordered) and ordered[last + 1][1] == ordered[index][1]:
-            last += 1
-        average = (rank + rank + (last - index)) / 2
-        for position in range(index, last + 1):
-            if ordered[position][0] == 1:
-                rank_sum += average
-        rank += last - index + 1
-        index = last + 1
-    return (rank_sum - positives * (positives + 1) / 2) / (positives * negatives)
+def _design(rows: list[tuple[int, frozenset[str]]]) -> tuple[Any, Any]:
+    """The rows as a binary feature matrix and a label vector.
 
-
-def score_fold(
-    train: list[tuple[int, frozenset[str]]], test: list[tuple[int, frozenset[str]]]
-) -> list[float]:
-    counts: list[dict[str, int]] = [defaultdict(int), defaultdict(int)]
-    totals = [0, 0]
-    for label, feats in train:
-        totals[label] += 1
+    Column order is the sorted feature names, so the matrix -- and every product
+    taken over it -- is a function of the rows alone and not of the process's
+    string-hash salt.
+    """
+    names = sorted(set().union(*(feats for _, feats in rows))) if rows else []
+    column = {name: index for index, name in enumerate(names)}
+    matrix = np.zeros((len(rows), len(names)), dtype=np.float64)
+    for index, (_, feats) in enumerate(rows):
         for name in feats:
-            counts[label][name] += 1
-    prior = math.log((totals[1] + 1) / (totals[0] + 1))
-    scores = []
-    for _, feats in test:
-        value = prior
-        # SORTED, and the sort is load-bearing rather than tidy. These are
-        # frozensets of strings, so iterating one walks it in hash order, which
-        # differs per process because Python salts string hashing. Floating-point
-        # addition is not associative, so the same log terms added in two orders
-        # differ in the last bit -- and `auc` below detects a tie by comparing
-        # scores for exact equality. Two rows carrying identical features would
-        # tie in one process and rank strictly in another, moving the figure this
-        # gate ratchets on. It moved: the widest surface of one corpus measured
-        # 0.5304 under most hash seeds and 0.5343 under others, which is a refusal
-        # in one direction, and 0.5054 in the run that exposed it, which is a
-        # refusal in the other -- on a corpus nobody had touched. A gate whose
-        # verdict depends on its own process's hash salt reports a leak that is
-        # not there and hides one that is, so the order is fixed here. The narrow
-        # surfaces never showed it because three terms sum the same either way.
-        for name in sorted(feats):
-            seen = counts[1][name] + counts[0][name]
-            if seen == 0:
-                continue  # never observed in training: says nothing out of fold
-            value += math.log(
-                ((counts[1][name] + 1) / (totals[1] + 2))
-                / ((counts[0][name] + 1) / (totals[0] + 2))
-            )
-        scores.append(value)
-    return scores
+            matrix[index, column[name]] = 1.0
+    labels = np.array([label for label, _ in rows], dtype=np.float64)
+    return matrix, labels
 
 
-def cross_validated_auc(rows: list[tuple[int, frozenset[str]]], seed: int) -> float:
-    by_label: dict[int, list[tuple[int, frozenset[str]]]] = {0: [], 1: []}
-    for row in rows:
-        by_label[row[0]].append(row)
-    rng = random.Random(seed)
-    folds: list[list[tuple[int, frozenset[str]]]] = [[] for _ in range(FOLDS)]
-    for label in (0, 1):
-        members = by_label[label][:]
-        rng.shuffle(members)
+def _folds(labels: Any, seed: int) -> Any:
+    """Stratified fold ids, dealt exactly as the scalar estimator always dealt them.
+
+    One `random.Random(seed)` shuffles the accept rows and then the reject rows,
+    each in row order, and deals them round-robin into the folds. Keeping the
+    stdlib generator rather than numpy's keeps every recorded separability
+    figure byte-for-byte what the per-row implementation measured.
+    """
+    generator = random.Random(seed)
+    fold = np.empty(labels.shape[0], dtype=np.int64)
+    for value in (0.0, 1.0):
+        members = [int(i) for i in np.flatnonzero(labels == value)]
+        generator.shuffle(members)
         for position, row in enumerate(members):
-            folds[position % FOLDS].append(row)
-    labelled: list[tuple[int, float]] = []
-    for index in range(FOLDS):
-        test = folds[index]
-        train = [r for other in range(FOLDS) if other != index for r in folds[other]]
-        if not test or not train:
+            fold[row] = position % FOLDS
+    return fold
+
+
+def _auc_columns(scores: Any, labels: Any) -> Any:
+    """Area under the ROC curve for every column, ties given their average rank."""
+    out = np.empty(scores.shape[1], dtype=np.float64)
+    for col in range(scores.shape[1]):
+        y = labels[:, col]
+        positives = float(y.sum())
+        negatives = float(y.shape[0]) - positives
+        if positives == 0 or negatives == 0:
+            out[col] = float("nan")
             continue
-        for row, value in zip(test, score_fold(train, test), strict=True):
-            labelled.append((row[0], value))
-    return auc(labelled)
+        order = np.argsort(scores[:, col], kind="stable")
+        ordered = scores[order, col]
+        starts = np.flatnonzero(np.r_[True, ordered[1:] != ordered[:-1]])
+        ends = np.r_[starts[1:], ordered.shape[0]]
+        average = (starts + ends + 1) / 2.0
+        ranks = np.repeat(average, ends - starts)
+        rank_sum = float((ranks * y[order]).sum())
+        out[col] = (rank_sum - positives * (positives + 1) / 2) / (positives * negatives)
+    return out
+
+
+def _cross_validated_auc(matrix: Any, labels: Any, folds: Any) -> Any:
+    """Naive-Bayes out-of-fold AUC for every labelling column at once.
+
+    `labels` and `folds` are (rows, draws). Training counts for every fold of
+    every draw are matrix products, which is what makes thousands of label
+    shuffles affordable: the per-row Python loop this replaced cost about forty
+    seconds for twenty shuffles of one corpus. The arithmetic is the same
+    Laplace-smoothed log ratio, summed only over features seen in training.
+    Scores are rounded to nine places before ranking so that rows with
+    identical features tie exactly however the product happened to be summed.
+    """
+    scores = np.zeros(labels.shape, dtype=np.float64)
+    for k in range(FOLDS):
+        train = (folds != k).astype(np.float64)
+        pos = labels * train
+        neg = (1.0 - labels) * train
+        tot1 = pos.sum(axis=0)
+        tot0 = neg.sum(axis=0)
+        c1 = matrix.T @ pos
+        c0 = matrix.T @ neg
+        weight = np.log((c1 + 1.0) / (tot1 + 2.0)) - np.log((c0 + 1.0) / (tot0 + 2.0))
+        weight[(c1 + c0) == 0] = 0.0
+        prior = np.log((tot1 + 1.0) / (tot0 + 1.0))
+        fold_scores = matrix @ weight + prior
+        test = folds == k
+        scores[test] = fold_scores[test]
+    return _auc_columns(np.round(scores, 9), labels)
+
+
+def _separability_of(matrix: Any, labels: Any) -> Any:
+    """Separability for every labelling column: mean AUC over the fold seeds,
+    folded so that a reliably wrong classifier counts as much as a right one."""
+    total = np.zeros(labels.shape[1], dtype=np.float64)
+    for seed in FOLD_SEEDS:
+        folds = np.stack(
+            [
+                _folds(labels[:, col], seed)
+                for col in range(labels.shape[1])
+            ],
+            axis=1,
+        )
+        total += _cross_validated_auc(matrix, labels, folds)
+    mean = total / len(FOLD_SEEDS)
+    return np.maximum(mean, 1.0 - mean)
+
+
+def null_draws(rows: list[tuple[int, frozenset[str]]]) -> Any:
+    """What this estimator reports on these features when the labels mean nothing.
+
+    NULL_DRAWS permutations of the labels, each re-measured exactly as the corpus
+    is. The permutations come from one generator with a literal seed, so the
+    distribution -- and every quantile taken from it -- is a fixed function of
+    the rows.
+    """
+    matrix, labels = _design(rows)
+    generator = np.random.default_rng(NULL_SEED)
+    shuffled = np.stack(
+        [labels[generator.permutation(labels.shape[0])] for _ in range(NULL_DRAWS)],
+        axis=1,
+    )
+    return _separability_of(matrix, shuffled)
 
 
 def null_separability(rows: list[tuple[int, frozenset[str]]]) -> float:
-    """What this estimator reports on these features when the labels mean nothing.
-
-    The labels are permuted and the whole measurement re-run, so the features,
-    the class balance and the corpus size are exactly the corpus's own; only the
-    correspondence between a vector and its verdict is destroyed. The quantile
-    rather than the maximum, because a maximum over a finite number of draws is
-    an estimate of an unbounded tail and would drift with the draw count.
-
-    The permutation seeds are literal constants, so this is a fixed number for a
-    fixed corpus rather than something that moves between runs.
-    """
-    labels = [label for label, _ in rows]
-    feats = [f for _, f in rows]
-    drawn: list[float] = []
-    for draw in range(NULL_DRAWS):
-        shuffled = labels[:]
-        random.Random(90000 + draw).shuffle(shuffled)
-        drawn.append(separability(list(zip(shuffled, feats, strict=True))))
-    drawn.sort()
-    return round(drawn[min(int(NULL_QUANTILE * len(drawn)), len(drawn) - 1)], 4)
+    """The NULL_QUANTILE point of the permutation null, to four places."""
+    return round(float(np.quantile(null_draws(rows), NULL_QUANTILE)), 4)
 
 
 def separability(rows: list[tuple[int, frozenset[str]]]) -> float:
@@ -396,9 +445,8 @@ def separability(rows: list[tuple[int, frozenset[str]]]) -> float:
     A classifier that is reliably wrong is a classifier inverted, so the distance
     from 0.5 is the quantity a consumer could exploit, not the AUC itself.
     """
-    measured = [cross_validated_auc(rows, seed) for seed in FOLD_SEEDS]
-    mean = sum(measured) / len(measured)
-    return round(max(mean, 1.0 - mean), 4)
+    matrix, labels = _design(rows)
+    return round(float(_separability_of(matrix, labels[:, None])[0]), 4)
 
 
 # --- corpus ----------------------------------------------------------------
@@ -448,9 +496,12 @@ def measure(tree: Path, with_null: bool) -> dict[str, dict[str, Any]]:
         surfaces: dict[str, dict[str, float]] = {}
         for surface in SURFACES:
             prepared = prepare(rows, surface)
-            cell: dict[str, float] = {"separability": separability(prepared)}
+            cell: dict[str, Any] = {"separability": separability(prepared)}
             if with_null:
                 cell["null"] = null_separability(prepared)
+            # Kept so a judgment can re-derive the null at THESE class counts
+            # when the recorded one was calibrated at others. Never serialized.
+            cell["rows"] = prepared
             surfaces[surface] = cell
         out[corpus] = {"fingerprint": fingerprint(rows), "surfaces": surfaces}
     return out
@@ -508,6 +559,28 @@ def judge(measured: dict[str, dict[str, Any]], baseline: dict[str, Any]) -> list
     return problems
 
 
+def null_in_force(found: dict[str, Any], recorded: dict[str, Any], surface: str) -> float:
+    """The null a surface is judged against: the one for the CURRENT class counts.
+
+    A null is a function of the class counts, so a value recorded at one set of
+    counts is a stale derived figure once the counts move, even inside the drift
+    the ratchet tolerates. Comparing against it judged the corpus with a
+    threshold for a different corpus: adding one ordinary reject shifted a
+    surface that carries no information by 0.0001 past a null calibrated before
+    that reject existed, and the gate called noise a leak. The recorded null is
+    used only while the counts it was calibrated at still hold; otherwise it is
+    re-derived here, by the same estimator, over the same rows, so the threshold
+    keeps its meaning and only stops going stale.
+    """
+    if dict(recorded.get("fingerprint") or {}) == dict(found["fingerprint"]):
+        row = recorded.get("surfaces", {}).get(surface, {})
+        return float(row.get("null", 0.0))
+    cell = found["surfaces"][surface]
+    if "null" not in cell:
+        cell["null"] = null_separability(cell["rows"])
+    return float(cell["null"])
+
+
 def _judge_surfaces(
     corpus: str, found: dict[str, Any], recorded: dict[str, Any]
 ) -> list[str]:
@@ -524,7 +597,7 @@ def _judge_surfaces(
             )
             continue
         was = float(row.get("separability", 0.0))
-        null = float(row.get("null", 0.0))
+        null = null_in_force(found, recorded, surface)
         blocked = str(row.get("blockedBy", "")).strip()
         if value > was + TOLERANCE:
             problems.append(
@@ -563,7 +636,11 @@ def render(measured: dict[str, dict[str, Any]], baseline: dict[str, Any]) -> str
         for surface in SURFACES:
             value = float(found["surfaces"][surface]["separability"])
             row = rows.get(surface, {})
-            null = float(row.get("null", 0.0)) if row else 0.0
+            null = (
+                null_in_force(found, recorded[corpus], surface)
+                if row and corpus in recorded
+                else 0.0
+            )
             flag = "  OUTSIDE NULL" if null and value > null else ""
             note = f"  blocked by {row['blockedBy']}" if row.get("blockedBy") else ""
             lines.append(
@@ -670,8 +747,9 @@ def main() -> int:
         f"{c}/{s}"
         for c, found in measured.items()
         for s in SURFACES
-        if float(found["surfaces"][s]["separability"])
-        > float(rows.get(c, {}).get("surfaces", {}).get(s, {}).get("null", 1.0))
+        if c in rows
+        and s in rows[c].get("surfaces", {})
+        and float(found["surfaces"][s]["separability"]) > null_in_force(found, rows[c], s)
     ]
     print(
         f"OK: {len(CORPORA) * len(SURFACES)} surface measurements, none above its "
