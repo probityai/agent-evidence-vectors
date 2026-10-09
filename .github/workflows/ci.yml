@@ -942,6 +942,12 @@ jobs:
       # requiring itself to go red.
       - name: a named verifier runs, or the harness says it did not
         run: python3 scripts/verifier-must-run-test.py
+      # The RFC 8785 byte cases ship in the wheel so an SDK's CI can pin the
+      # package and read them offline. The test builds the wheel, compares the
+      # shipped bytes with the repository copy and resolves the documented
+      # locator from outside the checkout.
+      - name: the wheel ships the JCS byte cases at the path the package names
+        run: python3 scripts/wheel-jcs-bytes-test.py
       # A report names the corpus release and digest it ran, matched against
       # the signed digest list. The test ends by deleting the block in a copy of
       # the harness and requiring itself to go red.
