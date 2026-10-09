@@ -1,0 +1,35 @@
+{
+  "observation": {
+    "headHolder": "transparency-log",
+    "stream": [
+      {
+        "body": "call-1",
+        "prev": "",
+        "seq": 1
+      },
+      {
+        "body": "call-2",
+        "prev": "5a865743a229f28f580be403f6e4d148081a9684ccb142885f8d9fd99c6cbbba",
+        "seq": 2
+      },
+      {
+        "body": "call-4",
+        "prev": "13b54dea1ae54adc73f3a5c0d268ac9fc08c34072275a24dae0165cef04c86a0",
+        "seq": 4
+      },
+      {
+        "body": "call-5",
+        "prev": "16c8a06f06ac0bfafab8e61eeab6870e7b88b72c14ecde26064ac318d12db2c2",
+        "seq": 5
+      }
+    ],
+    "verification": {
+      "breakAt": 4,
+      "result": "fail"
+    },
+    "verificationAfterResign": {
+      "result": "pass"
+    }
+  },
+  "requirement": "MCPVS-9"
+}

@@ -129,6 +129,7 @@ from typing import Any, NamedTuple, TypeGuard
 from agent_evidence_vectors import (
     anchoredchain,
     auditrecord,
+    mcpowasp,
     observedeffect,
     receiptsignature,
     sourcecoverage,
@@ -3746,6 +3747,7 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        mcpowasp.SUITE,
     )
     if not own_reader and external_cmd is not None:
         return None
@@ -3774,29 +3776,23 @@ def _run_non_reference_suite(
             file=sys.stderr,
         )
         return 2
-    if suite == receiptsignature.SUITE:
-        rs_judged = receiptsignature.judge(suite_dir)
-        sys.stdout.write(receiptsignature.render(rs_judged, receiptsignature.SUITE))
-        return 0 if rs_judged.ok() else 1
-    if suite == w3creport.SUITE:
-        # The W3C per-check report corpus is judged by its own validator, in
-        # the same words the Go reader prints, so the two rails can be diffed.
-        judged = w3creport.judge(suite_dir)
-        sys.stdout.write(w3creport.render(judged, w3creport.SUITE))
-        return 0 if judged.ok() else 1
-    if suite == auditrecord.SUITE:
-        # The agent audit record corpus is Appendix B of an Internet-Draft, and
-        # its reader states the draft's rules in the order the draft's
-        # verification section gives them.
-        ar_judged = auditrecord.judge(suite_dir)
-        sys.stdout.write(auditrecord.render(ar_judged, auditrecord.SUITE))
-        return 0 if ar_judged.ok() else 1
-    # Same arrangement for the Observed Effect corpus: a predicate of its own
-    # gets a reader of its own, and the printed lines are the ones
-    # corpora/observedeffect.go prints from Go.
-    oe_judged = observedeffect.judge(suite_dir)
-    sys.stdout.write(observedeffect.render(oe_judged, observedeffect.SUITE))
-    return 0 if oe_judged.ok() else 1
+    # Each remaining suite has a reader of its own that judges the directory and
+    # prints in the same words its Go reader prints, so the two rails can be
+    # diffed. The W3C per-check report corpus is judged by its own validator;
+    # the agent audit record corpus states an Internet-Draft's rules in the
+    # order its verification section gives them; the OWASP MCP corpus holds
+    # one rule per draft acceptance test; and a suite named by none of them is
+    # the Observed Effect corpus, a predicate of its own with a reader of its
+    # own.
+    reader = {
+        receiptsignature.SUITE: receiptsignature,
+        w3creport.SUITE: w3creport,
+        auditrecord.SUITE: auditrecord,
+        mcpowasp.SUITE: mcpowasp,
+    }.get(suite, observedeffect)
+    judged = reader.judge(suite_dir)
+    sys.stdout.write(reader.render(judged, reader.SUITE))
+    return 0 if judged.ok() else 1
 
 
 def run_suite(args: argparse.Namespace) -> int:

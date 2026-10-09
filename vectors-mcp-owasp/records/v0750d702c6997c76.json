@@ -1,0 +1,19 @@
+{
+  "observation": {
+    "auditRecordProcesses": [],
+    "parameters": [
+      "path"
+    ],
+    "payloads": [
+      "; id",
+      "$(id)",
+      "`id`"
+    ],
+    "spawnedProcesses": [
+      [
+        "id"
+      ]
+    ]
+  },
+  "requirement": "MCPVS-5"
+}
