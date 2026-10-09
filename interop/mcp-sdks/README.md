@@ -2,8 +2,8 @@
 
 One harness per official Model Context Protocol SDK. Each harness decodes a
 JSON-RPC message with the SDK's own message decoder and re-encodes it with the
-SDK's own wire encoder. The driver wraps every corpus input as `result.v` of a
-response, cuts the re-encoded value out of the SDK's bytes, and compares it with
+SDK's own wire encoder. The driver wraps every corpus input as `structuredContent.v` of a
+tool result, cuts the re-encoded value out of the SDK's bytes, and compares it with
 the RFC 8785 bytes the corpus pins. The results and the method are in
 [docs/mcp-sdk-jcs-divergence.md](../../docs/mcp-sdk-jcs-divergence.md).
 

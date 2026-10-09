@@ -5,8 +5,10 @@ Every harness under this directory speaks one line protocol. It reads
 newline-delimited JSON-RPC messages on stdin, decodes each one with the SDK's
 message decoder, encodes the decoded message with the SDK's wire encoder, and
 writes one line per input: ``OK <base64 of the encoded message>`` or
-``ERR <reason>``. The driver wraps each corpus input as the ``v`` member of a
-response result, ``{"jsonrpc":"2.0","id":1,"result":{"v":INPUT}}``, then cuts the
+``ERR <reason>``. The driver wraps each corpus input as the ``v`` member of the
+structured content of a tool result,
+``{"jsonrpc":"2.0","id":1,"result":{"content":[],"structuredContent":{"v":INPUT}}}``,
+the shape every SDK's typed result decoder recognizes, then cuts the
 re-encoded ``v`` value out of the SDK's bytes and compares it with the RFC 8785
 bytes the corpus pins.
 
@@ -100,14 +102,14 @@ def load_corpus() -> list[dict]:
 
 
 def envelope(case_input: str) -> str:
-    return '{"jsonrpc":"2.0","id":1,"result":{"v":' + case_input + "}}"
+    return '{"jsonrpc":"2.0","id":1,"result":{"content":[],"structuredContent":{"v":' + case_input + "}}}"
 
 
-_START = re.compile(rb'"result"\s*:\s*\{\s*"v"\s*:\s*')
+_START = re.compile(rb'"structuredContent"\s*:\s*\{\s*"v"\s*:\s*')
 
 
 def cut_value(message: bytes) -> bytes | None:
-    """Return the bytes of result.v inside an encoded message, or None."""
+    """Return the bytes of structuredContent.v inside an encoded message, or None."""
     m = _START.search(message)
     if not m:
         return None
@@ -173,7 +175,7 @@ def cmd_run(name: str, cmd: list[str]) -> None:
             value = cut_value(message)
             row["message"] = message.decode("utf-8", "replace")
             if value is None:
-                row.update(verdict="dropped", detail="result.v absent from the encoded message")
+                row.update(verdict="dropped", detail="structuredContent.v absent from the encoded message")
             else:
                 row["bytes"] = value.decode("utf-8", "replace")
                 want = bytes.fromhex(case["canonicalHex"]) if "canonicalHex" in case else None
