@@ -136,6 +136,13 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "docs/proposals/ai-generation-v01-findings.md" = "agent_evidence_vectors/corpora/docs/proposals/ai-generation-v01-findings.md"
 "docs/INTEROP-EVIDENCE.md" = "agent_evidence_vectors/corpora/docs/INTEROP-EVIDENCE.md"
 "docs/mcp-response-phase.md" = "agent_evidence_vectors/corpora/docs/mcp-response-phase.md"
+# The RFC 8785 byte cases an SDK's CI reads after `pip install
+# agent-evidence-vectors==X`, rather than fetching them from a tag at run time.
+# They keep their repository-relative path under corpora/ so one locator,
+# run_vectors.jcs_byte_vectors_path(), resolves in a checkout and in the wheel.
+# check.mjs stays out: nothing in the package runs it.
+"corpora/jcs-byte-vectors/cases.json" = "agent_evidence_vectors/corpora/corpora/jcs-byte-vectors/cases.json"
+"corpora/jcs-byte-vectors/README.md" = "agent_evidence_vectors/corpora/corpora/jcs-byte-vectors/README.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -148,6 +155,8 @@ only-include = [
     "docs/proposals/ai-generation-v01-findings.md",
     "docs/INTEROP-EVIDENCE.md",
     "docs/mcp-response-phase.md",
+    "corpora/jcs-byte-vectors/cases.json",
+    "corpora/jcs-byte-vectors/README.md",
     "interop/observed-code-digest-candidate",
     "vectors",
     "vectors-a2a-jcs-v01",
