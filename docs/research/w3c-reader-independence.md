@@ -28,7 +28,7 @@ text, with no line of the other two in view.
 |---|---|
 | `vectors-w3c-report/spec-vendored/0087-arsentev-2026-09-30-v01.txt` | every report rule: states, causes, qualifiers, rows 1 to 14, the evidence object, carry or reference, section 3.1, the roll-up |
 | `vectors-w3c-report/spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | the coverage block fields (`W3C-R-022`, proposed) |
-| `vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | the Run object rows `ARM-R-001` to `ARM-R-022` (sections 3.1 to 3.7, 3.12, 5, 5.1) |
+| `vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt` | the Run object rows `ARM-R-001` to `ARM-R-022` (sections 3.1 to 3.7 and 3.12, plus section 5 and its subsection 5.1) |
 | `vectors-w3c-report/spec-vendored/draft-arsentev-llm-context-discovery-00.txt` | the snapshot rows `LCD-R-001` to `LCD-R-011` (sections 3.1 to 3.3, 4.1, 4.3, 4.4, 7.2, 7.4) |
 | `docs/W3C-V01-CONFORMANCE-APPENDIX.md` | which sentence each row identifier is bound to, and the closed tree-shape set |
 | `vectors-w3c-report/MANIFEST.json`, `INDEX.md`, `README.md`, the member files | field names and object shapes, each member's kind, expected rejects and cited rows |
@@ -65,7 +65,7 @@ from those bytes by recomputation, not from code:
 - the member identifier: `"v"` and the first 16 hex digits of the SHA-256 of
   the RFC 8785 bytes of the member's `expected`, `family`, `kind`,
   `requirements`, `resolves` (null when absent), `subject` and `subjectType`.
-  It reproduces all 235 committed identifiers;
+  It reproduces every committed identifier;
 - the `flat` tree shape: SHA-256 over the concatenated SHA-256 of each check
   record's RFC 8785 bytes. It reproduces every committed `flat` digest. The
   `rfc6962` and `RFC9162_SHA256` roots are the RFC 6962 section 2.1 Merkle
@@ -126,12 +126,12 @@ than one, and each is recorded so it can be argued:
 | comparison | result |
 |---|---|
 | committed corpus, all three readers | identical output and exit status |
-| the twelve mutation cases of `scripts/w3c-rails-parity-test.py` | identical on all twelve (13 of 13 with the committed case) |
-| all 235 committed member identifiers recomputed | 235 of 235 |
+| the twelve mutation cases of `scripts/w3c-rails-parity-test.py` | identical on all twelve, and on the committed case too |
+| every committed member identifier recomputed | all identical |
 | `observed/aee-v0.12.0/report.json`: rows | none fire |
 | same: leaf count and flat digest | 272 and `8777195248be4c35...` recompute |
 | same: this reader's re-write against the file | byte-identical, 76,057 bytes |
-| a fresh `--emit-w3c-report` from the tree at this branch's base | no row fires; 285 and the digest recompute; re-write byte-identical, 80,438 bytes |
+| a fresh `--emit-w3c-report` from the tree at this branch's base | no row fires; the vector total and the digest recompute; re-write byte-identical, 80,438 bytes |
 
 ## Where the readers part
 
@@ -152,7 +152,7 @@ reader the text supports:
 1. **The Python reader crashes on a malformed snapshot and judges nothing.**
    With `robots.disallow` or `robots.records` set to an integer in one member,
    `run_vectors.py` stops with `TypeError: 'int' object is not iterable` and
-   prints no verdict for any of the 235 members. The Go reader accepts that
+   prints no verdict for any member. The Go reader accepts that
    member; the Rust reader refuses it as malformed and judges the other 234.
    The draft makes both members arrays of rules and records, so the Rust
    reading is the one the text supports, and the Go reader accepting it is a
