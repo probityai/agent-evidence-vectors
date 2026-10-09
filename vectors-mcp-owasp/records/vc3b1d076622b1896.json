@@ -1,0 +1,16 @@
+{
+  "observation": {
+    "calls": [
+      {
+        "decision": "accepted",
+        "userBound": true
+      },
+      {
+        "decision": "refused",
+        "recordedReason": "no end-user identity bound to the session",
+        "userBound": false
+      }
+    ]
+  },
+  "requirement": "MCPVS-11"
+}
