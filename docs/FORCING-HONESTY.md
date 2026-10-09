@@ -26,12 +26,12 @@ all.**
 | what | value |
 |---|---|
 | suite | `adversarial-execution-evidence-conformance` |
-| corpus | suiteRevision 30, 281 vectors (61 accept, 218 reject, 2 indeterminate) |
+| corpus | suiteRevision 31, 285 vectors (63 accept, 220 reject, 2 indeterminate) |
 | vendored specification | commit `0dbe10bcc959b63dc42370a5db09812c9476f59a`, fetchable from `astrogilda/attestation` at branch `predicate/adversarial-execution-evidence` |
 | reviewed at | `in-toto/attestation#570` |
-| `vectors/MANIFEST.json` | `sha256:7c4de64af5ee376d41f95590b5ef71150f231682c602c7327b09393dcb2e911b` |
-| `docs/FORCING-BASELINE.json` | `sha256:47bf85d38bb465fd3297a2bd4458d084e843edd33b056c416f082d1da432a983` |
-| campaign | 808 single-site weakenings: 465 KILLED, 36 SILENT, 302 DEAD, 5 INCONCLUSIVE |
+| `vectors/MANIFEST.json` | `sha256:fa9db3718eab572d030fe6e14f8eb6254b4a85d321c6516c9d50671566748505` |
+| `docs/FORCING-BASELINE.json` | `sha256:2896505aa6a83c05e26968a246ddfe0b5f32c856cc39fe53f019b5d679cb62a1` |
+| campaign | 808 single-site weakenings: 466 KILLED, 36 SILENT, 301 DEAD, 5 INCONCLUSIVE |
 
 Every vector in the corpus is depended on by at least one recorded weakening, so no
 vector is wholly redundant and the campaign covers the corpus as it stands.
@@ -145,7 +145,7 @@ column is how many weakenings its vectors catch alongside somebody else's.
 | `aee-c-33` | L766-775 | the evidence tier is derived per row and never carried: artifact is declared, substrate is attested when every covering signature verifies under consumer policy and unattested otherwise, and the tier never alters result | 1 | 109 |
 | `aee-c-34` | L772-774 | no TOFU: a consumer with no policy-pinned substrate root treats every substrate row as unattested and MUST NOT infer the root from the predicate | 1 | 95 |
 | `aee-c-35` | L1901-1903 | keyid is an unauthenticated lookup hint, never the check | 1 | 95 |
-| `aee-c-36` | L1302-1304; L545-546 | a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault | 1 | 95 |
+| `aee-c-36` | L1302-1304; L545-546 | a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault | 2 | 95 |
 | `aee-c-38` | L779-781 | a carried predicate-level evidenceTier member MUST be ignored | 1 | 90 |
 | `aee-c-41` | L992-993 | basis required, closed {substrate, artifact} | 1 | 109 |
 | `aee-c-45` | L1046-1052 | weakest-input method composition | 5 | 120 |
