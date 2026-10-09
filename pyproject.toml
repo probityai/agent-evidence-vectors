@@ -39,6 +39,10 @@ Changelog = "https://github.com/probityai/agent-evidence-vectors/releases"
 # reason a relying party would reach for the package instead of a clone.
 [project.scripts]
 agent-evidence-vectors = "agent_evidence_vectors.run_vectors:main"
+# REMORA's runtime-surface-e7-v0.1 reader, with the frozen producer package it
+# was pinned to shipped beside it, so `pip install agent-evidence-vectors==X`
+# alone reproduces an E7 run without a clone.
+agent-evidence-vectors-remora-e7 = "agent_evidence_vectors.remora_e7.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]

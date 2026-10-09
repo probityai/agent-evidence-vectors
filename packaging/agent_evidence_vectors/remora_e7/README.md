@@ -13,14 +13,20 @@ The global property `runtime_capability_surface_completeness` stays
 `NOT_ESTABLISHED`. Native claim ceilings, assumptions and every explicit
 non-claim are repeated in the retained report.
 
+The reader and the frozen producer package ship in the wheel, so one pinned
+install reproduces a run with no clone:
+
 ```sh
-python interop/remora-e7-reader/run.py \
-  --upstream interop/remora-e7-reader/upstream \
+python -m pip install agent-evidence-vectors==VERSION
+agent-evidence-vectors-remora-e7 \
   --output remora-e7-result \
-  --reader-revision "$(git rev-parse HEAD)" \
   --operator EXTERNAL \
   --run-ref https://probityai.github.io/agent-evidence-atlas/lab.html
 ```
+
+An installed run records `agent-evidence-vectors==VERSION` as its implementation
+revision. From a checkout, run `python -m agent_evidence_vectors.remora_e7.run`
+inside `packaging/` and pass `--reader-revision "$(git rev-parse HEAD)"`.
 
 Select `EXTERNAL` only for an operator outside REMORA; a producer-owned CI
 reproduction uses `AUTHOR`. The reader records implementation diversity,
@@ -48,5 +54,5 @@ so it cannot be accidentally imported or formatted as our implementation.
 
 ```sh
 python -m pip install pytest==8.4.2 hypothesis==6.168.3
-python -m pytest -q interop/remora-e7-reader/test_reader.py
+python -m pytest -q scripts/remora-e7-reader-test.py
 ```
