@@ -3,19 +3,19 @@
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "corpus": {
     "release": null,
-    "suiteRevision": 30,
-    "corpusDigest": "a635848598e68686ada6ea41d2bc9a886033bac41ae111814127881495c3bd45",
-    "manifestSha256": "7c4de64af5ee376d41f95590b5ef71150f231682c602c7327b09393dcb2e911b"
+    "suiteRevision": 31,
+    "corpusDigest": "200f25888bafde0aee5f0f751d8c3282449aa25dda6fae2ae2473babb515690b",
+    "manifestSha256": "fa9db3718eab572d030fe6e14f8eb6254b4a85d321c6516c9d50671566748505"
   },
   "rail": "reference",
   "railNote": "no external verifier supplied; using the reference rail",
   "verifier": null,
   "pinnedTestKeyRole": "substrate-observation-test",
   "totals": {
-    "vectors": 281,
-    "pass": 281,
+    "vectors": 285,
+    "pass": 285,
     "fail": 0,
-    "conform": 281,
+    "conform": 285,
     "reasonParityMismatch": 0,
     "suiteRefusals": 0,
     "notExercised": 0
@@ -342,6 +342,43 @@
     {
       "id": "v87d0a19d4b41aafc",
       "file": "vectors/statements/v87d0a19d4b41aafc.json",
+      "kind": "accept",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "-",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "PASS",
+        "recompute": "PASS",
+        "tier": "PASS",
+        "self-check": "-"
+      },
+      "observed": {
+        "verdict": "valid",
+        "verdictWithoutKey": "valid",
+        "codes": [],
+        "primaryCode": null,
+        "result": "fail",
+        "absent": [
+          "codes",
+          "primaryCode"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "valid",
+        "result": "fail"
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "va8ff24a38152fc31",
+      "file": "vectors/statements/va8ff24a38152fc31.json",
       "kind": "accept",
       "status": "PASS",
       "conformance": "PASS",
@@ -2038,6 +2075,49 @@
       "expected": {
         "verdict": "valid",
         "result": "fail"
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "vf56664ac324b6613",
+      "file": "vectors/statements/vf56664ac324b6613.json",
+      "kind": "accept",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "-",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "PASS",
+        "recompute": "PASS",
+        "tier": "PASS",
+        "self-check": "-"
+      },
+      "observed": {
+        "verdict": "valid",
+        "verdictWithoutKey": "valid",
+        "codes": [],
+        "primaryCode": null,
+        "result": "fail",
+        "absent": [
+          "codes",
+          "primaryCode"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "valid",
+        "result": "fail",
+        "tierWithPinnedKey": [
+          "unattested"
+        ],
+        "tierWithoutKey": [
+          "unattested"
+        ]
       },
       "declaredExclusion": null,
       "inManifest": true,
@@ -11841,6 +11921,92 @@
         ],
         "alsoCarries": [
           "sealed-covers-nothing"
+        ]
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "vc6934681b519c0ce",
+      "file": "vectors/statements/vc6934681b519c0ce.json",
+      "kind": "reject",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "PASS",
+      "gates": {
+        "gate0": "-",
+        "gate1": "-",
+        "recompute": "PASS",
+        "tier": "-",
+        "self-check": "PASS"
+      },
+      "observed": {
+        "verdict": "invalid",
+        "verdictWithoutKey": "invalid",
+        "codes": [
+          "result-recompute-mismatch"
+        ],
+        "primaryCode": "result-recompute-mismatch",
+        "result": null,
+        "absent": [
+          "result",
+          "result_without_key",
+          "tiers_with_key",
+          "tiers_without_key"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "result-recompute-mismatch"
+        ]
+      },
+      "declaredExclusion": null,
+      "inManifest": true,
+      "verifierRan": null,
+      "reasons": [],
+      "conformanceReasons": [],
+      "reasonParityFindings": []
+    },
+    {
+      "id": "v8a1b8a3333981552",
+      "file": "vectors/statements/v8a1b8a3333981552.json",
+      "kind": "reject",
+      "status": "PASS",
+      "conformance": "PASS",
+      "reasonParity": "PASS",
+      "gates": {
+        "gate0": "PASS",
+        "gate1": "-",
+        "recompute": "-",
+        "tier": "-",
+        "self-check": "PASS"
+      },
+      "observed": {
+        "verdict": "invalid",
+        "verdictWithoutKey": "invalid",
+        "codes": [
+          "statement-malformed"
+        ],
+        "primaryCode": "statement-malformed",
+        "result": null,
+        "absent": [
+          "result",
+          "result_without_key",
+          "tiers_with_key",
+          "tiers_without_key"
+        ],
+        "errors": []
+      },
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "statement-malformed"
         ]
       },
       "declaredExclusion": null,

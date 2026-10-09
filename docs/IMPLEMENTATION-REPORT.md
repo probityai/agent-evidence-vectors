@@ -1,6 +1,6 @@
 <!--
 Implementation report for the AEE v0.7 predicate conformance suite.
-Corpus SSOT: vectors/MANIFEST.json (suiteRevision 30, 281 vectors: 61 accept, 218 reject, 2 indeterminate).
+Corpus SSOT: vectors/MANIFEST.json (suiteRevision 31, 285 vectors: 63 accept, 220 reject, 2 indeterminate).
 Honest scoping: every claim below states exactly what each implementation was verified against.
 Independence is counted by authorship, not by implementation count; see "How independence
 is counted here" before adding any row to the table.
@@ -57,7 +57,7 @@ with. Both rails were corrected and both readings are now pinned.
 
 ## Reference corpus
 
-`vectors/MANIFEST.json`, suiteRevision 30: **281 vectors (61 accept, 218 reject, 2 indeterminate)**.
+`vectors/MANIFEST.json`, suiteRevision 31: **285 vectors (63 accept, 220 reject, 2 indeterminate)**.
 Each accept vector must verify valid with its expected `result` token; each reject
 vector must be invalid with a failure code drawn from the manifest's code set. The
 corpus is regenerated deterministically from the generators and its vendored spec
@@ -67,8 +67,8 @@ digest is pinned and CI-checked (`scripts/spec-drift-gate.py`).
 
 | Implementation | Language | Author | Verified against | Result |
 |---|---|---|---|---|
-| Reference rail (`aee/`) | Go | spec author | reference corpus, suiteRevision 30 | **281 / 281** |
-| Reference rail (`packaging/run_vectors.py`) | Python | spec author | reference corpus, suiteRevision 30 | **281 / 281** |
+| Reference rail (`aee/`) | Go | spec author | reference corpus, suiteRevision 31 | **285 / 285** |
+| Reference rail (`packaging/run_vectors.py`) | Python | spec author | reference corpus, suiteRevision 31 | **285 / 285** |
 | `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`), suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570) and suiteRevision 28 (272), 2026-09-06 (aee-checker#21); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29 and 30 not run by its author | **272 / 272** at suiteRevision 28, directed; **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29 and 30 not run by author (see note 1) |
 | `ts-verify` | TypeScript | spec author | its vendored set (281 vectors) + cross-rail parity tests | pass (see note 2) |
 | `py-verify` | Python | spec author | its vendored set (281 vectors) + parity tests | pass (see note 2) |
@@ -285,7 +285,7 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    and `bad-744`; the author's run has replaced it, which is the outcome a derived
    expectation should always have.
 2. **The consumer rails carry the suiteRevision-30 corpus.** The TypeScript rail,
-   the standalone Python rail and the MCP server rail each vendor all 281 vectors of
+   the standalone Python rail and the MCP server rail each vendor all 285 vectors of
    suiteRevision 30 byte-for-byte (`VENDOR-STAMP.json` pins the source spec digest,
    upstream commit and a content digest; a consumer-side drift gate fails CI on any
    change without a re-vendor). "pass" means the rail implements the rule, is
@@ -321,7 +321,7 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
 One independent implementation agreeing is strong evidence the text is
 determinate; it is not proof it is unambiguous. Two readers can share a
 reasonable but unforced reading, and a single outside reader is a sample of one.
-Nor does agreement on 281 vectors say anything about the surface no vector
+Nor does agreement on 285 vectors say anything about the surface no vector
 touches, which is where the nesting-depth divergence above lived. The
 interpretation-decision registry
 (`vectors/interpretation-decisions.json`) records where the text forces the reading
