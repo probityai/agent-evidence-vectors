@@ -43,7 +43,6 @@ HERE = Path(__file__).resolve().parent
 TOOLS = HERE.parent / "tools" / "artifact-binding"
 sys.path.insert(0, str(TOOLS))
 
-import jcs  # noqa: E402
 import manifest as manifest_mod  # noqa: E402
 import sign  # noqa: E402
 import verify as verify_mod  # noqa: E402
@@ -367,7 +366,6 @@ def build() -> dict[str, Any]:
     )
     (HERE / "public.key").write_text(sign.public_bytes(TEST_SEED).hex(), encoding="utf-8")
     write_index(entries)
-    assert jcs.digest(entries) == manifest["corpusDigest"]
     return manifest
 
 

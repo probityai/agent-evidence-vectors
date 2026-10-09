@@ -88,6 +88,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-ai-generation/` | `ai-generation-v01-conformance` | the generation predicate for AI-authored code under discussion at ossf/tac#628, at specification revision 0.1.5 in its attest-only mode, with the signed attestations both upstream implementations publish, plus the text this repository proposes for the two rules that revision leaves open |
 | `vectors-anchor-stream/` | `anchor-stream-conformance` | the anchor-stream verification contract published by aos-standard/catalog |
 | `vectors-artifact-binding/` | `artifact-binding-conformance` | the artifact-binding contract, over three verdicts rather than two |
+| `vectors-dependency-selection/` | `artifact-binding-conformance` | one signed record of an AI-assisted dependency change (lockfiles, instructions in force, check outputs, approval) and its refusing twins, under the `dependency-selection/v1` profile |
 | `vectors-mcp-record-contract/` | `cross-run-record-contract` | what a cross-implementation run record has to carry to mean anything |
 | `vectors-mcp-response-phase/` | `mcp-response-phase-interception` | whether a response-phase MCP interceptor is invoked on JSON-RPC error frames, and whether its decision governs what the caller receives |
 | `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
