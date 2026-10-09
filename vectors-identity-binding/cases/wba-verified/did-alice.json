@@ -1,0 +1,33 @@
+{
+  "did": "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8",
+  "versions": [
+    {
+      "didDocument": {
+        "@context": [
+          "https://www.w3.org/ns/did/v1",
+          "https://w3id.org/security/data-integrity/v2",
+          "https://w3id.org/security/multikey/v1"
+        ],
+        "assertionMethod": [
+          "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8#key-1"
+        ],
+        "authentication": [
+          "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8#key-1"
+        ],
+        "id": "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8",
+        "verificationMethod": [
+          {
+            "controller": "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8",
+            "id": "did:wba:agents.example.com:user:alice:e1_iuTJx-fJc1qqXFkh70jtbNLBdk8S-_tRrEF02MpKOb8#key-1",
+            "publicKeyMultibase": "z6Mkq5SK1oHXfu1766dGEwBvZERXWd6eR5Y7xjHMYQh91J9W",
+            "type": "Multikey"
+          }
+        ]
+      },
+      "didDocumentMetadata": {
+        "updated": "2026-01-05T09:00:00Z",
+        "versionId": "1"
+      }
+    }
+  ]
+}

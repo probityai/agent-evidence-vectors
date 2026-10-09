@@ -1,0 +1,8 @@
+{
+  "envelope": "envelope.json",
+  "resolutions": {
+    "did:web:agents.example.com:alice": "did-alice.json",
+    "did:web:agents.example.com:bob": "did-bob.json"
+  },
+  "schema_version": "agent-did-identity-binding-case/v1"
+}
