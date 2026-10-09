@@ -1,0 +1,185 @@
+{
+  "corpusDigest": "b19891f16d84810e236f7f5968acdb891c40b7dacbfbec4ec4cb613dc844f1ca",
+  "ladder": "https://github.com/aaif/wg-observability-and-traceability/issues/37",
+  "suite": "evidence-grade-floor/v1",
+  "vectors": [
+    {
+      "description": "agent self-report only",
+      "expected": {
+        "decision": "accepted",
+        "derivedGrade": "E0",
+        "reason": "grade_derived"
+      },
+      "files": {
+        "case.json": "0ffa016179997aada23d9514dcbec17b70d92164ff248772c6442d572ba52cb4"
+      },
+      "id": "e0-declared",
+      "path": "cases/e0-declared"
+    },
+    {
+      "description": "a framework trace observed the run",
+      "expected": {
+        "decision": "accepted",
+        "derivedGrade": "E1",
+        "reason": "grade_derived"
+      },
+      "files": {
+        "case.json": "15c13fc4e0bca9c28843023b4bb496736578ccda603d448dc3ff42fca9fa46db"
+      },
+      "id": "e1-observed",
+      "path": "cases/e1-observed"
+    },
+    {
+      "description": "boundary policy enforced and a denial recorded at the substrate",
+      "expected": {
+        "decision": "accepted",
+        "derivedGrade": "E2",
+        "reason": "grade_derived"
+      },
+      "files": {
+        "case.json": "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65"
+      },
+      "id": "e2-enforced",
+      "path": "cases/e2-enforced"
+    },
+    {
+      "description": "two independent basis engines agree; operationally-conformant claim",
+      "expected": {
+        "decision": "accepted",
+        "derivedGrade": "E3",
+        "reason": "grade_derived"
+      },
+      "files": {
+        "case.json": "2cdefd7b25be087068077dadc79aa251f8ac746e4bd92863e993da3718c6c101"
+      },
+      "id": "e3-corroborated",
+      "path": "cases/e3-corroborated"
+    },
+    {
+      "description": "external timestamp, chain link and independent verification present",
+      "expected": {
+        "decision": "accepted",
+        "derivedGrade": "E4",
+        "reason": "grade_derived"
+      },
+      "files": {
+        "case.json": "788201668f87e30a1e85715bb358759c4f69275913b2a4ecf56295ff14110e73"
+      },
+      "id": "e4-anchored",
+      "path": "cases/e4-anchored"
+    },
+    {
+      "description": "self-report stamped E4 with every integrity boolean true",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E0",
+        "reason": "e1_no_external_observer"
+      },
+      "files": {
+        "case.json": "bc82492cea27f4897a8f9f6125d7d34278c5f9eb52e0b1ba8e922fe9c249213e"
+      },
+      "id": "e0-self-stamped-e4",
+      "path": "cases/e0-self-stamped-e4",
+      "twin": "e0-declared"
+    },
+    {
+      "description": "E1 evidence carrying an operationally-conformant claim",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E1",
+        "reason": "claim_floor_below_e3"
+      },
+      "files": {
+        "case.json": "4b7b2031647a1dce1c0ef9178d09549449f338137d9b7f2dbb0ddd0713c88a84"
+      },
+      "id": "e1-claims-operationally-conformant",
+      "path": "cases/e1-claims-operationally-conformant",
+      "twin": "e1-observed"
+    },
+    {
+      "description": "boundary policy declared enforced, no denial recorded",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E1",
+        "reason": "e2_no_recorded_denial"
+      },
+      "files": {
+        "case.json": "98fb2ef1c44983ada630be66121222e82dd0aac16c24621a2f1288422cba430e"
+      },
+      "id": "e2-no-recorded-denial",
+      "path": "cases/e2-no-recorded-denial",
+      "twin": "e2-enforced"
+    },
+    {
+      "description": "second engine replaced by a direct self-report: one independent engine",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E2",
+        "reason": "e3_insufficient_independent_engines"
+      },
+      "files": {
+        "case.json": "c263145b58dec6b893b5e1b51acc34008f31e99440698e761348074b2c5c020b"
+      },
+      "id": "e3-single-self-report-engine",
+      "path": "cases/e3-single-self-report-engine",
+      "twin": "e3-corroborated"
+    },
+    {
+      "description": "reconciliation is contradiction under an operationally-conformant claim",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E3",
+        "reason": "claim_floor_contradiction"
+      },
+      "files": {
+        "case.json": "aeffe2fc556faa10e24fe0a91d1451b1ecdbe44b065d9410950e55528d658b62"
+      },
+      "id": "e3-contradiction-claims-conformant",
+      "path": "cases/e3-contradiction-claims-conformant",
+      "twin": "e3-corroborated"
+    },
+    {
+      "description": "chain-link marker absent, declared true",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E3",
+        "reason": "e4_missing_chain_link"
+      },
+      "files": {
+        "case.json": "ddbc94404cb699d937a57ef2abfc15ad8db202f243468166e1354910b0c204eb"
+      },
+      "id": "e4-missing-chain-link",
+      "path": "cases/e4-missing-chain-link",
+      "twin": "e4-anchored"
+    },
+    {
+      "description": "external timestamp marker absent, declared true",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E3",
+        "reason": "e4_missing_external_timestamp"
+      },
+      "files": {
+        "case.json": "79ff6507c97428a9eed23dd6e580ea76078a3c005b2307f24a37780ea86715e9"
+      },
+      "id": "e4-missing-external-timestamp",
+      "path": "cases/e4-missing-external-timestamp",
+      "twin": "e4-anchored"
+    },
+    {
+      "description": "independent verification marker absent, declared true",
+      "expected": {
+        "decision": "rejected",
+        "derivedGrade": "E3",
+        "reason": "e4_missing_independent_verification"
+      },
+      "files": {
+        "case.json": "94a15ac49c78ed6b3f85dfc57f7c5adf7ccba38fe1a82c0e1d083ca9fe23940c"
+      },
+      "id": "e4-missing-independent-verification",
+      "path": "cases/e4-missing-independent-verification",
+      "twin": "e4-anchored"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}
