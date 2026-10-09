@@ -90,10 +90,13 @@ through the harness shows it in its report: `rail` reads `external` and
 
 ### MoltyCel, `MoltyCel/moltrust-api`, the a2a-jcs-v01 corpus
 
-This corpus is not in this repository. It is the A2A Agent Card
-canonicalisation set, `conformance-vectors/a2a-jcs-v01` in
+This corpus is the A2A Agent Card canonicalisation set,
+`conformance-vectors/a2a-jcs-v01` in
 [`a2aproject/a2a-tck`](https://github.com/a2aproject/a2a-tck), written by this
-repository's maintainer. It has no suiteRevision; the row pins it by commit and
+repository's maintainer. It is carried here byte for byte as
+[`vectors-a2a-jcs-v01/`](vectors-a2a-jcs-v01/README.md), locked to the commit and
+digest below, so it replays through the harness and the GitHub Action with
+`--corpus vectors-a2a-jcs-v01`. It has no suiteRevision; the row pins it by commit and
 corpus digest instead, and it is not a row of the ledger below, which counts AEE
 revisions only.
 

@@ -16,6 +16,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
+| A2A Agent Card canonicalization | [vectors-a2a-jcs-v01](../../vectors-a2a-jcs-v01/README.md) | RFC 8785 bytes and the signing input of a card, vendored from a2a-tck; packaged reader or named verifier |
 | Draft MCP verification requirements and threats | [vectors-mcp-owasp](../../vectors-mcp-owasp/INDEX.md) | MCPVS-1 to MCPVS-12 and MCPTM-1 to MCPTM-10, one registry; packaged reader or `aee-verify` |
 | Per-check conformance reports | [vectors-w3c-report](../../vectors-w3c-report/) | W3C public-agent-conformance v0.1 |
 | Signed decision receipts | [vectors-receipt-signature](../../vectors-receipt-signature/) | `draft-farley-acta-signed-receipts-03` |
