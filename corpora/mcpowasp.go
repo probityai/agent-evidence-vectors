@@ -520,6 +520,100 @@ func moCheckRegistry(reg moRegistry, res *Result) (map[string]bool, map[string][
 	return requirements, threats
 }
 
+// moJudgeMember reads one member's record and judges its own bytes, returning
+// the parsed record (nil when it could not be read) and the member as judged.
+func moJudgeMember(dir string, e moEntry) (map[string]any, Member) {
+	member := Member{ID: e.ID, Kind: e.Kind}
+	raw, err := readIn(dir, e.Record)
+	if err != nil {
+		member.Findings = append(member.Findings, "the manifest names a record file that does not exist")
+		return nil, member
+	}
+	decoded, err := decodeJSONNumbers(raw)
+	record, isObj := decoded.(map[string]any)
+	if err != nil || !isObj {
+		member.Findings = append(member.Findings, "the record is not a JSON object")
+		return nil, member
+	}
+	requirement := moStr(record["requirement"])
+	if len(e.Conditions) != 1 || e.Conditions[0] != requirement {
+		member.Findings = append(member.Findings, "cites a condition other than the requirement its record tests")
+	}
+	if id, err := moIdentify(e.Kind, e.Conditions, record); err != nil || id != e.ID {
+		member.Findings = append(member.Findings, "identifier does not recompute from the member's own bytes")
+	}
+	if got, reason := moVerdict(record); got != e.Kind {
+		member.Findings = append(member.Findings,
+			fmt.Sprintf("declares %s and the rule answers %s: %s", e.Kind, got, reason))
+	}
+	return record, member
+}
+
+// moDiffering lists the observation fields two records disagree on.
+func moDiffering(twin, mine map[string]any) []string {
+	a, _ := moObj(twin["observation"])
+	b, _ := moObj(mine["observation"])
+	keys := map[string]bool{}
+	for k := range a {
+		keys[k] = true
+	}
+	for k := range b {
+		keys[k] = true
+	}
+	var differing []string
+	for _, k := range sortedKeys(keys) {
+		if !reflect.DeepEqual(a[k], b[k]) {
+			differing = append(differing, k)
+		}
+	}
+	return differing
+}
+
+// moCheckTwins requires each reject member to differ from its accepting twin
+// in exactly one observation field.
+func moCheckTwins(res *Result, entries []moEntry, records map[string]map[string]any, index map[string]int) {
+	for _, e := range entries {
+		if e.Kind != "reject" {
+			continue
+		}
+		at := index[e.ID]
+		twin, okT := records[e.Twin]
+		mine, okM := records[e.ID]
+		if !okT || !okM {
+			res.Members[at].Findings = append(res.Members[at].Findings, "names no accepting twin")
+			continue
+		}
+		differing := moDiffering(twin, mine)
+		if len(differing) != 1 || twin["requirement"] != mine["requirement"] {
+			res.Members[at].Findings = append(res.Members[at].Findings,
+				fmt.Sprintf("differs from its accepting twin in %v, not in exactly one field", differing))
+		}
+	}
+}
+
+// moCheckCoverage requires every requirement, and every threat through the
+// requirements that test it, to reach one accept and one reject member.
+func moCheckCoverage(res *Result, kinds map[string]map[string]bool, threats map[string][]string) {
+	for _, r := range sortedKeys(kinds) {
+		if !kinds[r]["accept"] || !kinds[r]["reject"] || len(kinds[r]) != 2 {
+			res.Findings = append(res.Findings,
+				fmt.Sprintf("%s carries %v members, not one accept and one reject", r, sortedKeys(kinds[r])))
+		}
+	}
+	for _, t := range sortedKeys(threats) {
+		reached := map[string]bool{}
+		for _, r := range threats[t] {
+			for k := range kinds[r] {
+				reached[k] = true
+			}
+		}
+		if !reached["accept"] || !reached["reject"] {
+			res.Findings = append(res.Findings,
+				fmt.Sprintf("%s reaches %v members through %v", t, sortedKeys(reached), threats[t]))
+		}
+	}
+}
+
 func (mcpOWASP) Judge(dir string, manifest []byte) (*Result, error) {
 	var m moManifest
 	if err := json.Unmarshal(manifest, &m); err != nil {
@@ -545,95 +639,23 @@ func (mcpOWASP) Judge(dir string, manifest []byte) (*Result, error) {
 	}
 	index := map[string]int{}
 	ids, files := []string{}, []string{}
+	counts := map[string]int{"accept": 0, "reject": 0}
 	for _, e := range entries {
-		member := Member{ID: e.ID, Kind: e.Kind}
 		ids, files = append(ids, e.ID), append(files, e.Record)
-		raw, err := readIn(dir, e.Record)
-		if err != nil {
-			member.Findings = append(member.Findings, "the manifest names a record file that does not exist")
-			index[e.ID] = len(res.Members)
-			res.Members = append(res.Members, member)
-			continue
-		}
-		decoded, err := decodeJSONNumbers(raw)
-		record, isObj := decoded.(map[string]any)
-		if err != nil || !isObj {
-			member.Findings = append(member.Findings, "the record is not a JSON object")
-			index[e.ID] = len(res.Members)
-			res.Members = append(res.Members, member)
+		counts[e.Kind]++
+		record, member := moJudgeMember(dir, e)
+		index[e.ID] = len(res.Members)
+		res.Members = append(res.Members, member)
+		if record == nil {
 			continue
 		}
 		records[e.ID] = record
-		requirement := moStr(record["requirement"])
-		if len(e.Conditions) != 1 || e.Conditions[0] != requirement {
-			member.Findings = append(member.Findings, "cites a condition other than the requirement its record tests")
-		}
-		if id, err := moIdentify(e.Kind, e.Conditions, record); err != nil || id != e.ID {
-			member.Findings = append(member.Findings, "identifier does not recompute from the member's own bytes")
-		}
-		if got, reason := moVerdict(record); got != e.Kind {
-			member.Findings = append(member.Findings,
-				fmt.Sprintf("declares %s and the rule answers %s: %s", e.Kind, got, reason))
-		}
-		if seen, ok := kinds[requirement]; ok {
+		if seen, ok := kinds[moStr(record["requirement"])]; ok {
 			seen[e.Kind] = true
 		}
-		index[e.ID] = len(res.Members)
-		res.Members = append(res.Members, member)
 	}
-	for _, e := range entries {
-		if e.Kind != "reject" {
-			continue
-		}
-		twin, okT := records[e.Twin]
-		mine, okM := records[e.ID]
-		at := index[e.ID]
-		if !okT || !okM {
-			res.Members[at].Findings = append(res.Members[at].Findings, "names no accepting twin")
-			continue
-		}
-		a, _ := moObj(twin["observation"])
-		b, _ := moObj(mine["observation"])
-		keys := map[string]bool{}
-		for k := range a {
-			keys[k] = true
-		}
-		for k := range b {
-			keys[k] = true
-		}
-		var differing []string
-		for _, k := range sortedKeys(keys) {
-			if !reflect.DeepEqual(a[k], b[k]) {
-				differing = append(differing, k)
-			}
-		}
-		if len(differing) != 1 || twin["requirement"] != mine["requirement"] {
-			res.Members[at].Findings = append(res.Members[at].Findings,
-				fmt.Sprintf("differs from its accepting twin in %v, not in exactly one field", differing))
-		}
-	}
-	for _, r := range sortedKeys(kinds) {
-		if !kinds[r]["accept"] || !kinds[r]["reject"] || len(kinds[r]) != 2 {
-			res.Findings = append(res.Findings,
-				fmt.Sprintf("%s carries %v members, not one accept and one reject", r, sortedKeys(kinds[r])))
-		}
-	}
-	for _, t := range sortedKeys(threats) {
-		reached := map[string]bool{}
-		for _, r := range threats[t] {
-			for k := range kinds[r] {
-				reached[k] = true
-			}
-		}
-		if !reached["accept"] || !reached["reject"] {
-			res.Findings = append(res.Findings,
-				fmt.Sprintf("%s reaches %v members through %v", t, sortedKeys(reached), threats[t]))
-		}
-	}
-	counts := map[string]int{"accept": 0, "reject": 0}
-	for _, e := range entries {
-		counts[e.Kind]++
-	}
+	moCheckTwins(res, entries, records, index)
+	moCheckCoverage(res, kinds, threats)
 	if msg := countsDisagree(m.Counts, counts); msg != "" {
 		res.Findings = append(res.Findings, msg)
 	}
