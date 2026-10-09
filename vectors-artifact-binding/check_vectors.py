@@ -12,7 +12,12 @@ verifier that refuses everything scores full marks on a suite of failures alone,
 so this checker refuses a corpus with no ``verified`` member and refuses one
 whose ``not-established`` members could be satisfied by answering ``failed``.
 
-    python3 vectors-artifact-binding/check_vectors.py
+    python3 vectors-artifact-binding/check_vectors.py [CORPUS_DIR]
+
+CORPUS_DIR defaults to this directory. Any corpus of the artifact-binding suite
+is judged the same way, under the profile and the in-force pins its own
+MANIFEST.json declares on the consumer's behalf; ``vectors-dependency-selection``
+is the second.
 
 Exits 0 clean, 1 with one line per divergence.
 """
@@ -25,10 +30,11 @@ import pathlib
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent / "tools" / "artifact-binding"))
+HERE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools" / "artifact-binding"))
 
 import jcs  # noqa: E402
+import manifest as manifest_mod  # noqa: E402
 import sign  # noqa: E402
 import verify as verify_mod  # noqa: E402
 
@@ -39,7 +45,9 @@ def fail(line: str) -> None:
     FAILURES.append(line)
 
 
-def check_member(entry: dict[str, object], public_key: bytes) -> None:
+def check_member(
+    entry: dict[str, object], public_key: bytes, profile: str, in_force: dict[str, str]
+) -> None:
     identifier = str(entry["id"])
     trial = HERE / str(entry["trial"])
     manifest_path = HERE / str(entry["manifest"])
@@ -52,7 +60,9 @@ def check_member(entry: dict[str, object], public_key: bytes) -> None:
         fail(f"{identifier}: {manifest_path} is missing")
         return
 
-    outcome = verify_mod.verify(trial, manifest_path, signature_path, public_key)
+    outcome = verify_mod.verify(
+        trial, manifest_path, signature_path, public_key, profile, in_force
+    )
     if outcome.verdict != expected["verdict"]:
         fail(
             f"{identifier}: the manifest expects {expected['verdict']!r} and the "
@@ -184,6 +194,11 @@ def main() -> int:
     manifest = json.loads((HERE / "MANIFEST.json").read_text(encoding="utf-8"))
     vectors = manifest["vectors"]
     public_key = bytes.fromhex(manifest["publicKey"])
+    profile = str(manifest["profile"])
+    if profile not in manifest_mod.PROFILES:
+        print(f"FAIL MANIFEST.json names profile {profile!r}, which no verifier here knows")
+        return 1
+    in_force = {str(k): str(v) for k, v in manifest.get("inForce", {}).items()}
     # The corpus publishes the key its members were signed with, and a corpus
     # whose published key is not the key its passing member names would report
     # every member as a signer mismatch while looking like a signing bug.
@@ -191,7 +206,7 @@ def main() -> int:
 
     for entry in vectors:
         check_member_identity(entry)
-        check_member(entry, public_key)
+        check_member(entry, public_key, profile, in_force)
         if entry["expected"]["verdict"] == "verified" and "regrade" in entry["case"]:
             check_lineage_member(entry)
 
@@ -222,7 +237,7 @@ def main() -> int:
             print(f"FAIL {line}")
         return 1
     print(
-        f"artifact-binding corpus: {len(vectors)} vectors behave as MANIFEST.json claims "
+        f"{HERE.name} ({profile}): {len(vectors)} vectors behave as MANIFEST.json claims "
         f"({actual['verified']} verified, {actual['failed']} failed, "
         f"{actual['notEstablished']} not-established)"
     )

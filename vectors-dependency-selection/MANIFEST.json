@@ -1,0 +1,114 @@
+{
+  "contract": "artifact-binding/v1",
+  "contractSpec": "spec/artifact-binding/v1.md",
+  "corpusDigest": "211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06",
+  "counts": {
+    "failed": 3,
+    "notEstablished": 2,
+    "verified": 1
+  },
+  "inForce": {
+    "skill_instructions": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+  },
+  "keyNote": "A published TEST key. The corpus is regenerable by anyone, which is the point: a suite a stranger cannot rebuild is one they must trust.",
+  "note": "One worked record of an AI-assisted dependency change and one twin per refusal. profile and inForce are the consumer's: the roles a complete record must carry, and the instruction-file digest it accepts.",
+  "profile": "dependency-selection/v1",
+  "publicKey": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+  "suite": "artifact-binding-conformance",
+  "vectors": [
+    {
+      "case": "cases/approval-absent",
+      "cites": "no human approval is covered, so the record does not establish that anyone approved the lockfile change",
+      "expected": {
+        "codes": [
+          "required-role-absent"
+        ],
+        "messagesDigest": "92cc46d2942ef3563a5ca4a9af0adf1d21bfe7602228d36ae2ff559bfbc3005e",
+        "verdict": "not-established"
+      },
+      "id": "v041ef6b03dade091",
+      "kind": "reject",
+      "manifest": "cases/approval-absent/trial/binding/manifest.json",
+      "signature": "cases/approval-absent/trial/binding/manifest.sig",
+      "trial": "cases/approval-absent/trial"
+    },
+    {
+      "case": "cases/vulnerability-scan-absent",
+      "cites": "the record carries no vulnerability-scan output. Not a pass and not a tampering finding: the change cannot be checked to a conclusion",
+      "expected": {
+        "codes": [
+          "required-role-absent"
+        ],
+        "messagesDigest": "a713f6ac8df237c6a66a48e401c2877d69fedcf38c64c0415208da7a0c5aaa43",
+        "verdict": "not-established"
+      },
+      "id": "v31c08bd68611a0e3",
+      "kind": "reject",
+      "manifest": "cases/vulnerability-scan-absent/trial/binding/manifest.json",
+      "signature": "cases/vulnerability-scan-absent/trial/binding/manifest.sig",
+      "trial": "cases/vulnerability-scan-absent/trial"
+    },
+    {
+      "case": "cases/wrong-signer",
+      "cites": "a record correctly signed by a key the consumer did not pin, refused by identity before the signature is checked",
+      "expected": {
+        "codes": [
+          "signer-key-mismatch"
+        ],
+        "messagesDigest": "0d299d99a61099c603127c21d9157081b90bf1c64b0abd9b9498b23ce0582b54",
+        "verdict": "failed"
+      },
+      "id": "v47607cb6a6545f2e",
+      "kind": "reject",
+      "manifest": "cases/wrong-signer/trial/binding/manifest.json",
+      "signature": "cases/wrong-signer/trial/binding/manifest.sig",
+      "trial": "cases/wrong-signer/trial"
+    },
+    {
+      "case": "cases/skill-not-in-force",
+      "cites": "every byte matches and the signature holds, but the instruction file the record covers is not the one the consumer holds as in force",
+      "expected": {
+        "codes": [
+          "role-not-in-force"
+        ],
+        "messagesDigest": "1e76a1416c1447fd95e0e786cfebfb5780662b2e5c7ea8940fdb57e2ab61178b",
+        "verdict": "failed"
+      },
+      "id": "v60618b6bb07a9894",
+      "kind": "reject",
+      "manifest": "cases/skill-not-in-force/trial/binding/manifest.json",
+      "signature": "cases/skill-not-in-force/trial/binding/manifest.sig",
+      "trial": "cases/skill-not-in-force/trial"
+    },
+    {
+      "case": "cases/intact-selection",
+      "cites": "the worked record: lockfile before and after, the instruction file in force, the provenance and vulnerability check outputs, and the approval naming the lockfile digest it approved, all covered and signed by the pinned key",
+      "expected": {
+        "codes": [],
+        "messagesDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verdict": "verified"
+      },
+      "id": "v6ab1d5a5b703b65f",
+      "kind": "accept",
+      "manifest": "cases/intact-selection/trial/binding/manifest.json",
+      "signature": "cases/intact-selection/trial/binding/manifest.sig",
+      "trial": "cases/intact-selection/trial"
+    },
+    {
+      "case": "cases/lockfile-after-changed",
+      "cites": "the lockfile on disk is not the one the record covers and the approval names: the merged change differs from the reviewed one",
+      "expected": {
+        "codes": [
+          "artifact-digest-mismatch"
+        ],
+        "messagesDigest": "701790c0c6734df4f9c81ec47378bd2ed9472bcece16951d6ca829f7445aa6e9",
+        "verdict": "failed"
+      },
+      "id": "va281d192c2f57e92",
+      "kind": "reject",
+      "manifest": "cases/lockfile-after-changed/trial/binding/manifest.json",
+      "signature": "cases/lockfile-after-changed/trial/binding/manifest.sig",
+      "trial": "cases/lockfile-after-changed/trial"
+    }
+  ]
+}

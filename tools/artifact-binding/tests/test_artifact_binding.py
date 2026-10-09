@@ -624,3 +624,119 @@ def test_the_generator_reproduces_the_committed_manifest() -> None:
     ]
 
 
+
+
+# --- the dependency-selection profile ------------------------------------
+#
+# Section 6.2: the consumer names the profile and the in-force digests; neither
+# is read from the record.
+
+DEPSEL = TOOLS.parents[1] / "vectors-dependency-selection"
+
+
+def _depsel_generator() -> Any:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("depsel_gen", DEPSEL / "gen_vectors.py")
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_an_unknown_profile_is_refused_not_judged_against_no_roles(
+    bound: dict[str, Path],
+) -> None:
+    with pytest.raises(ValueError, match="unknown profile"):
+        verify_mod.verify(
+            bound["trial"],
+            bound["manifest"],
+            bound["signature"],
+            sign.public_bytes(SEED),
+            "no-such-profile/v1",
+        )
+
+
+def test_a_harbor_record_is_not_established_under_the_dependency_profile(
+    bound: dict[str, Path],
+) -> None:
+    outcome = verify_mod.verify(
+        bound["trial"],
+        bound["manifest"],
+        bound["signature"],
+        sign.public_bytes(SEED),
+        manifest_mod.DEPENDENCY_SELECTION_PROFILE,
+    )
+    assert outcome.verdict == verify_mod.NOT_ESTABLISHED
+    assert set(outcome.codes) == {"required-role-absent"}
+
+
+def test_a_role_pinned_to_other_bytes_fails(bound: dict[str, Path]) -> None:
+    outcome = verify_mod.verify(
+        bound["trial"],
+        bound["manifest"],
+        bound["signature"],
+        sign.public_bytes(SEED),
+        manifest_mod.PROFILE_NAME,
+        {"trial_result": "0" * 64},
+    )
+    assert outcome.verdict == verify_mod.FAILED
+    assert outcome.codes == ["role-not-in-force"]
+
+
+def test_a_role_pinned_to_its_own_bytes_still_verifies(bound: dict[str, Path]) -> None:
+    record = json.loads(bound["manifest"].read_text(encoding="utf-8"))
+    actual = next(e["sha256"] for e in record["artifacts"] if e["role"] == "trial_result")
+    outcome = verify_mod.verify(
+        bound["trial"],
+        bound["manifest"],
+        bound["signature"],
+        sign.public_bytes(SEED),
+        manifest_mod.PROFILE_NAME,
+        {"trial_result": actual},
+    )
+    assert outcome.verdict == verify_mod.VERIFIED
+
+
+def test_the_dependency_generator_reproduces_the_committed_manifest() -> None:
+    committed = _load(DEPSEL / "MANIFEST.json")
+    rebuilt = _depsel_generator().build()
+    assert rebuilt["corpusDigest"] == committed["corpusDigest"]
+    assert rebuilt["vectors"] == committed["vectors"]
+
+
+def test_the_checker_judges_the_dependency_corpus(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    import runpy
+
+    monkeypatch.setattr(sys, "argv", ["check_vectors.py", str(DEPSEL)])
+    with pytest.raises(SystemExit) as stopped:
+        runpy.run_path(str(CORPUS / "check_vectors.py"), run_name="__main__")
+    assert stopped.value.code == 0
+    assert "dependency-selection/v1" in capsys.readouterr().out
+
+
+def test_the_cli_verifies_the_worked_dependency_record(tmp_path: Path) -> None:
+    pub = tmp_path / "key.pub"
+    pub.write_text(_load(DEPSEL / "MANIFEST.json")["publicKey"], encoding="utf-8")
+    pins = _load(DEPSEL / "MANIFEST.json")["inForce"]
+    args = ["--pubkey", str(pub), "--profile", manifest_mod.DEPENDENCY_SELECTION_PROFILE]
+    for role, digest_hex in pins.items():
+        args += ["--in-force", f"{role}={digest_hex}"]
+    intact = DEPSEL / "cases" / "intact-selection" / "trial"
+    other = DEPSEL / "cases" / "skill-not-in-force" / "trial"
+    assert aee_bind.main(["verify", str(intact), *args]) == verify_mod.EXIT_VERIFIED
+    assert aee_bind.main(["verify", str(other), *args]) == verify_mod.EXIT_FAILED
+
+
+@pytest.mark.parametrize(
+    "extra",
+    [["--profile", "no-such/v1"], ["--in-force", "skill_instructions"]],
+)
+def test_the_cli_refuses_a_bad_profile_or_pin(tmp_path: Path, extra: list[str]) -> None:
+    pub = tmp_path / "key.pub"
+    pub.write_text(sign.public_bytes(SEED).hex(), encoding="utf-8")
+    intact = DEPSEL / "cases" / "intact-selection" / "trial"
+    code = aee_bind.main(["verify", str(intact), "--pubkey", str(pub), *extra])
+    assert code == verify_mod.EXIT_USAGE

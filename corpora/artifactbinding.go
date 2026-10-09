@@ -33,15 +33,23 @@ const (
 	bindingFailed         = "failed"
 	bindingNotEstablished = "not-established"
 	bindingSchemaVersion  = "artifact-binding/v1"
-	bindingProfileName    = "harbor/single-step/v1"
 )
 
-// bindingRequiredRoles is the completeness bar for harbor/single-step/v1. It is
-// held on the CONSUMER side rather than read from the record, because a
-// producer that chooses its own bar can withdraw a role and still look complete.
-var bindingRequiredRoles = []string{
-	"atif_trajectory", "trial_result", "verifier_files",
-	"reward", "grading_stdout", "grading_stderr",
+// bindingProfiles is the completeness bar per profile, mirroring PROFILES in
+// tools/artifact-binding/manifest.py. It is held on the CONSUMER side rather
+// than read from the record, because a producer that chooses its own bar can
+// withdraw a role and still look complete. The corpus manifest names the
+// profile on the consumer's behalf; a profile absent from this table is refused
+// by name, never judged as "no roles required".
+var bindingProfiles = map[string][]string{
+	"harbor/single-step/v1": {
+		"atif_trajectory", "trial_result", "verifier_files",
+		"reward", "grading_stdout", "grading_stderr",
+	},
+	"dependency-selection/v1": {
+		"lockfile_before", "lockfile_after", "skill_instructions",
+		"provenance_check_output", "vulnerability_scan_output", "approval",
+	},
 }
 
 // bindingInconclusive are the codes that mean the record could not be checked
@@ -53,10 +61,12 @@ var bindingInconclusive = map[string]bool{
 }
 
 type bindingManifest struct {
-	PublicKey    string          `json:"publicKey"`
-	Counts       map[string]int  `json:"counts"`
-	CorpusDigest string          `json:"corpusDigest"`
-	Vectors      []bindingVector `json:"vectors"`
+	Profile      string            `json:"profile"`
+	InForce      map[string]string `json:"inForce"`
+	PublicKey    string            `json:"publicKey"`
+	Counts       map[string]int    `json:"counts"`
+	CorpusDigest string            `json:"corpusDigest"`
+	Vectors      []bindingVector   `json:"vectors"`
 }
 
 type bindingVector struct {
@@ -103,6 +113,10 @@ func (a artifactBinding) Judge(dir string, raw []byte) (*Result, error) {
 		return nil, fmt.Errorf("%s/MANIFEST.json publishes a publicKey that is not %d hex-encoded bytes",
 			dir, ed25519.PublicKeySize)
 	}
+	if _, known := bindingProfiles[m.Profile]; !known {
+		return nil, fmt.Errorf("%s/MANIFEST.json names profile %q, which this reader does not know",
+			dir, m.Profile)
+	}
 	result := &Result{}
 	// The corpus publishes the key its members were signed with. A corpus whose
 	// published key is not the key its passing member names would report every
@@ -114,7 +128,7 @@ func (a artifactBinding) Judge(dir string, raw []byte) (*Result, error) {
 	for _, v := range m.Vectors {
 		member := Member{ID: v.ID, Kind: v.Expected.Verdict}
 		verdicts[v.Expected.Verdict] = true
-		a.judgeMember(dir, v, publicKey, &member)
+		a.judgeMember(dir, v, &m, publicKey, &member)
 		if v.Expected.Verdict == bindingVerified && strings.Contains(v.Case, "regrade") {
 			a.checkLineage(dir, v, &member)
 		}
@@ -172,7 +186,8 @@ func (artifactBinding) checkCorpus(m *bindingManifest, raw []byte, verdicts map[
 	return findings
 }
 
-func (a artifactBinding) judgeMember(dir string, v bindingVector, publicKey ed25519.PublicKey, out *Member) {
+func (a artifactBinding) judgeMember(dir string, v bindingVector, m *bindingManifest,
+	publicKey ed25519.PublicKey, out *Member) {
 	if !existsIn(dir, v.Manifest) {
 		out.Findings = append(out.Findings, path.Join(dir, v.Manifest)+" is missing")
 		return
@@ -188,7 +203,7 @@ func (a artifactBinding) judgeMember(dir string, v bindingVector, publicKey ed25
 		}
 	}
 
-	outcome := a.verify(dir, v, publicKey)
+	outcome := a.verify(dir, v, m, publicKey)
 	if outcome.Verdict != v.Expected.Verdict {
 		sorted := append([]string{}, outcome.Codes...)
 		sort.Strings(sorted)
@@ -246,7 +261,8 @@ func uniqueSorted(values []string) []string {
 
 // verify is tools/artifact-binding/verify.py restated: it checks one record
 // against the bytes it names and never re-runs any grading.
-func (a artifactBinding) verify(dir string, v bindingVector, publicKey ed25519.PublicKey) *bindingOutcome {
+func (a artifactBinding) verify(dir string, v bindingVector, m *bindingManifest,
+	publicKey ed25519.PublicKey) *bindingOutcome {
 	out := &bindingOutcome{Verdict: bindingVerified}
 	raw, err := readIn(dir, v.Manifest)
 	if err != nil {
@@ -265,7 +281,8 @@ func (a artifactBinding) verify(dir string, v bindingVector, publicKey ed25519.P
 	}
 	trial := path.Join(dir, v.Trial)
 	roles, absent := a.checkArtifacts(trial, record, out)
-	missing := a.checkProfile(roles, out)
+	missing := a.checkProfile(roles, m.Profile, out)
+	a.checkInForce(record, m.InForce, out)
 	incomplete := a.checkDependencies(record, out)
 	a.checkOutcome(trial, record, out)
 	a.checkATIF(trial, record, out)
@@ -396,17 +413,46 @@ func hasParentSegment(rel string) bool {
 
 // checkProfile asserts every role the profile requires is present, and reports
 // whether any is missing.
-func (artifactBinding) checkProfile(roles map[string]bool, out *bindingOutcome) bool {
+func (artifactBinding) checkProfile(roles map[string]bool, profile string, out *bindingOutcome) bool {
 	missing := false
-	for _, role := range bindingRequiredRoles {
+	for _, role := range bindingProfiles[profile] {
 		if !roles[role] {
 			missing = true
 			out.note("required-role-absent", fmt.Sprintf(
 				"role %q is required by profile %s and the record carries no entry for it",
-				role, bindingProfileName))
+				role, profile))
 		}
 	}
 	return missing
+}
+
+// checkInForce asserts each pinned role covers exactly the digest the consumer
+// holds as in force. A record honestly signed over a different instruction file
+// still describes a change made under instructions the consumer never approved,
+// so it fails. Mirrors check_in_force in tools/artifact-binding/verify.py.
+func (artifactBinding) checkInForce(record map[string]any, inForce map[string]string, out *bindingOutcome) {
+	roles := make([]string, 0, len(inForce))
+	for role := range inForce {
+		roles = append(roles, role)
+	}
+	sort.Strings(roles)
+	entries, _ := record["artifacts"].([]any)
+	if inputs, ok := record["verification_inputs"].(map[string]any); ok {
+		if grading, ok := inputs["grading_inputs"].([]any); ok {
+			entries = append(append([]any{}, entries...), grading...)
+		}
+	}
+	for _, role := range roles {
+		for _, item := range entries {
+			entry, ok := item.(map[string]any)
+			if !ok || entry["role"] != role || entry["sha256"] == inForce[role] {
+				continue
+			}
+			out.note("role-not-in-force", fmt.Sprintf(
+				"%v: role %q covers sha256 %v and the consumer holds %s as in force",
+				entry["path"], role, entry["sha256"], inForce[role]))
+		}
+	}
 }
 
 // checkOutcome re-derives graded_outcome from the covered bytes, never trusting it.

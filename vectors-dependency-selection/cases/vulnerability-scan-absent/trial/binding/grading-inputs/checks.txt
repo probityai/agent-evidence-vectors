@@ -1,0 +1,3 @@
+# Checks run over every dependency change
+provenance-check <package>==<version>
+vulnerability-scan requirements.lock
