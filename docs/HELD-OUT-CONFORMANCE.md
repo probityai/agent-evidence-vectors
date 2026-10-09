@@ -2,7 +2,18 @@
 
 register: edelman
 
-Status: proposal. I have built none of this. I offer it into the conformance workstream of a standard whose own issue tracker states the problem it solves, and I would rather someone argued with it before anyone starts writing vectors.
+Status: built for the ACS-Core suite. The runner is `agent-evidence-heldout` in the package (source `packaging/agent_evidence_vectors/heldout.py`, cases in `scripts/heldout-runner-test.py`). Suites are data under `packaging/agent_evidence_vectors/suites/`. Who holds the seed is still each standard's governance question; the mechanism below works for whoever that is.
+
+```sh
+pip install agent-evidence-vectors
+agent-evidence-heldout commit --seed-file seed          # steward publishes this digest
+agent-evidence-heldout seal --seed-file seed --out held # steward keeps held/ private
+agent-evidence-heldout run --sealed held/SEALED.json -- ./my-adapter
+agent-evidence-heldout verify heldout-run.json --transcript heldout-run.transcript
+agent-evidence-heldout reveal --seed-file seed --sealed held/SEALED.json  # after the release
+```
+
+The adapter reads one JSON line per member, `{"question": ...}`, and answers one line, `{"verdict": "allow"|"deny"|"unmeasurable", "code": "<registry name>"|null}`. A sealed member is a published member with every opaque identifier respelled through a seed-keyed map that keeps equality inside the member, so it asks the same question in bytes nobody has seen. `agent-evidence-heldout self-test` runs the runner's own controls: a lookup table of the public corpus passes every public member and must fail the sealed slice, a constant answer and an adapter that leaves early must not exit 0, and an edited record must stop verifying.
 
 ## The contradiction
 
