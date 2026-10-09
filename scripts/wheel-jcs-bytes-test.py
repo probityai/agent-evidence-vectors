@@ -104,7 +104,8 @@ def check_locator(wheel: Path, scratch: Path) -> list[str]:
         "print(jcs_byte_vectors_path())",
     )
     from_cli = installed_run(wheel, scratch, "agent-evidence-vectors", "--jcs-byte-vectors")
-    for label, printed in (("jcs_byte_vectors_path()", from_function), ("--jcs-byte-vectors", from_cli)):
+    answers = (("jcs_byte_vectors_path()", from_function), ("--jcs-byte-vectors", from_cli))
+    for label, printed in answers:
         path = Path(printed)
         if printed.startswith("ERROR") or not path.is_file():
             failures.append(f"{label} did not name an installed file: {printed}")
