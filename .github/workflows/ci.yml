@@ -98,14 +98,28 @@ jobs:
       # absent.
       - name: the shipped CLI clears the published corpus as an external rail
         run: uv run --locked --extra generators python scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
-      # The W3C report corpus is judged by two readers, corpora/w3creport.go and
-      # packaging/agent_evidence_vectors/w3creport.py, and the README says a test
-      # holds them identical. That test existed and no workflow ran it, so the
-      # two statements of the rules could drift with every check green. It runs
-      # here because it builds aee-verify, and it compares every line both rails
-      # print over the committed corpus and over mutated copies of it.
-      - name: the two W3C report readers print the same bytes
+      # The W3C report corpus is judged by three readers: corpora/w3creport.go,
+      # packaging/agent_evidence_vectors/w3creport.py, and readers/w3c-report-rs,
+      # a Rust reader written from the v0.1 text and the corpus with no code path
+      # shared with the other two (docs/research/w3c-reader-independence.md).
+      # The parity test runs here because it builds aee-verify; it also builds
+      # the Rust reader, and a toolchain that is absent fails it rather than
+      # skipping the third rail.
+      - name: install the Rust toolchain the third W3C reader builds with
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal --component clippy,rustfmt
+          echo "RUSTUP_TOOLCHAIN=1.90.0" >> "$GITHUB_ENV"
+      - name: the Rust W3C reader is formatted, lint-clean and tested
+        run: |
+          cargo fmt --manifest-path readers/w3c-report-rs/Cargo.toml --check
+          cargo clippy --locked --manifest-path readers/w3c-report-rs/Cargo.toml --all-targets -- -D warnings
+          cargo test --locked --manifest-path readers/w3c-report-rs/Cargo.toml
+      - name: the three W3C report readers print the same bytes
         run: uv run --locked --extra generators python scripts/w3c-rails-parity-test.py
+      - name: the Rust reader validates the published emitter run and re-writes it byte for byte
+        run: |
+          cargo run --locked --release --manifest-path readers/w3c-report-rs/Cargo.toml -- \
+            --report vectors-w3c-report/observed/aee-v0.12.0/report.json
       # The receipt-signature corpus is judged by a Go reader in aee-verify and a
       # Python reader in the packaged harness, and a named verifier runs through
       # the harness's contract. This holds the two readers to identical output on
