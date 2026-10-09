@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.17.5"
+version = "0.17.6"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.12"
 license = { text = "Apache-2.0" }
@@ -43,6 +43,11 @@ agent-evidence-vectors = "agent_evidence_vectors.run_vectors:main"
 # The held-out runner: one child adapter per run, a steward-sealed slice, and
 # a record sealed at run end. See docs/HELD-OUT-CONFORMANCE.md.
 agent-evidence-heldout = "agent_evidence_vectors.heldout:main"
+
+# REMORA's runtime-surface-e7-v0.1 reader, with the frozen producer package it
+# was pinned to shipped beside it, so `pip install agent-evidence-vectors==X`
+# alone reproduces an E7 run without a clone.
+agent-evidence-vectors-remora-e7 = "agent_evidence_vectors.remora_e7.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
