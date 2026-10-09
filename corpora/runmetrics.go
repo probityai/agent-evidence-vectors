@@ -59,7 +59,7 @@ func armShapeErrors(value any) []string {
 	}
 	if raw, present := document["step_count"]; present {
 		if _, isInt := intValue(raw); !isInt {
-			out = append(out, "step_count is present and is not an integer")
+			out = append(out, "step_count is not an integer")
 		}
 	}
 	if raw, present := document["steps"]; present {
@@ -76,13 +76,17 @@ func armShapeErrors(value any) []string {
 			_, indexOK := intValue(object["index"])
 			if !indexOK || !isStr(object["kind"]) {
 				out = append(out, "steps["+itoa(i)+"] carries no integer index or no string kind")
-				continue
 			}
-			out = armShapeLedger(object["usage"], "steps["+itoa(i)+"].usage", out)
 		}
 	}
 	for _, key := range []string{"totals", "subtree_totals"} {
 		out = armShapeLedger(document[key], key, out)
+	}
+	steps, _ := document["steps"].([]any)
+	for i, step := range steps {
+		if object, ok := step.(map[string]any); ok {
+			out = armShapeLedger(object["usage"], "steps["+itoa(i)+"].usage", out)
+		}
 	}
 	return out
 }
@@ -98,14 +102,14 @@ func armShapeLedger(value any, where string, out []string) []string {
 	if !present {
 		return out
 	}
-	writes, good := raw.([]any)
-	for _, write := range writes {
-		if !isObj(write) {
-			good = false
-		}
+	writes, isList := raw.([]any)
+	if !isList {
+		return append(out, where+".cache_writes is not an array")
 	}
-	if !good {
-		out = append(out, where+".cache_writes is present and is not a list of objects")
+	for i, write := range writes {
+		if !isObj(write) {
+			out = append(out, where+".cache_writes["+itoa(i)+"] is not an object")
+		}
 	}
 	return out
 }

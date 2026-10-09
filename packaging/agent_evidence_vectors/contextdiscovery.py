@@ -67,9 +67,13 @@ def _list_of(container: Any, key: str, where: str, item: str, out: list[str]) ->
     if not _is_obj(container) or key not in container:
         return
     value = container[key]
-    test = _is_str if item == "string" else _is_obj
-    if not isinstance(value, list) or not all(test(v) for v in value):
-        out.append(f"{where}.{key} is present and is not a list of {item}s")
+    if not isinstance(value, list):
+        out.append(f"{where}.{key} is not an array")
+        return
+    test, name = (_is_str, "a string") if item == "string" else (_is_obj, "an object")
+    for i, element in enumerate(value):
+        if not test(element):
+            out.append(f"{where}.{key}[{i}] is not {name}")
 
 
 def _shape_lists(document: dict[str, Any], out: list[str]) -> None:

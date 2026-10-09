@@ -63,7 +63,17 @@ def shape_errors(document: Any) -> list[str]:
         if member not in document:
             out.append(f"the Run carries no {member} member")
     if "step_count" in document and not _is_int(document["step_count"]):
-        out.append("step_count is present and is not an integer")
+        out.append("step_count is not an integer")
+    _shape_steps(document, out)
+    for key in ("totals", "subtree_totals"):
+        _shape_ledger(document.get(key), key, out)
+    for i, step in enumerate(document.get("steps") or []):
+        if _is_obj(step):
+            _shape_ledger(step.get("usage"), f"steps[{i}].usage", out)
+    return out
+
+
+def _shape_steps(document: dict[str, Any], out: list[str]) -> None:
     if "steps" in document and not isinstance(document["steps"], list):
         out.append("steps is present and is not an array")
     for i, step in enumerate(document.get("steps") or []):
@@ -71,11 +81,6 @@ def shape_errors(document: Any) -> list[str]:
             out.append(f"steps[{i}] is not an object")
         elif not _is_int(step.get("index")) or not _is_str(step.get("kind")):
             out.append(f"steps[{i}] carries no integer index or no string kind")
-        else:
-            _shape_ledger(step.get("usage"), f"steps[{i}].usage", out)
-    for key in ("totals", "subtree_totals"):
-        _shape_ledger(document.get(key), key, out)
-    return out
 
 
 def _shape_ledger(usage: Any, where: str, out: list[str]) -> None:
@@ -83,8 +88,12 @@ def _shape_ledger(usage: Any, where: str, out: list[str]) -> None:
     if not _is_obj(usage) or "cache_writes" not in usage:
         return
     writes = usage["cache_writes"]
-    if not isinstance(writes, list) or not all(_is_obj(w) for w in writes):
-        out.append(f"{where}.cache_writes is present and is not a list of objects")
+    if not isinstance(writes, list):
+        out.append(f"{where}.cache_writes is not an array")
+        return
+    for i, write in enumerate(writes):
+        if not _is_obj(write):
+            out.append(f"{where}.cache_writes[{i}] is not an object")
 
 
 def _rows_run_status(run: dict[str, Any], out: set[str]) -> None:

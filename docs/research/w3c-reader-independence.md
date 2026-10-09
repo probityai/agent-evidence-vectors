@@ -169,6 +169,20 @@ reader the text supports:
    section 5.2 says what each claim carries, not that all four are present),
    and an evidence object with no `moved` (they refuse it as malformed;
    section 2 recomputes moved rather than requiring it declared).
+
+   Findings 1 and 2 are resolved on the Go and Python side. Both readers now
+   refuse as malformed a mistyped `robots.disallow`, `robots.records`,
+   `consumer.retrieved`, `resources` entry, `step_count`, `cache_writes` and
+   `delta.changes`, in the Rust reader's words, so a mistyped member fails on
+   its own line and every other member is still judged; and a ledger
+   `tokens` that is not a non-negative integer now fires `ARM-R-014` on all
+   three. `scripts/w3c-rails-parity-test.py` carries a case for each of the
+   integer robots field, the string `step_count`, the string ledger tokens and
+   the string `delta.changes`. What stays open from finding 2 is
+   `attributed-to`: the Rust reader fires `LCD-R-008` whenever the attributed
+   origin differs from the origin that served the index, while section 7.2
+   forbids only attributing a cross-origin index to the advertising origin,
+   so there the Go and Python reading follows the sentence.
 3. **Row 14 and a missing observation.** Delete one of an evidence object's two
    observations and the Rust reader adds `W3C-R-026`; the other two do not.
    Row 14 reads "neither carries both observations nor references them with

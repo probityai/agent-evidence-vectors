@@ -262,13 +262,27 @@ def _shape_evidence(item: Any, index: int, out: list[str]) -> None:
         values = item.get(slot)
         if not isinstance(values, list) or not all(_is_str(v) for v in values):
             out.append(f"{where}.{slot} is not a list of strings")
-    if "delta" in item and not _is_obj(item["delta"]):
-        out.append(f"{where}.delta is present and is not an object")
-    elif _is_obj(item.get("delta")) and "changes" in item["delta"]:
-        changes = item["delta"]["changes"]
-        if not isinstance(changes, list) or not all(_is_obj(c) for c in changes):
-            out.append(f"{where}.delta.changes is present and is not a list of objects")
+    _shape_delta(item, where, out)
     _shape_observations(item.get("observations"), where, out)
+
+
+def _shape_delta(item: dict[str, Any], where: str, out: list[str]) -> None:
+    """A delta is an object listing its changes as an array of objects (0087 section 1.3)."""
+    if "delta" not in item:
+        return
+    delta = item["delta"]
+    if not _is_obj(delta):
+        out.append(f"{where}.delta is present and is not an object")
+        return
+    if "changes" not in delta:
+        return
+    changes = delta["changes"]
+    if not isinstance(changes, list):
+        out.append(f"{where}.delta.changes is not an array")
+        return
+    for j, change in enumerate(changes):
+        if not _is_obj(change):
+            out.append(f"{where}.delta.changes[{j}] is not an object")
 
 
 def _shape_observations(observations: Any, where: str, out: list[str]) -> None:

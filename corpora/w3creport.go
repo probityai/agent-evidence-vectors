@@ -505,14 +505,15 @@ func w3cShapeDelta(object map[string]any, where string, out *[]string) {
 	if !listed {
 		return
 	}
-	list, good := changes.([]any)
-	for _, change := range list {
-		if !isObj(change) {
-			good = false
-		}
+	list, isList := changes.([]any)
+	if !isList {
+		*out = append(*out, where+".delta.changes is not an array")
+		return
 	}
-	if !good {
-		*out = append(*out, where+".delta.changes is present and is not a list of objects")
+	for j, change := range list {
+		if !isObj(change) {
+			*out = append(*out, fmt.Sprintf("%s.delta.changes[%d] is not an object", where, j))
+		}
 	}
 }
 

@@ -56,14 +56,15 @@ func lcdListOf(container any, key, where, item string, out []string) []string {
 		return out
 	}
 	list, isList := value.([]any)
-	good := isList
-	for _, element := range list {
-		if (item == "string" && !isStr(element)) || (item == "object" && !isObj(element)) {
-			good = false
-		}
+	if !isList {
+		return append(out, where+"."+key+" is not an array")
 	}
-	if !good {
-		out = append(out, where+"."+key+" is present and is not a list of "+item+"s")
+	for i, element := range list {
+		if item == "string" && !isStr(element) {
+			out = append(out, where+"."+key+"["+itoa(i)+"] is not a string")
+		} else if item == "object" && !isObj(element) {
+			out = append(out, where+"."+key+"["+itoa(i)+"] is not an object")
+		}
 	}
 	return out
 }
