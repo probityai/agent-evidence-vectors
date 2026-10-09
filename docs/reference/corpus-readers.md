@@ -23,11 +23,11 @@ The following Python routes describe the current source. A released wheel expose
 
 | Current source Python route | Supported corpora |
 | --- | --- |
-| Packaged reference readers | `vectors`, `vectors-w3c-report`, `vectors-observed-effect`, `vectors-receipt-signature`, `vectors-agent-audit-record`, `vectors-anchored-chain`, `vectors-a2a-jcs-v01` |
+| Packaged reference readers | `vectors`, `vectors-w3c-report`, `vectors-observed-effect`, `vectors-receipt-signature`, `vectors-agent-audit-record`, `vectors-anchored-chain`, `vectors-mcp-owasp`, `vectors-a2a-jcs-v01` |
 | Named verifier required | `vectors-source-coverage` |
 | Own external contract supported | `vectors`, `vectors-receipt-signature`, `vectors-anchored-chain` and `vectors-a2a-jcs-v01`; source coverage uses its consumer contract |
 
-`vectors-w3c-report`, `vectors-observed-effect` and `vectors-agent-audit-record` refuse a named verifier. Other suites with no packaged reader exit `2` unless a named verifier supplies their external route. Check each [corpus README](../guides/corpora.md) for its contract.
+`vectors-w3c-report`, `vectors-observed-effect`, `vectors-agent-audit-record` and `vectors-mcp-owasp` refuse a named verifier. Other suites with no packaged reader exit `2` unless a named verifier supplies their external route. Check each [corpus README](../guides/corpora.md) for its contract.
 
 Two standalone tools have separate jobs: [vectors-anchor-stream/run_verifier.py](../../vectors-anchor-stream/run_verifier.py) measures a supplied `anchors_verify.py` implementation; [vectors-mcp-record-contract/check_run_record.py](../../vectors-mcp-record-contract/check_run_record.py) checks a run record you supply.
 

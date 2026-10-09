@@ -121,6 +121,7 @@ GENERATORS = (
     "vectors-receipt-signature/gen_vectors.py",
     "vectors-source-coverage/gen_vectors.py",
     "vectors-anchored-chain/gen_vectors.py",
+    "vectors-mcp-owasp/gen_vectors.py",
     # The MCP receipt examples import the observed-effect generator's helpers,
     # so they run after it and regenerate with it.
     "examples/mcp-receipts/gen_examples.py",
@@ -217,6 +218,10 @@ OWNED = (
     ("vectors-receipt-signature", "INDEX.md"),
     ("vectors-source-coverage", "MANIFEST.json"),
     ("vectors-anchored-chain", "MANIFEST.json"),
+    ("vectors-mcp-owasp", "MANIFEST.json"),
+    ("vectors-mcp-owasp", "INDEX.md"),
+    ("vectors-mcp-owasp/records", "v*.json"),
+    ("vectors-mcp-owasp/drafts", "*.md"),
     ("vectors-anchored-chain/cases", "**/case.json"),
     ("vectors-anchored-chain/cases", "**/store.jsonl"),
     ("vectors-anchored-chain/cases", "**/anchor.json"),

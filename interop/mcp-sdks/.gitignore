@@ -1,0 +1,15 @@
+node_modules/
+vendor/
+target/
+build/
+.gradle/
+.kotlin/
+bin/
+obj/
+out/
+.build/
+composer.lock
+Gemfile.lock
+results/*.json
+go/harness
+*.log
