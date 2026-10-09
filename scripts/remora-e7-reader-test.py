@@ -12,10 +12,19 @@ from pathlib import Path
 import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
-from reader import evaluate_case, load_object, run_package, verify_package
 
-ROOT = Path(__file__).parent
-UPSTREAM = ROOT / "upstream"
+PACKAGING = Path(__file__).resolve().parents[1] / "packaging"
+sys.path.insert(0, str(PACKAGING))
+
+from agent_evidence_vectors.remora_e7.reader import (  # noqa: E402
+    evaluate_case,
+    load_object,
+    run_package,
+    verify_package,
+)
+from agent_evidence_vectors.remora_e7.run import main as run_main  # noqa: E402
+
+UPSTREAM = PACKAGING / "agent_evidence_vectors/remora_e7/upstream"
 FIXTURES = json.loads(
     (UPSTREAM / "artifacts/interop/runtime-surface-e7-v0.1/fixtures.json").read_text()
 )
@@ -148,17 +157,71 @@ import sys
 from pathlib import Path
 class RefuseProducer:
     def find_spec(self, fullname, path=None, target=None):
-        if 'remora' in fullname.lower() or 'reference_verifier' in fullname:
+        top = fullname.split('.')[0].lower()
+        if top.startswith('remora') or 'reference_verifier' in fullname:
             raise RuntimeError('producer import refused')
 sys.meta_path.insert(0, RefuseProducer())
-from reader import run_package
+from agent_evidence_vectors.remora_e7.reader import run_package
 assert not run_package(Path(sys.argv[1]))['failures']
 """
             result = subprocess.run(
                 [sys.executable, "-c", source, str(UPSTREAM)],
-                cwd=ROOT,
+                cwd=PACKAGING,
                 capture_output=True,
                 text=True,
                 check=False,
             )
             assert result.returncode == 0, result.stderr
+
+
+class TestEntryPoint:
+    def test_packaged_upstream_is_the_default(self, tmp_path: Path) -> None:
+        out = tmp_path / "result"
+        code = run_main(
+            [
+                "--output",
+                str(out),
+                "--reader-revision",
+                "0" * 40,
+                "--operator",
+                "EXTERNAL",
+                "--run-ref",
+                "https://example.invalid/run",
+            ]
+        )
+        assert code == 0
+        record = json.loads((out / "external-run-record-v1.json").read_text())
+        assert record["verifier"]["implementation_revision"] == "0" * 40
+        assert len(record["results"]) == 5
+        report = json.loads((out / "report.json").read_text())
+        assert report["global_property"]["status"] == "NOT_ESTABLISHED"
+
+    def test_short_revision_is_refused(self, tmp_path: Path) -> None:
+        with pytest.raises(SystemExit):
+            run_main(
+                [
+                    "--output",
+                    str(tmp_path / "r"),
+                    "--reader-revision",
+                    "abc",
+                    "--operator",
+                    "AUTHOR",
+                    "--run-ref",
+                    "x",
+                ]
+            )
+
+    def test_existing_output_is_refused(self, tmp_path: Path) -> None:
+        with pytest.raises(FileExistsError):
+            run_main(
+                [
+                    "--output",
+                    str(tmp_path),
+                    "--reader-revision",
+                    "0" * 40,
+                    "--operator",
+                    "AUTHOR",
+                    "--run-ref",
+                    "x",
+                ]
+            )

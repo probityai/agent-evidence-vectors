@@ -70,9 +70,9 @@ digest is pinned and CI-checked (`scripts/spec-drift-gate.py`).
 | Reference rail (`aee/`) | Go | spec author | reference corpus, suiteRevision 31 | **285 / 285** |
 | Reference rail (`packaging/run_vectors.py`) | Python | spec author | reference corpus, suiteRevision 31 | **285 / 285** |
 | `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`), suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570) and suiteRevision 28 (272), 2026-09-06 (aee-checker#21); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 and 31 not run by its author | **272 / 272** at suiteRevision 28, directed; **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 and 31 not run by author (see note 1) |
-| `ts-verify` | TypeScript | spec author | its vendored set (281 vectors) + cross-rail parity tests | pass (see note 2) |
-| `py-verify` | Python | spec author | its vendored set (281 vectors) + parity tests | pass (see note 2) |
-| MCP server rail `_aee.py` | Python | spec author | its vendored set (281 vectors) + parity tests | pass (see note 2) |
+| `ts-verify` | TypeScript | spec author | its vendored set (285 vectors) + cross-rail parity tests | pass (see note 2) |
+| `py-verify` | Python | spec author | its vendored set (285 vectors) + parity tests | pass (see note 2) |
+| MCP server rail `_aee.py` | Python | spec author | its vendored set (285 vectors) + parity tests | pass (see note 2) |
 
 The five first-party rails are separate decompositions rather than shared code, so
 they do catch each other's transcription errors, and the differential fuzzer over
@@ -284,12 +284,12 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    edition of this note carried our own derived expectation for `bad-743`
    and `bad-744`; the author's run has replaced it, which is the outcome a derived
    expectation should always have.
-2. **The consumer rails carry the suiteRevision-30 corpus.** The TypeScript rail,
-   the standalone Python rail and the MCP server rail each vendor all 281 vectors of
-   suiteRevision 30 byte-for-byte (`VENDOR-STAMP.json` pins the source spec digest,
+2. **The consumer rails carry the suiteRevision-31 corpus.** The TypeScript rail,
+   the standalone Python rail and the MCP server rail each vendor all 285 vectors of
+   suiteRevision 31 byte-for-byte (`VENDOR-STAMP.json` pins the source spec digest,
    upstream commit and a content digest; a consumer-side drift gate fails CI on any
    change without a re-vendor). "pass" means the rail implements the rule, is
-   parity-tested on it, and replays the full 281. The three rails are two vendored
+   parity-tested on it, and replays the full 285. The three rails are two vendored
    copies: the TypeScript rail and the standalone Python rail replay the same
    directory, and the MCP server rail keeps its own. Both were read from their own
    stamps rather than assumed, and `bad-745` through `bad-749` together with the

@@ -471,6 +471,10 @@ def published_citation_bytes(tag: str, preferred: dict[str, Any]) -> list[str]:
         return [f"published tag v{version} has no citation mapping"]
     errors: list[str] = []
     for key in ("version", "date-released", "title", "authors", "repository-code"):
+        # A release cut from an undated source candidate records no top-level
+        # date; its date is the tagged commit's, which the tag check binds.
+        if key == "date-released" and key not in recorded:
+            continue
         if preferred.get(key) != recorded.get(key):
             errors.append(
                 f"CITATION.cff preferred-citation {key} differs from the published citation bytes"
