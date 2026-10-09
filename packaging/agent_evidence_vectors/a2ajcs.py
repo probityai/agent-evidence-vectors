@@ -6,10 +6,10 @@ digest in that directory's ``source-lock.json``. Its MANIFEST names two
 functions, and each vector is scored against the functions that own it:
 
 ``rfc8785``
-    One JSON value to its RFC 8785 canonical bytes. 53 vectors (A3 to A6).
+    One JSON value to its RFC 8785 canonical bytes: the A3 to A6 vectors.
 ``card-signing-input``
     The bytes an Agent Card signature covers: the card without its top-level
-    ``signatures`` member, canonicalized. All 57 vectors; the four A2 vectors
+    ``signatures`` member, canonicalized. Every vector; the A2 vectors
     test that exclusion, which RFC 8785 has no notion of.
 
 External-verifier contract. The harness runs ``<verifier> <target> <input>``
@@ -27,7 +27,7 @@ passes: on MUST-ACCEPT, ``diverged`` (other bytes) and ``refused``; on
 MUST-REJECT, ``accepted`` (bytes for input with no canonical form, or signing
 bytes that still carry ``signatures``). The target is ``card-signing-input``
 unless ``A2A_JCS_TARGET`` names ``rfc8785``, so a canonicalizer that only
-implements the primitive is scored on the 53 vectors it owns.
+implements the primitive is scored on the vectors it owns.
 
 With no verifier named, this module's own canonicalizer answers every vector
 for both targets, which is how the shipped corpus is checked clean.

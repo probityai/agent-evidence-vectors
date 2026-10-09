@@ -41,6 +41,10 @@ def _load_upstream() -> ModuleType:
 
 
 upstream = _load_upstream()
+OWNED = {
+    name: target["vectors"]
+    for name, target in json.loads((CORPUS / "MANIFEST.json").read_text())["targets"].items()
+}
 
 
 def rail(
@@ -127,8 +131,8 @@ def test_the_rail_lists_the_corpus(tmp_path: Path) -> None:
 def test_without_a_verifier_the_packaged_reader_judges_both_targets(tmp_path: Path) -> None:
     out = rail("--corpus", NAME, cwd=tmp_path)
     assert out.returncode == 0, out.stdout + out.stderr
-    assert "target rfc8785: 53 of 53 pass" in out.stdout
-    assert "target card-signing-input: 57 of 57 pass" in out.stdout
+    for name, owned in OWNED.items():
+        assert f"target {name}: {owned} of {owned} pass" in out.stdout
 
 
 def _replay(tmp_path: Path, verifier: list[str], target: str | None = None) -> tuple[int, dict]:
@@ -154,14 +158,15 @@ def test_a_conformant_verifier_passes_every_signing_input_vector(tmp_path: Path)
     assert code == 0
     assert report["rail"] == "external"
     assert report["target"] == "card-signing-input"
-    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == 57
-    assert report["totals"]["conform"] == 57
+    owned = OWNED["card-signing-input"]
+    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == owned
+    assert report["totals"]["conform"] == owned
 
 
 def test_the_primitive_target_scores_the_53_vectors_it_owns(tmp_path: Path) -> None:
     code, report = _replay(tmp_path, GOOD, "rfc8785")
     assert code == 0
-    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == 53
+    assert report["verifier"]["vectorsExecuted"] == report["totals"]["vectors"] == OWNED["rfc8785"]
 
 
 def test_a_wrong_canonicalizer_fails(tmp_path: Path) -> None:
@@ -171,7 +176,7 @@ def test_a_wrong_canonicalizer_fails(tmp_path: Path) -> None:
     assert failed["A5-001"] == "diverged"
     assert failed["A2-001"] == "diverged"
     assert failed["A2-REJECT-003"] == "accepted"
-    assert report["verifier"]["vectorsExecuted"] == 57
+    assert report["verifier"]["vectorsExecuted"] == OWNED["card-signing-input"]
 
 
 def test_a_verifier_that_cannot_run_is_not_a_pass(tmp_path: Path) -> None:

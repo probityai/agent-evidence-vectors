@@ -3,7 +3,7 @@
 This directory is [`a2aproject/a2a-tck`](https://github.com/a2aproject/a2a-tck)
 `conformance-vectors/a2a-jcs-v01` at commit
 `97b007237ee4c3b802ed563829e3937a5529244e`, copied byte for byte: MANIFEST.json
-and the 57 vectors in five groups. [source-lock.json](source-lock.json) pins the
+and every vector it lists. [source-lock.json](source-lock.json) pins the
 commit, the corpus digest
 `29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c` and every
 file's SHA-256. The corpus documentation, generators and oracles stay upstream.
@@ -25,7 +25,7 @@ A2A_JCS_TARGET=rfc8785 agent-evidence-vectors --corpus vectors-a2a-jcs-v01 --ver
 The verifier is run as `<verifier> <target> <input.json>`; the
 [contract](../docs/reference/corpus-readers.md#the-a2a-jcs-v01-contract) gives
 the targets, exits and outcomes. With no verifier, the packaged reader answers
-all 57 vectors for both targets itself, and `aee-verify vectors-a2a-jcs-v01`
+every vector for both targets itself, and `aee-verify vectors-a2a-jcs-v01`
 does the same in Go.
 
 | File | Role |

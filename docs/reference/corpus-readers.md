@@ -33,12 +33,12 @@ Two standalone tools have separate jobs: [vectors-anchor-stream/run_verifier.py]
 
 ## The a2a-jcs-v01 contract
 
-`vectors-a2a-jcs-v01` is a2aproject/a2a-tck's Agent Card canonicalization corpus, kept byte for byte and locked by commit and corpus digest in its [source-lock.json](../../vectors-a2a-jcs-v01/source-lock.json). Its MANIFEST names two targets, and the harness scores one per run:
+`vectors-a2a-jcs-v01` is a2aproject/a2a-tck's Agent Card canonicalization corpus, kept byte for byte and locked by commit and corpus digest in its [source-lock.json](../../vectors-a2a-jcs-v01/source-lock.json). Its MANIFEST names two targets, with the vector count of each under `targets`, and the harness scores one per run:
 
 | Target | Function | Vectors |
-| --- | --- | ---: |
-| `card-signing-input` (default) | the card without its top-level `signatures` member, canonicalized | 57 |
-| `rfc8785` (`A2A_JCS_TARGET=rfc8785`) | one JSON value to RFC 8785 bytes | 53 |
+| --- | --- | --- |
+| `card-signing-input` (default) | the card without its top-level `signatures` member, canonicalized | every vector |
+| `rfc8785` (`A2A_JCS_TARGET=rfc8785`) | one JSON value to RFC 8785 bytes | groups A3 to A6 |
 
 The harness runs `<verifier> <target> <input.json>` once per vector. The input file holds the vector's JSON text: `input_raw` verbatim for a reject, `input` serialized for an accept. The verifier answers on its last nonempty stdout line:
 

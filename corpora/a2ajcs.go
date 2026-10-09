@@ -70,7 +70,13 @@ func (a2aJCS) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	owned := map[string]int{}
 	for _, entry := range manifest.Vectors {
-		body, err := os.ReadFile(filepath.Join(dir, filepath.FromSlash(entry.Path))) // #nosec G304 -- a path the corpus manifest names
+		if !filepath.IsLocal(filepath.FromSlash(entry.Path)) {
+			result.Findings = append(result.Findings, fmt.Sprintf("%s leaves the corpus directory", entry.Path))
+			continue
+		}
+		// #nosec G304,G703 -- a manifest path checked above to stay inside the corpus
+		// directory the caller named; G703 is the taint-analysis form of G304.
+		body, err := os.ReadFile(filepath.Join(dir, filepath.FromSlash(entry.Path)))
 		if err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("%s cannot be read: %v", entry.Path, err))
 			continue
