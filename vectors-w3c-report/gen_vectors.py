@@ -1486,6 +1486,11 @@ def build_run_metrics(m: Members) -> None:
                  run_with_usage(cache_writes=None),
                  "a ledger that does not sum to the aggregate counter",
                  "the ledger omitted where the source does not reconcile")
+    m.add(kind="reject", family="arm-f-usage", requirements=["ARM-R-014"],
+          subject=run_with_usage(cache_writes=[{"lifetime": "PT5M", "tokens": "10"}]),
+          cites="a ledger element whose tokens is a string, which is not a count and so "
+                "cannot sum to the aggregate counter",
+          subject_type=arm)
     m.typed_pair(arm, "arm-f-usage", "ARM-R-022",
                  run_with_usage(reasoning_tokens=40), run_with_usage(reasoning_tokens=30),
                  "reasoning tokens exceeding the output they are a subset of",

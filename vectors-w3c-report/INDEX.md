@@ -6,11 +6,11 @@ truth: 16 texts vendored in `spec-vendored/` and pinned by sha256 in
 together fix what v0.1 of the reporting format freezes, and the two
 Internet-Drafts the format's editor holds.
 
-This corpus is 235 vectors, of which 117 a conformant verifier must not fail closed
-on and 118 it must reject.
+This corpus is 236 vectors, of which 117 a conformant verifier must not fail closed
+on and 119 it must reject.
 
 **Three subject types, one manifest.** 169 members are whole
-v0.1 reports, judged by the rows of the format; 44
+v0.1 reports, judged by the rows of the format; 45
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
 subject type and the reader selects the validator by it.
@@ -375,6 +375,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `vd85d62c0213a9749` | reject | report | w3c-f-disensor | W3C-R-016 | W3C-R-016 |
 | `vd88fd757419269aa` | accept | llm-context-discovery | lcd-f-consumer | LCD-R-009 | none |
 | `vd8d93fd735111aa5` | accept | report | w3c-f-13 | W3C-R-013 | none |
+| `vda6c078e77700b28` | reject | agent-run-metrics | arm-f-usage | ARM-R-014 | ARM-R-014 |
 | `vdcb0849fc754aaea` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `vdcbd067d047bfbd0` | reject | report | w3c-f-7 | W3C-R-007 | W3C-R-007 |
 | `vdec1361509de89d4` | accept | report | w3c-f-disensor | W3C-R-016 | none |

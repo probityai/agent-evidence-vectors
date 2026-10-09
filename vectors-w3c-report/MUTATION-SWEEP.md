@@ -56,7 +56,7 @@ corpus and every row of its manifest. Rows that leak: 0.
 | `ARM-R-011` | 1 | 1 | 0 | isolated |
 | `ARM-R-012` | 1 | 1 | 0 | isolated |
 | `ARM-R-013` | 1 | 1 | 0 | isolated |
-| `ARM-R-014` | 1 | 1 | 0 | isolated |
+| `ARM-R-014` | 2 | 2 | 0 | isolated |
 | `ARM-R-015` | 1 | 1 | 0 | isolated |
 | `ARM-R-016` | 1 | 1 | 0 | isolated |
 | `ARM-R-017` | 1 | 1 | 0 | isolated |
