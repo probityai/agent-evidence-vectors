@@ -345,7 +345,13 @@ pub fn judge(subject: &Value) -> Judgement {
                 .iter()
                 .map(|e| count(e.get("tokens")).filter(|n| *n >= 0))
                 .collect();
-            if let Some(total) = c("cache_write_tokens") {
+            // An absent aggregate counts as zero, so a ledger beside no
+            // cache_write_tokens must itself sum to zero; a mistyped one is row 9's.
+            let total = match u.get("cache_write_tokens") {
+                None => Some(0),
+                Some(_) => c("cache_write_tokens"),
+            };
+            if let Some(total) = total {
                 if tokens.is_none_or(|t| t.iter().sum::<i64>() != total) {
                     add("ARM-R-014");
                 }
