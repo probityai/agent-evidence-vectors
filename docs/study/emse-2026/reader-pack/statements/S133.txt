@@ -1,0 +1,112 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attackResults": [
+      {
+        "actualLayer": "policy.egress_sinkhole",
+        "attackId": "XA-EXAMPLE-1",
+        "attribution": "paired",
+        "basis": "substrate",
+        "containmentObserved": "egress_captured",
+        "method": "intercepted",
+        "observationRefs": [
+          0
+        ]
+      }
+    ],
+    "batchRoot": "625f53dee4446c750247395f6d65bda38a7aaffaeefa1d3e32de52e22904993d",
+    "coverage": {
+      "assessedClasses": [
+        "XA"
+      ],
+      "outOfScope": {},
+      "routedElsewhere": {}
+    },
+    "issuedAt": "2026-01-01T00:00:00Z",
+    "observationEnvironment": {
+      "catchPolicy": {
+        "digest": {
+          "sha256": "846c2ccf97b5a5f4da335fe733e7f4f786ffd224ce582fb5a9685d52184abdc3"
+        }
+      },
+      "corpus": {
+        "digest": {
+          "sha256": "f7321b033ed366209cd4d4be58ac40889d966cdb2dfa2c8b688f980187653cbd"
+        },
+        "manifest": {
+          "classes": {
+            "XA": [
+              "XA-EXAMPLE-1"
+            ]
+          },
+          "expectedPayloads": {
+            "XA-EXAMPLE-1": []
+          }
+        },
+        "name": "example-adversarial-corpus",
+        "uri": "pkg:example/adversarial-corpus@1.0.0"
+      },
+      "networkPosture": {
+        "digest": {
+          "sha256": "a6ebfc845bfe910a099320fd7ec33e21282a8b56d82111527a80444ca18e4352"
+        },
+        "posture": "sinkhole"
+      },
+      "observationVocabulary": {
+        "caught": [
+          "egress_captured"
+        ],
+        "digest": {
+          "sha256": "5e989bc82a110a9fb587284fc6035d42696fce46bd65c14c347a538cfab7c0d6"
+        },
+        "labels": [
+          "egress_captured",
+          "no_egress"
+        ]
+      },
+      "runEntropy": {
+        "digest": {
+          "sha256": "01b25de15d8bc69fb3cb12b323e61c2f05078a6296e7b3ff9f6197d587014738"
+        }
+      },
+      "substrate": {
+        "digest": {
+          "sha256": "018bbaf3710e526b0653abafbd3bd3c3356150d747db166021f1e107446c85bb"
+        },
+        "name": "example-substrate-image"
+      }
+    },
+    "observationRecords": [
+      {
+        "payload": "eyJhZWVLaW5kIjoiaW50ZXJjZXB0aW9uIiwiYWVlTWV0aG9kIjoiaW50ZXJjZXB0ZWQiLCJhZWVQYXlsb2FkQ29tbWl0bWVudCI6WyI4NzM1OWJiNzkyNjc3ZDljZjdlNDExOGYyNzI5ODIxMDczNTMwMTk0NDAzZmRhN2E5NTMwZmE4NTFmNGE4YjBmIl0sImFlZVJ1bkJpbmRpbmciOiJjNDM4YmFmYzcxYjhmNTExNzYyZmYxMmE5YTJhZDQwZjY2ZmE5ODhkMDNhNDMwMjNiNmQ1NzNmODJjMjFjMDBlIiwicHJvZHVjZXJOb3RlIjoiZXhhbXBsZSBpbnRlcmNlcHRpb24gb2JzZXJ2YXRpb24gYSJ9",
+        "payloadType": "application/vnd.example.aee-observation.v1+json",
+        "signatures": [
+          {
+            "keyid": "7e2b0652d86716f47e35573ae0082d670706b7a548dcb685df7bf103923dcb9c",
+            "sig": "bt3dBgZAQmn6vEfZICMRdrLKVCBjZL4pY7YOEp079mPc1putGHfVaa7CFBy1nAJWxjbPXew/Sbt8fOxVMQ2SAQ=="
+          }
+        ]
+      },
+      {
+        "payload": "eyJhZWVEcm9wQ291bnQiOjAsImFlZUtpbmQiOiJzZWFsZWQiLCJhZWVNZXRob2QiOiJpbnRlcmNlcHRlZCIsImFlZU9ic2VydmVkQXR0YWNrcyI6W10sImFlZU9ic2VydmVkU2V0IjoiY2UzNWFmMWY2MWE2OTQyYjU1ODkwOTljYjAyOTJkNmY1NDFmNzU5MDc3NzRjYmIyODZmNmI2NjgxNzBmZWJhMyIsImFlZVBvc3R1cmVEaWdlc3QiOiJhNmViZmM4NDViZmU5MTBhMDk5MzIwZmQ3ZWMzM2UyMTI4MmE4YjU2ZDgyMTExNTI3YTgwNDQ0Y2ExOGU0MzUyIiwiYWVlUnVuQmluZGluZyI6ImM0MzhiYWZjNzFiOGY1MTE3NjJmZjEyYTlhMmFkNDBmNjZmYTk4OGQwM2E0MzAyM2I2ZDU3M2Y4MmMyMWMwMGUiLCJhZWVTdGlsbEFybWVkIjp0cnVlfQ==",
+        "payloadType": "application/vnd.example.aee-observation.v1+json",
+        "signatures": [
+          {
+            "keyid": "7e2b0652d86716f47e35573ae0082d670706b7a548dcb685df7bf103923dcb9c",
+            "sig": "P065FMVm9X9GzhGxpniR9NBogEEjxNTrTJSimMG1MvZzI/vcp5skJCLQMWISOpF+rCCA81jySh79zZmUoMQ7Cg=="
+          }
+        ]
+      }
+    ],
+    "result": "fail"
+  },
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "d14fbbcd076c6bfe5e6aa52b169c0baf7f7044ea46fe279afd7629e92baac8fc"
+      },
+      "name": "example-agent-bundle"
+    }
+  ]
+}

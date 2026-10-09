@@ -1,0 +1,142 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "attackResults": [
+      {
+        "actualLayer": "policy.egress_sinkhole",
+        "attackId": "XA-EXAMPLE-1",
+        "attribution": "pinned",
+        "basis": "substrate",
+        "containmentObserved": "egress_captured",
+        "method": "intercepted",
+        "observationRefs": [
+          0
+        ]
+      },
+      {
+        "actualLayer": "policy.egress_sinkhole",
+        "attackId": "XB-EXAMPLE-1",
+        "attribution": "pinned",
+        "basis": "substrate",
+        "containmentObserved": "egress_captured",
+        "method": "intercepted",
+        "observationRefs": [
+          1
+        ]
+      }
+    ],
+    "batchRoot": "35867decd5cfdbdcfac7b23548e7a45441828b5924775f223d2b203d9ac3c59c",
+    "coverage": {
+      "assessedClasses": [
+        "XA",
+        "XB"
+      ],
+      "outOfScope": {},
+      "routedElsewhere": {}
+    },
+    "issuedAt": "2026-01-01T00:00:00Z",
+    "observationEnvironment": {
+      "catchPolicy": {
+        "digest": {
+          "sha256": "846c2ccf97b5a5f4da335fe733e7f4f786ffd224ce582fb5a9685d52184abdc3"
+        }
+      },
+      "corpus": {
+        "digest": {
+          "sha256": "88ad81e49397ba2bdec5357a3a4a812e4b3a8d38d7782fab37a12aad702f7a50"
+        },
+        "manifest": {
+          "classes": {
+            "XA": [
+              "XA-EXAMPLE-1"
+            ],
+            "XB": [
+              "XB-EXAMPLE-1"
+            ]
+          },
+          "expectedPayloads": {
+            "XA-EXAMPLE-1": [
+              "87359bb792677d9cf7e4118f2729821073530194403fda7a9530fa851f4a8b0f"
+            ],
+            "XB-EXAMPLE-1": [
+              "c4c7e5b539761d0c611daa1fb0f1f3a3a759ce353b6629076f6550a7d26c83a8"
+            ]
+          }
+        },
+        "name": "example-adversarial-corpus",
+        "uri": "pkg:example/adversarial-corpus@1.0.0"
+      },
+      "networkPosture": {
+        "digest": {
+          "sha256": "a6ebfc845bfe910a099320fd7ec33e21282a8b56d82111527a80444ca18e4352"
+        },
+        "posture": "sinkhole"
+      },
+      "observationVocabulary": {
+        "caught": [
+          "egress_captured"
+        ],
+        "digest": {
+          "sha256": "5e989bc82a110a9fb587284fc6035d42696fce46bd65c14c347a538cfab7c0d6"
+        },
+        "labels": [
+          "egress_captured",
+          "no_egress"
+        ]
+      },
+      "runEntropy": {
+        "digest": {
+          "sha256": "01b25de15d8bc69fb3cb12b323e61c2f05078a6296e7b3ff9f6197d587014738"
+        }
+      },
+      "substrate": {
+        "digest": {
+          "sha256": "018bbaf3710e526b0653abafbd3bd3c3356150d747db166021f1e107446c85bb"
+        },
+        "name": "example-substrate-image"
+      }
+    },
+    "observationRecords": [
+      {
+        "payload": "eyJhZWVLaW5kIjoiaW50ZXJjZXB0aW9uIiwiYWVlTWV0aG9kIjoiaW50ZXJjZXB0ZWQiLCJhZWVQYXlsb2FkQ29tbWl0bWVudCI6WyI4NzM1OWJiNzkyNjc3ZDljZjdlNDExOGYyNzI5ODIxMDczNTMwMTk0NDAzZmRhN2E5NTMwZmE4NTFmNGE4YjBmIl0sImFlZVJ1bkJpbmRpbmciOiI3YjNmNDdkYTBkZDViNDdhNmNhZjQ1MGMzNjAxNjRkYzEwNjQ4NWZhODU0ZTY0MzFkYjk4YmE1MzcwMDQxOThmIiwicHJvZHVjZXJOb3RlIjoiZXhhbXBsZSBpbnRlcmNlcHRpb24gb2JzZXJ2YXRpb24gYSJ9",
+        "payloadType": "application/vnd.example.aee-observation.v1+json",
+        "signatures": [
+          {
+            "keyid": "7e2b0652d86716f47e35573ae0082d670706b7a548dcb685df7bf103923dcb9c",
+            "sig": "DbRlBPfi+t9ottdQIcgJ33ryE2zYJSe9JsArxdysrzfo9WGAPbD7KyYax7e0rRSs/USeaG3W3zYED3+Dm2MACw=="
+          }
+        ]
+      },
+      {
+        "payload": "eyJhZWVLaW5kIjoiaW50ZXJjZXB0aW9uIiwiYWVlTWV0aG9kIjoiaW50ZXJjZXB0ZWQiLCJhZWVQYXlsb2FkQ29tbWl0bWVudCI6WyJjNGM3ZTViNTM5NzYxZDBjNjExZGFhMWZiMGYxZjNhM2E3NTljZTM1M2I2NjI5MDc2ZjY1NTBhN2QyNmM4M2E4Il0sImFlZVJ1bkJpbmRpbmciOiI3YjNmNDdkYTBkZDViNDdhNmNhZjQ1MGMzNjAxNjRkYzEwNjQ4NWZhODU0ZTY0MzFkYjk4YmE1MzcwMDQxOThmIiwicHJvZHVjZXJOb3RlIjoiZXhhbXBsZSBpbnRlcmNlcHRpb24gb2JzZXJ2YXRpb24gYiJ9",
+        "payloadType": "application/vnd.example.aee-observation.v1+json",
+        "signatures": [
+          {
+            "keyid": "7e2b0652d86716f47e35573ae0082d670706b7a548dcb685df7bf103923dcb9c",
+            "sig": "SeOR30mPLg5PlVJcZGr08BiNVU46ELvsdFB47ftB7gutarIP5DmuvA8Jqto9+JJHQSfDhhCVplFTaC4GGNA6DQ=="
+          }
+        ]
+      },
+      {
+        "payload": "eyJhZWVEcm9wQ291bnQiOjAsImFlZUtpbmQiOiJzZWFsZWQiLCJhZWVNZXRob2QiOiJpbnRlcmNlcHRlZCIsImFlZU9ic2VydmVkQXR0YWNrcyI6W10sImFlZU9ic2VydmVkU2V0IjoiZjNkNGQ3ODdlYTZlMDE0Y2JhYzk3MTRjZTRhOWVhNjc1NDE2ODQ5ZWIyNGQzNTE0NTIwMzczMDg3NjIwOWJhNyIsImFlZVBvc3R1cmVEaWdlc3QiOiJhNmViZmM4NDViZmU5MTBhMDk5MzIwZmQ3ZWMzM2UyMTI4MmE4YjU2ZDgyMTExNTI3YTgwNDQ0Y2ExOGU0MzUyIiwiYWVlUnVuQmluZGluZyI6IjdiM2Y0N2RhMGRkNWI0N2E2Y2FmNDUwYzM2MDE2NGRjMTA2NDg1ZmE4NTRlNjQzMWRiOThiYTUzNzAwNDE5OGYiLCJhZWVTdGlsbEFybWVkIjp0cnVlfQ==",
+        "payloadType": "application/vnd.example.aee-observation.v1+json",
+        "signatures": [
+          {
+            "keyid": "7e2b0652d86716f47e35573ae0082d670706b7a548dcb685df7bf103923dcb9c",
+            "sig": "jv8gD9E5JznUqBEntbsbG4SwokgK+LEYzG96XqxXe266dnFKpR/kFaIR3+wPtaL4VR9YqXYqEEXBgjaGW5UtBg=="
+          }
+        ]
+      }
+    ],
+    "result": "fail"
+  },
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "d14fbbcd076c6bfe5e6aa52b169c0baf7f7044ea46fe279afd7629e92baac8fc"
+      },
+      "name": "example-agent-bundle"
+    }
+  ]
+}
