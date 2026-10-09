@@ -1216,6 +1216,19 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- an outside implementer's reported results, recorded as posted.
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported raw-path result",
+        '`7a3197d`: raw 53/53, signing',
+        'A result an outside implementer reported for a past run against his own case set. It records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported signing, verify and negative-control results",
+        '57/57, verify 57/57 and negative control 53/57',
+        'Results an outside implementer reported for a past run against his own case set. They record that report as posted and must not track this corpus.',
+    ),
     # Author-produced measurements made before CI integration. Only these exact
     # dated spans are historical; the README's live case count is derived above.
     *(
