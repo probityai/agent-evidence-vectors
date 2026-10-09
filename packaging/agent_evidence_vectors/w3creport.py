@@ -264,6 +264,10 @@ def _shape_evidence(item: Any, index: int, out: list[str]) -> None:
             out.append(f"{where}.{slot} is not a list of strings")
     if "delta" in item and not _is_obj(item["delta"]):
         out.append(f"{where}.delta is present and is not an object")
+    elif _is_obj(item.get("delta")) and "changes" in item["delta"]:
+        changes = item["delta"]["changes"]
+        if not isinstance(changes, list) or not all(_is_obj(c) for c in changes):
+            out.append(f"{where}.delta.changes is present and is not a list of objects")
     _shape_observations(item.get("observations"), where, out)
 
 

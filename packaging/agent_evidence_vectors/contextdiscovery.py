@@ -54,7 +54,40 @@ def shape_errors(document: Any) -> list[str]:
     for slot in ("well-known", "link", "robots"):
         if slot in document and document[slot] is not None and not _is_obj(document[slot]):
             out.append(f"{slot} is present and is not an object")
+    _shape_lists(document, out)
     return out
+
+
+def _list_of(container: Any, key: str, where: str, item: str, out: list[str]) -> None:
+    """``container[key]``, when present, is an array whose every element is of one type.
+
+    Absent is allowed; any other JSON type, null included, is a shape defect,
+    never an empty list.
+    """
+    if not _is_obj(container) or key not in container:
+        return
+    value = container[key]
+    test = _is_str if item == "string" else _is_obj
+    if not isinstance(value, list) or not all(test(v) for v in value):
+        out.append(f"{where}.{key} is present and is not a list of {item}s")
+
+
+def _shape_lists(document: dict[str, Any], out: list[str]) -> None:
+    """The members the draft gives a JSON type that the rows then iterate.
+
+    Section 4.3 and RFC 9309 make robots.txt exclusion rules and records
+    sequences, a consumer's retrievals are a list of URIs, and every entry of
+    resources describes one resource.
+    """
+    robots = document.get("robots")
+    _list_of(robots, "disallow", "robots", "string", out)
+    _list_of(robots, "records", "robots", "object", out)
+    _list_of(document.get("consumer"), "retrieved", "consumer", "string", out)
+    resources: Any = document.get("resources")
+    if _is_obj(resources):
+        for uri in sorted(resources):
+            if not _is_obj(resources[uri]):
+                out.append(f"resources.{uri} is not an object")
 
 
 def _absolute(uri: Any) -> bool:
@@ -74,7 +107,7 @@ def _path_of(uri: str) -> str:
 def _disallowed(uri: str, origin: str, robots: dict[str, Any] | None) -> bool:
     if not _absolute(uri) or _origin_of(uri) != origin or robots is None:
         return False
-    rules = [r for r in robots.get("disallow") or [] if _is_str(r) and r]
+    rules = [r for r in robots.get("disallow", []) if r]
     return any(_path_of(uri).startswith(rule) for rule in rules)
 
 
@@ -82,8 +115,8 @@ def _records(robots: dict[str, Any] | None) -> list[Any]:
     if robots is None:
         return []
     out = []
-    for record in robots.get("records") or []:
-        if not _is_obj(record) or not _is_str(record.get("name")):
+    for record in robots.get("records", []):
+        if not _is_str(record.get("name")):
             continue
         if record["name"].lower() == "llm-context":
             out.append(record.get("value"))
@@ -130,7 +163,7 @@ def _rows_publisher(document: dict[str, Any], out: set[str]) -> str | None:
     targets = [t for t in [link_target, well_known, *robots_targets] if _is_str(t)]
     for target in targets:
         resource = resources.get(target)
-        if _is_obj(resource) and resource.get("role") == "detail":
+        if resource is not None and resource.get("role") == "detail":
             out.add(R[2])
             break
     if _is_str(link_target):
@@ -148,8 +181,8 @@ def _rows_consumer(document: dict[str, Any], selected: str | None, out: set[str]
     resolved = consumer.get("resolved")
     if resolved is not None and resolved != selected:
         out.add(R[6])
-    retrieved = [u for u in consumer.get("retrieved") or [] if _is_str(u)]
-    known = [u for u in retrieved if _is_obj(resources.get(u))]
+    retrieved: list[str] = consumer.get("retrieved", [])
+    known = [u for u in retrieved if u in resources]
     indexes = [u for u in known if resources[u].get("role") == "index"]
     if len(indexes) > 1:
         out.add(R[7])

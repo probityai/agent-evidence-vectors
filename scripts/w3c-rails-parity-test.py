@@ -18,7 +18,9 @@ a member whose fixed slot restates the domain (the domain-once row), a member
 whose check-set names a tree shape outside the closed set, a pass carrying the
 confinement cause (two rows at once), a control rebound to another constraint
 set, and the reference emitter's published run with a wrong digest and with a
-report the validator would reject.
+report the validator would reject. Four more give a member a field of the wrong
+JSON type: robots exclusion rules as an integer, step_count as a string, a
+cache ledger's tokens as a string, and a delta's changes as a string.
 
 Usage: python3 scripts/w3c-rails-parity-test.py
 Exit 0 when every case prints identically on both rails; 1 otherwise.
@@ -173,6 +175,50 @@ def rebound_control(corpus: Path) -> None:
     raise SystemExit("no bound control member to rebind")
 
 
+def edit_subject(corpus: Path, subject_type: str, edit: Callable[[dict[str, Any]], None]) -> None:
+    """Edit the subject of the first accept member of one subject type."""
+    entry = next(
+        e for e in manifest_of(corpus)["vectors"]
+        if e["kind"] == "accept" and e["subjectType"] == subject_type
+    )
+    path = corpus / entry["file"]
+    document = json.loads(path.read_text(encoding="utf-8"))
+    edit(document["subject"])
+    path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def robots_integer(corpus: Path) -> None:
+    """robots.disallow as an integer: refused as malformed, and the run goes on."""
+    edit_subject(
+        corpus, "llm-context-discovery",
+        lambda subject: subject["robots"].__setitem__("disallow", 2),
+    )
+
+
+def string_step_count(corpus: Path) -> None:
+    """step_count as a string: the Run is malformed (draft section 3.1 makes it an integer)."""
+    edit_subject(
+        corpus, "agent-run-metrics", lambda subject: subject.__setitem__("step_count", "3")
+    )
+
+
+def string_ledger_tokens(corpus: Path) -> None:
+    """A ledger element's tokens as a string cannot sum to cache_write_tokens: row 14."""
+    def edit(subject: dict[str, Any]) -> None:
+        subject["steps"][0]["usage"]["cache_writes"][0]["tokens"] = "10"
+
+    edit_subject(corpus, "agent-run-metrics", edit)
+
+
+def string_delta_changes(corpus: Path) -> None:
+    """A stated delta whose changes is a string: the report is malformed."""
+    def edit(document: dict[str, Any]) -> None:
+        item = next(e for e in document["subject"]["evidence"] if "delta" in e)
+        item["delta"]["changes"] = "fired-rule list"
+
+    edit_member(corpus, edit, with_evidence=True)
+
+
 def emitter_run_digest(corpus: Path) -> None:
     manifest = manifest_of(corpus)
     manifest["referenceEmitterRuns"][0]["sha256"] = "0" * 64
@@ -205,9 +251,22 @@ CASES: list[tuple[str, Callable[[Path], None] | None]] = [
     ("unregistered-shape", unregistered_shape),
     ("confinement-on-pass", confinement_on_pass),
     ("rebound-control", rebound_control),
+    ("robots-integer", robots_integer),
+    ("string-step-count", string_step_count),
+    ("string-ledger-tokens", string_ledger_tokens),
+    ("string-delta-changes", string_delta_changes),
     ("emitter-run-digest", emitter_run_digest),
     ("emitter-run-rejected", emitter_run_rejected),
 ]
+
+#: What a case's output must say beyond a changed identifier, so a case whose
+#: mutation both rails let through as well-formed cannot pass on agreement.
+EXPECT: dict[str, str] = {
+    "robots-integer": "robots.disallow",
+    "string-step-count": "step_count",
+    "string-ledger-tokens": "ARM-R-014",
+    "string-delta-changes": "delta.changes",
+}
 
 
 def main() -> int:
@@ -234,6 +293,10 @@ def main() -> int:
             print(f"{mark} {name}: exit go={go_status} py={py_status}, {findings} finding line(s)")
             if mutate is not None and go_status == 0:
                 print(f"FAIL {name}: the mutation was not noticed, so the case asserted nothing")
+                failures += 1
+            want = EXPECT.get(name)
+            if want is not None and (want not in go_out or want not in py_out):
+                print(f"FAIL {name}: the output does not name {want}")
                 failures += 1
             if not same:
                 failures += 1

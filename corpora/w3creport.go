@@ -511,6 +511,18 @@ func w3cShapeEvidence(item any, index int, out *[]string) {
 	}
 	if delta, present := object["delta"]; present && !isObj(delta) {
 		*out = append(*out, where+".delta is present and is not an object")
+	} else if deltaObject, ok := delta.(map[string]any); ok {
+		if changes, listed := deltaObject["changes"]; listed {
+			list, good := changes.([]any)
+			for _, change := range list {
+				if !isObj(change) {
+					good = false
+				}
+			}
+			if !good {
+				*out = append(*out, where+".delta.changes is present and is not a list of objects")
+			}
+		}
 	}
 	observations, ok := object["observations"].([]any)
 	if !ok {

@@ -57,6 +57,11 @@ func armShapeErrors(value any) []string {
 			out = append(out, "the Run carries no "+member+" member")
 		}
 	}
+	if raw, present := document["step_count"]; present {
+		if _, isInt := intValue(raw); !isInt {
+			out = append(out, "step_count is present and is not an integer")
+		}
+	}
 	if raw, present := document["steps"]; present {
 		steps, ok := raw.([]any)
 		if !ok {
@@ -71,8 +76,36 @@ func armShapeErrors(value any) []string {
 			_, indexOK := intValue(object["index"])
 			if !indexOK || !isStr(object["kind"]) {
 				out = append(out, "steps["+itoa(i)+"] carries no integer index or no string kind")
+				continue
 			}
+			out = armShapeLedger(object["usage"], "steps["+itoa(i)+"].usage", out)
 		}
+	}
+	for _, key := range []string{"totals", "subtree_totals"} {
+		out = armShapeLedger(document[key], key, out)
+	}
+	return out
+}
+
+// armShapeLedger: a Usage object's cache_writes, when present, is an array of
+// objects (section 3.5).
+func armShapeLedger(value any, where string, out []string) []string {
+	usage, ok := value.(map[string]any)
+	if !ok {
+		return out
+	}
+	raw, present := usage["cache_writes"]
+	if !present {
+		return out
+	}
+	writes, good := raw.([]any)
+	for _, write := range writes {
+		if !isObj(write) {
+			good = false
+		}
+	}
+	if !good {
+		out = append(out, where+".cache_writes is present and is not a list of objects")
 	}
 	return out
 }
@@ -229,27 +262,26 @@ func armRowsUsage(value any, out armRejects) {
 	lifetimes := map[string]bool{}
 	duplicate := false
 	var sum int64
-	allInts := true
+	counts := true
 	for _, raw := range writes {
-		item, ok := raw.(map[string]any)
-		if !ok {
-			continue
-		}
+		item, _ := raw.(map[string]any)
 		lifetime, _ := item["lifetime"].(string)
 		if lifetimes[lifetime] {
 			duplicate = true
 		}
 		lifetimes[lifetime] = true
+		// A tokens member that is not a non-negative integer is not a count,
+		// so the sum the sentence equates with cache_write_tokens does not exist.
 		tokens, isInt := intValue(item["tokens"])
-		if !isInt {
-			allInts = false
+		if !isInt || tokens < 0 {
+			counts = false
 		}
 		sum += tokens
 	}
 	if duplicate {
 		out.add(13)
 	}
-	if allInts && sum != write {
+	if !counts || sum != write {
 		out.add(14)
 	}
 }
