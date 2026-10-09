@@ -261,7 +261,7 @@ jobs:
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-report-rules-test.py packaging/agent_evidence_vectors/receiptsignature.py scripts/receipt-signature-rails-test.py vectors-receipt-signature/digest.py vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-report-rules-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/receipt-signature-rails-test.py vectors-receipt-signature/digest.py vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
       # written out on the line above, and a list is only accurate on the day it
@@ -282,7 +282,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-a2a-jcs-v01 vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -851,6 +851,14 @@ jobs:
         run: uv run --extra dev pytest vectors-source-coverage/tests -q
       - name: anchored-chain cases regenerate and force every check
         run: uv run --extra dev pytest vectors-anchored-chain/tests -q
+      # The a2a canonicalization corpus is upstream's bytes, not ours: the
+      # lock check refuses any drift from the pinned a2a-tck commit and corpus
+      # digest, and the tests replay it through the rail with a conformant and
+      # a non-conformant verifier.
+      - name: the vendored a2a-jcs-v01 corpus matches its source lock
+        run: python3 vectors-a2a-jcs-v01/upstream.py check
+      - name: the a2a-jcs-v01 corpus replays under its verifier contract
+        run: uv run --extra dev pytest vectors-a2a-jcs-v01/tests -q
       - name: probity-verify checks source coverage
         run: |
           mkdir -p .build
@@ -1087,3 +1095,46 @@ jobs:
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure
           test "$RESULT" = fail
+      # A corpus other than the default, through the same action: the a2a
+      # Agent Card canonicalization corpus vendored from a2a-tck, replayed
+      # against the packaged reference canonicalizer and then against one
+      # that canonicalizes the way a2a-python did, which must fail the job.
+      - name: the action replays the a2a-jcs-v01 corpus
+        id: a2a
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-a2a
+          report-path: a2a-report.json
+      - name: every a2a signing-input vector ran and conformed
+        env:
+          RESULT: ${{ steps.a2a.outputs.result }}
+          VECTORS: ${{ steps.a2a.outputs.vectors }}
+          CONFORM: ${{ steps.a2a.outputs.conform }}
+          EXECUTED: ${{ steps.a2a.outputs.executed }}
+        run: |
+          echo "result=$RESULT vectors=$VECTORS conform=$CONFORM executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" = 57
+          test "$CONFORM" = 57
+          test "$EXECUTED" = 57
+      - name: the action fails a canonicalizer that writes 1e-06
+        id: a2abad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python vectors-a2a-jcs-v01/tests/bad_verifier.py
+          artifact-name: agent-evidence-vectors-results-a2a-bad
+          report-path: a2a-bad-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.a2abad.outcome }}
+          RESULT: ${{ steps.a2abad.outputs.result }}
+          EXECUTED: ${{ steps.a2abad.outputs.executed }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT executed=$EXECUTED"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+          test "$EXECUTED" = 57

@@ -164,6 +164,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-w3c-report": _recompute_from_generator,
     "vectors-ai-generation": _recompute_from_generator,
     "vectors-self-reported-record": _recompute_from_generator,
+    "vectors-a2a-jcs-v01": _recompute_from_generator,
 }
 
 

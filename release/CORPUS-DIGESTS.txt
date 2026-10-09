@@ -1,6 +1,7 @@
 # One line per corpus: <sha256 corpus digest>  <manifest path>  <suite>  vectors=<n>  <suiteRevision=<n>|no-suiteRevision>
 # Regenerate: python3 scripts/release-digests.py    Check: --check
 # Every digest is recomputed from the vector files on disk, never copied from the manifest.
+29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c  vectors-a2a-jcs-v01/MANIFEST.json  a2a-agent-card-canonicalization-conformance  vectors=57  no-suiteRevision
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
 990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=43  no-suiteRevision
 048ddde8c8ce7e65368c4c46bd91192765444d287b4fcd35c3260bfcf9bb80aa  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=55  no-suiteRevision
