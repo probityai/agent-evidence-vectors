@@ -6,7 +6,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 ## Try it
 
-From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.24+, Python 3.13+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
+From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.24+, Python 3.12+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
 
 ```bash
 git rev-parse HEAD
