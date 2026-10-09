@@ -15,6 +15,8 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | SCITT/COSE carriage | [vectors-scitt-cose](../../vectors-scitt-cose/) | [SCITT/COSE profile](../../profiles/scitt-cose.md), COSE_Sign1 and RFC 9942 receipts |
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
+| Agent records bound to a did:web or did:wba subject | [vectors-identity-binding](../../vectors-identity-binding/README.md) | DSSE over DID-subject records, with resolved DID documents and the did:wba `e1_` binding; packaged reader or named verifier |
+| Delegated authority at dispatch | [vectors-authority-at-dispatch](../../vectors-authority-at-dispatch/README.md) | Authority-at-dispatch contract of agent-evidence-observer; packaged reader or named verifier |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
 | Per-check conformance reports | [vectors-w3c-report](../../vectors-w3c-report/) | W3C public-agent-conformance v0.1 |
 | Signed decision receipts | [vectors-receipt-signature](../../vectors-receipt-signature/) | `draft-farley-acta-signed-receipts-03` |
