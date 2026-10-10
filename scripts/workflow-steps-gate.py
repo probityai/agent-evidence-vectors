@@ -716,6 +716,12 @@ class _Evaluator:
             return self.step_reference(text)
         if text in self.context:
             return self.context[text], ""
+        # GitHub fills `inputs` only for workflow_dispatch and workflow_call; on
+        # every other event the context is empty and each member reads as null.
+        # Without a declared event there is nothing to decide from, so refuse.
+        event = self.context.get("github.event_name")
+        if text.startswith("inputs.") and event and event not in INPUT_EVENTS:
+            return None, ""
         return None, (
             f"unsupported expression {self.shown}: `{text}` has no verified local context"
         )
@@ -803,6 +809,12 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
     if not isinstance(matrix, dict):
         return [], f"its matrix is the expression {matrix!r}, which is not evaluated"
     axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    for name, value in list(axes.items()):
+        if isinstance(value, str):
+            expanded, reason = fromjson_axis(value)
+            if reason:
+                return [], f"matrix axis {name}: {reason}"
+            axes[name] = expanded
     if any(
         not isinstance(v, list) or any(isinstance(x, (dict, list)) for x in v)
         for v in axes.values()
@@ -822,6 +834,26 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
             added.append(row)
     combos = original + added
     return (combos, "") if combos else ([], "its matrix expands to no combination")
+
+
+def fromjson_axis(value: str) -> tuple[Any, str]:
+    """Expand an axis `${{ fromJSON(expr) }}` whose expr resolves locally.
+
+    Only an expression the evaluator can read without another job's outputs
+    is expanded (`inputs.x || '[...]'` on an event with no inputs). Anything
+    else is refused by name rather than guessed.
+    """
+    found = FROMJSON_AXIS.match(value.strip())
+    if found is None:
+        return None, f"the expression {value!r} is not evaluated"
+    raw, missing = evaluate(found.group(1), {}, None, {"github.event_name": LOCAL_EVENT})
+    if missing or not isinstance(raw, str):
+        return None, f"fromJSON over {found.group(1)!r} does not resolve locally"
+    try:
+        parsed = json.loads(raw)
+    except ValueError:
+        return None, f"fromJSON over {found.group(1)!r} is not JSON"
+    return parsed, ""
 
 
 def matrix_entries(entries: Any) -> bool:
@@ -1960,6 +1992,11 @@ def provider_problem(step: Step, job: JobState) -> str:
 # The event a local run stands for. The pre-push hook mirrors a push, so a step
 # guarded to another event would not run on the remote for this push either.
 LOCAL_EVENT = "push"
+# The events whose payload carries an `inputs` context.
+INPUT_EVENTS = frozenset({"workflow_dispatch", "workflow_call"})
+# A matrix axis written as one fromJSON call, the shape a reusable workflow
+# uses to default a list it can also take as an input.
+FROMJSON_AXIS = re.compile(r"^\$\{\{\s*fromJSON\((.*)\)\s*\}\}$", re.DOTALL)
 EVENT_TEST = re.compile(
     r"^\s*(?:\$\{\{\s*)?github\.event_name\s*(==|!=)\s*'([a-z_]+)'\s*(?:\}\})?\s*$"
 )
