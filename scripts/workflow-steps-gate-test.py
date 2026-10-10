@@ -679,6 +679,24 @@ def an_unprovidable_python_stops_its_job() -> None:
     assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
 
 
+def a_step_guarded_by_an_input_is_not_run_without_inputs() -> None:
+    """`if: ${{ inputs.flag }}` is false on an event that carries no inputs.
+
+    The MCP SDK workflow guards its "Fail on divergence" step with
+    `inputs.fail-on-divergence`. On push and pull_request that input is null,
+    so the runner skips the step; the mirror ran it and failed every SDK.
+    """
+    for condition in ("${{ inputs.fail-on-divergence }}", "inputs.fail-on-divergence"):
+        reason = GATE.event_excludes(condition)  # type: ignore[attr-defined]
+        assert reason and "inputs" in reason, (condition, reason)
+    assert GATE.event_excludes("${{ inputs.a || true }}") == ""  # type: ignore[attr-defined]
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - if: ${{ inputs.fail-on-divergence }}\n        run: exit 1\n"
+    )
+    assert rc == 0, log
+
+
 def a_step_guarded_to_another_event_is_not_run() -> None:
     """A step whose `if:` names another event does not run for a push.
 
@@ -1819,6 +1837,10 @@ def main() -> int:
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
     check("a failed foreign fetch stops only its job", a_failed_fetch_stops_its_job)
     check("a step guarded to another event is not run", a_step_guarded_to_another_event_is_not_run)
+    check(
+        "a step guarded by an input is not run without inputs",
+        a_step_guarded_by_an_input_is_not_run_without_inputs,
+    )
     check(
         "an ambient VIRTUAL_ENV does not reach the steps",
         an_ambient_virtual_env_does_not_reach_the_steps,
