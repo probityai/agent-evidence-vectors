@@ -1289,6 +1289,37 @@ def matrix_include_and_exclude_follow_the_documented_rules() -> None:
     assert combos == [] and "expression" in reason, (combos, reason)
 
 
+def inputs_are_null_on_an_event_that_carries_none() -> None:
+    """`inputs.x || default` reads the default on push and pull_request, as on a runner.
+
+    GitHub fills the inputs context only for workflow_dispatch and workflow_call;
+    on every other event it is empty, so `inputs.ref || github.sha` is the
+    commit. The mirror called `inputs.ref` unknown and faulted the MCP SDK job.
+    A matrix axis written as fromJSON of such an expression expands too, and a
+    fromJSON over another job's output is still refused.
+    """
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha", {}, None, {"github.event_name": "push", "github.sha": "c0ffee"}
+    )
+    assert (value, missing) == ("c0ffee", ""), (value, missing)
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha",
+        {},
+        None,
+        {"github.event_name": "workflow_dispatch", "github.sha": "c0ffee"},
+    )
+    assert missing, "a dispatch input was invented instead of refused"
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": '${{ fromJSON(inputs.sdks || \'["go","rust"]\') }}'}}}
+    )
+    assert not reason, reason
+    assert combos == [{"sdk": "go"}, {"sdk": "rust"}], combos
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": "${{ fromJSON(needs.a.outputs.m) }}"}}}
+    )
+    assert combos == [] and reason, (combos, reason)
+
+
 def a_run_block_expression_is_substituted() -> None:
     """`${{ }}` in a run block reaches bash as its value, as on the runner.
 
@@ -1850,6 +1881,10 @@ def main() -> int:
     check(
         "matrix include and exclude follow the documented rules",
         matrix_include_and_exclude_follow_the_documented_rules,
+    )
+    check(
+        "inputs are null on an event that carries none",
+        inputs_are_null_on_an_event_that_carries_none,
     )
     check("a run block expression is substituted", a_run_block_expression_is_substituted)
     check("an unevaluable expression is not run", an_unevaluable_expression_is_not_run)
