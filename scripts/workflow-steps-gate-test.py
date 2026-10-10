@@ -940,6 +940,27 @@ def checkout_and_working_directory_bind_to_the_selected_source() -> None:
     assert rc == 0, log
 
 
+def a_step_may_start_in_the_jobs_runner_temp() -> None:
+    """`working-directory: ${{ runner.temp }}` starts the step in the job's own temp.
+
+    A runner owns RUNNER_TEMP for the job, and the held-out workflow starts
+    there on purpose so the installed wheel, not the checkout, answers. The
+    mirror refused every directory outside the checkout and failed that step
+    on every replay; a directory outside both the checkout and the job's temp
+    is still refused.
+    """
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - working-directory: ${{ runner.temp }}\n"
+        '        run: test "$(pwd -P)" = "$(cd "$RUNNER_TEMP" && pwd -P)"\n'
+    )
+    assert rc == 0, log
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n      - working-directory: /\n        run: exit 0\n"
+    )
+    assert rc == 1, f"a directory outside the checkout and the job temp was executed:\n{log}"
+
+
 def baseline_python_and_uv_environment_belong_to_each_job() -> None:
     workflow = (
         "jobs:\n  first:\n    steps:\n      - run: |\n"
@@ -1805,6 +1826,7 @@ def main() -> int:
         "checkout and directory binding is enforced",
         checkout_and_working_directory_bind_to_the_selected_source,
     )
+    check("a step may start in the job's runner temp", a_step_may_start_in_the_jobs_runner_temp)
     check(
         "baseline Python and uv environment belong to a job",
         baseline_python_and_uv_environment_belong_to_each_job,

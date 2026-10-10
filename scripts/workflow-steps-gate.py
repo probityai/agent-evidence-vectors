@@ -1107,11 +1107,16 @@ def run_step(
     workdir: str = "",
     root: pathlib.Path | None = None,
     evidence: pathlib.Path | None = None,
+    temp: pathlib.Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
     workspace = (root or REPO).resolve()
     directory = (workspace / workdir).resolve()
-    if not directory.is_relative_to(workspace):
-        raise ValueError("working-directory escapes the job checkout")
+    # A runner owns RUNNER_TEMP for the job, so a step may start there (the
+    # held-out workflow does, so the installed wheel answers rather than the
+    # checkout). Anywhere else outside the checkout is refused.
+    allowed = [workspace] + ([temp.resolve()] if temp is not None else [])
+    if not any(directory.is_relative_to(base) for base in allowed):
+        raise ValueError("working-directory escapes the job checkout and its runner temp")
     if not directory.is_dir():
         raise ValueError(f"working-directory {workdir!r} does not exist in the job checkout")
     if evidence is not None:
@@ -1654,6 +1659,7 @@ def execute_job(
                 directory if step.run is not None else "",
                 job.root,
                 retained,
+                job.temp,
             )
         except (OSError, ValueError) as exc:
             job.failed += 1
