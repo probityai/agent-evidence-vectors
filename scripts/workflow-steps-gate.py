@@ -2005,6 +2005,9 @@ INPUT_EVENTS = frozenset({"workflow_dispatch", "workflow_call"})
 # A matrix axis written as one fromJSON call, the shape a reusable workflow
 # uses to default a list it can also take as an input.
 FROMJSON_AXIS = re.compile(r"^\$\{\{\s*fromJSON\((.*)\)\s*\}\}$", re.DOTALL)
+# A condition that is exactly one input reference. On an event with no inputs
+# it reads as null, which is false, so the runner skips the step.
+INPUT_TEST = re.compile(r"^\s*(?:\$\{\{\s*)?inputs\.[A-Za-z0-9_-]+\s*(?:\}\})?\s*$")
 EVENT_TEST = re.compile(
     r"^\s*(?:\$\{\{\s*)?github\.event_name\s*(==|!=)\s*'([a-z_]+)'\s*(?:\}\})?\s*$"
 )
@@ -2013,10 +2016,16 @@ EVENT_TEST = re.compile(
 def event_excludes(condition: str) -> str:
     """The reason a step's `if:` is false for a push, or "" when it is not.
 
-    Only a bare comparison of github.event_name is decided here. Any other
+    Only a bare comparison of github.event_name, or a bare input reference
+    (null, so false, on an event with no inputs), is decided here. Any other
     expression is left to run as before, because deciding it wrongly would turn
     a step the remote runs into one this gate silently skips.
     """
+    if INPUT_TEST.match(condition) and LOCAL_EVENT not in INPUT_EVENTS:
+        return (
+            f"its condition `{condition.strip()}` reads an input, and a {LOCAL_EVENT} "
+            "carries no inputs, so it is null and false"
+        )
     match = EVENT_TEST.match(condition)
     if not match:
         return ""

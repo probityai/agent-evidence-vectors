@@ -754,11 +754,18 @@ time.sleep(30)
                 stderr=err,
             )
             try:
-                deadline = time.monotonic() + 5
+                # Wait for the native child to start, not for a fixed time: on a
+                # loaded host the bridge, its venv and the child took longer
+                # than five seconds, and the test failed with no defect. It
+                # still fails at once if the bridge exits before the child runs.
+                deadline = time.monotonic() + 120
                 pid_path = self.root / ".build/native-pid"
-                while not pid_path.exists() and time.monotonic() < deadline:
-                    time.sleep(0.01)
-                self.assertTrue(pid_path.exists())
+                while (
+                    not pid_path.exists() and process.poll() is None and time.monotonic() < deadline
+                ):
+                    time.sleep(0.05)
+                err.seek(0)
+                self.assertTrue(pid_path.exists(), err.read().decode(errors="replace"))
                 native_pid = int(pid_path.read_text())
                 process.send_signal(signal.SIGTERM)
                 code = process.wait(timeout=10)
