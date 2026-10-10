@@ -84,6 +84,23 @@ OUT_OF_SCOPE = {
 #: the identifier is minted from that sentence once it lands. Recorded for the
 #: same reason as the scope-away list: a reader cannot see an absence.
 AWAITING_TEXT = {
+    "a chain head whose signing time is bounded by a public beacon": (
+        "the time-bound half of the checkpoint case raised on "
+        "GenAI-Security-Project/agent-control-standard#18. The pinned text "
+        "defines no beacon, no checkpoint and no signing-time source a head "
+        "could reference, so a member would cite a sentence that does not "
+        "exist. The signer half of the same case is family acs-f-10"
+    ),
+    "a verifier answering that it cannot determine the signer": (
+        "the pinned text gives a verifier no answer meaning the signer cannot "
+        "be determined: section 17.1 has SIGNATURE_INVALID for a signature that "
+        "fails and nothing for one that verifies under a key two parties hold. "
+        "So the HMAC substitution in acs-f-10 is unmeasurable rather than "
+        "scored, and a requirement that the two outcomes take different shapes "
+        "was raised on GenAI-Security-Project/agent-control-standard#18. Once a "
+        "sentence names the outcome, that member expects it instead of being "
+        "exempt"
+    ),
     "a session that began and was never sealed": (
         "the pinned text has no sentence requiring a party other than the "
         "Observed Agent to record that a session began, so a begun session with "
@@ -412,7 +429,19 @@ def build() -> list[dict]:
         coverage: str,
         cites: str,
         unmeasurable_because: str | None = None,
+        forbids_registry_code: bool = False,
     ) -> None:
+        expected = {
+            "verdict": verdict,
+            "code": code,
+            "codeValue": CODES[code] if code else None,
+            "unmeasurableBecause": unmeasurable_because,
+        }
+        # A null code leaves the code unasserted. Where any registry code would
+        # misreport the case, the member says so, and the key is present only
+        # then, so every other member keeps its bytes and its identifier.
+        if forbids_registry_code:
+            expected["forbidsRegistryCode"] = True
         members.append(
             {
                 "kind": kind,
@@ -420,12 +449,7 @@ def build() -> list[dict]:
                 "requirements": requirements,
                 "specVersion": SPEC_VERSION,
                 "payload": payload,
-                "expected": {
-                    "verdict": verdict,
-                    "code": code,
-                    "codeValue": CODES[code] if code else None,
-                    "unmeasurableBecause": unmeasurable_because,
-                },
+                "expected": expected,
                 "evidenceBasis": evidence_basis,
                 "witnessScope": witness_scope,
                 "coverage": coverage,
@@ -1483,17 +1507,22 @@ def build() -> list[dict]:
         payload=claimed_external,
         verdict="deny",
         code=None,
+        forbids_registry_code=True,
         evidence_basis="artifact",
         witness_scope="EXTERNAL",
         coverage="effective",
         cites=(
             "an HMAC-SHA256 chain head the Guardian did sign, presented to a "
             "third party as evidence that this Guardian issued it. The member "
-            "rejects the external claim, not the signature: the MAC verifies, "
-            "and section 8.6 says proving to a third party that a specific "
-            "Guardian issued a specific head requires ACS-Crypto. No registry "
-            "code names a refused claim over a valid signature, so none is "
-            "asserted. The member is EXTERNAL because the algorithm and the "
+            "rejects the external claim, not the signature: the MAC verifies "
+            "for a key-holder, and section 8.6 says proving to a third party "
+            "that a specific Guardian issued a specific head requires "
+            "ACS-Crypto. No registry code names a refused claim over a valid "
+            "signature, and the member forbids one: SIGNATURE_INVALID here "
+            "would report a signer nobody can determine as a signer determined "
+            "to be wrong, which is the ACS-Crypto wrong-signer member's answer, "
+            "and the third party never obtained a verification result to "
+            "report. The member is EXTERNAL because the algorithm and the "
             "claim both sit in the presented bytes, so a party outside the "
             "trust domain can refuse it without the Guardian's account and "
             "without holding the key."
@@ -1530,6 +1559,15 @@ def build() -> list[dict]:
     return members
 
 
+def code_cell(expected: dict) -> str:
+    """The INDEX cell for a member's code: named, forbidden, or left unasserted."""
+    if expected["code"]:
+        return f"`{expected['code']}`"
+    if expected.get("forbidsRegistryCode"):
+        return "none allowed"
+    return "not asserted"
+
+
 def identify(member: dict) -> str:
     payload = json.dumps(
         {k: member[k] for k in ("kind", "family", "requirements", "payload", "expected")},
@@ -1547,7 +1585,7 @@ def render_index(manifest: dict) -> str:
             family=entry["family"],
             reqs=", ".join(entry["requirements"]),
             verdict=entry["expected"]["verdict"],
-            code=f"`{entry['expected']['code']}`" if entry["expected"]["code"] else "none",
+            code=code_cell(entry["expected"]),
             basis=entry["evidenceBasis"],
             scope=entry["witnessScope"],
         )
@@ -1605,7 +1643,9 @@ line number is derived from the sentence and never typed.
 **A verdict is asserted as a code, never as prose.** Two conformant
 implementations word one refusal differently and a wrong one can word the right
 cause while doing something else, so a member names a value from the fixed
-error registry or names none at all.
+error registry or names none at all. A member that names none leaves the code
+unasserted, and any refusal passes it; a member whose case any registry code
+would misreport forbids one, and the code column says which.
 
 **There are three verdicts.** A member whose property the specification cannot
 express is `unmeasurable`, with the reason recorded. Folding those into

@@ -53,6 +53,8 @@
     "the second half of the subagent hook pair": "split out of the mandatory set by a later push on the same pull request"
   },
   "awaitingText": {
+    "a chain head whose signing time is bounded by a public beacon": "the time-bound half of the checkpoint case raised on GenAI-Security-Project/agent-control-standard#18. The pinned text defines no beacon, no checkpoint and no signing-time source a head could reference, so a member would cite a sentence that does not exist. The signer half of the same case is family acs-f-10",
+    "a verifier answering that it cannot determine the signer": "the pinned text gives a verifier no answer meaning the signer cannot be determined: section 17.1 has SIGNATURE_INVALID for a signature that fails and nothing for one that verifies under a key two parties hold. So the HMAC substitution in acs-f-10 is unmeasurable rather than scored, and a requirement that the two outcomes take different shapes was raised on GenAI-Security-Project/agent-control-standard#18. Once a sentence names the outcome, that member expects it instead of being exempt",
     "a session that began and was never sealed": "the pinned text has no sentence requiring a party other than the Observed Agent to record that a session began, so a begun session with no seal leaves nothing a member could cite. Wording is proposed on GenAI-Security-Project/agent-control-standard#37. Once it lands, the member expects a counted decision failure, never unmeasurable, because a begun and unsealed session is countable",
     "an argument textually inside a scoped mandate that resolves outside it": "a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow"
   },
@@ -285,7 +287,7 @@
     "reject": 26,
     "indeterminate": 2
   },
-  "corpusDigest": "990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb",
+  "corpusDigest": "2be3c7bbb803d79ee28d945bd39053b26a282decc58fde84b441496542e471b7",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -430,9 +432,9 @@
       "cites": "the same response with the chain head inside the signed set."
     },
     {
-      "id": "v3232493ab40ae031",
+      "id": "v2a61a2c85f8b6aec",
       "kind": "reject",
-      "file": "vectors/v3232493ab40ae031.json",
+      "file": "vectors/v2a61a2c85f8b6aec.json",
       "family": "acs-f-10",
       "requirements": [
         "ACS-R-021"
@@ -442,12 +444,13 @@
         "verdict": "deny",
         "code": null,
         "codeValue": null,
-        "unmeasurableBecause": null
+        "unmeasurableBecause": null,
+        "forbidsRegistryCode": true
       },
       "evidenceBasis": "artifact",
       "witnessScope": "EXTERNAL",
       "coverage": "effective",
-      "cites": "an HMAC-SHA256 chain head the Guardian did sign, presented to a third party as evidence that this Guardian issued it. The member rejects the external claim, not the signature: the MAC verifies, and section 8.6 says proving to a third party that a specific Guardian issued a specific head requires ACS-Crypto. No registry code names a refused claim over a valid signature, so none is asserted. The member is EXTERNAL because the algorithm and the claim both sit in the presented bytes, so a party outside the trust domain can refuse it without the Guardian's account and without holding the key."
+      "cites": "an HMAC-SHA256 chain head the Guardian did sign, presented to a third party as evidence that this Guardian issued it. The member rejects the external claim, not the signature: the MAC verifies for a key-holder, and section 8.6 says proving to a third party that a specific Guardian issued a specific head requires ACS-Crypto. No registry code names a refused claim over a valid signature, and the member forbids one: SIGNATURE_INVALID here would report a signer nobody can determine as a signer determined to be wrong, which is the ACS-Crypto wrong-signer member's answer, and the third party never obtained a verification result to report. The member is EXTERNAL because the algorithm and the claim both sit in the presented bytes, so a party outside the trust domain can refuse it without the Guardian's account and without holding the key."
     },
     {
       "id": "v3c03d4e4ce213e9c",
