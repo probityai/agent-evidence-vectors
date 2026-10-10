@@ -808,13 +808,9 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
         return [{}], ""
     if not isinstance(matrix, dict):
         return [], f"its matrix is the expression {matrix!r}, which is not evaluated"
-    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
-    for name, value in list(axes.items()):
-        if isinstance(value, str):
-            expanded, reason = fromjson_axis(value)
-            if reason:
-                return [], f"matrix axis {name}: {reason}"
-            axes[name] = expanded
+    axes, reason = expand_axes(matrix)
+    if reason:
+        return [], reason
     if any(
         not isinstance(v, list) or any(isinstance(x, (dict, list)) for x in v)
         for v in axes.values()
@@ -834,6 +830,18 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
             added.append(row)
     combos = original + added
     return (combos, "") if combos else ([], "its matrix expands to no combination")
+
+
+def expand_axes(matrix: dict[str, Any]) -> tuple[dict[str, Any], str]:
+    """The matrix axes, with any `${{ fromJSON(...) }}` axis expanded."""
+    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    for name, value in list(axes.items()):
+        if isinstance(value, str):
+            expanded, reason = fromjson_axis(value)
+            if reason:
+                return {}, f"matrix axis {name}: {reason}"
+            axes[name] = expanded
+    return axes, ""
 
 
 def fromjson_axis(value: str) -> tuple[Any, str]:

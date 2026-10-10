@@ -1310,7 +1310,7 @@ def inputs_are_null_on_an_event_that_carries_none() -> None:
     )
     assert missing, "a dispatch input was invented instead of refused"
     combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
-        {"strategy": {"matrix": {"sdk": "${{ fromJSON(inputs.sdks || '[\"go\",\"rust\"]') }}"}}}
+        {"strategy": {"matrix": {"sdk": '${{ fromJSON(inputs.sdks || \'["go","rust"]\') }}'}}}
     )
     assert not reason, reason
     assert combos == [{"sdk": "go"}, {"sdk": "rust"}], combos
