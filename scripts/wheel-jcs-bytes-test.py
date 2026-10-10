@@ -13,6 +13,11 @@ are true of the wheel, and this test builds one and checks each:
    consumer never hard-codes a site-packages layout.
 3. ``agent-evidence-vectors --jcs-byte-vectors`` prints the same path, for a
    consumer whose CI step is a shell line rather than Python.
+4. Every corpus in the repository (``vectors`` or ``vectors-*`` with a
+   MANIFEST.json) is in the wheel and listed by the installed
+   ``--list-corpora``. The self-reported-record corpus shipped in no wheel
+   through 0.17.7 because it was missing from the pyproject lists, and nothing
+   compared those lists with the tree.
 
 The installed checks run from a scratch directory outside the checkout, so a
 path that only resolves inside the repository fails here and not in a
@@ -119,17 +124,44 @@ def check_locator(wheel: Path, scratch: Path) -> list[str]:
     return failures
 
 
+def repository_corpora() -> list[str]:
+    return sorted(
+        d.name
+        for d in ROOT.iterdir()
+        if (d.name == "vectors" or d.name.startswith("vectors-"))
+        and (d / "MANIFEST.json").is_file()
+    )
+
+
+def check_corpora(wheel: Path, scratch: Path) -> list[str]:
+    with zipfile.ZipFile(wheel) as archive:
+        names = set(archive.namelist())
+    listed = set(installed_run(wheel, scratch, "agent-evidence-vectors", "--list-corpora").split())
+    failures: list[str] = []
+    for name in repository_corpora():
+        if f"agent_evidence_vectors/corpora/{name}/MANIFEST.json" not in names:
+            failures.append(f"{name} is a corpus in the repository and is not in the wheel")
+        if name not in listed:
+            failures.append(f"{name} is not listed by the installed --list-corpora")
+    return failures
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory(prefix="wheel-jcs-bytes-") as tmp:
         wheel = build_wheel(Path(tmp) / "dist")
         scratch = Path(tmp) / "scratch"
         scratch.mkdir()
-        failures = check_members(wheel) + check_locator(wheel, scratch)
+        failures = (
+            check_members(wheel) + check_locator(wheel, scratch) + check_corpora(wheel, scratch)
+        )
     for failure in failures:
         print(f"FAIL: {failure}")
     if failures:
         return 1
-    print(f"OK: the wheel ships {', '.join(SHIPPED)} at {INSTALLED} and the package names them")
+    print(
+        f"OK: the wheel ships {', '.join(SHIPPED)} at {INSTALLED} and the package names them, "
+        "and it carries and lists every corpus in the repository"
+    )
     return 0
 
 
