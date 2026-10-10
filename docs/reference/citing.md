@@ -19,9 +19,9 @@ For an unreleased checkout, cite the full source commit and corpus digest. The p
 @software{gilda_agent_evidence_vectors,
   author    = {Gilda, Sankalp},
   title     = {agent-evidence-vectors: conformance vectors for agent execution evidence},
-  version   = {0.17.5},
+  version   = {0.17.6},
   year      = {2026},
-  url       = {https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.5}
+  url       = {https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6}
 }
 ```
 
