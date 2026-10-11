@@ -85,7 +85,7 @@ def found(root: Path) -> dict[str, dict[str, set[str]]]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     root = parser.parse_args().root.resolve()
 
