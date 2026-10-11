@@ -131,6 +131,9 @@ REVISION_HEADING = re.compile(r"^## suiteRevision (\d+)\b", re.MULTILINE)
 ENUMERATION = r"\d+(?:, \d+)*(?:,? (?:and|or) \d+)?"
 SCORE = re.compile(r"^\d+/\d+$")
 EVIDENCE = ("blind", "first-run-unchanged-build", "directed")
+# Who produced the run, a separate axis from how much of the answer the
+# implementer saw. Only an independent run licenses the independence column.
+RUN_LABEL = ("author-produced", "second-party-same-code", "independent")
 # The two documents that publish the independence column. A run's headline figure
 # has to be stated in both or in neither.
 #
@@ -258,6 +261,14 @@ def _run_field_failures(run: dict[str, Any], current: int) -> list[str]:
         )
     if run.get("evidence") not in EVIDENCE:
         out.append(f"{where}: evidence must be one of {', '.join(EVIDENCE)}.")
+    label = run.get("runLabel")
+    if label not in RUN_LABEL:
+        out.append(f"{where}: runLabel must be one of {', '.join(RUN_LABEL)}.")
+    elif label != "independent":
+        out.append(
+            f"{where}: runLabel is {label}, and only an independent run may stand in "
+            "the independence column."
+        )
     if run.get("unprompted") is not (run.get("evidence") != "directed"):
         out.append(
             f"{where}: a run its author called directed may not be flagged unprompted, "
@@ -715,6 +726,61 @@ def current_revision_failures(report: str, current: int) -> list[str]:
     return out
 
 
+ROSTER_LABELS = frozenset({"author-produced", "second-party-same-code", "independent"})
+ROSTER_CONSENT = frozenset({"posted-publicly", "confirmed", "not-yet-asked", "not-applicable"})
+ROSTER_FIELDS = (
+    "runner",
+    "implementation",
+    "corpus",
+    "label",
+    "evidence",
+    "posting",
+    "consentThread",
+    "consent",
+    "immutableRelease",
+    "date",
+    "pin",
+)
+
+
+def roster_failures(ledger: dict[str, Any]) -> list[str]:
+    """Every run of a corpus from this repository carries exactly one of three labels.
+
+    The label says who wrote and who ran the code. A run listed without one, or
+    with a softer word, reads to an adopter as independent whatever it was.
+    """
+    if "roster" not in ledger:
+        return [
+            "docs/INDEPENDENT-RUNS.json: carries no roster array, so no run outside "
+            "the runs array is labelled author-produced, second-party-same-code or "
+            "independent."
+        ]
+    failures: list[str] = []
+    for index, row in enumerate(ledger["roster"]):
+        where = f"docs/INDEPENDENT-RUNS.json: roster[{index}]"
+        missing = [field for field in ROSTER_FIELDS if field not in row]
+        if missing:
+            failures.append(f"{where} carries no {', '.join(missing)}")
+            continue
+        if row["label"] not in ROSTER_LABELS:
+            failures.append(
+                f"{where} label {row['label']!r} is not one of {sorted(ROSTER_LABELS)}"
+            )
+        if row["consent"] not in ROSTER_CONSENT:
+            failures.append(
+                f"{where} consent {row['consent']!r} is not one of {sorted(ROSTER_CONSENT)}"
+            )
+        if row["consent"] in {"posted-publicly", "confirmed"} and not str(
+            row["consentThread"] or ""
+        ).startswith("https://"):
+            failures.append(
+                f"{where} consent {row['consent']!r} names no consentThread URL to read it in"
+            )
+        if not str(row["posting"]).startswith("https://"):
+            failures.append(f"{where} posting is not a URL")
+    return failures
+
+
 def collect() -> tuple[list[str], int, list[int], int]:
     current, failures = current_revision()
     if failures:
@@ -735,6 +801,7 @@ def collect() -> tuple[list[str], int, list[int], int]:
         )
     attempts: list[dict[str, Any]] = ledger.get("attempts") or []
     failures.extend(attempt_failures(attempts))
+    failures.extend(roster_failures(ledger))
     if failures:
         return failures, current, [], len(attempts)
     expected = not_run(runs, current)

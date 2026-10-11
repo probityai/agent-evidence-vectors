@@ -807,6 +807,11 @@ def P_artifact_oov_label() -> dict[str, Any]:
     return accept_parent("ok-009-artifact-oov-label-fail")
 
 
+def P_artifact_absent_label() -> dict[str, Any]:
+    """ok-057-artifact-absent-label-fail: artifact row with no containmentObserved."""
+    return accept_parent("ok-057-artifact-absent-label-fail")
+
+
 def P_multirecord() -> dict[str, Any]:  # ok-030 shape: caught row over three records
     """The min-composition shape: an examination and two interceptions.
 
@@ -5037,6 +5042,46 @@ vec("bad-1017-sole-seal-moat-down-all-caught", "ok-001",
          "the defective one, dropping the defective record reaches validity, "
          "and here it does not -- drop this seal and the statement carries "
          "none, which is `bad-952` from the other side")
+
+
+vec("bad-1018-result-mismatch-absent-label", "ok-057",
+    'carried result: "pass" over a row whose containmentObserved is absent', [],
+    [2, 4], ["result-recompute-mismatch"],
+    set_result(P_artifact_absent_label, "pass"), spec="L443-444",
+    note="the absent-member twin of bad-003. The first condition spells out "
+         "missing for basis, method and attribution and not for "
+         "containmentObserved; a member that is not carried is in no carried "
+         "set, so the recompute fail-closes the row. A rail that treats the "
+         "omission as a well-formedness fault only and recomputes over the "
+         "remaining rows derives the carried pass and accepts this. ok-057 is "
+         "the parent with the result the pinned reading derives")
+
+
+def _b1019() -> str:
+    """A vocabulary label carrying U+1FFFE, a noncharacter, spelled as the
+    escaped surrogate pair \\ud83f\\udffe. bad-743 reaches a noncharacter
+    through a single escape; this reaches one only after the two halves are
+    reassembled into a code point, which is the route a rail testing each escape
+    on its own never sees. The pair is well formed, so nothing about the
+    surrogates is a fault; the code point they denote is."""
+    st = P_clean()
+    v = st["predicate"]["observationEnvironment"]["observationVocabulary"]
+    v["labels"] = [*v["labels"], "zz_\U0001fffe"]
+    pre = json.dumps({"caught": v["caught"], "labels": v["labels"]},
+                     sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    v["digest"]["sha256"] = sha256hex(pre.encode("utf-8"))
+    return _escaped(rebind_records(st))
+
+
+vec("bad-1019-statement-noncharacter-surrogate-pair", "ok-002",
+    "vocabulary label carrying the noncharacter U+1FFFE as an escaped "
+    "surrogate pair",
+    _VOCAB_REDERIVE, [18], ["statement-malformed"],
+    _b1019, spec="L110-137",
+    note="rawStatement: the Unicode rules bind the code point a string denotes, "
+         "not the bytes that spell it. Each escape is a legal surrogate half and "
+         "the pair is correctly ordered, so a check that tests escapes one at a "
+         "time passes it; only reassembling the pair finds U+1FFFE")
 
 
 # --- vate-* : the boundary across an external admission ---------------------

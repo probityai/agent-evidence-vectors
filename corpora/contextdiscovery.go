@@ -40,6 +40,55 @@ func lcdShapeErrors(value any) []string {
 			out = append(out, slot+" is present and is not an object")
 		}
 	}
+	return lcdShapeLists(document, out)
+}
+
+// lcdListOf: container[key], when present, is an array whose every element
+// has one type. Absent is allowed; any other JSON type, null included, is a
+// shape defect, never an empty list.
+func lcdListOf(container any, key, where, item string, out []string) []string {
+	object, ok := container.(map[string]any)
+	if !ok {
+		return out
+	}
+	value, present := object[key]
+	if !present {
+		return out
+	}
+	list, isList := value.([]any)
+	if !isList {
+		return append(out, where+"."+key+" is not an array")
+	}
+	for i, element := range list {
+		if item == "string" && !isStr(element) {
+			out = append(out, where+"."+key+"["+itoa(i)+"] is not a string")
+		} else if item == "object" && !isObj(element) {
+			out = append(out, where+"."+key+"["+itoa(i)+"] is not an object")
+		}
+	}
+	return out
+}
+
+// lcdShapeLists: the members the draft gives a JSON type that the rows then
+// iterate. Section 4.3 and RFC 9309 make robots.txt exclusion rules and
+// records sequences, a consumer's retrievals are a list of URIs, and every
+// entry of resources describes one resource.
+func lcdShapeLists(document map[string]any, out []string) []string {
+	out = lcdListOf(document["robots"], "disallow", "robots", "string", out)
+	out = lcdListOf(document["robots"], "records", "robots", "object", out)
+	out = lcdListOf(document["consumer"], "retrieved", "consumer", "string", out)
+	if resources, ok := document["resources"].(map[string]any); ok {
+		uris := make([]string, 0, len(resources))
+		for uri := range resources {
+			uris = append(uris, uri)
+		}
+		sort.Strings(uris)
+		for _, uri := range uris {
+			if !isObj(resources[uri]) {
+				out = append(out, "resources."+uri+" is not an object")
+			}
+		}
+	}
 	return out
 }
 

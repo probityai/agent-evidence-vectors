@@ -1,0 +1,34 @@
+{
+  "type": "namespace",
+  "name": "crm",
+  "description": "CRM tools for customer lookup and order management.",
+  "tools": [
+    {
+      "type": "function",
+      "name": "get_customer_profile",
+      "description": "Fetch a customer profile by customer ID.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_id": { "type": "string" }
+        },
+        "required": ["customer_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "type": "function",
+      "name": "list_open_orders",
+      "description": "List open orders for a customer ID.",
+      "defer_loading": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "customer_id": { "type": "string" }
+        },
+        "required": ["customer_id"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

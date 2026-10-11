@@ -65,15 +65,23 @@ jobs:
         run: |
           set -euo pipefail
           zero=0000000000000000000000000000000000000000
+          if [ -z "${DEFAULT_BRANCH:-}" ] \
+             || ! git check-ref-format "refs/heads/$DEFAULT_BRANCH"; then
+            echo 'Refusing a commit range without a valid repository default branch.' >&2
+            exit 1
+          fi
           if [ -n "${PR_BASE:-}" ]; then
             range="$(git merge-base "$PR_BASE" HEAD)..HEAD"
           elif [[ "${PUSH_REF:-refs/heads/local-gate}" == refs/heads/* ]] \
-               && [ "${PUSH_REF:-}" != "refs/heads/${DEFAULT_BRANCH:-main}" ] \
-               && git cat-file -e "refs/remotes/origin/${DEFAULT_BRANCH:-main}^{commit}" 2>/dev/null; then
-            # Main's published messages arrive again when a feature branch
-            # merges its base. Check every branch commit outside main instead.
+               && [ "${PUSH_REF:-}" != "refs/heads/$DEFAULT_BRANCH" ]; then
+            # Published default-branch messages can arrive through a merge.
+            # A missing base cannot establish which branch commits are new.
+            if ! git cat-file -e "refs/remotes/origin/$DEFAULT_BRANCH^{commit}" 2>/dev/null; then
+              echo 'Refusing a commit range whose published default base is unavailable.' >&2
+              exit 1
+            fi
             # With no event ref, the local gate checks all unpublished commits.
-            range="refs/remotes/origin/${DEFAULT_BRANCH:-main}..HEAD"
+            range="refs/remotes/origin/$DEFAULT_BRANCH..HEAD"
           elif [ -n "${PUSH_BEFORE:-}" ] && [ "$PUSH_BEFORE" != "$zero" ] \
                && git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
             range="${PUSH_BEFORE}..HEAD"

@@ -47,6 +47,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from _branch_authority import git_environment
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 DIGESTS_REL = "release/CORPUS-DIGESTS.txt"
@@ -67,7 +69,14 @@ RELEASE_SURFACE = ("release", "vectors", "vectors-ai-agent-action", ROOTS_REL)
 
 
 def run(command: list[str], root: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    return subprocess.run(
+        command,
+        cwd=root,
+        env=git_environment(root if command[0] == "git" else None),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
 
 
 def check_digests_current(root: Path) -> list[str]:
@@ -155,8 +164,7 @@ def check_timestamps(root: Path) -> list[str]:
         return [
             "the time evidence does not verify:\n"
             + "\n".join(
-                f"      {line}"
-                for line in (done.stdout + done.stderr).strip().splitlines()[-6:]
+                f"      {line}" for line in (done.stdout + done.stderr).strip().splitlines()[-6:]
             )
         ]
     return []

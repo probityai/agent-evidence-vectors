@@ -40,6 +40,9 @@ body:
         - "vectors-receipt-signature/"
         - "vectors-scitt-cose/"
         - "vectors-source-coverage/"
+        - "vectors-anchored-chain/"
+        - "vectors-a2a-jcs-v01/"
+        - "vectors-mcp-owasp/"
         - "vectors-self-reported-record/"
         - "vectors-w3c-report/"
     validations:
@@ -81,6 +84,21 @@ body:
         - "blind"
         - "directed"
         - "part blind, part directed (say which in the notes)"
+    validations:
+      required: true
+  - type: dropdown
+    id: run-label
+    attributes:
+      label: Who wrote the code that ran
+      description: >
+        Independent if you ran an implementation this repository's author did not write.
+        Second-party, same code if you ran this repository's own verifier or a port of it.
+        Author-produced if you are this repository's author. Only an independent run counts
+        toward the independence column.
+      options:
+        - "independent"
+        - "second-party, same code"
+        - "author-produced"
     validations:
       required: true
   - type: input

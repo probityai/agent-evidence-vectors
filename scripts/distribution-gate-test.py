@@ -88,8 +88,15 @@ def _staged_copy(tmp: Path) -> Path:
     (root / "scripts").mkdir(parents=True)
     (root / FORM_REL.parent).mkdir(parents=True)
     shutil.copy2(REPO_ROOT / GATE_REL, root / GATE_REL)
-    for rel in (RECIPE_REL, PAGE_REL, CITATION_REL, FORM_REL, GOMOD_REL,
-                Path("README.md"), Path("docs/guides/runner.md")):
+    for rel in (
+        RECIPE_REL,
+        PAGE_REL,
+        CITATION_REL,
+        FORM_REL,
+        GOMOD_REL,
+        Path("README.md"),
+        Path("docs/guides/runner.md"),
+    ):
         (root / rel.parent).mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO_ROOT / rel, root / rel)
     for manifest in sorted(REPO_ROOT.glob("vectors*/MANIFEST.json")):
@@ -112,10 +119,25 @@ def _staged_copy(tmp: Path) -> Path:
     # The tag the page pins has to exist and has to carry this go.mod, because
     # that pair is exactly what the gate reads: the module path a consumer is
     # told to fetch, at the version they are told to pin it to.
-    _git(root, "tag", _install_of(root)[1])
+    _git(root, "tag", "-a", _install_of(root)[1], "-m", "published fixture")
     selected = subprocess.check_output(
-        ["git", "-C", str(root), "rev-parse", "HEAD"], text=True,
+        ["git", "-C", str(root), "rev-parse", "HEAD"],
+        text=True,
     ).strip()
+    tag_object = subprocess.check_output(
+        ["git", "-C", str(root), "rev-parse", "refs/tags/" + _install_of(root)[1]],
+        text=True,
+    ).strip()
+    citation = root / CITATION_REL
+    text = citation.read_text(encoding="utf-8")
+    text = re.sub(r"^  commit: \S+$", "  commit: " + selected, text, flags=re.MULTILINE)
+    text = re.sub(
+        r"(^      value: https://api.github.com/repos/probityai/agent-evidence-vectors/git/tags/)\S+",
+        lambda match: match.group(1) + tag_object,
+        text,
+        flags=re.MULTILINE,
+    )
+    citation.write_text(text, encoding="utf-8")
     for rel in (PAGE_REL, Path("README.md"), Path("docs/guides/runner.md")):
         path = root / rel
         # Exercise the supported source route even when the public pages use
@@ -124,18 +146,23 @@ def _staged_copy(tmp: Path) -> Path:
         text = re.sub(
             r"uvx agent-evidence-vectors==\S+",
             "uvx --from git+https://github.com/probityai/agent-evidence-vectors@"
-            + selected + " agent-evidence-vectors",
+            + selected
+            + " agent-evidence-vectors",
             path.read_text(encoding="utf-8"),
         )
         text = re.sub(
             r"(uvx --from git\+https://github.com/probityai/agent-evidence-vectors@)\S+",
-            rf"\g<1>{selected}", text)
+            rf"\g<1>{selected}",
+            text,
+        )
         path.write_text(text, encoding="utf-8")
         # A post-condition, not a hope: a page that carries neither route would
         # leave every source-route case below without a target, and the report
         # would blame the cases or the gate instead of the staging.
-        source = ("uvx --from git+https://github.com/probityai/agent-evidence-vectors@"
-                  f"{selected} agent-evidence-vectors")
+        source = (
+            "uvx --from git+https://github.com/probityai/agent-evidence-vectors@"
+            f"{selected} agent-evidence-vectors"
+        )
         if not re.search(rf"^{re.escape(source)}(?:\s|$)", text, re.MULTILINE):
             raise AssertionError(
                 f"the staged {rel} carries no `uvx` command pinned to the staged commit, "
@@ -150,7 +177,9 @@ def _staged_copy(tmp: Path) -> Path:
     text = re.sub(
         r"(python3 scripts/verify-release-tag\.py v\S+)"
         r"(?:[ \t]*\\\n[ \t]*--expected-(?:commit|tag-object)[ \t]+\S+)+",
-        r"\g<1>", page.read_text(encoding="utf-8"))
+        r"\g<1>",
+        page.read_text(encoding="utf-8"),
+    )
     if not re.search(TAG_CHECK, text, re.MULTILINE):
         tag = _install_of(root)[1]
         text += f"\n```bash\npython3 scripts/verify-release-tag.py {tag}\n```\n"
@@ -221,7 +250,7 @@ def released_version(root: Path) -> str:
     green cases testing nothing for a whole release cycle.
     """
     text = (root / CITATION_REL).read_text(encoding="utf-8")
-    found = re.findall(r"^version:\s*(\S+)\s*$", text, re.MULTILINE)
+    found = re.findall(r"^  version:\s*(\S+)\s*$", text, re.MULTILINE)
     if len(found) != 1:
         raise SystemExit(
             f"test setup: {CITATION_REL} carries {len(found)} version lines; "
@@ -230,13 +259,66 @@ def released_version(root: Path) -> str:
     return str(found[0]).strip("'\"")
 
 
+def publication_mutation(pattern: str, replacement: str, phrase: str) -> Callable[[Path], str]:
+    def mutate(root: Path) -> str:
+        _edit(
+            root, CITATION_REL, lambda text: re.sub(pattern, replacement, text, flags=re.MULTILINE)
+        )
+        return phrase
+
+    return mutate
+
+
+def candidate_install_pin(rel: str, route: str) -> Callable[[Path], str]:
+    def mutate(root: Path) -> str:
+        candidate = re.search(r"^version: (\S+)$", (root / CITATION_REL).read_text(), re.MULTILINE)
+        assert candidate is not None
+        version = candidate.group(1)
+        patterns = {
+            "Go install": (r"(go install \S+@)v\S+", "v" + version),
+            "Python install": (
+                r"(uvx --from )\S+",
+                "git+https://github.com/probityai/agent-evidence-vectors@candidate",
+            ),
+            "GitHub Action": (r"(uses: probityai/agent-evidence-vectors@)v\S+", "v" + version),
+        }
+        pattern, pin = patterns[route]
+        _edit(
+            root, Path(rel), lambda text: re.sub(pattern, lambda match: match.group(1) + pin, text)
+        )
+        return (
+            "differs from release" if route != "Python install" else "differs from release source"
+        )
+
+    return mutate
+
+
+def unannotated_publication(root: Path) -> str:
+    name = _install_of(root)[1]
+    _git(root, "tag", "-d", name)
+    _git(root, "tag", name)
+    return "is not an annotated tag object"
+
+
+def candidate_tag_control() -> list[str]:
+    with tempfile.TemporaryDirectory() as raw:
+        root = _staged_copy(Path(raw))
+        version = re.search(r"^version: (\S+)$", (root / CITATION_REL).read_text(), re.MULTILINE)
+        assert version is not None
+        _git(root, "tag", "v" + version.group(1))
+        code, output = _run_gate(root)
+        return (
+            [f"a private candidate tag changed the published identity:\n{output}"] if code else []
+        )
+
+
 def case_tag_behind(root: Path) -> str:
     """The citation file moves to the next release and the prose does not."""
     current = released_version(root)
     _edit(
         root,
         CITATION_REL,
-        lambda text: text.replace(f"version: {current}", "version: 99.0.0", 1),
+        lambda text: text.replace(f"  version: {current}", "  version: 99.0.0", 1),
     )
     return "the released version is"
 
@@ -444,6 +526,7 @@ def case_recipe_pin_stale(root: Path) -> str:
 
 def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
     """Mutate an actual install command while other entry points stay correct."""
+
     def mutate(root: Path) -> str:
         patterns = {
             "Go install": r"(go install \S+@)v[^\s]+",
@@ -451,19 +534,29 @@ def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
             "GitHub Action": r"(- uses: probityai/agent-evidence-vectors@)v[^\s]+",
         }
         if route == "Python install":
-            _edit(root, Path(rel), lambda text: _sub(patterns[route],
-                  "uvx agent-evidence-vectors==99.0.0", text))
+            _edit(
+                root,
+                Path(rel),
+                lambda text: _sub(patterns[route], "uvx agent-evidence-vectors==99.0.0", text),
+            )
             return f"{rel}: {route} pin"
         prefix = "v"
-        _edit(root, Path(rel), lambda text: _sub(patterns[route],
-              rf"\g<1>{prefix}99.0.0", text))
+        _edit(
+            root,
+            Path(rel),
+            lambda text: _sub(patterns[route], rf"\g<1>{prefix}99.0.0", text),
+        )
         return f"{rel}: {route} pin"
+
     return mutate
 
 
 def missing_python_command(root: Path) -> str:
-    _edit(root, Path("README.md"), lambda text: _sub(
-        r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE))
+    _edit(
+        root,
+        Path("README.md"),
+        lambda text: _sub(r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE),
+    )
     return "README.md has no pinned Python install command"
 
 
@@ -474,28 +567,43 @@ def missing_runner_page(root: Path) -> str:
 
 def wrong_source_pin(pin: str) -> Callable[[Path], str]:
     """A present source command can still fetch the wrong owner, ref or bytes."""
+
     def mutate(root: Path) -> str:
-        _edit(root, Path("README.md"), lambda text: _sub(
-            r"(uvx --from )\S+( agent-evidence-vectors)",
-            rf"\g<1>{pin}\g<2>", text))
+        _edit(
+            root,
+            Path("README.md"),
+            lambda text: _sub(
+                r"(uvx --from )\S+( agent-evidence-vectors)", rf"\g<1>{pin}\g<2>", text
+            ),
+        )
         return "README.md: Python install pin"
+
     return mutate
 
 
 def conflicting_source_pins(root: Path) -> str:
-    _edit(root, Path("README.md"), lambda text: text +
-          "\nuvx --from git+https://github.com/probityai/agent-evidence-vectors@main "
-          "agent-evidence-vectors --self-test\n")
+    _edit(
+        root,
+        Path("README.md"),
+        lambda text: (
+            text + "\nuvx --from git+https://github.com/probityai/agent-evidence-vectors@main "
+            "agent-evidence-vectors --self-test\n"
+        ),
+    )
     return "README.md: Python install pin"
 
 
 def wrong_source_entry_point(root: Path) -> str:
     version = _install_of(root)[1][1:]
-    _edit(root, Path("README.md"), lambda text: _sub(
-        r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point",
-        text) + f"\nuvx agent-evidence-vectors=={version} --self-test\n")
+    _edit(
+        root,
+        Path("README.md"),
+        lambda text: (
+            _sub(r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point", text)
+            + f"\nuvx agent-evidence-vectors=={version} --self-test\n"
+        ),
+    )
     return "README.md: unrecognized Python install command"
-
 
 
 def stale_tag_check_command(root: Path) -> str:
@@ -515,19 +623,70 @@ def tag_check_pin(flag: str) -> Callable[[Path], str]:
 
 
 CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
-    ("a source command fetching another owner", wrong_source_pin(
-        "git+https://github.com/other-owner/agent-evidence-vectors@" + "0" * 40)),
-    ("a source command following a branch", wrong_source_pin(
-        "git+https://github.com/probityai/agent-evidence-vectors@main")),
-    ("a source command naming different immutable bytes", wrong_source_pin(
-        "git+https://github.com/probityai/agent-evidence-vectors@" + "0" * 40)),
+    ("an unannotated publication reference", unannotated_publication),
+    (
+        "a duplicated source version",
+        publication_mutation(
+            r"^version: (\S+)$", r"version: \g<1>\nversion: \g<1>", "one unambiguous source version"
+        ),
+    ),
+    (
+        "a false published source commit",
+        publication_mutation(
+            r"^  commit: \S+$", "  commit: " + "0" * 40, "published commit differs"
+        ),
+    ),
+    (
+        "a false published tag object",
+        publication_mutation(
+            r"(^      value: https://api.github.com/[^\n]+/git/tags/)\S+",
+            r"\g<1>" + "0" * 40,
+            "published annotated tag object differs",
+        ),
+    ),
+    (
+        "a preferred publication omitted",
+        publication_mutation(r"^preferred-citation:[\s\S]*$", "", "has no published citation"),
+    ),
+    (
+        "a preferred publication duplicated",
+        publication_mutation(
+            r"^preferred-citation:",
+            "preferred-citation:\n  version: 0.17.4\npreferred-citation:",
+            "repeats `preferred-citation:`",
+        ),
+    ),
+    *(
+        (f"candidate advertised as the published {route}", candidate_install_pin(rel, route))
+        for rel, route in (
+            ("README.md", "Go install"),
+            ("README.md", "Python install"),
+            ("docs/guides/runner.md", "GitHub Action"),
+        )
+    ),
+    (
+        "a source command fetching another owner",
+        wrong_source_pin("git+https://github.com/other-owner/agent-evidence-vectors@" + "0" * 40),
+    ),
+    (
+        "a source command following a branch",
+        wrong_source_pin("git+https://github.com/probityai/agent-evidence-vectors@main"),
+    ),
+    (
+        "a source command naming different immutable bytes",
+        wrong_source_pin("git+https://github.com/probityai/agent-evidence-vectors@" + "0" * 40),
+    ),
     ("a valid source pin beside a conflicting pin", conflicting_source_pins),
     ("a wrong source executable beside a valid registry pin", wrong_source_entry_point),
-    *((f"{rel} retains a stale {route} pin", stale_consumer_pin(rel, route))
-      for rel in ("README.md", "DISTRIBUTION.md", "docs/guides/runner.md")
-      for route in ("Go install", "Python install")),
-    ("runner retains a stale Action pin",
-     stale_consumer_pin("docs/guides/runner.md", "GitHub Action")),
+    *(
+        (f"{rel} retains a stale {route} pin", stale_consumer_pin(rel, route))
+        for rel in ("README.md", "DISTRIBUTION.md", "docs/guides/runner.md")
+        for route in ("Go install", "Python install")
+    ),
+    (
+        "runner retains a stale Action pin",
+        stale_consumer_pin("docs/guides/runner.md", "GitHub Action"),
+    ),
     ("README Python command disappears", missing_python_command),
     ("runner guide disappears", missing_runner_page),
     ("a command fixed in one copy of the recipe and not the other", case_recipe_drift),
@@ -575,10 +734,13 @@ def registry_control_failures() -> list[str]:
             text, count = re.subn(
                 r"uvx --from \S+ agent-evidence-vectors",
                 "uvx agent-evidence-vectors==" + version,
-                path.read_text(encoding="utf-8"))
+                path.read_text(encoding="utf-8"),
+            )
             if count == 0:
-                return [f"the registry-pin control converted nothing in {rel}, "
-                        "so it would pass on the source route and test no registry pin"]
+                return [
+                    f"the registry-pin control converted nothing in {rel}, "
+                    "so it would pass on the source route and test no registry pin"
+                ]
             path.write_text(text, encoding="utf-8")
         code, output = _run_gate(registry)
         if code != 0:
@@ -619,7 +781,9 @@ def main() -> int:
         print(f"distribution-gate-test: FAILED\n  - {found[0]}")
         return 1
     try:
-        failures = registry_control_failures() + tag_pin_control_failures()
+        failures = (
+            registry_control_failures() + tag_pin_control_failures() + candidate_tag_control()
+        )
     except AssertionError as exc:
         print(f"distribution-gate-test: FAILED\n  - staging: {exc}")
         return 1

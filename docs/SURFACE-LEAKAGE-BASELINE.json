@@ -1,38 +1,38 @@
 {
   "$comment": "What each surface of each corpus measures, and the NULL it is held to: the same estimator over the same features with the labels shuffled, which is what that surface produces when it carries no information at all. Written by scripts/surface-leakage-gate.py --sync and enforced by the same script with no argument. A figure above its recorded `separability` refuses, whether or not it is outside its null. A figure outside its `null` is a regularity shuffling does not reproduce, and refuses unless the row names the constraint blocking it; a row naming one after coming back inside its null refuses as a stale declaration. `fingerprint` is the class counts the null was calibrated over, because those set its level. Do not raise a number here to quiet the gate.",
-  "nullDraws": 20,
-  "nullQuantile": 0.95,
+  "nullDraws": 2000,
+  "nullQuantile": 0.9972222222222222,
   "tolerance": 0.02,
   "corpora": {
     "vectors": {
       "fingerprint": {
-        "accept": 61,
-        "reject": 218
+        "accept": 63,
+        "reject": 220
       },
       "surfaces": {
         "identifier": {
-          "separability": 0.5074,
-          "null": 0.5074
+          "separability": 0.5095,
+          "null": 0.5095
         },
         "file": {
-          "separability": 0.5126,
-          "null": 0.5852
+          "separability": 0.5009,
+          "null": 0.6128
         },
         "shape": {
-          "separability": 0.5018,
-          "null": 0.5843
+          "separability": 0.5049,
+          "null": 0.5809
         },
         "paths": {
-          "separability": 0.5472,
-          "null": 0.5767
+          "separability": 0.5573,
+          "null": 0.5876
         },
         "lexicon": {
-          "separability": 0.5607,
-          "null": 0.6018
+          "separability": 0.5601,
+          "null": 0.6128
         },
         "all": {
-          "separability": 0.5643,
-          "null": 0.5861
+          "separability": 0.5665,
+          "null": 0.608
         }
       }
     },
@@ -48,23 +48,23 @@
         },
         "file": {
           "separability": 0.5103,
-          "null": 0.6009
+          "null": 0.6663
         },
         "shape": {
           "separability": 0.5494,
-          "null": 0.5933
+          "null": 0.6129
         },
         "paths": {
           "separability": 0.5337,
-          "null": 0.689
+          "null": 0.6615
         },
         "lexicon": {
           "separability": 0.5544,
-          "null": 0.6735
+          "null": 0.6851
         },
         "all": {
           "separability": 0.5268,
-          "null": 0.673
+          "null": 0.6837
         }
       }
     },

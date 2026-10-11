@@ -1004,6 +1004,19 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # These transport and fixture values have no corpus population meaning.
+    # The real process, nonce and large-member controls hold their contracts.
+    *(
+        Delegated(path, name, pattern, "scripts/pre-push-pool-test.py")
+        for path, name, pattern in (
+            ("scripts/pre-push-pool.py", "the fixed hexadecimal nonce width",
+             r"\[0-9a-f\]\{\d+\}"),
+            ("scripts/pre-push-pool-test.py", "the cancellation fixture wait in seconds",
+             r"time\.sleep\(\d+\)"),
+            ("scripts/pre-push-pool-test.py", "the large-member fixture block count",
+             r"for _ in range\(\d+\):"),
+        )
+    ),
     # The W3C report corpus's per-requirement mutation tally. The file is emitted
     # by that corpus's generator and held byte-identical by the regenerability
     # gate, so every figure in its table belongs to that ledger, not this one.
@@ -1203,6 +1216,167 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- an outside implementer's reported results, recorded as posted.
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported raw-path result",
+        '`7a3197d`: raw 53/53, signing',
+        'A result an outside implementer reported for a past run against his own case set. It '
+        'records that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'RUNS.md',
+        "an outside author's reported signing, verify and negative-control results",
+        '57/57, verify 57/57 and negative control 53/57',
+        'Results an outside implementer reported for a past run against his own case set. They '
+        'record that report as posted and must not track this corpus.',
+    ),
+    # ---- integers that equal a figure of this corpus at suiteRevision 31 and
+    # count something else: a file count, a date, a byte length, a pull request
+    # number, or a result recorded once. Each records what it says and none of
+    # them tracks the corpus.
+    Frozen(
+        '.github/workflows/e2-reproduction.yml',
+        "the interop package's input file count",
+        'hash-check all 31 inputs',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the number of input files the priorseal reproduction fetches.',
+    ),
+    Frozen(
+        'interop/aps-priorseal-e2-2026-09-30/README.md',
+        'the priorseal input file count, fetch step',
+        'downloads the 31 files and checks',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the number of input files the priorseal reproduction fetches.',
+    ),
+    Frozen(
+        'interop/aps-priorseal-e2-2026-09-30/README.md',
+        'the priorseal input file count, CI step',
+        'checks all 31 inputs, and',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the number of input files the priorseal reproduction fetches.',
+    ),
+    Frozen(
+        'interop/aps-priorseal-e2-2026-09-30/SPEC-GAPS.md',
+        'a comment number in a third-party thread',
+        'aeoess (comment 31): "The fixtures',
+        "An integer that counts something other than this corpus and equals one of its figures by"
+        " coincidence: the number of a comment in another project's thread.",
+    ),
+    Frozen(
+        'crosswalks/aee-to-trace-and-runtime-trace.md',
+        'the date of an IETF draft, header',
+        '`draft-marques-asqav-compliance-receipts-08`, dated 31 August 2026 and expiring',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the day of the month an IETF draft is dated.',
+    ),
+    Frozen(
+        'crosswalks/aee-to-trace-and-runtime-trace.md',
+        'the date of an IETF draft, sources',
+        '`draft-marques-asqav-compliance-receipts-08`, dated 31 August 2026.',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the day of the month an IETF draft is dated.',
+    ),
+    Frozen(
+        'docs/W3C-V01-CONFORMANCE-APPENDIX.md',
+        'the pass count of the report written at tag v0.12.0',
+        '`v0.12.0` (239 fail, 31 pass, 2 inconclusive),',
+        'The breakdown of a report written against the corpus at a past tag. It describes that '
+        'tag and must not track the current corpus.',
+    ),
+    Frozen(
+        'docs/proposals/ai-agent-action-round7.md',
+        'an in-toto ITE pull request number',
+        '[in-toto/ITE#63](https://github.com/in-toto/ITE/pull/63):',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: the number of a pull request in another repository.',
+    ),
+    Frozen(
+        'scripts/_decoding.py',
+        'the statement files in the measured identity-scan range',
+        'range carrying 31 statement files',
+        'The size of one commit range measured once when the decoding scan was built. It records '
+        'that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/_decoding.py',
+        'the findings the measured identity-scan range produced',
+        'host produced 31 findings, 20',
+        'The finding count of one commit range measured once when the decoding scan was built. It'
+        ' records that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/pre-push-identity-scan.py',
+        'the statement files in the measured identity-scan range',
+        'carrying 31 statement files',
+        'The size of one commit range measured once when the decoding scan was built. It records '
+        'that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/pre-push-identity-scan.py',
+        'the findings the measured identity-scan range produced',
+        'produced 31 findings, 20',
+        'The finding count of one commit range measured once when the decoding scan was built. It'
+        ' records that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/pre-push-identity-scan-test.py',
+        'the statement files in the measured identity-scan range',
+        '31 statement files',
+        'The size of one commit range measured once when the decoding scan was built. It records '
+        'that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/pre-push-identity-scan-test.py',
+        'the findings the measured identity-scan range produced',
+        'host produced 31',
+        'The finding count of one commit range measured once when the decoding scan was built. It'
+        ' records that measurement and must not track the corpus.',
+    ),
+    Frozen(
+        'scripts/regenerability-gate.py',
+        'the member count of a sibling corpus',
+        'digest and all 31 identifiers',
+        'The member count of a different corpus at the time a regeneration renamed its members. '
+        'It records that event and must not track this corpus.',
+    ),
+    Frozen(
+        'scripts/spec-anchor-gate-test.py',
+        'the case count of a past test-directory incident',
+        'whether any of the 31 cases held.',
+        'The size of a test directory at the time of a past teardown fault. It records that '
+        'incident and must not track the corpus.',
+    ),
+    Frozen(
+        'vectors-receipt-signature/gen_vectors.py',
+        'the zero-byte length of the upstream key-seed recipe',
+        "suite's recipe: 31 zero bytes and",
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length fixed by an upstream test-vector recipe.',
+    ),
+    Frozen(
+        'vectors-receipt-signature/gen_vectors.py',
+        'the zero-byte length of the upstream key seeds',
+        '"31 zero bytes and',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length fixed by an upstream test-vector recipe.',
+    ),
+    Frozen(
+        'vectors/reject/INDEX.md',
+        'the length of a truncated digest',
+        'truncated to 63 hex chars; verbatim',
+        "An integer that counts something other than this corpus and equals one of its figures by"
+        " coincidence: the length of a digest truncated by one character, a property of SHA-256's"
+        " hex form.",
+    ),
+    Frozen(
+        'vectors/reject/gen_invalid_vectors.py',
+        'the length of a truncated digest',
+        'truncated to 63 hex chars; verbatim',
+        "An integer that counts something other than this corpus and equals one of its figures by"
+        " coincidence: the length of a digest truncated by one character, a property of SHA-256's"
+        " hex form.",
+    ),
     # Author-produced measurements made before CI integration. Only these exact
     # dated spans are historical; the README's live case count is derived above.
     *(
@@ -1475,6 +1649,14 @@ FROZEN: tuple[Frozen, ...] = (
         "totals equal the corpus's own at the time, which is the collision this "
         "census exists to surface, and restating either against a later corpus "
         "would attribute a run to bytes it never saw.",
+    ),
+    Frozen(
+        "RUNS.md",
+        "the moltrust-api author's four reported results, as posted on A2A#1882",
+        "raw 53/53, signing 57/57, verify 57/57 and negative control 53/57",
+        "Results an outside author reported for his own runner on two named "
+        "corpus states. They record a past run of another project's code and "
+        "must not track this corpus.",
     ),
     Frozen(
         "RUNS.md",
@@ -2213,6 +2395,14 @@ MASKS = tuple(
         # counter reaches. Re-derive the family with:
         #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
         r"\bsrr-c-\d+\b",
+        # Draft OWASP MCP requirement and threat identifiers, MCPVS-N and MCPTM-N,
+        # minted once in vectors-mcp-owasp/REGISTRY.json. They are named, never
+        # counted: `MCPVS-4` sits in a threat page a few characters from words
+        # the small-value vocabulary reads as nouns, and 4 and 5 equal counts the
+        # forcing sources publish, so unmasked the gate reported identifiers as
+        # stale copies of derived counts. Re-derive the family with:
+        #     git grep -ohE '\bMCP(VS|TM)-[0-9]+\b' | sort -u
+        r"\bMCP(?:VS|TM)-\d+\b",
         # Disposition-row identifiers, DC-NN. A row in the objection ledger is
         # named, not counted, and the number is as much an identifier as a vector
         # id is. Unmasked it collides on value with whatever small count the

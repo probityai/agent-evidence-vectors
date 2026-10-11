@@ -4,16 +4,17 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.17.4`, the version recorded in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.17.6`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
 population.
 
-This version packages the criterion documents for AI generation, MCP record
-contract and MCP response phase. These files were missing from the prior wheel
-and source archive. Use the published route after both artifacts are available,
-or build from a reviewed source checkout.
+This checkout prepares an unreleased source version with package metadata and
+criterion-document repairs. Those changes are not part of the published release.
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.17.6/).
+Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
 that checkout's full commit ID. A source pin identifies selected bytes; it
@@ -22,18 +23,18 @@ unchanged as historical evidence.
 
 ## Install the published release
 
-After both the signed tag and PyPI wheel are published, install matching versions:
+Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.4
-uvx agent-evidence-vectors==0.17.4 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.6
+uvx agent-evidence-vectors==0.17.6 --verifier "aee-verify --json"
 ```
 
-After the signed tag is published, run the same harness from its checkout:
+Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.17.4
+cd agent-evidence-vectors && git checkout v0.17.6
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -43,11 +44,11 @@ If your verifier disagrees with a vector, [report the run](docs/guides/report-ru
 
 ## Verify a release without trusting us
 
-After the signed tag is published, recompute the corpus digests, then check the signature and timestamp proofs:
+Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.17.4
+git checkout v0.17.6
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -92,6 +93,9 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
 | `vectors-receipt-signature/` | `receipt-signature-conformance` | signed decision receipts under draft-farley-acta-signed-receipts-03: the signing input, the key's validity window and the Section 6.6 rules, judged against an external key set with and without its windows |
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
+| `vectors-anchored-chain/` | `anchored-record-chain/v1` | signed agent memory records whose head is anchored outside the store: the storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity, including the ones that pass every signature check and fail only against the chain links or the anchor |
+| `vectors-a2a-jcs-v01/` | `a2a-agent-card-canonicalization-conformance` | RFC 8785 canonical bytes and the bytes an A2A Agent Card signature covers, vendored byte for byte from a2aproject/a2a-tck at a locked commit and corpus digest |
+| `vectors-mcp-owasp/` | `owasp-mcp-verification-draft` | draft MCP verification requirements MCPVS-1 to MCPVS-12 and threats MCPTM-1 to MCPTM-10, minted once in one registry, with one accept and one reject observation per requirement |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |
 | `vectors-self-reported-record/` | `self-reported-record-conformance` | a self-reported agent record: turn signatures under the named key, memory-read digests over the bytes at the named path, an attesting key outside the observed runtime's reach, ledgers that name one change set, and covering signatures on declared substrate coverage |
 | `vectors-w3c-report/` | `w3c-report-v01-conformance` | the W3C public-agent-conformance group's v0.1 per-check report: five states, the cause vocabulary, fourteen rejection rows and roll-up claims (including a declared no-void claim), as whole reports |
@@ -104,7 +108,7 @@ Add a sibling `vectors-<name>/` directory using the [corpus pull-request templat
 
 ## Reporting a run
 
-Use the [run form](.github/ISSUE_TEMPLATE/independent-run.yml) and retain the full report. [RUNS.md](RUNS.md) records outside implementation results; the [independence record](docs/research/independence.md) explains how they were produced.
+Use the [run form](.github/ISSUE_TEMPLATE/independent-run.yml) and retain the full report.
 
 ## Archive and identifiers
 

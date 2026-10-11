@@ -38,6 +38,8 @@ import tomllib
 from collections.abc import Callable
 from pathlib import Path
 
+import yaml
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "citation-metadata-gate.py"
 
@@ -59,7 +61,8 @@ QUIESCENT = {
     "gc.autoDetach": "false",
 }
 
-def stage(destination: Path) -> None:
+
+def stage(destination: Path, dated: bool = True) -> None:
     """Copy the tracked tree into a fresh git checkout.
 
     The census enumerates its subject with `git ls-files` rather than by walking
@@ -85,29 +88,69 @@ def stage(destination: Path) -> None:
         ["git", "add", "-A"],
     ):
         subprocess.run(command, cwd=destination, check=True, capture_output=True)
-    # And a COMMIT, because the gate now reads dates off the history: the release
-    # date is checked against the commit being described and against the tags that
-    # exist. A checkout with no HEAD is not a state any real clone is in, and
-    # staging one would have the gate report "nothing here can say", which is a
-    # true statement about an unreal tree.
+    original_text = (destination / CFF).read_text(encoding="utf-8")
+    original = yaml.safe_load(original_text)
+    preferred = original.get("preferred-citation")
+    if not isinstance(preferred, dict):
+        raise AssertionError("the source candidate must name a published citation")
+    published_text = original_text.split("preferred-citation:", 1)[0]
+    published_text = re.sub(
+        r"^version: \S+$",
+        "version: " + str(preferred["version"]),
+        published_text,
+        flags=re.MULTILINE,
+    )
+    # A release cut from an undated source candidate carries no top-level
+    # date-released; its date is the tagged commit's. Both shapes are published.
+    if dated:
+        published_text += 'date-released: "' + str(preferred["date-released"]) + '"\n'
+    (destination / CFF).write_text(published_text, encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=destination, check=True, capture_output=True)
+    instant = str(preferred["date-released"]) + "T12:00:00+0000"
+    commit_with_dates(destination, instant, instant)
     subprocess.run(
         [
             "git",
             "-c",
-            "user.email=citation-gate-test@example.invalid",
-            "-c",
             "user.name=citation gate test",
             "-c",
-            "commit.gpgsign=false",
-            "commit",
-            "-q",
+            "user.email=citation-gate-test@example.invalid",
+            "-c",
+            "tag.gpgsign=false",
+            "tag",
+            "-a",
+            "v" + str(preferred["version"]),
             "-m",
-            "staged copy",
+            "published citation fixture",
         ],
         cwd=destination,
         check=True,
         capture_output=True,
     )
+    preferred["commit"] = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"],
+        cwd=destination,
+        text=True,
+    ).strip()
+    tag_object = subprocess.check_output(
+        ["git", "rev-parse", "refs/tags/v" + str(preferred["version"])],
+        cwd=destination,
+        text=True,
+    ).strip()
+    preferred["identifiers"][0]["value"] = (
+        "https://api.github.com/repos/probityai/agent-evidence-vectors/git/tags/" + tag_object
+    )
+    original_text = re.sub(
+        r"^  commit: \S+$", "  commit: " + preferred["commit"], original_text, flags=re.MULTILINE
+    )
+    original_text = re.sub(
+        r"(^      value: https://api.github.com/[^\n]+/git/tags/)\S+",
+        lambda match: match.group(1) + tag_object,
+        original_text,
+        flags=re.MULTILINE,
+    )
+    (destination / CFF).write_text(original_text, encoding="utf-8")
+    fixture_commit(destination, "prepare an undated source candidate")
 
 
 def tag(root: Path, name: str) -> None:
@@ -134,8 +177,13 @@ def head_date(root: Path) -> str:
     return done.stdout.strip()
 
 
-def set_release_date(root: Path, value: str) -> None:
-    reword(root, CFF, r'date-released: "[^"]+"', f'date-released: "{value}"')
+def set_release_date(root: Path, value: str | None) -> None:
+    path = root / CFF
+    text = path.read_text(encoding="utf-8")
+    text = re.sub(r"^date-released:[^\n]*\n", "", text, flags=re.MULTILINE)
+    if value is not None:
+        text += f'date-released: "{value}"\n'
+    path.write_text(text, encoding="utf-8")
 
 
 def run(root: Path, timezone: str | None = None) -> tuple[int, str]:
@@ -163,16 +211,15 @@ def retype(root: Path, rel: str, pattern: str) -> None:
     """
     path = root / rel
     text = path.read_text(encoding="utf-8")
-    found = list(re.finditer(pattern, text))
+    source_text = text.split("preferred-citation:", 1)[0] if rel == CFF else text
+    found = list(re.finditer(pattern, source_text))
     if len(found) != 1:
         raise SystemExit(
             f"test setup: {len(found)} site(s) in {rel} match {pattern!r}, so this "
             "case would assert nothing. Fix the case, never the gate."
         )
     start, end = found[0].span(1)
-    path.write_text(
-        text[:start] + str(int(found[0].group(1)) + 1) + text[end:], encoding="utf-8"
-    )
+    path.write_text(text[:start] + str(int(found[0].group(1)) + 1) + text[end:], encoding="utf-8")
 
 
 def reword(root: Path, rel: str, pattern: str, replacement: str) -> None:
@@ -183,7 +230,8 @@ def reword(root: Path, rel: str, pattern: str, replacement: str) -> None:
     """
     path = root / rel
     text = path.read_text(encoding="utf-8")
-    found = list(re.finditer(pattern, text))
+    source_text = text.split("preferred-citation:", 1)[0] if rel == CFF else text
+    found = list(re.finditer(pattern, source_text))
     if len(found) != 1:
         raise SystemExit(
             f"test setup: {len(found)} span(s) in {rel} match {pattern!r}, so this "
@@ -262,9 +310,7 @@ STALE_CASES: list[Case] = [
 CENSUS_CASES: list[Case] = [
     (
         "a live corpus size typed into the citation record",
-        lambda root: append(
-            root, CFF, f"notes: the suite ships {corpus_total(root)} vectors\n"
-        ),
+        lambda root: append(root, CFF, f"notes: the suite ships {corpus_total(root)} vectors\n"),
         ("nothing accounts for it",),
     ),
 ]
@@ -283,8 +329,9 @@ DRIFT_CASES: list[Case] = [
         # than assert nothing, which is the design working: a case whose
         # mutation cannot be built is a case that proves nothing, and it says so
         # instead of passing.
-        lambda root: reword(root, CFF, r" for agent execution evidence",
-                            " for agent-execution-evidence"),
+        lambda root: reword(
+            root, CFF, r" for agent execution evidence", " for agent-execution-evidence"
+        ),
         ("titles disagree",),
     ),
     (
@@ -309,90 +356,41 @@ SOURCE_CASES: list[Case] = [
     ),
 ]
 
-def declared_version_tag() -> Mutation:
-    """Set a known-wrong date, then tag the staged copy at the version it declares.
 
-    Arm 1 of the gate's rule binds date-released to the commit date of the tag
-    named `v<version>`, so the case has to tag whatever version the file carries
-    rather than a version somebody wrote down when the case was added.
-    """
-
+def published_date(value: str | None) -> Mutation:
     def mutate(root: Path) -> None:
-        set_release_date(root, "2026-01-01")
-        text = (root / CFF).read_text(encoding="utf-8")
-        found = re.search(r"\nversion: (\S+)", text)
-        if found is None:
-            raise SystemExit(
-                "test setup: CITATION.cff in the staged copy declares no version, so "
-                "this case cannot know which tag to create and would assert nothing. "
-                "Fix the case, never the gate."
-            )
-        tag(root, f"v{found.group(1)}")
+        released_at_its_tag(root)
+        set_release_date(root, value)
 
     return mutate
 
 
-def dated_tag(name: str) -> Mutation:
-    """Set a known-wrong release date, then tag the staged copy.
-
-    A named function rather than a lambda pairing two calls: both helpers return
-    None, so a tuple expression would give the case a Mutation returning
-    tuple[None, None] and every type checker in this repository refuses it.
-    """
-
-    def mutate(root: Path) -> None:
-        set_release_date(root, "2026-01-01")
-        tag(root, name)
-
-    return mutate
-
-
-# The release date, which moves on exactly the same occasions as the version and
-# was checked by nothing. It stood at 2026-08-12 through two version bumps while
-# the tag it described was cut on 2026-09-02.
 DATE_CASES: list[Case] = [
-    # Each of these two SETS the date it needs rather than relying on the
-    # committed one being wrong. They used to tag the staged copy and let the
-    # repository's own stale value supply the disagreement, which worked only
-    # while that value was stale: the staged copy's single commit is made today,
-    # so the moment date-released became today's date -- which is exactly what
-    # cutting a release makes it -- neither case could construct its mutation
-    # and both reported that the gate had accepted a defect it was never shown.
     (
-        "the tag exists and the date is not its commit date",
-        declared_version_tag(),
-        # The version is not named here. It used to be, as "tag v0.10.0", and the
-        # first patch release moved the file out from under the case: the gate
-        # looks for the tag matching the version the file declares, found no
-        # v0.10.1, and answered from a different arm of its rule. The phrase
-        # below belongs to arm 1 and to no other, which is what the case is
-        # actually asserting.
+        "the published date differs from its tagged contents",
+        published_date("2026-01-01"),
         ("is on a commit dated",),
     ),
     (
-        "the date is older than the previous release",
-        dated_tag("v0.9.0"),
-        ("earlier than tag v0.9.0",),
+        "the published date is after its tagged contents",
+        published_date("2999-01-01"),
+        ("is on a commit dated",),
     ),
+    ("the published date is not a date", published_date("spring"), ("is not a YYYY-MM-DD date",)),
+    ("the published date is missing", published_date(None), ("carries no date-released",)),
     (
-        "the date is after the commit it describes",
-        lambda root: set_release_date(root, "2999-01-01"),
-        ("cannot predate its own contents",),
-    ),
-    (
-        "the date is not a date",
-        lambda root: set_release_date(root, "spring"),
-        ("is not a YYYY-MM-DD date",),
-    ),
-    (
-        "there is no date at all",
-        lambda root: reword(root, CFF, r'\ndate-released: "[^"]+"', ""),
-        ("carries no date-released",),
+        "the candidate claims a date inside the old allowed window",
+        lambda root: set_release_date(root, head_date(root)),
+        ("source candidate must not carry date-released",),
     ),
 ]
 
+
 def released_at_its_tag(root: Path) -> None:
     """The state the rule prescribes: a tag, and the date of that tag's commit."""
+    path = root / CFF
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text.split("preferred-citation:", 1)[0], encoding="utf-8")
     set_release_date(root, head_date(root))
     fixture_commit(root, "date the historical release")
     tag(root, f"v{source_version(root)}")
@@ -406,29 +404,104 @@ def source_version(root: Path) -> str:
 def fixture_commit(root: Path, message: str) -> None:
     subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
     subprocess.run(
-        ["git", "-c", "user.email=citation-gate-test@example.invalid", "-c",
-         "user.name=citation gate test", "-c", "commit.gpgsign=false", "commit",
-         "--allow-empty", "-qm", message],
-        cwd=root, check=True, capture_output=True,
+        [
+            "git",
+            "-c",
+            "user.email=citation-gate-test@example.invalid",
+            "-c",
+            "user.name=citation gate test",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "--allow-empty",
+            "-qm",
+            message,
+        ],
+        cwd=root,
+        check=True,
+        capture_output=True,
     )
 
 
 def newer_divergent_release(root: Path, *, advance: bool) -> None:
     """A newer release on another branch, with an exact old or advanced HEAD."""
     released_at_its_tag(root)
-    historical = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
-                                check=True, capture_output=True, text=True).stdout.strip()
+    historical = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+    ).stdout.strip()
     fixture_commit(root, "a release cut separately from the default branch")
     major, minor, patch = (int(part) for part in source_version(root).split("."))
     tag(root, f"v{major}.{minor + 1}.{patch}")
     # Reset is confined to this disposable fixture, never a real source checkout.
-    subprocess.run(["git", "reset", "--hard", historical], cwd=root,
-                   check=True, capture_output=True)
+    subprocess.run(
+        ["git", "reset", "--hard", historical], cwd=root, check=True, capture_output=True
+    )
     if advance:
         fixture_commit(root, "default branch advances without release metadata")
 
 
+def publication_field(key: str, value: object) -> Mutation:
+    def mutate(root: Path) -> None:
+        path = root / CFF
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        data["preferred-citation"][key] = value
+        path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+
+    return mutate
+
+
+def omit_publication(root: Path) -> None:
+    path = root / CFF
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text.split("preferred-citation:", 1)[0], encoding="utf-8")
+
+
 IDENTITY_CASES: list[Case] = [
+    (
+        "duplicate source versions are ambiguous",
+        lambda root: append(root, CFF, "version: " + source_version(root) + "\n"),
+        ("duplicate citation keys",),
+    ),
+    (
+        "duplicate published commits are ambiguous",
+        lambda root: append(root, CFF, "  commit: " + "0" * 40 + "\n"),
+        ("duplicate citation keys",),
+    ),
+    (
+        "candidate omits the published identity",
+        omit_publication,
+        ("complete preferred published citation",),
+    ),
+    (
+        "preferred source commit is false",
+        publication_field("commit", "0" * 40),
+        ("preferred-citation commit differs",),
+    ),
+    (
+        "preferred tag object is false",
+        publication_field("identifiers", []),
+        ("exact annotated tag object",),
+    ),
+    (
+        "preferred published date is false",
+        publication_field("date-released", "2026-01-01"),
+        ("preferred-citation date-released differs",),
+    ),
+    (
+        "preferred release URL is false",
+        publication_field("url", "https://example.invalid/"),
+        ("preferred-citation url differs",),
+    ),
+    (
+        "preferred citation authors differ from published bytes",
+        publication_field("authors", []),
+        ("authors differs from the published citation bytes",),
+    ),
+    (
+        "preferred version names an absent publication",
+        publication_field("version", "0.16.99"),
+        ("published tag v0.16.99 does not resolve",),
+    ),
     (
         "advanced source metadata misses a divergent newer release",
         lambda root: newer_divergent_release(root, advance=True),
@@ -442,7 +515,7 @@ ACCEPT_CASES: list[Case] = [
     (
         "the version is tagged and the date is that tag's commit date",
         released_at_its_tag,
-        ("release date consistent with the tag",),
+        ("published citation bound to its tag",),
     ),
     (
         "an exact historical release remains valid with a newer divergent tag",
@@ -457,12 +530,14 @@ ACCEPT_CASES: list[Case] = [
 ]
 
 
-def check(group: str, cases: list[Case], want_refusal: bool, tmp: Path) -> list[str]:
+def check(
+    group: str, cases: list[Case], want_refusal: bool, tmp: Path, dated: bool = True
+) -> list[str]:
     failures: list[str] = []
     for index, (name, mutate, phrases) in enumerate(cases):
         root = tmp / f"{group}{index}"
         root.mkdir()
-        stage(root)
+        stage(root, dated)
         mutate(root)
         code, output = run(root)
         if want_refusal and code == 0:
@@ -490,11 +565,24 @@ DATED_CUTS = (
 
 def commit_with_dates(root: Path, committer: str, author: str) -> None:
     subprocess.run(
-        ["git", "-c", "user.name=citation gate test", "-c",
-         "user.email=citation-gate-test@example.invalid", "-c", "commit.gpgsign=false",
-         "commit", "--quiet", "--allow-empty", "-m", "dated release"],
-        cwd=root, env={**os.environ, "GIT_COMMITTER_DATE": committer,
-                       "GIT_AUTHOR_DATE": author}, check=True, capture_output=True,
+        [
+            "git",
+            "-c",
+            "user.name=citation gate test",
+            "-c",
+            "user.email=citation-gate-test@example.invalid",
+            "-c",
+            "commit.gpgsign=false",
+            "commit",
+            "--quiet",
+            "--allow-empty",
+            "-m",
+            "dated release",
+        ],
+        cwd=root,
+        env={**os.environ, "GIT_COMMITTER_DATE": committer, "GIT_AUTHOR_DATE": author},
+        check=True,
+        capture_output=True,
     )
 
 
@@ -510,6 +598,10 @@ def timezone_date_checks(tmp: Path) -> list[str]:
         root = tmp / f"timezone{index}"
         root.mkdir()
         stage(root)
+        path = root / CFF
+        text = path.read_text(encoding="utf-8")
+        path.write_text(text.split("preferred-citation:", 1)[0], encoding="utf-8")
+        subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
         commit_with_dates(root, committer, author)
         version = re.search(r"^version: (\S+)$", (root / CFF).read_text(), re.MULTILINE)
         assert version is not None, "the staged citation has no version to tag"
@@ -526,33 +618,22 @@ def timezone_date_checks(tmp: Path) -> list[str]:
     return failures
 
 
-def release_order_checks(tmp: Path) -> list[str]:
-    """A newer instant can carry an earlier date label; keep the fallback bound."""
-    root = tmp / "release-order"
+def candidate_publication_checks(tmp: Path) -> list[str]:
+    """A private candidate tag neither publishes the candidate nor permits a date."""
+    root = tmp / "candidate-publication"
     root.mkdir()
     stage(root)
-    cuts = (
-        ("v0.14.0", "2026-10-05T00:30:00+1400", "2026-10-04T10:30:00+0000"),
-        ("v0.15.0", "2026-10-04T22:30:00-0400", "2026-10-05T02:30:00+0000"),
-    )
-    for name, committer, author in cuts:
-        commit_with_dates(root, committer, author)
-        subprocess.run(
-            ["git", "-c", "user.name=citation gate test", "-c",
-             "user.email=citation-gate-test@example.invalid", "-c", "tag.gpgsign=false",
-             "tag", "-a", name, "-m", name], cwd=root, check=True, capture_output=True,
-        )
-    commit_with_dates(root, "2026-10-05T03:00:00+0000", "2026-10-05T03:00:00+0000")
+    tag(root, "v" + source_version(root))
     failures: list[str] = []
     for timezone in TIMEZONES:
-        set_release_date(root, "2026-10-04")
         code, output = run(root, timezone)
         if code != 0:
-            failures.append(f"newest release by instant under {timezone}:\n{output}")
-        set_release_date(root, "2026-10-03")
+            failures.append(f"undated candidate with a private tag under {timezone}:\n{output}")
+        set_release_date(root, head_date(root))
         code, output = run(root, timezone)
-        if code == 0 or "earlier than tag v0.15.0 on 2026-10-04" not in output:
-            failures.append(f"wrong fallback date under {timezone}:\n{output}")
+        if code == 0 or "source candidate must not carry date-released" not in output:
+            failures.append(f"invented candidate release date under {timezone}:\n{output}")
+        set_release_date(root, None)
     return failures
 
 
@@ -567,8 +648,12 @@ def main() -> int:
         failures.extend(check("date", DATE_CASES, True, tmp))
         failures.extend(check("identity", IDENTITY_CASES, True, tmp))
         failures.extend(check("accept", ACCEPT_CASES, False, tmp))
+        failures.extend(check("undated-accept", ACCEPT_CASES[:1], False, tmp, dated=False))
+        failures.extend(
+            check("undated-identity", IDENTITY_CASES[2:6], True, tmp, dated=False)
+        )
         failures.extend(timezone_date_checks(tmp))
-        failures.extend(release_order_checks(tmp))
+        failures.extend(candidate_publication_checks(tmp))
     total = (
         len(STALE_CASES)
         + len(CENSUS_CASES)

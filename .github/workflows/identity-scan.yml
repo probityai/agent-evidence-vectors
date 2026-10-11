@@ -38,6 +38,12 @@ jobs:
       # outnumber the ones it allows.
       - name: the owner permit allows a repository path and nothing else
         run: python3 scripts/pre-push-identity-scan-test.py
+      # The local hook's default venue runs this same check before a push leaves
+      # (ruling of 2026-10-07); here it is the proof for a push that skipped it.
+      - name: the push-hygiene check refuses an oversized blob and a conflict marker
+        run: python3 scripts/push-hygiene-test.py
+      - name: no blob of 100 MiB or more and no conflict marker in the pushed tree
+        run: python3 scripts/push-hygiene.py --rev HEAD --base "origin/${{ github.event.repository.default_branch }}"
       - name: every commit in the push range is free of private paths, dossier names and product names
         env:
           PUSH_BEFORE: ${{ github.event.before }}

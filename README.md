@@ -6,7 +6,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 ## Try it
 
-From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.24+, Python 3.13+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
+From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.24+, Python 3.12+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
 
 ```bash
 git rev-parse HEAD
@@ -22,11 +22,11 @@ Open `conformance-report.json` for the per-vector results. A complete external r
 
 See [installation routes and release identity](DISTRIBUTION.md) for package availability and signature checks.
 
-After the signed tag and PyPI wheel are published, install the matching release (with Go's executable directory on your PATH):
+Select `v0.17.6` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.17.6/). Install the matching release with Go's executable directory on your `PATH`:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.4
-uvx agent-evidence-vectors==0.17.4 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.6
+uvx agent-evidence-vectors==0.17.6 --verifier "aee-verify --json"
 ```
 
 <a name="what-a-conformance-claim-must-show"></a>
@@ -49,12 +49,10 @@ Use the [GitHub Action](action.yml) to run the same check in your build and reta
 | --- | --- |
 | Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
 | Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
-| Understand what the fixtures test | [Corpus measurements](docs/research/corpus-measurements.md) |
-| Compare descriptor and decision IDs | [GovOps ID profile](interop/govops-capability-id/README.md) |
-| Check frozen execution boundaries | [REMORA boundary readers](interop/remora-boundary-readers/README.md) |
-| Find outside implementation results | [Run ledger](RUNS.md) and [independence record](docs/research/independence.md) |
+| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.17.6/docs/research/corpus-measurements.md) |
 | Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
 | Report a run or disagreement | [Run reporting](docs/guides/report-run.md) |
+| See who runs and uses the corpora | [Independent runs](docs/INDEPENDENT-RUNS.json), [Adopters](docs/ADOPTERS.md) |
 
 <a name="what-the-suite-judges"></a>
 <a name="one-harness-judges-every-corpus-here"></a>
@@ -69,7 +67,7 @@ Each corpus manifest records its source revision, digest and expected outcomes. 
 <a name="on-independence"></a>
 <a name="verify-a-release-without-trusting-us"></a>
 
-For fixture coverage, see [Corpus measurements](docs/research/corpus-measurements.md). For outside results, see [External records](docs/research/external-records.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
+For fixture coverage, see [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.17.6/docs/research/corpus-measurements.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
 
 <a name="layout"></a>
 <a name="the-go-witness-attestor-witnessattestor"></a>

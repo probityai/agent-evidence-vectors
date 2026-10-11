@@ -84,6 +84,14 @@ TIER_EXPECTATIONS = {
         "tierWithPinnedKey": ["unattested"],
         "tierWithoutKey": ["unattested"],
     },
+    # The twin of ok-020: the covering record's signature is DSSE PAE over the
+    # base64 text the envelope carries, not over the bytes it decodes to. A
+    # rail that runs PAE over the text attests this row; the pinned reading
+    # verifies it under no key.
+    "ok-056-pae-over-base64-text": {
+        "tierWithPinnedKey": ["unattested"],
+        "tierWithoutKey": ["unattested"],
+    },
     # The payload embeds a tempting public key. Pinned out of band the row is
     # attested; with nothing pinned it stays unattested, because the substrate
     # root is never inferred from the predicate.

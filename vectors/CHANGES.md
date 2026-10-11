@@ -5,6 +5,46 @@ The vector corpus is a versioned, immutable-per-revision artifact. A published
 or a corpus addition bumps the revision and regenerates the vectors
 byte-identically from the generators.
 
+## suiteRevision 31 (vectors for the settled readings that had none)
+
+- **The settled-readings page pins readings the specification text left open, and
+  three of them had no vector.** This revision adds them, so each reading is now
+  forced by bytes rather than stated in prose alone.
+- **An absent `containmentObserved` is outside the carried labels.**
+  `va8ff24a38152fc31` is an artifact row with the member omitted and the carried
+  result `fail`, which is valid: the row fail-closes exactly as an
+  out-of-vocabulary label does. `vc6934681b519c0ce` is the same statement with the
+  carried result `pass` and is refused with `result-recompute-mismatch`. A rail
+  that treats the omission as a well-formedness fault only, and recomputes over
+  the remaining rows, inverts both.
+- **A noncharacter reached through an escaped surrogate pair is refused.**
+  `v8a1b8a3333981552` carries U+1FFFE in a vocabulary label spelled as the pair
+  `🿾`. Each half is a legal surrogate and the pair is correctly
+  ordered, so a check that tests each escape on its own passes it; only the
+  reassembled code point is a fault.
+- **DSSE PAE runs over the decoded payload bytes, never over the base64 text.**
+  `vf56664ac324b6613` is the twin of the shipped non-PAE vector: its covering
+  record is signed over the pre-authentication encoding of the base64 text the
+  envelope carries. Per the rule that a signature is never a validity fault, the
+  statement is valid and the row is `unattested` under both key policies. A rail
+  that runs PAE over the text attests it, and the tier column catches that.
+- **The pairing still holds across the four additions**: all 220 reject vectors declare a
+  parent that ships as an accept vector. **170 of the 220 reject vectors are now
+  exactly one mutation from their declared parent**, one more than at revision 30.
+  The remaining 50 cannot express their declared fault in a single edit and stay
+  declared in `docs/MULTI-MUTATION-VECTORS.json` with a count and a reason each; the
+  surrogate-pair vector joins that list for the same reason as its single-escape sibling.
+- Corpus: **285 vectors (63 accept, 220 reject, 2 indeterminate)**, four more than
+  suiteRevision 30. No existing vector file changes.
+- **The safe-integer rule binds a number's value, not its spelling.** The
+  settled-readings page now says so, matching the exponent-form reject vectors
+  and both reference rails: RFC 8785 canonicalization erases the written form,
+  so a rule keyed to it would give two verdicts on one canonical value. No vector
+  changes for this.
+- **What this revision does not exercise.** An accept-side exponent-form literal:
+  RFC 8785 writes a number in exponent form only at or above `1e21`, which the
+  bound refuses, or below `1e-6`, which is not integral.
+
 ## suiteRevision 30 (the result recompute is total, and the two rails are measured against each other)
 
 - **This corrects a defect in one of our own reference rails, and the defect was a

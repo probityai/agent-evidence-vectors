@@ -12,9 +12,9 @@ Running "the checks I happened to read" is not running the checks. So this
 reads the workflows themselves and runs every shell step in them, in file and
 step order, and it is deliberately noisy about the ones it cannot run.
 
-    python3 scripts/workflow-steps-gate.py            # every workflow
-    python3 scripts/workflow-steps-gate.py --list     # show the plan, run nothing
-    python3 scripts/workflow-steps-gate.py --only no-internal-drafts
+    .venv/bin/python -B scripts/workflow-steps-gate.py            # every workflow
+    .venv/bin/python -B scripts/workflow-steps-gate.py --list     # show the plan, run nothing
+    .venv/bin/python -B scripts/workflow-steps-gate.py --only no-internal-drafts
 
 Exit 0 only when every runnable step exited 0. Any native step failure, unknown
 action or expression, invalid source binding,
@@ -36,14 +36,30 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import time
+import zipfile
 from collections.abc import Callable, Iterator, Mapping
 from typing import Any, NamedTuple
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
+from _branch_authority import (  # noqa: E402
+    capture_authority,
+    frozen_refs,
+    git_environment,
+    require_frozen_commit,
+    require_packet,
+)
+from _gate_json import decode_json  # noqa: E402
+from _go_selector import (
+    SETUP_GO_REVISION,  # noqa: E402
+    go_selector,  # noqa: E402
+)
 from _lockfile import single_instance  # noqa: E402
+from _native_provider import digest as provider_digest  # noqa: E402
+from _native_provider import ensure as ensure_provider  # noqa: E402
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 WORKFLOWS = REPO / ".github" / "workflows"
@@ -52,7 +68,7 @@ WORKFLOWS = REPO / ".github" / "workflows"
 def git(root: pathlib.Path, *args: str) -> bytes:
     """Read or change only the Git repository explicitly named by the caller."""
     return subprocess.run(  # noqa: S603 -- fixed Git commands, explicit repository
-        ["git", "-C", str(root), *args], capture_output=True, check=True
+        ["git", "-C", str(root), *args], capture_output=True, check=True, env=git_environment(root)
     ).stdout
 
 
@@ -66,6 +82,7 @@ def optional_git(root: pathlib.Path, *args: str) -> str:
         capture_output=True,
         text=True,
         check=False,
+        env=git_environment(root),
     )
     return proc.stdout.strip() if proc.returncode == 0 else ""
 
@@ -119,6 +136,7 @@ def committed_inventory(root: pathlib.Path, revision: str) -> dict[str, dict[str
         input="".join(f"{identity}\n" for _, identity, _ in entries).encode(),
         capture_output=True,
         check=True,
+        env=git_environment(root),
     )
     cursor = 0
     files = {}
@@ -141,7 +159,7 @@ def committed_inventory(root: pathlib.Path, revision: str) -> dict[str, dict[str
 class Source:
     """An immutable input revision; every job gets its own Git database and files."""
 
-    def __init__(self, root: pathlib.Path) -> None:
+    def __init__(self, root: pathlib.Path, branch_authority: dict[str, Any]) -> None:
         self.root = root.resolve()
         self.head = git(root, "rev-parse", "HEAD").decode().strip()
         self.tree = git(root, "rev-parse", "HEAD^{tree}").decode().strip()
@@ -166,11 +184,12 @@ class Source:
             r"(?:https://github\.com/|git@github\.com:)([^/]+/[^/]+?)(?:\.git)?", self.origin
         )
         self.repository = match.group(1) if match else ""
-        self.default_branch = optional_git(
-            root, "symbolic-ref", "-q", "refs/remotes/origin/HEAD"
-        ).removeprefix("refs/remotes/origin/")
+        self.branch_authority = branch_authority
+        self.authority = require_packet(root, branch_authority)
+        self.default_branch = self.authority["default_branch"]
 
     def verify(self) -> None:
+        require_packet(self.root, self.branch_authority)
         if (
             git(self.root, "rev-parse", "HEAD").decode().strip() != self.head
             or git(self.root, "rev-parse", "HEAD^{tree}").decode().strip() != self.tree
@@ -195,6 +214,7 @@ class Source:
             ],
             capture_output=True,
             check=True,
+            env=git_environment(self.root),
         )
         git(
             destination,
@@ -216,6 +236,7 @@ class Source:
             or inventory(destination) != self.files
         ):
             raise ValueError("job checkout does not reproduce the selected source and tags")
+        require_packet(destination, self.branch_authority)
 
     def context(self, temp: pathlib.Path) -> dict[str, str]:
         return {
@@ -324,8 +345,12 @@ def own_action(inputs: dict[str, Any]) -> Local:
 
     The installation step is the runner's: it pip-installs the package into the
     job's environment, and the harness it installs is the file on disk here.
-    The job summary is written to a scratch file, and the artifact upload is
-    not mirrored at all.
+    A verifier the action names as `python -m agent_evidence_vectors.<module>`
+    imports that installed package, so the mirror puts this checkout's package
+    first on PYTHONPATH. Without it the import resolved to whatever older copy
+    the first interpreter on PATH had installed, and a replay the remote passed
+    failed every vector here. The job summary is written to a scratch file, and
+    the artifact upload is not mirrored at all.
     """
     verifier = str(inputs.get("verifier", "")).strip()
     if not verifier:
@@ -340,6 +365,7 @@ def own_action(inputs: dict[str, Any]) -> Local:
     return Local(
         ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
         f'report_path="$RUNNER_TEMP"/{shlex.quote(report_name)}\n'
+        'export PYTHONPATH="$PWD/packaging${PYTHONPATH:+:$PYTHONPATH}"\n'
         "status=0\n"
         "python3 packaging/run_vectors.py"
         f" --corpus {shlex.quote(corpus)}"
@@ -395,16 +421,17 @@ def setup_python(inputs: dict[str, Any]) -> Local:
     """
     wanted = str(inputs.get("python-version", "")).strip()
     if not wanted:
-        return Local(None, "actions/setup-python was used without a python-version input")
+        return Local(None, "actions/setup-python was used without a python-version input", True)
     if not uv_python_available(wanted):
         return Local(
             None,
             f"actions/setup-python pins CPython {wanted}, which uv on this workstation "
             "cannot provide; the job's later steps are not run on a different interpreter",
+            True,
         )
     return Local(
-        f'uv venv -q --seed --python {shlex.quote(wanted)} "$RUNNER_TEMP/setup-python"\n'
-        'echo "$RUNNER_TEMP/setup-python/bin" >> "$GITHUB_PATH"\n',
+        f'uv venv -q --clear --seed --python {shlex.quote(wanted)} "$GITHUB_WORKSPACE/.venv"\n'
+        'echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"\n',
         "",
     )
 
@@ -454,6 +481,8 @@ CANNOT_RUN = {
 def local_equivalent(uses: str, inputs: dict[str, Any]) -> Local:
     """Classify one marketplace step. Never returns a silent skip."""
     action = uses.split("@", 1)[0]
+    if action == "oven-sh/setup-bun":
+        return Local(None, "Bun needs the declared native provider bound to this job")
     builder = MIRRORED.get(action)
     if builder is not None:
         return builder(inputs)
@@ -687,6 +716,12 @@ class _Evaluator:
             return self.step_reference(text)
         if text in self.context:
             return self.context[text], ""
+        # GitHub fills `inputs` only for workflow_dispatch and workflow_call; on
+        # every other event the context is empty and each member reads as null.
+        # Without a declared event there is nothing to decide from, so refuse.
+        event = self.context.get("github.event_name")
+        if text.startswith("inputs.") and event and event not in INPUT_EVENTS:
+            return None, ""
         return None, (
             f"unsupported expression {self.shown}: `{text}` has no verified local context"
         )
@@ -773,7 +808,9 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
         return [{}], ""
     if not isinstance(matrix, dict):
         return [], f"its matrix is the expression {matrix!r}, which is not evaluated"
-    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    axes, reason = expand_axes(matrix)
+    if reason:
+        return [], reason
     if any(
         not isinstance(v, list) or any(isinstance(x, (dict, list)) for x in v)
         for v in axes.values()
@@ -793,6 +830,38 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
             added.append(row)
     combos = original + added
     return (combos, "") if combos else ([], "its matrix expands to no combination")
+
+
+def expand_axes(matrix: dict[str, Any]) -> tuple[dict[str, Any], str]:
+    """The matrix axes, with any `${{ fromJSON(...) }}` axis expanded."""
+    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    for name, value in list(axes.items()):
+        if isinstance(value, str):
+            expanded, reason = fromjson_axis(value)
+            if reason:
+                return {}, f"matrix axis {name}: {reason}"
+            axes[name] = expanded
+    return axes, ""
+
+
+def fromjson_axis(value: str) -> tuple[Any, str]:
+    """Expand an axis `${{ fromJSON(expr) }}` whose expr resolves locally.
+
+    Only an expression the evaluator can read without another job's outputs
+    is expanded (`inputs.x || '[...]'` on an event with no inputs). Anything
+    else is refused by name rather than guessed.
+    """
+    found = FROMJSON_AXIS.match(value.strip())
+    if found is None:
+        return None, f"the expression {value!r} is not evaluated"
+    raw, missing = evaluate(found.group(1), {}, None, {"github.event_name": LOCAL_EVENT})
+    if missing or not isinstance(raw, str):
+        return None, f"fromJSON over {found.group(1)!r} does not resolve locally"
+    try:
+        parsed = json.loads(raw)
+    except ValueError:
+        return None, f"fromJSON over {found.group(1)!r} is not JSON"
+    return parsed, ""
 
 
 def matrix_entries(entries: Any) -> bool:
@@ -976,7 +1045,7 @@ class JobState:
         self.temp.mkdir(parents=True, exist_ok=True)
         self.env: dict[str, str] = {}
         self.path: list[str] = []
-        # Set when a step that provisions the job's toolchain could not run;
+        # Set when a required binding or an unclassified action is unresolved;
         # every later step of the job is then NOT RUN with this reason.
         self.blocked = ""
         self.outputs: dict[str, dict[str, str]] = {}
@@ -988,30 +1057,32 @@ class JobState:
         self.repository = ""
         self.foreign: dict[str, dict[str, Any]] = {}
 
+    def block_failed_python_setup(self, step: Step, reason: str) -> bool:
+        """A failed interpreter binding blocks consumers, even when continued."""
+        if step.uses.split("@", 1)[0] != "actions/setup-python":
+            return False
+        self.blocked = f"the job's interpreter was not provisioned: {reason}"
+        return True
+
     def environment(self, base: dict[str, str]) -> dict[str, str]:
-        project_env = str(self.temp / "project-env")
+        project_env = str(self.root / ".venv")
         env = {
             **base,
             **self.env,
             "RUNNER_TEMP": str(self.temp),
             "GITHUB_WORKSPACE": str(self.root),
             "UV_PROJECT_ENVIRONMENT": project_env,
+            "VIRTUAL_ENV": project_env,
+            "UV_PYTHON": str(self.root / ".venv/bin/python"),
+            "UV_LINK_MODE": "copy",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "GIT_NO_LAZY_FETCH": "1",
+            "GIT_NO_REPLACE_OBJECTS": "1",
         }
-        env.pop("VIRTUAL_ENV", None)
-        if (self.temp / "setup-python").is_dir():
-            env["VIRTUAL_ENV"] = str(self.temp / "setup-python")
-            env["UV_PYTHON"] = str(self.temp / "setup-python" / "bin" / "python")
-        elif pathlib.Path(project_env).is_dir():
-            env["VIRTUAL_ENV"] = project_env
-        elif (self.temp / "baseline-python").is_dir():
-            env["VIRTUAL_ENV"] = str(self.temp / "baseline-python")
         if self.path:
             env["PATH"] = os.pathsep.join([*reversed(self.path), env.get("PATH", "")])
-        if pathlib.Path(project_env).is_dir() and not (self.temp / "setup-python").is_dir():
-            env["PATH"] = os.pathsep.join(
-                [str(pathlib.Path(project_env) / "bin"), env.get("PATH", "")]
-            )
-        return env
+        env["PATH"] = os.pathsep.join([str(self.root / ".venv/bin"), env.get("PATH", "")])
+        return git_environment(base=env)
 
     def provision_baseline(self, evidence: pathlib.Path) -> None:
         """Isolate the actual local interpreter, including fallback pip installs."""
@@ -1023,7 +1094,7 @@ class JobState:
             "--seed",
             "--python",
             sys.executable,
-            str(self.temp / "baseline-python"),
+            str(self.root / ".venv"),
         ]
         with (retained / "stdout").open("wb") as stdout, (retained / "stderr").open("wb") as stderr:
             proc = subprocess.run(  # noqa: S603 -- seed only this job's baseline environment
@@ -1031,6 +1102,7 @@ class JobState:
                 stdout=stdout,
                 stderr=stderr,
                 check=False,
+                env={**os.environ, "UV_LINK_MODE": "copy", "PYTHONDONTWRITEBYTECODE": "1"},
             )
         write_json(
             retained / "result.json",
@@ -1045,7 +1117,7 @@ class JobState:
             raise ValueError(
                 "job-owned baseline Python could not be provisioned; see retained output"
             )
-        self.path.append(str(self.temp / "baseline-python" / "bin"))
+        self.path.append(str(self.root / ".venv/bin"))
 
     def absorb(self, env: dict[str, str]) -> None:
         """Carry what the step just wrote to $GITHUB_ENV and $GITHUB_PATH forward."""
@@ -1075,11 +1147,16 @@ def run_step(
     workdir: str = "",
     root: pathlib.Path | None = None,
     evidence: pathlib.Path | None = None,
+    temp: pathlib.Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
     workspace = (root or REPO).resolve()
     directory = (workspace / workdir).resolve()
-    if not directory.is_relative_to(workspace):
-        raise ValueError("working-directory escapes the job checkout")
+    # A runner owns RUNNER_TEMP for the job, so a step may start there (the
+    # held-out workflow does, so the installed wheel answers rather than the
+    # checkout). Anywhere else outside the checkout is refused.
+    allowed = [workspace] + ([temp.resolve()] if temp is not None else [])
+    if not any(directory.is_relative_to(base) for base in allowed):
+        raise ValueError("working-directory escapes the job checkout and its runner temp")
     if not directory.is_dir():
         raise ValueError(f"working-directory {workdir!r} does not exist in the job checkout")
     if evidence is not None:
@@ -1111,9 +1188,21 @@ PROVIDES: dict[str, tuple[str, ...]] = {
     "sigstore/cosign-installer": ("cosign",),
     "actions/setup-go": ("go", "gofmt"),
     "actions/setup-node": ("node", "npm", "npx"),
+    "oven-sh/setup-bun": ("bun",),
     "astral-sh/setup-uv": ("uv", "uvx"),
 }
 CHECKOUT_BASE = "https://github.com"
+
+
+def unclassified_action(step: Step) -> bool:
+    """An unknown action can change every later command's unbound environment."""
+    action = step.uses.split("@", 1)[0]
+    return (
+        step.run is None
+        and action not in MIRRORED
+        and action not in CANNOT_RUN
+        and action not in PROVIDES
+    )
 
 
 def interpolate_inputs(step: Step, job: JobState, context: Mapping[str, str]) -> tuple[Step, str]:
@@ -1208,7 +1297,9 @@ def _fetch_into(
     )
     for index, command in enumerate(commands):
         try:
-            proc = subprocess.run(command, capture_output=True, check=False, timeout=900)  # noqa: S603 -- selected foreign checkout
+            proc = subprocess.run(  # noqa: S603 -- selected foreign checkout
+                command, capture_output=True, check=False, timeout=900, env=git_environment()
+            )
         except subprocess.TimeoutExpired as exc:
             (evidence / f"{index}.stdout.txt").write_bytes(exc.stdout or b"")
             (evidence / f"{index}.stderr.txt").write_bytes(exc.stderr or b"")
@@ -1235,6 +1326,11 @@ def main() -> int:
     ap.add_argument("--list", action="store_true", help="print the plan and run nothing")
     ap.add_argument("--only", metavar="NAME", help="run one workflow, by file stem")
     ap.add_argument(
+        "--branch-authority",
+        type=pathlib.Path,
+        help="use the source-bound primary metadata packet retained by the producer",
+    )
+    ap.add_argument(
         "--evidence-dir",
         type=pathlib.Path,
         help="retain job source, mutations and process bytes here",
@@ -1260,7 +1356,10 @@ def main() -> int:
     # lock is taken here rather than left to the individual steps so the refusal
     # arrives before any work starts, instead of partway through a long run.
     with single_instance("aee-workflow-steps-gate"):
-        return execute(files, args.evidence_dir)
+        authority = (
+            decode_json(args.branch_authority.read_bytes()) if args.branch_authority else None
+        )
+        return execute(files, args.evidence_dir, authority)
 
 
 def plan(files: list[pathlib.Path]) -> int:
@@ -1314,6 +1413,7 @@ def retain_job(job: JobState, source: Source, evidence: pathlib.Path) -> None:
             "head": git(job.root, "rev-parse", "HEAD").decode().strip(),
             "tree": git(job.root, "rev-parse", "HEAD^{tree}").decode().strip(),
             "tags": final_tags,
+            "branch_refs": frozen_refs(job.root),
             "files": final,
             "event_scope": local_context_scope(),
         },
@@ -1329,6 +1429,7 @@ def retain_job(job: JobState, source: Source, evidence: pathlib.Path) -> None:
     ):
         raise ValueError("job changed its source commit or selected tag refs; evidence retained")
     source.verify()
+    require_frozen_commit(job.root, source.authority)
 
 
 def retain_tracked_changes(
@@ -1372,6 +1473,7 @@ def retain_reports(job: JobState, evidence: pathlib.Path) -> None:
                         "project-env",
                         "setup-python",
                         "baseline-python",
+                        "provider-runtime",
                         "node_modules",
                         "target",
                         ".git",
@@ -1396,12 +1498,119 @@ def retain_reports(job: JobState, evidence: pathlib.Path) -> None:
             target = evidence / "reports" / label / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(path.read_bytes())
+    retain_provider_archives(job, evidence)
+    # Retain the original reports even if a declared public input later refuses.
+    retain_timestamp_inputs(job, evidence)
+
+
+def retain_provider_archives(job: JobState, evidence: pathlib.Path) -> None:
+    """Retain only the checksum-bound official archives selected by this job."""
+    for probe in job.provider_probes:
+        if "actualSha256" not in probe:
+            continue
+        kind, wanted = probe["kind"], probe["wanted"]
+        if kind not in {"go", "node", "bun"} or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", wanted):
+            raise ValueError("provider archive has no bounded input identity")
+        directory = probe["inputDirectory"]
+        if not re.fullmatch(
+            rf"provider-inputs/{kind}-{re.escape(wanted)}-[A-Za-z0-9_]+", directory
+        ):
+            raise ValueError("provider archive directory has no owned canonical identity")
+        name = "archive.zip" if kind == "bun" else "archive.tar.gz"
+        relative = pathlib.Path(directory) / name
+        source = job.temp / relative
+        if any(
+            (job.temp / pathlib.Path(*relative.parts[:i])).is_symlink()
+            for i in range(1, len(relative.parts) + 1)
+        ):
+            raise ValueError("provider archive input is a symbolic link")
+        if (
+            not source.is_file()
+            or type(probe["archiveBytes"]) is not int
+            or source.stat().st_size != probe["archiveBytes"]
+            or provider_digest(source) != probe["actualSha256"]
+        ):
+            raise ValueError("provider archive differs from the actual selected download")
+        target = evidence / "reports/runner-temp" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+
+
+def retain_timestamp_inputs(job: JobState, evidence: pathlib.Path) -> None:
+    """Keep only declared fixed public validation inputs, never arbitrary keys."""
+    candidate = job.temp / "timestamp-candidate"
+    manifest = candidate / "manifest.json"
+    if candidate.is_symlink() or manifest.is_symlink():
+        raise ValueError("timestamp capture manifest is a symbolic link")
+    if not manifest.exists():
+        return
+    if not manifest.is_file():
+        raise ValueError("timestamp capture manifest is not a regular file")
+    report = decode_json(manifest.read_bytes())
+    if (
+        report["sourceCommit"] != git(job.root, "rev-parse", "HEAD").decode().strip()
+        or report["sourceTree"] != git(job.root, "rev-parse", "HEAD^{tree}").decode().strip()
+    ):
+        raise ValueError("timestamp capture does not name the selected public source")
+    members = {member["path"]: member for member in report["members"]}
+    if len(members) != len(report["members"]):
+        raise ValueError("timestamp capture repeats a member")
+    for relative in (
+        "release/CORPUS-DIGESTS.txt.sig",
+        "release/CORPUS-DIGESTS.txt.sig.tsr",
+        "spec/tsa-roots.pem",
+    ):
+        member = members[relative]
+        if member["state"] not in {"present", "empty", "missing", "refused", "unreadable"}:
+            raise ValueError("timestamp capture has an unknown member state")
+        if member["state"] != "present":
+            continue
+        raw = timestamp_public_input(job, candidate, relative, member)
+        target = evidence / "reports/runner-temp/timestamp-candidate" / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+
+
+def timestamp_public_input(
+    job: JobState,
+    candidate: pathlib.Path,
+    relative: str,
+    member: dict[str, Any],
+) -> bytes:
+    """Read only a fixed public member with no symbolic-link path component."""
+    path = candidate
+    for part in pathlib.PurePosixPath(relative).parts:
+        path /= part
+        if path.is_symlink():
+            raise ValueError("declared timestamp input is a symbolic link")
+    if not path.is_file():
+        raise ValueError("declared timestamp input is not a regular file")
+    raw = path.read_bytes()
+    public = git(job.root, "show", f"HEAD:{relative}")
+    if (
+        raw != public
+        or type(member["bytes"]) is not int
+        or len(raw) != member["bytes"]
+        or hashlib.sha256(raw).hexdigest() != member["sha256"]
+    ):
+        raise ValueError("declared timestamp input differs from its public source or manifest")
+    return raw
 
 
 def resolve_inputs(
     step: Step, job: JobState, context: Mapping[str, str]
 ) -> tuple[Step, str | None, str, bool]:
     action = step.uses.split("@", 1)[0]
+    binds_job = (
+        action in PROVIDES
+        or action in ("actions/checkout", "actions/setup-python")
+        or unclassified_action(step)
+    )
+    # A proven false setup condition needs no inputs or provider. An attempted
+    # setup with unresolved inputs cannot leave consumers on ambient tools.
+    excluded = event_excludes(step.condition) if binds_job else ""
+    if excluded:
+        return step, None, excluded, False
     # Remote-only inputs cannot affect a command this mirror never runs.
     # Checkout and providers still need their local source/tool bindings.
     if (
@@ -1413,7 +1622,7 @@ def resolve_inputs(
         return step, *resolve_in_job(step, job)
     selected, problem = interpolate_inputs(step, job, context)
     if problem:
-        if step.uses.split("@", 1)[0] == "actions/checkout":
+        if binds_job:
             job.blocked = problem
         return selected, None, problem, True
     block, suffix, fault = resolve_in_job(selected, job)
@@ -1454,12 +1663,14 @@ def execute_job(
 ) -> None:
     context = job_context(steps, job, source)
     for step in steps:
+        require_frozen_commit(job.root, source.authority)
         retained = evidence / "steps" / str(step.position)
         retained.mkdir(parents=True)
         write_json(
             retained / "input.json",
             {"uses": step.uses, "with": step.inputs, "if": step.condition},
         )
+        failed_before_resolution = job.failed
         step, block, suffix, fault = resolve_inputs(step, job, context)
         env: dict[str, str] = {}
         directory = ""
@@ -1471,7 +1682,7 @@ def execute_job(
             if missing:
                 block, suffix, fault = None, missing, True
         if block is None:
-            job.failed += int(fault)
+            job.failed += int(fault and job.failed == failed_before_resolution)
             job.not_run.append(f"{step.label}  ({suffix})")
             write_json(
                 retained / "result.json",
@@ -1488,9 +1699,11 @@ def execute_job(
                 directory if step.run is not None else "",
                 job.root,
                 retained,
+                job.temp,
             )
         except (OSError, ValueError) as exc:
             job.failed += 1
+            job.block_failed_python_setup(step, str(exc))
             write_json(
                 retained / "result.json",
                 {"label": step.label, "status": "NOT_RUN", "reason": str(exc), "fault": True},
@@ -1499,7 +1712,10 @@ def execute_job(
             print(f"  NOT RUN  {step.label}  ({exc})")
             continue
         job.ran += 1
-        job.failed += int(proc.returncode != 0 and not step.continue_on_error)
+        provision_fault = proc.returncode != 0 and job.block_failed_python_setup(
+            step, f"actions/setup-python exited {proc.returncode}"
+        )
+        job.failed += int(proc.returncode != 0 and (provision_fault or not step.continue_on_error))
         outcome = "success" if proc.returncode == 0 else "failure"
         write_json(
             retained / "result.json",
@@ -1512,7 +1728,7 @@ def execute_job(
                 "stderr_sha256": hashlib.sha256((retained / "stderr").read_bytes()).hexdigest(),
             },
         )
-        if proc.returncode != 0 and step.continue_on_error:
+        if proc.returncode != 0 and step.continue_on_error and not provision_fault:
             print(f"  FAILED, continue-on-error  {step.label}  (exit {proc.returncode})")
         elif proc.returncode != 0:
             report_failure(step.label, proc)
@@ -1555,6 +1771,7 @@ def execute_owned_job(
             "head": source.head,
             "tree": source.tree,
             "tags": tags(root),
+            "branch_authority": source.branch_authority,
             "files": inventory(root),
             "event_scope": local_context_scope(),
             "checkout_seconds": setup_seconds,
@@ -1585,7 +1802,11 @@ def execute_owned_job(
     return job.ran, job.failed, job.not_run
 
 
-def execute(files: list[pathlib.Path], evidence_dir: pathlib.Path | None = None) -> int:
+def execute(
+    files: list[pathlib.Path],
+    evidence_dir: pathlib.Path | None = None,
+    branch_authority: dict[str, Any] | None = None,
+) -> int:
     ran = failed = 0
     not_run: list[str] = []
     base = step_base_environment(os.environ)
@@ -1601,7 +1822,12 @@ def execute(files: list[pathlib.Path], evidence_dir: pathlib.Path | None = None)
         return 1
     print(f"Evidence retained at {evidence}")
     try:
-        source = Source(REPO)
+        packet = (
+            capture_authority(REPO, evidence / "branch-authority")
+            if branch_authority is None
+            else branch_authority
+        )
+        source = Source(REPO, packet)
         print("CONTEXT_SCOPE declared_local_push_simulation event=push hosted_event_verified=false")
         write_json(
             evidence / "source-input.json",
@@ -1611,6 +1837,7 @@ def execute(files: list[pathlib.Path], evidence_dir: pathlib.Path | None = None)
                 "tags": source.tags,
                 "files": source.files,
                 "input_files": source.input_files,
+                "branch_authority": source.branch_authority,
                 "event": LOCAL_EVENT,
                 "event_scope": local_context_scope(),
             },
@@ -1692,10 +1919,22 @@ def resolve_in_job(step: Step, job: JobState) -> tuple[str | None, str, bool]:
                 return None, problem, True
             return ":", f"  (checked out {foreign} at {ref or 'HEAD'} into {where})", False
     block, suffix, fault = resolve(step)
-    if block is None and action == "actions/setup-python":
+    if fault and unclassified_action(step):
+        job.blocked = f"the job has an unclassified action with unbound effects: {suffix}"
+        return None, job.blocked, True
+    if block is None and action == "actions/setup-python" and not event_excludes(step.condition):
         job.blocked = f"the job's interpreter was not provisioned: {suffix}"
     if block is None and action in PROVIDES and not event_excludes(step.condition):
         job.blocked = provider_problem(step, job)
+        fault = fault or bool(job.blocked)
+        if not job.blocked and action == "oven-sh/setup-bun":
+            block = ":"
+            suffix = "  (declared native Bun runtime bound; hosted action not executed)"
+            return block, suffix, fault
+        suffix = job.blocked or (
+            f"{action} hosted action is not run here; declared native tools are bound, "
+            "with original capability probes retained"
+        )
     return block, suffix, fault
 
 
@@ -1714,48 +1953,61 @@ def self_checkout_problem(step: Step, job: JobState) -> str:
 
 
 def provider_problem(step: Step, job: JobState) -> str:
-    """Probe declared runner tools before any dependent shell starts."""
+    """Bind declared tools before dependent shells; required setup failures fail the gate."""
     action = step.uses.split("@", 1)[0]
     env = job.environment(step_base_environment(os.environ))
     tools = {tool: shutil.which(tool, path=env.get("PATH")) for tool in PROVIDES[action]}
-    probe: dict[str, Any] = {"action": action, "tools": tools, "hosted_provisioning": False}
+    probe: dict[str, Any] = {
+        "action": action,
+        "uses": step.uses,
+        "tools": tools,
+        "hosted_provisioning": False,
+    }
     job.provider_probes.append(probe)
-    if not all(tools.values()):
-        return f"{action} supplies tools not installed here: {tools}; no dependent shell ran"
     selector = {
-        "actions/setup-node": ("node-version", ["node", "--version"]),
-        "actions/setup-go": ("go-version", ["go", "version"]),
+        "actions/setup-node": ("node-version", "node"),
+        "actions/setup-go": ("go-version", "go"),
+        "oven-sh/setup-bun": ("bun-version", "bun"),
     }.get(action)
-    if selector is None or not step.inputs.get(selector[0]):
+    if selector is None:
+        if not all(tools.values()):
+            job.failed += 1
+            return f"{action} supplies tools not installed here: {tools}; no dependent shell ran"
         return ""
-    wanted = str(step.inputs[selector[0]]).removesuffix(".x")
-    proc = subprocess.run(selector[1], env=env, capture_output=True, check=False)  # noqa: S603 -- declared tool version probe
-    raw = job.temp / "provider-probes"
-    raw.mkdir(exist_ok=True)
-    index = len(job.provider_probes) - 1
-    (raw / f"{index}.stdout.txt").write_bytes(proc.stdout)
-    (raw / f"{index}.stderr.txt").write_bytes(proc.stderr)
-    job.failed += int(proc.returncode != 0)
-    probe.update(
-        command=selector[1],
-        returncode=proc.returncode,
-        stdout=proc.stdout.decode("utf-8", "replace"),
-        stderr=proc.stderr.decode("utf-8", "replace"),
-    )
-    installed = re.search(r"(?:go|v)([0-9]+(?:\.[0-9]+)+)", probe["stdout"])
-    if proc.returncode or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", wanted) or not installed:
-        return f"{action} version {wanted!r} could not be bound to an actual local tool"
-    if installed.group(1).split(".")[: len(wanted.split("."))] != wanted.split("."):
-        return (
-            f"{action} asks for {wanted}, actual local tool is {installed.group(1)}; "
-            "dependent steps not run"
-        )
+    wanted = str(step.inputs.get(selector[0], ""))
+    try:
+        if action == "actions/setup-go":
+            if step.uses != f"actions/setup-go@{SETUP_GO_REVISION}":
+                raise ValueError("native setup-go binding requires the captured action revision")
+            probe["selector_contract_revision"] = SETUP_GO_REVISION
+            wanted = go_selector(step.inputs, job.root, probe)
+        if selector[1] != "bun":
+            wanted = wanted.removesuffix(".x")
+        if action == "oven-sh/setup-bun" and set(step.inputs) != {"bun-version"}:
+            raise ValueError("native Bun binding supports only an explicit bun-version input")
+        binary, goroot = ensure_provider(selector[1], wanted, env, job.temp, probe)
+        if binary is not None:
+            job.path.append(str(binary))
+        if goroot is not None:
+            job.env["GOROOT"] = str(goroot)
+    except (OSError, ValueError, KeyError, TypeError, tarfile.TarError, zipfile.BadZipFile) as exc:
+        job.failed += 1
+        probe["failure"] = str(exc)
+        return f"{action} could not bind version {wanted!r}: {exc}; no dependent shell ran"
     return ""
 
 
 # The event a local run stands for. The pre-push hook mirrors a push, so a step
 # guarded to another event would not run on the remote for this push either.
 LOCAL_EVENT = "push"
+# The events whose payload carries an `inputs` context.
+INPUT_EVENTS = frozenset({"workflow_dispatch", "workflow_call"})
+# A matrix axis written as one fromJSON call, the shape a reusable workflow
+# uses to default a list it can also take as an input.
+FROMJSON_AXIS = re.compile(r"^\$\{\{\s*fromJSON\((.*)\)\s*\}\}$", re.DOTALL)
+# A condition that is exactly one input reference. On an event with no inputs
+# it reads as null, which is false, so the runner skips the step.
+INPUT_TEST = re.compile(r"^\s*(?:\$\{\{\s*)?inputs\.[A-Za-z0-9_-]+\s*(?:\}\})?\s*$")
 EVENT_TEST = re.compile(
     r"^\s*(?:\$\{\{\s*)?github\.event_name\s*(==|!=)\s*'([a-z_]+)'\s*(?:\}\})?\s*$"
 )
@@ -1764,10 +2016,16 @@ EVENT_TEST = re.compile(
 def event_excludes(condition: str) -> str:
     """The reason a step's `if:` is false for a push, or "" when it is not.
 
-    Only a bare comparison of github.event_name is decided here. Any other
+    Only a bare comparison of github.event_name, or a bare input reference
+    (null, so false, on an event with no inputs), is decided here. Any other
     expression is left to run as before, because deciding it wrongly would turn
     a step the remote runs into one this gate silently skips.
     """
+    if INPUT_TEST.match(condition) and LOCAL_EVENT not in INPUT_EVENTS:
+        return (
+            f"its condition `{condition.strip()}` reads an input, and a {LOCAL_EVENT} "
+            "carries no inputs, so it is null and false"
+        )
     match = EVENT_TEST.match(condition)
     if not match:
         return ""

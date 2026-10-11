@@ -1,0 +1,16 @@
+{
+  "observation": {
+    "calledServer": "B",
+    "receivedArguments": {
+      "path": "/tmp/report.txt"
+    },
+    "receivedHeaders": {
+      "Authorization": "Bearer token-for-b"
+    },
+    "tokens": {
+      "A": "token-for-a",
+      "B": "token-for-b"
+    }
+  },
+  "requirement": "MCPVS-3"
+}

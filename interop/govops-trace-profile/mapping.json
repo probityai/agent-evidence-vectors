@@ -1,0 +1,19 @@
+{
+ "entries": [
+  {
+   "action": "Bank::Action::\"Pay\"",
+   "capability_id": "invoke:funds-transfer",
+   "policy_store_id": "https://bank.example/policy-stores/payments",
+   "policy_store_version": "1.2.3",
+   "resource_type": "Bank::Payment"
+  },
+  {
+   "action": "Bank::Action::\"ViewBalance\"",
+   "capability_id": "read:account-balance",
+   "policy_store_id": "https://bank.example/policy-stores/payments",
+   "policy_store_version": "1.2.3",
+   "resource_type": "Bank::Account"
+  }
+ ],
+ "mapping_version": "3"
+}

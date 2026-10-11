@@ -15,6 +15,9 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | SCITT/COSE carriage | [vectors-scitt-cose](../../vectors-scitt-cose/) | [SCITT/COSE profile](../../profiles/scitt-cose.md), COSE_Sign1 and RFC 9942 receipts |
 | Bind an evaluation to saved inputs | [vectors-artifact-binding](../../vectors-artifact-binding/) | [Artifact-binding v1](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
+| Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
+| A2A Agent Card canonicalization | [vectors-a2a-jcs-v01](../../vectors-a2a-jcs-v01/README.md) | RFC 8785 bytes and the signing input of a card, vendored from a2a-tck; packaged reader or named verifier |
+| Draft MCP verification requirements and threats | [vectors-mcp-owasp](../../vectors-mcp-owasp/INDEX.md) | MCPVS-1 to MCPVS-12 and MCPTM-1 to MCPTM-10, one registry; packaged reader or `aee-verify` |
 | Per-check conformance reports | [vectors-w3c-report](../../vectors-w3c-report/) | W3C public-agent-conformance v0.1 |
 | Signed decision receipts | [vectors-receipt-signature](../../vectors-receipt-signature/) | `draft-farley-acta-signed-receipts-03` |
 
@@ -27,7 +30,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Artifact binding | `verified`, `failed` or `not-established`. The last outcome means required material was not captured. Evaluation verdicts have their own contract; AEE carries execution observations. [tools/artifact-binding](../../tools/artifact-binding/) produces and checks records; [demo/four-arms.sh](../../demo/four-arms.sh) runs the examples. |
 | Source coverage | Six synthetic cases at the source pin. A supplied verifier checks selected passages under the consumer's capture and time window. |
 | W3C reports | Frozen rejection table, two additions of 18 September, settled thread rules, 42 delta-related pairs recut against v0.1, plus Run and discovery-snapshot subjects from `draft-arsentev-agent-run-metrics-00` and `draft-arsentev-llm-context-discovery-00`. Vendored texts and condition citations are digest-pinned. |
-| Receipt signatures | Canonical signing input, an external key set, its validity windows and three further Section 6.6 rules. Every member is checked with and without key windows; the draft's SHOULD is graded as the corpus README specifies. Two reject/accept pairs by giskard09 are copied byte for byte from argentum-core. |
+| Receipt signatures | Canonical signing input, an external key set, its validity windows and three further Section 6.6 rules. Every member is checked with and without key windows; the draft's SHOULD is graded as the corpus README specifies. |
 
 The W3C Go and Python readers are checked by [w3c-rails-parity-test.py](../../scripts/w3c-rails-parity-test.py). Its Python module also emits a v0.1 report with `--emit-w3c-report`; the [conformance appendix](../W3C-V01-CONFORMANCE-APPENDIX.md) is generated from the manifest. Receipt readers are checked by [receipt-signature-rails-test.py](../../scripts/receipt-signature-rails-test.py).
 
@@ -48,9 +51,7 @@ These have their own inputs and policies.
 | Example | Check and retained scope |
 | --- | --- |
 | [WS4 prior-witness candidate](../../interop/ws4-prior-witness-candidate/README.md) | Provenance fixtures for the proposed Section 7.4 integration, using an author-held key and consumer-stipulated pins. Fixture execution supplies neither outside witness custody nor WS4 conformance. |
-| [AgentID offline reader](../../interop/agentid-offline/README.md) | Eight byte, signature and request relationships from a saved signed fixture and key. Historical key authority, unique action-tuple binding and formal Pack #3 status remain outside this check. |
-| [Framed action tuple](../../interop/action-tuple-framed-v1/README.md) | Separate unsigned profile with explicit UTF-8 byte lengths and a versioned domain. Its accept/refuse corpus preserves the historical AgentID fixture and signature interpretation. |
-| [MCP named-tool case](../../interop/agentavow-live-mcp/README.md) | Author-owned synthetic definitions compare a prior digest with later served definitions. No JWS or live endpoint is verified. |
+| [Framed action tuple](../../interop/action-tuple-framed-v1/README.md) | Separate unsigned profile with explicit UTF-8 byte lengths and a versioned domain. |
 | [A2A retained-field gate](../../interop/a2a-s3-retain-2026-10-01/README.md) | Thirteen source-pinned signature cases. Accepts signer-side dual signing; rejects verifier fallback that leaves an altered legacy URL unsigned. Its consumer policy is separate from A2A's canonicalization ruling. |
 
 ## Specification pins

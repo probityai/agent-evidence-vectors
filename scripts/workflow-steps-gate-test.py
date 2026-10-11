@@ -24,7 +24,7 @@ not read the block's contents and must not start.
 The last case is the balance: a block whose commands all succeed still passes,
 and a mirror that failed everything would be deleted rather than trusted.
 
-Usage: python3 scripts/workflow-steps-gate-test.py
+Usage: .venv/bin/python -B scripts/workflow-steps-gate-test.py
 Exit 0 when every case holds; 1 on a summary of failures.
 """
 
@@ -35,11 +35,12 @@ import importlib.util
 import json
 import os
 import pathlib
-import subprocess
 import sys
 import tempfile
 from collections.abc import Callable, Iterator
 from typing import Any
+
+from _workflow_test_fixture import fixture_authority, fixture_git
 
 HERE = pathlib.Path(__file__).resolve().parent
 
@@ -357,23 +358,14 @@ def the_action_mirror_fails_on_a_non_pass_verdict() -> None:
     )
 
 
-def _fixture_git(root: pathlib.Path, *args: str) -> str:
-    return subprocess.run(  # noqa: S603 -- commands act only on this test's fixture repository
-        ["git", "-C", str(root), *args],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-
-
 def _fixture(workflow: str, root: pathlib.Path) -> pathlib.Path:
     root.mkdir(parents=True, exist_ok=True)
     path = root / ".github" / "workflows" / "wf.yml"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(workflow, encoding="utf-8")
-    _fixture_git(root, "init", "-q")
-    _fixture_git(root, "add", ".")
-    _fixture_git(
+    fixture_git(root, "init", "-q")
+    fixture_git(root, "add", ".")
+    fixture_git(
         root,
         "-c",
         "user.name=Fixture operator",
@@ -384,7 +376,7 @@ def _fixture(workflow: str, root: pathlib.Path) -> pathlib.Path:
         "-qm",
         "test: record fixture source",
     )
-    _fixture_git(
+    fixture_git(
         root,
         "-c",
         "user.name=Fixture operator",
@@ -430,7 +422,7 @@ def _execute(workflow: str, root: pathlib.Path | None = None) -> tuple[int, str]
         path = _fixture(workflow, root)
         out = pathlib.Path(tmp) / "out.txt"
         with _local_input(root), open(out, "w") as handle, contextlib.redirect_stdout(handle):
-            rc = GATE.execute([path])  # type: ignore[attr-defined]
+            rc = GATE.execute([path], branch_authority=fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         return rc, out.read_text()
 
 
@@ -597,6 +589,64 @@ def uv_provides(available: bool) -> Iterator[None]:
         GATE.uv_python_available = original  # type: ignore[attr-defined]
 
 
+def action_verifier_imports_resolve_to_the_checkout() -> None:
+    """A verifier the action names as `python -m agent_evidence_vectors.X` runs this revision.
+
+    The action pip-installs its own checkout before replaying, so a verifier
+    that imports the package gets the revision under test. The mirror skipped
+    the install, and an older copy installed in whatever interpreter was first
+    on PATH answered instead: the a2a-jcs replay failed every vector locally
+    while the remote run passed.
+    """
+    local = GATE.own_action(  # type: ignore[attr-defined]
+        {"verifier": "python3 -m agent_evidence_vectors.probe", "report-path": "r.json"}
+    )
+    assert local.run is not None
+    with tempfile.TemporaryDirectory(prefix="aee action imports ") as tmp:
+        root = pathlib.Path(tmp)
+        (root / "scripts").mkdir()
+        (root / "scripts" / "action-summary.py").write_bytes(
+            (HERE / "action-summary.py").read_bytes()
+        )
+        checkout_pkg = root / "packaging" / "agent_evidence_vectors"
+        checkout_pkg.mkdir(parents=True)
+        (checkout_pkg / "__init__.py").write_text("")
+        (checkout_pkg / "probe.py").write_text("print('checkout')\n")
+        # An older installed copy that lacks the module, ahead of everything else.
+        stale = root / "stale-site" / "agent_evidence_vectors"
+        stale.mkdir(parents=True)
+        (stale / "__init__.py").write_text("")
+        # The fixture harness runs the verifier and passes only on the checkout's answer.
+        (root / "packaging" / "run_vectors.py").write_text(
+            "import json,pathlib,shlex,subprocess,sys\n"
+            "cmd=shlex.split(sys.argv[sys.argv.index('--verifier')+1])\n"
+            "out=subprocess.run(cmd,capture_output=True,text=True).stdout.strip()\n"
+            "ok=1 if out=='checkout' else 0\n"
+            "p=pathlib.Path(sys.argv[sys.argv.index('--report')+1])\n"
+            "p.write_text(json.dumps({'rail':'external','totals':{'vectors':1,"
+            "'conform':ok,'pass':ok,'fail':1-ok,'reasonParityMismatch':0,'suiteRefusals':0},"
+            "'verifier':{'vectorsExecuted':1},'rows':[]}))\n"
+            "sys.exit(0 if ok else 1)\n"
+        )
+        runner = root / "job temp"
+        runner.mkdir()
+        env = {
+            "PATH": f"{pathlib.Path(sys.executable).parent}:/usr/bin:/bin",
+            "PYTHONPATH": str(root / "stale-site"),
+            "RUNNER_TEMP": str(runner),
+            "GITHUB_OUTPUT": str(root / "outputs"),
+            "GITHUB_STEP_SUMMARY": str(root / "summary"),
+        }
+        original = GATE.REPO  # type: ignore[attr-defined]
+        GATE.REPO = root  # type: ignore[attr-defined]
+        try:
+            proc = GATE.run_step(local.run, env)  # type: ignore[attr-defined]
+        finally:
+            GATE.REPO = original  # type: ignore[attr-defined]
+        assert proc.returncode == 0, proc.stdout + proc.stderr
+        assert "result=pass\n" in (root / "outputs").read_text()
+
+
 def setup_python_is_mirrored_with_pip() -> None:
     """setup-python is mirrored by a pip-seeded interpreter put on $GITHUB_PATH.
 
@@ -627,6 +677,24 @@ def an_unprovidable_python_stops_its_job() -> None:
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log, f"a step ran on an interpreter the job never got:\n{log}"
     assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
+
+
+def a_step_guarded_by_an_input_is_not_run_without_inputs() -> None:
+    """`if: ${{ inputs.flag }}` is false on an event that carries no inputs.
+
+    The MCP SDK workflow guards its "Fail on divergence" step with
+    `inputs.fail-on-divergence`. On push and pull_request that input is null,
+    so the runner skips the step; the mirror ran it and failed every SDK.
+    """
+    for condition in ("${{ inputs.fail-on-divergence }}", "inputs.fail-on-divergence"):
+        reason = GATE.event_excludes(condition)  # type: ignore[attr-defined]
+        assert reason and "inputs" in reason, (condition, reason)
+    assert GATE.event_excludes("${{ inputs.a || true }}") == ""  # type: ignore[attr-defined]
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - if: ${{ inputs.fail-on-divergence }}\n        run: exit 1\n"
+    )
+    assert rc == 0, log
 
 
 def a_step_guarded_to_another_event_is_not_run() -> None:
@@ -724,7 +792,7 @@ def mutations_and_native_report_bytes_survive_job_cleanup() -> None:
             open(directory / "log", "w") as out,
             contextlib.redirect_stdout(out),
         ):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 0, (directory / "log").read_text()
         producer = evidence / "001-wf-upgrade"
         consumer = evidence / "002-wf-verify"
@@ -806,18 +874,18 @@ def sparse_inputs_produce_complete_jobs_and_hidden_drift_is_refused() -> None:
             'jobs:\n  j:\n    steps:\n      - run: test "$(cat hidden/proof)" = original\n',
             root,
         )
-        _fixture_git(root, "sparse-checkout", "init", "--cone")
-        _fixture_git(root, "sparse-checkout", "set", ".github")
+        fixture_git(root, "sparse-checkout", "init", "--cone")
+        fixture_git(root, "sparse-checkout", "set", ".github")
         assert not (root / "hidden/proof").exists()
         with _local_input(root):
-            assert GATE.execute([path]) == 0  # type: ignore[attr-defined]
+            assert GATE.execute([path], branch_authority=fixture_authority(path.parents[2])) == 0  # type: ignore[attr-defined]
         assert not (root / "hidden/proof").exists(), "the mirror changed its sparse donor"
-        _fixture_git(root, "sparse-checkout", "disable")
-        _fixture_git(root, "update-index", "--assume-unchanged", "hidden/proof")
+        fixture_git(root, "sparse-checkout", "disable")
+        fixture_git(root, "update-index", "--assume-unchanged", "hidden/proof")
         (root / "hidden/proof").write_text("hidden drift")
-        assert not _fixture_git(root, "status", "--porcelain", "--untracked-files=no")
+        assert not fixture_git(root, "status", "--porcelain", "--untracked-files=no")
         with _local_input(root):
-            assert GATE.execute([path]) == 1  # type: ignore[attr-defined]
+            assert GATE.execute([path], branch_authority=fixture_authority(path.parents[2])) == 1  # type: ignore[attr-defined]
 
 
 def step_outputs_and_status_do_not_leak_between_jobs() -> None:
@@ -844,11 +912,11 @@ def selected_source_cannot_be_faked_or_dirty() -> None:
         with _local_input(root):
             for key in ("GITHUB_SHA", "GITHUB_HEAD_SHA"):
                 os.environ[key] = "1" * 40
-                rc = GATE.execute([path])  # type: ignore[attr-defined]
+                rc = GATE.execute([path], branch_authority=fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
                 assert rc == 1, f"a fake {key} was trusted"
                 os.environ.pop(key)
             path.write_text(path.read_text() + "# changed tracked source\n")
-            assert GATE.execute([path]) == 1  # type: ignore[attr-defined]
+            assert GATE.execute([path], branch_authority=fixture_authority(path.parents[2])) == 1  # type: ignore[attr-defined]
 
 
 def job_tag_ref_changes_are_retained_and_cannot_change_the_donor() -> None:
@@ -861,13 +929,13 @@ def job_tag_ref_changes_are_retained_and_cannot_change_the_donor() -> None:
             '      - run: test "$(git cat-file -t fixture-tag)" = tag\n',
             root,
         )
-        annotation = _fixture_git(root, "rev-parse", "refs/tags/fixture-tag")
+        annotation = fixture_git(root, "rev-parse", "refs/tags/fixture-tag")
         evidence = directory / "evidence"
         with _local_input(root):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 1, "a job silently changed its frozen tag binding"
-        assert _fixture_git(root, "rev-parse", "refs/tags/fixture-tag") == annotation
-        assert _fixture_git(root, "cat-file", "-t", annotation) == "tag"
+        assert fixture_git(root, "rev-parse", "refs/tags/fixture-tag") == annotation
+        assert fixture_git(root, "cat-file", "-t", annotation) == "tag"
         final = json.loads((evidence / "001-wf-j/source-final.json").read_text())
         assert "refs/tags/fixture-tag" not in final["tags"]
         next_result = json.loads((evidence / "002-wf-next/steps/0/result.json").read_text())
@@ -890,18 +958,142 @@ def checkout_and_working_directory_bind_to_the_selected_source() -> None:
     assert rc == 0, log
 
 
+def a_step_may_start_in_the_jobs_runner_temp() -> None:
+    """`working-directory: ${{ runner.temp }}` starts the step in the job's own temp.
+
+    A runner owns RUNNER_TEMP for the job, and the held-out workflow starts
+    there on purpose so the installed wheel, not the checkout, answers. The
+    mirror refused every directory outside the checkout and failed that step
+    on every replay; a directory outside both the checkout and the job's temp
+    is still refused.
+    """
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - working-directory: ${{ runner.temp }}\n"
+        '        run: test "$(pwd -P)" = "$(cd "$RUNNER_TEMP" && pwd -P)"\n'
+    )
+    assert rc == 0, log
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n      - working-directory: /\n        run: exit 0\n"
+    )
+    assert rc == 1, f"a directory outside the checkout and the job temp was executed:\n{log}"
+
+
 def baseline_python_and_uv_environment_belong_to_each_job() -> None:
     workflow = (
         "jobs:\n  first:\n    steps:\n      - run: |\n"
-        '          test "$VIRTUAL_ENV" = "$RUNNER_TEMP/baseline-python"\n'
-        '          test "$UV_PROJECT_ENVIRONMENT" = "$RUNNER_TEMP/project-env"\n'
-        '          python3 -c "import sys; assert sys.prefix != sys.base_prefix"\n'
+        '          test "$VIRTUAL_ENV" = "$GITHUB_WORKSPACE/.venv"\n'
+        '          test "$UV_PROJECT_ENVIRONMENT" = "$GITHUB_WORKSPACE/.venv"\n'
+        '          test "$UV_PYTHON" = "$GITHUB_WORKSPACE/.venv/bin/python"\n'
+        '          python3 -B -c "import os,sys; '
+        "assert sys.prefix == os.environ['GITHUB_WORKSPACE']+'/.venv'\"\n"
         "  second:\n    steps:\n      - run: |\n"
-        '          test "$VIRTUAL_ENV" = "$RUNNER_TEMP/baseline-python"\n'
-        '          test "$UV_PROJECT_ENVIRONMENT" = "$RUNNER_TEMP/project-env"\n'
+        '          test "$VIRTUAL_ENV" = "$GITHUB_WORKSPACE/.venv"\n'
+        '          test "$UV_PROJECT_ENVIRONMENT" = "$GITHUB_WORKSPACE/.venv"\n'
     )
     rc, log = _execute(workflow)
     assert rc == 0, log
+
+
+def current_default_metadata_selects_the_actual_commit_lint_range() -> None:
+    """Published bad legacy messages are outside the actual non-main default range."""
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/commit-message-lint.yml")  # type: ignore[attr-defined]
+    block = next(
+        step.run
+        for step in GATE.steps_of(doc, pathlib.Path("lint.yml"))  # type: ignore[attr-defined]
+        if step.name == "Lint the commit messages this event introduces"
+    )
+    workflow = json.dumps(
+        {
+            "jobs": {
+                "lint": {
+                    "steps": [
+                        {
+                            "env": {
+                                "DEFAULT_BRANCH": "${{ github.event.repository.default_branch }}",
+                                "PUSH_REF": "${{ github.ref }}",
+                                "PR_BASE": "",
+                                "PUSH_BEFORE": "",
+                            },
+                            "run": block,
+                        }
+                    ]
+                }
+            }
+        }
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        directory = pathlib.Path(tmp)
+        root = directory / "source"
+        path = _fixture(workflow, root)
+        initial = fixture_git(root, "rev-parse", "HEAD")
+        hooks = root / ".githooks"
+        hooks.mkdir()
+        for name in ("commit-msg", "commit-msg.permitted-paths", "commit-msg.forbidden-words"):
+            target = hooks / name
+            target.write_bytes((HERE.parent / ".githooks" / name).read_bytes())
+            target.chmod((HERE.parent / ".githooks" / name).stat().st_mode & 0o777)
+        fixture_git(root, "add", ".")
+        fixture_git(
+            root,
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "test: " + "published legacy subject " * 4,
+        )
+        published = fixture_git(root, "rev-parse", "HEAD")
+        fixture_git(root, "update-ref", "refs/remotes/origin/trunk", published)
+        fixture_git(root, "update-ref", "refs/remotes/origin/stale", initial)
+        fixture_git(root, "symbolic-ref", "refs/remotes/origin/HEAD", "refs/remotes/origin/stale")
+        (root / "new-change").write_text("selected feature change\n")
+        fixture_git(root, "add", ".")
+        fixture_git(
+            root,
+            "-c",
+            "user.name=Fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "test: add selected feature change",
+        )
+        evidence = directory / "evidence"
+        with _local_input(root):
+            rc = GATE.execute([path], evidence, fixture_authority(root))  # type: ignore[attr-defined]
+        assert rc == 0, (evidence / "result.json").read_text()
+        output = next(evidence.glob("*/steps/0/stdout")).read_text()
+        assert "linting refs/remotes/origin/trunk..HEAD" in output, output
+        assert "published legacy subject" not in output, output
+        assert fixture_git(root, "symbolic-ref", "refs/remotes/origin/HEAD").endswith("/stale")
+
+
+def changing_a_job_default_ref_stops_later_history_consumers() -> None:
+    """A job may not silently change the history another step will lint."""
+    workflow = (
+        "jobs:\n  j:\n    steps:\n"
+        "      - run: git update-ref -d refs/remotes/origin/trunk\n"
+        "      - run: echo WRONG-HISTORY-CONSUMER\n"
+    )
+    with tempfile.TemporaryDirectory() as tmp:
+        directory = pathlib.Path(tmp)
+        root = directory / "source"
+        path = _fixture(workflow, root)
+        packet = fixture_authority(root)
+        evidence = directory / "evidence"
+        with _local_input(root):
+            rc = GATE.execute([path], evidence, packet)  # type: ignore[attr-defined]
+        result = json.loads((evidence / "result.json").read_bytes())
+        assert rc == 1 and result["ran"] == 1 and result["failed"] >= 1, result
+        assert not list(evidence.glob("*/steps/1/stdout")), (
+            "consumer ran after its base disappeared"
+        )
+        assert (
+            fixture_git(root, "rev-parse", "refs/remotes/origin/trunk")
+            == packet["authority"]["frozen_published_tip"]
+        )
 
 
 def envelope_failure_keeps_executed_counts_and_later_jobs() -> None:
@@ -918,7 +1110,7 @@ def envelope_failure_keeps_executed_counts_and_later_jobs() -> None:
         )
         evidence = directory / "evidence"
         with _local_input(root):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 1
         result = json.loads((evidence / "result.json").read_text())
         assert result["ran"] == 3 and result["failed"] == 2, result
@@ -943,18 +1135,18 @@ def alternate_backed_input_produces_independent_job_objects() -> None:
             original,
         )
         borrowed = directory / "borrowed"
-        _fixture_git(directory, "clone", "--quiet", "--shared", str(original), str(borrowed))
+        fixture_git(directory, "clone", "--quiet", "--shared", str(original), str(borrowed))
         alternate = borrowed / ".git/objects/info/alternates"
         assert alternate.read_text().strip(), "fixture did not borrow an object store"
         before = alternate.read_bytes()
-        annotation = _fixture_git(borrowed, "rev-parse", "refs/tags/fixture-tag")
+        annotation = fixture_git(borrowed, "rev-parse", "refs/tags/fixture-tag")
         path = borrowed / ".github/workflows/wf.yml"
         with _local_input(borrowed):
-            rc = GATE.execute([path])  # type: ignore[attr-defined]
+            rc = GATE.execute([path], branch_authority=fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 0, "a job retained the managed input's alternate-object dependency"
         assert alternate.read_bytes() == before
-        assert _fixture_git(borrowed, "rev-parse", "refs/tags/fixture-tag") == annotation
-        assert _fixture_git(original, "rev-parse", "refs/tags/fixture-tag") == annotation
+        assert fixture_git(borrowed, "rev-parse", "refs/tags/fixture-tag") == annotation
+        assert fixture_git(original, "rev-parse", "refs/tags/fixture-tag") == annotation
 
 
 def _origin(tmp: pathlib.Path) -> tuple[str, str]:
@@ -1115,6 +1307,37 @@ def matrix_include_and_exclude_follow_the_documented_rules() -> None:
     assert combos == [] and "expression" in reason, (combos, reason)
 
 
+def inputs_are_null_on_an_event_that_carries_none() -> None:
+    """`inputs.x || default` reads the default on push and pull_request, as on a runner.
+
+    GitHub fills the inputs context only for workflow_dispatch and workflow_call;
+    on every other event it is empty, so `inputs.ref || github.sha` is the
+    commit. The mirror called `inputs.ref` unknown and faulted the MCP SDK job.
+    A matrix axis written as fromJSON of such an expression expands too, and a
+    fromJSON over another job's output is still refused.
+    """
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha", {}, None, {"github.event_name": "push", "github.sha": "c0ffee"}
+    )
+    assert (value, missing) == ("c0ffee", ""), (value, missing)
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha",
+        {},
+        None,
+        {"github.event_name": "workflow_dispatch", "github.sha": "c0ffee"},
+    )
+    assert missing, "a dispatch input was invented instead of refused"
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": '${{ fromJSON(inputs.sdks || \'["go","rust"]\') }}'}}}
+    )
+    assert not reason, reason
+    assert combos == [{"sdk": "go"}, {"sdk": "rust"}], combos
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": "${{ fromJSON(needs.a.outputs.m) }}"}}}
+    )
+    assert combos == [] and reason, (combos, reason)
+
+
 def a_run_block_expression_is_substituted() -> None:
     """`${{ }}` in a run block reaches bash as its value, as on the runner.
 
@@ -1169,7 +1392,7 @@ def a_tool_a_runner_step_provides_is_not_run_when_absent() -> None:
     with _provides("sigstore/cosign-installer", tool):
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log and f"{tool}" in log and "no dependent shell ran" in log, log
-    assert "NOT RUN  j[2]" in log and rc == 0, f"the job ran on past the missing tool:\n{log}"
+    assert "NOT RUN  j[2]" in log and rc != 0, f"missing required setup passed:\n{log}"
     assert "ran 0 steps" in log, f"a step that could not run was counted as run:\n{log}"
 
 
@@ -1186,7 +1409,7 @@ def a_script_that_cannot_spawn_the_tool_is_not_run() -> None:
     with _provides("sigstore/cosign-installer", tool):
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log and tool in log and "no dependent shell ran" in log, log
-    assert rc == 0, log
+    assert rc != 0, log
 
 
 def a_missing_command_nothing_provides_still_fails() -> None:
@@ -1313,7 +1536,7 @@ def matrix_mutations_and_envelopes_are_owned_by_each_combination() -> None:
             open(directory / "log", "w") as out,
             contextlib.redirect_stdout(out),
         ):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 0, (directory / "log").read_text()
         jobs = sorted(evidence.glob("*-wf-*"))
         assert len(jobs) == 3, jobs
@@ -1353,7 +1576,7 @@ def foreign_identity_and_mutations_survive_owned_cleanup() -> None:
             open(directory / "log", "w") as out,
             contextlib.redirect_stdout(out),
         ):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         assert rc == 0, (directory / "log").read_text()
         foreign = evidence / "001-wf-j/foreign/source/other"
         identity = json.loads((foreign / "identity.json").read_text())
@@ -1412,7 +1635,7 @@ def attempted_missing_tool_and_pip_failures_keep_native_status() -> None:
             open(directory / "log", "w") as out,
             contextlib.redirect_stdout(out),
         ):
-            rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+            rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
         result = json.loads((evidence / "result.json").read_text())
         assert rc == 1 and result["ran"] == result["failed"] == 2, result
         steps = evidence / "001-wf-j/steps"
@@ -1502,7 +1725,9 @@ def remote_only_inputs_keep_their_reason_and_raw_evidence() -> None:
     """An unavailable remote dependency is irrelevant to a remote-only action."""
     expression = "${{ needs.visibility.outputs.public == 'true' }}"
     for action in (
-        "ossf/scorecard-action", "pypa/gh-action-pypi-publish", "actions/upload-artifact"
+        "ossf/scorecard-action",
+        "pypa/gh-action-pypi-publish",
+        "actions/upload-artifact",
     ):
         with tempfile.TemporaryDirectory() as tmp:
             root = pathlib.Path(tmp) / "source"
@@ -1510,20 +1735,22 @@ def remote_only_inputs_keep_their_reason_and_raw_evidence() -> None:
             workflow = (
                 "jobs:\n  j:\n    steps:\n"
                 f"      - uses: {action}@pinned\n"
-                f"        with:\n          publish_results: \"{expression}\"\n"
+                f'        with:\n          publish_results: "{expression}"\n'
                 "      - run: true\n"
             )
             path = _fixture(workflow, root)
             out = pathlib.Path(tmp) / "out.txt"
             with _local_input(root), open(out, "w") as handle, contextlib.redirect_stdout(handle):
-                rc = GATE.execute([path], evidence)  # type: ignore[attr-defined]
+                rc = GATE.execute([path], evidence, fixture_authority(path.parents[2]))  # type: ignore[attr-defined]
             result = json.loads(next(evidence.glob("*/steps/0/result.json")).read_text())
             assert rc == 0 and result["status"] == "NOT_RUN" and not result["fault"], result
             reason = action + " " + GATE.CANNOT_RUN[action]  # type: ignore[attr-defined]
             assert result["reason"] == reason, result
             original = json.loads(next(evidence.glob("*/steps/0/input.json")).read_text())
             assert original == {
-                "uses": action + "@pinned", "with": {"publish_results": expression}, "if": ""
+                "uses": action + "@pinned",
+                "with": {"publish_results": expression},
+                "if": "",
             }, original
             assert "ran 1 steps, 0 failed" in out.read_text(), out.read_text()
 
@@ -1539,7 +1766,8 @@ def unknown_action_inputs_still_fault() -> None:
 
 def local_action_and_provider_inputs_still_fault() -> None:
     for action, key in (
-        ("actions/setup-python", "python-version"), ("actions/setup-go", "go-version")
+        ("actions/setup-python", "python-version"),
+        ("actions/setup-go", "go-version"),
     ):
         rc, log = _execute(
             f"jobs:\n  j:\n    steps:\n      - uses: {action}@pinned\n"
@@ -1586,6 +1814,14 @@ def main() -> int:
     )
 
     check("a default working directory is honoured", a_default_working_directory_is_honoured)
+    check(
+        "captured default metadata selects the real lint range",
+        current_default_metadata_selects_the_actual_commit_lint_range,
+    )
+    check(
+        "changed job default refs stop later history consumers",
+        changing_a_job_default_ref_stops_later_history_consumers,
+    )
     check("runner variables carry within a job", github_env_and_runner_temp_carry_within_a_job)
     check("corpus binaries belong to their job", corpus_harness_outputs_are_owned_by_the_job)
     check("job outputs require runner context", job_owned_outputs_require_runner_context)
@@ -1593,10 +1829,18 @@ def main() -> int:
         "the action report reaches its consumers",
         action_report_path_reaches_the_summary_and_outputs,
     )
+    check(
+        "the action's verifier imports this revision",
+        action_verifier_imports_resolve_to_the_checkout,
+    )
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
     check("a failed foreign fetch stops only its job", a_failed_fetch_stops_its_job)
     check("a step guarded to another event is not run", a_step_guarded_to_another_event_is_not_run)
+    check(
+        "a step guarded by an input is not run without inputs",
+        a_step_guarded_by_an_input_is_not_run_without_inputs,
+    )
     check(
         "an ambient VIRTUAL_ENV does not reach the steps",
         an_ambient_virtual_env_does_not_reach_the_steps,
@@ -1635,6 +1879,7 @@ def main() -> int:
         "checkout and directory binding is enforced",
         checkout_and_working_directory_bind_to_the_selected_source,
     )
+    check("a step may start in the job's runner temp", a_step_may_start_in_the_jobs_runner_temp)
     check(
         "baseline Python and uv environment belong to a job",
         baseline_python_and_uv_environment_belong_to_each_job,
@@ -1658,6 +1903,10 @@ def main() -> int:
     check(
         "matrix include and exclude follow the documented rules",
         matrix_include_and_exclude_follow_the_documented_rules,
+    )
+    check(
+        "inputs are null on an event that carries none",
+        inputs_are_null_on_an_event_that_carries_none,
     )
     check("a run block expression is substituted", a_run_block_expression_is_substituted)
     check("an unevaluable expression is not run", an_unevaluable_expression_is_not_run)

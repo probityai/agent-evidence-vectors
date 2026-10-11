@@ -1,0 +1,18 @@
+# The push gate for this repository, read by the push router
+# (git-push-tmux.sh). git opens the connection to the remote before it runs the
+# pre-push hook, and GitHub cut that idle connection about six minutes into this
+# repository's old hook on every attempt measured on 2026-10-06 and 2026-10-07.
+# With this file the router runs the hook FIRST, in a detached worktree of the
+# exact revision, and opens the connection only after it passed; the push itself
+# then takes seconds. The gate is the hook itself, so nothing it checks is
+# copied here to drift.
+
+version = 1
+
+[gate]
+# The default venue (leak) measured in seconds; this bound kills a hung run.
+deadline_s = 900
+
+[[gate.step]]
+name = "the pre-push hook: runner labels, push-range identity scan, push hygiene"
+hook = "pre-push"

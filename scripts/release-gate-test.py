@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """Tests for scripts/release-gate.py.
 
-The gate is the thing standing between a signature and a release, so what has
-to be established is not that it passes -- it passes on the repository as it
-stands, which proves only that the artifacts are currently right -- but that it
-REFUSES each way a release can be wrong while still looking right. Every case
-here mutates one artifact in a staged copy and asserts both the refusal and the
-words it uses, because a refusal that names the wrong file sends the next person
-to the wrong place.
+Each case starts with a signed, committed fixture. Transient Ed25519 keys
+exist only in temporary test directories. A candidate source tree is allowed
+to be unsigned; these controls do not qualify its release or replace its keys.
 
-The two accepting cases are here so that this is not a gate nobody can satisfy:
-the tree as it stands passes, and it passes with a tag pointing at HEAD.
+The two acceptance cases establish a satisfiable gate. Refusal cases then alter
+one artifact and require the gate to identify it. A separate control verifies
+that inherited Git selectors cannot bind --root to a foreign repository.
 
 `openssl` is used to mint the substitute keys. If it is absent the run FAILS
 rather than skipping those cases: a test that quietly drops the case for the
@@ -23,6 +20,8 @@ Exit 0 when every case holds; 1 on the first summary of failures.
 from __future__ import annotations
 
 import base64
+import json
+import os
 import re
 import shutil
 import subprocess
@@ -30,6 +29,8 @@ import sys
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
+
+from _workflow_test_fixture import fixture_git
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "release-gate.py"
@@ -56,15 +57,12 @@ QUIESCENT = {
     "gc.autoDetach": "false",
 }
 
-def stage(destination: Path, commit: bool) -> None:
-    """Copy the tracked tree into a fresh git checkout, optionally committed."""
-    listed = subprocess.run(
-        ["git", "-C", str(REPO_ROOT), "ls-files"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    for rel in listed.stdout.split():
+
+def stage(destination: Path) -> None:
+    """Copy the source into a signed fixture, without using a release key."""
+    for rel in fixture_git(REPO_ROOT, "ls-files", "-z").split("\0"):
+        if not rel:
+            continue
         source = REPO_ROOT / rel
         if not source.is_file():
             continue
@@ -72,55 +70,74 @@ def stage(destination: Path, commit: bool) -> None:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
         shutil.copymode(source, target)
-    subprocess.run(["git", "init", "-q"], cwd=destination, check=True, capture_output=True)
+    fixture_git(destination, "init", "-q")
     for key, value in QUIESCENT.items():
-        subprocess.run(
-            ["git", "config", key, value], cwd=destination, check=True, capture_output=True
-        )
-    subprocess.run(["git", "add", "-A"], cwd=destination, check=True, capture_output=True)
-    if commit:
-        subprocess.run(
-            [
-                "git",
-                "-c",
-                "user.email=gate-test@example.invalid",
-                "-c",
-                "user.name=release gate test",
-                "-c",
-                "commit.gpgsign=false",
-                "commit",
-                "-q",
-                "-m",
-                "staged copy",
-            ],
-            cwd=destination,
-            check=True,
-            capture_output=True,
-        )
+        fixture_git(destination, "config", key, value)
+    sign_fixture(destination)
+    fixture_git(destination, "add", "-A")
+    fixture_git(
+        destination,
+        "-c",
+        "user.email=gate-test@example.invalid",
+        "-c",
+        "user.name=release gate test",
+        "commit",
+        "-qm",
+        "staged signed fixture",
+    )
 
 
 def openssl(arguments: list[str], stdin: bytes | None = None) -> bytes:
-    done = subprocess.run(
-        ["openssl", *arguments], input=stdin, capture_output=True, check=False
-    )
+    done = subprocess.run(["openssl", *arguments], input=stdin, capture_output=True, check=False)
     if done.returncode != 0:
         raise SystemExit(
             "release-gate-test: openssl "
             + " ".join(arguments)
             + f" failed ({done.returncode}). The substitute-key cases cannot run, and "
-            "a skipped case is not a passing case.\n"
-            + done.stderr.decode(errors="replace")
+            "a skipped case is not a passing case.\n" + done.stderr.decode(errors="replace")
         )
     return done.stdout
+
+
+def sign_fixture(root: Path) -> None:
+    """Sign fixture bytes with a transient key kept outside the Git tree."""
+    with tempfile.TemporaryDirectory(prefix="release-control-key-") as raw:
+        key = Path(raw) / "private.pem"
+        key.touch(mode=0o600)
+        openssl(["genpkey", "-algorithm", "ed25519", "-out", str(key)])
+        (root / PUBLIC_KEY).write_bytes(openssl(["pkey", "-pubout", "-in", str(key)]))
+        signature = openssl(
+            [
+                "pkeyutl",
+                "-sign",
+                "-rawin",
+                "-inkey",
+                str(key),
+                "-in",
+                str(root / DIGESTS),
+            ]
+        )
+        (root / SIGNATURE).write_bytes(base64.b64encode(signature) + b"\n")
+
+
+def regenerated_digest_list(root: Path) -> None:
+    """Regeneration cannot authenticate changed release metadata."""
+    path = root / "vectors/MANIFEST.json"
+    manifest = json.loads(path.read_text())
+    manifest["suite"] += "-signature-control"
+    path.write_text(json.dumps(manifest) + "\n")
+    subprocess.run(
+        [sys.executable, str(root / "scripts/release-digests.py"), "--root", str(root)],
+        check=True,
+        capture_output=True,
+    )
 
 
 def public_key_pem(algorithm: str) -> bytes:
     if algorithm == "ed25519":
         private = openssl(["genpkey", "-algorithm", "ed25519"])
     else:
-        private = openssl(
-            ["genpkey", "-algorithm", "EC", "-pkeyopt", "ec_paramgen_curve:P-256"]
-        )
+        private = openssl(["genpkey", "-algorithm", "EC", "-pkeyopt", "ec_paramgen_curve:P-256"])
     return openssl(["pkey", "-pubout"], stdin=private)
 
 
@@ -141,9 +158,7 @@ def edited_digest_list(root: Path) -> None:
             "would assert nothing. Fix the case, never the gate."
         )
     start, end = found.span(1)
-    path.write_text(
-        text[:start] + str(int(found.group(1)) + 1) + text[end:], encoding="utf-8"
-    )
+    path.write_text(text[:start] + str(int(found.group(1)) + 1) + text[end:], encoding="utf-8")
 
 
 def flipped_signature(root: Path) -> None:
@@ -173,9 +188,7 @@ def missing_key(root: Path) -> None:
 def dirty_release_surface(root: Path) -> None:
     """A tracked file in the release surface is edited after the tag is cut."""
     path = root / ROOTS
-    path.write_text(
-        path.read_text(encoding="utf-8") + "# edited after the tag\n", encoding="utf-8"
-    )
+    path.write_text(path.read_text(encoding="utf-8") + "# edited after the tag\n", encoding="utf-8")
 
 
 def nothing(root: Path) -> None:
@@ -189,6 +202,12 @@ REFUSALS: tuple[Case, ...] = (
         edited_digest_list,
         (),
         ("digest list does not match", "release/CORPUS-DIGESTS.txt"),
+    ),
+    (
+        "a regenerated digest list with a stale signature",
+        regenerated_digest_list,
+        (),
+        ("does not verify",),
     ),
     ("a flipped signature", flipped_signature, (), ("does not verify",)),
     ("a substituted public key", substituted_key, (), ("does not verify", PUBLIC_KEY)),
@@ -210,8 +229,8 @@ REFUSALS: tuple[Case, ...] = (
 )
 
 ACCEPTS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("the tree as it stands", ()),
-    ("a tag at HEAD with a clean surface", ("--tag", TAG)),
+    ("a signed fixture", ()),
+    ("a fixture tag at HEAD with a clean surface", ("--tag", TAG)),
 )
 
 
@@ -220,16 +239,8 @@ def prepare(tmp: Path, name: str, mutate: Mutation) -> Path:
     if root.exists():
         shutil.rmtree(root)
     root.mkdir(parents=True)
-    stage(root, commit=True)
-    # `-c tag.gpgsign=false` because this machine signs tags by default and the
-    # staged copy has no reason to reach a signing key. A test that fails for the
-    # environment's key configuration is a test nobody trusts.
-    subprocess.run(
-        ["git", "-c", "tag.gpgsign=false", "tag", TAG],
-        cwd=root,
-        check=True,
-        capture_output=True,
-    )
+    stage(root)
+    fixture_git(root, "tag", TAG)
     mutate(root)
     return root
 
@@ -241,6 +252,34 @@ def run_gate(root: Path, extra: tuple[str, ...]) -> subprocess.CompletedProcess[
         text=True,
         check=False,
     )
+
+
+def foreign_repository_control(tmp: Path) -> str | None:
+    """A real verifier must select the supplied root and leave foreign refs intact."""
+    root = prepare(tmp, "owned-root", nothing)
+    foreign = prepare(tmp, "foreign-root", nothing)
+    fixture_git(foreign, "tag", "-d", TAG)
+    refs = fixture_git(foreign, "show-ref")
+    index = (foreign / ".git/index").read_bytes()
+    env = {
+        **os.environ,
+        "GIT_DIR": str(foreign / ".git"),
+        "GIT_WORK_TREE": str(foreign),
+        "GIT_INDEX_FILE": str(foreign / ".git/index"),
+    }
+    done = subprocess.run(
+        [sys.executable, str(GATE), "--root", str(root), "--tag", TAG],
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    if done.returncode:
+        return (
+            "foreign selectors redirected the real release verifier:\n" + done.stdout + done.stderr
+        )
+    if fixture_git(foreign, "show-ref") != refs or (foreign / ".git/index").read_bytes() != index:
+        return "the real release verifier changed the foreign repository"
+    return None
 
 
 def main() -> int:
@@ -266,7 +305,9 @@ def main() -> int:
                     f"{name}: the gate refused a release that is correct.\n"
                     f"{done.stdout}{done.stderr}"
                 )
-    total = len(REFUSALS) + len(ACCEPTS)
+        if failure := foreign_repository_control(tmp):
+            failures.append(failure)
+    total = len(REFUSALS) + len(ACCEPTS) + 1
     if failures:
         print(f"FAIL: {len(failures)} of {total} case(s) do not hold:", file=sys.stderr)
         for failure in failures:

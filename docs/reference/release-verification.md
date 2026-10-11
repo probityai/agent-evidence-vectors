@@ -2,11 +2,11 @@
 
 ## Verify a release without trusting us
 
-Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below verify v0.17.4 after its signed tag is published.
+Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.17.6 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6).
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.17.4
+git checkout v0.17.6
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -31,15 +31,17 @@ ots verify -d "$(base64 -d release/CORPUS-DIGESTS.txt.sig | sha256sum | cut -d' 
 | `release-digests.py --check` | Recomputed corpus bytes match the generated digest list, including each manifest, count and revision |
 | `cosign verify-blob` | The committed public key verifies the signature over that digest list |
 | `openssl ts -verify` | The RFC 3161 authority timestamp covers the raw signature bytes and chains to the pinned TSA root |
-| `ots verify` | The public-calendar proof covers the same signature bytes |
+| `ots verify` | The proof binds the same signature bytes to a Bitcoin block verified through the configured Bitcoin node |
 
-The signature was not submitted to a transparency log; `--insecure-ignore-tlog` selects offline signature verification. The timestamp proofs date the signature's commitment to the corpus. A key stored beside the corpus must still be selected through the consumer's own trust process.
+The signature was not submitted to a transparency log; `--insecure-ignore-tlog` selects offline signature verification. A verified timestamp dates the signature's commitment to the corpus. A key stored beside the corpus must still be selected through the consumer's own trust process.
 
 ## Timestamp status
 
-A fresh OpenTimestamps proof is usually pending for roughly 24 hours and verification exits nonzero until Bitcoin confirmation. The weekly [ots-upgrade workflow](../../.github/workflows/ots-upgrade.yml) completes pending proofs.
+An OpenTimestamps proof can remain pending until Bitcoin confirmation. The weekly [ots-upgrade workflow](../../.github/workflows/ots-upgrade.yml) fetches updated calendar proofs. A successful upgrade does not establish Bitcoin chain verification.
 
-The release gate checks digests and signatures on each tag. Its optional `--with-timestamps` path also checks the timestamps. RFC 3161 verification is offline using [spec/tsa-roots.pem](../../spec/tsa-roots.pem); OpenTimestamps can require a reachable public calendar. A proof that covers the wrong signature fails offline. An unreachable calendar is recorded as an unread result.
+The release gate checks digests and signatures on each tag. Its optional `--with-timestamps` path verifies the RFC 3161 token and OpenTimestamps signature binding offline, then reports the separate chain state. RFC 3161 verification uses [spec/tsa-roots.pem](../../spec/tsa-roots.pem). A proof that covers the wrong signature fails offline.
+
+OpenTimestamps may contact a calendar for an incomplete proof. Full verification also needs a [Bitcoin Core node](https://github.com/opentimestamps/opentimestamps-client#requirements). An offline binding pass does not establish chain verification. Record the reported chain state when the calendar or Bitcoin node cannot be reached.
 
 ## Signing
 

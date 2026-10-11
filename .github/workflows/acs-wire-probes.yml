@@ -1,0 +1,69 @@
+name: ACS-Core wire probes
+
+# Runs vectors-acs-core/wire-probes against the AGT reference Guardian at two
+# pinned refs of the specification's repository: the integration tip before
+# pull request 229 (every probe fails, which proves each one can) and the head
+# of that pull request. Each run must match its recorded expectation exactly,
+# so a probe that starts passing, or stops, turns this red.
+
+# Pull requests only. The job runs a third party's code, so it never runs in
+# the default branch's context, where a cache it wrote could be read later.
+on:
+  pull_request:
+    paths:
+      - vectors-acs-core/wire-probes/**
+      - .github/workflows/acs-wire-probes.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probes:
+    name: wire probes against AGT (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: integration-770f1e0
+            ref: 770f1e06b0a037518e910255109be4e6f2e0ca0c
+            expect: agt-integration-770f1e0.json
+          - label: pr229
+            ref: beee5b54d1292c30137d66ab660c2639929a5284
+            expect: agt-pr229.json
+    steps:
+      - name: Check out the probes
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Check out the Guardian under test
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: GenAI-Security-Project/agent-control-standard
+          ref: ${{ matrix.ref }}
+          path: source/acs
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          bun-version: 1.3.11
+
+      - name: Install the locked Guardian dependencies
+        working-directory: source/acs/reference-implementations/agt
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Run the probes against the recorded expectation
+        run: >-
+          bash vectors-acs-core/wire-probes/run_against_agt.sh source/acs out
+          vectors-acs-core/wire-probes/expected/${{ matrix.expect }}
+
+      - name: Keep the wire captures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: acs-wire-probes-${{ matrix.label }}
+          path: out
+          retention-days: 30

@@ -1,0 +1,217 @@
+{
+  "corpusDigest": "a92cf47c64f905ec6a57c4bf624c2667c075da4a76d58b4d251584831202dc86",
+  "suite": "anchored-record-chain/v1",
+  "vectors": [
+    {
+      "edit": "control: no edit, anchor on the newest record",
+      "expected": {
+        "decision": "verified",
+        "reason": "chain_anchored"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "de23fe8d1147d35005cf47580e24e0b2326066cc365eedb46c3fdd5a3cd9cc5b"
+      },
+      "id": "intact",
+      "path": "cases/intact",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "control: no edit, two records written after the last anchor",
+      "expected": {
+        "decision": "verified",
+        "reason": "records_after_last_anchor"
+      },
+      "files": {
+        "anchor.json": "41e75c4c8636508e190913cc06a3743d5c6eb8035bbba1a339155d75f5f63bac",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "de23fe8d1147d35005cf47580e24e0b2326066cc365eedb46c3fdd5a3cd9cc5b"
+      },
+      "id": "records-after-last-anchor",
+      "path": "cases/records-after-last-anchor",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T1: one record's fact changed in place",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "649b30f877a8039cf0969faad53ff1971b0cd199aa0279c80bbac6dbb8d7c8a6"
+      },
+      "id": "t1-content-tamper",
+      "path": "cases/t1-content-tamper",
+      "storeSignaturesVerify": false
+    },
+    {
+      "edit": "T2: the two newest records deleted, both written before the last anchor",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_missing"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "4eb2ffdca6723354fd74185f554d7d67eaa40d73626b77b118981698be5bb688"
+      },
+      "id": "t2-tail-removal",
+      "path": "cases/t2-tail-removal",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T2 limit: the two newest records deleted, both written after the last anchor; the bytes are an honest store anchored at its head",
+      "expected": {
+        "decision": "verified",
+        "reason": "chain_anchored"
+      },
+      "files": {
+        "anchor.json": "41e75c4c8636508e190913cc06a3743d5c6eb8035bbba1a339155d75f5f63bac",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "4eb2ffdca6723354fd74185f554d7d67eaa40d73626b77b118981698be5bb688"
+      },
+      "id": "t2-tail-removal-after-last-anchor",
+      "path": "cases/t2-tail-removal-after-last-anchor",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T3: a record that is neither first nor last deleted",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "3f8289911834fc3e5a19b1bd1051da5d526056db9eb64b3048438ef19930e5d0"
+      },
+      "id": "t3-middle-deletion",
+      "path": "cases/t3-middle-deletion",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T4: two records swapped",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "252ad0ddf0a78792f84bd7fb1b77ad651bd6157df2171e2c81f9de258c860e57"
+      },
+      "id": "t4-reorder",
+      "path": "cases/t4-reorder",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T5: a record of the adversary's authorship appended, signed with a key the consumer does not trust",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "1a84b518c208821bd95583fbe415b1dc4231193a755cac22aef3ba5dae0aff8b"
+      },
+      "id": "t5-forged-insertion",
+      "path": "cases/t5-forged-insertion",
+      "storeSignaturesVerify": false
+    },
+    {
+      "edit": "T6: a genuine record of context B copied over one of A",
+      "expected": {
+        "decision": "rejected",
+        "reason": "record_from_other_chain"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "9ccbc64fea4909bb602f42d8293eb4cf87485beb24dc1b6c66085d1b506d262f"
+      },
+      "id": "t6-cross-context-replay",
+      "path": "cases/t6-cross-context-replay",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T7: a genuine older record of A copied over A's newest record",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "acf8016c1cba0abfe42d912468dedbc6111d2503912443925ba62f643ab8c045"
+      },
+      "id": "t7-rollback-older-record",
+      "path": "cases/t7-rollback-older-record",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T8: a record's owner changed, content kept",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "99a9ab6065e71d3eec71a6b4484444f8a97f8be0f76d72ec4d6e5a5a31654200"
+      },
+      "id": "t8-metadata-tamper",
+      "path": "cases/t8-metadata-tamper",
+      "storeSignaturesVerify": false
+    },
+    {
+      "edit": "T9: the whole store restored from a copy taken before the newest record was written; the anchor was taken after it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_missing"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "30a58ef4b31e8a57df723dad0a581055ae10a6309cd133430b982e21e8923085"
+      },
+      "id": "t9-snapshot-rollback",
+      "path": "cases/t9-snapshot-rollback",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "rollback: the store restored from a backup taken on a branch the producer signed and later abandoned; every record is genuine and every link holds",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchored_head_mismatch"
+      },
+      "files": {
+        "anchor.json": "d3c37863f32302a426605e56c26572e8850663ffa890ee0356d28d467a294894",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "d82b6eaa64ccf742439c9bcec8cae72fa290b13730083fc5ee8f72df587bbf26"
+      },
+      "id": "rollback-to-abandoned-branch",
+      "path": "cases/rollback-to-abandoned-branch",
+      "storeSignaturesVerify": true
+    },
+    {
+      "edit": "T2 followed by a new anchor the adversary signed over the shortened store",
+      "expected": {
+        "decision": "rejected",
+        "reason": "anchor_signature_invalid"
+      },
+      "files": {
+        "anchor.json": "5d63534a14f0232b7c6d9c9d9db7c8f8d854a8726cdda45dcd03b5bab442c7f9",
+        "case.json": "e079edc395007d64e281a68e7bc2a3c00db6e03c077bdc109fe4fcb4d749ef65",
+        "store.jsonl": "4eb2ffdca6723354fd74185f554d7d67eaa40d73626b77b118981698be5bb688"
+      },
+      "id": "tail-removal-reanchored",
+      "path": "cases/tail-removal-reanchored",
+      "storeSignaturesVerify": true
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"
+}

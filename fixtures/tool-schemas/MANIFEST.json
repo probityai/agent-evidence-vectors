@@ -1,0 +1,139 @@
+{
+  "collection": "public-tool-schemas",
+  "entries": [
+    {
+      "file": "everything.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "npx -y @modelcontextprotocol/server-everything@2026.8.31",
+      "serverInfo": {
+        "name": "mcp-servers/everything",
+        "title": "Everything Reference Server",
+        "version": "2.0.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:07:34Z",
+      "sha256": "761b9c5c3c69c3749f64c4293a319ae2b41f4f876f5b9704e55ea827e8a8ef45"
+    },
+    {
+      "file": "fetch.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "uvx mcp-server-fetch==2026.8.18",
+      "serverInfo": {
+        "name": "mcp-fetch",
+        "title": null,
+        "version": "1.29.1",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:08:51Z",
+      "sha256": "67defe7c68a6d877709d605cbb8278e18ce751925161c2819d65a6cfa6fc682d"
+    },
+    {
+      "file": "filesystem.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "npx -y @modelcontextprotocol/server-filesystem@2026.8.31 <directory>",
+      "serverInfo": {
+        "name": "secure-filesystem-server",
+        "title": null,
+        "version": "0.2.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:06:40Z",
+      "sha256": "352dfef9615df282056729edad9835564e4fd602f8b2025182f7eeb2214de2dc"
+    },
+    {
+      "file": "git.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "uvx mcp-server-git==2026.8.18 --repository <directory>",
+      "serverInfo": {
+        "name": "mcp-git",
+        "title": null,
+        "version": "1.30.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:09:15Z",
+      "sha256": "99243fedafd8c9dbb55421e317b9f20b6dae02cbf10d0b8bec7751fb76fe370b"
+    },
+    {
+      "file": "memory.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "npx -y @modelcontextprotocol/server-memory@2026.8.31",
+      "serverInfo": {
+        "name": "memory-server",
+        "title": null,
+        "version": "0.6.3",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:07:09Z",
+      "sha256": "ac7752128e99359a8965618b3bc8ae1651fc2cdb64544b55fd629006c672ce58"
+    },
+    {
+      "file": "notion.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "npx -y @notionhq/notion-mcp-server@2.5.2",
+      "serverInfo": {
+        "name": "Notion API",
+        "title": null,
+        "version": "1.0.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:08:40Z",
+      "sha256": "e7c01e2dcbf911376911874d7ad7322a123a1e5b71ee426a0800bf1c35228b7f"
+    },
+    {
+      "file": "playwright.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "npx -y @playwright/mcp@0.0.83 --headless --isolated",
+      "serverInfo": {
+        "name": "Playwright",
+        "title": null,
+        "version": "1.64.0-alpha-1790635538000",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:07:51Z",
+      "sha256": "0c6425e887a1adea25eb923a7376e8d56446589b5592524d3521cd14e9c83bef"
+    },
+    {
+      "file": "time.tools-list.json",
+      "kind": "MCP tools/list result",
+      "source": "uvx mcp-server-time==2026.8.18 --local-timezone UTC",
+      "serverInfo": {
+        "name": "mcp-time",
+        "title": null,
+        "version": "1.30.0",
+        "websiteUrl": null,
+        "icons": null
+      },
+      "protocolVersion": "2025-11-25",
+      "capturedAt": "2026-10-07T06:09:34Z",
+      "sha256": "4d2cd181b89bd7702163e2323a8dff461813091e84aa2843282d2b5856e41700"
+    },
+    {
+      "file": "openai-crm-namespace.json",
+      "kind": "OpenAI Responses function definitions, namespace example, verbatim from the documentation",
+      "source": "https://platform.openai.com/docs/guides/function-calling.md",
+      "capturedAt": "2026-10-07",
+      "sha256": "d82804185c1818092edac3ebdbe7ac482ddf39c1dd3cebd492fa13cdf438ce3c"
+    },
+    {
+      "file": "anthropic-get-weather.json",
+      "kind": "Anthropic Messages tool definition, simple tool example, verbatim from the documentation with the page's two-space block indent removed",
+      "source": "https://docs.claude.com/en/docs/agents-and-tools/tool-use/implement-tool-use.md",
+      "capturedAt": "2026-10-07",
+      "sha256": "1ae012a3c8fb57f609bd08ccd42acab3995e948c0090736aba170fb64a66a224"
+    }
+  ]
+}

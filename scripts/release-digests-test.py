@@ -27,6 +27,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from _workflow_test_fixture import fixture_git
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GENERATOR = REPO_ROOT / "scripts" / "release-digests.py"
 
@@ -40,21 +42,17 @@ Case = tuple[str, Mutation, tuple[str, ...]]
 
 def stage(destination: Path) -> None:
     """Copy the tracked tree into a fresh git checkout."""
-    listed = subprocess.run(
-        ["git", "-C", str(REPO_ROOT), "ls-files"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    for rel in listed.stdout.split():
+    for rel in fixture_git(REPO_ROOT, "ls-files", "-z").split("\0"):
+        if not rel:
+            continue
         source = REPO_ROOT / rel
         if not source.is_file():
             continue
         target = destination / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
-    for command in (["git", "init", "-q"], ["git", "add", "-A"]):
-        subprocess.run(command, cwd=destination, check=True, capture_output=True)
+    fixture_git(destination, "init", "-q")
+    fixture_git(destination, "add", "-A")
 
 
 def edit_json(root: Path, rel: str, change: Callable[[dict[str, Any]], None]) -> None:
@@ -93,12 +91,22 @@ def unregistered_corpus(root: Path) -> None:
         json.dumps({"suite": "invented", "corpusDigest": "1" * 64, "vectors": []}) + "\n",
         encoding="utf-8",
     )
-    subprocess.run(["git", "add", "-A"], cwd=root, check=True, capture_output=True)
+    fixture_git(root, "add", "-A")
 
 
 def suite_name_removed(root: Path) -> None:
     """A corpus whose line would not say what it is."""
     edit_json(root, AGENT_MANIFEST, lambda d: d.pop("suite", None))
+
+
+def unregistered_space(root: Path) -> None:
+    unregistered_corpus(root)
+    fixture_git(root, "mv", "vectors-unregistered", "vectors unregistered")
+
+
+def unregistered_newline(root: Path) -> None:
+    unregistered_corpus(root)
+    fixture_git(root, "mv", "vectors-unregistered", "vectors\nunregistered")
 
 
 REFUSALS: tuple[Case, ...] = (
@@ -110,6 +118,16 @@ REFUSALS: tuple[Case, ...] = (
     ("an edited vector", vector_edited, (AEE_MANIFEST, "Regenerate")),
     ("an edited agent-action vector", agent_action_edited, (AGENT_MANIFEST,)),
     ("an unregistered corpus", unregistered_corpus, ("RECOMPUTERS", "vectors-unregistered")),
+    (
+        "an unregistered corpus with a space",
+        unregistered_space,
+        ("RECOMPUTERS", "vectors unregistered"),
+    ),
+    (
+        "an unregistered corpus with a newline",
+        unregistered_newline,
+        ("RECOMPUTERS", "vectors\nunregistered"),
+    ),
     ("a corpus with no suite name", suite_name_removed, (AGENT_MANIFEST, "names no suite")),
 )
 

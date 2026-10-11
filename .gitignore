@@ -1,52 +1,23 @@
-# compiled binaries — never commit. The path is anchored to the repo root: an
-# unanchored "aee-verify" also matches the cmd/aee-verify/ SOURCE directory and
-# silently excludes the CLI's main.go from the repo.
+# Compiled binaries. The leading slash keeps the source command directory.
 /aee-verify
 cmd/aee-verify/aee-verify
 *.test
 
-# Python bytecode cache
+# Python caches and Go coverage artifacts.
 __pycache__/
 *.pyc
-
-# Go coverage profiles (CI artifacts)
 *.cov
 
-# Tool state, never publishable. `.humanizer/pending.json` keys on ABSOLUTE PATHS,
-# so committing it leaked the operator's home directory and an "armed" rewriting
-# state onto a public repo whose entire proposition is honest verification -- and
-# it was introduced by the very commit that removed product names from the public
-# surface. One of the leaked paths also named a draft removed in an earlier
-# cleanup, so the record outlived the file it described.
+# Private tool state.
 .humanizer/
 
-# The accept generator's slug-to-identifier map. An intermediate like an object
-# file: the reject generator reads it to resolve the parent every reject vector
-# declares, and it is regenerated on every accept run.
-#
-# It is not committed because the slug surface it carries is label-bearing, and
-# that is measured rather than assumed. Through the same classifier and the same
-# permutation null as every other surface it scores 0.9936 as it stands, 0.7260
-# with the ok-/bad- family token removed, and 0.7307 on the description words
-# alone, against a null near 0.585. The vocabulary is the label: slugs say
-# missing, mismatch, duplicate and wrong on one side and clean, canonical and
-# pass on the other. So there is no spelling of a committed map that leaks
-# nothing, and a corpus that ships its own decoder has relocated a leak rather
-# than closed it.
-# Kept OUT of the vector directories: anything globbing *.json there would
-# count a build map as a vector, and the reference rail did exactly that.
-# Outside the suite root on purpose: the rail refuses a suite directory that
-# holds files no MANIFEST row names, and it is right to -- an unreplayed set
-# and an absent one look identical from inside.
+# Regenerated build intermediates and temporary upstream snapshots.
 .build/
 .crosswalk-upstream/
 
-# Humanizer ledger sidecars: a run record that carries whatever the lane typed
-# into its notes, absolute paths and dossier names included. Never publishable.
+# Private tool sidecars.
 *.ledger.json
 *.humanizer-ledger.json
 
-# The Pages build output. The workflow builds the site into _site on the
-# runner, and a local run of the same build leaves one here. A published
-# site is a generated artifact, never a tracked one.
+# Generated site output.
 _site/

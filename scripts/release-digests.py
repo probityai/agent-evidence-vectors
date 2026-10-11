@@ -52,6 +52,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from _branch_authority import git_environment
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_REL = "release/CORPUS-DIGESTS.txt"
 CHANGES_NAME = "CHANGES.md"
@@ -158,23 +160,27 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-receipt-signature": _recompute_from_generator,
     "vectors-scitt-cose": _recompute_from_generator,
     "vectors-source-coverage": _recompute_from_generator,
+    "vectors-anchored-chain": _recompute_from_generator,
+    "vectors-mcp-owasp": _recompute_from_generator,
     "vectors-w3c-report": _recompute_from_generator,
     "vectors-ai-generation": _recompute_from_generator,
     "vectors-self-reported-record": _recompute_from_generator,
+    "vectors-a2a-jcs-v01": _recompute_from_generator,
 }
 
 
 def tracked_manifests(root: Path) -> list[str]:
     """Every tracked `<dir>/MANIFEST.json`, in path order."""
     listed = subprocess.run(
-        ["git", "-C", str(root), "ls-files", "*/MANIFEST.json"],
+        ["git", "-C", str(root), "ls-files", "-z", "*/MANIFEST.json"],
+        env=git_environment(root),
         capture_output=True,
         text=True,
         check=True,
     )
     return sorted(
         rel
-        for rel in listed.stdout.split()
+        for rel in listed.stdout.split("\0")
         if rel.count("/") == 1 and rel.endswith("/MANIFEST.json")
     )
 
@@ -254,8 +260,7 @@ def main() -> int:
     if args.check:
         if not output.is_file():
             print(
-                f"FAIL: {OUTPUT_REL} does not exist, so there is nothing for a "
-                "signature to cover.",
+                f"FAIL: {OUTPUT_REL} does not exist, so there is nothing for a signature to cover.",
                 file=sys.stderr,
             )
             return 1

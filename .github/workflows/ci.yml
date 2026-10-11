@@ -19,11 +19,40 @@ permissions:
   contents: read
 
 jobs:
+  release-integrity:
+    runs-on: ubicloud-standard-2
+    env:
+      UV_LINK_MODE: copy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: install the pinned signature verifier
+        run: |
+          set -euo pipefail
+          [ "$(uname -m)" = x86_64 ]
+          : "${RUNNER_TEMP:?RUNNER_TEMP is required}"
+          mkdir -p "$RUNNER_TEMP/cosign-bin"
+          binary="$RUNNER_TEMP/cosign-bin/cosign"
+          curl --fail --location --silent --show-error \
+            https://github.com/sigstore/cosign/releases/download/v3.1.3/cosign-linux-amd64 \
+            --output "$binary"
+          printf '%s  %s\n' 4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71 "$binary" | sha256sum --check -
+          chmod 0755 "$binary"
+          echo "$RUNNER_TEMP/cosign-bin" >> "$GITHUB_PATH"
+      - name: sync the owning Python environment
+        run: uv sync --locked --extra dev --extra generators
+      - name: release controls use transient fixture keys and real refusals
+        run: |
+          .venv/bin/python -B scripts/release-digests-test.py
+          .venv/bin/python -B scripts/release-gate-test.py
+
   go:
     runs-on: ubicloud-standard-2
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version: '1.24'
       - name: gofmt (no diffs)
@@ -69,14 +98,28 @@ jobs:
       # absent.
       - name: the shipped CLI clears the published corpus as an external rail
         run: uv run --locked --extra generators python scripts/external-rail-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py
-      # The W3C report corpus is judged by two readers, corpora/w3creport.go and
-      # packaging/agent_evidence_vectors/w3creport.py, and the README says a test
-      # holds them identical. That test existed and no workflow ran it, so the
-      # two statements of the rules could drift with every check green. It runs
-      # here because it builds aee-verify, and it compares every line both rails
-      # print over the committed corpus and over mutated copies of it.
-      - name: the two W3C report readers print the same bytes
+      # The W3C report corpus is judged by three readers: corpora/w3creport.go,
+      # packaging/agent_evidence_vectors/w3creport.py, and readers/w3c-report-rs,
+      # a Rust reader written from the v0.1 text and the corpus with no code path
+      # shared with the other two (docs/research/w3c-reader-independence.md).
+      # The parity test runs here because it builds aee-verify; it also builds
+      # the Rust reader, and a toolchain that is absent fails it rather than
+      # skipping the third rail.
+      - name: install the Rust toolchain the third W3C reader builds with
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal --component clippy,rustfmt
+          echo "RUSTUP_TOOLCHAIN=1.90.0" >> "$GITHUB_ENV"
+      - name: the Rust W3C reader is formatted, lint-clean and tested
+        run: |
+          cargo fmt --manifest-path readers/w3c-report-rs/Cargo.toml --check
+          cargo clippy --locked --manifest-path readers/w3c-report-rs/Cargo.toml --all-targets -- -D warnings
+          cargo test --locked --manifest-path readers/w3c-report-rs/Cargo.toml
+      - name: the three W3C report readers print the same bytes
         run: uv run --locked --extra generators python scripts/w3c-rails-parity-test.py
+      - name: the Rust reader validates the published emitter run and re-writes it byte for byte
+        run: |
+          cargo run --locked --release --manifest-path readers/w3c-report-rs/Cargo.toml -- \
+            --report vectors-w3c-report/observed/aee-v0.12.0/report.json
       # The receipt-signature corpus is judged by a Go reader in aee-verify and a
       # Python reader in the packaged harness, and a named verifier runs through
       # the harness's contract. This holds the two readers to identical output on
@@ -226,13 +269,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: astral-sh/setup-uv@v5
+      # The package floor is 3.12 (the held-out runner workflow proves it), so
+      # an unpinned sync would pick the runner's system 3.12. The development
+      # environment, and the pre-push hook this job tests, require 3.13.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
       - name: sync toolchain
-        run: uv sync --extra dev --extra generators
+        run: uv sync --locked --extra dev --extra generators
       - name: Install checkout wheel for distribution imports
         run: uv pip install --no-deps .
       - name: mypy --strict
-        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-report-rules-test.py packaging/agent_evidence_vectors/receiptsignature.py scripts/receipt-signature-rails-test.py vectors-receipt-signature/digest.py vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py
+        run: uv run mypy packaging/run_vectors.py packaging/agent_evidence_vectors/w3creport.py packaging/agent_evidence_vectors/observedeffect.py packaging/agent_evidence_vectors/auditrecord.py packaging/agent_evidence_vectors/runmetrics.py packaging/agent_evidence_vectors/contextdiscovery.py vectors-w3c-report/gen_vectors.py vectors-w3c-report/origin/derive_pairs.py scripts/w3c-rails-parity-test.py scripts/w3c-reader-differential.py scripts/w3c-report-rules-test.py packaging/agent_evidence_vectors/receiptsignature.py packaging/agent_evidence_vectors/a2ajcs.py scripts/receipt-signature-rails-test.py vectors-receipt-signature/digest.py vectors-receipt-signature/tools/veritasacta-verify.py scripts/gen-w3c-appendix.py vectors/reject/gen_invalid_vectors.py vectors/accept/gen_valid_vectors.py vectors/gen_manifest.py scripts/spec-drift-gate.py scripts/interpretation-registry-gate.py scripts/interpretation-registry-gate-test.py scripts/coverage-matrix-gate.py scripts/complexity-table-gate.py scripts/specpins.py scripts/spec-anchor-gate.py scripts/spec-anchor-gate-test.py scripts/code-contract-gate.py scripts/code-contract-gate-test.py scripts/consumer-lag-gate.py scripts/consumer-lag-gate-test.py scripts/independent-runs-gate.py scripts/suite-commit-gate.py scripts/suite-commit-gate-test.py scripts/condition-registry-gate.py scripts/condition-registry-gate-test.py scripts/condition-forcing-gate.py scripts/condition-forcing-gate-test.py scripts/condition-forcing-crosscheck.py scripts/condition-forcing-crosscheck-test.py scripts/external-rail-gate.py scripts/predicate-state-gate.py scripts/forcing-gate.py scripts/forcing-gate-test.py scripts/countcensus.py scripts/countcensus-sparse-test.py scripts/count-gate.py scripts/count-gate-test.py scripts/distribution-gate.py scripts/distribution-gate-test.py scripts/test_doc_gate_migration.py scripts/test_site_navigation.py docs/site/build.py scripts/regenerability-gate.py scripts/mutationdiff.py scripts/accept-anchor-gate.py scripts/accept-anchor-gate-test.py scripts/liveness-probe.py scripts/liveness-probe-test.py scripts/citation-metadata-gate.py scripts/citation-metadata-gate-test.py scripts/expectation-slack-gate.py scripts/expectation-slack-gate-test.py scripts/observed-code-closure-gate.py scripts/observed-code-closure-gate-test.py scripts/uncited-crosscheck-gate.py scripts/reading-differential.py scripts/reading-differential-test.py scripts/vendor-remap-test.py scripts/vector-distinctness-gate.py scripts/vector-distinctness-gate-test.py scripts/surface-leakage-gate.py scripts/surface-leakage-gate-test.py scripts/harness-output-contract-test.py scripts/verifier-must-run-test.py scripts/report-provenance-test.py scripts/action-retention-test.py scripts/verify-release-tag.py scripts/verify-release-tag-test.py scripts/workflow-steps-gate.py scripts/workflow-steps-gate-test.py scripts/_go_selector.py scripts/go-selector-test.py scripts/_lockfile.py scripts/_lockfile-test.py scripts/manifest-revision-test.py scripts/statement-layer-test.py scripts/independent-runs-gate-test.py scripts/indeterminate-readers-test.py scripts/indeterminate-scoring-gate.py scripts/indeterminate-scoring-gate-test.py interop/action-tuple-framed-v1/reader.py packaging/agent_evidence_vectors/heldout.py scripts/heldout-runner-test.py
       # Type-checks by DIRECTORY, which is why it sits beside the pass above
       # rather than replacing it. That one is driven from the list of files
       # written out on the line above, and a list is only accurate on the day it
@@ -253,7 +301,9 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-self-reported-record scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+      - name: timestamp candidate custody and refusal controls
+        run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
         run: uv run python -m pytest -q interop/aps-priorseal-e2-2026-09-30/test_reproduction.py
       - name: WS4 prior witness candidate cases
@@ -619,8 +669,8 @@ jobs:
       # name the label and either alone is enough.
       - name: the corpus is not scoreable from its surface
         run: |
-          python3 scripts/surface-leakage-gate.py
-          python3 scripts/surface-leakage-gate-test.py
+          uv run python scripts/surface-leakage-gate.py
+          uv run python scripts/surface-leakage-gate-test.py
       # The corpus is vendored into rails that live in other repositories, and
       # each of those checks its own copy against its own stamp. Nothing asked
       # whether the copy was current, so the refresh ran when somebody
@@ -716,7 +766,13 @@ jobs:
       # mirror is only worth having if it agrees with this file, so the test
       # runs here rather than only in the hook it protects.
       - name: the local pre-push mirror agrees with this workflow's shell
-        run: python3 scripts/workflow-steps-gate-test.py
+        run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
+      - name: the pool venue retains source-bound native results and refuses incomplete runs
+        run: .venv/bin/python -B scripts/pre-push-pool-test.py
+      - name: required native providers bind real tools and refuse unsafe archives
+        run: .venv/bin/python -B scripts/native-provider-test.py
+      - name: setup-go selects the declared workspace file before dependent commands
+        run: .venv/bin/python -B scripts/go-selector-test.py
       # Both vector indexes publish a determinism recipe saying the set
       # regenerates byte-identically from the generator beside it, and until
       # this gate nothing ran it. Seven vector files and seven manifest entries
@@ -805,8 +861,27 @@ jobs:
       # the standard library.
       - name: the observed-effect corpus behaves as its manifest claims
         run: uv run --extra generators python vectors-observed-effect/check_vectors.py
+      # Worked receipts for a sequential MCP call chain and a parallel fan-out,
+      # built from the corpus's own helpers and verified by its reference
+      # verifier, with two controls that must fail.
+      - name: the MCP receipt examples verify and link
+        run: uv run --extra generators python examples/mcp-receipts/check_examples.py
       - name: source-coverage fixtures regenerate and refuse invalid replays
         run: uv run --extra dev pytest vectors-source-coverage/tests -q
+      - name: anchored-chain cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-anchored-chain/tests -q
+      # The a2a canonicalization corpus is upstream's bytes, not ours: the
+      # lock check refuses any drift from the pinned a2a-tck commit and corpus
+      # digest, and the tests replay it through the rail with a conformant and
+      # a non-conformant verifier.
+      - name: the vendored a2a-jcs-v01 corpus matches its source lock
+        run: python3 vectors-a2a-jcs-v01/upstream.py check
+      - name: the a2a-jcs-v01 corpus replays under its verifier contract
+        run: uv run --extra dev pytest vectors-a2a-jcs-v01/tests -q
+      - name: OWASP MCP drafts regenerate and every rule owns its reject
+        run: |
+          uv run python vectors-mcp-owasp/gen_vectors.py --check
+          uv run python scripts/mcp-owasp-reader-test.py
       - name: probity-verify checks source coverage
         run: |
           mkdir -p .build
@@ -874,7 +949,7 @@ jobs:
       # so a corpus change fails on the push that makes it rather than on the
       # revision that outdates the name. A checked copy of a derived number is
       # what the census asks for; an unchecked one is what it refuses.
-      - name: replay every vector on the Python rail (must be 281/281)
+      - name: replay every vector on the Python rail (must be 285/285)
         run: python3 packaging/run_vectors.py
       # The replay above says a rail cleared the corpus. This step says the
       # corpus can refuse one, which is a different claim and the one nothing
@@ -898,6 +973,12 @@ jobs:
       # requiring itself to go red.
       - name: a named verifier runs, or the harness says it did not
         run: python3 scripts/verifier-must-run-test.py
+      # The RFC 8785 byte cases ship in the wheel so an SDK's CI can pin the
+      # package and read them offline. The test builds the wheel, compares the
+      # shipped bytes with the repository copy and resolves the documented
+      # locator from outside the checkout.
+      - name: the wheel ships the JCS byte cases at the path the package names
+        run: python3 scripts/wheel-jcs-bytes-test.py
       # A report names the corpus release and digest it ran, matched against
       # the signed digest list. The test ends by deleting the block in a copy of
       # the harness and requiring itself to go red.
@@ -918,7 +999,7 @@ jobs:
   # upper bound on forcing and never a measurement of it: a vector declaring
   # several expected codes is satisfied by any one of them, so deleting the
   # result-vocabulary emission from the rail turns two vectors' gate-0 column
-  # FAIL and the suite still reports 281 of 281, exit 0. The only way to know
+  # FAIL and the suite still reports 285 of 285, exit 0. The only way to know
   # what this corpus obliges a third party to implement is to switch one rule
   # off at a time and replay, which is what this job does.
   #
@@ -937,7 +1018,7 @@ jobs:
   # run, by class and count, on every run.
   #
   # MEASURED on a 16-worker workstation, in CPU-seconds because that is the number
-  # that carries between machines: 465 of 808 sites and ~1670 CPU-seconds there, against
+  # that carries between machines: 466 of 808 sites and ~1670 CPU-seconds there, against
   # ~3370 for the full sweep. Wall time on that box was 88-110s at 8-16 workers. Both
   # CPU-second figures were taken while the sweep was smaller, before the quantifier
   # operator was added, and are not re-measured here: restating a figure for a machine
@@ -946,7 +1027,7 @@ jobs:
     runs-on: ubicloud-standard-8
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version: '1.24'
       - name: the corpus still forces every rule it is recorded as forcing
@@ -1001,7 +1082,7 @@ jobs:
     runs-on: ubicloud-standard-2
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version: '1.24'
       - name: build the shipped verifier into the workspace
@@ -1043,3 +1124,48 @@ jobs:
           echo "outcome=$OUTCOME result=$RESULT"
           test "$OUTCOME" = failure
           test "$RESULT" = fail
+      # A corpus other than the default, through the same action: the a2a
+      # Agent Card canonicalization corpus vendored from a2a-tck, replayed
+      # against the packaged reference canonicalizer and then against one
+      # that canonicalizes the way a2a-python did, which must fail the job.
+      - name: the action replays the a2a-jcs-v01 corpus
+        id: a2a
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python -m agent_evidence_vectors.a2ajcs
+          artifact-name: agent-evidence-vectors-results-a2a
+          report-path: a2a-report.json
+      - name: every a2a signing-input vector ran and conformed
+        env:
+          RESULT: ${{ steps.a2a.outputs.result }}
+          VECTORS: ${{ steps.a2a.outputs.vectors }}
+          CONFORM: ${{ steps.a2a.outputs.conform }}
+          EXECUTED: ${{ steps.a2a.outputs.executed }}
+        run: |
+          echo "result=$RESULT vectors=$VECTORS conform=$CONFORM executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$CONFORM" = "$VECTORS"
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a canonicalizer that writes 1e-06
+        id: a2abad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-a2a-jcs-v01
+          verifier: python vectors-a2a-jcs-v01/tests/bad_verifier.py
+          artifact-name: agent-evidence-vectors-results-a2a-bad
+          report-path: a2a-bad-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.a2abad.outcome }}
+          RESULT: ${{ steps.a2abad.outputs.result }}
+          EXECUTED: ${{ steps.a2abad.outputs.executed }}
+          VECTORS: ${{ steps.a2abad.outputs.vectors }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT executed=$EXECUTED"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"

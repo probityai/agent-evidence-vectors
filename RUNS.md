@@ -90,10 +90,13 @@ through the harness shows it in its report: `rail` reads `external` and
 
 ### MoltyCel, `MoltyCel/moltrust-api`, the a2a-jcs-v01 corpus
 
-This corpus is not in this repository. It is the A2A Agent Card
-canonicalisation set, `conformance-vectors/a2a-jcs-v01` in
+This corpus is the A2A Agent Card canonicalisation set,
+`conformance-vectors/a2a-jcs-v01` in
 [`a2aproject/a2a-tck`](https://github.com/a2aproject/a2a-tck), written by this
-repository's maintainer. It has no suiteRevision; the row pins it by commit and
+repository's maintainer. It is carried here byte for byte as
+[`vectors-a2a-jcs-v01/`](vectors-a2a-jcs-v01/README.md), locked to the commit and
+digest below, so it replays through the harness and the GitHub Action with
+`--corpus vectors-a2a-jcs-v01`. It has no suiteRevision; the row pins it by commit and
 corpus digest instead, and it is not a row of the ledger below, which counts AEE
 revisions only.
 
@@ -126,9 +129,16 @@ The CI run above declared both `CardVerificationError` and `builtins:ValueError`
 as refusals for the verify path. The figure in the table is the narrower one:
 the same scorer at the same corpus commit, with `CardVerificationError` as the
 only refusal, gives 57/57 on the verify path over that commit's code, and 52/57
-over `lib/agent_card_verify.py` from the parent commit `a708e98`. The
-`builtins:ValueError` declaration is being removed from the workflow, which the
-author said was no longer needed after his fix.
+over `lib/agent_card_verify.py` from the parent commit `a708e98`. The verify
+path's `builtins:ValueError` declaration was removed in
+[MoltyCel/moltrust-api#526](https://github.com/MoltyCel/moltrust-api/pull/526),
+so `CardVerificationError` is its only declared refusal. Because the runner
+matches a refusal class exactly, the raw and signing paths declare both
+`ValueError` (the three number rejects) and `UnicodeEncodeError` (the five
+lone-surrogate rejects) as of `1e4c4b7c`. The author reports the four results
+unchanged on both corpus states, `97b0072` and `7a3197d`: raw 53/53, signing
+57/57, verify 57/57 and negative control 53/57
+([A2A#1882](https://github.com/a2aproject/A2A/pull/1882#issuecomment-6000735988)).
 
 The author gave the run no blind or directed label, and this file does not
 supply one. It is not a cold-start result: the fix it measures was made after

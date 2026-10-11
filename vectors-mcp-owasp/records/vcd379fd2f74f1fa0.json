@@ -1,0 +1,14 @@
+{
+  "observation": {
+    "callRequires": "S2",
+    "decision": "refused",
+    "grantedAcrossSessions": [
+      "S1",
+      "S2"
+    ],
+    "sessionScopes": [
+      "S1"
+    ]
+  },
+  "requirement": "MCPVS-4"
+}

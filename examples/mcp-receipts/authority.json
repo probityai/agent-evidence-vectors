@@ -1,0 +1,10 @@
+{
+  "executor": "agent:release-bot",
+  "grant": "write:/srv/app/",
+  "intent": "intent-0001",
+  "requester": "user:alice",
+  "tools": [
+    "fs.read_file",
+    "fs.write_file"
+  ]
+}

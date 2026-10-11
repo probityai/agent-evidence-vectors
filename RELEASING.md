@@ -50,7 +50,18 @@ documentation change are all patch-level.
 
 ### Where the version is written
 
-These files must agree. The 0.12.0 bump omitted the lock's root-package version;
+Ordinary source preparation is not a release. Keep the build version in
+`pyproject.toml`, top-level `CITATION.cff` and `uv.lock` synchronized. Leave the
+candidate without `date-released`. The preferred citation names the actual
+published release, including its commit and annotated tag object. Installation
+pins and verification recipes use that published identity.
+
+A local candidate tag does not prove publication. Do not advance published
+install instructions while preparing source changes. The release procedure
+below is a separate operation; its final public tag, package and check readbacks
+must establish publication before it is reported as delivered.
+
+The source-version files must agree. Published install pins must agree with the published citation. The 0.12.0 bump omitted the lock's root-package version;
 a site build later invoked uv and rewrote it as a side effect. The citation
 gate now checks that entry explicitly. The distribution gate checks the
 installation pins and both copies of the verification recipe.
@@ -58,7 +69,7 @@ installation pins and both copies of the verification recipe.
 | File | What carries the version |
 | --- | --- |
 | `pyproject.toml` | `[project] version` — what the wheel is built as |
-| `CITATION.cff` | `version:` — what an archive deposit and GitHub's citation panel read |
+| `CITATION.cff` | `version:` for source; `preferred-citation` for the published release |
 | `DISTRIBUTION.md` | the tag-to-cite section and the pinned Go, Python and checkout commands |
 | `README.md` | the pinned Go and Python commands for the published release |
 | `docs/guides/runner.md` | the action pin and the pinned Go and Python commands |

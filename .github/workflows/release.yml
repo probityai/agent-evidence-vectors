@@ -144,7 +144,7 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: false
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version-file: go.mod
 
@@ -153,6 +153,11 @@ jobs:
           rm -rf dist
           uv build
           go build -o "$RUNNER_TEMP/aee-verify-release" ./cmd/aee-verify
+
+      - name: the source archive contains only the selected public package
+        run: |
+          uv run --locked --extra dev python scripts/package-boundary-gate.py
+          uv run --locked --extra dev python scripts/package-boundary-gate-test.py
 
       # The wheel is exercised from a directory that is not the checkout, so a
       # path that only resolves inside the repository is caught here and not

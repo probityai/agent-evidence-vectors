@@ -488,6 +488,35 @@ func w3cShapeCheck(check any, index int, out *[]string) {
 	}
 }
 
+// w3cShapeDelta: a delta, when present, is an object, and it lists its changes,
+// when present, as an array of objects (0087 section 1.3, "delta the concrete
+// change").
+func w3cShapeDelta(object map[string]any, where string, out *[]string) {
+	raw, present := object["delta"]
+	if !present {
+		return
+	}
+	delta, ok := raw.(map[string]any)
+	if !ok {
+		*out = append(*out, where+".delta is present and is not an object")
+		return
+	}
+	changes, listed := delta["changes"]
+	if !listed {
+		return
+	}
+	list, isList := changes.([]any)
+	if !isList {
+		*out = append(*out, where+".delta.changes is not an array")
+		return
+	}
+	for j, change := range list {
+		if !isObj(change) {
+			*out = append(*out, fmt.Sprintf("%s.delta.changes[%d] is not an object", where, j))
+		}
+	}
+}
+
 func w3cShapeEvidence(item any, index int, out *[]string) {
 	where := fmt.Sprintf("evidence[%d]", index)
 	object, ok := item.(map[string]any)
@@ -509,9 +538,7 @@ func w3cShapeEvidence(item any, index int, out *[]string) {
 			*out = append(*out, where+"."+slot+" is not a list of strings")
 		}
 	}
-	if delta, present := object["delta"]; present && !isObj(delta) {
-		*out = append(*out, where+".delta is present and is not an object")
-	}
+	w3cShapeDelta(object, where, out)
 	observations, ok := object["observations"].([]any)
 	if !ok {
 		*out = append(*out, where+".observations is not a list")

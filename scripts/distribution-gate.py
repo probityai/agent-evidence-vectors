@@ -108,18 +108,30 @@ def recipe_block(text: str, rel: str) -> str:
 
 
 def released_version(text: str) -> str:
-    """The `version` field of CITATION.cff, read without a YAML parser.
+    """The published citation version, independent of the source build version.
 
     A parser is the right tool and scripts/citation-metadata-gate.py uses one.
     This gate stays dependency-free on purpose: it is the gate that guards the
     page telling a stranger how to check a release, and a gate that cannot run
     in a fresh clone guards nothing there.
     """
-    found = re.findall(r"^version:\s*(\S+)\s*$", text, re.MULTILINE)
+    if len(re.findall(r"^version:", text, re.MULTILINE)) != 1:
+        raise GateError(f"{CITATION_REL} must have one unambiguous source version")
+    preferred = re.findall(r"^preferred-citation:\s*\n((?:[ \t]+[^\n]*\n|\n)*)", text, re.MULTILINE)
+    if len(preferred) > 1:
+        raise GateError(f"{CITATION_REL} repeats `preferred-citation:`; publication is ambiguous")
+    if preferred:
+        found = re.findall(r"^  version:\s*(\S+)\s*$", preferred[0], re.MULTILINE)
+    elif re.search(r"^date-released:", text, re.MULTILINE):
+        found = re.findall(r"^version:\s*(\S+)\s*$", text, re.MULTILINE)
+    else:
+        raise GateError(
+            f"{CITATION_REL} has no published citation; an undated source is not a release"
+        )
     if len(found) != 1:
         raise GateError(
-            f"{CITATION_REL} carries {len(found)} top-level `version:` lines; exactly one is "
-            "readable. Two spellings of the released version is the drift this checks for."
+            f"{CITATION_REL} carries {len(found)} published `version:` lines; "
+            "exactly one is readable"
         )
     return str(found[0]).strip("'\"")
 
@@ -301,6 +313,55 @@ def _module_path_failures(root: Path, page: str) -> list[str]:
     return found
 
 
+def _published_identity_failures(root: Path, citation: str) -> list[str]:
+    """A preferred publication must name the exact local annotated tag and peel."""
+    preferred = re.findall(
+        r"^preferred-citation:\s*\n((?:[ \t]+[^\n]*\n|\n)*)", citation, re.MULTILINE
+    )
+    if not preferred:
+        return []  # A dated historical release uses its top-level citation.
+    try:
+        version = released_version(citation)
+    except GateError as exc:
+        return [str(exc)]
+    tag = f"refs/tags/v{version}"
+    kind = subprocess.run(
+        ["git", "-C", str(root), "cat-file", "-t", tag], capture_output=True, text=True, check=False
+    )
+    if kind.returncode == 0 and kind.stdout.strip() != "tag":
+        return [f"published tag v{version} is not an annotated tag object"]
+    values: dict[str, str] = {}
+    for key, ref in (("commit", f"{tag}^{{commit}}"), ("object", tag)):
+        done = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "--verify", ref],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if done.returncode != 0:
+            return [f"published tag v{version} does not resolve; fetch the published tags"]
+        values[key] = done.stdout.strip()
+    repository = "https://github.com/probityai/agent-evidence-vectors"
+    expected = {
+        "commit": values["commit"],
+        "url": f"{repository}/releases/tag/v{version}",
+        "repository-code": repository,
+        "type": "software",
+    }
+    found: list[str] = []
+    for key, value in expected.items():
+        actual = re.findall(rf"^  {key}:\s*(\S+)\s*$", preferred[0], re.MULTILINE)
+        if actual != [value]:
+            found.append(f"{CITATION_REL}: published {key} differs from tag v{version}")
+    objects = re.findall(r"^      value:\s*(\S+)\s*$", preferred[0], re.MULTILINE)
+    expected_object = (
+        f"https://api.github.com/repos/probityai/agent-evidence-vectors/git/tags/{values['object']}"
+    )
+    if objects != [expected_object]:
+        found.append(f"{CITATION_REL}: published annotated tag object differs from tag v{version}")
+    return found
+
+
 def tracked_corpora(root: Path) -> dict[str, str]:
     """Directory -> the suite name its manifest declares, for every tracked corpus.
 
@@ -446,13 +507,17 @@ def _corpus_failures(root: Path, page: str, form: str) -> list[str]:
     return found
 
 
-def _pin_failures(text: str, rel: str, label: str, pattern: re.Pattern[str],
-                  expected: str, group: int = 1) -> list[str]:
+def _pin_failures(
+    text: str, rel: str, label: str, pattern: re.Pattern[str], expected: str, group: int = 1
+) -> list[str]:
     pins = [match.group(group) for match in pattern.finditer(text)]
     if not pins:
         return [f"{rel} has no pinned {label} command"]
-    return [f"{rel}: {label} pin {pin} differs from release {expected}"
-            for pin in pins if pin != expected]
+    return [
+        f"{rel}: {label} pin {pin} differs from release {expected}"
+        for pin in pins
+        if pin != expected
+    ]
 
 
 def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
@@ -462,9 +527,7 @@ def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
         version = released_version(citation)
     except GateError as exc:
         return [str(exc)]
-    patterns = (
-        ("Go install", INSTALL_LINE, f"v{version}", 2),
-    )
+    patterns = (("Go install", INSTALL_LINE, f"v{version}", 2),)
     for rel in INSTALL_PAGES:
         try:
             text = _read(root, rel)
@@ -480,18 +543,22 @@ def _consumer_pin_failures(root: Path, citation: str) -> list[str]:
     return found
 
 
-def _source_install_failures(root: Path, pins: list[str], rel: str,
-                             version: str) -> list[str]:
+def _source_install_failures(root: Path, pins: list[str], rel: str, version: str) -> list[str]:
     """Match documented source bytes to the local release tag, without authenticating it."""
     selected = subprocess.run(
         ["git", "-C", str(root), "rev-parse", "--verify", f"refs/tags/v{version}^{{commit}}"],
-        capture_output=True, text=True, check=False,
+        capture_output=True,
+        text=True,
+        check=False,
     )
     if selected.returncode != 0:
         return [f"{rel}: Python source install tag v{version} does not resolve; fetch tags"]
     expected = "git+https://github.com/probityai/agent-evidence-vectors@" + selected.stdout.strip()
-    return [f"{rel}: Python install pin {pin} differs from release source {expected}"
-            for pin in pins if pin != expected]
+    return [
+        f"{rel}: Python install pin {pin} differs from release source {expected}"
+        for pin in pins
+        if pin != expected
+    ]
 
 
 def _python_install_failures(root: Path, text: str, rel: str, version: str) -> list[str]:
@@ -502,8 +569,11 @@ def _python_install_failures(root: Path, text: str, rel: str, version: str) -> l
     commands = re.findall(r"^uvx(?:\s[^\n]*)?$", text, re.MULTILINE)
     if not commands:
         return [f"{rel} has no pinned Python install command"]
-    found = [f"{rel}: unrecognized Python install command: {command}"
-             for command in commands if not registry.match(command) and not source.match(command)]
+    found = [
+        f"{rel}: unrecognized Python install command: {command}"
+        for command in commands
+        if not registry.match(command) and not source.match(command)
+    ]
     if source_pins:
         found.extend(_source_install_failures(root, source_pins, rel, version))
     if registry.search(text):
@@ -528,6 +598,7 @@ def failures(root: Path) -> list[str]:
 
     return (
         _recipe_and_tag_failures(reference, page, citation)
+        + _published_identity_failures(root, citation)
         + _consumer_pin_failures(root, citation)
         + _module_path_failures(root, page)
         + _tag_check_failures(root, page)

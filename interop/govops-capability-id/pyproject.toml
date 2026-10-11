@@ -21,5 +21,11 @@ line-length = 140
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "C90"]
 
+[tool.ruff.lint.isort]
+# Name the local modules: the workflow lints from the repository root, which
+# has its own fixtures/ directory, so path-based detection depends on the
+# working directory.
+known-first-party = ["fixtures", "govops_ids", "qualify"]
+
 [tool.ruff.lint.mccabe]
 max-complexity = 10

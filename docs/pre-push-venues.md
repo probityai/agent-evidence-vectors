@@ -1,0 +1,65 @@
+# Run the pre-push gate on a build pool
+
+Install the tracked hooks with `bash .githooks/install.sh`. The hook checks the
+push history and every selected revision before Git sends any ref.
+
+`AEV_PRE_PUSH_VENUE=local` is the default. It runs the complete committed workflow
+gate on the machine that issues the push.
+
+Set `AEV_PRE_PUSH_VENUE=pool` when that machine must send heavy work to a build
+pool. Put the installed `box_run.sh` on `PATH`. Other venue values refuse the
+push. The pool bridge does not push or need GitHub credentials.
+
+```sh
+AEV_PRE_PUSH_VENUE=pool git push origin my-reviewed-branch
+```
+
+The pool driver creates a separate job. The bridge restores the selected pushed
+commit and checks its tree, tags, origin, hook, and gate before any workflow step.
+It runs the same complete gate without workflow selection flags. Native steps
+receive a defined environment without SSH agents or API tokens.
+
+The bridge retains the original result, logs, source capture, and reports in a
+compressed archive. It receives the archive through the pool driver's SSH route
+and checks every member before the original Git push continues. A missing
+runner, receipt, archive, source binding, or native result refuses the push.
+Both success and failure captures stay available at the printed evidence
+directory. The coordinator stores them under `aev-pre-push-pool/` in the
+repository's common Git directory. They survive temporary-directory cleanup
+and removal of the isolated checkout that the hook creates. Each run gets a
+separate directory. Retain the archive elsewhere before deleting the repository.
+
+Archive and member hashes use 1 MiB read buffers. Gzip decoding feeds the tar
+reader through a buffered stream, so a highly compressed member does not
+expand into one allocation. The checker keeps the member metadata and four
+JSON contracts in memory; it streams the other original files. It checks the
+gzip footer and CRC. The archive validation record reports compressed bytes,
+original file bytes, original file count and largest original file. These totals
+exclude directory entries and the generated manifest. No size limit is imposed.
+If archive storage itself refuses, the original native scratch stays available
+at its printed location.
+
+The native result lists steps that ran and steps that did not run locally.
+Pool execution does not turn hosting-only steps into passes. Check the remote
+workflows at the pushed commit after Git completes.
+
+Required tool setup failures fail the native gate and stop dependent commands.
+Unresolved required setup inputs also fail and block consumers, including
+Python setup. A setup whose event condition is proven false is excluded before
+its inputs are resolved; it does not provision tools or block later commands.
+An unavailable exact Python version or failed Python provisioning also fails
+the gate and blocks consumers. `continue-on-error` cannot qualify a missing
+required interpreter.
+Go and Node selectors must be numeric versions. The gate probes the current
+tools and maintained installed inventory first. If they do not match, it selects
+the newest stable matching release from the official index, checks the official
+archive checksum, and extracts a contained runtime in that job's temporary
+directory. It probes the selected executables before any consumer runs.
+Only that job receives the new `PATH` and Go `GOROOT`; shared configuration and
+installed defaults stay unchanged. Original metadata, checksums, archive bytes,
+download logs and version probes remain in the native capture. Extracted vendor
+runtimes are excluded from generic report collection.
+
+Timestamp captures keep the three fixed public validation inputs only when
+their bytes match the selected public source and candidate manifest. Arbitrary
+certificate or key files do not enter the archive through their suffix.
