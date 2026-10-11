@@ -38,6 +38,29 @@ REQUIRED_ROLES: tuple[str, ...] = (
     "grading_stderr",
 )
 
+#: The ``dependency-selection/v1`` profile: a record of one AI-assisted
+#: dependency change. The consumer, not the producer, holds this bar, for the
+#: same reason as above. Each role is one piece of evidence a reviewer of the
+#: change needs and cannot reconstruct afterwards: the lockfile before and
+#: after, the skill or instruction file that was in force when the agent chose,
+#: the output of every check that ran over the choice, and the human approval.
+DEPENDENCY_SELECTION_PROFILE = "dependency-selection/v1"
+DEPENDENCY_SELECTION_ROLES: tuple[str, ...] = (
+    "lockfile_before",
+    "lockfile_after",
+    "skill_instructions",
+    "provenance_check_output",
+    "vulnerability_scan_output",
+    "approval",
+)
+
+#: Every profile a consumer may name, with the roles it requires. A profile
+#: absent from this table is refused, never treated as "no roles required".
+PROFILES: dict[str, tuple[str, ...]] = {
+    PROFILE_NAME: REQUIRED_ROLES,
+    DEPENDENCY_SELECTION_PROFILE: DEPENDENCY_SELECTION_ROLES,
+}
+
 #: Covered when present, never required: Harbor does not always produce them.
 OPTIONAL_ROLES: tuple[str, ...] = ("trial_lock", "collection_manifest")
 
@@ -259,7 +282,7 @@ def collect_facts(trial_dir: Path, verifier_dir: Path | None = None) -> TrialFac
         reward_path=reward_path,
     )
     _collect_run_artifacts(trial_dir, facts)
-    _collect_grading_inputs(trial_dir, verifier_dir, facts)
+    collect_grading_inputs(trial_dir, verifier_dir, facts)
     return facts
 
 
@@ -301,7 +324,7 @@ def _collect_run_artifacts(trial_dir: Path, facts: TrialFacts) -> None:
 GRADING_INPUT_DIR = "binding/grading-inputs"
 
 
-def _collect_grading_inputs(trial_dir: Path, verifier_dir: Path | None, facts: TrialFacts) -> None:
+def collect_grading_inputs(trial_dir: Path, verifier_dir: Path | None, facts: TrialFacts) -> None:
     """Capture the verifier or test files INTO the archive, then cover them.
 
     A verifier that lives outside the trial directory is not re-checkable: a
@@ -358,6 +381,7 @@ def build(
     source_record_digest: str | None = None,
     recorded_at: str | None = None,
     producer_id: str = "independent",
+    framework: str = "harbor",
 ) -> dict[str, JSONValue]:
     """The manifest object for *facts*, ready to canonicalize and sign."""
     if operation not in ("execute", "regrade"):
@@ -377,7 +401,7 @@ def build(
             "producer_id": producer_id,
         },
         "run": {
-            "framework": "harbor",
+            "framework": framework,
             "trial_id": facts.trial_id,
             "trial_id_source": facts.trial_id_source,
             "task_name": facts.task_name,

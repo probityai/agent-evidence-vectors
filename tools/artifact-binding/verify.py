@@ -161,16 +161,46 @@ def check_artifacts(
     return roles, absent
 
 
-def check_profile(roles: set[str], out: Outcome) -> bool:
-    """Every role the profile requires is present. Returns whether any is missing."""
-    missing = [role for role in manifest_mod.REQUIRED_ROLES if role not in roles]
+def check_profile(roles: set[str], profile: str, out: Outcome) -> bool:
+    """Every role the profile requires is present. Returns whether any is missing.
+
+    The caller names *profile*; it is never read from the record. A profile this
+    verifier does not know is a usage error raised to the caller, because
+    answering it with an empty role list would pass every record.
+    """
+    required = manifest_mod.PROFILES.get(profile)
+    if required is None:
+        raise ValueError(f"unknown profile {profile!r}")
+    missing = [role for role in required if role not in roles]
     for role in missing:
         out.codes.append("required-role-absent")
         out.messages.append(
-            f"role {role!r} is required by profile {manifest_mod.PROFILE_NAME} and the "
+            f"role {role!r} is required by profile {profile} and the "
             "record carries no entry for it"
         )
     return bool(missing)
+
+
+def check_in_force(
+    record: dict[str, JSONValue], in_force: dict[str, str], out: Outcome
+) -> None:
+    """Each pinned role covers exactly the bytes the consumer holds as in force.
+
+    The consumer names, per role, the digest it accepts: for a dependency
+    change, the skill or instruction file its policy says was in force. A
+    record can be honestly signed over a DIFFERENT instruction file, every byte
+    on disk matching, and still describe a change made under instructions the
+    consumer never approved. That is a contradiction, so it fails.
+    """
+    entries = _entries(record, "artifacts") + _grading_inputs(record)
+    for role, pinned in sorted(in_force.items()):
+        for entry in entries:
+            if entry.get("role") == role and entry.get("sha256") != pinned:
+                out.codes.append("role-not-in-force")
+                out.messages.append(
+                    f"{entry.get('path')}: role {role!r} covers sha256 "
+                    f"{entry.get('sha256')} and the consumer holds {pinned} as in force"
+                )
 
 
 def check_outcome(trial_dir: Path, record: dict[str, JSONValue], out: Outcome) -> None:
@@ -267,9 +297,18 @@ _INCONCLUSIVE = frozenset(
 
 
 def verify(
-    trial_dir: Path, manifest_path: Path, signature_path: Path, public_key: bytes
+    trial_dir: Path,
+    manifest_path: Path,
+    signature_path: Path,
+    public_key: bytes,
+    profile: str = manifest_mod.PROFILE_NAME,
+    in_force: dict[str, str] | None = None,
 ) -> Outcome:
-    """Check one record against the bytes it names. Never re-runs any grading."""
+    """Check one record against the bytes it names. Never re-runs any grading.
+
+    *profile* and *in_force* are the consumer's: the completeness bar and the
+    per-role digests it accepts. Neither is read from the record.
+    """
     out = Outcome(verdict=VERIFIED)
     raw = manifest_path.read_bytes()
     record = check_encoding(raw, out)
@@ -288,7 +327,8 @@ def verify(
             )
 
     roles, absent = check_artifacts(trial_dir, record, out)
-    missing = check_profile(roles, out)
+    missing = check_profile(roles, profile, out)
+    check_in_force(record, in_force or {}, out)
     incomplete = check_dependencies(record, out)
     check_outcome(trial_dir, record, out)
     check_atif(trial_dir, record, out)

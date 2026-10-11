@@ -855,6 +855,8 @@ jobs:
       # corpora/artifactbinding.go with the rest of the corpus's rules.
       - name: the artifact-binding corpus carries exactly the faults it names
         run: uv run --extra artifact-binding python vectors-artifact-binding/check_vectors.py
+      - name: the dependency-selection corpus carries exactly the faults it names
+        run: uv run --extra artifact-binding python vectors-artifact-binding/check_vectors.py vectors-dependency-selection
       # The observed-effect corpus needs the `generators` extra for the same
       # reason the SCITT one does: its reference verifier checks Ed25519
       # signatures, including the prior-commitment signature, and that is not in

@@ -78,6 +78,9 @@ GENERATORS = (
     # rather than single statements, which is a larger surface to hand-place
     # and therefore a larger reason to derive it.
     "vectors-artifact-binding/gen_vectors.py",
+    # The dependency-selection corpus: the same record format under a second
+    # consumer-held profile, so the same reason applies.
+    "vectors-dependency-selection/gen_vectors.py",
     # The SCITT/COSE carriage suite. Like the one above it builds its own
     # manifest and its own index in the same run, so it has no ordering
     # relationship with anything else and is listed last.
@@ -170,6 +173,9 @@ OWNED = (
     ("vectors-artifact-binding", "MANIFEST.json"),
     ("vectors-artifact-binding", "INDEX.md"),
     ("vectors-artifact-binding", "public.key"),
+    ("vectors-dependency-selection", "MANIFEST.json"),
+    ("vectors-dependency-selection", "INDEX.md"),
+    ("vectors-dependency-selection", "public.key"),
     # The SCITT/COSE carriage suite. Its INDEX.md is OWNED here, unlike the
     # hand-authored indexes above, because that file is emitted from the
     # manifest: an index a person maintains beside a corpus drifts from it and

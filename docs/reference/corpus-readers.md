@@ -9,6 +9,7 @@ GOWORK=off go build -o aee-verify ./cmd/aee-verify
 ./aee-verify vectors
 ./aee-verify vectors-ai-agent-action
 ./aee-verify vectors-artifact-binding
+./aee-verify vectors-dependency-selection
 ```
 
 | Result | Exit |

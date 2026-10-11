@@ -77,7 +77,19 @@ def cmd_verify(args: argparse.Namespace) -> int:
     trial_dir = Path(args.trial_dir)
     manifest_path, signature_path = _paths(trial_dir)
     public = sign.load_public(Path(args.pubkey))
-    outcome = verify_mod.verify(trial_dir, manifest_path, signature_path, public)
+    in_force: dict[str, str] = {}
+    for pin in args.in_force:
+        role, sep, digest = pin.partition("=")
+        if not sep or not role or len(digest) != 64:
+            raise manifest_mod.BindingError(f"--in-force takes ROLE=SHA256, not {pin!r}")
+        in_force[role] = digest
+    if args.profile not in manifest_mod.PROFILES:
+        raise manifest_mod.BindingError(
+            f"unknown profile {args.profile!r}; known: {', '.join(sorted(manifest_mod.PROFILES))}"
+        )
+    outcome = verify_mod.verify(
+        trial_dir, manifest_path, signature_path, public, args.profile, in_force
+    )
     print(outcome.report())
     return outcome.exit_code
 
@@ -153,6 +165,14 @@ def build_parser() -> argparse.ArgumentParser:
     check = subparsers.add_parser("verify", help="check a record against bytes on disk")
     check.add_argument("trial_dir")
     check.add_argument("--pubkey", required=True)
+    check.add_argument("--profile", default=manifest_mod.PROFILE_NAME)
+    check.add_argument(
+        "--in-force",
+        action="append",
+        default=[],
+        metavar="ROLE=SHA256",
+        help="a digest the consumer holds as in force for ROLE; repeatable",
+    )
     check.set_defaults(handler=cmd_verify)
 
     again = subparsers.add_parser("regrade", help="regrade a bound archive")
