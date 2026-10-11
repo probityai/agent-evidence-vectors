@@ -856,11 +856,24 @@ def scitt_cose_counts() -> dict[str, int]:
     """
     payload = json.loads(source("vectors-scitt-cose/MANIFEST.json").read_text(encoding="utf-8"))
     entries = payload["vectors"]
-    tally = {
-        kind: sum(1 for entry in entries if entry.get("kind") == kind)
-        for kind in ("accept", "reject", "indeterminate")
-    }
+    tally = {kind: 0 for kind in ("accept", "reject", "indeterminate")}
+    for position, entry in enumerate(entries, start=1):
+        kind = entry.get("kind") if isinstance(entry, dict) else None
+        if not isinstance(kind, str) or kind not in tally:
+            raise SystemExit(
+                f"FAIL: vectors-scitt-cose/MANIFEST.json member {position} has "
+                f"unsupported kind {kind!r}; every member must be accept, reject "
+                "or indeterminate before its count can be claimed."
+            )
+        tally[kind] += 1
     declared = payload.get("counts", {})
+    if not isinstance(declared, dict) or any(
+        isinstance(declared.get(kind), bool) for kind in tally
+    ):
+        raise SystemExit(
+            "FAIL: vectors-scitt-cose/MANIFEST.json counts must be an object of "
+            "numeric counts; boolean values are not counts."
+        )
     if any(declared.get(kind) != tally[kind] for kind in tally):
         raise SystemExit(
             f"FAIL: vectors-scitt-cose/MANIFEST.json declares {declared} and carries "
