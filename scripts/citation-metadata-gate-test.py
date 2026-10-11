@@ -62,7 +62,7 @@ QUIESCENT = {
 }
 
 
-def stage(destination: Path) -> None:
+def stage(destination: Path, dated: bool = True) -> None:
     """Copy the tracked tree into a fresh git checkout.
 
     The census enumerates its subject with `git ls-files` rather than by walking
@@ -100,7 +100,10 @@ def stage(destination: Path) -> None:
         published_text,
         flags=re.MULTILINE,
     )
-    published_text += 'date-released: "' + str(preferred["date-released"]) + '"\n'
+    # A release cut from an undated source candidate carries no top-level
+    # date-released; its date is the tagged commit's. Both shapes are published.
+    if dated:
+        published_text += 'date-released: "' + str(preferred["date-released"]) + '"\n'
     (destination / CFF).write_text(published_text, encoding="utf-8")
     subprocess.run(["git", "add", "-A"], cwd=destination, check=True, capture_output=True)
     instant = str(preferred["date-released"]) + "T12:00:00+0000"
@@ -527,12 +530,14 @@ ACCEPT_CASES: list[Case] = [
 ]
 
 
-def check(group: str, cases: list[Case], want_refusal: bool, tmp: Path) -> list[str]:
+def check(
+    group: str, cases: list[Case], want_refusal: bool, tmp: Path, dated: bool = True
+) -> list[str]:
     failures: list[str] = []
     for index, (name, mutate, phrases) in enumerate(cases):
         root = tmp / f"{group}{index}"
         root.mkdir()
-        stage(root)
+        stage(root, dated)
         mutate(root)
         code, output = run(root)
         if want_refusal and code == 0:
@@ -643,6 +648,10 @@ def main() -> int:
         failures.extend(check("date", DATE_CASES, True, tmp))
         failures.extend(check("identity", IDENTITY_CASES, True, tmp))
         failures.extend(check("accept", ACCEPT_CASES, False, tmp))
+        failures.extend(check("undated-accept", ACCEPT_CASES[:1], False, tmp, dated=False))
+        failures.extend(
+            check("undated-identity", IDENTITY_CASES[2:6], True, tmp, dated=False)
+        )
         failures.extend(timezone_date_checks(tmp))
         failures.extend(candidate_publication_checks(tmp))
     total = (

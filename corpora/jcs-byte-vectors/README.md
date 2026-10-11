@@ -11,6 +11,17 @@ Run the byte oracle:
 node corpora/jcs-byte-vectors/check.mjs
 ```
 
+The wheel ships `cases.json` and this README, so an SDK's CI can pin the
+package and read the cases offline instead of fetching them by tag:
+
+```sh
+pip install agent-evidence-vectors==VERSION
+agent-evidence-vectors --jcs-byte-vectors
+python -c "from agent_evidence_vectors.run_vectors import jcs_byte_vectors_path; print(jcs_byte_vectors_path())"
+```
+
+Both print the absolute path of the installed `cases.json`. Releases from 0.17.7 on carry it.
+
 To run a candidate canonicalizer, pass a command that reads one JSON value
 from stdin and writes canonical bytes to stdout, with no trailing newline.
 It exits nonzero on rejected input:

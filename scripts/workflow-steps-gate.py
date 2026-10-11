@@ -345,8 +345,12 @@ def own_action(inputs: dict[str, Any]) -> Local:
 
     The installation step is the runner's: it pip-installs the package into the
     job's environment, and the harness it installs is the file on disk here.
-    The job summary is written to a scratch file, and the artifact upload is
-    not mirrored at all.
+    A verifier the action names as `python -m agent_evidence_vectors.<module>`
+    imports that installed package, so the mirror puts this checkout's package
+    first on PYTHONPATH. Without it the import resolved to whatever older copy
+    the first interpreter on PATH had installed, and a replay the remote passed
+    failed every vector here. The job summary is written to a scratch file, and
+    the artifact upload is not mirrored at all.
     """
     verifier = str(inputs.get("verifier", "")).strip()
     if not verifier:
@@ -361,6 +365,7 @@ def own_action(inputs: dict[str, Any]) -> Local:
     return Local(
         ': "${RUNNER_TEMP:?RUNNER_TEMP is required}"\n'
         f'report_path="$RUNNER_TEMP"/{shlex.quote(report_name)}\n'
+        'export PYTHONPATH="$PWD/packaging${PYTHONPATH:+:$PYTHONPATH}"\n'
         "status=0\n"
         "python3 packaging/run_vectors.py"
         f" --corpus {shlex.quote(corpus)}"
@@ -711,6 +716,12 @@ class _Evaluator:
             return self.step_reference(text)
         if text in self.context:
             return self.context[text], ""
+        # GitHub fills `inputs` only for workflow_dispatch and workflow_call; on
+        # every other event the context is empty and each member reads as null.
+        # Without a declared event there is nothing to decide from, so refuse.
+        event = self.context.get("github.event_name")
+        if text.startswith("inputs.") and event and event not in INPUT_EVENTS:
+            return None, ""
         return None, (
             f"unsupported expression {self.shown}: `{text}` has no verified local context"
         )
@@ -797,7 +808,9 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
         return [{}], ""
     if not isinstance(matrix, dict):
         return [], f"its matrix is the expression {matrix!r}, which is not evaluated"
-    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    axes, reason = expand_axes(matrix)
+    if reason:
+        return [], reason
     if any(
         not isinstance(v, list) or any(isinstance(x, (dict, list)) for x in v)
         for v in axes.values()
@@ -817,6 +830,38 @@ def matrix_combinations(job: Any) -> tuple[list[dict[str, str]], str]:
             added.append(row)
     combos = original + added
     return (combos, "") if combos else ([], "its matrix expands to no combination")
+
+
+def expand_axes(matrix: dict[str, Any]) -> tuple[dict[str, Any], str]:
+    """The matrix axes, with any `${{ fromJSON(...) }}` axis expanded."""
+    axes = {k: v for k, v in matrix.items() if k not in ("include", "exclude")}
+    for name, value in list(axes.items()):
+        if isinstance(value, str):
+            expanded, reason = fromjson_axis(value)
+            if reason:
+                return {}, f"matrix axis {name}: {reason}"
+            axes[name] = expanded
+    return axes, ""
+
+
+def fromjson_axis(value: str) -> tuple[Any, str]:
+    """Expand an axis `${{ fromJSON(expr) }}` whose expr resolves locally.
+
+    Only an expression the evaluator can read without another job's outputs
+    is expanded (`inputs.x || '[...]'` on an event with no inputs). Anything
+    else is refused by name rather than guessed.
+    """
+    found = FROMJSON_AXIS.match(value.strip())
+    if found is None:
+        return None, f"the expression {value!r} is not evaluated"
+    raw, missing = evaluate(found.group(1), {}, None, {"github.event_name": LOCAL_EVENT})
+    if missing or not isinstance(raw, str):
+        return None, f"fromJSON over {found.group(1)!r} does not resolve locally"
+    try:
+        parsed = json.loads(raw)
+    except ValueError:
+        return None, f"fromJSON over {found.group(1)!r} is not JSON"
+    return parsed, ""
 
 
 def matrix_entries(entries: Any) -> bool:
@@ -1102,11 +1147,16 @@ def run_step(
     workdir: str = "",
     root: pathlib.Path | None = None,
     evidence: pathlib.Path | None = None,
+    temp: pathlib.Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
     workspace = (root or REPO).resolve()
     directory = (workspace / workdir).resolve()
-    if not directory.is_relative_to(workspace):
-        raise ValueError("working-directory escapes the job checkout")
+    # A runner owns RUNNER_TEMP for the job, so a step may start there (the
+    # held-out workflow does, so the installed wheel answers rather than the
+    # checkout). Anywhere else outside the checkout is refused.
+    allowed = [workspace] + ([temp.resolve()] if temp is not None else [])
+    if not any(directory.is_relative_to(base) for base in allowed):
+        raise ValueError("working-directory escapes the job checkout and its runner temp")
     if not directory.is_dir():
         raise ValueError(f"working-directory {workdir!r} does not exist in the job checkout")
     if evidence is not None:
@@ -1649,6 +1699,7 @@ def execute_job(
                 directory if step.run is not None else "",
                 job.root,
                 retained,
+                job.temp,
             )
         except (OSError, ValueError) as exc:
             job.failed += 1
@@ -1949,6 +2000,14 @@ def provider_problem(step: Step, job: JobState) -> str:
 # The event a local run stands for. The pre-push hook mirrors a push, so a step
 # guarded to another event would not run on the remote for this push either.
 LOCAL_EVENT = "push"
+# The events whose payload carries an `inputs` context.
+INPUT_EVENTS = frozenset({"workflow_dispatch", "workflow_call"})
+# A matrix axis written as one fromJSON call, the shape a reusable workflow
+# uses to default a list it can also take as an input.
+FROMJSON_AXIS = re.compile(r"^\$\{\{\s*fromJSON\((.*)\)\s*\}\}$", re.DOTALL)
+# A condition that is exactly one input reference. On an event with no inputs
+# it reads as null, which is false, so the runner skips the step.
+INPUT_TEST = re.compile(r"^\s*(?:\$\{\{\s*)?inputs\.[A-Za-z0-9_-]+\s*(?:\}\})?\s*$")
 EVENT_TEST = re.compile(
     r"^\s*(?:\$\{\{\s*)?github\.event_name\s*(==|!=)\s*'([a-z_]+)'\s*(?:\}\})?\s*$"
 )
@@ -1957,10 +2016,16 @@ EVENT_TEST = re.compile(
 def event_excludes(condition: str) -> str:
     """The reason a step's `if:` is false for a push, or "" when it is not.
 
-    Only a bare comparison of github.event_name is decided here. Any other
+    Only a bare comparison of github.event_name, or a bare input reference
+    (null, so false, on an event with no inputs), is decided here. Any other
     expression is left to run as before, because deciding it wrongly would turn
     a step the remote runs into one this gate silently skips.
     """
+    if INPUT_TEST.match(condition) and LOCAL_EVENT not in INPUT_EVENTS:
+        return (
+            f"its condition `{condition.strip()}` reads an input, and a {LOCAL_EVENT} "
+            "carries no inputs, so it is null and false"
+        )
     match = EVENT_TEST.match(condition)
     if not match:
         return ""

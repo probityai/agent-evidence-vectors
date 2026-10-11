@@ -984,9 +984,9 @@
   ],
   "counts": {
     "accept": 117,
-    "reject": 118
+    "reject": 119
   },
-  "corpusDigest": "f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe",
+  "corpusDigest": "76a189e2a73f1f635bc555176ca9660c988540f3e86e9d4f8dab64ebec47cc0d",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -4943,6 +4943,24 @@
         "rejects": []
       },
       "cites": "a control built to fail that did fail, over the run's own declared checks"
+    },
+    {
+      "id": "vda6c078e77700b28",
+      "kind": "reject",
+      "file": "vectors/vda6c078e77700b28.json",
+      "family": "arm-f-usage",
+      "requirements": [
+        "ARM-R-014"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "agent-run-metrics",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "ARM-R-014"
+        ]
+      },
+      "cites": "a ledger element whose tokens is a string, which is not a count and so cannot sum to the aggregate counter"
     },
     {
       "id": "vdcb0849fc754aaea",

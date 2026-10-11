@@ -590,5 +590,86 @@
         "docs/IMPLEMENTATION-REPORT.md"
       ]
     }
+  ],
+  "rosterComment": "Every run of a corpus from this repository, by anyone, one row per implementation and corpus, with exactly one label. author-produced: this repository's maintainer wrote the code that ran. second-party-same-code: someone other than the code's author ran that same code. independent: the code was written by someone other than this repository's maintainer, without the reference code. The label says who wrote and who ran the code, never how blind the run was; the evidence field says that. consent is how the runner agreed to be listed: posted-publicly means the runner posted the result in a public thread named in consentThread, confirmed means the runner confirmed the listing there, not-yet-asked means neither. scripts/independent-runs-gate.py refuses a row without every field or with any other label.",
+  "roster": [
+    {
+      "runner": "probityai",
+      "implementation": "the reference rails in this repository (packaging/run_vectors.py, cmd/aee-verify)",
+      "corpus": "every corpus in this repository",
+      "label": "author-produced",
+      "evidence": "directed",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml",
+      "consentThread": null,
+      "consent": "not-applicable",
+      "immutableRelease": "https://pypi.org/project/agent-evidence-vectors/",
+      "date": null,
+      "pin": "each release tag"
+    },
+    {
+      "runner": "Rul1an",
+      "implementation": "Rul1an/aee-checker",
+      "corpus": "vectors (the AEE corpus)",
+      "label": "independent",
+      "evidence": "blind and directed runs; see the runs array above, one row per suiteRevision",
+      "posting": "https://github.com/in-toto/attestation/pull/570",
+      "consentThread": "https://github.com/in-toto/attestation/pull/570",
+      "consent": "posted-publicly",
+      "immutableRelease": "https://github.com/Rul1an/aee-checker/releases",
+      "date": null,
+      "pin": "suiteRevision per run row"
+    },
+    {
+      "runner": "Rul1an",
+      "implementation": "Rul1an's agent-written Rust reader",
+      "corpus": "vectors-observed-effect",
+      "label": "independent",
+      "evidence": "directed: written by an AI agent after reading the cases and expected answers; outcome agreement on 12 accepts, 46 rejects and the indeterminate case; the verdict word matched on 24 of the 46 rejects (docs/runs/observed-effect-verdict-words.md)",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/29#issuecomment-5994714914",
+      "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/29",
+      "consent": "posted-publicly",
+      "immutableRelease": null,
+      "date": "2026-10-05",
+      "pin": "e6f1784fe4572bbbb3069648a562a9c76f5f3ce4"
+    },
+    {
+      "runner": "MoltyCel",
+      "implementation": "MoltyCel/moltrust-api",
+      "corpus": "a2a-jcs-v01 in a2aproject/a2a-tck",
+      "label": "independent",
+      "evidence": "unlabelled by its author; see RUNS.md",
+      "posting": "https://github.com/a2aproject/A2A/pull/1882#issuecomment-5932794122",
+      "consentThread": "https://github.com/a2aproject/A2A/pull/1882",
+      "consent": "posted-publicly",
+      "immutableRelease": null,
+      "date": "2026-10-01",
+      "pin": "97b007237ee4c3b802ed563829e3937a5529244e"
+    },
+    {
+      "runner": "Mayur021",
+      "implementation": "Mayur021/agent-audit-record-reader",
+      "corpus": "vectors-agent-audit-record",
+      "label": "independent",
+      "evidence": "reported by its author on the WIMSE thread",
+      "posting": "https://github.com/ietf-wg-wimse/draft-ietf-wimse-aims/issues/144#issuecomment-5934905211",
+      "consentThread": "https://github.com/ietf-wg-wimse/draft-ietf-wimse-aims/issues/144",
+      "consent": "posted-publicly",
+      "immutableRelease": "https://github.com/Mayur021/agent-audit-record-reader/tree/0ad911a39d7942d5fabd9a4ea0b9093bb04f88a7",
+      "date": "2026-10-01",
+      "pin": "8d6295fb5db3e57c52df09f2fbeeb758b09f5c7d"
+    },
+    {
+      "runner": "probityai",
+      "implementation": "Mayur021/agent-audit-record-reader",
+      "corpus": "vectors-agent-audit-record",
+      "label": "second-party-same-code",
+      "evidence": "a rerun of the author's published reader by this repository's maintainer; interop/wimse-agent-audit-record-reader-2026-10-01",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/pull/33",
+      "consentThread": null,
+      "consent": "not-applicable",
+      "immutableRelease": null,
+      "date": "2026-10-01",
+      "pin": "8d6295fb5db3e57c52df09f2fbeeb758b09f5c7d"
+    }
   ]
 }

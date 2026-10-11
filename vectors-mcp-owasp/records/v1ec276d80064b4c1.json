@@ -1,0 +1,17 @@
+{
+  "observation": {
+    "approvedDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "connections": [
+      {
+        "afterRestart": false,
+        "decision": "refused"
+      },
+      {
+        "afterRestart": true,
+        "decision": "accepted"
+      }
+    ],
+    "servedDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "requirement": "MCPVS-2"
+}

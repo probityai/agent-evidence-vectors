@@ -229,7 +229,59 @@ def stale_publication_location(root: Path) -> None:
     edit(root, change)
 
 
+def roster_label_outside_set(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["roster"][1]["label"] = "mostly independent"
+
+    edit(root, change)
+
+
+def roster_consent_removed(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        del ledger["roster"][2]["consent"]
+
+    edit(root, change)
+
+
+def roster_posted_without_thread(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        ledger["roster"][2]["consentThread"] = None
+
+    edit(root, change)
+
+
+def roster_removed(root: Path) -> None:
+    def change(ledger: dict[str, Any]) -> None:
+        del ledger["roster"]
+
+    edit(root, change)
+
+
 CASES: tuple[Case, ...] = (
+    (
+        "a roster label outside the three labels is refused",
+        roster_label_outside_set,
+        False,
+        ("roster", "label"),
+    ),
+    (
+        "a roster row without consent is refused",
+        roster_consent_removed,
+        False,
+        ("roster", "consent"),
+    ),
+    (
+        "a roster row whose consent names no thread is refused",
+        roster_posted_without_thread,
+        False,
+        ("roster", "consentThread"),
+    ),
+    (
+        "a ledger with no roster is refused",
+        roster_removed,
+        False,
+        ("carries no roster",),
+    ),
     (
         "the staged copy, unmutated, is accepted",
         unchanged,

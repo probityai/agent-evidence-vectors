@@ -1652,6 +1652,14 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         "RUNS.md",
+        "the moltrust-api author's four reported results, as posted on A2A#1882",
+        "raw 53/53, signing 57/57, verify 57/57 and negative control 53/57",
+        "Results an outside author reported for his own runner on two named "
+        "corpus states. They record a past run of another project's code and "
+        "must not track this corpus.",
+    ),
+    Frozen(
+        "RUNS.md",
         "the suiteRevision-28 run's reason-parity figure, as posted",
         "80/209",
         "A reason-parity figure its own author reports and declines to promote. "
@@ -2387,6 +2395,14 @@ MASKS = tuple(
         # counter reaches. Re-derive the family with:
         #     git grep -ohE '\bsrr-c-[0-9]+\b' | sort -u
         r"\bsrr-c-\d+\b",
+        # Draft OWASP MCP requirement and threat identifiers, MCPVS-N and MCPTM-N,
+        # minted once in vectors-mcp-owasp/REGISTRY.json. They are named, never
+        # counted: `MCPVS-4` sits in a threat page a few characters from words
+        # the small-value vocabulary reads as nouns, and 4 and 5 equal counts the
+        # forcing sources publish, so unmasked the gate reported identifiers as
+        # stale copies of derived counts. Re-derive the family with:
+        #     git grep -ohE '\bMCP(VS|TM)-[0-9]+\b' | sort -u
+        r"\bMCP(?:VS|TM)-\d+\b",
         # Disposition-row identifiers, DC-NN. A row in the objection ledger is
         # named, not counted, and the number is as much an identifier as a vector
         # id is. Unmasked it collides on value with whatever small count the

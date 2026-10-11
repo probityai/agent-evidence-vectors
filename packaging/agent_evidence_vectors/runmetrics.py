@@ -62,6 +62,18 @@ def shape_errors(document: Any) -> list[str]:
     for member in ("version", "run_id", "start", "status", "step_count", "totals"):
         if member not in document:
             out.append(f"the Run carries no {member} member")
+    if "step_count" in document and not _is_int(document["step_count"]):
+        out.append("step_count is not an integer")
+    _shape_steps(document, out)
+    for key in ("totals", "subtree_totals"):
+        _shape_ledger(document.get(key), key, out)
+    for i, step in enumerate(document.get("steps") or []):
+        if _is_obj(step):
+            _shape_ledger(step.get("usage"), f"steps[{i}].usage", out)
+    return out
+
+
+def _shape_steps(document: dict[str, Any], out: list[str]) -> None:
     if "steps" in document and not isinstance(document["steps"], list):
         out.append("steps is present and is not an array")
     for i, step in enumerate(document.get("steps") or []):
@@ -69,7 +81,19 @@ def shape_errors(document: Any) -> list[str]:
             out.append(f"steps[{i}] is not an object")
         elif not _is_int(step.get("index")) or not _is_str(step.get("kind")):
             out.append(f"steps[{i}] carries no integer index or no string kind")
-    return out
+
+
+def _shape_ledger(usage: Any, where: str, out: list[str]) -> None:
+    """A Usage object's cache_writes, when present, is an array of objects (section 3.5)."""
+    if not _is_obj(usage) or "cache_writes" not in usage:
+        return
+    writes = usage["cache_writes"]
+    if not isinstance(writes, list):
+        out.append(f"{where}.cache_writes is not an array")
+        return
+    for i, write in enumerate(writes):
+        if not _is_obj(write):
+            out.append(f"{where}.cache_writes[{i}] is not an object")
 
 
 def _rows_run_status(run: dict[str, Any], out: set[str]) -> None:
@@ -136,14 +160,16 @@ def _rows_usage(usage: Any, out: set[str]) -> None:
     reasoning = counters.get("reasoning_tokens", 0)
     if "output_tokens" in counters and reasoning > counters["output_tokens"]:
         out.add(R[22])
-    writes = usage.get("cache_writes")
-    if not isinstance(writes, list):
+    writes: list[dict[str, Any]] = usage.get("cache_writes", [])
+    if "cache_writes" not in usage:
         return
-    lifetimes = [w.get("lifetime") for w in writes if _is_obj(w)]
+    lifetimes = [w.get("lifetime") for w in writes]
     if len(set(lifetimes)) != len(lifetimes):
         out.add(R[13])
-    tokens = [w.get("tokens") for w in writes if _is_obj(w)]
-    if all(_is_int(t) for t in tokens) and sum(tokens) != write:
+    # A tokens member that is not a non-negative integer is not a count, so the
+    # sum the sentence equates with cache_write_tokens does not exist.
+    tokens: list[Any] = [w.get("tokens") for w in writes]
+    if not all(_is_int(t) and t >= 0 for t in tokens) or sum(tokens) != write:
         out.add(R[14])
 
 
