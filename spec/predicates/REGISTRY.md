@@ -36,6 +36,18 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/self-reported-record`
+
+- Document: `spec/self-reported-record/v1.md`
+- Corpus: `vectors-self-reported-record/`, suite `self-reported-record-conformance`
+- Rails: `corpora/selfreported.go` and `vectors-self-reported-record/check_vectors.py`
+  in this repository
+
+A record an agent runtime keeps of its own agent's actions. The contract makes
+the record's claims checkable from its own bytes and refuses a record that
+presents an assertion where an observation would have to be. It is the
+self-reported counterpart of `observed-effect`.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
@@ -78,6 +90,21 @@ carried bytes instead of accepting an asserted one.
   `packaging/agent_evidence_vectors/auditrecord.py`.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
+
+### `predicate/v1/govops-trace-record`
+
+- Document: the GovOps TRACE profile, `govops-trace-profile.md` in
+  <https://github.com/GovOpsWG/GovOps>, read at commit `131cb66`, which defines
+  the record. It is not vendored here.
+- Envelope: an in-toto Statement carried in a DSSE envelope, the second of the
+  two carriage forms the corpus exercises; the first is the profile's own
+  inline envelope.
+- Predicate body: one GovOps TRACE record (`eat_profile`
+  `tag:govops,2026:trace-v1`) without its `signature` member. The subject digest
+  is the record's content digest.
+- Corpus: `interop/govops-trace-profile/`, judged by its `verifier.py`; the DSSE
+  members carry this URI inside the bytes their signatures cover.
+- Status: current. The URI will not move, for the same reason.
 
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no

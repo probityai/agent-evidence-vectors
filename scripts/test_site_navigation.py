@@ -46,6 +46,8 @@ PREDICATES = (
     ("v2", "kernel-substrate"),
     ("v2", "launch-chain"),
     ("v1", "agent-audit-record"),
+    ("v1", "self-reported-record"),
+    ("v1", "govops-trace-record"),
 )
 EXPECTED_HTML = (
     {Path(f"{relative}.html") for relative in COMPANIONS}
@@ -129,6 +131,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
         "spec/predicates/adversarial-execution-evidence.md",
+        "spec/self-reported-record/v1.md",
         "spec/schemas/observed-effect-code-digest-v0.5.schema.json",
     ):
         target = tmp_path / relative
@@ -138,7 +141,6 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setattr(site, "CITATION", tmp_path / "CITATION.cff")
     monkeypatch.setattr(site, "CODES_GO", tmp_path / "aee/codes.go")
     monkeypatch.setattr(site, "PREDICATE_REGISTRY", tmp_path / "spec/predicates/REGISTRY.md")
-    monkeypatch.setattr(site, "PREDICATE_DOC", tmp_path / "spec/predicates/observed-effect.md")
     return tmp_path
 
 
@@ -322,7 +324,8 @@ class TestSiteNavigation:
             self, repository: Path, version: str, name: str
         ) -> None:
             pages = site.predicate_pages("v0.15.0")
-            source = site.PREDICATE_DOC if name == "observed-effect" else site.PREDICATE_REGISTRY
+            document = site.predicate_documents().get((version, name))
+            source = site.PREDICATE_REGISTRY if document is None else repository / document
             original = markdown.markdown(source.read_text(), extensions=["tables", "fenced_code"])
             expected = " ".join(HtmlView(f"<main>{original}</main>").text).split()
             for relative in (
@@ -373,7 +376,8 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            assert len(urls) == len(set(urls)) == 24
+            expected = {site.canonical_route(path) for path in EXPECTED_HTML} - {None}
+            assert len(urls) == len(set(urls)) == len(expected)
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:
@@ -399,6 +403,16 @@ class TestSiteNavigation:
         def test_empty_predicate_registry_stops_the_build(self, repository: Path) -> None:
             site.PREDICATE_REGISTRY.write_text("# Empty\n", encoding="ascii")
             expected = f"FAIL: {site.PREDICATE_REGISTRY} registers no predicate type URI"
+            with pytest.raises(SystemExit, match=re.escape(expected)):
+                site.predicate_pages("v0.15.0")
+
+        def test_defined_predicate_without_its_document_stops_the_build(
+            self, repository: Path
+        ) -> None:
+            (repository / "spec/self-reported-record/v1.md").unlink()
+            expected = (
+                "FAIL: predicate/v1/self-reported-record names spec/self-reported-record/v1.md"
+            )
             with pytest.raises(SystemExit, match=re.escape(expected)):
                 site.predicate_pages("v0.15.0")
 
