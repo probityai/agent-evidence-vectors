@@ -25,6 +25,24 @@ a run against a Guardian validating a later schema than the one this corpus
 pins is a result about that pairing, not about the pinned specification. The
 four members of family `acs-f-9` were written from that run.
 
+Another run, on 2026-09-12 and 2026-09-27, drove the Claude Code shim
+(`hosts/claude-code`) in the same `reference-implementations/agt` outside any
+host, on Windows 11, at commits `7d2dd3c` and `27799c2` on `integration`.
+Under Bun 1.4.2 at both commits, with the Guardian running, the shim exited 0
+with nothing on either stream and sent no handshake and no `toolCallRequest`;
+with the Guardian stopped, at `7d2dd3c`, it exited 0 with nothing on either
+stream and created no audit log.
+Under Bun 1.3.11, the version that repository's CI pins, the same shim at
+`27799c2` with the Guardian stopped rendered a fail-open allow and wrote one
+audit entry per step. The head was not run; nothing under
+`reference-implementations/agt` changed between `27799c2` and `db5c89e`, and
+the reference README at all three says every fail-open proceed is written to
+the audit log. The reject member of `acs-f-5` whose payload carries
+`host_hook_output` was written from that run. It is not recorded in
+`observedRuns`: no member of this corpus was run, and the row shape is not
+defined here. The 2026-09-12 run is reported upstream as
+GenAI-Security-Project/agent-control-standard#111.
+
 ## Identifiers are minted here, and bound to a sentence
 
 The specification carries no requirement identifiers. Its normative sentences
