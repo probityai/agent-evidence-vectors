@@ -21,10 +21,10 @@ is actually present here (they cite line numbers in this copy).
 - **Version:** v0.7.0 (`https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`).
 - **The type URI does not resolve.** The in-toto attestation catalog redirects
   the URIs of vetted predicates whose specification is merged, and this
-  predicate is in review as `in-toto/attestation#570`, so a request for the URI
-  returns 404. That is the ordinary condition of a predicate at that stage: the
-  URI identifies the predicate type, and dereferencing it is not what makes a
-  statement conformant. Read the specification in the copy beside this file, at
+  predicate is proposed in `in-toto/attestation#570`, which is not merged, so a
+  request for the URI returns 404. That is the ordinary condition of a predicate
+  at that stage: the URI identifies the predicate type, and dereferencing it is
+  not what makes a statement conformant. Read the specification in the copy beside this file, at
   [`predicates/adversarial-execution-evidence.md`](predicates/adversarial-execution-evidence.md).
   The same holds for the `$id` in
   [`witnessattestor/schema/aee-v0.7.schema.json`](../witnessattestor/schema/aee-v0.7.schema.json).
