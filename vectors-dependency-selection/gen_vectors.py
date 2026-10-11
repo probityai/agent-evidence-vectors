@@ -49,10 +49,8 @@ import verify as verify_mod  # noqa: E402
 
 
 def _load_digest() -> Any:
-    """The corpus-digest preimage, from the one module that spells it."""
-    spec = importlib.util.spec_from_file_location(
-        "binding_digest", HERE.parent / "vectors-artifact-binding" / "digest.py"
-    )
+    """The corpus-digest preimage, from this corpus's stdlib-only digest.py."""
+    spec = importlib.util.spec_from_file_location("dependency_selection_digest", HERE / "digest.py")
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
