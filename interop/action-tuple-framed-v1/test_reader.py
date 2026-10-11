@@ -156,6 +156,26 @@ class CandidateTests(unittest.TestCase):
             reader.corpus(MANIFEST, "0" * 64)
 
 
+    def test_autocrlf_checkout_preserves_pinned_historical_input_bytes(self) -> None:
+        sources = json.loads((ROOT / "SOURCE-INPUTS.json").read_bytes())
+        pinned = {item["path"]: item["sha256"] for item in sources["files"]}
+        pinned["reader.py"] = sources["native_reader_source"]["sha256"]
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary)
+            relative = "interop/agentid-offline/"
+            result = subprocess.run(
+                ["git", "-c", "core.autocrlf=true", "checkout-index",
+                 "--prefix=" + destination.as_posix() + "/",
+                 *(relative + name for name in pinned)],
+                cwd=ROOT.parents[1], capture_output=True, text=True, check=False,
+                timeout=20,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for name, digest in pinned.items():
+                with self.subTest(path=name):
+                    self.assertEqual(hashlib.sha256(
+                        (destination / relative / name).read_bytes()).hexdigest(), digest)
+
     def test_native_windows_paths_match_posix_manifest_population(self) -> None:
         # PureWindowsPath supplies the real Windows separator semantics on any host.
         class WindowsEntry:
