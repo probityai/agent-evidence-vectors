@@ -184,7 +184,7 @@ def corpus(manifest_path: Path, selected_digest: str) -> dict[str, Any]:
         pinned_bytes(root, item)
     declared = {item["path"] for item in manifest["cases"]}
     if len(declared) != len(manifest["cases"]) or declared != {
-        str(path.relative_to(root)) for path in (root / "cases").iterdir()
+        path.relative_to(root).as_posix() for path in (root / "cases").iterdir()
     }:
         raise Refusal("corpus-population")
     outcomes = []
@@ -228,7 +228,10 @@ def main() -> int:
         print(json.dumps({"report": str(destination)}, sort_keys=True))
         return 0 if report["matched"] == report["planned"] else 1
     except (Refusal, OSError, KeyError, TypeError, ValueError) as exc:
-        print(json.dumps({"status": "refused", "reason": str(exc)}), file=sys.stderr)
+        failure: dict[str, Any] = {"status": "refused", "reason": str(exc)}
+        if isinstance(exc, OSError):
+            failure["errno"] = exc.errno
+        print(json.dumps(failure), file=sys.stderr)
         return 2
 
 

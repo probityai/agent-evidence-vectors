@@ -12,7 +12,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
+from unittest.mock import patch
 
 import reader
 
@@ -142,7 +143,10 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256((offline / "reader.py").read_bytes()).hexdigest(),
                          sources["native_reader_source"]["sha256"])
 
-    def test_manifest_selected_bytes_and_population(self) -> None:
+    def test_manifest_selected_bytes_and_population_use_posix_paths(self) -> None:
+        manifest = json.loads(MANIFEST.read_bytes())
+        members = manifest["cases"] + manifest["sources"]
+        self.assertTrue(all("\\" not in item["path"] for item in members))
         report = reader.corpus(MANIFEST, reader.sha256(MANIFEST.read_bytes()))
         self.assertEqual(report["matched"], 36)
         self.assertEqual(report["planned"], 36)
@@ -150,6 +154,42 @@ class CandidateTests(unittest.TestCase):
         self.assertFalse(report["host_adoption"])
         with self.assertRaisesRegex(reader.Refusal, "manifest-pin"):
             reader.corpus(MANIFEST, "0" * 64)
+
+
+    def test_autocrlf_checkout_preserves_pinned_historical_input_bytes(self) -> None:
+        sources = json.loads((ROOT / "SOURCE-INPUTS.json").read_bytes())
+        pinned = {item["path"]: item["sha256"] for item in sources["files"]}
+        pinned["reader.py"] = sources["native_reader_source"]["sha256"]
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary)
+            relative = "interop/agentid-offline/"
+            result = subprocess.run(
+                ["git", "-c", "core.autocrlf=true", "checkout-index",
+                 "--prefix=" + destination.as_posix() + "/",
+                 *(relative + name for name in pinned)],
+                cwd=ROOT.parents[1], capture_output=True, text=True, check=False,
+                timeout=20,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for name, digest in pinned.items():
+                with self.subTest(path=name):
+                    self.assertEqual(hashlib.sha256(
+                        (destination / relative / name).read_bytes()).hexdigest(), digest)
+
+    def test_native_windows_paths_match_posix_manifest_population(self) -> None:
+        # PureWindowsPath supplies the real Windows separator semantics on any host.
+        class WindowsEntry:
+            def __init__(self, path: Path) -> None:
+                self.relative = PureWindowsPath(path.relative_to(ROOT).as_posix())
+
+            def relative_to(self, _root: Path) -> PureWindowsPath:
+                return self.relative
+
+        entries = [WindowsEntry(path) for path in (ROOT / "cases").iterdir()]
+        self.assertTrue(all("\\" in str(item.relative) for item in entries))
+        with patch.object(Path, "iterdir", return_value=iter(entries)):
+            report = reader.corpus(MANIFEST, reader.sha256(MANIFEST.read_bytes()))
+        self.assertEqual(report["matched"], report["planned"])
 
 
 class ProcessTests(unittest.TestCase):
@@ -179,8 +219,8 @@ class ProcessTests(unittest.TestCase):
 
     def assert_output_exists(self, result: subprocess.CompletedProcess[str]) -> None:
         self.assertEqual(result.returncode, 2, result.stderr)
-        self.assertTrue(json.loads(result.stderr)["reason"].startswith(
-            f"[Errno {errno.EEXIST}]"), result.stderr)
+        self.assertEqual(json.loads(result.stderr)["status"], "refused")
+        self.assertEqual(json.loads(result.stderr)["errno"], errno.EEXIST, result.stderr)
 
     def test_actual_accept_and_refuse_exit_codes(self) -> None:
         self.assertEqual(self.command("check", str(self.copy / "cases/ATF-001.json")).returncode, 0)
