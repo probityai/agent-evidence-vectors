@@ -211,16 +211,22 @@ def _edit(root: Path, rel: Path, change: Callable[[str], str]) -> None:
     path.write_text(after, encoding="utf-8")
 
 
-def _sub(pattern: str, replacement: str, text: str, flags: int = 0) -> str:
-    """Replace the first match, and refuse when there is none.
+def _sub(
+    pattern: str,
+    replacement: str | Callable[[re.Match[str]], str],
+    text: str,
+    flags: int = 0,
+    count: int = 1,
+) -> str:
+    """Replace the first match (every match when ``count`` is 0), and refuse when there is none.
 
     ``_edit`` only sees whether the whole file changed. A mutation that
     rewrites a command AND appends a line still changes the file when the
     rewrite finds nothing, and the gate then rightly passes a tree that holds
     no defect. The report blamed the gate for what was a missing target.
     """
-    after, count = re.subn(pattern, replacement, text, count=1, flags=flags)
-    if count == 0:
+    after, done = re.subn(pattern, replacement, text, count=count, flags=flags)
+    if done == 0:
         raise AssertionError(f"the pattern {pattern!r} matched nothing, so the case tests nothing")
     return after
 
@@ -262,7 +268,7 @@ def released_version(root: Path) -> str:
 def publication_mutation(pattern: str, replacement: str, phrase: str) -> Callable[[Path], str]:
     def mutate(root: Path) -> str:
         _edit(
-            root, CITATION_REL, lambda text: re.sub(pattern, replacement, text, flags=re.MULTILINE)
+            root, CITATION_REL, lambda text: _sub(pattern, replacement, text, flags=re.MULTILINE)
         )
         return phrase
 
@@ -284,7 +290,9 @@ def candidate_install_pin(rel: str, route: str) -> Callable[[Path], str]:
         }
         pattern, pin = patterns[route]
         _edit(
-            root, Path(rel), lambda text: re.sub(pattern, lambda match: match.group(1) + pin, text)
+            root,
+            Path(rel),
+            lambda text: _sub(pattern, lambda match: match.group(1) + pin, text, count=0),
         )
         return (
             "differs from release" if route != "Python install" else "differs from release source"
