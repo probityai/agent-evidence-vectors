@@ -78,10 +78,13 @@ outputs:
 runs:
   using: "composite"
   steps:
+    # An exact patch release, so every run of one action pin builds and replays
+    # on the same interpreter rather than on whichever 3.13 the runner image
+    # resolves that day.
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
-        python-version: "3.13"
+        python-version: "3.13.15"
 
     - name: Install the suite
       shell: bash
@@ -91,15 +94,31 @@ runs:
         ACTION_PATH: ${{ github.action_path }}
       run: |
         echo "::group::Install agent-evidence-vectors"
+        # The build backend comes from a lock carried in this checkout, by
+        # version and hash, as wheels only, into a venv of its own so it never
+        # lands in the interpreter the rest of the job uses. The package is
+        # built there with no index at all, so nothing else is fetched, and
+        # only the built wheel is installed for the replay.
+        build="$RUNNER_TEMP/agent-evidence-vectors-build"
+        rm -rf "$build"
+        python -m venv "$build/venv"
+        build_python="$build/venv/bin/python"
+        [ -x "$build_python" ] || build_python="$build/venv/Scripts/python.exe"
+        "$build_python" -m pip install --quiet --disable-pip-version-check \
+          --require-hashes --only-binary :all: \
+          -r "$ACTION_PATH/action-build-requirements.txt"
         # The checkout this action runs from IS the release the consumer pinned
-        # in `uses:`, so the default installs it directly; the only fetch is the
-        # build backend. A different tag is fetched from the repository by name.
+        # in `uses:`, so the default builds it directly. A different tag is
+        # fetched from the repository by name and built with the same backend.
         if [ -z "$TAG" ] || [ "$TAG" = "$ACTION_REF" ]; then
-          python -m pip install --quiet "$ACTION_PATH"
+          package_source="$ACTION_PATH"
         else
-          python -m pip install --quiet \
-            "agent-evidence-vectors @ git+https://github.com/probityai/agent-evidence-vectors@${TAG}"
+          package_source="agent-evidence-vectors @ git+https://github.com/probityai/agent-evidence-vectors@${TAG}"
         fi
+        "$build_python" -m pip wheel --quiet --disable-pip-version-check \
+          --no-build-isolation --no-index --no-deps --wheel-dir "$build/dist" "$package_source"
+        python -m pip install --quiet --disable-pip-version-check \
+          --no-index --no-deps "$build"/dist/agent_evidence_vectors-*.whl
         agent-evidence-vectors --list-corpora
         echo "::endgroup::"
 
