@@ -18,10 +18,11 @@ permissions:
 
 jobs:
   candidate:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: ['3.12', '3.14']
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -33,15 +34,16 @@ jobs:
       - name: Test fixed bytes and actual process refusals
         run: python -m unittest discover -s interop/action-tuple-framed-v1 -p 'test_*.py' -v
       - name: Run selected candidate corpus with a fresh report
+        shell: bash
         run: |
           python interop/action-tuple-framed-v1/reader.py corpus interop/action-tuple-framed-v1/MANIFEST.json \
-            --manifest-sha256 86d4974c7fa9372783ad62b704920c915d0b8a305598d08514a388c22736d641 \
+            --manifest-sha256 0a81393d3e9af4e5ef020a7325a0d7c51196506f83292064ec17c6676f1446f1 \
             --output-dir "${{ runner.temp }}/action-tuple-first-attempt"
       - name: Retain the per-case result
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: action-tuple-${{ matrix.python-version }}
+          name: action-tuple-${{ matrix.os }}-${{ matrix.python-version }}
           path: ${{ runner.temp }}/action-tuple-first-attempt/report.json
           if-no-files-found: error
           retention-days: 30

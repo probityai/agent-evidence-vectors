@@ -228,7 +228,10 @@ def main() -> int:
         print(json.dumps({"report": str(destination)}, sort_keys=True))
         return 0 if report["matched"] == report["planned"] else 1
     except (Refusal, OSError, KeyError, TypeError, ValueError) as exc:
-        print(json.dumps({"status": "refused", "reason": str(exc)}), file=sys.stderr)
+        failure: dict[str, Any] = {"status": "refused", "reason": str(exc)}
+        if isinstance(exc, OSError):
+            failure["errno"] = exc.errno
+        print(json.dumps(failure), file=sys.stderr)
         return 2
 
 

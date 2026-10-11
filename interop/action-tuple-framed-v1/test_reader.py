@@ -12,7 +12,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
+from unittest.mock import patch
 
 import reader
 
@@ -155,6 +156,22 @@ class CandidateTests(unittest.TestCase):
             reader.corpus(MANIFEST, "0" * 64)
 
 
+    def test_native_windows_paths_match_posix_manifest_population(self) -> None:
+        # PureWindowsPath supplies the real Windows separator semantics on any host.
+        class WindowsEntry:
+            def __init__(self, path: Path) -> None:
+                self.relative = PureWindowsPath(path.relative_to(ROOT).as_posix())
+
+            def relative_to(self, _root: Path) -> PureWindowsPath:
+                return self.relative
+
+        entries = [WindowsEntry(path) for path in (ROOT / "cases").iterdir()]
+        self.assertTrue(all("\\" in str(item.relative) for item in entries))
+        with patch.object(Path, "iterdir", return_value=iter(entries)):
+            report = reader.corpus(MANIFEST, reader.sha256(MANIFEST.read_bytes()))
+        self.assertEqual(report["matched"], report["planned"])
+
+
 class ProcessTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
@@ -182,8 +199,8 @@ class ProcessTests(unittest.TestCase):
 
     def assert_output_exists(self, result: subprocess.CompletedProcess[str]) -> None:
         self.assertEqual(result.returncode, 2, result.stderr)
-        self.assertTrue(json.loads(result.stderr)["reason"].startswith(
-            f"[Errno {errno.EEXIST}]"), result.stderr)
+        self.assertEqual(json.loads(result.stderr)["status"], "refused")
+        self.assertEqual(json.loads(result.stderr)["errno"], errno.EEXIST, result.stderr)
 
     def test_actual_accept_and_refuse_exit_codes(self) -> None:
         self.assertEqual(self.command("check", str(self.copy / "cases/ATF-001.json")).returncode, 0)
