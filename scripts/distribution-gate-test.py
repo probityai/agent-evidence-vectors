@@ -30,6 +30,7 @@ GOMOD_REL = Path("go.mod")
 FORM_REL = Path(".github") / "ISSUE_TEMPLATE" / "independent-run.yml"
 INSTALL_LINE = re.compile(r"^go install (\S+)@(v\S+)\s*$", re.MULTILINE)
 OTHER_OWNER = "github.com/not-this-owner/agent-evidence-vectors"
+TAG_CHECK = r"^(python3 scripts/verify-release-tag\.py v\S+)$"
 
 
 def _digest(text: str) -> str:
@@ -149,13 +150,44 @@ def _staged_copy(tmp: Path) -> Path:
             + " agent-evidence-vectors",
             path.read_text(encoding="utf-8"),
         )
-        path.write_text(
-            re.sub(
-                r"(uvx --from git\+https://github.com/probityai/agent-evidence-vectors@)\S+",
-                rf"\g<1>{selected}",
-                text,
-            ),
-            encoding="utf-8",
+        text = re.sub(
+            r"(uvx --from git\+https://github.com/probityai/agent-evidence-vectors@)\S+",
+            rf"\g<1>{selected}",
+            text,
+        )
+        path.write_text(text, encoding="utf-8")
+        # A post-condition, not a hope: a page that carries neither route would
+        # leave every source-route case below without a target, and the report
+        # would blame the cases or the gate instead of the staging.
+        source = (
+            "uvx --from git+https://github.com/probityai/agent-evidence-vectors@"
+            f"{selected} agent-evidence-vectors"
+        )
+        if not re.search(rf"^{re.escape(source)}(?:\s|$)", text, re.MULTILINE):
+            raise AssertionError(
+                f"the staged {rel} carries no `uvx` command pinned to the staged commit, "
+                "so the source-route cases would have nothing to mutate"
+            )
+    # The live page may pin the tag check to the real release's commit and tag
+    # object, which the staged tag does not hold. Every staged copy carries the
+    # bare command; the pin cases and the pinned control add pins of their own.
+    # A page that carries no tag check at all gets one, as the install pages get
+    # a source command, so the cases test the gate whatever the page shows.
+    page = root / PAGE_REL
+    text = re.sub(
+        r"(python3 scripts/verify-release-tag\.py v\S+)"
+        r"(?:[ \t]*\\\n[ \t]*--expected-(?:commit|tag-object)[ \t]+\S+)+",
+        r"\g<1>",
+        page.read_text(encoding="utf-8"),
+    )
+    if not re.search(TAG_CHECK, text, re.MULTILINE):
+        tag = _install_of(root)[1]
+        text += f"\n```bash\npython3 scripts/verify-release-tag.py {tag}\n```\n"
+    page.write_text(text, encoding="utf-8")
+    if not re.search(TAG_CHECK, text, re.MULTILINE):
+        raise AssertionError(
+            f"the staged {PAGE_REL} carries no bare `verify-release-tag.py` command, "
+            "so the tag-check cases would have nothing to mutate"
         )
     return root
 
@@ -177,6 +209,26 @@ def _edit(root: Path, rel: Path, change: Callable[[str], str]) -> None:
     if _digest(before) == _digest(after):
         raise AssertionError(f"the mutation of {rel} changed nothing, so the case tests nothing")
     path.write_text(after, encoding="utf-8")
+
+
+def _sub(
+    pattern: str,
+    replacement: str | Callable[[re.Match[str]], str],
+    text: str,
+    flags: int = 0,
+    count: int = 1,
+) -> str:
+    """Replace the first match (every match when ``count`` is 0), and refuse when there is none.
+
+    ``_edit`` only sees whether the whole file changed. A mutation that
+    rewrites a command AND appends a line still changes the file when the
+    rewrite finds nothing, and the gate then rightly passes a tree that holds
+    no defect. The report blamed the gate for what was a missing target.
+    """
+    after, done = re.subn(pattern, replacement, text, count=count, flags=flags)
+    if done == 0:
+        raise AssertionError(f"the pattern {pattern!r} matched nothing, so the case tests nothing")
+    return after
 
 
 def case_recipe_drift(root: Path) -> str:
@@ -216,7 +268,7 @@ def released_version(root: Path) -> str:
 def publication_mutation(pattern: str, replacement: str, phrase: str) -> Callable[[Path], str]:
     def mutate(root: Path) -> str:
         _edit(
-            root, CITATION_REL, lambda text: re.sub(pattern, replacement, text, flags=re.MULTILINE)
+            root, CITATION_REL, lambda text: _sub(pattern, replacement, text, flags=re.MULTILINE)
         )
         return phrase
 
@@ -238,7 +290,9 @@ def candidate_install_pin(rel: str, route: str) -> Callable[[Path], str]:
         }
         pattern, pin = patterns[route]
         _edit(
-            root, Path(rel), lambda text: re.sub(pattern, lambda match: match.group(1) + pin, text)
+            root,
+            Path(rel),
+            lambda text: _sub(pattern, lambda match: match.group(1) + pin, text, count=0),
         )
         return (
             "differs from release" if route != "Python install" else "differs from release source"
@@ -422,7 +476,7 @@ def case_recipe_missing(root: Path) -> str:
     _edit(
         root,
         RECIPE_REL,
-        lambda text: re.sub(r"(?ms)^```[^\n]*\n.*?^```[ \t]*$", "", text, count=1),
+        lambda text: _sub(r"(?ms)^```[^\n]*\n.*?^```[ \t]*$", "", text),
     )
     return "no fenced block under it"
 
@@ -442,7 +496,7 @@ def case_recipe_unclosed(root: Path) -> str:
     _edit(
         root,
         RECIPE_REL,
-        lambda text: re.sub(r"(?m)^```[ \t]*$", "", text, count=1),
+        lambda text: _sub(r"(?m)^```[ \t]*$", "", text),
     )
     return "is never closed"
 
@@ -491,16 +545,14 @@ def stale_consumer_pin(rel: str, route: str) -> Callable[[Path], str]:
             _edit(
                 root,
                 Path(rel),
-                lambda text: re.sub(
-                    patterns[route], "uvx agent-evidence-vectors==99.0.0", text, count=1
-                ),
+                lambda text: _sub(patterns[route], "uvx agent-evidence-vectors==99.0.0", text),
             )
             return f"{rel}: {route} pin"
         prefix = "v"
         _edit(
             root,
             Path(rel),
-            lambda text: re.sub(patterns[route], rf"\g<1>{prefix}99.0.0", text, count=1),
+            lambda text: _sub(patterns[route], rf"\g<1>{prefix}99.0.0", text),
         )
         return f"{rel}: {route} pin"
 
@@ -511,7 +563,7 @@ def missing_python_command(root: Path) -> str:
     _edit(
         root,
         Path("README.md"),
-        lambda text: re.sub(r"^uvx --from [^\n]+\n", "", text, count=1, flags=re.MULTILINE),
+        lambda text: _sub(r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE),
     )
     return "README.md has no pinned Python install command"
 
@@ -528,8 +580,8 @@ def wrong_source_pin(pin: str) -> Callable[[Path], str]:
         _edit(
             root,
             Path("README.md"),
-            lambda text: re.sub(
-                r"(uvx --from )\S+( agent-evidence-vectors)", rf"\g<1>{pin}\g<2>", text, count=1
+            lambda text: _sub(
+                r"(uvx --from )\S+( agent-evidence-vectors)", rf"\g<1>{pin}\g<2>", text
             ),
         )
         return "README.md: Python install pin"
@@ -555,13 +607,27 @@ def wrong_source_entry_point(root: Path) -> str:
         root,
         Path("README.md"),
         lambda text: (
-            re.sub(
-                r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point", text, count=1
-            )
+            _sub(r"(uvx --from \S+ )agent-evidence-vectors", r"\g<1>wrong-entry-point", text)
             + f"\nuvx agent-evidence-vectors=={version} --self-test\n"
         ),
     )
     return "README.md: unrecognized Python install command"
+
+
+def stale_tag_check_command(root: Path) -> str:
+    """The page tells a reader to confirm a tag the release does not carry."""
+    _edit(root, PAGE_REL, lambda text: _sub(
+        r"(python3 scripts/verify-release-tag\.py )v\S+", r"\g<1>v99.0.0", text))
+    return "the `verify-release-tag.py v99.0.0` command names v99.0.0"
+
+
+def tag_check_pin(flag: str) -> Callable[[Path], str]:
+    """A tag check pinned to bytes the named tag does not hold, as a copied-forward pin is."""
+    def mutate(root: Path) -> str:
+        _edit(root, PAGE_REL, lambda text: _sub(
+            TAG_CHECK, rf"\g<1> \\\n  {flag} {'0' * 40}", text, flags=re.MULTILINE))
+        return f"{flag} {'0' * 40}` names bytes"
+    return mutate
 
 
 CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
@@ -659,6 +725,10 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     ("the recipe heading duplicated", case_heading_duplicated),
     ("the recipe reference page deleted", case_recipe_file_missing),
     ("both recipe copies retain a stale release pin", case_recipe_pin_stale),
+    ("the tag check names a tag the release does not carry", stale_tag_check_command),
+    ("the tag check pins a commit the tag does not hold", tag_check_pin("--expected-commit")),
+    ("the tag check pins a tag object the tag does not hold",
+     tag_check_pin("--expected-tag-object")),
 )
 
 
@@ -669,22 +739,62 @@ def registry_control_failures() -> list[str]:
         version = _install_of(registry)[1][1:]
         for rel in (PAGE_REL, Path("README.md"), Path("docs/guides/runner.md")):
             path = registry / rel
-            path.write_text(
-                re.sub(
-                    r"uvx --from \S+ agent-evidence-vectors",
-                    "uvx agent-evidence-vectors==" + version,
-                    path.read_text(encoding="utf-8"),
-                ),
-                encoding="utf-8",
+            text, count = re.subn(
+                r"uvx --from \S+ agent-evidence-vectors",
+                "uvx agent-evidence-vectors==" + version,
+                path.read_text(encoding="utf-8"),
             )
+            if count == 0:
+                return [
+                    f"the registry-pin control converted nothing in {rel}, "
+                    "so it would pass on the source route and test no registry pin"
+                ]
+            path.write_text(text, encoding="utf-8")
         code, output = _run_gate(registry)
         if code != 0:
             return [f"the current registry-pin control failed:\n{output}"]
     return []
 
 
+def tag_pin_control_failures() -> list[str]:
+    """A tag check pinned to the bytes the tag holds passes, continuation lines and all."""
+    with tempfile.TemporaryDirectory() as raw:
+        root = _staged_copy(Path(raw))
+        tag = _install_of(root)[1]
+        held = {flag: subprocess.check_output(
+            ["git", "-C", str(root), "rev-parse", ref], text=True).strip()
+            for flag, ref in (("--expected-commit", f"refs/tags/{tag}^{{commit}}"),
+                              ("--expected-tag-object", f"refs/tags/{tag}"))}
+        pins = "".join(f" \\\n  {flag} {sha}" for flag, sha in held.items())
+        literal = pins.replace("\\", "\\\\")
+        _edit(root, PAGE_REL, lambda text: _sub(TAG_CHECK, rf"\g<1>{literal}", text,
+                                                 flags=re.MULTILINE))
+        code, output = _run_gate(root)
+        if code != 0:
+            return [f"the pinned tag-check control failed:\n{output}"]
+    return []
+
+
+def harness_failures() -> list[str]:
+    """The no-match refusal is itself under test, so deleting it turns this red."""
+    try:
+        _sub(r"uvx --from \S+", "", "uvx agent-evidence-vectors==99.0.0")
+    except AssertionError:
+        return []
+    return ["the harness accepted a substitution that matched nothing"]
+
+
 def main() -> int:
-    failures = registry_control_failures() + candidate_tag_control()
+    if found := harness_failures():
+        print(f"distribution-gate-test: FAILED\n  - {found[0]}")
+        return 1
+    try:
+        failures = (
+            registry_control_failures() + tag_pin_control_failures() + candidate_tag_control()
+        )
+    except AssertionError as exc:
+        print(f"distribution-gate-test: FAILED\n  - staging: {exc}")
+        return 1
 
     with tempfile.TemporaryDirectory() as raw:
         control = _staged_copy(Path(raw))

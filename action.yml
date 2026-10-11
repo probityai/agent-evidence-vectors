@@ -1,5 +1,5 @@
 name: "agent-evidence-vectors"
-description: "Test your AI-agent evidence verifier against a public corpus of signed attestations and publish a pass/fail report"
+description: "Check a verifier of AI-agent and supply-chain formats against public conformance corpora, and publish a pass/fail report"
 author: "Sankalp Gilda"
 
 # Replay a consumer's verifier and retain its results. The interface is in
@@ -21,7 +21,11 @@ inputs:
   corpus:
     description: >-
       Name of the shipped corpus to replay. `vectors` is the Adversarial
-      Execution Evidence corpus the reference rail judges. Run
+      Execution Evidence corpus the reference rail judges.
+      `vectors-a2a-jcs-v01` is the a2a Agent Card canonicalization corpus from
+      a2a-tck; its verifier is run as `<verifier> <target> <input.json>` (see
+      docs/reference/corpus-readers.md), and setting `A2A_JCS_TARGET: rfc8785`
+      in the step's env scores a bare RFC 8785 canonicalizer. Run
       `agent-evidence-vectors --list-corpora` for every name the release carries.
     required: false
     default: "vectors"

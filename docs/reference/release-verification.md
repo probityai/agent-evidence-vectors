@@ -2,11 +2,11 @@
 
 ## Verify a release without trusting us
 
-Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.17.4 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.4).
+Check the corpus bytes, the maintainer's signature and the two timestamp proofs at the release you intend to cite. The commands below select the published [v0.17.6 release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6).
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.17.4
+git checkout v0.17.6
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check

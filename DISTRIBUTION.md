@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.17.4`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.17.6`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.4) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.17.4/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.17.6) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.17.6/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.4
-uvx agent-evidence-vectors==0.17.4 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.17.6
+uvx agent-evidence-vectors==0.17.6 --verifier "aee-verify --json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.17.4
+cd agent-evidence-vectors && git checkout v0.17.6
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.17.4
+git checkout v0.17.6
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -95,6 +95,8 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-anchored-chain/` | `anchored-record-chain/v1` | signed agent memory records whose head is anchored outside the store: the storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity, including the ones that pass every signature check and fail only against the chain links or the anchor |
 | `vectors-grade-floor/` | `evidence-grade-floor/v1` | the E0-E4 evidence ladder of AAIF Observability WG issue #37, with the grade derived by the consumer: a producer-declared grade or integrity boolean never raises it, and an operationally-conformant claim needs E3 and no contradiction |
+| `vectors-a2a-jcs-v01/` | `a2a-agent-card-canonicalization-conformance` | RFC 8785 canonical bytes and the bytes an A2A Agent Card signature covers, vendored byte for byte from a2aproject/a2a-tck at a locked commit and corpus digest |
+| `vectors-mcp-owasp/` | `owasp-mcp-verification-draft` | draft MCP verification requirements MCPVS-1 to MCPVS-12 and threats MCPTM-1 to MCPTM-10, minted once in one registry, with one accept and one reject observation per requirement |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |
 | `vectors-self-reported-record/` | `self-reported-record-conformance` | a self-reported agent record: turn signatures under the named key, memory-read digests over the bytes at the named path, an attesting key outside the observed runtime's reach, ledgers that name one change set, and covering signatures on declared substrate coverage |
 | `vectors-w3c-report/` | `w3c-report-v01-conformance` | the W3C public-agent-conformance group's v0.1 per-check report: five states, the cause vocabulary, fourteen rejection rows and roll-up claims (including a declared no-void claim), as whole reports |

@@ -127,9 +127,11 @@ from typing import Any, NamedTuple, TypeGuard
 # external-verifier contract of its own: a named verifier runs over it through
 # that contract instead of being refused.
 from agent_evidence_vectors import (
+    a2ajcs,
     anchoredchain,
     auditrecord,
     gradefloor,
+    mcpowasp,
     observedeffect,
     receiptsignature,
     sourcecoverage,
@@ -3748,6 +3750,8 @@ def _run_non_reference_suite(
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
         gradefloor.SUITE,
+        a2ajcs.SUITE,
+        mcpowasp.SUITE,
     )
     if not own_reader and external_cmd is not None:
         return None
@@ -3757,6 +3761,7 @@ def _run_non_reference_suite(
         anchoredchain.SUITE: anchoredchain.run,
         gradefloor.SUITE: gradefloor.run,
         sourcecoverage.SUITE: sourcecoverage.run_or_refuse,
+        a2ajcs.SUITE: a2ajcs.run,
     }.get(suite)
     if full_reader is not None:
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
@@ -3777,29 +3782,23 @@ def _run_non_reference_suite(
             file=sys.stderr,
         )
         return 2
-    if suite == receiptsignature.SUITE:
-        rs_judged = receiptsignature.judge(suite_dir)
-        sys.stdout.write(receiptsignature.render(rs_judged, receiptsignature.SUITE))
-        return 0 if rs_judged.ok() else 1
-    if suite == w3creport.SUITE:
-        # The W3C per-check report corpus is judged by its own validator, in
-        # the same words the Go reader prints, so the two rails can be diffed.
-        judged = w3creport.judge(suite_dir)
-        sys.stdout.write(w3creport.render(judged, w3creport.SUITE))
-        return 0 if judged.ok() else 1
-    if suite == auditrecord.SUITE:
-        # The agent audit record corpus is Appendix B of an Internet-Draft, and
-        # its reader states the draft's rules in the order the draft's
-        # verification section gives them.
-        ar_judged = auditrecord.judge(suite_dir)
-        sys.stdout.write(auditrecord.render(ar_judged, auditrecord.SUITE))
-        return 0 if ar_judged.ok() else 1
-    # Same arrangement for the Observed Effect corpus: a predicate of its own
-    # gets a reader of its own, and the printed lines are the ones
-    # corpora/observedeffect.go prints from Go.
-    oe_judged = observedeffect.judge(suite_dir)
-    sys.stdout.write(observedeffect.render(oe_judged, observedeffect.SUITE))
-    return 0 if oe_judged.ok() else 1
+    # Each remaining suite has a reader of its own that judges the directory and
+    # prints in the same words its Go reader prints, so the two rails can be
+    # diffed. The W3C per-check report corpus is judged by its own validator;
+    # the agent audit record corpus states an Internet-Draft's rules in the
+    # order its verification section gives them; the OWASP MCP corpus holds
+    # one rule per draft acceptance test; and a suite named by none of them is
+    # the Observed Effect corpus, a predicate of its own with a reader of its
+    # own.
+    reader = {
+        receiptsignature.SUITE: receiptsignature,
+        w3creport.SUITE: w3creport,
+        auditrecord.SUITE: auditrecord,
+        mcpowasp.SUITE: mcpowasp,
+    }.get(suite, observedeffect)
+    judged = reader.judge(suite_dir)
+    sys.stdout.write(reader.render(judged, reader.SUITE))
+    return 0 if judged.ok() else 1
 
 
 def run_suite(args: argparse.Namespace) -> int:
@@ -5076,6 +5075,22 @@ def shipped_corpora() -> list[str]:
     return sorted(found)
 
 
+#: The RFC 8785 byte cases, by their repository-relative path. The wheel keeps
+#: that path under corpora/, so the same join resolves in both layouts.
+JCS_BYTE_VECTORS = os.path.join("corpora", "jcs-byte-vectors", "cases.json")
+
+
+def jcs_byte_vectors_path() -> str:
+    """Absolute path of the RFC 8785 byte cases, ``cases.json``, in either layout.
+
+    An SDK's CI reads this file from the installed package after pinning
+    ``agent-evidence-vectors==X``, instead of fetching it from a tag. Its README
+    sits beside it. The path is resolved, never hard-coded, because where
+    site-packages lives is the consumer's business.
+    """
+    return os.path.join(corpora_root(), JCS_BYTE_VECTORS)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors",
@@ -5098,6 +5113,12 @@ def main() -> int:
         "--list-corpora",
         action="store_true",
         help="print the shipped corpus names, one per line, and exit",
+    )
+    parser.add_argument(
+        "--jcs-byte-vectors",
+        action="store_true",
+        help="print the absolute path of the shipped RFC 8785 byte cases "
+        "(corpora/jcs-byte-vectors/cases.json) and exit",
     )
     parser.add_argument(
         "--verifier",
@@ -5128,6 +5149,9 @@ def main() -> int:
     if args.list_corpora:
         for name in shipped_corpora():
             print(name)
+        return 0
+    if args.jcs_byte_vectors:
+        print(jcs_byte_vectors_path())
         return 0
     if args.self_test:
         return self_test()

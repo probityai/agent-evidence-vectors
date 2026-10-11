@@ -4,7 +4,9 @@
 The release recipe must match ``docs/reference/release-verification.md`` byte
 for byte. Its heading and fence must exist in both pages. Every advertised tag
 must match ``CITATION.cff``, and the install path must match ``go.mod`` both in
-the working tree and at the pinned tag.
+the working tree and at the pinned tag. A `verify-release-tag.py` command
+must name the released tag, and any commit or tag object it pins must be the
+one that tag holds.
 
 The corpus table and run form must name exactly the tracked manifest set.
 ``scripts/count-gate.py`` checks published vector counts separately.
@@ -21,6 +23,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import NamedTuple
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -174,7 +177,64 @@ def tags_claimed(page: str, recipe: str) -> dict[str, str]:
     # sentence about some other repository, which is where the next one landed.
     for token in sorted(set(re.findall(r"`(v\d+\.\d+\.\d+)`", page))):
         claims.setdefault(f"the backticked version token `{token}`", token)
+    for command in tag_check_commands(page):
+        claims.setdefault(f"the `verify-release-tag.py {command.tag}` command", command.tag)
     return claims
+
+
+class TagCheck(NamedTuple):
+    """One `verify-release-tag.py` command as a reader would run it."""
+
+    tag: str
+    expected_commit: str | None
+    expected_tag_object: str | None
+
+
+def tag_check_commands(page: str) -> list[TagCheck]:
+    """Every `verify-release-tag.py` command, with shell line continuations joined."""
+    joined = re.sub(r"\\\n[ \t]*", " ", page)
+    found: list[TagCheck] = []
+    for match in re.finditer(r"^python3 scripts/verify-release-tag\.py (\S+)([^\n]*)$",
+                             joined, re.MULTILINE):
+        rest = match.group(2)
+        commit = re.search(r"--expected-commit\s+(\S+)", rest)
+        tag_object = re.search(r"--expected-tag-object\s+(\S+)", rest)
+        found.append(TagCheck(match.group(1), commit.group(1) if commit else None,
+                              tag_object.group(1) if tag_object else None))
+    return found
+
+
+def _rev_parse(root: Path, ref: str) -> str | None:
+    shown = subprocess.run(["git", "-C", str(root), "rev-parse", "--verify", "--quiet", ref],
+                           capture_output=True, text=True, check=False)
+    return shown.stdout.strip() if shown.returncode == 0 else None
+
+
+def _tag_check_failures(root: Path, page: str) -> list[str]:
+    """A pinned commit or tag object must be the one the named tag holds.
+
+    The page may tell a reader to confirm a tag against an expected commit and
+    tag object. Copied forward from the previous release, both name the old
+    bytes under the new tag, and the reader's check fails on our page rather
+    than on a substituted tag.
+    """
+    found: list[str] = []
+    for command in tag_check_commands(page):
+        tag_ref = f"refs/tags/{command.tag}"
+        wanted = (("--expected-commit", command.expected_commit, f"{tag_ref}^{{commit}}"),
+                  ("--expected-tag-object", command.expected_tag_object, tag_ref))
+        for flag, pinned, ref in wanted:
+            if pinned is None:
+                continue
+            held = _rev_parse(root, ref)
+            if held is None:
+                found.append(f"{PAGE_REL}: `verify-release-tag.py {command.tag} {flag}` was NOT "
+                             f"checked, because this clone does not hold {command.tag}. Fetch "
+                             "the tags and run again.")
+            elif held != pinned:
+                found.append(f"{PAGE_REL}: `verify-release-tag.py {command.tag} {flag} {pinned}` "
+                             f"names bytes {command.tag} does not hold; the tag holds {held}.")
+    return found
 
 
 def declared_module(text: str, rel: str) -> str:
@@ -541,6 +601,7 @@ def failures(root: Path) -> list[str]:
         + _published_identity_failures(root, citation)
         + _consumer_pin_failures(root, citation)
         + _module_path_failures(root, page)
+        + _tag_check_failures(root, page)
         + _corpus_failures(root, page, form)
     )
 

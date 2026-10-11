@@ -27,6 +27,18 @@ for the blind build.
   for the revised vectors applies — publish the vectors without the text or the text
   without the vectors, never a note naming the failing vector and its fix.
 
+## Extensions fail closed
+
+- [ ] **Give the predicates a required-extension point that fails closed.** Both
+  predicates are closed today: every member and value outside the stated set is
+  refused, so nothing is accepted silently. What is missing is a way to extend
+  one without forking it. Recipe: propose upstream an `extensions` member whose
+  entries are all required, with the MUST that a verifier which does not
+  understand one returns invalid; then add one accept vector (a known extension)
+  and one reject vector (an unknown one) through the generators, regenerate the
+  manifest, and re-vendor. Owner of the text: in-toto/attestation#570 for the AEE
+  predicate, `spec/predicates/observed-effect.md` here for observed-effect.
+
 ## The corpus should not be scoreable without the specification
 
 A rail's published score is only worth what the corpus makes it worth. If a vector's

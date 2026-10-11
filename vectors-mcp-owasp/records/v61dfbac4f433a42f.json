@@ -1,0 +1,16 @@
+{
+  "observation": {
+    "refusalReported": true,
+    "reportedStarted": [
+      "trusted-a"
+    ],
+    "started": [
+      "trusted-a",
+      "workspace-server"
+    ],
+    "untrustedConfigServers": [
+      "workspace-server"
+    ]
+  },
+  "requirement": "MCPVS-10"
+}

@@ -589,6 +589,64 @@ def uv_provides(available: bool) -> Iterator[None]:
         GATE.uv_python_available = original  # type: ignore[attr-defined]
 
 
+def action_verifier_imports_resolve_to_the_checkout() -> None:
+    """A verifier the action names as `python -m agent_evidence_vectors.X` runs this revision.
+
+    The action pip-installs its own checkout before replaying, so a verifier
+    that imports the package gets the revision under test. The mirror skipped
+    the install, and an older copy installed in whatever interpreter was first
+    on PATH answered instead: the a2a-jcs replay failed every vector locally
+    while the remote run passed.
+    """
+    local = GATE.own_action(  # type: ignore[attr-defined]
+        {"verifier": "python3 -m agent_evidence_vectors.probe", "report-path": "r.json"}
+    )
+    assert local.run is not None
+    with tempfile.TemporaryDirectory(prefix="aee action imports ") as tmp:
+        root = pathlib.Path(tmp)
+        (root / "scripts").mkdir()
+        (root / "scripts" / "action-summary.py").write_bytes(
+            (HERE / "action-summary.py").read_bytes()
+        )
+        checkout_pkg = root / "packaging" / "agent_evidence_vectors"
+        checkout_pkg.mkdir(parents=True)
+        (checkout_pkg / "__init__.py").write_text("")
+        (checkout_pkg / "probe.py").write_text("print('checkout')\n")
+        # An older installed copy that lacks the module, ahead of everything else.
+        stale = root / "stale-site" / "agent_evidence_vectors"
+        stale.mkdir(parents=True)
+        (stale / "__init__.py").write_text("")
+        # The fixture harness runs the verifier and passes only on the checkout's answer.
+        (root / "packaging" / "run_vectors.py").write_text(
+            "import json,pathlib,shlex,subprocess,sys\n"
+            "cmd=shlex.split(sys.argv[sys.argv.index('--verifier')+1])\n"
+            "out=subprocess.run(cmd,capture_output=True,text=True).stdout.strip()\n"
+            "ok=1 if out=='checkout' else 0\n"
+            "p=pathlib.Path(sys.argv[sys.argv.index('--report')+1])\n"
+            "p.write_text(json.dumps({'rail':'external','totals':{'vectors':1,"
+            "'conform':ok,'pass':ok,'fail':1-ok,'reasonParityMismatch':0,'suiteRefusals':0},"
+            "'verifier':{'vectorsExecuted':1},'rows':[]}))\n"
+            "sys.exit(0 if ok else 1)\n"
+        )
+        runner = root / "job temp"
+        runner.mkdir()
+        env = {
+            "PATH": f"{pathlib.Path(sys.executable).parent}:/usr/bin:/bin",
+            "PYTHONPATH": str(root / "stale-site"),
+            "RUNNER_TEMP": str(runner),
+            "GITHUB_OUTPUT": str(root / "outputs"),
+            "GITHUB_STEP_SUMMARY": str(root / "summary"),
+        }
+        original = GATE.REPO  # type: ignore[attr-defined]
+        GATE.REPO = root  # type: ignore[attr-defined]
+        try:
+            proc = GATE.run_step(local.run, env)  # type: ignore[attr-defined]
+        finally:
+            GATE.REPO = original  # type: ignore[attr-defined]
+        assert proc.returncode == 0, proc.stdout + proc.stderr
+        assert "result=pass\n" in (root / "outputs").read_text()
+
+
 def setup_python_is_mirrored_with_pip() -> None:
     """setup-python is mirrored by a pip-seeded interpreter put on $GITHUB_PATH.
 
@@ -619,6 +677,24 @@ def an_unprovidable_python_stops_its_job() -> None:
         rc, log = _execute(workflow)
     assert "NOT RUN  j[1]" in log, f"a step ran on an interpreter the job never got:\n{log}"
     assert rc != 0 and "FAIL  k[0]" in log, f"the block leaked into another job:\n{log}"
+
+
+def a_step_guarded_by_an_input_is_not_run_without_inputs() -> None:
+    """`if: ${{ inputs.flag }}` is false on an event that carries no inputs.
+
+    The MCP SDK workflow guards its "Fail on divergence" step with
+    `inputs.fail-on-divergence`. On push and pull_request that input is null,
+    so the runner skips the step; the mirror ran it and failed every SDK.
+    """
+    for condition in ("${{ inputs.fail-on-divergence }}", "inputs.fail-on-divergence"):
+        reason = GATE.event_excludes(condition)  # type: ignore[attr-defined]
+        assert reason and "inputs" in reason, (condition, reason)
+    assert GATE.event_excludes("${{ inputs.a || true }}") == ""  # type: ignore[attr-defined]
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - if: ${{ inputs.fail-on-divergence }}\n        run: exit 1\n"
+    )
+    assert rc == 0, log
 
 
 def a_step_guarded_to_another_event_is_not_run() -> None:
@@ -880,6 +956,27 @@ def checkout_and_working_directory_bind_to_the_selected_source() -> None:
         '      - run: test "$(git cat-file -t refs/tags/fixture-tag)" = tag\n'
     )
     assert rc == 0, log
+
+
+def a_step_may_start_in_the_jobs_runner_temp() -> None:
+    """`working-directory: ${{ runner.temp }}` starts the step in the job's own temp.
+
+    A runner owns RUNNER_TEMP for the job, and the held-out workflow starts
+    there on purpose so the installed wheel, not the checkout, answers. The
+    mirror refused every directory outside the checkout and failed that step
+    on every replay; a directory outside both the checkout and the job's temp
+    is still refused.
+    """
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        "      - working-directory: ${{ runner.temp }}\n"
+        '        run: test "$(pwd -P)" = "$(cd "$RUNNER_TEMP" && pwd -P)"\n'
+    )
+    assert rc == 0, log
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n      - working-directory: /\n        run: exit 0\n"
+    )
+    assert rc == 1, f"a directory outside the checkout and the job temp was executed:\n{log}"
 
 
 def baseline_python_and_uv_environment_belong_to_each_job() -> None:
@@ -1208,6 +1305,37 @@ def matrix_include_and_exclude_follow_the_documented_rules() -> None:
         {"strategy": {"matrix": "${{ fromJSON(needs.a.outputs.m) }}"}}
     )
     assert combos == [] and "expression" in reason, (combos, reason)
+
+
+def inputs_are_null_on_an_event_that_carries_none() -> None:
+    """`inputs.x || default` reads the default on push and pull_request, as on a runner.
+
+    GitHub fills the inputs context only for workflow_dispatch and workflow_call;
+    on every other event it is empty, so `inputs.ref || github.sha` is the
+    commit. The mirror called `inputs.ref` unknown and faulted the MCP SDK job.
+    A matrix axis written as fromJSON of such an expression expands too, and a
+    fromJSON over another job's output is still refused.
+    """
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha", {}, None, {"github.event_name": "push", "github.sha": "c0ffee"}
+    )
+    assert (value, missing) == ("c0ffee", ""), (value, missing)
+    value, missing = GATE.evaluate(  # type: ignore[attr-defined]
+        "inputs.ref || github.sha",
+        {},
+        None,
+        {"github.event_name": "workflow_dispatch", "github.sha": "c0ffee"},
+    )
+    assert missing, "a dispatch input was invented instead of refused"
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": '${{ fromJSON(inputs.sdks || \'["go","rust"]\') }}'}}}
+    )
+    assert not reason, reason
+    assert combos == [{"sdk": "go"}, {"sdk": "rust"}], combos
+    combos, reason = GATE.matrix_combinations(  # type: ignore[attr-defined]
+        {"strategy": {"matrix": {"sdk": "${{ fromJSON(needs.a.outputs.m) }}"}}}
+    )
+    assert combos == [] and reason, (combos, reason)
 
 
 def a_run_block_expression_is_substituted() -> None:
@@ -1701,10 +1829,18 @@ def main() -> int:
         "the action report reaches its consumers",
         action_report_path_reaches_the_summary_and_outputs,
     )
+    check(
+        "the action's verifier imports this revision",
+        action_verifier_imports_resolve_to_the_checkout,
+    )
     check("setup-python is mirrored with pip", setup_python_is_mirrored_with_pip)
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
     check("a failed foreign fetch stops only its job", a_failed_fetch_stops_its_job)
     check("a step guarded to another event is not run", a_step_guarded_to_another_event_is_not_run)
+    check(
+        "a step guarded by an input is not run without inputs",
+        a_step_guarded_by_an_input_is_not_run_without_inputs,
+    )
     check(
         "an ambient VIRTUAL_ENV does not reach the steps",
         an_ambient_virtual_env_does_not_reach_the_steps,
@@ -1743,6 +1879,7 @@ def main() -> int:
         "checkout and directory binding is enforced",
         checkout_and_working_directory_bind_to_the_selected_source,
     )
+    check("a step may start in the job's runner temp", a_step_may_start_in_the_jobs_runner_temp)
     check(
         "baseline Python and uv environment belong to a job",
         baseline_python_and_uv_environment_belong_to_each_job,
@@ -1766,6 +1903,10 @@ def main() -> int:
     check(
         "matrix include and exclude follow the documented rules",
         matrix_include_and_exclude_follow_the_documented_rules,
+    )
+    check(
+        "inputs are null on an event that carries none",
+        inputs_are_null_on_an_event_that_carries_none,
     )
     check("a run block expression is substituted", a_run_block_expression_is_substituted)
     check("an unevaluable expression is not run", an_unevaluable_expression_is_not_run)
