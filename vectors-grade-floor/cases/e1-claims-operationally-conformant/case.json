@@ -1,0 +1,31 @@
+{
+  "case_id": "grade-floor-e1-claims-operationally-conformant",
+  "claim": "operationally-conformant",
+  "declared_grade": "E1",
+  "enforcement": {
+    "denials": [],
+    "policy_enforced_at_boundary": false
+  },
+  "integrity_claims": {},
+  "integrity_markers": {},
+  "observations": [
+    {
+      "engine": "agent-runtime-log",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "self_report",
+      "witness_scope": "SELF"
+    },
+    {
+      "engine": "orchestrator-trace",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "framework",
+      "witness_scope": "PEER"
+    }
+  ],
+  "reconciliation": "no_independent_evidence",
+  "schema": "evidence-grade-record/v1"
+}

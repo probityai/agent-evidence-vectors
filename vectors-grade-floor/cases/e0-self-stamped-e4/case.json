@@ -1,0 +1,27 @@
+{
+  "case_id": "grade-floor-e0-self-stamped-e4",
+  "claim": "observed",
+  "declared_grade": "E4",
+  "enforcement": {
+    "denials": [],
+    "policy_enforced_at_boundary": false
+  },
+  "integrity_claims": {
+    "chain_link": true,
+    "external_timestamp": true,
+    "independent_verification": true
+  },
+  "integrity_markers": {},
+  "observations": [
+    {
+      "engine": "agent-runtime-log",
+      "observation_directness": "reconstructed",
+      "observation_vantage": "artifact",
+      "relationship": "direct",
+      "source": "self_report",
+      "witness_scope": "SELF"
+    }
+  ],
+  "reconciliation": "no_independent_evidence",
+  "schema": "evidence-grade-record/v1"
+}
