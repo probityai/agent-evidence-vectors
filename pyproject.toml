@@ -89,6 +89,7 @@ only-include = [
     "vectors-observed-effect",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
+    "vectors-self-reported-record",
     "vectors-source-coverage",
     "vectors-w3c-report",
 ]
@@ -118,6 +119,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
+"vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
 "vectors-source-coverage" = "agent_evidence_vectors/corpora/vectors-source-coverage"
 "vectors-w3c-report" = "agent_evidence_vectors/corpora/vectors-w3c-report"
 
@@ -174,6 +176,7 @@ only-include = [
     "vectors-observed-effect",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
+    "vectors-self-reported-record",
     "vectors-source-coverage",
     "vectors-w3c-report",
     "README.md",
