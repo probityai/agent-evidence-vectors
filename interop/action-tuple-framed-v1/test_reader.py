@@ -142,7 +142,10 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256((offline / "reader.py").read_bytes()).hexdigest(),
                          sources["native_reader_source"]["sha256"])
 
-    def test_manifest_selected_bytes_and_population(self) -> None:
+    def test_manifest_selected_bytes_and_population_use_posix_paths(self) -> None:
+        manifest = json.loads(MANIFEST.read_bytes())
+        members = manifest["cases"] + manifest["sources"]
+        self.assertTrue(all("\\" not in item["path"] for item in members))
         report = reader.corpus(MANIFEST, reader.sha256(MANIFEST.read_bytes()))
         self.assertEqual(report["matched"], 36)
         self.assertEqual(report["planned"], 36)

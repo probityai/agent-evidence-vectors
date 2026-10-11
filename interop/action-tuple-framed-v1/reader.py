@@ -184,7 +184,7 @@ def corpus(manifest_path: Path, selected_digest: str) -> dict[str, Any]:
         pinned_bytes(root, item)
     declared = {item["path"] for item in manifest["cases"]}
     if len(declared) != len(manifest["cases"]) or declared != {
-        str(path.relative_to(root)) for path in (root / "cases").iterdir()
+        path.relative_to(root).as_posix() for path in (root / "cases").iterdir()
     }:
         raise Refusal("corpus-population")
     outcomes = []
