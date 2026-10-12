@@ -1,0 +1,36 @@
+{
+  "coverage": "observed",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-5",
+  "id": "v564ff5d8d344bea2",
+  "kind": "reject",
+  "payload": {
+    "action": {
+      "command": "ls -la",
+      "kind": "shell"
+    },
+    "audit_events": [],
+    "guardian_request": null,
+    "guardian_response": null,
+    "hooks_fired": [],
+    "host_event": "PreToolUse",
+    "host_hook_output": {
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  },
+  "requirements": [
+    "ACS-R-014",
+    "ACS-R-005"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

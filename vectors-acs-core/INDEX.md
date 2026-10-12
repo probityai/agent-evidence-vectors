@@ -5,8 +5,8 @@ Ground truth: the four normative files vendored in `spec-vendored/`, read at
 `9d4a9da` of `GenAI-Security-Project/agent-control-standard`, each pinned by sha256 in
 `MANIFEST.json`.
 
-This corpus is 43 vectors, of which 15 a conformant verifier must
-not fail closed on and 26 it must reject.
+This corpus is 44 vectors, of which 15 a conformant verifier must
+not fail closed on and 27 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -120,6 +120,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v448a61c91554a125` | reject | acs-f-7 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v4f75a079844635af` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | EXTERNAL |
 | `v53ef0aaa91303587` | accept | acs-f-10 | ACS-R-022, ACS-R-021 | allow | none | artifact | EXTERNAL |
+| `v564ff5d8d344bea2` | reject | acs-f-5 | ACS-R-014, ACS-R-005 | deny | none | substrate | SELF |
 | `v661266c5c87cb206` | reject | acs-f-1 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v699f3f41215849ca` | accept | acs-f-7 | ACS-R-013 | allow | none | substrate | SELF |
 | `v6daaec0f6f0c8a14` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | PEER |

@@ -282,10 +282,10 @@
   ],
   "counts": {
     "accept": 15,
-    "reject": 26,
+    "reject": 27,
     "indeterminate": 2
   },
-  "corpusDigest": "990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb",
+  "corpusDigest": "5e6f836d1cea6a66c4cc241d692e9bbf726a22440981346fa9754173d45a2707",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -570,6 +570,27 @@
       "witnessScope": "EXTERNAL",
       "coverage": "effective",
       "cites": "the same head signed by the Guardian under the key its key_id resolves to, so a verifier that refuses every asymmetric head scores zero on the family."
+    },
+    {
+      "id": "v564ff5d8d344bea2",
+      "kind": "reject",
+      "file": "vectors/v564ff5d8d344bea2.json",
+      "family": "acs-f-5",
+      "requirements": [
+        "ACS-R-014",
+        "ACS-R-005"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a shell command whose host hook ran and produced nothing: exit 0, empty stdout, no handshake, no toolCallRequest, no audit log. The host documents that output as a hook with no decision to report, after which the step continues. No posture was negotiated or applied, so the step proceeded without a decision and without the event the requirement demands, and the request the hooks text requires for an escaping action was never sent. A checker that reads an absent log as nothing to report scores it as clean."
     },
     {
       "id": "v661266c5c87cb206",
