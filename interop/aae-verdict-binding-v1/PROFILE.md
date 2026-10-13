@@ -52,6 +52,14 @@ The draft requires structural predicates in the digested trace (Section 2.5.2: "
 
 A forbid verdict carries the index of the first matched forbidding grant as `grant_index`.
 
+The 26 core digests reproduced only after this convention was read from MolTrust's `examples/enforce-verify.py`. Two implementations written from the draft text alone would agree on every verdict and not on the digests, and Section 2.5.3 makes byte-identical digests the conformance condition. The convention belongs in the draft or in the vectors, which today state only `predicate` and `result` for structural entries.
+
+## Where the vectors and the draft disagree
+
+Section 2.2 says the MANDATE block "MUST contain an actions array", and Section 2.2.1 says `actions` "remains REQUIRED" and that a grant naming an action the mandate does not list makes the mandate malformed. None of the 26 v1.4.0 mandates carries `actions`. Read literally, vectors 01, 11, 13 and 15 (PERMIT) and 19 (PENDING) would be DENY, and Section 10's statement that every 2.2.1 requirement has a vector does not hold for this one. This kernel follows the vectors, and `test_no_vector_mandate_carries_actions` records the observation on every run so that a vector set adding `actions` turns it red.
+
+MolTrust's reference example compares digests and values with `==` (`examples/enforce-verify.py` lines 129, 275 and 403), where the draft asks for constant-time comparison. No vector can observe the difference.
+
 ## Where no vector reaches and the draft is silent, this kernel fails closed
 
 - A constraint whose `type` is not a string is labelled `unknown`, never a host-language spelling of the value.
