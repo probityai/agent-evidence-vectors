@@ -1084,6 +1084,70 @@ def current_default_metadata_selects_the_actual_commit_lint_range() -> None:
         assert fixture_git(root, "symbolic-ref", "refs/remotes/origin/HEAD").endswith("/stale")
 
 
+def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
+    """A Dependabot branch lints its human commits and leaves out the bot's own."""
+    import subprocess
+
+    doc = GATE.load_yaml(HERE.parent / ".github/workflows/commit-message-lint.yml")  # type: ignore[attr-defined]
+    block = next(
+        step.run
+        for step in GATE.steps_of(doc, pathlib.Path("lint.yml"))  # type: ignore[attr-defined]
+        if step.name == "Lint the commit messages this event introduces"
+    )
+    bot = ("dependabot[bot]", "49699333+dependabot[bot]@users.noreply.github.com")
+    long_bump = "build(deps): bump google.golang.org/grpc from 1.66.3 to 1.83.2 in /witnessattestor"
+
+    def run(root: pathlib.Path, **env: str) -> subprocess.CompletedProcess[str]:
+        full = {**os.environ, "PR_BASE": "", "PUSH_BEFORE": "", "PR_AUTHOR": "", "PUSH_ACTOR": ""}
+        full.update(DEFAULT_BRANCH="main", **env)
+        return subprocess.run(
+            ["bash", "-c", block], cwd=root, env=full, capture_output=True, text=True, check=False
+        )
+
+    def commit(root: pathlib.Path, name: str, author: tuple[str, str], subject: str) -> None:
+        (root / name).write_text(name + "\n")
+        fixture_git(root, "add", name)
+        fixture_git(
+            root, "-c", f"user.name={author[0]}", "-c", f"user.email={author[1]}",
+            "commit", "-qm", subject,
+        )
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = pathlib.Path(tmp) / "source"
+        root.mkdir()
+        fixture_git(root, "init", "-q", "-b", "main")
+        hooks = root / ".githooks"
+        hooks.mkdir()
+        for name in ("commit-msg", "commit-msg.permitted-paths", "commit-msg.forbidden-words"):
+            target = hooks / name
+            target.write_bytes((HERE.parent / ".githooks" / name).read_bytes())
+            target.chmod((HERE.parent / ".githooks" / name).stat().st_mode & 0o777)
+        commit(root, "base", ("Fixture", "fixture@example.test"), "chore: start the fixture")
+        fixture_git(root, "update-ref", "refs/remotes/origin/main", "HEAD")
+        base = fixture_git(root, "rev-parse", "HEAD")
+        fixture_git(root, "checkout", "-q", "-b", "dependabot/go_modules/grpc")
+        commit(root, "bump", bot, long_bump)
+        ref = "refs/heads/dependabot/go_modules/grpc"
+
+        # The bot's own long subject passes on its pull request and its own push.
+        pr = run(root, PR_BASE=base, PR_AUTHOR=bot[0])
+        assert pr.returncode == 0, pr.stdout + pr.stderr
+        assert "left out:" in pr.stdout and "written by Dependabot" in pr.stdout, pr.stdout
+        push = run(root, PUSH_REF=ref, PUSH_ACTOR=bot[0])
+        assert push.returncode == 0, push.stdout + push.stderr
+
+        # The same commit is still refused where Dependabot is not the author of the event.
+        human_pr = run(root, PR_BASE=base, PR_AUTHOR="someone")
+        assert human_pr.returncode != 0, human_pr.stdout
+        human_push = run(root, PUSH_REF=ref, PUSH_ACTOR="someone")
+        assert human_push.returncode != 0, human_push.stdout
+
+        # A human commit added to the bot's branch is still linted.
+        commit(root, "extra", ("Fixture", "fixture@example.test"), "test: " + "too long " * 10)
+        mixed = run(root, PR_BASE=base, PR_AUTHOR=bot[0])
+        assert mixed.returncode != 0, mixed.stdout + mixed.stderr
+
+
 def changing_a_job_default_ref_stops_later_history_consumers() -> None:
     """A job may not silently change the history another step will lint."""
     workflow = (
@@ -1831,6 +1895,10 @@ def main() -> int:
     check(
         "captured default metadata selects the real lint range",
         current_default_metadata_selects_the_actual_commit_lint_range,
+    )
+    check(
+        "dependabot commits are left out, every other commit is linted",
+        dependabot_commits_are_left_out_and_every_other_commit_is_linted,
     )
     check(
         "changed job default refs stop later history consumers",
