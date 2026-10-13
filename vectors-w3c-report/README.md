@@ -138,7 +138,15 @@ flips when the one rule it rests on is weakened: the encoding section of
 `MUTATION-SWEEP.md` weakens each rule of the encoding in turn and records that
 only its own members flip. The members rest on proposed requirements, so they
 are counted as excluded-under-proposed-rule, beside the `W3C-R-022` members,
-and the section 10 selection stays 165 members, 41 to reject and 124 to accept.
+and none of them enters the section 10 selection.
+
+The section 10 selection is 165 members, 41 to reject and 124 to accept.
+Before v0.18.0 it was also 165 members, but 83 to reject and 82 to accept, at
+corpusDigest `f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe`
+(v0.17.4 to v0.17.6). The 42 pairs below account for the whole difference:
+v0.18.0 moved them from reject to accept. A section 10 sentence that pins the
+older digest asks an implementation to reject those 42 reports, which v0.1
+accepts.
 
 ## Recompute a member's digest by hand
 
