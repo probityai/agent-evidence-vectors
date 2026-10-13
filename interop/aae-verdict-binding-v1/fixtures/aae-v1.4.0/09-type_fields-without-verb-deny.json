@@ -1,0 +1,52 @@
+{
+  "id": "aae-enforce-vector-09",
+  "name": "type_fields without verb — deny",
+  "description": "type_fields lists asset and chain but not verb.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": []
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:fd89f54c7db89345a9a5980339f9047552ed88a0b5e5bdae5f823b71cdab029b",
+    "reason_contains": "type_fields",
+    "trace": [
+      {
+        "predicate": "mandate_present",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "Without a verb there is no action, only arguments. verb is the one member the draft requires by name."
+}

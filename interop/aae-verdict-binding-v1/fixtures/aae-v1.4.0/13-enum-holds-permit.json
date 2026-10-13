@@ -1,0 +1,62 @@
+{
+  "id": "aae-enforce-vector-13",
+  "name": "enum holds — permit",
+  "description": "The region is a listed member.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": [
+            {
+              "type": "enum",
+              "field": "region",
+              "values": [
+                "CH",
+                "DE"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "PERMIT",
+    "core_digest": "sha256:f3179bfd753b2181f8ee30fd827b0fe42febc7c7a19d9d8cab4b3d84da1bb826",
+    "trace": [
+      {
+        "predicate": "enum",
+        "field": "region",
+        "result": "PASS"
+      }
+    ]
+  },
+  "rationale": "The positive half of enum. Every member is compared; the position of the match is not observable."
+}

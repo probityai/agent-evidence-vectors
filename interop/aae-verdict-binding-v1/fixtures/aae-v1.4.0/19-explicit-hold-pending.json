@@ -1,0 +1,59 @@
+{
+  "id": "aae-enforce-vector-19",
+  "name": "Explicit hold — pending",
+  "description": "A bound grant whose constraints hold carries disposition hold.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "hold",
+          "constraints": [
+            {
+              "type": "exact",
+              "field": "to",
+              "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01"
+            }
+          ]
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "PENDING",
+    "core_digest": "sha256:f002d88a99e84ef3b82476ae53fbebd8df49efd05fc6498ff461d67b542c6033",
+    "reason_contains": "disposition=hold",
+    "trace": [
+      {
+        "predicate": "disposition",
+        "result": "PASS"
+      }
+    ]
+  },
+  "rationale": "PENDING is reachable only from an explicit hold. It says the mandate defers this action, not that the verifier was unsure."
+}

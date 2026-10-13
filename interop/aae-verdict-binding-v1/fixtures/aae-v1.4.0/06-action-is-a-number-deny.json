@@ -1,0 +1,49 @@
+{
+  "id": "aae-enforce-vector-06",
+  "name": "Action is a number — deny",
+  "description": "The transaction's action is a number rather than an object.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": []
+        }
+      ]
+    },
+    "transaction": {
+      "action": 42,
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:8d0ed70f7d9b04376805c58d3f1799efa9ef87970c088f50c7ba185b083a422c",
+    "reason_contains": "action is not an object",
+    "trace": [
+      {
+        "predicate": "type_fields",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "A non-object action canonicalizes cleanly and yields a well-formed digest, so a verifier that only compared digests would report it as merely unaddressed. The type form names it: an action that is not an object satisfies no type."
+}

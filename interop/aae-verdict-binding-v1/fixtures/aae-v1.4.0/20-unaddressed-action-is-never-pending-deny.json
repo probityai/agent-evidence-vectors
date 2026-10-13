@@ -1,0 +1,59 @@
+{
+  "id": "aae-enforce-vector-20",
+  "name": "Unaddressed action is never pending — deny",
+  "description": "The mandate holds a `transfer` grant; the transaction attempts `withdraw`.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "hold",
+          "constraints": [
+            {
+              "type": "exact",
+              "field": "to",
+              "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01"
+            }
+          ]
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "withdraw",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:b5e3eccb0a5bc006f02d4f92cfebb700d9478bd8cf4bae58937de5fde7c949b3",
+    "reason_contains": "unaddressed action",
+    "trace": [
+      {
+        "predicate": "action_binding",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "Silence in a mandate is not a route to authorization. If an unaddressed action could come back PENDING, waiting would be the way around the mandate — no grant needed, just patience."
+}

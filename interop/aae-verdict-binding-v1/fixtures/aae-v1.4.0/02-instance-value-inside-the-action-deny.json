@@ -1,0 +1,66 @@
+{
+  "id": "aae-enforce-vector-02",
+  "name": "Instance value inside the action — deny",
+  "description": "The action carries `amount`, which the grant's type_fields do not name.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": [
+            {
+              "type": "exact",
+              "field": "to",
+              "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01"
+            },
+            {
+              "type": "range",
+              "field": "amount",
+              "lo": 0,
+              "hi": 1000
+            }
+          ]
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base",
+        "amount": 500
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:2cfbb56ed54886193bd9bd9914274fcbd9a337d418c48675ba5fbc776eaf9ff8",
+    "reason_contains": "outside type_fields ['amount']",
+    "trace": [
+      {
+        "predicate": "type_fields",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "An amount inside the action would be part of the digest, so every payment would be a different action and one grant could bind at most one of them. The type form keeps instance values outside, where constraints bound them."
+}

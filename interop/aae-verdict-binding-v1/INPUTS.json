@@ -1,0 +1,246 @@
+{
+  "source": {
+    "repository": "https://github.com/MoltyCel/aae-conformance-vectors",
+    "tag": "v1.4.0",
+    "commit": "531f880155ea1ce993a7ca74137b12c255d5b2ee",
+    "set_version": "1.4.0",
+    "specification": "draft-kroehl-agentic-trust-aae-02",
+    "license": "Apache-2.0",
+    "copyright": "2026 CryptoKRI GmbH, Zurich (MolTrust)",
+    "author": "Lars Kroehl (MoltyCel)",
+    "attribution": "The 26 enforce vectors, LICENSE and NOTICE are retained byte for byte from the tag; this package changes none of them."
+  },
+  "files": [
+    {
+      "path": "fixtures/aae-v1.4.0/01-type-form-matches-permit.json",
+      "sha256": "7bf8785c51259508ca6985dd5fe171e7553c8d35bf30581a68992e1d12e17fa7",
+      "bytes": 2039,
+      "role": "upstream",
+      "source_path": "vectors/enforce/01-type-form-matches-permit.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/02-instance-value-inside-the-action-deny.json",
+      "sha256": "6d36d57280d2fd880bad7191493d15a51eddd0f0201c1c5e389bf15c0e785cf6",
+      "bytes": 1962,
+      "role": "upstream",
+      "source_path": "vectors/enforce/02-instance-value-inside-the-action-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/03-type-field-missing-from-the-action-deny.json",
+      "sha256": "ca3890e324344ac9a1626c3cd8f000b4c6e5128cfe99bc6f5a5483b8e77316ad",
+      "bytes": 1516,
+      "role": "upstream",
+      "source_path": "vectors/enforce/03-type-field-missing-from-the-action-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/04-action-is-a-string-deny.json",
+      "sha256": "2e0cde3709f4b742357f381a307bb538d63e645ec86b052a42f6befa147a6f0c",
+      "bytes": 1524,
+      "role": "upstream",
+      "source_path": "vectors/enforce/04-action-is-a-string-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/05-action-is-an-array-deny.json",
+      "sha256": "aed5918e3d40ac6496f087cd6f6e677bd55474c54b6eb60dd395a9f2850291d6",
+      "bytes": 1542,
+      "role": "upstream",
+      "source_path": "vectors/enforce/05-action-is-an-array-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/06-action-is-a-number-deny.json",
+      "sha256": "c57ffa7b4fbae04b0731e52f36e9754c68995a016d35a4a152cf6e37edc529a4",
+      "bytes": 1521,
+      "role": "upstream",
+      "source_path": "vectors/enforce/06-action-is-a-number-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/07-action-is-null-deny.json",
+      "sha256": "532ddc05282acb1560d34e182978732f2007353fa9f9d2412ff3b906fe63a728",
+      "bytes": 1515,
+      "role": "upstream",
+      "source_path": "vectors/enforce/07-action-is-null-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/08-grant-without-type_fields-deny.json",
+      "sha256": "ae28eee7693711bee7274be39275d35fca97d4b68415f878576c0511730e66de",
+      "bytes": 1427,
+      "role": "upstream",
+      "source_path": "vectors/enforce/08-grant-without-type_fields-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/09-type_fields-without-verb-deny.json",
+      "sha256": "ea5a4f3ef250654499e7b74c2a48cc2c58dd24f797e4c7acaf4751fab207be02",
+      "bytes": 1443,
+      "role": "upstream",
+      "source_path": "vectors/enforce/09-type_fields-without-verb-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/10-duplicate-name-in-type_fields-deny.json",
+      "sha256": "7df442fa0ef375e93bf14d89c67af7e768d25d3936852e2327fdb1bba0ca03e0",
+      "bytes": 1524,
+      "role": "upstream",
+      "source_path": "vectors/enforce/10-duplicate-name-in-type_fields-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/11-exact-holds-permit.json",
+      "sha256": "2f2e577dd0a87fb2bf0bee111b6e35761e216526a13ae82981504bf63507ec98",
+      "bytes": 1584,
+      "role": "upstream",
+      "source_path": "vectors/enforce/11-exact-holds-permit.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/12-exact-fails-on-a-vanity-prefix-deny.json",
+      "sha256": "3ed78d58dcaec79954c2c5dc2f8d092a7cc228c08c1298e8eaf8ea3c6a0500ec",
+      "bytes": 1678,
+      "role": "upstream",
+      "source_path": "vectors/enforce/12-exact-fails-on-a-vanity-prefix-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/13-enum-holds-permit.json",
+      "sha256": "1f7eb0c41f91564dbd2992496aa285e8afb5382c4d4c02d0b066b6b396211069",
+      "bytes": 1597,
+      "role": "upstream",
+      "source_path": "vectors/enforce/13-enum-holds-permit.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/14-enum-fails-deny.json",
+      "sha256": "500c22696fedb12c13ec9c7b7977b39fcf6820a72c5e9a79877e907a4be8ce93",
+      "bytes": 1530,
+      "role": "upstream",
+      "source_path": "vectors/enforce/14-enum-fails-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/15-range-holds-at-the-upper-bound-permit.json",
+      "sha256": "be036eb09a860cbecd4102c5522beadefe71a4c57daafeb2e878664bc2fbd12e",
+      "bytes": 1648,
+      "role": "upstream",
+      "source_path": "vectors/enforce/15-range-holds-at-the-upper-bound-permit.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/16-range-fails-one-over-the-bound-deny.json",
+      "sha256": "59417754517f6b38c36b81fd3217523c2a24e0de8ca975a71aefbb2ae9c7c7c5",
+      "bytes": 1516,
+      "role": "upstream",
+      "source_path": "vectors/enforce/16-range-fails-one-over-the-bound-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/17-unknown-constraint-type-deny.json",
+      "sha256": "a6b513709d711feecd2a28ec5b1b56ec3548adcda2d3c55cc29c5430eef098b0",
+      "bytes": 1701,
+      "role": "upstream",
+      "source_path": "vectors/enforce/17-unknown-constraint-type-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/18-field-path-with-an-empty-segment-deny.json",
+      "sha256": "fcff79d09a726f39dc039f442748d73563bbbe5fb18bf61dece0b63ac17cd25e",
+      "bytes": 1690,
+      "role": "upstream",
+      "source_path": "vectors/enforce/18-field-path-with-an-empty-segment-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/19-explicit-hold-pending.json",
+      "sha256": "5dcf685762770f405154fc1a662136414cd775bbad746bbf21c6b768c299f440",
+      "bytes": 1661,
+      "role": "upstream",
+      "source_path": "vectors/enforce/19-explicit-hold-pending.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/20-unaddressed-action-is-never-pending-deny.json",
+      "sha256": "bb88637ff6f5d53e726c5441b6b95874ca59ca96199c267bcf3d922334f59baf",
+      "bytes": 1755,
+      "role": "upstream",
+      "source_path": "vectors/enforce/20-unaddressed-action-is-never-pending-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/21-forbid-outranks-an-allowing-grant-deny.json",
+      "sha256": "6f9defa3b4ec87f49846bf0495ef8034b64cdae89e7a5ff3ba8075f053eb99d0",
+      "bytes": 2210,
+      "role": "upstream",
+      "source_path": "vectors/enforce/21-forbid-outranks-an-allowing-grant-deny.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/22-ratified-by-the-issuing-principal.json",
+      "sha256": "b0beef60e1df70306fda59210183f8c178d0216cd6db3ff1c413cdc94d052a3c",
+      "bytes": 3851,
+      "role": "upstream",
+      "source_path": "vectors/enforce/22-ratified-by-the-issuing-principal.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/23-stranger-with-a-valid-signature-rejected.json",
+      "sha256": "0ce06165ab72873cc85b99de6ca50ea9308ff28f96a7dd8ae5586ac714548fdc",
+      "bytes": 3892,
+      "role": "upstream",
+      "source_path": "vectors/enforce/23-stranger-with-a-valid-signature-rejected.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/24-a-permit-is-not-ratifiable-caller-error.json",
+      "sha256": "466dfaf3b136fbb671809cb71d77692561b1117028f13c72e38492fca769cb83",
+      "bytes": 3919,
+      "role": "upstream",
+      "source_path": "vectors/enforce/24-a-permit-is-not-ratifiable-caller-error.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/25-chain-link-pointing-elsewhere-caller-error.json",
+      "sha256": "a489b1a5064aa99212636b42c52cf4148e60225d0cd9f13f560363b663338e85",
+      "bytes": 3576,
+      "role": "upstream",
+      "source_path": "vectors/enforce/25-chain-link-pointing-elsewhere-caller-error.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/26-chain-link-set-explicitly-to-the-ratified-record.json",
+      "sha256": "2e48fd8a2acd3ffd5c674b2d8bd053519828fc7ba8332d031e5c23054b99b03d",
+      "bytes": 3794,
+      "role": "upstream",
+      "source_path": "vectors/enforce/26-chain-link-set-explicitly-to-the-ratified-record.json"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/LICENSE.upstream",
+      "sha256": "a48db0d598b78ff9d42a2cdd102415c6a6b7911f64bc93a15a04e9883d691def",
+      "bytes": 11368,
+      "role": "upstream",
+      "source_path": "LICENSE"
+    },
+    {
+      "path": "fixtures/aae-v1.4.0/NOTICE.upstream",
+      "sha256": "dad99c735f48d46f8955b696350f08d79e1b05a3d3e2e6e90540f90ad29a3bf1",
+      "bytes": 295,
+      "role": "upstream",
+      "source_path": "NOTICE"
+    }
+  ],
+  "trust_keys": [
+    {
+      "did": "did:web:example.com:registry",
+      "public_key": "9d53a7a4431e299b0ceb950ccbd5bd6f4845cdd9c7bd38e1c9e4e26490f8f90e",
+      "source_path": "testkeys/issuer-test-key-1.json",
+      "source_sha256": "0d60eaa2d7e9c59664667f9fe36d236093a395fccd10273da7b761fa5c3306ca",
+      "named_by": [
+        "aae-enforce-vector-22",
+        "aae-enforce-vector-23",
+        "aae-enforce-vector-24",
+        "aae-enforce-vector-25",
+        "aae-enforce-vector-26"
+      ],
+      "note": "Upstream test key, public by design (NOTICE); never a production key."
+    }
+  ],
+  "untrusted_keys_seen": [
+    {
+      "did": "did:web:example.com:stranger",
+      "public_key": "03a107bff3ce10be1d70dd18e74bc09967e4d6309ba50d5f1ddc8664125531b8",
+      "source_path": "tools/build_enforce_vectors.py",
+      "source_sha256": "f895a47cbe3c86e37036e2b51646d7feaa42f7f456077d3f7c163e3953a3b19e",
+      "note": "Signs vector 23. Named in no mandate and absent from the pin set; its signature verifies under this key and is still rejected."
+    }
+  ],
+  "evidence_keys": [
+    {
+      "role": "observed-effect observer",
+      "keyid": "f3cb9b6750737ef6789a72b71d8305f2",
+      "public_key": "4f2a59edc8367deb40047ce83ee7f5ce711a57d93abbda9d1ce8588c56a3ce88",
+      "source_path": "vectors-observed-effect/gen_vectors.py",
+      "note": "This repository's fixed observed-effect test observer key (seed 0x00..11). It signs the case evidence records; it is a test key, never a production key."
+    }
+  ],
+  "key_rule": "A ratification is evaluated only when every authority key its mandate names equals the pinned key for that DID. An evidence record is checked only under the pinned observer key. Any other key is refused before evaluation, and the run exits 2."
+}

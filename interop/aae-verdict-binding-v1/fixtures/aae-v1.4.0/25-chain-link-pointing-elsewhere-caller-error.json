@@ -1,0 +1,104 @@
+{
+  "id": "aae-enforce-vector-25",
+  "name": "Chain link pointing elsewhere — caller error",
+  "description": "prev_core_digest is well formed but names a record other than the one ratified.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "ratify",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "statement": "aae:enforce-ratify-statement:v1",
+    "core": "aae:enforce-ratify-core:v1"
+  },
+  "input": {
+    "prior_record": {
+      "core": {
+        "enforce_version": "3.0",
+        "mandate_digest": "sha256:0400163a4a2d5dccb1f94e2bb8acbe75d30658016fe95fd7bb1520faec3e98a7",
+        "transaction_digest": "sha256:4c17d7e8de44bf84838df729d67dafa6fe8b35a493299743c4944baece6875fe",
+        "action_digest": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+        "verdict": "DENY",
+        "grant_index": null,
+        "trace": [
+          {
+            "predicate": "mandate_present",
+            "field": null,
+            "value": null,
+            "bound": null,
+            "result": "PASS"
+          },
+          {
+            "predicate": "type_fields",
+            "field": "action",
+            "value": [
+              "asset",
+              "chain",
+              "verb"
+            ],
+            "bound": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "result": "PASS"
+          },
+          {
+            "predicate": "action_binding",
+            "field": "action",
+            "value": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "bound": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "result": "PASS"
+          },
+          {
+            "predicate": "range",
+            "field": "amount",
+            "value": 500,
+            "bound": {
+              "lo": 0,
+              "hi": 100
+            },
+            "result": "FAIL"
+          }
+        ],
+        "prev_core_digest": null
+      },
+      "core_digest": "sha256:10c14bfbb6d53d4c3341f27081d2cba02a0c0fa287dafd023b4c76ae7f347629"
+    },
+    "decision": "APPROVED",
+    "authority_proof": {
+      "mandate": {
+        "mandate_version": "1.0",
+        "principal": {
+          "did": "did:web:example.com:registry",
+          "public_key": "9d53a7a4431e299b0ceb950ccbd5bd6f4845cdd9c7bd38e1c9e4e26490f8f90e"
+        },
+        "grants": [
+          {
+            "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "type_fields": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "disposition": "allow",
+            "constraints": [
+              {
+                "type": "range",
+                "field": "amount",
+                "lo": 0,
+                "hi": 100
+              }
+            ]
+          }
+        ]
+      },
+      "authority": "did:web:example.com:registry",
+      "signature": "02ec03b5679e82367f15262f181f739931225e2f2cb4d568f112ce15c41ed0a847cf4f4ae6fe6eccf0cef326803de587cbcfd3746f958e1a845278c7bd281700"
+    },
+    "prev_core_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "expected": {
+    "error": "RatifyError",
+    "reason_contains": "prev_core_digest must equal"
+  },
+  "rationale": "Guard 3. A ratification is a statement about one specific prior record. A chain link pointing anywhere else would describe a different history than the one the ratification asserts, and there is nothing to record when the question itself does not line up."
+}

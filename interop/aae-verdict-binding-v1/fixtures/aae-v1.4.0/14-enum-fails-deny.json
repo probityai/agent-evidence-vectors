@@ -1,0 +1,62 @@
+{
+  "id": "aae-enforce-vector-14",
+  "name": "enum fails — deny",
+  "description": "The region is outside the enumeration.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": [
+            {
+              "type": "enum",
+              "field": "region",
+              "values": [
+                "CH",
+                "DE"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "US"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:404ba8a0b2dac8f21f498778f533d5bdc616f740364bd8c3531bd4deb001bbf7",
+    "trace": [
+      {
+        "predicate": "enum",
+        "field": "region",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "The negative half of enum."
+}

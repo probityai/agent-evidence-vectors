@@ -1,0 +1,117 @@
+{
+  "id": "aae-enforce-vector-23",
+  "name": "Stranger with a valid signature — rejected",
+  "description": "A party not named in the mandate signs a correct statement with its own key.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "ratify",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "statement": "aae:enforce-ratify-statement:v1",
+    "core": "aae:enforce-ratify-core:v1"
+  },
+  "input": {
+    "prior_record": {
+      "core": {
+        "enforce_version": "3.0",
+        "mandate_digest": "sha256:0400163a4a2d5dccb1f94e2bb8acbe75d30658016fe95fd7bb1520faec3e98a7",
+        "transaction_digest": "sha256:4c17d7e8de44bf84838df729d67dafa6fe8b35a493299743c4944baece6875fe",
+        "action_digest": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+        "verdict": "DENY",
+        "grant_index": null,
+        "trace": [
+          {
+            "predicate": "mandate_present",
+            "field": null,
+            "value": null,
+            "bound": null,
+            "result": "PASS"
+          },
+          {
+            "predicate": "type_fields",
+            "field": "action",
+            "value": [
+              "asset",
+              "chain",
+              "verb"
+            ],
+            "bound": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "result": "PASS"
+          },
+          {
+            "predicate": "action_binding",
+            "field": "action",
+            "value": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "bound": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "result": "PASS"
+          },
+          {
+            "predicate": "range",
+            "field": "amount",
+            "value": 500,
+            "bound": {
+              "lo": 0,
+              "hi": 100
+            },
+            "result": "FAIL"
+          }
+        ],
+        "prev_core_digest": null
+      },
+      "core_digest": "sha256:10c14bfbb6d53d4c3341f27081d2cba02a0c0fa287dafd023b4c76ae7f347629"
+    },
+    "decision": "APPROVED",
+    "authority_proof": {
+      "mandate": {
+        "mandate_version": "1.0",
+        "principal": {
+          "did": "did:web:example.com:registry",
+          "public_key": "9d53a7a4431e299b0ceb950ccbd5bd6f4845cdd9c7bd38e1c9e4e26490f8f90e"
+        },
+        "grants": [
+          {
+            "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "type_fields": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "disposition": "allow",
+            "constraints": [
+              {
+                "type": "range",
+                "field": "amount",
+                "lo": 0,
+                "hi": 100
+              }
+            ]
+          }
+        ]
+      },
+      "authority": "did:web:example.com:stranger",
+      "signature": "1fbcac3d32cb891bc24db22946d50f4e5885b48d9c7fa7c20535570c041b6a86df6cf83ae84e78c7ecdf989d696eee48aec1fd28266e836dd568076d6ab1bf0c"
+    }
+  },
+  "expected": {
+    "status": "REJECTED",
+    "decision": "APPROVED",
+    "ratifies": "sha256:10c14bfbb6d53d4c3341f27081d2cba02a0c0fa287dafd023b4c76ae7f347629",
+    "authority": null,
+    "core_digest": "sha256:8c8408b83a459a221f361210216f8aa153b5a0ca8bc0d301753c9d0d9c30c076",
+    "reason_contains": "authority does not derive from the mandate",
+    "trace": [
+      {
+        "predicate": "mandate_binding",
+        "result": "PASS"
+      },
+      {
+        "predicate": "authority_in_mandate",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "Witness, not ruler. The key is read from the mandate, never from the proof, so a signature that verifies under the signer's own key establishes nothing. REJECTED is a result with a trace, not an error: the prior record keeps its status."
+}

@@ -1,0 +1,122 @@
+{
+  "id": "aae-enforce-vector-24",
+  "name": "A PERMIT is not ratifiable — caller error",
+  "description": "The record offered for ratification is a PERMIT.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "ratify",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "statement": "aae:enforce-ratify-statement:v1",
+    "core": "aae:enforce-ratify-core:v1"
+  },
+  "input": {
+    "prior_record": {
+      "core": {
+        "enforce_version": "3.0",
+        "mandate_digest": "sha256:0431d929c84749d065edd82b9ecb49ff53eb7ed012ea24a4077aeed549af17a7",
+        "transaction_digest": "sha256:4c17d7e8de44bf84838df729d67dafa6fe8b35a493299743c4944baece6875fe",
+        "action_digest": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+        "verdict": "PERMIT",
+        "grant_index": 0,
+        "trace": [
+          {
+            "predicate": "mandate_present",
+            "field": null,
+            "value": null,
+            "bound": null,
+            "result": "PASS"
+          },
+          {
+            "predicate": "type_fields",
+            "field": "action",
+            "value": [
+              "asset",
+              "chain",
+              "verb"
+            ],
+            "bound": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "result": "PASS"
+          },
+          {
+            "predicate": "action_binding",
+            "field": "action",
+            "value": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "bound": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "result": "PASS"
+          },
+          {
+            "predicate": "exact",
+            "field": "to",
+            "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+            "bound": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+            "result": "PASS"
+          },
+          {
+            "predicate": "range",
+            "field": "amount",
+            "value": 500,
+            "bound": {
+              "lo": 0,
+              "hi": 1000
+            },
+            "result": "PASS"
+          },
+          {
+            "predicate": "disposition",
+            "field": null,
+            "value": "allow",
+            "bound": null,
+            "result": "PASS"
+          }
+        ],
+        "prev_core_digest": null
+      },
+      "core_digest": "sha256:41c2428b6a5259220ba8b94ba78fee053848e17d2522fa3a7c87b0f8dd9fa1bf"
+    },
+    "decision": "APPROVED",
+    "authority_proof": {
+      "mandate": {
+        "mandate_version": "1.0",
+        "principal": {
+          "did": "did:web:example.com:registry",
+          "public_key": "9d53a7a4431e299b0ceb950ccbd5bd6f4845cdd9c7bd38e1c9e4e26490f8f90e"
+        },
+        "grants": [
+          {
+            "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+            "type_fields": [
+              "verb",
+              "asset",
+              "chain"
+            ],
+            "disposition": "allow",
+            "constraints": [
+              {
+                "type": "exact",
+                "field": "to",
+                "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01"
+              },
+              {
+                "type": "range",
+                "field": "amount",
+                "lo": 0,
+                "hi": 1000
+              }
+            ]
+          }
+        ]
+      },
+      "authority": "did:web:example.com:registry",
+      "signature": "696b8e69f3de3b1401ae8d7d9b72048d39b64dd453a9910aa7b6c6369aaca9241e278ad087877f9dd4c444190a74da18a8555e9b7b903f9381ffa6439f96840c"
+    }
+  },
+  "expected": {
+    "error": "RatifyError",
+    "reason_contains": "not ratifiable"
+  },
+  "rationale": "Guard 2. A PERMIT has no status to change, so the request is malformed rather than unauthorized — it raises instead of producing a REJECTED record."
+}

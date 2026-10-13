@@ -1,0 +1,54 @@
+{
+  "id": "aae-enforce-vector-10",
+  "name": "Duplicate name in type_fields — deny",
+  "description": "type_fields repeats verb.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": []
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:ede64cff26d3722a7c9e6569433439faa9db61cc8af3ff97639be0052a27dd49",
+    "reason_contains": "type_fields",
+    "trace": [
+      {
+        "predicate": "mandate_present",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "The comparison against the action is over sets. A list with a duplicate claims a field count it does not have, so it is malformed rather than merely redundant."
+}

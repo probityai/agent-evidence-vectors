@@ -1,0 +1,48 @@
+{
+  "id": "aae-enforce-vector-08",
+  "name": "Grant without type_fields — deny",
+  "description": "The grant omits type_fields entirely.",
+  "section_ref": "draft-kroehl-agentic-trust-aae-02",
+  "kernel": "enforce_check",
+  "kernel_version": "3.0",
+  "domain_tags": {
+    "action": "aae:enforce-action:v1",
+    "mandate": "aae:enforce-mandate:v1",
+    "transaction": "aae:enforce-transaction:v1",
+    "core": "aae:enforce-core:v1"
+  },
+  "input": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "disposition": "allow",
+          "constraints": []
+        }
+      ]
+    },
+    "transaction": {
+      "action": {
+        "verb": "transfer",
+        "asset": "USDC",
+        "chain": "base"
+      },
+      "to": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+      "amount": 500,
+      "region": "CH"
+    }
+  },
+  "expected": {
+    "verdict": "DENY",
+    "core_digest": "sha256:94b96598cb31e2576d7dc73f0c2f08eb350e20dd12d042ef10068298f2fe0bb5",
+    "reason_contains": "type_fields",
+    "trace": [
+      {
+        "predicate": "mandate_present",
+        "result": "FAIL"
+      }
+    ]
+  },
+  "rationale": "type_fields is REQUIRED. A grant without it is malformed, and a mandate whose only grant is malformed carries nothing — it does not fall back to binding on the digest alone."
+}
