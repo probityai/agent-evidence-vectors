@@ -1004,6 +1004,15 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The AgentID action_ref v2 recompute prints its own tallies; the reader
+    # exits nonzero unless every upstream check and domain case holds, and
+    # test_reader.py asserts the two totals.
+    Delegated(
+        "interop/agentid-action-ref-v2/README.md",
+        "the reader's printed upstream-check and domain-case tallies",
+        r"upstream checks \d+/\d+, domain cases \d+/\d+",
+        "interop/agentid-action-ref-v2/test_reader.py",
+    ),
     # These transport and fixture values have no corpus population meaning.
     # The real process, nonce and large-member controls hold their contracts.
     *(
