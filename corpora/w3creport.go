@@ -933,8 +933,12 @@ func w3cRecomputedMoved(item map[string]any, resolves map[string]any) (map[strin
 	return moved, w3cRead
 }
 
-// w3cRowRecomputedMoved is rule 21: moved is read as recomputed from the two
-// observations, never as the emitter declared it; a mismatch is rule 20.
+// w3cRowRecomputedMoved is rules 16 and 21: moved is read as recomputed from
+// the two observations, never as the emitter declared it. Rule 16 holds the
+// recomputed moved against the declared compared set (v0.1 section 2), rule 21
+// the declared moved against the recomputed one, both over the slots a reader
+// recomputes: no rejection row reads the recompute-opaque error list (section
+// 2.1). A mismatch is rule 20; observations that cannot be read fire neither.
 func w3cRowRecomputedMoved(item map[string]any, resolves map[string]any, out w3cRejects) {
 	recomputed, state := w3cRecomputedMoved(item, resolves)
 	if state == w3cMismatch {
@@ -943,6 +947,14 @@ func w3cRowRecomputedMoved(item map[string]any, resolves map[string]any, out w3c
 	}
 	if state != w3cRead {
 		return
+	}
+	compared, _ := stringList(item["compared"])
+	within := set(compared...)
+	for v := range recomputed {
+		if !within[v] {
+			out.add(16)
+			break
+		}
 	}
 	moved, _ := stringList(item["moved"])
 	declared := map[string]bool{}
@@ -1003,16 +1015,9 @@ func w3cRowsEvidence(item map[string]any, resolves map[string]any, out w3cReject
 	}
 	compared, _ := stringList(item["compared"])
 	moved, _ := stringList(item["moved"])
-	declared := set(compared...)
 	for _, v := range append(append([]string{}, compared...), moved...) {
 		if !w3cSlots[v] {
 			out.add(19)
-			break
-		}
-	}
-	for _, v := range moved {
-		if !declared[v] {
-			out.add(16)
 			break
 		}
 	}

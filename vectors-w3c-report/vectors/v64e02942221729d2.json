@@ -1,4 +1,26 @@
 {
+  "canonical": {
+    "conforming": {
+      "refused": "W3C-R-015 (unsupported-digest-encoding)"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"text\":\"plain\"},\"check\":\"c-declared\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b2274657874223a22706c61696e227d2c22636865636b223a22632d6465636c61726564222c227374617465223a2270617373227d",
+          "sha256": "0c2a0d6b2590a8010db6fd19b511f5d5415d0f867c31020fe5d6490fe7a4fefa"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "6e497f370b7c37ef0bc9455cb001052fe02dcc87d65b2a31cd6d4d3e4bc3d0e5",
+      "rule-switched-off": "closed-encoding-set"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "cause": "unsupported-digest-encoding",
     "rejects": [

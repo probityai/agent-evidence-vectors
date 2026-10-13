@@ -1,4 +1,22 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"text\":\"delete \\177\"},\"check\":\"c-u007f\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b2274657874223a2264656c657465207f227d2c22636865636b223a22632d7530303766222c227374617465223a2270617373227d",
+          "sha256": "df6f74fcb4e16d83dc8affa79a08c4a07d411366d89898fc641870b3ede0459e"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "fe92923b2a1cdb0f712e0376f2e69c30511cedec57333cea3f5e06c15c9e5df2"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "rejects": [],
     "verdict": "accept"

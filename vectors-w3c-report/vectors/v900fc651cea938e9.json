@@ -1,4 +1,22 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"digits\":\"1000000000000000000000\",\"exponent\":\"1e+21\"},\"check\":\"c-1e21-as-strings\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b22646967697473223a2231303030303030303030303030303030303030303030222c226578706f6e656e74223a2231652b3231227d2c22636865636b223a22632d316532312d61732d737472696e6773222c227374617465223a2270617373227d",
+          "sha256": "477ee8fac3ea8e4c9e122c3607f8d0c150c3198adcdc129028ee2fab2d23e3e7"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "4b40f06cdab32dca09e356bf48097b24b8ab6d52c6c3c5f4f3f58e88bd80f163"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "rejects": [],
     "verdict": "accept"

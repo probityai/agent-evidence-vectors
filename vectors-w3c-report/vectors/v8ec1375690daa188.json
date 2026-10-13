@@ -1,0 +1,112 @@
+{
+  "expected": {
+    "rejects": [
+      "W3C-R-016"
+    ],
+    "verdict": "reject"
+  },
+  "family": "w3c-f-16",
+  "id": "v8ec1375690daa188",
+  "kind": "reject",
+  "requirements": [
+    "W3C-R-016"
+  ],
+  "resolves": {
+    "obs-fail": {
+      "rules": [
+        "R-1"
+      ],
+      "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+      "verdict": "fail"
+    },
+    "obs-pass": {
+      "rules": [],
+      "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 2,
+      "sha256": "b4fcb1ae8092bbd32191414e50db36c5660f629a5b5618a3f0c36396806e09fd",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "check": "c-pass",
+        "state": "pass"
+      },
+      {
+        "check": "c-fail",
+        "other-verdict": {
+          "ref": "e-1",
+          "value": "demonstrated"
+        },
+        "state": "fail"
+      }
+    ],
+    "domain": {
+      "description": "the run's declared domain, referenced by identifier",
+      "id": "d-run"
+    },
+    "evidence": [
+      {
+        "changed": "input artifact",
+        "compared": [
+          "verdict"
+        ],
+        "delta": {
+          "changes": [
+            {
+              "after": 2,
+              "before": 1,
+              "field": "artifact/field"
+            }
+          ]
+        },
+        "fixed": {
+          "checker": "checker-1",
+          "constraint-set": "cs-1",
+          "domain": "d-run"
+        },
+        "id": "e-1",
+        "moved": [
+          "verdict",
+          "fired-rule list"
+        ],
+        "observations": [
+          {
+            "reference": {
+              "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+              "vector": "obs-pass"
+            }
+          },
+          {
+            "reference": {
+              "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+              "vector": "obs-fail"
+            }
+          }
+        ]
+      }
+    ],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 2,
+      "exercised": 2,
+      "fail": 1,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "shown-by-run"
+      },
+      "not-exercised": 0,
+      "pass": 1,
+      "referenced": 2,
+      "void": 0
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}

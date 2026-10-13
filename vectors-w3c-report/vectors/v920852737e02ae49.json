@@ -1,0 +1,107 @@
+{
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"zero\":0},\"check\":\"c-negative-zero-integer\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b227a65726f223a307d2c22636865636b223a22632d6e656761746976652d7a65726f2d696e7465676572222c227374617465223a2270617373227d",
+          "sha256": "bea9da445cf105dba3b9bcc7dde7436fd0897d9312d6f5cab2d1b86114ef3848"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "fe4364855784f38ad1b261d47195bf8c591820c4219396410f47b7d474bbed1d"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"zero\":-0},\"check\":\"c-negative-zero-integer\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b227a65726f223a2d307d2c22636865636b223a22632d6e656761746976652d7a65726f2d696e7465676572222c227374617465223a2270617373227d",
+          "sha256": "d1c32f2c702aa11875911c72b33036b21e209016d0cc57b11160798d4307d6fd"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "650fedb105e5acd49dbc88d6d499c7fb1e62457cfc3812fae66bbb0670f61d60",
+      "rule-switched-off": "number-by-value"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
+  "expected": {
+    "cause": "digests-differ",
+    "rejects": [
+      "W3C-R-020"
+    ],
+    "verdict": "reject"
+  },
+  "family": "w3c-f-jcs-number-value",
+  "id": "v920852737e02ae49",
+  "kind": "reject",
+  "requirements": [
+    "W3C-R-020",
+    "W3C-R-030"
+  ],
+  "resolves": {
+    "obs-fail": {
+      "rules": [
+        "R-1"
+      ],
+      "sha256": "227f0d086cfab062fa47815da5d68276b42ac14dbb9e3ca961ee9aafa50915ff",
+      "verdict": "fail"
+    },
+    "obs-pass": {
+      "rules": [],
+      "sha256": "3725634797618d2088adc616a17db3679a445efdd1a2374d718a0f22ca10e3ca",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "digest-encoding": "jcs-sha256",
+      "leaf-count": 2,
+      "sha256": "650fedb105e5acd49dbc88d6d499c7fb1e62457cfc3812fae66bbb0670f61d60",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "annotations": {
+          "zero": -0
+        },
+        "check": "c-negative-zero-integer",
+        "state": "pass"
+      },
+      {
+        "check": "c-pass-2",
+        "state": "pass"
+      }
+    ],
+    "domain": {
+      "description": "the run's declared domain, referenced by identifier",
+      "id": "d-run"
+    },
+    "evidence": [],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 2,
+      "exercised": 2,
+      "fail": 0,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "nothing"
+      },
+      "not-exercised": 0,
+      "pass": 2,
+      "referenced": 0,
+      "void": 0
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}

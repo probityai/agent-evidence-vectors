@@ -100,8 +100,8 @@ NEGATIVE_CAPABLE = ("shown-by-run", "control-failed", "prior-discriminating-run"
 CHANGED = ("input artifact", "checker rule", "constraint")
 #: What an evidence object may declare it compared or found moved. The error
 #: list is the recompute-opaque slot the editor recorded as a fourth kind
-#: that no row reads; it is named so an object can declare it, and rejected
-#: only where it is asserted moved without having been declared compared.
+#: that no rejection row reads (v0.1 section 2.1); it is named so an object
+#: can declare it, and a declaration of it never carries a rejection.
 SLOTS = ("verdict", "fired-rule list", "error list")
 
 #: Requirement identifiers, minted by the corpus. The sentence each binds to
@@ -719,13 +719,25 @@ def _row_discrimination(
 
 
 def _row_recomputed_moved(item: dict[str, Any], resolves: dict[str, Any], out: set[str]) -> None:
-    """Rule 21: moved is read as recomputed from the two observations, never as declared."""
+    """Rules 16 and 21: moved is read as recomputed from the two observations, never as declared.
+
+    Section 2 of v0.1: "moved is recomputed, not declared. It is recomputed over
+    what the referenced observations actually contain, and an object whose moved
+    is not contained in its declared compared set is rejected." So rule 16 holds
+    the recomputed moved against the declared compared set, and rule 21 the
+    declared moved against the recomputed one. Both read only the slots a reader
+    recomputes, verdict and fired-rule list: the error list is recomputed-opaque
+    and no rejection row reads it (section 2.1). Where the observations cannot be
+    read, neither row fires.
+    """
     recomputed = _recomputed_moved(item, resolves)
     if recomputed == MISMATCH:
         out.add(R[20])
         return
     if not isinstance(recomputed, set):
         return
+    if not recomputed <= set(item["compared"]):
+        out.add(R[16])
     declared = {v for v in item["moved"] if v in ("verdict", "fired-rule list")}
     if declared != recomputed:
         out.add(R[21])
@@ -781,8 +793,6 @@ def _rows_evidence(item: dict[str, Any], resolves: dict[str, Any], out: set[str]
     compared, moved = item["compared"], item["moved"]
     if any(v not in SLOTS for v in compared + moved):
         out.add(R[19])
-    if not set(moved) <= set(compared):
-        out.add(R[16])
     _rows_evidence_form(item, out)
     _row_recomputed_moved(item, resolves, out)
 

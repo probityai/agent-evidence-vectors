@@ -224,9 +224,9 @@ W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
         CONSISTENCY,
     ),
     requirement(
-        "W3C-R-016", "2 declared slots", "0087",
+        "W3C-R-016", "2 recomputed moved contained", "0087",
         "an object whose moved\nis not contained in its declared compared set is rejected",
-        CONSISTENCY,
+        EVIDENCE,
     ),
     requirement(
         "W3C-R-021", "2 recomputed moved", "0087",
@@ -516,7 +516,7 @@ FAMILIES = {
         "section 3.1: a digest over a set binds its leaf count and names its tree "
         "shape; domain separation alone is not the fix"
     ),
-    "w3c-f-16": "declared slots: moved is contained in the declared compared set",
+    "w3c-f-16": "section 2: moved, recomputed, is contained in the declared compared set",
     "w3c-f-29": (
         "section 5.4: a control built to fail is bound to the checker and constraint set of "
         "the checks it speaks for"
@@ -1097,14 +1097,18 @@ def build_set_binding(m: Members) -> None:
 
 
 def build_rules(m: Members) -> None:
-    """The declared-slot rule, the roll-up rules, the vocabulary rule, the mismatch rule."""
+    """The compared-set rule, the roll-up rules, the vocabulary rule, the mismatch rule."""
     demonstrated = with_slots(FAIL, other_verdict=qualifier("demonstrated", "e-1"))
     m.pair(
         "w3c-f-16", "W3C-R-016",
+        report([PASS, demonstrated], [evidence("e-1", compared=["verdict"])]),
         report([PASS, demonstrated], [evidence("e-1", moved=WITH_ERRORS)]),
-        report([PASS, demonstrated], [evidence("e-1", moved=WITH_ERRORS, compared=WITH_ERRORS)]),
-        "moved names the error list and the declared compared set does not hold it",
-        "the error list declared compared, so moved is contained; no row reads the opaque slot",
+        "the observations differ in the fired-rule list as well as the verdict, and the "
+        "declared compared set holds the verdict alone, so the recomputed moved is not "
+        "contained in it",
+        "moved also declares the error list, outside the declared compared set; the recomputed "
+        "moved is contained in it, and no rejection row reads the recompute-opaque error list "
+        "(section 2.1)",
     )
     short = report([PASS, FAIL, EXCLUDED])
     short["roll-up"]["exercised"] = 3
@@ -1416,7 +1420,7 @@ def pair_store(origin: dict[str, Any], pair: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_disensor(m: Members) -> None:
-    """The 42 pairs, each as it was emitted and as v0.1 re-cuts it."""
+    """The 42 pairs, each as it was emitted and as v0.1 re-cuts it, both accepted."""
     origin = json.loads(read(ORIGIN_FILE))
     for pair in origin["pairs"]:
         version = pair["version"]
@@ -1436,13 +1440,14 @@ def build_disensor(m: Members) -> None:
         }
         resolves = pair_store(origin, pair)
         m.add(
-            kind="reject", family="w3c-f-disensor", requirements=["W3C-R-016"],
+            kind="accept", family="w3c-f-disensor", requirements=["W3C-R-016"],
             subject=report(checks, [as_emitted], domain=DISENSOR_DOMAIN), resolves=resolves,
-            cites="the pair as emitted on 2026-09-16: moved names the error list the checker "
-                  "produced, which the compared vocabulary does not hold, so the object is "
-                  "rejected under the declared-slot rule",
-            origin=dict(provenance, cause="moved asserts the recompute-opaque error list "
-                                          "outside the declared compared set"),
+            cites="the pair as emitted on 2026-09-16: moved also declares the error list the "
+                  "checker produced, outside the declared compared set; moved is recomputed, "
+                  "not declared, the recomputed moved is contained in the compared set, and no "
+                  "rejection row reads the recompute-opaque error list",
+            origin=dict(provenance, cause="none: the declared error list is a declaration no "
+                                          "row reads, and the recomputed moved is contained"),
         )
         m.add(
             kind="accept", family="w3c-f-disensor", requirements=["W3C-R-016"],
@@ -1836,6 +1841,13 @@ def build_digest_encoding(m: Members) -> None:
         "writes them",
     )
     encoding_pair(
+        m, "w3c-f-jcs-number-value", "c-negative-zero-integer", {"zero": INT("-0")},
+        "a root over the leaf with the integer token -0 alone written as its token, as a "
+        "reader that keeps the literal writes it",
+        "the root over the leaf with the integer token -0 alone written as 0, its value, as "
+        "RFC 8785 writes it",
+    )
+    encoding_pair(
         m, "w3c-f-jcs-number-value", "c-integral-tokens",
         {"one": NUM("1.0"), "hundred": NUM("1e2")},
         "a root over the leaf with 1.0 and 1e2 written as their tokens",
@@ -2207,9 +2219,10 @@ locates it in the vendored copy and hashes it, and a reword stops the build.
 **The {2 * origin["pairs"]} members of family `w3c-f-disensor`** are re-cut from the
 {origin["pairs"]} delta-related pairs {origin["author"]} counted in his own corpus at
 `{origin["repository"]}@{origin["commit"][:7]}`: each pair appears once as
-emitted before the freeze, rejected under the declared-slot rule with its cause,
-and once re-cut against v0.1, accepted. `origin/derive_pairs.py` derives the
-pairs from that repository and `origin/disensor-1e36257-pairs.json` is what it
+emitted before the freeze, with the error list declared moved, and once re-cut
+against v0.1. Both are accepted: moved is recomputed, not declared, and the
+recomputed moved of each is contained in its compared set.
+`origin/derive_pairs.py` derives the pairs from that repository and `origin/disensor-1e36257-pairs.json` is what it
 wrote.
 
 Regenerate byte-identically: `python3 gen_vectors.py`.
@@ -2301,6 +2314,8 @@ def read_back(vid: str, member: dict[str, Any], payload: bytes) -> None:
     cause = member["expected"].get("cause")
     if cause is not None and w3creport.check_set_cause(parsed["subject"]) != cause:
         raise SystemExit(f"FAIL: {vid} read back does not name the cause {cause}")
+    if parsed.get("canonical") != canonical_block(parsed):
+        raise SystemExit(f"FAIL: {vid} read back carries canonical bytes its subject does not give")
 
 
 def printf_bytes(data: bytes) -> str:
@@ -2320,6 +2335,58 @@ def printf_bytes(data: bytes) -> str:
     return "".join(out)
 
 
+def root_command(leaves: list[bytes]) -> str:
+    """The shell command that prints the flat root over ``leaves``: printf, openssl, sha256sum."""
+    steps = " ".join(
+        f"printf '{printf_bytes(leaf)}' | openssl dgst -sha256 -binary;" for leaf in leaves
+    )
+    return f"( {steps} ) | sha256sum"
+
+
+def leaf_block(leaves: list[bytes]) -> dict[str, Any]:
+    """Leaf bytes in hex with their SHA-256, the flat root over them, and its command."""
+    return {
+        "leaves": [{"hex": leaf.hex(), "sha256": w3creport.sha(leaf)} for leaf in leaves],
+        "root": w3creport.flat_root(leaves),
+        "command": root_command(leaves),
+    }
+
+
+def canonical_block(member: dict[str, Any]) -> dict[str, Any] | None:
+    """What a digest-encoding member's check-set root is made of, carried in the member.
+
+    ``conforming`` is what a conforming reader produces: the jcs-sha256 bytes of
+    each check, the flat root over them and the command that prints it, or the
+    refusal a conforming reader names instead of a root. A reject member also
+    carries ``declared``: the bytes a reader writes with the family's rule
+    switched off, whose root is the one the member declares. So a reader that
+    fails the member learns from the member itself what it should have produced.
+    Members outside the digest-encoding families carry no block.
+    """
+    family = member["family"]
+    if family not in FAMILY_RULES:
+        return None
+    report_ = member["subject"]
+    if report_["check-set"]["tree-shape"] != "flat":
+        raise ValueError(f"{family}: the canonical block is written for the flat shape only")
+    checks = report_["checks"]
+    block: dict[str, Any] = {"encoding": w3creport.JCS_SHA256, "tree-shape": "flat"}
+    cause = w3creport.check_set_cause(report_)
+    if cause is None or cause == w3creport.DIGESTS_DIFFER:
+        block["conforming"] = leaf_block([w3creport.jcs_sha256(c) for c in checks])
+    else:
+        block["conforming"] = {"refused": w3creport.check_set_refusal(report_)}
+    if member["kind"] == "reject":
+        rule = FAMILY_RULES[family]
+        declared = leaf_block([w3creport.jcs_sha256(c, frozenset([rule])) for c in checks])
+        if declared["root"] != report_["check-set"]["sha256"]:
+            raise ValueError(f"{family}: the rule-off bytes do not give the declared root")
+        block["declared"] = dict(declared, **{"rule-switched-off": rule})
+    elif block["conforming"].get("root") != report_["check-set"]["sha256"]:
+        raise ValueError(f"{family}: an accept member's root does not recompute")
+    return block
+
+
 def worked_example(member: dict[str, Any]) -> str:
     """One member's check-set digest, recomputable with printf and openssl alone.
 
@@ -2327,34 +2394,25 @@ def worked_example(member: dict[str, Any]) -> str:
     SHA-256 over their two SHA-256 digests in order. A reject member's root is
     the one a reader writes with its family's rule weakened, so its leaf bytes
     are shown as that reader writes them, beside the refusal or the mismatch a
-    conforming reader reports.
+    conforming reader reports. The command is the one the member file carries.
     """
     vid = w3creport.identify(member)
     rule = FAMILY_RULES[member["family"]]
     report_ = member["subject"]
-    checks = report_["checks"]
     binding = report_["check-set"]
-    weaken = frozenset([rule]) if member["kind"] == "reject" else frozenset()
+    block = canonical_block(member)
+    if block is None:
+        raise ValueError(f"{vid}: a digest-encoding member carries no canonical block")
     lines = [f"**`{vid}`** ({member['kind']}, `{member['family']}`): {member['cites']}.", ""]
     if member["kind"] == "reject":
         finding = w3creport.check_set_refusal(report_)
         lines.append(f"A conforming reader rejects it: {finding}. The root it declares is "
                      f"the one a reader writes with `{rule}` switched off:")
+        command = block["declared"]["command"]
     else:
         lines.append("The root it declares, which a conforming reader recomputes:")
-    try:
-        leaves = [w3creport.jcs_sha256(c, weaken) for c in checks]
-    except w3creport.DigestRefused:
-        leaves = []
-    if not leaves:
-        if member["kind"] != "reject":
-            raise ValueError(f"{vid}: an accept member's checks have no jcs-sha256 bytes")
-        lines += ["", f"(no leaf bytes: `{member['expected']['cause']}`)"]
-        return "\n".join(lines)
-    steps = " ".join(
-        f"printf '{printf_bytes(leaf)}' | openssl dgst -sha256 -binary;" for leaf in leaves
-    )
-    lines += ["", "```", f"( {steps} ) | sha256sum", f"# {binding['sha256']}", "```"]
+        command = block["conforming"]["command"]
+    lines += ["", "```", command, f"# {binding['sha256']}", "```"]
     return "\n".join(lines)
 
 
@@ -2392,6 +2450,9 @@ def member_document(vid: str, member: dict[str, Any]) -> dict[str, Any]:
         document["resolves"] = member["resolves"]
     if "origin" in member:
         document["origin"] = member["origin"]
+    block = canonical_block(member)
+    if block is not None:
+        document["canonical"] = block
     return document
 
 
@@ -2499,7 +2560,7 @@ def reference_emitter_runs() -> list[dict[str, Any]]:
 #: The evidence rows whose recomputed slot is a resolved observation, so the
 #: measurement above must agree with the class; the other evidence rows
 #: recompute from the report's own records (counts, roots, populations).
-RESOLVED_CLASS = frozenset({"W3C-R-020", "W3C-R-021", "W3C-R-025"})
+RESOLVED_CLASS = frozenset({"W3C-R-016", "W3C-R-020", "W3C-R-021", "W3C-R-025"})
 
 
 def build_manifest() -> tuple[dict[str, Any], dict[str, bytes]]:
