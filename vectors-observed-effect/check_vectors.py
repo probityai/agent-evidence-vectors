@@ -25,13 +25,16 @@ statements of one rule is the only arrangement in which this file can fail.
 
 from __future__ import annotations
 
+import ast
 import base64
 import datetime
 import hashlib
+import inspect
 import json
 import os
 import re
 import sys
+import textwrap
 from collections.abc import Callable
 from typing import Any
 
@@ -1112,6 +1115,105 @@ def _collect_declared(schema: Any, path: str, out: set[str]) -> None:
             out.add(path)
 
 
+#: The stage-two gates, by the function that implements each, against the phrase
+#: the predicate's Parsing Rules section names that gate by. A refusal from any
+#: other function is stage one and malformed. Both directions are checked, so a
+#: gate the document moves without the code, or the code moves without the
+#: document, fails here rather than in somebody else's reader.
+STAGE_TWO_GATES: dict[str, str] = {
+    "_verify_envelope": "the envelope signature",
+    "rule_commitment_signature": "the prior-commitment signature against consumer key policy",
+    "rule_commitment_order": "the ordering and disjointness checks under [`observation`]",
+    "rule_commitment_keyid_disjoint": "the ordering and disjointness checks under [`observation`]",
+    "rule_write_scope": "the `inScope` label on every `writes` member and the refusal of "
+    "an out-of-scope write in an authoritative record",
+    "rule_tier_recompute": "the `tier` recompute",
+    "rule_authoritative_carries_rows": "the rows requirement on an authoritative record",
+    "rule_code_digest_policy": "the code identity join",
+}
+
+#: The predicate's sentence giving each stage its word. A reader built from the
+#: document alone gets its verdict words from this sentence and nowhere else.
+VERDICT_WORD_RULE = "A refusal in stage one is `malformed` and a refusal in stage two is `invalid`."
+
+
+def _raised(fn: Callable[..., Any]) -> list[tuple[str, str | None]]:
+    """Every (exception class, literal code) a function raises directly."""
+    tree = ast.parse(textwrap.dedent(inspect.getsource(fn)))
+    found: list[tuple[str, str | None]] = []
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Raise) and isinstance(node.exc, ast.Call)):
+            continue
+        if not isinstance(node.exc.func, ast.Name):
+            continue
+        first = node.exc.args[0] if node.exc.args else None
+        literal = first.value if isinstance(first, ast.Constant) else None
+        code = literal if isinstance(literal, str) else None
+        found.append((node.exc.func.id, code))
+    return found
+
+
+def _stage_texts() -> tuple[str, str, str]:
+    """The stage-one list, the stage-two list and the whole Parsing Rules section."""
+    with open(os.path.join(HERE, "..", PREDICATE_SPEC_PATH), encoding="utf-8") as fh:
+        text = fh.read()
+    section = re.search(r"^## Parsing Rules\n(.*?)^## ", text, re.S | re.M)
+    if section is None:
+        raise SystemExit(f"{PREDICATE_SPEC_PATH} carries no Parsing Rules section")
+    flat = " ".join(section.group(1).split())
+    stages = re.search(r"Stage one is byte-pure(.*?)Stage two (.*?)\. \*\*", flat)
+    if stages is None:
+        raise SystemExit(f"{PREDICATE_SPEC_PATH} lists no stage-one and stage-two gates")
+    return stages.group(1), stages.group(2), flat
+
+
+def _check_stage_lists() -> None:
+    """The word rule is stated, and each stage-two gate is listed there and only there."""
+    stage_one, stage_two, section = _stage_texts()
+    if VERDICT_WORD_RULE not in section:
+        FAILURES.append("the Parsing Rules section does not state the verdict word per stage")
+    for name, phrase in STAGE_TWO_GATES.items():
+        if phrase not in stage_two:
+            FAILURES.append(f"{name}: the stage-two list does not name {phrase!r}")
+        if phrase in stage_one:
+            FAILURES.append(f"{name}: the stage-one list names {phrase!r} as well")
+
+
+def _check_raised_words(fn: Callable[..., Any]) -> None:
+    """A stage-two gate says invalid; any other gate never does."""
+    raised = _raised(fn)
+    if fn.__name__ not in STAGE_TWO_GATES:
+        if any(cls == "Invalid" for cls, _ in raised):
+            FAILURES.append(
+                f"{fn.__name__} says invalid, and the predicate lists it as no stage-two gate"
+            )
+        return
+    if not any(cls == "Invalid" for cls, _ in raised):
+        FAILURES.append(f"{fn.__name__} is a stage-two gate and never says invalid")
+    for cls, code in raised:
+        if cls == "Malformed" and not (code or "").endswith("-unreadable"):
+            FAILURES.append(
+                f"{fn.__name__} is a stage-two gate and says malformed for "
+                f"{code!r}, which is not an undecodable signature"
+            )
+
+
+def check_verdict_words() -> None:
+    """The word each refusal carries is the one the predicate's text assigns it.
+
+    The document fixed the word by stage, listed the `tier` recompute among the
+    stage-one gates, and named no word in most of its MUST-refuse sentences, while
+    every verifier called a tier failure invalid. A reader written from the text
+    said `refused` on 22 reject members at e6f1784f (#29). This holds the stage
+    lists and the word rule in the document to the functions that raise each word.
+    The envelope signature returns its verdict rather than raising it, so only its
+    place in the stage-two list is checked here; check_member holds its word.
+    """
+    _check_stage_lists()
+    for _, fn in RULES:
+        _check_raised_words(fn)
+
+
 def check_counts(manifest: dict[str, Any]) -> None:
     actual = {"accept": 0, "reject": 0, "indeterminate": 0}
     for entry in manifest["vectors"]:
@@ -1141,6 +1243,7 @@ def main() -> None:
     check_parents(manifest)
     check_counts(manifest)
     check_schema_spellings(manifest)
+    check_verdict_words()
 
     if FAILURES:
         for failure in FAILURES:

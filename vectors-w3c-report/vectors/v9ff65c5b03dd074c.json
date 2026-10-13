@@ -1,4 +1,37 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"zero\":0,\"zero-fraction\":0},\"check\":\"c-negative-zero\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b227a65726f223a302c227a65726f2d6672616374696f6e223a307d2c22636865636b223a22632d6e656761746976652d7a65726f222c227374617465223a2270617373227d",
+          "sha256": "fe34f5085c07462c68cbe0099b98af8ed3259615022902b6c5ad828eaf51a54f"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "38eaa15ae7fb4eb3cbd84e05737eb010cfff672d94059ae782a481869bd26796"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"zero\":-0,\"zero-fraction\":-0.0},\"check\":\"c-negative-zero\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b227a65726f223a2d302c227a65726f2d6672616374696f6e223a2d302e307d2c22636865636b223a22632d6e656761746976652d7a65726f222c227374617465223a2270617373227d",
+          "sha256": "acc758b8df282a9aa3300677291325e63872fef1c5618641cb01de9f5d642370"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "ed7f15f63f99a08b8f8cb178a411fee9eb2af9dda5c83f045cbb0657c8bb2dcf",
+      "rule-switched-off": "number-by-value"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "cause": "digests-differ",
     "rejects": [

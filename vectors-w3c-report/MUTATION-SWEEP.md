@@ -30,11 +30,11 @@ corpus and every row of its manifest. Rows that leak: 0.
 | `W3C-R-026` | 1 | 1 | 0 | isolated |
 | `W3C-R-019` | 1 | 1 | 0 | isolated |
 | `W3C-R-024` | 1 | 1 | 0 | isolated |
-| `W3C-R-016` | 43 | 43 | 0 | isolated |
+| `W3C-R-016` | 1 | 1 | 0 | isolated |
 | `W3C-R-021` | 1 | 1 | 0 | isolated |
 | `W3C-R-027` | 1 | 1 | 0 | isolated |
 | `W3C-R-028` | 1 | 1 | 0 | isolated |
-| `W3C-R-020` | 20 | 20 | 0 | isolated |
+| `W3C-R-020` | 21 | 21 | 0 | isolated |
 | `W3C-R-015` | 6 | 6 | 0 | isolated |
 | `W3C-R-017` | 1 | 1 | 0 | isolated |
 | `W3C-R-023` | 4 | 4 | 0 | isolated |
@@ -97,7 +97,7 @@ every rule its value touches, which is why the accept column names families.
 | `utf16-member-order` | `w3c-f-jcs-member-order` | 1 | 1 | 1 (`w3c-f-jcs-member-order`) | 0 | 0 | isolated |
 | `raw-u007f` | `w3c-f-jcs-u007f` | 1 | 1 | 1 (`w3c-f-jcs-u007f`) | 0 | 0 | isolated |
 | `raw-non-ascii` | `w3c-f-jcs-non-ascii` | 4 | 4 | 5 (`w3c-f-jcs-member-order`, `w3c-f-jcs-non-ascii`) | 0 | 0 | isolated |
-| `number-by-value` | `w3c-f-jcs-number-value` | 2 | 2 | 2 (`w3c-f-jcs-number-value`) | 0 | 0 | isolated |
+| `number-by-value` | `w3c-f-jcs-number-value` | 3 | 3 | 3 (`w3c-f-jcs-number-value`) | 0 | 0 | isolated |
 | `integers-only` | `w3c-f-jcs-non-integer` | 3 | 3 | 0 (none) | 0 | 0 | isolated |
 | `safe-range` | `w3c-f-jcs-1e21`, `w3c-f-jcs-safe-range` | 6 | 6 | 0 (none) | 0 | 0 | isolated |
 | `closed-encoding-set` | `w3c-f-jcs-declaration` | 1 | 1 | 0 (none) | 0 | 0 | isolated |
@@ -120,6 +120,7 @@ cause that rejection names:
 | `v60bd06deca6e832d` | `w3c-f-jcs-u007f` | `raw-u007f` | W3C-R-020 | digests-differ |
 | `v64e02942221729d2` | `w3c-f-jcs-declaration` | `closed-encoding-set` | W3C-R-015 | unsupported-digest-encoding |
 | `v8474a83c45f293fc` | `w3c-f-jcs-non-ascii` | `raw-non-ascii` | W3C-R-020 | digests-differ |
+| `v920852737e02ae49` | `w3c-f-jcs-number-value` | `number-by-value` | W3C-R-020 | digests-differ |
 | `v9d05fc7c9c249317` | `w3c-f-jcs-member-order` | `utf16-member-order` | W3C-R-020 | digests-differ |
 | `v9ff65c5b03dd074c` | `w3c-f-jcs-number-value` | `number-by-value` | W3C-R-020 | digests-differ |
 | `va8dfb25c6d62d458` | `w3c-f-jcs-safe-range` | `safe-range` | W3C-R-020 | integer-outside-safe-range |

@@ -1,4 +1,22 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"hundred\":100,\"one\":1},\"check\":\"c-integral-tokens\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b2268756e64726564223a3130302c226f6e65223a317d2c22636865636b223a22632d696e74656772616c2d746f6b656e73222c227374617465223a2270617373227d",
+          "sha256": "4016375186503cdba8afd458f824eaf71d9a804b509f17fecc17f1ea3b15aea4"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "b54538004454c320169716ff4478156f8d1f3b909cfd011f299a3f8357fee5b9"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "rejects": [],
     "verdict": "accept"

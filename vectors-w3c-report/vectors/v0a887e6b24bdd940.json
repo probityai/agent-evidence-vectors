@@ -1,4 +1,26 @@
 {
+  "canonical": {
+    "conforming": {
+      "refused": "W3C-R-020 (integer-outside-safe-range: -9007199254740993)"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"count\":-9007199254740992},\"check\":\"c-minus-two-to-the-53-minus-one\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b22636f756e74223a2d393030373139393235343734303939327d2c22636865636b223a22632d6d696e75732d74776f2d746f2d7468652d35332d6d696e75732d6f6e65222c227374617465223a2270617373227d",
+          "sha256": "01838fef61230aee749cdb2ce984315b99e2829d3703966cf614436b2b6c985c"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "d4e4df938d0247432b02f03e7060283d07fd93dd45a49330edd4278df4a22812",
+      "rule-switched-off": "safe-range"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "cause": "integer-outside-safe-range",
     "rejects": [

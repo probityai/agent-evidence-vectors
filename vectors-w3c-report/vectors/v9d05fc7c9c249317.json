@@ -1,4 +1,37 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"\\360\\237\\230\\200\":\"U+1F600\",\"\\357\\254\\263\":\"U+FB33\"},\"check\":\"c-member-order\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b22f09f9880223a22552b3146363030222c22efacb3223a22552b46423333227d2c22636865636b223a22632d6d656d6265722d6f72646572222c227374617465223a2270617373227d",
+          "sha256": "8f88f680791f16b92f472eb90352ed9083ece35b0003553e3e3938b6e1ec93aa"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "1d65402962c1f4e69b8528785d59ebfef5418804b6497c7f1d73c89141fe63fd"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"\\357\\254\\263\":\"U+FB33\",\"\\360\\237\\230\\200\":\"U+1F600\"},\"check\":\"c-member-order\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b22efacb3223a22552b46423333222c22f09f9880223a22552b3146363030227d2c22636865636b223a22632d6d656d6265722d6f72646572222c227374617465223a2270617373227d",
+          "sha256": "69eb301836b34724e99eb3c8bf8631339c756f29b8ec183481dc1fdf56125641"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "111ec757ffa63d4cc2406347ae29346caf6f35e224195b788c0929195403b4e1",
+      "rule-switched-off": "utf16-member-order"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "cause": "digests-differ",
     "rejects": [

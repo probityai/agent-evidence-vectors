@@ -503,12 +503,6 @@ fn evidence_rows(
     {
         add("W3C-R-019");
     }
-    // Section 2: an object whose moved is not contained in compared is rejected.
-    if let Some(m) = &moved {
-        if m.iter().any(|x| !compared.contains(x)) {
-            add("W3C-R-016");
-        }
-    }
     // Row 14 (form): moved asserted on an object that neither carries both
     // observations nor references them with digests.
     if moved.as_ref().is_some_and(|m| !m.is_empty()) {
@@ -528,8 +522,19 @@ fn evidence_rows(
             add("W3C-R-026");
         }
     }
-    // Section 2: moved is recomputed, not declared. Each comparable slot of the
-    // compared set is in moved exactly when it differs.
+    // Section 2: moved is recomputed, not declared, and an object whose moved
+    // is not contained in its declared compared set is rejected. The moved
+    // held against compared is the recomputed one: a declaration of the
+    // recompute-opaque error list carries no rejection (section 2.1).
+    if let Some(rec) = recomputed {
+        if rec
+            .iter()
+            .any(|x| !compared.iter().any(|c| c.as_str() == *x))
+        {
+            add("W3C-R-016");
+        }
+    }
+    // Each comparable slot of the compared set is in moved exactly when it differs.
     if let (Some(rec), Some(m)) = (recomputed, &moved) {
         for slot in ["verdict", "fired-rule list"] {
             if compared.iter().any(|c| c == slot)

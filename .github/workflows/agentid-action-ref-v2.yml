@@ -1,0 +1,48 @@
+name: AgentID action_ref v2 recompute
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'interop/agentid-action-ref-v2/**'
+      - '.github/workflows/agentid-action-ref-v2.yml'
+      - 'uv.lock'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'interop/agentid-action-ref-v2/**'
+      - '.github/workflows/agentid-action-ref-v2.yml'
+      - 'uv.lock'
+
+permissions:
+  contents: read
+
+jobs:
+  recompute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v5
+      - name: Set fresh report destination
+        run: printf 'ACTION_REF_ATTEMPT=%s/action-ref-v2-attempt\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - name: Install locked development dependencies
+        run: uv sync --locked --extra dev
+      - name: Check reader and refusal paths
+        run: |
+          uv run ruff check interop/agentid-action-ref-v2
+          uv run ruff format --check interop/agentid-action-ref-v2
+          uv run python -m pytest interop/agentid-action-ref-v2/test_reader.py -q
+      - name: Recompute the pinned vectors and domain cases
+        run: uv run python interop/agentid-action-ref-v2/reader.py --output-dir "$ACTION_REF_ATTEMPT"
+      - name: Retain measured report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: agentid-action-ref-v2-report
+          path: ${{ runner.temp }}/action-ref-v2-attempt/report.json
+          if-no-files-found: error
+          retention-days: 30

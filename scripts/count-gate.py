@@ -1031,6 +1031,15 @@ DELEGATED: tuple[Delegated, ...] = (
            r'\("\d+", "prior_verdict_permit"\), \("\d+", "prev_core_digest_mismatch"\)'),
           ("test_aae_binding.py", r"\d+/\d+ vectors reproduced, \d+/\d+ cases"),
       )),
+    # The AgentID action_ref v2 recompute prints its own tallies; the reader
+    # exits nonzero unless every upstream check and domain case holds, and
+    # test_reader.py asserts the two totals.
+    Delegated(
+        "interop/agentid-action-ref-v2/README.md",
+        "the reader's printed upstream-check and domain-case tallies",
+        r"upstream checks \d+/\d+, domain cases \d+/\d+",
+        "interop/agentid-action-ref-v2/test_reader.py",
+    ),
     # These transport and fixture values have no corpus population meaning.
     # The real process, nonce and large-member controls hold their contracts.
     *(
@@ -1587,6 +1596,26 @@ FROZEN: tuple[Frozen, ...] = (
         "It measures NicolasRocchia/disensor and nothing this repository "
         "publishes, so it can neither be derived here nor be allowed to move "
         "when this corpus changes.",
+    ),
+    # The reject entries carrying expected.codes at tag v0.11.1: a count over
+    # eight manifests at a past tag, re-derivable from that tag by the command
+    # the sentence prints. It equals the W3C corpus total by coincidence since
+    # the integer -0 pair took that corpus to 269 members.
+    Frozen(
+        "docs/W3C-V01-CONFORMANCE-APPENDIX.md",
+        "the expected.codes count at tag v0.11.1",
+        "315 reject entries across the eight manifests of `agent-evidence-vectors` at tag "
+        "`v0.11.1`, 269 carry",
+        "A count over the manifests at a past tag, re-derived from that tag by the command the "
+        "sentence prints. It describes v0.11.1 and must not track the current corpus.",
+    ),
+    Frozen(
+        "scripts/gen-w3c-appendix.py",
+        "the expected.codes count at tag v0.11.1, in the appendix generator",
+        "315 reject entries across the eight manifests of `agent-evidence-vectors` at tag "
+        "`v0.11.1`, 269 carry",
+        "The generator source of the appendix sentence above, frozen for the same reason and "
+        "asserted separately so the two cannot drift apart without one of them failing.",
     ),
     Frozen(
         "scripts/gen-w3c-appendix.py",

@@ -1,0 +1,131 @@
+{
+  "expected": {
+    "rejects": [],
+    "verdict": "accept"
+  },
+  "family": "w3c-f-disensor",
+  "id": "vbb5bb72ed5c3bcb1",
+  "kind": "accept",
+  "origin": {
+    "author": "Nicolas Rocchia",
+    "cause": "none: the declared error list is a declaration no row reads, and the recomputed moved is contained",
+    "commit": "1e36257779b4933814445423188ec099a78017ee",
+    "pair": {
+      "fail": "v0.4/schema_invalid_commit",
+      "field": "event/head_commit",
+      "pass": "v0.4/valid_diff_gate"
+    },
+    "repository": "NicolasRocchia/disensor"
+  },
+  "requirements": [
+    "W3C-R-016"
+  ],
+  "resolves": {
+    "v0.4/schema_invalid_commit": {
+      "rules": [
+        "schema"
+      ],
+      "sha256": "7c625ad406660b644706eb63680298b1de17de93a4180d9e045e8e74daadfa30",
+      "verdict": "fail"
+    },
+    "v0.4/valid_diff_gate": {
+      "rules": [],
+      "sha256": "7777028010017000531cb790fa866095bea3d8095ef063fda2d146e5ec5d896d",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 2,
+      "sha256": "005a5764a2d0fa12a4bac43bc7cb74637ee435ea1a4ff6236ef33dcee5ca7a6f",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "check": "v0.4/valid_diff_gate",
+        "state": "pass"
+      },
+      {
+        "check": "v0.4/schema_invalid_commit",
+        "discrimination": {
+          "ref": "e-pair",
+          "value": "demonstrated"
+        },
+        "other-verdict": {
+          "ref": "e-pair",
+          "value": "demonstrated"
+        },
+        "state": "fail"
+      }
+    ],
+    "domain": {
+      "description": "the disensor corpus at the pinned commit: its vectors under each schema version",
+      "id": "d-disensor"
+    },
+    "evidence": [
+      {
+        "changed": "input artifact",
+        "compared": [
+          "verdict",
+          "fired-rule list"
+        ],
+        "delta": {
+          "changes": [
+            {
+              "after": "ZZZZ",
+              "before": "beef042",
+              "field": "event/head_commit"
+            }
+          ]
+        },
+        "fixed": {
+          "checker": "disensor.rules.validate_artifact@1e36257",
+          "constraint-set": "residue/v0.4",
+          "domain": "d-disensor"
+        },
+        "id": "e-pair",
+        "moved": [
+          "verdict",
+          "fired-rule list",
+          "error list"
+        ],
+        "observations": [
+          {
+            "reference": {
+              "commit": "1e36257779b4933814445423188ec099a78017ee",
+              "repository": "NicolasRocchia/disensor",
+              "sha256": "7777028010017000531cb790fa866095bea3d8095ef063fda2d146e5ec5d896d",
+              "vector": "v0.4/valid_diff_gate"
+            }
+          },
+          {
+            "reference": {
+              "commit": "1e36257779b4933814445423188ec099a78017ee",
+              "repository": "NicolasRocchia/disensor",
+              "sha256": "7c625ad406660b644706eb63680298b1de17de93a4180d9e045e8e74daadfa30",
+              "vector": "v0.4/schema_invalid_commit"
+            }
+          }
+        ]
+      }
+    ],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 2,
+      "exercised": 2,
+      "fail": 1,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "shown-by-run"
+      },
+      "not-exercised": 0,
+      "pass": 1,
+      "referenced": 2,
+      "void": 0
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}

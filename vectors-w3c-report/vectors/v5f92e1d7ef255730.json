@@ -1,4 +1,22 @@
 {
+  "canonical": {
+    "conforming": {
+      "command": "( printf '{\"annotations\":{\"above-min\":-9007199254740990,\"below-max\":9007199254740990,\"max\":9007199254740991,\"min\":-9007199254740991},\"check\":\"c-safe-range-boundaries\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b2261626f76652d6d696e223a2d393030373139393235343734303939302c2262656c6f772d6d6178223a393030373139393235343734303939302c226d6178223a393030373139393235343734303939312c226d696e223a2d393030373139393235343734303939317d2c22636865636b223a22632d736166652d72616e67652d626f756e646172696573222c227374617465223a2270617373227d",
+          "sha256": "21418f1352199e560c2b41aae236b58009fe4affdb3096e1b485858f000d2d84"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "bfcdf3672f8cd2e7e0bb2494a8a4008b1cd293212ae932b10f69ab14b6015d54"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "rejects": [],
     "verdict": "accept"
