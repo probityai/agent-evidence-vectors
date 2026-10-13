@@ -341,6 +341,11 @@ root = "interop/govops-capability-id/history/vectors-capability-id"
 [[tool.pyright.executionEnvironments]]
 root = "interop/govops-capability-id"
 
+# The NIST AI 300-1 test imports its own check_vectors and gen_vectors, which
+# corpora on the global extraPaths also define.
+[[tool.pyright.executionEnvironments]]
+root = "interop/nist-ai-300-1"
+
 # Scope the signed-map reader's shared definition import to its own tree.
 # A global path would make its generic run.py shadow unrelated native readers.
 [[tool.pyright.executionEnvironments]]
