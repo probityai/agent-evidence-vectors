@@ -1,0 +1,47 @@
+{
+ "conformsTo": "NIST.AI.300-1.ipd:A.3",
+ "conditions": {
+  "accessible-outside-provider": false,
+  "accessible-outside-under-terms": true,
+  "attribution-mandated": false,
+  "decommissioning-date-planned": false,
+  "defined-tasks": false,
+  "deploy-and-operate-planned": false,
+  "documented-negative-impacts": false,
+  "in-use-before-this-version": false,
+  "known-ill-suited-uses": false,
+  "multi-stage-training": false,
+  "multiple-evaluation-types": false,
+  "non-obvious-performance-limitations": false,
+  "obtainable-via-internet": false,
+  "ongoing-support-planned": false,
+  "other-interest-holders": false,
+  "payments-required": false
+ },
+ "fields": {
+  "1": {
+   "name": "Identifying Descriptors",
+   "content": "Example Identifying Descriptors.",
+   "subfields": {
+    "1.2": {
+     "name": "Description",
+     "content": "Example Description."
+    },
+    "1.12": {
+     "name": "Documentation Version Identifier",
+     "content": "Example Documentation Version Identifier."
+    }
+   }
+  },
+  "3": {
+   "name": "Usage Rights and Restrictions",
+   "content": "Example Usage Rights and Restrictions.",
+   "subfields": {
+    "3.1": {
+     "name": "License",
+     "content": "Example License."
+    }
+   }
+  }
+ }
+}

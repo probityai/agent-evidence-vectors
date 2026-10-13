@@ -1,0 +1,340 @@
+{
+ "conformsTo": "NIST.AI.300-1.ipd:A.2",
+ "conditions": {
+  "accessible-outside-provider": false,
+  "accessible-outside-under-terms": false,
+  "attribution-mandated": false,
+  "consent-required-collection": false,
+  "contains-pii": false,
+  "contains-synthetic-data": false,
+  "decommissioning-date-planned": false,
+  "defined-task-application-or-use-case": false,
+  "defined-tasks": false,
+  "describes-time-span": false,
+  "documented-negative-impacts": false,
+  "in-use-before-this-version": false,
+  "known-non-obvious-limitations": false,
+  "obtainable-via-internet": false,
+  "ongoing-support-planned": false,
+  "other-interest-holders": false,
+  "payments-required": false,
+  "periodic-updates": true,
+  "preprocessed": false
+ },
+ "fields": {
+  "1": {
+   "name": "Identifying Descriptors",
+   "content": "Example Identifying Descriptors.",
+   "subfields": {
+    "1.1": {
+     "name": "Identifier",
+     "content": "Example Identifier."
+    },
+    "1.2": {
+     "name": "Description",
+     "content": "Example Description."
+    },
+    "1.3": {
+     "name": "Authorship Information",
+     "content": "Example Authorship Information.",
+     "subfields": {
+      "1.3.1": {
+       "name": "Authors, Creators, and Developers",
+       "content": "Example Authors, Creators, and Developers."
+      },
+      "1.3.2": {
+       "name": "Documentation Authors",
+       "content": "Example Documentation Authors."
+      }
+     }
+    },
+    "1.4": {
+     "name": "Point of Contact",
+     "content": "Example Point of Contact."
+    },
+    "1.5": {
+     "name": "Version Information",
+     "content": "Example Version Information.",
+     "subfields": {
+      "1.5.1": {
+       "name": "Version Identifier",
+       "content": "Example Version Identifier."
+      },
+      "1.5.2": {
+       "name": "Cryptographic Signature",
+       "content": "Example Cryptographic Signature."
+      },
+      "1.5.3": {
+       "name": "Release Date",
+       "content": "Example Release Date."
+      },
+      "1.5.4": {
+       "name": "Decommissioning Date",
+       "content": "Example Decommissioning Date."
+      }
+     }
+    },
+    "1.6": {
+     "name": "Release Methods",
+     "content": "Example Release Methods.",
+     "subfields": {
+      "1.6.1": {
+       "name": "Source URL",
+       "content": "Example Source URL."
+      }
+     }
+    },
+    "1.7": {
+     "name": "Citation",
+     "content": "Example Citation."
+    },
+    "1.8": {
+     "name": "Attributions",
+     "content": "Example Attributions."
+    },
+    "1.9": {
+     "name": "Documentation Version Identifier",
+     "content": "Example Documentation Version Identifier."
+    }
+   }
+  },
+  "2": {
+   "name": "Intended Use",
+   "content": "Example Intended Use.",
+   "subfields": {
+    "2.1": {
+     "name": "Intended Task",
+     "content": "Example Intended Task."
+    },
+    "2.2": {
+     "name": "Applicable Domains",
+     "content": "Example Applicable Domains."
+    },
+    "2.3": {
+     "name": "Limitations",
+     "content": "Example Limitations."
+    },
+    "2.4": {
+     "name": "Anticipated Use",
+     "content": "Example Anticipated Use."
+    },
+    "2.5": {
+     "name": "Out-of-Scope Use",
+     "content": "Example Out-of-Scope Use."
+    }
+   }
+  },
+  "3": {
+   "name": "Usage Rights and Restrictions",
+   "content": "Example Usage Rights and Restrictions.",
+   "subfields": {
+    "3.1": {
+     "name": "License",
+     "content": "Example License."
+    },
+    "3.2": {
+     "name": "Payments",
+     "content": "Example Payments."
+    },
+    "3.3": {
+     "name": "Rightsholders",
+     "content": "Example Rightsholders."
+    }
+   }
+  },
+  "4": {
+   "name": "Composition and Provenance",
+   "content": "Example Composition and Provenance.",
+   "subfields": {
+    "4.1": {
+     "name": "Data Characteristics",
+     "content": "Example Data Characteristics.",
+     "subfields": {
+      "4.1.1": {
+       "name": "Dataset Size",
+       "content": "Example Dataset Size."
+      },
+      "4.1.2": {
+       "name": "Data Modalities",
+       "content": "Example Data Modalities."
+      },
+      "4.1.3": {
+       "name": "Dataset Splits",
+       "content": "Example Dataset Splits."
+      },
+      "4.1.4": {
+       "name": "Attributes",
+       "content": "Example Attributes."
+      },
+      "4.1.5": {
+       "name": "Data Structure",
+       "content": "Example Data Structure."
+      },
+      "4.1.6": {
+       "name": "Data Types and Formats",
+       "content": "Example Data Types and Formats."
+      }
+     }
+    },
+    "4.2": {
+     "name": "Sensitive Data",
+     "content": "Example Sensitive Data."
+    },
+    "4.3": {
+     "name": "Data Collection",
+     "content": "Example Data Collection.",
+     "subfields": {
+      "4.3.1": {
+       "name": "Data Sources",
+       "content": "Example Data Sources."
+      },
+      "4.3.2": {
+       "name": "Data Acquisition Methods",
+       "content": "Example Data Acquisition Methods."
+      },
+      "4.3.3": {
+       "name": "Data Collection Time Span",
+       "content": "Example Data Collection Time Span."
+      }
+     }
+    },
+    "4.4": {
+     "name": "Time Span Described",
+     "content": "Example Time Span Described."
+    },
+    "4.5": {
+     "name": "Sampling Procedure",
+     "content": "Example Sampling Procedure."
+    },
+    "4.6": {
+     "name": "Consent Procedures",
+     "content": "Example Consent Procedures."
+    },
+    "4.7": {
+     "name": "Data Flows",
+     "content": "Example Data Flows."
+    },
+    "4.8": {
+     "name": "Data Enhancement",
+     "content": "Example Data Enhancement.",
+     "subfields": {
+      "4.8.1": {
+       "name": "Annotation",
+       "content": "Example Annotation.",
+       "subfields": {
+        "4.8.1.1": {
+         "name": "Annotators",
+         "content": "Example Annotators."
+        }
+       }
+      },
+      "4.8.2": {
+       "name": "Synthetic Generation of Data",
+       "content": "Example Synthetic Generation of Data."
+      },
+      "4.8.3": {
+       "name": "Data Preprocessing",
+       "content": "Example Data Preprocessing."
+      }
+     }
+    },
+    "4.9": {
+     "name": "Data Quality Control",
+     "content": "Example Data Quality Control."
+    }
+   }
+  },
+  "5": {
+   "name": "Evaluation",
+   "content": "Example Evaluation.",
+   "subfields": {
+    "5.1": {
+     "name": "Data Analysis",
+     "content": "Example Data Analysis.",
+     "subfields": {
+      "5.1.1": {
+       "name": "Data Validation",
+       "content": "Example Data Validation."
+      }
+     }
+    },
+    "5.2": {
+     "name": "Data Visualization",
+     "content": "Example Data Visualization."
+    },
+    "5.3": {
+     "name": "Risk and Impact Analyses",
+     "content": "Example Risk and Impact Analyses."
+    }
+   }
+  },
+  "6": {
+   "name": "Maintenance and Monitoring",
+   "content": "Example Maintenance and Monitoring.",
+   "subfields": {
+    "6.1": {
+     "name": "Distribution",
+     "content": "Example Distribution."
+    },
+    "6.2": {
+     "name": "Maintainer",
+     "content": "Example Maintainer."
+    },
+    "6.3": {
+     "name": "Data Storage",
+     "content": "Example Data Storage."
+    },
+    "6.4": {
+     "name": "Incident Reports",
+     "content": "Example Incident Reports."
+    },
+    "6.6": {
+     "name": "Change Log",
+     "content": "Example Change Log."
+    },
+    "6.7": {
+     "name": "Deprecation Policy",
+     "content": "Example Deprecation Policy."
+    }
+   }
+  },
+  "7": {
+   "name": "Governance",
+   "content": "Example Governance.",
+   "subfields": {
+    "7.1": {
+     "name": "Framework Adherence or Compliance",
+     "content": "Example Framework Adherence or Compliance.",
+     "subfields": {
+      "7.1.1": {
+       "name": "Review Processes",
+       "content": "Example Review Processes."
+      }
+     }
+    },
+    "7.2": {
+     "name": "Consent and Data Rights Obligations",
+     "content": "Example Consent and Data Rights Obligations."
+    },
+    "7.3": {
+     "name": "Documentation Practices",
+     "content": "Example Documentation Practices.",
+     "subfields": {
+      "7.3.1": {
+       "name": "Documentation Quality Control",
+       "content": "Example Documentation Quality Control."
+      }
+     }
+    },
+    "7.4": {
+     "name": "Funding",
+     "content": "Example Funding."
+    },
+    "7.5": {
+     "name": "Terminology",
+     "content": "Example Terminology."
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,615 @@
+{
+  "about": "The one hand-written input. For every conditional row it names the condition its guidance states, quoting the condition phrase verbatim from the row; gen_vectors.py refuses any quote it cannot find in the extracted cell. Every other designation is read straight from the Designation column. Ambiguities and observations each cite the table or clause and page where the text that raises them is printed, and quote it.",
+  "tables": {
+    "table-a.2.1": {
+      "conformsTo": "NIST.AI.300-1.ipd:A.2",
+      "conditions": {
+        "accessible-outside-provider": [
+          "the dataset can be accessed by entities outside the provider organization;"
+        ],
+        "decommissioning-date-planned": [
+          "the provider organization has planned or acted upon such a date"
+        ],
+        "obtainable-via-internet": [
+          "the dataset can be obtained via the internet"
+        ],
+        "attribution-mandated": [
+          "Usage Rights and Restrictions specifies a mandate to attribute"
+        ],
+        "defined-tasks": [
+          "there are one or more defined tasks that the dataset is intended to be used for"
+        ],
+        "known-non-obvious-limitations": [
+          "the dataset provider knows of constraints, gaps, or other limitations that would not necessarily be obvious to potential dataset users"
+        ],
+        "accessible-outside-under-terms": [
+          "the dataset can be accessed by entities outside the provider organization under specific conditions or terms"
+        ],
+        "payments-required": [
+          "payments are required to use, modify, or share the dataset"
+        ],
+        "other-interest-holders": [
+          "there are parties who have ownership or other interests in the dataset"
+        ],
+        "contains-pii": [
+          "the dataset is known to contain PII"
+        ],
+        "describes-time-span": [
+          "the data describes events that occurred during a specific time span"
+        ],
+        "consent-required-collection": [
+          "data was collected using procedures that would require informed consent"
+        ],
+        "contains-synthetic-data": [
+          "there is synthetic data in the dataset"
+        ],
+        "preprocessed": [
+          "pre-processing was done on the source data"
+        ],
+        "defined-task-application-or-use-case": [
+          "there is at least one defined task, application, or use case that the dataset is intended to support"
+        ],
+        "documented-negative-impacts": [
+          "negative impacts have previously been publicly documented and traced to this dataset or similar datasets"
+        ],
+        "in-use-before-this-version": [
+          "the dataset was in use before publication of this version of the documentation artifact"
+        ],
+        "periodic-updates": [
+          "the dataset has undergone or is expected to undergo periodic updates"
+        ],
+        "ongoing-support-planned": [
+          "the provider organization plans ongoing efforts to support the dataset"
+        ]
+      },
+      "rows": {
+        "1.4": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the dataset can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.5": {
+          "see": [
+            "1.5.1",
+            "1.5.3"
+          ],
+          "text": "See field 1.5.1 and 1.5.3."
+        },
+        "1.5.1": {
+          "when": "accessible-outside-provider",
+          "text": "Required if the dataset can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.5.3": {
+          "when": "accessible-outside-provider",
+          "text": "Required if the dataset can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.5.4": {
+          "when": "decommissioning-date-planned",
+          "text": "Required if the provider organization has planned or acted upon such a date; otherwise optional."
+        },
+        "1.6": {
+          "see": [
+            "1.6.1"
+          ],
+          "text": "See field 1.6.1."
+        },
+        "1.6.1": {
+          "when": "obtainable-via-internet",
+          "text": "Recommended if the dataset can be obtained via the internet; otherwise optional."
+        },
+        "1.7": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the dataset can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.8": {
+          "when": "attribution-mandated",
+          "text": "Required if Usage Rights and Restrictions specifies a mandate to attribute; otherwise optional."
+        },
+        "2": {
+          "see": [
+            "2.1",
+            "2.3"
+          ],
+          "text": "See fields 2.1 and 2.3."
+        },
+        "2.1": {
+          "when": "defined-tasks",
+          "text": "Recommended if there are one or more defined tasks that the dataset is intended to be used for; otherwise optional."
+        },
+        "2.3": {
+          "when": "known-non-obvious-limitations",
+          "text": "Recommended if the dataset provider knows of constraints, gaps, or other limitations that would not necessarily be obvious to potential dataset users; otherwise optional."
+        },
+        "3": {
+          "see": [
+            "3.1"
+          ],
+          "text": "Required under conditions described in 3.1;",
+          "otherwise": {
+            "level": "recommended",
+            "text": "otherwise recommended."
+          }
+        },
+        "3.1": {
+          "when": "accessible-outside-under-terms",
+          "text": "If the dataset can be accessed by entities outside the provider organization under specific conditions or terms, this field is required,",
+          "otherwise": {
+            "level": "recommended",
+            "text": "In any other circumstances, recommended."
+          }
+        },
+        "3.2": {
+          "when": "payments-required",
+          "text": "Recommended if payments are required to use, modify, or share the dataset, in which case information should be given on how to provide payment; otherwise optional."
+        },
+        "3.3": {
+          "when": "other-interest-holders",
+          "text": "Recommended if there are parties who have ownership or other interests in the dataset; otherwise optional."
+        },
+        "4.2": {
+          "when": "contains-pii",
+          "text": "Required if the dataset is known to contain PII; otherwise optional."
+        },
+        "4.4": {
+          "when": "describes-time-span",
+          "text": "Required if the data describes events that occurred during a specific time span."
+        },
+        "4.6": {
+          "when": "consent-required-collection",
+          "text": "Recommended if data was collected using procedures that would require informed consent; otherwise optional."
+        },
+        "4.8.2": {
+          "when": "contains-synthetic-data",
+          "text": "Recommended if there is synthetic data in the dataset; otherwise optional."
+        },
+        "4.8.3": {
+          "when": "preprocessed",
+          "text": "Recommended if pre-processing was done on the source data; otherwise optional."
+        },
+        "5": {
+          "see": [
+            "5.1",
+            "5.3"
+          ],
+          "text": "See 5.1 and 5.3."
+        },
+        "5.1": {
+          "see": [
+            "5.1.1"
+          ],
+          "text": "See 5.1.1.",
+          "otherwise": {
+            "level": "recommended",
+            "text": "Recommended even if 5.1.1 is not populated."
+          }
+        },
+        "5.1.1": {
+          "when": "defined-task-application-or-use-case",
+          "text": "Required if there is at least one defined task, application, or use case that the dataset is intended to support; otherwise optional."
+        },
+        "5.3": {
+          "when": "documented-negative-impacts",
+          "text": "Required if negative impacts have previously been publicly documented and traced to this dataset or similar datasets."
+        },
+        "6": {
+          "see": [
+            "6.4",
+            "6.5",
+            "6.7"
+          ],
+          "text": "See 6.4, 6.5, and 6.7."
+        },
+        "6.4": {
+          "when": "in-use-before-this-version",
+          "text": "Recommended if the dataset was in use before publication of this version of the documentation artifact; otherwise optional."
+        },
+        "6.5": {
+          "when": "periodic-updates",
+          "text": "Recommended if the dataset has undergone or is expected to undergo periodic updates; otherwise optional."
+        },
+        "6.7": {
+          "when": "ongoing-support-planned",
+          "text": "Recommended if the provider organization plans ongoing efforts to support the dataset; otherwise optional."
+        }
+      }
+    },
+    "table-a.3.1": {
+      "conformsTo": "NIST.AI.300-1.ipd:A.3",
+      "conditions": {
+        "accessible-outside-provider": [
+          "the model can be accessed by entities outside the provider organization;"
+        ],
+        "decommissioning-date-planned": [
+          "the provider organization has planned or acted upon such a date"
+        ],
+        "obtainable-via-internet": [
+          "the model can be obtained via the internet"
+        ],
+        "attribution-mandated": [
+          "Use Rights and Restrictions specifies a mandate to attribute"
+        ],
+        "defined-tasks": [
+          "there are one or more defined tasks for which the model is intended to be used"
+        ],
+        "known-ill-suited-uses": [
+          "the model provider knows of uses someone would likely attempt to use the model for which it is technically ill suited"
+        ],
+        "accessible-outside-under-terms": [
+          "the model can be accessed by entities outside the model provider under specific conditions or terms"
+        ],
+        "payments-required": [
+          "payments are required to use, modify, or share the model"
+        ],
+        "other-interest-holders": [
+          "there are parties who have ownership or other interests in the dataset"
+        ],
+        "multi-stage-training": [
+          "model training involved multiple stages"
+        ],
+        "multiple-evaluation-types": [
+          "multiple types or stages of evaluation were performed"
+        ],
+        "non-obvious-performance-limitations": [
+          "evaluation procedures have revealed constraints, gaps, or other limitations that would not necessarily be obvious to potential model users"
+        ],
+        "documented-negative-impacts": [
+          "negative impacts have previously been publicly documented and traced to this model or similar models"
+        ],
+        "in-use-before-this-version": [
+          "the model was in use before publication of this version of the documentation artifact"
+        ],
+        "deploy-and-operate-planned": [
+          "the model provider plans to deploy and operate the model"
+        ],
+        "ongoing-support-planned": [
+          "the model provider plans ongoing efforts to support the dataset"
+        ]
+      },
+      "rows": {
+        "1.5": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.6": {
+          "not_expressible": "The row points at 1.7.1 and 1.7.3. Table A.3.1 prints no field 1.7.3, and 1.7.1 is Source URL, which is conditionally recommended rather than required, so the pointer names no condition under which 1.6 is required.",
+          "text": "See 1.7.1 and 1.7.3."
+        },
+        "1.6.1": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.6.3": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.6.4": {
+          "when": "decommissioning-date-planned",
+          "text": "Required if the provider organization has planned or acted upon such a date; otherwise optional."
+        },
+        "1.7": {
+          "not_expressible": "The row points at 1.8.1. Table A.3.1 prints no field 1.8 and no field 1.8.1.",
+          "text": "See 1.8.1."
+        },
+        "1.7.1": {
+          "when": "obtainable-via-internet",
+          "text": "Recommended if the model can be obtained via the internet; otherwise optional."
+        },
+        "1.9": {
+          "when": "accessible-outside-provider",
+          "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional."
+        },
+        "1.10": {
+          "when": "attribution-mandated",
+          "text": "Required if Use Rights and Restrictions specifies a mandate to attribute; otherwise optional."
+        },
+        "1.12": {
+          "transposed": "The Description cell of this row reads \"Required\" and the Designation cell holds the field's description. The designation is read from the Description cell."
+        },
+        "2.1": {
+          "when": "defined-tasks",
+          "text": "Recommended if there are one or more defined tasks for which the model is intended to be used; otherwise optional."
+        },
+        "2.5": {
+          "when": "known-ill-suited-uses",
+          "text": "Recommended if the model provider knows of uses someone would likely attempt to use the model for which it is technically ill suited; otherwise optional."
+        },
+        "3": {
+          "see": [
+            "3.1"
+          ],
+          "text": "Required under conditions described in 3.1;",
+          "otherwise": {
+            "level": "recommended",
+            "text": "otherwise recommended."
+          }
+        },
+        "3.1": {
+          "when": "accessible-outside-under-terms",
+          "text": "Required if the model can be accessed by entities outside the model provider under specific conditions or terms;",
+          "otherwise": {
+            "level": "recommended",
+            "text": "otherwise recommended."
+          }
+        },
+        "3.2": {
+          "when": "payments-required",
+          "text": "Recommended if payments are required to use, modify, or share the model, in which case information should be given on how to provide payment; otherwise optional."
+        },
+        "3.3": {
+          "when": "other-interest-holders",
+          "text": "Recommended if there are parties who have ownership or other interests in the dataset; otherwise optional."
+        },
+        "5.2-(*).1": {
+          "when": "multi-stage-training",
+          "text": "Recommended if model training involved multiple stages; optional otherwise."
+        },
+        "6.1.1-(*).1": {
+          "when": "multiple-evaluation-types",
+          "text": "Recommended if multiple types or stages of evaluation were performed; otherwise optional."
+        },
+        "6.4": {
+          "when": "non-obvious-performance-limitations",
+          "text": "Recommended if evaluation procedures have revealed constraints, gaps, or other limitations that would not necessarily be obvious to potential model users; otherwise optional."
+        },
+        "6.5-(*).1": {
+          "entries_at_least": 2,
+          "text": "Required if evaluations are documented separately for more than one task or application; otherwise optional.",
+          "reading": "Read from the artifact's own structure: evaluations are documented separately for more than one task or application exactly when field 6.5-(*) carries two or more entries, which is how the 6.5-(*) row says disaggregation is written (\"one entry per discrete task or application for which the model was evaluated\")."
+        },
+        "6.6": {
+          "when": "documented-negative-impacts",
+          "text": "Recommended if negative impacts have previously been publicly documented and traced to this model or similar models."
+        },
+        "7.6": {
+          "when": "in-use-before-this-version",
+          "text": "Recommended if the model was in use before publication of this version of the documentation artifact; otherwise optional."
+        },
+        "7.8": {
+          "when": "deploy-and-operate-planned",
+          "text": "Recommended if the model provider plans to deploy and operate the model; otherwise optional."
+        },
+        "7.9": {
+          "when": "ongoing-support-planned",
+          "text": "Recommended if the model provider plans ongoing efforts to support the dataset; otherwise optional."
+        }
+      }
+    }
+  },
+  "ambiguities": [
+    {
+      "id": "A1",
+      "where": "table-a.3.1",
+      "row": "1.12",
+      "pages": [
+        45
+      ],
+      "quote": "Required",
+      "finding": "The Description and Designation cells are transposed: the Description cell reads \"Required\" and the Designation cell holds the description. The schemas read the field as Required."
+    },
+    {
+      "id": "A2",
+      "where": "table-a.3.1",
+      "row": "1.6",
+      "pages": [
+        43
+      ],
+      "quote": "See 1.7.1 and 1.7.3.",
+      "finding": "The pointer names a field that is not printed (1.7.3) and a field that is only conditionally recommended (1.7.1, Source URL). The table also prints no 1.4 and no 1.8, and the evident referents one step lower are 1.6.1 and 1.6.3, which are conditionally recommended in this table. No condition under which 1.6 is required can be read from the row, so the schemas carry no rule for 1.6 and list it as not machine-expressible."
+    },
+    {
+      "id": "A3",
+      "where": "table-a.3.1",
+      "row": "1.7",
+      "pages": [
+        44
+      ],
+      "quote": "See 1.8.1.",
+      "finding": "The pointer names a field that is not printed. The evident referent is 1.7.1. The schemas carry no rule for 1.7 and list it as not machine-expressible."
+    },
+    {
+      "id": "A4",
+      "where": "table-a.2.1",
+      "row": "1.5",
+      "pages": [
+        32,
+        33
+      ],
+      "quote": "See field 1.5.1 and 1.5.3.",
+      "finding": "Subfield 1.5.4 is conditionally required (\"Required if the provider organization has planned or acted upon such a date\"), but the parent's pointer names only 1.5.1 and 1.5.3. Clause 6 says a subfield's parent \"shall be designated as required under at least the same set of circumstances\", and also allows a requirement to be \"conditioned on the parent field being populated\". When a decommissioning date is planned, the dataset is not accessible outside the provider, and 1.5 is absent, the two readings disagree. No member sits in that case; the schemas apply the row as printed."
+    },
+    {
+      "id": "A5",
+      "where": "table-a.3.1",
+      "row": "1.6.4",
+      "pages": [
+        44
+      ],
+      "quote": "Required if the provider organization has planned or acted upon such a date; otherwise optional.",
+      "finding": "The same gap as A4 one table later: 1.6.4 is conditionally required and its parent 1.6 has no condition that can be read (A2). No member sits in the case where a decommissioning date is planned and 1.6 is absent."
+    },
+    {
+      "id": "A6",
+      "where": "table-a.2.1",
+      "row": "4.8",
+      "pages": [
+        37,
+        38
+      ],
+      "quote": "Optional",
+      "finding": "Data Enhancement is Optional while its subfields 4.8.1 and 4.8.1.1 are Recommended and 4.8.2 and 4.8.3 are Conditionally recommended. Clause 6 says the parent of a recommended subfield \"shall be designated as recommended or required under at least the same set of circumstances\", unless the recommendation is \"conditioned on the parent field being populated\", which the rows do not say. The schemas apply each subfield's recommendation only where 4.8 is present; no member sits in a case where 4.8 is absent and the readings disagree."
+    },
+    {
+      "id": "A7",
+      "where": "table-a.2.1",
+      "row": "5.1",
+      "pages": [
+        38
+      ],
+      "quote": "Recommended even if 5.1.1 is not populated.",
+      "finding": "5.1 is recommended without condition while its parent 5 is conditionally required (\"See 5.1 and 5.3.\") and carries no recommendation otherwise. Under the Clause 6 convention for recommended subfields this is the same gap as A6, at the recommended level. The schemas apply the recommendation where 5 is present."
+    },
+    {
+      "id": "A8",
+      "where": "table-a.3.1",
+      "row": "1.6.1",
+      "pages": [
+        44
+      ],
+      "quote": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+      "finding": "1.6.1 and 1.6.3 are conditionally recommended under a parent (1.6) whose condition cannot be read (A2), and 1.7.1 is conditionally recommended under a parent (1.7) whose condition cannot be read (A3). The schemas apply each recommendation where its parent is present. In Table A.2.1 the matching fields 1.5.1 and 1.5.3 are conditionally required, not recommended."
+    },
+    {
+      "id": "A9",
+      "where": "clause-a.3",
+      "pages": [
+        42
+      ],
+      "quote": "Fields 5.1-(*) and 6.1-(*) in Table A.3.1 are meant to refer to datasets.",
+      "finding": "Table A.3.1 prints the dataset references as 5.2-(*) and 6.1.1-(*); there is no 5.1-(*) or 6.1-(*). The same paragraph says these fields \"shall document the datasets using the default dataset documentation profile given in A.2\" and that its requirements \"may be relaxed\", so the schemas do not apply the A.2 profile inside them and list the sentence as not machine-expressible."
+    },
+    {
+      "id": "A10",
+      "where": "table-a.3.1",
+      "row": "1.10",
+      "pages": [
+        44
+      ],
+      "quote": "Use Rights and Restrictions",
+      "finding": "The condition names \"Use Rights and Restrictions\"; the field is printed as \"Usage Rights and Restrictions\" (root field 3). The declared condition attribution-mandated is read as referring to root field 3."
+    },
+    {
+      "id": "A11",
+      "where": "table-a.3.1",
+      "row": "6.5-(*).1",
+      "pages": [
+        50
+      ],
+      "quote": "Conditionally required if parent is populated",
+      "finding": "The only row with this designation, which Clause 6 does not define as a separate designation. It is read as a requirement conditioned on the parent being populated, which Clause 6 permits, and its condition is read from the number of 6.5-(*) entries (see the row's reading)."
+    },
+    {
+      "id": "A12",
+      "where": "table-a.2.1",
+      "row": "5.1.1",
+      "pages": [
+        38
+      ],
+      "quote": "there is at least one defined task, application, or use case that the dataset is intended to support",
+      "finding": "The condition differs in wording from 2.1's (\"there are one or more defined tasks that the dataset is intended to be used for\"). They are kept as two declared conditions rather than treated as one."
+    }
+  ],
+  "observations": [
+    {
+      "id": "O1",
+      "where": "clause-a.1",
+      "pages": [
+        31
+      ],
+      "quote": "Field 5.1 in Table A.2.1",
+      "finding": "A.1 names Field 5.1 of Table A.2.1 as the risk and impact analysis subfield. In Table A.2.1, 5.1 is Data Analysis and Risk and Impact Analyses is 5.3."
+    },
+    {
+      "id": "O2",
+      "where": "clause-a.2",
+      "pages": [
+        31
+      ],
+      "quote": "Table A.2.1 provides a list of fields from Clause 5.3",
+      "finding": "The dataset profile cites Clause 5.3, the model template. The dataset template is Clause 5.2."
+    },
+    {
+      "id": "O3",
+      "where": "table-a.3.1",
+      "row": "1.6",
+      "pages": [
+        43,
+        44
+      ],
+      "quote": "See 1.7.1 and 1.7.3.",
+      "finding": "The ID column prints no 1.4 and no 1.8, and two pointers (1.6 to 1.7.1 and 1.7.3, 1.7 to 1.8.1) point one step above their evident referents."
+    },
+    {
+      "id": "O4",
+      "where": "table-a.2.1",
+      "row": "7.2",
+      "pages": [
+        40
+      ],
+      "quote": "Information describing the process for obtaining informed consent for any collection of human-generated data",
+      "finding": "Consent and Data Rights Obligations (7.2) carries the same description as Consent Procedures (4.6)."
+    },
+    {
+      "id": "O5",
+      "where": "table-a.3.1",
+      "row": "7.4",
+      "pages": [
+        52
+      ],
+      "quote": "Point of contact or organization responsible for dataset maintenance",
+      "finding": "Several model-table cells say dataset where model is meant: Table A.3.1 2.1 (description), 3.3 (guidance), 7.4 (description), 7.9 (guidance) and 8 (description); Table 2 fields 2 and 3 (guidance) and 8 (description)."
+    }
+  ],
+  "not_expressible": [
+    {
+      "where": "clause-5.1",
+      "quote": "Information not relevant to the field’s stated description and guidance shall not be included.",
+      "reason": "Whether information is relevant to a field is a judgement about its content, which no schema over the document's structure can make."
+    },
+    {
+      "where": "clause-5.1",
+      "quote": "If a documentation artifact includes information matching the description and guidance of a field, that field shall be present in the artifact and shall contain said information (or a reference to it).",
+      "reason": "Whether information placed elsewhere matches a field's description is a judgement about content."
+    },
+    {
+      "where": "table-1",
+      "row": "1",
+      "quote": "Shall provide enough information to determine whether a given dataset is the one described by the documentation artifact.",
+      "reason": "Whether the content suffices to identify the dataset depends on the dataset, not on the document's structure."
+    },
+    {
+      "where": "table-2",
+      "row": "1",
+      "quote": "Shall provide enough information to determine whether a given model is the one described by the documentation artifact.",
+      "reason": "Whether the content suffices to identify the model depends on the model, not on the document's structure."
+    },
+    {
+      "where": "table-a.2.1",
+      "row": "1",
+      "quote": "Shall provide enough information to determine whether a given dataset is the one described by the documentation artifact.",
+      "reason": "As for Table 1 field 1."
+    },
+    {
+      "where": "table-a.3.1",
+      "row": "1",
+      "quote": "Shall provide enough information to determine whether a given model is the one described by the documentation artifact.",
+      "reason": "As for Table 2 field 1."
+    },
+    {
+      "where": "table-a.2.1",
+      "row": "1.9",
+      "quote": "this field shall provide an identifier uniquely associated with the present version of the artifact.",
+      "reason": "Uniqueness holds across versions of the artifact, which one document cannot show."
+    },
+    {
+      "where": "table-a.3.1",
+      "row": "1.12",
+      "quote": "this field shall provide an identifier uniquely associated with the present version of the artifact.",
+      "reason": "As for Table A.2.1 field 1.9."
+    },
+    {
+      "where": "table-a.2.1",
+      "row": "3.1",
+      "quote": "it shall note any prohibited uses or data combinations, if applicable.",
+      "reason": "A requirement on the content of the license field."
+    },
+    {
+      "where": "clause-a.3",
+      "quote": "these fields shall document the datasets using the default dataset documentation profile given in A.2 (though requirements from that profile may be relaxed if the information is not available to or cannot be revealed by the model provider).",
+      "reason": "The requirement may be relaxed on grounds the document does not record, and the fields it names are not the ones Table A.3.1 prints (ambiguity A9)."
+    },
+    {
+      "where": "clause-6",
+      "quote": "The artifact meets all other requirements specified by the profile.",
+      "reason": "Reaches the content requirements listed above, which are not structural."
+    }
+  ]
+}

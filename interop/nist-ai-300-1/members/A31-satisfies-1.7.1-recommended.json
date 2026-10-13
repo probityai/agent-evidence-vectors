@@ -1,0 +1,145 @@
+{
+ "conformsTo": "NIST.AI.300-1.ipd:A.3",
+ "conditions": {
+  "accessible-outside-provider": false,
+  "accessible-outside-under-terms": false,
+  "attribution-mandated": false,
+  "decommissioning-date-planned": false,
+  "defined-tasks": false,
+  "deploy-and-operate-planned": false,
+  "documented-negative-impacts": false,
+  "in-use-before-this-version": false,
+  "known-ill-suited-uses": false,
+  "multi-stage-training": false,
+  "multiple-evaluation-types": false,
+  "non-obvious-performance-limitations": false,
+  "obtainable-via-internet": true,
+  "ongoing-support-planned": false,
+  "other-interest-holders": false,
+  "payments-required": false
+ },
+ "fields": {
+  "1": {
+   "name": "Identifying Descriptors",
+   "content": "Example Identifying Descriptors.",
+   "subfields": {
+    "1.1": {
+     "name": "Identifier",
+     "content": "Example Identifier."
+    },
+    "1.2": {
+     "name": "Description",
+     "content": "Example Description."
+    },
+    "1.3": {
+     "name": "Authorship information",
+     "content": "Example Authorship information.",
+     "subfields": {
+      "1.3.1": {
+       "name": "Developer",
+       "content": "Example Developer."
+      }
+     }
+    },
+    "1.7": {
+     "name": "Release Methods",
+     "content": "Example Release Methods.",
+     "subfields": {
+      "1.7.1": {
+       "name": "Source URL",
+       "content": "Example Source URL."
+      }
+     }
+    },
+    "1.12": {
+     "name": "Documentation Version Identifier",
+     "content": "Example Documentation Version Identifier."
+    }
+   }
+  },
+  "2": {
+   "name": "Intended Use",
+   "content": "Example Intended Use."
+  },
+  "3": {
+   "name": "Usage Rights and Restrictions",
+   "content": "Example Usage Rights and Restrictions.",
+   "subfields": {
+    "3.1": {
+     "name": "License",
+     "content": "Example License."
+    }
+   }
+  },
+  "4": {
+   "name": "Design",
+   "content": "Example Design."
+  },
+  "5": {
+   "name": "Training",
+   "content": "Example Training.",
+   "subfields": {
+    "5.2-(*)": [
+     {
+      "name": "Training Dataset Reference",
+      "content": "Example Training Dataset Reference."
+     }
+    ]
+   }
+  },
+  "6": {
+   "name": "Evaluation",
+   "content": "Example Evaluation.",
+   "subfields": {
+    "6.1": {
+     "name": "Evaluation methodology",
+     "content": "Example Evaluation methodology.",
+     "subfields": {
+      "6.1.1-(*)": [
+       {
+        "name": "Evaluation Dataset Reference",
+        "content": "Example Evaluation Dataset Reference."
+       }
+      ]
+     }
+    },
+    "6.5-(*)": [
+     {
+      "name": "Evaluation Metrics and Results",
+      "content": "Example Evaluation Metrics and Results."
+     }
+    ]
+   }
+  },
+  "7": {
+   "name": "Maintenance and Monitoring",
+   "content": "Example Maintenance and Monitoring.",
+   "subfields": {
+    "7.1": {
+     "name": "Monitoring Mechanisms",
+     "content": "Example Monitoring Mechanisms."
+    },
+    "7.7": {
+     "name": "Versioning Policy",
+     "content": "Example Versioning Policy."
+    }
+   }
+  },
+  "8": {
+   "name": "Governance",
+   "content": "Example Governance.",
+   "subfields": {
+    "8.2": {
+     "name": "Documentation Practices",
+     "content": "Example Documentation Practices.",
+     "subfields": {
+      "8.2.1": {
+       "name": "Documentation Quality Control",
+       "content": "Example Documentation Quality Control."
+      }
+     }
+    }
+   }
+  }
+ }
+}

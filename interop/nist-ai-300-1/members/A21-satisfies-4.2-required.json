@@ -1,0 +1,50 @@
+{
+ "conformsTo": "NIST.AI.300-1.ipd:A.2",
+ "conditions": {
+  "accessible-outside-provider": false,
+  "accessible-outside-under-terms": false,
+  "attribution-mandated": false,
+  "consent-required-collection": false,
+  "contains-pii": true,
+  "contains-synthetic-data": false,
+  "decommissioning-date-planned": false,
+  "defined-task-application-or-use-case": false,
+  "defined-tasks": false,
+  "describes-time-span": false,
+  "documented-negative-impacts": false,
+  "in-use-before-this-version": false,
+  "known-non-obvious-limitations": false,
+  "obtainable-via-internet": false,
+  "ongoing-support-planned": false,
+  "other-interest-holders": false,
+  "payments-required": false,
+  "periodic-updates": false,
+  "preprocessed": false
+ },
+ "fields": {
+  "1": {
+   "name": "Identifying Descriptors",
+   "content": "Example Identifying Descriptors.",
+   "subfields": {
+    "1.2": {
+     "name": "Description",
+     "content": "Example Description."
+    },
+    "1.9": {
+     "name": "Documentation Version Identifier",
+     "content": "Example Documentation Version Identifier."
+    }
+   }
+  },
+  "4": {
+   "name": "Composition and Provenance",
+   "content": "Example Composition and Provenance.",
+   "subfields": {
+    "4.2": {
+     "name": "Sensitive Data",
+     "content": "Example Sensitive Data."
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,7095 @@
+{
+ "corpus": "nist-ai-300-1",
+ "about": "A JSON serialization of the Clause 5 templates and Annex A default profiles of NIST AI 300-1 ipd, a JSON Schema per template and profile at two levels, and test documents for every rule, bound by digest to the PDF and to the extracted text of every table and clause they test.",
+ "source": {
+  "path": "source/NIST.AI.300-1.ipd.pdf",
+  "title": "NIST AI 300-1 ipd, Guidance and Templates for Public-Facing AI Documentation (initial public draft)",
+  "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.300-1.ipd.pdf",
+  "doi": "10.6028/NIST.AI.300-1.ipd",
+  "capturedAt": "2026-10-13T03:31:44Z",
+  "bytes": 1090717,
+  "sha256": "d38f4ce07d398a6c6762fee6472b3d741da45bd446ea5d163a66da73cae9777e"
+ },
+ "extraction": {
+  "tool": "PyMuPDF",
+  "version": "1.26.5",
+  "mupdf": "1.26.10",
+  "module": "extract.py"
+ },
+ "bindings": {
+  "table-1": {
+   "kind": "table",
+   "title": "Table 1: Dataset documentation template",
+   "pages": [
+    23,
+    24
+   ],
+   "rows": 7,
+   "sha256": "0a8e76c65c6a88f72cfff61459e446248b197c9b0f7f47a0f7acdc53bb5f2878"
+  },
+  "table-2": {
+   "kind": "table",
+   "title": "Table 2: Model documentation template",
+   "pages": [
+    25,
+    26,
+    27
+   ],
+   "rows": 8,
+   "sha256": "11f296b7a80c205ef15186a0c231d698c6e1a91d9f3abdaccf232a1422f0b456"
+  },
+  "table-a.2.1": {
+   "kind": "table",
+   "title": "Table A.2.1: Default AI dataset profile",
+   "pages": [
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41
+   ],
+   "rows": 71,
+   "sha256": "0b4fac1b4a4b18a1f4c7b07b2c7502c8f269a970bda7b995a27f721333ff73a5"
+  },
+  "table-a.3.1": {
+   "kind": "table",
+   "title": "Table A.3.1: Default AI model profile",
+   "pages": [
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53
+   ],
+   "rows": 71,
+   "sha256": "3758955eec2844162153b36a188d04ccad381ec810866f06577be49bcbd6512b"
+  },
+  "clause-5.1": {
+   "kind": "clause",
+   "heading": "5.1 General",
+   "pages": [
+    21,
+    22,
+    23
+   ],
+   "sha256": "b9e511b4f651faa08aaea6408758a2eeb9a671e88e59388d5b72cf2619137dba"
+  },
+  "clause-6": {
+   "kind": "clause",
+   "heading": "6 Profiles",
+   "pages": [
+    28,
+    29,
+    30
+   ],
+   "sha256": "80aed13b7030afc39019b44c4ac9df2329bb69e6907935e32dbb0519b4602a29"
+  },
+  "clause-a.1": {
+   "kind": "clause",
+   "heading": "A.1 General",
+   "pages": [
+    30,
+    31
+   ],
+   "sha256": "bb579da79795bcb2f0d428cf7ecbc5bcf8116d773cad394340374ad6df5e7948"
+  },
+  "clause-a.2": {
+   "kind": "clause",
+   "heading": "A.2 Default AI dataset profile",
+   "pages": [
+    31,
+    32
+   ],
+   "sha256": "795bf7eeb899932668ff02a18226c721c9cb5d6cd009bcc5abed650ad557d489"
+  },
+  "clause-a.3": {
+   "kind": "clause",
+   "heading": "A.3 Default AI Model Profile",
+   "pages": [
+    42,
+    43
+   ],
+   "sha256": "967c59fb5b6dfbc4ffa6a23432300a29ee384a645b55c7b69fb320ac9e94f36d"
+  }
+ },
+ "tables": {
+  "table-1": {
+   "conformsTo": "NIST.AI.300-1.ipd:5.2",
+   "schemas": {
+    "conformance": "schemas/table-1.conformance.schema.json",
+    "recommended": "schemas/table-1.recommended.schema.json"
+   },
+   "conditions": [],
+   "rules": [
+    {
+     "id": "table-1/1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1",
+     "text": "Required",
+     "binds": [
+      "table-1",
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-1/4/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4",
+     "text": "Recommended",
+     "binds": [
+      "table-1",
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-1/7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7",
+     "text": "Recommended",
+     "binds": [
+      "table-1",
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-1/serialization/conforms-to",
+     "kind": "conforms-to",
+     "level": "required",
+     "value": "NIST.AI.300-1.ipd:5.2",
+     "text": "When an attestation is made that a given documentation artifact conforms to this standard, it shall indicate either conformity to the base templates from Clause 5 or conformity to a specific profile of the templates.",
+     "binds": [
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-1/serialization/populated",
+     "kind": "populated",
+     "level": "required",
+     "text": "If a documentation artifact includes a field from this Clause, that field shall be populated with information matching the field description and guidance.",
+     "binds": [
+      "clause-5.1"
+     ]
+    }
+   ]
+  },
+  "table-2": {
+   "conformsTo": "NIST.AI.300-1.ipd:5.3",
+   "schemas": {
+    "conformance": "schemas/table-2.conformance.schema.json",
+    "recommended": "schemas/table-2.recommended.schema.json"
+   },
+   "conditions": [],
+   "rules": [
+    {
+     "id": "table-2/1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1",
+     "text": "Required",
+     "binds": [
+      "table-2",
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-2/8/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "8",
+     "text": "Recommended",
+     "binds": [
+      "table-2",
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-2/serialization/conforms-to",
+     "kind": "conforms-to",
+     "level": "required",
+     "value": "NIST.AI.300-1.ipd:5.3",
+     "text": "When an attestation is made that a given documentation artifact conforms to this standard, it shall indicate either conformity to the base templates from Clause 5 or conformity to a specific profile of the templates.",
+     "binds": [
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-2/serialization/populated",
+     "kind": "populated",
+     "level": "required",
+     "text": "If a documentation artifact includes a field from this Clause, that field shall be populated with information matching the field description and guidance.",
+     "binds": [
+      "clause-5.1"
+     ]
+    }
+   ]
+  },
+  "table-a.2.1": {
+   "conformsTo": "NIST.AI.300-1.ipd:A.2",
+   "schemas": {
+    "conformance": "schemas/table-a.2.1.conformance.schema.json",
+    "recommended": "schemas/table-a.2.1.recommended.schema.json"
+   },
+   "conditions": [
+    "accessible-outside-provider",
+    "accessible-outside-under-terms",
+    "attribution-mandated",
+    "consent-required-collection",
+    "contains-pii",
+    "contains-synthetic-data",
+    "decommissioning-date-planned",
+    "defined-task-application-or-use-case",
+    "defined-tasks",
+    "describes-time-span",
+    "documented-negative-impacts",
+    "in-use-before-this-version",
+    "known-non-obvious-limitations",
+    "obtainable-via-internet",
+    "ongoing-support-planned",
+    "other-interest-holders",
+    "payments-required",
+    "periodic-updates",
+    "preprocessed"
+   ],
+   "rules": [
+    {
+     "id": "table-a.2.1/1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1",
+     "text": "Required",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.2/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.2",
+     "text": "Required",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.3",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.3.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.4/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.4",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the dataset can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.5/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.5",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "See field 1.5.1 and 1.5.3.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.5.1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.5.1",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Required if the dataset can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.5.3/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.5.3",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Required if the dataset can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.5.4/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.5.4",
+     "when": [
+      "decommissioning-date-planned"
+     ],
+     "text": "Required if the provider organization has planned or acted upon such a date; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.6",
+     "when": [
+      "obtainable-via-internet"
+     ],
+     "text": "See field 1.6.1.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.6.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.6.1",
+     "when": [
+      "obtainable-via-internet"
+     ],
+     "text": "Recommended if the dataset can be obtained via the internet; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.7",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the dataset can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.8/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.8",
+     "when": [
+      "attribution-mandated"
+     ],
+     "text": "Required if Usage Rights and Restrictions specifies a mandate to attribute; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/1.9/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.9",
+     "text": "Required",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2",
+     "when": [
+      "defined-tasks",
+      "known-non-obvious-limitations"
+     ],
+     "text": "See fields 2.1 and 2.3.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/2.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2.1",
+     "when": [
+      "defined-tasks"
+     ],
+     "text": "Recommended if there are one or more defined tasks that the dataset is intended to be used for; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/2.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2.3",
+     "when": [
+      "known-non-obvious-limitations"
+     ],
+     "text": "Recommended if the dataset provider knows of constraints, gaps, or other limitations that would not necessarily be obvious to potential dataset users; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3/required",
+     "kind": "field",
+     "level": "required",
+     "field": "3",
+     "when": [
+      "accessible-outside-under-terms"
+     ],
+     "text": "Required under conditions described in 3.1;",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3",
+     "text": "otherwise recommended.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3.1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "3.1",
+     "when": [
+      "accessible-outside-under-terms"
+     ],
+     "text": "If the dataset can be accessed by entities outside the provider organization under specific conditions or terms, this field is required,",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.1",
+     "text": "In any other circumstances, recommended.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3.2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.2",
+     "when": [
+      "payments-required"
+     ],
+     "text": "Recommended if payments are required to use, modify, or share the dataset, in which case information should be given on how to provide payment; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/3.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.3",
+     "when": [
+      "other-interest-holders"
+     ],
+     "text": "Recommended if there are parties who have ownership or other interests in the dataset; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4/required",
+     "kind": "field",
+     "level": "required",
+     "field": "4",
+     "text": "Required",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.1.2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.1.2",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.2/required",
+     "kind": "field",
+     "level": "required",
+     "field": "4.2",
+     "when": [
+      "contains-pii"
+     ],
+     "text": "Required if the dataset is known to contain PII; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.3",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.3.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.4/required",
+     "kind": "field",
+     "level": "required",
+     "field": "4.4",
+     "when": [
+      "describes-time-span"
+     ],
+     "text": "Required if the data describes events that occurred during a specific time span.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.6",
+     "when": [
+      "consent-required-collection"
+     ],
+     "text": "Recommended if data was collected using procedures that would require informed consent; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.8.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.8.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.8.1.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.8.1.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.8.2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.8.2",
+     "when": [
+      "contains-synthetic-data"
+     ],
+     "text": "Recommended if there is synthetic data in the dataset; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/4.8.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4.8.3",
+     "when": [
+      "preprocessed"
+     ],
+     "text": "Recommended if pre-processing was done on the source data; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/5/required",
+     "kind": "field",
+     "level": "required",
+     "field": "5",
+     "when": [
+      "defined-task-application-or-use-case",
+      "documented-negative-impacts"
+     ],
+     "text": "See 5.1 and 5.3.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/5.1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "5.1",
+     "when": [
+      "defined-task-application-or-use-case"
+     ],
+     "text": "See 5.1.1.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/5.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "5.1",
+     "text": "Recommended even if 5.1.1 is not populated.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/5.1.1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "5.1.1",
+     "when": [
+      "defined-task-application-or-use-case"
+     ],
+     "text": "Required if there is at least one defined task, application, or use case that the dataset is intended to support; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/5.3/required",
+     "kind": "field",
+     "level": "required",
+     "field": "5.3",
+     "when": [
+      "documented-negative-impacts"
+     ],
+     "text": "Required if negative impacts have previously been publicly documented and traced to this dataset or similar datasets.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6",
+     "when": [
+      "in-use-before-this-version",
+      "periodic-updates",
+      "ongoing-support-planned"
+     ],
+     "text": "See 6.4, 6.5, and 6.7.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/6.4/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.4",
+     "when": [
+      "in-use-before-this-version"
+     ],
+     "text": "Recommended if the dataset was in use before publication of this version of the documentation artifact; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/6.5/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.5",
+     "when": [
+      "periodic-updates"
+     ],
+     "text": "Recommended if the dataset has undergone or is expected to undergo periodic updates; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/6.7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.7",
+     "when": [
+      "ongoing-support-planned"
+     ],
+     "text": "Recommended if the provider organization plans ongoing efforts to support the dataset; otherwise optional.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/7.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.3",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/7.3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.3.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/conforms-to",
+     "kind": "conforms-to",
+     "level": "required",
+     "value": "NIST.AI.300-1.ipd:A.2",
+     "text": "When an attestation is made that a given documentation artifact conforms to this standard, it shall indicate either conformity to the base templates from Clause 5 or conformity to a specific profile of the templates.",
+     "binds": [
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/populated",
+     "kind": "populated",
+     "level": "required",
+     "text": "If a documentation artifact includes a field from this Clause, that field shall be populated with information matching the field description and guidance.",
+     "binds": [
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/accessible-outside-provider",
+     "kind": "declare",
+     "level": "required",
+     "value": "accessible-outside-provider",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/accessible-outside-under-terms",
+     "kind": "declare",
+     "level": "required",
+     "value": "accessible-outside-under-terms",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/attribution-mandated",
+     "kind": "declare",
+     "level": "required",
+     "value": "attribution-mandated",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/consent-required-collection",
+     "kind": "declare",
+     "level": "required",
+     "value": "consent-required-collection",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/contains-pii",
+     "kind": "declare",
+     "level": "required",
+     "value": "contains-pii",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/contains-synthetic-data",
+     "kind": "declare",
+     "level": "required",
+     "value": "contains-synthetic-data",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/decommissioning-date-planned",
+     "kind": "declare",
+     "level": "required",
+     "value": "decommissioning-date-planned",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/defined-task-application-or-use-case",
+     "kind": "declare",
+     "level": "required",
+     "value": "defined-task-application-or-use-case",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/defined-tasks",
+     "kind": "declare",
+     "level": "required",
+     "value": "defined-tasks",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/describes-time-span",
+     "kind": "declare",
+     "level": "required",
+     "value": "describes-time-span",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/documented-negative-impacts",
+     "kind": "declare",
+     "level": "required",
+     "value": "documented-negative-impacts",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/in-use-before-this-version",
+     "kind": "declare",
+     "level": "required",
+     "value": "in-use-before-this-version",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/known-non-obvious-limitations",
+     "kind": "declare",
+     "level": "required",
+     "value": "known-non-obvious-limitations",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/obtainable-via-internet",
+     "kind": "declare",
+     "level": "required",
+     "value": "obtainable-via-internet",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/ongoing-support-planned",
+     "kind": "declare",
+     "level": "required",
+     "value": "ongoing-support-planned",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/other-interest-holders",
+     "kind": "declare",
+     "level": "required",
+     "value": "other-interest-holders",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/payments-required",
+     "kind": "declare",
+     "level": "required",
+     "value": "payments-required",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/periodic-updates",
+     "kind": "declare",
+     "level": "required",
+     "value": "periodic-updates",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.2.1/serialization/declare/preprocessed",
+     "kind": "declare",
+     "level": "required",
+     "value": "preprocessed",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.2.1",
+      "clause-6"
+     ]
+    }
+   ]
+  },
+  "table-a.3.1": {
+   "conformsTo": "NIST.AI.300-1.ipd:A.3",
+   "schemas": {
+    "conformance": "schemas/table-a.3.1.conformance.schema.json",
+    "recommended": "schemas/table-a.3.1.recommended.schema.json"
+   },
+   "conditions": [
+    "accessible-outside-provider",
+    "accessible-outside-under-terms",
+    "attribution-mandated",
+    "decommissioning-date-planned",
+    "defined-tasks",
+    "deploy-and-operate-planned",
+    "documented-negative-impacts",
+    "in-use-before-this-version",
+    "known-ill-suited-uses",
+    "multi-stage-training",
+    "multiple-evaluation-types",
+    "non-obvious-performance-limitations",
+    "obtainable-via-internet",
+    "ongoing-support-planned",
+    "other-interest-holders",
+    "payments-required"
+   ],
+   "rules": [
+    {
+     "id": "table-a.3.1/1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1",
+     "text": "Required",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.2/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.2",
+     "text": "Required",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.3",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.3.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.5/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.5",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.6.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.6.1",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.6.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.6.3",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.6.4/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.6.4",
+     "when": [
+      "decommissioning-date-planned"
+     ],
+     "text": "Required if the provider organization has planned or acted upon such a date; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.7.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.7.1",
+     "when": [
+      "obtainable-via-internet"
+     ],
+     "text": "Recommended if the model can be obtained via the internet; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.9/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "1.9",
+     "when": [
+      "accessible-outside-provider"
+     ],
+     "text": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.10/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.10",
+     "when": [
+      "attribution-mandated"
+     ],
+     "text": "Required if Use Rights and Restrictions specifies a mandate to attribute; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/1.12/required",
+     "kind": "field",
+     "level": "required",
+     "field": "1.12",
+     "text": "Required",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/2.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2.1",
+     "when": [
+      "defined-tasks"
+     ],
+     "text": "Recommended if there are one or more defined tasks for which the model is intended to be used; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/2.5/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "2.5",
+     "when": [
+      "known-ill-suited-uses"
+     ],
+     "text": "Recommended if the model provider knows of uses someone would likely attempt to use the model for which it is technically ill suited; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3/required",
+     "kind": "field",
+     "level": "required",
+     "field": "3",
+     "when": [
+      "accessible-outside-under-terms"
+     ],
+     "text": "Required under conditions described in 3.1;",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3",
+     "text": "otherwise recommended.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3.1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "3.1",
+     "when": [
+      "accessible-outside-under-terms"
+     ],
+     "text": "Required if the model can be accessed by entities outside the model provider under specific conditions or terms;",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.1",
+     "text": "otherwise recommended.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3.2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.2",
+     "when": [
+      "payments-required"
+     ],
+     "text": "Recommended if payments are required to use, modify, or share the model, in which case information should be given on how to provide payment; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/3.3/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "3.3",
+     "when": [
+      "other-interest-holders"
+     ],
+     "text": "Recommended if there are parties who have ownership or other interests in the dataset; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/4/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "4",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/5/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "5",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/5.2-(*)/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "5.2-(*)",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/5.2-(*).1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "5.2-(*).1",
+     "when": [
+      "multi-stage-training"
+     ],
+     "text": "Recommended if model training involved multiple stages; optional otherwise.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.1.1-(*)/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.1.1-(*)",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.1.1-(*).1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.1.1-(*).1",
+     "when": [
+      "multiple-evaluation-types"
+     ],
+     "text": "Recommended if multiple types or stages of evaluation were performed; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.4/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.4",
+     "when": [
+      "non-obvious-performance-limitations"
+     ],
+     "text": "Recommended if evaluation procedures have revealed constraints, gaps, or other limitations that would not necessarily be obvious to potential model users; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.5-(*)/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.5-(*)",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.5-(*).1/required",
+     "kind": "field",
+     "level": "required",
+     "field": "6.5-(*).1",
+     "entriesAtLeast": 2,
+     "parentGuardExplicit": true,
+     "text": "Required if evaluations are documented separately for more than one task or application; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/6.6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "6.6",
+     "when": [
+      "documented-negative-impacts"
+     ],
+     "text": "Recommended if negative impacts have previously been publicly documented and traced to this model or similar models.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7.6/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.6",
+     "when": [
+      "in-use-before-this-version"
+     ],
+     "text": "Recommended if the model was in use before publication of this version of the documentation artifact; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7.7/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.7",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7.8/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.8",
+     "when": [
+      "deploy-and-operate-planned"
+     ],
+     "text": "Recommended if the model provider plans to deploy and operate the model; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/7.9/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "7.9",
+     "when": [
+      "ongoing-support-planned"
+     ],
+     "text": "Recommended if the model provider plans ongoing efforts to support the dataset; otherwise optional.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/8/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "8",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/8.2/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "8.2",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/8.2.1/recommended",
+     "kind": "field",
+     "level": "recommended",
+     "field": "8.2.1",
+     "text": "Recommended",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/conforms-to",
+     "kind": "conforms-to",
+     "level": "required",
+     "value": "NIST.AI.300-1.ipd:A.3",
+     "text": "When an attestation is made that a given documentation artifact conforms to this standard, it shall indicate either conformity to the base templates from Clause 5 or conformity to a specific profile of the templates.",
+     "binds": [
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/populated",
+     "kind": "populated",
+     "level": "required",
+     "text": "If a documentation artifact includes a field from this Clause, that field shall be populated with information matching the field description and guidance.",
+     "binds": [
+      "clause-5.1"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/accessible-outside-provider",
+     "kind": "declare",
+     "level": "required",
+     "value": "accessible-outside-provider",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/accessible-outside-under-terms",
+     "kind": "declare",
+     "level": "required",
+     "value": "accessible-outside-under-terms",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/attribution-mandated",
+     "kind": "declare",
+     "level": "required",
+     "value": "attribution-mandated",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/decommissioning-date-planned",
+     "kind": "declare",
+     "level": "required",
+     "value": "decommissioning-date-planned",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/defined-tasks",
+     "kind": "declare",
+     "level": "required",
+     "value": "defined-tasks",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/deploy-and-operate-planned",
+     "kind": "declare",
+     "level": "required",
+     "value": "deploy-and-operate-planned",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/documented-negative-impacts",
+     "kind": "declare",
+     "level": "required",
+     "value": "documented-negative-impacts",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/in-use-before-this-version",
+     "kind": "declare",
+     "level": "required",
+     "value": "in-use-before-this-version",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/known-ill-suited-uses",
+     "kind": "declare",
+     "level": "required",
+     "value": "known-ill-suited-uses",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/multi-stage-training",
+     "kind": "declare",
+     "level": "required",
+     "value": "multi-stage-training",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/multiple-evaluation-types",
+     "kind": "declare",
+     "level": "required",
+     "value": "multiple-evaluation-types",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/non-obvious-performance-limitations",
+     "kind": "declare",
+     "level": "required",
+     "value": "non-obvious-performance-limitations",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/obtainable-via-internet",
+     "kind": "declare",
+     "level": "required",
+     "value": "obtainable-via-internet",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/ongoing-support-planned",
+     "kind": "declare",
+     "level": "required",
+     "value": "ongoing-support-planned",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/other-interest-holders",
+     "kind": "declare",
+     "level": "required",
+     "value": "other-interest-holders",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    },
+    {
+     "id": "table-a.3.1/serialization/declare/payments-required",
+     "kind": "declare",
+     "level": "required",
+     "value": "payments-required",
+     "text": "Fields may also be designated as conditionally required or conditionally recommended, in which case the profile shall clarify the relevant conditions.",
+     "binds": [
+      "table-a.3.1",
+      "clause-6"
+     ]
+    }
+   ]
+  }
+ },
+ "notExpressible": [
+  {
+   "where": "table-a.3.1",
+   "row": "1.6",
+   "quote": "See 1.7.1 and 1.7.3.",
+   "reason": "The row points at 1.7.1 and 1.7.3. Table A.3.1 prints no field 1.7.3, and 1.7.1 is Source URL, which is conditionally recommended rather than required, so the pointer names no condition under which 1.6 is required."
+  },
+  {
+   "where": "table-a.3.1",
+   "row": "1.7",
+   "quote": "See 1.8.1.",
+   "reason": "The row points at 1.8.1. Table A.3.1 prints no field 1.8 and no field 1.8.1."
+  },
+  {
+   "where": "clause-5.1",
+   "quote": "Information not relevant to the field’s stated description and guidance shall not be included.",
+   "reason": "Whether information is relevant to a field is a judgement about its content, which no schema over the document's structure can make."
+  },
+  {
+   "where": "clause-5.1",
+   "quote": "If a documentation artifact includes information matching the description and guidance of a field, that field shall be present in the artifact and shall contain said information (or a reference to it).",
+   "reason": "Whether information placed elsewhere matches a field's description is a judgement about content."
+  },
+  {
+   "where": "table-1",
+   "row": "1",
+   "quote": "Shall provide enough information to determine whether a given dataset is the one described by the documentation artifact.",
+   "reason": "Whether the content suffices to identify the dataset depends on the dataset, not on the document's structure."
+  },
+  {
+   "where": "table-2",
+   "row": "1",
+   "quote": "Shall provide enough information to determine whether a given model is the one described by the documentation artifact.",
+   "reason": "Whether the content suffices to identify the model depends on the model, not on the document's structure."
+  },
+  {
+   "where": "table-a.2.1",
+   "row": "1",
+   "quote": "Shall provide enough information to determine whether a given dataset is the one described by the documentation artifact.",
+   "reason": "As for Table 1 field 1."
+  },
+  {
+   "where": "table-a.3.1",
+   "row": "1",
+   "quote": "Shall provide enough information to determine whether a given model is the one described by the documentation artifact.",
+   "reason": "As for Table 2 field 1."
+  },
+  {
+   "where": "table-a.2.1",
+   "row": "1.9",
+   "quote": "this field shall provide an identifier uniquely associated with the present version of the artifact.",
+   "reason": "Uniqueness holds across versions of the artifact, which one document cannot show."
+  },
+  {
+   "where": "table-a.3.1",
+   "row": "1.12",
+   "quote": "this field shall provide an identifier uniquely associated with the present version of the artifact.",
+   "reason": "As for Table A.2.1 field 1.9."
+  },
+  {
+   "where": "table-a.2.1",
+   "row": "3.1",
+   "quote": "it shall note any prohibited uses or data combinations, if applicable.",
+   "reason": "A requirement on the content of the license field."
+  },
+  {
+   "where": "clause-a.3",
+   "quote": "these fields shall document the datasets using the default dataset documentation profile given in A.2 (though requirements from that profile may be relaxed if the information is not available to or cannot be revealed by the model provider).",
+   "reason": "The requirement may be relaxed on grounds the document does not record, and the fields it names are not the ones Table A.3.1 prints (ambiguity A9)."
+  },
+  {
+   "where": "clause-6",
+   "quote": "The artifact meets all other requirements specified by the profile.",
+   "reason": "Reaches the content requirements listed above, which are not structural."
+  }
+ ],
+ "ambiguities": [
+  {
+   "id": "A1",
+   "where": "table-a.3.1",
+   "row": "1.12",
+   "pages": [
+    45
+   ],
+   "quote": "Required",
+   "finding": "The Description and Designation cells are transposed: the Description cell reads \"Required\" and the Designation cell holds the description. The schemas read the field as Required."
+  },
+  {
+   "id": "A2",
+   "where": "table-a.3.1",
+   "row": "1.6",
+   "pages": [
+    43
+   ],
+   "quote": "See 1.7.1 and 1.7.3.",
+   "finding": "The pointer names a field that is not printed (1.7.3) and a field that is only conditionally recommended (1.7.1, Source URL). The table also prints no 1.4 and no 1.8, and the evident referents one step lower are 1.6.1 and 1.6.3, which are conditionally recommended in this table. No condition under which 1.6 is required can be read from the row, so the schemas carry no rule for 1.6 and list it as not machine-expressible."
+  },
+  {
+   "id": "A3",
+   "where": "table-a.3.1",
+   "row": "1.7",
+   "pages": [
+    44
+   ],
+   "quote": "See 1.8.1.",
+   "finding": "The pointer names a field that is not printed. The evident referent is 1.7.1. The schemas carry no rule for 1.7 and list it as not machine-expressible."
+  },
+  {
+   "id": "A4",
+   "where": "table-a.2.1",
+   "row": "1.5",
+   "pages": [
+    32,
+    33
+   ],
+   "quote": "See field 1.5.1 and 1.5.3.",
+   "finding": "Subfield 1.5.4 is conditionally required (\"Required if the provider organization has planned or acted upon such a date\"), but the parent's pointer names only 1.5.1 and 1.5.3. Clause 6 says a subfield's parent \"shall be designated as required under at least the same set of circumstances\", and also allows a requirement to be \"conditioned on the parent field being populated\". When a decommissioning date is planned, the dataset is not accessible outside the provider, and 1.5 is absent, the two readings disagree. No member sits in that case; the schemas apply the row as printed."
+  },
+  {
+   "id": "A5",
+   "where": "table-a.3.1",
+   "row": "1.6.4",
+   "pages": [
+    44
+   ],
+   "quote": "Required if the provider organization has planned or acted upon such a date; otherwise optional.",
+   "finding": "The same gap as A4 one table later: 1.6.4 is conditionally required and its parent 1.6 has no condition that can be read (A2). No member sits in the case where a decommissioning date is planned and 1.6 is absent."
+  },
+  {
+   "id": "A6",
+   "where": "table-a.2.1",
+   "row": "4.8",
+   "pages": [
+    37,
+    38
+   ],
+   "quote": "Optional",
+   "finding": "Data Enhancement is Optional while its subfields 4.8.1 and 4.8.1.1 are Recommended and 4.8.2 and 4.8.3 are Conditionally recommended. Clause 6 says the parent of a recommended subfield \"shall be designated as recommended or required under at least the same set of circumstances\", unless the recommendation is \"conditioned on the parent field being populated\", which the rows do not say. The schemas apply each subfield's recommendation only where 4.8 is present; no member sits in a case where 4.8 is absent and the readings disagree."
+  },
+  {
+   "id": "A7",
+   "where": "table-a.2.1",
+   "row": "5.1",
+   "pages": [
+    38
+   ],
+   "quote": "Recommended even if 5.1.1 is not populated.",
+   "finding": "5.1 is recommended without condition while its parent 5 is conditionally required (\"See 5.1 and 5.3.\") and carries no recommendation otherwise. Under the Clause 6 convention for recommended subfields this is the same gap as A6, at the recommended level. The schemas apply the recommendation where 5 is present."
+  },
+  {
+   "id": "A8",
+   "where": "table-a.3.1",
+   "row": "1.6.1",
+   "pages": [
+    44
+   ],
+   "quote": "Recommended if the model can be accessed by entities outside the provider organization; otherwise optional.",
+   "finding": "1.6.1 and 1.6.3 are conditionally recommended under a parent (1.6) whose condition cannot be read (A2), and 1.7.1 is conditionally recommended under a parent (1.7) whose condition cannot be read (A3). The schemas apply each recommendation where its parent is present. In Table A.2.1 the matching fields 1.5.1 and 1.5.3 are conditionally required, not recommended."
+  },
+  {
+   "id": "A9",
+   "where": "clause-a.3",
+   "pages": [
+    42
+   ],
+   "quote": "Fields 5.1-(*) and 6.1-(*) in Table A.3.1 are meant to refer to datasets.",
+   "finding": "Table A.3.1 prints the dataset references as 5.2-(*) and 6.1.1-(*); there is no 5.1-(*) or 6.1-(*). The same paragraph says these fields \"shall document the datasets using the default dataset documentation profile given in A.2\" and that its requirements \"may be relaxed\", so the schemas do not apply the A.2 profile inside them and list the sentence as not machine-expressible."
+  },
+  {
+   "id": "A10",
+   "where": "table-a.3.1",
+   "row": "1.10",
+   "pages": [
+    44
+   ],
+   "quote": "Use Rights and Restrictions",
+   "finding": "The condition names \"Use Rights and Restrictions\"; the field is printed as \"Usage Rights and Restrictions\" (root field 3). The declared condition attribution-mandated is read as referring to root field 3."
+  },
+  {
+   "id": "A11",
+   "where": "table-a.3.1",
+   "row": "6.5-(*).1",
+   "pages": [
+    50
+   ],
+   "quote": "Conditionally required if parent is populated",
+   "finding": "The only row with this designation, which Clause 6 does not define as a separate designation. It is read as a requirement conditioned on the parent being populated, which Clause 6 permits, and its condition is read from the number of 6.5-(*) entries (see the row's reading)."
+  },
+  {
+   "id": "A12",
+   "where": "table-a.2.1",
+   "row": "5.1.1",
+   "pages": [
+    38
+   ],
+   "quote": "there is at least one defined task, application, or use case that the dataset is intended to support",
+   "finding": "The condition differs in wording from 2.1's (\"there are one or more defined tasks that the dataset is intended to be used for\"). They are kept as two declared conditions rather than treated as one."
+  }
+ ],
+ "observations": [
+  {
+   "id": "O1",
+   "where": "clause-a.1",
+   "pages": [
+    31
+   ],
+   "quote": "Field 5.1 in Table A.2.1",
+   "finding": "A.1 names Field 5.1 of Table A.2.1 as the risk and impact analysis subfield. In Table A.2.1, 5.1 is Data Analysis and Risk and Impact Analyses is 5.3."
+  },
+  {
+   "id": "O2",
+   "where": "clause-a.2",
+   "pages": [
+    31
+   ],
+   "quote": "Table A.2.1 provides a list of fields from Clause 5.3",
+   "finding": "The dataset profile cites Clause 5.3, the model template. The dataset template is Clause 5.2."
+  },
+  {
+   "id": "O3",
+   "where": "table-a.3.1",
+   "row": "1.6",
+   "pages": [
+    43,
+    44
+   ],
+   "quote": "See 1.7.1 and 1.7.3.",
+   "finding": "The ID column prints no 1.4 and no 1.8, and two pointers (1.6 to 1.7.1 and 1.7.3, 1.7 to 1.8.1) point one step above their evident referents."
+  },
+  {
+   "id": "O4",
+   "where": "table-a.2.1",
+   "row": "7.2",
+   "pages": [
+    40
+   ],
+   "quote": "Information describing the process for obtaining informed consent for any collection of human-generated data",
+   "finding": "Consent and Data Rights Obligations (7.2) carries the same description as Consent Procedures (4.6)."
+  },
+  {
+   "id": "O5",
+   "where": "table-a.3.1",
+   "row": "7.4",
+   "pages": [
+    52
+   ],
+   "quote": "Point of contact or organization responsible for dataset maintenance",
+   "finding": "Several model-table cells say dataset where model is meant: Table A.3.1 2.1 (description), 3.3 (guidance), 7.4 (description), 7.9 (guidance) and 8 (description); Table 2 fields 2 and 3 (guidance) and 8 (description)."
+  }
+ ],
+ "members": [
+  {
+   "id": "T1-control-every-field",
+   "file": "members/T1-control-every-field.json",
+   "sha256": "d2a25677d820af2942cf1b197c21caae58d1a6299512b1f1c029f84454d57b26",
+   "table": "table-1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-1"
+   ],
+   "why": "Every field."
+  },
+  {
+   "id": "T1-control-required-only",
+   "file": "members/T1-control-required-only.json",
+   "sha256": "42d64facf4ca75bfb555bb391aee4bac821015011182e2185e23173c48483042",
+   "table": "table-1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [],
+   "binds": [
+    "table-1"
+   ],
+   "why": "Only the unconditionally required fields."
+  },
+  {
+   "id": "T1-violates-1-required",
+   "file": "members/T1-violates-1-required.json",
+   "sha256": "66fdd03bd8b5f3d6dfa18d1aece43f02dba388869498101fd81d21947c6ccd98",
+   "table": "table-1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-1/1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-1"
+   ],
+   "why": "Every field but 1."
+  },
+  {
+   "id": "T1-violates-4-recommended",
+   "file": "members/T1-violates-4-recommended.json",
+   "sha256": "f8e4e3ad3d9b9a4d26f1be5742276ebd109d673353da4f63b6f3e0c596d69e23",
+   "table": "table-1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-1/4/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-1"
+   ],
+   "why": "Every field but 4."
+  },
+  {
+   "id": "T1-violates-7-recommended",
+   "file": "members/T1-violates-7-recommended.json",
+   "sha256": "705aa6a4d4d50672bed06584a0219e7edba18943b9253e1a3950f7305919c662",
+   "table": "table-1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-1/7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-1"
+   ],
+   "why": "Every field but 7."
+  },
+  {
+   "id": "T1-violates-serialization-conforms-to",
+   "file": "members/T1-violates-serialization-conforms-to.json",
+   "sha256": "3cb9713f46b4991aa9ed679681215818659f47617080264a519ff0e18f90fd0d",
+   "table": "table-1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-1/serialization/conforms-to",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-1"
+   ],
+   "why": "Every field, but conformsTo names NIST.AI.300-1.ipd:5.3."
+  },
+  {
+   "id": "T1-violates-serialization-populated",
+   "file": "members/T1-violates-serialization-populated.json",
+   "sha256": "ef2a10e5d256ecc14f727efc6b2b07c7c3cba4b0538608f555676be9830190ca",
+   "table": "table-1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-1/serialization/populated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-1"
+   ],
+   "why": "Every field, but Dataset Governance is present and empty."
+  },
+  {
+   "id": "T2-control-every-field",
+   "file": "members/T2-control-every-field.json",
+   "sha256": "3375587d0d59905be5a0a68c4c48f61ba8cc304e30c9a1f85f526dedddabea08",
+   "table": "table-2",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-2"
+   ],
+   "why": "Every field."
+  },
+  {
+   "id": "T2-control-required-only",
+   "file": "members/T2-control-required-only.json",
+   "sha256": "7bc8231df265b4cb4d6b43511c3ff8654d63c5eca16fff11b68688f4cfa39de2",
+   "table": "table-2",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [],
+   "binds": [
+    "table-2"
+   ],
+   "why": "Only the unconditionally required fields."
+  },
+  {
+   "id": "T2-violates-1-required",
+   "file": "members/T2-violates-1-required.json",
+   "sha256": "497ca422408c70a740d872776f253fe55aa4a7f300b2523cbeb53429edd8d541",
+   "table": "table-2",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-2/1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-2"
+   ],
+   "why": "Every field but 1."
+  },
+  {
+   "id": "T2-violates-8-recommended",
+   "file": "members/T2-violates-8-recommended.json",
+   "sha256": "ab321c36e5b322f8c34e44abaadca9edb18fa1fd4e39a63611202dc68ceabff6",
+   "table": "table-2",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-2/8/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-2"
+   ],
+   "why": "Every field but 8."
+  },
+  {
+   "id": "T2-violates-serialization-conforms-to",
+   "file": "members/T2-violates-serialization-conforms-to.json",
+   "sha256": "0b40a5a96b076d997215833f553121eaadb8a6f5b2c29db7601e6da48e29d266",
+   "table": "table-2",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-2/serialization/conforms-to",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-2"
+   ],
+   "why": "Every field, but conformsTo names NIST.AI.300-1.ipd:5.2."
+  },
+  {
+   "id": "T2-violates-serialization-populated",
+   "file": "members/T2-violates-serialization-populated.json",
+   "sha256": "def694c61bfeefb7d5c39198add0a721610e4df54f29d63a5f67967e070e5a36",
+   "table": "table-2",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-2/serialization/populated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-2"
+   ],
+   "why": "Every field, but Governance is present and empty."
+  },
+  {
+   "id": "A21-control-every-field",
+   "file": "members/A21-control-every-field.json",
+   "sha256": "cb69f35e9329f1979a2a3925ba1841695c6cb8f4ea2c163828d8cbfcd5dff66c",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.2.1"
+   ],
+   "why": "Every field, and no condition holds."
+  },
+  {
+   "id": "A21-control-every-field-every-condition",
+   "file": "members/A21-control-every-field-every-condition.json",
+   "sha256": "2e80d480765ef05f7c8827ea2411b781d1b516d847fd2ff7b2d2b054848d039b",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.2.1"
+   ],
+   "why": "Every field, and every condition holds."
+  },
+  {
+   "id": "A21-control-required-only",
+   "file": "members/A21-control-required-only.json",
+   "sha256": "3d61bd89c5abc4515cae0154da6ff91977ab7a28b5907ad871070c9ba26058a0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.2.1"
+   ],
+   "why": "Only the unconditionally required fields."
+  },
+  {
+   "id": "A21-inapplicable-1.4-recommended",
+   "file": "members/A21-inapplicable-1.4-recommended.json",
+   "sha256": "a3a02380cadc6b9d46cf17e76ab878bb276f6dd8425849ce2a97211f9b083660",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.4/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.4, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.5-required",
+   "file": "members/A21-inapplicable-1.5-required.json",
+   "sha256": "aeb0662bd9cf03c071eb5f60000500536863be6e58e3030caf7aa3fce9905496",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.5.1-required",
+   "file": "members/A21-inapplicable-1.5.1-required.json",
+   "sha256": "12d36df4f4c09944a86cc14d1d68ebeb7e348f237aa0662ea453a7d8da827890",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.1/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.5.3-required",
+   "file": "members/A21-inapplicable-1.5.3-required.json",
+   "sha256": "7bc5266c6b32b4f1a3119a076b8bc48148fad19d5dbfb67eaa356a8e8eb8bd84",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.3/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.5.4-required",
+   "file": "members/A21-inapplicable-1.5.4-required.json",
+   "sha256": "7b11bd4792569318aad7be8aa2ee396874ac41534668859dfed0dc325566dcec",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.4/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.4, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.6-recommended",
+   "file": "members/A21-inapplicable-1.6-recommended.json",
+   "sha256": "daafdd59755f46a31fc669e558931eafc2529fcbb24920f415c08a90d66c98d2",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.6/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.6, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.6.1-recommended",
+   "file": "members/A21-inapplicable-1.6.1-recommended.json",
+   "sha256": "d6ff795cf4028051cafc4bb28a3df5e17ef9cf27f426585fb96fe4492b31a13e",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.6.1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.6.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.7-recommended",
+   "file": "members/A21-inapplicable-1.7-recommended.json",
+   "sha256": "37c6a839829809f5766dc8d138821f4b2a8c5d125bc4a074c43d7803fc4b129f",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.7/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.7, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-1.8-required",
+   "file": "members/A21-inapplicable-1.8-required.json",
+   "sha256": "b6f0bf5f9845c76993eae1fd528cbbcbf5c5c675e3bdf6263cd4634c24550b3e",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.8/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.8, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-2-recommended",
+   "file": "members/A21-inapplicable-2-recommended.json",
+   "sha256": "659b7790a42a7a07f32e966ac5df46097b02ff307c822f0443fc55c3bacb4a6b",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-2.1-recommended",
+   "file": "members/A21-inapplicable-2.1-recommended.json",
+   "sha256": "f3adb146e815b46277dd9918184db6ff37c4fbd8139fd65783515a3e1eaa23da",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2.1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-2.3-recommended",
+   "file": "members/A21-inapplicable-2.3-recommended.json",
+   "sha256": "20aa7202324a221429be7e0485e8dfa534545a2188d0a52185222c5a31cb84b5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2.3/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2.3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-3-required",
+   "file": "members/A21-inapplicable-3-required.json",
+   "sha256": "75951838ae27fa21815525b13f03f73895588516f49985e9bee49a46fa9b0765",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3/required",
+     "role": "inapplicable"
+    },
+    {
+     "rule": "table-a.2.1/3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-3.1-required",
+   "file": "members/A21-inapplicable-3.1-required.json",
+   "sha256": "8c99d00d18e6e54b83ae4dc72099de74d7926d68dacb8a8b0d37e0d2bd6cff80",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.1/required",
+     "role": "inapplicable"
+    },
+    {
+     "rule": "table-a.2.1/3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-3.2-recommended",
+   "file": "members/A21-inapplicable-3.2-recommended.json",
+   "sha256": "5e00fe3575e36de12e816faacaf8bcbf5c86d5fbebb7ee6330d2859cd554a559",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.2/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.2, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-3.3-recommended",
+   "file": "members/A21-inapplicable-3.3-recommended.json",
+   "sha256": "c304fed352de7e9094bfbdb634efeb606068d7b4ee96757716f5ddf1bc981cbb",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.3/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-4.2-required",
+   "file": "members/A21-inapplicable-4.2-required.json",
+   "sha256": "e5f0f20e65bb9673b0f23b502e741ca8cab94331b162efbdd159c8d56f885152",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.2/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.2, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-4.4-required",
+   "file": "members/A21-inapplicable-4.4-required.json",
+   "sha256": "a46f96ec33971c1c7f493a5557a5a80ce29a3b4bb86adc96a5c0e6a1def3d744",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.4/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.4, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-4.6-recommended",
+   "file": "members/A21-inapplicable-4.6-recommended.json",
+   "sha256": "b6602f737a6f50f04ae4bd9714972320e280b0a746cb48885c0da8e11b8e2436",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.6/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.6, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-4.8.2-recommended",
+   "file": "members/A21-inapplicable-4.8.2-recommended.json",
+   "sha256": "aae005635e1ec0bedf34d5eb664df7bf10df6272b8e7803e973940c410669594",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.2/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.2, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-4.8.3-recommended",
+   "file": "members/A21-inapplicable-4.8.3-recommended.json",
+   "sha256": "d1bde8405408ddbd326077aa0ba4ad0046e96dfbe5f7f4ad0206e19dca66fbce",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.3/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-5-required",
+   "file": "members/A21-inapplicable-5-required.json",
+   "sha256": "0541982bbad323fb33a0176f765faf47e84db617299288e9c1e72f8667731a8d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": null
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5, and no condition holds.",
+   "readingDependent": {
+    "recommended": [
+     "table-a.2.1/5.1/recommended"
+    ]
+   }
+  },
+  {
+   "id": "A21-inapplicable-5.1-required",
+   "file": "members/A21-inapplicable-5.1-required.json",
+   "sha256": "dd15205cf5b7a596f41c37ddd5f1bedd4bb30c3d49e32ca0e835b09b089c87a5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.1/required",
+     "role": "inapplicable"
+    },
+    {
+     "rule": "table-a.2.1/5.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-5.1.1-required",
+   "file": "members/A21-inapplicable-5.1.1-required.json",
+   "sha256": "165301f5974d5378676a0b05155a8b2130823d8ad2ef6c75b7e849cc4dc67263",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.1.1/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.1.1, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-5.3-required",
+   "file": "members/A21-inapplicable-5.3-required.json",
+   "sha256": "48ae403856eb7c8e8c927f7a8dd260a9647747fb128483451eb96730154bfec0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.3/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.3, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-6-recommended",
+   "file": "members/A21-inapplicable-6-recommended.json",
+   "sha256": "cccb2385805a0d30d3aff415c20aded40b72038572325ccea1a896886b81b394",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-6.4-recommended",
+   "file": "members/A21-inapplicable-6.4-recommended.json",
+   "sha256": "0d5981602c8682b4742ddff8fef8559379d46d2cc0942ead403187b99b37ce94",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.4/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.4, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-6.5-recommended",
+   "file": "members/A21-inapplicable-6.5-recommended.json",
+   "sha256": "003325ec4ece8b76e39329fa356159a33e88f707c2b390c8458ec449211724f0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.5/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.5, and no condition holds."
+  },
+  {
+   "id": "A21-inapplicable-6.7-recommended",
+   "file": "members/A21-inapplicable-6.7-recommended.json",
+   "sha256": "46f26075f06206ba3eeae2d16f87a209c2ce0fab1e7bc0c66b97b1038bfcc24f",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.7/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.7, and no condition holds."
+  },
+  {
+   "id": "A21-satisfies-1.4-recommended",
+   "file": "members/A21-satisfies-1.4-recommended.json",
+   "sha256": "1a38df220a9199451b2fc6f093ec485b0ffaebbde19e8458fe47dac9234d4ba4",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.4/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/1.7/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only accessible-outside-provider holds; the fields it makes recommended are present, 1.4 among them. Only accessible-outside-provider holds; the fields it makes recommended are present, 1.7 among them."
+  },
+  {
+   "id": "A21-satisfies-1.5-required",
+   "file": "members/A21-satisfies-1.5-required.json",
+   "sha256": "c93a56feb9f0792db9c676f203adaf1fad0d0a9acefc98faed23ee0b0e01e824",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/1.5.1/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/1.5.3/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only accessible-outside-provider holds; the fields it makes required are present, 1.5 among them. Only accessible-outside-provider holds; the fields it makes required are present, 1.5.1 among them. Only accessible-outside-provider holds; the fields it makes required are present, 1.5.3 among them."
+  },
+  {
+   "id": "A21-satisfies-1.5.4-required",
+   "file": "members/A21-satisfies-1.5.4-required.json",
+   "sha256": "e4884837e92c0aa5b1772ad1464b6d75a52e864ebd5a7f308d90befdbc906db2",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.4/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only decommissioning-date-planned holds; the fields it makes required are present, 1.5.4 among them."
+  },
+  {
+   "id": "A21-satisfies-1.6-recommended",
+   "file": "members/A21-satisfies-1.6-recommended.json",
+   "sha256": "dd28a64a3dd72d705084c8ba7b1d883d56ab96ada2efe15956f8f6f8baeb84c2",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.6/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/1.6.1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only obtainable-via-internet holds; the fields it makes recommended are present, 1.6 among them. Only obtainable-via-internet holds; the fields it makes recommended are present, 1.6.1 among them."
+  },
+  {
+   "id": "A21-satisfies-1.8-required",
+   "file": "members/A21-satisfies-1.8-required.json",
+   "sha256": "cfe2e7fa04391f241733d83e995dbfe0126dba41d89d48ebd80e519f9addf6b2",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.8/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only attribution-mandated holds; the fields it makes required are present, 1.8 among them."
+  },
+  {
+   "id": "A21-satisfies-2-recommended-defined-tasks",
+   "file": "members/A21-satisfies-2-recommended-defined-tasks.json",
+   "sha256": "511472efcac3b8f7545ea499d905eccf1a37838251a787016f11fa9563edcae6",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/2.1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only defined-tasks holds; the fields it makes recommended are present, 2 among them. Only defined-tasks holds; the fields it makes recommended are present, 2.1 among them."
+  },
+  {
+   "id": "A21-satisfies-2-recommended-known-non-obvious-limitations",
+   "file": "members/A21-satisfies-2-recommended-known-non-obvious-limitations.json",
+   "sha256": "d45ed5915d5ab4a3c3d9f98c9df5a377b13f2888640e9a1058729584265b027b",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/2.3/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only known-non-obvious-limitations holds; the fields it makes recommended are present, 2 among them. Only known-non-obvious-limitations holds; the fields it makes recommended are present, 2.3 among them."
+  },
+  {
+   "id": "A21-satisfies-3-required",
+   "file": "members/A21-satisfies-3-required.json",
+   "sha256": "9394559c45c11c927870984740cc0e1ebc8fa69927284be354fd596f72c42d45",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/3.1/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only accessible-outside-under-terms holds; the fields it makes required are present, 3 among them. Only accessible-outside-under-terms holds; the fields it makes required are present, 3.1 among them."
+  },
+  {
+   "id": "A21-satisfies-3.2-recommended",
+   "file": "members/A21-satisfies-3.2-recommended.json",
+   "sha256": "ed3ba463834a371d8590debf7414e8d8728b0dc6049ca5f20d536032a2172b61",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.2/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only payments-required holds; the fields it makes recommended are present, 3.2 among them."
+  },
+  {
+   "id": "A21-satisfies-3.3-recommended",
+   "file": "members/A21-satisfies-3.3-recommended.json",
+   "sha256": "e9ffc2b2a3e91be4719b341e7aa32edc062d147a6c5a7968132c124010509a25",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.3/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only other-interest-holders holds; the fields it makes recommended are present, 3.3 among them."
+  },
+  {
+   "id": "A21-satisfies-4.2-required",
+   "file": "members/A21-satisfies-4.2-required.json",
+   "sha256": "e70f4059b1997adbfd5cb5d5773b7753d61d95c2076a9ba4b8eb9c44330a5415",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.2/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only contains-pii holds; the fields it makes required are present, 4.2 among them."
+  },
+  {
+   "id": "A21-satisfies-4.4-required",
+   "file": "members/A21-satisfies-4.4-required.json",
+   "sha256": "afa74caf1b6cc110de3e181fa3022fdf933ace7246d512ebba67e9da854a63d9",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.4/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only describes-time-span holds; the fields it makes required are present, 4.4 among them."
+  },
+  {
+   "id": "A21-satisfies-4.6-recommended",
+   "file": "members/A21-satisfies-4.6-recommended.json",
+   "sha256": "cae99e6f079583b0b4206891f8f83314f45fc9d79031de79079696b109fcf8bb",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.6/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only consent-required-collection holds; the fields it makes recommended are present, 4.6 among them."
+  },
+  {
+   "id": "A21-satisfies-4.8.2-recommended",
+   "file": "members/A21-satisfies-4.8.2-recommended.json",
+   "sha256": "63aee5283cf368a11d7f88eae6f7f46013f971329aecf15e8acd51947e3446ab",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.2/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only contains-synthetic-data holds; the fields it makes recommended are present, 4.8.2 among them."
+  },
+  {
+   "id": "A21-satisfies-4.8.3-recommended",
+   "file": "members/A21-satisfies-4.8.3-recommended.json",
+   "sha256": "6e0f0b06edc7f1914a9d72b935683d70a9c3340d0794a1ebfc3770e2fe8a3e3f",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.3/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only preprocessed holds; the fields it makes recommended are present, 4.8.3 among them."
+  },
+  {
+   "id": "A21-satisfies-5-required-defined-task-application-or-use-case",
+   "file": "members/A21-satisfies-5-required-defined-task-application-or-use-case.json",
+   "sha256": "da879f0a480f4581e16005c20616fc016ea5d249482d8a46b92cc55c7b633c98",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/5.1/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/5.1.1/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only defined-task-application-or-use-case holds; the fields it makes required are present, 5 among them. Only defined-task-application-or-use-case holds; the fields it makes required are present, 5.1 among them. Only defined-task-application-or-use-case holds; the fields it makes required are present, 5.1.1 among them."
+  },
+  {
+   "id": "A21-satisfies-5-required-documented-negative-impacts",
+   "file": "members/A21-satisfies-5-required-documented-negative-impacts.json",
+   "sha256": "ce29890a7bea0bf1cc630c4059683bc7e1b58f11a9977e6995d14df89629fe44",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/5.3/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only documented-negative-impacts holds; the fields it makes required are present, 5 among them. Only documented-negative-impacts holds; the fields it makes required are present, 5.3 among them."
+  },
+  {
+   "id": "A21-satisfies-6-recommended-in-use-before-this-version",
+   "file": "members/A21-satisfies-6-recommended-in-use-before-this-version.json",
+   "sha256": "3f0ae9007c3bf2270af451925483a46e44b7fd21caee5d3c1246b0034dac345c",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/6.4/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only in-use-before-this-version holds; the fields it makes recommended are present, 6 among them. Only in-use-before-this-version holds; the fields it makes recommended are present, 6.4 among them."
+  },
+  {
+   "id": "A21-satisfies-6-recommended-ongoing-support-planned",
+   "file": "members/A21-satisfies-6-recommended-ongoing-support-planned.json",
+   "sha256": "deda966051b805dfdc06da86736d3965bcfe04d629676989bc45dbc950cf912c",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/6.7/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only ongoing-support-planned holds; the fields it makes recommended are present, 6 among them. Only ongoing-support-planned holds; the fields it makes recommended are present, 6.7 among them."
+  },
+  {
+   "id": "A21-satisfies-6-recommended-periodic-updates",
+   "file": "members/A21-satisfies-6-recommended-periodic-updates.json",
+   "sha256": "b482347f1a5dbc3d691d32c30b69c204e2659ee5eaf66db4ea7f857248f65be0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.2.1/6.5/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Only periodic-updates holds; the fields it makes recommended are present, 6 among them. Only periodic-updates holds; the fields it makes recommended are present, 6.5 among them."
+  },
+  {
+   "id": "A21-violates-1-required",
+   "file": "members/A21-violates-1-required.json",
+   "sha256": "6227ad3cf0af3fe3b77ceb51a1f1445a7ff67295fce8390fed2f24a3cf5394fb",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-1.1-recommended",
+   "file": "members/A21-violates-1.1-recommended.json",
+   "sha256": "ca99331c5d7c7d016982436b6ceb5108cbe1f710600658521de9284a51b4ce28",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-1.2-required",
+   "file": "members/A21-violates-1.2-required.json",
+   "sha256": "832623ad26555072f80b7d1c8590f642abf33a3c2c0515b042800680a13501e0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.2/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.2, and no condition holds."
+  },
+  {
+   "id": "A21-violates-1.3-recommended",
+   "file": "members/A21-violates-1.3-recommended.json",
+   "sha256": "38be89167c6e6c3d5dd62186d9e9e7e1c32da947f61bbee12c650c1d041e6b35",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.3, and no condition holds."
+  },
+  {
+   "id": "A21-violates-1.3.1-recommended",
+   "file": "members/A21-violates-1.3.1-recommended.json",
+   "sha256": "8e0ede5205bb0fd96b5f73f540d51f0c2c2f356c4a58500c1e282540a0b2247e",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.3.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-1.4-recommended",
+   "file": "members/A21-violates-1.4-recommended.json",
+   "sha256": "fdddff91e3d3ff0f7721af4acf7adad035d5311ba4e43d1ebfbc40baaf707a70",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.4/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.4 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A21-violates-1.5-required",
+   "file": "members/A21-violates-1.5-required.json",
+   "sha256": "8cea4dcc756a7f7b85fa60b1b22bab2882f983e69d87bcc16336f458ad2dca67",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A21-violates-1.5.1-required",
+   "file": "members/A21-violates-1.5.1-required.json",
+   "sha256": "11170a9088cdfc8157145f3a368c14c5dede8afe78498c69ba2010099a36cfc8",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.1 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A21-violates-1.5.3-required",
+   "file": "members/A21-violates-1.5.3-required.json",
+   "sha256": "32eddfafff3116fb062be065bdc2f7dd5cbd5ccfdd9951afa9ac155f857ed524",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.3/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.3 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A21-violates-1.5.4-required",
+   "file": "members/A21-violates-1.5.4-required.json",
+   "sha256": "363ec06fedd288ac654c2b7b798ffbde4b96cc573b11731e0566eb95af6b9be0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.5.4/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.5.4 while decommissioning-date-planned holds."
+  },
+  {
+   "id": "A21-violates-1.6-recommended",
+   "file": "members/A21-violates-1.6-recommended.json",
+   "sha256": "413b287656f8fa1b2e80258b9a742f53c6bffe670df44e807b2f9b5c55fce10e",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.6 while obtainable-via-internet holds."
+  },
+  {
+   "id": "A21-violates-1.6.1-recommended",
+   "file": "members/A21-violates-1.6.1-recommended.json",
+   "sha256": "b93565cfb51918cee03a32f372ad27867a51cba2a238d161f726e047b5d4dbb2",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.6.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.6.1 while obtainable-via-internet holds."
+  },
+  {
+   "id": "A21-violates-1.7-recommended",
+   "file": "members/A21-violates-1.7-recommended.json",
+   "sha256": "4bd185fdc09bac4b287c20ade68770dd66d7d8142896c2f2871eb92ca85342d5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.7 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A21-violates-1.8-required",
+   "file": "members/A21-violates-1.8-required.json",
+   "sha256": "a9124612c13c99697113748edeaf629da2f556c3e5245df84120362b41e33a34",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.8/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.8 while attribution-mandated holds."
+  },
+  {
+   "id": "A21-violates-1.9-required",
+   "file": "members/A21-violates-1.9-required.json",
+   "sha256": "3beaaccec6f9b6190b0a3ffa92ac4e2b4e235075da1d09b95a737ba6093be722",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/1.9/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 1.9, and no condition holds."
+  },
+  {
+   "id": "A21-violates-2-recommended-defined-tasks",
+   "file": "members/A21-violates-2-recommended-defined-tasks.json",
+   "sha256": "75fd679c4c6fb2a9cfa54db023b58ae9f687619aa425d3a5e162a43895b09e9c",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2 while defined-tasks holds."
+  },
+  {
+   "id": "A21-violates-2-recommended-known-non-obvious-limitations",
+   "file": "members/A21-violates-2-recommended-known-non-obvious-limitations.json",
+   "sha256": "66e343dc17b94d25bc0f0f60fd8a73d308a51285eb5b596565a4b07e186689b4",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2 while known-non-obvious-limitations holds."
+  },
+  {
+   "id": "A21-violates-2.1-recommended",
+   "file": "members/A21-violates-2.1-recommended.json",
+   "sha256": "206dfdae991fa1f273b0791b1da4f755c40cd8c31cb73954b7f3a6fa1e5ced54",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2.1 while defined-tasks holds."
+  },
+  {
+   "id": "A21-violates-2.3-recommended",
+   "file": "members/A21-violates-2.3-recommended.json",
+   "sha256": "e6738584a8672b9bef99e011ff0f4afa2721b3d5c66c4e2bedaa83af57383479",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/2.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 2.3 while known-non-obvious-limitations holds."
+  },
+  {
+   "id": "A21-violates-3-required",
+   "file": "members/A21-violates-3-required.json",
+   "sha256": "c56f36e07917206540dce06bc8c116af655b87041a7b0b255904d31e942470ad",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3 while accessible-outside-under-terms holds."
+  },
+  {
+   "id": "A21-violates-3.1-required",
+   "file": "members/A21-violates-3.1-required.json",
+   "sha256": "b56752dd55cb6e5c54e99312ed06ec820cc64433d03b8a9679d05463ac8f7204",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.1 while accessible-outside-under-terms holds."
+  },
+  {
+   "id": "A21-violates-3.2-recommended",
+   "file": "members/A21-violates-3.2-recommended.json",
+   "sha256": "fe324ed430fe30be34cdea87b8ccb340a8eaf869c48398d3ae593a3ce67bfa97",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.2 while payments-required holds."
+  },
+  {
+   "id": "A21-violates-3.3-recommended",
+   "file": "members/A21-violates-3.3-recommended.json",
+   "sha256": "bd88ca52d1a8b1f5efdee820efde8d2536005cb288e507a8169e4bca7ef71cc5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/3.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 3.3 while other-interest-holders holds."
+  },
+  {
+   "id": "A21-violates-4-required",
+   "file": "members/A21-violates-4-required.json",
+   "sha256": "910b0f37282f9be588dd1566976be4b2aec8be11d30db4353fccd94cd20b7a09",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.1-recommended",
+   "file": "members/A21-violates-4.1-recommended.json",
+   "sha256": "ad371e589055f9192bb0c85d39d2a821ead6b5dc413d783f3749c14a6c6688a3",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.1.2-recommended",
+   "file": "members/A21-violates-4.1.2-recommended.json",
+   "sha256": "d2449394c9defffb3e472eaeaf35388acbe5495052405f914b9caff13c67694f",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.1.2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.1.2, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.2-required",
+   "file": "members/A21-violates-4.2-required.json",
+   "sha256": "e369803a69891e705a83653fa9dbc6af12e340d7a2ef5dacde615540ef51003a",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.2/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.2 while contains-pii holds."
+  },
+  {
+   "id": "A21-violates-4.3-recommended",
+   "file": "members/A21-violates-4.3-recommended.json",
+   "sha256": "9fa183f3df8c0b67149aaa4fe4dbca628273401d6375178a7e970e79a91a3803",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.3, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.3.1-recommended",
+   "file": "members/A21-violates-4.3.1-recommended.json",
+   "sha256": "8b7190a600daec6560077fe9a81021fb4c9571bc9945680257cec34f5d0baa18",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.3.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.4-required",
+   "file": "members/A21-violates-4.4-required.json",
+   "sha256": "d3993a0aa0694d8a068da61b9adc3ab155dd072979647ec6fc46fe25fb8f89f8",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.4/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.4 while describes-time-span holds."
+  },
+  {
+   "id": "A21-violates-4.6-recommended",
+   "file": "members/A21-violates-4.6-recommended.json",
+   "sha256": "a0c2a9ff7801b68ce2af502fca23ef528615434739a1b33efe5760b018ba75e5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.6 while consent-required-collection holds."
+  },
+  {
+   "id": "A21-violates-4.8.1-recommended",
+   "file": "members/A21-violates-4.8.1-recommended.json",
+   "sha256": "56b1d4d59a67a63143ab5d4dd4dd94bb186b2dde09c49a8b40238b94bf62e5d4",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.8.1.1-recommended",
+   "file": "members/A21-violates-4.8.1.1-recommended.json",
+   "sha256": "455f9727397e726a79cad5e010c884d0cb8c0bb3d232353c168bab0ef1f4592f",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.1.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.1.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-4.8.2-recommended",
+   "file": "members/A21-violates-4.8.2-recommended.json",
+   "sha256": "a59e99fbb38ea7b88249d2eb84effea7c7c753a31dd4d09f87b1006e8565f0b8",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.2 while contains-synthetic-data holds."
+  },
+  {
+   "id": "A21-violates-4.8.3-recommended",
+   "file": "members/A21-violates-4.8.3-recommended.json",
+   "sha256": "29c755a95a781762dae9341bc5d99ee7cd38d28237e76d770a6f87a192c5834a",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/4.8.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 4.8.3 while preprocessed holds."
+  },
+  {
+   "id": "A21-violates-5-required-defined-task-application-or-use-case",
+   "file": "members/A21-violates-5-required-defined-task-application-or-use-case.json",
+   "sha256": "5e7541dcbab92da2a8682e50bd9b91a52c4906ad40c6b5d8d2ec3be961a436d6",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5 while defined-task-application-or-use-case holds."
+  },
+  {
+   "id": "A21-violates-5-required-documented-negative-impacts",
+   "file": "members/A21-violates-5-required-documented-negative-impacts.json",
+   "sha256": "cf49afc9635b4700b4b4eb7f024c5c69e73359da5f0f1d446307bb39600ebceb",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5 while documented-negative-impacts holds."
+  },
+  {
+   "id": "A21-violates-5.1-required",
+   "file": "members/A21-violates-5.1-required.json",
+   "sha256": "554e8a5623da554dbfa165ab34a0bf1e41971b470e9f17806f9a0b378d98fb7d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.1 while defined-task-application-or-use-case holds."
+  },
+  {
+   "id": "A21-violates-5.1.1-required",
+   "file": "members/A21-violates-5.1.1-required.json",
+   "sha256": "0c7942c3eca44832989cf46115855928b95f4dc619a724e9f0420f7a3c813b99",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.1.1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.1.1 while defined-task-application-or-use-case holds."
+  },
+  {
+   "id": "A21-violates-5.3-required",
+   "file": "members/A21-violates-5.3-required.json",
+   "sha256": "66f8daa7ee6a05b7c850a1309ec50f914a025f5fbc6325df3671857652e56f7d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/5.3/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 5.3 while documented-negative-impacts holds."
+  },
+  {
+   "id": "A21-violates-6-recommended-in-use-before-this-version",
+   "file": "members/A21-violates-6-recommended-in-use-before-this-version.json",
+   "sha256": "90dd70b88ea387665a9bc399f3a1ddb3f19fed29f5a2bc332c35327662e47130",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6 while in-use-before-this-version holds."
+  },
+  {
+   "id": "A21-violates-6-recommended-ongoing-support-planned",
+   "file": "members/A21-violates-6-recommended-ongoing-support-planned.json",
+   "sha256": "c9cbe68a612e561efe07ea28bef31cabb1f5f1c57558f86e33d75994dd286a0b",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6 while ongoing-support-planned holds."
+  },
+  {
+   "id": "A21-violates-6-recommended-periodic-updates",
+   "file": "members/A21-violates-6-recommended-periodic-updates.json",
+   "sha256": "7faef8e361e16335afdb07fd5881478736bded3d343e8151311b535731ed14c4",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6 while periodic-updates holds."
+  },
+  {
+   "id": "A21-violates-6.4-recommended",
+   "file": "members/A21-violates-6.4-recommended.json",
+   "sha256": "a6624e3eb25d7b082f807a2df6f61cff9e30537e17045479645f61ca3509d21d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.4/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.4 while in-use-before-this-version holds."
+  },
+  {
+   "id": "A21-violates-6.5-recommended",
+   "file": "members/A21-violates-6.5-recommended.json",
+   "sha256": "4a359ab1fca159263976e652de645b3c81f3f28635ef2828a24053c05cbd816d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.5/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.5 while periodic-updates holds."
+  },
+  {
+   "id": "A21-violates-6.7-recommended",
+   "file": "members/A21-violates-6.7-recommended.json",
+   "sha256": "95a6162242646e9db60248be87009c3900daac05047386a52bde50400ffcfc3a",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/6.7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 6.7 while ongoing-support-planned holds."
+  },
+  {
+   "id": "A21-violates-7-recommended",
+   "file": "members/A21-violates-7-recommended.json",
+   "sha256": "11e3343c68030ca79b45dbc0cc2a2283acf86791f0e62ed240a2cc35ce0161b8",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 7, and no condition holds."
+  },
+  {
+   "id": "A21-violates-7.3-recommended",
+   "file": "members/A21-violates-7.3-recommended.json",
+   "sha256": "8dd4070bf1f011470e3647964226e4422892b3fc90102c0e8ea998c89a5e4102",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/7.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 7.3, and no condition holds."
+  },
+  {
+   "id": "A21-violates-7.3.1-recommended",
+   "file": "members/A21-violates-7.3.1-recommended.json",
+   "sha256": "be7a4704b6499f1c1c868346955e7b706a5b29eea8a128b527b9426b4678fef0",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/7.3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field but 7.3.1, and no condition holds."
+  },
+  {
+   "id": "A21-violates-serialization-conforms-to",
+   "file": "members/A21-violates-serialization-conforms-to.json",
+   "sha256": "b18dd078b6bff82e024c360c8f8d3276000e71d818d8d45fc8f34e96ab436e23",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/conforms-to",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but conformsTo names NIST.AI.300-1.ipd:5.3."
+  },
+  {
+   "id": "A21-violates-serialization-declare-accessible-outside-provider",
+   "file": "members/A21-violates-serialization-declare-accessible-outside-provider.json",
+   "sha256": "a5497bd991ee37fa25e8904d9815e2046d59cb7b419f8525d75c7ab7316dbed4",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/accessible-outside-provider",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition accessible-outside-provider is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-accessible-outside-under-terms",
+   "file": "members/A21-violates-serialization-declare-accessible-outside-under-terms.json",
+   "sha256": "051773650456127126998efd15e2ab1e9b81efa2d43f212e3738becd149040b9",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/accessible-outside-under-terms",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition accessible-outside-under-terms is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-attribution-mandated",
+   "file": "members/A21-violates-serialization-declare-attribution-mandated.json",
+   "sha256": "60e1f7cdcc528672d1ca95cc01405324838d97ba60a6227ef470893011e27d01",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/attribution-mandated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition attribution-mandated is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-consent-required-collection",
+   "file": "members/A21-violates-serialization-declare-consent-required-collection.json",
+   "sha256": "eede24e6aa863c1a02f10fb5b89923295e90d2938f79c245806b6e9740e274d5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/consent-required-collection",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition consent-required-collection is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-contains-pii",
+   "file": "members/A21-violates-serialization-declare-contains-pii.json",
+   "sha256": "7cbacde9ad29ea58cf5b024811e3d4ca2a1752c93257b288103afa1e145cb080",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/contains-pii",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition contains-pii is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-contains-synthetic-data",
+   "file": "members/A21-violates-serialization-declare-contains-synthetic-data.json",
+   "sha256": "a57a611fcd44e47c77a6c4eb69cd2f8ef37f0facb0a1330921dbc718391dbd6b",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/contains-synthetic-data",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition contains-synthetic-data is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-decommissioning-date-planned",
+   "file": "members/A21-violates-serialization-declare-decommissioning-date-planned.json",
+   "sha256": "7f8c768e7ab230ab51c3adb58f2326458553c5d44ac36cbc094afade5b28e7fe",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/decommissioning-date-planned",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition decommissioning-date-planned is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-defined-task-application-or-use-case",
+   "file": "members/A21-violates-serialization-declare-defined-task-application-or-use-case.json",
+   "sha256": "e35d11baae5fabd1488459306b58d81dc97cac64b9d164934994ea2d0d6eae49",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/defined-task-application-or-use-case",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition defined-task-application-or-use-case is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-defined-tasks",
+   "file": "members/A21-violates-serialization-declare-defined-tasks.json",
+   "sha256": "3dd553289e4826f9824202abc5c64a59ca5a0af7f2fa1e32eae9eafe7443169c",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/defined-tasks",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition defined-tasks is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-describes-time-span",
+   "file": "members/A21-violates-serialization-declare-describes-time-span.json",
+   "sha256": "e4fa04be70f8f5397ca6be80f4176b241170eee3627a2c9a4a56975a31d8b2e7",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/describes-time-span",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition describes-time-span is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-documented-negative-impacts",
+   "file": "members/A21-violates-serialization-declare-documented-negative-impacts.json",
+   "sha256": "6120a27cd92c9393dba6b55cfbc710df97049740da94bff700a4938568ef750a",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/documented-negative-impacts",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition documented-negative-impacts is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-in-use-before-this-version",
+   "file": "members/A21-violates-serialization-declare-in-use-before-this-version.json",
+   "sha256": "5430627e013a4e95f688fc9d74516df562e25f93f8491790127c004fa480777d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/in-use-before-this-version",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition in-use-before-this-version is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-known-non-obvious-limitations",
+   "file": "members/A21-violates-serialization-declare-known-non-obvious-limitations.json",
+   "sha256": "fd92439e8c3ba99a8fbce7b1c9cba877c5cabe9dba7a1ab1917601d1d8e7003d",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/known-non-obvious-limitations",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition known-non-obvious-limitations is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-obtainable-via-internet",
+   "file": "members/A21-violates-serialization-declare-obtainable-via-internet.json",
+   "sha256": "c9bd73435ab3dc8859f7e115a816e0d5ec43fba4a68a1a6710e765d47a9aebeb",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/obtainable-via-internet",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition obtainable-via-internet is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-ongoing-support-planned",
+   "file": "members/A21-violates-serialization-declare-ongoing-support-planned.json",
+   "sha256": "5dc8928999d7e1ffaafa45b0d14063ca1c7372084085e6846531ac2d0515d3d1",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/ongoing-support-planned",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition ongoing-support-planned is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-other-interest-holders",
+   "file": "members/A21-violates-serialization-declare-other-interest-holders.json",
+   "sha256": "72568787a18f2185c37ae4dc8962f3f03039c5997cf16695a978853b3fbf04c5",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/other-interest-holders",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition other-interest-holders is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-payments-required",
+   "file": "members/A21-violates-serialization-declare-payments-required.json",
+   "sha256": "2409f4292f1e1210c383ef873149181df909f140ced2d3a5f6b15c852320b472",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/payments-required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition payments-required is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-periodic-updates",
+   "file": "members/A21-violates-serialization-declare-periodic-updates.json",
+   "sha256": "740231f6b439d3ab26e7e4d8c5f9b68015cacb0e95062d3aa411e03e4db8bd16",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/periodic-updates",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition periodic-updates is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-declare-preprocessed",
+   "file": "members/A21-violates-serialization-declare-preprocessed.json",
+   "sha256": "af6df282190a599a4b1577063239c2db570433013a61d0bcd09e5d5b2214599a",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/declare/preprocessed",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but the condition preprocessed is not declared."
+  },
+  {
+   "id": "A21-violates-serialization-populated",
+   "file": "members/A21-violates-serialization-populated.json",
+   "sha256": "03b3793d97ee2752efd7d9e4fc130c2be54a6415cea4b546f4ecfabf7385a328",
+   "table": "table-a.2.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.2.1/serialization/populated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-a.2.1"
+   ],
+   "why": "Every field, but Terminology is present and empty."
+  },
+  {
+   "id": "A31-control-every-field",
+   "file": "members/A31-control-every-field.json",
+   "sha256": "52329ebd63fc0109b93431fcfb43300ac6545d4cfa5476ac5db8ae24dd6321d2",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.3.1"
+   ],
+   "why": "Every field, and no condition holds."
+  },
+  {
+   "id": "A31-control-every-field-every-condition",
+   "file": "members/A31-control-every-field-every-condition.json",
+   "sha256": "110fd7a0f99de09d48176da71ba3569ec13c256146e4573af1ca65183d798605",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.3.1"
+   ],
+   "why": "Every field, and every condition holds."
+  },
+  {
+   "id": "A31-control-required-only",
+   "file": "members/A31-control-required-only.json",
+   "sha256": "f728597dd7add99c45b808d6cd8090782f2528043da1c2e09f6a8ea476594af3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [],
+   "binds": [
+    "table-a.3.1"
+   ],
+   "why": "Only the unconditionally required fields."
+  },
+  {
+   "id": "A31-inapplicable-1.10-required",
+   "file": "members/A31-inapplicable-1.10-required.json",
+   "sha256": "82eb8cb0c5db0c941bbd7b42d4743207c54f0eb633ccd2989b969dbf4a092a66",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.10/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.10, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.5-recommended",
+   "file": "members/A31-inapplicable-1.5-recommended.json",
+   "sha256": "98de251faeb4a90669b1ad40049c0aa830adf4b21f0a1a9ce673a2424c43fdee",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.5/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.5, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.6.1-recommended",
+   "file": "members/A31-inapplicable-1.6.1-recommended.json",
+   "sha256": "82bd189bd08eb30aa253f8397fc04717afec8002be14e2f1c43b5ecc1a91d74a",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.6.3-recommended",
+   "file": "members/A31-inapplicable-1.6.3-recommended.json",
+   "sha256": "e4016b0d0c9225b90bb5cc599b9edcca3a3f89aaa11e74c2f4210a044a0e323d",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.3/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.3, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.6.4-required",
+   "file": "members/A31-inapplicable-1.6.4-required.json",
+   "sha256": "f63416699a8b5078293a8cb38d764b075194b5b26f89753be932647282d813d5",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.4/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.4, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.7.1-recommended",
+   "file": "members/A31-inapplicable-1.7.1-recommended.json",
+   "sha256": "6bcf1d0d1dcfa220dbf80ad1f99b60f486f5eda6a8e2a27e7a55b9d1867ad303",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.7.1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.7.1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-1.9-recommended",
+   "file": "members/A31-inapplicable-1.9-recommended.json",
+   "sha256": "a107a177f2f42c4819cc600736ee1e3179b4163546067ba99ff2c6ee606dc448",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.9/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.9, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-2.1-recommended",
+   "file": "members/A31-inapplicable-2.1-recommended.json",
+   "sha256": "066c1cd8c8b0412771711fbe7da2859996f672feee69be2052762839bd6a75cc",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 2.1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-2.5-recommended",
+   "file": "members/A31-inapplicable-2.5-recommended.json",
+   "sha256": "00b85f214278817e491e20f259b0d8e896459056d6522e2c1ffc0008923a1dc3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.5/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 2.5, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-3-required",
+   "file": "members/A31-inapplicable-3-required.json",
+   "sha256": "168c36f24c55b384ab9e6f5c6ee4d7f06cfceeeaa01fc37928e7746423c8c9d2",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3/required",
+     "role": "inapplicable"
+    },
+    {
+     "rule": "table-a.3.1/3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-3.1-required",
+   "file": "members/A31-inapplicable-3.1-required.json",
+   "sha256": "9ad54e9012a9ea71b0d2378d10e67befc7caa5f965019532eb96dcc4347c7b7e",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.1/required",
+     "role": "inapplicable"
+    },
+    {
+     "rule": "table-a.3.1/3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-3.2-recommended",
+   "file": "members/A31-inapplicable-3.2-recommended.json",
+   "sha256": "85b099015a0bed40ab92ea2e72047808dcd957731378dd06f7fa241ffae31fd4",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.2/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.2, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-3.3-recommended",
+   "file": "members/A31-inapplicable-3.3-recommended.json",
+   "sha256": "7472d5e7dfa07ce8eabbec1e484756e1a766585c0ee7935dc62891c16322fbc1",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.3/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.3, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-5.2-x.1-recommended",
+   "file": "members/A31-inapplicable-5.2-x.1-recommended.json",
+   "sha256": "9bb71c90acd98945174b8bb45cbc1970be8d8f5793130599b7e330368a0b9106",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/5.2-(*).1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 5.2-(*).1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-6.1.1-x.1-recommended",
+   "file": "members/A31-inapplicable-6.1.1-x.1-recommended.json",
+   "sha256": "a6f82f2730ba484c51fe08577144b9ea42a2c2c48c5b5631de6e57e1a34df523",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.1.1-(*).1/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.1.1-(*).1, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-6.4-recommended",
+   "file": "members/A31-inapplicable-6.4-recommended.json",
+   "sha256": "5962f8f54634a37cf74efb0175c9bfbde135c9c3ddde9badda10bf05d40905d3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.4/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.4, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-6.5-x.1-required",
+   "file": "members/A31-inapplicable-6.5-x.1-required.json",
+   "sha256": "7862c939058ea93bf081e52a096ff2738357931b9143e459e3c42bb296b7fc77",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.5-(*).1/required",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "6.5-(*) has one entry, which lacks 6.5-(*).1."
+  },
+  {
+   "id": "A31-inapplicable-6.6-recommended",
+   "file": "members/A31-inapplicable-6.6-recommended.json",
+   "sha256": "5357ad5d2d03a489f3f25dddef935b22160ae0363b022499f8dd7a0cd47c2422",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.6/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.6, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-7.6-recommended",
+   "file": "members/A31-inapplicable-7.6-recommended.json",
+   "sha256": "67298c324fa554f107a865dc03266a40aba04f04b79cbb334521a2b43761b85b",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.6/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.6, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-7.8-recommended",
+   "file": "members/A31-inapplicable-7.8-recommended.json",
+   "sha256": "92f8cd5fc30eafff46a6aaa10d8b394a5b9d2177fc6e9ab052b4f482b6b92b87",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.8/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.8, and no condition holds."
+  },
+  {
+   "id": "A31-inapplicable-7.9-recommended",
+   "file": "members/A31-inapplicable-7.9-recommended.json",
+   "sha256": "262431c9da4192a98df221dd7bcc3ca099bcf8de684ef5eb27c1f2c0b5438680",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.9/recommended",
+     "role": "inapplicable"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.9, and no condition holds."
+  },
+  {
+   "id": "A31-satisfies-1.10-required",
+   "file": "members/A31-satisfies-1.10-required.json",
+   "sha256": "975bfe4cc3e0f6268921f3d03aece3cbb61fe57efe4ce09b7965ecf765ed54c5",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.10/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only attribution-mandated holds; the fields it makes required are present, 1.10 among them."
+  },
+  {
+   "id": "A31-satisfies-1.5-recommended",
+   "file": "members/A31-satisfies-1.5-recommended.json",
+   "sha256": "c85f39a78690b762d1281b4bb5479bc5bab19e6d097391a12964de29e39cd0ab",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.5/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.3.1/1.6.1/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.3.1/1.6.3/recommended",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.3.1/1.9/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only accessible-outside-provider holds; the fields it makes recommended are present, 1.5 among them. Only accessible-outside-provider holds; the fields it makes recommended are present, 1.6.1 among them. Only accessible-outside-provider holds; the fields it makes recommended are present, 1.6.3 among them. Only accessible-outside-provider holds; the fields it makes recommended are present, 1.9 among them."
+  },
+  {
+   "id": "A31-satisfies-1.6.4-required",
+   "file": "members/A31-satisfies-1.6.4-required.json",
+   "sha256": "dd0128ed619223d1c19daa18d9d8a1cabbefb4961a66d04e3007e121d7c75275",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.4/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only decommissioning-date-planned holds; the fields it makes required are present, 1.6.4 among them."
+  },
+  {
+   "id": "A31-satisfies-1.7.1-recommended",
+   "file": "members/A31-satisfies-1.7.1-recommended.json",
+   "sha256": "8f5c8f8c262a7aa0594d25c96018aebff6cb3f5501d00d8df8a95c4ca7e32d95",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.7.1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only obtainable-via-internet holds; the fields it makes recommended are present, 1.7.1 among them."
+  },
+  {
+   "id": "A31-satisfies-2.1-recommended",
+   "file": "members/A31-satisfies-2.1-recommended.json",
+   "sha256": "57ecd99aa395c0bf48470ab180522481827cf9c0804334d7b85ad8929bee8163",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only defined-tasks holds; the fields it makes recommended are present, 2.1 among them."
+  },
+  {
+   "id": "A31-satisfies-2.5-recommended",
+   "file": "members/A31-satisfies-2.5-recommended.json",
+   "sha256": "e922a30c6cc1350038c9bcb37cc2592250762cf56e0c3d75d98a06e1014ecc8f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.5/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only known-ill-suited-uses holds; the fields it makes recommended are present, 2.5 among them."
+  },
+  {
+   "id": "A31-satisfies-3-required",
+   "file": "members/A31-satisfies-3-required.json",
+   "sha256": "6c93ff8e091065775bc141d2a6c2946e6dc69fb4f641db73ab9f04d0bf94df80",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3/required",
+     "role": "satisfies"
+    },
+    {
+     "rule": "table-a.3.1/3.1/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only accessible-outside-under-terms holds; the fields it makes required are present, 3 among them. Only accessible-outside-under-terms holds; the fields it makes required are present, 3.1 among them."
+  },
+  {
+   "id": "A31-satisfies-3.2-recommended",
+   "file": "members/A31-satisfies-3.2-recommended.json",
+   "sha256": "2e8f738d9a2b67e1cb1517f43dabc0f6f04e69df04c9d726a0a86ed9803854f8",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.2/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only payments-required holds; the fields it makes recommended are present, 3.2 among them."
+  },
+  {
+   "id": "A31-satisfies-3.3-recommended",
+   "file": "members/A31-satisfies-3.3-recommended.json",
+   "sha256": "39717ef8d65b16d34ed4476cb65013977cd400727bcb4d74f1afbd885feebad2",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.3/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only other-interest-holders holds; the fields it makes recommended are present, 3.3 among them."
+  },
+  {
+   "id": "A31-satisfies-5.2-x.1-recommended",
+   "file": "members/A31-satisfies-5.2-x.1-recommended.json",
+   "sha256": "65063f8a8a56c2ced4cf2c43a51340de77e82bedf87a77e8725d674bda8df394",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/5.2-(*).1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only multi-stage-training holds; the fields it makes recommended are present, 5.2-(*).1 among them."
+  },
+  {
+   "id": "A31-satisfies-6.1.1-x.1-recommended",
+   "file": "members/A31-satisfies-6.1.1-x.1-recommended.json",
+   "sha256": "87561c9b7ab19029b6d4054c530c225199da07b60c920d06c835bbc37e0f49ba",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.1.1-(*).1/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only multiple-evaluation-types holds; the fields it makes recommended are present, 6.1.1-(*).1 among them."
+  },
+  {
+   "id": "A31-satisfies-6.4-recommended",
+   "file": "members/A31-satisfies-6.4-recommended.json",
+   "sha256": "eb957f2602f14c3f53bb87fed4cfc3ba2c4c76bb285f6eb870377da03c973535",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.4/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only non-obvious-performance-limitations holds; the fields it makes recommended are present, 6.4 among them."
+  },
+  {
+   "id": "A31-satisfies-6.5-x.1-required",
+   "file": "members/A31-satisfies-6.5-x.1-required.json",
+   "sha256": "24807cf185ee0ff05ffceef77764e3b611a5fde82b64872950b96523ca85c720",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.5-(*).1/required",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "6.5-(*) has 2 entries, each with 6.5-(*).1."
+  },
+  {
+   "id": "A31-satisfies-6.6-recommended",
+   "file": "members/A31-satisfies-6.6-recommended.json",
+   "sha256": "68c34205367c4cdca437315bcb17b5fe3dde6cc0dccd5429d379c633ee8bc29d",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.6/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only documented-negative-impacts holds; the fields it makes recommended are present, 6.6 among them."
+  },
+  {
+   "id": "A31-satisfies-7.6-recommended",
+   "file": "members/A31-satisfies-7.6-recommended.json",
+   "sha256": "26f736d71a0b9a97a5f4f2f37e9dd62b24337e192564a2fb1e3f40f65845083f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.6/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only in-use-before-this-version holds; the fields it makes recommended are present, 7.6 among them."
+  },
+  {
+   "id": "A31-satisfies-7.8-recommended",
+   "file": "members/A31-satisfies-7.8-recommended.json",
+   "sha256": "47db9d11e65a40a464f9dc8c524fa8864ce67cd2fade7dbc333125c4394e7717",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.8/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only deploy-and-operate-planned holds; the fields it makes recommended are present, 7.8 among them."
+  },
+  {
+   "id": "A31-satisfies-7.9-recommended",
+   "file": "members/A31-satisfies-7.9-recommended.json",
+   "sha256": "eee6c7c258eaab98303200b85689b854c848be20057351c4a73dc462e1045c48",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "met"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.9/recommended",
+     "role": "satisfies"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Only ongoing-support-planned holds; the fields it makes recommended are present, 7.9 among them."
+  },
+  {
+   "id": "A31-violates-1-required",
+   "file": "members/A31-violates-1-required.json",
+   "sha256": "b367416ecc11577ffdf0f8d6b6c2697fcc4fb6e5d461b09d0bd288d2f1576595",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.1-recommended",
+   "file": "members/A31-violates-1.1-recommended.json",
+   "sha256": "360148c7ec5ac916bfc387dce09e2f5afc2820e95f8d83db8d08b71d1375fda3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.10-required",
+   "file": "members/A31-violates-1.10-required.json",
+   "sha256": "831136a97919bef7b7e559559fbc1562465f676f42b7286fa769d47b0d59c1fa",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.10/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.10 while attribution-mandated holds."
+  },
+  {
+   "id": "A31-violates-1.12-required",
+   "file": "members/A31-violates-1.12-required.json",
+   "sha256": "32ccefe16ac3aaf2328457d1c4e6ae7dc3ca488fff76725d3ce54d36adaa9ca5",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.12/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.12, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.2-required",
+   "file": "members/A31-violates-1.2-required.json",
+   "sha256": "4575b45d758ac0ee2c877b245a06156e3e75a367bdbc2af965059d3873c1d4f7",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.2/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.2, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.3-recommended",
+   "file": "members/A31-violates-1.3-recommended.json",
+   "sha256": "cbef9ce86c62309bfa2ceedd58e5e69858ce8bc627040f7d5914dbd165870551",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.3, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.3.1-recommended",
+   "file": "members/A31-violates-1.3.1-recommended.json",
+   "sha256": "988ce8959e0b6c467b4b91393c8f6c7b88bfa25b7bd8bcce23be7068dad9fa17",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.3.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.3.1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-1.5-recommended",
+   "file": "members/A31-violates-1.5-recommended.json",
+   "sha256": "024f5d51406f9c9776fb2eb6e2db226fc08bf782b354bacf345ba0fbea00aa6c",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.5/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.5 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A31-violates-1.6.1-recommended",
+   "file": "members/A31-violates-1.6.1-recommended.json",
+   "sha256": "17833668d84682f04615c2fd24ed78dfd953a756c959b8f3b5ecbeceda5a4a88",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.1 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A31-violates-1.6.3-recommended",
+   "file": "members/A31-violates-1.6.3-recommended.json",
+   "sha256": "667666fb624ec000ef4a2253e2c0a73c95e4bd0ab19cb7cb8f22c915c3abc4fd",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.3 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A31-violates-1.6.4-required",
+   "file": "members/A31-violates-1.6.4-required.json",
+   "sha256": "c2d2f5b84550c936cba3aef43f9ce0be29c5316f895d8502e8e020af09a58311",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.6.4/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.6.4 while decommissioning-date-planned holds."
+  },
+  {
+   "id": "A31-violates-1.7.1-recommended",
+   "file": "members/A31-violates-1.7.1-recommended.json",
+   "sha256": "c74ae62b45dfa1184cbfbe83478d8cb4cfb229740d98e9f4a60c9caaeb69d957",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.7.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.7.1 while obtainable-via-internet holds."
+  },
+  {
+   "id": "A31-violates-1.9-recommended",
+   "file": "members/A31-violates-1.9-recommended.json",
+   "sha256": "b30ad27d70b195d4b476b46700f5d2467c0150258735c93971e8a16467052fcf",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/1.9/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 1.9 while accessible-outside-provider holds."
+  },
+  {
+   "id": "A31-violates-2-recommended",
+   "file": "members/A31-violates-2-recommended.json",
+   "sha256": "a90f7cd6475525562c246345a643b897a350c17adcd678a4bba47276444d6b5e",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 2, and no condition holds."
+  },
+  {
+   "id": "A31-violates-2.1-recommended",
+   "file": "members/A31-violates-2.1-recommended.json",
+   "sha256": "2764aa000ddf5d45816c46d80557dd4a3601e354b3e073fc021a87f371bf081f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 2.1 while defined-tasks holds."
+  },
+  {
+   "id": "A31-violates-2.5-recommended",
+   "file": "members/A31-violates-2.5-recommended.json",
+   "sha256": "eeed0ad841de1845b5cde46282e9cb36125873badbc834976fff4c2f9dd75dc3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/2.5/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 2.5 while known-ill-suited-uses holds."
+  },
+  {
+   "id": "A31-violates-3-required",
+   "file": "members/A31-violates-3-required.json",
+   "sha256": "1c15c23bd318cc127c82264a7b963d931c897d0284db4c7ff57120ddced23156",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3 while accessible-outside-under-terms holds."
+  },
+  {
+   "id": "A31-violates-3.1-required",
+   "file": "members/A31-violates-3.1-required.json",
+   "sha256": "c4485febcc0bdcca1b03b66187aacf26619e50e27641ff2fdd1c95e7e18de4cc",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.1 while accessible-outside-under-terms holds."
+  },
+  {
+   "id": "A31-violates-3.2-recommended",
+   "file": "members/A31-violates-3.2-recommended.json",
+   "sha256": "11a3a7f40a065acd65d0804998b26c1f82258371214d80a32621929bbaadbe25",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.2 while payments-required holds."
+  },
+  {
+   "id": "A31-violates-3.3-recommended",
+   "file": "members/A31-violates-3.3-recommended.json",
+   "sha256": "66c188acc0bd16706c94885d2a88b926d27295a0e37c2f17713578dcd243f0e9",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/3.3/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 3.3 while other-interest-holders holds."
+  },
+  {
+   "id": "A31-violates-4-recommended",
+   "file": "members/A31-violates-4-recommended.json",
+   "sha256": "6fce4391f51e013e210571c46c34e73782b31604eac01f20454c93c0089ba0d8",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/4/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 4, and no condition holds."
+  },
+  {
+   "id": "A31-violates-5-recommended",
+   "file": "members/A31-violates-5-recommended.json",
+   "sha256": "80c0b5111da1c15a0f75a3539b0e8226dc4fcd8dbb648a674bb0fe25f76bd9b1",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/5/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 5, and no condition holds."
+  },
+  {
+   "id": "A31-violates-5.2-x-recommended",
+   "file": "members/A31-violates-5.2-x-recommended.json",
+   "sha256": "40dbcbbac5c77ad33bb9b783ef2803d6ec0475bd8420eb8ff500fe9d47ed6fc3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/5.2-(*)/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 5.2-(*), and no condition holds."
+  },
+  {
+   "id": "A31-violates-5.2-x.1-recommended",
+   "file": "members/A31-violates-5.2-x.1-recommended.json",
+   "sha256": "a2270c3eb4d03ddfb8495ac8a14d08652131810d6408ba980da4572edd035670",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/5.2-(*).1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 5.2-(*).1 while multi-stage-training holds."
+  },
+  {
+   "id": "A31-violates-6-recommended",
+   "file": "members/A31-violates-6-recommended.json",
+   "sha256": "edde4e467fb28c90d65f99d28a4ac157f68382bf5ae4cb1135127605670362c9",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6, and no condition holds."
+  },
+  {
+   "id": "A31-violates-6.1-recommended",
+   "file": "members/A31-violates-6.1-recommended.json",
+   "sha256": "1a65b62c26e7fb2e1b2cdd10d766425fce1e8598a1de560ef708bd66e47780b7",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-6.1.1-x-recommended",
+   "file": "members/A31-violates-6.1.1-x-recommended.json",
+   "sha256": "f8e3fdd8e1500acf56b0e115f75c63b0a7e69d59c12335efb05ea3412a5f6c25",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.1.1-(*)/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.1.1-(*), and no condition holds."
+  },
+  {
+   "id": "A31-violates-6.1.1-x.1-recommended",
+   "file": "members/A31-violates-6.1.1-x.1-recommended.json",
+   "sha256": "d2707196556b22b263b2d70e82c9b99ef905e4f3fadf73eb5e0f46be739b8a16",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.1.1-(*).1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.1.1-(*).1 while multiple-evaluation-types holds."
+  },
+  {
+   "id": "A31-violates-6.4-recommended",
+   "file": "members/A31-violates-6.4-recommended.json",
+   "sha256": "5e2952d0694665485401357175dbd4de8163fa45e944c18cebf7ce6cd35166d1",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.4/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.4 while non-obvious-performance-limitations holds."
+  },
+  {
+   "id": "A31-violates-6.5-x-recommended",
+   "file": "members/A31-violates-6.5-x-recommended.json",
+   "sha256": "bcf881c168a7c065397fc32e0b052e280d00d32e56af9449b316c3415eca837a",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.5-(*)/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.5-(*), and no condition holds."
+  },
+  {
+   "id": "A31-violates-6.5-x.1-required",
+   "file": "members/A31-violates-6.5-x.1-required.json",
+   "sha256": "d21c9d73608d78bcdba1c7b90a4bd1ba4efb71dea868f5d0ad144166b41cc42c",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.5-(*).1/required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "6.5-(*) has 2 entries and the second lacks 6.5-(*).1."
+  },
+  {
+   "id": "A31-violates-6.6-recommended",
+   "file": "members/A31-violates-6.6-recommended.json",
+   "sha256": "f3f3c916b38122831cb37b5c346da9875db5ac863234db444a43fb71d4703b2b",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/6.6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 6.6 while documented-negative-impacts holds."
+  },
+  {
+   "id": "A31-violates-7-recommended",
+   "file": "members/A31-violates-7-recommended.json",
+   "sha256": "aaa0cd4fbd29b5e400d6810dd35554c3a665fa89804358e28fd28b89ae389356",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7, and no condition holds."
+  },
+  {
+   "id": "A31-violates-7.1-recommended",
+   "file": "members/A31-violates-7.1-recommended.json",
+   "sha256": "9310e348215fb16eb78548b5a8f164607111f4d950308c0d10ff81461c418f76",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-7.6-recommended",
+   "file": "members/A31-violates-7.6-recommended.json",
+   "sha256": "5f1e2eeed747a4beaf76c5ad3b71baf80f4a932cbb419f20ef50b9a349e773c3",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.6/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.6 while in-use-before-this-version holds."
+  },
+  {
+   "id": "A31-violates-7.7-recommended",
+   "file": "members/A31-violates-7.7-recommended.json",
+   "sha256": "66dcc308e506fc783b5ba934ee81306c68a11d317b0eb3535b6dfb61a930386a",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.7/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.7, and no condition holds."
+  },
+  {
+   "id": "A31-violates-7.8-recommended",
+   "file": "members/A31-violates-7.8-recommended.json",
+   "sha256": "a08ccb3ab593bf4b2692bcff3e574455018c21f791f1842c25be9de7ce6764a1",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.8/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.8 while deploy-and-operate-planned holds."
+  },
+  {
+   "id": "A31-violates-7.9-recommended",
+   "file": "members/A31-violates-7.9-recommended.json",
+   "sha256": "9ac0fc79f05296ff20a044f8d6c83d3b86db955b44f3d4670bfa3457ba2f4e17",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/7.9/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 7.9 while ongoing-support-planned holds."
+  },
+  {
+   "id": "A31-violates-8-recommended",
+   "file": "members/A31-violates-8-recommended.json",
+   "sha256": "45c67519dba6d7a5561ceed5aeabb0cefedb96fbb94e281aa3a2a05795c8e17f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/8/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 8, and no condition holds."
+  },
+  {
+   "id": "A31-violates-8.2-recommended",
+   "file": "members/A31-violates-8.2-recommended.json",
+   "sha256": "9f840ec06756f419d58628621fdf256214d935b75fee97292755e3ef203ec549",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/8.2/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 8.2, and no condition holds."
+  },
+  {
+   "id": "A31-violates-8.2.1-recommended",
+   "file": "members/A31-violates-8.2.1-recommended.json",
+   "sha256": "d7b6399d965dd8cb34e33c0cf3859b25f1cd98edd82beb3dd4a54d236c8877ec",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "valid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/8.2.1/recommended",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field but 8.2.1, and no condition holds."
+  },
+  {
+   "id": "A31-violates-serialization-conforms-to",
+   "file": "members/A31-violates-serialization-conforms-to.json",
+   "sha256": "7156341f82e1990aa60b6c03f16501a9692c1ec37f1a757094a73e71c7dac4b2",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/conforms-to",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but conformsTo names NIST.AI.300-1.ipd:5.2."
+  },
+  {
+   "id": "A31-violates-serialization-declare-accessible-outside-provider",
+   "file": "members/A31-violates-serialization-declare-accessible-outside-provider.json",
+   "sha256": "a11100492411b3ebccb2cba6604dbb1dc70f5848a6e4fc356c9f999b8535d315",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/accessible-outside-provider",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition accessible-outside-provider is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-accessible-outside-under-terms",
+   "file": "members/A31-violates-serialization-declare-accessible-outside-under-terms.json",
+   "sha256": "92c71ed88daff58851f7c5b72089b959fe696d08f725554387f1e58ecde34736",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/accessible-outside-under-terms",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition accessible-outside-under-terms is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-attribution-mandated",
+   "file": "members/A31-violates-serialization-declare-attribution-mandated.json",
+   "sha256": "81162af8ab6ec2173cf1e5a578b95b080f051399c7f3153e7413d31459618826",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/attribution-mandated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition attribution-mandated is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-decommissioning-date-planned",
+   "file": "members/A31-violates-serialization-declare-decommissioning-date-planned.json",
+   "sha256": "91a3f09f9f317fcff58d759e4b53585f5cfcf4fab0240f6ef6ee9b4daacf7c79",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/decommissioning-date-planned",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition decommissioning-date-planned is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-defined-tasks",
+   "file": "members/A31-violates-serialization-declare-defined-tasks.json",
+   "sha256": "38d650d1177ec384472986251a01ba70c3864a85111bc9d6c90aadafc5bd5698",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/defined-tasks",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition defined-tasks is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-deploy-and-operate-planned",
+   "file": "members/A31-violates-serialization-declare-deploy-and-operate-planned.json",
+   "sha256": "8d4782a1840fec0913d236cc38ce15f1679a137b9e5d1c121398d83f7278aa73",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/deploy-and-operate-planned",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition deploy-and-operate-planned is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-documented-negative-impacts",
+   "file": "members/A31-violates-serialization-declare-documented-negative-impacts.json",
+   "sha256": "adaf5ce46c0e0549a7ecd37aa9b43eac43dabe962ee9eeba049e2e716835287c",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/documented-negative-impacts",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition documented-negative-impacts is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-in-use-before-this-version",
+   "file": "members/A31-violates-serialization-declare-in-use-before-this-version.json",
+   "sha256": "3448ca93e1b97fcff9d3b5f87648b91af115646f07d7f64ec646a236abc49002",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/in-use-before-this-version",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition in-use-before-this-version is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-known-ill-suited-uses",
+   "file": "members/A31-violates-serialization-declare-known-ill-suited-uses.json",
+   "sha256": "5d54238067ced1fd8be124ebbc3c74bf8d0badb16375da4450d8bbc6e78063f7",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/known-ill-suited-uses",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition known-ill-suited-uses is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-multi-stage-training",
+   "file": "members/A31-violates-serialization-declare-multi-stage-training.json",
+   "sha256": "6ef0bf19f873248bd428c4852b1f99d05a148f992797ef6c64d20429d10e5e41",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/multi-stage-training",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition multi-stage-training is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-multiple-evaluation-types",
+   "file": "members/A31-violates-serialization-declare-multiple-evaluation-types.json",
+   "sha256": "764a30a09198ae517bb5ed61a926e37c4f1da103358df9cddffc2778186bbb72",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/multiple-evaluation-types",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition multiple-evaluation-types is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-non-obvious-performance-limitations",
+   "file": "members/A31-violates-serialization-declare-non-obvious-performance-limitations.json",
+   "sha256": "eadcb29535e4f9640ae9fa706f38cce22463bebd1572f0862af848c17a2808f5",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/non-obvious-performance-limitations",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition non-obvious-performance-limitations is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-obtainable-via-internet",
+   "file": "members/A31-violates-serialization-declare-obtainable-via-internet.json",
+   "sha256": "5b0dc17a9851cf83711dfa7ae853257c9ed1e0344283b6c48d5c82947f15f3b0",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/obtainable-via-internet",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition obtainable-via-internet is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-ongoing-support-planned",
+   "file": "members/A31-violates-serialization-declare-ongoing-support-planned.json",
+   "sha256": "39541f00727299d74c08768ac3ee795ef1be119bcd7909c33a7ce122d8ff6c6f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/ongoing-support-planned",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition ongoing-support-planned is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-other-interest-holders",
+   "file": "members/A31-violates-serialization-declare-other-interest-holders.json",
+   "sha256": "c1f38f68ba770c4a2336b7abf7670f5ed3b953daa4e048d98bf817dec9a19484",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/other-interest-holders",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition other-interest-holders is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-declare-payments-required",
+   "file": "members/A31-violates-serialization-declare-payments-required.json",
+   "sha256": "7585ee4c078ca334448a8d85e42c71d130934522c8c917215e48707c46497c1e",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/declare/payments-required",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-6",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but the condition payments-required is not declared."
+  },
+  {
+   "id": "A31-violates-serialization-populated",
+   "file": "members/A31-violates-serialization-populated.json",
+   "sha256": "f96121b9b358cfab69833aeaa367633935e7e8d47a2d560399e943241d904b4f",
+   "table": "table-a.3.1",
+   "expected": {
+    "conformance": "invalid",
+    "recommended": "unmet"
+   },
+   "roles": [
+    {
+     "rule": "table-a.3.1/serialization/populated",
+     "role": "violates"
+    }
+   ],
+   "binds": [
+    "clause-5.1",
+    "table-a.3.1"
+   ],
+   "why": "Every field, but Terminology is present and empty."
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "conformsTo": "NIST.AI.300-1.ipd:A.3",
+ "conditions": {
+  "accessible-outside-provider": false,
+  "accessible-outside-under-terms": false,
+  "attribution-mandated": false,
+  "decommissioning-date-planned": true,
+  "defined-tasks": false,
+  "deploy-and-operate-planned": false,
+  "documented-negative-impacts": false,
+  "in-use-before-this-version": false,
+  "known-ill-suited-uses": false,
+  "multi-stage-training": false,
+  "multiple-evaluation-types": false,
+  "non-obvious-performance-limitations": false,
+  "obtainable-via-internet": false,
+  "ongoing-support-planned": false,
+  "other-interest-holders": false,
+  "payments-required": false
+ },
+ "fields": {
+  "1": {
+   "name": "Identifying Descriptors",
+   "content": "Example Identifying Descriptors.",
+   "subfields": {
+    "1.2": {
+     "name": "Description",
+     "content": "Example Description."
+    },
+    "1.6": {
+     "name": "Version Information",
+     "content": "Example Version Information.",
+     "subfields": {
+      "1.6.4": {
+       "name": "Decommissioning Date",
+       "content": "Example Decommissioning Date."
+      }
+     }
+    },
+    "1.12": {
+     "name": "Documentation Version Identifier",
+     "content": "Example Documentation Version Identifier."
+    }
+   }
+  }
+ }
+}
