@@ -1,0 +1,11 @@
+{
+  "verdict": "invalid",
+  "reason": "deny verdict carries response commitment",
+  "field": "verdict/response_hash",
+  "detail": "verdict=block but response body is not a block envelope {blocked:true,...}",
+  "checks": [
+    "structure:30-fields",
+    "signature:ed25519-valid",
+    "cross-field:verdict-response-INCONSISTENT"
+  ]
+}

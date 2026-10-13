@@ -1,0 +1,11 @@
+{
+  "verdict": "invalid",
+  "reason": "sandbox flag not bound to principal",
+  "field": "runtime_context.runtime.sandbox",
+  "detail": "sandbox=true but issuer/principal indicates production environment",
+  "checks": [
+    "structure:30-fields",
+    "signature:ed25519-valid",
+    "cross-field:sandbox-flag-mismatch"
+  ]
+}

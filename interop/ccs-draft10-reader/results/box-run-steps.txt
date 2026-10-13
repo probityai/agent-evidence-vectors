@@ -1,0 +1,20 @@
+STEP clone
+CORPUS_COMMIT c848faeade7a2ad9d211cf065e0e1ef415b4a3e7
+CORPUS_TREE 5da3c1520b5a78b342c4c60f0f1e93f2ddf6bd6e (at effff90f231d11bb3be93d3d0d0792f36934cc78: 5da3c1520b5a78b342c4c60f0f1e93f2ddf6bd6e)
+STEP venv
+PY 3.12.3 cryptography 50.0.2
+STEP jcs-admit
+name = "jcs-admit" version = "0.1.0" source = "registry+https://github.com/rust-lang/crates.io-index" 
+{"a":[1e+21,0,"é"],"b":1}
+STEP run1
+{"manifest_cases": 66, "on_disk_cases": 66, "manifest_equals_disk": true, "reading_a_matches_expected": 60, "reading_b_matches_expected": 37}
+STEP run2
+{"manifest_cases": 66, "on_disk_cases": 66, "manifest_equals_disk": true, "reading_a_matches_expected": 60, "reading_b_matches_expected": 37}
+STEP compare
+003b4889329eb3ad81f409b1bae201002f41add9120f9d6c8c2a5486f5ed463c  cases.jsonl
+6b4c890ba445e3be8eecbbc831b0a88ac7ca6b48f3de5076400679d4b902aa3b  summary.json
+0e660e944ba914a61a3cd2fcc1b7543b77233ae347de3257f7e84824e8f94005  controls.json
+003b4889329eb3ad81f409b1bae201002f41add9120f9d6c8c2a5486f5ed463c  cases.jsonl
+6b4c890ba445e3be8eecbbc831b0a88ac7ca6b48f3de5076400679d4b902aa3b  summary.json
+0e660e944ba914a61a3cd2fcc1b7543b77233ae347de3257f7e84824e8f94005  controls.json
+REPLAY_IDENTICAL yes

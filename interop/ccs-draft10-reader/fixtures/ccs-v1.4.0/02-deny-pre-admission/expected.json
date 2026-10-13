@@ -1,0 +1,18 @@
+{
+  "verdict": "valid",
+  "checks": [
+    "structure:30-fields",
+    "signature:ed25519-valid",
+    "hash:response_hash-matches",
+    "hash:request_hash-matches",
+    "hash:args_digest-matches",
+    "hash:params_hash-matches",
+    "hash:runtime_context_hash-matches",
+    "hash:config_hash-matches",
+    "timestamp:valid-instant",
+    "cross-field:expires_at>=issued_at",
+    "cross-field:fingerprint-matches",
+    "cross-field:verdict-response-consistent",
+    "cross-field:block-envelope-present"
+  ]
+}

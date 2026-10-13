@@ -1,0 +1,8 @@
+{
+  "verdict": "valid",
+  "checks": [
+    "structure:15-fields",
+    "signature:ed25519",
+    "l2:linked-l1-digest-matches"
+  ]
+}

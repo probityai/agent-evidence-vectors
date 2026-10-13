@@ -1031,6 +1031,23 @@ DELEGATED: tuple[Delegated, ...] = (
            r'\("\d+", "prior_verdict_permit"\), \("\d+", "prev_core_digest_mismatch"\)'),
           ("test_aae_binding.py", r"\d+/\d+ vectors reproduced, \d+/\d+ cases"),
       )),
+    # The CCS draft-10 reader package. Its ratios are what the reader measured
+    # over the pinned CCS v1.4.0 corpus (receipts, cases, hops), not this
+    # corpus. test_ccs_reader.py reruns the reader on the vendored bytes and
+    # asserts each figure against the committed results.
+    *(Delegated("interop/ccs-draft10-reader/README.md",
+                "CCS v1.4.0 reader tallies over receipts, cases and hops", pattern,
+                "interop/ccs-draft10-reader/test_ccs_reader.py")
+      for pattern in (
+          r"verifies \d+ of \d+",
+          r"bytes for \d+ of \d+",
+          r"agrees with the corpus on \d+ of \d+ cases",
+          r"in \d+ of \d+ receipts",
+          r"`args_digest` in \d+ of \d+",
+          r"\d+ of \d+ receipts use that form",
+          r"matches in \d+ of \d+ once",
+          r"in \d+ of \d+ hops",
+      )),
     # The AgentID action_ref v2 recompute prints its own tallies; the reader
     # exits nonzero unless every upstream check and domain case holds, and
     # test_reader.py asserts the two totals.

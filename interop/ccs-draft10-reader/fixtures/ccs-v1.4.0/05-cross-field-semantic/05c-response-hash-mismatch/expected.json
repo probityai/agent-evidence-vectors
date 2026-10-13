@@ -1,0 +1,12 @@
+{
+  "verdict": "invalid",
+  "reason": "response_hash does not match response body",
+  "field": "response_hash",
+  "declared_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "actual_hash": "e1d379b2b424efcb814f74279885ef032ff9512d14ed27303ddd2c92795dfda6",
+  "checks": [
+    "structure:30-fields",
+    "signature:ed25519-valid",
+    "hash:response_hash-MISMATCH"
+  ]
+}

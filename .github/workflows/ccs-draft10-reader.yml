@@ -1,0 +1,35 @@
+name: CCS draft-10 reader
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths: ['interop/ccs-draft10-reader/**', '.github/workflows/ccs-draft10-reader.yml']
+  push:
+    branches: [main]
+    paths: ['interop/ccs-draft10-reader/**', '.github/workflows/ccs-draft10-reader.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.12'
+      - name: install the Rust toolchain the jcs-admit cross-check builds with
+        run: |
+          rustup toolchain install 1.90.0 --profile minimal
+          echo "RUSTUP_TOOLCHAIN=1.90.0" >> "$GITHUB_ENV"
+      - name: install the pinned reader dependencies
+        run: python -m pip install -r interop/ccs-draft10-reader/requirements.txt ruff==0.16.0
+      - name: lint the reader
+        run: ruff check interop/ccs-draft10-reader
+      - name: rerun the reader twice and compare every output with the committed results
+        run: python -m pytest -q interop/ccs-draft10-reader/test_ccs_reader.py
