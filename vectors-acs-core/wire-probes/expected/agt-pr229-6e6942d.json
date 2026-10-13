@@ -1,0 +1,33 @@
+{
+  "guardian": "GenAI-Security-Project/agent-control-standard reference-implementations/agt",
+  "ref": "6e6942deb8393e15916976b95e3bd18b97071b62",
+  "note": "pull request 229 head after the handshake, replay-capacity and signing-block fixes; a FAIL here is an open finding, not a harness error",
+  "status": {
+    "C0": "PASS",
+    "D1a": "PASS",
+    "D1b": "PASS",
+    "D1c": "PASS",
+    "D2a": "PASS",
+    "D2b": "FAIL",
+    "D3a": "PASS",
+    "D3b": "PASS",
+    "D3c": "PASS",
+    "D4a": "PASS",
+    "D4b": "PASS",
+    "D4c": "FAIL",
+    "D5": "PASS",
+    "D6a": "PASS",
+    "D6b": "PASS",
+    "D6c": "PASS",
+    "D6d": "PASS",
+    "D7-sessionStart": "PASS",
+    "D7-userMessage": "PASS",
+    "D7-agentResponse": "PASS",
+    "D7-sessionEnd": "PASS",
+    "D8": "PASS",
+    "D10": "PASS",
+    "D2c": "FAIL",
+    "D11a": "PASS",
+    "D11b": "PASS"
+  }
+}
