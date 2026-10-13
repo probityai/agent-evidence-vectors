@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.6.0
+Version: 0.6.1
 
 Predicate Name: Observed Effect
 
@@ -267,11 +267,23 @@ gates themselves are normative. Stage one is byte-pure and every step is a
 consumption precondition: statement well-formedness including the closed
 vocabularies, the I-JSON integer bound, the timestamp grammar, the predicate
 type, the subject binding and the path forms; the `mutation` coherence recompute;
-the `tier` recompute; the read- and write-binding integrity rules; and the
-self-recompute of any `dualValues` fact the statement determines. Stage two is
-trust-relative: the envelope signature, then the prior-commitment signature
-against consumer key policy, then the disjointness and ordering checks under
-[`observation`], then the rest of consumer policy.
+the write chain and the read-binding integrity rules; the commitment digest
+recompute and the spelling of every key identifier and of `priorCommitment.sig`;
+and the self-recompute of any `dualValues` fact the statement determines. Stage
+two judges a well-formed statement's claims: the envelope signature, then the
+prior-commitment signature against consumer key policy, then the ordering and
+disjointness checks under [`observation`], then the `inScope` label on every
+`writes` member and the refusal of an out-of-scope write in an authoritative
+record, then the `tier` recompute and the rows requirement on an authoritative
+record, then the rest of consumer policy, including the code identity join.
+
+**A refusal in stage one is `malformed` and a refusal in stage two is
+`invalid`.** The one exception is a signature whose bytes cannot be decoded at
+all, which is `malformed` in either stage, because there is no signature to
+judge. Where a sentence in this document says a verifier MUST refuse or reject a
+statement and names no word, the word is the one this rule assigns to the stage
+that sentence's gate belongs to, and every sentence that does name a word names
+that one.
 
 **Every timestamp in the statement is RFC 3339 UTC with the `Z` designator and no
 fractional second**, and a verifier MUST refuse any other spelling. The rule
@@ -1039,6 +1051,16 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.6.1 names the verdict word for every refusal and changes no verdict. The
+document fixed the word by stage only in its reference verifiers: many of its
+MUST-refuse sentences named no word, and its list of stage-one gates included the
+`tier` recompute and the `inScope` label, whose refusals every verifier and every
+corpus member already called `invalid`. A reader written from the sentences alone
+said `refused` on 22 reject members of `vectors-observed-effect/` at `e6f1784f`
+that the manifest calls `malformed` or `invalid` (#29). The stage lists now match the verifiers
+and a rule under [Parsing Rules] maps each stage to its word, so that reader
+reaches the manifest's word from the text.
 
 0.6.0 fixes the spelling of `priorCommitment.sig` as 128 lowercase
 hexadecimal characters and adds the stage-one rule that refuses any other
