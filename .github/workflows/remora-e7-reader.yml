@@ -56,3 +56,27 @@ jobs:
           path: .build/remora-e7-result
           if-no-files-found: error
           retention-days: 90
+
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13.15'
+      - name: Install pinned control dependencies
+        run: python -m pip install pytest==8.4.2 hypothesis==6.168.3
+      - name: Test frozen bytes and refusal paths on Windows
+        run: python -m pytest -q scripts/remora-e7-reader-test.py
+      - name: Run the reader against the packaged upstream on Windows
+        working-directory: packaging
+        shell: bash
+        run: >-
+          python -m agent_evidence_vectors.remora_e7.run
+          --output ../.build/remora-e7-result-windows
+          --reader-revision "${{ github.event.pull_request.head.sha || github.sha }}"
+          --operator EXTERNAL
+          --run-ref https://probityai.github.io/agent-evidence-atlas/lab.html

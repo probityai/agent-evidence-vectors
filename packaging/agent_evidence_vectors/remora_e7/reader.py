@@ -5,14 +5,16 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 LOGGER = logging.getLogger(__name__)
 CONTRACT = "runtime-surface-e7-v0.1"
 REVISION = "e4fe474f488c3047b346abb01cbfd77ab447ad69"
 PACKAGE_DIGEST = "sha256:01dfdb7885bdbb18c025bc013edc28b482b0631ae282aca877bd0953b865e4bf"
-PACKAGE_PATH = Path("artifacts/interop") / CONTRACT
+# Manifest member paths are POSIX strings, so the keys built from this path must be too:
+# a native Path joins with backslashes on Windows and no member would match.
+PACKAGE_PATH = PurePosixPath("artifacts/interop") / CONTRACT
 SURFACE_CLAIM = "bounded_observed_surface_matches_governed_set"
 GLOBAL_PROPERTY = {"id": "runtime_capability_surface_completeness", "status": "NOT_ESTABLISHED"}
 

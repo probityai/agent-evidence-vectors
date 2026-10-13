@@ -174,6 +174,25 @@ assert not run_package(Path(sys.argv[1]))['failures']
             assert result.returncode == 0, result.stderr
 
 
+class TestWindowsPaths:
+    def test_member_keys_stay_posix_under_a_windows_path_flavour(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        import importlib
+        import pathlib
+
+        import agent_evidence_vectors.remora_e7.reader as reader
+
+        monkeypatch.setattr(pathlib, "Path", pathlib.PureWindowsPath)
+        try:
+            fresh = importlib.reload(reader)
+            key = str(fresh.PACKAGE_PATH / "fixtures.json")
+        finally:
+            monkeypatch.undo()
+            importlib.reload(reader)
+        assert key == "artifacts/interop/runtime-surface-e7-v0.1/fixtures.json"
+
+
 class TestEntryPoint:
     def test_packaged_upstream_is_the_default(self, tmp_path: Path) -> None:
         out = tmp_path / "result"
