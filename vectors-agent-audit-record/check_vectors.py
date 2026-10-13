@@ -200,27 +200,35 @@ def _swapped_rule(name: str, replacement: Rule) -> Iterator[None]:
 
 
 @contextlib.contextmanager
-def _narrowed(attribute: str, key: str | None, values: frozenset[str]) -> Iterator[None]:
-    holder = auditrecord.VOCABULARIES if key is not None else vars(auditrecord)
-    slot = key if key is not None else attribute
-    original = holder[slot]
-    holder[slot] = values
+def _narrowed_inputs(values: frozenset[str]) -> Iterator[None]:
+    original = auditrecord.UNAVAILABLE_INPUTS
+    auditrecord.UNAVAILABLE_INPUTS = values
     try:
         yield
     finally:
-        holder[slot] = original
+        auditrecord.UNAVAILABLE_INPUTS = original
+
+
+@contextlib.contextmanager
+def _narrowed_vocabulary(path: str, values: frozenset[str]) -> Iterator[None]:
+    original = auditrecord.VOCABULARIES[path]
+    auditrecord.VOCABULARIES[path] = values
+    try:
+        yield
+    finally:
+        auditrecord.VOCABULARIES[path] = original
 
 
 #: Each weakened reading, and the members that must catch it and no others.
 SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager[None]], str]] = [
     (
         "unavailableInput known only as standing-source",
-        lambda: _narrowed("UNAVAILABLE_INPUTS", None, frozenset({"standing-source"})),
+        lambda: _narrowed_inputs(frozenset({"standing-source"})),
         "A12,A13,A14",
     ),
     (
         "oversight.act known only as check",
-        lambda: _narrowed("VOCABULARIES", "oversight.act", frozenset({"check"})),
+        lambda: _narrowed_vocabulary("oversight.act", frozenset({"check"})),
         "A15,A16,A17",
     ),
     (
