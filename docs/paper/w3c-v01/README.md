@@ -146,8 +146,9 @@ prints the sha256 of `results.json`. The recorded run is in
 `695e664deab4b36bd6794b1d101780bdbced6d1e3af9a7f15ebad9855ee930b5`), made on
 2026-10-13 with CPython 3.13.15 on Linux x86_64; the Rust binary built from
 v0.18.1 (commit `33d545104ff2f8c124cff465c96c013eeb809156`) had sha256
-`bd89ad2fbe7d704d5c67689523c52203bb92c011f9e4b067c400ad1ca7a7e383` on three
-separate builds.
+`bd89ad2fbe7d704d5c67689523c52203bb92c011f9e4b067c400ad1ca7a7e383` on four
+separate builds. A later run of the script exactly as committed here wrote the
+same `results.json` bytes.
 
 | Base | Case | Variable changed | v0.1 says | Python, store supplied | Python, no store; Rust | Claim status | Output same as base |
 | --- | --- | --- | --- | --- | --- | --- | --- |
