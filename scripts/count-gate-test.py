@@ -304,6 +304,38 @@ def remove_first_statement(root: Path) -> None:
     target.unlink()
 
 
+def flip_w3c_selected_accept(root: Path) -> None:
+    """Relabel one accept member of the w3c-report section 10 selection as reject.
+
+    This is the shape of the v0.18.0 change in reverse: the selection keeps its
+    size and its split moves. The README sentence has to fail when the manifest
+    moves under it, not only when somebody retypes the sentence.
+    """
+    rel = "vectors-w3c-report/MANIFEST.json"
+
+    def flip(text: str) -> str:
+        manifest = json.loads(text)
+        agreed = {row["id"] for row in manifest["requirements"] if row.get("status") == "agreed"}
+        for entry in manifest["vectors"]:
+            if (
+                entry["subjectType"] == "report"
+                and entry["kind"] == "accept"
+                and all(req in agreed for req in entry["requirements"])
+            ):
+                entry["kind"] = "reject"
+                # Keep the manifest's own tally true, so the integrity check
+                # passes and the claim check is what has to refuse.
+                manifest["counts"]["accept"] -= 1
+                manifest["counts"]["reject"] += 1
+                return json.dumps(manifest, indent=2)
+        raise SystemExit(
+            f"test setup: {rel} has no selected accept member, so this case would "
+            "assert nothing. Fix the case, never the gate."
+        )
+
+    revise(root, rel, flip)
+
+
 # The sentences a case expects back name figures too, and one that quotes the
 # right figure rots exactly as fast as a mutation that quotes it. These are read
 # from the manifest the staged copy is copied from, so they are the same figures
@@ -349,6 +381,39 @@ CLAIM_CASES: list[Case] = [
             ),
         ),
         ("the Gemara profile case count says",),
+    ),
+    (
+        "the w3c-report README's section 10 reject figure is retyped",
+        lambda root: retype(
+            root,
+            "vectors-w3c-report/README.md",
+            r"The section 10 selection is \d+ members, (\d+) to reject",
+        ),
+        ("the section 10 selection and its split says",),
+    ),
+    (
+        "the w3c-report selection split moves and the README does not",
+        flip_w3c_selected_accept,
+        ("the section 10 selection and its split says",),
+    ),
+    (
+        "the w3c-report README says the split stays when it moved",
+        lambda root: reword(
+            root,
+            "vectors-w3c-report/README.md",
+            r"The section 10 selection is \d+ members,",
+            "The section 10 selection stays the same size,",
+        ),
+        ("the section 10 selection and its split", "was found 0 time(s)"),
+    ),
+    (
+        "the w3c-report split before v0.18.0 is made to track the manifest",
+        lambda root: retype(
+            root,
+            "vectors-w3c-report/README.md",
+            r"but (\d+) to reject and \d+ to accept, at",
+        ),
+        ("the section 10 split before v0.18.0",),
     ),
     (
         "the Gemara historic author result is retyped",

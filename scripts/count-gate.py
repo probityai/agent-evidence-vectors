@@ -150,6 +150,7 @@ accounted for; 1 on any disagreement, naming each one.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
 import sys
@@ -831,6 +832,41 @@ def reply_claims(src: Sources) -> tuple[Claim, ...]:
     )
 
 
+W3C_REPORT_DIR = "vectors-w3c-report"
+
+
+def w3c_selection_claims() -> tuple[Claim, ...]:
+    """The section 10 selection the w3c-report README states, by the generator's rule.
+
+    The README restates the split INDEX.md prints, by hand. At v0.18.0 it said
+    the selection "stays" 41 to reject and 124 to accept, in the release that
+    moved 42 members from reject to accept; the split before that release was
+    83 and 82, so "stays" was true of the size and false of the split. The
+    split is read here from the manifest by the same selection() the generator
+    renders INDEX.md with, so the rule has one implementation and the README
+    sentence fails here the day the manifest's split moves.
+    """
+    spec = importlib.util.spec_from_file_location(
+        "w3c_report_gen_vectors", source(f"{W3C_REPORT_DIR}/gen_vectors.py")
+    )
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"cannot load {W3C_REPORT_DIR}/gen_vectors.py")
+    generator = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(generator)
+    manifest = json.loads(source(f"{W3C_REPORT_DIR}/MANIFEST.json").read_text(encoding="utf-8"))
+    chosen = generator.selection(manifest)["selected"]
+    total = chosen["reject"] + chosen["accept"]
+    return (
+        Claim(
+            f"{W3C_REPORT_DIR}/README.md",
+            "the section 10 selection and its split",
+            "The section 10 selection is ",
+            " to accept.",
+            f"{total} members, {chosen['reject']} to reject and {chosen['accept']}",
+        ),
+    )
+
+
 def claims(src: Sources) -> tuple[Claim, ...]:
     """Every live count this repository publishes, and what the sources say it is.
 
@@ -839,7 +875,7 @@ def claims(src: Sources) -> tuple[Claim, ...]:
     for it are generated from the registration instead of being typed out a
     fourth time.
     """
-    return declared_claims(src) + reply_claims(src) + tuple(
+    return declared_claims(src) + reply_claims(src) + w3c_selection_claims() + tuple(
         claim
         for directory, total, accept, reject in src.extra
         for claim in claims_for_corpus(directory, total, accept, reject)
@@ -1498,6 +1534,18 @@ FROZEN: tuple[Frozen, ...] = (
         "A figure of the W3C reporting format v0.1 text, section 10 (list message "
         "2026Sep/0087): the delta-related pairs re-cut against v0.1. It records "
         "what that text says, not a count of any manifest.",
+    ),
+    # The section 10 split of vectors-w3c-report before v0.18.0, which our list
+    # post of 7 October 2026 stated and Kenne Ives recomputed. It is what the
+    # manifest at corpusDigest f00d4443... says, and it must not follow the
+    # current split, which the claim in w3c_selection_claims checks.
+    Frozen(
+        "vectors-w3c-report/README.md",
+        "the section 10 split before v0.18.0",
+        "but 83 to reject and 82 to accept, at corpusDigest",
+        "The split at an earlier corpusDigest, named in the sentence, and the "
+        "figure posted to the W3C list on 7 October 2026. A published digest is "
+        "never mutated, so its split must not track the current manifest.",
     ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
