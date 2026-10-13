@@ -76,15 +76,15 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def input_files() -> list[str]:
-    """Every file under the input roots, as sorted package-relative POSIX paths."""
-    found = [path for root in INPUT_ROOTS for path in (HERE / root).rglob("*") if path.is_file()]
-    return sorted(path.relative_to(HERE).as_posix() for path in found)
+def input_files(root: Path = HERE) -> list[str]:
+    """Every file under the input roots, as sorted root-relative POSIX paths."""
+    found = [path for base in INPUT_ROOTS for path in (root / base).rglob("*") if path.is_file()]
+    return sorted(path.relative_to(root).as_posix() for path in found)
 
 
-def file_entry(relative: str) -> dict[str, Any]:
+def file_entry(relative: str, root: Path = HERE) -> dict[str, Any]:
     """One pin: path, role, byte count and digest, plus the upstream path for fixtures."""
-    data = (HERE / relative).read_bytes()
+    data = (root / relative).read_bytes()
     entry: dict[str, Any] = {"path": relative, "sha256": sha256(data), "bytes": len(data)}
     if relative.startswith(FIXTURE_DIR + "/"):
         name = relative.removeprefix(FIXTURE_DIR + "/")
@@ -96,11 +96,11 @@ def file_entry(relative: str) -> dict[str, Any]:
     return entry
 
 
-def build() -> dict[str, Any]:
-    """The full INPUTS.json document."""
+def build(root: Path = HERE) -> dict[str, Any]:
+    """The full INPUTS.json document for the input tree under ``root``."""
     return {
         "source": SOURCE,
-        "files": [file_entry(relative) for relative in input_files()],
+        "files": [file_entry(relative, root) for relative in input_files(root)],
         "trust_keys": TRUST_KEYS,
         "untrusted_keys_seen": UNTRUSTED_KEYS,
         "evidence_keys": EVIDENCE_KEYS,
@@ -131,11 +131,7 @@ def check_pins(root: Path = HERE) -> dict[str, Any]:
         if sha256(read_bounded(path)) != item.get("sha256"):
             refuse("an input file differs from its SHA-256 pin")
         listed.add(item["path"])
-    present = {
-        p.relative_to(root).as_posix()
-        for base in INPUT_ROOTS for p in (root / base).rglob("*") if p.is_file()
-    }
-    if present != listed:
+    if set(input_files(root)) != listed:
         refuse("the input tree holds a file the pins do not list, or lacks a pinned one")
     if document.get("trust_keys") != TRUST_KEYS or document.get("evidence_keys") != EVIDENCE_KEYS:
         refuse("INPUTS.json key pins differ from the declared pins")

@@ -1,0 +1,55 @@
+name: AAE verdict binding
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'interop/aae-verdict-binding-v1/**'
+      - 'vectors-observed-effect/check_vectors.py'
+      - 'vectors-observed-effect/gen_vectors.py'
+      - '.github/workflows/aae-verdict-binding.yml'
+      - 'uv.lock'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'interop/aae-verdict-binding-v1/**'
+      - 'vectors-observed-effect/check_vectors.py'
+      - 'vectors-observed-effect/gen_vectors.py'
+      - '.github/workflows/aae-verdict-binding.yml'
+      - 'uv.lock'
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          python-version: '3.13'
+      - name: Set fresh report destination
+        run: printf 'AAE_BINDING_ATTEMPT=%s/aae-verdict-binding-attempt\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - name: Install locked development dependencies
+        run: uv sync --locked --extra dev
+      - name: Lint the package
+        run: uv run ruff check interop/aae-verdict-binding-v1
+      - name: Test kernel, binding, pins and refusal paths
+        run: uv run python -m pytest interop/aae-verdict-binding-v1 -q
+      - name: Reproduce the vectors and run every binding case
+        run: uv run python interop/aae-verdict-binding-v1/run_binding.py --output-dir "$AAE_BINDING_ATTEMPT"
+      - name: Require the report and check pinned outcomes
+        run: uv run python interop/aae-verdict-binding-v1/check_report.py "$AAE_BINDING_ATTEMPT/report.json"
+      - name: Retain measured report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: aae-verdict-binding-report
+          path: ${{ runner.temp }}/aae-verdict-binding-attempt/report.json
+          if-no-files-found: error
+          retention-days: 30

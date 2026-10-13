@@ -10,11 +10,13 @@ from pathlib import Path
 from typing import Any
 
 import bind
+import check_report
 import gen_cases
 import kernel
 import pins
 import pytest
 import reproduce
+import run_binding
 import strict_json
 
 HERE = Path(__file__).resolve().parent
@@ -462,3 +464,142 @@ class TestBindingRefusals:
         result = bind.bind(record, None, request)["authorization"]
         assert result["ratification"]["status"] == kernel.RATIFIED
         assert result["verdict"] == kernel.DENY
+
+
+def input_root(tmp_path: Path) -> Path:
+    root = tmp_path / "inputs"
+    for name in ("fixtures", "cases"):
+        shutil.copytree(HERE / name, root / name)
+    shutil.copy2(HERE / "INPUTS.json", root / "INPUTS.json")
+    return root
+
+
+def repin(root: Path) -> None:
+    (root / "INPUTS.json").write_text(pins.render(pins.build(root)), encoding="ascii")
+
+
+def run(root: Path | None, output: Path) -> int:
+    arguments = ["--output-dir", str(output)]
+    if root is not None:
+        arguments += ["--input-root", str(root)]
+    return run_binding.main(arguments)
+
+
+def rewrite_json(path: Path, change: Any) -> None:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    change(value)
+    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+class TestRunContract:
+    def test_fresh_run_passes_and_the_report_checks(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ) -> None:
+        output = tmp_path / "attempt"
+        assert run(None, output) == 0
+        line = capsys.readouterr().out.strip()
+        assert line.startswith("aae-verdict-binding: 26/26 vectors reproduced, 7/7 cases")
+        check_report.check_report(output / "report.json")
+        report = json.loads((output / "report.json").read_text(encoding="ascii"))
+        assert report["profile"] == run_binding.PROFILE
+        assert "execution" in report["not_established"]
+
+    def test_existing_output_directory_is_refused(self, tmp_path: Path) -> None:
+        output = tmp_path / "attempt"
+        output.mkdir()
+        assert run(None, output) == 2
+        assert list(output.iterdir()) == []
+
+    def test_missing_parent_is_refused(self, tmp_path: Path) -> None:
+        assert run(None, tmp_path / "absent" / "attempt") == 2
+
+    def test_one_byte_change_in_a_pinned_input_exits_2(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+        target = root / "cases" / "B1-valid-binding" / "verdict-record.json"
+        data = bytearray(target.read_bytes())
+        data[data.index(b"PERMIT")] ^= 0x01
+        target.write_bytes(bytes(data))
+        output = tmp_path / "attempt"
+        assert run(root, output) == 2
+        assert not (output / "report.json").exists()
+
+    def test_flipped_verdict_exits_1(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+
+        def flip(record: dict[str, Any]) -> None:
+            record["core"]["verdict"] = kernel.DENY
+            record["core_digest"] = kernel.tagged_digest(kernel.TAG_CORE, record["core"])
+
+        rewrite_json(root / "cases" / "B1-valid-binding" / "verdict-record.json", flip)
+        repin(root)
+        output = tmp_path / "attempt"
+        assert run(root, output) == 1
+        report = json.loads((output / "report.json").read_text(encoding="ascii"))
+        b1 = next(case for case in report["cases"] if case["name"] == "B1-valid-binding")
+        assert b1["produced"]["authorization.verdict"] == kernel.DENY
+        assert b1["produced"]["binding.status"] == "MISMATCH"
+        assert b1["matches_declaration"] is False
+        with pytest.raises(strict_json.InputError):
+            check_report.check_report(output / "report.json")
+
+    def test_changed_vector_expectation_exits_1(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+        target = root / "fixtures" / "aae-v1.4.0" / VECTOR_FILES[0].name
+        rewrite_json(target, lambda vector: vector["expected"].update(grant_index=1))
+        repin(root)
+        output = tmp_path / "attempt"
+        assert run(root, output) == 1
+        report = json.loads((output / "report.json").read_text(encoding="ascii"))
+        assert report["vectors_reproduced"] == 25
+
+    @pytest.mark.parametrize(
+        "payload",
+        [b'{"core": 1, "core": 2}', b'{"core": {}, "core_digest": 1.5}', b"{", b"[]"],
+    )
+    def test_malformed_pinned_input_exits_2(self, tmp_path: Path, payload: bytes) -> None:
+        root = input_root(tmp_path)
+        (root / "cases" / "B3-missing-receipt" / "verdict-record.json").write_bytes(payload)
+        repin(root)
+        assert run(root, tmp_path / "attempt") == 2
+
+    def test_unexpected_case_file_exits_2(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+        (root / "cases" / "B3-missing-receipt" / "notes.json").write_text("{}", encoding="ascii")
+        repin(root)
+        assert run(root, tmp_path / "attempt") == 2
+
+    def test_declaration_missing_a_claim_exits_2(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+        rewrite_json(root / "cases" / "B3-missing-receipt" / "expected.json",
+                     lambda document: document["expect"].pop("execution.status"))
+        repin(root)
+        assert run(root, tmp_path / "attempt") == 2
+
+    def test_unpinned_trust_key_exits_2(self, tmp_path: Path) -> None:
+        root = input_root(tmp_path)
+        target = root / "fixtures" / "aae-v1.4.0" / VECTOR_FILES[21].name
+        rewrite_json(target, lambda vector: vector["input"]["authority_proof"]["mandate"][
+            "principal"].update(public_key="33" * 32))
+        repin(root)
+        assert run(root, tmp_path / "attempt") == 2
+
+    def test_report_checker_refusals(self, tmp_path: Path) -> None:
+        with pytest.raises(OSError):
+            check_report.check_report(tmp_path / "missing.json")
+        output = tmp_path / "attempt"
+        assert run(None, output) == 0
+        for change in (
+            lambda report: report.update(cases_as_declared=6),
+            lambda report: report["code_sha256"].update({"kernel.py": "0" * 64}),
+            lambda report: report["not_established"].pop(),
+            lambda report: report.update(profile="other"),
+        ):
+            copy_path = tmp_path / "changed.json"
+            report = json.loads((output / "report.json").read_text(encoding="ascii"))
+            change(report)
+            copy_path.write_text(json.dumps(report), encoding="ascii")
+            with pytest.raises(strict_json.InputError):
+                check_report.check_report(copy_path)
+        (tmp_path / "float.json").write_text('{"a": 1.5}', encoding="ascii")
+        with pytest.raises(strict_json.InputError):
+            check_report.load_report(tmp_path / "float.json")
