@@ -57,7 +57,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
-          go-version: '1.24'
+          go-version: '1.26'
       # The figure this suite quoted before the current one existed. It was seven
       # numbers typed into a script, and a typed number is indistinguishable from
       # a wrong one until somebody re-derives it. This re-derives it, from the

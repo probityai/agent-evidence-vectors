@@ -60,7 +60,7 @@ jobs:
           python-version: '3.13'
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
-          go-version-file: go.mod
+          go-version: '1.26'
       - name: build the wheel and the directory reader
         run: |
           rm -rf dist
@@ -75,7 +75,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
-          go-version: '1.24'
+          go-version: '1.26'
       - name: gofmt (no diffs)
         run: |
           unformatted=$(gofmt -l aee cmd corpora observedeffect witnessattestor)
@@ -1087,7 +1087,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
-          go-version: '1.24'
+          go-version: '1.26'
       - name: the corpus still forces every rule it is recorded as forcing
         run: python3 scripts/forcing-gate.py --scope forced --workers 8
       # The gate's own tests, which are mostly refusals: this repository has
@@ -1142,7 +1142,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
-          go-version: '1.24'
+          go-version: '1.26'
       - name: build the shipped verifier into the workspace
         run: go build -o ./aee-verify ./cmd/aee-verify
       - name: the action replays the corpus against it
