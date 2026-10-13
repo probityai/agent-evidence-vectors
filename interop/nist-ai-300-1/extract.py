@@ -109,6 +109,19 @@ def nfc(text: str) -> str:
     return unicodedata.normalize("NFC", text)
 
 
+def ruled_tables(doc: pymupdf.Document, page: int) -> list[Any]:
+    """The ruled tables PyMuPDF finds on one 1-based page.
+
+    From 1.26.7, find_tables catches any exception inside table detection,
+    prints it and returns None. Read as "no tables", that would drop a table
+    from the count without failing, so a None is an error here.
+    """
+    finder = find_tables(doc[page - 1])
+    if finder is None:
+        raise ValueError(f"page {page}: PyMuPDF table detection failed")
+    return list(finder.tables)
+
+
 def page_words(doc: pymupdf.Document, page: int) -> list[Word]:
     """Every word on a 1-based page, right of the line-number margin."""
     out = []
@@ -204,7 +217,7 @@ def table_words(doc: pymupdf.Document, spec: TableSpec, page: int) -> list[Word]
     The table's extent is the bounding box of the ruled table PyMuPDF finds
     whose top-left cell is the title, so prose above or below it is excluded.
     """
-    found = [t for t in find_tables(doc[page - 1]).tables if _is_titled(t, spec.title)]
+    found = [t for t in ruled_tables(doc, page) if _is_titled(t, spec.title)]
     if len(found) != 1:
         raise ValueError(f"page {page}: expected one table titled {spec.title!r}")
     x0, y0, x1, y1 = found[0].bbox
@@ -293,7 +306,7 @@ def census(doc: pymupdf.Document) -> dict[str, Any]:
             text = nfc(line.strip())
             if CAPTION.fullmatch(text):
                 captions.append({"page": number, "title": text})
-        for table in find_tables(page).tables:
+        for table in ruled_tables(doc, number):
             rows: list[list[str | None]] = table.extract()
             filled = [nfc(c.replace("\n", " ").strip()) for r in rows for c in r if c]
             ids = []
