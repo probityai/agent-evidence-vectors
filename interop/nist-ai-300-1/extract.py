@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
@@ -51,6 +52,12 @@ HEADER_DEPTH = 16.0
 TEXT_FLAGS = pymupdf.TEXT_MEDIABOX_CLIP
 
 COLUMNS = ("id", "name", "description", "designation", "guidance")
+
+# A table caption as the draft prints it: "Table A.2.1: Default AI dataset profile".
+# A sentence that merely names a table ("Table A.2.1 provides ...") has no colon.
+CAPTION = re.compile(r"Table [A-Z0-9][A-Z0-9.]*: .+")
+# A row ID: dotted digits, optionally a "-(*)" family with its own dotted tail.
+ROW_ID = re.compile(r"\d+(?:\.\d+)*(?:-\(\*\)(?:\.\d+)*)?")
 
 
 @dataclass(frozen=True)
@@ -265,3 +272,34 @@ def table_digest(rows: list[dict[str, Any]]) -> str:
 def open_pdf(path: Path) -> pymupdf.Document:
     """Open the source PDF."""
     return pymupdf.open(path)
+
+
+def census(doc: pymupdf.Document) -> dict[str, Any]:
+    """Every ruled box and every table caption in the PDF, read without extract_table.
+
+    This is the completeness count. extract_table reads only the tables it is
+    told about, by title and page, so on its own it cannot notice a table it was
+    never told about, a page of a table it was not given, or a row its word
+    geometry merged into the row above. The census reads every page instead:
+    each ruled box PyMuPDF finds, with the first text in it and the row IDs its
+    own cell grid gives, and each caption line in the text layer. Comparing the
+    two is what makes "every table, every row" a measured claim.
+    """
+    ruled: list[dict[str, Any]] = []
+    captions: list[dict[str, Any]] = []
+    for number in range(1, doc.page_count + 1):
+        page = doc[number - 1]
+        for line in str(page.get_text("text", flags=TEXT_FLAGS)).splitlines():
+            text = nfc(line.strip())
+            if CAPTION.fullmatch(text):
+                captions.append({"page": number, "title": text})
+        for table in find_tables(page).tables:
+            rows: list[list[str | None]] = table.extract()
+            filled = [nfc(c.replace("\n", " ").strip()) for r in rows for c in r if c]
+            ids = []
+            for row in rows[1:]:
+                cells = [c for c in row if c]
+                if cells and ROW_ID.fullmatch(nfc(cells[0].replace("\n", ""))):
+                    ids.append(nfc(cells[0].replace("\n", "")))
+            ruled.append({"page": number, "first": filled[0] if filled else "", "ids": ids})
+    return {"pages": doc.page_count, "ruled": ruled, "captions": captions}

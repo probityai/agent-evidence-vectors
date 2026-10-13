@@ -9,11 +9,13 @@ the CI step that runs check_vectors.py on this directory extracts it afresh.
 
 from __future__ import annotations
 
+import copy
 import json
 import shutil
 import sys
 import tempfile
 import unittest
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any, ClassVar
 
@@ -40,8 +42,17 @@ class CheckerRefuses(unittest.TestCase):
     def tearDown(self) -> None:
         shutil.rmtree(self.tmp)
 
-    def run_check(self) -> list[str]:
-        return check_vectors.run(self.root, lambda _pdf: self.transcript)
+    def run_check(self, transcript: dict[str, Any] | None = None) -> list[str]:
+        tr = self.transcript if transcript is None else transcript
+        return check_vectors.run(self.root, lambda _pdf: tr)
+
+    def census_broken(self, change: Callable[[dict[str, Any]], None], *needles: str) -> None:
+        tr = copy.deepcopy(self.transcript)
+        change(tr["census"])
+        failures = self.run_check(tr)
+        self.assertTrue(failures, "the checker passed a census that misses part of the PDF")
+        for needle in needles:
+            self.assertTrue(any(needle in f for f in failures), (needle, failures))
 
     def edit(self, rel: str) -> Any:
         return json.loads((self.root / rel).read_text(encoding="utf-8"))
@@ -134,6 +145,33 @@ class CheckerRefuses(unittest.TestCase):
         pdf = self.root / "source" / "NIST.AI.300-1.ipd.pdf"
         pdf.write_bytes(pdf.read_bytes() + b"\n")
         self.assert_refused("source PDF sha256")
+
+    def test_census_a_table_extract_does_not_read(self) -> None:
+        title = "Table A.4.1: Default AI system profile"
+
+        def add(c: dict[str, Any]) -> None:
+            c["captions"].append({"page": 54, "title": title})
+            c["ruled"].append({"page": 54, "first": title, "ids": ["1"]})
+
+        self.census_broken(
+            add,
+            "page 54 captions a table this corpus does not read",
+            "none of the 4 tables are",
+            "census re-counted from the PDF",
+        )
+
+    def test_census_a_row_extract_merged_away(self) -> None:
+        def add(c: dict[str, Any]) -> None:
+            box = next(b for b in c["ruled"] if b["page"] == 40)
+            box["ids"].insert(1, "4.4.9")
+
+        self.census_broken(add, "table-a.2.1 has 72 rows by its cell grid and 71 by extract.py")
+
+    def test_census_a_table_page_left_out(self) -> None:
+        def drop(c: dict[str, Any]) -> None:
+            c["ruled"] = [b for b in c["ruled"] if b["page"] != 53]
+
+        self.census_broken(drop, "table-a.3.1 is ruled on pages", "census re-counted")
 
     def test_stray_member_file(self) -> None:
         (self.root / "members" / "extra.json").write_text("{}\n", encoding="utf-8")

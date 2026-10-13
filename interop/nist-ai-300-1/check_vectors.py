@@ -3,6 +3,11 @@
 Exits 0 only when all of this holds:
 
 * the PDF is the one MANIFEST.json names, by SHA-256;
+* completeness, counted on the PDF itself rather than in characters: every
+  ruled box on every page is either a page of one of the four tables or one of
+  the seven notes to reviewers, every "Table N:" caption names one of the four,
+  each table's cell grid gives the same row IDs extract.py gives, and those
+  counts equal MANIFEST.json's census;
 * extract.py run on that PDF gives back templates.json cell for cell and clause
   for clause, and the table and clause digests in MANIFEST.json, computed both
   from the PDF and from templates.json;
@@ -105,6 +110,13 @@ def check_transcript(
     out.check(
         G.bindings(tr) == manifest["bindings"],
         "bindings re-derived from the PDF differ from MANIFEST.json",
+    )
+    for failure in G.census_failures(tr):
+        out.fail(failure)
+    recount = G.census_summary(tr)
+    out.check(
+        recount == manifest["census"],
+        f"census re-counted from the PDF {recount} differs from MANIFEST.json {manifest['census']}",
     )
 
 
@@ -320,8 +332,12 @@ def run(root: Path, transcript: Callable[[Path], dict[str, Any]] = G.transcript)
     tally = sweep(manifest, schemas, docs, out)
     if not out.items:
         c = counts(templates, manifest)
+        n = manifest["census"]
         print(
-            f"ok: {c['members']} members over {c['rules']} rules; source and "
+            f"ok: {n['tables']} tables on {n['tablePages']} pages and {n['reviewerNotes']} "
+            f"reviewer notes make up all {n['ruledBoxes']} ruled boxes in the "
+            f"{n['pages']}-page PDF, {n['rows']} rows by both extractions; "
+            f"{c['members']} members over {c['rules']} rules; source and "
             f"{len(manifest['bindings'])} bindings re-derived; {tally['delete']} deletions and "
             f"{tally['drop-condition']} dropped "
             "conditions each flipped the members that name them"

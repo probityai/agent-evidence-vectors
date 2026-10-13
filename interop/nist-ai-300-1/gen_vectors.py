@@ -85,6 +85,18 @@ CLAUSES = (
     X.ClauseSpec("clause-a.2", (31, "A.2 Default AI dataset profile"), (32, TABLES[2].title)),
     X.ClauseSpec("clause-a.3", (42, "A.3 Default AI Model Profile"), (43, TABLES[3].title)),
 )
+# Every ruled box in the draft that is not one of TABLES is a note to reviewers
+# (page, and how its text starts); the one on page 22 continues the note on page 21.
+# None of them carries a field, so none is serialized.
+REVIEWER_NOTES = (
+    (7, "NOTE TO REVIEWERS"),
+    (10, "NOTE FOR REVIEWERS"),
+    (10, "NOTE FOR REVIEWERS"),
+    (21, "NOTE TO REVIEWERS"),
+    (22, "• If yes, whether to provide"),
+    (30, "NOTE TO REVIEWERS"),
+    (30, "NOTE TO REVIEWERS"),
+)
 DESIGNATIONS = {
     "Required": "required",
     "Recommended": "recommended",
@@ -114,7 +126,64 @@ def transcript(pdf: Path) -> dict[str, Any]:
     doc = X.open_pdf(pdf)
     tables = {spec.key: X.extract_table(doc, spec) for spec in TABLES}
     clauses = {spec.key: X.clause_text(doc, spec) for spec in CLAUSES}
-    return {"tables": tables, "clauses": clauses}
+    return {"tables": tables, "clauses": clauses, "census": X.census(doc)}
+
+
+def census_failures(tr: dict[str, Any]) -> list[str]:
+    """Where the census of the whole PDF and the tables this corpus reads disagree."""
+    found = tr["census"]
+    titles = {spec.title: spec for spec in TABLES}
+    out: list[str] = []
+    notes = [(b["page"], b["first"]) for b in found["ruled"] if b["first"] not in titles]
+    declared = list(REVIEWER_NOTES)
+    if len(notes) != len(declared) or any(
+        page != want_page or not first.startswith(want)
+        for (page, first), (want_page, want) in zip(notes, declared, strict=False)
+    ):
+        out.append(
+            f"census: the ruled boxes that are none of the {len(TABLES)} tables are "
+            f"{notes}, not the {len(declared)} notes to reviewers"
+        )
+    for spec in TABLES:
+        boxes = [b for b in found["ruled"] if b["first"] == spec.title]
+        if [b["page"] for b in boxes] != list(spec.pages):
+            out.append(
+                f"census: {spec.key} is ruled on pages {[b['page'] for b in boxes]}, "
+                f"not {list(spec.pages)}"
+            )
+        captioned = [c["page"] for c in found["captions"] if c["title"] == spec.title]
+        if captioned != list(spec.pages):
+            out.append(f"census: {spec.key} is captioned on pages {captioned}")
+        cells = [i for b in boxes for i in b["ids"]]
+        printed = [r["id"] for r in tr["tables"][spec.key]]
+        if cells != printed:
+            out.append(
+                f"census: {spec.key} has {len(cells)} rows by its cell grid and "
+                f"{len(printed)} by extract.py: {sorted(set(cells) ^ set(printed))}"
+            )
+    for cap in found["captions"]:
+        if cap["title"] not in titles:
+            out.append(
+                f"census: page {cap['page']} captions a table this corpus does not read: "
+                f"{cap['title']!r}"
+            )
+    return out
+
+
+def census_summary(tr: dict[str, Any]) -> dict[str, int]:
+    """The counts the completeness claim rests on."""
+    found = tr["census"]
+    titles = {spec.title for spec in TABLES}
+    tables = [b for b in found["ruled"] if b["first"] in titles]
+    return {
+        "pages": found["pages"],
+        "ruledBoxes": len(found["ruled"]),
+        "captionLines": len(found["captions"]),
+        "tables": len({b["first"] for b in tables}),
+        "tablePages": len(tables),
+        "reviewerNotes": len(found["ruled"]) - len(tables),
+        "rows": sum(len(b["ids"]) for b in tables),
+    }
 
 
 def bindings(tr: dict[str, Any]) -> dict[str, Any]:
@@ -870,6 +939,9 @@ def main() -> int:
         raise refuse(f"{PDF.name} is not the PDF this corpus binds to ({SOURCE_SHA256})")
     readings = json.loads((HERE / "readings.json").read_text(encoding="utf-8"))
     tr = transcript(PDF)
+    missed = census_failures(tr)
+    if missed:
+        raise refuse("; ".join(missed))
     tables = build_tables(tr, readings)
     for item in readings["ambiguities"] + readings["observations"]:
         check_quote(item, tables, tr)
@@ -897,6 +969,7 @@ def main() -> int:
             "module": "extract.py",
         },
         "bindings": bindings(tr),
+        "census": census_summary(tr),
         "tables": table_docs,
         "notExpressible": limits,
         "ambiguities": readings["ambiguities"],
