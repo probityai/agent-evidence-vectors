@@ -276,7 +276,9 @@ def run(base: Path, domain_path: Path) -> dict[str, Any]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(
+        description="Recompute AgentID action_ref v1 and v2 from pinned vectors."
+    )
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--base", type=Path, default=HERE)
     parser.add_argument("--domain-cases", type=Path, default=None)
