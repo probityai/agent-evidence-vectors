@@ -5,8 +5,8 @@ Ground truth: the four normative files vendored in `spec-vendored/`, read at
 `9d4a9da` of `GenAI-Security-Project/agent-control-standard`, each pinned by sha256 in
 `MANIFEST.json`.
 
-This corpus is 43 vectors, of which 15 a conformant verifier must
-not fail closed on and 26 it must reject.
+This corpus is 48 vectors, of which 17 a conformant verifier must
+not fail closed on and 29 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -63,6 +63,9 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `ACS-R-020` | guardian | `spec-vendored/specification-9d4a9da.md:293` | `4aba06b38783dc57` | canonical input is REQUIRED in ACS-Core |
 | `ACS-R-021` | verifier | `spec-vendored/specification-9d4a9da.md:258` | `4c97a8c91e35a161` | Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile |
 | `ACS-R-022` | verifier | `spec-vendored/specification-9d4a9da.md:428` | `2d0f1473abc9de5c` | A required signature is missing, malformed, or fails verification |
+| `ACS-R-023` | deployment | `spec-vendored/specification-9d4a9da.md:77` | `d4c58251de2421c9` | A session started unguarded MUST be recorded in the deployment's own audit log |
+| `ACS-R-024` | agent | `spec-vendored/specification-9d4a9da.md:77` | `a86dd647ca5d0f3b` | A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives. |
+| `ACS-R-025` | agent | `spec-vendored/specification-9d4a9da.md:75` | `a5f72ccb5b2aba50` | `proceed` starts the session unguarded, `refuse` does not start it |
 
 ## Families
 
@@ -78,6 +81,7 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `acs-f-8` | attributed content standing in for an authorization |
 | `acs-f-9` | a handshake or a disposition answered outside the negotiated contract |
 | `acs-f-10` | a Guardian response signed by a party other than the Guardian |
+| `acs-f-11` | a handshake that produced no ServerHello and a session that started anyway |
 
 ## Deliberately out of scope
 
@@ -109,8 +113,10 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | none | substrate | PEER |
 | `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | none | substrate | SELF |
 | `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | none | substrate | SELF |
+| `v0e1b9d0f75f54e9c` | reject | acs-f-11 | ACS-R-023 | deny | none | substrate | SELF |
 | `v100f74962fbb8b94` | reject | acs-f-4 | ACS-R-011 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
 | `v10351021bf6e46b1` | reject | acs-f-7 | ACS-R-009 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
+| `v1ce4aeb611285368` | reject | acs-f-11 | ACS-R-024 | deny | `SESSION_REFUSED` | substrate | SELF |
 | `v221edeb22c4e8634` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | EXTERNAL |
 | `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | none | artifact | PEER |
 | `v3232493ab40ae031` | reject | acs-f-10 | ACS-R-021 | deny | none | artifact | EXTERNAL |
@@ -120,6 +126,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v448a61c91554a125` | reject | acs-f-7 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v4f75a079844635af` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | EXTERNAL |
 | `v53ef0aaa91303587` | accept | acs-f-10 | ACS-R-022, ACS-R-021 | allow | none | artifact | EXTERNAL |
+| `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | none | substrate | SELF |
 | `v661266c5c87cb206` | reject | acs-f-1 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v699f3f41215849ca` | accept | acs-f-7 | ACS-R-013 | allow | none | substrate | SELF |
 | `v6daaec0f6f0c8a14` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | PEER |
@@ -128,11 +135,13 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v82b6d110b4d68e7c` | indeterminate | acs-f-3 | ACS-R-003 | unmeasurable | none | artifact | EXTERNAL |
 | `v8557c978bf12ca55` | reject | acs-f-6 | ACS-R-016 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v855c3b68b325eec1` | accept | acs-f-10 | ACS-R-021 | allow | none | artifact | PEER |
+| `v93c6cced4a3b9f13` | reject | acs-f-11 | ACS-R-025 | deny | none | substrate | SELF |
 | `v986429a577e03404` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v9f011986566cb7bc` | indeterminate | acs-f-10 | ACS-R-022, ACS-R-021 | unmeasurable | none | artifact | SELF |
 | `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | none | substrate | SELF |
 | `va0ee5d0830b0490b` | accept | acs-f-5 | ACS-R-005 | allow | none | substrate | SELF |
 | `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | none | substrate | SELF |
+| `va2b212fbc0966f59` | accept | acs-f-11 | ACS-R-024 | allow | none | substrate | SELF |
 | `va2fea96983583972` | reject | acs-f-8 | ACS-R-010 | deny | `PROVENANCE_REQUIRED` | substrate | SELF |
 | `va6d6e952d417c5a1` | accept | acs-f-3 | ACS-R-003 | allow | none | substrate | SELF |
 | `va8eebd3334b97257` | reject | acs-f-5 | ACS-R-004 | deny | `SIGNATURE_INVALID` | substrate | SELF |

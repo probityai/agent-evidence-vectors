@@ -1292,6 +1292,13 @@ FROZEN: tuple[Frozen, ...] = (
         ' coincidence: the number of a pull request in another repository.',
     ),
     Frozen(
+        'docs/INTEROP-EVIDENCE.md',
+        'the comment count of a third-party thread on the day it was read',
+        'carried 48 comments and 0 reviews',
+        'A count of the comments on another project\'s thread, read once on a stated day. It '
+        'records that reading and equals the ACS-Core corpus total by coincidence.',
+    ),
+    Frozen(
         'scripts/_decoding.py',
         'the statement files in the measured identity-scan range',
         'range carrying 31 statement files',

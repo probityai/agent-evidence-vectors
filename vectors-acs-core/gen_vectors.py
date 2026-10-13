@@ -110,6 +110,12 @@ AWAITING_TEXT = {
 #: because its property is about authority rather than about scope. The tenth
 #: is about who signed rather than whether a signature verifies, and it is the
 #: only family whose two profiles give different verdicts for one substitution.
+#: The eleventh is the fifth one level up: the fifth holds a step that proceeds
+#: without a decision after a handshake completed, and the eleventh holds a
+#: session that starts without one because the handshake never did. The two
+#: want different witnesses, which is why they are two families: the fifth's
+#: audit event has a Guardian to receive it, and the eleventh's record has only
+#: the deployment's own log.
 FAMILIES = {
     "acs-f-1": "correctly signed and outside the granted mandate",
     "acs-f-2": "a consumed authorization presented a second time",
@@ -121,6 +127,7 @@ FAMILIES = {
     "acs-f-8": "attributed content standing in for an authorization",
     "acs-f-9": "a handshake or a disposition answered outside the negotiated contract",
     "acs-f-10": "a Guardian response signed by a party other than the Guardian",
+    "acs-f-11": "a handshake that produced no ServerHello and a session that started anyway",
 }
 
 #: One row per requirement. Each carries the verbatim normative sentence, which
@@ -312,6 +319,33 @@ REQUIREMENTS: tuple[dict, ...] = (
         "file": "specification",
         "sentence": (
             "A required signature is missing, malformed, or fails verification"
+        ),
+    },
+    {
+        "id": "ACS-R-023",
+        "role": "deployment",
+        "file": "specification",
+        "sentence": (
+            "A session started unguarded MUST be recorded in the deployment's "
+            "own audit log"
+        ),
+    },
+    {
+        "id": "ACS-R-024",
+        "role": "agent",
+        "file": "specification",
+        "sentence": (
+            "A Guardian that answers with a refusal (`SESSION_REFUSED`, "
+            "`UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the "
+            "startup posture applies only when no answer arrives."
+        ),
+    },
+    {
+        "id": "ACS-R-025",
+        "role": "agent",
+        "file": "specification",
+        "sentence": (
+            "`proceed` starts the session unguarded, `refuse` does not start it"
         ),
     },
 )
@@ -1524,6 +1558,131 @@ def build() -> list[dict]:
             "A verifier that refuses every HMAC head scores zero here, so the "
             "member above measures the external claim rather than the "
             "algorithm."
+        ),
+    )
+
+    # acs-f-11 --------------------------------------------------------------
+    # Section 4.1: a handshake/hello that produces no ServerHello, and the
+    # startup posture configured out of band. Every member below sits one field
+    # away from the accepting member with no answer at all, so each rejection
+    # names the one fact it turns on: the record, the answer, or the posture.
+    # The record's shape is not fixed by the specification, so the members
+    # assert that a record of the unguarded start exists and never how it is
+    # spelt. Named on GenAI-Security-Project/agent-control-standard#33.
+    def unguarded_start(answer: dict | None, posture: str, recorded: bool) -> dict:
+        return {
+            "request": client_hello("0.1.0"),
+            "connection_timeout_ms": 5000,
+            "handshake_answer": answer,
+            "server_hello": None,
+            "startup_posture": posture,
+            "session_started": True,
+            "deployment_audit_log": (
+                [{"session_id": "s-0001", "started_unguarded": True}] if recorded else []
+            ),
+        }
+
+    add(
+        kind="reject",
+        family="acs-f-11",
+        requirements=["ACS-R-023"],
+        payload=unguarded_start(None, "proceed", recorded=False),
+        verdict="deny",
+        code=None,
+        evidence_basis="substrate",
+        witness_scope="SELF",
+        coverage="observed",
+        cites=(
+            "a hello that nothing answered before the connection timeout, the "
+            "default startup posture, a session that started, and a deployment "
+            "audit log with no record of the unguarded start. The posture is "
+            "conformant and the silence is not. The step-level twin in acs-f-5 "
+            "has a Guardian to receive its audit event; here the handshake never "
+            "completed, so there is no Guardian to receive anything and the "
+            "deployment's own log is the only witness, which is why the member "
+            "is SELF. A member that asserted only that the session started "
+            "would score the default posture as evidence of enforcement."
+        ),
+    )
+    add(
+        kind="accept",
+        family="acs-f-11",
+        requirements=["ACS-R-023", "ACS-R-025"],
+        payload=unguarded_start(None, "proceed", recorded=True),
+        verdict="allow",
+        code=None,
+        evidence_basis="substrate",
+        witness_scope="SELF",
+        coverage="observed",
+        cites=(
+            "the same unanswered hello with the unguarded start recorded in the "
+            "deployment's own audit log, the witness section 4.1 names because "
+            "no Guardian exists to receive the event. The discriminator is "
+            "whether a record of the start exists, not whether the session "
+            "started, and a deployment that refuses every unguarded start "
+            "scores zero here rather than full marks."
+        ),
+    )
+    add(
+        kind="reject",
+        family="acs-f-11",
+        requirements=["ACS-R-024"],
+        payload=unguarded_start(
+            {"error": {"code": CODES["SESSION_REFUSED"]}}, "proceed", recorded=True
+        ),
+        verdict="deny",
+        code="SESSION_REFUSED",
+        evidence_basis="substrate",
+        witness_scope="SELF",
+        coverage="effective",
+        cites=(
+            "a hello the Guardian answered with SESSION_REFUSED, followed by "
+            "the startup posture applied as though nothing had answered: the "
+            "session started and the deployment log records an unguarded "
+            "start. A refusal is a decision, and section 4.1 applies the "
+            "posture only when no answer arrives, so the session is refused "
+            "with the code the Guardian sent. A checker that looks only for "
+            "the deployment-log record passes this member, and so does an "
+            "Observed Agent that reads every error without a ServerHello as "
+            "an outage."
+        ),
+    )
+    add(
+        kind="accept",
+        family="acs-f-11",
+        requirements=["ACS-R-024"],
+        payload=unguarded_start({"error": {"code": -32603}}, "proceed", recorded=True),
+        verdict="allow",
+        code=None,
+        evidence_basis="substrate",
+        witness_scope="SELF",
+        coverage="effective",
+        cites=(
+            "the same hello answered with a JSON-RPC internal error, which is "
+            "not one of the refusals section 4.1 lists. An error without a "
+            "ServerHello is a handshake failure, so the posture applies, the "
+            "session starts and the start is recorded. An Observed Agent that "
+            "treats every error as a decision fails this member, and the "
+            "member above measures the refusal rather than the error."
+        ),
+    )
+    add(
+        kind="reject",
+        family="acs-f-11",
+        requirements=["ACS-R-025"],
+        payload=unguarded_start(None, "refuse", recorded=True),
+        verdict="deny",
+        code=None,
+        evidence_basis="substrate",
+        witness_scope="SELF",
+        coverage="configured",
+        cites=(
+            "the same unanswered hello under a startup posture configured to "
+            "refuse, and a session that started anyway, recorded in the "
+            "deployment log as an unguarded start. The record is present, so "
+            "a checker that reads only the log passes it; the configured "
+            "posture never took effect. No registry code names a refused "
+            "start with no Guardian to send one, so none is asserted."
         ),
     )
 
