@@ -1,0 +1,14 @@
+{
+  "name": "C4-tampered-evidence",
+  "role": "control",
+  "describe": "B1 with one bit of the evidence signature flipped.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "PERMIT",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "MATCH",
+    "evidence.verifier_verdict": "invalid",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

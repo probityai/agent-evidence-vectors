@@ -1,0 +1,14 @@
+{
+  "name": "C3-ratification-link-elsewhere",
+  "role": "control",
+  "describe": "Vector 25: a ratification whose prev_core_digest names another record.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "DENY",
+    "authorization.ratification.status": "CALLER_ERROR",
+    "binding.status": "ABSENT",
+    "evidence.verifier_verdict": "absent",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

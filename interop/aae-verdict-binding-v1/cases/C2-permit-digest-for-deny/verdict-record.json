@@ -1,0 +1,37 @@
+{
+  "core": {
+    "enforce_version": "3.0",
+    "mandate_digest": "sha256:fbbb51d2ec633958565f6b253452e8b2111edbe38aee5448e2ae54df995c6687",
+    "transaction_digest": "sha256:f0abb6d5104ffeb64950796d733a0da2cd3c6ceb0991fd92349aa43b6c132fcc",
+    "action_digest": "sha256:53279c9ddd3e15d55a3b847295d460db8881b86014fa2c290a6df0712cdccb8a",
+    "verdict": "DENY",
+    "grant_index": null,
+    "trace": [
+      {
+        "predicate": "mandate_present",
+        "field": null,
+        "value": null,
+        "bound": null,
+        "result": "PASS"
+      },
+      {
+        "predicate": "type_fields",
+        "field": "action",
+        "value": [
+          "amount",
+          "asset",
+          "chain",
+          "verb"
+        ],
+        "bound": [
+          "verb",
+          "asset",
+          "chain"
+        ],
+        "result": "FAIL"
+      }
+    ],
+    "prev_core_digest": null
+  },
+  "core_digest": "sha256:2cfbb56ed54886193bd9bd9914274fcbd9a337d418c48675ba5fbc776eaf9ff8"
+}

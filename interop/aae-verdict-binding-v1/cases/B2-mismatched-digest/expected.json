@@ -1,0 +1,14 @@
+{
+  "name": "B2-mismatched-digest",
+  "role": "case",
+  "describe": "The same PERMIT record; the evidence citation differs in one hex digit.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "PERMIT",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "MISMATCH",
+    "evidence.verifier_verdict": "valid",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

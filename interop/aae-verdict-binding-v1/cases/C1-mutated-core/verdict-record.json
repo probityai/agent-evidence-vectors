@@ -1,0 +1,67 @@
+{
+  "core": {
+    "enforce_version": "3.0",
+    "mandate_digest": "sha256:fbbb51d2ec633958565f6b253452e8b2111edbe38aee5448e2ae54df995c6687",
+    "transaction_digest": "sha256:4c17d7e8de44bf84838df729d67dafa6fe8b35a493299743c4944baece6875fe",
+    "action_digest": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+    "verdict": "PERMIT",
+    "grant_index": 0,
+    "trace": [
+      {
+        "predicate": "mandate_present",
+        "field": null,
+        "value": null,
+        "bound": null,
+        "result": "PASS"
+      },
+      {
+        "predicate": "type_fields",
+        "field": "action",
+        "value": [
+          "asset",
+          "chain",
+          "verb"
+        ],
+        "bound": [
+          "verb",
+          "asset",
+          "chain"
+        ],
+        "result": "PASS"
+      },
+      {
+        "predicate": "action_binding",
+        "field": "action",
+        "value": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+        "bound": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+        "result": "PASS"
+      },
+      {
+        "predicate": "exact",
+        "field": "to",
+        "value": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+        "bound": "0xABCDEF0123456789ABCDEF0123456789ABCDEF01",
+        "result": "PASS"
+      },
+      {
+        "predicate": "range",
+        "field": "amount",
+        "value": 900,
+        "bound": {
+          "lo": 0,
+          "hi": 1000
+        },
+        "result": "PASS"
+      },
+      {
+        "predicate": "disposition",
+        "field": null,
+        "value": "allow",
+        "bound": null,
+        "result": "PASS"
+      }
+    ],
+    "prev_core_digest": null
+  },
+  "core_digest": "sha256:92893c1fa6cf3033f70687dc3683857824979c0bde7b6e5eee97627d527b2c73"
+}

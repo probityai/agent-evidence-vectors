@@ -1,0 +1,14 @@
+{
+  "name": "B3-missing-receipt",
+  "role": "case",
+  "describe": "The PERMIT record with no evidence record; execution stays unknown.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "PERMIT",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "ABSENT",
+    "evidence.verifier_verdict": "absent",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

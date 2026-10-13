@@ -1,0 +1,34 @@
+{
+  "decision": "APPROVED",
+  "authority_proof": {
+    "mandate": {
+      "mandate_version": "1.0",
+      "principal": {
+        "did": "did:web:example.com:registry",
+        "public_key": "9d53a7a4431e299b0ceb950ccbd5bd6f4845cdd9c7bd38e1c9e4e26490f8f90e"
+      },
+      "grants": [
+        {
+          "action_binding": "sha256:8c2938c57c38e44ed13ce9aef8a741bfc6e636fc60857c05c483078aa26cfb76",
+          "type_fields": [
+            "verb",
+            "asset",
+            "chain"
+          ],
+          "disposition": "allow",
+          "constraints": [
+            {
+              "type": "range",
+              "field": "amount",
+              "lo": 0,
+              "hi": 100
+            }
+          ]
+        }
+      ]
+    },
+    "authority": "did:web:example.com:registry",
+    "signature": "02ec03b5679e82367f15262f181f739931225e2f2cb4d568f112ce15c41ed0a847cf4f4ae6fe6eccf0cef326803de587cbcfd3746f958e1a845278c7bd281700"
+  },
+  "prev_core_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}

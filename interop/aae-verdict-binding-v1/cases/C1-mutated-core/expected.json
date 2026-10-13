@@ -1,0 +1,14 @@
+{
+  "name": "C1-mutated-core",
+  "role": "control",
+  "describe": "A trace value in the PERMIT core is changed; core_digest is kept.",
+  "expect": {
+    "authorization.core_digest_recomputed": false,
+    "authorization.verdict": "PERMIT",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "MISMATCH",
+    "evidence.verifier_verdict": "valid",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

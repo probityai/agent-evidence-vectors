@@ -12,6 +12,126 @@
   },
   "files": [
     {
+      "path": "cases/B1-valid-binding/evidence.dsse.json",
+      "sha256": "04320e77eb11a3aef5b96cc0928eb7f43d3a853a7bb5455e2ea9e58a56d79d26",
+      "bytes": 3419,
+      "role": "case"
+    },
+    {
+      "path": "cases/B1-valid-binding/expected.json",
+      "sha256": "4d53185c2e79784ac00ec65563263a347c9f2df3c7278e6d4f5d8045705fc236",
+      "bytes": 472,
+      "role": "case"
+    },
+    {
+      "path": "cases/B1-valid-binding/verdict-record.json",
+      "sha256": "3e54d651814e0cc70a6778ebfa495ce430dd1fa8d55d8b3eb42f0a40ac2145e9",
+      "bytes": 1813,
+      "role": "case"
+    },
+    {
+      "path": "cases/B2-mismatched-digest/evidence.dsse.json",
+      "sha256": "d722879b80de6d319b908a662618a950e0526bc14d479e410fbf05c600dc1da9",
+      "bytes": 3419,
+      "role": "case"
+    },
+    {
+      "path": "cases/B2-mismatched-digest/expected.json",
+      "sha256": "ecfbfa03fe9bdb671f77a3295c8310db8fcaf1b9f3ad5f181bda13b2dfa7c67f",
+      "bytes": 466,
+      "role": "case"
+    },
+    {
+      "path": "cases/B2-mismatched-digest/verdict-record.json",
+      "sha256": "3e54d651814e0cc70a6778ebfa495ce430dd1fa8d55d8b3eb42f0a40ac2145e9",
+      "bytes": 1813,
+      "role": "case"
+    },
+    {
+      "path": "cases/B3-missing-receipt/expected.json",
+      "sha256": "d22637394bbde7b73a302457065de94a94a25d71a4093bac0a0b8a64dddaf1d3",
+      "bytes": 459,
+      "role": "case"
+    },
+    {
+      "path": "cases/B3-missing-receipt/verdict-record.json",
+      "sha256": "3e54d651814e0cc70a6778ebfa495ce430dd1fa8d55d8b3eb42f0a40ac2145e9",
+      "bytes": 1813,
+      "role": "case"
+    },
+    {
+      "path": "cases/C1-mutated-core/evidence.dsse.json",
+      "sha256": "04320e77eb11a3aef5b96cc0928eb7f43d3a853a7bb5455e2ea9e58a56d79d26",
+      "bytes": 3419,
+      "role": "case"
+    },
+    {
+      "path": "cases/C1-mutated-core/expected.json",
+      "sha256": "1de5b4d28b6dbdae5702886e4e7b38ca5133afa96bba9ddcdb7109e9c4ec8593",
+      "bytes": 459,
+      "role": "case"
+    },
+    {
+      "path": "cases/C1-mutated-core/verdict-record.json",
+      "sha256": "4d510a8e9bc7e5ee188423262eed609cd5cb4962b5d3e48c5143d36a3657764c",
+      "bytes": 1813,
+      "role": "case"
+    },
+    {
+      "path": "cases/C2-permit-digest-for-deny/evidence.dsse.json",
+      "sha256": "04320e77eb11a3aef5b96cc0928eb7f43d3a853a7bb5455e2ea9e58a56d79d26",
+      "bytes": 3419,
+      "role": "case"
+    },
+    {
+      "path": "cases/C2-permit-digest-for-deny/expected.json",
+      "sha256": "4795d009b883d08cfcf31427ec9169db1874f181d7f7b511b34b21e3af0adcc5",
+      "bytes": 474,
+      "role": "case"
+    },
+    {
+      "path": "cases/C2-permit-digest-for-deny/verdict-record.json",
+      "sha256": "8cef62bb0243f001a936d78a1db39007cce14103c7d306ce6a97ec181f7aa7cb",
+      "bytes": 980,
+      "role": "case"
+    },
+    {
+      "path": "cases/C3-ratification-link-elsewhere/expected.json",
+      "sha256": "52f8cf17213e49c06e66f6ee63946081896b47d97677b972b6ad6cbb7cb816f2",
+      "bytes": 474,
+      "role": "case"
+    },
+    {
+      "path": "cases/C3-ratification-link-elsewhere/ratification.json",
+      "sha256": "df38e3e5a1dc7a0f0125d9777d90a52d8dc43eb09c27c14204b36bcbc04a1a28",
+      "bytes": 1035,
+      "role": "case"
+    },
+    {
+      "path": "cases/C3-ratification-link-elsewhere/verdict-record.json",
+      "sha256": "74baf533c9010552d0cc1e11a7aa7ac75419cc66d0f9e84b6efb457e45056dbd",
+      "bytes": 1442,
+      "role": "case"
+    },
+    {
+      "path": "cases/C4-tampered-evidence/evidence.dsse.json",
+      "sha256": "85358707fa4c66f99bcd3744b6492f9f40b5722cbe77811d969f9566ee8d78a8",
+      "bytes": 3419,
+      "role": "case"
+    },
+    {
+      "path": "cases/C4-tampered-evidence/expected.json",
+      "sha256": "9fe7fd1f5542eb1b3c45c5524fc4b00b3b5cc8f9792a8bfc2bb3a80b3288657b",
+      "bytes": 447,
+      "role": "case"
+    },
+    {
+      "path": "cases/C4-tampered-evidence/verdict-record.json",
+      "sha256": "3e54d651814e0cc70a6778ebfa495ce430dd1fa8d55d8b3eb42f0a40ac2145e9",
+      "bytes": 1813,
+      "role": "case"
+    },
+    {
       "path": "fixtures/aae-v1.4.0/01-type-form-matches-permit.json",
       "sha256": "7bf8785c51259508ca6985dd5fe171e7553c8d35bf30581a68992e1d12e17fa7",
       "bytes": 2039,

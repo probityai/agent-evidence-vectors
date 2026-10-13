@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import base64
 import copy
 import json
 import shutil
 from pathlib import Path
 from typing import Any
 
+import bind
+import gen_cases
 import kernel
 import pins
 import pytest
@@ -332,3 +335,130 @@ class TestPins:
         (root / "INPUTS.json").write_text(json.dumps(document), encoding="ascii")
         with pytest.raises(strict_json.InputError, match="outside the input tree"):
             pins.check_pins(root)
+
+
+CASES = sorted(path for path in (HERE / "cases").iterdir() if path.is_dir())
+
+
+def case_inputs(directory: Path) -> tuple[dict[str, Any], bytes | None, Any]:
+    record = json.loads((directory / "verdict-record.json").read_text(encoding="ascii"))
+    evidence = directory / "evidence.dsse.json"
+    ratification = directory / "ratification.json"
+    return (
+        record,
+        evidence.read_bytes() if evidence.exists() else None,
+        json.loads(ratification.read_text(encoding="ascii")) if ratification.exists() else None,
+    )
+
+
+def permit_record() -> dict[str, Any]:
+    return case_inputs(HERE / "cases" / "B1-valid-binding")[0]
+
+
+def envelope_with(statement: dict[str, Any]) -> bytes:
+    payload = base64.b64encode(json.dumps(statement).encode("utf-8")).decode("ascii")
+    return json.dumps({"payload": payload, "payloadType": "x", "signatures": []}).encode()
+
+
+class TestBindingCases:
+    def test_three_cases_and_four_controls(self) -> None:
+        roles = [json.loads((path / "expected.json").read_text())["role"] for path in CASES]
+        assert roles.count("case") == 3 and roles.count("control") == 4
+
+    @pytest.mark.parametrize("directory", CASES, ids=lambda path: path.name)
+    def test_case_produces_its_declared_outcome(self, directory: Path) -> None:
+        declared = json.loads((directory / "expected.json").read_text(encoding="ascii"))
+        produced = bind.claim_values(bind.bind(*case_inputs(directory)))
+        assert produced == declared["expect"]
+
+    def test_cases_regenerate_byte_for_byte(self, tmp_path: Path) -> None:
+        gen_cases.write_cases(tmp_path, gen_cases.generator())
+        written = sorted(path.relative_to(tmp_path) for path in tmp_path.rglob("*.json"))
+        committed = sorted(path.relative_to(HERE / "cases")
+                           for path in (HERE / "cases").rglob("*.json"))
+        assert written == committed
+        for relative in written:
+            assert (tmp_path / relative).read_bytes() == (HERE / "cases" / relative).read_bytes()
+
+    def test_b1_evidence_cites_the_record_digest_of_vector_01(self) -> None:
+        record = permit_record()
+        assert record["core_digest"] == vector_named("01")["expected"]["core_digest"]
+        result = bind.bind(record, case_inputs(HERE / "cases" / "B1-valid-binding")[1])
+        assert result["binding"]["cited"] == bind.record_digest(record)
+        assert result["binding"]["field"] == "predicate.authorityDigest"
+
+    def test_valid_authorization_never_sets_execution(self) -> None:
+        result = bind.bind(permit_record(), None)
+        assert result["authorization"]["core_digest_recomputed"] is True
+        assert result["authorization"]["verdict"] == kernel.PERMIT
+        assert result["execution"]["status"] == "UNKNOWN"
+
+    def test_missing_record_never_fails_authorization(self) -> None:
+        for directory in CASES:
+            record, evidence, ratification = case_inputs(directory)
+            with_evidence = bind.bind(record, evidence, ratification)["authorization"]
+            alone = bind.bind(record, None, ratification)["authorization"]
+            assert with_evidence == alone
+
+    def test_execution_is_never_reported_as_proven(self) -> None:
+        statuses = {bind.bind(*case_inputs(path))["execution"]["status"] for path in CASES}
+        assert statuses <= {"CLAIMED_BY_BOUND_RECORD", "UNKNOWN"}
+        assert bind.execution(False, True, "valid")["status"] == "UNKNOWN"
+        assert "no observed mutation" in bind.execution(False, True, "valid")["reason"]
+
+
+class TestBindingRefusals:
+    @pytest.mark.parametrize(
+        "change",
+        [
+            lambda record: record.update(extra=1),
+            lambda record: record.pop("core_digest"),
+            lambda record: record["core"].pop("trace"),
+            lambda record: record["core"].update(verdict="ALLOW"),
+            lambda record: record["core"].update(grant_index=-1),
+            lambda record: record["core"].update(grant_index=True),
+            lambda record: record["core"].update(grant_index=0.0),
+            lambda record: record.update(core_digest="sha256:" + "A" * 64),
+            lambda record: record["core"].update(trace={}),
+        ],
+    )
+    def test_malformed_verdict_record(self, change: Any) -> None:
+        record = permit_record()
+        change(record)
+        with pytest.raises(strict_json.InputError):
+            bind.bind(record, None)
+
+    @pytest.mark.parametrize(
+        "raw",
+        [
+            b'{"payload": "!!"}',
+            b'{"payload": 5}',
+            b'{"payload": "e30=", "payload": "e30="}',
+            envelope_with({"predicateType": "https://example.com/other", "predicate": {}}),
+            envelope_with({"predicateType": bind.OBSERVED_EFFECT_TYPE,
+                           "predicate": {"authorityDigest": "AB" * 32}}),
+            envelope_with({"predicateType": bind.OBSERVED_EFFECT_TYPE, "predicate": []}),
+        ],
+    )
+    def test_malformed_evidence(self, raw: bytes) -> None:
+        with pytest.raises(strict_json.InputError):
+            bind.bind(permit_record(), raw)
+
+    def test_ratification_with_unpinned_key_is_refused(self) -> None:
+        record, _evidence, request = case_inputs(HERE / "cases" / "C3-ratification-link-elsewhere")
+        request["authority_proof"]["mandate"]["principal"]["public_key"] = "22" * 32
+        with pytest.raises(strict_json.InputError, match="pin set"):
+            bind.bind(record, None, request)
+
+    def test_ratification_with_unknown_member_is_refused(self) -> None:
+        record, _evidence, request = case_inputs(HERE / "cases" / "C3-ratification-link-elsewhere")
+        request["note"] = "x"
+        with pytest.raises(strict_json.InputError, match="only decision"):
+            bind.bind(record, None, request)
+
+    def test_valid_ratification_of_the_deny_record(self) -> None:
+        record, _evidence, request = case_inputs(HERE / "cases" / "C3-ratification-link-elsewhere")
+        request["prev_core_digest"] = None
+        result = bind.bind(record, None, request)["authorization"]
+        assert result["ratification"]["status"] == kernel.RATIFIED
+        assert result["verdict"] == kernel.DENY

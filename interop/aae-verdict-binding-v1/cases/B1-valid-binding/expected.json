@@ -1,0 +1,14 @@
+{
+  "name": "B1-valid-binding",
+  "role": "case",
+  "describe": "The vector 01 PERMIT record and an observed-effect record citing it.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "PERMIT",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "MATCH",
+    "evidence.verifier_verdict": "valid",
+    "execution.status": "CLAIMED_BY_BOUND_RECORD",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}

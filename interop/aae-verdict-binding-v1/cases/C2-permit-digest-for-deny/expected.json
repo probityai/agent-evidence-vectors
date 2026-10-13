@@ -1,0 +1,14 @@
+{
+  "name": "C2-permit-digest-for-deny",
+  "role": "control",
+  "describe": "The vector 02 DENY record offered with evidence citing the PERMIT record.",
+  "expect": {
+    "authorization.core_digest_recomputed": true,
+    "authorization.verdict": "DENY",
+    "authorization.ratification.status": "NOT_REQUESTED",
+    "binding.status": "MISMATCH",
+    "evidence.verifier_verdict": "valid",
+    "execution.status": "UNKNOWN",
+    "completeness.status": "NOT_ESTABLISHED"
+  }
+}
