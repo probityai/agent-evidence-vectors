@@ -1147,7 +1147,8 @@ def _raised(fn: Callable[..., Any]) -> list[tuple[str, str | None]]:
         if not isinstance(node.exc.func, ast.Name):
             continue
         first = node.exc.args[0] if node.exc.args else None
-        code = first.value if isinstance(first, ast.Constant) else None
+        literal = first.value if isinstance(first, ast.Constant) else None
+        code = literal if isinstance(literal, str) else None
         found.append((node.exc.func.id, code))
     return found
 
