@@ -38,9 +38,12 @@ sys.path.insert(0, str(HERE))
 
 import extract as X  # noqa: E402
 import gen_vectors as G  # noqa: E402
+import schema_build  # noqa: E402
+from model import Rule  # noqa: E402
 
 PASS = {"conformance": "valid", "recommended": "met"}
 SCHEMA_OF = {"required": "conformance", "recommended": "recommended"}
+LEVEL_OF = {v: k for k, v in SCHEMA_OF.items()}
 
 
 class Findings:
@@ -160,31 +163,40 @@ def tagged(schema: dict[str, Any]) -> list[str]:
 def check_rule_sets(
     manifest: dict[str, Any], schemas: dict[str, dict[str, Any]], out: Findings
 ) -> None:
-    """Each schema carries exactly the rules of its level, once each."""
+    """Each schema carries exactly the rules of its level, and is the schema they generate."""
     for table, entry in manifest["tables"].items():
         rules = entry["rules"]
         want = {
             "conformance": [r["id"] for r in rules if r["level"] == "required"],
             "recommended": [r["id"] for r in rules],
         }
+        model = [Rule.from_json(table, r) for r in rules]
         for level, ids in want.items():
-            have = tagged(schemas[table][level])
+            schema = schemas[table][level]
+            have = tagged(schema)
             out.check(
                 sorted(have) == sorted(ids) and len(set(have)) == len(have),
                 f"{table} {level} schema rules differ from MANIFEST.json",
             )
+            rebuilt = schema_build.build(schema.get("title", ""), model, LEVEL_OF[level])
+            out.check(
+                rebuilt == schema, f"{table} {level} schema is not the one its rules generate"
+            )
 
 
-def mutated(schema: dict[str, Any], rule_id: str, how: str) -> dict[str, Any]:
-    """The schema with one rule deleted, or with its condition dropped."""
+def mutated(schema: dict[str, Any], rule_id: str, how: str) -> dict[str, Any] | None:
+    """The schema with one rule deleted, or with its condition dropped.
+
+    None when the rule is not in the schema, or has no condition to drop.
+    """
     out = copy.deepcopy(schema)
     tag = f"rule:{rule_id}"
-    kept = []
-    for entry in out["allOf"]:
-        if entry["$comment"] != tag:
-            kept.append(entry)
-        elif how == "drop-condition":
-            kept.append({"$comment": tag, **entry["then"]})
+    found = [e for e in out["allOf"] if e["$comment"] == tag]
+    if len(found) != 1 or (how == "drop-condition" and "then" not in found[0]):
+        return None
+    kept = [e for e in out["allOf"] if e["$comment"] != tag]
+    if how == "drop-condition":
+        kept.append({"$comment": tag, **found[0]["then"]})
     out["allOf"] = kept
     return out
 
@@ -234,7 +246,11 @@ def sweep_rule(
         members = [m for k, m in roles if k == role]
         if not members:
             continue
-        validator = Draft202012Validator(mutated(schemas[table][level], rule["id"], how))
+        schema = mutated(schemas[table][level], rule["id"], how)
+        if schema is None:
+            out.fail(f"{rule['id']}: the {level} schema carries no entry that can be {how}d")
+            continue
+        validator = Draft202012Validator(schema)
         for member in members:
             if expected[member][level] is None:
                 out.fail(f"{member}: names {rule['id']} at a level its verdict leaves open")

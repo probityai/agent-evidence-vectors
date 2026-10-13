@@ -47,6 +47,23 @@ class Rule:
         """True when the rule only applies under a condition."""
         return bool(self.when) or self.entries_at_least > 0
 
+    @classmethod
+    def from_json(cls, table: str, doc: dict[str, Any]) -> Rule:
+        """The rule MANIFEST.json records, read back."""
+        return cls(
+            id=doc["id"],
+            table=table,
+            kind=doc["kind"],
+            level=doc["level"],
+            field=doc.get("field", ""),
+            when=tuple(doc.get("when", ())),
+            entries_at_least=doc.get("entriesAtLeast", 0),
+            parent_guard_explicit=doc.get("parentGuardExplicit", False),
+            value=doc.get("value", ""),
+            text=doc["text"],
+            binds=tuple(doc["binds"]),
+        )
+
     def as_json(self) -> dict[str, Any]:
         """The rule as MANIFEST.json records it."""
         out: dict[str, Any] = {"id": self.id, "kind": self.kind, "level": self.level}
