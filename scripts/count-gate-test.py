@@ -803,6 +803,16 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "an issue number in a GitHub URL is an identifier, not a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            "\nThe report is at https://github.com/probityai/agent-evidence-vectors/"
+            f"issues/{OBSERVED_EFFECT_REJECT}#issuecomment-1 and nowhere else.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "ordinary numbers that stand for nothing about the corpus",
         lambda root: append(
             root,

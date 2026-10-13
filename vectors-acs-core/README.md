@@ -166,6 +166,35 @@ outside party can refuse it without the Guardian's account or the key. Its
 accepting twin presents the same head to a key-holder as integrity evidence, so
 a verifier that refuses every HMAC head fails the family rather than passing it.
 
+## A session that starts with no Guardian
+
+Family `acs-f-5` holds a step that proceeds without a decision after the
+handshake completed: section 6.4 requires an audit event, and a Guardian exists
+to receive it. Family `acs-f-11` holds the same property one level up. When
+`handshake/hello` produces no ServerHello, section 4.1 has the Observed Agent
+apply a startup posture configured out of band, `proceed` by default, and
+requires the unguarded start to be recorded in the deployment's own audit log,
+because there is no Guardian to receive the event. The two families want
+different witnesses, so they are two families; every `acs-f-11` member is
+`SELF`, because the deployment's own log is the only record.
+
+What the family turns on is whether a record of the start exists, not whether
+the session started: a member that asserted only the start would score the
+default posture as evidence of enforcement. Each rejecting member sits one
+field away from the accepting member with no answer at all, so each names the
+one fact it turns on. Remove the record and the start is unrecorded. Replace
+the silence with `SESSION_REFUSED` and the posture has been applied over a
+decision, which section 4.1 forbids, so the session is refused with the code
+the Guardian sent. Set the posture to `refuse` and the session should never
+have started. A second accepting member answers the hello with a JSON-RPC
+internal error, which is an error without a ServerHello and not one of the
+refusals section 4.1 lists, so an Observed Agent that reads every error as a
+decision fails it. The record's shape is not fixed by the specification, so
+the members assert that a record exists and never how it is spelt.
+
+The two paths were named on
+GenAI-Security-Project/agent-control-standard#33.
+
 Nothing here tests content filtering, model robustness, or prompt injection
 detection. The member about attributed content tests one property: that
 provenance establishes lineage and confers no authority. A suite that reached

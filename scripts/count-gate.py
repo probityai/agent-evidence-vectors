@@ -1321,11 +1321,11 @@ FROZEN: tuple[Frozen, ...] = (
         'tag and must not track the current corpus.',
     ),
     Frozen(
-        'docs/proposals/ai-agent-action-round7.md',
-        'an in-toto ITE pull request number',
-        '[in-toto/ITE#63](https://github.com/in-toto/ITE/pull/63):',
-        'An integer that counts something other than this corpus and equals one of its figures by'
-        ' coincidence: the number of a pull request in another repository.',
+        'docs/INTEROP-EVIDENCE.md',
+        'the comment count of a third-party thread on the day it was read',
+        'carried 48 comments and 0 reviews',
+        'A count of the comments on another project\'s thread, read once on a stated day. It '
+        'records that reading and equals the ACS-Core corpus total by coincidence.',
     ),
     Frozen(
         'scripts/_decoding.py',
@@ -2526,6 +2526,14 @@ MASKS = tuple(
         # shape: a cron minute is the first example it gives of what the
         # small-value window kept reporting.
         r"cron:\s*[\"']\s*[-\d,*/\s]+[\"']",
+        # An issue, pull-request or discussion number in a GitHub URL. It is the
+        # same identifier the `#\d+` mask below already exempts, spelled as a
+        # path, and it counts nothing. It surfaced when the ACS-Core reject count
+        # reached the number of an issue of this repository that a run record
+        # links to twice in one sentence; a per-site freeze would have to be
+        # rewritten every time a count walked onto another issue number, which
+        # is the argument the w3c rule-id mask gives against freezing an id.
+        r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string

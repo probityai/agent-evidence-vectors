@@ -44,7 +44,8 @@
     "acs-f-7": "steps in mandate individually and out of mandate in aggregate",
     "acs-f-8": "attributed content standing in for an authorization",
     "acs-f-9": "a handshake or a disposition answered outside the negotiated contract",
-    "acs-f-10": "a Guardian response signed by a party other than the Guardian"
+    "acs-f-10": "a Guardian response signed by a party other than the Guardian",
+    "acs-f-11": "a handshake that produced no ServerHello and a session that started anyway"
   },
   "outOfScope": {
     "the MODIFY disposition and its composition rules": "an open pull request moves MODIFY support out of the mandatory profile and adds a new section for the declaration, and neither the new section nor the declaration field exists at the pinned commit",
@@ -278,14 +279,44 @@
       "sentence": "A required signature is missing, malformed, or fails verification",
       "sentenceDigest": "2d0f1473abc9de5cf83e996a6314095fde5f52c46324b24a7d9758a62a62c934",
       "specVersion": "0.1.0"
+    },
+    {
+      "id": "ACS-R-023",
+      "role": "deployment",
+      "file": "specification",
+      "vendored": "spec-vendored/specification-9d4a9da.md",
+      "line": 77,
+      "sentence": "A session started unguarded MUST be recorded in the deployment's own audit log",
+      "sentenceDigest": "d4c58251de2421c9b3710e2046db6573641a3fa893ea52af2ac63f9782140062",
+      "specVersion": "0.1.0"
+    },
+    {
+      "id": "ACS-R-024",
+      "role": "agent",
+      "file": "specification",
+      "vendored": "spec-vendored/specification-9d4a9da.md",
+      "line": 77,
+      "sentence": "A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.",
+      "sentenceDigest": "a86dd647ca5d0f3bf3d63f2f64dbe011d6965b055765e4a9371bb690c0e11f1f",
+      "specVersion": "0.1.0"
+    },
+    {
+      "id": "ACS-R-025",
+      "role": "agent",
+      "file": "specification",
+      "vendored": "spec-vendored/specification-9d4a9da.md",
+      "line": 75,
+      "sentence": "`proceed` starts the session unguarded, `refuse` does not start it",
+      "sentenceDigest": "a5f72ccb5b2aba50884978689093a3f2dc5d6b51aa363cdd8237f80f0a01bb11",
+      "specVersion": "0.1.0"
     }
   ],
   "counts": {
-    "accept": 15,
-    "reject": 26,
+    "accept": 17,
+    "reject": 29,
     "indeterminate": 2
   },
-  "corpusDigest": "990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb",
+  "corpusDigest": "ceadb29d215a963a24c8f25ae967c09406c56c7df65bdf18a312866214bed8c0",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -349,6 +380,26 @@
       "cites": "a shell command that leaves the reasoning context and fires no hook, because the framework's registry does not model it as a tool. The requirement is written against what escapes rather than against what the registry holds."
     },
     {
+      "id": "v0e1b9d0f75f54e9c",
+      "kind": "reject",
+      "file": "vectors/v0e1b9d0f75f54e9c.json",
+      "family": "acs-f-11",
+      "requirements": [
+        "ACS-R-023"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a hello that nothing answered before the connection timeout, the default startup posture, a session that started, and a deployment audit log with no record of the unguarded start. The posture is conformant and the silence is not. The step-level twin in acs-f-5 has a Guardian to receive its audit event; here the handshake never completed, so there is no Guardian to receive anything and the deployment's own log is the only witness, which is why the member is SELF. A member that asserted only that the session started would score the default posture as evidence of enforcement."
+    },
+    {
       "id": "v100f74962fbb8b94",
       "kind": "reject",
       "file": "vectors/v100f74962fbb8b94.json",
@@ -387,6 +438,26 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "the same budget with the fourth request carrying a session-state hint claiming a fresh count. The hint comes from the party under governance, so an implementation that reads its counter out of the request has handed the budget to the agent it bounds."
+    },
+    {
+      "id": "v1ce4aeb611285368",
+      "kind": "reject",
+      "file": "vectors/v1ce4aeb611285368.json",
+      "family": "acs-f-11",
+      "requirements": [
+        "ACS-R-024"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SESSION_REFUSED",
+        "codeValue": -32000,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "effective",
+      "cites": "a hello the Guardian answered with SESSION_REFUSED, followed by the startup posture applied as though nothing had answered: the session started and the deployment log records an unguarded start. A refusal is a decision, and section 4.1 applies the posture only when no answer arrives, so the session is refused with the code the Guardian sent. A checker that looks only for the deployment-log record passes this member, and so does an Observed Agent that reads every error without a ServerHello as an outage."
     },
     {
       "id": "v221edeb22c4e8634",
@@ -572,6 +643,27 @@
       "cites": "the same head signed by the Guardian under the key its key_id resolves to, so a verifier that refuses every asymmetric head scores zero on the family."
     },
     {
+      "id": "v58b380041d50cb9a",
+      "kind": "accept",
+      "file": "vectors/v58b380041d50cb9a.json",
+      "family": "acs-f-11",
+      "requirements": [
+        "ACS-R-023",
+        "ACS-R-025"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same unanswered hello with the unguarded start recorded in the deployment's own audit log, the witness section 4.1 names because no Guardian exists to receive the event. The discriminator is whether a record of the start exists, not whether the session started, and a deployment that refuses every unguarded start scores zero here rather than full marks."
+    },
+    {
       "id": "v661266c5c87cb206",
       "kind": "reject",
       "file": "vectors/v661266c5c87cb206.json",
@@ -733,6 +825,26 @@
       "cites": "the same HMAC head presented to the Observed Agent, a key-holder, as integrity evidence, which section 8.6 says the baseline gives. A verifier that refuses every HMAC head scores zero here, so the member above measures the external claim rather than the algorithm."
     },
     {
+      "id": "v93c6cced4a3b9f13",
+      "kind": "reject",
+      "file": "vectors/v93c6cced4a3b9f13.json",
+      "family": "acs-f-11",
+      "requirements": [
+        "ACS-R-025"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "configured",
+      "cites": "the same unanswered hello under a startup posture configured to refuse, and a session that started anyway, recorded in the deployment log as an unguarded start. The record is present, so a checker that reads only the log passes it; the configured posture never took effect. No registry code names a refused start with no Guardian to send one, so none is asserted."
+    },
+    {
       "id": "v986429a577e03404",
       "kind": "reject",
       "file": "vectors/v986429a577e03404.json",
@@ -833,6 +945,26 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "a request the policy engine escalates, sent by a client with no way to resolve an ASK. The Guardian must substitute DEFER or DENY; an `ask` carrying no `ask_details` is neither a decision the client can act on nor the substitution the rule requires. A bridge that maps escalate to ask by name and has no source for an approver or a question emits exactly that."
+    },
+    {
+      "id": "va2b212fbc0966f59",
+      "kind": "accept",
+      "file": "vectors/va2b212fbc0966f59.json",
+      "family": "acs-f-11",
+      "requirements": [
+        "ACS-R-024"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "effective",
+      "cites": "the same hello answered with a JSON-RPC internal error, which is not one of the refusals section 4.1 lists. An error without a ServerHello is a handshake failure, so the posture applies, the session starts and the start is recorded. An Observed Agent that treats every error as a decision fails this member, and the member above measures the refusal rather than the error."
     },
     {
       "id": "va2fea96983583972",
