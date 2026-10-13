@@ -6,11 +6,13 @@ Regenerate byte-identically:
     uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
 
 The corpus is Appendix B of the Internet-Draft
-draft-gilda-wimse-agent-audit-record-02, member for member. Every member is a
-complete DSSE envelope whose payload is an in-toto Statement v1 carrying an agent
-audit record. The vector file carries the bytes and nothing else; the verdict a
-verifier must reach, and the Appendix B identifier the member answers to, live in
-MANIFEST.json.
+draft-gilda-wimse-agent-audit-record-02, member for member, followed by members
+for rules of Sections 5.4 and 5.5 that Appendix B carries no row for. Each of
+those names the section it tests in ``draftSection`` and continues the
+identifier series of the rows beside it. Every member is a complete DSSE
+envelope whose payload is an in-toto Statement v1 carrying an agent audit record.
+The vector file carries the bytes and nothing else; the verdict a verifier must
+reach, and the identifier the member answers to, live in MANIFEST.json.
 
 Each reject member is built from the accept member the Appendix B `from` column
 names, by the one mutation its row describes, so a verifier that refuses every
@@ -286,6 +288,7 @@ def member(
     codes: list[str] | None = None,
     tier: str | None = None,
     readings: list[dict[str, str]] | None = None,
+    section: str | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -308,6 +311,7 @@ def member(
             "codes": codes or [],
             "tier": tier,
             "readings": readings,
+            "section": section,
         }
     )
 
@@ -432,6 +436,34 @@ def build_a11() -> Built:
     pred = baseline()
     pred["oversight"] = {"act": "check", "recordDigest": h("overseer/signed-record")}
     return accept("A11", pred)
+
+
+# --- accept members for Sections 5.4 and 5.5 -------------------------------
+#
+# Appendix B has one accept row per member: A10 names standing-source and A11
+# names check. A reader that hard-coded those two values scored every row, so
+# these carry every other value of both closed sets. Found by an outside reader
+# who wrote the rules from the section text rather than from the rows.
+
+
+def _unavailable(name: str, inputs: list[str]) -> Callable[[], Built]:
+    def build() -> Built:
+        pred = from_pred("A10")
+        pred["evaluation"]["unavailableInput"] = inputs
+        return accept(name, pred)
+
+    return build
+
+
+def _oversight(name: str, act: str, *, record_digest: bool = True) -> Callable[[], Built]:
+    def build() -> Built:
+        pred = from_pred("A11")
+        pred["oversight"]["act"] = act
+        if not record_digest:
+            del pred["oversight"]["recordDigest"]
+        return accept(name, pred)
+
+    return build
 
 
 # --- reject members -------------------------------------------------------
@@ -1067,6 +1099,125 @@ def define() -> None:
         readings=TWO_READINGS_N2,
     )
 
+    # Members for rules of Sections 5.4 and 5.5 that Appendix B carries no row
+    # for. They follow every Appendix B row, so the rows keep the table's order,
+    # and each names its section in draftSection.
+    section_accepts: list[tuple[str, str, str, str, Callable[[], Built]]] = [
+        (
+            "A12",
+            "a12-not-evaluated-key-source",
+            "5.4",
+            "A10 with unavailableInput of key-source",
+            _unavailable("A12", ["key-source"]),
+        ),
+        (
+            "A13",
+            "a13-not-evaluated-consumption-state",
+            "5.4",
+            "A10 with unavailableInput of consumption-state",
+            _unavailable("A13", ["consumption-state"]),
+        ),
+        (
+            "A14",
+            "a14-not-evaluated-all-three-inputs",
+            "5.4",
+            "A10 with unavailableInput naming all three inputs, each once, in neither "
+            "the draft's order nor sorted order",
+            _unavailable("A14", ["key-source", "standing-source", "consumption-state"]),
+        ),
+        (
+            "A15",
+            "a15-oversight-observation",
+            "5.5",
+            "A11 with oversight act of observation",
+            _oversight("A15", "observation"),
+        ),
+        (
+            "A16",
+            "a16-oversight-decision-without-record-digest",
+            "5.5",
+            "A11 with oversight act of decision and recordDigest absent, which is optional",
+            _oversight("A16", "decision", record_digest=False),
+        ),
+        (
+            "A17",
+            "a17-oversight-release",
+            "5.5",
+            "A11 with oversight act of release",
+            _oversight("A17", "release"),
+        ),
+    ]
+    for draft_id, slug, section, row, build in section_accepts:
+        member(draft_id, slug, None, row, build, "valid", tier="authoritative", section=section)
+
+    section_rejects: list[tuple[str, str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "EV5",
+            "ev5-not-evaluated-empty-unavailable-input",
+            "A10",
+            "5.4",
+            "not-evaluated with unavailableInput of the empty array",
+            mutate("A10", _set("evaluation.unavailableInput", [])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV6",
+            "ev6-unavailable-input-named-twice",
+            "A10",
+            "5.4",
+            "not-evaluated with standing-source named twice",
+            mutate("A10", _set("evaluation.unavailableInput", ["standing-source"] * 2)),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV7",
+            "ev7-unavailable-input-not-an-array",
+            "A10",
+            "5.4",
+            "not-evaluated with unavailableInput of the string standing-source, not an array",
+            mutate("A10", _set("evaluation.unavailableInput", "standing-source")),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV8",
+            "ev8-evaluated-unavailable-input-null",
+            "A2",
+            "5.4",
+            "evaluated carrying unavailableInput of null",
+            mutate("A2", _set("evaluation.unavailableInput", None)),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV9",
+            "ev9-evaluated-unavailable-input-empty-array",
+            "A2",
+            "5.4",
+            "evaluated carrying unavailableInput of the empty array",
+            mutate("A2", _set("evaluation.unavailableInput", [])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "EV10",
+            "ev10-evaluated-unavailable-input-empty-string",
+            "A2",
+            "5.4",
+            "evaluated carrying unavailableInput of the empty string",
+            mutate("A2", _set("evaluation.unavailableInput", "")),
+            "evaluation-inconsistent",
+        ),
+        (
+            "OV3",
+            "ov3-oversight-without-act",
+            "A11",
+            "5.5",
+            "oversight with act removed, recordDigest kept",
+            mutate("A11", _drop("oversight.act")),
+            "member-missing",
+        ),
+    ]
+    for draft_id, slug, parent, section, row, build, code in section_rejects:
+        member(draft_id, slug, parent, row, build, "malformed", [code], section=section)
+
 
 def expected_of(entry: Member) -> dict[str, Any]:
     """The manifest's expected block: a settled row's verdict, never an open row's."""
@@ -1118,6 +1269,8 @@ def emit() -> None:
             out["parentDraftId"] = entry["parent"]
         if entry["readings"] is not None:
             out["readings"] = entry["readings"]
+        if entry["section"] is not None:
+            out["draftSection"] = entry["section"]
         vectors.append(out)
 
     for stale in sorted(os.listdir(statements_dir)):
@@ -1148,7 +1301,10 @@ def emit() -> None:
         "counts": counts,
         "note": (
             "One member per row of Appendix B of the draft, in the row's order; "
-            "draftId is the row's identifier and parentDraftId its from column. An "
+            "draftId is the row's identifier and parentDraftId its from column. The "
+            "members after the last row carry draftSection: each tests a rule of that "
+            "section that Appendix B carries no row for, and continues the identifier "
+            "series of the rows beside it. An "
             "accept or reject member is scored on expected.verdict. An indeterminate "
             "member is a row the draft leaves open: it carries no expected.verdict, "
             "and a verifier conforms on it by reaching any verdict its readings list. "
@@ -1183,8 +1339,8 @@ def write_index(manifest: dict[str, Any]) -> None:
         f"conformant verifier must not fail closed on and {counts['reject']} it "
         "must reject.",
         "",
-        "| Appendix B | from | verdict | file | row |",
-        "| --- | --- | --- | --- | --- |",
+        "| id | source | from | verdict | file | row |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for v in vectors:
         parent = v.get("parentDraftId", "root")
@@ -1192,8 +1348,9 @@ def write_index(manifest: dict[str, Any]) -> None:
             verdict = " or ".join(r["verdict"] for r in v["readings"])
         else:
             verdict = v["expected"]["verdict"]
+        source = f"Section {v['draftSection']}" if "draftSection" in v else "Appendix B"
         lines.append(
-            f"| `{v['draftId']}` | {parent} | {verdict} | "
+            f"| `{v['draftId']}` | {source} | {parent} | {verdict} | "
             f"[`{v['id']}`]({v['file']}) | {v['row']} |"
         )
     with open(os.path.join(HERE, "INDEX.md"), "w", encoding="utf-8") as fh:

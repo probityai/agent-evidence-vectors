@@ -48,8 +48,8 @@ func TestAuditRecordCorpusBehaves(t *testing.T) {
 			t.Errorf("corpus: %s", f)
 		}
 	}
-	if len(result.Members) != 55 {
-		t.Fatalf("expected the 55 Appendix B rows, read %d", len(result.Members))
+	if len(result.Members) != 68 {
+		t.Fatalf("expected the 55 Appendix B rows and 13 section members, read %d", len(result.Members))
 	}
 }
 
@@ -145,5 +145,56 @@ func TestAuditRecordHelpers(t *testing.T) {
 	}
 	if arHasAll(nil, []string{"a"}) {
 		t.Error("a missing object carries no members")
+	}
+}
+
+// arFailingDraftIDs judges the corpus and returns the identifier of every
+// member with a finding, in manifest order.
+func arFailingDraftIDs(t *testing.T) []string {
+	t.Helper()
+	result, err := Judge(arCorpusDir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var failing []string
+	for _, m := range result.Members {
+		if len(m.Findings) > 0 {
+			label, _, _ := strings.Cut(m.Findings[0], ":")
+			failing = append(failing, label)
+		}
+	}
+	return failing
+}
+
+// TestAuditRecordClosedSetsAreForced: a reader that knows only the one value of
+// each closed set Appendix B's accept rows carry (standing-source, check) fails
+// this corpus, and fails it on exactly the members that carry the other values.
+// Without them it scored every Appendix B row.
+func TestAuditRecordClosedSetsAreForced(t *testing.T) {
+	if got := arFailingDraftIDs(t); len(got) != 0 {
+		t.Fatalf("the tracked corpus must judge clean first, failing: %v", got)
+	}
+	inputs := arUnavailableInputs
+	arUnavailableInputs = []string{"standing-source"}
+	got := strings.Join(arFailingDraftIDs(t), ",")
+	arUnavailableInputs = inputs
+	if got != "A12,A13,A14" {
+		t.Errorf("unavailableInput hard-coded to standing-source: failing %q, want A12,A13,A14", got)
+	}
+	var acts *[]string
+	for i := range arVocabularies {
+		if arVocabularies[i].path == "oversight.act" {
+			acts = &arVocabularies[i].allowed
+		}
+	}
+	if acts == nil {
+		t.Fatal("no oversight.act vocabulary")
+	}
+	saved := *acts
+	*acts = []string{"check"}
+	got = strings.Join(arFailingDraftIDs(t), ",")
+	*acts = saved
+	if got != "A15,A16,A17" {
+		t.Errorf("oversight.act hard-coded to check: failing %q, want A15,A16,A17", got)
 	}
 }
