@@ -142,7 +142,12 @@ bash claim-downgrade/run.sh
 (`3953c8ab3c48f3e8b6d1779c2eafacb997f0336555ea0e1e6a83056fe2c5755f`), builds
 `readers/w3c-report-rs` from tag v0.18.1 with `--locked`, runs the 22 cases and
 prints the sha256 of `results.json`. The recorded run is in
-[`claim-downgrade/results.json`](claim-downgrade/results.json).
+[`claim-downgrade/results.json`](claim-downgrade/results.json) (sha256
+`695e664deab4b36bd6794b1d101780bdbced6d1e3af9a7f15ebad9855ee930b5`), made on
+2026-10-13 with CPython 3.13.15 on Linux x86_64; the Rust binary built from
+v0.18.1 (commit `33d545104ff2f8c124cff465c96c013eeb809156`) had sha256
+`bd89ad2fbe7d704d5c67689523c52203bb92c011f9e4b067c400ad1ca7a7e383` on three
+separate builds.
 
 | Base | Case | Variable changed | v0.1 says | Python, store supplied | Python, no store; Rust | Claim status | Output same as base |
 | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -1,0 +1,633 @@
+{
+  "cases": [
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-0",
+      "claim_status_harness": "verified",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "dcb31355d83ee503a70da306c355eadf090b495b4ec1503b8d52e7d77d80be1e",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "accept-verified",
+      "text_section": "3 line 1",
+      "variable": "none"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-1",
+      "claim_status_harness": "unchecked",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "dcb31355d83ee503a70da306c355eadf090b495b4ec1503b8d52e7d77d80be1e",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": true,
+      "text_outcome": "accept-unchecked",
+      "text_section": "3 line 3",
+      "variable": "reader holds no resolution store"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-2",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-020"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "5e0e05710a6a2d06bb3754bac1233f749989677991ecddf650a05a8c189e4ca7",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "3 line 2",
+      "variable": "one observation digest differs from the resolved bytes"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-3",
+      "claim_status_harness": "unchecked",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "dcb31355d83ee503a70da306c355eadf090b495b4ec1503b8d52e7d77d80be1e",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": true,
+      "text_outcome": "accept-unchecked",
+      "text_section": "3 line 3",
+      "variable": "one observation does not resolve"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-4",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-011"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-011"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "078c52e2e789b783ecb67141664c07fb9a04f50ca3ba5e51340f8b789fa387d4",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-011]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "4 row 11",
+      "variable": "discrimination cites an evidence id the report lacks"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-5",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-011"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-011"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "c0f2a7354bf064e20d83d9918155ad6439a9377471ee20930e89a74f71f3560b",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-011]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "4 row 11",
+      "variable": "discrimination cites no evidence"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-6",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-026"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-026"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "d78d706c8dcafd53af856156f7b57dab6af8d64efb91562b08fb3d16d5705add",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-026]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "4 row 14",
+      "variable": "one referenced observation carries no digest"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-7",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-024"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-024"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "432fabf34e78f72518e6beae08574b7136ef9a7b506d9464641a729d65bcd07d",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-024]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "1.3, 2 fixed",
+      "variable": "evidence leaves the checker identity unpinned"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-8",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-012"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-012"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "0fe4aad81c99351d2d67de3a89d32666d06045022a7f57360097c7dfc04bf56d",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-012]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "4 row 12",
+      "variable": "evidence changed slot is the checker"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B1",
+      "case": "B1-9",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-021",
+          "W3C-R-025"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "dcb31355d83ee503a70da306c355eadf090b495b4ec1503b8d52e7d77d80be1e",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "4 row 13",
+      "variable": "resolved body under the cited digest no longer differs in verdict"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-0",
+      "claim_status_harness": "verified",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "c6fbd5cdf93ef9bfa47baa2ca5f66c0cf3a0d84018bcc8dc14aff0fa407dc395",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "accept-verified",
+      "text_section": "5.4",
+      "variable": "none"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-1",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-029"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-029"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "a82cc90d6e547298d1f1822807e23085cfa1ad6793f34a95b1d385e163c0c713",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-029]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "5.4 condition 2",
+      "variable": "control checker differs from the run's"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-2",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-029"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-029"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "1da6b0169343b8814cdd3a5c0e8c7ae5cbfde73ce1f41016609219871608410b",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-029]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "5.4 condition 2",
+      "variable": "control constraint set differs from the run's"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-3",
+      "claim_status_harness": "unbound",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "e1ef881ef05fb98ba054ba3b027bbdde0a4000a401db8238af2dc0be25d3d80e",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": true,
+      "text_outcome": "accept-unbound",
+      "text_section": "5.4 condition 2; 5.5 O7",
+      "variable": "control declares no checker or constraint set"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-4",
+      "claim_status_harness": "unbound",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "384f62a66e62f0872cc9fbcdb74a5d36a56178ead5fb9ea7e06c597a23684d64",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": true,
+      "text_outcome": "accept-unbound",
+      "text_section": "5.4 condition 2; 5.5 O7",
+      "variable": "run declares no checker or constraint set"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-5",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-013"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-013"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "ca646994a993e0593643648fb47e43a9ef12f3eae4d105b10d056646406bdc65",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-013]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "5.4 fail means fail",
+      "variable": "control state inconclusive"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-6",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-013"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-013"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "fa188b316f1f5990864e6892f7c9f8f5ba29e4bf10cefd44ed9e1524fd41349d",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-013]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "5.4 condition 1",
+      "variable": "control names a check the run does not declare"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B2",
+      "case": "B2-7",
+      "claim_status_harness": "verified",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "3b610d32fa0391861d74ca6a2a105bad5a68e72bd7a8983256ef6b5da8cc0ab0",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "accept-verified",
+      "text_section": "none: v0.1 binds no operator",
+      "variable": "control carries a different operator"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B3",
+      "case": "B3-0",
+      "claim_status_harness": "unchecked",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "19379bcd87fc0217de3e0ba3728054536007269919a781dea4744965e6de04a4",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": false,
+      "text_outcome": "accept-unchecked",
+      "text_section": "5.4 prior run; 3 line 3",
+      "variable": "none"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B3",
+      "case": "B3-1",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-015"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-015"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "93396156de3b14196ef303b76aeb99c1318a4fb0b09e6fc7ba989141684a02ff",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-015]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "3.1",
+      "variable": "prior-run reference carries no leaf count"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B3",
+      "case": "B3-2",
+      "claim_status_harness": "unchecked",
+      "py_with_store": {
+        "rows": [],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": true,
+        "py_without_store": true,
+        "rust_report_mode": true
+      },
+      "report_sha256": "d1f8d3c297c478ccc261ad729458c417fb25d8898ddae40c04ddc16658bb0fdf",
+      "rust_report_mode": "ok   rows: no row fires (references unresolved, so rows reading moved degrade)",
+      "silent_downgrade": true,
+      "text_outcome": "accept-unchecked",
+      "text_section": "5.4 prior run; 3 line 3",
+      "variable": "prior-run reference digest matches nothing obtainable"
+    },
+    {
+      "agrees_with_text": true,
+      "base": "B3",
+      "case": "B3-3",
+      "claim_status_harness": "refused",
+      "py_with_store": {
+        "rows": [
+          "W3C-R-014"
+        ],
+        "shape": []
+      },
+      "py_without_store": {
+        "rows": [
+          "W3C-R-014"
+        ],
+        "shape": []
+      },
+      "reader_output_identical_to_base": {
+        "py_with_store": false,
+        "py_without_store": false,
+        "rust_report_mode": false
+      },
+      "report_sha256": "141eadc33f39faa8fae4b87a5d8103fa8bfc6ded9031f7e2d1e65fc45e88b695",
+      "rust_report_mode": "FAIL rows: rejected under [W3C-R-014]",
+      "silent_downgrade": false,
+      "text_outcome": "reject",
+      "text_section": "5.4 identity survives",
+      "variable": "prior run names checks the run does not declare"
+    }
+  ],
+  "experiment": "one-variable claim-downgrade on v0.1 evidence links",
+  "interpreter": "CPython 3.13.15 Linux x86_64",
+  "reader_py": {
+    "module": "agent_evidence_vectors.w3creport",
+    "module_sha256": "4ef247639f14bd4d553ebe7efd98ad83c798c18e5cf857a3162cd6ca9663ca6e",
+    "package": "agent-evidence-vectors",
+    "version": "0.18.1"
+  },
+  "reader_rs": {
+    "binary": "w3c-report-rs",
+    "binary_sha256": "bd89ad2fbe7d704d5c67689523c52203bb92c011f9e4b067c400ad1ca7a7e383",
+    "mode": "--report (resolves nothing)"
+  },
+  "run_by": "the author of both readers and of this script",
+  "summary": {
+    "agrees_with_text": 22,
+    "cases": 22,
+    "disagrees_with_text": [],
+    "refused_with_store_accepted_without": [
+      "B1-2",
+      "B1-9"
+    ],
+    "silent_downgrade": [
+      "B1-1",
+      "B1-3",
+      "B2-3",
+      "B2-4",
+      "B3-2"
+    ]
+  }
+}
