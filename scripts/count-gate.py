@@ -1004,6 +1004,31 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The AAE v1.4.0 binding package. Its integers are vector identifiers
+    # (aae-enforce-vector-25 and its file prefixes), the size of the pinned
+    # upstream set, the run's printed tallies, and the draft's resource bounds.
+    # The package tests pin every input by digest, assert the 26-file set and
+    # the printed line, and exercise both sides of each bound.
+    *(Delegated(path, "AAE v1.4.0 vector ids, set size, tallies and bounds", pattern,
+                "interop/aae-verdict-binding-v1/test_aae_binding.py")
+      for path, pattern in (
+          ("interop/aae-verdict-binding-v1/README.md", r"\d+/\d+ vectors reproduced, \d+/\d+ cases"),
+          ("interop/aae-verdict-binding-v1/README.md", r"All \d+ enforce vectors"),
+          ("interop/aae-verdict-binding-v1/README.md", r"\(vector \d+\)"),
+          ("interop/aae-verdict-binding-v1/OUTPUT-CONTRACT.md", r"\d+/\d+ vectors reproduced, \d+/\d+ cases"),
+          ("interop/aae-verdict-binding-v1/OUTPUT-CONTRACT.md", r"all \d+ vectors reproduced"),
+          ("interop/aae-verdict-binding-v1/OUTPUT-CONTRACT.md", r"vectors \d+ and \d+"),
+          ("interop/aae-verdict-binding-v1/PROFILE.md", r"depth at most \d+"),
+          ("interop/aae-verdict-binding-v1/check_report.py", r"all \d+ vectors reproduced"),
+          ("interop/aae-verdict-binding-v1/gen_cases.py", r'vector\("\d+"\)'),
+          ("interop/aae-verdict-binding-v1/gen_cases.py", r"Vector \d+:"),
+          ("interop/aae-verdict-binding-v1/kernel.py", r"at most \d+, non-empty strings"),
+          ("interop/aae-verdict-binding-v1/pins.py", r"The \d+ enforce vectors"),
+          ("interop/aae-verdict-binding-v1/pins.py", r"aae-enforce-vector-\d+"),
+          ("interop/aae-verdict-binding-v1/reproduce.py", r"aae-enforce-vector-\d+"),
+          ("interop/aae-verdict-binding-v1/test_aae_binding.py", r'\("\d+", "prior_verdict_permit"\), \("\d+", "prev_core_digest_mismatch"\)'),
+          ("interop/aae-verdict-binding-v1/test_aae_binding.py", r"\d+/\d+ vectors reproduced, \d+/\d+ cases"),
+      )),
     # These transport and fixture values have no corpus population meaning.
     # The real process, nonce and large-member controls hold their contracts.
     *(
