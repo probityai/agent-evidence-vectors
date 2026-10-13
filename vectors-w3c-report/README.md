@@ -120,14 +120,14 @@ changed.
 
 ## The digest-encoding members
 
-Eight families carry the encoding: 13 accept members and 18 reject members.
+Eight families carry the encoding: 14 accept members and 19 reject members.
 
 | family | case | accept | reject |
 |---|---|---|---|
 | `w3c-f-jcs-u007f` | U+007F written as itself | 1 | 1 |
 | `w3c-f-jcs-non-ascii` | U+00E9, U+20AC, U+2028 and U+1F600 as UTF-8 | 4 | 4 |
 | `w3c-f-jcs-member-order` | a supplementary-plane name before a BMP name above U+D800 | 1 | 1 |
-| `w3c-f-jcs-number-value` | `-0`, `-0.0`, `1.0` and `1e2` written by value | 2 | 2 |
+| `w3c-f-jcs-number-value` | `-0` and `-0.0` together, the integer `-0` alone, and `1.0` and `1e2`, written by value | 3 | 3 |
 | `w3c-f-jcs-safe-range` | both boundaries, the neighbours on either side, and numeric strings | 2 | 4 |
 | `w3c-f-jcs-1e21` | 10^21 as `1e21` and as digits, and as strings | 1 | 2 |
 | `w3c-f-jcs-non-integer` | `0.5`, `1e-7`, `0.99999999999999999`, and numeric strings | 1 | 3 |
@@ -138,7 +138,7 @@ flips when the one rule it rests on is weakened: the encoding section of
 `MUTATION-SWEEP.md` weakens each rule of the encoding in turn and records that
 only its own members flip. The members rest on proposed requirements, so they
 are counted as excluded-under-proposed-rule, beside the `W3C-R-022` members,
-and the section 10 selection stays 165 members, 83 to reject and 82 to accept.
+and the section 10 selection stays 165 members, 41 to reject and 124 to accept.
 
 ## Recompute a member's digest by hand
 
@@ -160,6 +160,17 @@ the same command for every member of the eight families, one per member; for a
 reject member it prints the root a reader writes with the member's rule
 weakened, which is the root the member declares and a conforming reader
 refuses.
+
+The member file carries the same information itself, under `canonical`, so a
+reader that fails a member learns from the member alone what it should have
+produced. `canonical.conforming` holds what a conforming reader writes: each
+leaf's bytes in hex with their SHA-256, the flat root over them, and the
+command that prints that root; where a conforming reader refuses the report
+instead, it holds the refusal. A reject member also carries
+`canonical.declared`: the bytes a reader writes with the rule named in
+`rule-switched-off` weakened, whose root is the one the member declares. The
+block is not among the fields the identifier covers, so it names no member
+differently.
 
 ## Check the corpus digest from outside this repository
 
@@ -202,8 +213,14 @@ row leaks.
 
 Family `w3c-f-disensor` re-cuts the 42 delta-related pairs a participant
 counted in his own corpus at the commit the manifest names, each once as it
-was emitted before the freeze, rejected under the declared-slot rule with its
-cause, and once against v0.1, accepted. `origin/derive_pairs.py` derives the
+was emitted before the freeze, with the error list declared moved, and once
+against v0.1. Both are accepted. Section 2 of v0.1 says moved is recomputed,
+not declared, and rejects an object whose moved is not contained in its
+declared compared set; the recomputed moved of every pair is contained, and
+section 2.1 says no rejection row reads the recompute-opaque error list. Until
+v0.18.0 the readers held the declared moved against the compared set and
+rejected the 42 as emitted; the change moved those 42 members from reject to
+accept and renamed them. `origin/derive_pairs.py` derives the
 pairs from that repository and the checker it pins; the JSON it wrote is
 committed beside it and the generator reads only that. Each pair's two
 observations are referenced by commit, vector and digest and resolved through

@@ -1,0 +1,31 @@
+{
+  "schema": "agentid-aps-interop/action-ref-vector/v2",
+  "constructions": {
+    "v1": "sha256hex(utf8(agent_id) || utf8(action_type) || utf8(scope) || int64_be(timestamp_ms))  — argentum-core action-ref-v1, raw concatenation, tuple-ambiguous; FROZEN as pinned in interop-freeze-2026-10-01",
+    "v2": "sha256hex(JCS({agent_id, action_type, scope, timestamp_ms}))  — RFC 8785, timestamp_ms as JSON integer; framed, injective over the tuple"
+  },
+  "verify": "python3 tools/action_ref_v2.py",
+  "id": "positive-pinned-pr9-tuple",
+  "description": "The action tuple behind babyblueviper1/preaction-governance-conformance#9 adapters/agentid.fixtures/positive.raw.json (binding.action_ref, issued_at 2026-10-01T19:17:51.509Z). v1 equals the pinned fixture value byte-for-byte; v2 is the framed form of the same tuple.",
+  "source": {
+    "fixture": "babyblueviper1/preaction-governance-conformance adapters/agentid.fixtures/positive.raw.json",
+    "issued_at": "2026-10-01T19:17:51.509Z",
+    "freeze_tag": "interop-freeze-2026-10-01"
+  },
+  "tuples": {
+    "pinned": {
+      "agent_id": "agent_d1b7ef01f9af191f",
+      "action_type": "read",
+      "scope": "conformance-fixture",
+      "timestamp_ms": 1790882271509,
+      "action_ref_v1": "6fe8b805ca46d0f71f06b1b4b3301be537ffd53cedb8726df2545c3369445ecb",
+      "action_ref_v1_version": 1,
+      "action_ref_v2": "08dae3cc5023ccad5b8b978e0b6dda181cc92cc10f28359015fc47d5bcc48ac2",
+      "action_ref_v2_version": 2,
+      "_note": "action_ref_v1 == binding.action_ref in the pinned PR #9 fixture"
+    }
+  },
+  "expected": {
+    "pinned.action_ref_v1": "6fe8b805ca46d0f71f06b1b4b3301be537ffd53cedb8726df2545c3369445ecb"
+  }
+}

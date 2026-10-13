@@ -1,0 +1,41 @@
+{
+  "source_repository": "haroldmalikfrimpong-ops/agentid-aps-interop",
+  "source_tag": "interop-freeze-2026-10-06",
+  "source_commit": "bd1f2e7c0d3b8bf55fe5a70479be504cb5533455",
+  "source_announcement": "https://github.com/aeoess/agent-governance-vocabulary/issues/177#issuecomment-6007115144",
+  "retrieved_date": "2026-10-13",
+  "files": [
+    {
+      "path": "fixtures/control-distinct-tuples.json",
+      "source_path": "fixtures/action-ref/v2/control-distinct-tuples.json",
+      "sha256": "fee56690290d5f8c8ee8884dd0ffdb18c9809aafd5af2548dbb972f06bd4b586",
+      "bytes": 1550
+    },
+    {
+      "path": "fixtures/negative-collision-action-type-scope-boundary.json",
+      "source_path": "fixtures/action-ref/v2/negative-collision-action-type-scope-boundary.json",
+      "sha256": "8c0f745fac136ffecd297533130655f7d05c1a30e3d71ceaed093f9c5f3d8347",
+      "bytes": 1972
+    },
+    {
+      "path": "fixtures/negative-collision-agent-id-action-type-boundary.json",
+      "source_path": "fixtures/action-ref/v2/negative-collision-agent-id-action-type-boundary.json",
+      "sha256": "5c0a2c0c94ed5a192ec07ddfc29db5c484b0d39b03e090e6084f864e13ffc0aa",
+      "bytes": 1737
+    },
+    {
+      "path": "fixtures/positive-pinned-pr9-tuple.json",
+      "source_path": "fixtures/action-ref/v2/positive-pinned-pr9-tuple.json",
+      "sha256": "a11faf54110dfca100e11a30eec956c9620e2b57ec6073876e884a0e97635017",
+      "bytes": 1679
+    }
+  ],
+  "upstream_tool_read": {
+    "path": "tools/action_ref_v2.py",
+    "sha256": "1f516ee5808b2907cf22205a0f71306da84631bd79572a47fed2927ed9dbcc6e"
+  },
+  "upstream_license": "none declared at the source commit (no LICENSE file)",
+  "attribution": "action_ref v2 vectors and the 30-check layout by haroldmalikfrimpong-ops (AgentID); bytes retained unmodified from the pinned tag.",
+  "source_exposure": "The producer's tools/action_ref_v2.py and README were read before writing this reader. No producer code is imported; v2 bytes come from the pinned rfc8785 package and v1 bytes from struct.pack.",
+  "role": "Probity-authored and operated recompute; not AgentID adoption, host acceptance or a formal Pack #3 result"
+}

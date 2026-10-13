@@ -1,4 +1,26 @@
 {
+  "canonical": {
+    "conforming": {
+      "refused": "W3C-R-020 (non-integer-number: 1e-7)"
+    },
+    "declared": {
+      "command": "( printf '{\"annotations\":{\"ratio\":1e-7},\"check\":\"c-1e-7\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; printf '{\"check\":\"c-pass-2\",\"state\":\"pass\"}' | openssl dgst -sha256 -binary; ) | sha256sum",
+      "leaves": [
+        {
+          "hex": "7b22616e6e6f746174696f6e73223a7b22726174696f223a31652d377d2c22636865636b223a22632d31652d37222c227374617465223a2270617373227d",
+          "sha256": "8c1463c3004f5baaff0d3e8d3e46ef5bf535653ee2b6f55d1b313c21ecf6a094"
+        },
+        {
+          "hex": "7b22636865636b223a22632d706173732d32222c227374617465223a2270617373227d",
+          "sha256": "ae44a7c5b992b2368637521c68c935f8c4710273b9d2bcb79a4ffce74d52da34"
+        }
+      ],
+      "root": "9cbd43e7fd1cf63941f3065e4bc3f13d2ac948c772614ea82e0d69d1285698be",
+      "rule-switched-off": "integers-only"
+    },
+    "encoding": "jcs-sha256",
+    "tree-shape": "flat"
+  },
   "expected": {
     "cause": "non-integer-number",
     "rejects": [

@@ -328,6 +328,133 @@ def test_the_worked_digests_reproduce_in_a_posix_shell() -> None:
             )
 
 
+def _family_members(family: str) -> list[dict[str, Any]]:
+    """The members of one family, read from the files on disk."""
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    return [w3creport.load_json((CORPUS / e["file"]).read_bytes())
+            for e in manifest["vectors"] if e["family"] == family]
+
+
+def test_compared_set_rule_reads_the_recomputed_moved() -> None:
+    """W3C-R-016 holds the recomputed moved, not the declared one, against compared.
+
+    v0.1 section 2: "moved is recomputed, not declared. It is recomputed over
+    what the referenced observations actually contain, and an object whose
+    moved is not contained in its declared compared set is rejected." Section
+    2.1: no rejection row reads the recompute-opaque error list. So a declared
+    error list outside compared carries no rejection, a recomputed slot outside
+    compared does, and observations the reader cannot resolve fire neither way.
+    """
+    kinds = {m["kind"]: m for m in _family_members("w3c-f-16")}
+    reject, accept = kinds["reject"], kinds["accept"]
+    if w3creport.rejections(reject["subject"], resolves=reject["resolves"]) != ["W3C-R-016"]:
+        raise AssertionError("a recomputed fired-rule list outside compared is not rejected")
+    if w3creport.rejections(reject["subject"], resolves={}):
+        raise AssertionError("observations the reader cannot read still fire a moved row")
+    item = accept["subject"]["evidence"][0]
+    if "error list" not in item["moved"] or "error list" in item["compared"]:
+        raise AssertionError("the accept member no longer declares the error list outside compared")
+    if w3creport.rejections(accept["subject"], resolves=accept["resolves"]):
+        raise AssertionError("a declared error list outside compared carries a rejection")
+    widened = copy.deepcopy(reject["subject"])
+    widened["evidence"][0]["compared"] = ["verdict", "fired-rule list"]
+    if w3creport.rejections(widened, resolves=reject["resolves"]):
+        raise AssertionError("a recomputed moved inside compared is still rejected")
+    emitted = [m for m in _family_members("w3c-f-disensor")
+               if "error list" in m["subject"]["evidence"][0]["moved"]]
+    if len(emitted) != 42:
+        raise AssertionError(f"{len(emitted)} disensor members carry the error list, want 42")
+    for member in emitted:
+        if w3creport.rejections(member["subject"], resolves=member["resolves"]):
+            raise AssertionError(f"{member['id']}: the pair as emitted is rejected")
+
+
+#: RFC 8785 writes -0 and -0.0 as 0 (section 3.2.2.3, ECMAScript Number::toString),
+#: so this is the leaf a conforming reader produces for the negative-zero check.
+NEGATIVE_ZERO_LEAF = b'{"annotations":{"zero":0,"zero-fraction":0},"check":"c-negative-zero",' \
+    b'"state":"pass"}'
+
+
+def _leaf_block_holds(vid: str, name: str, block: dict[str, Any]) -> list[bytes]:
+    """A carried block's leaves hash to their digests, its root to them, its command to it."""
+    leaves = [bytes.fromhex(leaf["hex"]) for leaf in block["leaves"]]
+    for leaf, entry in zip(leaves, block["leaves"], strict=True):
+        if hashlib.sha256(leaf).hexdigest() != entry["sha256"]:
+            raise AssertionError(f"{vid}: {name} carries a leaf whose sha256 is not its bytes'")
+    root = hashlib.sha256(b"".join(hashlib.sha256(leaf).digest() for leaf in leaves)).hexdigest()
+    if root != block["root"]:
+        raise AssertionError(f"{vid}: {name} root {block['root']} is not the flat root {root}")
+    status, got, err = _first_field(block["command"])
+    if status != 0 or got != root:
+        raise AssertionError(f"{vid}: {name} command gives {got or 'nothing'} (exit {status}, "
+                             f"{err}), the block's root is {root}")
+    return leaves
+
+
+def _conforming_holds(vid: str, entry: dict[str, Any], member: dict[str, Any]) -> None:
+    """The conforming block: the reader's bytes and root, or the refusal the member expects."""
+    conforming = member["canonical"]["conforming"]
+    if "refused" in conforming:
+        if entry["expected"].get("cause") not in conforming["refused"]:
+            raise AssertionError(f"{vid}: refused {conforming['refused']!r} does not name "
+                                 f"the cause {entry['expected'].get('cause')}")
+        return
+    leaves = _leaf_block_holds(vid, "conforming", conforming)
+    checks = member["subject"]["checks"]
+    if leaves != [w3creport.jcs_sha256(c) for c in checks]:
+        raise AssertionError(f"{vid}: the conforming bytes are not the reader's jcs-sha256")
+    matches = conforming["root"] == member["subject"]["check-set"]["sha256"]
+    if matches != (entry["kind"] == "accept"):
+        raise AssertionError(f"{vid}: a {entry['kind']} member whose conforming root "
+                             f"{'is' if matches else 'is not'} the one it declares")
+    if checks[0]["check"] == "c-negative-zero" and leaves[0] != NEGATIVE_ZERO_LEAF:
+        raise AssertionError(f"{vid}: the negative-zero leaf is {leaves[0]!r}")
+
+
+def _declared_holds(vid: str, entry: dict[str, Any], member: dict[str, Any]) -> None:
+    """A reject member's rule-off bytes give the root it declares; an accept has none."""
+    declared = member["canonical"].get("declared")
+    if entry["kind"] != "reject":
+        if declared is not None:
+            raise AssertionError(f"{vid}: an accept member carries rule-off bytes")
+        return
+    if not isinstance(declared, dict) or not declared.get("rule-switched-off"):
+        raise AssertionError(f"{vid}: a reject member carries no rule-off bytes")
+    _leaf_block_holds(vid, "declared", declared)
+    if declared["root"] != member["subject"]["check-set"]["sha256"]:
+        raise AssertionError(f"{vid}: the rule-off root is not the root it declares")
+
+
+def test_each_encoding_member_carries_its_canonical_bytes() -> None:
+    """Every digest-encoding member file states the bytes a conforming reader produces.
+
+    The member, not only INDEX.md, carries the jcs-sha256 bytes of each check,
+    the flat root over them and the command that prints it, so a reader that
+    fails the member learns from the member alone what it should have written.
+    A reject member also carries the bytes its declared root was computed over,
+    with the rule that was switched off. Read from the files on disk, hashed
+    here rather than by the generator, and each command run under sh.
+    """
+    for tool in ("sh", "openssl", "sha256sum"):
+        if shutil.which(tool) is None:
+            raise AssertionError(f"{tool} is not on PATH, so the member commands cannot be run")
+    manifest = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    entries = [e for e in manifest["vectors"] if e["family"].startswith("w3c-f-jcs-")]
+    if not entries:
+        raise AssertionError("the manifest lists no digest-encoding member")
+    for entry in entries:
+        vid = entry["id"]
+        member = w3creport.load_json((CORPUS / entry["file"]).read_bytes())
+        block = member.get("canonical")
+        if not isinstance(block, dict):
+            raise AssertionError(f"{vid}: the member file carries no canonical block")
+        if (block.get("encoding"), block.get("tree-shape")) != ("jcs-sha256", "flat"):
+            raise AssertionError(f"{vid}: the block names {block.get('encoding')}, "
+                                 f"{block.get('tree-shape')}")
+        _conforming_holds(vid, entry, member)
+        _declared_holds(vid, entry, member)
+
+
 README_PRINTS_CORPUS_DIGEST = "# prints the corpusDigest in MANIFEST.json"
 
 
@@ -400,6 +527,8 @@ if __name__ == "__main__":
         test_a_declared_encoding_comes_from_the_closed_set,
         test_a_refused_number_names_its_cause_and_token,
         test_the_worked_digests_reproduce_in_a_posix_shell,
+        test_each_encoding_member_carries_its_canonical_bytes,
+        test_compared_set_rule_reads_the_recomputed_moved,
         test_the_readme_commands_run_as_printed,
         test_snapshot_member_types_are_read,
         test_run_member_types_are_read,

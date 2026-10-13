@@ -1,0 +1,131 @@
+{
+  "expected": {
+    "rejects": [],
+    "verdict": "accept"
+  },
+  "family": "w3c-f-disensor",
+  "id": "v70bdf863fb9cd6ac",
+  "kind": "accept",
+  "origin": {
+    "author": "Nicolas Rocchia",
+    "cause": "none: the declared error list is a declaration no row reads, and the recomputed moved is contained",
+    "commit": "1e36257779b4933814445423188ec099a78017ee",
+    "pair": {
+      "fail": "v0.4/r4_same_model_declared_as_distinct",
+      "field": "actors/reviewers/0/model",
+      "pass": "v0.4/valid_declared_degraded_round"
+    },
+    "repository": "NicolasRocchia/disensor"
+  },
+  "requirements": [
+    "W3C-R-016"
+  ],
+  "resolves": {
+    "v0.4/r4_same_model_declared_as_distinct": {
+      "rules": [
+        "R4"
+      ],
+      "sha256": "cf26b215c5e55058cb49dc28da23387b45f0019f6644fcf187b94f7d6954a3c4",
+      "verdict": "fail"
+    },
+    "v0.4/valid_declared_degraded_round": {
+      "rules": [],
+      "sha256": "b37a41e2b7d468367fe55be5f419bb0722ae49ff0a4ca5028280b8e7cc5b50ba",
+      "verdict": "pass"
+    }
+  },
+  "specVersion": "0.1",
+  "subject": {
+    "check-set": {
+      "leaf-count": 2,
+      "sha256": "a577e5d97d775a46d91e63ffd8503e59ead373d48071c8801f28ef85918dc497",
+      "tree-shape": "flat"
+    },
+    "checks": [
+      {
+        "check": "v0.4/valid_declared_degraded_round",
+        "state": "pass"
+      },
+      {
+        "check": "v0.4/r4_same_model_declared_as_distinct",
+        "discrimination": {
+          "ref": "e-pair",
+          "value": "demonstrated"
+        },
+        "other-verdict": {
+          "ref": "e-pair",
+          "value": "demonstrated"
+        },
+        "state": "fail"
+      }
+    ],
+    "domain": {
+      "description": "the disensor corpus at the pinned commit: its vectors under each schema version",
+      "id": "d-disensor"
+    },
+    "evidence": [
+      {
+        "changed": "input artifact",
+        "compared": [
+          "verdict",
+          "fired-rule list"
+        ],
+        "delta": {
+          "changes": [
+            {
+              "after": "claude-code",
+              "before": "otro-modelo-de-la-misma-familia",
+              "field": "actors/reviewers/0/model"
+            }
+          ]
+        },
+        "fixed": {
+          "checker": "disensor.rules.validate_artifact@1e36257",
+          "constraint-set": "residue/v0.4",
+          "domain": "d-disensor"
+        },
+        "id": "e-pair",
+        "moved": [
+          "verdict",
+          "fired-rule list",
+          "error list"
+        ],
+        "observations": [
+          {
+            "reference": {
+              "commit": "1e36257779b4933814445423188ec099a78017ee",
+              "repository": "NicolasRocchia/disensor",
+              "sha256": "b37a41e2b7d468367fe55be5f419bb0722ae49ff0a4ca5028280b8e7cc5b50ba",
+              "vector": "v0.4/valid_declared_degraded_round"
+            }
+          },
+          {
+            "reference": {
+              "commit": "1e36257779b4933814445423188ec099a78017ee",
+              "repository": "NicolasRocchia/disensor",
+              "sha256": "cf26b215c5e55058cb49dc28da23387b45f0019f6644fcf187b94f7d6954a3c4",
+              "vector": "v0.4/r4_same_model_declared_as_distinct"
+            }
+          }
+        ]
+      }
+    ],
+    "format": "public-agent-conformance/report/v0.1",
+    "roll-up": {
+      "carried": 0,
+      "declared": 2,
+      "exercised": 2,
+      "fail": 1,
+      "inconclusive": 0,
+      "negative-capable": {
+        "kind": "shown-by-run"
+      },
+      "not-exercised": 0,
+      "pass": 1,
+      "referenced": 2,
+      "void": 0
+    }
+  },
+  "subjectType": "report",
+  "suite": "w3c-report-v01-conformance"
+}
