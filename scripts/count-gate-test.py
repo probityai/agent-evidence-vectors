@@ -753,6 +753,18 @@ CENSUS_CASES.append(
     )
 )
 
+CENSUS_CASES.append(
+    (
+        "a count beside a span of days is still a count",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nIt took 3 days to write {OBSERVED_EFFECT_REJECT} vectors.\n",
+        ),
+        ("is an integer counting vectors",),
+    )
+)
+
 # --------------------------------------------------------------------------
 # The accepting cases
 # --------------------------------------------------------------------------
@@ -806,6 +818,16 @@ ACCEPT_CASES: list[Case] = [
             root,
             "BUILD-NOTES.md",
             "\nThe timeout is 900 seconds and the read buffer is 4096 bytes.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "an exponent and a span of days count nothing",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe double is 2**{OBSERVED_EFFECT_REJECT}, its slug two-to-the-"
+            f"{OBSERVED_EFFECT_REJECT}, and the thread ran {OBSERVED_EFFECT_REJECT} days.\n",
         ),
         ("are accounted for",),
     ),

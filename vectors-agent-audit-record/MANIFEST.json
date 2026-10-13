@@ -3,11 +3,11 @@
     "digest": "sha256",
     "envelope": "ed25519"
   },
-  "corpusDigest": "048ddde8c8ce7e65368c4c46bd91192765444d287b4fcd35c3260bfcf9bb80aa",
+  "corpusDigest": "811c1affc0b1669529c572efa7cf1869d09312df22ffafdc490844d4c43a0ba1",
   "counts": {
-    "accept": 11,
+    "accept": 17,
     "indeterminate": 2,
-    "reject": 42
+    "reject": 49
   },
   "draft": "draft-gilda-wimse-agent-audit-record-02",
   "emptyTree": {
@@ -25,7 +25,7 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
   "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
@@ -891,6 +891,209 @@
       ],
       "row": "enforcement forty days after the signal, ordering intact",
       "slug": "n2-enforced-forty-days-after-signal"
+    },
+    {
+      "draftId": "A12",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcf403b0ee80b6d73.json",
+      "id": "vcf403b0ee80b6d73",
+      "kind": "accept",
+      "row": "A10 with unavailableInput of key-source",
+      "slug": "a12-not-evaluated-key-source"
+    },
+    {
+      "draftId": "A13",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf2e228d97bb7a9b3.json",
+      "id": "vf2e228d97bb7a9b3",
+      "kind": "accept",
+      "row": "A10 with unavailableInput of consumption-state",
+      "slug": "a13-not-evaluated-consumption-state"
+    },
+    {
+      "draftId": "A14",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vbec00e84ca57539e.json",
+      "id": "vbec00e84ca57539e",
+      "kind": "accept",
+      "row": "A10 with unavailableInput naming all three inputs, each once, in neither the draft's order nor sorted order",
+      "slug": "a14-not-evaluated-all-three-inputs"
+    },
+    {
+      "draftId": "A15",
+      "draftSection": "5.5",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v3284d1f16fe65764.json",
+      "id": "v3284d1f16fe65764",
+      "kind": "accept",
+      "row": "A11 with oversight act of observation",
+      "slug": "a15-oversight-observation"
+    },
+    {
+      "draftId": "A16",
+      "draftSection": "5.5",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v556142d7a2d28af1.json",
+      "id": "v556142d7a2d28af1",
+      "kind": "accept",
+      "row": "A11 with oversight act of decision and recordDigest absent, which is optional",
+      "slug": "a16-oversight-decision-without-record-digest"
+    },
+    {
+      "draftId": "A17",
+      "draftSection": "5.5",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v53a7588e90f821e2.json",
+      "id": "v53a7588e90f821e2",
+      "kind": "accept",
+      "row": "A11 with oversight act of release",
+      "slug": "a17-oversight-release"
+    },
+    {
+      "draftId": "EV5",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vcd15c3c9acca0c11.json",
+      "id": "vcd15c3c9acca0c11",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with unavailableInput of the empty array",
+      "slug": "ev5-not-evaluated-empty-unavailable-input"
+    },
+    {
+      "draftId": "EV6",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vad2441a259a50f00.json",
+      "id": "vad2441a259a50f00",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with standing-source named twice",
+      "slug": "ev6-unavailable-input-named-twice"
+    },
+    {
+      "draftId": "EV7",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vdf1feac0155e5e70.json",
+      "id": "vdf1feac0155e5e70",
+      "kind": "reject",
+      "parent": "v8a2e4c0327732290",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with unavailableInput of the string standing-source, not an array",
+      "slug": "ev7-unavailable-input-not-an-array"
+    },
+    {
+      "draftId": "EV8",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vda6b7e1f65949034.json",
+      "id": "vda6b7e1f65949034",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of null",
+      "slug": "ev8-evaluated-unavailable-input-null"
+    },
+    {
+      "draftId": "EV9",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vbf2ae20bcbffa955.json",
+      "id": "vbf2ae20bcbffa955",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of the empty array",
+      "slug": "ev9-evaluated-unavailable-input-empty-array"
+    },
+    {
+      "draftId": "EV10",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v28f77e9077a4990c.json",
+      "id": "v28f77e9077a4990c",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of the empty string",
+      "slug": "ev10-evaluated-unavailable-input-empty-string"
+    },
+    {
+      "draftId": "OV3",
+      "draftSection": "5.5",
+      "expected": {
+        "codes": [
+          "member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4ac20a8bd440bdad.json",
+      "id": "v4ac20a8bd440bdad",
+      "kind": "reject",
+      "parent": "vec049319d25facc6",
+      "parentDraftId": "A11",
+      "row": "oversight with act removed, recordDigest kept",
+      "slug": "ov3-oversight-without-act"
     }
   ]
 }

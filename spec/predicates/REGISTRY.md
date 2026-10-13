@@ -73,7 +73,9 @@ carried bytes instead of accepting an asserted one.
   so a revision 01 record is malformed under revision 02.
 - Corpus: `vectors-agent-audit-record/`, suite `agent-audit-record-conformance`,
   one member per row of Appendix B of revision 02, each carrying its Appendix B
-  identifier. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
+  identifier, then members for sentences of Sections 5.4 and 5.5 that Appendix B
+  has no row for, each naming its section in `draftSection`. Judged by
+  `packaging/agent_evidence_vectors/auditrecord.py`.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
 

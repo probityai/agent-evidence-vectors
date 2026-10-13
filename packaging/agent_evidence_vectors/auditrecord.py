@@ -2,11 +2,13 @@
 
 The record format is defined by the Internet-Draft
 ``draft-gilda-wimse-agent-audit-record-02``: one in-toto Statement in a DSSE
-envelope, sixteen predicate members carrying the seven minimum audit fields of
-Section 11 of ``draft-ietf-wimse-aims``, and the recomputes that make those
-fields checkable. Appendix B of the draft lists the conformance corpus, and
-``vectors-agent-audit-record/`` publishes it member for member: each manifest
-entry carries the Appendix B identifier in ``draftId``.
+envelope, seventeen required predicate members and one optional one carrying the
+seven minimum audit fields of Section 11 of ``draft-ietf-wimse-aims``, and the
+recomputes that make those fields checkable. Appendix B of the draft lists the
+conformance corpus, and ``vectors-agent-audit-record/`` publishes it member for
+member: each manifest entry carries the Appendix B identifier in ``draftId``.
+The members after the last row test sentences of Sections 5.4 and 5.5 that
+Appendix B has no row for, and name the section in ``draftSection``.
 
 Two things live here, both stdlib-only for the reason the whole rail is: a
 relying party runs it with nothing installed.
@@ -113,7 +115,8 @@ UNAVAILABLE_INPUTS = frozenset({"standing-source", "key-source", "consumption-st
 #: The only members an oversight object may carry.
 OVERSIGHT_MEMBERS = frozenset({"act", "recordDigest"})
 
-#: The sixteen predicate members, and the members each object member requires.
+#: The seventeen required predicate members, and the members each object member
+#: requires.
 #: ``resource.argumentsDigest``, ``correlation.externalAnchor`` and
 #: ``observation.priorCommitment`` are conditional and checked where their rule
 #: is stated, never here.

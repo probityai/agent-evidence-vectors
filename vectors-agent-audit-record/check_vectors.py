@@ -20,6 +20,13 @@ Three checks, each able to fail on its own.
    a refusal, and must never move an indeterminate member to a verdict none of
    its readings lists. A rule whose removal changes no verdict measures nothing.
 
+4. The section sweep: each weakened reading of Sections 5.4 and 5.5 below (a
+   closed set cut to the one value Appendix B's accept rows carry, an optional
+   member made required, a sub-check dropped) must fail the corpus on exactly
+   the members that test that sentence. The rule sweep in 3 turns off a whole
+   rule; this one turns off one sentence of a rule, which the rule sweep cannot
+   see.
+
 An indeterminate member (N1, N2) is scored on its readings: any verdict it lists
 conforms, and it carries no expected.verdict. scripts/indeterminate-readers-test.py
 deletes each listed reading in turn and requires the judge to refuse the result.
@@ -28,9 +35,12 @@ deletes each listed reading in turn and requires the judge to refuse the result.
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 import os
 import sys
+from collections.abc import Callable, Iterator
+from typing import Any
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
@@ -124,18 +134,175 @@ def _mutation_sweep(manifest: dict[str, object]) -> tuple[list[str], list[str]]:
     return findings, notes
 
 
+Rule = Callable[[Any], None]
+
+
+def _evaluation_reading(
+    *,
+    refuse_empty: bool = True,
+    refuse_repeat: bool = True,
+    wrap_string: bool = False,
+    evaluated_by_truth: bool = False,
+) -> Rule:
+    """Section 5.4 as a reader might take it, one sentence at a time."""
+
+    def rule(state: Any) -> None:
+        evaluation = state.predicate["evaluation"]
+        if evaluation["status"] == "evaluated":
+            carried = (
+                bool(evaluation.get("unavailableInput"))
+                if evaluated_by_truth
+                else "unavailableInput" in evaluation
+            )
+            if carried:
+                raise auditrecord.Malformed("evaluation-inconsistent")
+            return
+        inputs = evaluation.get("unavailableInput")
+        if wrap_string and isinstance(inputs, str):
+            inputs = [inputs]
+        if not isinstance(inputs, list) or (refuse_empty and not inputs):
+            raise auditrecord.Malformed("evaluation-inconsistent")
+        for value in inputs:
+            if value not in auditrecord.UNAVAILABLE_INPUTS:
+                raise auditrecord.Malformed("value-outside-vocabulary")
+        if refuse_repeat and len(set(inputs)) != len(inputs):
+            raise auditrecord.Malformed("evaluation-inconsistent")
+
+    return rule
+
+
+def _oversight_reading(*, act_required: bool = True, digest_required: bool = False) -> Rule:
+    """Section 5.5 as a reader might take it."""
+
+    def rule(state: Any) -> None:
+        if "oversight" not in state.predicate:
+            return
+        oversight = state.predicate["oversight"]
+        if act_required and "act" not in oversight:
+            raise auditrecord.Malformed("member-missing")
+        if digest_required and "recordDigest" not in oversight:
+            raise auditrecord.Malformed("oversight-malformed")
+        if set(oversight) - auditrecord.OVERSIGHT_MEMBERS:
+            raise auditrecord.Malformed("oversight-malformed")
+
+    return rule
+
+
+@contextlib.contextmanager
+def _swapped_rule(name: str, replacement: Rule) -> Iterator[None]:
+    index = auditrecord.rule_names().index(name)
+    original = auditrecord.RULES[index]
+    auditrecord.RULES[index] = (name, replacement)
+    try:
+        yield
+    finally:
+        auditrecord.RULES[index] = original
+
+
+@contextlib.contextmanager
+def _narrowed_inputs(values: frozenset[str]) -> Iterator[None]:
+    original = auditrecord.UNAVAILABLE_INPUTS
+    auditrecord.UNAVAILABLE_INPUTS = values
+    try:
+        yield
+    finally:
+        auditrecord.UNAVAILABLE_INPUTS = original
+
+
+@contextlib.contextmanager
+def _narrowed_vocabulary(path: str, values: frozenset[str]) -> Iterator[None]:
+    original = auditrecord.VOCABULARIES[path]
+    auditrecord.VOCABULARIES[path] = values
+    try:
+        yield
+    finally:
+        auditrecord.VOCABULARIES[path] = original
+
+
+#: Each weakened reading, and the members that must catch it and no others.
+SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager[None]], str]] = [
+    (
+        "unavailableInput known only as standing-source",
+        lambda: _narrowed_inputs(frozenset({"standing-source"})),
+        "A12,A13,A14",
+    ),
+    (
+        "oversight.act known only as check",
+        lambda: _narrowed_vocabulary("oversight.act", frozenset({"check"})),
+        "A15,A16,A17",
+    ),
+    (
+        "an empty unavailableInput accepted",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(refuse_empty=False)),
+        "EV5",
+    ),
+    (
+        "a repeated unavailableInput accepted",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(refuse_repeat=False)),
+        "EV6",
+    ),
+    (
+        "a bare string read as a one-element unavailableInput",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(wrap_string=True)),
+        "EV7",
+    ),
+    (
+        "evaluated refusing only a non-empty unavailableInput",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_truth=True)),
+        "EV8,EV9,EV10",
+    ),
+    (
+        "oversight without act accepted",
+        lambda: _swapped_rule("oversight", _oversight_reading(act_required=False)),
+        "OV3",
+    ),
+    (
+        "oversight.recordDigest required",
+        lambda: _swapped_rule("oversight", _oversight_reading(digest_required=True)),
+        "A16",
+    ),
+]
+
+
+def _failing(manifest: dict[str, object]) -> str:
+    policy = auditrecord.policy_for(manifest)
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    failing = []
+    for entry in entries:
+        verdict = auditrecord.verify(_raw(entry), policy).verdict
+        if verdict not in auditrecord.conforming_verdicts(entry):
+            failing.append(str(entry["draftId"]))
+    return ",".join(failing)
+
+
+def _section_sweep(manifest: dict[str, object]) -> list[str]:
+    findings = []
+    if _failing(manifest):
+        return ["the section sweep needs a clean corpus to start from"]
+    for label, weaken, want in SECTION_READINGS:
+        with weaken():
+            got = _failing(manifest)
+        if got != want:
+            findings.append(f"{label}: caught by [{got}], want [{want}]")
+    return findings
+
+
 def main() -> int:
     judged = auditrecord.judge(HERE)
     sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     manifest = _manifest()
     swept, notes = _mutation_sweep(manifest)
-    findings = _second_signature_path(manifest) + swept
+    findings = _second_signature_path(manifest) + swept + _section_sweep(manifest)
     for note in notes:
         print(f"note: {note}")
     for finding in findings:
         print(f"FAIL check: {finding}")
     if judged.ok() and not findings:
-        print("check: a second Ed25519 library agrees, and every rule is load-bearing")
+        print(
+            "check: a second Ed25519 library agrees, every rule is load-bearing, and "
+            f"each of {len(SECTION_READINGS)} weakened section readings fails its own members"
+        )
         return 0
     return 1
 
