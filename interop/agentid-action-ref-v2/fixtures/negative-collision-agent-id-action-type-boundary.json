@@ -1,0 +1,38 @@
+{
+  "schema": "agentid-aps-interop/action-ref-vector/v2",
+  "constructions": {
+    "v1": "sha256hex(utf8(agent_id) || utf8(action_type) || utf8(scope) || int64_be(timestamp_ms))  — argentum-core action-ref-v1, raw concatenation, tuple-ambiguous; FROZEN as pinned in interop-freeze-2026-10-01",
+    "v2": "sha256hex(JCS({agent_id, action_type, scope, timestamp_ms}))  — RFC 8785, timestamp_ms as JSON integer; framed, injective over the tuple"
+  },
+  "verify": "python3 tools/action_ref_v2.py",
+  "id": "negative-collision-agent-id-action-type-boundary",
+  "description": "Second boundary: one byte moved from action_type into agent_id. Same v1 preimage, same v1 hash; distinct v2.",
+  "tuples": {
+    "a": {
+      "agent_id": "agent_d1b7ef01f9af191f",
+      "action_type": "read",
+      "scope": "conformance-fixture",
+      "timestamp_ms": 1790882271509,
+      "action_ref_v1": "6fe8b805ca46d0f71f06b1b4b3301be537ffd53cedb8726df2545c3369445ecb",
+      "action_ref_v1_version": 1,
+      "action_ref_v2": "08dae3cc5023ccad5b8b978e0b6dda181cc92cc10f28359015fc47d5bcc48ac2",
+      "action_ref_v2_version": 2
+    },
+    "b": {
+      "agent_id": "agent_d1b7ef01f9af191fr",
+      "action_type": "ead",
+      "scope": "conformance-fixture",
+      "timestamp_ms": 1790882271509,
+      "action_ref_v1": "6fe8b805ca46d0f71f06b1b4b3301be537ffd53cedb8726df2545c3369445ecb",
+      "action_ref_v1_version": 1,
+      "action_ref_v2": "f10d8e7ad6177e5a73f304cfa3c3a6e48bc7352baacc8e8de2301d5bb6509279",
+      "action_ref_v2_version": 2
+    }
+  },
+  "expected": {
+    "v1_preimage_identical": true,
+    "v1_collides": true,
+    "v2_collides": false,
+    "verdict": "agent identity itself is not bound injectively under v1; v2 binds each field"
+  }
+}

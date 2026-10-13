@@ -1,0 +1,117 @@
+{
+  "about": "Tuples outside the four published vectors. Each case gives the tuple as raw JSON text so the number token, duplicate members and escapes are exactly what a verifier would parse. For a defined v2 the canonical bytes are written out by hand here, and for a defined v1 the last eight preimage octets (int64 big-endian timestamp) are written out by hand, so neither expectation is produced by the reader it checks.",
+  "cases": [
+    {
+      "id": "D01-largest-safe-integer",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9007199254740991}",
+      "expect": {
+        "v1": "defined",
+        "v1_timestamp_octets_hex": "001fffffffffffff",
+        "v2": "defined",
+        "v2_jcs": "{\"action_type\":\"read\",\"agent_id\":\"agent_d1b7ef01f9af191f\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9007199254740991}"
+      },
+      "why": "2^53-1 is the largest integer RFC 8785 (I-JSON) serializes exactly; both constructions are defined."
+    },
+    {
+      "id": "D02-two-to-the-53",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9007199254740992}",
+      "expect": {"v1": "defined", "v1_timestamp_octets_hex": "0020000000000000", "v2": "refused"},
+      "why": "Outside the I-JSON integer domain RFC 8785 relies on. v1 (int64) is defined here and v2 is not, so v2 needs a stated bound on timestamp_ms."
+    },
+    {
+      "id": "D03-two-to-the-53-plus-one",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9007199254740993}",
+      "expect": {"v1": "defined", "v1_timestamp_octets_hex": "0020000000000001", "v2": "refused"},
+      "why": "A canonicalizer that parses numbers as IEEE doubles reads this as 9007199254740992 (D02), so two different tuples would get one v2 value; a strict one refuses. Either way v2 is not defined here."
+    },
+    {
+      "id": "D04-int64-max",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9223372036854775807}",
+      "expect": {"v1": "defined", "v1_timestamp_octets_hex": "7fffffffffffffff", "v2": "refused"},
+      "why": "The top of v1's int64 domain."
+    },
+    {
+      "id": "D05-int64-overflow",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":9223372036854775808}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "Neither construction has a value for 2^63."
+    },
+    {
+      "id": "D06-float-token",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":1790882271509.0}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "RFC 8785 serializes this number as 1790882271509 while json.dumps writes 1790882271509.0, so the stdlib shortcut and a JCS library disagree on the bytes; an int() coercion hides the difference. timestamp_ms has to be an integer token."
+    },
+    {
+      "id": "D07-boolean",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":true}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "In Python int(True) is 1, so a coercing reader turns this into the tuple with timestamp 1."
+    },
+    {
+      "id": "D08-string-number",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":\"1790882271509\"}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "A string is not the integer the construction names."
+    },
+    {
+      "id": "D09-composed-e-acute",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"caf\\u00e9\",\"timestamp_ms\":1790882271509}",
+      "expect": {
+        "v1": "defined",
+        "v1_timestamp_octets_hex": "000001a0f8e6d115",
+        "v2": "defined",
+        "v2_jcs": "{\"action_type\":\"read\",\"agent_id\":\"agent_d1b7ef01f9af191f\",\"scope\":\"caf\u00e9\",\"timestamp_ms\":1790882271509}",
+        "differs_from": "D10-decomposed-e-acute"
+      },
+      "why": "Non-ASCII is written as raw UTF-8, not escaped."
+    },
+    {
+      "id": "D10-decomposed-e-acute",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"cafe\\u0301\",\"timestamp_ms\":1790882271509}",
+      "expect": {
+        "v1": "defined",
+        "v1_timestamp_octets_hex": "000001a0f8e6d115",
+        "v2": "defined",
+        "v2_jcs": "{\"action_type\":\"read\",\"agent_id\":\"agent_d1b7ef01f9af191f\",\"scope\":\"cafe\u0301\",\"timestamp_ms\":1790882271509}",
+        "differs_from": "D09-composed-e-acute"
+      },
+      "why": "No Unicode normalization: the two spellings of the same visible scope are different tuples under both constructions. An emitter that normalizes and a verifier that does not will disagree."
+    },
+    {
+      "id": "D11-negative-one",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":-1}",
+      "expect": {
+        "v1": "defined",
+        "v1_timestamp_octets_hex": "ffffffffffffffff",
+        "v2": "defined",
+        "v2_jcs": "{\"action_type\":\"read\",\"agent_id\":\"agent_d1b7ef01f9af191f\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":-1}"
+      },
+      "why": "Signed big-endian two's complement for v1; a plain negative integer for v2."
+    },
+    {
+      "id": "D12-missing-scope",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"timestamp_ms\":1790882271509}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "Both constructions are over exactly four fields."
+    },
+    {
+      "id": "D13-extra-member",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"timestamp_ms\":1790882271509,\"action_ref_version\":2}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "The version label travels beside the value, not inside the hashed object."
+    },
+    {
+      "id": "D14-lone-surrogate",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"\\ud800\",\"timestamp_ms\":1790882271509}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "Not a Unicode scalar value, so there are no UTF-8 bytes to hash."
+    },
+    {
+      "id": "D15-duplicate-member",
+      "tuple_json": "{\"agent_id\":\"agent_d1b7ef01f9af191f\",\"action_type\":\"read\",\"scope\":\"conformance-fixture\",\"scope\":\"other\",\"timestamp_ms\":1790882271509}",
+      "expect": {"v1": "refused", "v2": "refused"},
+      "why": "Parsers differ on which duplicate wins, so the tuple is not determined."
+    }
+  ]
+}
