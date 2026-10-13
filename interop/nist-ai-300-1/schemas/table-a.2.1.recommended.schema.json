@@ -24,7 +24,7 @@
  },
  "allOf": [
   {
-   "$comment": "rule:table-a.2.1/1/required",
+   "$comment": "rule:table-a.2.1/field-1/required",
    "properties": {
     "fields": {
      "required": [
@@ -34,7 +34,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.1/recommended",
+   "$comment": "rule:table-a.2.1/field-1.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -55,7 +55,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.2/required",
+   "$comment": "rule:table-a.2.1/field-1.2/required",
    "properties": {
     "fields": {
      "properties": {
@@ -76,7 +76,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.3/recommended",
+   "$comment": "rule:table-a.2.1/field-1.3/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -97,7 +97,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.3.1/recommended",
+   "$comment": "rule:table-a.2.1/field-1.3.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -126,7 +126,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.4/recommended",
+   "$comment": "rule:table-a.2.1/field-1.4/recommended",
    "if": {
     "required": [
      "conditions"
@@ -166,7 +166,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.5/required",
+   "$comment": "rule:table-a.2.1/field-1.5/required",
    "if": {
     "required": [
      "conditions"
@@ -206,7 +206,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.5.1/required",
+   "$comment": "rule:table-a.2.1/field-1.5.1/required",
    "if": {
     "required": [
      "conditions"
@@ -254,7 +254,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.5.3/required",
+   "$comment": "rule:table-a.2.1/field-1.5.3/required",
    "if": {
     "required": [
      "conditions"
@@ -302,7 +302,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.5.4/required",
+   "$comment": "rule:table-a.2.1/field-1.5.4/required",
    "if": {
     "required": [
      "conditions"
@@ -350,7 +350,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.6/recommended",
+   "$comment": "rule:table-a.2.1/field-1.6/recommended",
    "if": {
     "required": [
      "conditions"
@@ -390,7 +390,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.6.1/recommended",
+   "$comment": "rule:table-a.2.1/field-1.6.1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -438,7 +438,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.7/recommended",
+   "$comment": "rule:table-a.2.1/field-1.7/recommended",
    "if": {
     "required": [
      "conditions"
@@ -478,7 +478,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.8/required",
+   "$comment": "rule:table-a.2.1/field-1.8/required",
    "if": {
     "required": [
      "conditions"
@@ -518,7 +518,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/1.9/required",
+   "$comment": "rule:table-a.2.1/field-1.9/required",
    "properties": {
     "fields": {
      "properties": {
@@ -539,7 +539,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/2/recommended",
+   "$comment": "rule:table-a.2.1/field-2/recommended",
    "if": {
     "anyOf": [
      {
@@ -589,7 +589,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/2.1/recommended",
+   "$comment": "rule:table-a.2.1/field-2.1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -629,7 +629,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/2.3/recommended",
+   "$comment": "rule:table-a.2.1/field-2.3/recommended",
    "if": {
     "required": [
      "conditions"
@@ -669,7 +669,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3/required",
+   "$comment": "rule:table-a.2.1/field-3/required",
    "if": {
     "required": [
      "conditions"
@@ -698,7 +698,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3/recommended",
+   "$comment": "rule:table-a.2.1/field-3/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -708,7 +708,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3.1/required",
+   "$comment": "rule:table-a.2.1/field-3.1/required",
    "if": {
     "required": [
      "conditions"
@@ -748,7 +748,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3.1/recommended",
+   "$comment": "rule:table-a.2.1/field-3.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -769,7 +769,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3.2/recommended",
+   "$comment": "rule:table-a.2.1/field-3.2/recommended",
    "if": {
     "required": [
      "conditions"
@@ -809,7 +809,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/3.3/recommended",
+   "$comment": "rule:table-a.2.1/field-3.3/recommended",
    "if": {
     "required": [
      "conditions"
@@ -849,7 +849,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4/required",
+   "$comment": "rule:table-a.2.1/field-4/required",
    "properties": {
     "fields": {
      "required": [
@@ -859,7 +859,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.1/recommended",
+   "$comment": "rule:table-a.2.1/field-4.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -880,7 +880,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.1.2/recommended",
+   "$comment": "rule:table-a.2.1/field-4.1.2/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -909,7 +909,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.2/required",
+   "$comment": "rule:table-a.2.1/field-4.2/required",
    "if": {
     "required": [
      "conditions"
@@ -949,7 +949,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.3/recommended",
+   "$comment": "rule:table-a.2.1/field-4.3/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -970,7 +970,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.3.1/recommended",
+   "$comment": "rule:table-a.2.1/field-4.3.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -999,7 +999,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.4/required",
+   "$comment": "rule:table-a.2.1/field-4.4/required",
    "if": {
     "required": [
      "conditions"
@@ -1039,7 +1039,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.6/recommended",
+   "$comment": "rule:table-a.2.1/field-4.6/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1079,7 +1079,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.8.1/recommended",
+   "$comment": "rule:table-a.2.1/field-4.8.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1108,7 +1108,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.8.1.1/recommended",
+   "$comment": "rule:table-a.2.1/field-4.8.1.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1145,7 +1145,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.8.2/recommended",
+   "$comment": "rule:table-a.2.1/field-4.8.2/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1193,7 +1193,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/4.8.3/recommended",
+   "$comment": "rule:table-a.2.1/field-4.8.3/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1241,7 +1241,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/5/required",
+   "$comment": "rule:table-a.2.1/field-5/required",
    "if": {
     "anyOf": [
      {
@@ -1291,7 +1291,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/5.1/required",
+   "$comment": "rule:table-a.2.1/field-5.1/required",
    "if": {
     "required": [
      "conditions"
@@ -1331,7 +1331,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/5.1/recommended",
+   "$comment": "rule:table-a.2.1/field-5.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1352,7 +1352,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/5.1.1/required",
+   "$comment": "rule:table-a.2.1/field-5.1.1/required",
    "if": {
     "required": [
      "conditions"
@@ -1400,7 +1400,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/5.3/required",
+   "$comment": "rule:table-a.2.1/field-5.3/required",
    "if": {
     "required": [
      "conditions"
@@ -1440,7 +1440,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/6/recommended",
+   "$comment": "rule:table-a.2.1/field-6/recommended",
    "if": {
     "anyOf": [
      {
@@ -1507,7 +1507,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/6.4/recommended",
+   "$comment": "rule:table-a.2.1/field-6.4/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1547,7 +1547,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/6.5/recommended",
+   "$comment": "rule:table-a.2.1/field-6.5/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1587,7 +1587,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/6.7/recommended",
+   "$comment": "rule:table-a.2.1/field-6.7/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1627,7 +1627,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/7/recommended",
+   "$comment": "rule:table-a.2.1/field-7/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -1637,7 +1637,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/7.3/recommended",
+   "$comment": "rule:table-a.2.1/field-7.3/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1658,7 +1658,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.2.1/7.3.1/recommended",
+   "$comment": "rule:table-a.2.1/field-7.3.1/recommended",
    "properties": {
     "fields": {
      "properties": {

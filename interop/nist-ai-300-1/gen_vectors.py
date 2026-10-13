@@ -241,7 +241,7 @@ def rules_for_row(table: Table, row: dict[str, Any]) -> list[Rule]:
     base = {"table": table.key, "kind": "field", "field": fid, "binds": binds_for(table)}
     if cls in ("required", "recommended"):
         text = row["description"] if "transposed" in note else row["designation"]
-        return [Rule(id=f"{table.key}/{fid}/{cls}", level=cls, text=text, **base)]
+        return [Rule(id=f"{table.key}/field-{fid}/{cls}", level=cls, text=text, **base)]
     if cls == "optional":
         return []
     return conditional_rules(table, row, cls.split("-", 1)[1], note, base)
@@ -265,7 +265,7 @@ def conditional_rules(
         lvl = other["level"]
         out.append(
             Rule(
-                id=f"{table.key}/{fid}/{lvl}",
+                id=f"{table.key}/field-{fid}/{lvl}",
                 level=lvl,
                 text=quoted(table, fid, other["text"]),
                 **base,
@@ -284,7 +284,7 @@ def main_rule(
     base: dict[str, Any],
 ) -> Rule:
     """The rule a conditional row's own condition states."""
-    rid = f"{table.key}/{fid}/{level}"
+    rid = f"{table.key}/field-{fid}/{level}"
     if "entries_at_least" in note:
         return Rule(
             id=rid,
@@ -507,7 +507,7 @@ class Member:
 
 def member_id(table: Table, role: str, rule: Rule, extra: str = "") -> str:
     """A readable, stable identifier: table, role, field or rule, level."""
-    tail = rule.id.split("/", 1)[1].replace("(*)", "x").replace("/", "-")
+    tail = rule.id.split("/", 1)[1].removeprefix("field-").replace("(*)", "x").replace("/", "-")
     return f"{table.prefix}-{role}-{tail}{extra}"
 
 

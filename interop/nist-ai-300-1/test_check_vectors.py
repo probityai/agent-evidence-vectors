@@ -95,7 +95,7 @@ class CheckerRefuses(unittest.TestCase):
         rel = "schemas/table-a.2.1.conformance.schema.json"
         schema = self.edit(rel)
         schema["allOf"] = [
-            e for e in schema["allOf"] if e["$comment"] != "rule:table-a.2.1/4.2/required"
+            e for e in schema["allOf"] if e["$comment"] != "rule:table-a.2.1/field-4.2/required"
         ]
         self.save(rel, schema)
         self.assert_refused(
@@ -106,7 +106,7 @@ class CheckerRefuses(unittest.TestCase):
     def test_condition_dropped_in_schema(self) -> None:
         rel = "schemas/table-a.3.1.conformance.schema.json"
         schema = self.edit(rel)
-        tag = "rule:table-a.3.1/1.10/required"
+        tag = "rule:table-a.3.1/field-1.10/required"
         schema["allOf"] = [
             {"$comment": tag, **e["then"]} if e["$comment"] == tag else e for e in schema["allOf"]
         ]
@@ -118,7 +118,7 @@ class CheckerRefuses(unittest.TestCase):
 
     def test_rule_no_member_depends_on(self) -> None:
         manifest = self.edit("MANIFEST.json")
-        rule = "table-a.2.1/4.4/required"
+        rule = "table-a.2.1/field-4.4/required"
         for e in manifest["members"]:
             e["roles"] = [r for r in e["roles"] if r["rule"] != rule]
         self.save("MANIFEST.json", manifest)

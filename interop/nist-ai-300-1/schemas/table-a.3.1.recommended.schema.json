@@ -24,7 +24,7 @@
  },
  "allOf": [
   {
-   "$comment": "rule:table-a.3.1/1/required",
+   "$comment": "rule:table-a.3.1/field-1/required",
    "properties": {
     "fields": {
      "required": [
@@ -34,7 +34,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.1/recommended",
+   "$comment": "rule:table-a.3.1/field-1.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -55,7 +55,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.2/required",
+   "$comment": "rule:table-a.3.1/field-1.2/required",
    "properties": {
     "fields": {
      "properties": {
@@ -76,7 +76,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.3/recommended",
+   "$comment": "rule:table-a.3.1/field-1.3/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -97,7 +97,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.3.1/recommended",
+   "$comment": "rule:table-a.3.1/field-1.3.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -126,7 +126,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.5/recommended",
+   "$comment": "rule:table-a.3.1/field-1.5/recommended",
    "if": {
     "required": [
      "conditions"
@@ -166,7 +166,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.6.1/recommended",
+   "$comment": "rule:table-a.3.1/field-1.6.1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -214,7 +214,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.6.3/recommended",
+   "$comment": "rule:table-a.3.1/field-1.6.3/recommended",
    "if": {
     "required": [
      "conditions"
@@ -262,7 +262,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.6.4/required",
+   "$comment": "rule:table-a.3.1/field-1.6.4/required",
    "if": {
     "required": [
      "conditions"
@@ -310,7 +310,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.7.1/recommended",
+   "$comment": "rule:table-a.3.1/field-1.7.1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -358,7 +358,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.9/recommended",
+   "$comment": "rule:table-a.3.1/field-1.9/recommended",
    "if": {
     "required": [
      "conditions"
@@ -398,7 +398,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.10/required",
+   "$comment": "rule:table-a.3.1/field-1.10/required",
    "if": {
     "required": [
      "conditions"
@@ -438,7 +438,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/1.12/required",
+   "$comment": "rule:table-a.3.1/field-1.12/required",
    "properties": {
     "fields": {
      "properties": {
@@ -459,7 +459,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/2/recommended",
+   "$comment": "rule:table-a.3.1/field-2/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -469,7 +469,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/2.1/recommended",
+   "$comment": "rule:table-a.3.1/field-2.1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -509,7 +509,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/2.5/recommended",
+   "$comment": "rule:table-a.3.1/field-2.5/recommended",
    "if": {
     "required": [
      "conditions"
@@ -549,7 +549,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3/required",
+   "$comment": "rule:table-a.3.1/field-3/required",
    "if": {
     "required": [
      "conditions"
@@ -578,7 +578,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3/recommended",
+   "$comment": "rule:table-a.3.1/field-3/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -588,7 +588,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3.1/required",
+   "$comment": "rule:table-a.3.1/field-3.1/required",
    "if": {
     "required": [
      "conditions"
@@ -628,7 +628,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3.1/recommended",
+   "$comment": "rule:table-a.3.1/field-3.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -649,7 +649,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3.2/recommended",
+   "$comment": "rule:table-a.3.1/field-3.2/recommended",
    "if": {
     "required": [
      "conditions"
@@ -689,7 +689,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/3.3/recommended",
+   "$comment": "rule:table-a.3.1/field-3.3/recommended",
    "if": {
     "required": [
      "conditions"
@@ -729,7 +729,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/4/recommended",
+   "$comment": "rule:table-a.3.1/field-4/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -739,7 +739,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/5/recommended",
+   "$comment": "rule:table-a.3.1/field-5/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -749,7 +749,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/5.2-(*)/recommended",
+   "$comment": "rule:table-a.3.1/field-5.2-(*)/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -770,7 +770,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/5.2-(*).1/recommended",
+   "$comment": "rule:table-a.3.1/field-5.2-(*).1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -820,7 +820,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6/recommended",
+   "$comment": "rule:table-a.3.1/field-6/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -830,7 +830,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.1/recommended",
+   "$comment": "rule:table-a.3.1/field-6.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -851,7 +851,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.1.1-(*)/recommended",
+   "$comment": "rule:table-a.3.1/field-6.1.1-(*)/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -880,7 +880,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.1.1-(*).1/recommended",
+   "$comment": "rule:table-a.3.1/field-6.1.1-(*).1/recommended",
    "if": {
     "required": [
      "conditions"
@@ -938,7 +938,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.4/recommended",
+   "$comment": "rule:table-a.3.1/field-6.4/recommended",
    "if": {
     "required": [
      "conditions"
@@ -978,7 +978,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.5-(*)/recommended",
+   "$comment": "rule:table-a.3.1/field-6.5-(*)/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -999,7 +999,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.5-(*).1/required",
+   "$comment": "rule:table-a.3.1/field-6.5-(*).1/required",
    "if": {
     "properties": {
      "fields": {
@@ -1063,7 +1063,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/6.6/recommended",
+   "$comment": "rule:table-a.3.1/field-6.6/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1103,7 +1103,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7/recommended",
+   "$comment": "rule:table-a.3.1/field-7/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -1113,7 +1113,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7.1/recommended",
+   "$comment": "rule:table-a.3.1/field-7.1/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1134,7 +1134,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7.6/recommended",
+   "$comment": "rule:table-a.3.1/field-7.6/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1174,7 +1174,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7.7/recommended",
+   "$comment": "rule:table-a.3.1/field-7.7/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1195,7 +1195,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7.8/recommended",
+   "$comment": "rule:table-a.3.1/field-7.8/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1235,7 +1235,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/7.9/recommended",
+   "$comment": "rule:table-a.3.1/field-7.9/recommended",
    "if": {
     "required": [
      "conditions"
@@ -1275,7 +1275,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/8/recommended",
+   "$comment": "rule:table-a.3.1/field-8/recommended",
    "properties": {
     "fields": {
      "required": [
@@ -1285,7 +1285,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/8.2/recommended",
+   "$comment": "rule:table-a.3.1/field-8.2/recommended",
    "properties": {
     "fields": {
      "properties": {
@@ -1306,7 +1306,7 @@
    }
   },
   {
-   "$comment": "rule:table-a.3.1/8.2.1/recommended",
+   "$comment": "rule:table-a.3.1/field-8.2.1/recommended",
    "properties": {
     "fields": {
      "properties": {
