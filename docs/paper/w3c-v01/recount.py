@@ -18,9 +18,10 @@ import collections
 import hashlib
 import json
 import sys
+from typing import Any
 
 
-def load(path: str) -> tuple[str, object]:
+def load(path: str) -> tuple[str, Any]:
     with open(path, "rb") as fh:
         raw = fh.read()
     return hashlib.sha256(raw).hexdigest(), json.loads(raw)
@@ -49,14 +50,21 @@ def selection(manifest_path: str) -> None:
     print(f"MANIFEST.json sha256 {digest}")
     print(f"  corpusDigest {manifest['corpusDigest']}")
     members = manifest["vectors"]
-    print(f"  members {len(members)}, by subjectType "
-          f"{dict(sorted(collections.Counter(m['subjectType'] for m in members).items()))}")
+    print(
+        f"  members {len(members)}, by subjectType "
+        f"{dict(sorted(collections.Counter(m['subjectType'] for m in members).items()))}"
+    )
     status = {r["id"]: r.get("status") for r in manifest["requirements"]}
-    chosen = [m for m in members
-              if m["subjectType"] == "report"
-              and all(status.get(r) == "agreed" for r in m["requirements"])]
-    print(f"  section 10 selection {len(chosen)}, by kind "
-          f"{dict(sorted(collections.Counter(m['kind'] for m in chosen).items()))}")
+    chosen = [
+        m
+        for m in members
+        if m["subjectType"] == "report"
+        and all(status.get(r) == "agreed" for r in m["requirements"])
+    ]
+    print(
+        f"  section 10 selection {len(chosen)}, by kind "
+        f"{dict(sorted(collections.Counter(m['kind'] for m in chosen).items()))}"
+    )
 
 
 def main(argv: list[str]) -> int:

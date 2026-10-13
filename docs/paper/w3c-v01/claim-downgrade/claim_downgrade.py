@@ -35,7 +35,6 @@ installed package; the script records its version and the module's sha256.
 from __future__ import annotations
 
 import argparse
-import copy
 import hashlib
 import importlib.metadata
 import json
@@ -44,7 +43,8 @@ import platform
 import subprocess
 import sys
 import tempfile
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 from agent_evidence_vectors import w3creport as W
 
@@ -54,7 +54,9 @@ OBS_FAIL = {"rules": ["R-1"], "verdict": "fail"}
 
 
 def digest(value: Any) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def store() -> dict[str, Any]:
@@ -94,66 +96,84 @@ def seal(report: dict[str, Any]) -> dict[str, Any]:
 
 def base_b1() -> dict[str, Any]:
     s = store()
-    return seal({
-        "format": FORMAT,
-        "domain": {"id": "d-run", "description": "the run's declared domain"},
-        "checks": [
-            {"check": "c-pass", "state": "pass"},
-            {
-                "check": "c-fail",
-                "state": "fail",
-                "other-verdict": {"value": "demonstrated", "ref": "e-1"},
-                "discrimination": {"value": "demonstrated", "ref": "e-1"},
-            },
-        ],
-        "evidence": [{
-            "id": "e-1",
-            "changed": "input artifact",
-            "fixed": {"checker": "checker-1", "constraint-set": "cs-1", "domain": "d-run"},
-            "compared": ["verdict", "fired-rule list"],
-            "moved": ["verdict", "fired-rule list"],
-            "delta": {"changes": [{"field": "artifact/field", "before": 1, "after": 2}]},
-            "observations": [
-                {"reference": {"vector": "obs-pass", "sha256": s["obs-pass"]["sha256"]}},
-                {"reference": {"vector": "obs-fail", "sha256": s["obs-fail"]["sha256"]}},
+    return seal(
+        {
+            "format": FORMAT,
+            "domain": {"id": "d-run", "description": "the run's declared domain"},
+            "checks": [
+                {"check": "c-pass", "state": "pass"},
+                {
+                    "check": "c-fail",
+                    "state": "fail",
+                    "other-verdict": {"value": "demonstrated", "ref": "e-1"},
+                    "discrimination": {"value": "demonstrated", "ref": "e-1"},
+                },
             ],
-        }],
-        "roll-up": {"negative-capable": {"kind": "shown-by-run"}},
-    })
+            "evidence": [
+                {
+                    "id": "e-1",
+                    "changed": "input artifact",
+                    "fixed": {"checker": "checker-1", "constraint-set": "cs-1", "domain": "d-run"},
+                    "compared": ["verdict", "fired-rule list"],
+                    "moved": ["verdict", "fired-rule list"],
+                    "delta": {"changes": [{"field": "artifact/field", "before": 1, "after": 2}]},
+                    "observations": [
+                        {"reference": {"vector": "obs-pass", "sha256": s["obs-pass"]["sha256"]}},
+                        {"reference": {"vector": "obs-fail", "sha256": s["obs-fail"]["sha256"]}},
+                    ],
+                }
+            ],
+            "roll-up": {"negative-capable": {"kind": "shown-by-run"}},
+        }
+    )
 
 
 def base_b2() -> dict[str, Any]:
-    return seal({
-        "format": FORMAT,
-        "domain": {"id": "d-run", "description": "the run's declared domain"},
-        "fixed": {"checker": "checker-1", "constraint-set": "cs-1"},
-        "checks": [{"check": "c-pass", "state": "pass"}, {"check": "c-pass-2", "state": "pass"}],
-        "roll-up": {"negative-capable": {
-            "kind": "control-failed",
-            "control": {
-                "checks": ["c-pass", "c-pass-2"],
-                "fixed": {"checker": "checker-1", "constraint-set": "cs-1"},
-                "state": "fail",
+    return seal(
+        {
+            "format": FORMAT,
+            "domain": {"id": "d-run", "description": "the run's declared domain"},
+            "fixed": {"checker": "checker-1", "constraint-set": "cs-1"},
+            "checks": [
+                {"check": "c-pass", "state": "pass"},
+                {"check": "c-pass-2", "state": "pass"},
+            ],
+            "roll-up": {
+                "negative-capable": {
+                    "kind": "control-failed",
+                    "control": {
+                        "checks": ["c-pass", "c-pass-2"],
+                        "fixed": {"checker": "checker-1", "constraint-set": "cs-1"},
+                        "state": "fail",
+                    },
+                }
             },
-        }},
-    })
+        }
+    )
 
 
 def base_b3() -> dict[str, Any]:
-    return seal({
-        "format": FORMAT,
-        "domain": {"id": "d-run", "description": "the run's declared domain"},
-        "checks": [{"check": "c-pass", "state": "pass"}, {"check": "c-pass-2", "state": "pass"}],
-        "roll-up": {"negative-capable": {
-            "kind": "prior-discriminating-run",
-            "check-identity": ["c-pass", "c-pass-2"],
-            "reference": {
-                "sha256": digest({"prior": "run", "fail": 1}),
-                "leaf-count": 2,
-                "tree-shape": "flat",
+    return seal(
+        {
+            "format": FORMAT,
+            "domain": {"id": "d-run", "description": "the run's declared domain"},
+            "checks": [
+                {"check": "c-pass", "state": "pass"},
+                {"check": "c-pass-2", "state": "pass"},
+            ],
+            "roll-up": {
+                "negative-capable": {
+                    "kind": "prior-discriminating-run",
+                    "check-identity": ["c-pass", "c-pass-2"],
+                    "reference": {
+                        "sha256": digest({"prior": "run", "fail": 1}),
+                        "leaf-count": 2,
+                        "tree-shape": "flat",
+                    },
+                }
             },
-        }},
-    })
+        }
+    )
 
 
 Mut = Callable[[dict[str, Any], dict[str, Any]], None]
@@ -246,27 +266,153 @@ def prior_identity_other(r: dict[str, Any], s: dict[str, Any]) -> None:
 # text outcome is one of: accept-verified, accept-unchecked, accept-unbound, reject
 CASES: list[tuple[str, str, str, Mut, str, str]] = [
     ("B1-0", "B1", "none", nothing, "accept-verified", "3 line 1"),
-    ("B1-1", "B1", "reader holds no resolution store", withhold_store, "accept-unchecked", "3 line 3"),
-    ("B1-2", "B1", "one observation digest differs from the resolved bytes", obs_digest_mismatch, "reject", "3 line 2"),
-    ("B1-3", "B1", "one observation does not resolve", obs_unresolvable, "accept-unchecked", "3 line 3"),
-    ("B1-4", "B1", "discrimination cites an evidence id the report lacks", disc_ref_dangling, "reject", "4 row 11"),
+    (
+        "B1-1",
+        "B1",
+        "reader holds no resolution store",
+        withhold_store,
+        "accept-unchecked",
+        "3 line 3",
+    ),
+    (
+        "B1-2",
+        "B1",
+        "one observation digest differs from the resolved bytes",
+        obs_digest_mismatch,
+        "reject",
+        "3 line 2",
+    ),
+    (
+        "B1-3",
+        "B1",
+        "one observation does not resolve",
+        obs_unresolvable,
+        "accept-unchecked",
+        "3 line 3",
+    ),
+    (
+        "B1-4",
+        "B1",
+        "discrimination cites an evidence id the report lacks",
+        disc_ref_dangling,
+        "reject",
+        "4 row 11",
+    ),
     ("B1-5", "B1", "discrimination cites no evidence", disc_ref_removed, "reject", "4 row 11"),
-    ("B1-6", "B1", "one referenced observation carries no digest", obs_digest_removed, "reject", "4 row 14"),
-    ("B1-7", "B1", "evidence leaves the checker identity unpinned", evidence_checker_unpinned, "reject", "1.3, 2 fixed"),
-    ("B1-8", "B1", "evidence changed slot is the checker", evidence_changed_checker, "reject", "4 row 12"),
-    ("B1-9", "B1", "resolved body under the cited digest no longer differs in verdict", resolved_content_differs, "reject", "4 row 13"),
+    (
+        "B1-6",
+        "B1",
+        "one referenced observation carries no digest",
+        obs_digest_removed,
+        "reject",
+        "4 row 14",
+    ),
+    (
+        "B1-7",
+        "B1",
+        "evidence leaves the checker identity unpinned",
+        evidence_checker_unpinned,
+        "reject",
+        "1.3, 2 fixed",
+    ),
+    (
+        "B1-8",
+        "B1",
+        "evidence changed slot is the checker",
+        evidence_changed_checker,
+        "reject",
+        "4 row 12",
+    ),
+    (
+        "B1-9",
+        "B1",
+        "resolved body under the cited digest no longer differs in verdict",
+        resolved_content_differs,
+        "reject",
+        "4 row 13",
+    ),
     ("B2-0", "B2", "none", nothing, "accept-verified", "5.4"),
-    ("B2-1", "B2", "control checker differs from the run's", control_checker_differs, "reject", "5.4 condition 2"),
-    ("B2-2", "B2", "control constraint set differs from the run's", control_config_differs, "reject", "5.4 condition 2"),
-    ("B2-3", "B2", "control declares no checker or constraint set", control_binding_removed, "accept-unbound", "5.4 condition 2; 5.5 O7"),
-    ("B2-4", "B2", "run declares no checker or constraint set", run_binding_removed, "accept-unbound", "5.4 condition 2; 5.5 O7"),
-    ("B2-5", "B2", "control state inconclusive", control_inconclusive, "reject", "5.4 fail means fail"),
-    ("B2-6", "B2", "control names a check the run does not declare", control_names_other_check, "reject", "5.4 condition 1"),
-    ("B2-7", "B2", "control carries a different operator", control_operator_changed, "accept-verified", "none: v0.1 binds no operator"),
+    (
+        "B2-1",
+        "B2",
+        "control checker differs from the run's",
+        control_checker_differs,
+        "reject",
+        "5.4 condition 2",
+    ),
+    (
+        "B2-2",
+        "B2",
+        "control constraint set differs from the run's",
+        control_config_differs,
+        "reject",
+        "5.4 condition 2",
+    ),
+    (
+        "B2-3",
+        "B2",
+        "control declares no checker or constraint set",
+        control_binding_removed,
+        "accept-unbound",
+        "5.4 condition 2; 5.5 O7",
+    ),
+    (
+        "B2-4",
+        "B2",
+        "run declares no checker or constraint set",
+        run_binding_removed,
+        "accept-unbound",
+        "5.4 condition 2; 5.5 O7",
+    ),
+    (
+        "B2-5",
+        "B2",
+        "control state inconclusive",
+        control_inconclusive,
+        "reject",
+        "5.4 fail means fail",
+    ),
+    (
+        "B2-6",
+        "B2",
+        "control names a check the run does not declare",
+        control_names_other_check,
+        "reject",
+        "5.4 condition 1",
+    ),
+    (
+        "B2-7",
+        "B2",
+        "control carries a different operator",
+        control_operator_changed,
+        "accept-verified",
+        "none: v0.1 binds no operator",
+    ),
     ("B3-0", "B3", "none", nothing, "accept-unchecked", "5.4 prior run; 3 line 3"),
-    ("B3-1", "B3", "prior-run reference carries no leaf count", prior_leafcount_removed, "reject", "3.1"),
-    ("B3-2", "B3", "prior-run reference digest matches nothing obtainable", prior_digest_mismatch, "accept-unchecked", "5.4 prior run; 3 line 3"),
-    ("B3-3", "B3", "prior run names checks the run does not declare", prior_identity_other, "reject", "5.4 identity survives"),
+    (
+        "B3-1",
+        "B3",
+        "prior-run reference carries no leaf count",
+        prior_leafcount_removed,
+        "reject",
+        "3.1",
+    ),
+    (
+        "B3-2",
+        "B3",
+        "prior-run reference digest matches nothing obtainable",
+        prior_digest_mismatch,
+        "accept-unchecked",
+        "5.4 prior run; 3 line 3",
+    ),
+    (
+        "B3-3",
+        "B3",
+        "prior run names checks the run does not declare",
+        prior_identity_other,
+        "reject",
+        "5.4 identity survives",
+    ),
 ]
 
 BASES = {"B1": base_b1, "B2": base_b2, "B3": base_b3}
@@ -303,11 +449,14 @@ def rust_rows(binary: str, report: dict[str, Any]) -> str:
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(report, fh, indent=2, sort_keys=True)
             fh.write("\n")
-        proc = subprocess.run([binary, "--report", path], capture_output=True, text=True, check=False)
+        proc = subprocess.run(
+            [binary, "--report", path], capture_output=True, text=True, check=False
+        )
     for line in proc.stdout.splitlines():
         if " rows:" in line or line.startswith("FAIL rows") or line.startswith("ok   rows"):
             return line.strip()
-    return f"no rows line (exit {proc.returncode}): {proc.stdout.strip()[-200:]} {proc.stderr.strip()[-200:]}"
+    out, err = proc.stdout.strip()[-200:], proc.stderr.strip()[-200:]
+    return f"no rows line (exit {proc.returncode}): {out} {err}"
 
 
 def py_judge(report: dict[str, Any], s: dict[str, Any] | None) -> dict[str, Any]:
@@ -360,10 +509,18 @@ def main() -> int:
     base_outputs = {}
     for r in rows:
         if r["case"].endswith("-0"):
-            base_outputs[r["base"]] = (json.dumps(r["py_with_store"], sort_keys=True), json.dumps(r["py_without_store"], sort_keys=True), r.get("rust_report_mode"))
+            base_outputs[r["base"]] = (
+                json.dumps(r["py_with_store"], sort_keys=True),
+                json.dumps(r["py_without_store"], sort_keys=True),
+                r.get("rust_report_mode"),
+            )
     for r in rows:
         b = base_outputs[r["base"]]
-        mine = (json.dumps(r["py_with_store"], sort_keys=True), json.dumps(r["py_without_store"], sort_keys=True), r.get("rust_report_mode"))
+        mine = (
+            json.dumps(r["py_with_store"], sort_keys=True),
+            json.dumps(r["py_without_store"], sort_keys=True),
+            r.get("rust_report_mode"),
+        )
         r["reader_output_identical_to_base"] = {
             "py_with_store": mine[0] == b[0],
             "py_without_store": mine[1] == b[1],
@@ -384,8 +541,21 @@ def main() -> int:
             "module": "agent_evidence_vectors.w3creport",
             "module_sha256": module_sha,
         },
-        "reader_rs": {"binary": os.path.basename(args.rust), "binary_sha256": file_sha256(args.rust), "mode": "--report (resolves nothing)"} if args.rust else None,
-        "interpreter": f"{platform.python_implementation()} {platform.python_version()} {platform.system()} {platform.machine()}",
+        "reader_rs": {
+            "binary": os.path.basename(args.rust),
+            "binary_sha256": file_sha256(args.rust),
+            "mode": "--report (resolves nothing)",
+        }
+        if args.rust
+        else None,
+        "interpreter": " ".join(
+            (
+                platform.python_implementation(),
+                platform.python_version(),
+                platform.system(),
+                platform.machine(),
+            )
+        ),
         "cases": rows,
         "summary": {
             "cases": len(rows),
@@ -393,9 +563,11 @@ def main() -> int:
             "silent_downgrade": [r["case"] for r in rows if r["silent_downgrade"]],
             "disagrees_with_text": [r["case"] for r in rows if not r["agrees_with_text"]],
             "refused_with_store_accepted_without": [
-                r["case"] for r in rows
+                r["case"]
+                for r in rows
                 if (r["py_with_store"]["rows"] or r["py_with_store"]["shape"])
-                and r["py_without_store"]["rows"] == [] and not r["py_without_store"]["shape"]
+                and r["py_without_store"]["rows"] == []
+                and not r["py_without_store"]["shape"]
             ],
         },
     }
