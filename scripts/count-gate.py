@@ -2594,6 +2594,17 @@ MASKS = tuple(
         # measures how often a word appears across four repositories' commits. It
         # is a quantity, but not of this corpus, and nothing here derives it.
         r"\b\d+\s+times\b",
+        # AN EXPONENT AND A DURATION. Both arrived when the agent audit record
+        # corpus reached 68 members: `2**68` and `two-to-the-68` name the double
+        # RFC 8785 Appendix B row 9 serializes (four sites in the ai-agent-action
+        # corpus and its index), and `had run 68 days` measures how long a thread
+        # had been open. A power's exponent and a span of days count nothing here,
+        # this repository publishes no count spelled either way, and they are
+        # written as shapes for the reason the rule-id mask above gives: a freeze
+        # per site would have to move every time a corpus total walked onto one.
+        r"\b\d+\*\*\d+\b",
+        r"\bto-the-\d+\b",
+        r"\b\d+\s+days?\b",
         # A NUMERIC RANGE. `(90-100 Full Compliance, 70-89 Partial, 50-69 Minimal,
         # 0-49 Non-Compliant)` quotes an upstream document's scoring bands, and the
         # tail of the last band is the corpus total. A hyphen-joined pair with no
