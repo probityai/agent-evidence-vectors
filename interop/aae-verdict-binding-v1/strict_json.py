@@ -91,7 +91,7 @@ def load_json(payload: bytes) -> dict[str, Any]:
         text = payload.decode("utf-8")
     except UnicodeDecodeError:
         refuse("input is not strict UTF-8")
-    if text.startswith("﻿"):
+    if text.startswith("\ufeff"):
         refuse("a byte-order mark is outside this profile")
     try:
         value = json.loads(
