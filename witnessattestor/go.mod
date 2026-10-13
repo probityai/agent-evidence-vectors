@@ -18,9 +18,8 @@ require (
 	dario.cat/mergo v1.0.1 // indirect
 	github.com/CycloneDX/cyclonedx-go v0.9.2 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
-	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/ProtonMail/go-crypto v1.1.6 // indirect
-	github.com/agnivade/levenshtein v1.1.1 // indirect
+	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/anchore/go-struct-converter v0.0.0-20221118182256-c68fdcfa2092 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.55.5 // indirect
@@ -66,7 +65,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/omnibor/omnibor-go v0.0.0-20230521145532-a77de61a16cd // indirect
-	github.com/open-policy-agent/opa v0.68.0 // indirect
+	github.com/open-policy-agent/opa v1.4.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/openvex/go-vex v0.2.5 // indirect
 	github.com/owenrumney/go-sarif v1.1.1 // indirect
@@ -87,7 +86,7 @@ require (
 	github.com/skeema/knownhosts v1.3.1 // indirect
 	github.com/spdx/tools-golang v0.5.5 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.7.0 // indirect
-	github.com/tchap/go-patricia/v2 v2.3.1 // indirect
+	github.com/tchap/go-patricia/v2 v2.3.2 // indirect
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
