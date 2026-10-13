@@ -1285,13 +1285,6 @@ FROZEN: tuple[Frozen, ...] = (
         'tag and must not track the current corpus.',
     ),
     Frozen(
-        'docs/proposals/ai-agent-action-round7.md',
-        'an in-toto ITE pull request number',
-        '[in-toto/ITE#63](https://github.com/in-toto/ITE/pull/63):',
-        'An integer that counts something other than this corpus and equals one of its figures by'
-        ' coincidence: the number of a pull request in another repository.',
-    ),
-    Frozen(
         'docs/INTEROP-EVIDENCE.md',
         'the comment count of a third-party thread on the day it was read',
         'carried 48 comments and 0 reviews',
