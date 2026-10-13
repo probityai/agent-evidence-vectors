@@ -2726,6 +2726,12 @@ EXEMPT: dict[str, str] = {
     ),
 }
 EXEMPT_PREFIXES: dict[str, str] = {
+    "docs/paper/": (
+        "a paper section about named past releases (0.12.0, 0.17.4, 0.18.1) and a "
+        "recorded experiment; every figure is pinned to its tag and digest in the same "
+        "table and is recounted by docs/paper/w3c-v01/recount.py and "
+        "claim-downgrade/run.sh, so none of them may track the current corpus"
+    ),
     "spec/predicates/": (
         "vendored upstream bytes; scripts/spec-drift-gate.py owns them and an edit "
         "here is a re-vendor, not a count"
