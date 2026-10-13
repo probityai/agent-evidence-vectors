@@ -761,7 +761,7 @@ CENSUS_CASES.append(
             "BUILD-NOTES.md",
             f"\nIt took 3 days to write {OBSERVED_EFFECT_REJECT} vectors.\n",
         ),
-        ("equal to the reject count of vectors-observed-effect",),
+        ("is an integer counting vectors",),
     )
 )
 
