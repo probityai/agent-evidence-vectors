@@ -603,3 +603,28 @@ class TestRunContract:
         (tmp_path / "float.json").write_text('{"a": 1.5}', encoding="ascii")
         with pytest.raises(strict_json.InputError):
             check_report.load_report(tmp_path / "float.json")
+
+
+def mandates(vector: dict[str, Any]) -> list[Any]:
+    given = vector["input"]
+    if vector["kernel"] == "enforce_check":
+        return [given.get("mandate")]
+    proof = given.get("authority_proof")
+    return [proof.get("mandate")] if isinstance(proof, dict) else []
+
+
+class TestRecordedObservations:
+    def test_no_vector_mandate_carries_actions(self) -> None:
+        """Section 2.2 and 2.2.1 make mandate.actions REQUIRED; no v1.4.0 mandate has it."""
+        seen = [mandate for path in VECTOR_FILES
+                for mandate in mandates(json.loads(path.read_text(encoding="utf-8")))]
+        assert len([m for m in seen if isinstance(m, dict)]) == 26
+        assert not any(isinstance(m, dict) and "actions" in m for m in seen)
+
+    def test_vector_traces_name_only_predicate_and_result_for_structure(self) -> None:
+        """The digest covers field, value and bound that structural entries never state."""
+        structural = {"mandate_present", "type_fields", "action_binding", "disposition"}
+        for path in VECTOR_FILES:
+            for entry in json.loads(path.read_text(encoding="utf-8"))["expected"].get("trace", []):
+                if entry["predicate"] in structural:
+                    assert set(entry) == {"predicate", "result"}
