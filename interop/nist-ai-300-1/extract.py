@@ -32,8 +32,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import pymupdf
-from pymupdf.table import find_tables
+# PyMuPDF ships no py.typed marker and no stubs package exists for it. The ignore
+# is scoped to these imports, not set in pyproject.toml, because mypy --strict
+# warns about an override that a run over other directories never uses. Every
+# value PyMuPDF hands back is converted to a typed one in this module.
+import pymupdf  # type: ignore[import-untyped]
+from pymupdf.table import find_tables  # type: ignore[import-untyped]
 
 # Words left of this x (in points) are the draft's line numbers.
 LINE_NUMBER_MARGIN = 30.0

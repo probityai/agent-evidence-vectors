@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import pymupdf
+import pymupdf  # type: ignore[import-untyped]  # see extract.py
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
