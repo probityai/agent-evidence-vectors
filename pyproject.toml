@@ -238,11 +238,13 @@ artifact-binding = ["cryptography>=43"]
 # JCS byte corpus through; it is pinned to the same release the harness installs.
 # The source archive gate uses the PEP 508 parser maintained by PyPA. This is a development gate dependency; the rail stays
 # free of runtime dependencies.
+# pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
+# it extracts from the NIST AI 300-1 PDF; another release may extract other text.
 dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
        "packaging>=25", "hypothesis==6.168.3", "pycryptodome==3.23.0", "jsonschema==4.25.1", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
-       "numpy>=2.1", "mcp==2.3.0"]
+       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.5", "types-jsonschema==4.25.1.20251009"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
@@ -255,6 +257,13 @@ warn_unused_configs = true
 show_error_codes = true
 python_version = "3.13"
 files = ["packaging", "vectors", "tools"]
+
+# PyMuPDF ships no type information and no stubs package for it exists, so a
+# strict check of interop/nist-ai-300-1 would otherwise stop at its import. Every
+# value it hands back is converted to a typed one in extract.py.
+[[tool.mypy.overrides]]
+module = ["pymupdf", "pymupdf.*"]
+ignore_missing_imports = true
 
 [tool.pyright]
 # Named by DIRECTORY, deliberately, and this is the whole point of the section.
