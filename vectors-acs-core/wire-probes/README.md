@@ -77,4 +77,6 @@ recorded `handshake/hello` before the request: the step alone is now refused
 with `-32003`, because the restart forgot the session, but the hello and the
 step resent together are allowed. The Guardian still does not remember
 requests across a restart. D11b's answer there is `-32020`, a code outside the
-section 17.1 registry.
+section 17.1 registry. The pull request's own `a4efc16` answers a full replay
+cache with the registry's `-32000` for this reason: a client that does not know a
+code outside the registry can fail open on it.
