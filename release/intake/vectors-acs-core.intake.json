@@ -1,0 +1,1357 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 17,
+      "indeterminate": 2,
+      "reject": 29
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 48
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-acs-core/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-acs-core/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "ceadb29d215a963a24c8f25ae967c09406c56c7df65bdf18a312866214bed8c0",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "vectors",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-acs-core"
+  },
+  "byte-identity": {
+    "pins": 48,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-acs-core",
+      "aee-verify -json vectors-acs-core",
+      "aee-verify vectors-acs-core"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "a2189ff6dd933dcfec608d47210d2ee619604b7d60b54205a762a96962ede678"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v0577dc8ccd4d7e47",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v07180a3ca8f10123",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0c6dcb9ff13af3c9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0e1b9d0f75f54e9c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v100f74962fbb8b94",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v10351021bf6e46b1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1ce4aeb611285368",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v221edeb22c4e8634",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v25f01d8fe1e91bf5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3232493ab40ae031",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3c03d4e4ce213e9c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3e946bcfde26bbe2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v412653087b92cb07",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v448a61c91554a125",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4f75a079844635af",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v53ef0aaa91303587",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v58b380041d50cb9a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v661266c5c87cb206",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v699f3f41215849ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6daaec0f6f0c8a14",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v78927805373a6c06",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7b0b32fb369136c1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v82b6d110b4d68e7c",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8557c978bf12ca55",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v855c3b68b325eec1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v93c6cced4a3b9f13",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v986429a577e03404",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9f011986566cb7bc",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va00ef569d09bf7d5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va0ee5d0830b0490b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va200b64093301e14",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va2b212fbc0966f59",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va2fea96983583972",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va6d6e952d417c5a1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va8eebd3334b97257",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vae2037ee96435463",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb10df32610db1173",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb87b86b4930665ca",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc333473269d1b3a9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd57793caa251dec6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd67cd207a4eb6798",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd8ac84523a5a038c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vef655ce2a45f618b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf3679e6ac60fd250",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf80a81054d3f0862",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfcab242ddb38d018",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfdd68340c2094962",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vff6b4d46f470f2ad",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "a32080f5f418a9c155bef2203603a43b593301852b61bf88be62a451cbe78582"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v0577dc8ccd4d7e47",
+      "v07180a3ca8f10123",
+      "v0c6dcb9ff13af3c9",
+      "v0e1b9d0f75f54e9c",
+      "v100f74962fbb8b94",
+      "v10351021bf6e46b1",
+      "v1ce4aeb611285368",
+      "v221edeb22c4e8634",
+      "v25f01d8fe1e91bf5",
+      "v3232493ab40ae031",
+      "v3c03d4e4ce213e9c",
+      "v3e946bcfde26bbe2",
+      "v412653087b92cb07",
+      "v448a61c91554a125",
+      "v4f75a079844635af",
+      "v53ef0aaa91303587",
+      "v58b380041d50cb9a",
+      "v661266c5c87cb206",
+      "v699f3f41215849ca",
+      "v6daaec0f6f0c8a14",
+      "v78927805373a6c06",
+      "v7b0b32fb369136c1",
+      "v82b6d110b4d68e7c",
+      "v8557c978bf12ca55",
+      "v855c3b68b325eec1",
+      "v93c6cced4a3b9f13",
+      "v986429a577e03404",
+      "v9f011986566cb7bc",
+      "va00ef569d09bf7d5",
+      "va0ee5d0830b0490b",
+      "va200b64093301e14",
+      "va2b212fbc0966f59",
+      "va2fea96983583972",
+      "va6d6e952d417c5a1",
+      "va8eebd3334b97257",
+      "vae2037ee96435463",
+      "vb10df32610db1173",
+      "vb87b86b4930665ca",
+      "vc333473269d1b3a9",
+      "vd57793caa251dec6",
+      "vd67cd207a4eb6798",
+      "vd8ac84523a5a038c",
+      "vef655ce2a45f618b",
+      "vf3679e6ac60fd250",
+      "vf80a81054d3f0862",
+      "vfcab242ddb38d018",
+      "vfdd68340c2094962",
+      "vff6b4d46f470f2ad"
+    ],
+    "path": "vectors-acs-core/MANIFEST.json",
+    "sha256": "0cff528004f92f754874031ee7e28b1c07dee7d1a002b9187742b73d3781b0b3"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v0577dc8ccd4d7e47.json",
+          "sha256": "e9827b6775fc428de31d310c1accdbd84f1fce89dcf3bcdeddb58fc6eb08a62a"
+        }
+      ],
+      "id": "v0577dc8ccd4d7e47"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v07180a3ca8f10123.json",
+          "sha256": "b82f6f91eec1100263ed2dc59fe39ea47eb7f066e77e096e2037b548bc4f6280"
+        }
+      ],
+      "id": "v07180a3ca8f10123"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v0c6dcb9ff13af3c9.json",
+          "sha256": "70e27e8b09d5a3ed39cac835e48ee6be642beff5b8abd6150b85e2dd37f7fd51"
+        }
+      ],
+      "id": "v0c6dcb9ff13af3c9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v0e1b9d0f75f54e9c.json",
+          "sha256": "7412ebd246efc08f34df48f0dbd26cbbb03601c1ceeda925fe899fa388c1ac3a"
+        }
+      ],
+      "id": "v0e1b9d0f75f54e9c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v100f74962fbb8b94.json",
+          "sha256": "0c10ecb2c02d94029dd1fc844a8968944e0fd0ff2eb675a35d135e7e04273736"
+        }
+      ],
+      "id": "v100f74962fbb8b94"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v10351021bf6e46b1.json",
+          "sha256": "305680ea109e76557fcca88fd330559266e25a3a57d4e1969be8c67a121ad71f"
+        }
+      ],
+      "id": "v10351021bf6e46b1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v1ce4aeb611285368.json",
+          "sha256": "32deb2eb0a840798e4ba6d19288efa17d64b49dba72642e566ca036c40d5cb30"
+        }
+      ],
+      "id": "v1ce4aeb611285368"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v221edeb22c4e8634.json",
+          "sha256": "31fc0f9a901b211a9c7620fd50df4e1af762d5617a50c15fbf1bda95046bf7c0"
+        }
+      ],
+      "id": "v221edeb22c4e8634"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v25f01d8fe1e91bf5.json",
+          "sha256": "d940a72298928ed6047403e87058172f01486c157a44aee8efbff13734dbd8cc"
+        }
+      ],
+      "id": "v25f01d8fe1e91bf5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v3232493ab40ae031.json",
+          "sha256": "6140bceb57701c3b1b9abfa23fe22c72b552eddd006e367daaaf56bdfedb50ab"
+        }
+      ],
+      "id": "v3232493ab40ae031"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v3c03d4e4ce213e9c.json",
+          "sha256": "1e28faf6123a72d4e7d79dfa1c1366b017ea5265657d15c4fd2d13b02b1a626c"
+        }
+      ],
+      "id": "v3c03d4e4ce213e9c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v3e946bcfde26bbe2.json",
+          "sha256": "2658f7165f7cba970d64b6c87daf00bcb75554a93f9a00bcd01de42e7bd5a1a0"
+        }
+      ],
+      "id": "v3e946bcfde26bbe2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v412653087b92cb07.json",
+          "sha256": "4b34913d1de1d5d41226fb249ccb0fd1723a2fbaecf59c050276bd2e127b773d"
+        }
+      ],
+      "id": "v412653087b92cb07"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v448a61c91554a125.json",
+          "sha256": "57edcb9ec8ecbbb6f37ec835abd1d76d956111955bbea87874e8f39b4f294999"
+        }
+      ],
+      "id": "v448a61c91554a125"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v4f75a079844635af.json",
+          "sha256": "e49de9b2eb8be3d3f125b47bf442605362ac225e5a748e28be468e92ca42b5c0"
+        }
+      ],
+      "id": "v4f75a079844635af"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v53ef0aaa91303587.json",
+          "sha256": "14e20b7fc60eedf7312c73a0b1e6b09a976aaf7a607c216a97ac342e5e6f88b3"
+        }
+      ],
+      "id": "v53ef0aaa91303587"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v58b380041d50cb9a.json",
+          "sha256": "ceb88f0fee2b79e52a5a7a90cfcab9529578fb1d3fd902ab8bb575506f53d519"
+        }
+      ],
+      "id": "v58b380041d50cb9a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v661266c5c87cb206.json",
+          "sha256": "c5c6ba1b969f5b952a30f8ec8967991e37075194fc6c9f3524aeb4c6b6718cb9"
+        }
+      ],
+      "id": "v661266c5c87cb206"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v699f3f41215849ca.json",
+          "sha256": "01c143ea3a2adb5d59a22abe391c71496ce62c11e17bc70785db0f29067d7292"
+        }
+      ],
+      "id": "v699f3f41215849ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v6daaec0f6f0c8a14.json",
+          "sha256": "eebba1f4eca46705015884d5f4caece71c2bcd7e1c98d3eeaec96aeee7b57158"
+        }
+      ],
+      "id": "v6daaec0f6f0c8a14"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v78927805373a6c06.json",
+          "sha256": "8f088391e70e9386db55fc8584d6fb4a0bd17aeb6e8e1b6dc3e97f701266fef3"
+        }
+      ],
+      "id": "v78927805373a6c06"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v7b0b32fb369136c1.json",
+          "sha256": "849e0eaf6d34d70881cf12c7cbe49f1b6be8e94f6ca2aa8d4eb5dac2def83ecd"
+        }
+      ],
+      "id": "v7b0b32fb369136c1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v82b6d110b4d68e7c.json",
+          "sha256": "9b0fdd251df4b966bb7690959a69d2a2f50dd1247ba9ed1cac360319aaaa3e20"
+        }
+      ],
+      "id": "v82b6d110b4d68e7c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v8557c978bf12ca55.json",
+          "sha256": "fda24c37c3d8bc357321d816d1dd03edccc519c7c6e771b4e1e6ecb953c05c9f"
+        }
+      ],
+      "id": "v8557c978bf12ca55"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v855c3b68b325eec1.json",
+          "sha256": "119a6e6b842f24ce0eee9370c3366fbd29edc1a27d8fc32b1a258e35bc111466"
+        }
+      ],
+      "id": "v855c3b68b325eec1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v93c6cced4a3b9f13.json",
+          "sha256": "2eef61807f32484e2c9c987b38c6f14fe4c8daf3a81b87845489236e0c9ad5b3"
+        }
+      ],
+      "id": "v93c6cced4a3b9f13"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v986429a577e03404.json",
+          "sha256": "d77f555225bda6126e0eef929936c363bc671c81d049147ed2604f14421b8c1c"
+        }
+      ],
+      "id": "v986429a577e03404"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v9f011986566cb7bc.json",
+          "sha256": "09333eb7cd985ae51785b750a5872928a94bfaa01a4e1a7f1514b11409da19c5"
+        }
+      ],
+      "id": "v9f011986566cb7bc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va00ef569d09bf7d5.json",
+          "sha256": "a28722f1f237b984fae28dadcba9cafa87e75dbe8429e6f75064ab413160d20c"
+        }
+      ],
+      "id": "va00ef569d09bf7d5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va0ee5d0830b0490b.json",
+          "sha256": "5af3ac2ac93301fde6aaad538320889b941846786e550786016711312dd9c782"
+        }
+      ],
+      "id": "va0ee5d0830b0490b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va200b64093301e14.json",
+          "sha256": "5fff6985b922fe19aac94eced1f7588e98de8d469b18552584bc2b8e3437ecb1"
+        }
+      ],
+      "id": "va200b64093301e14"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va2b212fbc0966f59.json",
+          "sha256": "13ea5459d892931cc2d19745e63b742d4fb6b6885753d32883d056c37ab8222b"
+        }
+      ],
+      "id": "va2b212fbc0966f59"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va2fea96983583972.json",
+          "sha256": "bf06b8ce556a461d1020b22f1accfb98f6283528e561768c090284ca1ae867f3"
+        }
+      ],
+      "id": "va2fea96983583972"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va6d6e952d417c5a1.json",
+          "sha256": "73bcd12f6b9fd1cb485387b38648a0dd8012125a5cfff4755aff1fb7e53341b8"
+        }
+      ],
+      "id": "va6d6e952d417c5a1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/va8eebd3334b97257.json",
+          "sha256": "095e1993f79feca244d3bf1edee818d33d9eca4da8cae64c421dd41c7e70d8b6"
+        }
+      ],
+      "id": "va8eebd3334b97257"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vae2037ee96435463.json",
+          "sha256": "869803df6181fec861832847313035eb01c9a3668c0d0f6c5f72f144e2747c9f"
+        }
+      ],
+      "id": "vae2037ee96435463"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vb10df32610db1173.json",
+          "sha256": "1b11377984ac2db06d22cc071e52cc67de3a6779c1b07e96d72fb0a22ccbf7d8"
+        }
+      ],
+      "id": "vb10df32610db1173"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vb87b86b4930665ca.json",
+          "sha256": "c7eb92b9b438804167a434bad80b5c53d8d663731a8873432ab28fb0d1ae83bc"
+        }
+      ],
+      "id": "vb87b86b4930665ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc333473269d1b3a9.json",
+          "sha256": "095bbc638731eedeee3679e268a0c227423cf483dcdd6e2bbdc0f0fa000164d9"
+        }
+      ],
+      "id": "vc333473269d1b3a9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vd57793caa251dec6.json",
+          "sha256": "f209aef28c7bf545ddbac3f2a1cce844f34a301ac27aede136ae31597a2b5a0c"
+        }
+      ],
+      "id": "vd57793caa251dec6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vd67cd207a4eb6798.json",
+          "sha256": "5281caecb904250bed8275d02220d99e26dcf1c16ce1e2e0f3a2c7ea082a88df"
+        }
+      ],
+      "id": "vd67cd207a4eb6798"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vd8ac84523a5a038c.json",
+          "sha256": "c1a74718513f31cadbbc04ee6a641910a374840fed142b2b55af61c92e63d175"
+        }
+      ],
+      "id": "vd8ac84523a5a038c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vef655ce2a45f618b.json",
+          "sha256": "de32be74cac5cdf592258e35225e6c3aa3ff60cdf81727a068176d04fc5d36f8"
+        }
+      ],
+      "id": "vef655ce2a45f618b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vf3679e6ac60fd250.json",
+          "sha256": "21b3d7b4da9f68eec645f39228eac231aaedf627e3b12945d24e39da39bd3cde"
+        }
+      ],
+      "id": "vf3679e6ac60fd250"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vf80a81054d3f0862.json",
+          "sha256": "7152cc4915cd1f9e2a438c483a6caf781b67c846d9bbff548d554c5729d23dab"
+        }
+      ],
+      "id": "vf80a81054d3f0862"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vfcab242ddb38d018.json",
+          "sha256": "026faf76d7450412ef44b41680089d8d558d8582d935352213b98be66d1e6a6e"
+        }
+      ],
+      "id": "vfcab242ddb38d018"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vfdd68340c2094962.json",
+          "sha256": "b9652a6246edf1af18eab7efe1851f8a6b1d3d9a5ba25749e0a412bb831e5de0"
+        }
+      ],
+      "id": "vfdd68340c2094962"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vff6b4d46f470f2ad.json",
+          "sha256": "4996f4f5e134b331c79889e8203f05d21a26590f10677bc8a1538a1a426c6849"
+        }
+      ],
+      "id": "vff6b4d46f470f2ad"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "990cc18c1825ecd27cb33b6a68ebf5b5da2493d19e83791ef929b12b5bcad1cb",
+      "covers-these-bytes": false,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-acs-core.json",
+        "serialization": "bytes",
+        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-acs-core.txt",
+        "serialization": "bytes",
+        "sha256": "d20c6c1a2af8d92f2b174e9b19f658d4c2afc5736dc01cb813e5af2d3e5cedf8"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0c6dcb9ff13af3c9",
+      "inputs": [
+        "member:v0c6dcb9ff13af3c9",
+        "check:v0c6dcb9ff13af3c9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-014\"]}"
+    },
+    {
+      "check": "v0e1b9d0f75f54e9c",
+      "inputs": [
+        "member:v0e1b9d0f75f54e9c",
+        "check:v0e1b9d0f75f54e9c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-023\"]}"
+    },
+    {
+      "check": "v100f74962fbb8b94",
+      "inputs": [
+        "member:v100f74962fbb8b94",
+        "check:v100f74962fbb8b94"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-011\"]}"
+    },
+    {
+      "check": "v10351021bf6e46b1",
+      "inputs": [
+        "member:v10351021bf6e46b1",
+        "check:v10351021bf6e46b1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-009\"]}"
+    },
+    {
+      "check": "v1ce4aeb611285368",
+      "inputs": [
+        "member:v1ce4aeb611285368",
+        "check:v1ce4aeb611285368"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SESSION_REFUSED\",\"codeValue\":-32000,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-024\"]}"
+    },
+    {
+      "check": "v221edeb22c4e8634",
+      "inputs": [
+        "member:v221edeb22c4e8634",
+        "check:v221edeb22c4e8634"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\",\"ACS-R-021\"]}"
+    },
+    {
+      "check": "v3232493ab40ae031",
+      "inputs": [
+        "member:v3232493ab40ae031",
+        "check:v3232493ab40ae031"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-021\"]}"
+    },
+    {
+      "check": "v412653087b92cb07",
+      "inputs": [
+        "member:v412653087b92cb07",
+        "check:v412653087b92cb07"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"UNSUPPORTED_VERSION\",\"codeValue\":-32001,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-017\"]}"
+    },
+    {
+      "check": "v448a61c91554a125",
+      "inputs": [
+        "member:v448a61c91554a125",
+        "check:v448a61c91554a125"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-013\"]}"
+    },
+    {
+      "check": "v661266c5c87cb206",
+      "inputs": [
+        "member:v661266c5c87cb206",
+        "check:v661266c5c87cb206"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-013\"]}"
+    },
+    {
+      "check": "v7b0b32fb369136c1",
+      "inputs": [
+        "member:v7b0b32fb369136c1",
+        "check:v7b0b32fb369136c1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\"]}"
+    },
+    {
+      "check": "v8557c978bf12ca55",
+      "inputs": [
+        "member:v8557c978bf12ca55",
+        "check:v8557c978bf12ca55"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-016\"]}"
+    },
+    {
+      "check": "v93c6cced4a3b9f13",
+      "inputs": [
+        "member:v93c6cced4a3b9f13",
+        "check:v93c6cced4a3b9f13"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-025\"]}"
+    },
+    {
+      "check": "v986429a577e03404",
+      "inputs": [
+        "member:v986429a577e03404",
+        "check:v986429a577e03404"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\",\"ACS-R-021\"]}"
+    },
+    {
+      "check": "va00ef569d09bf7d5",
+      "inputs": [
+        "member:va00ef569d09bf7d5",
+        "check:va00ef569d09bf7d5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-015\"]}"
+    },
+    {
+      "check": "va200b64093301e14",
+      "inputs": [
+        "member:va200b64093301e14",
+        "check:va200b64093301e14"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-018\"]}"
+    },
+    {
+      "check": "va2fea96983583972",
+      "inputs": [
+        "member:va2fea96983583972",
+        "check:va2fea96983583972"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"PROVENANCE_REQUIRED\",\"codeValue\":-32002,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-010\"]}"
+    },
+    {
+      "check": "va8eebd3334b97257",
+      "inputs": [
+        "member:va8eebd3334b97257",
+        "check:va8eebd3334b97257"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-004\"]}"
+    },
+    {
+      "check": "vae2037ee96435463",
+      "inputs": [
+        "member:vae2037ee96435463",
+        "check:vae2037ee96435463"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-019\"]}"
+    },
+    {
+      "check": "vb10df32610db1173",
+      "inputs": [
+        "member:vb10df32610db1173",
+        "check:vb10df32610db1173"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"TIMESTAMP_OUT_OF_WINDOW\",\"codeValue\":-32006,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-003\"]}"
+    },
+    {
+      "check": "vb87b86b4930665ca",
+      "inputs": [
+        "member:vb87b86b4930665ca",
+        "check:vb87b86b4930665ca"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-001\"]}"
+    },
+    {
+      "check": "vc333473269d1b3a9",
+      "inputs": [
+        "member:vc333473269d1b3a9",
+        "check:vc333473269d1b3a9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-007\"]}"
+    },
+    {
+      "check": "vd57793caa251dec6",
+      "inputs": [
+        "member:vd57793caa251dec6",
+        "check:vd57793caa251dec6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-008\"]}"
+    },
+    {
+      "check": "vd67cd207a4eb6798",
+      "inputs": [
+        "member:vd67cd207a4eb6798",
+        "check:vd67cd207a4eb6798"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-001\"]}"
+    },
+    {
+      "check": "vd8ac84523a5a038c",
+      "inputs": [
+        "member:vd8ac84523a5a038c",
+        "check:vd8ac84523a5a038c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-022\",\"ACS-R-021\"]}"
+    },
+    {
+      "check": "vef655ce2a45f618b",
+      "inputs": [
+        "member:vef655ce2a45f618b",
+        "check:vef655ce2a45f618b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"REPLAY_DETECTED\",\"codeValue\":-32005,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-002\"]}"
+    },
+    {
+      "check": "vf80a81054d3f0862",
+      "inputs": [
+        "member:vf80a81054d3f0862",
+        "check:vf80a81054d3f0862"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-020\"]}"
+    },
+    {
+      "check": "vfcab242ddb38d018",
+      "inputs": [
+        "member:vfcab242ddb38d018",
+        "check:vfcab242ddb38d018"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-012\"]}"
+    },
+    {
+      "check": "vfdd68340c2094962",
+      "inputs": [
+        "member:vfdd68340c2094962",
+        "check:vfdd68340c2094962"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-005\"]}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+      },
+      {
+        "process": "run-2",
+        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 48 pinned members of acs-core-negative-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 48,
+    "require": "at-least-one",
+    "selected": [
+      "v0577dc8ccd4d7e47",
+      "v07180a3ca8f10123",
+      "v0c6dcb9ff13af3c9",
+      "v0e1b9d0f75f54e9c",
+      "v100f74962fbb8b94",
+      "v10351021bf6e46b1",
+      "v1ce4aeb611285368",
+      "v221edeb22c4e8634",
+      "v25f01d8fe1e91bf5",
+      "v3232493ab40ae031",
+      "v3c03d4e4ce213e9c",
+      "v3e946bcfde26bbe2",
+      "v412653087b92cb07",
+      "v448a61c91554a125",
+      "v4f75a079844635af",
+      "v53ef0aaa91303587",
+      "v58b380041d50cb9a",
+      "v661266c5c87cb206",
+      "v699f3f41215849ca",
+      "v6daaec0f6f0c8a14",
+      "v78927805373a6c06",
+      "v7b0b32fb369136c1",
+      "v82b6d110b4d68e7c",
+      "v8557c978bf12ca55",
+      "v855c3b68b325eec1",
+      "v93c6cced4a3b9f13",
+      "v986429a577e03404",
+      "v9f011986566cb7bc",
+      "va00ef569d09bf7d5",
+      "va0ee5d0830b0490b",
+      "va200b64093301e14",
+      "va2b212fbc0966f59",
+      "va2fea96983583972",
+      "va6d6e952d417c5a1",
+      "va8eebd3334b97257",
+      "vae2037ee96435463",
+      "vb10df32610db1173",
+      "vb87b86b4930665ca",
+      "vc333473269d1b3a9",
+      "vd57793caa251dec6",
+      "vd67cd207a4eb6798",
+      "vd8ac84523a5a038c",
+      "vef655ce2a45f618b",
+      "vf3679e6ac60fd250",
+      "vf80a81054d3f0862",
+      "vfcab242ddb38d018",
+      "vfdd68340c2094962",
+      "vff6b4d46f470f2ad"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "acs-core-negative-conformance"
+}

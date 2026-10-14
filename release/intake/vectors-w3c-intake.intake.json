@@ -1,0 +1,3803 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 46,
+      "reject": 70
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 116
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-w3c-intake/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-w3c-intake/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "19c87dc8a5c036c63281e4cb5e24e94892f8d0b85139749314e065c268dd289e",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "trees",
+        "recursive": true,
+        "suffix": ""
+      },
+      {
+        "dir": "vectors",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-w3c-intake"
+  },
+  "byte-identity": {
+    "pins": 326,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-w3c-intake",
+      "aee-verify -json vectors-w3c-intake",
+      "aee-verify vectors-w3c-intake"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "a2189ff6dd933dcfec608d47210d2ee619604b7d60b54205a762a96962ede678"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "va8fd1584de3917fa",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17ea3ca9e8aba66e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb9c6018153200be2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v914afe1b10c1c7da",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v249504ec7cd69c8c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va2ba9139fade86a7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v56a56c15e9fba04e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc6b6e4e9b96cbd1b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v54817943ecf43ea2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb3f4ff02890fd38d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc5eed94892f1e883",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v63d5f0060b792215",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v92b67a9c8e3e56b8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve188f6e842675b4a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfb89dbee86ef9c23",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v243e2adf34a28fa2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3cec3f860f38a3ca",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vac379ef15814f82e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8359f852405c8f86",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v810bd3a53d9e9a30",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9ed4b2f6dde5b013",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7fdb533ac9eb329e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0e3e83a72ea19c2b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v494c3735189a3a5b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vddcd14d805aba8ae",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v97332c23084a0a45",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8e7c31ce1b0b8749",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v35fc0e144ff1a2c0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9b82b3dd1f7e67e0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v08d029af8d867873",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbe6887cbd4332fe3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2dad8a98319d8488",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1a6bc738b04e6f09",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1ed48ffb26a9fb2f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v26b04f76ea6df1bb",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3aee542d3d4e21ab",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v05d693d888f6f224",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v57b4c86bb909d6e2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2a9245a136fff7fe",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v30f6eead7e4e591d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6d5d009c0afd746a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v19add6b40e694ee9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v76f4328893b2daca",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va637114de7837a6c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v855322afa6f27d9b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc7888b39e256922e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5370cf836fa623bb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v28acc956b24f645c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v661c6b73a2fbd46c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb007c1024f5352e2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v97be148cfab32010",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcd35877262d553ac",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfa407d1e4103d982",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb319677192414214",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v90b45b1bcf3fdcae",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v447849124b3204e5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vebd85f16bc188378",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve69471b9e7adca81",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb3c94716ee9cc047",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va43ea57fabb28fcd",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2e3abd04d8941532",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v28baf850d255b2b5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v396f8c68b75303d6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaeb587ff5c07a6f3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf7d419bc66ad7777",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb3018e528be264a0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va1b91fc41cd27241",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va2d1885a5849693c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v67556f46648548d2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v83298cb3cf35d71f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9eee252f0d4b84b0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v96548ebbeba32f02",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb7de7c95f687d15b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v640823e8b875a593",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v500d0c6ca4cec0df",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5f4d563421e350cb",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v18e5cae6abdb7d59",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1ec303edbfbc8f3e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v525fc80d7245345c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v79cb81c96b8bf3c7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0fc3f0d397f0ffd7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf684811e2384eb08",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1079c05670cd55f7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3d19f4341e5c9401",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v05649e3a65749324",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v13e4ed5d9c9c7a28",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaceb67780bc57bf9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc8bb364779a240f8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v08d1e582bc3b6565",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v047f833c81b6dfe2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9ff081964b0e6928",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vde73f3530362dc96",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9214260e303d6b83",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf2b62b32f7115327",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v210bded74f9e2ec8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1b1ee1b2f1c2aaa2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4d7141e1aa543e27",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbf9d7ccd636bd49e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve3438976dc215b3f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfffff0d729b57eab",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v237c0f449c5428a0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3c83cb2cde278e30",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5675aca79a3ebf40",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va84b152eed573123",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4c3263cc71d41b3a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4af160453591b3ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd96af313be8dfed6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v78b4e54c1d4444cc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v501ae78beb2c0368",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3933f4155df22242",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2a21d1f7fedca99c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbe1901930646b437",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb56a903c8dca8732",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc3a14653116d453e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v13d388ff37d4c51b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7bb856900e5f23b3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "7d551de041ac9f7a9a60698de5a5ede62855b6977982a7bd76d0e2b753c3a6a5"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "va8fd1584de3917fa",
+      "v17ea3ca9e8aba66e",
+      "vb9c6018153200be2",
+      "v914afe1b10c1c7da",
+      "v249504ec7cd69c8c",
+      "va2ba9139fade86a7",
+      "v56a56c15e9fba04e",
+      "vc6b6e4e9b96cbd1b",
+      "v54817943ecf43ea2",
+      "vb3f4ff02890fd38d",
+      "vc5eed94892f1e883",
+      "v63d5f0060b792215",
+      "v92b67a9c8e3e56b8",
+      "ve188f6e842675b4a",
+      "vfb89dbee86ef9c23",
+      "v243e2adf34a28fa2",
+      "v3cec3f860f38a3ca",
+      "vac379ef15814f82e",
+      "v8359f852405c8f86",
+      "v810bd3a53d9e9a30",
+      "v9ed4b2f6dde5b013",
+      "v7fdb533ac9eb329e",
+      "v0e3e83a72ea19c2b",
+      "v494c3735189a3a5b",
+      "vddcd14d805aba8ae",
+      "v97332c23084a0a45",
+      "v8e7c31ce1b0b8749",
+      "v35fc0e144ff1a2c0",
+      "v9b82b3dd1f7e67e0",
+      "v08d029af8d867873",
+      "vbe6887cbd4332fe3",
+      "v2dad8a98319d8488",
+      "v1a6bc738b04e6f09",
+      "v1ed48ffb26a9fb2f",
+      "v26b04f76ea6df1bb",
+      "v3aee542d3d4e21ab",
+      "v05d693d888f6f224",
+      "v57b4c86bb909d6e2",
+      "v2a9245a136fff7fe",
+      "v30f6eead7e4e591d",
+      "v6d5d009c0afd746a",
+      "v19add6b40e694ee9",
+      "v76f4328893b2daca",
+      "va637114de7837a6c",
+      "v855322afa6f27d9b",
+      "vc7888b39e256922e",
+      "v5370cf836fa623bb",
+      "v28acc956b24f645c",
+      "v661c6b73a2fbd46c",
+      "vb007c1024f5352e2",
+      "v97be148cfab32010",
+      "vcd35877262d553ac",
+      "vfa407d1e4103d982",
+      "vb319677192414214",
+      "v90b45b1bcf3fdcae",
+      "v447849124b3204e5",
+      "vebd85f16bc188378",
+      "ve69471b9e7adca81",
+      "vb3c94716ee9cc047",
+      "va43ea57fabb28fcd",
+      "v2e3abd04d8941532",
+      "v28baf850d255b2b5",
+      "v396f8c68b75303d6",
+      "vaeb587ff5c07a6f3",
+      "vf7d419bc66ad7777",
+      "vb3018e528be264a0",
+      "va1b91fc41cd27241",
+      "va2d1885a5849693c",
+      "v67556f46648548d2",
+      "v83298cb3cf35d71f",
+      "v9eee252f0d4b84b0",
+      "v96548ebbeba32f02",
+      "vb7de7c95f687d15b",
+      "v640823e8b875a593",
+      "v500d0c6ca4cec0df",
+      "v5f4d563421e350cb",
+      "v18e5cae6abdb7d59",
+      "v1ec303edbfbc8f3e",
+      "v525fc80d7245345c",
+      "v79cb81c96b8bf3c7",
+      "v0fc3f0d397f0ffd7",
+      "vf684811e2384eb08",
+      "v1079c05670cd55f7",
+      "v3d19f4341e5c9401",
+      "v05649e3a65749324",
+      "v13e4ed5d9c9c7a28",
+      "vaceb67780bc57bf9",
+      "vc8bb364779a240f8",
+      "v08d1e582bc3b6565",
+      "v047f833c81b6dfe2",
+      "v9ff081964b0e6928",
+      "vde73f3530362dc96",
+      "v9214260e303d6b83",
+      "vf2b62b32f7115327",
+      "v210bded74f9e2ec8",
+      "v1b1ee1b2f1c2aaa2",
+      "v4d7141e1aa543e27",
+      "vbf9d7ccd636bd49e",
+      "ve3438976dc215b3f",
+      "vfffff0d729b57eab",
+      "v237c0f449c5428a0",
+      "v3c83cb2cde278e30",
+      "v5675aca79a3ebf40",
+      "va84b152eed573123",
+      "v4c3263cc71d41b3a",
+      "v4af160453591b3ca",
+      "vd96af313be8dfed6",
+      "v78b4e54c1d4444cc",
+      "v501ae78beb2c0368",
+      "v3933f4155df22242",
+      "v2a21d1f7fedca99c",
+      "vbe1901930646b437",
+      "vb56a903c8dca8732",
+      "vc3a14653116d453e",
+      "v13d388ff37d4c51b",
+      "v7bb856900e5f23b3"
+    ],
+    "path": "vectors-w3c-intake/MANIFEST.json",
+    "sha256": "dd370b9f43d3b4c3682e7dffc62d434a27e19be3fdc13a18dc1ff2984ffd8ab0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/va8fd1584de3917fa.json",
+          "sha256": "78ccbf66088260ef8e727cf9a688ab61e7c2f32b105f1a020f0feca7a8d12bfd"
+        }
+      ],
+      "id": "va8fd1584de3917fa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v17ea3ca9e8aba66e.json",
+          "sha256": "598f630c8470d2dc26e98b00147e4f04f98d47a10a675aacedc752e614327911"
+        }
+      ],
+      "id": "v17ea3ca9e8aba66e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vb9c6018153200be2.json",
+          "sha256": "915b21cbd38b969f425ac0bb17259e9da31dffaa037901646134af35dd35eb49"
+        }
+      ],
+      "id": "vb9c6018153200be2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v914afe1b10c1c7da.json",
+          "sha256": "833a337a8c937a2dd3ef29a2ea7ec6c837d734812f82620638cca85b1c2c35c5"
+        }
+      ],
+      "id": "v914afe1b10c1c7da"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/suite/MANIFEST.json",
+          "sha256": "867df1e2334a8730fd94a3faae81bc3eb7fab7dd5e10e7c1f9515d1644c252d4"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/manifest-moved/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v249504ec7cd69c8c.json",
+          "sha256": "9d0f795d2bad8837dff27c5789aa7c348e13fedf65bdc5310367aad90463370d"
+        }
+      ],
+      "id": "v249504ec7cd69c8c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/va2ba9139fade86a7.json",
+          "sha256": "b57cf27cd73d897df03fda18a341b0abea579c85ff5b1b1d80f26e6b5046401d"
+        }
+      ],
+      "id": "va2ba9139fade86a7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v56a56c15e9fba04e.json",
+          "sha256": "9c1047322473472b558c47b13cfb72747f1b32aa242a331ee29dd29e45c414d1"
+        }
+      ],
+      "id": "v56a56c15e9fba04e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/suite/cases/c2.json",
+          "sha256": "504d1b95f9ec4f3b60e21019fe39c7f9c5d575391a9e6bdfe82b9f91282fb949"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/member-moved/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vc6b6e4e9b96cbd1b.json",
+          "sha256": "01995961ac6341b38bfc343e9024ebceff731413fb8afdd7627cfff98556ea77"
+        }
+      ],
+      "id": "vc6b6e4e9b96cbd1b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v54817943ecf43ea2.json",
+          "sha256": "a3a1d2d8e8bfb310032f87ff0ce9005cf0d11d43d6213c41c8987393dd8f57d1"
+        }
+      ],
+      "id": "v54817943ecf43ea2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vb3f4ff02890fd38d.json",
+          "sha256": "e653cd4c635f97aaf79984dfd312341b3dcd3770693dfbdb92e0b5e0b3a9c1eb"
+        }
+      ],
+      "id": "vb3f4ff02890fd38d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vc5eed94892f1e883.json",
+          "sha256": "62c2814371c3322eac5af62dccf7e3439c3f24c9a4393507b4b35cbbdb2e8032"
+        }
+      ],
+      "id": "vc5eed94892f1e883"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v63d5f0060b792215.json",
+          "sha256": "7e11151c1813b741287d0f0f3cac3635e6a838f62449e584760eb9d4be48ec28"
+        }
+      ],
+      "id": "v63d5f0060b792215"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v92b67a9c8e3e56b8.json",
+          "sha256": "879c2e48fd58e226076c2ab030701e64c435575fc1743baeca713ea8ebaec832"
+        }
+      ],
+      "id": "v92b67a9c8e3e56b8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/ve188f6e842675b4a.json",
+          "sha256": "6c0edb7e77d890a94fe9b35fda985d5284ea3f8970af05f62755df3d51d42dd5"
+        }
+      ],
+      "id": "ve188f6e842675b4a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vfb89dbee86ef9c23.json",
+          "sha256": "4ce6c2012d94027d9aed1e400e3603bf52c3871445fd89b370595539b5b3f314"
+        }
+      ],
+      "id": "vfb89dbee86ef9c23"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v243e2adf34a28fa2.json",
+          "sha256": "0ff1cc10221b42e85810b4c1e3f4c5e13ffe3e9022c2210ffdbb97b8ef7f4f9f"
+        }
+      ],
+      "id": "v243e2adf34a28fa2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v3cec3f860f38a3ca.json",
+          "sha256": "103e646d2e7127142802ef5bdb88d6bcdd999de95aaf0dd5d6341bbb19e6d99c"
+        }
+      ],
+      "id": "v3cec3f860f38a3ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/elsewhere/c4.json",
+          "sha256": "1cda1bcb9e96b9d8a852d4a001ca3958f10888a88a0f660b17e20834a4679788"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/outside-package/suite/notes/c4.json",
+          "sha256": "3511a26eab97e4a5b9a345b1a19c84229cab74536f90539ba345f4cfc6cba6ff"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vac379ef15814f82e.json",
+          "sha256": "6b13f66a478c7b790c522b54201ab2797a3b289e9ac5a3109cf3b733ff5096fc"
+        }
+      ],
+      "id": "vac379ef15814f82e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/unexpected-member/suite/cases/c4.json",
+          "sha256": "698f1808e4c62689c4a3ad466f14a1482a07beff0498baec981428cfcd5f68a6"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v8359f852405c8f86.json",
+          "sha256": "0dcf5b8dc8e9e033084650c7624848bfaea07ba9691c4a00d24ec36cd7731049"
+        }
+      ],
+      "id": "v8359f852405c8f86"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v810bd3a53d9e9a30.json",
+          "sha256": "ba102a825d5e1428c30156c7f9693fb259080eef2d1af7d26a700b838dab99b1"
+        }
+      ],
+      "id": "v810bd3a53d9e9a30"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v9ed4b2f6dde5b013.json",
+          "sha256": "cacbfd0c49b28fb998fbb057c376083aa84f0d2128e7b0ea1626a4cd9052048e"
+        }
+      ],
+      "id": "v9ed4b2f6dde5b013"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v7fdb533ac9eb329e.json",
+          "sha256": "281b87294ab9bf58d7c6e98b0d375a1a8b1da789652d237e73c1718860bb725c"
+        }
+      ],
+      "id": "v7fdb533ac9eb329e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v0e3e83a72ea19c2b.json",
+          "sha256": "26963a1e912e1adef4d767de5e8b04f14cd184891af72a469e1080c3030139dc"
+        }
+      ],
+      "id": "v0e3e83a72ea19c2b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v494c3735189a3a5b.json",
+          "sha256": "08f43c7d1178411ffb8254a3f1e8328b9324a50c8ad4e46435ec91d94e5d8413"
+        }
+      ],
+      "id": "v494c3735189a3a5b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vddcd14d805aba8ae.json",
+          "sha256": "2f6ac1edd46b0230bf89c60b550b077c84de5ad72d815cced231843890261de9"
+        }
+      ],
+      "id": "vddcd14d805aba8ae"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v97332c23084a0a45.json",
+          "sha256": "6e5168319694e5ddc1dee4bde4bbdc2970b2372633bfc119dedd55a5a8e55443"
+        }
+      ],
+      "id": "v97332c23084a0a45"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v8e7c31ce1b0b8749.json",
+          "sha256": "f643428cdd286da26eeaf9ca58c61b51ffdad6ad3c00bc4576e9ae3200ae9c28"
+        }
+      ],
+      "id": "v8e7c31ce1b0b8749"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v35fc0e144ff1a2c0.json",
+          "sha256": "d19fe6c1826e4d44533e62278f12e8426621ffe0dd13681d89674674e89e6550"
+        }
+      ],
+      "id": "v35fc0e144ff1a2c0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v9b82b3dd1f7e67e0.json",
+          "sha256": "b3e6f8806f8c48e6a822989b14f0175e14ec99d7a10f49bc6813eee6792c56a5"
+        }
+      ],
+      "id": "v9b82b3dd1f7e67e0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v08d029af8d867873.json",
+          "sha256": "3b640e51cd35469293256bed7d42c52a8ebe8950024b06ca23b50d8a2fd183e2"
+        }
+      ],
+      "id": "v08d029af8d867873"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vbe6887cbd4332fe3.json",
+          "sha256": "49e0bae1714865d60c437c2f39c85e45a7a5118796fca7bfd10b61e8dfa43328"
+        }
+      ],
+      "id": "vbe6887cbd4332fe3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v2dad8a98319d8488.json",
+          "sha256": "ab7ee4dd13b2e8063de4588626dc332d10f6ef021db547b0b83ad2bed03755a0"
+        }
+      ],
+      "id": "v2dad8a98319d8488"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v1a6bc738b04e6f09.json",
+          "sha256": "2bb4034407f4cce49f6554387040f3575598fba49dddda00b5121d249e3bd7ae"
+        }
+      ],
+      "id": "v1a6bc738b04e6f09"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v1ed48ffb26a9fb2f.json",
+          "sha256": "a6a8f4c7bb922dd6c17f2458c45ceb49571642eee0222f0e6baa33bb22ba1a71"
+        }
+      ],
+      "id": "v1ed48ffb26a9fb2f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v26b04f76ea6df1bb.json",
+          "sha256": "6ca9caf100b0c4540042306dc7bf923704b239b9fef923a100baff1d7a6f2005"
+        }
+      ],
+      "id": "v26b04f76ea6df1bb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v3aee542d3d4e21ab.json",
+          "sha256": "3e78ec82d0d5de7bb4d182420520be1348d492a2b67dbc8a4113f3b59049d15a"
+        }
+      ],
+      "id": "v3aee542d3d4e21ab"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v05d693d888f6f224.json",
+          "sha256": "58d696abac6a37a06d5931e7e58db0a5e7b9ae83b6d6319c3ec8787d221b09a9"
+        }
+      ],
+      "id": "v05d693d888f6f224"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v57b4c86bb909d6e2.json",
+          "sha256": "2232e32408dad378f83e69f310c1d52bce0534ce4cb293c74b58760604c7ea36"
+        }
+      ],
+      "id": "v57b4c86bb909d6e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v2a9245a136fff7fe.json",
+          "sha256": "d72fc1ca287ea92325ca9be52d2e6706618bbe397bb4517ce6ef234ff5070e18"
+        }
+      ],
+      "id": "v2a9245a136fff7fe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v30f6eead7e4e591d.json",
+          "sha256": "1a15a632d701c9330c9ab5a9e9652a950ea15689e57e9ac1e204ec75d857738a"
+        }
+      ],
+      "id": "v30f6eead7e4e591d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v6d5d009c0afd746a.json",
+          "sha256": "04c6a08d28d9410916fb040eed91d44cee9620bcdda3687c039a1f0d3b7258c7"
+        }
+      ],
+      "id": "v6d5d009c0afd746a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v19add6b40e694ee9.json",
+          "sha256": "147fb497aedae27bdd0afda8021ab5015db93d3c5a7f814b11f8c586a692508e"
+        }
+      ],
+      "id": "v19add6b40e694ee9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v76f4328893b2daca.json",
+          "sha256": "598bb67d69b63e09d262b5b8bbf6638b4d7b7ce3ae5cb96f50fa8c45e9d49f39"
+        }
+      ],
+      "id": "v76f4328893b2daca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/va637114de7837a6c.json",
+          "sha256": "0d04ba9c21fbfed9c4fffdb01362891fcabbe1c89ed77a2ea52bd4db59b4ca03"
+        }
+      ],
+      "id": "va637114de7837a6c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v855322afa6f27d9b.json",
+          "sha256": "9c03035e1ead760d13608ad36e1e7eeb37c5d77cd929577a8744a0ca4838a973"
+        }
+      ],
+      "id": "v855322afa6f27d9b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vc7888b39e256922e.json",
+          "sha256": "77e0c807b3f9b2592e4cde3689cd5e79d7b61661fde0b2d1d2fe0854805b9eb2"
+        }
+      ],
+      "id": "vc7888b39e256922e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v5370cf836fa623bb.json",
+          "sha256": "b67d69636d4adb07c30abe37a9e0d97f3cd51917016f8e9073dbcebfd0c57d1f"
+        }
+      ],
+      "id": "v5370cf836fa623bb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v28acc956b24f645c.json",
+          "sha256": "fee8f1c5284b4e9c479e8dd1186014b22bc8347c7fa0622162f1e25846bdebe5"
+        }
+      ],
+      "id": "v28acc956b24f645c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/out/cases.json",
+          "sha256": "6e5d2704cb111dd71ae138081218c7b9d42dcf6fe5f46854900199fd0c9b6f49"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/native-transcribed/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v661c6b73a2fbd46c.json",
+          "sha256": "71d6fa012c82f6870df75688b8344fa0aa8fada618c99394de67b63cd18325ab"
+        }
+      ],
+      "id": "v661c6b73a2fbd46c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vb007c1024f5352e2.json",
+          "sha256": "f94889a5b913ff16a6aff1421a4e869a64698150dbf5028adb676ec5cbb7bdb0"
+        }
+      ],
+      "id": "vb007c1024f5352e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v97be148cfab32010.json",
+          "sha256": "ce1f987ecc80fe73f7b74984fc8eb0a0b36589f55af7c3545fab08e3be3e7fed"
+        }
+      ],
+      "id": "v97be148cfab32010"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vcd35877262d553ac.json",
+          "sha256": "bdac061a79a9f01041eda412662bffccd409963999fdb64748c9a6137550717a"
+        }
+      ],
+      "id": "vcd35877262d553ac"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vfa407d1e4103d982.json",
+          "sha256": "a4885c2dc5000c130f28c20b27a89be6dd05ffcbb458e165b6d7670b14c936f8"
+        }
+      ],
+      "id": "vfa407d1e4103d982"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vb319677192414214.json",
+          "sha256": "e48c5cd55e3291f3cec22a777a0e5a35ddd752222b98bbdeb32c8ffeaba6f54e"
+        }
+      ],
+      "id": "vb319677192414214"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v90b45b1bcf3fdcae.json",
+          "sha256": "fec2ae60522d283c185953f270dc77667f7a5912184055e0c0a61fc99fbdaf0d"
+        }
+      ],
+      "id": "v90b45b1bcf3fdcae"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v447849124b3204e5.json",
+          "sha256": "21720233848f3212f2d2854532e699b82acb8429fb99173340d0c9f884a82fa8"
+        }
+      ],
+      "id": "v447849124b3204e5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vebd85f16bc188378.json",
+          "sha256": "72eacda75344f147dc6a9036edebf2d2f6889edbd04378c40f27255492d81c04"
+        }
+      ],
+      "id": "vebd85f16bc188378"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/ve69471b9e7adca81.json",
+          "sha256": "67848e2d9b501967cb7eaeef15327647f54e924700db1dd9e438abcac0d37585"
+        }
+      ],
+      "id": "ve69471b9e7adca81"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-gone/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vb3c94716ee9cc047.json",
+          "sha256": "0f0615c58b33a82de6cb4257eb04239d4f841f0de11828584767b74f088a530c"
+        }
+      ],
+      "id": "vb3c94716ee9cc047"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/va43ea57fabb28fcd.json",
+          "sha256": "489826cfb3ff58dd8e06b69905dcdf0d27ed4de94ab5cc46e8d926baf0e87c5e"
+        }
+      ],
+      "id": "va43ea57fabb28fcd"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/anchor/DIGESTS.txt",
+          "sha256": "e823027a53895144d58f9eef6818cb1c672189ffc2124281910acb7b14bfdf95"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/anchor-other/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v2e3abd04d8941532.json",
+          "sha256": "82066e303c2b934d1b9eee55e275696a17605b0350430e400249544cf2a6b383"
+        }
+      ],
+      "id": "v2e3abd04d8941532"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v28baf850d255b2b5.json",
+          "sha256": "a882c1e011624d7f10cd6f561d0c23743f6f9f914782fa49df1c3a1acadaea90"
+        }
+      ],
+      "id": "v28baf850d255b2b5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v396f8c68b75303d6.json",
+          "sha256": "f8bd74d6244a64fcb335a62989c1483c9fce83b6edc29c3f80e03586a92bdd7e"
+        }
+      ],
+      "id": "v396f8c68b75303d6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vaeb587ff5c07a6f3.json",
+          "sha256": "8c55d7bde695120c5b796c37d1f5608a414ff0be5e6632c21c805839341c39bf"
+        }
+      ],
+      "id": "vaeb587ff5c07a6f3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/checker/check.sh",
+          "sha256": "864c2a1411de7fd508a86a5c5f0a53d7419c75d2eecc31b3e638e93669ae0982"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/checker-moved/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vf7d419bc66ad7777.json",
+          "sha256": "ac4934696155a69620c879ed1d6980fe3dcfddc8d170ee4a9badc9f038c2d1c1"
+        }
+      ],
+      "id": "vf7d419bc66ad7777"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vb3018e528be264a0.json",
+          "sha256": "c856b5d934c26b94afc86043eb05d391b002d588d3d1f4a0db6347a45aa75e6e"
+        }
+      ],
+      "id": "vb3018e528be264a0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/checker/deps.lock",
+          "sha256": "d90ae1d7ac355318dec338b021c94d51bc8c41a68d9e1c375d81c862f758e567"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/lock-moved/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/va1b91fc41cd27241.json",
+          "sha256": "e926994468a73b3fa779729378179ac3b30cbc050935cb00ae75880cd7e59ec2"
+        }
+      ],
+      "id": "va1b91fc41cd27241"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/va2d1885a5849693c.json",
+          "sha256": "eadcf0b5cfbbc7624c626dbc425f9bd5aeae8971713787fbda4560d537f4373c"
+        }
+      ],
+      "id": "va2d1885a5849693c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v67556f46648548d2.json",
+          "sha256": "b41c223ed95c08f36ba1c54eb46bec19948cf32b27c0475a432ae2ebf16559e6"
+        }
+      ],
+      "id": "v67556f46648548d2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v83298cb3cf35d71f.json",
+          "sha256": "429310dd936b0377ca2a48c9eebc2b7b14bbfdc95ff49d8d3ea3a599b03d8ef3"
+        }
+      ],
+      "id": "v83298cb3cf35d71f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/base/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/helpers/fetch.sh",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/base/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v9eee252f0d4b84b0.json",
+          "sha256": "668effdf141d8e4105452d5342a4ee8d08d4dfe637fc042a5cb10bfd3955f77a"
+        }
+      ],
+      "id": "v9eee252f0d4b84b0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/helpers/fetch.sh",
+          "sha256": "d38bce57b0911edbda40899a0194302970a4c9bc85465cde03487e77279191f4"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-moved/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/v96548ebbeba32f02.json",
+          "sha256": "c78e811548ca0aa3d2cf02386d8ba405a0f3dea609d5532c3d13ac50beedd60e"
+        }
+      ],
+      "id": "v96548ebbeba32f02"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/anchor/DIGESTS.txt",
+          "sha256": "1c32d23812a15478bbaa428d72c61241e2351d3a086980060b7767143f9d5053"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/checker/check.sh",
+          "sha256": "1c261f3ab9fcb016e7c181ab5164cd967c04f42e3964e86f1cdcf33940f68c9f"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/checker/deps.lock",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/out/cases.json",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/out/summary.txt",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/suite/MANIFEST.json",
+          "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/suite/README.md",
+          "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/suite/cases/c1.json",
+          "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/suite/cases/c2.json",
+          "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+        },
+        {
+          "path": "vectors-w3c-intake/trees/helper-gone/suite/cases/c3.json",
+          "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+        },
+        {
+          "path": "vectors-w3c-intake/vectors/vb7de7c95f687d15b.json",
+          "sha256": "9e769e8d86927ab0927854090807aa1fefdf133294b92718bfe3b7c365407404"
+        }
+      ],
+      "id": "vb7de7c95f687d15b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v640823e8b875a593.json",
+          "sha256": "6cbf8bdc9c9c173091c817003b7bebc0a80496bc47ce1199acdcbf78df4ef239"
+        }
+      ],
+      "id": "v640823e8b875a593"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v500d0c6ca4cec0df.json",
+          "sha256": "69a03122d0546d8633a966b66f4b6dffa15b3d2ab6827648c920b5386696bf6b"
+        }
+      ],
+      "id": "v500d0c6ca4cec0df"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v5f4d563421e350cb.json",
+          "sha256": "e4c8f3a9f1222d7c491d06f2319fcf16577143dded163c800281baa43f791351"
+        }
+      ],
+      "id": "v5f4d563421e350cb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v18e5cae6abdb7d59.json",
+          "sha256": "7e0b4de0cd2fb7e0a2059cd693b637b091795a20e6e9d22ab0991f4ccabe0007"
+        }
+      ],
+      "id": "v18e5cae6abdb7d59"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v1ec303edbfbc8f3e.json",
+          "sha256": "07ab200ccb1a3853663b53b1053d00a1d10786a6b9a391d4e70406067996a98e"
+        }
+      ],
+      "id": "v1ec303edbfbc8f3e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v525fc80d7245345c.json",
+          "sha256": "4b12911349969dc02a3ade900b2295745b263ce74e94aef4a9f0dea1c6b2425b"
+        }
+      ],
+      "id": "v525fc80d7245345c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v79cb81c96b8bf3c7.json",
+          "sha256": "37641b7e07c43022ef502df853dff047e627a2a64013a243253ce38463eae2f0"
+        }
+      ],
+      "id": "v79cb81c96b8bf3c7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v0fc3f0d397f0ffd7.json",
+          "sha256": "b36046ec2b2ca59468a29ec6fe060e4547940458901eb4659000e63160cb004c"
+        }
+      ],
+      "id": "v0fc3f0d397f0ffd7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vf684811e2384eb08.json",
+          "sha256": "a841daf3004335804fa461ece4c004b72024c901682ab67cb0df0caad13196ed"
+        }
+      ],
+      "id": "vf684811e2384eb08"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v1079c05670cd55f7.json",
+          "sha256": "6a81811bb1e56f1d0ac233d5f619c557697b54cb280fa3cdccb2725f300e6dd0"
+        }
+      ],
+      "id": "v1079c05670cd55f7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v3d19f4341e5c9401.json",
+          "sha256": "756a82ca0a5ecffe74c42b4df505e821a4378b18a8b10419b17dcb173ce8bf16"
+        }
+      ],
+      "id": "v3d19f4341e5c9401"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v05649e3a65749324.json",
+          "sha256": "4fee78defade5385121025710203efab4207e2047f6ab2492e34fe17e4bff9ad"
+        }
+      ],
+      "id": "v05649e3a65749324"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v13e4ed5d9c9c7a28.json",
+          "sha256": "9e3f56e5d0273d67338247881d8ff788e9ead82431c4adb925f50a6c4aa17129"
+        }
+      ],
+      "id": "v13e4ed5d9c9c7a28"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vaceb67780bc57bf9.json",
+          "sha256": "00ca28ffd4a22967e86784914de71131de8d117d39e2d04cf5dc24a4236769fa"
+        }
+      ],
+      "id": "vaceb67780bc57bf9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vc8bb364779a240f8.json",
+          "sha256": "674cca9df90e6f7bb3169262443faf26ecab1fcc5f2f53861125dae5e85f25c3"
+        }
+      ],
+      "id": "vc8bb364779a240f8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v08d1e582bc3b6565.json",
+          "sha256": "07c23f070eb6c920d72e917e3397aa7b71abf0a0ee4949f34d29f7d3aab09e40"
+        }
+      ],
+      "id": "v08d1e582bc3b6565"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v047f833c81b6dfe2.json",
+          "sha256": "cb369df863f60e12c06bcabbbb7a2d3c2c58e50e0183d7e6839ddb8d70ff7719"
+        }
+      ],
+      "id": "v047f833c81b6dfe2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v9ff081964b0e6928.json",
+          "sha256": "e840560dfc1418967d5a201b6e67589523073633c3f69896988b2444d5f41d42"
+        }
+      ],
+      "id": "v9ff081964b0e6928"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vde73f3530362dc96.json",
+          "sha256": "b032d4394f73d76b798b9be56c35755062f2c907c57b3b71ad24acbb574edeb7"
+        }
+      ],
+      "id": "vde73f3530362dc96"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v9214260e303d6b83.json",
+          "sha256": "7f32bbb6fb229f2a33d28f55cf6ce920fcad5df06bda9236d2d7f99b83d0597e"
+        }
+      ],
+      "id": "v9214260e303d6b83"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vf2b62b32f7115327.json",
+          "sha256": "e8cfb38499c99322df522bc585c10a4c578dd210b0a691946b2964a978eed98a"
+        }
+      ],
+      "id": "vf2b62b32f7115327"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v210bded74f9e2ec8.json",
+          "sha256": "2d9525395b04c188a5614c1a96a0d05fbc2ce8e57e685a3f1d4ce89eafa2770e"
+        }
+      ],
+      "id": "v210bded74f9e2ec8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v1b1ee1b2f1c2aaa2.json",
+          "sha256": "724eb09cbc06dc7c914e4fcb48ff7da6b67f1b71a22c94c0754aee49b1d12e6f"
+        }
+      ],
+      "id": "v1b1ee1b2f1c2aaa2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v4d7141e1aa543e27.json",
+          "sha256": "5904d230f90583f10eb35cfbae3af18865ebc8018121302e50db4241b619bd02"
+        }
+      ],
+      "id": "v4d7141e1aa543e27"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vbf9d7ccd636bd49e.json",
+          "sha256": "03eaaddf161aeae77c43b428186aa333d046dde6657c9e348d94aa94e7c9ca08"
+        }
+      ],
+      "id": "vbf9d7ccd636bd49e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/ve3438976dc215b3f.json",
+          "sha256": "4b862bdf70f8cca15cb7d350a4537347b627c70a3c72833c7c48c34a9c227813"
+        }
+      ],
+      "id": "ve3438976dc215b3f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vfffff0d729b57eab.json",
+          "sha256": "b80f239cbfd63281a622fc98f2304a00cf98acdd59530becb6bc151331f72e52"
+        }
+      ],
+      "id": "vfffff0d729b57eab"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v237c0f449c5428a0.json",
+          "sha256": "8ceeb3bde2c98e3cb09831385e9be0a2fa69bfcd9dad6e2d31e10a8b7b7ea5f3"
+        }
+      ],
+      "id": "v237c0f449c5428a0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v3c83cb2cde278e30.json",
+          "sha256": "3a346df7bf0113a42f714d0c335dcbaa3b809389390f57b9b862e1ac258e04bf"
+        }
+      ],
+      "id": "v3c83cb2cde278e30"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v5675aca79a3ebf40.json",
+          "sha256": "62fd6e3647795882d389ffcf79a1d756b79c24228841106e13937878ef9b37b0"
+        }
+      ],
+      "id": "v5675aca79a3ebf40"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/va84b152eed573123.json",
+          "sha256": "83cfe71bf3d119646677c8b4583c2dfbf11d0f5599c0bc2619bba3ed47fccba2"
+        }
+      ],
+      "id": "va84b152eed573123"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v4c3263cc71d41b3a.json",
+          "sha256": "bc3a1162d2dd014323b32488ab40b7d700bfc00a0e2b1aa809fc74128aa107c6"
+        }
+      ],
+      "id": "v4c3263cc71d41b3a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v4af160453591b3ca.json",
+          "sha256": "029004b4e55fabfe053252abe875a590bb28f957c303e72bc28b34bbb4091333"
+        }
+      ],
+      "id": "v4af160453591b3ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vd96af313be8dfed6.json",
+          "sha256": "23972d2f9be0213831fc07f944186830d1af92aa2f6ef0527b62906f5801baed"
+        }
+      ],
+      "id": "vd96af313be8dfed6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v78b4e54c1d4444cc.json",
+          "sha256": "deeb5af47030bb7dd1acbd237b252839766f5cd2636268b1358fcfa83bf2fe34"
+        }
+      ],
+      "id": "v78b4e54c1d4444cc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v501ae78beb2c0368.json",
+          "sha256": "4ee6fa0f6b3f977e79985d71a377f95aae39fa779d5b1d625d27150e8e6294e0"
+        }
+      ],
+      "id": "v501ae78beb2c0368"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v3933f4155df22242.json",
+          "sha256": "6ba74017d81ef789acdb055aab0b62549cb816740fd90b3db3e4da855a9c44d4"
+        }
+      ],
+      "id": "v3933f4155df22242"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v2a21d1f7fedca99c.json",
+          "sha256": "1ae94496ff7888133035c65ece42be7b19b2ba6ee074064783938949974fb5d0"
+        }
+      ],
+      "id": "v2a21d1f7fedca99c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vbe1901930646b437.json",
+          "sha256": "65d93f6de87b318fbeecaf4178f6be4e9f5a499f9d9a20792b531d8e85142a03"
+        }
+      ],
+      "id": "vbe1901930646b437"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vb56a903c8dca8732.json",
+          "sha256": "4067bfe246241c59c3a573b6a3e78188115d79a75026996970a832a1120e3008"
+        }
+      ],
+      "id": "vb56a903c8dca8732"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/vc3a14653116d453e.json",
+          "sha256": "937c7075613ac4b4b8c85d3fe75770c7d1b1dffab8ec13103c6f5274a80df02f"
+        }
+      ],
+      "id": "vc3a14653116d453e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v13d388ff37d4c51b.json",
+          "sha256": "db21956796c70a5e8df1950536f67fc12f2009f4fe7c47c0e0b8a99f129611c1"
+        }
+      ],
+      "id": "v13d388ff37d4c51b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-intake/vectors/v7bb856900e5f23b3.json",
+          "sha256": "4b3c289079b77631218ed3b25a4069457925e5f491d7089ef0defa0e42b76a37"
+        }
+      ],
+      "id": "v7bb856900e5f23b3"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-w3c-intake.json",
+        "serialization": "bytes",
+        "sha256": "39981c274fa380e326410580fa548b00d84f158a59fe5fbb2897a8e55e1e4475"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-w3c-intake.txt",
+        "serialization": "bytes",
+        "sha256": "a00e49c1ff5ebf74da9358dd1dce5e2e46863f59826ddaf5d1160c445edf12ba"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v17ea3ca9e8aba66e",
+      "inputs": [
+        "member:v17ea3ca9e8aba66e",
+        "check:v17ea3ca9e8aba66e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-001\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-001\"]}"
+    },
+    {
+      "check": "vb9c6018153200be2",
+      "inputs": [
+        "member:vb9c6018153200be2",
+        "check:vb9c6018153200be2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-001\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-001\"]}"
+    },
+    {
+      "check": "v249504ec7cd69c8c",
+      "inputs": [
+        "member:v249504ec7cd69c8c",
+        "check:v249504ec7cd69c8c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-002\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-002\"]}"
+    },
+    {
+      "check": "va2ba9139fade86a7",
+      "inputs": [
+        "member:va2ba9139fade86a7",
+        "check:va2ba9139fade86a7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-002\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-002\"]}"
+    },
+    {
+      "check": "vc6b6e4e9b96cbd1b",
+      "inputs": [
+        "member:vc6b6e4e9b96cbd1b",
+        "check:vc6b6e4e9b96cbd1b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-003\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-003\"]}"
+    },
+    {
+      "check": "vb3f4ff02890fd38d",
+      "inputs": [
+        "member:vb3f4ff02890fd38d",
+        "check:vb3f4ff02890fd38d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-004\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-004\"]}"
+    },
+    {
+      "check": "vc5eed94892f1e883",
+      "inputs": [
+        "member:vc5eed94892f1e883",
+        "check:vc5eed94892f1e883"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-004\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-004\"]}"
+    },
+    {
+      "check": "v92b67a9c8e3e56b8",
+      "inputs": [
+        "member:v92b67a9c8e3e56b8",
+        "check:v92b67a9c8e3e56b8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-005\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-005\"]}"
+    },
+    {
+      "check": "vfb89dbee86ef9c23",
+      "inputs": [
+        "member:vfb89dbee86ef9c23",
+        "check:vfb89dbee86ef9c23"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-006\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-006\"]}"
+    },
+    {
+      "check": "v3cec3f860f38a3ca",
+      "inputs": [
+        "member:v3cec3f860f38a3ca",
+        "check:v3cec3f860f38a3ca"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-007\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-007\"]}"
+    },
+    {
+      "check": "v8359f852405c8f86",
+      "inputs": [
+        "member:v8359f852405c8f86",
+        "check:v8359f852405c8f86"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-008\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-008\"]}"
+    },
+    {
+      "check": "v9ed4b2f6dde5b013",
+      "inputs": [
+        "member:v9ed4b2f6dde5b013",
+        "check:v9ed4b2f6dde5b013"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-009\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-009\"]}"
+    },
+    {
+      "check": "v0e3e83a72ea19c2b",
+      "inputs": [
+        "member:v0e3e83a72ea19c2b",
+        "check:v0e3e83a72ea19c2b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-010\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-010\"]}"
+    },
+    {
+      "check": "v494c3735189a3a5b",
+      "inputs": [
+        "member:v494c3735189a3a5b",
+        "check:v494c3735189a3a5b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-010\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-010\"]}"
+    },
+    {
+      "check": "v97332c23084a0a45",
+      "inputs": [
+        "member:v97332c23084a0a45",
+        "check:v97332c23084a0a45"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-011\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-011\"]}"
+    },
+    {
+      "check": "v35fc0e144ff1a2c0",
+      "inputs": [
+        "member:v35fc0e144ff1a2c0",
+        "check:v35fc0e144ff1a2c0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-012\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-012\"]}"
+    },
+    {
+      "check": "v08d029af8d867873",
+      "inputs": [
+        "member:v08d029af8d867873",
+        "check:v08d029af8d867873"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-013\"]}"
+    },
+    {
+      "check": "vbe6887cbd4332fe3",
+      "inputs": [
+        "member:vbe6887cbd4332fe3",
+        "check:vbe6887cbd4332fe3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-013\"]}"
+    },
+    {
+      "check": "v1a6bc738b04e6f09",
+      "inputs": [
+        "member:v1a6bc738b04e6f09",
+        "check:v1a6bc738b04e6f09"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-014\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-014\"]}"
+    },
+    {
+      "check": "v1ed48ffb26a9fb2f",
+      "inputs": [
+        "member:v1ed48ffb26a9fb2f",
+        "check:v1ed48ffb26a9fb2f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-014\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-014\"]}"
+    },
+    {
+      "check": "v26b04f76ea6df1bb",
+      "inputs": [
+        "member:v26b04f76ea6df1bb",
+        "check:v26b04f76ea6df1bb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-014\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-014\"]}"
+    },
+    {
+      "check": "v05d693d888f6f224",
+      "inputs": [
+        "member:v05d693d888f6f224",
+        "check:v05d693d888f6f224"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-015\"]}"
+    },
+    {
+      "check": "v57b4c86bb909d6e2",
+      "inputs": [
+        "member:v57b4c86bb909d6e2",
+        "check:v57b4c86bb909d6e2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-015\"]}"
+    },
+    {
+      "check": "v30f6eead7e4e591d",
+      "inputs": [
+        "member:v30f6eead7e4e591d",
+        "check:v30f6eead7e4e591d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-016\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-016\"]}"
+    },
+    {
+      "check": "v6d5d009c0afd746a",
+      "inputs": [
+        "member:v6d5d009c0afd746a",
+        "check:v6d5d009c0afd746a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-016\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-016\"]}"
+    },
+    {
+      "check": "v76f4328893b2daca",
+      "inputs": [
+        "member:v76f4328893b2daca",
+        "check:v76f4328893b2daca"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-017\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-017\"]}"
+    },
+    {
+      "check": "v855322afa6f27d9b",
+      "inputs": [
+        "member:v855322afa6f27d9b",
+        "check:v855322afa6f27d9b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-018\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-018\"]}"
+    },
+    {
+      "check": "vc7888b39e256922e",
+      "inputs": [
+        "member:vc7888b39e256922e",
+        "check:vc7888b39e256922e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-018\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-018\"]}"
+    },
+    {
+      "check": "v28acc956b24f645c",
+      "inputs": [
+        "member:v28acc956b24f645c",
+        "check:v28acc956b24f645c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-019\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-019\"]}"
+    },
+    {
+      "check": "v661c6b73a2fbd46c",
+      "inputs": [
+        "member:v661c6b73a2fbd46c",
+        "check:v661c6b73a2fbd46c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-019\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-019\"]}"
+    },
+    {
+      "check": "v97be148cfab32010",
+      "inputs": [
+        "member:v97be148cfab32010",
+        "check:v97be148cfab32010"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-020\"]}"
+    },
+    {
+      "check": "vcd35877262d553ac",
+      "inputs": [
+        "member:vcd35877262d553ac",
+        "check:vcd35877262d553ac"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-020\"]}"
+    },
+    {
+      "check": "vb319677192414214",
+      "inputs": [
+        "member:vb319677192414214",
+        "check:vb319677192414214"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-021\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-021\"]}"
+    },
+    {
+      "check": "v447849124b3204e5",
+      "inputs": [
+        "member:v447849124b3204e5",
+        "check:v447849124b3204e5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-022\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-022\"]}"
+    },
+    {
+      "check": "vebd85f16bc188378",
+      "inputs": [
+        "member:vebd85f16bc188378",
+        "check:vebd85f16bc188378"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-022\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-022\"]}"
+    },
+    {
+      "check": "vb3c94716ee9cc047",
+      "inputs": [
+        "member:vb3c94716ee9cc047",
+        "check:vb3c94716ee9cc047"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-023\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-023\"]}"
+    },
+    {
+      "check": "v2e3abd04d8941532",
+      "inputs": [
+        "member:v2e3abd04d8941532",
+        "check:v2e3abd04d8941532"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-024\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-024\"]}"
+    },
+    {
+      "check": "vaeb587ff5c07a6f3",
+      "inputs": [
+        "member:vaeb587ff5c07a6f3",
+        "check:vaeb587ff5c07a6f3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-025\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-025\"]}"
+    },
+    {
+      "check": "vf7d419bc66ad7777",
+      "inputs": [
+        "member:vf7d419bc66ad7777",
+        "check:vf7d419bc66ad7777"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-025\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-025\"]}"
+    },
+    {
+      "check": "va1b91fc41cd27241",
+      "inputs": [
+        "member:va1b91fc41cd27241",
+        "check:va1b91fc41cd27241"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-026\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-026\"]}"
+    },
+    {
+      "check": "va2d1885a5849693c",
+      "inputs": [
+        "member:va2d1885a5849693c",
+        "check:va2d1885a5849693c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-026\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-026\"]}"
+    },
+    {
+      "check": "v83298cb3cf35d71f",
+      "inputs": [
+        "member:v83298cb3cf35d71f",
+        "check:v83298cb3cf35d71f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-027\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-027\"]}"
+    },
+    {
+      "check": "v96548ebbeba32f02",
+      "inputs": [
+        "member:v96548ebbeba32f02",
+        "check:v96548ebbeba32f02"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-028\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-028\"]}"
+    },
+    {
+      "check": "vb7de7c95f687d15b",
+      "inputs": [
+        "member:vb7de7c95f687d15b",
+        "check:vb7de7c95f687d15b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-028\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-028\"]}"
+    },
+    {
+      "check": "v500d0c6ca4cec0df",
+      "inputs": [
+        "member:v500d0c6ca4cec0df",
+        "check:v500d0c6ca4cec0df"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-029\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-029\"]}"
+    },
+    {
+      "check": "v5f4d563421e350cb",
+      "inputs": [
+        "member:v5f4d563421e350cb",
+        "check:v5f4d563421e350cb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-029\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-029\"]}"
+    },
+    {
+      "check": "v1ec303edbfbc8f3e",
+      "inputs": [
+        "member:v1ec303edbfbc8f3e",
+        "check:v1ec303edbfbc8f3e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-030\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-030\"]}"
+    },
+    {
+      "check": "v525fc80d7245345c",
+      "inputs": [
+        "member:v525fc80d7245345c",
+        "check:v525fc80d7245345c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-030\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-030\"]}"
+    },
+    {
+      "check": "v0fc3f0d397f0ffd7",
+      "inputs": [
+        "member:v0fc3f0d397f0ffd7",
+        "check:v0fc3f0d397f0ffd7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-031\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-031\"]}"
+    },
+    {
+      "check": "v1079c05670cd55f7",
+      "inputs": [
+        "member:v1079c05670cd55f7",
+        "check:v1079c05670cd55f7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-032\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-032\"]}"
+    },
+    {
+      "check": "v3d19f4341e5c9401",
+      "inputs": [
+        "member:v3d19f4341e5c9401",
+        "check:v3d19f4341e5c9401"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-032\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-032\"]}"
+    },
+    {
+      "check": "v13e4ed5d9c9c7a28",
+      "inputs": [
+        "member:v13e4ed5d9c9c7a28",
+        "check:v13e4ed5d9c9c7a28"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-033\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-033\"]}"
+    },
+    {
+      "check": "vaceb67780bc57bf9",
+      "inputs": [
+        "member:vaceb67780bc57bf9",
+        "check:vaceb67780bc57bf9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-033\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-033\"]}"
+    },
+    {
+      "check": "vc8bb364779a240f8",
+      "inputs": [
+        "member:vc8bb364779a240f8",
+        "check:vc8bb364779a240f8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-033\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-033\"]}"
+    },
+    {
+      "check": "v047f833c81b6dfe2",
+      "inputs": [
+        "member:v047f833c81b6dfe2",
+        "check:v047f833c81b6dfe2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-034\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-034\"]}"
+    },
+    {
+      "check": "v9ff081964b0e6928",
+      "inputs": [
+        "member:v9ff081964b0e6928",
+        "check:v9ff081964b0e6928"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-034\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-034\"]}"
+    },
+    {
+      "check": "v9214260e303d6b83",
+      "inputs": [
+        "member:v9214260e303d6b83",
+        "check:v9214260e303d6b83"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-035\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-035\"]}"
+    },
+    {
+      "check": "vf2b62b32f7115327",
+      "inputs": [
+        "member:vf2b62b32f7115327",
+        "check:vf2b62b32f7115327"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-035\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-035\"]}"
+    },
+    {
+      "check": "v1b1ee1b2f1c2aaa2",
+      "inputs": [
+        "member:v1b1ee1b2f1c2aaa2",
+        "check:v1b1ee1b2f1c2aaa2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-036\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-036\"]}"
+    },
+    {
+      "check": "vbf9d7ccd636bd49e",
+      "inputs": [
+        "member:vbf9d7ccd636bd49e",
+        "check:vbf9d7ccd636bd49e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-037\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-037\"]}"
+    },
+    {
+      "check": "vfffff0d729b57eab",
+      "inputs": [
+        "member:vfffff0d729b57eab",
+        "check:vfffff0d729b57eab"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-038\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-038\"]}"
+    },
+    {
+      "check": "v3c83cb2cde278e30",
+      "inputs": [
+        "member:v3c83cb2cde278e30",
+        "check:v3c83cb2cde278e30"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-039\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-039\"]}"
+    },
+    {
+      "check": "v5675aca79a3ebf40",
+      "inputs": [
+        "member:v5675aca79a3ebf40",
+        "check:v5675aca79a3ebf40"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-039\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-039\"]}"
+    },
+    {
+      "check": "v4c3263cc71d41b3a",
+      "inputs": [
+        "member:v4c3263cc71d41b3a",
+        "check:v4c3263cc71d41b3a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-040\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-040\"]}"
+    },
+    {
+      "check": "vd96af313be8dfed6",
+      "inputs": [
+        "member:vd96af313be8dfed6",
+        "check:vd96af313be8dfed6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-041\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-041\"]}"
+    },
+    {
+      "check": "v501ae78beb2c0368",
+      "inputs": [
+        "member:v501ae78beb2c0368",
+        "check:v501ae78beb2c0368"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-042\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-042\"]}"
+    },
+    {
+      "check": "v2a21d1f7fedca99c",
+      "inputs": [
+        "member:v2a21d1f7fedca99c",
+        "check:v2a21d1f7fedca99c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-043\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-043\"]}"
+    },
+    {
+      "check": "vb56a903c8dca8732",
+      "inputs": [
+        "member:vb56a903c8dca8732",
+        "check:vb56a903c8dca8732"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-044\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-044\"]}"
+    },
+    {
+      "check": "v13d388ff37d4c51b",
+      "inputs": [
+        "member:v13d388ff37d4c51b",
+        "check:v13d388ff37d4c51b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-045\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-045\"]}"
+    },
+    {
+      "check": "v7bb856900e5f23b3",
+      "inputs": [
+        "member:v7bb856900e5f23b3",
+        "check:v7bb856900e5f23b3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-I-045\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-I-045\"]}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "39981c274fa380e326410580fa548b00d84f158a59fe5fbb2897a8e55e1e4475"
+      },
+      {
+        "process": "run-2",
+        "sha256": "39981c274fa380e326410580fa548b00d84f158a59fe5fbb2897a8e55e1e4475"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 116 pinned members of w3c-intake-v2-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 116,
+    "require": "at-least-one",
+    "selected": [
+      "va8fd1584de3917fa",
+      "v17ea3ca9e8aba66e",
+      "vb9c6018153200be2",
+      "v914afe1b10c1c7da",
+      "v249504ec7cd69c8c",
+      "va2ba9139fade86a7",
+      "v56a56c15e9fba04e",
+      "vc6b6e4e9b96cbd1b",
+      "v54817943ecf43ea2",
+      "vb3f4ff02890fd38d",
+      "vc5eed94892f1e883",
+      "v63d5f0060b792215",
+      "v92b67a9c8e3e56b8",
+      "ve188f6e842675b4a",
+      "vfb89dbee86ef9c23",
+      "v243e2adf34a28fa2",
+      "v3cec3f860f38a3ca",
+      "vac379ef15814f82e",
+      "v8359f852405c8f86",
+      "v810bd3a53d9e9a30",
+      "v9ed4b2f6dde5b013",
+      "v7fdb533ac9eb329e",
+      "v0e3e83a72ea19c2b",
+      "v494c3735189a3a5b",
+      "vddcd14d805aba8ae",
+      "v97332c23084a0a45",
+      "v8e7c31ce1b0b8749",
+      "v35fc0e144ff1a2c0",
+      "v9b82b3dd1f7e67e0",
+      "v08d029af8d867873",
+      "vbe6887cbd4332fe3",
+      "v2dad8a98319d8488",
+      "v1a6bc738b04e6f09",
+      "v1ed48ffb26a9fb2f",
+      "v26b04f76ea6df1bb",
+      "v3aee542d3d4e21ab",
+      "v05d693d888f6f224",
+      "v57b4c86bb909d6e2",
+      "v2a9245a136fff7fe",
+      "v30f6eead7e4e591d",
+      "v6d5d009c0afd746a",
+      "v19add6b40e694ee9",
+      "v76f4328893b2daca",
+      "va637114de7837a6c",
+      "v855322afa6f27d9b",
+      "vc7888b39e256922e",
+      "v5370cf836fa623bb",
+      "v28acc956b24f645c",
+      "v661c6b73a2fbd46c",
+      "vb007c1024f5352e2",
+      "v97be148cfab32010",
+      "vcd35877262d553ac",
+      "vfa407d1e4103d982",
+      "vb319677192414214",
+      "v90b45b1bcf3fdcae",
+      "v447849124b3204e5",
+      "vebd85f16bc188378",
+      "ve69471b9e7adca81",
+      "vb3c94716ee9cc047",
+      "va43ea57fabb28fcd",
+      "v2e3abd04d8941532",
+      "v28baf850d255b2b5",
+      "v396f8c68b75303d6",
+      "vaeb587ff5c07a6f3",
+      "vf7d419bc66ad7777",
+      "vb3018e528be264a0",
+      "va1b91fc41cd27241",
+      "va2d1885a5849693c",
+      "v67556f46648548d2",
+      "v83298cb3cf35d71f",
+      "v9eee252f0d4b84b0",
+      "v96548ebbeba32f02",
+      "vb7de7c95f687d15b",
+      "v640823e8b875a593",
+      "v500d0c6ca4cec0df",
+      "v5f4d563421e350cb",
+      "v18e5cae6abdb7d59",
+      "v1ec303edbfbc8f3e",
+      "v525fc80d7245345c",
+      "v79cb81c96b8bf3c7",
+      "v0fc3f0d397f0ffd7",
+      "vf684811e2384eb08",
+      "v1079c05670cd55f7",
+      "v3d19f4341e5c9401",
+      "v05649e3a65749324",
+      "v13e4ed5d9c9c7a28",
+      "vaceb67780bc57bf9",
+      "vc8bb364779a240f8",
+      "v08d1e582bc3b6565",
+      "v047f833c81b6dfe2",
+      "v9ff081964b0e6928",
+      "vde73f3530362dc96",
+      "v9214260e303d6b83",
+      "vf2b62b32f7115327",
+      "v210bded74f9e2ec8",
+      "v1b1ee1b2f1c2aaa2",
+      "v4d7141e1aa543e27",
+      "vbf9d7ccd636bd49e",
+      "ve3438976dc215b3f",
+      "vfffff0d729b57eab",
+      "v237c0f449c5428a0",
+      "v3c83cb2cde278e30",
+      "v5675aca79a3ebf40",
+      "va84b152eed573123",
+      "v4c3263cc71d41b3a",
+      "v4af160453591b3ca",
+      "vd96af313be8dfed6",
+      "v78b4e54c1d4444cc",
+      "v501ae78beb2c0368",
+      "v3933f4155df22242",
+      "v2a21d1f7fedca99c",
+      "vbe1901930646b437",
+      "vb56a903c8dca8732",
+      "vc3a14653116d453e",
+      "v13d388ff37d4c51b",
+      "v7bb856900e5f23b3"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "w3c-intake-v2-conformance"
+}

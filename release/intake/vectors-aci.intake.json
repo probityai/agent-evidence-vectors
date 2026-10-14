@@ -1,0 +1,874 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 1,
+      "indeterminate": 4,
+      "reject": 21
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 26
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-aci/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-aci/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "deployment-members",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-aci"
+  },
+  "byte-identity": {
+    "pins": 26,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-aci",
+      "aee-verify -json vectors-aci",
+      "aee-verify vectors-aci"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "a2189ff6dd933dcfec608d47210d2ee619604b7d60b54205a762a96962ede678"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v005d7c85b0b603d8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v01249b6833388b1a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0388b661c5fd357d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v12e1059ea9a4d94c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1551f14b29a80589",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17045b49c56bc098",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17a93df6e3afb4bb",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2fb85d5b09a6b31e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36c583fbf47a4ba1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v37a3188d9aeeb957",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3950ba405aa821b7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v39757e3cf68c9c84",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v502bbfa63ed14f9f",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5440a71178987eaa",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6d1a8d608febb698",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v74bee945342e8235",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v845fe118f2cee052",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v84fcae34317424b3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v96ef9a38eb678cc3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va3a00e71e58d2739",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaa59d083a6064129",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbc18a70162a0a3eb",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc0ec0b5e1281c42b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdc3c907ac9951f17",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf220bd496107eb49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfeae3c4cd6e24c1b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "1b0589f7b0019ea4305c3ab007a85e37fe6e123be0e99453e4e8bffc1e2abc45"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v005d7c85b0b603d8",
+      "v01249b6833388b1a",
+      "v0388b661c5fd357d",
+      "v12e1059ea9a4d94c",
+      "v1551f14b29a80589",
+      "v17045b49c56bc098",
+      "v17a93df6e3afb4bb",
+      "v2fb85d5b09a6b31e",
+      "v36c583fbf47a4ba1",
+      "v37a3188d9aeeb957",
+      "v3950ba405aa821b7",
+      "v39757e3cf68c9c84",
+      "v502bbfa63ed14f9f",
+      "v5440a71178987eaa",
+      "v6d1a8d608febb698",
+      "v74bee945342e8235",
+      "v845fe118f2cee052",
+      "v84fcae34317424b3",
+      "v96ef9a38eb678cc3",
+      "va3a00e71e58d2739",
+      "vaa59d083a6064129",
+      "vbc18a70162a0a3eb",
+      "vc0ec0b5e1281c42b",
+      "vdc3c907ac9951f17",
+      "vf220bd496107eb49",
+      "vfeae3c4cd6e24c1b"
+    ],
+    "path": "vectors-aci/MANIFEST.json",
+    "sha256": "c100481fff6025c3dbad2ab7cfd5366d0e5ec0f5a009cb2b6594cc9a9c7971d7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v005d7c85b0b603d8.json",
+          "sha256": "005d7c85b0b603d889c1066ca623c4a461e19fd8cfc610ce20504dca065fd32a"
+        }
+      ],
+      "id": "v005d7c85b0b603d8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v01249b6833388b1a.json",
+          "sha256": "01249b6833388b1a93f20cbdc6e83c3fa20bb706720f18e925a4a1dc196357c7"
+        }
+      ],
+      "id": "v01249b6833388b1a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v0388b661c5fd357d.json",
+          "sha256": "0388b661c5fd357d245fff21eb354099a506fbfbb6b72291a6e966c9a3f88c3a"
+        }
+      ],
+      "id": "v0388b661c5fd357d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v12e1059ea9a4d94c.json",
+          "sha256": "12e1059ea9a4d94c21107e9b2aef1cfd8472ced3a18f04862a494439f2b77b4f"
+        }
+      ],
+      "id": "v12e1059ea9a4d94c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v1551f14b29a80589.json",
+          "sha256": "1551f14b29a8058944b3a4c54331ed91b513980273e7ebc4403508c02d0723f6"
+        }
+      ],
+      "id": "v1551f14b29a80589"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v17045b49c56bc098.json",
+          "sha256": "17045b49c56bc09849b0405310f43906281d044a0925f1439000db5cf63ae28f"
+        }
+      ],
+      "id": "v17045b49c56bc098"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v17a93df6e3afb4bb.json",
+          "sha256": "17a93df6e3afb4bb55ed5324ccd7012dbe4a1cb35e45ff8ae8465e2148b31fd5"
+        }
+      ],
+      "id": "v17a93df6e3afb4bb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v2fb85d5b09a6b31e.json",
+          "sha256": "2fb85d5b09a6b31e90187562885ca2593126cbfed110207db5d9b06488af06dd"
+        }
+      ],
+      "id": "v2fb85d5b09a6b31e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v36c583fbf47a4ba1.json",
+          "sha256": "36c583fbf47a4ba1e43b4b3f32bbcfde9a1a53e9abd6fc87f50d20d81ddf66c8"
+        }
+      ],
+      "id": "v36c583fbf47a4ba1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v37a3188d9aeeb957.json",
+          "sha256": "37a3188d9aeeb957fff79d2c207190897855a62d49441937757d8ce6f4369b68"
+        }
+      ],
+      "id": "v37a3188d9aeeb957"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v3950ba405aa821b7.json",
+          "sha256": "3950ba405aa821b7bd8a195bbcf0681e320691afd9f53ff3a29f5c3378bc4ac9"
+        }
+      ],
+      "id": "v3950ba405aa821b7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v39757e3cf68c9c84.json",
+          "sha256": "39757e3cf68c9c84aeca7fd1bee61b40cd1adf0fc5fe951f318bb4bbaee5c845"
+        }
+      ],
+      "id": "v39757e3cf68c9c84"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v502bbfa63ed14f9f.json",
+          "sha256": "502bbfa63ed14f9f1ee5ca1c7affe5544caa8ddaf469635dce8b61bf552f769b"
+        }
+      ],
+      "id": "v502bbfa63ed14f9f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v5440a71178987eaa.json",
+          "sha256": "5440a71178987eaa4b461d88fd8d36d46c067861537391cd868058e6a052f0b0"
+        }
+      ],
+      "id": "v5440a71178987eaa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v6d1a8d608febb698.json",
+          "sha256": "6d1a8d608febb698c4b58164abea554f21ecf3e155a6ef46a5b426fb6f8f7ccc"
+        }
+      ],
+      "id": "v6d1a8d608febb698"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v74bee945342e8235.json",
+          "sha256": "74bee945342e82354172a9415ef3faf573c9869adfdcb9be2d9b074f9f2668bd"
+        }
+      ],
+      "id": "v74bee945342e8235"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v845fe118f2cee052.json",
+          "sha256": "845fe118f2cee0520e79572ece98fa30da2b58f534831653c6b2607b83be57b5"
+        }
+      ],
+      "id": "v845fe118f2cee052"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v84fcae34317424b3.json",
+          "sha256": "84fcae34317424b324c74bbd19519b88694c30d216a8af590f15721a60d9d6ef"
+        }
+      ],
+      "id": "v84fcae34317424b3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v96ef9a38eb678cc3.json",
+          "sha256": "96ef9a38eb678cc34147ba07d6957f2ebc4fb5723f50322327940f296200ab0f"
+        }
+      ],
+      "id": "v96ef9a38eb678cc3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/va3a00e71e58d2739.json",
+          "sha256": "a3a00e71e58d2739140bc05569f25cf0d3e5650867ec0c7e90a3d004027b1f7f"
+        }
+      ],
+      "id": "va3a00e71e58d2739"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vaa59d083a6064129.json",
+          "sha256": "aa59d083a606412946f646814689d5f677fa7cdd69fe32dbffed6283f4af15bb"
+        }
+      ],
+      "id": "vaa59d083a6064129"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vbc18a70162a0a3eb.json",
+          "sha256": "bc18a70162a0a3eb41baf038fadb9f44042873fd7f2731862423dec6b5aa4b3b"
+        }
+      ],
+      "id": "vbc18a70162a0a3eb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vc0ec0b5e1281c42b.json",
+          "sha256": "c0ec0b5e1281c42b9af068007dac8cfb6c48aa2b67b100a67de5058af6781f83"
+        }
+      ],
+      "id": "vc0ec0b5e1281c42b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vdc3c907ac9951f17.json",
+          "sha256": "dc3c907ac9951f17d9bcffbed08266c3218e00dac1856a5b0592771983e05d60"
+        }
+      ],
+      "id": "vdc3c907ac9951f17"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vf220bd496107eb49.json",
+          "sha256": "f220bd496107eb496aa695a2da5b76f50fe9edcafeaac9751d89903c5c980de4"
+        }
+      ],
+      "id": "vf220bd496107eb49"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vfeae3c4cd6e24c1b.json",
+          "sha256": "feae3c4cd6e24c1b4faff8a078b6dd8848454ced8859e8cded06107204db3849"
+        }
+      ],
+      "id": "vfeae3c4cd6e24c1b"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-aci.json",
+        "serialization": "bytes",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-aci.txt",
+        "serialization": "bytes",
+        "sha256": "785b56df96760fc10736d2341343e6bfd07e735314d32a2cc7bf13f6ea1011bf"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v005d7c85b0b603d8",
+      "inputs": [
+        "member:v005d7c85b0b603d8",
+        "check:v005d7c85b0b603d8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\"]}}"
+    },
+    {
+      "check": "v01249b6833388b1a",
+      "inputs": [
+        "member:v01249b6833388b1a",
+        "check:v01249b6833388b1a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v0388b661c5fd357d",
+      "inputs": [
+        "member:v0388b661c5fd357d",
+        "check:v0388b661c5fd357d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\",\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-LVL-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v12e1059ea9a4d94c",
+      "inputs": [
+        "member:v12e1059ea9a4d94c",
+        "check:v12e1059ea9a4d94c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-EXT-001\"]}}"
+    },
+    {
+      "check": "v2fb85d5b09a6b31e",
+      "inputs": [
+        "member:v2fb85d5b09a6b31e",
+        "check:v2fb85d5b09a6b31e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v36c583fbf47a4ba1",
+      "inputs": [
+        "member:v36c583fbf47a4ba1",
+        "check:v36c583fbf47a4ba1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-002\"]}}"
+    },
+    {
+      "check": "v37a3188d9aeeb957",
+      "inputs": [
+        "member:v37a3188d9aeeb957",
+        "check:v37a3188d9aeeb957"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-EXT-002\"]}}"
+    },
+    {
+      "check": "v3950ba405aa821b7",
+      "inputs": [
+        "member:v3950ba405aa821b7",
+        "check:v3950ba405aa821b7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-003\"]}}"
+    },
+    {
+      "check": "v39757e3cf68c9c84",
+      "inputs": [
+        "member:v39757e3cf68c9c84",
+        "check:v39757e3cf68c9c84"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-CON-001\"]}}"
+    },
+    {
+      "check": "v5440a71178987eaa",
+      "inputs": [
+        "member:v5440a71178987eaa",
+        "check:v5440a71178987eaa"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-001\"]}}"
+    },
+    {
+      "check": "v6d1a8d608febb698",
+      "inputs": [
+        "member:v6d1a8d608febb698",
+        "check:v6d1a8d608febb698"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\",\"ACI-DIS-002\",\"ACI-LVL-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v74bee945342e8235",
+      "inputs": [
+        "member:v74bee945342e8235",
+        "check:v74bee945342e8235"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v845fe118f2cee052",
+      "inputs": [
+        "member:v845fe118f2cee052",
+        "check:v845fe118f2cee052"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-SER-001\"]}}"
+    },
+    {
+      "check": "v84fcae34317424b3",
+      "inputs": [
+        "member:v84fcae34317424b3",
+        "check:v84fcae34317424b3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-REQ-001\"]}}"
+    },
+    {
+      "check": "v96ef9a38eb678cc3",
+      "inputs": [
+        "member:v96ef9a38eb678cc3",
+        "check:v96ef9a38eb678cc3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-AGT-001\"]}}"
+    },
+    {
+      "check": "va3a00e71e58d2739",
+      "inputs": [
+        "member:va3a00e71e58d2739",
+        "check:va3a00e71e58d2739"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-CON-002\"]}}"
+    },
+    {
+      "check": "vaa59d083a6064129",
+      "inputs": [
+        "member:vaa59d083a6064129",
+        "check:vaa59d083a6064129"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-LVL-002\"]}}"
+    },
+    {
+      "check": "vc0ec0b5e1281c42b",
+      "inputs": [
+        "member:vc0ec0b5e1281c42b",
+        "check:vc0ec0b5e1281c42b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-BLK-001\",\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "vdc3c907ac9951f17",
+      "inputs": [
+        "member:vdc3c907ac9951f17",
+        "check:vdc3c907ac9951f17"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\"]}}"
+    },
+    {
+      "check": "vf220bd496107eb49",
+      "inputs": [
+        "member:vf220bd496107eb49",
+        "check:vf220bd496107eb49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-003\"]}}"
+    },
+    {
+      "check": "vfeae3c4cd6e24c1b",
+      "inputs": [
+        "member:vfeae3c4cd6e24c1b",
+        "check:vfeae3c4cd6e24c1b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-LVL-001\"]}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      },
+      {
+        "process": "run-2",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 26 pinned members of aci as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 26,
+    "require": "at-least-one",
+    "selected": [
+      "v005d7c85b0b603d8",
+      "v01249b6833388b1a",
+      "v0388b661c5fd357d",
+      "v12e1059ea9a4d94c",
+      "v1551f14b29a80589",
+      "v17045b49c56bc098",
+      "v17a93df6e3afb4bb",
+      "v2fb85d5b09a6b31e",
+      "v36c583fbf47a4ba1",
+      "v37a3188d9aeeb957",
+      "v3950ba405aa821b7",
+      "v39757e3cf68c9c84",
+      "v502bbfa63ed14f9f",
+      "v5440a71178987eaa",
+      "v6d1a8d608febb698",
+      "v74bee945342e8235",
+      "v845fe118f2cee052",
+      "v84fcae34317424b3",
+      "v96ef9a38eb678cc3",
+      "va3a00e71e58d2739",
+      "vaa59d083a6064129",
+      "vbc18a70162a0a3eb",
+      "vc0ec0b5e1281c42b",
+      "vdc3c907ac9951f17",
+      "vf220bd496107eb49",
+      "vfeae3c4cd6e24c1b"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "aci"
+}
