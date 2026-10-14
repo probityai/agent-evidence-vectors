@@ -29,7 +29,9 @@ RECORDS = sorted((REPO / "release" / "intake").glob("*.intake.json"))
 
 
 def manifest() -> dict[str, Any]:
-    return json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    loaded = json.loads((CORPUS / "MANIFEST.json").read_text(encoding="utf-8"))
+    assert isinstance(loaded, dict), "MANIFEST.json is not a JSON object"
+    return loaded
 
 
 def cli(*args: str, cwd: Path = REPO) -> subprocess.CompletedProcess[str]:
@@ -90,7 +92,7 @@ def member_of(ground: str, kind: str, rooted: bool) -> Path:
         if entry["requirements"] == [ground] and entry["kind"] == kind and (
             (entry["root"] is not None) == rooted
         ):
-            return CORPUS / entry["file"]
+            return CORPUS / str(entry["file"])
     raise AssertionError(f"no {kind} member for {ground} with root={rooted}")
 
 
