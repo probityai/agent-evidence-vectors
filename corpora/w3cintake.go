@@ -188,7 +188,7 @@ func intakeRead(root string, rel any) ([]byte, bool) {
 	if !existsIn(root, filepath.FromSlash(rel.(string))) {
 		return nil, false
 	}
-	body, err := os.ReadFile(path) // #nosec G304 -- a path the record names, under the root the operator named
+	body, err := os.ReadFile(path) // #nosec G304,G703 -- a path intakeSafePath admitted, which the record names, under the root the operator named
 	if err != nil {
 		return nil, false
 	}
@@ -480,40 +480,55 @@ func equalStrings(a, b []string) bool {
 	return true
 }
 
-func intakeSelection(record map[string]any, f intakeFound) ([]string, bool) {
-	selector, isObj := iObj(record["selector"])
-	ids, idsOK := intakeManifestIDs(record)
-	selectedRaw, isList := iField(selector, "selected").([]any)
-	var selected []string
-	allStr := true
-	for _, s := range selectedRaw {
-		str, ok := s.(string)
-		if !ok || str == "" {
-			allStr = false
+// iEach reports whether every item satisfies pred (true for no items).
+func iEach(items []any, pred func(any) bool) bool {
+	for _, item := range items {
+		if !pred(item) {
+			return false
 		}
+	}
+	return true
+}
+
+// intakeSelectorShape reads the selector and reports whether every field it
+// must carry is present and typed (W3C-I-010's shape half).
+func intakeSelectorShape(record map[string]any) (map[string]any, []string, int64, bool) {
+	selector, isObj := iObj(record["selector"])
+	selectedRaw, isList := iField(selector, "selected").([]any)
+	selected := make([]string, 0, len(selectedRaw))
+	for _, s := range selectedRaw {
+		str, _ := s.(string)
 		selected = append(selected, str)
 	}
 	_, exprOK := iField(selector, "expression").(string)
 	matched, matchedOK := intValue(iField(selector, "matched"))
-	if !(isObj && iIn(selector["language"], intakeSelectorLangs) && exprOK &&
-		iIn(selector["require"], intakeSelectorRequire) && isList && allStr && matchedOK) {
+	ok := isObj && iIn(selector["language"], intakeSelectorLangs) && exprOK &&
+		iIn(selector["require"], intakeSelectorRequire) && isList && iEach(selectedRaw, iStr) && matchedOK
+	return selector, selected, matched, ok
+}
+
+func intakeGlobMatches(expression string, ids []string) []string {
+	out := []string{}
+	for _, id := range ids {
+		if intakeGlob(expression, id) {
+			out = append(out, id)
+		}
+	}
+	return out
+}
+
+func intakeSelection(record map[string]any, f intakeFound) ([]string, bool) {
+	selector, selected, matched, shapeOK := intakeSelectorShape(record)
+	ids, idsOK := intakeManifestIDs(record)
+	if !shapeOK {
 		f.add(10)
 		return nil, false
 	}
 	if !idsOK {
 		return nil, false
 	}
-	expression := selector["expression"].(string)
-	recomputed := []string{}
-	for _, id := range ids {
-		if intakeGlob(expression, id) {
-			recomputed = append(recomputed, id)
-		}
-	}
-	if !equalStrings(sortedCopy(recomputed), sortedCopy(selected)) {
-		f.add(10)
-	}
-	if matched != int64(len(selected)) {
+	recomputed := intakeGlobMatches(selector["expression"].(string), ids)
+	if !equalStrings(sortedCopy(recomputed), sortedCopy(selected)) || matched != int64(len(selected)) {
 		f.add(10)
 	}
 	if len(recomputed) == 0 {
@@ -652,43 +667,50 @@ func intakeRefusals(record map[string]any, f intakeFound) {
 		f.add(16)
 		return
 	}
-	refusing := map[string]bool{}
-	for _, v := range verdicts {
-		refusing[v] = true
-	}
+	refusing := set(verdicts...)
 	named := map[string]map[string]any{}
 	for _, item := range refusals {
 		if m, ok := iObj(item); ok && iStr(m["check"]) {
 			named[m["check"].(string)] = m
 		}
 	}
-	members := map[string]bool{}
-	for _, id := range intakeMemberIDs(record) {
-		members[id] = true
+	scope := intakeRefusalScope{members: set(intakeMemberIDs(record)...), returned: intakeReturned(record)}
+	for _, check := range intakeChecks(record) {
+		verdict, hasVerdict := intakeVerdict(check)
+		if (hasVerdict && refusing[verdict]) || check["state"] == "fail" {
+			scope.judge(named[check["check"].(string)], f)
+		}
 	}
+}
+
+// intakeReturned is the set of check ids the record returned.
+func intakeReturned(record map[string]any) map[string]bool {
 	returned := map[string]bool{}
 	for _, c := range intakeChecks(record) {
 		returned[c["check"].(string)] = true
 	}
-	for _, check := range intakeChecks(record) {
-		verdict, hasVerdict := intakeVerdict(check)
-		if !(hasVerdict && refusing[verdict]) && check["state"] != "fail" {
-			continue
-		}
-		item := named[check["check"].(string)]
-		inputs, inputsOK := iStrs(iField(item, "inputs"))
-		if !iStr(iField(item, "rule")) || !inputsOK || len(inputs) == 0 {
-			f.add(16)
-			continue
-		}
-		for _, ref := range inputs {
-			kind, name, _ := strings.Cut(ref, ":")
-			inside := intakeInputLiterals[ref] ||
-				(kind == "member" && members[name]) ||
-				(kind == "check" && returned[name])
-			if !inside {
-				f.add(17)
-			}
+	return returned
+}
+
+// intakeRefusalScope is what a refusal's inputs may name: a member of the
+// record's corpus, a check it returned, or one of the literal inputs.
+type intakeRefusalScope struct{ members, returned map[string]bool }
+
+func (s intakeRefusalScope) inside(ref string) bool {
+	kind, name, _ := strings.Cut(ref, ":")
+	return intakeInputLiterals[ref] || (kind == "member" && s.members[name]) || (kind == "check" && s.returned[name])
+}
+
+// judge holds one refused check's refusal entry to W3C-I-016 and W3C-I-017.
+func (s intakeRefusalScope) judge(item map[string]any, f intakeFound) {
+	inputs, inputsOK := iStrs(iField(item, "inputs"))
+	if !iStr(iField(item, "rule")) || !inputsOK || len(inputs) == 0 {
+		f.add(16)
+		return
+	}
+	for _, ref := range inputs {
+		if !s.inside(ref) {
+			f.add(17)
 		}
 	}
 }
@@ -697,8 +719,8 @@ func intakeNative(record map[string]any, f intakeFound) {
 	native, isObj := iObj(record["native"])
 	status, statusOK := intValue(iField(iField(native, "process-status"), "exit-code"))
 	summary := iField(native, "summary")
-	if !(isObj && iIn(native["format"], intakeNativeFormats) && iStr(native["cases"]) &&
-		(summary == nil || iStr(summary)) && statusOK) {
+	if !isObj || !iIn(native["format"], intakeNativeFormats) || !iStr(native["cases"]) ||
+		(summary != nil && !iStr(summary)) || !statusOK {
 		f.add(18)
 		return
 	}
@@ -799,60 +821,83 @@ func intakeNativeOnDisk(record map[string]any, root string, f intakeFound) {
 	if !isObj || !iIn(native["format"], intakeNativeFormats) {
 		return
 	}
-	var document any
-	if body, ok := intakeObservedBytes(record, native["cases"], root); ok {
-		document, _ = intakeDecodeStrict(body)
-	}
-	members, isList := iField(document, "members").([]any)
+	members, isList := intakeNativeMembers(record, native["cases"], root)
 	if !isList {
 		f.add(19)
 		return
 	}
-	nativeLines := make([]any, 0, len(members))
+	if !jsonEqual(intakeNativeLines(members), intakeCarriedLines(record)) {
+		f.add(19)
+	}
+	if summary := native["summary"]; summary != nil && !intakeSummaryMatches(record, summary, root) {
+		f.add(19)
+	}
+}
+
+// intakeNativeMembers decodes the observed native cases document and returns
+// its member list.
+func intakeNativeMembers(record map[string]any, cases any, root string) ([]any, bool) {
+	var document any
+	if body, ok := intakeObservedBytes(record, cases, root); ok {
+		document, _ = intakeDecodeStrict(body)
+	}
+	members, isList := iField(document, "members").([]any)
+	return members, isList
+}
+
+// intakeNativeLines is each native member as [id, kind, findings].
+func intakeNativeLines(members []any) []any {
+	lines := make([]any, 0, len(members))
 	for _, m := range members {
 		reasons := iField(m, "findings")
 		if reasons == nil {
 			reasons = []any{}
 		}
-		nativeLines = append(nativeLines, []any{iField(m, "id"), iField(m, "kind"), reasons})
+		lines = append(lines, []any{iField(m, "id"), iField(m, "kind"), reasons})
 	}
-	carriedLines := []any{}
+	return lines
+}
+
+// intakeCarriedLines is each carried check as [check, verdict, reasons].
+func intakeCarriedLines(record map[string]any) []any {
+	lines := []any{}
 	for _, c := range iList(record, "checks") {
 		if m, ok := iObj(c); ok {
-			carriedLines = append(carriedLines,
-				[]any{m["check"], iField(m["native"], "verdict"), iField(m["native"], "reasons")})
+			lines = append(lines, []any{m["check"], iField(m["native"], "verdict"), iField(m["native"], "reasons")})
 		}
 	}
-	if !jsonEqual(nativeLines, carriedLines) {
-		f.add(19)
-	}
-	summary := native["summary"]
-	if summary == nil {
-		return
-	}
+	return lines
+}
+
+// intakeSummaryMatches reports whether the observed native summary parses and
+// prints the same line, total and counts as the record's aggregate.
+func intakeSummaryMatches(record map[string]any, summary any, root string) bool {
 	text, ok := intakeObservedBytes(record, summary, root)
-	var parsed intakeSummary
-	if ok {
-		parsed, ok = intakeParseSummary(string(text))
-	}
 	if !ok {
-		f.add(19)
-		return
+		return false
+	}
+	parsed, ok := intakeParseSummary(string(text))
+	if !ok {
+		return false
 	}
 	aggregate := record["aggregate"]
 	total, totalOK := intValue(iField(aggregate, "total"))
 	carried, countsObj := iObj(iField(aggregate, "counts"))
-	same := iEq(iField(aggregate, "line"), parsed.line) && totalOK && total == parsed.total &&
-		countsObj && len(carried) == len(parsed.counts)
+	return iEq(iField(aggregate, "line"), parsed.line) && totalOK && total == parsed.total &&
+		countsObj && intakeCountsMatch(carried, parsed.counts)
+}
+
+func intakeCountsMatch(carried map[string]any, parsed map[string]int64) bool {
+	if len(carried) != len(parsed) {
+		return false
+	}
 	for k, v := range carried {
 		n, isInt := intValue(v)
-		if want, ok := parsed.counts[k]; !isInt || !ok || n != want {
-			same = false
+		if want, ok := parsed[k]; !isInt || !ok || n != want {
+			return false
 		}
 	}
-	if !same {
-		f.add(19)
-	}
+	return true
 }
 
 func intakeObservations(record map[string]any, f intakeFound) {
@@ -1007,51 +1052,54 @@ func intakeChecker(record map[string]any, f intakeFound) {
 	}
 	runtime, runtimeObj := iObj(iField(checker, "runtime"))
 	dependencies, depsList := iField(checker, "dependencies").([]any)
-	ok := runtimeObj && iStr(runtime["name"]) && iStr(runtime["version"]) && depsList
-	for _, d := range dependencies {
-		if _, isObj := iObj(d); !isObj || !intakeSafePath(iField(d, "path")) || !iHex(iField(d, "sha256"), hex64) {
-			ok = false
-		}
-	}
-	if !ok {
+	if !runtimeObj || !iStr(runtime["name"]) || !iStr(runtime["version"]) || !depsList ||
+		!iEach(dependencies, intakeDependencyPinned) {
 		f.add(26)
 	}
 	helpers, helpersList := iField(checker, "helpers").([]any)
-	ok = helpersList
-	for _, h := range helpers {
-		if _, isObj := iObj(h); !isObj || !iStr(iField(h, "uri")) || !iHex(iField(h, "sha256"), hex64) {
-			ok = false
-		}
-	}
-	if !ok {
+	if !helpersList || !iEach(helpers, intakeHelperPinned) {
 		f.add(27)
 	}
-	readers := append([]any{checker}, iList(record, "non-author-runs")...)
-	for _, reader := range readers {
-		relationship := iField(reader, "relationship")
-		if !iIn(relationship, intakeRelationships) {
-			f.add(29)
-			continue
-		}
-		shared, sharedOK := iStrs(iField(reader, "shared-verification-code"))
-		switch {
-		case !sharedOK:
-			f.add(30)
-		case relationship == "written-from-specification" && len(shared) > 0:
-			f.add(30)
-		case relationship == "same-implementation" && len(shared) == 0:
-			f.add(30)
-		}
+	for _, reader := range append([]any{checker}, iList(record, "non-author-runs")...) {
+		intakeReaderRelationship(reader, f)
 	}
 	specReaders, isList := record["specification-readers"].([]any)
-	ok = isList
-	for _, r := range specReaders {
-		if _, isObj := iObj(r); !isObj || !iStr(iField(r, "reader")) {
-			ok = false
-		}
-	}
-	if !ok {
+	if !isList || !iEach(specReaders, intakeSpecReaderNamed) {
 		f.add(31)
+	}
+}
+
+func intakeDependencyPinned(d any) bool {
+	_, isObj := iObj(d)
+	return isObj && intakeSafePath(iField(d, "path")) && iHex(iField(d, "sha256"), hex64)
+}
+
+func intakeHelperPinned(h any) bool {
+	_, isObj := iObj(h)
+	return isObj && iStr(iField(h, "uri")) && iHex(iField(h, "sha256"), hex64)
+}
+
+func intakeSpecReaderNamed(r any) bool {
+	_, isObj := iObj(r)
+	return isObj && iStr(iField(r, "reader"))
+}
+
+// intakeReaderRelationship holds one reader (the checker or a non-author run)
+// to W3C-I-029 and W3C-I-030.
+func intakeReaderRelationship(reader any, f intakeFound) {
+	relationship := iField(reader, "relationship")
+	if !iIn(relationship, intakeRelationships) {
+		f.add(29)
+		return
+	}
+	shared, sharedOK := iStrs(iField(reader, "shared-verification-code"))
+	switch {
+	case !sharedOK:
+		f.add(30)
+	case relationship == "written-from-specification" && len(shared) > 0:
+		f.add(30)
+	case relationship == "same-implementation" && len(shared) == 0:
+		f.add(30)
 	}
 }
 
@@ -1083,7 +1131,9 @@ func intakeCheckerOnDisk(record map[string]any, root string, f intakeFound) {
 	}
 }
 
-func intakeReplay(record map[string]any, f intakeFound) {
+// intakeReplayShape reads byte-identity and replay-stability and reports
+// whether both carry what W3C-I-034 requires.
+func intakeReplayShape(record map[string]any) (map[string]any, []any, bool) {
 	identity, identityObj := iObj(record["byte-identity"])
 	stability, stabilityObj := iObj(record["replay-stability"])
 	pins, pinsOK := intValue(iField(identity, "pins"))
@@ -1091,12 +1141,17 @@ func intakeReplay(record map[string]any, f intakeFound) {
 	state := iField(stability, "state")
 	ok := identityObj && pinsOK && pins == int64(len(intakeMemberFiles(record))) &&
 		stabilityObj && iIn(state, intakeReplayStates) && runsList &&
-		(state == "not-measured" || len(runs) >= 2)
-	for _, r := range runs {
-		if _, isObj := iObj(r); !isObj || !iStr(iField(r, "process")) || !iHex(iField(r, "sha256"), hex64) {
-			ok = false
-		}
-	}
+		(state == "not-measured" || len(runs) >= 2) && iEach(runs, intakeRunPinned)
+	return stability, runs, ok
+}
+
+func intakeRunPinned(r any) bool {
+	_, isObj := iObj(r)
+	return isObj && iStr(iField(r, "process")) && iHex(iField(r, "sha256"), hex64)
+}
+
+func intakeReplay(record map[string]any, f intakeFound) {
+	stability, runs, ok := intakeReplayShape(record)
 	if !ok {
 		f.add(34)
 		return
@@ -1104,6 +1159,7 @@ func intakeReplay(record map[string]any, f intakeFound) {
 	if len(runs) == 0 {
 		return
 	}
+	state := stability["state"]
 	ordering := stability["ordering"]
 	if !iIn(ordering, intakeOrderings) || (ordering == "hash-order" && !iStr(stability["seed"])) {
 		f.add(35)
@@ -1124,10 +1180,7 @@ func intakeFaults(record map[string]any, f intakeFound) {
 	if !iIn(record["exposure"], intakeExposure) {
 		f.add(38)
 	}
-	returned := map[string]bool{}
-	for _, c := range intakeChecks(record) {
-		returned[c["check"].(string)] = true
-	}
+	returned := intakeReturned(record)
 	faults, ok := record["faults"].([]any)
 	if !ok {
 		f.add(39)
@@ -1489,6 +1542,8 @@ func intakeMemberRoot(dir string, document map[string]any, out *[]string) (strin
 		return "", false, false
 	}
 	full := filepath.Join(dir, filepath.FromSlash(rel.(string)))
+	// #nosec G703 -- intakeSafePath above refused absolute, empty, "." and ".."
+	// segments, so full stays under the corpus directory the operator named.
 	if info, err := os.Stat(full); err != nil || !info.IsDir() {
 		*out = append(*out, "the member names a root "+pyRepr(rel)+" that is not a directory here")
 		return "", false, false
@@ -1520,6 +1575,19 @@ func intakeCorpusDigestOf(dir string, manifest map[string]any) string {
 }
 
 func intakeCorpusFindings(dir string, manifest map[string]any, known []string) []string {
+	out := intakeCoverageFindings(manifest, known)
+	out = append(out, intakeFamilyFindings(manifest)...)
+	out = append(out, intakeVendoredFindings(dir, manifest)...)
+	out = append(out, intakeCountFindings(manifest)...)
+	if !iEq(manifest["corpusDigest"], intakeCorpusDigestOf(dir, manifest)) {
+		out = append(out, "corpusDigest does not match the vector files on disk")
+	}
+	return out
+}
+
+// intakeCoverageFindings names the grounds no accept member passes and the
+// grounds no reject member is refused under.
+func intakeCoverageFindings(manifest map[string]any, known []string) []string {
 	var out []string
 	accepting, rejecting := map[string]bool{}, map[string]bool{}
 	for _, entry := range iList(manifest, "vectors") {
@@ -1549,6 +1617,11 @@ func intakeCorpusFindings(dir string, manifest map[string]any, known []string) [
 	if len(noReject) > 0 {
 		out = append(out, "grounds no reject member is refused under: "+w3cList(noReject))
 	}
+	return out
+}
+
+// intakeFamilyFindings names the families declared and carried by no member.
+func intakeFamilyFindings(manifest map[string]any) []string {
 	families, _ := iObj(manifest["families"])
 	used := map[string]bool{}
 	for _, entry := range iList(manifest, "vectors") {
@@ -1563,9 +1636,13 @@ func intakeCorpusFindings(dir string, manifest map[string]any, known []string) [
 		}
 	}
 	if len(unused) > 0 {
-		out = append(out, "families declared and carried by no member: "+w3cList(sortedCopy(unused)))
+		return []string{"families declared and carried by no member: " + w3cList(sortedCopy(unused))}
 	}
-	out = append(out, intakeVendoredFindings(dir, manifest)...)
+	return nil
+}
+
+// intakeCountFindings compares the manifest's declared counts with the members.
+func intakeCountFindings(manifest map[string]any) []string {
 	accept, reject := int64(0), int64(0)
 	for _, entry := range iList(manifest, "vectors") {
 		switch iField(entry, "kind") {
@@ -1579,13 +1656,10 @@ func intakeCorpusFindings(dir string, manifest map[string]any, known []string) [
 	gotAccept, okA := intValue(counts["accept"])
 	gotReject, okR := intValue(counts["reject"])
 	if len(counts) != 2 || !okA || !okR || gotAccept != accept || gotReject != reject {
-		out = append(out, fmt.Sprintf("counts disagree: manifest %s, measured {accept=%d, reject=%d}",
-			intakeRenderCounts(counts), accept, reject))
+		return []string{fmt.Sprintf("counts disagree: manifest %s, measured {accept=%d, reject=%d}",
+			intakeRenderCounts(counts), accept, reject)}
 	}
-	if !iEq(manifest["corpusDigest"], intakeCorpusDigestOf(dir, manifest)) {
-		out = append(out, "corpusDigest does not match the vector files on disk")
-	}
-	return out
+	return nil
 }
 
 func intakeRenderCounts(counts map[string]any) string {
