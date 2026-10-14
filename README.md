@@ -52,6 +52,7 @@ Use the [GitHub Action](action.yml) to run the same check in your build and reta
 | Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.18.0/docs/research/corpus-measurements.md) |
 | Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
 | Report a run or disagreement | [Run reporting](docs/guides/report-run.md) |
+| Check a W3C intake record | [W3C intake checker](docs/reference/w3c-intake.md) |
 | See who runs and uses the corpora | [Independent runs](docs/INDEPENDENT-RUNS.json), [Adopters](docs/ADOPTERS.md) |
 
 <a name="what-the-suite-judges"></a>
