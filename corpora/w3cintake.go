@@ -196,15 +196,22 @@ func intakeRead(root string, rel any) ([]byte, bool) {
 }
 
 // intakeWalk lists the files under root/rel whose names end in suffix, as
-// record paths, sorted.
+// record paths, sorted. A rel that is not a record path lists nothing, so a
+// manifest root such as ".." cannot walk outside the directory the operator
+// named.
 func intakeWalk(root, rel, suffix string, recursive bool) []string {
+	if !intakeSafePath(rel) {
+		return nil
+	}
 	base := filepath.Join(root, filepath.FromSlash(rel))
+	// #nosec G703 -- base is under root: intakeSafePath refused rel otherwise.
 	info, err := os.Stat(base)
 	if err != nil || !info.IsDir() {
 		return nil
 	}
 	var found []string
 	if recursive {
+		// #nosec G703 -- base is under root (see above).
 		_ = filepath.WalkDir(base, func(path string, d os.DirEntry, err error) error {
 			if err != nil || d.IsDir() {
 				return nil
@@ -221,6 +228,7 @@ func intakeWalk(root, rel, suffix string, recursive bool) []string {
 	} else {
 		entries, _ := os.ReadDir(base)
 		for _, e := range entries {
+			// #nosec G703 -- a directory entry of base, which is under root.
 			if st, err := os.Stat(filepath.Join(base, e.Name())); err == nil && !st.IsDir() {
 				found = append(found, rel+"/"+e.Name())
 			}

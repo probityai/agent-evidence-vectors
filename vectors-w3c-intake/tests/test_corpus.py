@@ -121,6 +121,13 @@ def test_a_root_check_does_not_run_without_a_root() -> None:
     assert w3cintake.rejections(document["record"]) == []
 
 
+def test_a_walk_never_leaves_the_named_root() -> None:
+    """A root such as ".." lists nothing; the corpus's own vectors directory does."""
+    assert w3cintake._walk(str(CORPUS), "vectors", ".json", True)
+    for rel in ("..", "../corpora", "vectors/..", "/etc", "", "."):
+        assert w3cintake._walk(str(CORPUS), rel, "", True) == [], rel
+
+
 def test_an_unreadable_record_exits_two(tmp_path: Path) -> None:
     broken = tmp_path / "record.json"
     broken.write_text("{not json", encoding="utf-8")

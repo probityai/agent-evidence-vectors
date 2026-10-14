@@ -230,7 +230,13 @@ def _read(root: str, rel: Any) -> bytes | None:
 
 
 def _walk(root: str, rel: str, suffix: str, recursive: bool) -> list[str]:
-    """Files under root/rel ending in suffix, as record paths, sorted."""
+    """Files under root/rel ending in suffix, as record paths, sorted.
+
+    A rel that is not a record path lists nothing, so a manifest root such as
+    ``..`` cannot walk outside the directory the operator named.
+    """
+    if not safe_path(rel):
+        return []
     base = os.path.join(root, *rel.split("/"))
     if not os.path.isdir(base):
         return []
