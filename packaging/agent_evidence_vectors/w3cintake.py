@@ -624,22 +624,33 @@ def _observed_bytes(record: dict[str, Any], oid: Any, root: str) -> bytes | None
     return body
 
 
+def _count(value: str) -> int | None:
+    """A count as the summary prints it: one to eighteen ASCII digits."""
+    if not 0 < len(value) <= 18 or any(c not in "0123456789" for c in value):
+        return None
+    return int(value)
+
+
 def parse_summary(text: str) -> tuple[str, int, dict[str, int]] | None:
-    """The text ``aee-verify <corpus>`` prints: members, counts by kind, verdict."""
+    """The text ``aee-verify <corpus>`` prints: members, counts by kind, verdict.
+
+    Lines are split on newline only, and a count is ASCII digits only, so every
+    reader of this format reads the same bytes the same way.
+    """
     total: int | None = None
     counts: dict[str, int] = {}
     line = None
-    for raw in text.splitlines():
+    for raw in text.split("\n"):
         if raw.startswith("members: "):
-            value = raw[len("members: "):]
-            if not value.isdigit():
+            total = _count(raw[len("members: "):])
+            if total is None:
                 return None
-            total = int(value)
         elif raw.startswith("  ") and ": " in raw:
-            kind, _, value = raw.strip().partition(": ")
-            if not value.isdigit():
+            kind, _, value = raw[2:].partition(": ")
+            number = _count(value)
+            if number is None:
                 return None
-            counts[kind] = int(value)
+            counts[kind] = number
         elif raw.startswith("verdict: "):
             line = raw
     if total is None or line is None:
@@ -674,7 +685,7 @@ def _native_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         for c in _list(record, "checks")
         if _obj(c)
     ]
-    if native_lines != carried_lines:
+    if _canonical(native_lines) != _canonical(carried_lines):
         f.add(G[19], "the carried per-case lines differ from the native case output")
     summary: Any = native.get("summary")
     if summary is None:
@@ -686,10 +697,14 @@ def _native_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         f.add(G[19], "the native summary does not resolve to its pinned bytes")
         return
     line, total, counts = parsed
+    carried_counts = _field(aggregate, "counts")
     if (
         _field(aggregate, "line") != line
-        or _field(aggregate, "total") != total
-        or _field(aggregate, "counts") != counts
+        or not _int(_field(aggregate, "total"))
+        or aggregate["total"] != total
+        or not _obj(carried_counts)
+        or not all(_int(v) for v in carried_counts.values())
+        or carried_counts != counts
     ):
         f.add(G[19], "the carried aggregate line differs from the native summary")
 
@@ -739,6 +754,17 @@ def _anchor(record: dict[str, Any], f: Findings) -> None:
                      "anchors, and a non-passing verdict for each failure")
 
 
+def _binds(line: str, digest: Any, manifest: Any) -> bool:
+    """A digest-list line binding the digest to the manifest path: fields split on spaces."""
+    fields = [field for field in line.split(" ") if field]
+    return (
+        not line.startswith("#")
+        and len(fields) >= 2
+        and fields[0] == digest
+        and fields[1] == manifest
+    )
+
+
 def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
     anchor: Any = record.get("anchor")
     path = _field(_field(anchor, "reference"), "path")
@@ -749,11 +775,8 @@ def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         f.add(G[23], f"availability-failure: the anchor {path} does not resolve")
         return
     want, manifest = anchor.get("sha256"), anchor.get("manifest")
-    lines = body.decode("utf-8", "replace").splitlines()
-    if not any(
-        len(fields) >= 2 and fields[0] == want and fields[1] == manifest
-        for fields in (line.split() for line in lines if not line.startswith("#"))
-    ):
+    lines = body.decode("utf-8", "replace").split("\n")
+    if not any(_binds(line, want, manifest) for line in lines):
         f.add(G[24], f"integrity-failure: {path} resolves and carries no line binding "
                      f"{want} to {manifest}")
         return
@@ -891,7 +914,8 @@ def _replay(record: dict[str, Any], f: Findings) -> None:
     files = len(_member_files(record))
     well_formed = (
         _obj(identity)
-        and identity.get("pins") == files
+        and _int(identity.get("pins"))
+        and identity["pins"] == files
         and _obj(stability)
         and state in REPLAY_STATES
         and isinstance(runs, list)
@@ -1170,8 +1194,10 @@ def _load_document(directory: str, entry: dict[str, Any], out: list[str]) -> Any
         return None
     try:
         document = json.loads(body)
-    except ValueError as exc:
-        out.append(f"the vector file does not parse: {exc}")
+    except ValueError:
+        # The parser's own message is not repeated: it differs between readers,
+        # and the line the two rails print must be the same bytes.
+        out.append("the vector file does not parse")
         return None
     if not _obj(document):
         out.append("the vector file is not a JSON object")
@@ -1258,7 +1284,10 @@ def judge(directory: str, weaken: frozenset[str] = NO_WEAKENING) -> Judged:
             findings.append("duplicate identifier")
         seen.add(str(entry.get("id")))
         findings.extend(_member(directory, manifest, entry, known, weaken))
-        judged.members.append((str(entry.get("id")), str(entry.get("kind", "")), findings))
+        mid, kind = entry.get("id"), entry.get("kind")
+        judged.members.append(
+            (mid if isinstance(mid, str) else "", kind if isinstance(kind, str) else "", findings)
+        )
     judged.findings.extend(_corpus(directory, manifest, known, entries))
     return judged
 
