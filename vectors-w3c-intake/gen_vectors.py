@@ -1185,7 +1185,7 @@ def corpus_digest(manifest: dict[str, Any], root: str = HERE) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     scratch = tempfile.mkdtemp(prefix="w3c-intake-")
