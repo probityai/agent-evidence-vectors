@@ -202,10 +202,13 @@ CASES = {
     "c3": {"case": "c3", "statement": {"claim": "the receipt names its key"}, "expect": "accept"},
 }
 NATIVE_KIND = {"c1": "accept", "c2": "reject", "c3": "accept"}
+#: A shell script rather than Python: the wheel leaves every .py file under a
+#: corpus directory out, and a fixture missing from the wheel is a tree that no
+#: longer matches its digest there.
 CHECKER_SOURCE = (
-    "# The fixture suite's checker: accept a case whose expectation is accept.\n"
-    "import json, sys\n"
-    "print(json.load(open(sys.argv[1]))['expect'])\n"
+    "#!/bin/sh\n"
+    "# The fixture suite's checker: print the expectation a case carries.\n"
+    "sed -n 's/.*\"expect\": \"\\([a-z]*\\)\".*/\\1/p' \"$1\"\n"
 )
 LOCKFILE = "fixture-dependency==1.0.0 --hash=sha256:" + "0" * 64 + "\n"
 HELPER = "#!/bin/sh\n# fetches the fixture suite at run time\nexit 0\n"
@@ -265,7 +268,7 @@ def base_tree() -> dict[str, bytes]:
     files["anchor/DIGESTS.txt"] = (
         f"{routine_digest()}  suite/MANIFEST.json  fixture-suite  vectors=3  no-suiteRevision\n"
     ).encode()
-    files["checker/check.py"] = CHECKER_SOURCE.encode("utf-8")
+    files["checker/check.sh"] = CHECKER_SOURCE.encode("utf-8")
     files["checker/deps.lock"] = LOCKFILE.encode("utf-8")
     files["helpers/fetch.sh"] = HELPER.encode("utf-8")
     return files
@@ -347,19 +350,19 @@ def base_record(tree: dict[str, bytes]) -> dict[str, Any]:
         "checker": {
             "name": "fixture-check",
             "revision": {
-                "kind": "source-listing", "paths": ["checker/check.py"],
+                "kind": "source-listing", "paths": ["checker/check.sh"],
                 "serialization": "sha256-listing-v1",
-                "sha256": listing([("checker/check.py", sha(tree["checker/check.py"]))]),
+                "sha256": listing([("checker/check.sh", sha(tree["checker/check.sh"]))]),
             },
-            "commands": ["python3 checker/check.py suite/cases/<id>.json"],
-            "runtime": {"name": "cpython", "version": "3.13"},
+            "commands": ["sh checker/check.sh suite/cases/<id>.json"],
+            "runtime": {"name": "posix-sh", "version": "POSIX.1-2017"},
             "dependencies": [{"path": "checker/deps.lock",
                               "sha256": sha(tree["checker/deps.lock"]),
                               "serialization": "bytes"}],
             "helpers": [{"uri": HELPER_URI, "path": "helpers/fetch.sh",
                          "sha256": sha(tree["helpers/fetch.sh"]), "serialization": "bytes"}],
             "relationship": "same-implementation",
-            "shared-verification-code": ["checker/check.py"],
+            "shared-verification-code": ["checker/check.sh"],
         },
         "specification-readers": [],
         "non-author-runs": [],
@@ -624,6 +627,9 @@ def build_recount(m: Members) -> None:
     m.add(14, "reject", "exit code 0 under a zero-iff-every-check-passes rule beside a failing "
           "line", exit_lies)
 
+
+
+def build_headline(m: Members) -> None:
     def headline(r: dict[str, Any]) -> None:
         r["checks"][1]["state"] = "fail"
         r["checks"][1]["native"]["reasons"] = ["the reader accepts c2, a forged signature"]
@@ -757,7 +763,7 @@ def build_checker(m: Members) -> None:
         r["checker"]["revision"] = {"kind": "git-commit", "value": "a" * 40}
 
     def source_moved(files: dict[str, bytes]) -> None:
-        files["checker/check.py"] = files["checker/check.py"] + b"# patched after the run\n"
+        files["checker/check.sh"] = files["checker/check.sh"] + b"# patched after the run\n"
 
     m.add(25, "accept", "the checker named by a forty-digit commit and its command", commit)
     m.add(25, "accept", "the checker named by its source listing, which recomputes", root=base)
@@ -831,7 +837,7 @@ def build_relationship(m: Members) -> None:
 
     m.add(30, "accept", "written from the specification and sharing no verification code",
           spec_clean)
-    m.add(30, "reject", "written from the specification while sharing checker/check.py",
+    m.add(30, "reject", "written from the specification while sharing checker/check.sh",
           spec_shares)
     m.add(30, "reject", "the same implementation, recorded as sharing nothing",
           same_shares_nothing)
@@ -984,6 +990,7 @@ def build_scope(m: Members) -> None:
 
 BUILDERS = (
     build_population, build_inventory, build_boundary, build_selector, build_recount,
+    build_headline,
     build_native, build_anchor, build_checker, build_environment, build_relationship,
     build_encoding, build_replay, build_faults, build_scope,
 )

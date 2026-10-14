@@ -136,6 +136,7 @@ from agent_evidence_vectors import (
     observedeffect,
     receiptsignature,
     sourcecoverage,
+    w3cintake,
     w3creport,
 )
 
@@ -3745,6 +3746,7 @@ def _run_non_reference_suite(
         return None
     own_reader = suite in (
         w3creport.SUITE,
+        w3cintake.SUITE,
         observedeffect.SUITE,
         receiptsignature.SUITE,
         auditrecord.SUITE,
@@ -3796,6 +3798,7 @@ def _run_non_reference_suite(
     reader = {
         receiptsignature.SUITE: receiptsignature,
         w3creport.SUITE: w3creport,
+        w3cintake.SUITE: w3cintake,
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
     }.get(suite, observedeffect)

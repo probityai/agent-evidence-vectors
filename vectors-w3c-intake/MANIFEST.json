@@ -81,7 +81,7 @@
       "void"
     ]
   },
-  "corpusDigest": "394d422fdaae6b3d990057bc3c0ab0bad5979b355d7c7461b79c4372cfe2697d",
+  "corpusDigest": "19c87dc8a5c036c63281e4cb5e24e94892f8d0b85139749314e065c268dd289e",
   "counts": {
     "accept": 46,
     "reject": 70
@@ -671,27 +671,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-001",
-      "file": "vectors/v86fc0e805134604b.json",
-      "id": "v86fc0e805134604b",
+      "file": "vectors/va8fd1584de3917fa.json",
+      "id": "va8fd1584de3917fa",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-001"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "a member pin carries a path and no digest",
-      "expected": {
-        "rejects": [
-          "W3C-I-001"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-001",
-      "file": "vectors/v8d1380fbdc9a2c84.json",
-      "id": "v8d1380fbdc9a2c84",
-      "kind": "reject",
       "requirements": [
         "W3C-I-001"
       ],
@@ -707,8 +689,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-001",
-      "file": "vectors/vc95d5115f7263b5e.json",
-      "id": "vc95d5115f7263b5e",
+      "file": "vectors/v17ea3ca9e8aba66e.json",
+      "id": "v17ea3ca9e8aba66e",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-001"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a member pin carries a path and no digest",
+      "expected": {
+        "rejects": [
+          "W3C-I-001"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-001",
+      "file": "vectors/vb9c6018153200be2.json",
+      "id": "vb9c6018153200be2",
       "kind": "reject",
       "requirements": [
         "W3C-I-001"
@@ -723,31 +723,13 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-002",
-      "file": "vectors/v58a667f93a140862.json",
-      "id": "v58a667f93a140862",
+      "file": "vectors/v914afe1b10c1c7da.json",
+      "id": "v914afe1b10c1c7da",
       "kind": "accept",
       "requirements": [
         "W3C-I-002"
       ],
       "root": "trees/base",
-      "specVersion": "2"
-    },
-    {
-      "cites": "the corpus digest covers the member bytes and leaves the manifest out",
-      "expected": {
-        "rejects": [
-          "W3C-I-002"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-002",
-      "file": "vectors/v0ffcae3162537d61.json",
-      "id": "v0ffcae3162537d61",
-      "kind": "reject",
-      "requirements": [
-        "W3C-I-002"
-      ],
-      "root": null,
       "specVersion": "2"
     },
     {
@@ -759,13 +741,31 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-002",
-      "file": "vectors/v8d95bfab8367c1e2.json",
-      "id": "v8d95bfab8367c1e2",
+      "file": "vectors/v249504ec7cd69c8c.json",
+      "id": "v249504ec7cd69c8c",
       "kind": "reject",
       "requirements": [
         "W3C-I-002"
       ],
       "root": "trees/manifest-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the corpus digest covers the member bytes and leaves the manifest out",
+      "expected": {
+        "rejects": [
+          "W3C-I-002"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-002",
+      "file": "vectors/va2ba9139fade86a7.json",
+      "id": "va2ba9139fade86a7",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-002"
+      ],
+      "root": null,
       "specVersion": "2"
     },
     {
@@ -775,8 +775,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-003",
-      "file": "vectors/vb851849e1ddd6704.json",
-      "id": "vb851849e1ddd6704",
+      "file": "vectors/v56a56c15e9fba04e.json",
+      "id": "v56a56c15e9fba04e",
       "kind": "accept",
       "requirements": [
         "W3C-I-003"
@@ -793,8 +793,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-003",
-      "file": "vectors/v20086752b3106542.json",
-      "id": "v20086752b3106542",
+      "file": "vectors/vc6b6e4e9b96cbd1b.json",
+      "id": "vc6b6e4e9b96cbd1b",
       "kind": "reject",
       "requirements": [
         "W3C-I-003"
@@ -809,8 +809,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-004",
-      "file": "vectors/ve66fad19a9faf6a9.json",
-      "id": "ve66fad19a9faf6a9",
+      "file": "vectors/v54817943ecf43ea2.json",
+      "id": "v54817943ecf43ea2",
       "kind": "accept",
       "requirements": [
         "W3C-I-004"
@@ -827,8 +827,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-004",
-      "file": "vectors/v7bf2b58f8a27b139.json",
-      "id": "v7bf2b58f8a27b139",
+      "file": "vectors/vb3f4ff02890fd38d.json",
+      "id": "vb3f4ff02890fd38d",
       "kind": "reject",
       "requirements": [
         "W3C-I-004"
@@ -845,8 +845,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-004",
-      "file": "vectors/vd4c732d3e465e9cb.json",
-      "id": "vd4c732d3e465e9cb",
+      "file": "vectors/vc5eed94892f1e883.json",
+      "id": "vc5eed94892f1e883",
       "kind": "reject",
       "requirements": [
         "W3C-I-004"
@@ -861,8 +861,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-005",
-      "file": "vectors/vbdeb02fcf142a453.json",
-      "id": "vbdeb02fcf142a453",
+      "file": "vectors/v63d5f0060b792215.json",
+      "id": "v63d5f0060b792215",
       "kind": "accept",
       "requirements": [
         "W3C-I-005"
@@ -879,8 +879,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-005",
-      "file": "vectors/vbb4c461936c2f34e.json",
-      "id": "vbb4c461936c2f34e",
+      "file": "vectors/v92b67a9c8e3e56b8.json",
+      "id": "v92b67a9c8e3e56b8",
       "kind": "reject",
       "requirements": [
         "W3C-I-005"
@@ -895,8 +895,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-006",
-      "file": "vectors/va32d9027999e8b73.json",
-      "id": "va32d9027999e8b73",
+      "file": "vectors/ve188f6e842675b4a.json",
+      "id": "ve188f6e842675b4a",
       "kind": "accept",
       "requirements": [
         "W3C-I-006"
@@ -913,8 +913,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-006",
-      "file": "vectors/v1a415221c51069ad.json",
-      "id": "v1a415221c51069ad",
+      "file": "vectors/vfb89dbee86ef9c23.json",
+      "id": "vfb89dbee86ef9c23",
       "kind": "reject",
       "requirements": [
         "W3C-I-006"
@@ -929,8 +929,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-007",
-      "file": "vectors/ve3a08285f1776a78.json",
-      "id": "ve3a08285f1776a78",
+      "file": "vectors/v243e2adf34a28fa2.json",
+      "id": "v243e2adf34a28fa2",
       "kind": "accept",
       "requirements": [
         "W3C-I-007"
@@ -947,8 +947,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-007",
-      "file": "vectors/vad5e862bda7f4fdd.json",
-      "id": "vad5e862bda7f4fdd",
+      "file": "vectors/v3cec3f860f38a3ca.json",
+      "id": "v3cec3f860f38a3ca",
       "kind": "reject",
       "requirements": [
         "W3C-I-007"
@@ -963,8 +963,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-008",
-      "file": "vectors/vfa62133e276cbb0a.json",
-      "id": "vfa62133e276cbb0a",
+      "file": "vectors/vac379ef15814f82e.json",
+      "id": "vac379ef15814f82e",
       "kind": "accept",
       "requirements": [
         "W3C-I-008"
@@ -981,8 +981,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-008",
-      "file": "vectors/v8e50c4038ed1bea8.json",
-      "id": "v8e50c4038ed1bea8",
+      "file": "vectors/v8359f852405c8f86.json",
+      "id": "v8359f852405c8f86",
       "kind": "reject",
       "requirements": [
         "W3C-I-008"
@@ -997,8 +997,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-009",
-      "file": "vectors/v18ac5103b005d07c.json",
-      "id": "v18ac5103b005d07c",
+      "file": "vectors/v810bd3a53d9e9a30.json",
+      "id": "v810bd3a53d9e9a30",
       "kind": "accept",
       "requirements": [
         "W3C-I-009"
@@ -1015,8 +1015,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-009",
-      "file": "vectors/vbea84dabebcf7d1a.json",
-      "id": "vbea84dabebcf7d1a",
+      "file": "vectors/v9ed4b2f6dde5b013.json",
+      "id": "v9ed4b2f6dde5b013",
       "kind": "reject",
       "requirements": [
         "W3C-I-009"
@@ -1031,27 +1031,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-010",
-      "file": "vectors/vc4736a167eb23d64.json",
-      "id": "vc4736a167eb23d64",
+      "file": "vectors/v7fdb533ac9eb329e.json",
+      "id": "v7fdb533ac9eb329e",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-010"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "the record says two matched and lists three",
-      "expected": {
-        "rejects": [
-          "W3C-I-010"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-010",
-      "file": "vectors/v28ab4a6fd1c7781e.json",
-      "id": "v28ab4a6fd1c7781e",
-      "kind": "reject",
       "requirements": [
         "W3C-I-010"
       ],
@@ -1067,8 +1049,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-010",
-      "file": "vectors/v412f552e649b0d7a.json",
-      "id": "v412f552e649b0d7a",
+      "file": "vectors/v0e3e83a72ea19c2b.json",
+      "id": "v0e3e83a72ea19c2b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-010"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record says two matched and lists three",
+      "expected": {
+        "rejects": [
+          "W3C-I-010"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-010",
+      "file": "vectors/v494c3735189a3a5b.json",
+      "id": "v494c3735189a3a5b",
       "kind": "reject",
       "requirements": [
         "W3C-I-010"
@@ -1083,8 +1083,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-011",
-      "file": "vectors/v1715887ac2d096d9.json",
-      "id": "v1715887ac2d096d9",
+      "file": "vectors/vddcd14d805aba8ae.json",
+      "id": "vddcd14d805aba8ae",
       "kind": "accept",
       "requirements": [
         "W3C-I-011"
@@ -1101,8 +1101,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-011",
-      "file": "vectors/vae0475551e9914cf.json",
-      "id": "vae0475551e9914cf",
+      "file": "vectors/v97332c23084a0a45.json",
+      "id": "v97332c23084a0a45",
       "kind": "reject",
       "requirements": [
         "W3C-I-011"
@@ -1117,8 +1117,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-012",
-      "file": "vectors/v94ccea1e1a6bac33.json",
-      "id": "v94ccea1e1a6bac33",
+      "file": "vectors/v8e7c31ce1b0b8749.json",
+      "id": "v8e7c31ce1b0b8749",
       "kind": "accept",
       "requirements": [
         "W3C-I-012"
@@ -1135,8 +1135,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-012",
-      "file": "vectors/v794f20eb5a07d37f.json",
-      "id": "v794f20eb5a07d37f",
+      "file": "vectors/v35fc0e144ff1a2c0.json",
+      "id": "v35fc0e144ff1a2c0",
       "kind": "reject",
       "requirements": [
         "W3C-I-012"
@@ -1151,27 +1151,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-013",
-      "file": "vectors/vc6ce8cb1c6576a08.json",
-      "id": "vc6ce8cb1c6576a08",
+      "file": "vectors/v9b82b3dd1f7e67e0.json",
+      "id": "v9b82b3dd1f7e67e0",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-013"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "only the per-case lines are carried; the aggregate line is gone",
-      "expected": {
-        "rejects": [
-          "W3C-I-013"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-013",
-      "file": "vectors/v7a3ea60df774aa16.json",
-      "id": "v7a3ea60df774aa16",
-      "kind": "reject",
       "requirements": [
         "W3C-I-013"
       ],
@@ -1187,8 +1169,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-013",
-      "file": "vectors/vb7aa95897ed8b88c.json",
-      "id": "vb7aa95897ed8b88c",
+      "file": "vectors/v08d029af8d867873.json",
+      "id": "v08d029af8d867873",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-013"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "only the per-case lines are carried; the aggregate line is gone",
+      "expected": {
+        "rejects": [
+          "W3C-I-013"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-013",
+      "file": "vectors/vbe6887cbd4332fe3.json",
+      "id": "vbe6887cbd4332fe3",
       "kind": "reject",
       "requirements": [
         "W3C-I-013"
@@ -1203,8 +1203,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-014",
-      "file": "vectors/v2131974630ce01ab.json",
-      "id": "v2131974630ce01ab",
+      "file": "vectors/v2dad8a98319d8488.json",
+      "id": "v2dad8a98319d8488",
       "kind": "accept",
       "requirements": [
         "W3C-I-014"
@@ -1221,26 +1221,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-014",
-      "file": "vectors/v0f88f2cf10c06a4c.json",
-      "id": "v0f88f2cf10c06a4c",
-      "kind": "reject",
-      "requirements": [
-        "W3C-I-014"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "exit code 0 under a zero-iff-every-check-passes rule beside a failing line",
-      "expected": {
-        "rejects": [
-          "W3C-I-014"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-014",
-      "file": "vectors/va7b07c8bc4c51157.json",
-      "id": "va7b07c8bc4c51157",
+      "file": "vectors/v1a6bc738b04e6f09.json",
+      "id": "v1a6bc738b04e6f09",
       "kind": "reject",
       "requirements": [
         "W3C-I-014"
@@ -1257,8 +1239,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-014",
-      "file": "vectors/ve3448498df81919c.json",
-      "id": "ve3448498df81919c",
+      "file": "vectors/v1ed48ffb26a9fb2f.json",
+      "id": "v1ed48ffb26a9fb2f",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-014"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "exit code 0 under a zero-iff-every-check-passes rule beside a failing line",
+      "expected": {
+        "rejects": [
+          "W3C-I-014"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-014",
+      "file": "vectors/v26b04f76ea6df1bb.json",
+      "id": "v26b04f76ea6df1bb",
       "kind": "reject",
       "requirements": [
         "W3C-I-014"
@@ -1273,27 +1273,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-015",
-      "file": "vectors/v7c5e7c1342fc1ea8.json",
-      "id": "v7c5e7c1342fc1ea8",
+      "file": "vectors/v3aee542d3d4e21ab.json",
+      "id": "v3aee542d3d4e21ab",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-015"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "the record states pass while c2's line fails",
-      "expected": {
-        "rejects": [
-          "W3C-I-015"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-015",
-      "file": "vectors/v334b3f1804d0a4db.json",
-      "id": "v334b3f1804d0a4db",
-      "kind": "reject",
       "requirements": [
         "W3C-I-015"
       ],
@@ -1309,8 +1291,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-015",
-      "file": "vectors/v931928b5932c2126.json",
-      "id": "v931928b5932c2126",
+      "file": "vectors/v05d693d888f6f224.json",
+      "id": "v05d693d888f6f224",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-015"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record states pass while c2's line fails",
+      "expected": {
+        "rejects": [
+          "W3C-I-015"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-015",
+      "file": "vectors/v57b4c86bb909d6e2.json",
+      "id": "v57b4c86bb909d6e2",
       "kind": "reject",
       "requirements": [
         "W3C-I-015"
@@ -1325,27 +1325,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-016",
-      "file": "vectors/vfb8b9b5b1035355a.json",
-      "id": "vfb8b9b5b1035355a",
+      "file": "vectors/v2a9245a136fff7fe.json",
+      "id": "v2a9245a136fff7fe",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-016"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "c2 is refused and the record names neither rule nor inputs",
-      "expected": {
-        "rejects": [
-          "W3C-I-016"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-016",
-      "file": "vectors/v34d3feb980db0740.json",
-      "id": "v34d3feb980db0740",
-      "kind": "reject",
       "requirements": [
         "W3C-I-016"
       ],
@@ -1361,8 +1343,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-016",
-      "file": "vectors/vc6b4f2234e285f2d.json",
-      "id": "vc6b4f2234e285f2d",
+      "file": "vectors/v30f6eead7e4e591d.json",
+      "id": "v30f6eead7e4e591d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-016"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c2 is refused and the record names neither rule nor inputs",
+      "expected": {
+        "rejects": [
+          "W3C-I-016"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-016",
+      "file": "vectors/v6d5d009c0afd746a.json",
+      "id": "v6d5d009c0afd746a",
       "kind": "reject",
       "requirements": [
         "W3C-I-016"
@@ -1377,8 +1377,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-017",
-      "file": "vectors/v42df161f70ebd3cd.json",
-      "id": "v42df161f70ebd3cd",
+      "file": "vectors/v19add6b40e694ee9.json",
+      "id": "v19add6b40e694ee9",
       "kind": "accept",
       "requirements": [
         "W3C-I-017"
@@ -1395,8 +1395,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-017",
-      "file": "vectors/ve35c03939e3115a8.json",
-      "id": "ve35c03939e3115a8",
+      "file": "vectors/v76f4328893b2daca.json",
+      "id": "v76f4328893b2daca",
       "kind": "reject",
       "requirements": [
         "W3C-I-017"
@@ -1411,27 +1411,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-018",
-      "file": "vectors/v3d81dee221b38b4c.json",
-      "id": "v3d81dee221b38b4c",
+      "file": "vectors/va637114de7837a6c.json",
+      "id": "va637114de7837a6c",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-018"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "c1 carries a verdict and no reasons",
-      "expected": {
-        "rejects": [
-          "W3C-I-018"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-018",
-      "file": "vectors/v375f1c3080272755.json",
-      "id": "v375f1c3080272755",
-      "kind": "reject",
       "requirements": [
         "W3C-I-018"
       ],
@@ -1447,8 +1429,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-018",
-      "file": "vectors/v4c554595efb5e5dc.json",
-      "id": "v4c554595efb5e5dc",
+      "file": "vectors/v855322afa6f27d9b.json",
+      "id": "v855322afa6f27d9b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-018"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c1 carries a verdict and no reasons",
+      "expected": {
+        "rejects": [
+          "W3C-I-018"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-018",
+      "file": "vectors/vc7888b39e256922e.json",
+      "id": "vc7888b39e256922e",
       "kind": "reject",
       "requirements": [
         "W3C-I-018"
@@ -1463,31 +1463,13 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-019",
-      "file": "vectors/v86e3a6f5dd16fc21.json",
-      "id": "v86e3a6f5dd16fc21",
+      "file": "vectors/v5370cf836fa623bb.json",
+      "id": "v5370cf836fa623bb",
       "kind": "accept",
       "requirements": [
         "W3C-I-019"
       ],
       "root": "trees/base",
-      "specVersion": "2"
-    },
-    {
-      "cites": "the native output names a finding on c1 and the carried line was transcribed clean",
-      "expected": {
-        "rejects": [
-          "W3C-I-019"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-019",
-      "file": "vectors/v024e93132b6af37b.json",
-      "id": "v024e93132b6af37b",
-      "kind": "reject",
-      "requirements": [
-        "W3C-I-019"
-      ],
-      "root": "trees/native-transcribed",
       "specVersion": "2"
     },
     {
@@ -1499,13 +1481,31 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-019",
-      "file": "vectors/v2f971065f810a8fd.json",
-      "id": "v2f971065f810a8fd",
+      "file": "vectors/v28acc956b24f645c.json",
+      "id": "v28acc956b24f645c",
       "kind": "reject",
       "requirements": [
         "W3C-I-019"
       ],
       "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the native output names a finding on c1 and the carried line was transcribed clean",
+      "expected": {
+        "rejects": [
+          "W3C-I-019"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-019",
+      "file": "vectors/v661c6b73a2fbd46c.json",
+      "id": "v661c6b73a2fbd46c",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-019"
+      ],
+      "root": "trees/native-transcribed",
       "specVersion": "2"
     },
     {
@@ -1515,27 +1515,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-020",
-      "file": "vectors/vf0b459ed88e568c5.json",
-      "id": "vf0b459ed88e568c5",
+      "file": "vectors/vb007c1024f5352e2.json",
+      "id": "vb007c1024f5352e2",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-020"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "an observation states a carry outside the three",
-      "expected": {
-        "rejects": [
-          "W3C-I-020"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-020",
-      "file": "vectors/v73f3180033b92b32.json",
-      "id": "v73f3180033b92b32",
-      "kind": "reject",
       "requirements": [
         "W3C-I-020"
       ],
@@ -1551,8 +1533,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-020",
-      "file": "vectors/vead5b6eb8397cdfd.json",
-      "id": "vead5b6eb8397cdfd",
+      "file": "vectors/v97be148cfab32010.json",
+      "id": "v97be148cfab32010",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-020"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an observation states a carry outside the three",
+      "expected": {
+        "rejects": [
+          "W3C-I-020"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-020",
+      "file": "vectors/vcd35877262d553ac.json",
+      "id": "vcd35877262d553ac",
       "kind": "reject",
       "requirements": [
         "W3C-I-020"
@@ -1567,8 +1567,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-021",
-      "file": "vectors/v32d31f61181550cf.json",
-      "id": "v32d31f61181550cf",
+      "file": "vectors/vfa407d1e4103d982.json",
+      "id": "vfa407d1e4103d982",
       "kind": "accept",
       "requirements": [
         "W3C-I-021"
@@ -1585,8 +1585,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-021",
-      "file": "vectors/v4841e9f427d67cc9.json",
-      "id": "v4841e9f427d67cc9",
+      "file": "vectors/vb319677192414214.json",
+      "id": "vb319677192414214",
       "kind": "reject",
       "requirements": [
         "W3C-I-021"
@@ -1601,8 +1601,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-022",
-      "file": "vectors/v36be1042b37bda88.json",
-      "id": "v36be1042b37bda88",
+      "file": "vectors/v90b45b1bcf3fdcae.json",
+      "id": "v90b45b1bcf3fdcae",
       "kind": "accept",
       "requirements": [
         "W3C-I-022"
@@ -1619,8 +1619,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-022",
-      "file": "vectors/v34069ef702f2a23c.json",
-      "id": "v34069ef702f2a23c",
+      "file": "vectors/v447849124b3204e5.json",
+      "id": "v447849124b3204e5",
       "kind": "reject",
       "requirements": [
         "W3C-I-022"
@@ -1637,8 +1637,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-022",
-      "file": "vectors/v81f51875d6698dd5.json",
-      "id": "v81f51875d6698dd5",
+      "file": "vectors/vebd85f16bc188378.json",
+      "id": "vebd85f16bc188378",
       "kind": "reject",
       "requirements": [
         "W3C-I-022"
@@ -1653,8 +1653,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-023",
-      "file": "vectors/v5af6136679dfbaae.json",
-      "id": "v5af6136679dfbaae",
+      "file": "vectors/ve69471b9e7adca81.json",
+      "id": "ve69471b9e7adca81",
       "kind": "accept",
       "requirements": [
         "W3C-I-023"
@@ -1671,8 +1671,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-023",
-      "file": "vectors/ve8c5c1b8af1b8726.json",
-      "id": "ve8c5c1b8af1b8726",
+      "file": "vectors/vb3c94716ee9cc047.json",
+      "id": "vb3c94716ee9cc047",
       "kind": "reject",
       "requirements": [
         "W3C-I-023"
@@ -1687,8 +1687,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-024",
-      "file": "vectors/v6b6de82b48467b78.json",
-      "id": "v6b6de82b48467b78",
+      "file": "vectors/va43ea57fabb28fcd.json",
+      "id": "va43ea57fabb28fcd",
       "kind": "accept",
       "requirements": [
         "W3C-I-024"
@@ -1705,29 +1705,13 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-024",
-      "file": "vectors/v0e2c7b17ddfc70b0.json",
-      "id": "v0e2c7b17ddfc70b0",
+      "file": "vectors/v2e3abd04d8941532.json",
+      "id": "v2e3abd04d8941532",
       "kind": "reject",
       "requirements": [
         "W3C-I-024"
       ],
       "root": "trees/anchor-other",
-      "specVersion": "2"
-    },
-    {
-      "cites": "the checker named by its source listing, which recomputes",
-      "expected": {
-        "rejects": [],
-        "verdict": "accept"
-      },
-      "family": "w3c-i-f-025",
-      "file": "vectors/v0d90f8fb6ded8acc.json",
-      "id": "v0d90f8fb6ded8acc",
-      "kind": "accept",
-      "requirements": [
-        "W3C-I-025"
-      ],
-      "root": "trees/base",
       "specVersion": "2"
     },
     {
@@ -1737,13 +1721,29 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-025",
-      "file": "vectors/v9a1ad7b52258c314.json",
-      "id": "v9a1ad7b52258c314",
+      "file": "vectors/v28baf850d255b2b5.json",
+      "id": "v28baf850d255b2b5",
       "kind": "accept",
       "requirements": [
         "W3C-I-025"
       ],
       "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker named by its source listing, which recomputes",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-025",
+      "file": "vectors/v396f8c68b75303d6.json",
+      "id": "v396f8c68b75303d6",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-025"
+      ],
+      "root": "trees/base",
       "specVersion": "2"
     },
     {
@@ -1755,8 +1755,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-025",
-      "file": "vectors/v5e9765bf15e241b4.json",
-      "id": "v5e9765bf15e241b4",
+      "file": "vectors/vaeb587ff5c07a6f3.json",
+      "id": "vaeb587ff5c07a6f3",
       "kind": "reject",
       "requirements": [
         "W3C-I-025"
@@ -1773,8 +1773,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-025",
-      "file": "vectors/v60b777bcf130466e.json",
-      "id": "v60b777bcf130466e",
+      "file": "vectors/vf7d419bc66ad7777.json",
+      "id": "vf7d419bc66ad7777",
       "kind": "reject",
       "requirements": [
         "W3C-I-025"
@@ -1789,8 +1789,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-026",
-      "file": "vectors/v50fac333391609ee.json",
-      "id": "v50fac333391609ee",
+      "file": "vectors/vb3018e528be264a0.json",
+      "id": "vb3018e528be264a0",
       "kind": "accept",
       "requirements": [
         "W3C-I-026"
@@ -1807,8 +1807,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-026",
-      "file": "vectors/v82a31aa240706b63.json",
-      "id": "v82a31aa240706b63",
+      "file": "vectors/va1b91fc41cd27241.json",
+      "id": "va1b91fc41cd27241",
       "kind": "reject",
       "requirements": [
         "W3C-I-026"
@@ -1825,8 +1825,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-026",
-      "file": "vectors/v8f2d5effe31b437d.json",
-      "id": "v8f2d5effe31b437d",
+      "file": "vectors/va2d1885a5849693c.json",
+      "id": "va2d1885a5849693c",
       "kind": "reject",
       "requirements": [
         "W3C-I-026"
@@ -1841,8 +1841,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-027",
-      "file": "vectors/v79e344649272a36d.json",
-      "id": "v79e344649272a36d",
+      "file": "vectors/v67556f46648548d2.json",
+      "id": "v67556f46648548d2",
       "kind": "accept",
       "requirements": [
         "W3C-I-027"
@@ -1859,8 +1859,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-027",
-      "file": "vectors/vda25130abdbf3106.json",
-      "id": "vda25130abdbf3106",
+      "file": "vectors/v83298cb3cf35d71f.json",
+      "id": "v83298cb3cf35d71f",
       "kind": "reject",
       "requirements": [
         "W3C-I-027"
@@ -1875,31 +1875,13 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-028",
-      "file": "vectors/ve09d7e9a04fc6685.json",
-      "id": "ve09d7e9a04fc6685",
+      "file": "vectors/v9eee252f0d4b84b0.json",
+      "id": "v9eee252f0d4b84b0",
       "kind": "accept",
       "requirements": [
         "W3C-I-028"
       ],
       "root": "trees/base",
-      "specVersion": "2"
-    },
-    {
-      "cites": "the helper does not resolve and a silent fallback would carry on",
-      "expected": {
-        "rejects": [
-          "W3C-I-028"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-028",
-      "file": "vectors/v15ea30e3e0309f1d.json",
-      "id": "v15ea30e3e0309f1d",
-      "kind": "reject",
-      "requirements": [
-        "W3C-I-028"
-      ],
-      "root": "trees/helper-gone",
       "specVersion": "2"
     },
     {
@@ -1911,13 +1893,31 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-028",
-      "file": "vectors/vb276a8ff431dfb86.json",
-      "id": "vb276a8ff431dfb86",
+      "file": "vectors/v96548ebbeba32f02.json",
+      "id": "v96548ebbeba32f02",
       "kind": "reject",
       "requirements": [
         "W3C-I-028"
       ],
       "root": "trees/helper-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the helper does not resolve and a silent fallback would carry on",
+      "expected": {
+        "rejects": [
+          "W3C-I-028"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-028",
+      "file": "vectors/vb7de7c95f687d15b.json",
+      "id": "vb7de7c95f687d15b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-028"
+      ],
+      "root": "trees/helper-gone",
       "specVersion": "2"
     },
     {
@@ -1927,8 +1927,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-029",
-      "file": "vectors/ve43afecd3dbe59e5.json",
-      "id": "ve43afecd3dbe59e5",
+      "file": "vectors/v640823e8b875a593.json",
+      "id": "v640823e8b875a593",
       "kind": "accept",
       "requirements": [
         "W3C-I-029"
@@ -1945,8 +1945,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-029",
-      "file": "vectors/v9a4d91cad9b09399.json",
-      "id": "v9a4d91cad9b09399",
+      "file": "vectors/v500d0c6ca4cec0df.json",
+      "id": "v500d0c6ca4cec0df",
       "kind": "reject",
       "requirements": [
         "W3C-I-029"
@@ -1963,8 +1963,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-029",
-      "file": "vectors/vc9da1c20e92ad223.json",
-      "id": "vc9da1c20e92ad223",
+      "file": "vectors/v5f4d563421e350cb.json",
+      "id": "v5f4d563421e350cb",
       "kind": "reject",
       "requirements": [
         "W3C-I-029"
@@ -1979,27 +1979,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-030",
-      "file": "vectors/vf2e0e4ded10f008c.json",
-      "id": "vf2e0e4ded10f008c",
+      "file": "vectors/v18e5cae6abdb7d59.json",
+      "id": "v18e5cae6abdb7d59",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-030"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "written from the specification while sharing checker/check.py",
-      "expected": {
-        "rejects": [
-          "W3C-I-030"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-030",
-      "file": "vectors/v0da7430b18dcfe2b.json",
-      "id": "v0da7430b18dcfe2b",
-      "kind": "reject",
       "requirements": [
         "W3C-I-030"
       ],
@@ -2015,8 +1997,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-030",
-      "file": "vectors/v4e2c1fa6dcd28ae6.json",
-      "id": "v4e2c1fa6dcd28ae6",
+      "file": "vectors/v1ec303edbfbc8f3e.json",
+      "id": "v1ec303edbfbc8f3e",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-030"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "written from the specification while sharing checker/check.sh",
+      "expected": {
+        "rejects": [
+          "W3C-I-030"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-030",
+      "file": "vectors/v525fc80d7245345c.json",
+      "id": "v525fc80d7245345c",
       "kind": "reject",
       "requirements": [
         "W3C-I-030"
@@ -2031,8 +2031,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-031",
-      "file": "vectors/v7401bc50725504f5.json",
-      "id": "v7401bc50725504f5",
+      "file": "vectors/v79cb81c96b8bf3c7.json",
+      "id": "v79cb81c96b8bf3c7",
       "kind": "accept",
       "requirements": [
         "W3C-I-031"
@@ -2049,8 +2049,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-031",
-      "file": "vectors/v5952ebab19979bed.json",
-      "id": "v5952ebab19979bed",
+      "file": "vectors/v0fc3f0d397f0ffd7.json",
+      "id": "v0fc3f0d397f0ffd7",
       "kind": "reject",
       "requirements": [
         "W3C-I-031"
@@ -2065,8 +2065,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-032",
-      "file": "vectors/vc04a3463880dc329.json",
-      "id": "vc04a3463880dc329",
+      "file": "vectors/vf684811e2384eb08.json",
+      "id": "vf684811e2384eb08",
       "kind": "accept",
       "requirements": [
         "W3C-I-032"
@@ -2083,8 +2083,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-032",
-      "file": "vectors/vc27b60cd2e968732.json",
-      "id": "vc27b60cd2e968732",
+      "file": "vectors/v1079c05670cd55f7.json",
+      "id": "v1079c05670cd55f7",
       "kind": "reject",
       "requirements": [
         "W3C-I-032"
@@ -2101,8 +2101,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-032",
-      "file": "vectors/ve9135f00dd0c3aeb.json",
-      "id": "ve9135f00dd0c3aeb",
+      "file": "vectors/v3d19f4341e5c9401.json",
+      "id": "v3d19f4341e5c9401",
       "kind": "reject",
       "requirements": [
         "W3C-I-032"
@@ -2117,9 +2117,27 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-033",
-      "file": "vectors/v5dd896bed811341e.json",
-      "id": "v5dd896bed811341e",
+      "file": "vectors/v05649e3a65749324.json",
+      "id": "v05649e3a65749324",
       "kind": "accept",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the corpus digest declares no input serialization",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/v13e4ed5d9c9c7a28.json",
+      "id": "v13e4ed5d9c9c7a28",
+      "kind": "reject",
       "requirements": [
         "W3C-I-033"
       ],
@@ -2135,8 +2153,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-033",
-      "file": "vectors/v0367bc377ea74397.json",
-      "id": "v0367bc377ea74397",
+      "file": "vectors/vaceb67780bc57bf9.json",
+      "id": "vaceb67780bc57bf9",
       "kind": "reject",
       "requirements": [
         "W3C-I-033"
@@ -2153,26 +2171,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-033",
-      "file": "vectors/v67480c9ad89c3de9.json",
-      "id": "v67480c9ad89c3de9",
-      "kind": "reject",
-      "requirements": [
-        "W3C-I-033"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "the corpus digest declares no input serialization",
-      "expected": {
-        "rejects": [
-          "W3C-I-033"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-033",
-      "file": "vectors/va9cfd400a2b9ca34.json",
-      "id": "va9cfd400a2b9ca34",
+      "file": "vectors/vc8bb364779a240f8.json",
+      "id": "vc8bb364779a240f8",
       "kind": "reject",
       "requirements": [
         "W3C-I-033"
@@ -2187,27 +2187,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-034",
-      "file": "vectors/va1200d41f0150a06.json",
-      "id": "va1200d41f0150a06",
+      "file": "vectors/v08d1e582bc3b6565.json",
+      "id": "v08d1e582bc3b6565",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-034"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "byte identity is not recorded",
-      "expected": {
-        "rejects": [
-          "W3C-I-034"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-034",
-      "file": "vectors/v5d1df854ee30f403.json",
-      "id": "v5d1df854ee30f403",
-      "kind": "reject",
       "requirements": [
         "W3C-I-034"
       ],
@@ -2223,8 +2205,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-034",
-      "file": "vectors/vdbad8578e3cc1dfd.json",
-      "id": "vdbad8578e3cc1dfd",
+      "file": "vectors/v047f833c81b6dfe2.json",
+      "id": "v047f833c81b6dfe2",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-034"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "byte identity is not recorded",
+      "expected": {
+        "rejects": [
+          "W3C-I-034"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-034",
+      "file": "vectors/v9ff081964b0e6928.json",
+      "id": "v9ff081964b0e6928",
       "kind": "reject",
       "requirements": [
         "W3C-I-034"
@@ -2239,8 +2239,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-035",
-      "file": "vectors/vfb38ff9995732965.json",
-      "id": "vfb38ff9995732965",
+      "file": "vectors/vde73f3530362dc96.json",
+      "id": "vde73f3530362dc96",
       "kind": "accept",
       "requirements": [
         "W3C-I-035"
@@ -2257,8 +2257,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-035",
-      "file": "vectors/v9b2ede6ebc78d9ae.json",
-      "id": "v9b2ede6ebc78d9ae",
+      "file": "vectors/v9214260e303d6b83.json",
+      "id": "v9214260e303d6b83",
       "kind": "reject",
       "requirements": [
         "W3C-I-035"
@@ -2275,8 +2275,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-035",
-      "file": "vectors/veec1fe8edf79e76b.json",
-      "id": "veec1fe8edf79e76b",
+      "file": "vectors/vf2b62b32f7115327.json",
+      "id": "vf2b62b32f7115327",
       "kind": "reject",
       "requirements": [
         "W3C-I-035"
@@ -2291,8 +2291,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-036",
-      "file": "vectors/v3a041be820396ccd.json",
-      "id": "v3a041be820396ccd",
+      "file": "vectors/v210bded74f9e2ec8.json",
+      "id": "v210bded74f9e2ec8",
       "kind": "accept",
       "requirements": [
         "W3C-I-036"
@@ -2309,8 +2309,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-036",
-      "file": "vectors/v699df5bb8a3bab7c.json",
-      "id": "v699df5bb8a3bab7c",
+      "file": "vectors/v1b1ee1b2f1c2aaa2.json",
+      "id": "v1b1ee1b2f1c2aaa2",
       "kind": "reject",
       "requirements": [
         "W3C-I-036"
@@ -2325,8 +2325,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-037",
-      "file": "vectors/v58c1d8d9cf2953d2.json",
-      "id": "v58c1d8d9cf2953d2",
+      "file": "vectors/v4d7141e1aa543e27.json",
+      "id": "v4d7141e1aa543e27",
       "kind": "accept",
       "requirements": [
         "W3C-I-037"
@@ -2343,8 +2343,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-037",
-      "file": "vectors/vd1b7e8229f9ba68d.json",
-      "id": "vd1b7e8229f9ba68d",
+      "file": "vectors/vbf9d7ccd636bd49e.json",
+      "id": "vbf9d7ccd636bd49e",
       "kind": "reject",
       "requirements": [
         "W3C-I-037"
@@ -2359,8 +2359,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-038",
-      "file": "vectors/v0e0b138a1faac1cf.json",
-      "id": "v0e0b138a1faac1cf",
+      "file": "vectors/ve3438976dc215b3f.json",
+      "id": "ve3438976dc215b3f",
       "kind": "accept",
       "requirements": [
         "W3C-I-038"
@@ -2377,8 +2377,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-038",
-      "file": "vectors/v93f3e951d516d587.json",
-      "id": "v93f3e951d516d587",
+      "file": "vectors/vfffff0d729b57eab.json",
+      "id": "vfffff0d729b57eab",
       "kind": "reject",
       "requirements": [
         "W3C-I-038"
@@ -2393,27 +2393,9 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-039",
-      "file": "vectors/vc1d25fd87aca9236.json",
-      "id": "vc1d25fd87aca9236",
+      "file": "vectors/v237c0f449c5428a0.json",
+      "id": "v237c0f449c5428a0",
       "kind": "accept",
-      "requirements": [
-        "W3C-I-039"
-      ],
-      "root": null,
-      "specVersion": "2"
-    },
-    {
-      "cites": "no separate fault record is kept",
-      "expected": {
-        "rejects": [
-          "W3C-I-039"
-        ],
-        "verdict": "reject"
-      },
-      "family": "w3c-i-f-039",
-      "file": "vectors/v6088ad21199fcd2c.json",
-      "id": "v6088ad21199fcd2c",
-      "kind": "reject",
       "requirements": [
         "W3C-I-039"
       ],
@@ -2429,8 +2411,26 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-039",
-      "file": "vectors/vb536312569417e50.json",
-      "id": "vb536312569417e50",
+      "file": "vectors/v3c83cb2cde278e30.json",
+      "id": "v3c83cb2cde278e30",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-039"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "no separate fault record is kept",
+      "expected": {
+        "rejects": [
+          "W3C-I-039"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-039",
+      "file": "vectors/v5675aca79a3ebf40.json",
+      "id": "v5675aca79a3ebf40",
       "kind": "reject",
       "requirements": [
         "W3C-I-039"
@@ -2445,8 +2445,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-040",
-      "file": "vectors/v3938db66929199a7.json",
-      "id": "v3938db66929199a7",
+      "file": "vectors/va84b152eed573123.json",
+      "id": "va84b152eed573123",
       "kind": "accept",
       "requirements": [
         "W3C-I-040"
@@ -2463,8 +2463,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-040",
-      "file": "vectors/ve3376fe7ea8b7c4d.json",
-      "id": "ve3376fe7ea8b7c4d",
+      "file": "vectors/v4c3263cc71d41b3a.json",
+      "id": "v4c3263cc71d41b3a",
       "kind": "reject",
       "requirements": [
         "W3C-I-040"
@@ -2479,8 +2479,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-041",
-      "file": "vectors/v220f8d731c144d7c.json",
-      "id": "v220f8d731c144d7c",
+      "file": "vectors/v4af160453591b3ca.json",
+      "id": "v4af160453591b3ca",
       "kind": "accept",
       "requirements": [
         "W3C-I-041"
@@ -2497,8 +2497,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-041",
-      "file": "vectors/vf32fe0c41ded2eb8.json",
-      "id": "vf32fe0c41ded2eb8",
+      "file": "vectors/vd96af313be8dfed6.json",
+      "id": "vd96af313be8dfed6",
       "kind": "reject",
       "requirements": [
         "W3C-I-041"
@@ -2513,8 +2513,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-042",
-      "file": "vectors/ve6f8aa008d3dbb02.json",
-      "id": "ve6f8aa008d3dbb02",
+      "file": "vectors/v78b4e54c1d4444cc.json",
+      "id": "v78b4e54c1d4444cc",
       "kind": "accept",
       "requirements": [
         "W3C-I-042"
@@ -2531,8 +2531,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-042",
-      "file": "vectors/v8ff8f1a3fcbe6358.json",
-      "id": "v8ff8f1a3fcbe6358",
+      "file": "vectors/v501ae78beb2c0368.json",
+      "id": "v501ae78beb2c0368",
       "kind": "reject",
       "requirements": [
         "W3C-I-042"
@@ -2547,8 +2547,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-043",
-      "file": "vectors/v869bdd4f3945882b.json",
-      "id": "v869bdd4f3945882b",
+      "file": "vectors/v3933f4155df22242.json",
+      "id": "v3933f4155df22242",
       "kind": "accept",
       "requirements": [
         "W3C-I-043"
@@ -2565,8 +2565,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-043",
-      "file": "vectors/v2dac355bc293d048.json",
-      "id": "v2dac355bc293d048",
+      "file": "vectors/v2a21d1f7fedca99c.json",
+      "id": "v2a21d1f7fedca99c",
       "kind": "reject",
       "requirements": [
         "W3C-I-043"
@@ -2581,8 +2581,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-044",
-      "file": "vectors/v6f17cb508d299bed.json",
-      "id": "v6f17cb508d299bed",
+      "file": "vectors/vbe1901930646b437.json",
+      "id": "vbe1901930646b437",
       "kind": "accept",
       "requirements": [
         "W3C-I-044"
@@ -2599,8 +2599,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-044",
-      "file": "vectors/v89f11fe7e0424d5b.json",
-      "id": "v89f11fe7e0424d5b",
+      "file": "vectors/vb56a903c8dca8732.json",
+      "id": "vb56a903c8dca8732",
       "kind": "reject",
       "requirements": [
         "W3C-I-044"
@@ -2615,8 +2615,8 @@
         "verdict": "accept"
       },
       "family": "w3c-i-f-045",
-      "file": "vectors/vdf4525ee638836ac.json",
-      "id": "vdf4525ee638836ac",
+      "file": "vectors/vc3a14653116d453e.json",
+      "id": "vc3a14653116d453e",
       "kind": "accept",
       "requirements": [
         "W3C-I-045"
@@ -2633,8 +2633,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-045",
-      "file": "vectors/vb7bdd7456e942303.json",
-      "id": "vb7bdd7456e942303",
+      "file": "vectors/v13d388ff37d4c51b.json",
+      "id": "v13d388ff37d4c51b",
       "kind": "reject",
       "requirements": [
         "W3C-I-045"
@@ -2651,8 +2651,8 @@
         "verdict": "reject"
       },
       "family": "w3c-i-f-045",
-      "file": "vectors/vdd709b6005c457c4.json",
-      "id": "vdd709b6005c457c4",
+      "file": "vectors/v7bb856900e5f23b3.json",
+      "id": "v7bb856900e5f23b3",
       "kind": "reject",
       "requirements": [
         "W3C-I-045"

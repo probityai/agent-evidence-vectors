@@ -109,6 +109,10 @@ GENERATORS = (
     # over disclosed argument bytes, so a hand-placed member is one whose hash and
     # signature nobody recomputed. It builds its own manifest and index.
     "vectors-agent-decision/gen_vectors.py",
+    # The W3C intake-criteria corpus. Every member is an intake record whose
+    # digests are taken over fixture trees the generator writes beside it, and
+    # the generator refuses a member the checker does not answer as claimed.
+    "vectors-w3c-intake/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -254,6 +258,13 @@ OWNED = (
     ("vectors-agent-decision/arguments", "v*.json"),
     ("vectors-agent-decision", "MANIFEST.json"),
     ("vectors-agent-decision", "INDEX.md"),
+    ("vectors-w3c-intake/vectors", "v*.json"),
+    # Every fixture file carries an extension and no fixture directory does, so
+    # this names the files under trees/ and never a directory the gate would
+    # try to unlink.
+    ("vectors-w3c-intake/trees", "**/*.*"),
+    ("vectors-w3c-intake", "MANIFEST.json"),
+    ("vectors-w3c-intake", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.
