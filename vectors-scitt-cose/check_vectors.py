@@ -2,6 +2,7 @@
 """Self-check the SCITT/COSE carriage suite.
 
     uv run --extra generators python vectors-scitt-cose/check_vectors.py
+    uv run --extra generators python vectors-scitt-cose/check_vectors.py --json
 
 This is the mutation check the corpus needs to be worth anything, and it asks a
 different question from scripts/regenerability-gate.py. That gate asks whether
@@ -750,17 +751,52 @@ def check_member(entry: dict[str, Any]) -> None:
         check_indeterminate(read, entry["expected"])
 
 
+def member_result(entry: dict[str, Any], start: int) -> dict[str, Any]:
+    """One member as the corpus readers report it: id, kind, and its findings.
+
+    A finding is attributed to the member whose check raised it, and the
+    "<id>: " prefix this script prints is taken off, so the object has the
+    shape ``aee-verify -json <corpus>`` prints for every other corpus.
+    """
+    prefix = f"{entry['id']}: "
+    findings = [f[len(prefix):] if f.startswith(prefix) else f for f in FAILURES[start:]]
+    member: dict[str, Any] = {"id": entry["id"], "kind": entry["kind"]}
+    if findings:
+        member["findings"] = findings
+    return member
+
+
 def main() -> None:
+    as_json = sys.argv[1:] == ["--json"]
+    if sys.argv[1:] and not as_json:
+        print("usage: check_vectors.py [--json]", file=sys.stderr)
+        sys.exit(2)
     with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
         manifest = json.load(fh)
 
     check_files(manifest)
+    corpus_findings = list(FAILURES)
+    members = []
     for entry in manifest["vectors"]:
+        start = len(FAILURES)
         check_member(entry)
+        members.append(member_result(entry, start))
+    tail = len(FAILURES)
     check_twins(manifest)
     check_parents(manifest)
     counts = check_totals(manifest)
+    corpus_findings += FAILURES[tail:]
 
+    if as_json:
+        # One line, the shape aee-verify -json prints for a corpus, so a
+        # conformance record can carry it as the native per-case output.
+        result: dict[str, Any] = {
+            "suite": manifest["suite"], "dir": "vectors-scitt-cose", "members": members,
+        }
+        if corpus_findings:
+            result["findings"] = corpus_findings
+        print(json.dumps(result, separators=(",", ":")))
+        sys.exit(1 if FAILURES else 0)
     if FAILURES:
         for failure in FAILURES:
             print("FAIL", failure)
