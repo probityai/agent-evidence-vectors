@@ -56,6 +56,13 @@ text.** Minimal padding, no line breaks, no alternate alphabet, no non-alphabet
 byte, fail-closed. Two rails that agree on the decoded bytes can still disagree on
 whether those bytes were carried canonically, and before this rule they did.
 
+Vectors: `v4ff6cb70764bf703` (a trailing bit that must be zero is set),
+`v44d1a62bf45413ea` (the payload wrapped MIME-style with CRLF, which Go's
+`encoding/base64` skips even in `Strict()` mode), `v93573824d5835bd4` (padding
+dropped) and `va39a20d87c5e9fcf` (a space between two quanta). Each decodes, under
+a decoder that discards non-alphabet bytes and restores padding, to exactly the
+signed bytes, so the decode rule is the only thing that refuses it.
+
 **DSSE PAE runs over the canonical bytes the envelope carries base64-encoded,
 never over the base64 text.** DSSE is referenced normatively and defines the
 pre-authentication encoding over the serialized body; the envelope carries that
