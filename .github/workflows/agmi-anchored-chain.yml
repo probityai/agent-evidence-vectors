@@ -1,0 +1,65 @@
+name: agmi anchored-chain verifier
+
+# Runs vectors-anchored-chain from this checkout through agmi's own
+# anchored-record-chain/v1 verifier (tech4biz-yasha/agent-memory-integrity,
+# agmi/anchored_chain.py), pinned by commit in
+# interop/agmi-anchored-chain/requirements.txt. agmi runs the published corpus
+# the other way round: agent-evidence-vectors==0.18.1 in its vectors extra and a
+# corpus-drift job in its scorecard workflow. A change here that moves a verdict
+# agmi's verifier disagrees with fails this check before it ships.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'vectors-anchored-chain/**'
+      - 'packaging/**'
+      - 'pyproject.toml'
+      - 'interop/agmi-anchored-chain/**'
+      - '.github/workflows/agmi-anchored-chain.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'vectors-anchored-chain/**'
+      - 'packaging/**'
+      - 'pyproject.toml'
+      - 'interop/agmi-anchored-chain/**'
+      - '.github/workflows/agmi-anchored-chain.yml'
+  schedule:
+    # Weekly, Wednesday 07:23 UTC: catches drift in the runner image, not in the pins.
+    - cron: '23 7 * * 3'
+
+permissions:
+  contents: read
+
+jobs:
+  agmi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install this checkout and the pinned agmi verifier
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --no-deps .
+          python -m pip install -r interop/agmi-anchored-chain/requirements.txt
+      - name: Replay vectors-anchored-chain through agmi
+        working-directory: ${{ runner.temp }}
+        run: |
+          agent-evidence-vectors --corpus vectors-anchored-chain \
+            --verifier "python -m agmi.anchored_chain" \
+            --report "$RUNNER_TEMP/agmi-anchored-chain-report.json"
+      - name: Retain the report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: agmi-anchored-chain-report
+          path: ${{ runner.temp }}/agmi-anchored-chain-report.json
+          if-no-files-found: error
+          retention-days: 90

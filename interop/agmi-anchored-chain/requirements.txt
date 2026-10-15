@@ -1,0 +1,9 @@
+# agmi's anchored-record-chain/v1 verifier, pinned by commit (29c2623 is the
+# commit its maintainer named when agmi pinned agent-evidence-vectors==0.18.1;
+# agmi/anchored_chain.py is unchanged on agmi's main since). cryptography is the
+# verifier's Ed25519 dependency, which agmi's own manifest declares only in its
+# vectors extra.
+agent-memory-integrity @ git+https://github.com/tech4biz-yasha/agent-memory-integrity@29c2623ab4040bf5bcabb519c2891bcd63484a60
+cryptography==50.0.2
+cffi==2.1.1
+pycparser==3.11
