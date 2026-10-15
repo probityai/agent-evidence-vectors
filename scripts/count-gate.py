@@ -2452,61 +2452,78 @@ FROZEN: tuple[Frozen, ...] = (
         'packaging/agent_evidence_vectors/w3cintake.py',
         "the objection window of the group's process, in hours",
         'the 48-hour objection window that followed it',
-        "A duration in the W3C group's own process, in hours. It counts nothing in this corpus and equals its total only by coincidence.",
+        "A duration in the W3C group's own process, in hours. It counts nothing"
+        ' in this corpus and equals its total only by coincidence.',
     ),
     Frozen(
         'packaging/agent_evidence_vectors/w3cintake.py',
         'the criterion number the exit-rule field answers',
         '``exit-rule`` (criterion 4)',
-        "A criterion number in the group's published intake criteria. It names a criterion and counts nothing in this corpus.",
+        "A criterion number in the group's published intake criteria. It names "
+        'a criterion and counts nothing in this corpus.',
     ),
     Frozen(
         'packaging/agent_evidence_vectors/w3cintake.py',
         'the criterion and delta numbers a docstring cites',
         'Criterion 4 and delta 5: each refusal',
-        "A criterion number and a delta number from the group's published intake criteria. They name text and count nothing in this corpus.",
+        "A criterion number and a delta number from the group's published "
+        'intake criteria. They name text and count nothing in this corpus.',
     ),
     Frozen(
         'scripts/gen-intake-records.py',
         "the independent reader's verdict count for the receipt-signature corpus",
         '25/25 verdicts agree',
-        'A result the independent reader recorded for a past run against the release the record names. It records that run as reported and must not track this corpus.',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
     ),
     Frozen(
         'scripts/gen-intake-records.py',
         "the independent reader's verdict count for the main corpus",
         '285/285 verdicts agree',
-        'A result the independent reader recorded for a past run against the release the record names. It records that run as reported and must not track this corpus.',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
     ),
     Frozen(
         'scripts/gen-intake-records.py',
         "the independent reader's verdict count for the W3C report corpus",
         '235/235 verdicts agree',
-        'A result the independent reader recorded for a past run against the release the record names. It records that run as reported and must not track this corpus.',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
     ),
     Frozen(
         'scripts/gen-intake-records.py',
         "the independent reader's verdict count for the anchored-chain corpus",
         '14/14 verdicts agree',
-        'A result the independent reader recorded for a past run against the release the record names. It records that run as reported and must not track this corpus.',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
     ),
     Frozen(
         'scripts/gen-intake-records.py',
         "the independent reader's structure-level total across twelve corpora",
         '382/382 across the twelve corpora read at this depth',
-        'A result the independent reader recorded for a past run against the release the record names. It records that run as reported and must not track this corpus.',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
     ),
     Frozen(
         'vectors-w3c-intake/INDEX.md',
         "the fixture's own wording of a two-member selection",
         'so 2 of 2 printed as a clean run',
-        'The description of a rejected fixture: a selection of two members, both named in the record. It describes that fixture and does not track the corpus.',
+        'The description of a rejected fixture: a selection of two members, '
+        'both named in the record. It describes that fixture and does not track'
+        ' the corpus.',
     ),
     Frozen(
         'vectors-w3c-intake/gen_vectors.py',
         "the fixture's own wording of a two-member selection",
         'the result never returned it, so 2 of 2',
-        'The description of a rejected fixture: a selection of two members, both named in the record. It describes that fixture and does not track the corpus.',
+        'The description of a rejected fixture: a selection of two members, '
+        'both named in the record. It describes that fixture and does not track'
+        ' the corpus.',
     ),
 )
 
