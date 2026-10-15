@@ -13,7 +13,6 @@ package aee
 
 import (
 	"crypto/ed25519"
-	"encoding/base64"
 	"fmt"
 )
 
@@ -97,7 +96,7 @@ func recordVerifies(state *recordState, sigs []RecordSignature, keys []ed25519.P
 		return false
 	}
 	for _, sig := range sigs {
-		sigBytes, err := base64.StdEncoding.Strict().DecodeString(sig.Sig)
+		sigBytes, err := decodeCarriedBase64(sig.Sig)
 		if err != nil {
 			continue
 		}
