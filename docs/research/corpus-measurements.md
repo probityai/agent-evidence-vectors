@@ -10,7 +10,7 @@ Pinned test keys are derived from `seed(role) = SHA-256("in-toto-aee-test-key/<r
 
 ## What the corpus forces
 
-A vector count alone does not measure rule coverage. Removing the `result-vocabulary` emission makes two gate-0 displays fail while the suite still reports 285 of 285, exit 0. A rail with no result-vocabulary check clears that corpus.
+A vector count alone does not measure rule coverage. Removing the `result-vocabulary` emission makes two gate-0 displays fail while the suite still reports 288 of 288, exit 0. A rail with no result-vocabulary check clears that corpus.
 
 [forcing-gate.py](../../scripts/forcing-gate.py) disables one reference-rail rule, rebuilds and replays the population. It measures what the corpus notices -- 808 single-site weakenings of `aee/`, one rebuild and one full replay per site.
 
