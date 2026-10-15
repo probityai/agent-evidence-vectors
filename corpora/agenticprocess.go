@@ -370,23 +370,66 @@ func apEach(v any, ok func(map[string]any) bool) bool {
 	return isList
 }
 
-func apFieldOK(field string, statement map[string]any) bool {
-	switch field {
-	case "createdAt":
-		return apMatches(apTimestamp, statement["createdAt"])
-	case "createdBy":
-		return apText(statement["createdBy"])
-	case "subject":
-		subjects, ok := apObjects(statement["subject"], true)
-		for _, s := range subjects {
-			if !apDescriptor(s) {
-				return false
-			}
+// apStatementChecks are the Statement's own fields, read before the predicate.
+var apStatementChecks = map[string]func(map[string]any) bool{
+	"createdAt": func(s map[string]any) bool { return apMatches(apTimestamp, s["createdAt"]) },
+	"createdBy": func(s map[string]any) bool { return apText(s["createdBy"]) },
+	"subject":   apSubjects,
+	"predicate": func(s map[string]any) bool { _, ok := s["predicate"].(map[string]any); return ok },
+}
+
+// apPredicateChecks are the predicate's fields, keyed without the "predicate." prefix.
+var apPredicateChecks = map[string]func(map[string]any) bool{
+	"processType": func(d map[string]any) bool { return apText(d["processType"]) },
+	"providers": func(d map[string]any) bool {
+		_, ok := apObjects(d["providers"], true)
+		return ok
+	},
+	"providers[].harness":        func(d map[string]any) bool { return apEveryProvider(d, apHarness) },
+	"providers[].agent":          func(d map[string]any) bool { return apEveryProvider(d, apAgent) },
+	"providers[].languageModels": func(d map[string]any) bool { return apEveryProvider(d, apModels) },
+	"result":                     apResult,
+	"owner":                      func(d map[string]any) bool { return apText(d["owner"]) },
+	"startTimestamp":             func(d map[string]any) bool { return apMatches(apTimestamp, d["startTimestamp"]) },
+	"endTimestamp":               func(d map[string]any) bool { return apMatches(apTimestamp, d["endTimestamp"]) },
+	"traceId":                    func(d map[string]any) bool { return apOptionalText(d, "traceId") },
+	"sessionsLogs":               func(d map[string]any) bool { return apOptional(d, "sessionsLogs", apDescriptors) },
+	"tools":                      func(d map[string]any) bool { return apOptional(d, "tools", apTools) },
+	"contextArtifacts":           func(d map[string]any) bool { return apOptional(d, "contextArtifacts", apArtifacts) },
+	"custom":                     func(d map[string]any) bool { return apOptional(d, "custom", apIsObject) },
+	"intents":                    func(d map[string]any) bool { return apOptional(d, "intents", apStrings) },
+	"processSummary":             func(d map[string]any) bool { return apOptional(d, "processSummary", apIsString) },
+	"reviewers":                  func(d map[string]any) bool { return apOptional(d, "reviewers", apStrings) },
+}
+
+func apSubjects(s map[string]any) bool {
+	subjects, ok := apObjects(s["subject"], true)
+	for _, subject := range subjects {
+		if !apDescriptor(subject) {
+			return false
 		}
-		return ok
-	case "predicate":
-		_, ok := statement["predicate"].(map[string]any)
-		return ok
+	}
+	return ok
+}
+
+func apResult(d map[string]any) bool {
+	result, ok := d["result"].(string)
+	return ok && apResults[result]
+}
+
+func apDescriptors(v any) bool {
+	return apEach(v, func(e map[string]any) bool { return apDescriptor(e) })
+}
+
+func apArtifacts(v any) bool { return apEach(v, apArtifact) }
+
+func apIsObject(v any) bool { _, ok := v.(map[string]any); return ok }
+
+func apIsString(v any) bool { _, ok := v.(string); return ok }
+
+func apFieldOK(field string, statement map[string]any) bool {
+	if check, ok := apStatementChecks[field]; ok {
+		return check(statement)
 	}
 	// A predicate that is not an object is refused by the "predicate" rule,
 	// which runs first; read as empty here so that rule stays the one that names it.
@@ -394,45 +437,6 @@ func apFieldOK(field string, statement map[string]any) bool {
 	if !ok {
 		d = map[string]any{}
 	}
-	switch strings.TrimPrefix(field, "predicate.") {
-	case "processType":
-		return apText(d["processType"])
-	case "providers":
-		_, ok := apObjects(d["providers"], true)
-		return ok
-	case "providers[].harness":
-		return apEveryProvider(d, apHarness)
-	case "providers[].agent":
-		return apEveryProvider(d, apAgent)
-	case "providers[].languageModels":
-		return apEveryProvider(d, apModels)
-	case "result":
-		result, ok := d["result"].(string)
-		return ok && apResults[result]
-	case "owner":
-		return apText(d["owner"])
-	case "startTimestamp":
-		return apMatches(apTimestamp, d["startTimestamp"])
-	case "endTimestamp":
-		return apMatches(apTimestamp, d["endTimestamp"])
-	case "traceId":
-		return apOptionalText(d, "traceId")
-	case "sessionsLogs":
-		return apOptional(d, "sessionsLogs", func(v any) bool {
-			return apEach(v, func(e map[string]any) bool { return apDescriptor(e) })
-		})
-	case "tools":
-		return apOptional(d, "tools", apTools)
-	case "contextArtifacts":
-		return apOptional(d, "contextArtifacts", func(v any) bool { return apEach(v, apArtifact) })
-	case "custom":
-		return apOptional(d, "custom", func(v any) bool { _, ok := v.(map[string]any); return ok })
-	case "intents":
-		return apOptional(d, "intents", apStrings)
-	case "processSummary":
-		return apOptional(d, "processSummary", func(v any) bool { _, ok := v.(string); return ok })
-	case "reviewers":
-		return apOptional(d, "reviewers", apStrings)
-	}
-	return false
+	check, known := apPredicateChecks[strings.TrimPrefix(field, "predicate.")]
+	return known && check(d)
 }
