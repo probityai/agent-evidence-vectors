@@ -85,6 +85,13 @@ pip install agent-evidence-vectors
 agent-evidence-vectors --corpus vectors-trace-anchor
 ```
 
+The Go directory reader judges it too, with its own replay over `math/big`, and
+agrees on every case:
+
+```sh
+go run ./cmd/aee-verify vectors-trace-anchor
+```
+
 A verifier under test takes `case.json --json`, prints one JSON object
 carrying `decision` and `reason`, and exits 0 for `anchored` and 1 for
 `refused`:
