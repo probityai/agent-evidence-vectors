@@ -7,8 +7,8 @@ seven minimum audit fields of Section 11 of ``draft-ietf-wimse-aims``, and the
 recomputes that make those fields checkable. Appendix B of the draft lists the
 conformance corpus, and ``vectors-agent-audit-record/`` publishes it member for
 member: each manifest entry carries the Appendix B identifier in ``draftId``.
-The members after the last row test sentences of Sections 5.4 and 5.5 that
-Appendix B has no row for, and name the section in ``draftSection``.
+The members after the last row test sentences of Sections 5.3, 5.4 and 5.5
+that Appendix B has no row for, and name the section in ``draftSection``.
 
 Two things live here, both stdlib-only for the reason the whole rail is: a
 relying party runs it with nothing installed.
