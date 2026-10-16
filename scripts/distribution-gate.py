@@ -310,6 +310,7 @@ def _module_path_failures(root: Path, page: str) -> list[str]:
             f"is what the module proxy serves for {tag}: `go get {module}@{tag}` fails with "
             f"'module declares its path as: {at_tag}'. Pin a tag cut after the path moved."
         )
+    found.extend(_package_at_tag_failures(root, module, package, tag))
     return found
 
 
@@ -360,6 +361,33 @@ def _published_identity_failures(root: Path, citation: str) -> list[str]:
     if objects != [expected_object]:
         found.append(f"{CITATION_REL}: published annotated tag object differs from tag v{version}")
     return found
+
+
+def _package_at_tag_failures(root: Path, module: str, package: str, tag: str) -> list[str]:
+    """The package the install line names must exist at the pinned tag.
+
+    A right module path at the tag is not enough: the command's directory can
+    move while the module stays put, and `go install <module>/cmd/<new>@<old tag>`
+    then fails with "does not contain package". That is exactly the state a
+    renamed command puts the page in between the rename and the tag that ships
+    it, and the check that read go.mod alone passed it.
+    """
+    if not package.startswith(f"{module}/"):
+        return []
+    directory = package[len(module) + 1 :]
+    listed = subprocess.run(
+        ["git", "-C", str(root), "ls-tree", "--name-only", f"{tag}:{directory}"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if listed.returncode != 0 or not any(n.endswith(".go") for n in listed.stdout.split()):
+        return [
+            f"{PAGE_REL} tells a reader to `go install {package}@{tag}`, and {tag} holds no Go "
+            f"package at `{directory}`, so that command fails with 'does not contain package'. "
+            "A renamed command ships with the tag that carries the new directory; pin that tag."
+        ]
+    return []
 
 
 def tracked_corpora(root: Path) -> dict[str, str]:
