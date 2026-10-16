@@ -1129,13 +1129,14 @@ func w3cRowsNegative(rollup map[string]any, counts map[string]int, ids map[strin
 		} else if state, _ := control["state"].(string); state != "fail" {
 			out.add(13)
 		} else {
-			w3cRowControlBinding(control["fixed"], runFixed, out)
+			w3cRowBinding(control["fixed"], runFixed, 29, out)
 		}
 	case kind == "prior-discriminating-run":
 		if !w3cIdentity(field["check-identity"], ids) {
 			out.add(14)
 		}
 		w3cSetBinding(field["reference"], out)
+		w3cRowBinding(field["fixed"], runFixed, 33, out)
 	}
 }
 
@@ -1332,19 +1333,20 @@ var w3cShapes = func() map[string]bool {
 	return out
 }()
 
-// w3cRowControlBinding is rule 29, v0.1 section 5.4: a control ran under the checker
-// and constraint set of the checks it speaks for. It is read only where both
-// the control and the run declare the binding, so a binding that differs from
-// the run's is refused and a missing one is not.
-func w3cRowControlBinding(bound, runFixed any, out w3cRejects) {
-	control, okControl := bound.(map[string]any)
+// w3cRowBinding reads a filling of v0.1 section 5.4 against the checker and
+// constraint set of the checks it speaks for: rule 29 a control's binding, rule
+// 33 a prior run's. It is read only where both the filling and the run declare
+// the binding, so a binding that differs from the run's is refused and a
+// missing one is not.
+func w3cRowBinding(bound, runFixed any, row int, out w3cRejects) {
+	filling, okFilling := bound.(map[string]any)
 	run, okRun := runFixed.(map[string]any)
-	if !okControl || !okRun {
+	if !okFilling || !okRun {
 		return
 	}
 	for _, slot := range []string{"checker", "constraint-set"} {
-		if !jsonEqual(control[slot], run[slot]) {
-			out.add(29)
+		if !jsonEqual(filling[slot], run[slot]) {
+			out.add(row)
 			return
 		}
 	}
