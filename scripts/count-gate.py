@@ -1314,6 +1314,13 @@ FROZEN: tuple[Frozen, ...] = (
         'records that report as posted and must not track this corpus.',
     ),
     Frozen(
+        'docs/VERIFIERS.md',
+        "agmi's corpus-drift job result, as its CI reported it",
+        '14 of 14 answered, 0 disagreements',
+        'The result an outside verifier\'s own CI job reported for the anchored-chain cases at the '
+        'run the row links. It records that run and must not track this corpus.',
+    ),
+    Frozen(
         'RUNS.md',
         "an outside author's reported signing, verify and negative-control results",
         '57/57, verify 57/57 and negative control 53/57',
