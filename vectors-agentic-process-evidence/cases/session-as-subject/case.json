@@ -1,0 +1,10 @@
+{
+  "envelope": "envelope.json",
+  "policy": {
+    "payload_type": "application/vnd.in-toto+json",
+    "predicate_type": "https://in-toto.io/attestation/agentic-process/v0.1",
+    "trusted_keys": {
+      "339074aca25b900e72f93b829dd4fc402a8202d44a940ed3730c710ff2679b0e": "pktH/bMBbblMhza9CCzUUcehG+6OwGa18xVXfQN1shk="
+    }
+  }
+}
