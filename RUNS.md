@@ -147,6 +147,37 @@ to his repository by this repository's maintainer. What it shows is that the
 corrected text is implementable on three paths of one codebase, each scored
 against the function it provides.
 
+### Mayur021, `Mayur021/agent-audit-record-reader`, the agent audit record corpus
+
+The first run of `vectors-agent-audit-record` by a reader this repository did
+not write. That corpus is not an AEE revision, so like the row above it is not
+a row of the ledger below.
+
+| | |
+| --- | --- |
+| Reporter | `Mayur021` |
+| Implementation | [`Mayur021/agent-audit-record-reader`](https://github.com/Mayur021/agent-audit-record-reader) at commit `0ad911a39d7942d5fabd9a4ea0b9093bb04f88a7`, a Python reader written from `draft-gilda-wimse-agent-audit-record-01`, RFC 8785, RFC 7493 and DSSE, depending on `cryptography` only |
+| Posted at | [`ietf-wg-wimse/draft-ietf-wimse-aims#144`, comment of 2026-10-01](https://github.com/ietf-wg-wimse/draft-ietf-wimse-aims/issues/144#issuecomment-5934905211), with `FINDINGS.md` in the reader's repository |
+| Corpus | `vectors-agent-audit-record` at release 0.16.0, 47 members, corpus digest `9617291fd6c1721dfd9430d3f15987da716ee5c722094f74431a95a2d4b3c3c6`, fetched at run time and not vendored |
+| Result | 47 of 47 agree: 9 accept members valid, 36 reject members malformed, and N1 and N2 both valid, a listed reading of each |
+| Label, by its author | none given |
+
+What the run is evidence of, in his words:
+
+> It shares no code with the reference verifier, and none with jcs-admit, dsse
+> or agent-evidence-vocabulary either
+
+The figure was reproduced here before this row was written: his reader at that
+commit, run over the corpus fetched from tag `v0.16.0` with his own
+`fetch_corpus.sh`, gives the same result, with N1 and N2 reaching `valid`.
+
+It is not a cold-start result, and he says so. Two vectors caught a first pass
+of the reader, T2 on verifying over the payload as transmitted rather than its
+canonical bytes, and T3 on checking duplicate member names after the signature,
+and he fixed both before posting. He also reported a finding against the draft:
+the write-chain replay that sections 4.4, 4.6 and 5.3 require is not defined in
+the body and had to be recovered from the accept members.
+
 ## The ledger this file is not
 
 [`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json) is the gated record

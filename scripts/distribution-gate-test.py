@@ -82,6 +82,17 @@ def _repair_install_path(root: Path) -> None:
         )
 
 
+def _stage_command_package(root: Path) -> None:
+    """A Go file at the directory the install line names, which the gate reads
+    at the pinned tag: the package has to exist there for `go install` to work."""
+    module = _module_of(root)
+    package, _ = _install_of(root)
+    if package.startswith(f"{module}/"):
+        directory = root / package[len(module) + 1 :]
+        directory.mkdir(parents=True, exist_ok=True)
+        (directory / "main.go").write_text("package main\n\nfunc main() {}\n", encoding="utf-8")
+
+
 def _staged_copy(tmp: Path) -> Path:
     """A committed, tagged git repository holding everything the gate reads."""
     root = tmp / "tree"
@@ -104,6 +115,7 @@ def _staged_copy(tmp: Path) -> Path:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(manifest, target)
     _repair_install_path(root)
+    _stage_command_package(root)
     _git(root, "init", "--quiet")
     _git(root, "config", "user.email", "gate@example.invalid")
     _git(root, "config", "user.name", "gate")
@@ -441,6 +453,25 @@ def case_tag_predates_the_module_path(root: Path) -> str:
     return "declares the module as"
 
 
+def case_command_renamed_after_the_tag(root: Path) -> str:
+    """The command directory moved after the pinned tag was cut.
+
+    The module path is unchanged, so the go.mod check passes; the package the
+    page names is not in the tag, so `go install` fails. A renamed command is in
+    exactly this state until the tag that carries the new directory exists.
+    """
+    module = _module_of(root)
+    package, tag = _install_of(root)
+    directory = package[len(module) + 1 :]
+    moved = directory.rsplit("/", 1)[0] + "/renamed-command"
+    _git(root, "mv", directory, moved)
+    _git(root, "commit", "--quiet", "-m", "the command before the page caught up")
+    _git(root, "tag", "-f", tag)
+    _git(root, "mv", moved, directory)
+    _git(root, "commit", "--quiet", "-m", "the page's directory, after the tag")
+    return "does not contain package"
+
+
 def case_pinned_tag_absent(root: Path) -> str:
     """A tag the clone does not hold must read as a check that did not run."""
     _git(root, "tag", "-d", _install_of(root)[1])
@@ -715,6 +746,10 @@ CASES: tuple[tuple[str, Callable[[Path], str]], ...] = (
     (
         "a pinned tag cut before the module path moved",
         case_tag_predates_the_module_path,
+    ),
+    (
+        "a command directory renamed after the pinned tag",
+        case_command_renamed_after_the_tag,
     ),
     ("a pinned tag this clone does not hold", case_pinned_tag_absent),
     ("a go.mod declaring the module path twice", case_two_module_lines),
