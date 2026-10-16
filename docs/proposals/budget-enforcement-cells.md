@@ -31,7 +31,7 @@ Write-up: `MEASUREMENT-S2-tool-choice-four-frameworks-2026-10-13.md`.
 | langgraph | 1.2.11 | 10 | both | 5 | 5 | 0 | 0 | 0 | natural | withheld |
 | langchain (at pin) | 0.3.14 | 5 | both | 5 | 5 | 0 | 0 | 0 | budget | local_stop |
 
-langchain 1.3.16 in the main environment returns `0 / 0 / error`, because 1.x removed `AgentExecutor`;
+langchain 1.3.16 in the main environment returns `0`, `0` and `error` in those three columns, because 1.x removed `AgentExecutor`;
 those two cells are void and are not used. The `mechanism` label for langgraph and llamaindex is withheld
 at the source: the classifier would read their one-call gap between ledger and framework counts as a
 client-side refusal, while both stop before tool dispatch.
