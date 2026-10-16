@@ -1,0 +1,84 @@
+{
+  "cites": "the opt-in: the same allow recorded as a Detection Finding, 2004, with action and disposition 1, Allowed, severity 1 and is_alert false.",
+  "coverage": "observed",
+  "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-18",
+  "id": "v85f225380d40f147",
+  "kind": "accept",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "action": "Allowed",
+        "action_id": 1,
+        "activity_id": 1,
+        "category_uid": 2,
+        "class_name": "Detection Finding",
+        "class_uid": 2004,
+        "disposition": "Allowed",
+        "disposition_id": 1,
+        "evidences": [
+          {
+            "actor": {
+              "session": {
+                "uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+              }
+            },
+            "ai_agent": {
+              "uid": "agent-acs-vectors"
+            }
+          }
+        ],
+        "finding_info": {
+          "title": "decision allow",
+          "uid": "d7091c38-58a5-46c9-abfc-c469810baf9f"
+        },
+        "is_alert": false,
+        "metadata": {
+          "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259",
+          "product": {
+            "name": "ACS Guardian",
+            "vendor_name": "ACS"
+          },
+          "profiles": [
+            "security_control"
+          ],
+          "version": "1.9.0"
+        },
+        "severity_id": 1,
+        "type_uid": 200401,
+        "unmapped": {
+          "acs": {
+            "decision": "allow",
+            "request_id": "929babb2-273b-41ce-800f-35eea097a259",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-064",
+      "line": 87,
+      "sentence": "A deployment MAY record allows as Detection Findings instead, for audit symmetry, and then every decision event rule below applies to them.",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-064"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

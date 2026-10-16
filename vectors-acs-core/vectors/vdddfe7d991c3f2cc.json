@@ -1,0 +1,63 @@
+{
+  "cites": "a correlation_uid formatted request id first. The gated step's pair is session id, colon, request id, so a join on it matches nothing.",
+  "coverage": "observed",
+  "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-18",
+  "id": "vdddfe7d991c3f2cc",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "activity_id": 99,
+        "app": {
+          "name": "agent-acs-vectors"
+        },
+        "category_uid": 6,
+        "class_name": "Application Lifecycle",
+        "class_uid": 6002,
+        "metadata": {
+          "correlation_uid": "929babb2-273b-41ce-800f-35eea097a259:6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+          "product": {
+            "name": "ACS Guardian",
+            "vendor_name": "ACS"
+          },
+          "version": "1.9.0"
+        },
+        "severity_id": 1,
+        "type_uid": 600299,
+        "unmapped": {
+          "acs": {
+            "decision": "allow",
+            "request_id": "929babb2-273b-41ce-800f-35eea097a259",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-066",
+      "line": 87,
+      "sentence": "It sets `metadata.correlation_uid` to the gated step's pair.",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-066"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

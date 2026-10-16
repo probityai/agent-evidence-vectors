@@ -77,6 +77,30 @@
       "upstreamPath": "docs/spec/instrument/hooks.md",
       "upstreamRef": "pull request 272 head, open against integration",
       "upstreamStatus": "proposal"
+    },
+    "trace-events-pr278": {
+      "path": "spec-vendored/trace-events-7d9b7ff.md",
+      "sha256": "b3e1a83b8462692bc162684dac83e8922c631ad03ab14cb86aee79b09ebbf4cb",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRef": "pull request 278 head, open against integration",
+      "upstreamStatus": "proposal"
+    },
+    "ocsf-mapping-pr278": {
+      "path": "spec-vendored/ocsf-mapping-7d9b7ff.json",
+      "sha256": "48d0fc2836fea92e5f57edb417c76ce59cddc9884c912cc36ebf7ea1e810bff4",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "specification/v0.1.0/trace/ocsf-mapping.json",
+      "upstreamRef": "pull request 278 head, open against integration",
+      "upstreamStatus": "proposal"
+    },
+    "issue-264": {
+      "path": "spec-vendored/issue-264-body.md",
+      "sha256": "4ed7c8e2f910318370da3e2c21e8d84409eaac5d015eb989c897095c4903a7b8",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamRef": "issue 264 body as last edited at 2026-10-12T13:15:57Z; an issue has no commit, so the sha256 of the vendored bytes is the pin",
+      "upstreamStatus": "proposal"
     }
   },
   "specUpstreamPins": {
@@ -91,9 +115,15 @@
       "pullRequest": "GenAI-Security-Project/agent-control-standard#272",
       "note": "Read at the pull request's head while it was open and unmerged. The members citing it test a proposal, and a change to the proposal before it merges is a reword that stops this build."
     },
+    "pr-278": {
+      "commit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "pullRequest": "GenAI-Security-Project/agent-control-standard#278",
+      "note": "Read at the pull request's head while it was open and unmerged. Family acs-f-18 tests the allow class it proposes, and a change to the proposal before it merges is a reword that stops this build."
+    },
     "issue-264": {
       "issue": "GenAI-Security-Project/agent-control-standard#264",
-      "note": "An open proposal with no specification text of its own. Its members cite sections 6.3 and 6.5 and the Trace text at the release-0.1.4 pin, and its proposed event waits in awaitingText."
+      "updatedAt": "2026-10-12T13:15:57Z",
+      "note": "An open proposal with no specification text of its own. Family acs-f-12 cites sections 6.3 and 6.5 at the release-0.1.4 pin. Family acs-f-19 cites the issue body, pinned by the sha256 of the vendored bytes, because the event and the reader rule exist only there; when Trace text lands, those members are re-minted from it."
     }
   },
   "identifierPolicy": "A requirement identifier is minted by this corpus and bound to the normative sentence by sha256 over its NFC bytes. The specification carries no identifiers, and a section number survives a reword while meaning something else.",
@@ -124,7 +154,9 @@
     "acs-f-14": "a tool result whose request reference names no request the Guardian holds for the session",
     "acs-f-15": "a trace from which a reader counts an outcome nobody enforced",
     "acs-f-16": "an OpenTelemetry step span missing an attribute the mapping requires, or carrying one it forbids",
-    "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other"
+    "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other",
+    "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
+    "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied"
   },
   "outOfScope": {
     "the MODIFY disposition and its composition rules, read at 9d4a9da": "an open pull request moved MODIFY support out of the mandatory profile and added a new section for the declaration, and neither the new section nor the declaration field exists at that commit. The pull request has since merged, and family acs-f-12 reads the settled sections 6.3 and 6.5 at the release/0.1.4 commit instead",
@@ -136,8 +168,7 @@
     "a chain head whose signing time is bounded by a public beacon": "the time-bound half of the checkpoint case raised on GenAI-Security-Project/agent-control-standard#18. The pinned text defines no beacon, no checkpoint and no signing-time source a head could reference, so a member would cite a sentence that does not exist. The signer half of the same case is family acs-f-10",
     "a verifier answering that it cannot determine the signer": "the pinned text gives a verifier no answer meaning the signer cannot be determined: section 17.1 has SIGNATURE_INVALID for a signature that fails and nothing for one that verifies under a key two parties hold. So the HMAC substitution in acs-f-10 is unmeasurable rather than scored, and a requirement that the two outcomes take different shapes was raised on GenAI-Security-Project/agent-control-standard#18. Once a sentence names the outcome, that member expects it instead of being exempt",
     "a session that began and was never sealed": "the pinned text has no sentence requiring a party other than the Observed Agent to record that a session began, so a begun session with no seal leaves nothing a member could cite. Wording is proposed on GenAI-Security-Project/agent-control-standard#37. Once it lands, the member expects a counted decision failure, never unmeasurable, because a begun and unsealed session is countable",
-    "an argument textually inside a scoped mandate that resolves outside it": "a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow",
-    "a Trace event for a verdict the Observed Agent substituted": "sections 6.3 and 6.5 make the Observed Agent apply DENY, or keep the original summary at postCompact, in place of a MODIFY it cannot apply, and the release/0.1.4 Trace text rules both cases out as decision failures, so the Guardian's acs.decision event says modify and no Trace event says what was applied. GenAI-Security-Project/agent-control-standard#264 proposes a span event, acs.decision.substituted, and a reader rule that a modify verdict is not counted as applied when that event shares its pair. Only the issue carries that sentence. Until it lands, acs-f-12 holds the audit-log form sections 6.3 and 6.5 already require, and one indeterminate member records that Trace alone cannot answer the question"
+    "an argument textually inside a scoped mandate that resolves outside it": "a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow"
   },
   "observedRuns": [],
   "observedRunsNote": "Empty, and stated rather than left to be inferred. No reference adapter exists in the specification's repository at the pinned commit, so nothing has been run against this corpus and its counts describe inputs rather than results.",
@@ -934,16 +965,164 @@
       "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
       "upstreamPath": "docs/spec/trace/events.md",
       "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-062",
+      "role": "exporter",
+      "file": "trace-events-pr278",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md",
+      "line": 82,
+      "sentence": "| Decision (allow) | Application Lifecycle | 6002 |",
+      "sentenceDigest": "ba6a4982de33faf13c7c43ef0b1ff7cc9682776259b82d66d201914d83974c27",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-063",
+      "role": "exporter",
+      "file": "trace-events-pr278",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md",
+      "line": 87,
+      "sentence": "An allow goes to Application Lifecycle (6002) with `severity_id` 1.",
+      "sentenceDigest": "69f193ab5cdf7adf92cd73d1cebd56ee12e01942ed40491ccdf8f728cf151a58",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-064",
+      "role": "exporter",
+      "file": "trace-events-pr278",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md",
+      "line": 87,
+      "sentence": "A deployment MAY record allows as Detection Findings instead, for audit symmetry, and then every decision event rule below applies to them.",
+      "sentenceDigest": "532520e934be199ad59a2595b40ccec6b07b03c7e04c0ace93e4169f174d0ea8",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-065",
+      "role": "exporter",
+      "file": "trace-events-pr278",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md",
+      "line": 87,
+      "sentence": "A 6002 allow carries the decision's `unmapped.acs` fields as a decision event does, so `unmapped.acs.decision` holds the disposition and `unmapped.acs.metadata` holds the evaluator.",
+      "sentenceDigest": "052933b83f6a803b2b8acb8cf9933d4a8e76d2104b9d399a09251d2d04276725",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-066",
+      "role": "exporter",
+      "file": "trace-events-pr278",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md",
+      "line": 87,
+      "sentence": "It sets `metadata.correlation_uid` to the gated step's pair.",
+      "sentenceDigest": "f0e57eaea7e03bcd1ac14b8cfa16502804727df9d504a31e4d9703f886f25e67",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-067",
+      "role": "exporter",
+      "file": "ocsf-mapping-pr278",
+      "vendored": "spec-vendored/ocsf-mapping-7d9b7ff.json",
+      "line": 61,
+      "sentence": "\"default\": [\"severity_id\", \"metadata.correlation_uid\", \"unmapped.acs.request_id\", \"unmapped.acs.session_id\", \"unmapped.acs.decision\"]",
+      "sentenceDigest": "8a5aecb3e7898e22057e35045ea36bff03882bdb9ef4be4c23c0353517751a64",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "specification/v0.1.0/trace/ocsf-mapping.json",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-068",
+      "role": "agent",
+      "file": "issue-264",
+      "vendored": "spec-vendored/issue-264-body.md",
+      "line": 25,
+      "sentence": "a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).",
+      "sentenceDigest": "dad519595d63647098a62afcf8b417b5f99467234ec8a0014f55623bccc6d527",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-069",
+      "role": "reader",
+      "file": "issue-264",
+      "vendored": "spec-vendored/issue-264-body.md",
+      "line": 25,
+      "sentence": "A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id.",
+      "sentenceDigest": "0083bab82c4ae4dd0f96af1c18f491e4538085313dd62a6e7cee2675b388f176",
+      "specVersion": "0.1.0",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamStatus": "proposal"
     }
   ],
   "counts": {
-    "accept": 46,
-    "reject": 75,
+    "accept": 51,
+    "reject": 85,
     "indeterminate": 3
   },
-  "corpusDigest": "ed64cc6a0e2f903531066b725af79625b4d0f72fe75a809bc31160897366c4a8",
+  "corpusDigest": "7cb4d3489db9ef765dec169ca1c080b209fbab184956a8c7d32c2712bc9db0ce",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
+    {
+      "id": "v0035b4504ed79b9d",
+      "kind": "accept",
+      "file": "vectors/v0035b4504ed79b9d.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-069",
+        "ACS-R-041"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a substitution event with the same request id in another session, and a reader that still counts this session's modify as applied. Request ids are unique only within a session, so the event names a different step.",
+      "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify"
+    },
+    {
+      "id": "v0118a9be95bc651c",
+      "kind": "reject",
+      "file": "vectors/v0118a9be95bc651c.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-065",
+        "ACS-R-067"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an allow with no unmapped.acs.decision. Turn and message steps share class 6002, so without the disposition a reader cannot tell this event from a turn starting.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
     {
       "id": "v0577dc8ccd4d7e47",
       "kind": "accept",
@@ -1047,6 +1226,27 @@
       "cites": "a shell command that leaves the reasoning context and fires no hook, because the framework's registry does not model it as a tool. The requirement is written against what escapes rather than against what the registry holds."
     },
     {
+      "id": "v0d2892bb1e77fcb0",
+      "kind": "accept",
+      "file": "vectors/v0d2892bb1e77fcb0.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-068"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a Guardian modify, and on the Observed Agent's step span for the same pair an acs.decision.substituted event carrying the verdict received, modify, and what was applied, deny, with reason modify_composition.",
+      "doesNotAssert": "that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal"
+    },
+    {
       "id": "v0e1b9d0f75f54e9c",
       "kind": "reject",
       "file": "vectors/v0e1b9d0f75f54e9c.json",
@@ -1065,6 +1265,27 @@
       "witnessScope": "SELF",
       "coverage": "observed",
       "cites": "a hello that nothing answered before the connection timeout, the default startup posture, a session that started, and a deployment audit log with no record of the unguarded start. The posture is conformant and the silence is not. The step-level twin in acs-f-5 has a Guardian to receive its audit event; here the handshake never completed, so there is no Guardian to receive anything and the deployment's own log is the only witness, which is why the member is SELF. A member that asserted only that the session started would score the default posture as evidence of enforcement."
+    },
+    {
+      "id": "v0e394a2a77fc7e8d",
+      "kind": "reject",
+      "file": "vectors/v0e394a2a77fc7e8d.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-067"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an allow with correlation_uid set and no unmapped.acs.request_id. The mapping requires both, and a join on the native ACS fields finds no request for this allow.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "v100f74962fbb8b94",
@@ -1485,6 +1706,31 @@
       "doesNotAssert": "that the policies were applied"
     },
     {
+      "id": "v37ab95af193da84e",
+      "kind": "accept",
+      "file": "vectors/v37ab95af193da84e.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-062",
+        "ACS-R-063",
+        "ACS-R-065",
+        "ACS-R-066",
+        "ACS-R-067"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an allow as class 6002, Application Lifecycle, at severity 1, with the disposition in unmapped.acs.decision, the pair in unmapped.acs and correlation_uid 6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
+    {
       "id": "v3a740f95d71db4bb",
       "kind": "reject",
       "file": "vectors/v3a740f95d71db4bb.json",
@@ -1862,6 +2108,27 @@
       "doesNotAssert": "that either secret is compromised; the label and the key disagree, and the label decides which secret is tried"
     },
     {
+      "id": "v5d50c302e4834fad",
+      "kind": "reject",
+      "file": "vectors/v5d50c302e4834fad.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-041"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same streams and a reader that drops this session's modify on the request id alone. A join keys on session and request together.",
+      "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify"
+    },
+    {
       "id": "v650e4e7924e597b8",
       "kind": "reject",
       "file": "vectors/v650e4e7924e597b8.json",
@@ -2027,6 +2294,27 @@
       "coverage": "effective",
       "cites": "a request labelled \"default\", the hardcoded label one open adapter ships, sent to a verifier configured with the single label \"2026-10\". The MAC was computed under the 2026-10 secret's derived key, so a verifier that falls back to the only secret it holds accepts it. The label is unknown, and an unknown key_id is SIGNATURE_INVALID with no fallback.",
       "doesNotAssert": "that the MAC is wrong; it verifies under the verifier's one secret, which is exactly why a fallback accepts it"
+    },
+    {
+      "id": "v71d2a298de4428f3",
+      "kind": "accept",
+      "file": "vectors/v71d2a298de4428f3.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-069"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same streams and a reader that does not count the modify as applied.",
+      "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify"
     },
     {
       "id": "v78927805373a6c06",
@@ -2234,6 +2522,27 @@
       "cites": "the same HMAC head presented to the Observed Agent, a key-holder, as integrity evidence, which section 8.6 says the baseline gives. A verifier that refuses every HMAC head scores zero here, so the member above measures the external claim rather than the algorithm."
     },
     {
+      "id": "v85f225380d40f147",
+      "kind": "accept",
+      "file": "vectors/v85f225380d40f147.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-064"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the opt-in: the same allow recorded as a Detection Finding, 2004, with action and disposition 1, Allowed, severity 1 and is_alert false.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
+    {
       "id": "v88176a8db9aee0c7",
       "kind": "reject",
       "file": "vectors/v88176a8db9aee0c7.json",
@@ -2380,6 +2689,27 @@
       "witnessScope": "SELF",
       "coverage": "configured",
       "cites": "the same unanswered hello under a startup posture configured to refuse, and a session that started anyway, recorded in the deployment log as an unguarded start. The record is present, so a checker that reads only the log passes it; the configured posture never took effect. No registry code names a refused start with no Guardian to send one, so none is asserted."
+    },
+    {
+      "id": "v95efcfe1aeba3995",
+      "kind": "reject",
+      "file": "vectors/v95efcfe1aeba3995.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-068"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the substitution event on the Guardian's span. Only the Observed Agent sees what it applied, so a Guardian that records it is reporting an outcome it cannot observe.",
+      "doesNotAssert": "that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal"
     },
     {
       "id": "v986429a577e03404",
@@ -2589,6 +2919,27 @@
       "coverage": "observed",
       "cites": "the same snapshot with activity_id 2, Collect.",
       "doesNotAssert": "that the inventory is complete"
+    },
+    {
+      "id": "va26320f07c64f16d",
+      "kind": "reject",
+      "file": "vectors/va26320f07c64f16d.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-063"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an allow at severity 2. The severity table gives an allow 1, and a SIEM rule that counts severity 2 counts every allow as a modify.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "va2b212fbc0966f59",
@@ -2943,6 +3294,27 @@
       "doesNotAssert": "that the Observed Agent under-reported; it may never have seen the late answer"
     },
     {
+      "id": "vc292f5a9ed89dacd",
+      "kind": "reject",
+      "file": "vectors/vc292f5a9ed89dacd.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-068"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same event with no acs.substitution.applied. It says a substitution happened and not whether the action was denied or the original summary kept, so nothing in the trace can be counted.",
+      "doesNotAssert": "that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal"
+    },
+    {
       "id": "vc333473269d1b3a9",
       "kind": "reject",
       "file": "vectors/vc333473269d1b3a9.json",
@@ -3007,6 +3379,27 @@
       "doesNotAssert": "that the Guardian's verdict was wrong"
     },
     {
+      "id": "vc5e61899449daf41",
+      "kind": "reject",
+      "file": "vectors/vc5e61899449daf41.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-062"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same allow captioned Application Activity. That is the category 6002 sits in, the caption the prose rule carried before pull request 278; the class is Application Lifecycle, so a consumer keying on the caption finds no 6002 row.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
+    },
+    {
       "id": "vc8e379465f4a677b",
       "kind": "reject",
       "file": "vectors/vc8e379465f4a677b.json",
@@ -3026,6 +3419,28 @@
       "coverage": "observed",
       "cites": "two sessions whose Observed Agents chose the same request_id, which the specification permits because request_id is unique only within a session. A reader joining on request_id alone attaches the deny from the other session to a files.read that was never decided.",
       "doesNotAssert": "that either session misbehaved; the collision is legal"
+    },
+    {
+      "id": "vc97666f6b2388930",
+      "kind": "reject",
+      "file": "vectors/vc97666f6b2388930.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-064",
+        "ACS-R-050"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the opt-in with is_alert true. Once an allow is a Detection Finding, every decision event rule applies to it, and on time is_alert follows severity, which is 1.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "vcfbc617d0218ad1a",
@@ -3092,6 +3507,27 @@
       "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
+      "id": "vd5116e55bb3e8050",
+      "kind": "reject",
+      "file": "vectors/vd5116e55bb3e8050.json",
+      "family": "acs-f-19",
+      "requirements": [
+        "ACS-R-069"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the first member's streams and a reader that counts the modify as applied. The substitution event shares its session and request id, so the modification never happened.",
+      "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify"
+    },
+    {
       "id": "vd57793caa251dec6",
       "kind": "reject",
       "file": "vectors/vd57793caa251dec6.json",
@@ -3151,6 +3587,27 @@
       "witnessScope": "EXTERNAL",
       "coverage": "effective",
       "cites": "a chain head presented as the Guardian's whose ML-DSA-65 signature verifies only under the Observed Agent's own key, while its key_id resolves to the Guardian's. Verification under the resolved key fails, which is the error table's SIGNATURE_INVALID row. A party holding only the Guardian's public key can tell the signer is not the Guardian, so the member is EXTERNAL. A verifier that checks the signature against whichever key makes it verify accepts this."
+    },
+    {
+      "id": "vdddfe7d991c3f2cc",
+      "kind": "reject",
+      "file": "vectors/vdddfe7d991c3f2cc.json",
+      "family": "acs-f-18",
+      "requirements": [
+        "ACS-R-066"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a correlation_uid formatted request id first. The gated step's pair is session id, colon, request id, so a join on it matches nothing.",
+      "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "vdea95625fa2056cf",

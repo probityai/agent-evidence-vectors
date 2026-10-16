@@ -1,0 +1,76 @@
+{
+  "cites": "the same event with no acs.substitution.applied. It says a substitution happened and not whether the action was denied or the original summary kept, so nothing in the trace can be counted.",
+  "coverage": "observed",
+  "doesNotAssert": "that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-19",
+  "id": "vc292f5a9ed89dacd",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "trace": {
+        "guardian": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify"
+                },
+                "name": "acs.decision"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ],
+        "observed_agent": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify",
+                  "acs.substitution.reason": "modify_composition"
+                },
+                "name": "acs.decision.substituted"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ]
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-068",
+      "line": 25,
+      "sentence": "a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/issue-264-body.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-068"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}
