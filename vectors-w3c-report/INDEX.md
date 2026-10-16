@@ -7,18 +7,18 @@ together fix what v0.1 of the reporting format freezes, 2 messages that
 propose the digest encoding after it froze, and the two Internet-Drafts the
 format's editor holds.
 
-This corpus is 269 vectors, of which 173 a conformant verifier must not fail closed
-on and 96 it must reject.
+This corpus is 273 vectors, of which 175 a conformant verifier must not fail closed
+on and 98 it must reject.
 
-**Three subject types, one manifest.** 202 members are whole
+**Three subject types, one manifest.** 206 members are whole
 v0.1 reports, judged by the rows of the format; 45
 are Run objects of the agent-run-metrics draft; 22
 are discovery snapshots of the context-discovery draft. Each member names its
 subject type and the reader selects the validator by it.
 
-**The section 10 selection is 165 members**:
-the report members whose requirements are all agreed, 41 to
-reject and 124 to accept. A report member that cites a
+**The section 10 selection is 169 members**:
+the report members whose requirements are all agreed, 43 to
+reject and 126 to accept. A report member that cites a
 proposed requirement rests on a rule the v0.1 text does not hold, so it is
 counted apart, as excluded-under-proposed-rule, 37 members:
 
@@ -124,6 +124,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `W3C-R-013` | 5.4 roll-up | evidence | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `9b00061b244165aa` | A roll-up states whether the checks it aggregates were capable of producing a negative verdict |
 | `W3C-R-014` | 5.4 prior run | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `cc10241a9f88472c` | A prior run only counts where check identity survives across     runs |
 | `W3C-R-029` | 5.4 control binding | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `4160b21d27d64e6a` | The control runs under the same checker revision and the same     relevant configuration and constraints as the declared checks     whose negative capability it is reported for |
+| `W3C-R-033` | 5.4 prior-run binding | consistency | agreed | `spec-vendored/0087-arsentev-2026-09-30-v01.txt` | `7c74646f727411df` | The reference lets the reader     establish the same revision and configuration binding for the     declared checks it supports |
 | `W3C-R-022` | coverage block | form | proposed | `spec-vendored/0001-ives-2026-09-01-coverage-block.txt` | `50c6f490bcf092b2` | a sampled / full_coverage flag with the count of scannable files recorded before the per-repo cap |
 | `W3C-R-030` | 3.1 digest encoding | evidence | proposed | `spec-vendored/2026Oct-0038-kroehl-2026-10-10-digest-encoding.txt` | `b53c8bf547875a59` | A digest taken over a JSON value is computed over the RFC 8785 canonical form of that value. |
 | `W3C-R-031` | 3.1 numeric profile | form | proposed | `spec-vendored/2026Oct-0040-ives-2026-10-10-numeric-profile.txt` | `9c35050921fdefb7` | A reader rejects a report whose digested value violates this, under W3C-R-020, naming the cause. |
@@ -183,6 +184,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `w3c-f-15` | section 3.1: a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix |
 | `w3c-f-16` | section 2: moved, recomputed, is contained in the declared compared set |
 | `w3c-f-29` | section 5.4: a control built to fail is bound to the checker and constraint set of the checks it speaks for |
+| `w3c-f-33` | section 5.4: a prior discriminating run is bound to the checker and constraint set of the checks it speaks for |
 | `w3c-f-17` | roll-up: the aggregate carries its complete denominator |
 | `w3c-f-18` | roll-up: the counter over carried against referenced recomputes |
 | `w3c-f-19` | closed vocabulary: a value outside a registry is not read |
@@ -344,6 +346,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `v8981e0830c69b869` | reject | report | w3c-f-6 | W3C-R-006 | W3C-R-006 |
 | `v8a7442b19984a1ff` | accept | report | w3c-f-7 | W3C-R-007 | none |
 | `v8a8da062cba9fce5` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `v8aec53e0502ced65` | reject | report | w3c-f-33 | W3C-R-033 | W3C-R-033 |
 | `v8c15455bb3d933cb` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `v8d4e61737e9ee6a6` | reject | agent-run-metrics | arm-f-serialization | ARM-R-019 | ARM-R-019 |
 | `v8ec1375690daa188` | reject | report | w3c-f-16 | W3C-R-016 | W3C-R-016 |
@@ -352,6 +355,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `v91f45fe53b9cb4f7` | accept | report | w3c-f-jcs-non-integer | W3C-R-020, W3C-R-031 | none |
 | `v920852737e02ae49` | reject | report | w3c-f-jcs-number-value | W3C-R-020, W3C-R-030 | W3C-R-020 |
 | `v9614879a484c4fc0` | accept | report | w3c-f-disensor | W3C-R-016 | none |
+| `v973e82c1857b0a7e` | reject | report | w3c-f-33 | W3C-R-033 | W3C-R-033 |
 | `v9815e1f08a7e0664` | reject | agent-run-metrics | arm-f-run | ARM-R-003 | ARM-R-003 |
 | `v98252c989e84999d` | reject | report | w3c-f-3 | W3C-R-003 | W3C-R-003 |
 | `v98ee154eeceb9c55` | accept | report | w3c-f-disensor | W3C-R-016 | none |
@@ -439,6 +443,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `vd8d93fd735111aa5` | accept | report | w3c-f-13 | W3C-R-013 | none |
 | `vda5261ec1d0bd74e` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `vda6c078e77700b28` | reject | agent-run-metrics | arm-f-usage | ARM-R-014 | ARM-R-014 |
+| `vdca2c29b3d1d31b7` | accept | report | w3c-f-33 | W3C-R-033 | none |
 | `vdcb0849fc754aaea` | accept | report | w3c-f-disensor | W3C-R-016 | none |
 | `vdcbd067d047bfbd0` | reject | report | w3c-f-7 | W3C-R-007 | W3C-R-007 |
 | `vdd9207f5aa2fc9e3` | accept | report | w3c-f-disensor | W3C-R-016 | none |
@@ -484,6 +489,7 @@ whether the v0.1 text adopts the row (agreed) or only this corpus carries it
 | `vfbc5db1c2a012359` | reject | report | w3c-f-15 | W3C-R-015 | W3C-R-015 |
 | `vfbd7379026575f04` | accept | report | w3c-f-gaps | W3C-R-001, W3C-R-002 | none |
 | `vfeb5d1872929ab35` | accept | llm-context-discovery | lcd-f-publisher | LCD-R-010 | none |
+| `vff1d02d89ab42ef7` | accept | report | w3c-f-33 | W3C-R-033 | none |
 | `vff5545c0760d7544` | accept | agent-run-metrics | arm-f-usage | ARM-R-013 | none |
 | `vff8f75223d6658ef` | reject | llm-context-discovery | lcd-f-publisher | LCD-R-001 | LCD-R-001 |
 
