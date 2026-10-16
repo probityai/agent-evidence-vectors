@@ -3,11 +3,11 @@
     "digest": "sha256",
     "envelope": "ed25519"
   },
-  "corpusDigest": "811c1affc0b1669529c572efa7cf1869d09312df22ffafdc490844d4c43a0ba1",
+  "corpusDigest": "fec27bdf2660063872967d6abde35d7c4b86a4c5038237e952edfb0d92d884cf",
   "counts": {
     "accept": 17,
     "indeterminate": 2,
-    "reject": 49
+    "reject": 52
   },
   "draft": "draft-gilda-wimse-agent-audit-record-02",
   "emptyTree": {
@@ -975,6 +975,57 @@
       "kind": "accept",
       "row": "A11 with oversight act of release",
       "slug": "a17-oversight-release"
+    },
+    {
+      "draftId": "E4",
+      "draftSection": "5.3",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v0a8347d22528a482.json",
+      "id": "v0a8347d22528a482",
+      "kind": "reject",
+      "parent": "v0d65a70ec5288821",
+      "parentDraftId": "A1",
+      "row": "the only write's pre-state is not the before-state root, its post-state is the after-state root",
+      "slug": "e4-first-write-not-from-before-root"
+    },
+    {
+      "draftId": "E5",
+      "draftSection": "5.3",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vce5dd5d3016f0f98.json",
+      "id": "vce5dd5d3016f0f98",
+      "kind": "reject",
+      "parent": "v0d65a70ec5288821",
+      "parentDraftId": "A1",
+      "row": "the only write starts from the before-state root and its post-state is not the after-state root",
+      "slug": "e5-last-write-not-to-after-root"
+    },
+    {
+      "draftId": "E6",
+      "draftSection": "5.3",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb056ea9d796833dd.json",
+      "id": "vb056ea9d796833dd",
+      "kind": "reject",
+      "parent": "v8e2ef110bf6d52f6",
+      "parentDraftId": "A2",
+      "row": "an empty write set beside an after-state root unequal to the before-state root, second subject moved to match",
+      "slug": "e6-no-write-and-unequal-roots"
     },
     {
       "draftId": "EV5",
