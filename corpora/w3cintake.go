@@ -1190,42 +1190,67 @@ func intakeRoutineOnDisk(record map[string]any, root string, f intakeFound) {
 	}
 }
 
+// intakeSerializations is _serializations: every digest the record offers as
+// evidence declares its input serialization (W3C-I-033), and the
+// canonicalization is one this reader implements (W3C-I-032). The offered
+// digests are read in the groups _offered_digests lists them.
 func intakeSerializations(record map[string]any, f intakeFound) {
-	declared := iEq(record["pin-serialization"], "bytes") &&
-		iEq(iField(record["corpus-digest"], "serialization"), "sha256-listing-v1")
-	if anchor, ok := iObj(record["anchor"]); ok {
-		routineFile, named := anchor["routine-file"]
-		declared = declared && iEq(anchor["serialization"], "corpus-routine") && iStr(anchor["routine"]) &&
-			(!named || routineFile == nil || intakeSafePath(routineFile))
-		if signature, isObj := iObj(anchor["signature"]); isObj && iEq(anchor["kind"], "signed-digest-list") {
-			declared = declared && iEq(signature["serialization"], "bytes")
-		}
-	}
-	for _, item := range iList(record, "artifacts") {
-		declared = declared && iEq(iField(item, "serialization"), "bytes")
-	}
-	checker := record["checker"]
-	revision := iField(checker, "revision")
-	if iEq(iField(revision, "kind"), "source-listing") {
-		declared = declared && iEq(iField(revision, "serialization"), "sha256-listing-v1")
-	}
-	for _, key := range []string{"dependencies", "helpers"} {
-		for _, item := range iList(checker, key) {
-			declared = declared && iEq(iField(item, "serialization"), "bytes")
-		}
-	}
-	for _, item := range iList(record, "observations") {
-		reference, isObj := iObj(iField(item, "reference"))
-		if iEq(iField(item, "carry"), "referenced") && isObj {
-			declared = declared && iEq(reference["serialization"], "bytes")
-		}
-	}
-	if !declared {
+	if !intakeRecordDigestsDeclared(record) || !intakeAnchorDigestsDeclared(record["anchor"]) ||
+		!intakeCheckerDigestsDeclared(record["checker"]) ||
+		!iEach(iList(record, "observations"), intakeObservationDigestDeclared) {
 		f.add(33)
 	}
 	if !iIn(iField(record["canonicalization"], "encoding"), intakeEncodings) {
 		f.add(32)
 	}
+}
+
+// intakeBytesDeclared reports whether one digest declares the bytes serialization.
+func intakeBytesDeclared(item any) bool {
+	return iEq(iField(item, "serialization"), "bytes")
+}
+
+// intakeRecordDigestsDeclared covers the member pins, the corpus digest and
+// every artifact digest.
+func intakeRecordDigestsDeclared(record map[string]any) bool {
+	return iEq(record["pin-serialization"], "bytes") &&
+		iEq(iField(record["corpus-digest"], "serialization"), "sha256-listing-v1") &&
+		iEach(iList(record, "artifacts"), intakeBytesDeclared)
+}
+
+// intakeAnchorDigestsDeclared covers the anchor digest and, for a signed digest
+// list, the pin of its key. A record with no anchor object offers neither.
+func intakeAnchorDigestsDeclared(anchor any) bool {
+	m, ok := iObj(anchor)
+	if !ok {
+		return true
+	}
+	routineFile := m["routine-file"]
+	declared := iEq(m["serialization"], "corpus-routine") && iStr(m["routine"]) &&
+		(routineFile == nil || intakeSafePath(routineFile))
+	if signature, isObj := iObj(m["signature"]); isObj && iEq(m["kind"], "signed-digest-list") {
+		declared = declared && intakeBytesDeclared(signature)
+	}
+	return declared
+}
+
+// intakeCheckerDigestsDeclared covers the checker's source listing, when its
+// revision is one, and every dependency and helper digest.
+func intakeCheckerDigestsDeclared(checker any) bool {
+	revision := iField(checker, "revision")
+	if iEq(iField(revision, "kind"), "source-listing") &&
+		!iEq(iField(revision, "serialization"), "sha256-listing-v1") {
+		return false
+	}
+	return iEach(iList(checker, "dependencies"), intakeBytesDeclared) &&
+		iEach(iList(checker, "helpers"), intakeBytesDeclared)
+}
+
+// intakeObservationDigestDeclared covers one observation: only a referenced
+// observation with a reference object offers a digest.
+func intakeObservationDigestDeclared(item any) bool {
+	reference, isObj := iObj(iField(item, "reference"))
+	return !iEq(iField(item, "carry"), "referenced") || !isObj || intakeBytesDeclared(reference)
 }
 
 func intakeRevisionPinned(revision any) bool {
