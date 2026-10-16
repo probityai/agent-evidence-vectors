@@ -21,6 +21,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Signed provenance of an agentic process | [vectors-agentic-process-evidence](../../vectors-agentic-process-evidence/README.md) | Agentic Process Evidence predicate v0.1 (in-toto/attestation#609); packaged reader or named verifier |
 | Hash of an agent's tool-call arguments | [vectors-agent-decision](../../vectors-agent-decision/README.md) | `args_hash` and `args_state` of the agent-decision v0.1 predicate proposed in in-toto/attestation#554; `aee-verify` |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
+| TRACE Level 2 registry anchors | [vectors-trace-anchor](../../vectors-trace-anchor/README.md) | Registry Anchor Format v1 with trace-spec#533: entry binding, self-anchored receipts, lying receipt fields; packaged reader or named verifier |
 | A2A Agent Card canonicalization | [vectors-a2a-jcs-v01](../../vectors-a2a-jcs-v01/README.md) | RFC 8785 bytes and the signing input of a card, vendored from a2a-tck; packaged reader or named verifier |
 | Draft MCP verification requirements and threats | [vectors-mcp-owasp](../../vectors-mcp-owasp/INDEX.md) | MCPVS-1 to MCPVS-12 and MCPTM-1 to MCPTM-10, one registry; packaged reader or `aee-verify` |
 | Per-check conformance reports | [vectors-w3c-report](../../vectors-w3c-report/) | W3C public-agent-conformance v0.1 |

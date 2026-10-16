@@ -163,6 +163,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-scitt-cose": _recompute_from_generator,
     "vectors-source-coverage": _recompute_from_generator,
     "vectors-anchored-chain": _recompute_from_generator,
+    "vectors-trace-anchor": _recompute_from_generator,
     "vectors-grade-floor": _recompute_from_generator,
     "vectors-agent-change-admission": _recompute_from_generator,
     "vectors-agentic-process-evidence": _recompute_from_generator,

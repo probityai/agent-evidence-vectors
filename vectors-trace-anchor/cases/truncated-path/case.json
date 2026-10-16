@@ -1,0 +1,24 @@
+{
+  "claim": {
+    "iat": 1792000006,
+    "signature": "fixture-signature-b-eight-agent-6",
+    "subject": "b-eight-agent-6",
+    "transparency": "https://registry.example.org/anchors/b-eight"
+  },
+  "entry": {
+    "batch_id": "b-eight",
+    "leaf_count": 8,
+    "merkle_root": "sha256:fc31ea0ab2e0c0a463b40b03c2f84967e96b51ef12284696df4fd3bbb4bbd713",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:ad11bd06801f4dcf5a816870a0c6be23b03946ec72b4786574332ba8a16e47b1",
+      "sha256:661446b9e745cf37fd024df3f2b3b5cbe7a6d724543261b6e9236f99e17b2f1c"
+    ],
+    "leaf_count": 8,
+    "leaf_index": 6,
+    "merkle_root": "sha256:fc31ea0ab2e0c0a463b40b03c2f84967e96b51ef12284696df4fd3bbb4bbd713"
+  }
+}
