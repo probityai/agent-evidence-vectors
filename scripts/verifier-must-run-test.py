@@ -298,7 +298,7 @@ def case_action_summary(work: Path) -> list[str]:
                 f"action-summary source coverage: outputs {coverage_out!r}, expected pass on 6"
             )
     short = dict(coverage, verifier={"command": ["x"], "vectorsExecuted": 5},
-                 failures=["the verifier answered 5 of 6 vectors"])
+                 failures=["the verifier stopped before the last vector"])
     try:
         if summarise(work, short, "0").get("result") != "fail":
             errors.append("action-summary source coverage: a short count did not read as fail")
