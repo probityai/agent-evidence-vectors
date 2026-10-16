@@ -66,6 +66,7 @@ REFUSES_A_VERIFIER = (
     "vectors-artifact-binding",
     "vectors-delegation-lifecycle",
     "vectors-dependency-selection",
+    "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
     "vectors-mcp-record-contract",
     "vectors-mcp-response-phase",
