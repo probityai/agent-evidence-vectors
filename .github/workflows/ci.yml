@@ -322,7 +322,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-self-reported-record vectors-agent-decision scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
+        run: uv run ruff check packaging vectors vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -961,6 +961,12 @@ jobs:
       # rule in turn, standing in the library behaviour a reject is built against.
       - name: the agent-decision corpus behaves as its manifest claims
         run: uv run --extra generators python vectors-agent-decision/check_vectors.py
+      # The IETF agent-record drafts corpus holds cases for three SCITT-wave
+      # Internet-Drafts. Its checker judges every member, re-reads each under the
+      # draft's own procedure to confirm the recorded draftReading, decodes every
+      # CBOR item again with cbor2, and disables each rule in turn.
+      - name: the IETF agent-record drafts corpus behaves as its manifest claims
+        run: uv run --extra generators python vectors-ietf-agent-record-drafts/check_vectors.py
       # An indeterminate member is a row the specification leaves open, and a
       # verifier conforms on it by reaching any verdict its readings list. N1 and
       # N2 shipped with expected.verdict pinned to one of their two readings while

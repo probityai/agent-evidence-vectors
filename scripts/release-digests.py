@@ -151,6 +151,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-ai-agent-action": _recompute_agent_action,
     "vectors-agent-audit-record": _recompute_from_generator,
     "vectors-agent-decision": _recompute_from_generator,
+    "vectors-ietf-agent-record-drafts": _recompute_from_generator,
     "vectors-aci": _recompute_from_generator,
     "vectors-acs-core": _recompute_from_generator,
     "vectors-anchor-stream": _recompute_from_generator,
