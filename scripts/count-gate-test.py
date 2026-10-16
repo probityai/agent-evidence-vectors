@@ -814,7 +814,10 @@ CENSUS_CASES.append(
             "BUILD-NOTES.md",
             f"\nThe sweep records {OBSERVED_EFFECT_REJECT} unforced rules today.\n",
         ),
-        ("equal to the reject count of vectors-observed-effect",),
+        # Not "equal to the reject count of ...": when another published count
+        # shares the value the refusal names every source it equals, and this
+        # case asks only that the observed-effect reject count is among them.
+        ("the reject count of vectors-observed-effect",),
     )
 )
 
