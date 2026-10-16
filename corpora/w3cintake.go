@@ -1137,12 +1137,17 @@ var intakeEd25519SPKIPrefix = []byte{0x30, 0x2a, 0x30, 0x05, 0x06, 0x03, 0x2b, 0
 // reader does not.
 func intakeBase64(text []byte) ([]byte, bool) {
 	for _, c := range text {
-		if !(c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '+' || c == '/' || c == '=') {
+		if !intakeBase64Byte(c) {
 			return nil, false
 		}
 	}
 	out, err := base64.StdEncoding.DecodeString(string(text))
 	return out, err == nil
+}
+
+// intakeBase64Byte reports whether c is in the padded standard base64 alphabet.
+func intakeBase64Byte(c byte) bool {
+	return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '+' || c == '/' || c == '='
 }
 
 // intakeEd25519PublicKey is ed25519_public_key: the key of a PEM PUBLIC KEY block.
