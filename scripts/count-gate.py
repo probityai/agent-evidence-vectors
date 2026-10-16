@@ -1607,6 +1607,17 @@ FROZEN: tuple[Frozen, ...] = (
         "figure posted to the W3C list on 7 October 2026. A published digest is "
         "never mutated, so its split must not track the current manifest.",
     ),
+    # The section 10 split of vectors-w3c-report at v0.18.1 and v0.18.2, before
+    # the prior-run binding members joined it. It is what the manifest at
+    # corpusDigest f9e58e62... says, and like the split above it must not follow
+    # the current one.
+    Frozen(
+        "vectors-w3c-report/README.md",
+        "the section 10 split at v0.18.1 and v0.18.2",
+        "the selection was 165 members, 41 to reject and 124 to",
+        "The split at an earlier corpusDigest, named in the sentence. A published "
+        "digest is never mutated, so its split must not track the current manifest.",
+    ),
     Frozen(
         "vectors-agent-audit-record/README.md",
         "the first outside reader's posted score on the revision 01 corpus",
@@ -2513,45 +2524,16 @@ FROZEN: tuple[Frozen, ...] = (
         "A past behaviour of a cap that no longer ships. The figure explains why "
         "the constant was raised; tracking it to the present would erase that.",
     ),
-    # ---- the number-family balance design note. Every figure below is either a
-    # property of RFC 8785's own Appendix B table or a measurement taken by
-    # staging the tree and running the real surface-leakage gate against it on
-    # 2026-09-20. None of them tracks this corpus, and rewriting any of them
-    # when it grows would restate an experiment nobody re-ran.
+    # ---- the number-family page. The one figure on it that is not a vector id
+    # is a property of RFC 8785's own Appendix B table, so it does not track any
+    # corpus here.
     Frozen(
         "docs/NUMBER-FAMILY-BALANCE.md",
         "the size of RFC 8785's Appendix B Table 1, as the family quotes it",
-        "carries 24 accept vectors",
+        "holds the 24 rows of Appendix B",
         "The number of Appendix B Table 1 rows that have a JSON representation, "
         "one vector each. It is a property of the RFC's own table rather than of "
         "any corpus here, and the family exists to carry exactly that table.",
-    ),
-    Frozen(
-        "docs/NUMBER-FAMILY-BALANCE.md",
-        "the drift already spent against the recorded reject count",
-        "`1/16 = 6.25%`",
-        "The fraction of the surface-leakage gate's fingerprint budget already "
-        "spent, computed against the count RECORDED in the baseline rather than "
-        "against today's corpus. Its denominator is a past calibration and moves "
-        "only when that calibration is redone.",
-    ),
-    Frozen(
-        "docs/NUMBER-FAMILY-BALANCE.md",
-        "the drift one further reject would spend against the same recorded count",
-        "`2/16 = 12.5%`",
-        "The same arithmetic one reject further on, against the same recorded "
-        "calibration. Deriving it from the live corpus would change what the "
-        "sentence is about.",
-    ),
-    Frozen(
-        "docs/NUMBER-FAMILY-BALANCE.md",
-        "the class counts of the three staged trees the leakage table was measured over",
-        "| surface | today (37/17) | +1 reject (37/18) | +1 accept +1 reject "
-        "(38/18) | recorded null |",
-        "The accept/reject counts of three staged copies of the tree, naming "
-        "which experiment each measured column came from. They are the inputs to "
-        "a measurement that was performed once; two of the three trees do not "
-        "exist and never will.",
     ),
     Frozen(
         'packaging/agent_evidence_vectors/w3cintake.py',

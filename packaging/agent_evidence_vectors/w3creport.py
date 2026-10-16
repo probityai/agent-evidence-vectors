@@ -106,7 +106,7 @@ SLOTS = ("verdict", "fired-rule list", "error list")
 
 #: Requirement identifiers, minted by the corpus. The sentence each binds to
 #: is in vectors-w3c-report/MANIFEST.json and the corpus's INDEX.md.
-R = {n: f"W3C-R-{n:03d}" for n in range(1, 30)}
+R = {n: f"W3C-R-{n:03d}" for n in (*range(1, 30), 33)}
 
 
 # --------------------------------------------------------------------------
@@ -860,20 +860,21 @@ def _row_control(
     elif control.get("state") != "fail":
         out.add(R[13])
     else:
-        _row_control_binding(control.get("fixed"), run_fixed, out)
+        _row_binding(control.get("fixed"), run_fixed, R[29], out)
 
 
-def _row_control_binding(bound: Any, run_fixed: Any, out: set[str]) -> None:
-    """Rule 29, v0.1 section 5.4: a control ran under the checker and constraint set it speaks for.
+def _row_binding(bound: Any, run_fixed: Any, row: str, out: set[str]) -> None:
+    """A filling of section 5.4 bound to the checker and constraint set it speaks for.
 
-    Read only where both the control and the run declare the binding: a
-    binding that differs from the run's is refused, and a missing one is not,
-    because v0.1 fixes no slot for the run's binding (section 5.5, open item O7).
+    Rule 29 reads a control's binding and rule 33 a prior run's, both against
+    the run's own. Read only where both declare the binding: a binding that
+    differs from the run's is refused, and a missing one is not, because v0.1
+    fixes no slot for the run's binding (section 5.5, open item O7).
     """
     if not (_is_obj(bound) and _is_obj(run_fixed)):
         return
     if any(bound.get(slot) != run_fixed.get(slot) for slot in BINDING_SLOTS):
-        out.add(R[29])
+        out.add(row)
 
 
 def _rows_negative_capable(
@@ -899,6 +900,7 @@ def _rows_negative_capable(
         if not _identity(field.get("check-identity"), ids):
             out.add(R[14])
         _set_binding(field.get("reference"), out, weaken)
+        _row_binding(field.get("fixed"), run_fixed, R[33], out)
 
 
 COVERAGE_STRINGS = ("surface", "scan-depth", "point-in-time", "linked-repo")

@@ -52,6 +52,9 @@ def _reader() -> ModuleType:
     if spec is None or spec.loader is None:
         raise SystemExit(f"{path} could not be loaded")
     module = importlib.util.module_from_spec(spec)
+    # Registered before it runs, as importlib's recipe does: a dataclass in the
+    # module looks its own module up in sys.modules while the class is built.
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
