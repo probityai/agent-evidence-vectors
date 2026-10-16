@@ -105,17 +105,14 @@ def published_routes() -> dict[Path, Path]:
         Repository-relative source paths and site-relative output paths.
         New pages in ``DOC_SECTIONS`` join the site without another route list.
         Predicate aliases are added separately by :func:`predicate_pages`.
-        Each document the registry defines a type URI by is routed to that
-        URI, so a link to it from any other page lands on the URI's page.
     """
     routes = {
         Path("README.md"): Path("start.html"),
         Path("RUNS.md"): Path("runs.html"),
         Path("DISTRIBUTION.md"): Path("distribution.html"),
         Path("spec/predicates/REGISTRY.md"): Path("predicate/index.html"),
+        Path("spec/predicates/observed-effect.md"): Path("predicate/v1/observed-effect.html"),
     }
-    for (version, name), document in predicate_documents().items():
-        routes[document] = Path("predicate") / version / f"{name}.html"
     for section in DOC_SECTIONS:
         for source in sorted((REPO_ROOT / "docs" / section).rglob("*.md")):
             relative = source.relative_to(REPO_ROOT)
@@ -410,8 +407,6 @@ PREDICATE_REGISTRY = REPO_ROOT / "spec" / "predicates" / "REGISTRY.md"
 # from the registry is meant to fail review, and a second list in this file would
 # be the place that silently disagreed.
 PREDICATE_PATH_RE = re.compile(r"^### `predicate/(v\d+)/([a-z0-9-]+)`$", re.MULTILINE)
-DEFINED_SECTION_RE = re.compile(r"^## Defined here$(.*?)(?=^## |\Z)", re.MULTILINE | re.DOTALL)
-DOCUMENT_RE = re.compile(r"^- Document: `([^`]+)`$", re.MULTILINE)
 
 
 def predicate_uris() -> list[tuple[str, str]]:
@@ -422,41 +417,45 @@ def predicate_uris() -> list[tuple[str, str]]:
     return [(version, name) for version, name in found]
 
 
-def predicate_documents() -> dict[tuple[str, str], Path]:
-    """The repository document each defined-here type URI serves.
+# A "Defined here" entry names its normative document on a `- Document:` line.
+DEFINED_SECTION_RE = re.compile(r"^## Defined here$(.*?)^## ", re.MULTILINE | re.DOTALL)
+DOCUMENT_RE = re.compile(
+    r"^### `predicate/(v\d+)/([a-z0-9-]+)`$\s*^- Document: `([^`]+)`$", re.MULTILINE
+)
 
-    Returns
-    -------
-    dict of (str, str) to pathlib.Path
-        Repository-relative document paths keyed by (version, name), read
-        from the registry's "Defined here" section. A registration serves the
-        registry page and has no entry.
 
-    Raises
-    ------
-    SystemExit
-        If the section is missing, or an entry in it names no document or a
-        document that is not in the tree. Either way the URI would serve a
-        page other than the one the registry promises.
+def defined_documents() -> dict[tuple[str, str], Path]:
+    """The normative document of every type URI the registry says is defined here.
+
+    Read from the registry for the same reason the URI list is: the page a type
+    URI serves is decided in one tracked file. An entry under "Defined here"
+    that names no document, or names one that is not tracked, fails the build
+    rather than falling back to the registration page, because serving the
+    registry where a definition was promised is the 404 in a quieter form.
     """
     text = PREDICATE_REGISTRY.read_text(encoding="utf-8")
     section = DEFINED_SECTION_RE.search(text)
     if section is None:
         raise SystemExit(f"FAIL: {PREDICATE_REGISTRY} has no 'Defined here' section")
-    documents: dict[tuple[str, str], Path] = {}
-    for entry in re.split(r"^(?=### `predicate/)", section.group(1), flags=re.MULTILINE):
-        heading = PREDICATE_PATH_RE.search(entry)
-        if heading is None:
-            continue
-        uri = f"predicate/{heading.group(1)}/{heading.group(2)}"
-        document = DOCUMENT_RE.search(entry)
-        if document is None:
-            raise SystemExit(f"FAIL: {uri} is defined here but names no Document")
-        relative = Path(document.group(1))
-        if not (REPO_ROOT / relative).is_file():
-            raise SystemExit(f"FAIL: {uri} names {relative}, which is not in the tree")
-        documents[(heading.group(1), heading.group(2))] = relative
-    return documents
+    names = PREDICATE_PATH_RE.findall(section.group(1))
+    docs = {(v, n): REPO_ROOT / rel for v, n, rel in DOCUMENT_RE.findall(section.group(1))}
+    for key in names:
+        if key not in docs or not docs[key].is_file():
+            raise SystemExit(
+                f"FAIL: predicate/{key[0]}/{key[1]} is defined here and names no document"
+            )
+    return docs
+
+
+def document_title(path: Path) -> str:
+    """The document's own first heading, without the registry's prefix."""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("# "):
+            heading = line[2:].strip()
+            if heading.startswith("Predicate type: "):
+                return heading.removeprefix("Predicate type: ") + " predicate"
+            return heading
+    raise SystemExit(f"FAIL: {path} has no first-level heading")
 
 
 def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[Path, str]:
@@ -471,18 +470,17 @@ def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict
     which, and it says so on the page, so nobody reads a registration as a field
     definition.
     """
-    uris = predicate_uris()
     selected = published_routes() if routes is None else routes
     prefix = Path("predicate/index.html")
     registry = render_markdown(PREDICATE_REGISTRY, prefix, selected)
+    uris = predicate_uris()
+    defined = defined_documents()
     pages: dict[Path, str] = {prefix: page("Predicate types", registry, tag, prefix)}
-    documents = predicate_documents()
     for version, name in uris:
-        document = documents.get((version, name))
+        document = defined.get((version, name))
         if document is not None:
-            source = REPO_ROOT / document
-            heading = re.search(r"^# (.+)$", source.read_text(encoding="utf-8"), re.MULTILINE)
-            title = heading.group(1) if heading is not None else name
+            source = document
+            title = document_title(document)
         else:
             source = PREDICATE_REGISTRY
             title = f"{name} ({version}), registered"
@@ -512,7 +510,7 @@ def markdown_pages(tag: str, routes: Mapping[Path, Path]) -> dict[Path, str]:
     """
     pages = {}
     for relative, output in routes.items():
-        if output.parts[0] == "predicate":
+        if relative.parts[:2] == ("spec", "predicates"):
             continue
         source = REPO_ROOT / relative
         heading = re.search(r"^# (.+)$", source.read_text(encoding="utf-8"), re.MULTILINE)

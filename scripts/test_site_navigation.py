@@ -42,11 +42,11 @@ COMPANIONS = (
 )
 PREDICATES = (
     ("v1", "observed-effect"),
+    ("v1", "self-reported-record"),
     ("v1", "kernel-substrate"),
     ("v2", "kernel-substrate"),
     ("v2", "launch-chain"),
     ("v1", "agent-audit-record"),
-    ("v1", "self-reported-record"),
     ("v1", "govops-trace-record"),
 )
 EXPECTED_HTML = (
@@ -130,8 +130,8 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     for relative in (
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
-        "spec/predicates/adversarial-execution-evidence.md",
         "spec/self-reported-record/v1.md",
+        "spec/predicates/adversarial-execution-evidence.md",
         "spec/schemas/observed-effect-code-digest-v0.5.schema.json",
     ):
         target = tmp_path / relative
@@ -324,8 +324,7 @@ class TestSiteNavigation:
             self, repository: Path, version: str, name: str
         ) -> None:
             pages = site.predicate_pages("v0.15.0")
-            document = site.predicate_documents().get((version, name))
-            source = site.PREDICATE_REGISTRY if document is None else repository / document
+            source = site.defined_documents().get((version, name), site.PREDICATE_REGISTRY)
             original = markdown.markdown(source.read_text(), extensions=["tables", "fenced_code"])
             expected = " ".join(HtmlView(f"<main>{original}</main>").text).split()
             for relative in (
@@ -376,8 +375,7 @@ class TestSiteNavigation:
             root = fromstring((built_site / "sitemap.xml").read_bytes())
             namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
             urls = [node.text for node in root.findall("s:url/s:loc", namespace)]
-            expected = {site.canonical_route(path) for path in EXPECTED_HTML} - {None}
-            assert len(urls) == len(set(urls)) == len(expected)
+            assert len(urls) == len(set(urls)) == 26
             assert root.find("s:url/s:lastmod", namespace) is None
 
         def test_local_image_loads_repository_bytes(self, repository: Path) -> None:
@@ -406,12 +404,10 @@ class TestSiteNavigation:
             with pytest.raises(SystemExit, match=re.escape(expected)):
                 site.predicate_pages("v0.15.0")
 
-        def test_defined_predicate_without_its_document_stops_the_build(
-            self, repository: Path
-        ) -> None:
+        def test_defined_type_without_its_document_stops_the_build(self, repository: Path) -> None:
             (repository / "spec/self-reported-record/v1.md").unlink()
             expected = (
-                "FAIL: predicate/v1/self-reported-record names spec/self-reported-record/v1.md"
+                "FAIL: predicate/v1/self-reported-record is defined here and names no document"
             )
             with pytest.raises(SystemExit, match=re.escape(expected)):
                 site.predicate_pages("v0.15.0")

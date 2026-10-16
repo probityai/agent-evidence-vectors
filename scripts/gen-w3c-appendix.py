@@ -30,13 +30,13 @@ REPO = Path(__file__).resolve().parent.parent
 MANIFEST = REPO / "vectors-w3c-report" / "MANIFEST.json"
 TARGET = REPO / "docs" / "W3C-V01-CONFORMANCE-APPENDIX.md"
 
-ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 33)}
+ROW = {n: f"W3C-R-{n:03d}" for n in range(1, 34)}
 
 SECTIONS = (
     ("Section 4: the rejection table, rows 1 to 14", [*(ROW[n] for n in range(1, 13)), ROW[25], ROW[26]]),
     ("Sections 1 and 2: the record and the evidence object", [ROW[19], ROW[24], ROW[16], ROW[21], ROW[27], ROW[28]]),
     ("Section 3: carry or reference, and digests over a collection", [ROW[20], ROW[15]]),
-    ("Section 5: the roll-up", [ROW[17], ROW[23], ROW[18], ROW[13], ROW[14], ROW[29]]),
+    ("Section 5: the roll-up", [ROW[17], ROW[23], ROW[18], ROW[13], ROW[14], ROW[29], ROW[33]]),
     ("Carried by this corpus and not by the v0.1 text", [ROW[22], ROW[30], ROW[31], ROW[32]]),
 )
 
@@ -244,7 +244,7 @@ Section 10 says the text governs where the two differ until the digest is filled
 - `W3C-R-022`, the coverage block of `0001`, is not in the v0.1 text. Its members fire only on a report that carries a `coverage` block, and an implementation of v0.1 alone has no reason to reject them. It is marked proposed.
 - `W3C-R-030`, `W3C-R-031` and `W3C-R-032`, the digest encoding proposed on the list after v0.1 froze (`2026Oct-0038`, `2026Oct-0040`), are not in the v0.1 text. v0.1 does not say which bytes enter a digest over a JSON value; the proposal names RFC 8785 under the identifier `jcs-sha256`, every number an integer of magnitude below 2^53, a number outside that range refused under `W3C-R-020` naming the cause, and a declared encoding outside the closed set refused under `W3C-R-015`. Their members are rejected under rows v0.1 has, for a reason only the proposal states, so they are counted apart from the section 10 selection, as excluded-under-proposed-rule.
 - The members of subject types `agent-run-metrics` and `llm-context-discovery` are judged by the sentences of the two Internet-Drafts the editor holds, not by v0.1. They are in the same manifest and so under the same digest.
-- Section 5.4 binds a control built to fail to the checker revision and configuration of the checks it speaks for. `W3C-R-029` refuses a binding that differs from the one the run declares; a run that declares none is not refused, because v0.1 fixes no slot for it and the fixture record that would carry `checker_revision` and `config_digest` is not normative (section 5.5, open item O7).
+- Section 5.4 binds a control built to fail, and the reference to a prior discriminating run, to the checker revision and configuration of the checks they speak for (change log entry 12). `W3C-R-029` refuses a control, and `W3C-R-033` a prior run, whose binding differs from the one the run declares, the check identifiers unchanged; a run that declares none is not refused, because v0.1 fixes no slot for it and the fixture record that would carry `checker_revision` and `config_digest` is not normative (section 5.5, open item O7).
 """
 
 

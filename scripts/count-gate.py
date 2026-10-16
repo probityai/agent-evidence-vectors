@@ -1607,6 +1607,17 @@ FROZEN: tuple[Frozen, ...] = (
         "figure posted to the W3C list on 7 October 2026. A published digest is "
         "never mutated, so its split must not track the current manifest.",
     ),
+    # The section 10 split of vectors-w3c-report at v0.18.1 and v0.18.2, before
+    # the prior-run binding members joined it. It is what the manifest at
+    # corpusDigest f9e58e62... says, and like the split above it must not follow
+    # the current one.
+    Frozen(
+        "vectors-w3c-report/README.md",
+        "the section 10 split at v0.18.1 and v0.18.2",
+        "the selection was 165 members, 41 to reject and 124 to",
+        "The split at an earlier corpusDigest, named in the sentence. A published "
+        "digest is never mutated, so its split must not track the current manifest.",
+    ),
     Frozen(
         "vectors-agent-audit-record/README.md",
         "the first outside reader's posted score on the revision 01 corpus",
