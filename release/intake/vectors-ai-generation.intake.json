@@ -15,6 +15,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-ai-generation/digest.py",
+    "routine-file": "vectors-ai-generation/digest.py",
     "serialization": "corpus-routine",
     "sha256": "786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037",
     "verdicts": {
@@ -22,6 +23,426 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "05a932294e8b6d1fae7e2798c89f7a1d9205c75615f3e1b690b88aa94b2c959d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "3bcd7441f937332ff8a7ccbec458a05423712adf953ca407175101e19fed63d5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "a294077884c18f8fb1999f3cbc58a8daefc83c4c68bc8f286f30567e655cffd0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/README.md",
+      "serialization": "bytes",
+      "sha256": "a9d42bdcf6e805dcdf6ebc3c0d427f259e49cc963da1f724fc4a5281169dd757"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "5d670055cf984c33c24182171302e33505830b1815a954017908d98664f263fd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/digest.py",
+      "serialization": "bytes",
+      "sha256": "660616e758b86b030ec57692d0975206a7bdd67da8c3e047903d26d8432bd069"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "ff42298c5894cdf07de5d8ab22b9799aae70f94e61b705b1641b0d42e5719a39",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2cc40cdc75bc1e5bbec35eaa7c081a1b9f6a97f5098d03de2569831166c558d0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "056f1f959948d082b417bd41e7265786582163804efcb1ecf7278dd193e6a908",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/LICENSE-13fd0a8b",
+      "serialization": "bytes",
+      "sha256": "cfa7f062b75afdeb88f4a8d8540f6536b98fc4440354e9f32e4f9da90f60870b"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "2020c3ad0642d337151d1112e5abfd73eec859025692a95eb904cd01ef1560bb"
+        },
+        "swapped-in": "0ca322995c1482070d340533ac5d4414b47ca5966dbb2ef849e3a0f14e6abbef",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/LICENSE-17b964ee",
+      "serialization": "bytes",
+      "sha256": "cfa7f062b75afdeb88f4a8d8540f6536b98fc4440354e9f32e4f9da90f60870b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "6c5286eb00536eebf7aed4b457fb6a911d37796dfa4e98460acec4a28b7f8fe1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-schema-13fd0a8b.json",
+      "serialization": "bytes",
+      "sha256": "a66870141435585d4e4715c7936ad415b0c882be7d71a18ceab2605c2375169c"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "df24b80488437dbe8927d5fbc3cd3c2ecce3c3facb4165d1189864c573416876"
+        },
+        "swapped-in": "826f8b944440a1d2ec497d4effc55df15165ac9fe8e9b2656249dd37924a56a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-schema-17b964ee.json",
+      "serialization": "bytes",
+      "sha256": "a66870141435585d4e4715c7936ad415b0c882be7d71a18ceab2605c2375169c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "9ca0d9c0ce74e62b0bce57e491ac9ac933220826169104122344ef2bb7884975",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-v0.1-13fd0a8b.md",
+      "serialization": "bytes",
+      "sha256": "303e6c7c3fe77290941b91e1386c97cae94ecd7dea588855bbc2ddb69c69c240"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "4523d5e1a494977255d42587edd2a33a23989bb39116fbcf7442f6c2c80c9db5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-v0.1-17b964ee.md",
+      "serialization": "bytes",
+      "sha256": "de793f9e4ae47e1ff37ffa9c3649a5ca1f9416aff2cde8e98f30c85e79c8acf5"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7cd8aef5b4269a3fb69f347fc577590e0560febde851271df4e3a66f4c720137"
+        },
+        "swapped-in": "72ceeacd663656455bbdd18875cc7dd0e5d7680e62ebebc31631ea25c01f0e55",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/browser-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "041297f0f0ed52ca0f52ff6015f969f57ad244548b25e414214ae79045107e30"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "0dadb1321fba02ea825a2a00f895f9ebb8f454d2ccacb76cbac16dc6f8d40b26"
+        },
+        "swapped-in": "d2c61637750354aa77aba0eafcde6ed232cb4020f6d6d949111cd32d4184c432",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/browser-signed.json",
+      "serialization": "bytes",
+      "sha256": "e86dfb45f930fa4413f0e6a65c67e829cc866ed0de6d53a31c9f691e13b9d759"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9214e1f370b60587fae6c6ad6728c5a04b3c3bbec53f5dc6fa033c08bb78117b"
+        },
+        "swapped-in": "e605b0a79cad4b77409f8b0a502f021f5206d853166a7eec9cf5204f229bbb2f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/rust-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "85612623f15946486b4b8c021014ecebaf1c1a11b1565a94dca6441a8a9d9a8f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "c72feea3e6ec800235a107b7aac57d96373ceff172332ea2b7c2bee63f781225"
+        },
+        "swapped-in": "94ea63e5337969f0b000706ac487cf7fd0c58b6ad0cc945ff40a0742613c38da",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/rust-signed.json",
+      "serialization": "bytes",
+      "sha256": "8ba9dcb28847aac2e87240d9dcba63cf8b12d79223142f64b97bd191f82cbaea"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7cd8aef5b4269a3fb69f347fc577590e0560febde851271df4e3a66f4c720137"
+        },
+        "swapped-in": "18a19d1c677ae8b23ddac23734c5d9898ed12171d5d4a5b4f25b5c55f54e835a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/browser-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "041297f0f0ed52ca0f52ff6015f969f57ad244548b25e414214ae79045107e30"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "0dadb1321fba02ea825a2a00f895f9ebb8f454d2ccacb76cbac16dc6f8d40b26"
+        },
+        "swapped-in": "859a7f88d54d432c358ebcf7e7d4761a7345fd0f660b85c4a9c232444de1271c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/browser-signed.json",
+      "serialization": "bytes",
+      "sha256": "e86dfb45f930fa4413f0e6a65c67e829cc866ed0de6d53a31c9f691e13b9d759"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9214e1f370b60587fae6c6ad6728c5a04b3c3bbec53f5dc6fa033c08bb78117b"
+        },
+        "swapped-in": "b2e984a79583efe90d9bf2ee24f9345dd5094c5e53f39dc33a5b786d596ba8cb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/rust-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "85612623f15946486b4b8c021014ecebaf1c1a11b1565a94dca6441a8a9d9a8f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "c72feea3e6ec800235a107b7aac57d96373ceff172332ea2b7c2bee63f781225"
+        },
+        "swapped-in": "328ec113e078b1f118e6fedcf5a3feb32d1c8d6660d7d02a23dfecafb8f5ca14",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/rust-signed.json",
+      "serialization": "bytes",
+      "sha256": "8ba9dcb28847aac2e87240d9dcba63cf8b12d79223142f64b97bd191f82cbaea"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -81,7 +502,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -402,7 +823,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "9658309403b4cb092b5ef9cca30c34fef5dcf0d69fc09583d43468d0f03c6063"
+    "sha256": "4a89c5ca8bd3f930e08ffa5c5f4c71829aae84c2329667f88d44fdc0864e8715"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1220,7 +1641,8 @@
       "aee-verify, at the source listing named here, judges each of the 38 pinned members of ai-generation-v01-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

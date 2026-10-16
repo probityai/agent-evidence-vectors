@@ -15,6 +15,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-anchor-stream/gen_vectors.py",
+    "routine-file": "vectors-anchor-stream/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "6bc10ebd3b65776e96e78797101f85687437bcff89963864067795de2f2948be",
     "verdicts": {
@@ -22,6 +23,289 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "71c0c83b477904ff8e55dd114c9c5f68728a474db2dee8d2965b0604b2a56ce7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "98764827de8fa489c615d9fe522b90b85e0fb7ed5146e72d787400d76b8e7f2f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "6e654a7a6a42b68ef478914f135f189d8d7900d3010bb19c9f37fcc4f413405a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/README.md",
+      "serialization": "bytes",
+      "sha256": "0fe3a11f5d11d126a3e61bd31a900b04636a5d6280472b1276cd58793b884a43"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-anchor-stream/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e8ce4bb2e93705db720207c006587f1584aca35b626ce6713d86dfad962f0f66"
+        },
+        "swapped-in": "c28d4318cc0385326aec6bacb8cfd95968e90c2fdcc2b8e8e32fe5c501296871",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/ANCHORS.jsonl",
+      "serialization": "bytes",
+      "sha256": "d0a5857384624babbbac8d2d2b08fc6f35d61a0fd0d46b0471f163e0475e7c97"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "7616abadcb56d5f4a684dfe4f9673697a7adaff5ca56c4a958718b5c3120c3f5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/ANCHORS.jsonl.digests.json",
+      "serialization": "bytes",
+      "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "recomputed",
+        "pins-moved": [
+          "vectors-anchor-stream/MANIFEST.json",
+          "vectors-anchor-stream/streams/v30bb2edf2b9f23ba.jsonl",
+          "vectors-anchor-stream/streams/vba949c40114507b1.jsonl"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "116925811adff8df917691ff16aab6d5841216e3165c9172031a51c8715ead5c"
+        },
+        "swapped-in": "94ef991fc7dc6592910b82ed028729f8f539eefce6294f8132c7b61227773af6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/witness-0eb69bf.jsonl",
+      "serialization": "bytes",
+      "sha256": "796e43037b5a5fc3c9c021722d3ea0cc0ca9d84de36ad48906f883fa5d59615a"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "recomputed",
+        "pins-moved": [
+          "vectors-anchor-stream/MANIFEST.json",
+          "vectors-anchor-stream/baseline/ANCHORS.jsonl",
+          "vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
+          "vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
+          "vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
+          "vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
+          "vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
+          "vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
+          "vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
+          "vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
+          "vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
+          "vectors-anchor-stream/streams/v4f206ff8ed18be87.jsonl",
+          "vectors-anchor-stream/streams/v570c22575790427c.jsonl",
+          "vectors-anchor-stream/streams/v7199fe21ece3c6b2.jsonl",
+          "vectors-anchor-stream/streams/v8c0edba09c428917.jsonl",
+          "vectors-anchor-stream/streams/v8cfc723dce226033.jsonl",
+          "vectors-anchor-stream/streams/vb519de5288c2a572.jsonl",
+          "vectors-anchor-stream/streams/vbc642e97495a754d.jsonl",
+          "vectors-anchor-stream/streams/vbf8a4048eba3d662.jsonl",
+          "vectors-anchor-stream/streams/vca6a55637cd0742d.jsonl",
+          "vectors-anchor-stream/streams/vcec4ba461275d0b4.jsonl",
+          "vectors-anchor-stream/streams/vd6eecc03efb27ebd.jsonl",
+          "vectors-anchor-stream/streams/ve28432cb7adcdc6b.jsonl",
+          "vectors-anchor-stream/streams/vf4bccf922ed33749.jsonl",
+          "vectors-anchor-stream/streams/vf8ef32f6294cea06.jsonl",
+          "vectors-anchor-stream/streams/vf9c8df1aeafd69f7.jsonl",
+          "vectors-anchor-stream/streams/vfc54e61742cea5f5.jsonl",
+          "vectors-anchor-stream/streams/vfccf46c02cc12618.jsonl"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "49572207081d66ed0ff8ec79f2ac681c1116fcb0dee29c538e78c20d2ddc541e"
+        },
+        "swapped-in": "a22f86b08c2b444eb84a1940386d31cbc845618ef0c2d2602d2ee3f2ca0805c7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/witness-e000814.jsonl",
+      "serialization": "bytes",
+      "sha256": "3a0afe1347a9099b51b681b93986120c0aac7302e2440733860de677154968ab"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "b19c11ad61fdde67032f2cb51306bf97c4371ec5159471278a1d8b85c49a2df4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "7e1d55b9341285668d4c2f299f8533dd603ffe380fd166f9df0891ba2be9cee3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "cdd8fd37b3e0b6c60f3215bc505d8b2c6f37b6c4470f65e363b3db2271e739bd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/reason-map/aos-anchors-verify.json",
+      "serialization": "bytes",
+      "sha256": "88d5274ecf0ee1fb639e511c0718668157960ea3697ddf4e97602c99c8990c19"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "c32a41d8273667a3bab852c39b812234de31dbb485b1c3d9e0b0e9991a2fab2e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/recordings/anchors-verify-v0.10.json",
+      "serialization": "bytes",
+      "sha256": "e42aac892f92380acf3040c9e735a0cc45950d043d5bcb41e455ddcccd923a28"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "3d2417efb85472fb28ed2698c73afc5477e7abdc5d2a90a58e5132eec32dced7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/run_verifier.py",
+      "serialization": "bytes",
+      "sha256": "4d39790185cf20d10a163d35479ac44c8b65b44fabe3cf5d2b5a4de48bbb2449"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-anchor-stream/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7c30546d51a158777e08990e52066ba3064e448dbe47215b2bbb0c55c770db5d"
+        },
+        "swapped-in": "bfad8cf3c7b91b4fff957574bc1a18a643c67668af055ad09b0546824dd03fea",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/spec-vendored/anchors-verify-44c40ba.md",
+      "serialization": "bytes",
+      "sha256": "bf7245d229c20603205b4b81df5b0cd376e80b094aba48168ddb0c374b4f94ff"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -81,7 +365,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -354,7 +638,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "5c91e47d3750a24c9f77facab243719f956dad1c7c86a47ceb840263211c1e2e"
+    "sha256": "304357d1b188e074b5ad49a77b4767aeef3fda2a86c0417d1c31a5f172cc8d59"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1196,7 +1480,8 @@
       "aee-verify, at the source listing named here, judges each of the 32 pinned members of anchor-stream-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 17,
-      "indeterminate": 2,
-      "reject": 29
+      "accept": 46,
+      "indeterminate": 3,
+      "reject": 75
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 48
+    "total": 124
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -16,13 +16,398 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-acs-core/gen_vectors.py",
+    "routine-file": "vectors-acs-core/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "ceadb29d215a963a24c8f25ae967c09406c56c7df65bdf18a312866214bed8c0",
+    "sha256": "ed64cc6a0e2f903531066b725af79625b4d0f72fe75a809bc31160897366c4a8",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "2c77990670db2ef6498dd98ce2700a0288f20290232e27c655f6afac1aac4f62",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "9d19210d693c4521dc14441ca02ec4cc516c77f9ef378647efbbc883fa5db0fc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "95593f699c098ec7e65d4206c3692fc480fb746cebfb7c97436607a69204ec1c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/README.md",
+      "serialization": "bytes",
+      "sha256": "d59d4bdcbf6ff9684734b2757dcad8bf846e2b2984665d8014610b3bec94e5f2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "888763a3fd48e3113c869fe13fe1a7fa74fac68ffe4ae3364af9a6b8cc039599",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "26ed5adbd100d5a86843ab87acac2f5eb3d028eb959367bae2fa5de9715b966f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e1dfc433d2802f23f7e64ddb7cc1eefd3c75c62bf7f224a17c99292cabca5875"
+        },
+        "swapped-in": "67642a1bc9bd4bdd5e1e67c3c051f7ff26ba1ffb01fcab6ebf45cc44ee6c246c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/conformance-7efa539.md",
+      "serialization": "bytes",
+      "sha256": "0b030ec9ae0cd0190727a20bb98e8e8e869e14ded8c1e55bddecaecbf9f752c8"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "2c4477d764858e696df30a5778be943fe6ffa987e807eb4a84981e8896f4a6fb"
+        },
+        "swapped-in": "0f9a2dcf0b918a95d96fa09124569c94447c37abb82639839dc8e4a02575c8a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/conformance-9d4a9da.md",
+      "serialization": "bytes",
+      "sha256": "7c9d699efaba9d3fbcf9cc16288b653b1f9ae4cd7e33a874c19ba29d6495176c"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "45d61e38b3d5df25a626afc62f378bef364b911d6dc170d227439a65fc384a2a"
+        },
+        "swapped-in": "9cae417fb29501fc2bb312ac6c13fb05e26bc25ea5c493ee35fa54953d18de64",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/hooks-9d4a9da.md",
+      "serialization": "bytes",
+      "sha256": "1441751389f0267a96a91e023b2483575368d51ac20c392a2a3c6a956c02576b"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "defc2e07ce0864ca131c33bee22b172d03d39b2e2bef1a70cf4ed673c936655b"
+        },
+        "swapped-in": "0fa9229de30f5276015b06e4cbb5b19bbcb6ea462142cc3d8891b841f753b460",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/hooks-f2304bf.md",
+      "serialization": "bytes",
+      "sha256": "fd934d51b037f7da238793c59a0c2c8189c04e6bf7f76cceb2ce274da10d2153"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1e80f2caedf695a2c4306b8d352b7ffa52d6b2d3170ec31f2e9f58bca0877531"
+        },
+        "swapped-in": "3953fc1b774cada311bd101bc5406d188bd0871e4ce2c48493fd5eba73bc22e9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/specification-7efa539.md",
+      "serialization": "bytes",
+      "sha256": "13532811c2d7ce3aea2edabfb9929cdaa00facc3346fd38cd92f720ab55cd030"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "4512be01fb05ea8df2a5eefbe66d6e032ef95d458a91af3b6ba1d789c679b2af"
+        },
+        "swapped-in": "7c45f1417fece0ca25edbf2b9ac7e887405ab79c344d1dfba99d6098da61bd24",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/specification-9d4a9da.md",
+      "serialization": "bytes",
+      "sha256": "53fd6658653ea358415c115b6dceff1961ac69e3dd4435556b3a17922942dea3"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9dfc6a3a025c49bd9782e88d81633e6b3141bfcfcbfd16c56005e8de2fd56e61"
+        },
+        "swapped-in": "77743e5c75cfb9d0eb97152f71341004c25902f866ab981ea15c6c1b6f2a44f5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/specification-f2304bf.md",
+      "serialization": "bytes",
+      "sha256": "36c427d954b5709d3ef4879fdd2620f87b2ef6c8827613eb8836b6a2687ea340"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "2370718c565816290333402e4c1751761f34117937185ce02a1a54b46349325c"
+        },
+        "swapped-in": "480eb4cec0a6bafe3cbc1ec0c3b00cb707a8cbc741753b5f426bce664f0f26d4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/trace-events-7efa539.md",
+      "serialization": "bytes",
+      "sha256": "ea2cdb52bb5a0158611887546531f29ce3300b1144a89381062fb82ef8cb7f21"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-acs-core/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "fa582bbb340002c6f0700a093862adb901dc16082c31f1d7bc5d99feccd148bf"
+        },
+        "swapped-in": "462fd11f89d295cee05af1987b6fa7fb27a08e93707e551797b3ad168ff5fdd8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/spec-vendored/trace-events-9d4a9da.md",
+      "serialization": "bytes",
+      "sha256": "f9d5fbcb8d85af74f117b27b560e5dd53b67d84b6b57dbdf633f372ccc4a2bae"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "39fb00ba08b5fb8b9f6621272700dc1734821d493da11125fd1b3058b0f5b915",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/README.md",
+      "serialization": "bytes",
+      "sha256": "f83439b6de981bb041544a55e3ce7032d99139a472422c3989eab99736335e87"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "9e63943c4e5bd0507c86891a666f4251448edf041c56acb3d3fbb82c0562dd0a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/acs_wire_probes.py",
+      "serialization": "bytes",
+      "sha256": "baa7d56220e6cc7789d7606e673f068dfd8d058adf7aa23f66c916f62cc89583"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "0b317ee86b56c05412507a68b41a1aa0242e197c30f73e20536698f968320c2a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/expected/agt-integration-770f1e0.json",
+      "serialization": "bytes",
+      "sha256": "cf695bdeda2862b5dd78508bf8fc7cdc54457cea72483ba547cb910e2c703590"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "43ce88157d1a8005357fe0e9717fcec5a6e6eb25d2cb2f70c2fb71f4eb0b6695",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/expected/agt-pr229.json",
+      "serialization": "bytes",
+      "sha256": "6c654f2215a623b6fc64b5394644af00a02387944acb1dc6392bc13375c524e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "99f59ac8f9988b1c54ea3d0204f3610415cd8b9436368bb745a8b86593314687",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/run_against_agt.sh",
+      "serialization": "bytes",
+      "sha256": "929854e76f23e0c82fd9caae78077e4e551e75a8568d930456b99831cf501917"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -35,7 +420,7 @@
     "root": "vectors-acs-core"
   },
   "byte-identity": {
-    "pins": 48,
+    "pins": 124,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -72,7 +457,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -95,10 +480,26 @@
       "state": "pass"
     },
     {
+      "check": "v05935d4e2d816888",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v07180a3ca8f10123",
       "native": {
         "reasons": [],
         "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v09451dcf233c2115",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
       },
       "state": "pass"
     },
@@ -135,7 +536,55 @@
       "state": "pass"
     },
     {
+      "check": "v13ec89c059e7e71d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v142a717729cabcc7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1449cddb48f82d09",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1bf79e310bf7ab30",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v1ce4aeb611285368",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1e4a323dafeda46e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v204003ad3a0dcacb",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -159,7 +608,79 @@
       "state": "pass"
     },
     {
-      "check": "v3232493ab40ae031",
+      "check": "v28a228c72a0a72e8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2a61a2c85f8b6aec",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2aa5e37455fda245",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2d172bf817c9b0ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v317a035acc0101c3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v31ce9cd718b96f51",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v34a0f1903d69dbc1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v352dbb9b4c521a26",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36627efbb93cdb48",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3a740f95d71db4bb",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -191,10 +712,50 @@
       "state": "pass"
     },
     {
+      "check": "v43ef9dfd999c84e8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v448a61c91554a125",
       "native": {
         "reasons": [],
         "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v47ac76a1803fdb29",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4cfeaa01784088e3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4f1f941aca13438d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4f2144a08f62c639",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
       },
       "state": "pass"
     },
@@ -215,6 +776,38 @@
       "state": "pass"
     },
     {
+      "check": "v55187b175296fcc8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v57106f0a71dd1d62",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v573876edff0016da",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5855843136b72a87",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v58b380041d50cb9a",
       "native": {
         "reasons": [],
@@ -223,7 +816,39 @@
       "state": "pass"
     },
     {
+      "check": "v5c3813f48b81ccf3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v650e4e7924e597b8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v661266c5c87cb206",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v663664f03dec5517",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v676ce54e23de4b38",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -239,6 +864,14 @@
       "state": "pass"
     },
     {
+      "check": "v6b9826ebb2401bb8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v6daaec0f6f0c8a14",
       "native": {
         "reasons": [],
@@ -247,7 +880,23 @@
       "state": "pass"
     },
     {
+      "check": "v71d1f3d3c1c2107f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v78927805373a6c06",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7b0219cc72681b5a",
       "native": {
         "reasons": [],
         "verdict": "accept"
@@ -263,10 +912,42 @@
       "state": "pass"
     },
     {
+      "check": "v7cdac6c8af6db2fe",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7d14727c84d2020d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v80af4427990f6034",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v82b6d110b4d68e7c",
       "native": {
         "reasons": [],
         "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v83363b5d7f051859",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
       },
       "state": "pass"
     },
@@ -287,6 +968,54 @@
       "state": "pass"
     },
     {
+      "check": "v88176a8db9aee0c7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v89ea07928daff608",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8a5f343c721f2f14",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8b8bb4f181c906e6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8d6218889aeda7c7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v934c6c4f64dc3142",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v93c6cced4a3b9f13",
       "native": {
         "reasons": [],
@@ -299,6 +1028,38 @@
       "native": {
         "reasons": [],
         "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v98892a47c65b871e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v98c73932834256a4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9c3c0467f619607e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9d271115ecc2144a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
       },
       "state": "pass"
     },
@@ -335,6 +1096,14 @@
       "state": "pass"
     },
     {
+      "check": "va216214d32d8d5f7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "va2b212fbc0966f59",
       "native": {
         "reasons": [],
@@ -344,6 +1113,14 @@
     },
     {
       "check": "va2fea96983583972",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va3cc0f12ae4e8a35",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -367,6 +1144,22 @@
       "state": "pass"
     },
     {
+      "check": "vabdcee4722b26a44",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vac8eb35a1249aefc",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "vae2037ee96435463",
       "native": {
         "reasons": [],
@@ -383,7 +1176,63 @@
       "state": "pass"
     },
     {
+      "check": "vb2374eaafd283548",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb3c19387fb98e20f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "vb87b86b4930665ca",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbd5dc2450805e76b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbf0b0f4b67a00b59",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc0ee2db9cf47e0c1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc1100bbd3f8f6a5f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc190a6c639182d4e",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -395,6 +1244,54 @@
       "native": {
         "reasons": [],
         "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc38320dadcd56b7f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc540b5eb806ea07c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc8e379465f4a677b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcfbc617d0218ad1a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd4d655cdc5da676f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd4df6378ea74234d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
       },
       "state": "pass"
     },
@@ -423,7 +1320,79 @@
       "state": "pass"
     },
     {
+      "check": "vdea95625fa2056cf",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve0b07adbd63ede48",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve4913ae6f9a72e29",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve69abbaf514cc33f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve7274cd800b89ef2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vee03180733ac4538",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "veed45c58b4e3a95b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "vef655ce2a45f618b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf0317aa29d78b3c1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf08f4493cfae6ceb",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -439,7 +1408,31 @@
       "state": "pass"
     },
     {
+      "check": "vf53a8639739cf0ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf7ace2bd183ec0bf",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
       "check": "vf80a81054d3f0862",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfacb1e4dabfd1d80",
       "native": {
         "reasons": [],
         "verdict": "reject"
@@ -473,7 +1466,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "a32080f5f418a9c155bef2203603a43b593301852b61bf88be62a451cbe78582"
+    "sha256": "50bfff9788cbcf7a5f66be45c6dba28dc10ed06a908951d694739405b5b289d8"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -484,63 +1477,139 @@
     "closed": true,
     "ids": [
       "v0577dc8ccd4d7e47",
+      "v05935d4e2d816888",
       "v07180a3ca8f10123",
+      "v09451dcf233c2115",
       "v0c6dcb9ff13af3c9",
       "v0e1b9d0f75f54e9c",
       "v100f74962fbb8b94",
       "v10351021bf6e46b1",
+      "v13ec89c059e7e71d",
+      "v142a717729cabcc7",
+      "v1449cddb48f82d09",
+      "v1bf79e310bf7ab30",
       "v1ce4aeb611285368",
+      "v1e4a323dafeda46e",
+      "v204003ad3a0dcacb",
       "v221edeb22c4e8634",
       "v25f01d8fe1e91bf5",
-      "v3232493ab40ae031",
+      "v28a228c72a0a72e8",
+      "v2a61a2c85f8b6aec",
+      "v2aa5e37455fda245",
+      "v2d172bf817c9b0ca",
+      "v317a035acc0101c3",
+      "v31ce9cd718b96f51",
+      "v34a0f1903d69dbc1",
+      "v352dbb9b4c521a26",
+      "v36627efbb93cdb48",
+      "v3a740f95d71db4bb",
       "v3c03d4e4ce213e9c",
       "v3e946bcfde26bbe2",
       "v412653087b92cb07",
+      "v43ef9dfd999c84e8",
       "v448a61c91554a125",
+      "v47ac76a1803fdb29",
+      "v4cfeaa01784088e3",
+      "v4f1f941aca13438d",
+      "v4f2144a08f62c639",
       "v4f75a079844635af",
       "v53ef0aaa91303587",
+      "v55187b175296fcc8",
+      "v57106f0a71dd1d62",
+      "v573876edff0016da",
+      "v5855843136b72a87",
       "v58b380041d50cb9a",
+      "v5c3813f48b81ccf3",
+      "v650e4e7924e597b8",
       "v661266c5c87cb206",
+      "v663664f03dec5517",
+      "v676ce54e23de4b38",
       "v699f3f41215849ca",
+      "v6b9826ebb2401bb8",
       "v6daaec0f6f0c8a14",
+      "v71d1f3d3c1c2107f",
       "v78927805373a6c06",
+      "v7b0219cc72681b5a",
       "v7b0b32fb369136c1",
+      "v7cdac6c8af6db2fe",
+      "v7d14727c84d2020d",
+      "v80af4427990f6034",
       "v82b6d110b4d68e7c",
+      "v83363b5d7f051859",
       "v8557c978bf12ca55",
       "v855c3b68b325eec1",
+      "v88176a8db9aee0c7",
+      "v89ea07928daff608",
+      "v8a5f343c721f2f14",
+      "v8b8bb4f181c906e6",
+      "v8d6218889aeda7c7",
+      "v934c6c4f64dc3142",
       "v93c6cced4a3b9f13",
       "v986429a577e03404",
+      "v98892a47c65b871e",
+      "v98c73932834256a4",
+      "v9c3c0467f619607e",
+      "v9d271115ecc2144a",
       "v9f011986566cb7bc",
       "va00ef569d09bf7d5",
       "va0ee5d0830b0490b",
       "va200b64093301e14",
+      "va216214d32d8d5f7",
       "va2b212fbc0966f59",
       "va2fea96983583972",
+      "va3cc0f12ae4e8a35",
       "va6d6e952d417c5a1",
       "va8eebd3334b97257",
+      "vabdcee4722b26a44",
+      "vac8eb35a1249aefc",
       "vae2037ee96435463",
       "vb10df32610db1173",
+      "vb2374eaafd283548",
+      "vb3c19387fb98e20f",
       "vb87b86b4930665ca",
+      "vbd5dc2450805e76b",
+      "vbf0b0f4b67a00b59",
+      "vc0ee2db9cf47e0c1",
+      "vc1100bbd3f8f6a5f",
+      "vc190a6c639182d4e",
       "vc333473269d1b3a9",
+      "vc38320dadcd56b7f",
+      "vc540b5eb806ea07c",
+      "vc8e379465f4a677b",
+      "vcfbc617d0218ad1a",
+      "vd4d655cdc5da676f",
+      "vd4df6378ea74234d",
       "vd57793caa251dec6",
       "vd67cd207a4eb6798",
       "vd8ac84523a5a038c",
+      "vdea95625fa2056cf",
+      "ve0b07adbd63ede48",
+      "ve4913ae6f9a72e29",
+      "ve69abbaf514cc33f",
+      "ve7274cd800b89ef2",
+      "vee03180733ac4538",
+      "veed45c58b4e3a95b",
       "vef655ce2a45f618b",
+      "vf0317aa29d78b3c1",
+      "vf08f4493cfae6ceb",
       "vf3679e6ac60fd250",
+      "vf53a8639739cf0ca",
+      "vf7ace2bd183ec0bf",
       "vf80a81054d3f0862",
+      "vfacb1e4dabfd1d80",
       "vfcab242ddb38d018",
       "vfdd68340c2094962",
       "vff6b4d46f470f2ad"
     ],
     "path": "vectors-acs-core/MANIFEST.json",
-    "sha256": "0cff528004f92f754874031ee7e28b1c07dee7d1a002b9187742b73d3781b0b3"
+    "sha256": "a424bdd8f73bc6a432cec6a67f8d8997fe8cad75948be39e6a3e999ce4e811fd"
   },
   "members": [
     {
       "files": [
         {
           "path": "vectors-acs-core/vectors/v0577dc8ccd4d7e47.json",
-          "sha256": "e9827b6775fc428de31d310c1accdbd84f1fce89dcf3bcdeddb58fc6eb08a62a"
+          "sha256": "5e18d7cfd5cd2e28357c14fb404c3b62cd1c68517ca11d7a7e2a1809d7a9f615"
         }
       ],
       "id": "v0577dc8ccd4d7e47"
@@ -548,8 +1617,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v05935d4e2d816888.json",
+          "sha256": "85b0233e2755a10cad24638d4fbca6c85eafaefb65763a2b8b662de85261c903"
+        }
+      ],
+      "id": "v05935d4e2d816888"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v07180a3ca8f10123.json",
-          "sha256": "b82f6f91eec1100263ed2dc59fe39ea47eb7f066e77e096e2037b548bc4f6280"
+          "sha256": "cef7240d892ceed00c068b13cf0f6a26899f195019733f0dc3f873dfd451bf02"
         }
       ],
       "id": "v07180a3ca8f10123"
@@ -557,8 +1635,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v09451dcf233c2115.json",
+          "sha256": "0ad3e304000de56490ec0da02e7a01c47d21c77d6a8f833adfa7ce461e256ff6"
+        }
+      ],
+      "id": "v09451dcf233c2115"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v0c6dcb9ff13af3c9.json",
-          "sha256": "70e27e8b09d5a3ed39cac835e48ee6be642beff5b8abd6150b85e2dd37f7fd51"
+          "sha256": "7057b8114fc178d4298c5ba9f6f88ab76d1a426c51347b0025b8beae042f3380"
         }
       ],
       "id": "v0c6dcb9ff13af3c9"
@@ -567,7 +1654,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v0e1b9d0f75f54e9c.json",
-          "sha256": "7412ebd246efc08f34df48f0dbd26cbbb03601c1ceeda925fe899fa388c1ac3a"
+          "sha256": "84e9a23c912374c6285b5764956ca671494741e1d46b32563eb680aeac889116"
         }
       ],
       "id": "v0e1b9d0f75f54e9c"
@@ -576,7 +1663,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v100f74962fbb8b94.json",
-          "sha256": "0c10ecb2c02d94029dd1fc844a8968944e0fd0ff2eb675a35d135e7e04273736"
+          "sha256": "2f1c26c9d5be8a801f34b1c39b1b7f74d4d161eb0c93a4a358b8b64582f6d1a4"
         }
       ],
       "id": "v100f74962fbb8b94"
@@ -585,7 +1672,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v10351021bf6e46b1.json",
-          "sha256": "305680ea109e76557fcca88fd330559266e25a3a57d4e1969be8c67a121ad71f"
+          "sha256": "656b7f2115b84d28b8dfa7937b32170ff18b4852be98fc6f711375f3ed0d27eb"
         }
       ],
       "id": "v10351021bf6e46b1"
@@ -593,8 +1680,44 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v13ec89c059e7e71d.json",
+          "sha256": "7d1b96316324d27bd0e921c889fd4098b208f0447c508318d41eec3f26388ccd"
+        }
+      ],
+      "id": "v13ec89c059e7e71d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v142a717729cabcc7.json",
+          "sha256": "696d05d59b676c168eca776b670956cfa00ddfe4378d9005947eaf5a6401045c"
+        }
+      ],
+      "id": "v142a717729cabcc7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v1449cddb48f82d09.json",
+          "sha256": "72915e830f5dcb108882b6cc247276e84a6e6124a2576e1a7d0c4214988ca41b"
+        }
+      ],
+      "id": "v1449cddb48f82d09"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v1bf79e310bf7ab30.json",
+          "sha256": "4a5cdb92ad921555b910e9b2b02a4b27c21c08617b358d20b7d975781fcb48b5"
+        }
+      ],
+      "id": "v1bf79e310bf7ab30"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v1ce4aeb611285368.json",
-          "sha256": "32deb2eb0a840798e4ba6d19288efa17d64b49dba72642e566ca036c40d5cb30"
+          "sha256": "f13923cd617eee01830df4d07506bd4e4b170cb8431f0f5659b6aab39c541712"
         }
       ],
       "id": "v1ce4aeb611285368"
@@ -602,8 +1725,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v1e4a323dafeda46e.json",
+          "sha256": "ea3545b4e39c72241993409f8d3f57219c524b741b7fb29b53c73a85a5567b61"
+        }
+      ],
+      "id": "v1e4a323dafeda46e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v204003ad3a0dcacb.json",
+          "sha256": "680437ee83e65515574d313a7dd3e5df7003f0797d4cf7b6c15a88f5e9de1eb6"
+        }
+      ],
+      "id": "v204003ad3a0dcacb"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v221edeb22c4e8634.json",
-          "sha256": "31fc0f9a901b211a9c7620fd50df4e1af762d5617a50c15fbf1bda95046bf7c0"
+          "sha256": "366f580684a0d7d0cd9105d1fa1fe55ab50f7ac71dece28594a5745975bc6295"
         }
       ],
       "id": "v221edeb22c4e8634"
@@ -612,7 +1753,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v25f01d8fe1e91bf5.json",
-          "sha256": "d940a72298928ed6047403e87058172f01486c157a44aee8efbff13734dbd8cc"
+          "sha256": "76eba5e109356507e72d354815f65a7dc5d6e2551261152d232e508ffdf74a78"
         }
       ],
       "id": "v25f01d8fe1e91bf5"
@@ -620,17 +1761,98 @@
     {
       "files": [
         {
-          "path": "vectors-acs-core/vectors/v3232493ab40ae031.json",
-          "sha256": "6140bceb57701c3b1b9abfa23fe22c72b552eddd006e367daaaf56bdfedb50ab"
+          "path": "vectors-acs-core/vectors/v28a228c72a0a72e8.json",
+          "sha256": "6313df514ed3a329bfdec9d0f7c9ea5d89356b1a08c63558dd8c9421d3d2fb9a"
         }
       ],
-      "id": "v3232493ab40ae031"
+      "id": "v28a228c72a0a72e8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v2a61a2c85f8b6aec.json",
+          "sha256": "3db929b3280707c00c1d38d45e3716ce407c1dd7557a10989f1c5a9454da5973"
+        }
+      ],
+      "id": "v2a61a2c85f8b6aec"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v2aa5e37455fda245.json",
+          "sha256": "33e1c498a326ca88dcd6928d9e02699fa638d5cb808809d1dba9838943663d99"
+        }
+      ],
+      "id": "v2aa5e37455fda245"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v2d172bf817c9b0ca.json",
+          "sha256": "6d4558160dc9b8b0d409b51eefb5b5a31389fcdc3ff8dad3a1df9e71045d4a01"
+        }
+      ],
+      "id": "v2d172bf817c9b0ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v317a035acc0101c3.json",
+          "sha256": "7eb7c2f2c35fbf427885a96d11c142a9fa0b9b4ee53016a6fc2b3154ef319f22"
+        }
+      ],
+      "id": "v317a035acc0101c3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v31ce9cd718b96f51.json",
+          "sha256": "73f905bef1eaab14984b9cecd5c789beb2adbb79f6a8f3698e6cf60d731c6f8c"
+        }
+      ],
+      "id": "v31ce9cd718b96f51"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v34a0f1903d69dbc1.json",
+          "sha256": "0eb9c9e5630fc90890add312c3db48c568e2cbf3bc3273203984a4d9c898ebc3"
+        }
+      ],
+      "id": "v34a0f1903d69dbc1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v352dbb9b4c521a26.json",
+          "sha256": "319d7b1833d03827e312ce514390d576975f2bf3cc4eb9f13e430ae8bb767d35"
+        }
+      ],
+      "id": "v352dbb9b4c521a26"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v36627efbb93cdb48.json",
+          "sha256": "de31061eb17f79d885a8addcfa53a335bbe4da9cb690c8e17a83e0fd79f219e0"
+        }
+      ],
+      "id": "v36627efbb93cdb48"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v3a740f95d71db4bb.json",
+          "sha256": "da8e6e377feae30ade0a57e100db924d0c4128b55c914779de9db46138133f85"
+        }
+      ],
+      "id": "v3a740f95d71db4bb"
     },
     {
       "files": [
         {
           "path": "vectors-acs-core/vectors/v3c03d4e4ce213e9c.json",
-          "sha256": "1e28faf6123a72d4e7d79dfa1c1366b017ea5265657d15c4fd2d13b02b1a626c"
+          "sha256": "cfa5decfb92c016bae5e72c0aacfeaa0f17fcad298cdc6f0cc9f9a4cab473889"
         }
       ],
       "id": "v3c03d4e4ce213e9c"
@@ -639,7 +1861,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v3e946bcfde26bbe2.json",
-          "sha256": "2658f7165f7cba970d64b6c87daf00bcb75554a93f9a00bcd01de42e7bd5a1a0"
+          "sha256": "6081d633af921ad73c1f845b88dfbe91c4b5f73e2ab34389ae191cfe41ae22fb"
         }
       ],
       "id": "v3e946bcfde26bbe2"
@@ -648,7 +1870,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v412653087b92cb07.json",
-          "sha256": "4b34913d1de1d5d41226fb249ccb0fd1723a2fbaecf59c050276bd2e127b773d"
+          "sha256": "65beafa3eaa03fc20cf1ccd7d854269cfc749ec2b012c7b60625a49d84a4a1f1"
         }
       ],
       "id": "v412653087b92cb07"
@@ -656,8 +1878,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v43ef9dfd999c84e8.json",
+          "sha256": "17e2afb8815dd5057d3ebc6f29e19bbea77a245eb9f454c470a7abec376f2ccc"
+        }
+      ],
+      "id": "v43ef9dfd999c84e8"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v448a61c91554a125.json",
-          "sha256": "57edcb9ec8ecbbb6f37ec835abd1d76d956111955bbea87874e8f39b4f294999"
+          "sha256": "733601b3281723b5dba6647d87f4011e55d636c1b84f4852f699004417f8c1fe"
         }
       ],
       "id": "v448a61c91554a125"
@@ -665,8 +1896,44 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v47ac76a1803fdb29.json",
+          "sha256": "981bb774e9ea186e244c51baade4946f794fa5a63331352eabf3e27cabfd2140"
+        }
+      ],
+      "id": "v47ac76a1803fdb29"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v4cfeaa01784088e3.json",
+          "sha256": "b11af8f387077820af19fdb556d32a806a5aca79ef8c0443f0876d8b2f10cabe"
+        }
+      ],
+      "id": "v4cfeaa01784088e3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v4f1f941aca13438d.json",
+          "sha256": "3e4f531aedf4adc558abffeaf66c64887ffac8027deac3c8fbfc44d91800f330"
+        }
+      ],
+      "id": "v4f1f941aca13438d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v4f2144a08f62c639.json",
+          "sha256": "7c8b50ff833eb211520bc27d760fb0d7c4efe73773e7a7f73bc99eff752ebbfa"
+        }
+      ],
+      "id": "v4f2144a08f62c639"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v4f75a079844635af.json",
-          "sha256": "e49de9b2eb8be3d3f125b47bf442605362ac225e5a748e28be468e92ca42b5c0"
+          "sha256": "700f8288a17d60f22fd2ccefaff8d2052ea9b7f59321c0bfe6b1679e869414e1"
         }
       ],
       "id": "v4f75a079844635af"
@@ -675,7 +1942,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v53ef0aaa91303587.json",
-          "sha256": "14e20b7fc60eedf7312c73a0b1e6b09a976aaf7a607c216a97ac342e5e6f88b3"
+          "sha256": "3e378ed8399401c08a6aec296ccc3e55b347b024bb3cbbec2c3237470095f38c"
         }
       ],
       "id": "v53ef0aaa91303587"
@@ -683,8 +1950,44 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v55187b175296fcc8.json",
+          "sha256": "e072c85775ddae95da74d70ddbc9e4c05d5617a2ec220bee296f3d740d96d2ce"
+        }
+      ],
+      "id": "v55187b175296fcc8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v57106f0a71dd1d62.json",
+          "sha256": "a2c3125a2600fdfe2adf94cc5481f3e6ab7f30eee5172cc5a773b7253610e92c"
+        }
+      ],
+      "id": "v57106f0a71dd1d62"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v573876edff0016da.json",
+          "sha256": "e9e1eb807a34c12bbe4dc74297cc4477f601485bdc0e6e96edcd27779cd4d194"
+        }
+      ],
+      "id": "v573876edff0016da"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v5855843136b72a87.json",
+          "sha256": "0e7a1c3f064e0f59375825404765394a567e2060ecbb3b5d2b5be5a531b65ea2"
+        }
+      ],
+      "id": "v5855843136b72a87"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v58b380041d50cb9a.json",
-          "sha256": "ceb88f0fee2b79e52a5a7a90cfcab9529578fb1d3fd902ab8bb575506f53d519"
+          "sha256": "ba2418bc5479cfbc9b9d4cf324f00b8505abf94787948a523889771529a4e025"
         }
       ],
       "id": "v58b380041d50cb9a"
@@ -692,8 +1995,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v5c3813f48b81ccf3.json",
+          "sha256": "44752b188b3e84054eeb55e047ce5729d9a06d4caaad9f2dd9e7712412efbad8"
+        }
+      ],
+      "id": "v5c3813f48b81ccf3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v650e4e7924e597b8.json",
+          "sha256": "9b961feae8dd39ae9f2e92558995eda89958a889ac7326e111e241c720394ee8"
+        }
+      ],
+      "id": "v650e4e7924e597b8"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v661266c5c87cb206.json",
-          "sha256": "c5c6ba1b969f5b952a30f8ec8967991e37075194fc6c9f3524aeb4c6b6718cb9"
+          "sha256": "f42442dc631b552e7b5484749bec1be45d628564a8ad306cac32c9d0ec1d89f2"
         }
       ],
       "id": "v661266c5c87cb206"
@@ -701,8 +2022,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v663664f03dec5517.json",
+          "sha256": "b1bc4bf1fe888ccd99fb9af212cd4eaf769564f0d0525f316e71712ad08ac31c"
+        }
+      ],
+      "id": "v663664f03dec5517"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v676ce54e23de4b38.json",
+          "sha256": "f0df58a1376dae49bb91f179292d7131572fb6830e33a5b4fba17ebc9fc24a03"
+        }
+      ],
+      "id": "v676ce54e23de4b38"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v699f3f41215849ca.json",
-          "sha256": "01c143ea3a2adb5d59a22abe391c71496ce62c11e17bc70785db0f29067d7292"
+          "sha256": "bf59ceed4e44a158b662552d3454e080ff425ec55acbb38fa92a36f9d5fbca1b"
         }
       ],
       "id": "v699f3f41215849ca"
@@ -710,8 +2049,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v6b9826ebb2401bb8.json",
+          "sha256": "c24f914de25311bdd59724eaec1c44660945a0eda629f21009ed31269ff34230"
+        }
+      ],
+      "id": "v6b9826ebb2401bb8"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v6daaec0f6f0c8a14.json",
-          "sha256": "eebba1f4eca46705015884d5f4caece71c2bcd7e1c98d3eeaec96aeee7b57158"
+          "sha256": "7cb6340d63943aa2786a26036ef5e2157de551fb5e86708ef5a242e78d2d163e"
         }
       ],
       "id": "v6daaec0f6f0c8a14"
@@ -719,8 +2067,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v71d1f3d3c1c2107f.json",
+          "sha256": "9d4a0944da9b5ca7a0e55b28572c045b3893a420c4e31c746d222165224b30b9"
+        }
+      ],
+      "id": "v71d1f3d3c1c2107f"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v78927805373a6c06.json",
-          "sha256": "8f088391e70e9386db55fc8584d6fb4a0bd17aeb6e8e1b6dc3e97f701266fef3"
+          "sha256": "78a886a2cc9aa6f8df0a46aea69e33347ff58c0aaaa3f923f2e3b4c8f758a845"
         }
       ],
       "id": "v78927805373a6c06"
@@ -728,8 +2085,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v7b0219cc72681b5a.json",
+          "sha256": "8f8a905983c14266b4cc696d5b2221eef9a51fd19134954b7c2f17a478ef0fc1"
+        }
+      ],
+      "id": "v7b0219cc72681b5a"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v7b0b32fb369136c1.json",
-          "sha256": "849e0eaf6d34d70881cf12c7cbe49f1b6be8e94f6ca2aa8d4eb5dac2def83ecd"
+          "sha256": "feac4f12c8b0900eb1e80cc3795d7f4957df9592e9c4ff6721b2110ccc300bdc"
         }
       ],
       "id": "v7b0b32fb369136c1"
@@ -737,8 +2103,35 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v7cdac6c8af6db2fe.json",
+          "sha256": "51067a7368b49cae732235a850893a6032dbdcbf95673b2417387bb9be33aaa6"
+        }
+      ],
+      "id": "v7cdac6c8af6db2fe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v7d14727c84d2020d.json",
+          "sha256": "8ee33316d6f6403fe509194e6fab7e310f3ceacfc1383b723d2d04ce52464cb7"
+        }
+      ],
+      "id": "v7d14727c84d2020d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v80af4427990f6034.json",
+          "sha256": "5ee37a05b87a559eb32d20360210576119a498be1c77a99967d49b755f757c3b"
+        }
+      ],
+      "id": "v80af4427990f6034"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v82b6d110b4d68e7c.json",
-          "sha256": "9b0fdd251df4b966bb7690959a69d2a2f50dd1247ba9ed1cac360319aaaa3e20"
+          "sha256": "4e09494c57872a53f398232d167c47cc63e28a9d9a333f7bfff7fc7f199b450c"
         }
       ],
       "id": "v82b6d110b4d68e7c"
@@ -746,8 +2139,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v83363b5d7f051859.json",
+          "sha256": "918cb872678e470fb1694e3e896e4cf8ea57d2a9967cec88432172b41fb19922"
+        }
+      ],
+      "id": "v83363b5d7f051859"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v8557c978bf12ca55.json",
-          "sha256": "fda24c37c3d8bc357321d816d1dd03edccc519c7c6e771b4e1e6ecb953c05c9f"
+          "sha256": "4c2473607de371eaceb5baec28e69bf2e8d8df5b77ecc476e443a06edb4d98c6"
         }
       ],
       "id": "v8557c978bf12ca55"
@@ -756,7 +2158,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v855c3b68b325eec1.json",
-          "sha256": "119a6e6b842f24ce0eee9370c3366fbd29edc1a27d8fc32b1a258e35bc111466"
+          "sha256": "4ebe1a7f995a02a88d9609883a904a6fe660762373ec27ad04558290aabc0139"
         }
       ],
       "id": "v855c3b68b325eec1"
@@ -764,8 +2166,62 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v88176a8db9aee0c7.json",
+          "sha256": "f708c18d9bbadcd90997f23f46943284ba651e30284c940eb3a87e037a5756a4"
+        }
+      ],
+      "id": "v88176a8db9aee0c7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v89ea07928daff608.json",
+          "sha256": "a29e89aeee819170950b62c57ef1ba4eb0dea63c92157587dddda9c617047429"
+        }
+      ],
+      "id": "v89ea07928daff608"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v8a5f343c721f2f14.json",
+          "sha256": "cf9c0fd757ec0a789da76eacc485b041e356a809fdedbbe82b6ec8e55d0f075d"
+        }
+      ],
+      "id": "v8a5f343c721f2f14"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v8b8bb4f181c906e6.json",
+          "sha256": "ceccb999e19f719bf239abf8482cb480edb467d667ef95e78b30cff95229c46a"
+        }
+      ],
+      "id": "v8b8bb4f181c906e6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v8d6218889aeda7c7.json",
+          "sha256": "1f8308efdf20f04578010e393438ee6e5fe9dac7c826a7935f8a57252af67196"
+        }
+      ],
+      "id": "v8d6218889aeda7c7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v934c6c4f64dc3142.json",
+          "sha256": "bb17094ae1e51ee21f18ff3daa8a1fb4a57cbe4d29a023eb94fc26d5bdb1940d"
+        }
+      ],
+      "id": "v934c6c4f64dc3142"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v93c6cced4a3b9f13.json",
-          "sha256": "2eef61807f32484e2c9c987b38c6f14fe4c8daf3a81b87845489236e0c9ad5b3"
+          "sha256": "3b451db3981d48a6c61d39da54e3a0cf3869973d4cd496befca3a89e71c9a946"
         }
       ],
       "id": "v93c6cced4a3b9f13"
@@ -774,7 +2230,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/v986429a577e03404.json",
-          "sha256": "d77f555225bda6126e0eef929936c363bc671c81d049147ed2604f14421b8c1c"
+          "sha256": "7b8a062c47ca333edba998a3d03780bff1aacf173478d7d7c14f784e2b2f2815"
         }
       ],
       "id": "v986429a577e03404"
@@ -782,8 +2238,44 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/v98892a47c65b871e.json",
+          "sha256": "dd8bb06761b0f14b98880c1b83a3844e13b3615912e6a279008f7a76226c17e6"
+        }
+      ],
+      "id": "v98892a47c65b871e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v98c73932834256a4.json",
+          "sha256": "319f6919de73e6b647f15f77ee357736d4364cd7aca6dad03f0d736fc90c7377"
+        }
+      ],
+      "id": "v98c73932834256a4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v9c3c0467f619607e.json",
+          "sha256": "5306842a1bf59ac1332e57e359c3e007ca8577234ba9c4ecc725f9c2484f487f"
+        }
+      ],
+      "id": "v9c3c0467f619607e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/v9d271115ecc2144a.json",
+          "sha256": "32ea3979fc095882d4b3f21dce1637c05a322523b580d2566d8bdb1adeaeef8e"
+        }
+      ],
+      "id": "v9d271115ecc2144a"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/v9f011986566cb7bc.json",
-          "sha256": "09333eb7cd985ae51785b750a5872928a94bfaa01a4e1a7f1514b11409da19c5"
+          "sha256": "04ce4eeb298c99fb85de5673ddc4864c592c6a093bcf8b0b19bcebeb3511b2e0"
         }
       ],
       "id": "v9f011986566cb7bc"
@@ -792,7 +2284,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/va00ef569d09bf7d5.json",
-          "sha256": "a28722f1f237b984fae28dadcba9cafa87e75dbe8429e6f75064ab413160d20c"
+          "sha256": "02490f9728e0e3d50f2d6b9378eac37a245d36b276bcff68d642784bfb3a448e"
         }
       ],
       "id": "va00ef569d09bf7d5"
@@ -801,7 +2293,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/va0ee5d0830b0490b.json",
-          "sha256": "5af3ac2ac93301fde6aaad538320889b941846786e550786016711312dd9c782"
+          "sha256": "70a1ef27fb9d1e569feb02af2603af74aa2e7cf90be5ae671f45e4b3f553772b"
         }
       ],
       "id": "va0ee5d0830b0490b"
@@ -810,7 +2302,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/va200b64093301e14.json",
-          "sha256": "5fff6985b922fe19aac94eced1f7588e98de8d469b18552584bc2b8e3437ecb1"
+          "sha256": "39cdb114a7e70d7ab7a2cbee97d1369dc625040ec7a2d0d9f90343e22f9bb94c"
         }
       ],
       "id": "va200b64093301e14"
@@ -818,8 +2310,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/va216214d32d8d5f7.json",
+          "sha256": "33e10fc766c6d420a63caeba426fb57773e6381b0a9a959b38fc6021cf53ce99"
+        }
+      ],
+      "id": "va216214d32d8d5f7"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/va2b212fbc0966f59.json",
-          "sha256": "13ea5459d892931cc2d19745e63b742d4fb6b6885753d32883d056c37ab8222b"
+          "sha256": "5e29e44faec4d53f67548828af8188486e7b7fff30e173887ecd2c365dc513d6"
         }
       ],
       "id": "va2b212fbc0966f59"
@@ -828,7 +2329,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/va2fea96983583972.json",
-          "sha256": "bf06b8ce556a461d1020b22f1accfb98f6283528e561768c090284ca1ae867f3"
+          "sha256": "746993d1d52c56e0f545f706c3a9419393f631df8f8393eddd93c4b7b50517a3"
         }
       ],
       "id": "va2fea96983583972"
@@ -836,8 +2337,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/va3cc0f12ae4e8a35.json",
+          "sha256": "60b511208bb3954bfb63f350c1905ba131bb64bd9027c18115fc30bc3e57f2d5"
+        }
+      ],
+      "id": "va3cc0f12ae4e8a35"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/va6d6e952d417c5a1.json",
-          "sha256": "73bcd12f6b9fd1cb485387b38648a0dd8012125a5cfff4755aff1fb7e53341b8"
+          "sha256": "791a4c5947d8334f78307b3a66b3904f17663dba4c2bccbc9eacd5b2db064b2a"
         }
       ],
       "id": "va6d6e952d417c5a1"
@@ -846,7 +2356,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/va8eebd3334b97257.json",
-          "sha256": "095e1993f79feca244d3bf1edee818d33d9eca4da8cae64c421dd41c7e70d8b6"
+          "sha256": "7a114ff7a038a71eb0e2fd6e725f41aae44407c9cbde534444d0b16828b064b7"
         }
       ],
       "id": "va8eebd3334b97257"
@@ -854,8 +2364,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vabdcee4722b26a44.json",
+          "sha256": "7470f765fda5f1e7968ac9a6156be00c2d438ee5cf3553beee99f855314d0b84"
+        }
+      ],
+      "id": "vabdcee4722b26a44"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vac8eb35a1249aefc.json",
+          "sha256": "e5515b373c1f8fd2b01b8bc3c34f618d72e5f493e10ecadeca49d3bfce360e6c"
+        }
+      ],
+      "id": "vac8eb35a1249aefc"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vae2037ee96435463.json",
-          "sha256": "869803df6181fec861832847313035eb01c9a3668c0d0f6c5f72f144e2747c9f"
+          "sha256": "68d9ea5b494e87aeae4b2c3280b20a10e4809bb39834c55c6703e411118e3d82"
         }
       ],
       "id": "vae2037ee96435463"
@@ -864,7 +2392,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/vb10df32610db1173.json",
-          "sha256": "1b11377984ac2db06d22cc071e52cc67de3a6779c1b07e96d72fb0a22ccbf7d8"
+          "sha256": "a85dc35fd7433d4deb8f674d24f88e231c036381fb57bc6e42ebe93ae4588085"
         }
       ],
       "id": "vb10df32610db1173"
@@ -872,8 +2400,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vb2374eaafd283548.json",
+          "sha256": "e013581bc37a132514a4436b3e99acaf7f9e80bfc0422d2a61eafb64c57f6d5a"
+        }
+      ],
+      "id": "vb2374eaafd283548"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vb3c19387fb98e20f.json",
+          "sha256": "88dc23cc435e305ee0331177d2a4cd4aeb67b729dff9abadc334d7fa117c10d8"
+        }
+      ],
+      "id": "vb3c19387fb98e20f"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vb87b86b4930665ca.json",
-          "sha256": "c7eb92b9b438804167a434bad80b5c53d8d663731a8873432ab28fb0d1ae83bc"
+          "sha256": "e7c9d3b3e9aa927d52998a55de47d311c8e46133e8a7bccbf6bc33e7c8f77238"
         }
       ],
       "id": "vb87b86b4930665ca"
@@ -881,8 +2427,53 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vbd5dc2450805e76b.json",
+          "sha256": "ad76a8d0a732468ac81f448c0ed125ca924410ec25142a98be3515fa97fed099"
+        }
+      ],
+      "id": "vbd5dc2450805e76b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vbf0b0f4b67a00b59.json",
+          "sha256": "f2d967f857f320fe5344da8276b4f7ac042e50f3904a91a809930d0c1017c3ac"
+        }
+      ],
+      "id": "vbf0b0f4b67a00b59"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc0ee2db9cf47e0c1.json",
+          "sha256": "7afdb62f88f9822eb8082ad9e9004a3c07cca8a7da56b15a4032a7b5dcde4e83"
+        }
+      ],
+      "id": "vc0ee2db9cf47e0c1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc1100bbd3f8f6a5f.json",
+          "sha256": "34e509e53951358976be94999929e8fea202ea6b58173f6756b91149272dfde7"
+        }
+      ],
+      "id": "vc1100bbd3f8f6a5f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc190a6c639182d4e.json",
+          "sha256": "2ec0bfc0165d3e57eb0edf3196bf64820bac33e1a9853a458d99ba96eeb0fcba"
+        }
+      ],
+      "id": "vc190a6c639182d4e"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vc333473269d1b3a9.json",
-          "sha256": "095bbc638731eedeee3679e268a0c227423cf483dcdd6e2bbdc0f0fa000164d9"
+          "sha256": "63c7c2f3e1352f2028b42cd37b635636be598036487249a28d2af53f7f13b125"
         }
       ],
       "id": "vc333473269d1b3a9"
@@ -890,8 +2481,62 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vc38320dadcd56b7f.json",
+          "sha256": "817985710f8f3d52dd1caa7647c654c7756d6b0ef9f00afca3287c3981fdd958"
+        }
+      ],
+      "id": "vc38320dadcd56b7f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc540b5eb806ea07c.json",
+          "sha256": "76a52dd55393a437938e5bd850116794c5e3793532b717efe9d9cddcbe0a8d05"
+        }
+      ],
+      "id": "vc540b5eb806ea07c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vc8e379465f4a677b.json",
+          "sha256": "5320b407392db7662c31d90bc78e28d07a08f6a2921e8dec2bb08ea1a9edf6af"
+        }
+      ],
+      "id": "vc8e379465f4a677b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vcfbc617d0218ad1a.json",
+          "sha256": "64192f04ca1ef1c7a387c8e3573d0d6da6d7a9c33208013315d939ad6708c57e"
+        }
+      ],
+      "id": "vcfbc617d0218ad1a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vd4d655cdc5da676f.json",
+          "sha256": "3605720d295e39d267664aa65a9319b306c539fad12aa326bb7045f914273dac"
+        }
+      ],
+      "id": "vd4d655cdc5da676f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vd4df6378ea74234d.json",
+          "sha256": "46be571650b22f8d75bf7c6abec7dafe7f7bde370b1bc80aeb4b759adec663af"
+        }
+      ],
+      "id": "vd4df6378ea74234d"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vd57793caa251dec6.json",
-          "sha256": "f209aef28c7bf545ddbac3f2a1cce844f34a301ac27aede136ae31597a2b5a0c"
+          "sha256": "3db76721f6cbc7c65afae6d9a30277313eab6e466cc7cc9dcc9600a8f185430a"
         }
       ],
       "id": "vd57793caa251dec6"
@@ -900,7 +2545,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/vd67cd207a4eb6798.json",
-          "sha256": "5281caecb904250bed8275d02220d99e26dcf1c16ce1e2e0f3a2c7ea082a88df"
+          "sha256": "e5a23a3d21d4f4fde16fd13434cebd9fe5567b179571680d22c0dd271116b69b"
         }
       ],
       "id": "vd67cd207a4eb6798"
@@ -909,7 +2554,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/vd8ac84523a5a038c.json",
-          "sha256": "c1a74718513f31cadbbc04ee6a641910a374840fed142b2b55af61c92e63d175"
+          "sha256": "ab95a718f5da5496fe5b5d92a50c5c232bee888e3de755b63df0ceb3a42bb155"
         }
       ],
       "id": "vd8ac84523a5a038c"
@@ -917,8 +2562,71 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vdea95625fa2056cf.json",
+          "sha256": "b0610af50d6f0e82573db286bf2f7a78680dc9e86115a7b8b54856311008268b"
+        }
+      ],
+      "id": "vdea95625fa2056cf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/ve0b07adbd63ede48.json",
+          "sha256": "55f3f9ac91d51a1dd5dd9bbb296c49e25b51ec36c5030a65bf2e674f9fc711f5"
+        }
+      ],
+      "id": "ve0b07adbd63ede48"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/ve4913ae6f9a72e29.json",
+          "sha256": "174b14a109ba3945b618641a1e5fd721ab61ce5eacf3c6e12403d95e57c5f80c"
+        }
+      ],
+      "id": "ve4913ae6f9a72e29"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/ve69abbaf514cc33f.json",
+          "sha256": "58385e92b125416b43d50b07b0b0038c21b775ae1c53b031604954e8af8773b1"
+        }
+      ],
+      "id": "ve69abbaf514cc33f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/ve7274cd800b89ef2.json",
+          "sha256": "029dad67bcc3679633b4328de8e72cf662715597f4928b7f9ffebd51a340c2d8"
+        }
+      ],
+      "id": "ve7274cd800b89ef2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vee03180733ac4538.json",
+          "sha256": "219426e8e50fb389e70dd23522f7d406a3fc082bae5e178ce7bc1e2763d1a3d8"
+        }
+      ],
+      "id": "vee03180733ac4538"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/veed45c58b4e3a95b.json",
+          "sha256": "16e60b53416be06cdac3b9c0b4e47f46a72f8793bc7a5a7c17ebaf176f38bc4f"
+        }
+      ],
+      "id": "veed45c58b4e3a95b"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vef655ce2a45f618b.json",
-          "sha256": "de32be74cac5cdf592258e35225e6c3aa3ff60cdf81727a068176d04fc5d36f8"
+          "sha256": "c5ea96d31e6a8bc7808e6ef9838bc58a8d99633a26027cda1253cd722302527d"
         }
       ],
       "id": "vef655ce2a45f618b"
@@ -926,8 +2634,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vf0317aa29d78b3c1.json",
+          "sha256": "7cda2024bfc9b081caba90e4abc3d9ba3b93feaa627d1b3bdbdaf40a96956505"
+        }
+      ],
+      "id": "vf0317aa29d78b3c1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vf08f4493cfae6ceb.json",
+          "sha256": "839e37c7f60588da147fbd30becf2a8a7f47b95012c2712d55b0f974b9d62f35"
+        }
+      ],
+      "id": "vf08f4493cfae6ceb"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vf3679e6ac60fd250.json",
-          "sha256": "21b3d7b4da9f68eec645f39228eac231aaedf627e3b12945d24e39da39bd3cde"
+          "sha256": "8368c1fd53d01378a52d3c969a83e3b88729872522a7cbf905dd7bc77ff641f9"
         }
       ],
       "id": "vf3679e6ac60fd250"
@@ -935,8 +2661,26 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vf53a8639739cf0ca.json",
+          "sha256": "46f135a5a10b9a6d0693ca76904f1fdc2c2fb681cbb10d252db8952d02a2eb30"
+        }
+      ],
+      "id": "vf53a8639739cf0ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-acs-core/vectors/vf7ace2bd183ec0bf.json",
+          "sha256": "446e08c2b648927b59804d2ba892dbfeece6ce3b02baf5c1bd9ae904c9f454e8"
+        }
+      ],
+      "id": "vf7ace2bd183ec0bf"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vf80a81054d3f0862.json",
-          "sha256": "7152cc4915cd1f9e2a438c483a6caf781b67c846d9bbff548d554c5729d23dab"
+          "sha256": "8dc6f1a4cba441ddbfda932b6606bd8b71ce6ccf74375fc0d8b0dbf9f25300ad"
         }
       ],
       "id": "vf80a81054d3f0862"
@@ -944,8 +2688,17 @@
     {
       "files": [
         {
+          "path": "vectors-acs-core/vectors/vfacb1e4dabfd1d80.json",
+          "sha256": "11a501d97293d2bab0997655d799012db78691b047807081f320f6ac1289787a"
+        }
+      ],
+      "id": "vfacb1e4dabfd1d80"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-acs-core/vectors/vfcab242ddb38d018.json",
-          "sha256": "026faf76d7450412ef44b41680089d8d558d8582d935352213b98be66d1e6a6e"
+          "sha256": "7eb593388cad06dfb82f262e0398f3c643a5864dfc82ea9fbfe8cc6258bbbff6"
         }
       ],
       "id": "vfcab242ddb38d018"
@@ -954,7 +2707,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/vfdd68340c2094962.json",
-          "sha256": "b9652a6246edf1af18eab7efe1851f8a6b1d3d9a5ba25749e0a412bb831e5de0"
+          "sha256": "7db38ce5b3b7a2634772d7ea5a22a7ee6720bb81b74871386f552a6e2c0f086c"
         }
       ],
       "id": "vfdd68340c2094962"
@@ -963,7 +2716,7 @@
       "files": [
         {
           "path": "vectors-acs-core/vectors/vff6b4d46f470f2ad.json",
-          "sha256": "4996f4f5e134b331c79889e8203f05d21a26590f10677bc8a1538a1a426c6849"
+          "sha256": "b415d0d63d874d0115d655986b76b3afe47808d848164c9777091b287090427f"
         }
       ],
       "id": "vff6b4d46f470f2ad"
@@ -1003,7 +2756,7 @@
       "reference": {
         "path": "release/intake/native/vectors-acs-core.json",
         "serialization": "bytes",
-        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+        "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
       }
     },
     {
@@ -1012,7 +2765,7 @@
       "reference": {
         "path": "release/intake/native/vectors-acs-core.txt",
         "serialization": "bytes",
-        "sha256": "d20c6c1a2af8d92f2b174e9b19f658d4c2afc5736dc01cb813e5af2d3e5cedf8"
+        "sha256": "77420c3024eb3b0751ae63a9aa58c113e18a37fcff4f0ecb63189fb69349a5ce"
       }
     },
     {
@@ -1030,6 +2783,22 @@
     "rejected"
   ],
   "refusals": [
+    {
+      "check": "v05935d4e2d816888",
+      "inputs": [
+        "member:v05935d4e2d816888",
+        "check:v05935d4e2d816888"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-035\"]}"
+    },
+    {
+      "check": "v09451dcf233c2115",
+      "inputs": [
+        "member:v09451dcf233c2115",
+        "check:v09451dcf233c2115"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-030\"]}"
+    },
     {
       "check": "v0c6dcb9ff13af3c9",
       "inputs": [
@@ -1063,12 +2832,52 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-009\"]}"
     },
     {
+      "check": "v13ec89c059e7e71d",
+      "inputs": [
+        "member:v13ec89c059e7e71d",
+        "check:v13ec89c059e7e71d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-053\"]}"
+    },
+    {
+      "check": "v142a717729cabcc7",
+      "inputs": [
+        "member:v142a717729cabcc7",
+        "check:v142a717729cabcc7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-060\"]}"
+    },
+    {
+      "check": "v1bf79e310bf7ab30",
+      "inputs": [
+        "member:v1bf79e310bf7ab30",
+        "check:v1bf79e310bf7ab30"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-056\"]}"
+    },
+    {
       "check": "v1ce4aeb611285368",
       "inputs": [
         "member:v1ce4aeb611285368",
         "check:v1ce4aeb611285368"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SESSION_REFUSED\",\"codeValue\":-32000,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-024\"]}"
+    },
+    {
+      "check": "v1e4a323dafeda46e",
+      "inputs": [
+        "member:v1e4a323dafeda46e",
+        "check:v1e4a323dafeda46e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-047\"]}"
+    },
+    {
+      "check": "v204003ad3a0dcacb",
+      "inputs": [
+        "member:v204003ad3a0dcacb",
+        "check:v204003ad3a0dcacb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-026\",\"ACS-R-027\"]}"
     },
     {
       "check": "v221edeb22c4e8634",
@@ -1079,12 +2888,52 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\",\"ACS-R-021\"]}"
     },
     {
-      "check": "v3232493ab40ae031",
+      "check": "v28a228c72a0a72e8",
       "inputs": [
-        "member:v3232493ab40ae031",
-        "check:v3232493ab40ae031"
+        "member:v28a228c72a0a72e8",
+        "check:v28a228c72a0a72e8"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-021\"]}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-050\"]}"
+    },
+    {
+      "check": "v2a61a2c85f8b6aec",
+      "inputs": [
+        "member:v2a61a2c85f8b6aec",
+        "check:v2a61a2c85f8b6aec"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"forbidsRegistryCode\":true,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-021\"]}"
+    },
+    {
+      "check": "v317a035acc0101c3",
+      "inputs": [
+        "member:v317a035acc0101c3",
+        "check:v317a035acc0101c3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-033\"]}"
+    },
+    {
+      "check": "v31ce9cd718b96f51",
+      "inputs": [
+        "member:v31ce9cd718b96f51",
+        "check:v31ce9cd718b96f51"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-054\"]}"
+    },
+    {
+      "check": "v34a0f1903d69dbc1",
+      "inputs": [
+        "member:v34a0f1903d69dbc1",
+        "check:v34a0f1903d69dbc1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-038\"]}"
+    },
+    {
+      "check": "v3a740f95d71db4bb",
+      "inputs": [
+        "member:v3a740f95d71db4bb",
+        "check:v3a740f95d71db4bb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-039\"]}"
     },
     {
       "check": "v412653087b92cb07",
@@ -1103,12 +2952,92 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-013\"]}"
     },
     {
+      "check": "v4f1f941aca13438d",
+      "inputs": [
+        "member:v4f1f941aca13438d",
+        "check:v4f1f941aca13438d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-040\"]}"
+    },
+    {
+      "check": "v55187b175296fcc8",
+      "inputs": [
+        "member:v55187b175296fcc8",
+        "check:v55187b175296fcc8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-042\"]}"
+    },
+    {
+      "check": "v57106f0a71dd1d62",
+      "inputs": [
+        "member:v57106f0a71dd1d62",
+        "check:v57106f0a71dd1d62"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-045\"]}"
+    },
+    {
+      "check": "v573876edff0016da",
+      "inputs": [
+        "member:v573876edff0016da",
+        "check:v573876edff0016da"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-049\"]}"
+    },
+    {
+      "check": "v5855843136b72a87",
+      "inputs": [
+        "member:v5855843136b72a87",
+        "check:v5855843136b72a87"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-045\"]}"
+    },
+    {
+      "check": "v5c3813f48b81ccf3",
+      "inputs": [
+        "member:v5c3813f48b81ccf3",
+        "check:v5c3813f48b81ccf3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-029\"]}"
+    },
+    {
+      "check": "v650e4e7924e597b8",
+      "inputs": [
+        "member:v650e4e7924e597b8",
+        "check:v650e4e7924e597b8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-033\"]}"
+    },
+    {
       "check": "v661266c5c87cb206",
       "inputs": [
         "member:v661266c5c87cb206",
         "check:v661266c5c87cb206"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CAPABILITY_NOT_NEGOTIATED\",\"codeValue\":-32003,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-013\"]}"
+    },
+    {
+      "check": "v676ce54e23de4b38",
+      "inputs": [
+        "member:v676ce54e23de4b38",
+        "check:v676ce54e23de4b38"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-048\"]}"
+    },
+    {
+      "check": "v6b9826ebb2401bb8",
+      "inputs": [
+        "member:v6b9826ebb2401bb8",
+        "check:v6b9826ebb2401bb8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-046\"]}"
+    },
+    {
+      "check": "v71d1f3d3c1c2107f",
+      "inputs": [
+        "member:v71d1f3d3c1c2107f",
+        "check:v71d1f3d3c1c2107f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-028\",\"ACS-R-029\"]}"
     },
     {
       "check": "v7b0b32fb369136c1",
@@ -1119,12 +3048,52 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\"]}"
     },
     {
+      "check": "v7d14727c84d2020d",
+      "inputs": [
+        "member:v7d14727c84d2020d",
+        "check:v7d14727c84d2020d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-052\"]}"
+    },
+    {
+      "check": "v80af4427990f6034",
+      "inputs": [
+        "member:v80af4427990f6034",
+        "check:v80af4427990f6034"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-038\"]}"
+    },
+    {
       "check": "v8557c978bf12ca55",
       "inputs": [
         "member:v8557c978bf12ca55",
         "check:v8557c978bf12ca55"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-016\"]}"
+    },
+    {
+      "check": "v88176a8db9aee0c7",
+      "inputs": [
+        "member:v88176a8db9aee0c7",
+        "check:v88176a8db9aee0c7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-028\",\"ACS-R-029\"]}"
+    },
+    {
+      "check": "v89ea07928daff608",
+      "inputs": [
+        "member:v89ea07928daff608",
+        "check:v89ea07928daff608"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-036\",\"ACS-R-037\"]}"
+    },
+    {
+      "check": "v934c6c4f64dc3142",
+      "inputs": [
+        "member:v934c6c4f64dc3142",
+        "check:v934c6c4f64dc3142"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-061\"]}"
     },
     {
       "check": "v93c6cced4a3b9f13",
@@ -1141,6 +3110,14 @@
         "check:v986429a577e03404"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"CHAIN_MISMATCH\",\"codeValue\":-32007,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-006\",\"ACS-R-021\"]}"
+    },
+    {
+      "check": "v9c3c0467f619607e",
+      "inputs": [
+        "member:v9c3c0467f619607e",
+        "check:v9c3c0467f619607e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-058\"]}"
     },
     {
       "check": "va00ef569d09bf7d5",
@@ -1167,12 +3144,28 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"PROVENANCE_REQUIRED\",\"codeValue\":-32002,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-010\"]}"
     },
     {
+      "check": "va3cc0f12ae4e8a35",
+      "inputs": [
+        "member:va3cc0f12ae4e8a35",
+        "check:va3cc0f12ae4e8a35"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-026\",\"ACS-R-027\"]}"
+    },
+    {
       "check": "va8eebd3334b97257",
       "inputs": [
         "member:va8eebd3334b97257",
         "check:va8eebd3334b97257"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-004\"]}"
+    },
+    {
+      "check": "vac8eb35a1249aefc",
+      "inputs": [
+        "member:vac8eb35a1249aefc",
+        "check:vac8eb35a1249aefc"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-055\"]}"
     },
     {
       "check": "vae2037ee96435463",
@@ -1191,6 +3184,22 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"TIMESTAMP_OUT_OF_WINDOW\",\"codeValue\":-32006,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-003\"]}"
     },
     {
+      "check": "vb2374eaafd283548",
+      "inputs": [
+        "member:vb2374eaafd283548",
+        "check:vb2374eaafd283548"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-050\"]}"
+    },
+    {
+      "check": "vb3c19387fb98e20f",
+      "inputs": [
+        "member:vb3c19387fb98e20f",
+        "check:vb3c19387fb98e20f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-031\"]}"
+    },
+    {
       "check": "vb87b86b4930665ca",
       "inputs": [
         "member:vb87b86b4930665ca",
@@ -1199,12 +3208,68 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-001\"]}"
     },
     {
+      "check": "vbd5dc2450805e76b",
+      "inputs": [
+        "member:vbd5dc2450805e76b",
+        "check:vbd5dc2450805e76b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-036\"]}"
+    },
+    {
+      "check": "vc0ee2db9cf47e0c1",
+      "inputs": [
+        "member:vc0ee2db9cf47e0c1",
+        "check:vc0ee2db9cf47e0c1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-040\"]}"
+    },
+    {
+      "check": "vc190a6c639182d4e",
+      "inputs": [
+        "member:vc190a6c639182d4e",
+        "check:vc190a6c639182d4e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-042\"]}"
+    },
+    {
       "check": "vc333473269d1b3a9",
       "inputs": [
         "member:vc333473269d1b3a9",
         "check:vc333473269d1b3a9"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-007\"]}"
+    },
+    {
+      "check": "vc38320dadcd56b7f",
+      "inputs": [
+        "member:vc38320dadcd56b7f",
+        "check:vc38320dadcd56b7f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-026\",\"ACS-R-027\"]}"
+    },
+    {
+      "check": "vc540b5eb806ea07c",
+      "inputs": [
+        "member:vc540b5eb806ea07c",
+        "check:vc540b5eb806ea07c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-043\",\"ACS-R-044\"]}"
+    },
+    {
+      "check": "vc8e379465f4a677b",
+      "inputs": [
+        "member:vc8e379465f4a677b",
+        "check:vc8e379465f4a677b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-041\"]}"
+    },
+    {
+      "check": "vcfbc617d0218ad1a",
+      "inputs": [
+        "member:vcfbc617d0218ad1a",
+        "check:vcfbc617d0218ad1a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-036\"]}"
     },
     {
       "check": "vd57793caa251dec6",
@@ -1231,6 +3296,38 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-022\",\"ACS-R-021\"]}"
     },
     {
+      "check": "ve4913ae6f9a72e29",
+      "inputs": [
+        "member:ve4913ae6f9a72e29",
+        "check:ve4913ae6f9a72e29"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-033\"]}"
+    },
+    {
+      "check": "ve69abbaf514cc33f",
+      "inputs": [
+        "member:ve69abbaf514cc33f",
+        "check:ve69abbaf514cc33f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-026\",\"ACS-R-027\"]}"
+    },
+    {
+      "check": "ve7274cd800b89ef2",
+      "inputs": [
+        "member:ve7274cd800b89ef2",
+        "check:ve7274cd800b89ef2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-039\",\"ACS-R-059\"]}"
+    },
+    {
+      "check": "veed45c58b4e3a95b",
+      "inputs": [
+        "member:veed45c58b4e3a95b",
+        "check:veed45c58b4e3a95b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-039\"]}"
+    },
+    {
       "check": "vef655ce2a45f618b",
       "inputs": [
         "member:vef655ce2a45f618b",
@@ -1239,12 +3336,36 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"REPLAY_DETECTED\",\"codeValue\":-32005,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-002\"]}"
     },
     {
+      "check": "vf08f4493cfae6ceb",
+      "inputs": [
+        "member:vf08f4493cfae6ceb",
+        "check:vf08f4493cfae6ceb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-051\"]}"
+    },
+    {
+      "check": "vf7ace2bd183ec0bf",
+      "inputs": [
+        "member:vf7ace2bd183ec0bf",
+        "check:vf7ace2bd183ec0bf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-035\"]}"
+    },
+    {
       "check": "vf80a81054d3f0862",
       "inputs": [
         "member:vf80a81054d3f0862",
         "check:vf80a81054d3f0862"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":\"SIGNATURE_INVALID\",\"codeValue\":-32004,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-020\"]}"
+    },
+    {
+      "check": "vfacb1e4dabfd1d80",
+      "inputs": [
+        "member:vfacb1e4dabfd1d80",
+        "check:vfacb1e4dabfd1d80"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"code\":null,\"codeValue\":null,\"unmeasurableBecause\":null,\"verdict\":\"deny\"},\"requirements\":[\"ACS-R-057\"]}"
     },
     {
       "check": "vfcab242ddb38d018",
@@ -1270,11 +3391,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+        "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
       },
       {
         "process": "run-2",
-        "sha256": "181577772233782b9b893bc7f603bb2f513c63f9c4b575a8328e31e2795e3af8"
+        "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
       }
     ],
     "seed": null,
@@ -1288,64 +3409,141 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 48 pinned members of acs-core-negative-conformance as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 124 pinned members of acs-core-negative-conformance as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 48,
+    "matched": 124,
     "require": "at-least-one",
     "selected": [
       "v0577dc8ccd4d7e47",
+      "v05935d4e2d816888",
       "v07180a3ca8f10123",
+      "v09451dcf233c2115",
       "v0c6dcb9ff13af3c9",
       "v0e1b9d0f75f54e9c",
       "v100f74962fbb8b94",
       "v10351021bf6e46b1",
+      "v13ec89c059e7e71d",
+      "v142a717729cabcc7",
+      "v1449cddb48f82d09",
+      "v1bf79e310bf7ab30",
       "v1ce4aeb611285368",
+      "v1e4a323dafeda46e",
+      "v204003ad3a0dcacb",
       "v221edeb22c4e8634",
       "v25f01d8fe1e91bf5",
-      "v3232493ab40ae031",
+      "v28a228c72a0a72e8",
+      "v2a61a2c85f8b6aec",
+      "v2aa5e37455fda245",
+      "v2d172bf817c9b0ca",
+      "v317a035acc0101c3",
+      "v31ce9cd718b96f51",
+      "v34a0f1903d69dbc1",
+      "v352dbb9b4c521a26",
+      "v36627efbb93cdb48",
+      "v3a740f95d71db4bb",
       "v3c03d4e4ce213e9c",
       "v3e946bcfde26bbe2",
       "v412653087b92cb07",
+      "v43ef9dfd999c84e8",
       "v448a61c91554a125",
+      "v47ac76a1803fdb29",
+      "v4cfeaa01784088e3",
+      "v4f1f941aca13438d",
+      "v4f2144a08f62c639",
       "v4f75a079844635af",
       "v53ef0aaa91303587",
+      "v55187b175296fcc8",
+      "v57106f0a71dd1d62",
+      "v573876edff0016da",
+      "v5855843136b72a87",
       "v58b380041d50cb9a",
+      "v5c3813f48b81ccf3",
+      "v650e4e7924e597b8",
       "v661266c5c87cb206",
+      "v663664f03dec5517",
+      "v676ce54e23de4b38",
       "v699f3f41215849ca",
+      "v6b9826ebb2401bb8",
       "v6daaec0f6f0c8a14",
+      "v71d1f3d3c1c2107f",
       "v78927805373a6c06",
+      "v7b0219cc72681b5a",
       "v7b0b32fb369136c1",
+      "v7cdac6c8af6db2fe",
+      "v7d14727c84d2020d",
+      "v80af4427990f6034",
       "v82b6d110b4d68e7c",
+      "v83363b5d7f051859",
       "v8557c978bf12ca55",
       "v855c3b68b325eec1",
+      "v88176a8db9aee0c7",
+      "v89ea07928daff608",
+      "v8a5f343c721f2f14",
+      "v8b8bb4f181c906e6",
+      "v8d6218889aeda7c7",
+      "v934c6c4f64dc3142",
       "v93c6cced4a3b9f13",
       "v986429a577e03404",
+      "v98892a47c65b871e",
+      "v98c73932834256a4",
+      "v9c3c0467f619607e",
+      "v9d271115ecc2144a",
       "v9f011986566cb7bc",
       "va00ef569d09bf7d5",
       "va0ee5d0830b0490b",
       "va200b64093301e14",
+      "va216214d32d8d5f7",
       "va2b212fbc0966f59",
       "va2fea96983583972",
+      "va3cc0f12ae4e8a35",
       "va6d6e952d417c5a1",
       "va8eebd3334b97257",
+      "vabdcee4722b26a44",
+      "vac8eb35a1249aefc",
       "vae2037ee96435463",
       "vb10df32610db1173",
+      "vb2374eaafd283548",
+      "vb3c19387fb98e20f",
       "vb87b86b4930665ca",
+      "vbd5dc2450805e76b",
+      "vbf0b0f4b67a00b59",
+      "vc0ee2db9cf47e0c1",
+      "vc1100bbd3f8f6a5f",
+      "vc190a6c639182d4e",
       "vc333473269d1b3a9",
+      "vc38320dadcd56b7f",
+      "vc540b5eb806ea07c",
+      "vc8e379465f4a677b",
+      "vcfbc617d0218ad1a",
+      "vd4d655cdc5da676f",
+      "vd4df6378ea74234d",
       "vd57793caa251dec6",
       "vd67cd207a4eb6798",
       "vd8ac84523a5a038c",
+      "vdea95625fa2056cf",
+      "ve0b07adbd63ede48",
+      "ve4913ae6f9a72e29",
+      "ve69abbaf514cc33f",
+      "ve7274cd800b89ef2",
+      "vee03180733ac4538",
+      "veed45c58b4e3a95b",
       "vef655ce2a45f618b",
+      "vf0317aa29d78b3c1",
+      "vf08f4493cfae6ceb",
       "vf3679e6ac60fd250",
+      "vf53a8639739cf0ca",
+      "vf7ace2bd183ec0bf",
       "vf80a81054d3f0862",
+      "vfacb1e4dabfd1d80",
       "vfcab242ddb38d018",
       "vfdd68340c2094962",
       "vff6b4d46f470f2ad"

@@ -17,6 +17,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-receipt-signature/digest.py",
+    "routine-file": "vectors-receipt-signature/digest.py",
     "serialization": "corpus-routine",
     "sha256": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae",
     "verdicts": {
@@ -24,6 +25,189 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "801d1addb7aa2febd1dadadeb4d8f99090edd8187d34955681b70948dec8cafd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "2ba2bc5895387a5b4a8d86398f5fd4311d2f12a1077c5bd60fab1eb535998d99"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "cd51179b538cc5abfa1a59009270ed25f4b19bc3baa82a48428367c3fceed59a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/README.md",
+      "serialization": "bytes",
+      "sha256": "fadc447bf0b924efb7817474b9532db7590500def62ddd526e7342f1e0c15f0c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "ef84bd2fca3f0a5013ea9d411dd7045dc0a3db4ff582922e30a058aeed5277db",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/digest.py",
+      "serialization": "bytes",
+      "sha256": "e25e8e246981898682cd89c6efe095fdbed2469fac99e13decbe40e718fa5d21"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "1c3722e7699385f844f2c4c7feb799ce5ba79760a87dc2f4f2403bcadc0ca9c8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "c4870334ee18bfabb4b97da689c8a1e251f4b0788fbf44b334997740b3cd98f4"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "ea0ac8300426b8ec4384b8a394c7e229d07fae3226e1ad435816a991e0a44626"
+        },
+        "swapped-in": "2cb7c756f774a391401e31af58c4813a97d74473aa17553007661c4db53af5e6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/keys/jwks-no-window.json",
+      "serialization": "bytes",
+      "sha256": "12943aab1abb1f3cc85c058bc2a2caf5245714cf516bbab171ae622fbcce8cd7"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1c1fb616167a1da6651c268b61ab03ba94ac09307c0970d371f1fe8cabbd5669"
+        },
+        "swapped-in": "298cdfe4d5944b06a8c3a6eab6970e5147ba37c545a31607e5b788473b0b13e6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/keys/jwks.json",
+      "serialization": "bytes",
+      "sha256": "5f48f37dea8f6cc4197b97ccbb2d39e5ac12a789d054d3b6dd8edf4e642de441"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "d0716d3b27a0924727cfaa7a2debad08a964fd11016df6ae875a864f3db4acce"
+        },
+        "swapped-in": "c299cb28f37e7a44b3967dcd8dbbc8f22552e6fc0074c162fe7609b32b17efe3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+      "serialization": "bytes",
+      "sha256": "bcde71799a621305254ea8b442fc829ac6d65fcff039f365e8a2349d8e902f19"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "376f4a5975a2dfe1b04249c56c4e3e6f2dce4201648e8884f383ce82f7b19b20",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/tools/veritasacta-verify.py",
+      "serialization": "bytes",
+      "sha256": "97160a53bf23ee4ad319ffd3054cc9302138986f7730ec3a25f98a77b1c51c34"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -78,7 +262,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -295,7 +479,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "4ba472f73b34146510f7046a1c9ff47a09633f7c143227257c930c2ff132e30b"
+    "sha256": "d3f4c64d85229ccab7a13eaee26342f9555a84c3f003ded63caeb66b6b190705"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -739,7 +923,8 @@
       "aee-verify, at the source listing named here, judges each of the 25 pinned members of receipt-signature-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

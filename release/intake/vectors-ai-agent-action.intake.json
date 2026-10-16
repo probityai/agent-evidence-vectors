@@ -15,6 +15,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-ai-agent-action/gen_vectors.py",
+    "routine-file": "vectors-ai-agent-action/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5",
     "verdicts": {
@@ -22,6 +23,513 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "d3b785db0bfcc4432db49a94c5662e93184dba8b83720fe14cad9d36978b9ba9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "d0781ab58318c93c40aa3db28e0eb32f1d9a10b9ddb639ab20f307d911609330"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "4d20bd4493b4e3b4326641a0023c451828fa39f029f269da32c2f90acc916257",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/README.md",
+      "serialization": "bytes",
+      "sha256": "089507b9cd4808074ccdbf845574c68eba9745d899a871b16360977e943c86c9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "3b9e4d39e08e7979e5677a8ccad097e76f560ad778c4b694566dcae243a7c7c1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/SUMMARY.json",
+      "serialization": "bytes",
+      "sha256": "27f2057d1bb45fb6ceb55e3677cfb5be7a9c3f894f371de4dc17b60ab7c85ea1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "62021f98d7240482afa44115c285f358d03b522d58ea0f3d50af42edf9451844",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a1-integer-like-key-order.json",
+      "serialization": "bytes",
+      "sha256": "83c4d04f1454b0e9775f6e5919bbf9e780eb1929cb6957ff785886934a1990f8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "e11d56a2599ce6acd821c78c3f39ff9605d496ddbff4f914f5969db2365f5d23",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a10-signing-field-list-absent.json",
+      "serialization": "bytes",
+      "sha256": "de0592234966734f001a2ac38dc2efbf8e7f63a5d99cfa2841503a6d76818b76"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "ec699519343e32d9d7d547a0c340659606a436925616b214c3d375524f0ef705",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a11-planted-null-priorhead-break.json",
+      "serialization": "bytes",
+      "sha256": "03d1fc486104c8d7c87f148a1af377350f85d2f3ad5b25352ec18d76c15b927a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "f0935820a33468c65e96731357ad595a444b2b4bb79da7f015dec74607487ac7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a2-string-escaping.json",
+      "serialization": "bytes",
+      "sha256": "8864754b73215eeb73d9262587d0bee6fc7762db00781c74a987a2491317f2e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "df0298f776a2b28daa9c56e423aa028dca95dc7b09e22bf26f07500aac1aed34",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a3-preimage-reading-split.json",
+      "serialization": "bytes",
+      "sha256": "27752d439dfccd1f4e20bb22b8dc67cbd6d160f7085c8183dbfaee12b6cb8978"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "2325f15bd1393c7f47681ec5e0a53810fe9bae7365aac0760cd09ed3f8b79628",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a4-duplicate-member.json",
+      "serialization": "bytes",
+      "sha256": "3bf611e04ff34420bcdcff484999331ea165754d8186b63a9180e7ac16a99247"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "50578f61e277e587e23e43b0ca34ef1f44b4b08b1aa98acef63b43cc53dc9685",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-honest.jsonl",
+      "serialization": "bytes",
+      "sha256": "2684aef4cb1016b0b8f7f9883268f3243b28dd2236d17494323d2bc37ee1fff1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "a46dca12ff3d049075eb5a027656559511ba6516b6eaf0d28a7cebe9d8881e00",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-presented.jsonl",
+      "serialization": "bytes",
+      "sha256": "63d9f5767c71fa47d195e6f5b39f88a3ce19bbffff0998747af2d74846e3538c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "7544bdc208e544daefd2047fc0020de7f633ddd7007b93e986f1329f34d2a2b2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork.json",
+      "serialization": "bytes",
+      "sha256": "d150925432ada2ca2b37901c68a70dc2dff71070f5c0b9331a91285c13947c34"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "eba60952c54c7755a1751c3dae0a5abe25801f9f1220d9af0b75b1ff3229be30",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a6-checkpoint-not-on-chain.json",
+      "serialization": "bytes",
+      "sha256": "2a18cbaa8d276912088dce88183c500323d9810147b33c5ca278b63f81a3344d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "61df2692c96aba14f938656382a7315caff430f55806d1c974b1bc3ac8cf2928",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a7-float-rule-contradiction.json",
+      "serialization": "bytes",
+      "sha256": "22644276986ccb8ddd6ee3478da97d8d1c79dccb55f9234fab70c76e296973b4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "48b8a8ff34f98ba55c2032a393d9a3a9d0c3ed56f3c323afc7b2710d08132f2f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a8-error-response-preimage.json",
+      "serialization": "bytes",
+      "sha256": "a09e1e42560c0f2e9b19821c79a0085c8e5542025994a93c56a17a214b95b5c0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "776c36663f20837b49a32c2ddc61131a7e918606115fcc8f6cf0205499b8be40",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a9-previoushash-unpinned.json",
+      "serialization": "bytes",
+      "sha256": "17d7bc5a3031134fe4a76093bc85f7202ca106855689c26ae57c821134e46762"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "ff9324b305bad254b71f208baa778b9644cbc30d6e3c43aab1febfe6da40705f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f1-strip-chain-object.json",
+      "serialization": "bytes",
+      "sha256": "ed7133116c2b7c23ddac9acd7649df8cb1f47d1355eeac8f90288e5664bf00b4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "c23c60ca253f8df2396bb69f362867a6c90e4def15bc89fedab6f4714614f8d8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f2-unpaired-surrogate.json",
+      "serialization": "bytes",
+      "sha256": "09071bcc80889dda7b63fd5ceae4b95713924dc51635f2e588424aab8b3e5497"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "8451821dcb56532d713cc4718b0c715922fe77ab0db1649b59fb046a4f4db98d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f3-second-genesis.json",
+      "serialization": "bytes",
+      "sha256": "2e4429be0c98df947a74588c300a42cc50f8b229af570e670e8bd7efaf0dd0e5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "3ddb1e435e3f11e78106fa0d24f6de5551db33280c6636eed5c644b9fe8137e0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/run_attacks.py",
+      "serialization": "bytes",
+      "sha256": "35609009fdc3543202070f14b39e7a32fb768db50982b2588ce3d736e7a65eba"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "0e1f2f4525832d2e52d952ae185f610ae2f23b29674367fe1b46fca85313677b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1538b39b691f8a977311bb5e278beb8939d0e45d6b85e4469b42e23d732ffb7c"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-agent-action/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "43d5ac6b4f0c98bdce53fba03f5c03e5f7dd878efec33fa03f432ddd16589703"
+        },
+        "swapped-in": "d903946fdcdcf0f480755894b4ee1cd30b437a12770f5102753f36c193853640",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/spec-vendored/ai-agent-action-a5dd509.md",
+      "serialization": "bytes",
+      "sha256": "5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -76,7 +584,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -693,7 +1201,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "c0dbb44d7e8c9307021f85e6d59e5dc4df27e2184b26882df79a7f8b7c3a9337"
+    "sha256": "9509ae1ae2ff60806aa0d549cd854dd927db2744b08472ba4157df53de6e72ed"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1929,7 +2437,8 @@
       "aee-verify, at the source listing named here, judges each of the 75 pinned members of ai-agent-action-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

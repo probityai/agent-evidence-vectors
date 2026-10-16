@@ -16,6 +16,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-artifact-binding/digest.py",
+    "routine-file": "vectors-artifact-binding/digest.py",
     "serialization": "corpus-routine",
     "sha256": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
     "verdicts": {
@@ -23,6 +24,146 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "888c4ac3602789fa8b41799ea328790d72abd52a2e845274e4c30c32eb41f01c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "9c070de1ccbf948d2d2c0dd113ab8229faf7dd8caa158a6ec65cfa8e6de195b3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "78a5c6bc83496afc8caa82b9e33832a4b0436819531850b39da3837a20645e46",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "87407aba77cef6c1cadb6d59ca922d329f5f43208300e4335570f7c40b1c5a41"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "4272f492f391698fb5ec01b154dd6b114409e60c094ebf656a0cfcf6e82cfa22",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "905b35da03de06117202f11bc9351aa0bafd05a7166eb2b44daeab932709e33d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "0b0bc3191bf1aea68035253fc621b774e6ff97cc38d33939f407d2b95b782387",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/digest.py",
+      "serialization": "bytes",
+      "sha256": "66413cc57869988b2ed9d2921c152d4ed90db7d8e6494def82a1b009f8f0600e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "2164734fc216795eadb85ed5a6d47b4a735dbfd88f46eee92acdfac9fdc2fb79",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "bdda9cb013047af55cd013cc358b8680dec943e86f5332cdf7d1fa6ec30a7dae"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "797bef62d376b9baa9ab961ecad584fac7fc0dbb2f5dc1e02b3b79cd9119af5d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/public.key",
+      "serialization": "bytes",
+      "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -72,7 +213,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -153,7 +294,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "14df14e583b3837131248bab389fdd9ad63dcdb58a53e7edc550724b8dfde6fa"
+    "sha256": "1b236dab3527ebdb5093d785c6597d651f92d118dfbc2338e14c44ea42d86394"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -767,7 +908,8 @@
       "aee-verify, at the source listing named here, judges each of the 8 pinned members of artifact-binding-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {

@@ -15,6 +15,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-w3c-report/gen_vectors.py",
+    "routine-file": "vectors-w3c-report/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc",
     "verdicts": {
@@ -22,6 +23,649 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "49cd1435e135362a2a2bd54c2e3dc56da998fab71fe765d4a91b9782d8c33668",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "34c09be217e3d4769e33aa41c6f1b5105aee42c12afe26401fcda3bd6c3a1232"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "e012358cdbd89973e5889212cd695add3bf25d45787ac9b66dca51977495a136",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/MUTATION-SWEEP.md",
+      "serialization": "bytes",
+      "sha256": "4e696a412d498e03ea0d43a039a906c79d83da0985260e223114a72e672e8acb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "4f6f98c550cf9815b638746486de04b97b0c5bad520fb2a2914f7eddadf34517",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/README.md",
+      "serialization": "bytes",
+      "sha256": "db70ad24a865714d97e0f0a18ff62a4b0f9db09b01ba339d8a2701bf11ae4409"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "a25506a191fec6ccf0aa81451074edf046fe4b49e37df0365a72a9d8676bf632",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "49dcadf3d52b8299adbe8bda938201affaf4b7e58b85360688fbdb2686801994"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "61c8601e963ea02a906b0d924e35a4428f9915bc64fe6e40929eef047302c8af",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/RUN.json",
+      "serialization": "bytes",
+      "sha256": "00007b271fd027a5c952c17a8100190b8af360929f906936be352bb806c97448"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json",
+          "vectors-w3c-report/observed/aee-v0.12.0/RUN.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "8ec1bc4bbd1ed87913e0b26206a1f0da601b4ba5a67754c0f178f83fa44d1338"
+        },
+        "swapped-in": "fda36bab5b56b43aa5b2684870ce75916c2722ee4ebb36529af98e61ff34dad6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/conformance-report.json",
+      "serialization": "bytes",
+      "sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json",
+          "vectors-w3c-report/observed/aee-v0.12.0/RUN.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "0612f6ae6213cd1a1e5fb986c0ad71bb2f7510bd4afcdc4ace53b13b8b59def5"
+        },
+        "swapped-in": "322526a6fdcf6277ec7e33006a9ca6cf2c2cbe03e5d1d34033b17dd02788fac8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/report.json",
+      "serialization": "bytes",
+      "sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "4063ec04c8218b718c0eb5f3fecef6d3fce173717c0d70d0799dfa6a1794d9fc",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/origin/derive_pairs.py",
+      "serialization": "bytes",
+      "sha256": "d196120f24e550f34c2e7844d8eb7c26b15d18eb2ec5c37f993c956800229590"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "936d3b532583724cbe34b6c25d96096c2c03b83a4ea536c872e43d43998ef507",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/origin/disensor-1e36257-pairs.json",
+      "serialization": "bytes",
+      "sha256": "f22c6fae3acea53f440cc1c73902789ef87e8bf3a2199a1c8d8f4a4689363bb0"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e8b8161ef3ed0eaf80ea6d80ca8107580071e95ee2a4db0d52bdea18ae948884"
+        },
+        "swapped-in": "b8d3875ee96e212992dd2f196fb2151b2af60e9a1584e1528ed9cd5d9a7eceaa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0001-ives-2026-09-01-coverage-block.txt",
+      "serialization": "bytes",
+      "sha256": "62bafb6e88629bda0dc09c1d19982aaf831be7b8845bf80a2fb31deda676b143"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "df7978115392c31b9eb6c24673ad68fe9a6e4eac42bde4c200ecc66cd34f585b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0025-rocchia-2026-09-13-state-cause-pair-table.txt",
+      "serialization": "bytes",
+      "sha256": "2ee9306408474a6966d8294d4e641c39aa253a2ab2bb377d01abcee5c3b94e95"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "5066ca2a5f45484abf3d1c5dc4266325eaab78ea3d82baccdfc9be289038a4ee",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0036-arsentev-2026-09-14-discrimination-and-populations.txt",
+      "serialization": "bytes",
+      "sha256": "7a034174eb5f27f8f8865f49ab6999de20157dd3906b9d158366b62cc83b7738"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "6a9ab8b0331627b6d2c1ad067e1f39bfa2505ab389f7ad77fd0fd947acea4759",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt",
+      "serialization": "bytes",
+      "sha256": "76f5af49f11108fccf5d01c3710771acdb4539c8761b655b8e06bda993bb03f1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "95bcdf4cb0f37556716ee13e8745142d6e7b14904fb7e668172ff8dd48c08bf9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0050-ives-2026-09-15-recomputed-delta.txt",
+      "serialization": "bytes",
+      "sha256": "1399c56136e7aa7630000f723a92169c12313ef6012eab130b3511ed2c7a5e35"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "b6489c24e374648626eed10b0011ddbf5dd520503449160826f5c3272bc1d407",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0060-rocchia-2026-09-16-freeze-list.txt",
+      "serialization": "bytes",
+      "sha256": "47f96e10c2ac5dc023a0dde77582331f58431cf4e8fabbb53a068a6d6a8f12bd"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "88f059a799007d01352200c432f8193898ee0c62e718b54c57ce9b235885f5bb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0062-arsentev-2026-09-17-editor-freeze-list.txt",
+      "serialization": "bytes",
+      "sha256": "b92f4a6ca926eaa8514c313054cf1736524d187ce36c9b6ef6c1f5d2b19ed977"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "b50a9c57adf529ed350f7264b2d63650e4be41d4c5efda8841f6e6da374e3dbe",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0069-arsentev-2026-09-18-late-additions.txt",
+      "serialization": "bytes",
+      "sha256": "40153b17403b0e6594dfe00a9e9a5c01e5b978b6ce47b12a4ef0bbe31817514b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "f341932a9126aeaf91be32d85909a79caa8a539d309c3f63d95f2d3c06fb3be8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0072-rocchia-2026-09-18-handover.txt",
+      "serialization": "bytes",
+      "sha256": "27cea4f3ffd48ed4fd0cab47ae08df3542f3cdded2aded7163a489e2edf8b831"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "5cd00f46c8cba5aa62f668123bd0d66c368898090248d1017bf1b37761474b6e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt",
+      "serialization": "bytes",
+      "sha256": "42fa833367e0e1d5b484f988da520c96936f009bbe2578fa7d0f22691830a134"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "1ab4389d2d737baed7b3ced5baf2cf529e45541dc11ff299dc072e230109baae",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "serialization": "bytes",
+      "sha256": "7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "e0607899c6f959aa41d57b3654960d6e76cb0bd35fabcb2f54383983fc9deb96",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
+      "serialization": "bytes",
+      "sha256": "88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1e0ae253c94224035be13b13e56b01af4ce33d32efc06439c00c78745303c241"
+        },
+        "swapped-in": "fa4b3bcde228d14a95aa6cd9edf14817f8ed555f63572fb668013c0dc94afba7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0087-arsentev-2026-09-30-v01.txt",
+      "serialization": "bytes",
+      "sha256": "35625d73baa56f2705bb2fffe7e2a4075293fa6df075bc61bdd349a5d3618d9d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "swapped-in": "3d6254a088aed1e6124738535cb16db74bb9edd75c831575f46cfe60290f54ae",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0088-schuurkes-2026-09-30-v01-row4.txt",
+      "serialization": "bytes",
+      "sha256": "d22914e6146f1fb11d404d8d3e63cd5282af42e2a8acf5cee4a227d113a41798"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9f24262a5f7c610a0275f5d0bcc89a60c68ee928c8ce33a0846f5a7370cd6ab0"
+        },
+        "swapped-in": "aee6a07053a53e1cc43e6d5970a69f1b69ef14dcb4cef6ecf0d8ba2e936451a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/2026Oct-0038-kroehl-2026-10-10-digest-encoding.txt",
+      "serialization": "bytes",
+      "sha256": "9b71fe89b22c9f8b0a20b85e3a9cc9b0e5ee0909b629bddeb26fd4728d255ec1"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "25c37acafd2e02ea780d029d40c94b7c8d1ced507b5bc64706c3084b485a66f0"
+        },
+        "swapped-in": "76b1cf60f17b364f63a4675c3035a7455af34c1666bb4465cc57e68386265d9e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/2026Oct-0040-ives-2026-10-10-numeric-profile.txt",
+      "serialization": "bytes",
+      "sha256": "051ff39f291884c2d5b01edf4d0c9c477bbe78fe698f91cd6e72883dddeab35b"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "f6303e71172ede082230ff90a6492813d278204394581a51b1d761ffff108d9c"
+        },
+        "swapped-in": "193f15762fef0221facb1daddcd6ac7961fef721deb6d70f84803e9310cf2cbd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
+      "serialization": "bytes",
+      "sha256": "0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dc74976a597d32d1192721f8b48ac8f3cadea11ab8c5a2e43409814642f3eb51"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "977ed4b8f601adc0497fb4d9be5937dec450aac216693574d59c43504e14e39a"
+        },
+        "swapped-in": "29019f03ee2fc23bfcb50c99ee2975faa81a819f777e317fb13c46c3767b58cd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/draft-arsentev-llm-context-discovery-00.txt",
+      "serialization": "bytes",
+      "sha256": "13081268c70a19e9b3f74a6f772b657c56403ce6c45623da39a188394eefd411"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -71,7 +715,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -2240,7 +2884,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "cac9871edb02a9c1c1a9b290e794a4b5d66b2b262a0564774a2575525c5336cb"
+    "sha256": "b2d4849611f30603f59cdf5ebc7d1d992763a9e7eb88745e0485d24869031b1e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -5805,6 +6449,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },

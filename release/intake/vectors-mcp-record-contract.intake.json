@@ -15,6 +15,7 @@
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
     "routine": "corpus_digest in vectors-mcp-record-contract/gen_vectors.py",
+    "routine-file": "vectors-mcp-record-contract/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26",
     "verdicts": {
@@ -22,6 +23,100 @@
       "integrity-failure": "fail"
     }
   },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "8b07ccb890bac86bbff1a811a76a59f19971f0619e35113b7d194857c5d755fa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "62c3dc07c6c9900879b6f3a3474d8bebbfdad7a0aba0725b0ac158091a78029f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "0aa784a85529e7e7807646b88b4dbeb5fe487467f3193fb6e8f52b3b8148015f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/README.md",
+      "serialization": "bytes",
+      "sha256": "2b50127ace6c8f6709bfcca923f6ec29b1773b2912aaf3609c7900d279710341"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "828ae533f351dba232679a11ef2e98b238706357ace5a592a2039940a35f4558",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/check_run_record.py",
+      "serialization": "bytes",
+      "sha256": "b004fd88c83408616fda00dea40401221b50fb2f6b71d6f86b175b88b06f571e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "b3dea3ffbeec844e69eab333942aa976363222a50b51d38f7278fd5cdec259f7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "72ba72c287c7d1f72c14d4a1df49ce89a82669d3950fbf6090a38e65335df14f"
+    }
+  ],
   "boundary": {
     "complete": true,
     "member-locations": [
@@ -71,7 +166,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "1352d5b6e3d9870723b8531a05852b6c6ff236494d860e788b9005f2742d9851"
+      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
     },
     "runtime": {
       "name": "go",
@@ -208,7 +303,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "58a23c6a885c185bf1c95cb0eb897a75fcd836815df9a5b9f638c9cc17857d73"
+    "sha256": "3d35f56c32ab912afc3ea0302a2bc45abd5efad87a709539aecf389c84264837"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -528,7 +623,8 @@
       "aee-verify, at the source listing named here, judges each of the 15 pinned members of cross-run-record-contract as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {
