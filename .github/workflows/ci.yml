@@ -972,7 +972,7 @@ jobs:
           mkdir -p .build
           uv run python packaging/run_vectors.py \
             --corpus vectors-source-coverage \
-            --verifier "uv run --no-project --python 3.13 --with git+https://github.com/probityai/probity-verify@d3c0213ff3697c19535b6bcb63e29e74182807b5 probity-verify" \
+            --verifier "uv run --no-project --python 3.13 --with probity-verify==0.1.1 probity-verify" \
             --report .build/probity-source-coverage.json
       # A second question the checker above cannot ask about itself: would any
       # member still be refused if a rule were removed? The sweep disables one
