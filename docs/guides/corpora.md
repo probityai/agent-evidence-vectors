@@ -18,6 +18,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
 | Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
 | Signed admission of a change to an agent's harness | [vectors-agent-change-admission](../../vectors-agent-change-admission/README.md) | Agent change admission predicate, version 1; packaged reader or named verifier |
+| Signed provenance of an agentic process | [vectors-agentic-process-evidence](../../vectors-agentic-process-evidence/README.md) | Agentic Process Evidence predicate v0.1 (in-toto/attestation#609); packaged reader or named verifier |
 | Hash of an agent's tool-call arguments | [vectors-agent-decision](../../vectors-agent-decision/README.md) | `args_hash` and `args_state` of the agent-decision v0.1 predicate proposed in in-toto/attestation#554; `aee-verify` |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
 | A2A Agent Card canonicalization | [vectors-a2a-jcs-v01](../../vectors-a2a-jcs-v01/README.md) | RFC 8785 bytes and the signing input of a card, vendored from a2a-tck; packaged reader or named verifier |
