@@ -1320,6 +1320,21 @@ FROZEN: tuple[Frozen, ...] = (
         'Results an outside implementer reported for a past run against his own case set. They '
         'record that report as posted and must not track this corpus.',
     ),
+    Frozen(
+        'docs/runs/observed-effect-verdict-words.md',
+        "an outside reader's rerun heading, as reported",
+        'Rerun at efe2dd9: 46 of 46',
+        'The verdict-word result an outside implementer reported for one rerun of his reader at '
+        'efe2dd9 against the observed-effect manifest. It records that run and must not track this '
+        'corpus.',
+    ),
+    Frozen(
+        'docs/runs/observed-effect-verdict-words.md',
+        "an outside reader's rerun outcomes, as reported",
+        '12 of 12 accepts, 46 of 46 rejects',
+        'The outcomes an outside implementer reported for the same rerun at efe2dd9. They record '
+        'that run and must not track this corpus.',
+    ),
     # ---- integers that equal a figure of this corpus at suiteRevision 31 and
     # count something else: a file count, a date, a byte length, a pull request
     # number, or a result recorded once. Each records what it says and none of
