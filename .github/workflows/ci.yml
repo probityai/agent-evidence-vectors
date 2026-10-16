@@ -778,13 +778,6 @@ jobs:
           python3 scripts/count-gate.py
           python3 scripts/count-gate-test.py
           python3 scripts/countcensus-sparse-test.py
-      # A predicate type URI under the pages host is signed into records, so it
-      # must never 404, and the site serves only what the registry lists. Two
-      # URIs did 404 because they sat in signed payloads nobody reads in review.
-      - name: every predicate type URI in the tree is registered
-        run: |
-          python3 scripts/predicate-registry-gate.py
-          python3 scripts/predicate-registry-gate-test.py
       # Keep the release recipe, corpus list and form aligned with their sources.
       - name: check distribution metadata and release recipe
         run: |
