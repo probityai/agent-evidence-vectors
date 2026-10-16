@@ -51,6 +51,7 @@ import re
 import shlex
 import subprocess
 import sys
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -60,7 +61,9 @@ EXIT_FOR = {VERIFIED: 0, PREFIX: 3, REJECTED: 1}
 GENESIS = "genesis"
 ENDORSEMENT_DOMAIN = b"pipelock-rotation-endorsement-v1\x00"
 OPEN_LABEL = "pipelock.receipt.session_open.v1"
-RUN_SESSION = re.compile(r"^[^/\\]+\.run\.[0-9a-f]{32}$")
+# A run-scoped session ends in the run's 16-byte nonce, written as hex.
+_RUN_NONCE_HEX_DIGITS = 2 * 16
+RUN_SESSION = re.compile(rf"^[^/\\]+\.run\.[0-9a-f]{{{_RUN_NONCE_HEX_DIGITS}}}$")
 # The order is the contract: a reader names the first check that fails.
 CHECKS = (
     "signature_invalid",
@@ -304,7 +307,7 @@ def _first_failure(case: dict[str, Any], lines: list[bytes], head: dict[str, Any
     walk = _Walk(receipts, lines)
     trust = case["trust"]
     index = _head_index(walk, head) if head is not None else None
-    failures = {
+    failures: dict[str, Callable[[], bool]] = {
         "signature_invalid": lambda: not all(receipt_verifies(r) for r in receipts),
         "signer_untrusted": lambda: not receipts or receipts[0].get("signer_key") not in
         trust["root_keys"],
