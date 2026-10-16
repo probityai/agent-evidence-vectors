@@ -20,9 +20,12 @@ members citing it test a proposal and say so.
 | `spec-vendored/conformance-7efa539.md` | `docs/spec/conformance.md` | `7efa539` | upstream | release/0.1.4 (pull request 281); the same bytes as integration at 685367d |
 | `spec-vendored/specification-f2304bf.md` | `docs/spec/instrument/specification.md` | `f2304bf` | proposal | pull request 272 head, open against integration |
 | `spec-vendored/hooks-f2304bf.md` | `docs/spec/instrument/hooks.md` | `f2304bf` | proposal | pull request 272 head, open against integration |
+| `spec-vendored/trace-events-7d9b7ff.md` | `docs/spec/trace/events.md` | `7d9b7ff` | proposal | pull request 278 head, open against integration |
+| `spec-vendored/ocsf-mapping-7d9b7ff.json` | `specification/v0.1.0/trace/ocsf-mapping.json` | `7d9b7ff` | proposal | pull request 278 head, open against integration |
+| `spec-vendored/issue-264-body.md` | `GenAI-Security-Project/agent-control-standard#264 (issue body)` | `issue body` | proposal | issue 264 body as last edited at 2026-10-12T13:15:57Z; an issue has no commit, so the sha256 of the vendored bytes is the pin |
 
-This corpus is 124 vectors, of which 46 a conformant verifier must
-not fail closed on and 75 it must reject.
+This corpus is 139 vectors, of which 51 a conformant verifier must
+not fail closed on and 85 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -120,6 +123,14 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `ACS-R-059` | deployment | `spec-vendored/conformance-7efa539.md:51` | `docs/spec/conformance.md` at `7efa539` (upstream) | `5bf48f0842bffff2` | Emit at least one of {OTel, OCSF} for every supported ACS step, with the required attributes populated and each conditional attribute populated whenever its source field is present. |
 | `ACS-R-060` | exporter | `spec-vendored/trace-events-7efa539.md:51` | `docs/spec/trace/events.md` at `7efa539` (upstream) | `4f3230e28176a6d2` | Each has the same length and order as `policy_references`, with `""` where an entry lacks the field. |
 | `ACS-R-061` | exporter | `spec-vendored/trace-events-7efa539.md:63` | `docs/spec/trace/events.md` at `7efa539` (upstream) | `5915bf0add9fc9bd` | It then has the same length and order as `acs.provenance.origin`, with `""` where an object has none. |
+| `ACS-R-062` | exporter | `spec-vendored/trace-events-7d9b7ff.md:82` | `docs/spec/trace/events.md` at `7d9b7ff` (proposal) | `ba6a4982de33faf1` | \| Decision (allow) \| Application Lifecycle \| 6002 \| |
+| `ACS-R-063` | exporter | `spec-vendored/trace-events-7d9b7ff.md:87` | `docs/spec/trace/events.md` at `7d9b7ff` (proposal) | `69f193ab5cdf7adf` | An allow goes to Application Lifecycle (6002) with `severity_id` 1. |
+| `ACS-R-064` | exporter | `spec-vendored/trace-events-7d9b7ff.md:87` | `docs/spec/trace/events.md` at `7d9b7ff` (proposal) | `532520e934be199a` | A deployment MAY record allows as Detection Findings instead, for audit symmetry, and then every decision event rule below applies to them. |
+| `ACS-R-065` | exporter | `spec-vendored/trace-events-7d9b7ff.md:87` | `docs/spec/trace/events.md` at `7d9b7ff` (proposal) | `052933b83f6a803b` | A 6002 allow carries the decision's `unmapped.acs` fields as a decision event does, so `unmapped.acs.decision` holds the disposition and `unmapped.acs.metadata` holds the evaluator. |
+| `ACS-R-066` | exporter | `spec-vendored/trace-events-7d9b7ff.md:87` | `docs/spec/trace/events.md` at `7d9b7ff` (proposal) | `f0e57eaea7e03bcd` | It sets `metadata.correlation_uid` to the gated step's pair. |
+| `ACS-R-067` | exporter | `spec-vendored/ocsf-mapping-7d9b7ff.json:61` | `specification/v0.1.0/trace/ocsf-mapping.json` at `7d9b7ff` (proposal) | `8a5aecb3e7898e22` | "default": ["severity_id", "metadata.correlation_uid", "unmapped.acs.request_id", "unmapped.acs.session_id", "unmapped.acs.decision"] |
+| `ACS-R-068` | agent | `spec-vendored/issue-264-body.md:25` | `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal) | `dad519595d636470` | a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`). |
+| `ACS-R-069` | reader | `spec-vendored/issue-264-body.md:25` | `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal) | `0083bab82c4ae4dd` | A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id. |
 
 ## Families
 
@@ -142,6 +153,8 @@ Self-check: `aee-verify vectors-acs-core/` from the repository root.
 | `acs-f-15` | a trace from which a reader counts an outcome nobody enforced |
 | `acs-f-16` | an OpenTelemetry step span missing an attribute the mapping requires, or carrying one it forbids |
 | `acs-f-17` | an OCSF decision event whose fields disagree with the verdict or with each other |
+| `acs-f-18` | an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it |
+| `acs-f-19` | a substituted verdict whose Trace record a reader cannot count, or counts as applied |
 
 ## Deliberately out of scope
 
@@ -163,7 +176,6 @@ what it tests, so each waits for its sentence and is minted from it.
 
 | case | why it waits |
 |---|---|
-| a Trace event for a verdict the Observed Agent substituted | sections 6.3 and 6.5 make the Observed Agent apply DENY, or keep the original summary at postCompact, in place of a MODIFY it cannot apply, and the release/0.1.4 Trace text rules both cases out as decision failures, so the Guardian's acs.decision event says modify and no Trace event says what was applied. GenAI-Security-Project/agent-control-standard#264 proposes a span event, acs.decision.substituted, and a reader rule that a modify verdict is not counted as applied when that event shares its pair. Only the issue carries that sentence. Until it lands, acs-f-12 holds the audit-log form sections 6.3 and 6.5 already require, and one indeterminate member records that Trace alone cannot answer the question |
 | a chain head whose signing time is bounded by a public beacon | the time-bound half of the checkpoint case raised on GenAI-Security-Project/agent-control-standard#18. The pinned text defines no beacon, no checkpoint and no signing-time source a head could reference, so a member would cite a sentence that does not exist. The signer half of the same case is family acs-f-10 |
 | a session that began and was never sealed | the pinned text has no sentence requiring a party other than the Observed Agent to record that a session began, so a begun session with no seal leaves nothing a member could cite. Wording is proposed on GenAI-Security-Project/agent-control-standard#37. Once it lands, the member expects a counted decision failure, never unmeasurable, because a begun and unsealed session is countable |
 | a verifier answering that it cannot determine the signer | the pinned text gives a verifier no answer meaning the signer cannot be determined: section 17.1 has SIGNATURE_INVALID for a signature that fails and nothing for one that verifies under a key two parties hold. So the HMAC substitution in acs-f-10 is unmeasurable rather than scored, and a requirement that the two outcomes take different shapes was raised on GenAI-Security-Project/agent-control-standard#18. Once a sentence names the outcome, that member expects it instead of being exempt |
@@ -173,12 +185,16 @@ what it tests, so each waits for its sentence and is minted from it.
 
 | id | kind | family | requirements | verdict | code | basis | witness scope |
 |---|---|---|---|---|---|---|---|
+| `v0035b4504ed79b9d` | accept | acs-f-19 | ACS-R-069, ACS-R-041 | allow | not asserted | artifact | EXTERNAL |
+| `v0118a9be95bc651c` | reject | acs-f-18 | ACS-R-065, ACS-R-067 | deny | not asserted | artifact | EXTERNAL |
 | `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | not asserted | substrate | PEER |
 | `v05935d4e2d816888` | reject | acs-f-12 | ACS-R-035 | deny | not asserted | substrate | SELF |
 | `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | not asserted | substrate | SELF |
 | `v09451dcf233c2115` | reject | acs-f-13 | ACS-R-030 | deny | not asserted | substrate | SELF |
 | `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | not asserted | substrate | SELF |
+| `v0d2892bb1e77fcb0` | accept | acs-f-19 | ACS-R-068 | allow | not asserted | artifact | EXTERNAL |
 | `v0e1b9d0f75f54e9c` | reject | acs-f-11 | ACS-R-023 | deny | not asserted | substrate | SELF |
+| `v0e394a2a77fc7e8d` | reject | acs-f-18 | ACS-R-067 | deny | not asserted | artifact | EXTERNAL |
 | `v100f74962fbb8b94` | reject | acs-f-4 | ACS-R-011 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
 | `v10351021bf6e46b1` | reject | acs-f-7 | ACS-R-009 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v13ec89c059e7e71d` | reject | acs-f-17 | ACS-R-053 | deny | not asserted | artifact | EXTERNAL |
@@ -199,6 +215,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v34a0f1903d69dbc1` | reject | acs-f-12 | ACS-R-038 | deny | not asserted | substrate | SELF |
 | `v352dbb9b4c521a26` | accept | acs-f-12 | ACS-R-036, ACS-R-048 | allow | not asserted | substrate | SELF |
 | `v36627efbb93cdb48` | accept | acs-f-16 | ACS-R-060 | allow | not asserted | artifact | EXTERNAL |
+| `v37ab95af193da84e` | accept | acs-f-18 | ACS-R-062, ACS-R-063, ACS-R-065, ACS-R-066, ACS-R-067 | allow | not asserted | artifact | EXTERNAL |
 | `v3a740f95d71db4bb` | reject | acs-f-16 | ACS-R-039 | deny | not asserted | artifact | EXTERNAL |
 | `v3c03d4e4ce213e9c` | accept | acs-f-6 | ACS-R-016 | allow | not asserted | artifact | PEER |
 | `v3e946bcfde26bbe2` | accept | acs-f-2 | ACS-R-002 | allow | not asserted | substrate | SELF |
@@ -217,6 +234,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | not asserted | substrate | SELF |
 | `v5c3813f48b81ccf3` | reject | acs-f-13 | ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
+| `v5d50c302e4834fad` | reject | acs-f-19 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
 | `v650e4e7924e597b8` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
 | `v661266c5c87cb206` | reject | acs-f-1 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
 | `v663664f03dec5517` | accept | acs-f-15 | ACS-R-042 | allow | not asserted | artifact | EXTERNAL |
@@ -225,6 +243,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v6b9826ebb2401bb8` | reject | acs-f-15 | ACS-R-046 | deny | not asserted | artifact | PEER |
 | `v6daaec0f6f0c8a14` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | not asserted | artifact | PEER |
 | `v71d1f3d3c1c2107f` | reject | acs-f-13 | ACS-R-028, ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
+| `v71d2a298de4428f3` | accept | acs-f-19 | ACS-R-069 | allow | not asserted | artifact | EXTERNAL |
 | `v78927805373a6c06` | accept | acs-f-9 | ACS-R-017 | allow | not asserted | substrate | PEER |
 | `v7b0219cc72681b5a` | accept | acs-f-13 | ACS-R-031 | allow | not asserted | substrate | PEER |
 | `v7b0b32fb369136c1` | reject | acs-f-8 | ACS-R-006 | deny | `CHAIN_MISMATCH` | artifact | PEER |
@@ -235,6 +254,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v83363b5d7f051859` | accept | acs-f-15 | ACS-R-041 | allow | not asserted | artifact | EXTERNAL |
 | `v8557c978bf12ca55` | reject | acs-f-6 | ACS-R-016 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v855c3b68b325eec1` | accept | acs-f-10 | ACS-R-021 | allow | not asserted | artifact | PEER |
+| `v85f225380d40f147` | accept | acs-f-18 | ACS-R-064 | allow | not asserted | artifact | EXTERNAL |
 | `v88176a8db9aee0c7` | reject | acs-f-13 | ACS-R-028, ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | not asserted | substrate | SELF |
 | `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | not asserted | artifact | EXTERNAL |
@@ -242,6 +262,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v8d6218889aeda7c7` | accept | acs-f-12 | ACS-R-038 | allow | not asserted | substrate | SELF |
 | `v934c6c4f64dc3142` | reject | acs-f-16 | ACS-R-061 | deny | not asserted | artifact | EXTERNAL |
 | `v93c6cced4a3b9f13` | reject | acs-f-11 | ACS-R-025 | deny | not asserted | substrate | SELF |
+| `v95efcfe1aeba3995` | reject | acs-f-19 | ACS-R-068 | deny | not asserted | artifact | EXTERNAL |
 | `v986429a577e03404` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | PEER |
 | `v98892a47c65b871e` | accept | acs-f-12 | ACS-R-035 | allow | not asserted | substrate | SELF |
 | `v98c73932834256a4` | accept | acs-f-13 | ACS-R-026, ACS-R-027, ACS-R-028 | allow | not asserted | substrate | PEER |
@@ -252,6 +273,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `va0ee5d0830b0490b` | accept | acs-f-5 | ACS-R-005 | allow | not asserted | substrate | SELF |
 | `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | not asserted | substrate | SELF |
 | `va216214d32d8d5f7` | accept | acs-f-17 | ACS-R-056 | allow | not asserted | artifact | EXTERNAL |
+| `va26320f07c64f16d` | reject | acs-f-18 | ACS-R-063 | deny | not asserted | artifact | EXTERNAL |
 | `va2b212fbc0966f59` | accept | acs-f-11 | ACS-R-024 | allow | not asserted | substrate | SELF |
 | `va2fea96983583972` | reject | acs-f-8 | ACS-R-010 | deny | `PROVENANCE_REQUIRED` | substrate | SELF |
 | `va3cc0f12ae4e8a35` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
@@ -269,16 +291,21 @@ what it tests, so each waits for its sentence and is minted from it.
 | `vc0ee2db9cf47e0c1` | reject | acs-f-16 | ACS-R-040 | deny | not asserted | artifact | EXTERNAL |
 | `vc1100bbd3f8f6a5f` | accept | acs-f-15 | ACS-R-052 | allow | not asserted | artifact | EXTERNAL |
 | `vc190a6c639182d4e` | reject | acs-f-15 | ACS-R-042 | deny | not asserted | artifact | EXTERNAL |
+| `vc292f5a9ed89dacd` | reject | acs-f-19 | ACS-R-068 | deny | not asserted | artifact | EXTERNAL |
 | `vc333473269d1b3a9` | reject | acs-f-8 | ACS-R-007 | deny | not asserted | substrate | SELF |
 | `vc38320dadcd56b7f` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vc540b5eb806ea07c` | reject | acs-f-12 | ACS-R-043, ACS-R-044 | deny | not asserted | artifact | EXTERNAL |
+| `vc5e61899449daf41` | reject | acs-f-18 | ACS-R-062 | deny | not asserted | artifact | EXTERNAL |
 | `vc8e379465f4a677b` | reject | acs-f-15 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
+| `vc97666f6b2388930` | reject | acs-f-18 | ACS-R-064, ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
 | `vcfbc617d0218ad1a` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
 | `vd4d655cdc5da676f` | accept | acs-f-17 | ACS-R-050, ACS-R-054 | allow | not asserted | artifact | EXTERNAL |
 | `vd4df6378ea74234d` | accept | acs-f-17 | ACS-R-051 | allow | not asserted | artifact | EXTERNAL |
+| `vd5116e55bb3e8050` | reject | acs-f-19 | ACS-R-069 | deny | not asserted | artifact | EXTERNAL |
 | `vd57793caa251dec6` | reject | acs-f-8 | ACS-R-008 | deny | not asserted | substrate | SELF |
 | `vd67cd207a4eb6798` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vd8ac84523a5a038c` | reject | acs-f-10 | ACS-R-022, ACS-R-021 | deny | `SIGNATURE_INVALID` | artifact | EXTERNAL |
+| `vdddfe7d991c3f2cc` | reject | acs-f-18 | ACS-R-066 | deny | not asserted | artifact | EXTERNAL |
 | `vdea95625fa2056cf` | accept | acs-f-14 | ACS-R-033 | allow | not asserted | substrate | SELF |
 | `ve0b07adbd63ede48` | accept | acs-f-17 | ACS-R-053 | allow | not asserted | artifact | EXTERNAL |
 | `ve4913ae6f9a72e29` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
@@ -1040,3 +1067,156 @@ Does not assert: that the inventory is complete.
 Expected: **allow**. The same snapshot with activity_id 2, Collect.
 
 Does not assert: that the inventory is complete.
+
+### `acs-f-18`: an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it
+
+#### `v37ab95af193da84e` (accept)
+
+> `ACS-R-062`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:82`:
+> | Decision (allow) | Application Lifecycle | 6002 |
+> `ACS-R-063`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> An allow goes to Application Lifecycle (6002) with `severity_id` 1.
+> `ACS-R-065`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> A 6002 allow carries the decision's `unmapped.acs` fields as a decision event does, so `unmapped.acs.decision` holds the disposition and `unmapped.acs.metadata` holds the evaluator.
+> `ACS-R-066`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> It sets `metadata.correlation_uid` to the gated step's pair.
+> `ACS-R-067`, `specification/v0.1.0/trace/ocsf-mapping.json` at `7d9b7ff` (proposal), vendored `spec-vendored/ocsf-mapping-7d9b7ff.json:61`:
+> "default": ["severity_id", "metadata.correlation_uid", "unmapped.acs.request_id", "unmapped.acs.session_id", "unmapped.acs.decision"]
+
+Expected: **allow**. An allow as class 6002, Application Lifecycle, at severity 1, with the disposition in unmapped.acs.decision, the pair in unmapped.acs and correlation_uid 6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `vc5e61899449daf41` (reject)
+
+> `ACS-R-062`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:82`:
+> | Decision (allow) | Application Lifecycle | 6002 |
+
+Expected: **deny**. The same allow captioned Application Activity. That is the category 6002 sits in, the caption the prose rule carried before pull request 278; the class is Application Lifecycle, so a consumer keying on the caption finds no 6002 row.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `va26320f07c64f16d` (reject)
+
+> `ACS-R-063`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> An allow goes to Application Lifecycle (6002) with `severity_id` 1.
+
+Expected: **deny**. An allow at severity 2. The severity table gives an allow 1, and a SIEM rule that counts severity 2 counts every allow as a modify.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `v0118a9be95bc651c` (reject)
+
+> `ACS-R-065`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> A 6002 allow carries the decision's `unmapped.acs` fields as a decision event does, so `unmapped.acs.decision` holds the disposition and `unmapped.acs.metadata` holds the evaluator.
+> `ACS-R-067`, `specification/v0.1.0/trace/ocsf-mapping.json` at `7d9b7ff` (proposal), vendored `spec-vendored/ocsf-mapping-7d9b7ff.json:61`:
+> "default": ["severity_id", "metadata.correlation_uid", "unmapped.acs.request_id", "unmapped.acs.session_id", "unmapped.acs.decision"]
+
+Expected: **deny**. An allow with no unmapped.acs.decision. Turn and message steps share class 6002, so without the disposition a reader cannot tell this event from a turn starting.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `v0e394a2a77fc7e8d` (reject)
+
+> `ACS-R-067`, `specification/v0.1.0/trace/ocsf-mapping.json` at `7d9b7ff` (proposal), vendored `spec-vendored/ocsf-mapping-7d9b7ff.json:61`:
+> "default": ["severity_id", "metadata.correlation_uid", "unmapped.acs.request_id", "unmapped.acs.session_id", "unmapped.acs.decision"]
+
+Expected: **deny**. An allow with correlation_uid set and no unmapped.acs.request_id. The mapping requires both, and a join on the native ACS fields finds no request for this allow.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `vdddfe7d991c3f2cc` (reject)
+
+> `ACS-R-066`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> It sets `metadata.correlation_uid` to the gated step's pair.
+
+Expected: **deny**. A correlation_uid formatted request id first. The gated step's pair is session id, colon, request id, so a join on it matches nothing.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `v85f225380d40f147` (accept)
+
+> `ACS-R-064`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> A deployment MAY record allows as Detection Findings instead, for audit symmetry, and then every decision event rule below applies to them.
+
+Expected: **allow**. The opt-in: the same allow recorded as a Detection Finding, 2004, with action and disposition 1, Allowed, severity 1 and is_alert false.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+#### `vc97666f6b2388930` (reject)
+
+> `ACS-R-064`, `docs/spec/trace/events.md` at `7d9b7ff` (proposal), vendored `spec-vendored/trace-events-7d9b7ff.md:87`:
+> A deployment MAY record allows as Detection Findings instead, for audit symmetry, and then every decision event rule below applies to them.
+> `ACS-R-050`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:106`:
+> On an on-time decision event, `is_alert` is true exactly when `severity_id` is 3 or higher, so the two fields never disagree.
+
+Expected: **deny**. The opt-in with is_alert true. Once an allow is a Detection Finding, every decision event rule applies to it, and on time is_alert follows severity, which is 1.
+
+Does not assert: the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome.
+
+### `acs-f-19`: a substituted verdict whose Trace record a reader cannot count, or counts as applied
+
+#### `v0d2892bb1e77fcb0` (accept)
+
+> `ACS-R-068`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).
+
+Expected: **allow**. A Guardian modify, and on the Observed Agent's step span for the same pair an acs.decision.substituted event carrying the verdict received, modify, and what was applied, deny, with reason modify_composition.
+
+Does not assert: that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal.
+
+#### `vc292f5a9ed89dacd` (reject)
+
+> `ACS-R-068`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).
+
+Expected: **deny**. The same event with no acs.substitution.applied. It says a substitution happened and not whether the action was denied or the original summary kept, so nothing in the trace can be counted.
+
+Does not assert: that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal.
+
+#### `v95efcfe1aeba3995` (reject)
+
+> `ACS-R-068`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).
+
+Expected: **deny**. The substitution event on the Guardian's span. Only the Observed Agent sees what it applied, so a Guardian that records it is reporting an outcome it cannot observe.
+
+Does not assert: that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal.
+
+#### `vd5116e55bb3e8050` (reject)
+
+> `ACS-R-069`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id.
+
+Expected: **deny**. The first member's streams and a reader that counts the modify as applied. The substitution event shares its session and request id, so the modification never happened.
+
+Does not assert: that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify.
+
+#### `v71d2a298de4428f3` (accept)
+
+> `ACS-R-069`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id.
+
+Expected: **allow**. The same streams and a reader that does not count the modify as applied.
+
+Does not assert: that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify.
+
+#### `v0035b4504ed79b9d` (accept)
+
+> `ACS-R-069`, `GenAI-Security-Project/agent-control-standard#264 (issue body)` at `issue body` (proposal), vendored `spec-vendored/issue-264-body.md:25`:
+> A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id.
+> `ACS-R-041`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:49`:
+> so a join keys on the two together.
+
+Expected: **allow**. A substitution event with the same request id in another session, and a reader that still counts this session's modify as applied. Request ids are unique only within a session, so the event names a different step.
+
+Does not assert: that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify.
+
+#### `v5d50c302e4834fad` (reject)
+
+> `ACS-R-041`, `docs/spec/trace/events.md` at `7efa539` (upstream), vendored `spec-vendored/trace-events-7efa539.md:49`:
+> so a join keys on the two together.
+
+Expected: **deny**. The same streams and a reader that drops this session's modify on the request id alone. A join keys on session and request together.
+
+Does not assert: that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify.
