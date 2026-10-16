@@ -29,6 +29,10 @@ requires an admission answer and names the policy conditions that decide it.
   time is evaluated against the `armedAt` an arming record carries.
 - **A fail result reported as admitted.** Validity and attestation say the
   evidence is sound. They do not say the subject passed.
+- **A published test key.** A record that verifies under a key whose seed is
+  public says only that someone ran the recipe. It is not admitted unless the
+  consumer declines that refusal by name, which a demonstration may do and a
+  deployment should not.
 - **Artifact-only evidence.** A clean row that is not a live substrate
   interception is the producer's own account. It is not admitted unless the
   consumer declines that obligation by name.
@@ -61,7 +65,8 @@ member is a reason-parity datum rather than a failure.
   "allowUnpinnedScope": false,
   "acceptedResults": ["pass"],
   "admitUninterceptedCleanRows": false,
-  "maxIssuanceLagSeconds": 86400
+  "maxIssuanceLagSeconds": 86400,
+  "allowPublishedTestKeys": false
 }
 ```
 
@@ -74,6 +79,7 @@ member is a reason-parity datum rather than a failure.
 | `allowUnpinnedScope` | the demand is required | declines an absent demand only |
 | `acceptedResults` | `["pass"]` | `result-not-accepted`; a list other than `["pass"]` or `["pass", "pass_indirect"]` is `accepted-results-malformed` |
 | `admitUninterceptedCleanRows` | the row rule holds: every clean row is `basis: substrate` and `method: intercepted` | `clean-row-unintercepted`; a widened threshold that does not say `true` or `false` here is `row-gate-undeclared`, and `true` under a `pass`-only threshold is `row-gate-decline-unreachable` |
+| `allowPublishedTestKeys` | an observation key whose seed a conformance suite publishes refuses admission | `observation-key-published`; every key in this corpus is one, so every policy pinning one declines the refusal by name except the member that tests it |
 | `maxIssuanceLagSeconds` | no bound | `issuance-lag-exceeded` when `issuedAt` is more than this after any verified arming record's `armedAt`; `observed-instant-absent` when no arming record verifies under a pinned key |
 
 The same knobs, with the same absent-input defaults, are the ones

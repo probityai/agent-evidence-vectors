@@ -3,6 +3,7 @@ package aee
 import (
 	"bytes"
 	"crypto/ed25519"
+	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -26,26 +27,26 @@ import (
 // same absent-input defaults agent-evidence-admission's rails take, so a policy
 // pinned for an offline check and for a cluster means the same thing.
 
-// Admission policy codes. Like the anchor codes in codes.go they are
-// consumer-relative and live on Report.PolicyCodes: none of them ever changes
-// Verdict, Codes, Result or Tiers.
-const (
-	CodeSubstrateRowUnattested    Code = "substrate-row-unattested"
-	CodeCorpusAnchorUnpinned      Code = "corpus-anchor-unpinned"
-	CodeSubstrateAnchorUnpinned   Code = "substrate-anchor-unpinned"
-	CodeSubjectAnchorUnpinned     Code = "subject-anchor-unpinned"
-	CodeSubjectAnchorMismatch     Code = "subject-anchor-mismatch"
-	CodeScopeUnpinned             Code = "scope-unpinned"
-	CodeDemandedClassUnassessed   Code = "demanded-class-unassessed"
-	CodeResultNotAccepted         Code = "result-not-accepted"
-	CodeAcceptedResultsMalformed  Code = "accepted-results-malformed"
-	CodeCleanRowUnintercepted     Code = "clean-row-unintercepted"
-	CodeRowGateUndeclared         Code = "row-gate-undeclared"
-	CodeRowGateDeclineUnreachable Code = "row-gate-decline-unreachable"
-	CodeIssuanceLagExceeded       Code = "issuance-lag-exceeded"
-	CodeEvidenceAgeExceeded       Code = "evidence-age-exceeded"
-	CodeObservedInstantAbsent     Code = "observed-instant-absent"
-)
+// PublishedTestKeyRoles are the roles whose Ed25519 seed this repository
+// publishes, SHA-256("in-toto-aee-test-key/<role>/v1"), so that every vector
+// is reproducible. Anyone can sign with them, which is the point for a
+// conformance suite and the opposite of the point for an admission decision:
+// a record that verifies under one says only that someone ran the recipe.
+var PublishedTestKeyRoles = []string{
+	"substrate-observation-test", "wrong-signer-test", "statement-test", "no-pae-verify",
+}
+
+// isPublishedTestKey reports whether pub is the public half of a published
+// test seed.
+func isPublishedTestKey(pub ed25519.PublicKey) bool {
+	for _, role := range PublishedTestKeyRoles {
+		seed := sha256.Sum256([]byte("in-toto-aee-test-key/" + role + "/v1"))
+		if ed25519.NewKeyFromSeed(seed[:]).Public().(ed25519.PublicKey).Equal(pub) {
+			return true
+		}
+	}
+	return false
+}
 
 // The two admissible thresholds over fail < degraded < pass_indirect < pass.
 // A threshold is not a free set of tokens: a list naming "degraded", or only
@@ -64,6 +65,14 @@ func admissionCodes(ctx *EvalContext, tiers []Tier, policy *ConsumerPolicy, arme
 	var codes []Code
 	if !tierPolicySatisfied(ctx, tiers) {
 		codes = appendCode(codes, CodeSubstrateRowUnattested)
+	}
+	if !policy.AllowPublishedTestKeys {
+		for _, key := range policy.SubstrateObservationKeys {
+			if isPublishedTestKey(key) {
+				codes = appendCode(codes, CodePublishedTestKey)
+				break
+			}
+		}
 	}
 	codes = append(codes, anchorPolicyCodes(ctx, policy)...)
 	codes = append(codes, scopePolicyCodes(ctx, policy)...)
@@ -153,7 +162,7 @@ func thresholdPolicyCodes(ctx *EvalContext, policy *ConsumerPolicy) []Code {
 	case declined && !relaxed:
 		codes = appendCode(codes, CodeRowGateDeclineUnreachable)
 	}
-	if !(declined && relaxed) && cleanRowUnintercepted(ctx) {
+	if (!declined || !relaxed) && cleanRowUnintercepted(ctx) {
 		codes = appendCode(codes, CodeCleanRowUnintercepted)
 	}
 	if !containsToken(threshold, ctx.result) {
@@ -301,6 +310,7 @@ type policyDocument struct {
 	AdmitUninterceptedCleanRows *bool    `json:"admitUninterceptedCleanRows"`
 	MaxIssuanceLagSeconds       *float64 `json:"maxIssuanceLagSeconds"`
 	MaxEvidenceAgeSeconds       *float64 `json:"maxEvidenceAgeSeconds"`
+	AllowPublishedTestKeys      bool     `json:"allowPublishedTestKeys"`
 }
 
 // ParseConsumerPolicy reads a consumer policy document. An unknown member is
@@ -323,6 +333,7 @@ func ParseConsumerPolicy(raw []byte) (*ConsumerPolicy, error) {
 		AllowUnpinnedScope:          doc.AllowUnpinnedScope,
 		AcceptedResults:             doc.AcceptedResults,
 		AdmitUninterceptedCleanRows: doc.AdmitUninterceptedCleanRows,
+		AllowPublishedTestKeys:      doc.AllowPublishedTestKeys,
 	}
 	for _, k := range doc.SubstrateObservationKeys {
 		pub, err := hex.DecodeString(k.PublicKeyHex)

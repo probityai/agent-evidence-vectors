@@ -66,6 +66,7 @@ func fullPolicyFile(t *testing.T, body []byte, extra map[string]any) string {
 		"expectedSubstrateDigest":  substrate,
 		"expectedSubjectDigest":    subject,
 		"demandedClasses":          classes,
+		"allowPublishedTestKeys":   true,
 	}
 	for k, v := range extra {
 		doc[k] = v
@@ -235,12 +236,12 @@ func TestSingleFlagsBuildAnAdmittingPolicy(t *testing.T) {
 	code := run([]string{"-keys", keys, "-expected-corpus-digest", corpus, "-expected-substrate-digest", substrate,
 		"-expected-subject-digest", subject, "-demand-classes", strings.Join(classes, ","),
 		"-accept-results", "pass", "-admit-unintercepted-clean-rows", "false",
-		"-max-issuance-lag", "24h", "-max-evidence-age", "876000h", path}, &out, &errb)
+		"-max-issuance-lag", "24h", "-max-evidence-age", "876000h", "-allow-published-test-keys", path}, &out, &errb)
 	if code != 0 {
 		t.Fatalf("every pin by flag: exit %d, stderr=%q\n%s", code, errb.String(), out.String())
 	}
 	out.Reset()
-	code = run([]string{"-keys", keys, "-allow-unpinned-anchors", "-allow-unpinned-scope", path}, &out, &errb)
+	code = run([]string{"-keys", keys, "-allow-unpinned-anchors", "-allow-unpinned-scope", "-allow-published-test-keys", path}, &out, &errb)
 	if code != 0 || !strings.Contains(out.String(), "admitted: true") {
 		t.Fatalf("pins declined by name: exit %d\n%s", code, out.String())
 	}

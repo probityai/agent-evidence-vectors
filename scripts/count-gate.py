@@ -216,6 +216,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-ai-generation",
     "vectors-receipt-signature",
     "vectors-agent-audit-record",
+    "vectors-admission",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"

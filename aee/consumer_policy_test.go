@@ -76,6 +76,7 @@ func admittingPolicy(t *testing.T, body []byte) *aee.ConsumerPolicy {
 		ExpectedSubstrateDigest:  substrate,
 		ExpectedSubjectDigest:    subjectDigest(t, body),
 		DemandedClasses:          []string{"XA"},
+		AllowPublishedTestKeys:   true,
 	}
 }
 
@@ -122,6 +123,7 @@ func TestAdmissionKnobByKnob(t *testing.T) {
 		{"scope declined", func(p *aee.ConsumerPolicy) { p.DemandedClasses, p.AllowUnpinnedScope = nil, true }, nil},
 		{"a class the run did not assess", func(p *aee.ConsumerPolicy) { p.DemandedClasses = []string{"XA", "XZ"} }, []aee.Code{aee.CodeDemandedClassUnassessed}},
 		{"no observation key", func(p *aee.ConsumerPolicy) { p.SubstrateObservationKeys = nil }, []aee.Code{aee.CodeSubstrateRowUnattested}},
+		{"a published test key, not declined", func(p *aee.ConsumerPolicy) { p.AllowPublishedTestKeys = false }, []aee.Code{aee.CodePublishedTestKey}},
 		{"a threshold naming degraded", func(p *aee.ConsumerPolicy) { p.AcceptedResults = []string{"pass", "degraded"} }, []aee.Code{aee.CodeAcceptedResultsMalformed}},
 		{"a widened threshold with the row rule unsaid", func(p *aee.ConsumerPolicy) {
 			p.AcceptedResults = []string{"pass_indirect", "pass"}
@@ -232,14 +234,14 @@ func TestParseConsumerPolicy(t *testing.T) {
 		`"expectedCorpusDigest":"c","expectedSubstrateDigest":"s","expectedSubjectDigest":"x",` +
 		`"allowUnpinnedAnchors":true,"demandedClasses":["XA"],"allowUnpinnedScope":true,` +
 		`"acceptedResults":["pass"],"admitUninterceptedCleanRows":false,` +
-		`"maxIssuanceLagSeconds":60,"maxEvidenceAgeSeconds":3600}`
+		`"maxIssuanceLagSeconds":60,"maxEvidenceAgeSeconds":3600,"allowPublishedTestKeys":true}`
 	p, err := aee.ParseConsumerPolicy([]byte(good))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if len(p.SubstrateObservationKeys) != 1 || p.ExpectedSubjectDigest != "x" || !p.AllowUnpinnedAnchors ||
 		p.AdmitUninterceptedCleanRows == nil || *p.AdmitUninterceptedCleanRows ||
-		p.MaxIssuanceLag != time.Minute || p.MaxEvidenceAge != time.Hour {
+		p.MaxIssuanceLag != time.Minute || p.MaxEvidenceAge != time.Hour || !p.AllowPublishedTestKeys {
 		t.Fatalf("parsed %+v", p)
 	}
 	for _, bad := range []string{

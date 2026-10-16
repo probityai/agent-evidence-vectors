@@ -36,6 +36,7 @@ ROOT = os.path.dirname(HERE)
 SOURCE = os.path.join(ROOT, "vectors")
 SPEC = "spec/predicates/adversarial-execution-evidence.md"
 PROFILE = "spec/v1/statement.md"
+VERIFICATION = "spec/predicates/adversarial-execution-evidence/verification.md"
 
 sys.path.insert(0, os.path.join(ROOT, "packaging"))
 import run_vectors  # noqa: E402  -- the reference rail derives the published test key
@@ -43,7 +44,9 @@ import run_vectors  # noqa: E402  -- the reference rail derives the published te
 
 def _load_digest_of() -> Any:
     """The preimage lives in digest.py beside this file, loaded by path."""
-    spec = importlib.util.spec_from_file_location("admission_digest", os.path.join(HERE, "digest.py"))
+    spec = importlib.util.spec_from_file_location(
+        "admission_digest", os.path.join(HERE, "digest.py")
+    )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -66,6 +69,20 @@ OTHER_ARTIFACT = hashlib.sha256(b"payments-agent-prod artifact bytes").hexdigest
 #: ``file`` (whitespace-normalised), and the readers refuse a manifest whose
 #: quotation is not in the file, so a condition cannot outlive its basis.
 CONDITIONS: dict[str, dict[str, str]] = {
+    "adm-c-0": {
+        "requires": "A verifier reports success only for a statement it admitted. A consumer "
+        "that supplied no policy pinned nothing, and nothing is admitted to it.",
+        "file": VERIFICATION,
+        "quote": "A verification surface MUST NOT report success for a statement it did not "
+        "admit",
+    },
+    "adm-c-8": {
+        "requires": "An observation key whose seed the suite publishes attests nothing, so a "
+        "verifier does not admit under one unless the consumer declines by name.",
+        "file": VERIFICATION,
+        "quote": "a surface does not admit under one unless the consumer declines that refusal "
+        "by name",
+    },
     "adm-c-1": {
         "requires": "A statement is admitted only when the consumer has pinned the corpus, "
         "the substrate and the subject digest it expects, or has declined the pins by name. "
@@ -92,8 +109,8 @@ CONDITIONS: dict[str, dict[str, str]] = {
         "requires": "The subject is matched by the sha256 digest the observer's records bind, "
         "never by its name, which no observer signs.",
         "file": PROFILE,
-        "quote": "A verifier admitting a statement matches the subject by `subject[0].digest.sha256` "
-        "and by nothing else",
+        "quote": "A verifier admitting a statement matches the subject by "
+        "`subject[0].digest.sha256` and by nothing else",
     },
     "adm-c-5": {
         "requires": "A bound on when a run happened is evaluated against the armedAt a verified "
@@ -146,7 +163,7 @@ def relabelled(source: dict[str, Any]) -> dict[str, Any]:
     subject digest is left alone; rewriting it breaks the binding and is caught
     by validity.
     """
-    out = json.loads(json.dumps(source))
+    out: dict[str, Any] = json.loads(json.dumps(source))
     out["subject"][0]["name"] = "payments-agent-prod"
     out["predicate"]["issuedAt"] = "2026-09-26T00:00:00Z"
     return out
@@ -161,6 +178,10 @@ def full_policy(statement: dict[str, Any], **changes: Any) -> dict[str, Any]:
         "expectedSubstrateDigest": env["substrate"]["digest"]["sha256"],
         "expectedSubjectDigest": statement["subject"][0]["digest"]["sha256"],
         "demandedClasses": sorted(statement["predicate"]["coverage"]["assessedClasses"]),
+        # Every key in this corpus is a published test key, so every policy that
+        # pins one declines that refusal by name; the adm-c-8 members are the
+        # ones that do not.
+        "allowPublishedTestKeys": True,
     }
     for key, value in changes.items():
         if value is None:
@@ -170,8 +191,12 @@ def full_policy(statement: dict[str, Any], **changes: Any) -> dict[str, Any]:
     return policy
 
 
-UNPINNED = ["corpus-anchor-unpinned", "scope-unpinned", "subject-anchor-unpinned",
-            "substrate-anchor-unpinned"]
+UNPINNED = [
+    "corpus-anchor-unpinned",
+    "scope-unpinned",
+    "subject-anchor-unpinned",
+    "substrate-anchor-unpinned",
+]
 
 
 def members() -> list[dict[str, Any]]:
@@ -181,62 +206,188 @@ def members() -> list[dict[str, Any]]:
     failed = load_source("vcf20eae7df4f1f1b")  # fail, caught and attested, no arming record
     indirect = load_source("vc2782e6c3cbdb9b7")  # pass_indirect, one reconstructed artifact row
     unattested = load_source("v550c91df0d36a218")  # fail, row unattested under the pinned key
-    keys_only = {"substrateObservationKeys": [{"publicKeyHex": OBSERVATION_KEY_HEX}]}
+    keys_only = {
+        "substrateObservationKeys": [{"publicKeyHex": OBSERVATION_KEY_HEX}],
+        "allowPublishedTestKeys": True,
+    }
     day = 86400
     rows: list[tuple[str, dict[str, Any], dict[str, Any], bool, list[str], list[str]]] = [
-        ("no consumer policy at all", flagship, {}, False,
-         [*UNPINNED, "substrate-row-unattested"], ["adm-c-1", "adm-c-2", "adm-c-3"]),
-        ("every pin supplied and matching", flagship, full_policy(flagship), True, [],
-         ["adm-c-1", "adm-c-2", "adm-c-3", "adm-c-4", "adm-c-6"]),
-        ("the observation key pinned and nothing else", flagship, keys_only, False, UNPINNED,
-         ["adm-c-1", "adm-c-2"]),
-        ("the observation key pinned, the anchors and the scope declined by name", flagship,
-         {**keys_only, "allowUnpinnedAnchors": True, "allowUnpinnedScope": True}, True, [],
-         ["adm-c-1", "adm-c-2"]),
-        ("every anchor pinned, no observation key", flagship,
-         full_policy(flagship, substrateObservationKeys=None), False,
-         ["substrate-row-unattested"], ["adm-c-3"]),
-        ("a wrong corpus pinned", flagship,
-         full_policy(flagship, expectedCorpusDigest=OTHER_ARTIFACT), False,
-         ["corpus-anchor-mismatch"], ["adm-c-1"]),
-        ("subject renamed and redated, the consumer pins the artifact it deploys", relabel,
-         full_policy(relabel, expectedSubjectDigest=OTHER_ARTIFACT), False,
-         ["subject-anchor-mismatch"], ["adm-c-4"]),
-        ("subject renamed and redated, the consumer pins the digest the observer bound",
-         relabel, full_policy(relabel), True, [], ["adm-c-4"]),
-        ("subject renamed and redated, the consumer bounds issuance lag at one day", relabel,
-         full_policy(relabel, maxIssuanceLagSeconds=day), False, ["issuance-lag-exceeded"],
-         ["adm-c-5"]),
-        ("the statement as issued, the same one-day bound", flagship,
-         full_policy(flagship, maxIssuanceLagSeconds=day), True, [], ["adm-c-5"]),
-        ("a fail result, every pin matching", failed, full_policy(failed), False,
-         ["result-not-accepted"], ["adm-c-6"]),
-        ("a fail result carrying no arming record, under an issuance-lag bound", failed,
-         full_policy(failed, maxIssuanceLagSeconds=day), False,
-         ["observed-instant-absent", "result-not-accepted"], ["adm-c-5", "adm-c-6"]),
-        ("an artifact-only pass_indirect, default threshold", indirect, full_policy(indirect),
-         False, ["clean-row-unintercepted", "result-not-accepted"], ["adm-c-6", "adm-c-7"]),
-        ("an artifact-only pass_indirect, threshold widened, row rule kept", indirect,
-         full_policy(indirect, acceptedResults=["pass", "pass_indirect"],
-                     admitUninterceptedCleanRows=False), False,
-         ["clean-row-unintercepted"], ["adm-c-7"]),
-        ("an artifact-only pass_indirect, threshold widened, row rule declined", indirect,
-         full_policy(indirect, acceptedResults=["pass", "pass_indirect"],
-                     admitUninterceptedCleanRows=True), True, [], ["adm-c-6", "adm-c-7"]),
-        ("threshold widened with the row rule left unsaid", indirect,
-         full_policy(indirect, acceptedResults=["pass", "pass_indirect"]), False,
-         ["clean-row-unintercepted", "row-gate-undeclared"], ["adm-c-7"]),
-        ("the row rule declined under a pass-only threshold", flagship,
-         full_policy(flagship, admitUninterceptedCleanRows=True), False,
-         ["row-gate-decline-unreachable"], ["adm-c-7"]),
-        ("an accepted-results list that names no threshold", flagship,
-         full_policy(flagship, acceptedResults=["pass", "degraded"]), False,
-         ["accepted-results-malformed"], ["adm-c-6"]),
-        ("a demanded class the run did not assess", flagship,
-         full_policy(flagship, demandedClasses=["XA", "XZ"]), False,
-         ["demanded-class-unassessed"], ["adm-c-2"]),
-        ("a substrate row unattested under the pinned key", unattested, full_policy(unattested),
-         False, ["result-not-accepted", "substrate-row-unattested"], ["adm-c-3", "adm-c-6"]),
+        (
+            "no consumer policy at all",
+            flagship,
+            {},
+            False,
+            [*UNPINNED, "substrate-row-unattested"],
+            ["adm-c-0", "adm-c-1", "adm-c-2", "adm-c-3"],
+        ),
+        (
+            "every pin supplied and matching",
+            flagship,
+            full_policy(flagship),
+            True,
+            [],
+            ["adm-c-0", "adm-c-1", "adm-c-2", "adm-c-3", "adm-c-4", "adm-c-6", "adm-c-8"],
+        ),
+        (
+            "every pin supplied, the observation key is a published test key",
+            flagship,
+            full_policy(flagship, allowPublishedTestKeys=None),
+            False,
+            ["observation-key-published"],
+            ["adm-c-8"],
+        ),
+        (
+            "the observation key pinned and nothing else",
+            flagship,
+            keys_only,
+            False,
+            UNPINNED,
+            ["adm-c-1", "adm-c-2"],
+        ),
+        (
+            "the observation key pinned, the anchors and the scope declined by name",
+            flagship,
+            {**keys_only, "allowUnpinnedAnchors": True, "allowUnpinnedScope": True},
+            True,
+            [],
+            ["adm-c-1", "adm-c-2"],
+        ),
+        (
+            "every anchor pinned, no observation key",
+            flagship,
+            full_policy(flagship, substrateObservationKeys=None),
+            False,
+            ["substrate-row-unattested"],
+            ["adm-c-3"],
+        ),
+        (
+            "a wrong corpus pinned",
+            flagship,
+            full_policy(flagship, expectedCorpusDigest=OTHER_ARTIFACT),
+            False,
+            ["corpus-anchor-mismatch"],
+            ["adm-c-1"],
+        ),
+        (
+            "subject renamed and redated, the consumer pins the artifact it deploys",
+            relabel,
+            full_policy(relabel, expectedSubjectDigest=OTHER_ARTIFACT),
+            False,
+            ["subject-anchor-mismatch"],
+            ["adm-c-4"],
+        ),
+        (
+            "subject renamed and redated, the consumer pins the digest the observer bound",
+            relabel,
+            full_policy(relabel),
+            True,
+            [],
+            ["adm-c-4"],
+        ),
+        (
+            "subject renamed and redated, the consumer bounds issuance lag at one day",
+            relabel,
+            full_policy(relabel, maxIssuanceLagSeconds=day),
+            False,
+            ["issuance-lag-exceeded"],
+            ["adm-c-5"],
+        ),
+        (
+            "the statement as issued, the same one-day bound",
+            flagship,
+            full_policy(flagship, maxIssuanceLagSeconds=day),
+            True,
+            [],
+            ["adm-c-5"],
+        ),
+        (
+            "a fail result, every pin matching",
+            failed,
+            full_policy(failed),
+            False,
+            ["result-not-accepted"],
+            ["adm-c-6"],
+        ),
+        (
+            "a fail result carrying no arming record, under an issuance-lag bound",
+            failed,
+            full_policy(failed, maxIssuanceLagSeconds=day),
+            False,
+            ["observed-instant-absent", "result-not-accepted"],
+            ["adm-c-5", "adm-c-6"],
+        ),
+        (
+            "an artifact-only pass_indirect, default threshold",
+            indirect,
+            full_policy(indirect),
+            False,
+            ["clean-row-unintercepted", "result-not-accepted"],
+            ["adm-c-6", "adm-c-7"],
+        ),
+        (
+            "an artifact-only pass_indirect, threshold widened, row rule kept",
+            indirect,
+            full_policy(
+                indirect,
+                acceptedResults=["pass", "pass_indirect"],
+                admitUninterceptedCleanRows=False,
+            ),
+            False,
+            ["clean-row-unintercepted"],
+            ["adm-c-7"],
+        ),
+        (
+            "an artifact-only pass_indirect, threshold widened, row rule declined",
+            indirect,
+            full_policy(
+                indirect,
+                acceptedResults=["pass", "pass_indirect"],
+                admitUninterceptedCleanRows=True,
+            ),
+            True,
+            [],
+            ["adm-c-6", "adm-c-7"],
+        ),
+        (
+            "threshold widened with the row rule left unsaid",
+            indirect,
+            full_policy(indirect, acceptedResults=["pass", "pass_indirect"]),
+            False,
+            ["clean-row-unintercepted", "row-gate-undeclared"],
+            ["adm-c-7"],
+        ),
+        (
+            "the row rule declined under a pass-only threshold",
+            flagship,
+            full_policy(flagship, admitUninterceptedCleanRows=True),
+            False,
+            ["row-gate-decline-unreachable"],
+            ["adm-c-7"],
+        ),
+        (
+            "an accepted-results list that names no threshold",
+            flagship,
+            full_policy(flagship, acceptedResults=["pass", "degraded"]),
+            False,
+            ["accepted-results-malformed"],
+            ["adm-c-6"],
+        ),
+        (
+            "a demanded class the run did not assess",
+            flagship,
+            full_policy(flagship, demandedClasses=["XA", "XZ"]),
+            False,
+            ["demanded-class-unassessed"],
+            ["adm-c-2"],
+        ),
+        (
+            "a substrate row unattested under the pinned key",
+            unattested,
+            full_policy(unattested),
+            False,
+            ["result-not-accepted", "substrate-row-unattested"],
+            ["adm-c-3", "adm-c-6"],
+        ),
     ]
     out = []
     for label, statement, policy, admitted, codes, conditions in rows:
@@ -244,16 +395,18 @@ def members() -> list[dict[str, Any]]:
         pbytes = policy_bytes(policy)
         sid, pid = content_id(sbytes), content_id(pbytes)
         mid = content_id(sid.encode() + b"\0" + pid.encode())
-        out.append({
-            "id": mid,
-            "kind": "accept" if admitted else "reject",
-            "label": label,
-            "file": f"statements/{sid}.json",
-            "policy": f"policies/{pid}.json",
-            "conditions": conditions,
-            "expected": {"admitted": admitted, "policyCodes": sorted(codes)},
-            "_bytes": {f"statements/{sid}.json": sbytes, f"policies/{pid}.json": pbytes},
-        })
+        out.append(
+            {
+                "id": mid,
+                "kind": "accept" if admitted else "reject",
+                "label": label,
+                "file": f"statements/{sid}.json",
+                "policy": f"policies/{pid}.json",
+                "conditions": conditions,
+                "expected": {"admitted": admitted, "policyCodes": sorted(codes)},
+                "_bytes": {f"statements/{sid}.json": sbytes, f"policies/{pid}.json": pbytes},
+            }
+        )
     return out
 
 
@@ -274,8 +427,10 @@ def build() -> dict[str, bytes]:
     ids = [e["id"] for e in entries]
     if len(set(ids)) != len(ids):
         raise SystemExit("two members share an identifier")
-    counts = {"accept": sum(e["kind"] == "accept" for e in entries),
-              "reject": sum(e["kind"] == "reject" for e in entries)}
+    counts = {
+        "accept": sum(e["kind"] == "accept" for e in entries),
+        "reject": sum(e["kind"] == "reject" for e in entries),
+    }
     manifest = {
         "suite": SUITE,
         "predicateType": PREDICATE_TYPE,
@@ -289,7 +444,7 @@ def build() -> dict[str, bytes]:
             "rail naming a different code for the same member has produced a reason-parity "
             "datum rather than a failure.",
         },
-        "keyRecipe": "seed(role) = SHA-256(\"in-toto-aee-test-key/<role>/v1\"), role "
+        "keyRecipe": 'seed(role) = SHA-256("in-toto-aee-test-key/<role>/v1"), role '
         "substrate-observation-test, as ../vectors/keys/README.md publishes it",
         "conditions": CONDITIONS,
         "counts": counts,
@@ -313,14 +468,26 @@ def index(entries: list[dict[str, Any]], manifest: dict[str, Any]) -> str:
     ]
     for e in entries:
         codes = ", ".join(f"`{c}`" for c in e["expected"]["policyCodes"]) or "none"
-        lines.append(f"| `{e['id']}` | {e['kind']} | {e['label']} | "
-                     f"{str(e['expected']['admitted']).lower()} | {codes} |")
-    lines += ["", f"Corpus digest `{manifest['corpusDigest']}`.", ""]
+        lines.append(
+            f"| `{e['id']}` | {e['kind']} | {e['label']} | "
+            f"{str(e['expected']['admitted']).lower()} | {codes} |"
+        )
+    counts = manifest["counts"]
+    lines += [
+        "",
+        f"This corpus is {counts['accept'] + counts['reject']} vectors, of which "
+        f"{counts['accept']} a conformant verifier must not fail closed on and "
+        f"{counts['reject']} it must reject. Here, not failing closed means admitting "
+        "the statement under the member's policy.",
+        "",
+        f"Corpus digest `{manifest['corpusDigest']}`.",
+        "",
+    ]
     return "\n".join(lines)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("--check", action="store_true", help="refuse when the tree differs")
     args = parser.parse_args()
     files = build()
@@ -339,14 +506,24 @@ def main() -> int:
         with open(path, "wb") as fh:
             fh.write(data)
     for sub in ("statements", "policies"):
-        on_disk = set(os.listdir(os.path.join(HERE, sub))) if os.path.isdir(os.path.join(HERE, sub)) else set()
+        on_disk = (
+            set(os.listdir(os.path.join(HERE, sub)))
+            if os.path.isdir(os.path.join(HERE, sub))
+            else set()
+        )
         stray = sorted(on_disk - {os.path.basename(r) for r in files if r.startswith(sub + "/")})
+        if not args.check:
+            for name in stray:
+                os.remove(os.path.join(HERE, sub, name))
+            continue
         drift += [f"{sub}/{name} (not generated)" for name in stray]
     if drift:
         print("the tree differs from the generator:\n  " + "\n  ".join(drift), file=sys.stderr)
         return 1
-    print(f"{len([r for r in files if r.startswith('statements/') or r.startswith('policies/')])} "
-          f"files, {json.loads(files['MANIFEST.json'])['counts']}")
+    print(
+        f"{len([r for r in files if r.startswith('statements/') or r.startswith('policies/')])} "
+        f"files, {json.loads(files['MANIFEST.json'])['counts']}"
+    )
     return 0
 
 

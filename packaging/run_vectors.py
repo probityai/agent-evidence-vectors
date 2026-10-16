@@ -128,6 +128,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    admission,
     agenticprocess,
     anchoredchain,
     auditrecord,
@@ -3848,6 +3849,7 @@ def _run_non_reference_suite(
         agenticprocess.SUITE,
         a2ajcs.SUITE,
         mcpowasp.SUITE,
+        admission.SUITE,
     )
     if not own_reader and external_cmd is not None:
         misfit = generic_contract_misfit(manifest or {})
@@ -3873,6 +3875,10 @@ def _run_non_reference_suite(
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None and suite == receiptsignature.SUITE:
         return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
+    # The admission corpus writes down a contract of its own: the policy path in
+    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
+    if external_cmd is not None and suite == admission.SUITE:
+        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -3901,6 +3907,7 @@ def _run_non_reference_suite(
         w3creport.SUITE: w3creport,
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
+        admission.SUITE: admission,
     }.get(suite, observedeffect)
     judged = reader.judge(suite_dir)
     sys.stdout.write(reader.render(judged, reader.SUITE))

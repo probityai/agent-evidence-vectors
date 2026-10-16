@@ -70,11 +70,11 @@ func (admission) Judge(dir string, raw []byte) (*Result, error) {
 }
 
 func judgeAdmissionMember(dir string, v admissionVector) []string {
-	statement, err := os.ReadFile(filepath.Join(dir, v.File)) // #nosec G304 -- a path the manifest names inside the corpus
+	statement, err := os.ReadFile(filepath.Join(dir, v.File)) // #nosec G304,G703 -- a path the manifest names inside the corpus
 	if err != nil {
 		return []string{fmt.Sprintf("statement unreadable: %v", err)}
 	}
-	policyBytes, err := os.ReadFile(filepath.Join(dir, v.Policy)) // #nosec G304 -- a path the manifest names inside the corpus
+	policyBytes, err := os.ReadFile(filepath.Join(dir, v.Policy)) // #nosec G304,G703 -- a path the manifest names inside the corpus
 	if err != nil {
 		return []string{fmt.Sprintf("policy unreadable: %v", err)}
 	}
@@ -119,7 +119,7 @@ func admissionCorpusFindings(dir string, m *admissionManifest) []string {
 	for _, v := range ordered {
 		counts[v.Kind]++
 		for _, rel := range []string{v.File, v.Policy} {
-			b, err := os.ReadFile(filepath.Join(dir, rel)) // #nosec G304 -- a path the manifest names inside the corpus
+			b, err := os.ReadFile(filepath.Join(dir, rel)) // #nosec G304,G703 -- a path the manifest names inside the corpus
 			if err != nil {
 				findings = append(findings, fmt.Sprintf("%s is named by member %s and unreadable: %v", rel, v.ID, err))
 				continue
@@ -168,7 +168,7 @@ func admissionConditionFindings(dir string, m *admissionManifest) []string {
 			findings = append(findings, fmt.Sprintf("condition %s is not carried by both an admitted and a refused member", name))
 		}
 		cond := m.Conditions[name]
-		text, err := os.ReadFile(filepath.Join(root, cond.File)) // #nosec G304 -- a repository path the manifest names
+		text, err := os.ReadFile(filepath.Join(root, cond.File)) // #nosec G304,G703 -- a repository path the manifest names
 		if err != nil {
 			findings = append(findings, fmt.Sprintf("condition %s rests on %s, which cannot be read: %v", name, cond.File, err))
 			continue

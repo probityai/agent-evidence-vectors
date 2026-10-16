@@ -17,7 +17,10 @@ shape of whichever external-verifier contract the harness is driving:
   member's ``expected`` object, with the exit status its reader binds to the
   decision;
 * the A2A canonicalization contract (``<target> <vector>``): the expected
-  canonical bytes as ``canonical_utf8_hex``, or exit 1 where none exist.
+  canonical bytes as ``canonical_utf8_hex``, or exit 1 where none exist;
+* the admission contract: exit 0 when the member pairing this statement with
+  the policy ``AEE_CONSUMER_POLICY`` names is admitted, 1 when it is not, and
+  one JSON line carrying ``admitted`` and ``policyCodes``.
 
 It exists to test the harness, not a verifier. A perfect verifier must score a
 perfect run: any failure or suite-level refusal this program draws is a defect
@@ -217,6 +220,21 @@ def canonical_bytes(target: str, vector_path: str) -> int:
     return 0
 
 
+def admission(manifest: dict[str, Any], statement: str, policy: str) -> int:
+    """The admission contract: the member is the (statement, policy) pair."""
+    pair = (os.path.basename(statement), os.path.basename(policy))
+    for entry in manifest.get("vectors") or []:
+        if (os.path.basename(entry["file"]), os.path.basename(entry["policy"])) == pair:
+            expected = entry["expected"]
+            print(
+                json.dumps(
+                    {"admitted": expected["admitted"], "policyCodes": expected["policyCodes"]}
+                )
+            )
+            return 0 if expected["admitted"] else 1
+    raise SystemExit(f"no MANIFEST row pairs {pair}")
+
+
 def main(argv: list[str]) -> int:
     args = argv[1:]
     if "--json" in args and args and os.path.basename(args[0]) == "case.json":
@@ -227,6 +245,8 @@ def main(argv: list[str]) -> int:
         print("usage: oracle-verifier.py <member-file>", file=sys.stderr)
         return 2
     suite_dir, manifest = find_manifest(args[0])
+    if os.environ.get("AEE_CONSUMER_POLICY"):
+        return admission(manifest, args[0], os.environ["AEE_CONSUMER_POLICY"])
     row = member_for_file(manifest, args[0])
     if os.environ.get("AEV_RECEIPT_JWKS"):
         # Several receipt members share one receipt file and differ only in the

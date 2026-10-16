@@ -91,6 +91,13 @@ type ConsumerPolicy struct {
 	MaxIssuanceLag time.Duration
 	MaxEvidenceAge time.Duration
 
+	// AllowPublishedTestKeys declines, by name, the refusal of an observation
+	// key whose seed this repository publishes. Without it such a key raises
+	// observation-key-published: rows still derive attested under it, because
+	// the tier is about signatures, and admission is refused, because anyone
+	// holding the recipe signed them.
+	AllowPublishedTestKeys bool
+
 	// Now is the clock MaxEvidenceAge reads; nil means time.Now.
 	Now func() time.Time
 }

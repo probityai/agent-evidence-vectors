@@ -27,7 +27,8 @@
 //	 "expectedSubjectDigest": "<hex>", "allowUnpinnedAnchors": false,
 //	 "demandedClasses": ["XA"], "allowUnpinnedScope": false,
 //	 "acceptedResults": ["pass"], "admitUninterceptedCleanRows": false,
-//	 "maxIssuanceLagSeconds": 86400, "maxEvidenceAgeSeconds": 604800}
+//	 "maxIssuanceLagSeconds": 86400, "maxEvidenceAgeSeconds": 604800,
+//	 "allowPublishedTestKeys": false}
 //
 // -keys (or $AEE_SUBSTRATE_KEYS) reads the same document shape and is how the
 // conformance harness hands a rail its pinned key without dictating a flag
@@ -91,6 +92,7 @@ type flags struct {
 	expectedCorpus, expectedSubstrate, expectedSubject     string
 	demandClasses, acceptResults, admitUnintercepted       string
 	allowUnpinnedAnchors, allowUnpinnedScope, validityOnly bool
+	allowPublishedTestKeys                                 bool
 	maxIssuanceLag, maxEvidenceAge                         time.Duration
 	jsonOut                                                bool
 }
@@ -114,6 +116,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 	fs.BoolVar(&f.allowUnpinnedAnchors, "allow-unpinned-anchors", false, "decline the corpus, substrate and subject pins by name (an absent pin only, never a mismatched one)")
 	fs.StringVar(&f.demandClasses, "demand-classes", "", "comma-separated assessment classes the run must have assessed")
 	fs.BoolVar(&f.allowUnpinnedScope, "allow-unpinned-scope", false, "decline the demanded-class pin by name")
+	fs.BoolVar(&f.allowPublishedTestKeys, "allow-published-test-keys", false, "admit under an observation key whose seed this suite publishes (a demonstration, never a deployment)")
 	fs.StringVar(&f.acceptResults, "accept-results", "", `result threshold: "pass" (the default) or "pass,pass_indirect"`)
 	fs.StringVar(&f.admitUnintercepted, "admit-unintercepted-clean-rows", "", `"true" declines the clean-row rule under a widened threshold, "false" keeps it`)
 	fs.DurationVar(&f.maxIssuanceLag, "max-issuance-lag", 0, "bound issuedAt minus every verified armedAt")
@@ -167,8 +170,11 @@ func run(args []string, stdout, stderr io.Writer) int {
 		report.PolicyCodes = nil
 	}
 	if f.jsonOut {
-		// One line, deliberately: the external-rail contract reads the LAST
-		// line of stdout and parses that line as the whole report.
+		// One line, deliberately. The suite's external-rail contract reads the
+		// LAST line of stdout and parses that line as the whole report, so an
+		// indented encoding is not a prettier form of the same answer: it is an
+		// unparseable one. cmd/aee-verify pinned this with MarshalIndent and
+		// therefore scored 0 of 186 against the corpus it ships.
 		line, err := json.Marshal(out)
 		if err != nil {
 			fmt.Fprintf(stderr, "aee-verify: %v\n", err)
@@ -196,7 +202,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 var admissionFlags = []string{
 	"policy", "expected-corpus-digest", "expected-substrate-digest", "expected-subject-digest",
 	"allow-unpinned-anchors", "demand-classes", "allow-unpinned-scope", "accept-results",
-	"admit-unintercepted-clean-rows", "max-issuance-lag", "max-evidence-age",
+	"admit-unintercepted-clean-rows", "max-issuance-lag", "max-evidence-age", "allow-published-test-keys",
 }
 
 // resolvePolicy builds the consumer policy from at most one document and the
@@ -252,6 +258,26 @@ func policyPath(f flags) (string, error) {
 }
 
 func applyFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) (*aee.ConsumerPolicy, error) {
+	for _, apply := range []func(*aee.ConsumerPolicy, flags, map[string]bool) error{
+		applyAnchorFlags, applyListFlags, applyRowGateFlag, applyTimeFlags,
+	} {
+		if err := apply(p, f, set); err != nil {
+			return nil, err
+		}
+	}
+	if set["allow-unpinned-anchors"] {
+		p.AllowUnpinnedAnchors = p.AllowUnpinnedAnchors || f.allowUnpinnedAnchors
+	}
+	if set["allow-unpinned-scope"] {
+		p.AllowUnpinnedScope = p.AllowUnpinnedScope || f.allowUnpinnedScope
+	}
+	if set["allow-published-test-keys"] {
+		p.AllowPublishedTestKeys = p.AllowPublishedTestKeys || f.allowPublishedTestKeys
+	}
+	return p, nil
+}
+
+func applyAnchorFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) error {
 	pins := []struct {
 		flag  string
 		value string
@@ -266,40 +292,45 @@ func applyFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) (*aee.Consu
 			continue
 		}
 		if *pin.field != "" && *pin.field != pin.value {
-			return nil, fmt.Errorf("-%s says %s and the policy document says %s", pin.flag, pin.value, *pin.field)
+			return fmt.Errorf("-%s says %s and the policy document says %s", pin.flag, pin.value, *pin.field)
 		}
 		*pin.field = pin.value
 	}
-	if set["allow-unpinned-anchors"] {
-		p.AllowUnpinnedAnchors = p.AllowUnpinnedAnchors || f.allowUnpinnedAnchors
-	}
-	if set["allow-unpinned-scope"] {
-		p.AllowUnpinnedScope = p.AllowUnpinnedScope || f.allowUnpinnedScope
-	}
+	return nil
+}
+
+func applyListFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) error {
 	if set["demand-classes"] {
 		if len(p.DemandedClasses) > 0 {
-			return nil, errors.New("-demand-classes and the policy document both demand classes")
+			return errors.New("-demand-classes and the policy document both demand classes")
 		}
 		p.DemandedClasses = splitList(f.demandClasses)
 	}
 	if set["accept-results"] {
 		if p.AcceptedResults != nil {
-			return nil, errors.New("-accept-results and the policy document both set the result threshold")
+			return errors.New("-accept-results and the policy document both set the result threshold")
 		}
 		p.AcceptedResults = splitList(f.acceptResults)
 	}
-	if set["admit-unintercepted-clean-rows"] {
-		if p.AdmitUninterceptedCleanRows != nil {
-			return nil, errors.New("-admit-unintercepted-clean-rows and the policy document both decide the row rule")
-		}
-		switch f.admitUnintercepted {
-		case "true", "false":
-			v := f.admitUnintercepted == "true"
-			p.AdmitUninterceptedCleanRows = &v
-		default:
-			return nil, fmt.Errorf(`-admit-unintercepted-clean-rows takes "true" or "false", not %q`, f.admitUnintercepted)
-		}
+	return nil
+}
+
+func applyRowGateFlag(p *aee.ConsumerPolicy, f flags, set map[string]bool) error {
+	if !set["admit-unintercepted-clean-rows"] {
+		return nil
 	}
+	if p.AdmitUninterceptedCleanRows != nil {
+		return errors.New("-admit-unintercepted-clean-rows and the policy document both decide the row rule")
+	}
+	if f.admitUnintercepted != "true" && f.admitUnintercepted != "false" {
+		return fmt.Errorf(`-admit-unintercepted-clean-rows takes "true" or "false", not %q`, f.admitUnintercepted)
+	}
+	v := f.admitUnintercepted == "true"
+	p.AdmitUninterceptedCleanRows = &v
+	return nil
+}
+
+func applyTimeFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) error {
 	for _, d := range []struct {
 		flag  string
 		value time.Duration
@@ -312,14 +343,14 @@ func applyFlags(p *aee.ConsumerPolicy, f flags, set map[string]bool) (*aee.Consu
 			continue
 		}
 		if d.value <= 0 {
-			return nil, fmt.Errorf("-%s must be a positive duration", d.flag)
+			return fmt.Errorf("-%s must be a positive duration", d.flag)
 		}
 		if *d.field != 0 && *d.field != d.value {
-			return nil, fmt.Errorf("-%s says %s and the policy document says %s", d.flag, d.value, *d.field)
+			return fmt.Errorf("-%s says %s and the policy document says %s", d.flag, d.value, *d.field)
 		}
 		*d.field = d.value
 	}
-	return p, nil
+	return nil
 }
 
 func splitList(v string) []string {

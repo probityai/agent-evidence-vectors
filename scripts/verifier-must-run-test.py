@@ -280,7 +280,7 @@ def case_action_summary(work: Path) -> list[str]:
     return errors
 
 
-REFERENCE_SCOPE_ANCHOR = "    if not own_reader:\n        print(\n"
+REFERENCE_SCOPE_ANCHOR = "    if external_cmd is None:\n        print(\n"
 REFERENCE_SCOPE_MUTANT = "    if False:\n        print(\n"
 
 

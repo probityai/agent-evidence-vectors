@@ -216,6 +216,48 @@ recompute now also reduces to a token: a policy gating on `result ==
 relaxed to admit `pass_indirect` MUST keep the rule, because the token
 states that some clean row is indirect and never which one.
 
+---
+
+### What a verification surface reports
+
+This section is NOT verbatim from the single-document revision. It is the text
+proposed for the registry page's next revision, carried here so the corpus
+that tests it has a sentence to cite, and it will be replaced by the page's own
+wording when that lands. It states nothing the obligations above do not
+already require of a consumer; it says what a tool acting for that consumer
+may print.
+
+The obligations above are the consumer's, and a verification surface acting
+for the consumer inherits them. A verification surface MUST NOT report success
+for a statement it did not admit. Admission conjoins validity, a derived tier
+of `attested` for every `basis: substrate` row under keys the consumer pinned,
+the corpus, substrate and subject digests the consumer pinned, the classes it
+demanded, and the result tokens it accepts, each pinned or declined by name and
+never by omission. A surface asked no admission question, one checking validity
+alone, is asked so by name and labels its answer as validity; its success says
+the bytes are consistent and nothing about whether any observer stands behind
+them. A consumer that supplies no policy has pinned nothing, and nothing is
+admitted to it. A key whose private half is published, such as a conformance
+suite's test key, attests only that someone read the recipe, so a surface does
+not admit under one unless the consumer declines that refusal by name.
+
+The subject a consumer admits is matched by `subject[0].digest.sha256` and by
+nothing else. That digest is the one subject value the run binding covers, so it
+is the one an observer's records bind. The subject's `name`, its `uri`, its
+annotations and a digest under any other algorithm are outside every observer
+signature: a party holding only the envelope key rewrites them, and every record
+still verifies. They are the producer's, like `issuedAt`, and a consumer MUST
+NOT match on them. A surface SHOULD list the members of an admitted statement
+that no observer binds, so a reader does not take the producer's words for the
+observer's.
+
+A bound on when a run happened, its age or the lag between it and its
+issuance, is evaluated against the `armedAt` of every arming record that
+verifies under a pinned key and carries the run binding. It is never evaluated
+against `issuedAt`, for the reason given for key validity windows under
+Coverage validity, and a consumer that bounds either and is handed no such
+record refuses the statement.
+
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [ResourceDescriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md
 [Runtime Traces]: https://github.com/in-toto/attestation/blob/main/spec/predicates/runtime-trace.md
