@@ -1,0 +1,32 @@
+{
+  "policy": {
+    "payload_type": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
+    "registry_key": {
+      "keyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
+      "public_key": "LTEGASdp6AYfXqXMYrj/l8+WGTSF6LbuIZqTo54L41o="
+    },
+    "relying_party_key": {
+      "keyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
+      "public_key": "CNOC9JN13Ra5CP8EMGocOHpAp1dqqr/Dpg5G9VpWxpY="
+    },
+    "roots": [
+      "did:example:org"
+    ]
+  },
+  "presentation": "presentation.json",
+  "records": [
+    "01-registration-org.json",
+    "02-registration-planner.json",
+    "03-registration-worker.json",
+    "04-registration-sub-worker.json",
+    "05-registration-sibling.json",
+    "06-grant-g-planner.json",
+    "07-grant-g-worker.json",
+    "08-grant-g-sibling.json",
+    "09-grant-g-sub.json",
+    "10-revocation-r-planner.json",
+    "11-dispute-d-planner.json",
+    "12-grant-g-planner-2.json",
+    "13-resolution-d-planner-outcome.json"
+  ]
+}
