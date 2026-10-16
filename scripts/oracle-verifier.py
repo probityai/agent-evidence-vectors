@@ -13,7 +13,7 @@ shape of whichever external-verifier contract the harness is driving:
 * the receipt-signature contract: exit 0, 1 or 2 and one JSON line carrying
   ``verdict`` and ``code``, answering the with-windows or without-windows
   expectation according to which published key set ``AEV_RECEIPT_JWKS`` names;
-* the case-directory contract (``<case.json> [--policy <file>] --json``): the
+* the case-directory contract (``<member file> [--policy <file>] --json``): the
   member's ``expected`` object, with the exit status its reader binds to the
   decision;
 * the A2A canonicalization contract (``<target> <vector>``): the expected
@@ -161,7 +161,7 @@ def suite_exit_codes(suite: str) -> dict[str, int]:
 
 
 def case_directory(case_path: str) -> int:
-    """``<verifier> <cases/<id>/case.json> [--policy <file>] --json``.
+    """``<verifier> <cases/<id>/<member file>> [--policy <file>] --json``.
 
     The case-directory corpora hand a verifier one case file and read one JSON
     object back whose fields are compared with the member's ``expected``, with
@@ -235,9 +235,28 @@ def admission(manifest: dict[str, Any], statement: str, policy: str) -> int:
     raise SystemExit(f"no MANIFEST row pairs {pair}")
 
 
+def contract_member_file(path: str) -> str | None:
+    """The member file a case-directory corpus hands its verifier.
+
+    Each such corpus writes its contract as ``verifier <file> [...] --json``
+    in its MANIFEST; the file is ``case.json`` for most and ``record.json``
+    for the authority-at-dispatch corpus, so it is read, not assumed. A
+    corpus that writes no contract (the trace-anchor corpus) hands
+    ``case.json``, the harness's default for this contract.
+    """
+    try:
+        _, manifest = find_manifest(path)
+    except SystemExit:
+        return None
+    words = str(manifest.get("verifierContract") or "").split()
+    if len(words) > 1 and words[0] == "verifier":
+        return words[1]
+    return "case.json"
+
+
 def main(argv: list[str]) -> int:
     args = argv[1:]
-    if "--json" in args and args and os.path.basename(args[0]) == "case.json":
+    if "--json" in args and args and os.path.basename(args[0]) == contract_member_file(args[0]):
         return case_directory(args[0])
     if len(args) == 2 and not args[0].endswith(".json"):
         return canonical_bytes(args[0], args[1])
