@@ -313,7 +313,7 @@
       },
       "path": "vectors-acs-core/wire-probes/README.md",
       "serialization": "bytes",
-      "sha256": "f83439b6de981bb041544a55e3ce7032d99139a472422c3989eab99736335e87"
+      "sha256": "da108673b349d40597af289bbfc0c643704dbe1004987d8ed01035916328b3e6"
     },
     {
       "consumed": "unconsumed",
@@ -336,7 +336,7 @@
       },
       "path": "vectors-acs-core/wire-probes/acs_wire_probes.py",
       "serialization": "bytes",
-      "sha256": "baa7d56220e6cc7789d7606e673f068dfd8d058adf7aa23f66c916f62cc89583"
+      "sha256": "0ff496cd1f407af0b85cdbdf322a39df4453b460d502c7825a2f282af2e59374"
     },
     {
       "consumed": "unconsumed",
@@ -359,7 +359,30 @@
       },
       "path": "vectors-acs-core/wire-probes/expected/agt-integration-770f1e0.json",
       "serialization": "bytes",
-      "sha256": "cf695bdeda2862b5dd78508bf8fc7cdc54457cea72483ba547cb910e2c703590"
+      "sha256": "7f6b4457b02794fc0e36582f96a35d2563e9cce2f4c91f6176056f599a04bac6"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "073642d696ff34128e4a16be4f4f56ee69a3197bd995dbc6f627f4867c9d56bb"
+        },
+        "swapped-in": "2c073b45a8ed1a7b76f77ce5c555d25b30ad5cf9caf3ad76bd05e25c3fdc02a2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/expected/agt-pr229-6e6942d.json",
+      "serialization": "bytes",
+      "sha256": "c3ed56ef8bc39ab8bce3b12855ab85b925b8e63d1a315370074a8f1820793330"
     },
     {
       "consumed": "unconsumed",
@@ -382,7 +405,7 @@
       },
       "path": "vectors-acs-core/wire-probes/expected/agt-pr229.json",
       "serialization": "bytes",
-      "sha256": "6c654f2215a623b6fc64b5394644af00a02387944acb1dc6392bc13375c524e4"
+      "sha256": "001a3fcd50f908c9f84e7e19e7be91c8a3790f33b76718568b6356a50e1099ab"
     },
     {
       "consumed": "unconsumed",
@@ -457,7 +480,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "3d7487c074fb070c06aa88b8e4944ccc2569f29a63e7f64901babf7f8bccb9de"
+      "sha256": "ccc4799a91e2c6056562ad2dda65a829890aabac94336d3d9ffcbc823a9ea3bc"
     },
     "runtime": {
       "name": "go",
@@ -1466,7 +1489,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "50bfff9788cbcf7a5f66be45c6dba28dc10ed06a908951d694739405b5b289d8"
+    "sha256": "209bc0b92942f5abde15fba1d253947ca49b18e48bedbf48a86f506c8685245c"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
