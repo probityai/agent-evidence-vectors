@@ -2,6 +2,10 @@
 
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
 
+![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](demo/four-arms.gif)
+
+The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
+
 <a name="run-the-suite-against-your-verifier"></a>
 
 ## Try it
