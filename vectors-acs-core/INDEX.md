@@ -42,7 +42,9 @@ line number is derived from the sentence and never typed.
 **A verdict is asserted as a code, never as prose.** Two conformant
 implementations word one refusal differently and a wrong one can word the right
 cause while doing something else, so a member names a value from the fixed
-error registry or names none at all.
+error registry or names none at all. A member that names none leaves the code
+unasserted, and any refusal passes it; a member whose case any registry code
+would misreport forbids one, and the code column says which.
 
 **There are three verdicts.** A member whose property the specification cannot
 express is `unmeasurable`, with the reason recorded. Folding those into
@@ -162,137 +164,139 @@ what it tests, so each waits for its sentence and is minted from it.
 | case | why it waits |
 |---|---|
 | a Trace event for a verdict the Observed Agent substituted | sections 6.3 and 6.5 make the Observed Agent apply DENY, or keep the original summary at postCompact, in place of a MODIFY it cannot apply, and the release/0.1.4 Trace text rules both cases out as decision failures, so the Guardian's acs.decision event says modify and no Trace event says what was applied. GenAI-Security-Project/agent-control-standard#264 proposes a span event, acs.decision.substituted, and a reader rule that a modify verdict is not counted as applied when that event shares its pair. Only the issue carries that sentence. Until it lands, acs-f-12 holds the audit-log form sections 6.3 and 6.5 already require, and one indeterminate member records that Trace alone cannot answer the question |
+| a chain head whose signing time is bounded by a public beacon | the time-bound half of the checkpoint case raised on GenAI-Security-Project/agent-control-standard#18. The pinned text defines no beacon, no checkpoint and no signing-time source a head could reference, so a member would cite a sentence that does not exist. The signer half of the same case is family acs-f-10 |
 | a session that began and was never sealed | the pinned text has no sentence requiring a party other than the Observed Agent to record that a session began, so a begun session with no seal leaves nothing a member could cite. Wording is proposed on GenAI-Security-Project/agent-control-standard#37. Once it lands, the member expects a counted decision failure, never unmeasurable, because a begun and unsealed session is countable |
+| a verifier answering that it cannot determine the signer | the pinned text gives a verifier no answer meaning the signer cannot be determined: section 17.1 has SIGNATURE_INVALID for a signature that fails and nothing for one that verifies under a key two parties hold. So the HMAC substitution in acs-f-10 is unmeasurable rather than scored, and a requirement that the two outcomes take different shapes was raised on GenAI-Security-Project/agent-control-standard#18. Once a sentence names the outcome, that member expects it instead of being exempt |
 | an argument textually inside a scoped mandate that resolves outside it | a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow |
 
 ## Vectors
 
 | id | kind | family | requirements | verdict | code | basis | witness scope |
 |---|---|---|---|---|---|---|---|
-| `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | none | substrate | PEER |
-| `v05935d4e2d816888` | reject | acs-f-12 | ACS-R-035 | deny | none | substrate | SELF |
-| `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | none | substrate | SELF |
-| `v09451dcf233c2115` | reject | acs-f-13 | ACS-R-030 | deny | none | substrate | SELF |
-| `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | none | substrate | SELF |
-| `v0e1b9d0f75f54e9c` | reject | acs-f-11 | ACS-R-023 | deny | none | substrate | SELF |
+| `v0577dc8ccd4d7e47` | accept | acs-f-1 | ACS-R-020 | allow | not asserted | substrate | PEER |
+| `v05935d4e2d816888` | reject | acs-f-12 | ACS-R-035 | deny | not asserted | substrate | SELF |
+| `v07180a3ca8f10123` | accept | acs-f-8 | ACS-R-007 | allow | not asserted | substrate | SELF |
+| `v09451dcf233c2115` | reject | acs-f-13 | ACS-R-030 | deny | not asserted | substrate | SELF |
+| `v0c6dcb9ff13af3c9` | reject | acs-f-6 | ACS-R-014 | deny | not asserted | substrate | SELF |
+| `v0e1b9d0f75f54e9c` | reject | acs-f-11 | ACS-R-023 | deny | not asserted | substrate | SELF |
 | `v100f74962fbb8b94` | reject | acs-f-4 | ACS-R-011 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
 | `v10351021bf6e46b1` | reject | acs-f-7 | ACS-R-009 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
-| `v13ec89c059e7e71d` | reject | acs-f-17 | ACS-R-053 | deny | none | artifact | EXTERNAL |
-| `v142a717729cabcc7` | reject | acs-f-16 | ACS-R-060 | deny | none | artifact | EXTERNAL |
-| `v1449cddb48f82d09` | accept | acs-f-12 | ACS-R-044 | allow | none | artifact | EXTERNAL |
-| `v1bf79e310bf7ab30` | reject | acs-f-17 | ACS-R-056 | deny | none | artifact | EXTERNAL |
+| `v13ec89c059e7e71d` | reject | acs-f-17 | ACS-R-053 | deny | not asserted | artifact | EXTERNAL |
+| `v142a717729cabcc7` | reject | acs-f-16 | ACS-R-060 | deny | not asserted | artifact | EXTERNAL |
+| `v1449cddb48f82d09` | accept | acs-f-12 | ACS-R-044 | allow | not asserted | artifact | EXTERNAL |
+| `v1bf79e310bf7ab30` | reject | acs-f-17 | ACS-R-056 | deny | not asserted | artifact | EXTERNAL |
 | `v1ce4aeb611285368` | reject | acs-f-11 | ACS-R-024 | deny | `SESSION_REFUSED` | substrate | SELF |
-| `v1e4a323dafeda46e` | reject | acs-f-15 | ACS-R-047 | deny | none | artifact | PEER |
+| `v1e4a323dafeda46e` | reject | acs-f-15 | ACS-R-047 | deny | not asserted | artifact | PEER |
 | `v204003ad3a0dcacb` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `v221edeb22c4e8634` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | EXTERNAL |
-| `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | none | artifact | PEER |
-| `v28a228c72a0a72e8` | reject | acs-f-17 | ACS-R-050 | deny | none | artifact | EXTERNAL |
-| `v2aa5e37455fda245` | accept | acs-f-13 | ACS-R-030 | allow | none | substrate | SELF |
-| `v2d172bf817c9b0ca` | accept | acs-f-14 | ACS-R-034 | allow | none | substrate | SELF |
-| `v317a035acc0101c3` | reject | acs-f-14 | ACS-R-033 | deny | none | substrate | SELF |
-| `v31ce9cd718b96f51` | reject | acs-f-17 | ACS-R-054 | deny | none | artifact | EXTERNAL |
-| `v3232493ab40ae031` | reject | acs-f-10 | ACS-R-021 | deny | none | artifact | EXTERNAL |
-| `v34a0f1903d69dbc1` | reject | acs-f-12 | ACS-R-038 | deny | none | substrate | SELF |
-| `v352dbb9b4c521a26` | accept | acs-f-12 | ACS-R-036, ACS-R-048 | allow | none | substrate | SELF |
-| `v36627efbb93cdb48` | accept | acs-f-16 | ACS-R-060 | allow | none | artifact | EXTERNAL |
-| `v3a740f95d71db4bb` | reject | acs-f-16 | ACS-R-039 | deny | none | artifact | EXTERNAL |
-| `v3c03d4e4ce213e9c` | accept | acs-f-6 | ACS-R-016 | allow | none | artifact | PEER |
-| `v3e946bcfde26bbe2` | accept | acs-f-2 | ACS-R-002 | allow | none | substrate | SELF |
+| `v25f01d8fe1e91bf5` | accept | acs-f-8 | ACS-R-006 | allow | not asserted | artifact | PEER |
+| `v28a228c72a0a72e8` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
+| `v2a61a2c85f8b6aec` | reject | acs-f-10 | ACS-R-021 | deny | none allowed | artifact | EXTERNAL |
+| `v2aa5e37455fda245` | accept | acs-f-13 | ACS-R-030 | allow | not asserted | substrate | SELF |
+| `v2d172bf817c9b0ca` | accept | acs-f-14 | ACS-R-034 | allow | not asserted | substrate | SELF |
+| `v317a035acc0101c3` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
+| `v31ce9cd718b96f51` | reject | acs-f-17 | ACS-R-054 | deny | not asserted | artifact | EXTERNAL |
+| `v34a0f1903d69dbc1` | reject | acs-f-12 | ACS-R-038 | deny | not asserted | substrate | SELF |
+| `v352dbb9b4c521a26` | accept | acs-f-12 | ACS-R-036, ACS-R-048 | allow | not asserted | substrate | SELF |
+| `v36627efbb93cdb48` | accept | acs-f-16 | ACS-R-060 | allow | not asserted | artifact | EXTERNAL |
+| `v3a740f95d71db4bb` | reject | acs-f-16 | ACS-R-039 | deny | not asserted | artifact | EXTERNAL |
+| `v3c03d4e4ce213e9c` | accept | acs-f-6 | ACS-R-016 | allow | not asserted | artifact | PEER |
+| `v3e946bcfde26bbe2` | accept | acs-f-2 | ACS-R-002 | allow | not asserted | substrate | SELF |
 | `v412653087b92cb07` | reject | acs-f-9 | ACS-R-017 | deny | `UNSUPPORTED_VERSION` | substrate | PEER |
-| `v43ef9dfd999c84e8` | accept | acs-f-15 | ACS-R-047 | allow | none | artifact | PEER |
+| `v43ef9dfd999c84e8` | accept | acs-f-15 | ACS-R-047 | allow | not asserted | artifact | PEER |
 | `v448a61c91554a125` | reject | acs-f-7 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
-| `v47ac76a1803fdb29` | accept | acs-f-14 | ACS-R-033, ACS-R-034 | allow | none | substrate | SELF |
-| `v4cfeaa01784088e3` | accept | acs-f-16 | ACS-R-040, ACS-R-039, ACS-R-059 | allow | none | artifact | EXTERNAL |
-| `v4f1f941aca13438d` | reject | acs-f-16 | ACS-R-040 | deny | none | artifact | EXTERNAL |
-| `v4f2144a08f62c639` | accept | acs-f-16 | ACS-R-057 | allow | none | artifact | PEER |
-| `v4f75a079844635af` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | EXTERNAL |
-| `v53ef0aaa91303587` | accept | acs-f-10 | ACS-R-022, ACS-R-021 | allow | none | artifact | EXTERNAL |
-| `v55187b175296fcc8` | reject | acs-f-15 | ACS-R-042 | deny | none | artifact | EXTERNAL |
-| `v57106f0a71dd1d62` | reject | acs-f-15 | ACS-R-045 | deny | none | substrate | SELF |
-| `v573876edff0016da` | reject | acs-f-17 | ACS-R-049 | deny | none | artifact | EXTERNAL |
-| `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | none | substrate | SELF |
-| `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | none | substrate | SELF |
+| `v47ac76a1803fdb29` | accept | acs-f-14 | ACS-R-033, ACS-R-034 | allow | not asserted | substrate | SELF |
+| `v4cfeaa01784088e3` | accept | acs-f-16 | ACS-R-040, ACS-R-039, ACS-R-059 | allow | not asserted | artifact | EXTERNAL |
+| `v4f1f941aca13438d` | reject | acs-f-16 | ACS-R-040 | deny | not asserted | artifact | EXTERNAL |
+| `v4f2144a08f62c639` | accept | acs-f-16 | ACS-R-057 | allow | not asserted | artifact | PEER |
+| `v4f75a079844635af` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | not asserted | artifact | EXTERNAL |
+| `v53ef0aaa91303587` | accept | acs-f-10 | ACS-R-022, ACS-R-021 | allow | not asserted | artifact | EXTERNAL |
+| `v55187b175296fcc8` | reject | acs-f-15 | ACS-R-042 | deny | not asserted | artifact | EXTERNAL |
+| `v57106f0a71dd1d62` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
+| `v573876edff0016da` | reject | acs-f-17 | ACS-R-049 | deny | not asserted | artifact | EXTERNAL |
+| `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
+| `v58b380041d50cb9a` | accept | acs-f-11 | ACS-R-023, ACS-R-025 | allow | not asserted | substrate | SELF |
 | `v5c3813f48b81ccf3` | reject | acs-f-13 | ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `v650e4e7924e597b8` | reject | acs-f-14 | ACS-R-033 | deny | none | substrate | SELF |
+| `v650e4e7924e597b8` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
 | `v661266c5c87cb206` | reject | acs-f-1 | ACS-R-013 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | SELF |
-| `v663664f03dec5517` | accept | acs-f-15 | ACS-R-042 | allow | none | artifact | EXTERNAL |
-| `v676ce54e23de4b38` | reject | acs-f-12 | ACS-R-048 | deny | none | artifact | EXTERNAL |
-| `v699f3f41215849ca` | accept | acs-f-7 | ACS-R-013 | allow | none | substrate | SELF |
-| `v6b9826ebb2401bb8` | reject | acs-f-15 | ACS-R-046 | deny | none | artifact | PEER |
-| `v6daaec0f6f0c8a14` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | none | artifact | PEER |
+| `v663664f03dec5517` | accept | acs-f-15 | ACS-R-042 | allow | not asserted | artifact | EXTERNAL |
+| `v676ce54e23de4b38` | reject | acs-f-12 | ACS-R-048 | deny | not asserted | artifact | EXTERNAL |
+| `v699f3f41215849ca` | accept | acs-f-7 | ACS-R-013 | allow | not asserted | substrate | SELF |
+| `v6b9826ebb2401bb8` | reject | acs-f-15 | ACS-R-046 | deny | not asserted | artifact | PEER |
+| `v6daaec0f6f0c8a14` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | not asserted | artifact | PEER |
 | `v71d1f3d3c1c2107f` | reject | acs-f-13 | ACS-R-028, ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `v78927805373a6c06` | accept | acs-f-9 | ACS-R-017 | allow | none | substrate | PEER |
-| `v7b0219cc72681b5a` | accept | acs-f-13 | ACS-R-031 | allow | none | substrate | PEER |
+| `v78927805373a6c06` | accept | acs-f-9 | ACS-R-017 | allow | not asserted | substrate | PEER |
+| `v7b0219cc72681b5a` | accept | acs-f-13 | ACS-R-031 | allow | not asserted | substrate | PEER |
 | `v7b0b32fb369136c1` | reject | acs-f-8 | ACS-R-006 | deny | `CHAIN_MISMATCH` | artifact | PEER |
-| `v7cdac6c8af6db2fe` | accept | acs-f-15 | ACS-R-046 | allow | none | artifact | PEER |
-| `v7d14727c84d2020d` | reject | acs-f-15 | ACS-R-052 | deny | none | artifact | EXTERNAL |
-| `v80af4427990f6034` | reject | acs-f-12 | ACS-R-038 | deny | none | substrate | SELF |
-| `v82b6d110b4d68e7c` | indeterminate | acs-f-3 | ACS-R-003 | unmeasurable | none | artifact | EXTERNAL |
-| `v83363b5d7f051859` | accept | acs-f-15 | ACS-R-041 | allow | none | artifact | EXTERNAL |
+| `v7cdac6c8af6db2fe` | accept | acs-f-15 | ACS-R-046 | allow | not asserted | artifact | PEER |
+| `v7d14727c84d2020d` | reject | acs-f-15 | ACS-R-052 | deny | not asserted | artifact | EXTERNAL |
+| `v80af4427990f6034` | reject | acs-f-12 | ACS-R-038 | deny | not asserted | substrate | SELF |
+| `v82b6d110b4d68e7c` | indeterminate | acs-f-3 | ACS-R-003 | unmeasurable | not asserted | artifact | EXTERNAL |
+| `v83363b5d7f051859` | accept | acs-f-15 | ACS-R-041 | allow | not asserted | artifact | EXTERNAL |
 | `v8557c978bf12ca55` | reject | acs-f-6 | ACS-R-016 | deny | `CHAIN_MISMATCH` | artifact | PEER |
-| `v855c3b68b325eec1` | accept | acs-f-10 | ACS-R-021 | allow | none | artifact | PEER |
+| `v855c3b68b325eec1` | accept | acs-f-10 | ACS-R-021 | allow | not asserted | artifact | PEER |
 | `v88176a8db9aee0c7` | reject | acs-f-13 | ACS-R-028, ACS-R-029 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | none | substrate | SELF |
-| `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | none | artifact | EXTERNAL |
-| `v8b8bb4f181c906e6` | accept | acs-f-15 | ACS-R-045 | allow | none | substrate | SELF |
-| `v8d6218889aeda7c7` | accept | acs-f-12 | ACS-R-038 | allow | none | substrate | SELF |
-| `v934c6c4f64dc3142` | reject | acs-f-16 | ACS-R-061 | deny | none | artifact | EXTERNAL |
-| `v93c6cced4a3b9f13` | reject | acs-f-11 | ACS-R-025 | deny | none | substrate | SELF |
+| `v89ea07928daff608` | reject | acs-f-12 | ACS-R-036, ACS-R-037 | deny | not asserted | substrate | SELF |
+| `v8a5f343c721f2f14` | accept | acs-f-16 | ACS-R-058 | allow | not asserted | artifact | EXTERNAL |
+| `v8b8bb4f181c906e6` | accept | acs-f-15 | ACS-R-045 | allow | not asserted | substrate | SELF |
+| `v8d6218889aeda7c7` | accept | acs-f-12 | ACS-R-038 | allow | not asserted | substrate | SELF |
+| `v934c6c4f64dc3142` | reject | acs-f-16 | ACS-R-061 | deny | not asserted | artifact | EXTERNAL |
+| `v93c6cced4a3b9f13` | reject | acs-f-11 | ACS-R-025 | deny | not asserted | substrate | SELF |
 | `v986429a577e03404` | reject | acs-f-6 | ACS-R-006, ACS-R-021 | deny | `CHAIN_MISMATCH` | artifact | PEER |
-| `v98892a47c65b871e` | accept | acs-f-12 | ACS-R-035 | allow | none | substrate | SELF |
-| `v98c73932834256a4` | accept | acs-f-13 | ACS-R-026, ACS-R-027, ACS-R-028 | allow | none | substrate | PEER |
-| `v9c3c0467f619607e` | reject | acs-f-16 | ACS-R-058 | deny | none | artifact | EXTERNAL |
-| `v9d271115ecc2144a` | accept | acs-f-16 | ACS-R-039 | allow | none | artifact | EXTERNAL |
-| `v9f011986566cb7bc` | indeterminate | acs-f-10 | ACS-R-022, ACS-R-021 | unmeasurable | none | artifact | SELF |
-| `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | none | substrate | SELF |
-| `va0ee5d0830b0490b` | accept | acs-f-5 | ACS-R-005 | allow | none | substrate | SELF |
-| `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | none | substrate | SELF |
-| `va216214d32d8d5f7` | accept | acs-f-17 | ACS-R-056 | allow | none | artifact | EXTERNAL |
-| `va2b212fbc0966f59` | accept | acs-f-11 | ACS-R-024 | allow | none | substrate | SELF |
+| `v98892a47c65b871e` | accept | acs-f-12 | ACS-R-035 | allow | not asserted | substrate | SELF |
+| `v98c73932834256a4` | accept | acs-f-13 | ACS-R-026, ACS-R-027, ACS-R-028 | allow | not asserted | substrate | PEER |
+| `v9c3c0467f619607e` | reject | acs-f-16 | ACS-R-058 | deny | not asserted | artifact | EXTERNAL |
+| `v9d271115ecc2144a` | accept | acs-f-16 | ACS-R-039 | allow | not asserted | artifact | EXTERNAL |
+| `v9f011986566cb7bc` | indeterminate | acs-f-10 | ACS-R-022, ACS-R-021 | unmeasurable | not asserted | artifact | SELF |
+| `va00ef569d09bf7d5` | reject | acs-f-6 | ACS-R-015 | deny | not asserted | substrate | SELF |
+| `va0ee5d0830b0490b` | accept | acs-f-5 | ACS-R-005 | allow | not asserted | substrate | SELF |
+| `va200b64093301e14` | reject | acs-f-9 | ACS-R-018 | deny | not asserted | substrate | SELF |
+| `va216214d32d8d5f7` | accept | acs-f-17 | ACS-R-056 | allow | not asserted | artifact | EXTERNAL |
+| `va2b212fbc0966f59` | accept | acs-f-11 | ACS-R-024 | allow | not asserted | substrate | SELF |
 | `va2fea96983583972` | reject | acs-f-8 | ACS-R-010 | deny | `PROVENANCE_REQUIRED` | substrate | SELF |
 | `va3cc0f12ae4e8a35` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `va6d6e952d417c5a1` | accept | acs-f-3 | ACS-R-003 | allow | none | substrate | SELF |
+| `va6d6e952d417c5a1` | accept | acs-f-3 | ACS-R-003 | allow | not asserted | substrate | SELF |
 | `va8eebd3334b97257` | reject | acs-f-5 | ACS-R-004 | deny | `SIGNATURE_INVALID` | substrate | SELF |
-| `vabdcee4722b26a44` | accept | acs-f-13 | ACS-R-032, ACS-R-028 | allow | none | substrate | PEER |
-| `vac8eb35a1249aefc` | reject | acs-f-17 | ACS-R-055 | deny | none | artifact | EXTERNAL |
-| `vae2037ee96435463` | reject | acs-f-9 | ACS-R-019 | deny | none | substrate | PEER |
+| `vabdcee4722b26a44` | accept | acs-f-13 | ACS-R-032, ACS-R-028 | allow | not asserted | substrate | PEER |
+| `vac8eb35a1249aefc` | reject | acs-f-17 | ACS-R-055 | deny | not asserted | artifact | EXTERNAL |
+| `vae2037ee96435463` | reject | acs-f-9 | ACS-R-019 | deny | not asserted | substrate | PEER |
 | `vb10df32610db1173` | reject | acs-f-3 | ACS-R-003 | deny | `TIMESTAMP_OUT_OF_WINDOW` | substrate | SELF |
-| `vb2374eaafd283548` | reject | acs-f-17 | ACS-R-050 | deny | none | artifact | EXTERNAL |
-| `vb3c19387fb98e20f` | reject | acs-f-13 | ACS-R-031 | deny | none | substrate | PEER |
+| `vb2374eaafd283548` | reject | acs-f-17 | ACS-R-050 | deny | not asserted | artifact | EXTERNAL |
+| `vb3c19387fb98e20f` | reject | acs-f-13 | ACS-R-031 | deny | not asserted | substrate | PEER |
 | `vb87b86b4930665ca` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `vbd5dc2450805e76b` | reject | acs-f-12 | ACS-R-036 | deny | none | substrate | SELF |
-| `vbf0b0f4b67a00b59` | accept | acs-f-16 | ACS-R-061 | allow | none | artifact | EXTERNAL |
-| `vc0ee2db9cf47e0c1` | reject | acs-f-16 | ACS-R-040 | deny | none | artifact | EXTERNAL |
-| `vc1100bbd3f8f6a5f` | accept | acs-f-15 | ACS-R-052 | allow | none | artifact | EXTERNAL |
-| `vc190a6c639182d4e` | reject | acs-f-15 | ACS-R-042 | deny | none | artifact | EXTERNAL |
-| `vc333473269d1b3a9` | reject | acs-f-8 | ACS-R-007 | deny | none | substrate | SELF |
+| `vbd5dc2450805e76b` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
+| `vbf0b0f4b67a00b59` | accept | acs-f-16 | ACS-R-061 | allow | not asserted | artifact | EXTERNAL |
+| `vc0ee2db9cf47e0c1` | reject | acs-f-16 | ACS-R-040 | deny | not asserted | artifact | EXTERNAL |
+| `vc1100bbd3f8f6a5f` | accept | acs-f-15 | ACS-R-052 | allow | not asserted | artifact | EXTERNAL |
+| `vc190a6c639182d4e` | reject | acs-f-15 | ACS-R-042 | deny | not asserted | artifact | EXTERNAL |
+| `vc333473269d1b3a9` | reject | acs-f-8 | ACS-R-007 | deny | not asserted | substrate | SELF |
 | `vc38320dadcd56b7f` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `vc540b5eb806ea07c` | reject | acs-f-12 | ACS-R-043, ACS-R-044 | deny | none | artifact | EXTERNAL |
-| `vc8e379465f4a677b` | reject | acs-f-15 | ACS-R-041 | deny | none | artifact | EXTERNAL |
-| `vcfbc617d0218ad1a` | reject | acs-f-12 | ACS-R-036 | deny | none | substrate | SELF |
-| `vd4d655cdc5da676f` | accept | acs-f-17 | ACS-R-050, ACS-R-054 | allow | none | artifact | EXTERNAL |
-| `vd4df6378ea74234d` | accept | acs-f-17 | ACS-R-051 | allow | none | artifact | EXTERNAL |
-| `vd57793caa251dec6` | reject | acs-f-8 | ACS-R-008 | deny | none | substrate | SELF |
+| `vc540b5eb806ea07c` | reject | acs-f-12 | ACS-R-043, ACS-R-044 | deny | not asserted | artifact | EXTERNAL |
+| `vc8e379465f4a677b` | reject | acs-f-15 | ACS-R-041 | deny | not asserted | artifact | EXTERNAL |
+| `vcfbc617d0218ad1a` | reject | acs-f-12 | ACS-R-036 | deny | not asserted | substrate | SELF |
+| `vd4d655cdc5da676f` | accept | acs-f-17 | ACS-R-050, ACS-R-054 | allow | not asserted | artifact | EXTERNAL |
+| `vd4df6378ea74234d` | accept | acs-f-17 | ACS-R-051 | allow | not asserted | artifact | EXTERNAL |
+| `vd57793caa251dec6` | reject | acs-f-8 | ACS-R-008 | deny | not asserted | substrate | SELF |
 | `vd67cd207a4eb6798` | reject | acs-f-1 | ACS-R-001 | deny | `SIGNATURE_INVALID` | substrate | PEER |
 | `vd8ac84523a5a038c` | reject | acs-f-10 | ACS-R-022, ACS-R-021 | deny | `SIGNATURE_INVALID` | artifact | EXTERNAL |
-| `vdea95625fa2056cf` | accept | acs-f-14 | ACS-R-033 | allow | none | substrate | SELF |
-| `ve0b07adbd63ede48` | accept | acs-f-17 | ACS-R-053 | allow | none | artifact | EXTERNAL |
-| `ve4913ae6f9a72e29` | reject | acs-f-14 | ACS-R-033 | deny | none | substrate | SELF |
+| `vdea95625fa2056cf` | accept | acs-f-14 | ACS-R-033 | allow | not asserted | substrate | SELF |
+| `ve0b07adbd63ede48` | accept | acs-f-17 | ACS-R-053 | allow | not asserted | artifact | EXTERNAL |
+| `ve4913ae6f9a72e29` | reject | acs-f-14 | ACS-R-033 | deny | not asserted | substrate | SELF |
 | `ve69abbaf514cc33f` | reject | acs-f-13 | ACS-R-026, ACS-R-027 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `ve7274cd800b89ef2` | reject | acs-f-16 | ACS-R-039, ACS-R-059 | deny | none | artifact | EXTERNAL |
-| `vee03180733ac4538` | indeterminate | acs-f-12 | ACS-R-044 | unmeasurable | none | artifact | EXTERNAL |
-| `veed45c58b4e3a95b` | reject | acs-f-16 | ACS-R-039 | deny | none | artifact | EXTERNAL |
+| `ve7274cd800b89ef2` | reject | acs-f-16 | ACS-R-039, ACS-R-059 | deny | not asserted | artifact | EXTERNAL |
+| `vee03180733ac4538` | indeterminate | acs-f-12 | ACS-R-044 | unmeasurable | not asserted | artifact | EXTERNAL |
+| `veed45c58b4e3a95b` | reject | acs-f-16 | ACS-R-039 | deny | not asserted | artifact | EXTERNAL |
 | `vef655ce2a45f618b` | reject | acs-f-2 | ACS-R-002 | deny | `REPLAY_DETECTED` | substrate | SELF |
-| `vf0317aa29d78b3c1` | accept | acs-f-17 | ACS-R-049, ACS-R-055, ACS-R-050 | allow | none | artifact | EXTERNAL |
-| `vf08f4493cfae6ceb` | reject | acs-f-17 | ACS-R-051 | deny | none | artifact | EXTERNAL |
-| `vf3679e6ac60fd250` | accept | acs-f-1 | ACS-R-013 | allow | none | substrate | SELF |
-| `vf53a8639739cf0ca` | accept | acs-f-16 | ACS-R-039 | allow | none | artifact | EXTERNAL |
-| `vf7ace2bd183ec0bf` | reject | acs-f-12 | ACS-R-035 | deny | none | substrate | SELF |
+| `vf0317aa29d78b3c1` | accept | acs-f-17 | ACS-R-049, ACS-R-055, ACS-R-050 | allow | not asserted | artifact | EXTERNAL |
+| `vf08f4493cfae6ceb` | reject | acs-f-17 | ACS-R-051 | deny | not asserted | artifact | EXTERNAL |
+| `vf3679e6ac60fd250` | accept | acs-f-1 | ACS-R-013 | allow | not asserted | substrate | SELF |
+| `vf53a8639739cf0ca` | accept | acs-f-16 | ACS-R-039 | allow | not asserted | artifact | EXTERNAL |
+| `vf7ace2bd183ec0bf` | reject | acs-f-12 | ACS-R-035 | deny | not asserted | substrate | SELF |
 | `vf80a81054d3f0862` | reject | acs-f-1 | ACS-R-020 | deny | `SIGNATURE_INVALID` | substrate | PEER |
-| `vfacb1e4dabfd1d80` | reject | acs-f-16 | ACS-R-057 | deny | none | artifact | PEER |
+| `vfacb1e4dabfd1d80` | reject | acs-f-16 | ACS-R-057 | deny | not asserted | artifact | PEER |
 | `vfcab242ddb38d018` | reject | acs-f-4 | ACS-R-012 | deny | `CAPABILITY_NOT_NEGOTIATED` | substrate | PEER |
-| `vfdd68340c2094962` | reject | acs-f-5 | ACS-R-005 | deny | none | substrate | SELF |
-| `vff6b4d46f470f2ad` | accept | acs-f-4 | ACS-R-011 | allow | none | substrate | PEER |
+| `vfdd68340c2094962` | reject | acs-f-5 | ACS-R-005 | deny | not asserted | substrate | SELF |
+| `vff6b4d46f470f2ad` | accept | acs-f-4 | ACS-R-011 | allow | not asserted | substrate | PEER |
 
 ## Member detail
 
