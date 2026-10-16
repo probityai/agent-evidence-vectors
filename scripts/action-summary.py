@@ -108,19 +108,15 @@ def main() -> int:
         "| vectors | pass | fail | conform | reason-parity mismatches | suite refusals |\n"
     )
     summary.append("| ---: | ---: | ---: | ---: | ---: | ---: |\n")
-    summary.append(
-        f"| {totals['vectors']} | {totals['pass']} | {totals['fail']} | {totals['conform']} "
-        f"| {totals['reasonParityMismatch']} | {totals['suiteRefusals']} |\n\n"
-    )
+    # Not every reader reports every column: the source-coverage contract has no
+    # pass or reason-parity count. A column the report does not carry is shown
+    # as absent rather than read as zero, and never stops the summary from
+    # being written; the verdict above does not depend on it.
+    columns = ("vectors", "pass", "fail", "conform", "reasonParityMismatch", "suiteRefusals")
+    cells = " | ".join(str(totals[c]) if c in totals else "n/a" for c in columns)
+    summary.append(f"| {cells} |\n\n")
 
-    failed = [row for row in report.get("vectors", []) if row.get("status") == "FAIL"]
-    if failed:
-        summary.append("| vector | kind | reasons |\n| --- | --- | --- |\n")
-        for row in failed[:MAX_ROWS]:
-            reasons = "; ".join(str(reason) for reason in row.get("reasons", []))[:300]
-            summary.append(f"| `{row.get('id')}` | {row.get('kind')} | {reasons} |\n")
-        if len(failed) > MAX_ROWS:
-            summary.append(f"\n{len(failed) - MAX_ROWS} more failing vectors are in the report.\n")
+    summary.extend(_failure_rows(report))
 
     notes = report.get("notes", [])
     if notes:
@@ -131,6 +127,29 @@ def main() -> int:
 
     _write(summary_path, summary, output_path, outputs)
     return 0
+
+
+def _failure_rows(report: dict[str, Any]) -> list[str]:
+    """Tables of the failing vectors and of the reader's own failures list."""
+    rows: list[str] = []
+    failed = [row for row in report.get("vectors", []) if row.get("status") == "FAIL"]
+    if failed:
+        rows.append("| vector | kind | reasons |\n| --- | --- | --- |\n")
+        for row in failed[:MAX_ROWS]:
+            reasons = "; ".join(str(reason) for reason in row.get("reasons", []))[:300]
+            rows.append(f"| `{row.get('id')}` | {row.get('kind')} | {reasons} |\n")
+        if len(failed) > MAX_ROWS:
+            rows.append(f"\n{len(failed) - MAX_ROWS} more failing vectors are in the report.\n")
+    # The source-coverage reader reports a list of failure strings instead of
+    # per-vector rows.
+    failures = report.get("failures") or []
+    if failures:
+        rows.append("| failure |\n| --- |\n")
+        for failure in failures[:MAX_ROWS]:
+            rows.append(f"| {str(failure)[:300]} |\n")
+        if len(failures) > MAX_ROWS:
+            rows.append(f"\n{len(failures) - MAX_ROWS} more failures are in the report.\n")
+    return rows
 
 
 def verifier_refusal(report: dict[str, Any]) -> str | None:
