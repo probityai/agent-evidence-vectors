@@ -23,6 +23,7 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Delegated authority after a revocation, a dispute or a re-registration | [vectors-delegation-lifecycle](../../vectors-delegation-lifecycle/README.md) | Revocation across a delegation tree and identifier links; `aee-verify` |
 | Hash of an agent's tool-call arguments | [vectors-agent-decision](../../vectors-agent-decision/README.md) | `args_hash` and `args_state` of the agent-decision v0.1 predicate proposed in in-toto/attestation#554; `aee-verify` |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
+| Whether a signed receipt chain is the whole chain | [vectors-receipt-chain-end](../../vectors-receipt-chain-end/README.md) | ActionReceipt v1 chains with session close, rotation endorsement and retained heads; packaged reader or named verifier |
 | TRACE Level 2 registry anchors | [vectors-trace-anchor](../../vectors-trace-anchor/README.md) | Registry Anchor Format v1 with trace-spec#533: entry binding, self-anchored receipts, lying receipt fields; packaged reader or named verifier |
 | A2A Agent Card canonicalization | [vectors-a2a-jcs-v01](../../vectors-a2a-jcs-v01/README.md) | RFC 8785 bytes and the signing input of a card, vendored from a2a-tck; packaged reader or named verifier |
 | Draft MCP verification requirements and threats | [vectors-mcp-owasp](../../vectors-mcp-owasp/INDEX.md) | MCPVS-1 to MCPVS-12 and MCPTM-1 to MCPTM-10, one registry; packaged reader or `aee-verify` |
@@ -61,6 +62,8 @@ These have their own inputs and policies.
 | [WS4 prior-witness candidate](../../interop/ws4-prior-witness-candidate/README.md) | Provenance fixtures for the proposed Section 7.4 integration, using an author-held key and consumer-stipulated pins. Fixture execution supplies neither outside witness custody nor WS4 conformance. |
 | [Framed action tuple](../../interop/action-tuple-framed-v1/README.md) | Separate unsigned profile with explicit UTF-8 byte lengths and a versioned domain. |
 | [A2A retained-field gate](../../interop/a2a-s3-retain-2026-10-01/README.md) | Thirteen source-pinned signature cases. Accepts signer-side dual signing; rejects verifier fallback that leaves an altered legacy URL unsigned. Its consumer policy is separate from A2A's canonicalization ruling. |
+| [JEP Core 0.7 reader](../../interop/jep-core07-reader/README.md) | Runs the pinned JEP fixtures without importing JEP's validator, adapter or runner, under a protocol committed before execution. Reports the validation, producer and acceptance assertions separately. |
+| [REMORA E7 reader](../../packaging/agent_evidence_vectors/remora_e7/README.md) | Checks the native `runtime-surface-e7-v0.1` fixtures against the producer-pinned package digest and computes each result without reading the case's expected answer. |
 
 ## Specification pins
 
