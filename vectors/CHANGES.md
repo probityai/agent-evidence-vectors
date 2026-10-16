@@ -34,10 +34,10 @@ byte-identically from the generators.
   vector is one edit to its parent's covering payload. The remaining 50 cannot
   express their declared fault in a single edit and stay declared in
   `docs/MULTI-MUTATION-VECTORS.json`. The finer measure, the conditions cited only
-  by refusals, is ratcheted against `docs/ACCEPT-ANCHOR-BASELINE.json`. That second
-  number is 35 of 78 today, up one because `aee-c-110` is new and only refusals
-  cite it: the accepting vectors all carry canonical payloads and satisfy it
-  without naming it.
+  by refusals, is ratcheted against `docs/ACCEPT-ANCHOR-BASELINE.json`.
+  That second number is 35 of 78 today, up one because `aee-c-110` is new and
+  only refusals cite it: the accepting vectors all carry canonical payloads and
+  satisfy it without naming it.
 - Corpus: **288 vectors (63 accept, 223 reject, 2 indeterminate)**, three more
   than suiteRevision 31. No existing vector file changes.
 - **What this revision does not exercise.** The alternate alphabet: no payload in
