@@ -1,4 +1,4 @@
-# Install, verify and cite Probity Vectors
+# Install, verify and cite Agent Evidence Vectors
 
 Use this page to choose an installation route or identify the corpus you ran. For the verifier interface, see the [verifier contract](docs/reference/verifier-contract.md).
 
