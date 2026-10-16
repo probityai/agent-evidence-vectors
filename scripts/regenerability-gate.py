@@ -113,6 +113,11 @@ GENERATORS = (
     # digests are taken over fixture trees the generator writes beside it, and
     # the generator refuses a member the checker does not answer as claimed.
     "vectors-w3c-intake/gen_vectors.py",
+    # The IETF agent-record drafts corpus. Its AIR records are ES256 under the
+    # deterministic nonce of RFC 6979 and its checkpoints and statements are
+    # Ed25519, so every case is byte-exact. It reads its vendored upstream vectors
+    # and builds its own manifest and index.
+    "vectors-ietf-agent-record-drafts/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -282,6 +287,9 @@ OWNED = (
     ("vectors-w3c-intake/trees", "**/*.*"),
     ("vectors-w3c-intake", "MANIFEST.json"),
     ("vectors-w3c-intake", "INDEX.md"),
+    ("vectors-ietf-agent-record-drafts/cases", "v*.json"),
+    ("vectors-ietf-agent-record-drafts", "MANIFEST.json"),
+    ("vectors-ietf-agent-record-drafts", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.
