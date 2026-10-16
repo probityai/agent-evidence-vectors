@@ -1608,6 +1608,59 @@ FROZEN: tuple[Frozen, ...] = (
         "figure posted to the W3C list on 7 October 2026. A published digest is "
         "never mutated, so its split must not track the current manifest.",
     ),
+    # The section 10 split of vectors-w3c-report at v0.18.1 and v0.18.2, before
+    # the prior-run binding members joined it. It is what the manifest at
+    # corpusDigest f9e58e62... says, and like the split above it must not follow
+    # the current one.
+    Frozen(
+        "vectors-w3c-report/README.md",
+        "the section 10 split at v0.18.1 and v0.18.2",
+        "the selection was 165 members, 41 to reject and 124 to",
+        "The split at an earlier corpusDigest, named in the sentence. A published "
+        "digest is never mutated, so its split must not track the current manifest.",
+    ),
+    Frozen(
+        "vectors-agent-audit-record/README.md",
+        "the first outside reader's posted score on the revision 01 corpus",
+        "It agreed on 47 of 47 members of v0.16.0, the revision 01",
+        "Mayur Agnihotri's run of his own reader against release v0.16.0, as he "
+        "posted it in ietf-wg-wimse/draft-ietf-wimse-aims#144 (comment "
+        "5934905211, 2026-10-01). The sentence names the release it was run "
+        "against, and the corpus growing since does not change what that run "
+        "scored; interop/wimse-agent-audit-record-reader-2026-10-01 pins it.",
+    ),
+    # ---- figures that came to collide with the audit record corpus when its
+    # Section 5.3 write-chain members took it to 71. Each is a row count of a
+    # table in the NIST AI 300-1 draft, a fixed property of that published PDF.
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row IDs the census reads in each of the four NIST AI 300-1 tables",
+        "157 IDs in the same order: 7, 8, 71 and 71",
+        "The number of row IDs in Tables 1, 2, A.2.1 and A.3.1 of the NIST AI "
+        "300-1 draft, read by extract.py. They are properties of that PDF and do "
+        "not move with any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row count of NIST AI 300-1 Table A.2.1",
+        "| Table A.2.1: Default AI dataset profile | A.2 | 71 |",
+        "The rows of Table A.2.1 of the NIST AI 300-1 draft, a property of that "
+        "PDF, not a count of any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row count of NIST AI 300-1 Table A.3.1",
+        "| Table A.3.1: Default AI model profile | A.3 | 71 |",
+        "The rows of Table A.3.1 of the NIST AI 300-1 draft, a property of that "
+        "PDF, not a count of any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/test_check_vectors.py",
+        "the Table A.2.1 row count a census mutation test feeds the checker",
+        "table-a.2.1 has 72 rows by its cell grid and 71 by extract.py",
+        "A test fixture describing a broken census of NIST AI 300-1 Table A.2.1, "
+        "whose real row count is 71. It does not move with any corpus.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not
@@ -1783,6 +1836,26 @@ FROZEN: tuple[Frozen, ...] = (
             "which lives in a2aproject/a2a-tck and not here, at corpus commit 97b0072. "
             "Its denominator is that corpus's size, not any corpus in this tree, and "
             "it records one past run of one commit."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record corpus size an outside reader ran",
+        "at release 0.16.0, 47 members, corpus digest",
+        (
+            "The size of vectors-agent-audit-record at release 0.16.0, pinned by its "
+            "corpus digest, as an outside reader ran it on 2026-10-01. It records one "
+            "past run of one release and does not track the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run score",
+        "47 of 47 agree: 9 accept members valid, 36 reject members malformed",
+        (
+            "The score an outside reader posted for vectors-agent-audit-record at "
+            "release 0.16.0. It records one past run of one release, and its figures "
+            "are that release's counts, not the corpus as it grows."
         ),
     ),
     Frozen(
