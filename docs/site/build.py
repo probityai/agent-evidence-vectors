@@ -401,7 +401,6 @@ def codes_body() -> str:
 
 
 PREDICATE_REGISTRY = REPO_ROOT / "spec" / "predicates" / "REGISTRY.md"
-PREDICATE_DOC = REPO_ROOT / "spec" / "predicates" / "observed-effect.md"
 
 # Every type URI under this host's /predicate/ prefix, read from the tracked
 # registry rather than typed here: a URI present in a signed payload and absent
@@ -416,6 +415,47 @@ def predicate_uris() -> list[tuple[str, str]]:
     if not found:
         raise SystemExit(f"FAIL: {PREDICATE_REGISTRY} registers no predicate type URI")
     return [(version, name) for version, name in found]
+
+
+# A "Defined here" entry names its normative document on a `- Document:` line.
+DEFINED_SECTION_RE = re.compile(r"^## Defined here$(.*?)^## ", re.MULTILINE | re.DOTALL)
+DOCUMENT_RE = re.compile(
+    r"^### `predicate/(v\d+)/([a-z0-9-]+)`$\s*^- Document: `([^`]+)`$", re.MULTILINE
+)
+
+
+def defined_documents() -> dict[tuple[str, str], Path]:
+    """The normative document of every type URI the registry says is defined here.
+
+    Read from the registry for the same reason the URI list is: the page a type
+    URI serves is decided in one tracked file. An entry under "Defined here"
+    that names no document, or names one that is not tracked, fails the build
+    rather than falling back to the registration page, because serving the
+    registry where a definition was promised is the 404 in a quieter form.
+    """
+    text = PREDICATE_REGISTRY.read_text(encoding="utf-8")
+    section = DEFINED_SECTION_RE.search(text)
+    if section is None:
+        raise SystemExit(f"FAIL: {PREDICATE_REGISTRY} has no 'Defined here' section")
+    names = PREDICATE_PATH_RE.findall(section.group(1))
+    docs = {(v, n): REPO_ROOT / rel for v, n, rel in DOCUMENT_RE.findall(section.group(1))}
+    for key in names:
+        if key not in docs or not docs[key].is_file():
+            raise SystemExit(
+                f"FAIL: predicate/{key[0]}/{key[1]} is defined here and names no document"
+            )
+    return docs
+
+
+def document_title(path: Path) -> str:
+    """The document's own first heading, without the registry's prefix."""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("# "):
+            heading = line[2:].strip()
+            if heading.startswith("Predicate type: "):
+                return heading.removeprefix("Predicate type: ") + " predicate"
+            return heading
+    raise SystemExit(f"FAIL: {path} has no first-level heading")
 
 
 def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict[Path, str]:
@@ -433,11 +473,14 @@ def predicate_pages(tag: str, routes: Mapping[Path, Path] | None = None) -> dict
     selected = published_routes() if routes is None else routes
     prefix = Path("predicate/index.html")
     registry = render_markdown(PREDICATE_REGISTRY, prefix, selected)
+    uris = predicate_uris()
+    defined = defined_documents()
     pages: dict[Path, str] = {prefix: page("Predicate types", registry, tag, prefix)}
-    for version, name in predicate_uris():
-        if name == "observed-effect":
-            source = PREDICATE_DOC
-            title = "Observed Effect predicate"
+    for version, name in uris:
+        document = defined.get((version, name))
+        if document is not None:
+            source = document
+            title = document_title(document)
         else:
             source = PREDICATE_REGISTRY
             title = f"{name} ({version}), registered"
