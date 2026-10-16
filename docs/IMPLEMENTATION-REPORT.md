@@ -69,7 +69,7 @@ digest is pinned and CI-checked (`scripts/spec-drift-gate.py`).
 |---|---|---|---|---|
 | Reference rail (`aee/`) | Go | spec author | reference corpus, suiteRevision 32 | **288 / 288** |
 | Reference rail (`packaging/run_vectors.py`) | Python | spec author | reference corpus, suiteRevision 32 | **288 / 288** |
-| `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`), suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570) and suiteRevision 28 (272), 2026-09-06 (aee-checker#21); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 and 31 not run by its author | **272 / 272** at suiteRevision 28, directed; **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 and 31 not run by author (see note 1) |
+| `Rul1an/aee-checker` | Rust | **independent, from-spec text alone** | author-run suiteRevision 6 (153), 2026-07-28 (aee-checker#4), suiteRevision 22 (232), 2026-08-03 (`reports/v0.7-RUN.md`), suiteRevision 25 (250), 2026-08-12 (in-toto/attestation#570) and suiteRevision 28 (272), 2026-09-06 (aee-checker#21); suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30, 31 and 32 not run by its author | **272 / 272** at suiteRevision 28, directed; **250 / 250** at suiteRevision 25, directed; **179 / 232** blind and **232 / 232** directed at suiteRevision 22; **153 / 153** at suiteRevision 6, directed; **125 / 125** blind at suiteRevision 1; suiteRevisions 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30, 31 and 32 not run by author (see note 1) |
 | `ts-verify` | TypeScript | spec author | its vendored set (285 vectors) + cross-rail parity tests | pass (see note 2) |
 | `py-verify` | Python | spec author | its vendored set (285 vectors) + parity tests | pass (see note 2) |
 | MCP server rail `_aee.py` | Python | spec author | its vendored set (285 vectors) + parity tests | pass (see note 2) |
@@ -254,7 +254,7 @@ directed 232/232 is not evidence about the determinacy of the text, and the blin
    particular the 138/138 was spec-diff-led and the 140/140 was not, and the two
    are not to be stated together as one result.
 
-   **The checker has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 or 31, so this report
+   **The checker has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30, 31 or 32, so this report
    publishes no score for it at any of them.** Three different things put a
    revision on that list, and only one of them is that the requirement went
    unexercised. Two of the five at the end of the list fall between that v0.7 run
