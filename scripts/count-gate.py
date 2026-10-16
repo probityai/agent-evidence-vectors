@@ -1617,6 +1617,38 @@ FROZEN: tuple[Frozen, ...] = (
         "against, and the corpus growing since does not change what that run "
         "scored; interop/wimse-agent-audit-record-reader-2026-10-01 pins it.",
     ),
+    # ---- figures that came to collide with the audit record corpus when its
+    # Section 5.3 write-chain members took it to 71. Each is a row count of a
+    # table in the NIST AI 300-1 draft, a fixed property of that published PDF.
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row IDs the census reads in each of the four NIST AI 300-1 tables",
+        "157 IDs in the same order: 7, 8, 71 and 71",
+        "The number of row IDs in Tables 1, 2, A.2.1 and A.3.1 of the NIST AI "
+        "300-1 draft, read by extract.py. They are properties of that PDF and do "
+        "not move with any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row count of NIST AI 300-1 Table A.2.1",
+        "| Table A.2.1: Default AI dataset profile | A.2 | 71 |",
+        "The rows of Table A.2.1 of the NIST AI 300-1 draft, a property of that "
+        "PDF, not a count of any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the row count of NIST AI 300-1 Table A.3.1",
+        "| Table A.3.1: Default AI model profile | A.3 | 71 |",
+        "The rows of Table A.3.1 of the NIST AI 300-1 draft, a property of that "
+        "PDF, not a count of any corpus.",
+    ),
+    Frozen(
+        "interop/nist-ai-300-1/test_check_vectors.py",
+        "the Table A.2.1 row count a census mutation test feeds the checker",
+        "table-a.2.1 has 72 rows by its cell grid and 71 by extract.py",
+        "A test fixture describing a broken census of NIST AI 300-1 Table A.2.1, "
+        "whose real row count is 71. It does not move with any corpus.",
+    ),
     # ---- four figures that came to collide with suiteRevision 29.
     # Each records something measured once, and none is a count of this corpus.
     # They are frozen rather than corrected because the corpus growing does not
