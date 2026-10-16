@@ -17,6 +17,8 @@ uv run --extra generators python vectors-ietf-agent-record-drafts/check_vectors.
 ```
 
 The generator rebuilds `cases/`, `MANIFEST.json` and `INDEX.md` byte for byte.
+The Go rail, `corpora/ietfagentrecord.go`, restates the same rules with its own
+CBOR decoder, and `aee-verify vectors-ietf-agent-record-drafts` runs it.
 The checker judges every member, re-reads every member under each draft's own
 procedure, decodes every CBOR item a second time with cbor2, and disables each
 rule in turn to show it is load-bearing. [INDEX.md](INDEX.md) lists every
