@@ -128,6 +128,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    agenticprocess,
     anchoredchain,
     auditrecord,
     changeadmission,
@@ -136,6 +137,7 @@ from agent_evidence_vectors import (
     observedeffect,
     receiptsignature,
     sourcecoverage,
+    traceanchor,
     w3cintake,
     w3creport,
 )
@@ -524,13 +526,14 @@ def _max_json_depth(text: str) -> int:
 
 
 def strict_b64decode(s: str) -> bytes:
-    """Decode standard base64, mirroring Go's base64.StdEncoding.Strict()
-    (aee/validity.go:108, aee/tier.go:93): reject non-alphabet characters
-    (validate=True) AND non-canonical encodings -- trailing bits in the final
-    quantum ("QUJ=" decodes to "AB" only under a lenient decoder), non-standard
-    padding -- that Python's b64decode would otherwise accept. A payload the Go
-    rail rejects as record-undecodable must not decode on the Python rail, or
-    the two rails disagree at the encoding layer. Raises binascii.Error /
+    """Decode standard base64 under the canonical-base64 rule, mirroring the
+    Go rail's decodeCarriedBase64 (aee/carried_base64.go): reject non-alphabet
+    characters, line breaks included (validate=True), AND non-canonical
+    encodings -- trailing bits in the final quantum ("QUJ=" decodes to "AB" only
+    under a lenient decoder), non-standard padding -- that Python's b64decode
+    would otherwise accept. A payload one rail rejects as record-undecodable
+    must not decode on the other, or the two rails disagree at the encoding
+    layer; they did on line breaks, which Go's Strict() decoder skips. Raises binascii.Error /
     ValueError on any rejection, matching the callers' existing except clauses."""
     raw = base64.b64decode(s, validate=True)
     if base64.b64encode(raw).decode("ascii") != s:
@@ -3752,8 +3755,10 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        traceanchor.SUITE,
         gradefloor.SUITE,
         changeadmission.SUITE,
+        agenticprocess.SUITE,
         a2ajcs.SUITE,
         mcpowasp.SUITE,
     )
@@ -3763,8 +3768,10 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        traceanchor.SUITE: traceanchor.run,
         gradefloor.SUITE: gradefloor.run,
         changeadmission.SUITE: changeadmission.run,
+        agenticprocess.SUITE: agenticprocess.run,
         sourcecoverage.SUITE: sourcecoverage.run_or_refuse,
         a2ajcs.SUITE: a2ajcs.run,
     }.get(suite)

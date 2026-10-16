@@ -1,4 +1,5 @@
 {
+  "cites": "a session sealed off the second head after the Guardian's signed response had published a third. The seal drops a witnessed step, and a decision-failure count derived from the sealed total then misses it. Under the HMAC baseline the Observed Agent holds the session key and the heads already published to it, so it can check the seal without the Guardian's account and the member is PEER. It cannot prove to a third party which side signed, because the Guardian can re-sign a shorter chain with the same key.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -39,6 +40,28 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-006",
     "ACS-R-021"

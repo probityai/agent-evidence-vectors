@@ -1,4 +1,5 @@
 {
+  "cites": "an HMAC-SHA256 chain head the Guardian did sign, presented to a third party as evidence that this Guardian issued it. The member rejects the external claim, not the signature: the MAC verifies, and section 8.6 says proving to a third party that a specific Guardian issued a specific head requires ACS-Crypto. No registry code names a refused claim over a valid signature, so none is asserted. The member is EXTERNAL because the algorithm and the claim both sit in the presented bytes, so a party outside the trust domain can refuse it without the Guardian's account and without holding the key.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -42,6 +43,18 @@
     "signed_by": "guardian",
     "signed_with": "session-k1"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-021"
   ],

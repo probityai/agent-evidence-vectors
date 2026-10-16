@@ -1,4 +1,5 @@
 {
+  "cites": "the same envelope requesting a capability the intent carries. It is a mandatory allow, so a deployment that denies everything scores zero on this family rather than full marks.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -46,6 +47,18 @@
     },
     "signature_state": "VALID"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-013",
+      "line": 276,
+      "sentence": "a Guardian operating under `scope_mode: strict` MUST NOT honor extensions that would add capabilities the deployment policy forbids in strict mode",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-013"
   ],

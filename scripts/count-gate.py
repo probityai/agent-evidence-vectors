@@ -1040,6 +1040,17 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The W3C report corpus's section 10 selection. Its index is rendered from
+    # the corpus manifest by the generator, and the regenerability gate refuses
+    # an index the generator would not write, so each figure in this sentence is
+    # the manifest's own count. It was reported only when the ACS-Core total
+    # walked onto its accept count.
+    Delegated(
+        "vectors-w3c-report/INDEX.md",
+        "the section 10 selection's reject and accept counts",
+        r"reject and \d+ to accept",
+        "vectors-w3c-report/gen_vectors.py",
+    ),
     # The AAE v1.4.0 binding package. Its integers are vector identifiers
     # (aae-enforce-vector-25 and its file prefixes), the size of the pinned
     # upstream set, the run's printed tallies, and the draft's resource bounds.
@@ -1084,6 +1095,16 @@ DELEGATED: tuple[Delegated, ...] = (
           r"matches in \d+ of \d+ once",
           r"in \d+ of \d+ hops",
       )),
+    # The TR-ANC-002 comparison table: each row's agreement count is the corpus
+    # size less the pin's recorded disagreements. test_record.py derives every
+    # row from pins.json and the manifest, and compare.py holds each pin's
+    # record to the live TRACE sources.
+    Delegated(
+        "interop/trace-anchor-tr-anc/README.md",
+        "TR-ANC-002 agreement per pinned TRACE commit",
+        r"\| \d+ of \d+ \| \d+ \|",
+        "interop/trace-anchor-tr-anc/test_record.py",
+    ),
     # The AgentID action_ref v2 recompute prints its own tallies; the reader
     # exits nonzero unless every upstream check and domain case holds, and
     # test_reader.py asserts the two totals.
@@ -1314,11 +1335,33 @@ FROZEN: tuple[Frozen, ...] = (
         'records that report as posted and must not track this corpus.',
     ),
     Frozen(
+        'docs/VERIFIERS.md',
+        "agmi's corpus-drift job result, as its CI reported it",
+        '14 of 14 answered, 0 disagreements',
+        'The result an outside verifier\'s own CI job reported for the anchored-chain cases at the '
+        'run the row links. It records that run and must not track this corpus.',
+    ),
+    Frozen(
         'RUNS.md',
         "an outside author's reported signing, verify and negative-control results",
         '57/57, verify 57/57 and negative control 53/57',
         'Results an outside implementer reported for a past run against his own case set. They '
         'record that report as posted and must not track this corpus.',
+    ),
+    Frozen(
+        'docs/runs/observed-effect-verdict-words.md',
+        "an outside reader's rerun heading, as reported",
+        'Rerun at efe2dd9: 46 of 46',
+        'The verdict-word result an outside implementer reported for one rerun of his reader at '
+        'efe2dd9 against the observed-effect manifest. It records that run and must not track this '
+        'corpus.',
+    ),
+    Frozen(
+        'docs/runs/observed-effect-verdict-words.md',
+        "an outside reader's rerun outcomes, as reported",
+        '12 of 12 accepts, 46 of 46 rejects',
+        'The outcomes an outside implementer reported for the same rerun at efe2dd9. They record '
+        'that run and must not track this corpus.',
     ),
     # ---- integers that equal a figure of this corpus at suiteRevision 31 and
     # count something else: a file count, a date, a byte length, a pull request
@@ -2720,6 +2763,14 @@ MASKS = tuple(
         # measures and never one written as a bare quantity: no count this
         # repository publishes is spelled `447 bytes`.
         r"\b\d+[\s-]?bytes?\b",
+        # The same length with one word naming what fills it. RFC 5869's default
+        # salt is quoted in the ACS 0.1.4 corpus as `a string of 32 zero bytes`,
+        # and the word between number and unit was all that kept the mask above
+        # from reading it as a length: it was reported as the anchor-stream
+        # total five times across the index and the generator. The filler words
+        # are listed rather than matched as any word, so `41 reject bytes` or any
+        # other noun phrase is still read.
+        r"\b\d+\s+(?:zero|null|NUL|random|raw)[\s-]bytes?\b",
         # A line number, spelled out. Same family as the two above: the digit
         # names a POSITION in a file and counts nothing, and it stayed invisible
         # only while no published quantity equalled it. The reject count reached

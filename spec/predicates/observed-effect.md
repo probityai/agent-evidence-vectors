@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.6.1
+Version: 0.6.2
 
 Predicate Name: Observed Effect
 
@@ -265,9 +265,12 @@ statement did not carry.
 A verifier proceeds in two stages, and the sequencing is informative while the
 gates themselves are normative. Stage one is byte-pure and every step is a
 consumption precondition: statement well-formedness including the closed
-vocabularies, the I-JSON integer bound, the timestamp grammar, the predicate
-type, the subject binding and the path forms; the `mutation` coherence recompute;
-the write chain and the read-binding integrity rules; the commitment digest
+vocabularies, the I-JSON integer bound, the timestamp grammar, the interval
+order (`openedAt` strictly before `sealedAt`, and `issuedAt` not before
+`sealedAt`), the predicate type, the subject binding and the path forms; the
+`mutation` coherence recompute; the write chain and the read-binding integrity
+rules, including the `rangeDigest` recompute against a blob the consumer holds;
+the commitment digest
 recompute and the spelling of every key identifier and of `priorCommitment.sig`;
 and the self-recompute of any `dualValues` fact the statement determines. Stage
 two judges a well-formed statement's claims: the envelope signature, then the
@@ -1051,6 +1054,15 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.6.2 names two stage-one gates that 0.6.1 left to be placed by elimination:
+the interval order (`openedAt` strictly before `sealedAt`, and `issuedAt` not
+before `sealedAt`) and the `rangeDigest` recompute against a blob the consumer
+holds. Both were already stage one in every verifier and `malformed` in every
+corpus member. A reader written from the 0.6.1 text placed both correctly, but
+only by ruling out the stage-two list, and the range-digest recompute was the one
+stage-one gate that needs bytes the statement does not carry (#29). No verdict
+changes.
 
 0.6.1 names the verdict word for every refusal and changes no verdict. The
 document fixed the word by stage only in its reference verifiers: many of its

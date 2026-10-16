@@ -1,0 +1,885 @@
+{
+  "corpusDigest": "9aad96e66aa811b5b582f492289e9b1f5abe1de1b35d33f12c6a913883c86d05",
+  "payloadType": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
+  "registryKeyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
+  "relyingPartyKeyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
+  "suite": "delegation-lifecycle/v1",
+  "vectors": [
+    {
+      "description": "The worker presents its grant and the planner's grant above it, and nothing is revoked.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "case.json": "dc358c657c6525b91579a6939693efcac619820e3623f6e657d992ee7724dd0d",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-chain-valid",
+      "path": "cases/tree-chain-valid",
+      "rule": "A chain whose every grant verifies, links to its parent and is unrevoked at observed_at, held by its last delegate, carries authority.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The organisation revokes the planner's grant at 12:00 and the worker presents its child grant at 13:00.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-parent-revoked-child-presented",
+      "path": "cases/tree-parent-revoked-child-presented",
+      "rule": "A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it.",
+      "set": "delegation-tree",
+      "twin": "tree-child-presented-before-revocation"
+    },
+    {
+      "description": "The same revocation, and the relying party observed the worker's presentation at 11:00, before it took effect.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "00d4d75b71acebdbbf5245d58ac58d80d70f273b1e34c8abc3db8fa228c960d1"
+      },
+      "id": "tree-child-presented-before-revocation",
+      "path": "cases/tree-child-presented-before-revocation",
+      "rule": "A revocation applies to a presentation the relying party observed at or after the revocation's effective_at; observed_at comes from the relying party's signature, never from the presenter.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The planner revokes the worker's grant and the sibling presents its own grant from the same planner.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-worker.json": "0a378aad09df5f2fa7aa74fc3d7875bfe84a235c75b74985e64e4d570fa0afeb",
+        "case.json": "9af797af77afd8b38d1eee63ae0b676fb9bfc75664cb0dd745dabd64e5a981ac",
+        "presentation.json": "e99d7c9502394fe1dead1629772e7c1bb8bb94819f0ec56322f6faac8ca3fb06"
+      },
+      "id": "tree-sibling-of-revoked-child",
+      "path": "cases/tree-sibling-of-revoked-child",
+      "rule": "A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The organisation revokes the planner's grant and the sub-worker, two levels below, presents its chain.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "15a938dd33c2b21f793d770cc84ba067edcfac1e444d9441398495e043f6662e"
+      },
+      "id": "tree-grandchild-under-revoked-parent",
+      "path": "cases/tree-grandchild-under-revoked-parent",
+      "rule": "A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The planner revokes the worker's grant and the planner presents its own grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-worker.json": "0a378aad09df5f2fa7aa74fc3d7875bfe84a235c75b74985e64e4d570fa0afeb",
+        "case.json": "9af797af77afd8b38d1eee63ae0b676fb9bfc75664cb0dd745dabd64e5a981ac",
+        "presentation.json": "9ccdc5292e8a3a6537d0a9b6d2cfc5de52160c24c5e410c05c7c56cc92e988c8"
+      },
+      "id": "tree-child-revocation-keeps-parent",
+      "path": "cases/tree-child-revocation-keeps-parent",
+      "rule": "A presented chain fails when any grant in it is revoked, so a revocation cuts off every grant beneath the revoked one and nothing beside or above it.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "A revocation issued at 14:00 states it took effect at 10:00, and the presentation was observed at 13:00.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "16f417029751f545e3cfca01ef72894a879b0f8fa8172b8cbf4c75818de21548",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-revocation-backdated",
+      "path": "cases/tree-revocation-backdated",
+      "rule": "Proposed: a revocation applies from its stated effective_at even when it was issued later, as an X.509 invalidity date does; this favours containment over a relying party's reliance on the earlier state.",
+      "set": "delegation-tree",
+      "twin": "tree-child-presented-before-revocation"
+    },
+    {
+      "description": "The sibling signs a revocation of the worker's grant and the worker presents.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-worker.json": "a0409b3ff34a9e8f40cf7d02c4964a171454b5c7ac47a693a7d16f63c4120bc1",
+        "case.json": "9af797af77afd8b38d1eee63ae0b676fb9bfc75664cb0dd745dabd64e5a981ac",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-revocation-without-standing",
+      "path": "cases/tree-revocation-without-standing",
+      "rule": "Only the issuer of the revoked grant, or an issuer above it in the presented chain, has standing to revoke it; a revocation signed by anyone else is ignored.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The organisation revokes the planner's grant without stating grounds and the worker presents.",
+      "expected": {
+        "decision": "reject",
+        "reason": "revocation_incomplete"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "47485a54006f1eca6329ca8a9ee896363ddb48a9c6f62f9d91e22b27f2dd62a4",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-revocation-incomplete",
+      "path": "cases/tree-revocation-incomplete",
+      "rule": "Proposed: a revocation from a principal with standing that states no grounds still stops the authority, and the reason names the missing record field.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The worker, cut off by the revocation of the planner's grant, files a dispute at 12:30 and presents at 13:00 with no resolution.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked_dispute_open"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "1cd2632fbbada72a358f71e06b455a836d69b1945b7103648ff086fb5fc6ae44",
+        "case.json": "420cccaa370abe3e94e61f621a2e2a94ca457a8678716475978cf53065c0610d",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-dispute-open",
+      "path": "cases/tree-dispute-open",
+      "rule": "Proposed: a dispute filed by an affected principal, including one cut off by the cascade, does not suspend the revocation; until a resolution signed by a principal with standing exists, the reason says the dispute is open.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The planner disputes, the organisation resolves the dispute in its favour and issues a replacement grant, and the planner presents the replacement.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "bd80730019de41b6ab8ff1c9af67cb724e803fd3c6eb49aea0c3aab6fc6a7905",
+        "12-grant-g-planner-2.json": "c225e254882d7216debf2779c239164be567c2fbfc7797f5bf3c2be4b7920fd9",
+        "13-resolution-d-planner-outcome.json": "7aaca27dc927d17e83111dc81fc269b63fdd482135c39bdb9b6235dc5bc699ee",
+        "case.json": "280419afd5e9b47787df35103c95af7f41890afa4be6e9941870d474964ef5be",
+        "presentation.json": "0cd2c0547f971aa66054d0e4cb80166dbceb2034af0732744914d6e5dcbdc340"
+      },
+      "id": "tree-dispute-restored-by-new-grant",
+      "path": "cases/tree-dispute-restored-by-new-grant",
+      "rule": "A revocation is irreversible; a restoration is a new grant, which carries authority from its own issuance and does not revive the revoked grant.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "After the restoration the planner presents the old, revoked grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "bd80730019de41b6ab8ff1c9af67cb724e803fd3c6eb49aea0c3aab6fc6a7905",
+        "12-grant-g-planner-2.json": "c225e254882d7216debf2779c239164be567c2fbfc7797f5bf3c2be4b7920fd9",
+        "13-resolution-d-planner-outcome.json": "7aaca27dc927d17e83111dc81fc269b63fdd482135c39bdb9b6235dc5bc699ee",
+        "case.json": "280419afd5e9b47787df35103c95af7f41890afa4be6e9941870d474964ef5be",
+        "presentation.json": "9ccdc5292e8a3a6537d0a9b6d2cfc5de52160c24c5e410c05c7c56cc92e988c8"
+      },
+      "id": "tree-revoked-grant-after-restoration",
+      "path": "cases/tree-revoked-grant-after-restoration",
+      "rule": "A revocation is irreversible, so the revoked grant stays revoked after the dispute is resolved in the principal's favour.",
+      "set": "delegation-tree",
+      "twin": "tree-dispute-restored-by-new-grant"
+    },
+    {
+      "description": "After the restoration the worker presents its old grant under the planner's replacement grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "chain_broken"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "bd80730019de41b6ab8ff1c9af67cb724e803fd3c6eb49aea0c3aab6fc6a7905",
+        "12-grant-g-planner-2.json": "c225e254882d7216debf2779c239164be567c2fbfc7797f5bf3c2be4b7920fd9",
+        "13-resolution-d-planner-outcome.json": "7aaca27dc927d17e83111dc81fc269b63fdd482135c39bdb9b6235dc5bc699ee",
+        "case.json": "280419afd5e9b47787df35103c95af7f41890afa4be6e9941870d474964ef5be",
+        "presentation.json": "0f776c7c16fbbf6df091ebb630bd4fdb6e24fb62b8a87b550e1d9f3c4f964865"
+      },
+      "id": "tree-cascade-victim-after-restoration",
+      "path": "cases/tree-cascade-victim-after-restoration",
+      "rule": "Proposed: a restoration does not cascade; every principal cut off by the revocation needs its own grant re-issued under the replacement, because its old grant still names the revoked parent.",
+      "set": "delegation-tree",
+      "twin": "tree-cascade-victim-reissued"
+    },
+    {
+      "description": "The planner re-issues the worker's grant under the replacement and the worker presents the new chain.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "bd80730019de41b6ab8ff1c9af67cb724e803fd3c6eb49aea0c3aab6fc6a7905",
+        "12-grant-g-planner-2.json": "c225e254882d7216debf2779c239164be567c2fbfc7797f5bf3c2be4b7920fd9",
+        "13-resolution-d-planner-outcome.json": "7aaca27dc927d17e83111dc81fc269b63fdd482135c39bdb9b6235dc5bc699ee",
+        "14-grant-g-worker-2.json": "ed9cf102e7b85e0d593a8751382a6734ea1827268837b1438d616a4caba93cf2",
+        "case.json": "1317079b5eac03c0086279c9825fe80930913c99d639e5d2cd12d44b3cb10647",
+        "presentation.json": "020af124a60855ee8620ea39d650c6ca27dc400d5d19b010c0c7268ce6d6ece2"
+      },
+      "id": "tree-cascade-victim-reissued",
+      "path": "cases/tree-cascade-victim-reissued",
+      "rule": "A grant re-issued under the replacement grant forms a chain of its own and carries authority.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The organisation resolves the worker's dispute by confirming the revocation, and the worker presents.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "1cd2632fbbada72a358f71e06b455a836d69b1945b7103648ff086fb5fc6ae44",
+        "12-resolution-d-planner-outcome.json": "9ec1e3916b3c5ec247a23952927c3a6cbd5370bb3b3747a687462f5fe02e7ad5",
+        "case.json": "2e0dfbc597337fdda84ba8b7f47f470f7713a81ec27f5ab05043b814ef163cc5",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-dispute-confirmed",
+      "path": "cases/tree-dispute-confirmed",
+      "rule": "A resolution that confirms the revocation closes the dispute, and the revocation stands.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The worker signs a resolution of its own dispute that restores the grant, and presents.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked_dispute_open"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "d176474c442a171e46be48be7d4e0aac7f1ec1905c8d6494923a27f185d501a8",
+        "11-dispute-d-planner.json": "1cd2632fbbada72a358f71e06b455a836d69b1945b7103648ff086fb5fc6ae44",
+        "12-resolution-d-planner-outcome.json": "0ed86de48f0d6529e125d1c53f59cb3fd03d3863954cd3fba512035c3006af9d",
+        "case.json": "2e0dfbc597337fdda84ba8b7f47f470f7713a81ec27f5ab05043b814ef163cc5",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-resolution-without-standing",
+      "path": "cases/tree-resolution-without-standing",
+      "rule": "Proposed: a resolution counts only when its signer has standing to revoke the grant, so a disputing principal cannot resolve its own dispute.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The planner revokes the worker's grant from 12:00, the organisation revokes it from 15:00, and the worker presents at 13:00.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-worker-planner.json": "2c718df7308199c8985b1fdbcbe9f50b8f75801e885ba22710c6a1700d1cf40f",
+        "11-revocation-r-worker-org.json": "ff5080312f499faf97063464f30e7d89f64b45ecb162591765d971d182f2c153",
+        "case.json": "e64474d2a13e256bb2bca6cba87fb9952ea1093075d0c6d9254c8dd0aa2116eb",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-conflicting-revocations",
+      "path": "cases/tree-conflicting-revocations",
+      "rule": "When several revocations with standing name one grant, the earliest effective_at applies.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The worker's grant was edited after the planner signed it.",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid:grant"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "1b7f28be6f8da63f39be8bd728bee798e9b390e2c4019f0db773ed1f27d4002e",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "case.json": "dc358c657c6525b91579a6939693efcac619820e3623f6e657d992ee7724dd0d",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-grant-tampered",
+      "path": "cases/tree-grant-tampered",
+      "rule": "A record counts only when its signature verifies under the key the registry bound to its signer; a grant on the presented chain that fails is named.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "A revocation of the planner's grant names the organisation and is signed by a key the registry never bound to it.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-revocation-r-planner.json": "a432629a1e81ca737cb41716b21323f0011de4742fc766fec1be35d712c7be2d",
+        "case.json": "f1f7cb9662b1ae3e527b63f62bebc0e6b9dbc3f6a748cfc23f8d1e50cf94514a",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-revocation-forged",
+      "path": "cases/tree-revocation-forged",
+      "rule": "A revocation whose signature does not verify counts as absent, so a forged revocation stops nothing.",
+      "set": "delegation-tree"
+    },
+    {
+      "description": "The worker signs its presentation and the relying party does not.",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid:presentation"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "case.json": "dc358c657c6525b91579a6939693efcac619820e3623f6e657d992ee7724dd0d",
+        "presentation.json": "99d7aa0235d19752e1b2c250f0eef5d1ae6def95e5ccb17967f4822df3bcbcbc"
+      },
+      "id": "tree-presentation-unattested",
+      "path": "cases/tree-presentation-unattested",
+      "rule": "A presentation needs the presenter's signature and the relying party's signature; the relying party's signature is what fixes observed_at.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The sub-worker presents its grant directly under the planner's grant, leaving out the worker's.",
+      "expected": {
+        "decision": "reject",
+        "reason": "chain_broken"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "case.json": "dc358c657c6525b91579a6939693efcac619820e3623f6e657d992ee7724dd0d",
+        "presentation.json": "0e75851312859f58ad6e701b4ea2dba64b79920b37588be20abdd810112da0c5"
+      },
+      "id": "tree-chain-skips-a-grant",
+      "path": "cases/tree-chain-skips-a-grant",
+      "rule": "Each grant's parent is the grant before it in the chain and its issuer is that grant's delegate.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "The planner issues a top-level grant to the worker on its own authority.",
+      "expected": {
+        "decision": "reject",
+        "reason": "chain_broken"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "ab77dfd6168ab1681d677ad1b36142056fc2b9d9b52f096294448cb38b79edbc",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "10-grant-g-self.json": "12fc0ef8ff930b234358349285d011fb7848dfa1bc16ba06249e43e7dc3fabf3",
+        "case.json": "bbca1bf0f3cce5b684d4448fe406623305d72fc8ccae84bba645880ea55541d3",
+        "presentation.json": "ae3f3b4a4e6e67e445abbd8d1717ce4a4fc2c4ca5e83b60841365c3dcb89f08b"
+      },
+      "id": "tree-root-not-trusted",
+      "path": "cases/tree-root-not-trusted",
+      "rule": "The first grant of a chain must be issued by a root the policy trusts.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "One record file in the set is not JSON.",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-planner.json": "64d2bb58315c68c3bb094937128f4b8228bfa486bdcec5ab0a845ccedf8d580f",
+        "03-registration-worker.json": "07776ce21fb94adc150b36484e3bf7cebb2c2d53c68233609680d1841dbfddfe",
+        "04-registration-sub-worker.json": "ae16a3aa1b8cd1d51e326b6974b3e85404d4f55b7e2f7fca5f04e2a55221a42f",
+        "05-registration-sibling.json": "58d73b2ee61b0727d41dd29cbba953caae5481169be95c857d9010fa4cb41cc9",
+        "06-grant-g-planner.json": "240d9d332a071cf98c7dbc2b0e3f35021b9143fb04ca3be756f78ba77bb74bd5",
+        "07-grant-g-worker.json": "7f7a221fb26562e207434eaf9dc4bd27bbb81be2b4e021c2505a79554030c0b0",
+        "08-grant-g-sibling.json": "6c929b2d8f11bcc71ba080473377db524d77301b51de17e0f4fecdd1c0f8f65f",
+        "09-grant-g-sub.json": "ce05544b30cefdac6bc0040bab0d2e7952606d827cfd4626a3b21b469ff82002",
+        "case.json": "dc358c657c6525b91579a6939693efcac619820e3623f6e657d992ee7724dd0d",
+        "presentation.json": "59037a08fc60c3daeefc86d48545e72383bccd17e9c7d6a789551bde8c8bfef9"
+      },
+      "id": "tree-record-not-json",
+      "path": "cases/tree-record-not-json",
+      "rule": "A record that is not a DSSE envelope over a JSON object of a known type gives no verdict.",
+      "set": "delegation-tree",
+      "twin": "tree-chain-valid"
+    },
+    {
+      "description": "agent-v1 is re-registered as agent-v2 with a link signed by both keys and the registry, agent-v1 is retired, and agent-v2 presents agent-v1's grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_via_link"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "82ff84c7e57805a8e9a7436a04416b12569d561ce556cdfa3a52bfdaa6ca5a67",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-linked-successor",
+      "path": "cases/rereg-linked-successor",
+      "rule": "A grant held by an old identifier is held by its successor when a link names old and new and carries signatures by the old identifier's key, the new identifier's key and the registry.",
+      "set": "re-registration"
+    },
+    {
+      "description": "agent-v2 presents agent-v1's grant and no link names them.",
+      "expected": {
+        "decision": "reject",
+        "reason": "presenter_not_delegate"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "64fe7742f94e56d79b92545d9499cc3c0ffb4716b7ef35f054898fc94ce7d87b",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-no-link",
+      "path": "cases/rereg-no-link",
+      "rule": "Without a link, a new identifier holds nothing an old identifier held.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "The link's agent-v1 signature is made with agent-v2's key.",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid:link"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "caccf75ab76700ed1fa4b5e7c464beffe572c2a330882b4beb1f34e134701edb",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "82ff84c7e57805a8e9a7436a04416b12569d561ce556cdfa3a52bfdaa6ca5a67",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-link-signed-by-wrong-key",
+      "path": "cases/rereg-link-signed-by-wrong-key",
+      "rule": "The old identifier's signature on a link must verify under the key the registry bound to the old identifier; the new identifier cannot sign for it.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "The link carries both agents' signatures and not the registry's.",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid:link"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "2db8eec77d2d5364cdaa59c57247f0a17b710ab495746ef3f9f8984e00217476",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "82ff84c7e57805a8e9a7436a04416b12569d561ce556cdfa3a52bfdaa6ca5a67",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-link-not-registry-attested",
+      "path": "cases/rereg-link-not-registry-attested",
+      "rule": "A link needs the registry's signature, because that signature is what makes linked_at trustworthy.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "agent-v1 and a second agent, agent-b-v1, are both linked to agent-v2, which presents agent-v1's grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "link_conflict"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "07-registration-agent-b-v1.json": "f3e48b6d66b5ca39d31fa3c1250246c230313aefd12fe7c34d69bab2b8dee20e",
+        "08-link-l-b1-v2.json": "b4e13b85b1392108856016d8767cd54c6f090ea82583bd7a08b212aeafbdc29f",
+        "case.json": "14cd7dcb0a12faefe0956ad9589ec38cd87acdc48ff4c083851070f2e48f95f2",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-two-old-one-new",
+      "path": "cases/rereg-two-old-one-new",
+      "rule": "Proposed: a link is one to one; two old identifiers linked to one new one would merge two principals' authority, which needs a new grant, so it is rejected.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "agent-v1 is linked to agent-v2 and to agent-v2b, and agent-v2 presents.",
+      "expected": {
+        "decision": "reject",
+        "reason": "link_conflict"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "07-registration-agent-v2b.json": "6a5fa8abf6f274d367a827ee9d04f4d8f510735ca3854efd040050d30b7f870d",
+        "08-link-l-v1-v2b.json": "16d84c5af8b1ab435b0585a3ce5dcd626f76c040cdd8f603b36ee9def516a2aa",
+        "case.json": "0bb46f6c96360f92f9030aa992e5f04bcf0971ea456c988eac2567a1adcbd9f5",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-one-old-two-new",
+      "path": "cases/rereg-one-old-two-new",
+      "rule": "Proposed: one old identifier linked to two new ones leaves the successor ambiguous, so it is rejected.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "The registry revokes agent-v1 for key compromise at 10:05 and a link to agent-v2 is made at 10:15.",
+      "expected": {
+        "decision": "reject",
+        "reason": "link_old_inactive"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-identifier-revocation-agent-v1.json": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6",
+        "06-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "case.json": "a1ef5f19724732d0ff17594a8f42414460cdb9823e89b2cb988359d6f8f74e0e",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-link-after-old-revoked",
+      "path": "cases/rereg-link-after-old-revoked",
+      "rule": "A link counts only when the registry had neither retired nor revoked the old identifier at linked_at, so a key revoked for compromise cannot pass its authority on.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "agent-v1 is linked to agent-v2, agent-v2 to agent-v3, and agent-v3 presents agent-v1's grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_via_link"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "07-registration-agent-v3.json": "c71b6df9d29756668a3401035022a50ea68b2832ef592a8f4fd2b2eb92412174",
+        "08-link-l-v2-v3.json": "7ae9a8db7bac28d12e3e4e0346c257194fe8387e3fffc8523baf2a9a14707497",
+        "09-retirement-agent-v2.json": "c7348910e5b8e2ee48a9ec9f8401e1abfa82655482108d504866ce4321eefee8",
+        "case.json": "4017d582ebad07169bc4bd79e70e5b79f320118010f86b8c54aa5bfccd7567d4",
+        "presentation.json": "835189f06b0ebf1761d00649e2637536f1f93e0abdd7ea420d54457994c39300"
+      },
+      "id": "rereg-chain-old-middle-new",
+      "path": "cases/rereg-chain-old-middle-new",
+      "rule": "Links are followed one hop at a time, and every hop is checked as a link of its own.",
+      "set": "re-registration"
+    },
+    {
+      "description": "The registry revokes agent-v2 before the agent-v2 to agent-v3 link is made, and agent-v3 presents.",
+      "expected": {
+        "decision": "reject",
+        "reason": "link_old_inactive"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "07-registration-agent-v3.json": "c71b6df9d29756668a3401035022a50ea68b2832ef592a8f4fd2b2eb92412174",
+        "08-identifier-revocation-agent-v2.json": "4829d5e9a3e5158132fe5525fbd517849a93765d14d87b44f2d83a786266e731",
+        "09-link-l-v2-v3.json": "7ae9a8db7bac28d12e3e4e0346c257194fe8387e3fffc8523baf2a9a14707497",
+        "10-retirement-agent-v2.json": "c7348910e5b8e2ee48a9ec9f8401e1abfa82655482108d504866ce4321eefee8",
+        "case.json": "827b83a0ec13a319f3582ac0ae91cc3b9c9d4a75f46d9d6da3fbc7feec05bae2",
+        "presentation.json": "835189f06b0ebf1761d00649e2637536f1f93e0abdd7ea420d54457994c39300"
+      },
+      "id": "rereg-chain-middle-revoked",
+      "path": "cases/rereg-chain-middle-revoked",
+      "rule": "Links are followed one hop at a time, and every hop is checked as a link of its own.",
+      "set": "re-registration",
+      "twin": "rereg-chain-old-middle-new"
+    },
+    {
+      "description": "agent-v1 presents its own grant after the registry retired it.",
+      "expected": {
+        "decision": "reject",
+        "reason": "presenter_inactive"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "82ff84c7e57805a8e9a7436a04416b12569d561ce556cdfa3a52bfdaa6ca5a67",
+        "presentation.json": "4052e6fbcc0de993afb8ec60d066ca5a1591f715ed00deb649f75c62662b4658"
+      },
+      "id": "rereg-old-presents-after-retirement",
+      "path": "cases/rereg-old-presents-after-retirement",
+      "rule": "A presenter whose identifier the registry retired or revoked at or before observed_at holds nothing.",
+      "set": "re-registration",
+      "twin": "rereg-old-presents-before-retirement"
+    },
+    {
+      "description": "agent-v1 presents its own grant after the link and before its retirement.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "case.json": "82ff84c7e57805a8e9a7436a04416b12569d561ce556cdfa3a52bfdaa6ca5a67",
+        "presentation.json": "0bd6abbd2f6310342a0b3f100a857876b0432b1fd77f51fa32c0d2f197de5254"
+      },
+      "id": "rereg-old-presents-before-retirement",
+      "path": "cases/rereg-old-presents-before-retirement",
+      "rule": "Proposed: an old identifier stays usable until the registry retires it; a link alone does not end it.",
+      "set": "re-registration"
+    },
+    {
+      "description": "The organisation revokes agent-v1's grant and agent-v2 presents it through the link.",
+      "expected": {
+        "decision": "reject",
+        "reason": "grant_revoked"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "455d28e8f4f9dc363fff73040f7341139c8421dcaafa1b06c193c99ab62028e7",
+        "03-registration-agent-v2.json": "445950cc7d37ca08df09f901c679eef715fd91044bb6a3f89f47156da23f6a02",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-link-l-v1-v2.json": "55c55574f460f735d7bf6544edbe27c8ba9279397ab66d65303d61c5eac7dea3",
+        "06-retirement-agent-v1.json": "02c5877dba0d9b2be9232a2b561aa32c0b047bd83e0133f425140bf2d5acb797",
+        "07-revocation-r-agent.json": "f75fd5e3f46d1f4636a0d0e9d7101ebcc03caebd5482c560b3333e56d32bbe5d",
+        "case.json": "aaa13b98a6b10540aa6f989b18c66b5478af94dc208b592c98843a94a5da7ac4",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "rereg-revocation-follows-link",
+      "path": "cases/rereg-revocation-follows-link",
+      "rule": "A link carries a grant as it stands, so a revocation of the grant applies to the successor as well.",
+      "set": "re-registration",
+      "twin": "rereg-linked-successor"
+    }
+  ]
+}

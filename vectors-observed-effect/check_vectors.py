@@ -1132,6 +1132,16 @@ STAGE_TWO_GATES: dict[str, str] = {
     "rule_code_digest_policy": "the code identity join",
 }
 
+#: Stage-one gates the predicate names outright, because a reader could not place
+#: them from the stage-two list alone: the interval order reads as one of the
+#: ordering checks under `observation`, and the range-digest recompute needs bytes
+#: the statement does not carry. A reader of 0.6.1 placed both by elimination (#29).
+STAGE_ONE_NAMED: dict[str, str] = {
+    "rule_interval_order": "the interval order (`openedAt` strictly before `sealedAt`, "
+    "and `issuedAt` not before `sealedAt`)",
+    "rule_range_preimage": "the `rangeDigest` recompute against a blob the consumer holds",
+}
+
 #: The predicate's sentence giving each stage its word. A reader built from the
 #: document alone gets its verdict words from this sentence and nowhere else.
 VERDICT_WORD_RULE = "A refusal in stage one is `malformed` and a refusal in stage two is `invalid`."
@@ -1177,6 +1187,13 @@ def _check_stage_lists() -> None:
             FAILURES.append(f"{name}: the stage-two list does not name {phrase!r}")
         if phrase in stage_one:
             FAILURES.append(f"{name}: the stage-one list names {phrase!r} as well")
+    for name, phrase in STAGE_ONE_NAMED.items():
+        if name in STAGE_TWO_GATES:
+            FAILURES.append(f"{name}: named as a stage-one gate and listed as stage two")
+        if phrase not in stage_one:
+            FAILURES.append(f"{name}: the stage-one list does not name {phrase!r}")
+        if phrase in stage_two:
+            FAILURES.append(f"{name}: the stage-two list names {phrase!r} as well")
 
 
 def _check_raised_words(fn: Callable[..., Any]) -> None:
@@ -1210,6 +1227,10 @@ def check_verdict_words() -> None:
     place in the stage-two list is checked here; check_member holds its word.
     """
     _check_stage_lists()
+    implemented = {fn.__name__ for _, fn in RULES}
+    for name in STAGE_ONE_NAMED:
+        if name not in implemented:
+            FAILURES.append(f"{name}: named as a stage-one gate and implements no rule")
     for _, fn in RULES:
         _check_raised_words(fn)
 
