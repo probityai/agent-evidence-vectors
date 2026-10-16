@@ -167,6 +167,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-grade-floor": _recompute_from_generator,
     "vectors-agent-change-admission": _recompute_from_generator,
     "vectors-agentic-process-evidence": _recompute_from_generator,
+    "vectors-delegation-lifecycle": _recompute_from_generator,
     "vectors-mcp-owasp": _recompute_from_generator,
     "vectors-w3c-report": _recompute_from_generator,
     "vectors-ai-generation": _recompute_from_generator,
