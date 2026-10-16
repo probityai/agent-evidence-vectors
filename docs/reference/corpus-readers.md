@@ -24,9 +24,9 @@ The following Python routes describe the current source. A released wheel expose
 
 | Current source Python route | Supported corpora |
 | --- | --- |
-| Packaged reference readers | `vectors`, `vectors-w3c-report`, `vectors-observed-effect`, `vectors-receipt-signature`, `vectors-agent-audit-record`, `vectors-anchored-chain`, `vectors-receipt-chain-end`, `vectors-trace-anchor`, `vectors-mcp-owasp`, `vectors-a2a-jcs-v01`, `vectors-grade-floor`, `vectors-agent-change-admission`, `vectors-agentic-process-evidence` |
+| Packaged reference readers | `vectors`, `vectors-w3c-report`, `vectors-observed-effect`, `vectors-receipt-signature`, `vectors-agent-audit-record`, `vectors-anchored-chain`, `vectors-receipt-chain-end`, `vectors-identity-binding`, `vectors-authority-at-dispatch`, `vectors-trace-anchor`, `vectors-mcp-owasp`, `vectors-a2a-jcs-v01`, `vectors-grade-floor`, `vectors-agent-change-admission`, `vectors-agentic-process-evidence` |
 | Named verifier required | `vectors-source-coverage` |
-| Own external contract supported | `vectors`, `vectors-receipt-signature`, `vectors-anchored-chain`, `vectors-receipt-chain-end`, `vectors-trace-anchor`, `vectors-a2a-jcs-v01`, `vectors-grade-floor`, `vectors-agent-change-admission` and `vectors-agentic-process-evidence`; source coverage uses its consumer contract |
+| Own external contract supported | `vectors`, `vectors-receipt-signature`, `vectors-anchored-chain`, `vectors-receipt-chain-end`, `vectors-identity-binding`, `vectors-authority-at-dispatch`, `vectors-trace-anchor`, `vectors-a2a-jcs-v01`, `vectors-grade-floor`, `vectors-agent-change-admission` and `vectors-agentic-process-evidence`; source coverage uses its consumer contract |
 
 `vectors-w3c-report`, `vectors-observed-effect`, `vectors-agent-audit-record` and `vectors-mcp-owasp` refuse a named verifier. Other suites with no packaged reader exit `2` unless a named verifier supplies their external route. Check each [corpus README](../guides/corpora.md) for its contract.
 
