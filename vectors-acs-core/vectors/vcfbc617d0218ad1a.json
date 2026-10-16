@@ -1,0 +1,117 @@
+{
+  "cites": "the unsupported MODIFY correctly replaced by DENY, with an audit event that says the modification was applied and carries no modify_unsupported reason code. The action was blocked, so the outcome is right and the record claims a change that never happened. A checker that only asks whether some audit event exists passes this member.",
+  "coverage": "observed",
+  "doesNotAssert": "that the action ran",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-12",
+  "id": "vcfbc617d0218ad1a",
+  "kind": "reject",
+  "payload": {
+    "applied": {
+      "action_executed": false,
+      "outcome": "deny"
+    },
+    "deployment_audit_log": [
+      {
+        "applied": "modify",
+        "reason_codes": [],
+        "received": "modify",
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+      }
+    ],
+    "observed_agent": {
+      "modify_capable": false
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "api_key": {
+              "value": "sk-test-0001"
+            },
+            "url": {
+              "value": "https://api.example.org/v1/notes"
+            }
+          },
+          "tool": {
+            "name": "http.post"
+          }
+        },
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "acs_version": "0.1.0",
+        "decision": "modify",
+        "modifications": {
+          "redactions": [
+            {
+              "path": "arguments.api_key"
+            }
+          ]
+        },
+        "reasoning": "redact the API key before the call leaves the agent",
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "type": "final"
+      }
+    },
+    "trace": {
+      "guardian": [
+        {
+          "attributes": {
+            "acs.request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+            "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+            "gen_ai.tool.name": "http.post"
+          },
+          "events": [
+            {
+              "attributes": {
+                "acs.decision": "modify"
+              },
+              "name": "acs.decision"
+            }
+          ],
+          "name": "gen_ai.tool.call"
+        }
+      ],
+      "observed_agent": []
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-036",
+      "line": 210,
+      "sentence": "the client MUST treat the decision as `DENY` and MUST record an audit event with `reason_codes: [\"modify_unsupported\"]`.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-036"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

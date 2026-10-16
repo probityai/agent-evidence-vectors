@@ -1,0 +1,83 @@
+{
+  "cites": "two sessions whose Observed Agents chose the same request_id, which the specification permits because request_id is unique only within a session. A reader joining on request_id alone attaches the deny from the other session to a files.read that was never decided.",
+  "coverage": "observed",
+  "doesNotAssert": "that either session misbehaved; the collision is legal",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-15",
+  "id": "vc8e379465f4a677b",
+  "kind": "reject",
+  "payload": {
+    "reader_report": {
+      "joined": [
+        {
+          "guardian_decision": {
+            "decision": "deny",
+            "request_id": "7a2cbf48-731b-418a-b892-d6d823b2dd2b",
+            "session_id": "58767e59-92f9-46e5-85b3-ceb8cc02f201"
+          },
+          "observed_agent_span": {
+            "request_id": "7a2cbf48-731b-418a-b892-d6d823b2dd2b",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      ]
+    },
+    "record": {
+      "trace": {
+        "guardian": [
+          {
+            "attributes": {
+              "acs.request_id": "7a2cbf48-731b-418a-b892-d6d823b2dd2b",
+              "acs.session.id": "58767e59-92f9-46e5-85b3-ceb8cc02f201",
+              "gen_ai.tool.name": "files.delete"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "deny"
+                },
+                "name": "acs.decision"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ],
+        "observed_agent": [
+          {
+            "attributes": {
+              "acs.request_id": "7a2cbf48-731b-418a-b892-d6d823b2dd2b",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "files.read"
+            },
+            "events": [],
+            "name": "gen_ai.tool.call"
+          }
+        ]
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-041",
+      "line": 49,
+      "sentence": "so a join keys on the two together.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-041"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

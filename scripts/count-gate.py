@@ -1040,6 +1040,17 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
 
 
 DELEGATED: tuple[Delegated, ...] = (
+    # The W3C report corpus's section 10 selection. Its index is rendered from
+    # the corpus manifest by the generator, and the regenerability gate refuses
+    # an index the generator would not write, so each figure in this sentence is
+    # the manifest's own count. It was reported only when the ACS-Core total
+    # walked onto its accept count.
+    Delegated(
+        "vectors-w3c-report/INDEX.md",
+        "the section 10 selection's reject and accept counts",
+        r"reject and \d+ to accept",
+        "vectors-w3c-report/gen_vectors.py",
+    ),
     # The AAE v1.4.0 binding package. Its integers are vector identifiers
     # (aae-enforce-vector-25 and its file prefixes), the size of the pinned
     # upstream set, the run's printed tallies, and the draft's resource bounds.
@@ -2675,6 +2686,14 @@ MASKS = tuple(
         # measures and never one written as a bare quantity: no count this
         # repository publishes is spelled `447 bytes`.
         r"\b\d+[\s-]?bytes?\b",
+        # The same length with one word naming what fills it. RFC 5869's default
+        # salt is quoted in the ACS 0.1.4 corpus as `a string of 32 zero bytes`,
+        # and the word between number and unit was all that kept the mask above
+        # from reading it as a length: it was reported as the anchor-stream
+        # total five times across the index and the generator. The filler words
+        # are listed rather than matched as any word, so `41 reject bytes` or any
+        # other noun phrase is still read.
+        r"\b\d+\s+(?:zero|null|NUL|random|raw)[\s-]bytes?\b",
         # A line number, spelled out. Same family as the two above: the digit
         # names a POSITION in a file and counts nothing, and it stayed invisible
         # only while no published quantity equalled it. The reject count reached

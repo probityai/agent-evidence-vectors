@@ -8,19 +8,92 @@
   "specVendored": {
     "specification": {
       "path": "spec-vendored/specification-9d4a9da.md",
-      "sha256": "53fd6658653ea358415c115b6dceff1961ac69e3dd4435556b3a17922942dea3"
+      "sha256": "53fd6658653ea358415c115b6dceff1961ac69e3dd4435556b3a17922942dea3",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRef": "main",
+      "upstreamStatus": "upstream"
     },
     "conformance": {
       "path": "spec-vendored/conformance-9d4a9da.md",
-      "sha256": "7c9d699efaba9d3fbcf9cc16288b653b1f9ae4cd7e33a874c19ba29d6495176c"
+      "sha256": "7c9d699efaba9d3fbcf9cc16288b653b1f9ae4cd7e33a874c19ba29d6495176c",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamRef": "main",
+      "upstreamStatus": "upstream"
     },
     "hooks": {
       "path": "spec-vendored/hooks-9d4a9da.md",
-      "sha256": "1441751389f0267a96a91e023b2483575368d51ac20c392a2a3c6a956c02576b"
+      "sha256": "1441751389f0267a96a91e023b2483575368d51ac20c392a2a3c6a956c02576b",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamRef": "main",
+      "upstreamStatus": "upstream"
     },
     "trace-events": {
       "path": "spec-vendored/trace-events-9d4a9da.md",
-      "sha256": "f9d5fbcb8d85af74f117b27b560e5dd53b67d84b6b57dbdf633f372ccc4a2bae"
+      "sha256": "f9d5fbcb8d85af74f117b27b560e5dd53b67d84b6b57dbdf633f372ccc4a2bae",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRef": "main",
+      "upstreamStatus": "upstream"
+    },
+    "specification-0.1.4": {
+      "path": "spec-vendored/specification-7efa539.md",
+      "sha256": "13532811c2d7ce3aea2edabfb9929cdaa00facc3346fd38cd92f720ab55cd030",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRef": "release/0.1.4 (pull request 281); the same bytes as integration at 685367d",
+      "upstreamStatus": "upstream"
+    },
+    "trace-events-0.1.4": {
+      "path": "spec-vendored/trace-events-7efa539.md",
+      "sha256": "ea2cdb52bb5a0158611887546531f29ce3300b1144a89381062fb82ef8cb7f21",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRef": "release/0.1.4 (pull request 281); the same bytes as integration at 685367d",
+      "upstreamStatus": "upstream"
+    },
+    "conformance-0.1.4": {
+      "path": "spec-vendored/conformance-7efa539.md",
+      "sha256": "0b030ec9ae0cd0190727a20bb98e8e8e869e14ded8c1e55bddecaecbf9f752c8",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamRef": "release/0.1.4 (pull request 281); the same bytes as integration at 685367d",
+      "upstreamStatus": "upstream"
+    },
+    "specification-pr272": {
+      "path": "spec-vendored/specification-f2304bf.md",
+      "sha256": "36c427d954b5709d3ef4879fdd2620f87b2ef6c8827613eb8836b6a2687ea340",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRef": "pull request 272 head, open against integration",
+      "upstreamStatus": "proposal"
+    },
+    "hooks-pr272": {
+      "path": "spec-vendored/hooks-f2304bf.md",
+      "sha256": "fd934d51b037f7da238793c59a0c2c8189c04e6bf7f76cceb2ce274da10d2153",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamRef": "pull request 272 head, open against integration",
+      "upstreamStatus": "proposal"
+    }
+  },
+  "specUpstreamPins": {
+    "release-0.1.4": {
+      "commit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "integrationCommit": "685367dfc722ecb7cbc9f0fb2ef9e4f9cd19daff",
+      "pullRequest": "GenAI-Security-Project/agent-control-standard#281",
+      "note": "Read at the head of the release pull request before it merged; no v0.1.4 tag existed. The specification files are byte-identical to integration at the commit named, where each change the release carries had merged."
+    },
+    "pr-272": {
+      "commit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "pullRequest": "GenAI-Security-Project/agent-control-standard#272",
+      "note": "Read at the pull request's head while it was open and unmerged. The members citing it test a proposal, and a change to the proposal before it merges is a reword that stops this build."
+    },
+    "issue-264": {
+      "issue": "GenAI-Security-Project/agent-control-standard#264",
+      "note": "An open proposal with no specification text of its own. Its members cite sections 6.3 and 6.5 and the Trace text at the release-0.1.4 pin, and its proposed event waits in awaitingText."
     }
   },
   "identifierPolicy": "A requirement identifier is minted by this corpus and bound to the normative sentence by sha256 over its NFC bytes. The specification carries no identifiers, and a section number survives a reword while meaning something else.",
@@ -45,17 +118,24 @@
     "acs-f-8": "attributed content standing in for an authorization",
     "acs-f-9": "a handshake or a disposition answered outside the negotiated contract",
     "acs-f-10": "a Guardian response signed by a party other than the Guardian",
-    "acs-f-11": "a handshake that produced no ServerHello and a session that started anyway"
+    "acs-f-11": "a handshake that produced no ServerHello and a session that started anyway",
+    "acs-f-12": "a MODIFY the Observed Agent could not apply, and the record of what it applied instead",
+    "acs-f-13": "an HMAC signature under a key or a key_id the two parties do not resolve the same way",
+    "acs-f-14": "a tool result whose request reference names no request the Guardian holds for the session",
+    "acs-f-15": "a trace from which a reader counts an outcome nobody enforced",
+    "acs-f-16": "an OpenTelemetry step span missing an attribute the mapping requires, or carrying one it forbids",
+    "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other"
   },
   "outOfScope": {
-    "the MODIFY disposition and its composition rules": "an open pull request moves MODIFY support out of the mandatory profile and adds a new section for the declaration, and neither the new section nor the declaration field exists at the pinned commit",
+    "the MODIFY disposition and its composition rules, read at 9d4a9da": "an open pull request moved MODIFY support out of the mandatory profile and added a new section for the declaration, and neither the new section nor the declaration field exists at that commit. The pull request has since merged, and family acs-f-12 reads the settled sections 6.3 and 6.5 at the release/0.1.4 commit instead",
     "the liveness ping method": "the same pull request moves it out of the mandatory profile",
     "the wrapped tool-protocol methods": "the same pull request has moved these twice and they currently sit back at mandatory for sessions that use them, so their status is unsettled rather than relaxed",
     "the second half of the subagent hook pair": "split out of the mandatory set by a later push on the same pull request"
   },
   "awaitingText": {
     "a session that began and was never sealed": "the pinned text has no sentence requiring a party other than the Observed Agent to record that a session began, so a begun session with no seal leaves nothing a member could cite. Wording is proposed on GenAI-Security-Project/agent-control-standard#37. Once it lands, the member expects a counted decision failure, never unmeasurable, because a begun and unsealed session is countable",
-    "an argument textually inside a scoped mandate that resolves outside it": "a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow"
+    "an argument textually inside a scoped mandate that resolves outside it": "a dot-dot segment, a symlink, an encoded traversal or an unnormalised egress hostname passes a raw prefix check and resolves out of scope. The pinned text fixes the URI form of a resource identifier and says nothing about checking its resolved form against a mandate. Raised on GenAI-Security-Project/agent-control-standard#29, where a Guardian unable to resolve the argument is proposed as unmeasurable rather than allow",
+    "a Trace event for a verdict the Observed Agent substituted": "sections 6.3 and 6.5 make the Observed Agent apply DENY, or keep the original summary at postCompact, in place of a MODIFY it cannot apply, and the release/0.1.4 Trace text rules both cases out as decision failures, so the Guardian's acs.decision event says modify and no Trace event says what was applied. GenAI-Security-Project/agent-control-standard#264 proposes a span event, acs.decision.substituted, and a reader rule that a modify verdict is not counted as applied when that event shares its pair. Only the issue carries that sentence. Until it lands, acs-f-12 holds the audit-log form sections 6.3 and 6.5 already require, and one indeterminate member records that Trace alone cannot answer the question"
   },
   "observedRuns": [],
   "observedRunsNote": "Empty, and stated rather than left to be inferred. No reference adapter exists in the specification's repository at the pinned commit, so nothing has been run against this corpus and its counts describe inputs rather than results.",
@@ -68,7 +148,10 @@
       "line": 295,
       "sentence": "A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it",
       "sentenceDigest": "ae415912eb16d0f9784b72d3728a14e86cde8a865e3aa5d5e85e61f5f6330008",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-002",
@@ -78,7 +161,10 @@
       "line": 322,
       "sentence": "MUST reject duplicate `request_id` values within the session with `REPLAY_DETECTED`",
       "sentenceDigest": "15fcfd8b83334478b8fb475eee88ff9d599b2718d7bdad994daa8cdf0377ab24",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-003",
@@ -88,7 +174,10 @@
       "line": 322,
       "sentence": "Guardians MUST reject requests whose `timestamp` is more than the negotiated skew window",
       "sentenceDigest": "201aa2b8deec1b75723c92f72130ed8b1c85a093c8b4a6f72e50f4c4e46d6b63",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-004",
@@ -98,7 +187,10 @@
       "line": 157,
       "sentence": "the Observed Agent MUST wait for the Guardian's decision, up to the negotiated timeout",
       "sentenceDigest": "18ef98e15043e772ef8d35ec0da4a81d1fa191ac7d4cc7a80d68db99b1e5a5c3",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-005",
@@ -108,7 +200,10 @@
       "line": 161,
       "sentence": "Every step that proceeds without a decision MUST be recorded as an audit event",
       "sentenceDigest": "3a4c8fe649568d25dc0dc6ea42af1b68f857ef42db20de237903f8b074d04b31",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-006",
@@ -118,7 +213,10 @@
       "line": 254,
       "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
       "sentenceDigest": "b1eca2d8a8ecba83f49da215cbcfbb95413df2aa2374a8cc338437150a8a3338",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-007",
@@ -128,7 +226,10 @@
       "line": 244,
       "sentence": "any attempt to modify `Intent.parsed` by the runtime LLM, by tool outputs, or by data crossing an `untrusted` channel MUST be ignored or rejected",
       "sentenceDigest": "7d06dbc863970fa7027c087ef780d33a91c6b4cb2eb805ae364eb124a53a1d6f",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-008",
@@ -138,7 +239,10 @@
       "line": 188,
       "sentence": "the framework MUST compute `trust` as the minimum trust of the entries in `derived_from` (monotonicity rule)",
       "sentenceDigest": "b5f8a7cb7475420a6b6355b5f2d8a753680ea9deb3e304d19925a9e9051dd40d",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-009",
@@ -148,7 +252,10 @@
       "line": 189,
       "sentence": "Receivers (especially across A2A or multi-Guardian boundaries) MUST treat the field as a hint and re-derive trust against local policy",
       "sentenceDigest": "08cd153f9816254e84c70f4423ab08813d18938413c8f6582672281197ac6248",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-010",
@@ -158,7 +265,10 @@
       "line": 205,
       "sentence": "Provenance MUST be populated by deterministic code outside the LLM's output path. Implementations MUST NOT instruct the LLM to produce it.",
       "sentenceDigest": "51168a2c9d2a6a8327862b086e4abd5f4502237639641e378cc367925b78c803",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-011",
@@ -168,7 +278,10 @@
       "line": 262,
       "sentence": "Approver authentication is REQUIRED. Guardian MUST verify approver identity against policy.",
       "sentenceDigest": "2afe3fa652ea6bdd12008d2e6e67e7846ee730644c38f771baab9de0fc39b2b2",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-012",
@@ -178,7 +291,10 @@
       "line": 264,
       "sentence": "Approvers MUST NOT return ASK.",
       "sentenceDigest": "b5136cfe508f15275f6e36bcbb075d71cf2334ad078d3849acec5039bb81f549",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-013",
@@ -188,7 +304,10 @@
       "line": 276,
       "sentence": "a Guardian operating under `scope_mode: strict` MUST NOT honor extensions that would add capabilities the deployment policy forbids in strict mode",
       "sentenceDigest": "c44bb0990be0c25ecac29d356f57f0a193d754d263d34a42eeb619775c5655fa",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-014",
@@ -198,7 +317,10 @@
       "line": 172,
       "sentence": "Frameworks MUST fire `toolCallRequest` for every action that escapes the agent's reasoning context",
       "sentenceDigest": "8324ae363f2840442ce3b0ccc84da5f77a9c191ae2bffdbd3dd3cb3fe4690caf",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-015",
@@ -208,7 +330,10 @@
       "line": 72,
       "sentence": "Trace events MUST NOT block enforcement",
       "sentenceDigest": "fb05a87d8696121aeea0e2fb6e07c7dbfd92ba9cbef7fcda853ef6f1a5bce7f8",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-016",
@@ -218,7 +343,10 @@
       "line": 75,
       "sentence": "A deployment claiming ACS-Audit MUST populate `request_hash`",
       "sentenceDigest": "407ddbcabf898311eccfa56d20ca60af200529bb755a26cf38fe7e33d634be7f",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-017",
@@ -228,7 +356,10 @@
       "line": 71,
       "sentence": "Version mismatch terminates with `UNSUPPORTED_VERSION`",
       "sentenceDigest": "802968dc8adb1d913c2c0b1ee0ac1cc80ef9467715dbe2f0acba51740b0db270",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-018",
@@ -238,7 +369,10 @@
       "line": 282,
       "sentence": "When the Guardian determines that the client cannot resolve `ASK`, the Guardian MUST NOT return `ASK`",
       "sentenceDigest": "e141df498745672dd2f0ba48dc9844471842900a6e6daf346ee6ec3d316dfcca",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-019",
@@ -248,7 +382,10 @@
       "line": 57,
       "sentence": "Accept `X.Y.Z` matching major version",
       "sentenceDigest": "d045577eea0fab7a23515af26a38e922da0f8e70ac856e24d55bbdd851c60438",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-020",
@@ -258,7 +395,10 @@
       "line": 293,
       "sentence": "canonical input is REQUIRED in ACS-Core",
       "sentenceDigest": "4aba06b38783dc5783af3cd41e4b1a925bc3b83d9ca011a00fa285884d347781",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-021",
@@ -268,7 +408,10 @@
       "line": 258,
       "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
       "sentenceDigest": "4c97a8c91e35a161b6eaf9aa49a73de4b0791fc3187ff55d1164db9c7a89b420",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-022",
@@ -278,7 +421,10 @@
       "line": 428,
       "sentence": "A required signature is missing, malformed, or fails verification",
       "sentenceDigest": "2d0f1473abc9de5cf83e996a6314095fde5f52c46324b24a7d9758a62a62c934",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-023",
@@ -288,7 +434,10 @@
       "line": 77,
       "sentence": "A session started unguarded MUST be recorded in the deployment's own audit log",
       "sentenceDigest": "d4c58251de2421c9b3710e2046db6573641a3fa893ea52af2ac63f9782140062",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-024",
@@ -298,7 +447,10 @@
       "line": 77,
       "sentence": "A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.",
       "sentenceDigest": "a86dd647ca5d0f3bf3d63f2f64dbe011d6965b055765e4a9371bb690c0e11f1f",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
     },
     {
       "id": "ACS-R-025",
@@ -308,15 +460,486 @@
       "line": 75,
       "sentence": "`proceed` starts the session unguarded, `refuse` does not start it",
       "sentenceDigest": "a5f72ccb5b2aba50884978689093a3f2dc5d6b51aa363cdd8237f80f0a01bb11",
-      "specVersion": "0.1.0"
+      "specVersion": "0.1.0",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-026",
+      "role": "verifier",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 352,
+      "sentence": "For `HMAC-SHA256`, the per-session key is HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)) with SHA-256, no salt (RFC 5869's default, a string of 32 zero bytes, which gives the same key as an empty salt), `info` set to the UTF-8 bytes of `metadata.session_id`, and a 32-byte output, applied to the secret that `key_id` names.",
+      "sentenceDigest": "2dba728478f0f101017aaa7f6df52f2ce4aef6dd0684dea6b4caafcc7ca3b1a3",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-027",
+      "role": "verifier",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 352,
+      "sentence": "Both parties MUST derive the key with exactly these parameters, so independent implementations holding the same secret derive the same key.",
+      "sentenceDigest": "0d3d14a17b472f90769cc1339153e29969ae65feba5f75606b4c40bb6d0f864b",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-028",
+      "role": "verifier",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 354,
+      "sentence": "A verifier MUST reject an unknown `key_id` (`SIGNATURE_INVALID`,",
+      "sentenceDigest": "3d52c901b4289a8a2e1e3f3d1c5e5d25ed6ce719e5d6876cb163f73019b37828",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-029",
+      "role": "verifier",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 354,
+      "sentence": "and MUST NOT fall back to another secret.",
+      "sentenceDigest": "db8c2711434c0b80b43757cb41ee2f89b39a206509a719dd775e626643b65237",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-030",
+      "role": "deployment",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 354,
+      "sentence": "`key_id` MUST NOT be derived from the secret.",
+      "sentenceDigest": "1667ad6914214cd2e6e9ee3d251abc0c20a46fb84afcc32ef30c94dfc3d3e0c9",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-031",
+      "role": "guardian",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 354,
+      "sentence": "A Guardian signs its response with the secret, and the `key_id`, that the request named.",
+      "sentenceDigest": "8d2043c259dbb7d866cf0adb7943e1ac82f33c084b80676b6919a0f12d1b0d7d",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-032",
+      "role": "verifier",
+      "file": "specification-pr272",
+      "vendored": "spec-vendored/specification-f2304bf.md",
+      "line": 354,
+      "sentence": "A deployment rotating its secret configures the new secret under a new label, such as `\"2026-10\"`, so a verifier can hold both secrets while the rotation is in progress.",
+      "sentenceDigest": "8f0ce2d41472cbf8c965f294b7af23af214cbfefeb26044a02c8cbb82118b2bb",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-033",
+      "role": "guardian",
+      "file": "hooks-pr272",
+      "vendored": "spec-vendored/hooks-f2304bf.md",
+      "line": 206,
+      "sentence": "A Guardian SHOULD resolve it against the `toolCallRequest` records it holds for the session, and MUST record the reference in its audit record when it cannot resolve it.",
+      "sentenceDigest": "6501cf374146540a01c8b2b412037b9fd428f1a5858c959737309699217a3a5b",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-034",
+      "role": "deployment",
+      "file": "hooks-pr272",
+      "vendored": "spec-vendored/hooks-f2304bf.md",
+      "line": 206,
+      "sentence": "Whether an unresolvable reference is grounds to deny is the deployment's policy.",
+      "sentenceDigest": "dc49797c6a8aefde913d82cc88123eb586dea64b6e3e75c361ccb066b23d61d3",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamStatus": "proposal"
+    },
+    {
+      "id": "ACS-R-035",
+      "role": "agent",
+      "file": "specification-0.1.4",
+      "vendored": "spec-vendored/specification-7efa539.md",
+      "line": 190,
+      "sentence": "An Observed Agent that receives one cannot determine the Guardian's intent and MUST fail closed, treating the decision as `DENY`, and MUST record an audit event so the enforcement gap is visible.",
+      "sentenceDigest": "dc88fe0c6a73d8d57df5c7f69349cf212916084d3ade58403bb3b62d2a2c4234",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-036",
+      "role": "agent",
+      "file": "specification-0.1.4",
+      "vendored": "spec-vendored/specification-7efa539.md",
+      "line": 210,
+      "sentence": "the client MUST treat the decision as `DENY` and MUST record an audit event with `reason_codes: [\"modify_unsupported\"]`.",
+      "sentenceDigest": "cdd9b8b54f1748428be94edffa39634b17fe163192e118cd2210bd6399050138",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-037",
+      "role": "agent",
+      "file": "specification-0.1.4",
+      "vendored": "spec-vendored/specification-7efa539.md",
+      "line": 210,
+      "sentence": "Proceeding with the original payload is non-conformant: a Guardian that intended to redact a secret out of a tool argument would otherwise get the unredacted secret shipped while the audit log recorded a modification that never happened.",
+      "sentenceDigest": "c5ee0c5fa644b2c421610d64313612bb1887f4dd76d9ad10f46795f7270adda0",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-038",
+      "role": "agent",
+      "file": "specification-0.1.4",
+      "vendored": "spec-vendored/specification-7efa539.md",
+      "line": 214,
+      "sentence": "A client that receives a `MODIFY` it cannot apply at `postCompact` keeps the original summary and MUST record the same audit event; substituting `DENY` there would record a denial that changed nothing.",
+      "sentenceDigest": "90cab2e43adaa77a8ab6bcd7fbb1b5ff2de5d0d31bf7a87f68acc1eab1d195de",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-039",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 21,
+      "sentence": "An exporter MUST emit it whenever the source field is present and MUST omit it when the field is absent. An empty source array counts as absent.",
+      "sentenceDigest": "f21d8ca23cb8ad8e018f676005e5141eb37932f934ec64a2009032d48c8c1120",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-040",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 49,
+      "sentence": "Every step span also carries `acs.request_id` and `acs.session.id`, the step's own `request_id` and `session_id`.",
+      "sentenceDigest": "5edcb2b07af86df8b86d8b458cca88963c0d62bf7197049460f69441c8cdd94e",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-041",
+      "role": "reader",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 49,
+      "sentence": "so a join keys on the two together.",
+      "sentenceDigest": "0b73f0ed430cee726c3815b8dfe705fb7d477ffa13d3d0cab1e6e81b45ea1b29",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-042",
+      "role": "reader",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 53,
+      "sentence": "When any `acs.decision.failure` event in either party's stream carries the same `acs.session.id` and `acs.request_id`, a reader MUST NOT count the `acs.decision` event as an enforced outcome.",
+      "sentenceDigest": "0f0a5598cca98d7493adec660c0b72ef81eef23213703ab5643684ef4b4b2d5d",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-043",
+      "role": "reader",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 53,
+      "sentence": "A missing failure event does not prove the decision was enforced, because in v0.1 the Observed Agent can under-report, so no decision event proves enforcement on its own.",
+      "sentenceDigest": "7d473447907033b701c09880115e27655229a70d45666f00e8600820bac68309",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-044",
+      "role": "reader",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 53,
+      "sentence": "An `acs.decision` event records the Guardian's verdict. Only the Observed Agent knows the applied outcome.",
+      "sentenceDigest": "1b2dadab9111b534de7fdb09c07101ece4f20f61f79684d9d75da681b9c33484",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-045",
+      "role": "agent",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 55,
+      "sentence": "The Observed Agent MUST record every decision failure, fail-open or fail-closed, in the deployment's own audit log.",
+      "sentenceDigest": "2939ef15db01e85720b58b7a451d50c66e0d9bd14250630da56264c092005347",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-046",
+      "role": "guardian",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 57,
+      "sentence": "A Guardian MUST NOT emit the event for a request it rejects as a replay (`REPLAY_DETECTED`), because that pair belongs to the earlier request.",
+      "sentenceDigest": "efb82f44daba9b57244e8f7041cb2ca8349532e2b77db321269fece49200c282",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-047",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 57,
+      "sentence": "`acs.failure.detail` MUST be text the emitter composes itself, and MUST NOT copy bytes from the request, the response, or an error's `data`.",
+      "sentenceDigest": "1edcf3ea105da465598fa481b321f3cd91b69620d9203127d845f29cb9d31c9f",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-048",
+      "role": "agent",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 59,
+      "sentence": "Some unusable responses are not decision failures, because the spec already defines their outcome.",
+      "sentenceDigest": "0907b129d01e838d24f28e029e8a19dfead486ba698fa851809a4aedf9deb417",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-049",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 96,
+      "sentence": "`defer` takes 99 (Other) as well, not 14 (Delayed), because an ACS defer holds the step and denies by default when it times out.",
+      "sentenceDigest": "fbd05bfbd16671421802b65605e94f784bea76e543217719f0e91a604150e895",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-050",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 106,
+      "sentence": "On an on-time decision event, `is_alert` is true exactly when `severity_id` is 3 or higher, so the two fields never disagree.",
+      "sentenceDigest": "6fcad4522ed1091f0ce983198cb418efac8f31609b33f7ba8aa288776a3736e3",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-051",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 119,
+      "sentence": "`is_alert` follows the table above, and is also true for any verdict other than `allow` under fail-open, because the action ran without what the policy required.",
+      "sentenceDigest": "03df4d2688d513a4aa8dc7cceceacae74012b1fe69d3131a18e41b13a4b85fa9",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-052",
+      "role": "reader",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 119,
+      "sentence": "A reader MUST NOT count a decision event whose `finding_info.types` includes `late_decision_fail_open` or `late_decision_fail_closed` as an enforced outcome.",
+      "sentenceDigest": "c714538fd6d258e8204fd0502006a5550ee9a969a115bb9aac3f11de290507b8",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-053",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 114,
+      "sentence": "An entry with neither `policy_id` nor `policy_name` MUST be an `authorizations` entry with no `policy` object, so positions still line up with `policy_references`: OCSF requires a `policy` to carry `uid` or `name`.",
+      "sentenceDigest": "786e4990c69b9e1bfe6442b2055036d890209f0561264acfa36407777ad3d225",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-054",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 112,
+      "sentence": "`metadata.correlation_uid` is the gated step's pair, formatted as `<session_id>:<request_id>`.",
+      "sentenceDigest": "084074bb5f1490d8b08b7e08849e0b74b1e6d0689adb258fe5ea150c01212392",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-055",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 96,
+      "sentence": "`ask` and `defer` share 99 in both, so the `action` and `disposition` text fields are required too.",
+      "sentenceDigest": "e60629da1b56e8567828e1c85a9e300540eac4003b7b784502efec073da82a2d",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-056",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 82,
+      "sentence": "| `agbom/snapshot`, `agbom/changed` | Device Inventory Info | 5001 (`activity_id` 2, Collect) |",
+      "sentenceDigest": "55bfc0053fa4558ef14bbd35c750302e266b412dee1cf2748408567d98dbee05",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-057",
+      "role": "agent",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 51,
+      "sentence": "A `\"\"` on the wire could not be told from an absent field, so the response envelope rejects one in a `policy_references` entry, and the Provenance schema rejects an empty `source_id`.",
+      "sentenceDigest": "f367d88366a8c6b8cf725073df3a9d604380d1d6773974df3177137e8879a643",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-058",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 42,
+      "sentence": "| `steps/skillLoad` | `acs.skill.load` | `acs.skill.id`, `acs.skill.digest.algorithm`, `acs.skill.digest.value`, `acs.skill.load_trigger`, `acs.skill.load_path` (skill ids, root first); `acs.skill.digest_verified`, `acs.skill.registration_ref` (optional) |",
+      "sentenceDigest": "4b06eae3e419a849d00a0161a9cbdd549c99b70779db03afc6a14c8f5da6a158",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-059",
+      "role": "deployment",
+      "file": "conformance-0.1.4",
+      "vendored": "spec-vendored/conformance-7efa539.md",
+      "line": 51,
+      "sentence": "Emit at least one of {OTel, OCSF} for every supported ACS step, with the required attributes populated and each conditional attribute populated whenever its source field is present.",
+      "sentenceDigest": "5bf48f0842bffff2605a7a584453befb2332c7f13482eb554938be627c142235",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-060",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 51,
+      "sentence": "Each has the same length and order as `policy_references`, with `\"\"` where an entry lacks the field.",
+      "sentenceDigest": "4f3230e28176a6d29ed1c31a42ad9a8ef09c5717fddad95d63022178b6564e8e",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
+    },
+    {
+      "id": "ACS-R-061",
+      "role": "exporter",
+      "file": "trace-events-0.1.4",
+      "vendored": "spec-vendored/trace-events-7efa539.md",
+      "line": 63,
+      "sentence": "It then has the same length and order as `acs.provenance.origin`, with `\"\"` where an object has none.",
+      "sentenceDigest": "5915bf0add9fc9bd14c29a0d582b4c24dbafc75c85140574aba4052797c195c7",
+      "specVersion": "0.1.0",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamStatus": "upstream"
     }
   ],
   "counts": {
-    "accept": 17,
-    "reject": 29,
-    "indeterminate": 2
+    "accept": 46,
+    "reject": 75,
+    "indeterminate": 3
   },
-  "corpusDigest": "ceadb29d215a963a24c8f25ae967c09406c56c7df65bdf18a312866214bed8c0",
+  "corpusDigest": "80229361457fded11a4ccb70323c8438aab4a253e3b40ea5ce2342183e418572",
   "note": "Each reject member has an accepting twin somewhere in its family, so an implementation that denies everything scores zero rather than full marks. A member the specification cannot express carries the verdict unmeasurable and the reason it cannot.",
   "vectors": [
     {
@@ -340,6 +963,27 @@
       "cites": "the same envelope carrying its signature, so a deployment that refuses every request scores zero on the signature requirement rather than full marks."
     },
     {
+      "id": "v05935d4e2d816888",
+      "kind": "reject",
+      "file": "vectors/v05935d4e2d816888.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-035"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same malformed MODIFY applied anyway: the Observed Agent picked the wholesale replacement and ran the call. Section 6.3 requires it to fail closed because it cannot know which shape the Guardian intended. The record is accurate about what it did, which is why the member turns on the outcome rather than on the record.",
+      "doesNotAssert": "that the payload it ran leaked anything"
+    },
+    {
       "id": "v07180a3ca8f10123",
       "kind": "accept",
       "file": "vectors/v07180a3ca8f10123.json",
@@ -358,6 +1002,27 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "the same content present and a benign action authorized independently of it. The protected effect stays absent and the benign one occurs, so the pair separates authority from lineage rather than testing content filtering."
+    },
+    {
+      "id": "v09451dcf233c2115",
+      "kind": "reject",
+      "file": "vectors/v09451dcf233c2115.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-030"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "configured",
+      "cites": "a deployment configuration whose label is the first sixteen hex characters of the SHA-256 of the secret it names. Every request then publishes a digest of the secret on the wire, and a rotation that keeps the secret cannot keep the label. The checker holds the secret and the configuration, so it can recompute the derivation this member uses; it cannot detect every derivation, and the member claims only this one.",
+      "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried"
     },
     {
       "id": "v0c6dcb9ff13af3c9",
@@ -440,6 +1105,90 @@
       "cites": "the same budget with the fourth request carrying a session-state hint claiming a fresh count. The hint comes from the party under governance, so an implementation that reads its counter out of the request has handed the budget to the agent it bounds."
     },
     {
+      "id": "v13ec89c059e7e71d",
+      "kind": "reject",
+      "file": "vectors/v13ec89c059e7e71d.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-053"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "two policy references, the second with neither policy_id nor policy_name, and an authorizations entry for it whose policy carries only a version. OCSF requires a policy to carry uid or name, so the entry has to drop the policy object and keep its position.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "v142a717729cabcc7",
+      "kind": "reject",
+      "file": "vectors/v142a717729cabcc7.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-060"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "two policy references, the second without a policy_version, and an acs.policy.versions array of one element. The arrays are read by position, so the dropped element leaves a reader pairing acme-egress with nothing and no way to tell which policy v3 belonged to.",
+      "doesNotAssert": "that the policies were applied"
+    },
+    {
+      "id": "v1449cddb48f82d09",
+      "kind": "accept",
+      "file": "vectors/v1449cddb48f82d09.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same inputs, and a report that keeps the Guardian's verdict and takes the applied outcome from the Observed Agent's record. A reader that refuses to report any outcome fails this member.",
+      "doesNotAssert": "that the Observed Agent's record is truthful; it is the only account of the outcome"
+    },
+    {
+      "id": "v1bf79e310bf7ab30",
+      "kind": "reject",
+      "file": "vectors/v1bf79e310bf7ab30.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-056"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an AgBOM snapshot as class 5001 with activity_id 1, Log, the activity the mapping used before it pinned OCSF 1.9.0. The release row fixes activity_id 2, Collect.",
+      "doesNotAssert": "that the inventory is complete"
+    },
+    {
       "id": "v1ce4aeb611285368",
       "kind": "reject",
       "file": "vectors/v1ce4aeb611285368.json",
@@ -458,6 +1207,49 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "a hello the Guardian answered with SESSION_REFUSED, followed by the startup posture applied as though nothing had answered: the session started and the deployment log records an unguarded start. A refusal is a decision, and section 4.1 applies the posture only when no answer arrives, so the session is refused with the code the Guardian sent. A checker that looks only for the deployment-log record passes this member, and so does an Observed Agent that reads every error without a ServerHello as an outage."
+    },
+    {
+      "id": "v1e4a323dafeda46e",
+      "kind": "reject",
+      "file": "vectors/v1e4a323dafeda46e.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-047"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "a failure event whose acs.failure.detail is the error's data copied verbatim, request arguments included. Error text can quote the request, and the request can carry text an attacker wrote, which then reaches every consumer of the trace.",
+      "doesNotAssert": "that the copied bytes were malicious; the rule forbids copying, not only copying an attack"
+    },
+    {
+      "id": "v204003ad3a0dcacb",
+      "kind": "reject",
+      "file": "vectors/v204003ad3a0dcacb.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-026",
+        "ACS-R-027"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the right salt and info with a 64-byte output, the HMAC-SHA256 block size. HKDF's output is not a prefix-free family: the first 32 bytes agree with the 32-byte key, so an implementation that truncates on use interoperates and one that keys HMAC with all 64 bytes does not. The parameter is fixed at 32 bytes so the question never arises.",
+      "doesNotAssert": "that the signer meant harm or that the request is otherwise unacceptable; it fails because the key the verifier derives under the fixed parameters does not produce this MAC"
     },
     {
       "id": "v221edeb22c4e8634",
@@ -501,6 +1293,111 @@
       "cites": "the same response with the chain head inside the signed set."
     },
     {
+      "id": "v28a228c72a0a72e8",
+      "kind": "reject",
+      "file": "vectors/v28a228c72a0a72e8.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-050"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an on-time ask at severity 3 with is_alert false. An ask can time out to allow and Trace has no event for how it ends, so the decision event is the only alert a SOC gets.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "v2aa5e37455fda245",
+      "kind": "accept",
+      "file": "vectors/v2aa5e37455fda245.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-030"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "configured",
+      "cites": "the same configuration with the label \"2026-10\", which names the secret and says nothing about it. A checker that refuses any label it cannot explain fails this member.",
+      "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried"
+    },
+    {
+      "id": "v2d172bf817c9b0ca",
+      "kind": "accept",
+      "file": "vectors/v2d172bf817c9b0ca.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-034"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the unresolved reference recorded and the result denied. Whether an unresolvable reference is grounds to deny is the deployment's policy, so a checker that demands allow, or demands deny, fails one of the two accepting members in this family.",
+      "doesNotAssert": "that denying was required"
+    },
+    {
+      "id": "v317a035acc0101c3",
+      "kind": "reject",
+      "file": "vectors/v317a035acc0101c3.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-033"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same unresolved reference, allowed, with nothing in the Guardian's audit record. This is the reference Guardian's behaviour before the pull request: the result was accepted as if it carried no reference at all, and the one piece of evidence that something was off is gone.",
+      "doesNotAssert": "that the result should have been denied; only that the reference had to be recorded"
+    },
+    {
+      "id": "v31ce9cd718b96f51",
+      "kind": "reject",
+      "file": "vectors/v31ce9cd718b96f51.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-054"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a correlation_uid formatted request_id first. A SIEM join on native fields matches nothing, or matches another session's step whose ids happen to line up.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
       "id": "v3232493ab40ae031",
       "kind": "reject",
       "file": "vectors/v3232493ab40ae031.json",
@@ -519,6 +1416,91 @@
       "witnessScope": "EXTERNAL",
       "coverage": "effective",
       "cites": "an HMAC-SHA256 chain head the Guardian did sign, presented to a third party as evidence that this Guardian issued it. The member rejects the external claim, not the signature: the MAC verifies, and section 8.6 says proving to a third party that a specific Guardian issued a specific head requires ACS-Crypto. No registry code names a refused claim over a valid signature, so none is asserted. The member is EXTERNAL because the algorithm and the claim both sit in the presented bytes, so a party outside the trust domain can refuse it without the Guardian's account and without holding the key."
+    },
+    {
+      "id": "v34a0f1903d69dbc1",
+      "kind": "reject",
+      "file": "vectors/v34a0f1903d69dbc1.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-038"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same postCompact MODIFY, the original summary kept, and no record. The rewrite the Guardian asked for silently did not happen.",
+      "doesNotAssert": "that keeping the summary was wrong; it was the only legal outcome"
+    },
+    {
+      "id": "v352dbb9b4c521a26",
+      "kind": "accept",
+      "file": "vectors/v352dbb9b4c521a26.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-036",
+        "ACS-R-048"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a well-formed MODIFY sent to an Observed Agent that cannot apply MODIFY. It applies DENY and records an audit event with reason code modify_unsupported, and its trace carries no acs.decision.failure for the pair, because a substitution section 6.5 defines is not a decision failure.",
+      "doesNotAssert": "that the Guardian should have known the client could not apply MODIFY"
+    },
+    {
+      "id": "v36627efbb93cdb48",
+      "kind": "accept",
+      "file": "vectors/v36627efbb93cdb48.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-060"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same references and the version array padded with an empty string.",
+      "doesNotAssert": "that the policies were applied"
+    },
+    {
+      "id": "v3a740f95d71db4bb",
+      "kind": "reject",
+      "file": "vectors/v3a740f95d71db4bb.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-039"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a response with reason_codes as an empty array and a decision event carrying acs.reason_codes as an empty array. An empty source array counts as absent, so the attribute is omitted.",
+      "doesNotAssert": "why the Guardian sent an empty array"
     },
     {
       "id": "v3c03d4e4ce213e9c",
@@ -581,6 +1563,27 @@
       "cites": "a ClientHello whose only advertised version shares no major with the Guardian's. The handshake must terminate with the registry code, not answer with a ServerHello naming a version the client never offered. A Guardian that returns constants without reading the ClientHello passes every hello and fails this one."
     },
     {
+      "id": "v43ef9dfd999c84e8",
+      "kind": "accept",
+      "file": "vectors/v43ef9dfd999c84e8.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-047"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "a detail the emitter composed itself, carrying none of the error's data.",
+      "doesNotAssert": "that the copied bytes were malicious; the rule forbids copying, not only copying an attack"
+    },
+    {
       "id": "v448a61c91554a125",
       "kind": "reject",
       "file": "vectors/v448a61c91554a125.json",
@@ -599,6 +1602,93 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "four identical in-scope calls sharing a session and a turn against a budget of three. Each call passes every other family by construction and the misuse exists only at the level of the sequence, so an implementation evaluating triggers independently allows all four."
+    },
+    {
+      "id": "v47ac76a1803fdb29",
+      "kind": "accept",
+      "file": "vectors/v47ac76a1803fdb29.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-033",
+        "ACS-R-034"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a toolCallResult whose request_id_ref names a request that never appeared in the session. The Guardian records the reference in its audit record and allows the result. Allowing is the deployment's policy; the record is what the rule requires.",
+      "doesNotAssert": "that the unresolved reference is malicious, or that allowing it was the right policy"
+    },
+    {
+      "id": "v4cfeaa01784088e3",
+      "kind": "accept",
+      "file": "vectors/v4cfeaa01784088e3.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-040",
+        "ACS-R-039",
+        "ACS-R-059"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a toolCallResult span carrying the join pair and, because the payload has request_id_ref, the conditional acs.request_id_ref.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "v4f1f941aca13438d",
+      "kind": "reject",
+      "file": "vectors/v4f1f941aca13438d.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-040"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same span without acs.request_id. Before release 0.1.4 the toolCallResult row did not list it; now every step span carries the pair, and without it a reader cannot join the two parties' spans for this step.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "v4f2144a08f62c639",
+      "kind": "accept",
+      "file": "vectors/v4f2144a08f62c639.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-057"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same entry with the empty member omitted, which is what the release text asks a producer to send.",
+      "doesNotAssert": "what the Observed Agent does next; a malformed response is a decision failure under its posture"
     },
     {
       "id": "v4f75a079844635af",
@@ -643,6 +1733,90 @@
       "cites": "the same head signed by the Guardian under the key its key_id resolves to, so a verifier that refuses every asymmetric head scores zero on the family."
     },
     {
+      "id": "v55187b175296fcc8",
+      "kind": "reject",
+      "file": "vectors/v55187b175296fcc8.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-042"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a Guardian deny, and an acs.decision.failure for the same pair in the Observed Agent's stream: the decision arrived after the agent stopped waiting and the step proceeded under the fail-open posture. The reader counts the deny as enforced. The action ran.",
+      "doesNotAssert": "that the Guardian was slow on purpose"
+    },
+    {
+      "id": "v57106f0a71dd1d62",
+      "kind": "reject",
+      "file": "vectors/v57106f0a71dd1d62.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-045"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same timeout under the fail-closed posture: the step was blocked, and still nothing was recorded. The rule names both postures because a blocked step is a failure too, and one a checker looking only for bypasses misses.",
+      "doesNotAssert": "how the record is spelt, which the specification leaves open"
+    },
+    {
+      "id": "v573876edff0016da",
+      "kind": "reject",
+      "file": "vectors/v573876edff0016da.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-049"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a defer recorded with disposition_id 14, Delayed. An ACS defer holds the step and denies by default on timeout, which Delayed does not describe, so the release text maps it to 99.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "v5855843136b72a87",
+      "kind": "reject",
+      "file": "vectors/v5855843136b72a87.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-045"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a step that timed out under the fail-open posture and proceeded, with nothing in the deployment's audit log. The trace event is a SHOULD; the audit record is a MUST, and it is the one a deployment that does not claim ACS-Trace still owes.",
+      "doesNotAssert": "how the record is spelt, which the specification leaves open"
+    },
+    {
       "id": "v58b380041d50cb9a",
       "kind": "accept",
       "file": "vectors/v58b380041d50cb9a.json",
@@ -662,6 +1836,48 @@
       "witnessScope": "SELF",
       "coverage": "observed",
       "cites": "the same unanswered hello with the unguarded start recorded in the deployment's own audit log, the witness section 4.1 names because no Guardian exists to receive the event. The discriminator is whether a record of the start exists, not whether the session started, and a deployment that refuses every unguarded start scores zero here rather than full marks."
+    },
+    {
+      "id": "v5c3813f48b81ccf3",
+      "kind": "reject",
+      "file": "vectors/v5c3813f48b81ccf3.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-029"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a verifier mid-rotation holding both \"2026-09\" and \"2026-10\". The request names \"2026-09\" and carries a MAC computed under the 2026-10 secret. Under the named secret it fails; under the other one it verifies. A verifier that tries every secret it holds accepts it, and that is the fallback the rule forbids.",
+      "doesNotAssert": "that either secret is compromised; the label and the key disagree, and the label decides which secret is tried"
+    },
+    {
+      "id": "v650e4e7924e597b8",
+      "kind": "reject",
+      "file": "vectors/v650e4e7924e597b8.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-033"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a reference that names a toolCallRequest from a different session of the same Guardian. request_id is unique only within a session, and the rule resolves against the records the Guardian holds for this session, so this reference is unresolved. A Guardian that looks it up across sessions finds it, records nothing, and fails.",
+      "doesNotAssert": "that the other session's request is related to this result"
     },
     {
       "id": "v661266c5c87cb206",
@@ -684,6 +1900,48 @@
       "cites": "the signature and the identity chain both verify and the requested capability is outside the fixed intent. Verification that stops at signature validity passes this by construction, which is the whole reason the family is first."
     },
     {
+      "id": "v663664f03dec5517",
+      "kind": "accept",
+      "file": "vectors/v663664f03dec5517.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-042"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the first member's streams and a reader that does not count the pair as enforced. A reader that counts nothing at all fails the join member in this family instead.",
+      "doesNotAssert": "that the decision was not applied; the rule runs one way only, and a missing count is not a finding of bypass"
+    },
+    {
+      "id": "v676ce54e23de4b38",
+      "kind": "reject",
+      "file": "vectors/v676ce54e23de4b38.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-048"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the unsupported MODIFY replaced by DENY and recorded correctly in the audit log, and also emitted on the trace as an acs.decision.failure of class malformed_response. The release/0.1.4 text rules these cases out as decision failures: the outcome is defined, so counting it as a failure inflates the failure count and, under the counting rule, stops a reader from counting a decision that was in fact applied as written. Issue 264 rejected the same reuse for that reason.",
+      "doesNotAssert": "that the audit log is wrong; it is right, and the trace contradicts it"
+    },
+    {
       "id": "v699f3f41215849ca",
       "kind": "accept",
       "file": "vectors/v699f3f41215849ca.json",
@@ -702,6 +1960,27 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "three calls against a budget of three, every step allowed. The positive control for a sequenced family is itself sequenced."
+    },
+    {
+      "id": "v6b9826ebb2401bb8",
+      "kind": "reject",
+      "file": "vectors/v6b9826ebb2401bb8.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-046"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "a second request reusing a request_id already seen in the session, rejected with REPLAY_DETECTED, and a Guardian acs.decision.failure for it. The pair belongs to the earlier request, so the event lands on that request's decision and, under the counting rule, stops a reader counting a decision that was enforced.",
+      "doesNotAssert": "that the replay was an attack"
     },
     {
       "id": "v6daaec0f6f0c8a14",
@@ -725,6 +2004,28 @@
       "cites": "the same session sealed off the last witnessed head, so a verifier that refuses every sealed chain scores zero on the pair."
     },
     {
+      "id": "v71d1f3d3c1c2107f",
+      "kind": "reject",
+      "file": "vectors/v71d1f3d3c1c2107f.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-028",
+        "ACS-R-029"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a request labelled \"default\", the hardcoded label one open adapter ships, sent to a verifier configured with the single label \"2026-10\". The MAC was computed under the 2026-10 secret's derived key, so a verifier that falls back to the only secret it holds accepts it. The label is unknown, and an unknown key_id is SIGNATURE_INVALID with no fallback.",
+      "doesNotAssert": "that the MAC is wrong; it verifies under the verifier's one secret, which is exactly why a fallback accepts it"
+    },
+    {
       "id": "v78927805373a6c06",
       "kind": "accept",
       "file": "vectors/v78927805373a6c06.json",
@@ -743,6 +2044,27 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "the same ClientHello advertising the version the Guardian implements, so the handshake completes. The family's refusal has a twin that must succeed, or a Guardian refusing every hello scores full marks."
+    },
+    {
+      "id": "v7b0219cc72681b5a",
+      "kind": "accept",
+      "file": "vectors/v7b0219cc72681b5a.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-031"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same exchange with the response signed under \"2026-09\", the label the request named. The member turns on the label alone.",
+      "doesNotAssert": "the decision itself; the verdict here is about which key signed the response, and the pull request's author flagged this sentence as his addition for review"
     },
     {
       "id": "v7b0b32fb369136c1",
@@ -765,6 +2087,69 @@
       "cites": "a chain head returned in the response and left outside the signature. The head is then a value the guardian asserts rather than one it commits to, so an observer recording traffic cannot use it to detect a later rewrite, which is the only thing publishing it buys."
     },
     {
+      "id": "v7cdac6c8af6db2fe",
+      "kind": "accept",
+      "file": "vectors/v7cdac6c8af6db2fe.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-046"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "observed",
+      "cites": "the same replay rejected with REPLAY_DETECTED and no failure event emitted for it.",
+      "doesNotAssert": "that the replay was an attack"
+    },
+    {
+      "id": "v7d14727c84d2020d",
+      "kind": "reject",
+      "file": "vectors/v7d14727c84d2020d.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-052"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an OCSF deny whose finding_info.types carries late_decision_fail_open, counted by a reader as enforced. Under fail-open the late deny means the action ran; action_id and disposition_id still say Denied and Blocked, because they record the verdict.",
+      "doesNotAssert": "that the Guardian measured its time correctly; a late decision can also look on time"
+    },
+    {
+      "id": "v80af4427990f6034",
+      "kind": "reject",
+      "file": "vectors/v80af4427990f6034.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-038"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same postCompact MODIFY answered by substituting DENY and recording a denial. Compaction has already run, so the denial changed nothing and the record says something was blocked that was not. A client that applies the step-level rule everywhere fails here.",
+      "doesNotAssert": "that the summary was altered"
+    },
+    {
       "id": "v82b6d110b4d68e7c",
       "kind": "indeterminate",
       "file": "vectors/v82b6d110b4d68e7c.json",
@@ -783,6 +2168,27 @@
       "witnessScope": "EXTERNAL",
       "coverage": "supported",
       "cites": "the revoked half of this family, which the specification cannot express. A third verdict is what keeps the gap visible; scoring it as a rejection would credit an implementation for behaviour nothing requires, and scoring it as a pass would hide the gap entirely."
+    },
+    {
+      "id": "v83363b5d7f051859",
+      "kind": "accept",
+      "file": "vectors/v83363b5d7f051859.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-041"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same streams joined on the pair: nothing joins, and the Guardian event with no matching agent span is left as the discrepancy the release text says it is.",
+      "doesNotAssert": "that either session misbehaved; the collision is legal"
     },
     {
       "id": "v8557c978bf12ca55",
@@ -825,6 +2231,134 @@
       "cites": "the same HMAC head presented to the Observed Agent, a key-holder, as integrity evidence, which section 8.6 says the baseline gives. A verifier that refuses every HMAC head scores zero here, so the member above measures the external claim rather than the algorithm."
     },
     {
+      "id": "v88176a8db9aee0c7",
+      "kind": "reject",
+      "file": "vectors/v88176a8db9aee0c7.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-028",
+        "ACS-R-029"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a request whose key_id is its own session id, the shape one open Guardian port uses. The verifier is configured with \"2026-10\" and the MAC verifies under that secret, so only the label is wrong: it names no configured secret, and the rule forbids recovering one.",
+      "doesNotAssert": "that the MAC is wrong; it verifies under the verifier's one secret, which is exactly why a fallback accepts it"
+    },
+    {
+      "id": "v89ea07928daff608",
+      "kind": "reject",
+      "file": "vectors/v89ea07928daff608.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-036",
+        "ACS-R-037"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the case section 6.5 names: the Observed Agent cannot apply the redaction, ships the call with the original payload, API key and all, and its audit log records the modification as applied. The log recorded a modification that never happened. A checker reading only the audit log counts a redaction that did not occur.",
+      "doesNotAssert": "that the key was misused after it left; only that it left while the record said otherwise"
+    },
+    {
+      "id": "v8a5f343c721f2f14",
+      "kind": "accept",
+      "file": "vectors/v8a5f343c721f2f14.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-058"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same span with every required attribute of the skillLoad row.",
+      "doesNotAssert": "that the skill's digest was verified, which the row leaves optional"
+    },
+    {
+      "id": "v8b8bb4f181c906e6",
+      "kind": "accept",
+      "file": "vectors/v8b8bb4f181c906e6.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-045"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the fail-open timeout recorded in the deployment's audit log.",
+      "doesNotAssert": "how the record is spelt, which the specification leaves open"
+    },
+    {
+      "id": "v8d6218889aeda7c7",
+      "kind": "accept",
+      "file": "vectors/v8d6218889aeda7c7.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-038"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a MODIFY at postCompact sent to a client that cannot apply it. Compaction has already happened and DENY is not legal there, so the client keeps the original summary and records the audit event with modify_unsupported.",
+      "doesNotAssert": "that the original summary is harmless; only that its standing is visible"
+    },
+    {
+      "id": "v934c6c4f64dc3142",
+      "kind": "reject",
+      "file": "vectors/v934c6c4f64dc3142.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-061"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "two Provenance objects, the second without a source_id, and an acs.provenance.source_id array of one element against an acs.provenance.origin array of two.",
+      "doesNotAssert": "anything about trust, which v0.1 does not put on the span"
+    },
+    {
       "id": "v93c6cced4a3b9f13",
       "kind": "reject",
       "file": "vectors/v93c6cced4a3b9f13.json",
@@ -864,6 +2398,92 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "a session sealed off the second head after the Guardian's signed response had published a third. The seal drops a witnessed step, and a decision-failure count derived from the sealed total then misses it. Under the HMAC baseline the Observed Agent holds the session key and the heads already published to it, so it can check the seal without the Guardian's account and the member is PEER. It cannot prove to a third party which side signed, because the Guardian can re-sign a shorter chain with the same key."
+    },
+    {
+      "id": "v98892a47c65b871e",
+      "kind": "accept",
+      "file": "vectors/v98892a47c65b871e.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-035"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a MODIFY carrying modified_content and redactions together, which section 6.3 forbids. The Observed Agent cannot tell what the Guardian meant, applies DENY, does not run the action, and records the substitution in the deployment's audit log. The record's spelling is not fixed by the specification; the member asserts that a record of the substitution exists and names the outcome actually applied.",
+      "doesNotAssert": "that the Guardian is at fault for anything beyond the malformed modifications, or how the record is spelt"
+    },
+    {
+      "id": "v98c73932834256a4",
+      "kind": "accept",
+      "file": "vectors/v98c73932834256a4.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-026",
+        "ACS-R-027",
+        "ACS-R-028"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a request signed under the key pull request 272 fixes: HKDF-SHA256, no salt, info the UTF-8 session id, a 32-byte output, applied to the secret the key_id names. The secret and session are the specification's own worked example, so the derived key in the payload is the one the pull request publishes. A verifier that derives the key any other way fails this member rather than the rejecting ones.",
+      "doesNotAssert": "that the secret was distributed securely, that the Observed Agent rather than another holder of the secret computed the MAC, or anything about the request beyond its signature"
+    },
+    {
+      "id": "v9c3c0467f619607e",
+      "kind": "reject",
+      "file": "vectors/v9c3c0467f619607e.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-058"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an acs.skill.load span without acs.skill.load_path, a required attribute the skill lifecycle rows release 0.1.4 adds. Without the path a reader cannot tell which skill pulled this one in.",
+      "doesNotAssert": "that the skill's digest was verified, which the row leaves optional"
+    },
+    {
+      "id": "v9d271115ecc2144a",
+      "kind": "accept",
+      "file": "vectors/v9d271115ecc2144a.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-039"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same response and a decision event without acs.reason_codes.",
+      "doesNotAssert": "why the Guardian sent an empty array"
     },
     {
       "id": "v9f011986566cb7bc",
@@ -947,6 +2567,27 @@
       "cites": "a request the policy engine escalates, sent by a client with no way to resolve an ASK. The Guardian must substitute DEFER or DENY; an `ask` carrying no `ask_details` is neither a decision the client can act on nor the substitution the rule requires. A bridge that maps escalate to ask by name and has no source for an approver or a question emits exactly that."
     },
     {
+      "id": "va216214d32d8d5f7",
+      "kind": "accept",
+      "file": "vectors/va216214d32d8d5f7.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-056"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same snapshot with activity_id 2, Collect.",
+      "doesNotAssert": "that the inventory is complete"
+    },
+    {
       "id": "va2b212fbc0966f59",
       "kind": "accept",
       "file": "vectors/va2b212fbc0966f59.json",
@@ -985,6 +2626,28 @@
       "witnessScope": "SELF",
       "coverage": "configured",
       "cites": "provenance produced inside the model's output path while the handshake declares a deterministic producer. It makes an untrusted runtime output responsible for its own lineage, which is the mode the specification names as non-conformant."
+    },
+    {
+      "id": "va3cc0f12ae4e8a35",
+      "kind": "reject",
+      "file": "vectors/va3cc0f12ae4e8a35.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-026",
+        "ACS-R-027"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the session id passed as the HKDF salt and the info left empty. The pre-fix sentence, quoted in the payload, says the key is HKDF-derived from the secret together with the session id and fixes nothing else, and RFC 5869's salt is the input that reading reaches for first. Pull request 272 puts the session id in info and leaves the salt empty.",
+      "doesNotAssert": "that the signer meant harm or that the request is otherwise unacceptable; it fails because the key the verifier derives under the fixed parameters does not produce this MAC"
     },
     {
       "id": "va6d6e952d417c5a1",
@@ -1027,6 +2690,49 @@
       "cites": "a gateway error page returned where a decision belongs. It is the shape a proxy timeout actually produces, and an agent that reads it as an answer has recorded a decision nobody made."
     },
     {
+      "id": "vabdcee4722b26a44",
+      "kind": "accept",
+      "file": "vectors/vabdcee4722b26a44.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-032",
+        "ACS-R-028"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the same verifier mid-rotation, and a request labelled \"2026-09\" whose MAC verifies under the 2026-09 secret. Both labels are configured, so the older one still resolves. A verifier that accepts only its newest label fails this member, and the rejecting member above keeps a verifier that tries every secret from passing the family.",
+      "doesNotAssert": "when the rotation should end, or that the older secret is still safe to hold"
+    },
+    {
+      "id": "vac8eb35a1249aefc",
+      "kind": "reject",
+      "file": "vectors/vac8eb35a1249aefc.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-055"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an ask with action_id and disposition_id 99 and no action or disposition text. ask and defer share 99, so without the text a consumer cannot tell them apart.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
       "id": "vae2037ee96435463",
       "kind": "reject",
       "file": "vectors/vae2037ee96435463.json",
@@ -1067,6 +2773,48 @@
       "cites": "a request one hour older than the guardian's clock against a five minute window. It separates an implementation that checks freshness from one that checks structure."
     },
     {
+      "id": "vb2374eaafd283548",
+      "kind": "reject",
+      "file": "vectors/vb2374eaafd283548.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-050"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an on-time modify at severity 2 with is_alert true. On an on-time decision is_alert follows severity exactly, and a modify ran in the form the policy required.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "vb3c19387fb98e20f",
+      "kind": "reject",
+      "file": "vectors/vb3c19387fb98e20f.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-031"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a request signed under \"2026-09\" during a rotation, and a Guardian response signed under \"2026-10\". The Observed Agent holds both secrets, so the response verifies under the label it names. The rule is that the response uses the secret and the key_id the request named, so a Guardian that answers every request with its newest key breaks the rotation for any peer that has not loaded it yet. No registry code names this, so none is asserted.",
+      "doesNotAssert": "the decision itself; the verdict here is about which key signed the response, and the pull request's author flagged this sentence as his addition for review"
+    },
+    {
       "id": "vb87b86b4930665ca",
       "kind": "reject",
       "file": "vectors/vb87b86b4930665ca.json",
@@ -1087,6 +2835,111 @@
       "cites": "the plainly invalid signature, present because a suite whose every member asserts a valid one measures nothing about signatures: an implementation with no verification at all passes all of them, and a signature is the one thing the mandatory profile requires unconditionally."
     },
     {
+      "id": "vbd5dc2450805e76b",
+      "kind": "reject",
+      "file": "vectors/vbd5dc2450805e76b.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-036"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same unsupported MODIFY, DENY applied, and no audit event. The substitution is correct and invisible, which section 6.5 forbids by name.",
+      "doesNotAssert": "that the action ran"
+    },
+    {
+      "id": "vbf0b0f4b67a00b59",
+      "kind": "accept",
+      "file": "vectors/vbf0b0f4b67a00b59.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-061"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same objects and the source_id array padded to the origin array's length.",
+      "doesNotAssert": "anything about trust, which v0.1 does not put on the span"
+    },
+    {
+      "id": "vc0ee2db9cf47e0c1",
+      "kind": "reject",
+      "file": "vectors/vc0ee2db9cf47e0c1.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-040"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same span without acs.session.id. request_id is unique only within a session, so the request_id alone does not identify the step.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "vc1100bbd3f8f6a5f",
+      "kind": "accept",
+      "file": "vectors/vc1100bbd3f8f6a5f.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-052"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same event and a reader that does not count it as enforced.",
+      "doesNotAssert": "that the Guardian measured its time correctly; a late decision can also look on time"
+    },
+    {
+      "id": "vc190a6c639182d4e",
+      "kind": "reject",
+      "file": "vectors/vc190a6c639182d4e.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-042"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the failure event only in the Guardian's own stream: it finished the decision after the negotiated timeout and said so on the same span. The rule covers either party's stream, so a reader that consults only the agent's stream and counts the deny fails.",
+      "doesNotAssert": "that the Observed Agent under-reported; it may never have seen the late answer"
+    },
+    {
       "id": "vc333473269d1b3a9",
       "kind": "reject",
       "file": "vectors/vc333473269d1b3a9.json",
@@ -1105,6 +2958,135 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "content whose attribution verifies, followed by a protected mutation with no separate authorization for that action. Provenance establishes lineage and confers no authority, and this member is that sentence made falsifiable."
+    },
+    {
+      "id": "vc38320dadcd56b7f",
+      "kind": "reject",
+      "file": "vectors/vc38320dadcd56b7f.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-026",
+        "ACS-R-027"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the right parameters applied with another session's id in info, so the key belongs to a different session from the one the envelope names. This is a MAC lifted across sessions; the derivation is what makes it fail, because info binds the key to metadata.session_id.",
+      "doesNotAssert": "that the signer meant harm or that the request is otherwise unacceptable; it fails because the key the verifier derives under the fixed parameters does not produce this MAC"
+    },
+    {
+      "id": "vc540b5eb806ea07c",
+      "kind": "reject",
+      "file": "vectors/vc540b5eb806ea07c.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-043",
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a reader report that counts the redaction as applied because the Guardian's acs.decision event says modify and no failure event shares the pair. The Observed Agent's audit log says DENY was applied. A decision event records the verdict, only the Observed Agent knows the outcome, and no decision event proves enforcement on its own: this is the count issue 264 says Trace alone overstates.",
+      "doesNotAssert": "that the Guardian's verdict was wrong"
+    },
+    {
+      "id": "vc8e379465f4a677b",
+      "kind": "reject",
+      "file": "vectors/vc8e379465f4a677b.json",
+      "family": "acs-f-15",
+      "requirements": [
+        "ACS-R-041"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "two sessions whose Observed Agents chose the same request_id, which the specification permits because request_id is unique only within a session. A reader joining on request_id alone attaches the deny from the other session to a files.read that was never decided.",
+      "doesNotAssert": "that either session misbehaved; the collision is legal"
+    },
+    {
+      "id": "vcfbc617d0218ad1a",
+      "kind": "reject",
+      "file": "vectors/vcfbc617d0218ad1a.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-036"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the unsupported MODIFY correctly replaced by DENY, with an audit event that says the modification was applied and carries no modify_unsupported reason code. The action was blocked, so the outcome is right and the record claims a change that never happened. A checker that only asks whether some audit event exists passes this member.",
+      "doesNotAssert": "that the action ran"
+    },
+    {
+      "id": "vd4d655cdc5da676f",
+      "kind": "accept",
+      "file": "vectors/vd4d655cdc5da676f.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-050",
+        "ACS-R-054"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "an on-time deny at severity 4 with is_alert true, and a correlation_uid of session id, colon, request id.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "vd4df6378ea74234d",
+      "kind": "accept",
+      "file": "vectors/vd4df6378ea74234d.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-051"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same late modify with is_alert true at severity 2: the one case the release text allows an alert below severity 3. A checker that holds is_alert to severity everywhere fails this member.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "vd57793caa251dec6",
@@ -1168,6 +3150,155 @@
       "cites": "a chain head presented as the Guardian's whose ML-DSA-65 signature verifies only under the Observed Agent's own key, while its key_id resolves to the Guardian's. Verification under the resolved key fails, which is the error table's SIGNATURE_INVALID row. A party holding only the Guardian's public key can tell the signer is not the Guardian, so the member is EXTERNAL. A verifier that checks the signature against whichever key makes it verify accepts this."
     },
     {
+      "id": "vdea95625fa2056cf",
+      "kind": "accept",
+      "file": "vectors/vdea95625fa2056cf.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-033"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "a reference that resolves to a toolCallRequest the Guardian holds for this session, with no finding recorded. A Guardian that records every reference fails nothing here, and one that records a resolved reference as unresolved fails this member.",
+      "doesNotAssert": "that the request and the result describe the same tool call; only that the reference resolves"
+    },
+    {
+      "id": "ve0b07adbd63ede48",
+      "kind": "accept",
+      "file": "vectors/ve0b07adbd63ede48.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-053"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same references and an authorizations entry with no policy object in the second position.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "ve4913ae6f9a72e29",
+      "kind": "reject",
+      "file": "vectors/ve4913ae6f9a72e29.json",
+      "family": "acs-f-14",
+      "requirements": [
+        "ACS-R-033"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same unresolved reference, denied by policy, again with no record of the reference. A denial is not a record: the rule is unconditional, so a Guardian whose policy happens to deny still owes the record, and a checker that reads the denial as enough passes this member.",
+      "doesNotAssert": "that the denial was wrong"
+    },
+    {
+      "id": "ve69abbaf514cc33f",
+      "kind": "reject",
+      "file": "vectors/ve69abbaf514cc33f.json",
+      "family": "acs-f-13",
+      "requirements": [
+        "ACS-R-026",
+        "ACS-R-027"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": "SIGNATURE_INVALID",
+        "codeValue": -32004,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "the configured secret used as the HMAC key with no derivation at all. Nothing then binds the key to the session, so a MAC lifted into another session of the same deployment verifies there.",
+      "doesNotAssert": "that the signer meant harm or that the request is otherwise unacceptable; it fails because the key the verifier derives under the fixed parameters does not produce this MAC"
+    },
+    {
+      "id": "ve7274cd800b89ef2",
+      "kind": "reject",
+      "file": "vectors/ve7274cd800b89ef2.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-039",
+        "ACS-R-059"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a payload with request_id_ref and a span without acs.request_id_ref. The attribute is conditional, which obliges the exporter to emit it whenever the source field is present; it is not optional.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "vee03180733ac4538",
+      "kind": "indeterminate",
+      "file": "vectors/vee03180733ac4538.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-044"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "unmeasurable",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": "the trace alone cannot answer it. Release 0.1.4 defines no Trace event for a verdict the Observed Agent substituted, and rules the section 6.3 and 6.5 substitutions out of acs.decision.failure, so a trace in which the modify was applied and a trace in which DENY was substituted are byte-identical. Issue 264 proposes acs.decision.substituted to close this; until a sentence lands, a reader holding only the trace has no conformant answer"
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the Guardian's stream alone, with an acs.decision of modify and nothing else for the pair. Scoring an answer here would credit a reader for a guess.",
+      "doesNotAssert": "what was applied; that is the point"
+    },
+    {
+      "id": "veed45c58b4e3a95b",
+      "kind": "reject",
+      "file": "vectors/veed45c58b4e3a95b.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-039"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a payload with no request_id_ref and a span carrying acs.request_id_ref as an empty string. A conditional attribute is omitted when its source is absent, because an empty value cannot be told from a present one that is empty.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
       "id": "vef655ce2a45f618b",
       "kind": "reject",
       "file": "vectors/vef655ce2a45f618b.json",
@@ -1186,6 +3317,50 @@
       "witnessScope": "SELF",
       "coverage": "effective",
       "cites": "the same request identifier inside one session, twice. The first step must be allowed and the second denied, so the positive control is inside the member and a harness that resets between steps rather than between members destroys the property."
+    },
+    {
+      "id": "vf0317aa29d78b3c1",
+      "kind": "accept",
+      "file": "vectors/vf0317aa29d78b3c1.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-049",
+        "ACS-R-055",
+        "ACS-R-050"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a defer with action_id and disposition_id 99, the action and disposition text fields naming defer, severity 3, and is_alert true.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
+    },
+    {
+      "id": "vf08f4493cfae6ceb",
+      "kind": "reject",
+      "file": "vectors/vf08f4493cfae6ceb.json",
+      "family": "acs-f-17",
+      "requirements": [
+        "ACS-R-051"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "a modify that arrived after the timeout under fail-open, with is_alert false. The action ran without the modification the policy required, and a late non-allow under fail-open alerts.",
+      "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome"
     },
     {
       "id": "vf3679e6ac60fd250",
@@ -1208,6 +3383,48 @@
       "cites": "the same envelope requesting a capability the intent carries. It is a mandatory allow, so a deployment that denies everything scores zero on this family rather than full marks."
     },
     {
+      "id": "vf53a8639739cf0ca",
+      "kind": "accept",
+      "file": "vectors/vf53a8639739cf0ca.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-039"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "allow",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "EXTERNAL",
+      "coverage": "observed",
+      "cites": "the same absent source and a span that omits the attribute.",
+      "doesNotAssert": "anything about the decision on this step; the member is about the span's shape"
+    },
+    {
+      "id": "vf7ace2bd183ec0bf",
+      "kind": "reject",
+      "file": "vectors/vf7ace2bd183ec0bf.json",
+      "family": "acs-f-12",
+      "requirements": [
+        "ACS-R-035"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "substrate",
+      "witnessScope": "SELF",
+      "coverage": "observed",
+      "cites": "the same malformed MODIFY, the same DENY applied, and no record of the substitution. The action was blocked, so a checker that looks only at the outcome passes it. The Guardian's acs.decision event still says modify, so the only account of what happened is missing: this is the omission issue 264 describes.",
+      "doesNotAssert": "that the action ran; it did not"
+    },
+    {
       "id": "vf80a81054d3f0862",
       "kind": "reject",
       "file": "vectors/vf80a81054d3f0862.json",
@@ -1226,6 +3443,27 @@
       "witnessScope": "PEER",
       "coverage": "effective",
       "cites": "a request envelope with no signature member at all. Section 10 makes a signature REQUIRED in ACS-Core and the error table defines SIGNATURE_INVALID for a required signature that is missing, while request-envelope.json lists no signature among its required members and section 10.1 calls signatures field-optional, so an implementation that validates the schema and verifies only the signatures it finds admits this envelope. The members above all carry a signature, which is why none of them could see that."
+    },
+    {
+      "id": "vfacb1e4dabfd1d80",
+      "kind": "reject",
+      "file": "vectors/vfacb1e4dabfd1d80.json",
+      "family": "acs-f-16",
+      "requirements": [
+        "ACS-R-057"
+      ],
+      "specVersion": "0.1.0",
+      "expected": {
+        "verdict": "deny",
+        "code": null,
+        "codeValue": null,
+        "unmeasurableBecause": null
+      },
+      "evidenceBasis": "artifact",
+      "witnessScope": "PEER",
+      "coverage": "effective",
+      "cites": "a response whose policy_references entry carries policy_id as an empty string, accepted by the Observed Agent. Release 0.1.4 gives every policy_references member a minimum length of one, so the response fails schema validation and is a malformed response.",
+      "doesNotAssert": "what the Observed Agent does next; a malformed response is a decision failure under its posture"
     },
     {
       "id": "vfcab242ddb38d018",

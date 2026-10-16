@@ -1,4 +1,5 @@
 {
+  "cites": "three calls against a budget of three, every step allowed. The positive control for a sequenced family is itself sequenced.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -95,6 +96,18 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-013",
+      "line": 276,
+      "sentence": "a Guardian operating under `scope_mode: strict` MUST NOT honor extensions that would add capabilities the deployment policy forbids in strict mode",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-013"
   ],
