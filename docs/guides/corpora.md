@@ -61,6 +61,8 @@ These have their own inputs and policies.
 | [WS4 prior-witness candidate](../../interop/ws4-prior-witness-candidate/README.md) | Provenance fixtures for the proposed Section 7.4 integration, using an author-held key and consumer-stipulated pins. Fixture execution supplies neither outside witness custody nor WS4 conformance. |
 | [Framed action tuple](../../interop/action-tuple-framed-v1/README.md) | Separate unsigned profile with explicit UTF-8 byte lengths and a versioned domain. |
 | [A2A retained-field gate](../../interop/a2a-s3-retain-2026-10-01/README.md) | Thirteen source-pinned signature cases. Accepts signer-side dual signing; rejects verifier fallback that leaves an altered legacy URL unsigned. Its consumer policy is separate from A2A's canonicalization ruling. |
+| [JEP Core 0.7 reader](../../interop/jep-core07-reader/README.md) | Runs the pinned JEP fixtures without importing JEP's validator, adapter or runner, under a protocol committed before execution. Reports the validation, producer and acceptance assertions separately. |
+| [REMORA E7 reader](../../packaging/agent_evidence_vectors/remora_e7/README.md) | Checks the native `runtime-surface-e7-v0.1` fixtures against the producer-pinned package digest and computes each result without reading the case's expected answer. |
 
 ## Specification pins
 
