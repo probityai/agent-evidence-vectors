@@ -1,0 +1,75 @@
+{
+  "cites": "the same postCompact MODIFY, the original summary kept, and no record. The rewrite the Guardian asked for silently did not happen.",
+  "coverage": "observed",
+  "doesNotAssert": "that keeping the summary was wrong; it was the only legal outcome",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-12",
+  "id": "v34a0f1903d69dbc1",
+  "kind": "reject",
+  "payload": {
+    "applied": {
+      "outcome": "original_kept",
+      "summary_retained": "original"
+    },
+    "deployment_audit_log": [],
+    "observed_agent": {
+      "modify_capable": false
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/postCompact",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "entry_count": 41,
+          "summary": "Session so far: drafted the incident note."
+        },
+        "request_id": "8b182a13-c426-4e7a-b38c-2c5c0afc0faa",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "acs_version": "0.1.0",
+        "decision": "modify",
+        "modifications": {
+          "modified_content": "Session so far: drafted the note."
+        },
+        "reasoning": "drop the credential echoed into the summary",
+        "request_id": "8b182a13-c426-4e7a-b38c-2c5c0afc0faa",
+        "type": "final"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-038",
+      "line": 214,
+      "sentence": "A client that receives a `MODIFY` it cannot apply at `postCompact` keeps the original summary and MUST record the same audit event; substituting `DENY` there would record a denial that changed nothing.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-038"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

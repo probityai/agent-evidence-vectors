@@ -1,10 +1,14 @@
 # ACS-Core negative conformance suite
 
 Negative conformance vectors for the mandatory profile of the OWASP Agent
-Control Standard, read at commit `9d4a9da` of
-`GenAI-Security-Project/agent-control-standard`. The four normative files the
-vectors cite are vendored in `spec-vendored/` and pinned by sha256 in
-`MANIFEST.json`.
+Control Standard, read from `GenAI-Security-Project/agent-control-standard` at
+three commits: `9d4a9da` on `main`, the head of the release/0.1.4 pull request
+(`7efa539`), and the head of pull request 272 (`f2304bf`). The normative files
+the vectors cite are vendored in `spec-vendored/`, pinned by sha256 in
+`MANIFEST.json`, and each `specVendored` entry names the commit and the
+upstream path its bytes came from and whether they are upstream's or a
+proposal. Every member file quotes the sentences it turns on, with that commit,
+under `requirementText`.
 
 ## Nothing has been run against this
 
@@ -96,10 +100,66 @@ separate them scores a deployment on what it says about itself.
 | path | what it is |
 |---|---|
 | `vectors/` | one file per member, named after a digest of its own declaration |
-| `spec-vendored/` | the four normative files the requirements are read from, pinned by digest |
+| `spec-vendored/` | the normative files the requirements are read from, each pinned by digest and by upstream commit |
 | `MANIFEST.json` | the requirement table, the families, the scope-away list, counts and corpus digest |
 | `INDEX.md` | every requirement and every member in one table |
 | `gen_vectors.py` | regenerates the corpus byte-identically |
+
+## The October text: release 0.1.4, pull request 272 and issue 264
+
+Families `acs-f-12` to `acs-f-17` are minted from text that landed, or was
+proposed, between 2026-10-12 and 2026-10-15. Each member carries a
+`doesNotAssert` line beside its verdict, because an accepting member read as
+evidence of more than the one property it turns on is the error a corpus like
+this one invites.
+
+**Release 0.1.4.** The pin is the head of pull request 281, read before it
+merged and before any `v0.1.4` tag existed. Its specification files are
+byte-identical to `integration` at `685367d`, where each change the release
+carries had already merged. Families `acs-f-15`, `acs-f-16` and `acs-f-17` take
+the Trace rules it makes normative: every step span carries the join pair, a
+join keys on session and request together, a conditional attribute is emitted
+exactly when its source field is present, parallel arrays are padded rather
+than shortened, a reader never counts a decision as enforced when either
+party's stream holds a failure event for its pair or when the OCSF event is
+flagged late, the Observed Agent records every decision failure in the
+deployment's own log, a Guardian emits no failure event for a replay, a failure
+detail never copies request bytes, and the OCSF decision event's
+`disposition_id`, `is_alert`, `authorizations` and `correlation_uid` follow the
+release's tables.
+
+**Pull request 272.** Open and unmerged at its pinned head, so its members test
+a proposal and the vendored entries say so; a change to the proposal before it
+merges is a reword that stops this build. Family `acs-f-13` holds the HKDF
+derivation the pull request fixes. The derivation is computed here, not typed:
+the generator recomputes the key the pull request publishes for its worked
+example and refuses to build if the two disagree, and every signing member
+carries the signed input, its digest and the derivation the signer used, so a
+checker can recompute the MAC without deciding how to canonicalize. The
+rejecting members are signed with derivations the pre-fix sentence admitted (the
+session id as the salt, no derivation at all), with a long output, and with
+another session's key, and each must fail with `SIGNATURE_INVALID`. The same
+family holds the `key_id` rule: an unknown label is refused with no fallback to
+another secret, the label is never derived from the secret, a rotation holds
+both labels, and the Guardian answers under the label the request named.
+Family `acs-f-14` holds the `request_id_ref` rule from `hooks.md`: a reference
+the Guardian cannot resolve within the session is recorded whatever the
+decision, and the decision stays the deployment's policy.
+
+**Issue 264.** An open proposal with no specification text of its own, so
+nothing is minted from it. Family `acs-f-12` reads sections 6.3 and 6.5 at the
+release pin, where the substitution the issue is about is already required: a
+MODIFY the Observed Agent cannot apply becomes DENY, or keeps the original
+summary at `postCompact`, and an audit event records it. The members cover a
+substitution recorded correctly, one omitted, and one whose record claims a
+modification that never happened, which is the harm section 6.5 names. The
+Trace form the issue proposes, `acs.decision.substituted`, waits in
+`awaitingText`, and one indeterminate member records that a reader holding only
+the trace cannot tell an applied MODIFY from a substituted one.
+
+A requirement quoting a sentence that runs on past a section sign is quoted as
+ASCII fragments, because the Go reader hashes only ASCII and a digest it cannot
+reproduce would report an intact corpus as broken.
 
 ## Running it
 
@@ -141,7 +201,8 @@ re-sign a shorter chain, so the Core half never claims a third-party witness.
 
 ## A wrong signer and an undeterminable one
 
-Family `acs-f-10` carries one substitution under both profiles: the Observed
+Family `acs-f-10` carries one substitution under both signature profiles, the
+HMAC baseline of ACS-Core and the asymmetric ACS-Crypto profile: the Observed
 Agent signs a chain head and presents it as the Guardian's. Here the two
 profiles do not differ only in witness scope; they give different verdicts.
 Under ACS-Crypto the signature verifies only under the Observed Agent's own key
@@ -153,18 +214,41 @@ hold the session key, the Observed Agent's MAC verifies under the key the
 `key_id` resolves to, and nothing in the head or the public material says who
 computed it. That member is `unmeasurable`, citing the section 8.6 sentence
 that puts non-repudiation in ACS-Crypto, and `SELF`, because the only accounts
-of who signed are the two key-holders' own. A verifier has to report "the
-signer is wrong" and "the signer cannot be determined" as different outcomes,
-so the corpus does not give them one shape.
+of who signed are the two key-holders' own. The specification gives a
+verifier no answer meaning "the signer cannot be determined", so that member
+is exempt rather than scored, and `awaitingText` in `MANIFEST.json` records
+the sentence it waits for.
 
 A third member refuses the claim rather than the signature. An HMAC head the
 Guardian did sign, presented to a third party as proof of which Guardian issued
-it, is graded `deny` with no registry code, because the symmetric tier cannot
-carry that claim and a surface that only calls it weak lets it through. It is
+it, is graded `deny`, because the symmetric tier cannot carry that claim and a
+surface that only calls it weak lets it through. The member forbids a registry
+code (`forbidsRegistryCode`) rather than leaving the code unasserted:
+`SIGNATURE_INVALID` there would report a signer nobody can determine as one
+determined to be wrong, which is the ACS-Crypto member's answer, so a verifier
+that gives it fails. That is where the corpus keeps "the signer is wrong" and
+"the signer cannot be determined" from taking one shape. The member names the
+wrong answer and not the right one: until the specification gives a verifier
+an answer for an undeterminable signer, a deny that carries no code is all it
+can require. It is
 `EXTERNAL`: the algorithm and the claim are both in the presented bytes, so an
 outside party can refuse it without the Guardian's account or the key. Its
 accepting twin presents the same head to a key-holder as integrity evidence, so
 a verifier that refuses every HMAC head fails the family rather than passing it.
+
+## The trust anchor is part of the input
+
+Every `acs-f-10` member carries `key_id_resolves_to`: which key a `key_id`
+names and who holds the signing half. Section 10 defines no in-band key
+exchange, so in a deployment that binding is distributed out of band and is
+the consumer's own trust anchor. The members take it as given and test what a
+verifier does with it: a signature that verifies only under a key the binding
+does not name is `SIGNATURE_INVALID`. No member asserts that `guardian-k1`
+belongs to any real Guardian, and none could, because that fact differs per
+deployment and a self-contained vector cannot fix it. This is the boundary row
+U5 of the AEE coverage matrix (`docs/COVERAGE-MATRIX.md`) draws for the AEE
+corpus, where the per-consumer anchor stays out of every vector and the
+evidence tier is pinned under two supplied key policies instead.
 
 ## A session that starts with no Guardian
 

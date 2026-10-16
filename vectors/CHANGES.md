@@ -5,6 +5,49 @@ The vector corpus is a versioned, immutable-per-revision artifact. A published
 or a corpus addition bumps the revision and regenerates the vectors
 byte-identically from the generators.
 
+## suiteRevision 32 (canonical base64 on the carried payload)
+
+- **The settled-readings page states that canonical base64 is a property of the
+  carried text, and gave it no vector.** The one shipped vector on that surface,
+  `v4ff6cb70764bf703`, sets a trailing bit that must be zero. This revision adds
+  the three other spellings the rule names, each on the same covering record, and
+  each built so that a decoder which discards non-alphabet bytes and restores
+  padding recovers exactly the signed bytes. The signature, the leaf and the
+  batch root therefore still match for a lenient rail, and the decode rule is the
+  only thing left to refuse the statement.
+- **`v44d1a62bf45413ea` wraps the payload MIME-style, CRLF after every 76
+  characters.** This vector found a defect in one of our own reference rails. Go's
+  `encoding/base64` skips CR and LF in every decoding mode, `Strict()` included,
+  so the Go rail accepted this statement while the Python rail refused it. The Go
+  rail now compares the carried text against the canonical re-encoding of the
+  bytes it decoded to, on record payloads and on record signatures.
+- **`v93573824d5835bd4` drops the padding** and **`va39a20d87c5e9fcf` puts one
+  space between the first two quanta.** Both reference rails refused these
+  already; nothing in the corpus asked.
+- **The rule has a condition id now, `aee-c-110`, anchored at L1300-1302.**
+  `v4ff6cb70764bf703` cited `aee-c-19`, the media-type rule, in its place, which
+  `v7622b2c58c2e272d`'s own note recorded as a wrong answer. Both now cite
+  `aee-c-110`. No statement file changes for this.
+- **The pairing still holds**: all 223 reject vectors declare a parent that ships
+  as an accept vector. **173 of the 223 reject vectors are now exactly one mutation
+  from their declared parent**, three more than at revision 31, because each new
+  vector is one edit to its parent's covering payload. The remaining 50 cannot
+  express their declared fault in a single edit and stay declared in
+  `docs/MULTI-MUTATION-VECTORS.json`. The finer measure, the conditions cited only
+  by refusals, is ratcheted against `docs/ACCEPT-ANCHOR-BASELINE.json`.
+  That second number is 35 of 78 today, up one because `aee-c-110` is new and
+  only refusals cite it: the accepting vectors all carry canonical payloads and
+  satisfy it without naming it.
+- Corpus: **288 vectors (63 accept, 223 reject, 2 indeterminate)**, three more
+  than suiteRevision 31. No existing vector file changes.
+- **What this revision does not exercise.** The alternate alphabet: no payload in
+  the corpus encodes to text carrying `+` or `/`, so a base64url spelling of it is
+  byte-identical to the standard one, and a vector would need a payload built for
+  the purpose. Record signatures carried in a non-canonical spelling: a signature
+  that does not decode is a tier fact under this predicate rather than a validity
+  fault, and whether the registry's fail-closed wording should make it one is a
+  question for the registry text, not for this revision.
+
 ## suiteRevision 31 (vectors for the settled readings that had none)
 
 - **The settled-readings page pins readings the specification text left open, and

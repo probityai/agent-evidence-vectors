@@ -1,4 +1,5 @@
 {
+  "cites": "two steps with distinct request identifiers, both allowed. A sequenced family needs a sequenced positive control, because a single-step positive satisfies the gate in appearance only.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -64,6 +65,18 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-002",
+      "line": 322,
+      "sentence": "MUST reject duplicate `request_id` values within the session with `REPLAY_DETECTED`",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-002"
   ],

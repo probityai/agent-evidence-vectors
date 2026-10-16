@@ -3,9 +3,10 @@
 Predicate type `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`.
 
 The registry entry for this predicate belongs in the in-toto attestation
-catalog, at `spec/predicates/adversarial-execution-evidence.md`. It is in review
-as [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570), so
-the catalog path does not resolve yet and the pull request is where to read it.
+catalog, at `spec/predicates/adversarial-execution-evidence.md`. It is proposed
+in [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570),
+which is not merged, so the catalog path does not resolve yet and the pull
+request is where to read it.
 That page is normative and self-contained: the type URI, the schema, the
 parsing rules, one line per field, the examples, and the changelog. It is
 sized to the registry it sits in.

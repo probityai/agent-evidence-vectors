@@ -1,4 +1,5 @@
 {
+  "cites": "the same truncated seal with every response signed under ML-DSA-65. A party holding only the Guardian's public key can show that the Guardian signed a head its own seal omits, which is the non-repudiation the symmetric baseline cannot give, so this half of the pair is EXTERNAL.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -39,6 +40,28 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-006",
     "ACS-R-021"

@@ -1,0 +1,24 @@
+{
+  "claim": {
+    "iat": 9007199254740991,
+    "signature": "fixture-signature-agent-max",
+    "subject": "agent-max",
+    "transparency": "https://registry.example.org/anchors/b-max"
+  },
+  "entry": {
+    "batch_id": "b-max",
+    "leaf_count": 3,
+    "merkle_root": "sha256:1843e07782054096ba85cfced0337509d278bcaf38f6bc278bf7c244d1be717a",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:a66317422ae9b7a185d1e532d3f187d5fcea30f8a8dce03c79f9c4a357087a77",
+      "sha256:aa2da004b634d6a8688dff326efc8a4372f1779f866a85c3885b8a17cdfd37d4"
+    ],
+    "leaf_count": 3,
+    "leaf_index": 0,
+    "merkle_root": "sha256:1843e07782054096ba85cfced0337509d278bcaf38f6bc278bf7c244d1be717a"
+  }
+}

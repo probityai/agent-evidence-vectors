@@ -299,7 +299,8 @@ LIMITS: tuple[str, ...] = (
     "AEE is presently exercised by a first-party implementation set, so "
     "cross-rail agreement is a drift check rather than independent "
     "corroboration.",
-    "The predicate is a draft under review at in-toto, not a ratified standard.",
+    "The predicate is a proposal to in-toto, made in attestation pull request "
+    "570, not a ratified standard.",
 )
 
 NOTE = (

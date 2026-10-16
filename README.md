@@ -6,7 +6,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 ## Try it
 
-From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.26+, Python 3.12+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
+From a reviewed source checkout, build the Go verifier and a wheel, then run the installed harness outside the checkout. You need Go 1.26+, Python 3.11+ and [uv](https://docs.astral.sh/uv/). Record the checkout's full commit ID with your report.
 
 ```bash
 git rev-parse HEAD
@@ -42,6 +42,10 @@ uvx agent-evidence-vectors==0.18.0 --verifier "aee-verify --json"
 The harness calls your executable with a vector-file path. Return a verdict through the exit status and a JSON object on the last line of stdout. The [verifier contract](docs/reference/verifier-contract.md) covers output fields, key policy and comparison rules.
 
 Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
+
+## Verifiers that pin this corpus
+
+agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this repository in their own CI at a pinned release or commit, and this repository's CI runs agmi's anchored-chain verifier back against `vectors-anchored-chain`. The [verifier table](docs/VERIFIERS.md) gives each one's corpus, pin and CI run.
 
 ## Choose your next step
 

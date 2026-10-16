@@ -1,4 +1,5 @@
 {
+  "cites": "a hello that nothing answered before the connection timeout, the default startup posture, a session that started, and a deployment audit log with no record of the unguarded start. The posture is conformant and the silence is not. The step-level twin in acs-f-5 has a Guardian to receive its audit event; here the handshake never completed, so there is no Guardian to receive anything and the deployment's own log is the only witness, which is why the member is SELF. A member that asserted only that the session started would score the default posture as evidence of enforcement.",
   "coverage": "observed",
   "evidenceBasis": "substrate",
   "expected": {
@@ -46,6 +47,18 @@
     "session_started": true,
     "startup_posture": "proceed"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-023",
+      "line": 77,
+      "sentence": "A session started unguarded MUST be recorded in the deployment's own audit log",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-023"
   ],

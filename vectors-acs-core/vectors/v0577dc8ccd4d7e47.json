@@ -1,4 +1,5 @@
 {
+  "cites": "the same envelope carrying its signature, so a deployment that refuses every request scores zero on the signature requirement rather than full marks.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -36,6 +37,18 @@
     },
     "signature_state": "VALID"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-020",
+      "line": 293,
+      "sentence": "canonical input is REQUIRED in ACS-Core",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-020"
   ],

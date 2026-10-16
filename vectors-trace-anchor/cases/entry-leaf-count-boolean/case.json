@@ -1,0 +1,19 @@
+{
+  "claim": {
+    "iat": 1792000000,
+    "signature": "fixture-signature-b-one-agent-0",
+    "subject": "b-one-agent-0",
+    "transparency": "https://registry.example.org/anchors/b-one"
+  },
+  "entry": {
+    "batch_id": "b-one",
+    "leaf_count": true,
+    "merkle_root": "sha256:b865e18f80cc108eb129aa60d8776a469f8b765a193562a57afc7cd270a692d4",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [],
+    "leaf_index": 0
+  }
+}

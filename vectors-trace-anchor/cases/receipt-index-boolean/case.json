@@ -1,0 +1,23 @@
+{
+  "claim": {
+    "iat": 1792000001,
+    "signature": "fixture-signature-b-two-agent-1",
+    "subject": "b-two-agent-1",
+    "transparency": "https://registry.example.org/anchors/b-two"
+  },
+  "entry": {
+    "batch_id": "b-two",
+    "leaf_count": 2,
+    "merkle_root": "sha256:545a70acc84a29147374d9f617775956ebeb92f21a6f159511ee990ac76bc772",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:7e6365653c47d4f7848188e3863314b405fa02baad4cfcc6222e52b509a89da2"
+    ],
+    "leaf_count": 2,
+    "leaf_index": true,
+    "merkle_root": "sha256:545a70acc84a29147374d9f617775956ebeb92f21a6f159511ee990ac76bc772"
+  }
+}

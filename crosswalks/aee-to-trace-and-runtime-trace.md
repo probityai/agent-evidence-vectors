@@ -96,7 +96,7 @@ Rules one and two are the ones TRACE does not have. Rule three is why the target
 
 AEE detects nothing, classifies nothing, and issues no verdict. It carries what a substrate observed and whether a stranger can re-check the account.
 
-Three limits, stated plainly. The predicate is a draft under review at in-toto rather than ratified text. It is presently exercised by a first-party implementation set, so agreement between implementations is a drift check and not independent corroboration. And this document maps specification text at three named commits: a later revision of any of the three can move a section number or fill a row marked `NO COUNTERPART`, and nothing here detects that happening. The JSON beside this file carries the commit for each side and the command that re-reads it.
+Three limits, stated plainly. The predicate is a proposal to in-toto, made in attestation pull request 570, rather than ratified text. It is presently exercised by a first-party implementation set, so agreement between implementations is a drift check and not independent corroboration. And this document maps specification text at three named commits: a later revision of any of the three can move a section number or fill a row marked `NO COUNTERPART`, and nothing here detects that happening. The JSON beside this file carries the commit for each side and the command that re-reads it.
 
 ## Provenance
 

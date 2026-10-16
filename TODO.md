@@ -457,7 +457,7 @@ under suiteRevision 17.
   emission, or close a collection loop after one member. A rule that lives in a constant (a
   bound, a depth cap, a media type), in the ORDER
   of two checks, or in a data table is not a site, so it appears in no class -- not even as a
-  gap. 808 sites is the size of what can be asked, never the size of the rail. File:
+  gap. 810 sites is the size of what can be asked, never the size of the rail. File:
   `cmd/mutgen/mutate.go`. PARTIAL: the quantifier case, which was the largest named hole in
   this row, is now expressible -- `LOOP_FIRST` turns "for every member, P" into "for one
   member, P" and found 31 universals this corpus does not force as universals. The constant,
@@ -505,20 +505,20 @@ under suiteRevision 17.
   restricted to the sites where it does not. File: `scripts/forcing-gate.py`,
   `cmd/mutgen/mutate.go`.
 
-- [ ] **A corpus change that lands and is never followed by a refresh reddens the
+- [ ] **A release that changes the corpus and is never followed by a refresh reddens the
   default branch, not the change that caused it.** The consumer-lag gate measures the
-  vendored copies against the corpus the default branch publishes, because that is the
-  only corpus a rail in another repository can fetch; a branch that adds vectors
-  therefore passes, correctly, since no rail is behind anything yet. The obligation
-  arrives at the merge and the signal is a red default branch until every copy is
-  refreshed and `--sync` records it. Nothing here can make the signal arrive earlier
+  vendored copies against the corpus of the newest release tag the default branch
+  carries, because rails vendor release tags only; a branch that adds vectors, and its
+  merge before a release carries it, therefore pass, correctly, since no rail is behind
+  anything it could vendor yet. The obligation arrives with the release and the signal is
+  a red default branch until every copy is refreshed and `--sync` records it. Nothing here can make the signal arrive earlier
   without requiring a rail to vendor an unpublished commit, which is the deadlock the
   measurement was changed to remove: the branch could not be pushed until the rails
   carried it, the rails could only carry a published corpus, and the corpus could not be
   published because the push was refused. File: `scripts/consumer-lag-gate.py`.
 - [ ] **A vendored copy that is refreshed, recorded, then reverted stays green.** The
-  consumer-lag gate compares `vectors/CONSUMERS.json` against the corpus the default
-  branch publishes,
+  consumer-lag gate compares `vectors/CONSUMERS.json` against the corpus the latest
+  release publishes,
   and that ledger records what each copy carried when it was last synced. A copy reverted
   after its sync would keep a stale ledger entry that still matches, and the copy's own
   stamp check cannot see it either, since a revert plus a re-stamp is internally

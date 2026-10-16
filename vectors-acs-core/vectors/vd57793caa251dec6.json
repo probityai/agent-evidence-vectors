@@ -1,4 +1,5 @@
 {
+  "cites": "a generated record claiming more trust than the minimum of what it derives from. No amount of processing launders the untrusted input, and the arithmetic is what makes the rule testable.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -26,6 +27,18 @@
       "trust": "trusted"
     }
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-008",
+      "line": 188,
+      "sentence": "the framework MUST compute `trust` as the minimum trust of the entries in `derived_from` (monotonicity rule)",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-008"
   ],

@@ -1,4 +1,5 @@
 {
+  "cites": "provenance produced inside the model's output path while the handshake declares a deterministic producer. It makes an untrusted runtime output responsible for its own lineage, which is the mode the specification names as non-conformant.",
   "coverage": "configured",
   "evidenceBasis": "substrate",
   "expected": {
@@ -18,6 +19,18 @@
       "trust": "trusted"
     }
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-010",
+      "line": 205,
+      "sentence": "Provenance MUST be populated by deterministic code outside the LLM's output path. Implementations MUST NOT instruct the LLM to produce it.",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-010"
   ],

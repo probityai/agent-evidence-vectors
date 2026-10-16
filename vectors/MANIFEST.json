@@ -1,6 +1,6 @@
 {
   "suite": "adversarial-execution-evidence-conformance",
-  "suiteRevision": 31,
+  "suiteRevision": 32,
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "specPath": "spec/predicates/adversarial-execution-evidence.md",
   "specDigest": "759d2383e5da36fa509dc335e6159a20b87641b25ebbadcf1676c55d75ffd8b0",
@@ -8,7 +8,7 @@
   "specUpstreamCommit": "0dbe10bcc959b63dc42370a5db09812c9476f59a",
   "counts": {
     "accept": 63,
-    "reject": 220,
+    "reject": 223,
     "indeterminate": 2
   },
   "comparisonSurface": {
@@ -21,7 +21,7 @@
     ],
     "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
   },
-  "corpusDigest": "200f25888bafde0aee5f0f751d8c3282449aa25dda6fae2ae2473babb515690b",
+  "corpusDigest": "bf3e5befd71640757ff1b3f0af63507364b823b5e3f9059678f72f64a46e11c1",
   "vectors": [
     {
       "id": "vcf20eae7df4f1f1b",
@@ -1602,7 +1602,8 @@
       "kind": "reject",
       "file": "statements/v7622b2c58c2e272d.json",
       "conditions": [
-        "aee-c-29"
+        "aee-c-29",
+        "aee-c-110"
       ],
       "expected": {
         "verdict": "invalid",
@@ -2869,7 +2870,70 @@
       "kind": "reject",
       "file": "statements/v4ff6cb70764bf703.json",
       "conditions": [
-        "aee-c-19"
+        "aee-c-110"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "record-undecodable"
+        ],
+        "alsoCarries": [
+          "observed-set-mismatch"
+        ],
+        "alsoEmits": [
+          "payload-not-canonical",
+          "reconstructed-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "v44d1a62bf45413ea",
+      "kind": "reject",
+      "file": "statements/v44d1a62bf45413ea.json",
+      "conditions": [
+        "aee-c-110"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "record-undecodable"
+        ],
+        "alsoCarries": [
+          "observed-set-mismatch"
+        ],
+        "alsoEmits": [
+          "payload-not-canonical",
+          "reconstructed-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "v93573824d5835bd4",
+      "kind": "reject",
+      "file": "statements/v93573824d5835bd4.json",
+      "conditions": [
+        "aee-c-110"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "record-undecodable"
+        ],
+        "alsoCarries": [
+          "observed-set-mismatch"
+        ],
+        "alsoEmits": [
+          "payload-not-canonical",
+          "reconstructed-row-uncovered"
+        ]
+      }
+    },
+    {
+      "id": "va39a20d87c5e9fcf",
+      "kind": "reject",
+      "file": "statements/va39a20d87c5e9fcf.json",
+      "conditions": [
+        "aee-c-110"
       ],
       "expected": {
         "verdict": "invalid",

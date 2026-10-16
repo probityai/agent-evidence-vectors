@@ -1,4 +1,5 @@
 {
+  "cites": "a request envelope with no signature member at all. Section 10 makes a signature REQUIRED in ACS-Core and the error table defines SIGNATURE_INVALID for a required signature that is missing, while request-envelope.json lists no signature among its required members and section 10.1 calls signatures field-optional, so an implementation that validates the schema and verifies only the signatures it finds admits this envelope. The members above all carry a signature, which is why none of them could see that.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -31,6 +32,18 @@
     },
     "signature_state": "ABSENT"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-020",
+      "line": 293,
+      "sentence": "canonical input is REQUIRED in ACS-Core",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-020"
   ],
