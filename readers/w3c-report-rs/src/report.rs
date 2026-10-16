@@ -671,6 +671,22 @@ pub fn check_set_cause(subject: &Value) -> Option<&'static str> {
     check_set_finding(report, &checks).and_then(|(_, cause)| cause)
 }
 
+/// Whether a section 5.4 filling (a control or a prior run) declares a
+/// checker and constraint set other than the run's. Read only where both
+/// declare one: v0.1 fixes no slot for the run's binding (section 5.5, O7),
+/// so a missing binding on either side is not a difference.
+fn binding_differs(bound: Option<&Value>, report: &Map<String, Value>) -> bool {
+    let filling = bound.and_then(Value::as_object);
+    let run = report.get("fixed").and_then(Value::as_object);
+    match (filling, run) {
+        (Some(f), Some(r)) => {
+            f.get("checker") != r.get("checker")
+                || f.get("constraint-set") != r.get("constraint-set")
+        }
+        _ => false,
+    }
+}
+
 fn roll_up_rows(
     report: &Map<String, Value>,
     ru: &Map<String, Value>,
@@ -755,16 +771,8 @@ fn roll_up_rows(
                         add("W3C-R-013");
                     }
                     // The control runs under the same checker and constraints.
-                    let cf = control
-                        .and_then(|c| c.get("fixed"))
-                        .and_then(Value::as_object);
-                    let rf = report.get("fixed").and_then(Value::as_object);
-                    if let (Some(cf), Some(rf)) = (cf, rf) {
-                        if cf.get("checker") != rf.get("checker")
-                            || cf.get("constraint-set") != rf.get("constraint-set")
-                        {
-                            add("W3C-R-029");
-                        }
+                    if binding_differs(control.and_then(|c| c.get("fixed")), report) {
+                        add("W3C-R-029");
                     }
                 }
                 "prior-discriminating-run" => {
@@ -782,6 +790,11 @@ fn roll_up_rows(
                         .is_some_and(set_binding_ok)
                     {
                         add("W3C-R-015");
+                    }
+                    // The reference lets the reader establish the same checker
+                    // and constraints as the checks it supports.
+                    if binding_differs(nc.get("fixed"), report) {
+                        add("W3C-R-033");
                     }
                 }
                 _ => {}

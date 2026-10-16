@@ -36,6 +36,17 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/self-reported-record`
+
+- Document: `spec/self-reported-record/v1.md`
+- Corpus: `vectors-self-reported-record/`, suite `self-reported-record-conformance`
+- Rails: `corpora/selfreported.go` in this repository
+
+The predicate carries an agent's own record of a session, with each field
+declaring whether a substrate observation covers it or the record's own
+attesting key alone, so a consumer can tell the observed fields from the
+self-asserted ones.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
@@ -78,6 +89,20 @@ carried bytes instead of accepting an asserted one.
   `packaging/agent_evidence_vectors/auditrecord.py`.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
+
+### `predicate/v1/govops-trace-record`
+
+- Predicate body: one GovOps TRACE record (`eat_profile`
+  `tag:govops,2026:trace-v1`) without its `signature` member, as section 1 of
+  [GovOpsWG/GovOps `govops-trace-profile.md`](https://github.com/GovOpsWG/GovOps/blob/131cb66bc87cd266e224d7df6f7b9401c00f3ef7/govops-trace-profile.md)
+  (commit `131cb66`) defines the record. The record format is published there
+  and is not vendored here.
+- Envelope: an in-toto Statement carried in a DSSE envelope, whose subject
+  digest is the record's content digest, as `interop/govops-trace-profile/README.md`
+  writes the carriage down.
+- Corpus: `interop/govops-trace-profile/`, judged by its `check_vectors.py`.
+- Status: current. The URI will not move, because a carried record holds it
+  inside the bytes its producer signed.
 
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no

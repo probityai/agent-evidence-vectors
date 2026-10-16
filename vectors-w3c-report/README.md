@@ -9,7 +9,8 @@ a member that must be rejected under that row alone and a member that must
 pass, and so is every rule v0.1 states outside the table: the cause vocabulary
 and the qualifiers (section 1), the evidence object (section 2), carry or
 reference and digests over a collection (sections 3 and 3.1), and the roll-up
-(section 5), the control binding of section 5.4 included. Each row is anchored
+(section 5), the control and prior-run bindings of section 5.4 included. Each
+row is anchored
 to the v0.1 sentence it tests. The same manifest carries members of two further
 subject types, the Run object of `draft-arsentev-agent-run-metrics-00` and the
 discovery snapshot of `draft-arsentev-llm-context-discovery-00`, judged by
@@ -28,8 +29,8 @@ binding, `W3C-R-029`) are in the v0.1 text and are agreed here. What remains:
 - The run-metrics and context-discovery members are judged by their drafts,
   not by v0.1.
 - A run that declares no checker and constraint-set binding is not refused
-  under `W3C-R-029`, because v0.1 fixes no slot for it (section 5.5, open item
-  O7).
+  under `W3C-R-029` or `W3C-R-033`, because v0.1 fixes no slot for it (section
+  5.5, open item O7).
 - v0.1 does not say which bytes a digest over a JSON value is taken over. The
   digest encoding below, `W3C-R-030` to `W3C-R-032`, was proposed on the list
   after the text froze and is marked proposed.
@@ -140,8 +141,14 @@ only its own members flip. The members rest on proposed requirements, so they
 are counted as excluded-under-proposed-rule, beside the `W3C-R-022` members,
 and none of them enters the section 10 selection.
 
-The section 10 selection is 165 members, 41 to reject and 124 to accept.
-Before v0.18.0 it was also 165 members, but 83 to reject and 82 to accept, at
+The section 10 selection is 169 members, 43 to reject and 126 to accept.
+The four added since v0.18.2 are the `w3c-f-33` family: v0.1 change log entry
+12 binds the prior-run reference of section 5.4 to the checker and constraint
+set of the checks it speaks for, as it binds the control under `W3C-R-029`,
+and `W3C-R-033` carries that half, two members to reject and two to accept. At
+corpusDigest `f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc`
+(v0.18.1 and v0.18.2) the selection was 165 members, 41 to reject and 124 to
+accept. Before v0.18.0 it was also 165 members, but 83 to reject and 82 to accept, at
 corpusDigest `f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe`
 (v0.17.4 to v0.17.6), and the same members at corpusDigest
 `76a189e2a73f1f635bc555176ca9660c988540f3e86e9d4f8dab64ebec47cc0d`

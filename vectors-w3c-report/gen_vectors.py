@@ -283,6 +283,15 @@ W3C_REQUIREMENTS: tuple[dict[str, str], ...] = (
         "The control runs under the same checker revision and the same\n    relevant configuration and constraints as the declared checks\n    whose negative capability it is reported for",
         CONSISTENCY,
     ),
+    # The second half of 0087 change log entry 12: the prior-run filling of
+    # 5.4 carries the binding its control-run sibling carries under W3C-R-029.
+    # Its own sentence, so a reword of either condition stops the build.
+    requirement(
+        "W3C-R-033", "5.4 prior-run binding", "0087",
+        "The reference lets the reader\n    establish the same revision and configuration binding for the\n"
+        "    declared checks it supports",
+        CONSISTENCY,
+    ),
     # Kenne Ives's coverage block (0001) is not in the v0.1 text: no section of
     # 0087 carries it. It stays proposed, and the appendix lists it among the
     # places the corpus and the text still differ.
@@ -519,6 +528,10 @@ FAMILIES = {
     "w3c-f-16": "section 2: moved, recomputed, is contained in the declared compared set",
     "w3c-f-29": (
         "section 5.4: a control built to fail is bound to the checker and constraint set of "
+        "the checks it speaks for"
+    ),
+    "w3c-f-33": (
+        "section 5.4: a prior discriminating run is bound to the checker and constraint set of "
         "the checks it speaks for"
     ),
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
@@ -1053,6 +1066,64 @@ def build_control_binding(m: Members) -> None:
     m.accept("w3c-f-29", "W3C-R-029",
              report(ALL_PASS, negative=control("checker-1", "cs-2")),
              "a control that declares its binding in a run that declares none: nothing to "
+             "compare, and v0.1 fixes no slot for the run's binding, since the fixture "
+             "record that would carry it is not normative (section 5.5, open item O7)")
+
+
+def build_prior_binding(m: Members) -> None:
+    """A prior discriminating run binds the checker and constraint set it ran under.
+
+    Two of the conditions v0.1 section 5.4 (0087) sets on the fillings of the
+    roll-up field are a binding. W3C-R-029 carries the one for a control built
+    to fail. This is the one for a prior run: "The reference lets the reader establish the
+    same revision and configuration binding for the declared checks it
+    supports: a matching artifact digest shows which prior report was
+    obtained, not that it is about the relevant checks and settings (Roel,
+    0076 item 2)." The text adopts both halves in one entry, change log 12:
+    "Control bound to the same checker revision and relevant configuration and
+    constraints as the checks it speaks for; prior-run reference must let the
+    reader establish the same binding", carried by Roel (0076 item 2) with +1
+    from Nicolas (0077), Sankalp (0078) and Kenne (0079), and nothing on the
+    list objected in the window 0087 counts. So the row is agreed, as W3C-R-029
+    is, and its members enter the section 10 selection.
+
+    It is its own row and not W3C-R-029 read across, because the sentence is
+    its own: W3C-R-029 binds to the control sentence, and a member rejected
+    under it would cite a sentence about controls for a defect in a prior run.
+
+    The prior run is otherwise sound in every member: it binds the check
+    identity that survived (W3C-R-014) and names its set of observations with
+    a count and a tree shape (W3C-R-015), so only the binding can fire. The
+    near miss is the one the list gave for the control: the check keeps its
+    identifier while its configuration changes. As under W3C-R-029, a prior
+    run whose binding the run cannot be compared with is not refused: v0.1
+    fixes no slot for the run's binding, since the fixture record that would
+    carry it is not normative (section 5.5, open item O7).
+    """
+    def prior(checker: str, constraint_set: str) -> dict[str, Any]:
+        return {
+            "kind": "prior-discriminating-run",
+            "reference": {"sha256": sha(b"prior-run"), "leaf-count": 2, "tree-shape": "flat"},
+            "check-identity": ["c-pass", "c-pass-2"],
+            "fixed": {"checker": checker, "constraint-set": constraint_set},
+        }
+
+    m.reject("w3c-f-33", "W3C-R-033",
+             report(ALL_PASS, negative=prior("checker-1", "cs-2"), fixed=RUN_FIXED),
+             "a prior run that failed under constraint set cs-2, offered for checks that ran "
+             "under cs-1: the check identifiers survived and the configuration changed, so "
+             "the prior failure is evidence about another configuration")
+    m.reject("w3c-f-33", "W3C-R-033",
+             report(ALL_PASS, negative=prior("checker-2", "cs-1"), fixed=RUN_FIXED),
+             "a prior run that failed under another checker than the one the reported checks "
+             "ran under, with the same check identifiers")
+    m.accept("w3c-f-33", "W3C-R-033",
+             report(ALL_PASS, negative=prior("checker-1", "cs-1"), fixed=RUN_FIXED),
+             "the same prior run bound to the checker and constraint set the reported checks "
+             "ran under")
+    m.accept("w3c-f-33", "W3C-R-033",
+             report(ALL_PASS, negative=prior("checker-1", "cs-2")),
+             "a prior run that declares its binding in a run that declares none: nothing to "
              "compare, and v0.1 fixes no slot for the run's binding, since the fixture "
              "record that would carry it is not normative (section 5.5, open item O7)")
 
@@ -1923,6 +1994,7 @@ def build() -> list[dict[str, Any]]:
     build_rows_8_to_12(m)
     build_roll_up(m)
     build_control_binding(m)
+    build_prior_binding(m)
     build_set_binding(m)
     build_rules(m)
     build_people_rules(m)
