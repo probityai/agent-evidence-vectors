@@ -288,13 +288,15 @@ def case_action_summary(work: Path) -> list[str]:
         "failures": [],
     }
     try:
-        got = summarise(work, coverage, "0")
+        coverage_out = summarise(work, coverage, "0")
     except subprocess.CalledProcessError as exc:
         errors.append(f"action-summary source coverage: exited {exc.returncode}: "
                       f"{exc.stderr.decode(errors='replace').strip()[-300:]}")
     else:
-        if got.get("result") != "pass" or got.get("executed") != "6":
-            errors.append(f"action-summary source coverage: outputs {got!r}, expected pass on 6")
+        if coverage_out.get("result") != "pass" or coverage_out.get("executed") != "6":
+            errors.append(
+                f"action-summary source coverage: outputs {coverage_out!r}, expected pass on 6"
+            )
     short = dict(coverage, verifier={"command": ["x"], "vectorsExecuted": 5},
                  failures=["the verifier answered 5 of 6 vectors"])
     try:
