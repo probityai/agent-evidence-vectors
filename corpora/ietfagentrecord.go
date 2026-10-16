@@ -319,7 +319,7 @@ func (d *iarDecoder) item() (any, error) {
 	}
 	switch major {
 	case 0:
-		return int64(n), nil // #nosec G115 -- every integer in these cases is far below 2^63
+		return int64(n), nil // #nosec G115 -- every integer in these cases fits an int64 with room to spare
 	case 1:
 		return -1 - int64(n), nil // #nosec G115 -- as above
 	case 2, 3:
@@ -618,18 +618,27 @@ func iarAIRRecord(rawHex string, key *ecdsa.PublicKey, off map[string]bool) (*ia
 	if err != nil {
 		return nil, err
 	}
+	if err := iarAIRIntegrity(h, protected, payload, signature, key, off); err != nil {
+		return nil, err
+	}
+	return h, nil
+}
+
+// iarAIRIntegrity runs the record checks that need the decoded header: the
+// signature, the content and chain hashes, and the header copy in the payload.
+func iarAIRIntegrity(h *iarAIRHeader, protected, payload, signature []byte, key *ecdsa.PublicKey, off map[string]bool) error {
 	if !off["signature"] {
 		digest := sha256.Sum256(iarSigStructure(protected, payload))
 		if len(signature) != 64 || !ecdsa.Verify(key, digest[:],
 			new(big.Int).SetBytes(signature[:32]), new(big.Int).SetBytes(signature[32:])) {
-			return nil, iarRefuse("signature-invalid")
+			return iarRefuse("signature-invalid")
 		}
 	}
 	if content := sha256.Sum256(payload); !off["content-hash"] && !bytes.Equal(content[:], h.content) {
-		return nil, iarRefuse("content-hash-mismatch")
+		return iarRefuse("content-hash-mismatch")
 	}
 	if !off["chain-hash"] && !bytes.Equal(iarChainHash(h), h.chain) {
-		return nil, iarRefuse("chain-hash-mismatch")
+		return iarRefuse("chain-hash-mismatch")
 	}
 	if !off["header-payload"] {
 		var copyOf struct {
@@ -638,10 +647,10 @@ func iarAIRRecord(rawHex string, key *ecdsa.PublicKey, off map[string]bool) (*ia
 		}
 		if json.Unmarshal(payload, &copyOf) != nil || copyOf.TS == nil || copyOf.Agent == nil ||
 			*copyOf.TS != h.ts || *copyOf.Agent != h.agent {
-			return nil, iarRefuse("header-payload-disagree")
+			return iarRefuse("header-payload-disagree")
 		}
 	}
-	return h, nil
+	return nil
 }
 
 // iarChainHash is Section 5.7: SHA-256 over content_hash, prev_chain_hash, the
