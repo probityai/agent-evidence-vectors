@@ -1084,6 +1084,16 @@ DELEGATED: tuple[Delegated, ...] = (
           r"matches in \d+ of \d+ once",
           r"in \d+ of \d+ hops",
       )),
+    # The TR-ANC-002 comparison table: each row's agreement count is the corpus
+    # size less the pin's recorded disagreements. test_record.py derives every
+    # row from pins.json and the manifest, and compare.py holds each pin's
+    # record to the live TRACE sources.
+    Delegated(
+        "interop/trace-anchor-tr-anc/README.md",
+        "TR-ANC-002 agreement per pinned TRACE commit",
+        r"\| \d+ of \d+ \| \d+ \|",
+        "interop/trace-anchor-tr-anc/test_record.py",
+    ),
     # The AgentID action_ref v2 recompute prints its own tallies; the reader
     # exits nonzero unless every upstream check and domain case holds, and
     # test_reader.py asserts the two totals.
