@@ -282,11 +282,13 @@ jobs:
   python:
     runs-on: ubicloud-standard-2
     steps:
-      # Full history, because the consumer-lag gate measures the vendored copies
-      # against the corpus the DEFAULT BRANCH publishes -- the only corpus a rail
-      # in another repository could have fetched. A shallow checkout carries the
-      # pushed commit and no origin/main, and that gate then reports that it did
-      # not run rather than guessing, so the whole job would stop here.
+      # Full history and tags, because the consumer-lag gate measures the
+      # vendored copies against the newest release tag the DEFAULT BRANCH
+      # carries -- the only corpus a rail in another repository can vendor, since
+      # the vendoring script pins rails to release tags. fetch-depth 0 fetches
+      # every branch and tag. A shallow checkout carries the pushed commit, no
+      # origin/main and no tags, and that gate then reports that it did not run
+      # rather than guessing, so the whole job would stop here.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -716,7 +718,7 @@ jobs:
       # expiry gate turned red on the first run afterwards exactly as designed,
       # and the reader, the two-layout dispatch and the gate itself were deleted
       # together in the commit that answered it.
-      - name: consumers carry the corpus the default branch publishes, and the report says so
+      - name: consumers carry the corpus the latest release publishes, and the report says so
         run: python3 scripts/consumer-lag-gate.py --check
 
       # Every gate above that COMPARES a committed artifact against a regenerable
@@ -735,9 +737,12 @@ jobs:
       # Measured against the checked-out tree instead of the default branch it
       # refused correctly and too early: a branch adding vectors could not be
       # pushed until rails had vendored a commit no rail could fetch, and the
-      # corpus could not be published because the push was refused. Both halves
-      # of every pair below are asserted, because a gate that never refuses and
-      # a gate that refuses what cannot yet be satisfied are the same failure.
+      # corpus could not be published because the push was refused. Measured
+      # against the default branch's tip it did the same one step later: a
+      # merged corpus change could not be vendored, because rails vendor release
+      # tags only. Both halves of every pair below are asserted, because a gate
+      # that never refuses and a gate that refuses what cannot yet be satisfied
+      # are the same failure.
       - name: the lag gate refuses a real lag and only a real lag
         run: python3 scripts/consumer-lag-gate-test.py
       # The local gates refuse a second copy of themselves, and the refusal names
