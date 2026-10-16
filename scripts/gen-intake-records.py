@@ -37,6 +37,22 @@ What each record declares, and why it is true:
   text and the corpus, which shares no code path with the other two. It is
   ours, so it is not a non-author run.
 
+- ``artifacts`` lists every tracked file of the corpus that is neither a member
+  nor the manifest, pinned by its bytes and covered by the corpus digest, with
+  the consumed state the swap-and-re-pin test of 2026Oct/0091 measures: the
+  corpus is copied out, the file's bytes are replaced, every pin over it is
+  moved (its sha256 wherever the corpus writes it, and the corpus digest
+  through the corpus's own routine), and the checker runs again. A file whose
+  swap leaves the complete native result byte for byte the baseline is
+  ``unconsumed``, and its ``refused-by`` names the grounds the intake checker
+  raises when it is swapped with its pin left in place.
+- The anchor names the digest routine's file, and is a ``signed-digest-list``
+  exactly when ``release/CORPUS-DIGESTS.txt`` verifies under
+  ``release/cosign.pub`` with the signature beside it. A candidate tree's list
+  has changed since the last release signed it, so its records name a located
+  line and say in ``leaves-open`` that it is not a verified one; the release
+  commit regenerates the records after signing (RELEASING.md).
+
 ``--check`` regenerates into memory and refuses any difference from the tree,
 so a record cannot drift from the checker, the corpus or the run.
 """
@@ -44,7 +60,9 @@ so a record cannot drift from the checker, the corpus or the run.
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -61,6 +79,8 @@ sys.path.insert(0, str(REPO / "packaging"))
 from agent_evidence_vectors import w3cintake  # noqa: E402
 
 DIGESTS = "release/CORPUS-DIGESTS.txt"
+SIGNATURE = DIGESTS + ".sig"
+PUBLIC_KEY = "release/cosign.pub"
 OUT = "release/intake"
 NATIVE = OUT + "/native"
 REPOSITORY = "https://github.com/probityai/agent-evidence-vectors"
@@ -142,12 +162,42 @@ def corpora() -> list[tuple[str, str, str]]:
 
 
 def owner(directory: str) -> str:
-    """The file whose corpus_digest routine owns the corpus's published digest."""
+    """The file whose corpus_digest routine owns the corpus's published digest.
+
+    The same rule scripts/release-digests.py applies. A record names this file
+    as its anchor's routine, so a name that resolves to nothing is a refusal
+    here rather than a routine the record claims and nobody can run.
+    """
     if directory == "vectors":
-        return "vectors/gen_manifest.py"
-    if (REPO / directory / "digest.py").is_file():
-        return directory + "/digest.py"
-    return directory + "/gen_vectors.py"
+        rel = "vectors/gen_manifest.py"
+    elif (REPO / directory / "digest.py").is_file():
+        rel = directory + "/digest.py"
+    else:
+        rel = directory + "/gen_vectors.py"
+    if not (REPO / rel).is_file():
+        raise SystemExit(f"FAIL: {directory} has no digest routine: {rel} is not here")
+    return rel
+
+
+@functools.cache
+def corpus_routine(directory: str) -> Any:
+    """The corpus digest routine, loaded from the repository's own file by path."""
+    path = REPO / owner(directory)
+    spec = importlib.util.spec_from_file_location(f"routine_{path.parent.name}", path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"FAIL: {path} could not be loaded")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def corpus_digest_of(directory: str, root: Path, manifest: dict[str, Any]) -> str:
+    """The digest the corpus's own routine computes over the files under root."""
+    module = corpus_routine(directory)
+    if directory == "vectors":
+        return str(module.corpus_digest(str(root / directory)))
+    return str(module.corpus_digest(manifest, str(root / directory)))
 
 
 # --------------------------------------------------------------------------
@@ -229,8 +279,9 @@ def covered(loc: dict[str, Any], every: list[dict[str, Any]]) -> bool:
 class Run:
     """One process: the argv as recorded, its stdout, stderr and exit code."""
 
-    def __init__(self, shown: str, argv: list[str], env: dict[str, str] | None = None) -> None:
-        proc = subprocess.run(argv, cwd=REPO, capture_output=True, check=False, env=env)
+    def __init__(self, shown: str, argv: list[str], env: dict[str, str] | None = None,
+                 cwd: Path = REPO) -> None:
+        proc = subprocess.run(argv, cwd=cwd, capture_output=True, check=False, env=env)
         self.shown = shown
         self.stdout = proc.stdout
         self.stderr = proc.stderr
@@ -252,6 +303,161 @@ def scitt_runs() -> tuple[Run, Run, Run]:
     second = Run(shown + " --json", [sys.executable, script, "--json"], env)
     text = Run(shown, [sys.executable, script], env)
     return first, second, text
+
+
+# --------------------------------------------------------------------------
+# Consumption (criterion 6 with 2026Oct/0090 and 0091). An artifact is a file
+# of the corpus that is neither a member nor the manifest. It is consumed when
+# swapping its bytes, with every pin that covers it moved to the new bytes,
+# changes the checker's complete native result; opening it is not enough.
+# --------------------------------------------------------------------------
+
+
+def tracked(directory: str) -> list[str]:
+    """The files git tracks under a corpus directory, which is what a tag publishes."""
+    listed = subprocess.run(["git", "-C", str(REPO), "ls-files", "-z", directory + "/"],
+                            capture_output=True, check=True)
+    return sorted(p for p in listed.stdout.decode("utf-8").split("\0") if p)
+
+
+def artifact_paths(directory: str, pop: dict[str, Any]) -> list[str]:
+    members = {f["path"] for m in pop["members"] for f in m["files"]}
+    manifest = f"{directory}/MANIFEST.json"
+    return [p for p in tracked(directory) if p not in members and p != manifest]
+
+
+def swapped_bytes(rel: str) -> bytes:
+    """What the test writes in place of an artifact: fixed, and unlike any real file."""
+    return f"replaced by the swap-and-re-pin consumption test: {rel}\n".encode()
+
+
+class Farm:
+    """One corpus copied out, beside links to everything else in the repository.
+
+    The checker runs here with the same relative arguments as in the
+    repository, so its output is comparable byte for byte, and a swap touches
+    only the copy. release/intake/native/ holds this run's native output, so
+    the intake checker can read a record against the farm as its root.
+    """
+
+    def __init__(self, directory: str, natives: dict[str, bytes]) -> None:
+        self.directory = directory
+        self.root = Path(tempfile.mkdtemp(prefix="intake-consumption-"))
+        for entry in REPO.iterdir():
+            if entry.name not in (directory, "release"):
+                (self.root / entry.name).symlink_to(entry)
+        shutil.copytree(REPO / directory, self.root / directory, symlinks=True)
+        (self.root / "release").mkdir()
+        for entry in (REPO / "release").iterdir():
+            if entry.name != "intake":
+                (self.root / "release" / entry.name).symlink_to(entry)
+        for rel, body in natives.items():
+            target = self.root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(body)
+
+    def write(self, rel: str, body: bytes) -> None:
+        (self.root / rel).write_bytes(body)
+
+    def restore(self, rels: list[str]) -> None:
+        for rel in rels:
+            (self.root / rel).write_bytes(read(rel))
+
+    def close(self) -> None:
+        shutil.rmtree(self.root, ignore_errors=True)
+
+
+def native_result(run: Run) -> dict[str, Any]:
+    return {"sha256": sha(run.stdout), "exit-code": run.code}
+
+
+def checker_run(directory: str, binary: str, cwd: Path) -> Run:
+    if directory == SCITT:
+        env = dict(os.environ, PYTHONHASHSEED="0")
+        argv = [sys.executable, SCITT + "/check_vectors.py", "--json"]
+        return Run("", argv, env, cwd)
+    return Run("", [binary, "-json", directory], None, cwd)
+
+
+def repin(farm: Farm, rel: str, old: bytes, new: bytes) -> tuple[list[str], str]:
+    """Move every pin over an artifact's bytes to its new bytes, inside the corpus copy.
+
+    A pin is the artifact's sha256 written in another file of the corpus, and
+    the corpus digest when the corpus's own routine covers the artifact. Both
+    are moved; the files changed are returned so the swap can be undone.
+    """
+    directory = farm.directory
+    changed: list[str] = []
+    for other in tracked(directory):
+        if other == rel:
+            continue
+        body = read(other)
+        moved = body.replace(sha(old).encode("ascii"), sha(new).encode("ascii"))
+        if moved != body:
+            farm.write(other, moved)
+            changed.append(other)
+    manifest_rel = f"{directory}/MANIFEST.json"
+    manifest_body = (farm.root / manifest_rel).read_bytes()
+    manifest = json.loads(manifest_body)
+    declared = str(manifest.get("corpusDigest", ""))
+    try:
+        recomputed = corpus_digest_of(directory, farm.root, manifest)
+    except Exception as exc:  # noqa: BLE001 -- the routine read the swapped bytes and failed
+        return changed, f"not recomputable over the swapped bytes ({type(exc).__name__})"
+    if recomputed == declared:
+        return changed, "unchanged"
+    farm.write(manifest_rel, manifest_body.replace(declared.encode("ascii"),
+                                                   recomputed.encode("ascii")))
+    if manifest_rel not in changed:
+        changed.append(manifest_rel)
+    return changed, "recomputed"
+
+
+def consumption(directory: str, binary: str, farm: Farm, first: Run,
+                paths: list[str]) -> list[dict[str, Any]]:
+    """The swap-and-re-pin test of 0091, run on every artifact of one corpus."""
+    baseline = checker_run(directory, binary, farm.root)
+    if (baseline.stdout, baseline.code) != (first.stdout, first.code):
+        raise SystemExit(f"FAIL: {directory}: the checker prints other output in the scratch "
+                         "copy than in the repository, so a swap there proves nothing")
+    out = []
+    for rel in paths:
+        old, new = read(rel), swapped_bytes(rel)
+        farm.write(rel, new)
+        changed, digest_state = repin(farm, rel, old, new)
+        after = checker_run(directory, binary, farm.root)
+        farm.restore([rel] + changed)
+        state = "consumed" if native_result(after) != native_result(first) else "unconsumed"
+        out.append({
+            "path": rel, "sha256": sha(old), "serialization": "bytes", "consumed": state,
+            "evidence": {
+                "test": "swap-and-re-pin",
+                "swapped-in": sha(new),
+                "pins-moved": sorted(changed),
+                "corpus-digest": digest_state,
+                "baseline": native_result(first),
+                "swapped": native_result(after),
+            },
+        })
+    return out
+
+
+def refused_by(document: dict[str, Any], farm: Farm) -> None:
+    """For each unconsumed artifact, the grounds that refuse its swap while its pin stays."""
+    unconsumed = [a for a in document["artifacts"] if a["consumed"] == "unconsumed"]
+    for item in unconsumed:
+        item["evidence"]["refused-by"] = [w3cintake.G[2]]
+    if w3cintake.rejections(document, str(farm.root)):
+        raise SystemExit(f"FAIL: {farm.directory}: the record is refused in the scratch copy "
+                         f"before any swap: {w3cintake.rejections(document, str(farm.root))}")
+    for item in unconsumed:
+        farm.write(item["path"], swapped_bytes(item["path"]))
+        found = w3cintake.rejections(document, str(farm.root))
+        farm.restore([item["path"]])
+        if not found:
+            raise SystemExit(f"FAIL: {item['path']} swapped with its pin left in place is "
+                             "refused under no ground")
+        item["evidence"]["refused-by"] = found
 
 
 SCITT_LINE = re.compile(r"^OK (\d+) accept, (\d+) reject, (\d+) indeterminate, ")
@@ -343,11 +549,15 @@ def specification_readers(directory: str) -> list[dict[str, Any]]:
     }]
 
 
-def scope(suite: str, name: str, total: int, covered: bool) -> dict[str, Any]:
+def scope(suite: str, name: str, total: int, covered: bool, signed: bool) -> dict[str, Any]:
     leaves = [
         "whether an implementation written from the specification, run by someone other "
         "than an author, reaches the same verdicts",
     ]
+    if not signed:
+        leaves.append(f"whether {DIGESTS} is a list a release signed: the signature beside it "
+                      "does not verify over these bytes, so the anchor is a located line, "
+                      "not a verified one")
     if not covered:
         leaves.append("whether a re-run by someone other than an author on these exact "
                       "bytes agrees; none is on the record for them")
@@ -359,8 +569,43 @@ def scope(suite: str, name: str, total: int, covered: bool) -> dict[str, Any]:
     }
 
 
+def list_is_signed() -> bool:
+    """Whether the digest list on disk verifies under the release key beside it.
+
+    A candidate tree carries the previous release's signature over a list that
+    has since changed, so its records name an unsigned digest-list line. The
+    release commit signs the list, and the records regenerated in that commit
+    name a signed digest list, which the intake checker then verifies.
+    """
+    key = w3cintake.ed25519_public_key(read(PUBLIC_KEY))
+    signature = w3cintake.signature_bytes(read(SIGNATURE))
+    return key is not None and signature is not None and w3cintake.ed25519_verify(
+        key, read(DIGESTS), signature)
+
+
+def anchor(directory: str, manifest_path: str, digest: str) -> dict[str, Any]:
+    routine = owner(directory)
+    out: dict[str, Any] = {
+        "kind": "digest-list-line",
+        "reference": {"uri": f"{REPOSITORY}/blob/main/{DIGESTS}", "path": DIGESTS},
+        "manifest": manifest_path,
+        "sha256": digest,
+        "serialization": "corpus-routine",
+        "routine": f"corpus_digest in {routine}",
+        "routine-file": routine,
+        "verdicts": {"availability-failure": "inconclusive", "integrity-failure": "fail"},
+    }
+    if list_is_signed():
+        out["kind"] = "signed-digest-list"
+        out["signature"] = {"path": SIGNATURE, "key": PUBLIC_KEY,
+                            "key-sha256": sha(read(PUBLIC_KEY)), "scheme": "ed25519",
+                            "serialization": "bytes"}
+    return out
+
+
 def record(
-    directory: str, suite: str, digest: str, runs: tuple[Run, Run, Run]
+    directory: str, suite: str, digest: str, runs: tuple[Run, Run, Run],
+    artifacts: list[dict[str, Any]],
 ) -> tuple[dict[str, Any], dict[str, bytes]]:
     first, second, text = runs
     for run in runs:
@@ -420,7 +665,9 @@ def record(
         "pin-serialization": "bytes",
         "corpus-digest": {
             "serialization": "sha256-listing-v1",
-            "sha256": w3cintake.listing_digest(member_paths + [(manifest_path, manifest_sha)]),
+            "sha256": w3cintake.listing_digest(
+                member_paths + [(a["path"], a["sha256"]) for a in artifacts]
+                + [(manifest_path, manifest_sha)]),
         },
         "selector": {"language": "id-glob", "expression": "*", "require": "at-least-one",
                      "selected": ids, "matched": len(ids)},
@@ -435,15 +682,8 @@ def record(
                    "summary": None if is_scitt else "native-text",
                    "process-status": {"exit-code": first.code}},
         "observations": observations,
-        "anchor": {
-            "kind": "digest-list-line",
-            "reference": {"uri": f"{REPOSITORY}/blob/main/{DIGESTS}", "path": DIGESTS},
-            "manifest": manifest_path,
-            "sha256": digest,
-            "serialization": "corpus-routine",
-            "routine": f"corpus_digest in {owner(directory)}",
-            "verdicts": {"availability-failure": "inconclusive", "integrity-failure": "fail"},
-        },
+        "artifacts": artifacts,
+        "anchor": anchor(directory, manifest_path, digest),
         "checker": checker(directory, runs),
         "specification-readers": specification_readers(directory),
         "non-author-runs": nonauthor,
@@ -460,7 +700,7 @@ def record(
         "exposure": "visible",
         "faults": [],
         "relaxed-controls": [],
-        "scope": scope(suite, name, len(ids), covered),
+        "scope": scope(suite, name, len(ids), covered, list_is_signed()),
     }
     return result, files
 
@@ -483,9 +723,19 @@ def build() -> dict[str, bytes]:
         out: dict[str, bytes] = {}
         for directory, suite, digest in corpora():
             runs = scitt_runs() if directory == SCITT else go_runs(binary, directory)
-            document, natives = record(directory, suite, digest, runs)
+            manifest = json.loads(read(f"{directory}/MANIFEST.json"))
+            paths = artifact_paths(directory, population(directory, manifest))
+            natives = {f"{NATIVE}/{directory}.json": runs[0].stdout,
+                       f"{NATIVE}/{directory}.txt": runs[2].stdout}
+            farm = Farm(directory, natives)
+            try:
+                artifacts = consumption(directory, binary, farm, runs[0], paths)
+                document, files = record(directory, suite, digest, runs, artifacts)
+                refused_by(document, farm)
+            finally:
+                farm.close()
             out[f"{OUT}/{directory}.intake.json"] = render(document)
-            out.update(natives)
+            out.update(files)
         return out
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
