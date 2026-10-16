@@ -50,3 +50,28 @@ The harness runs `<verifier> <target> <input.json>` once per vector. The input f
 | other, timeout, malformed | none | errored |
 
 A MUST-ACCEPT vector passes on the expected bytes; other bytes are `diverged` and a refusal is `refused`. A MUST-REJECT vector passes on a refusal; bytes are `accepted`. The four rule-3 rejects present a card that still carries `signatures` as its own signing bytes, and pass when the recomputed bytes differ from them. The report has `rail: external`, the `target`, and `verifier.vectorsExecuted`, so the Action's summary applies unchanged. `python -m agent_evidence_vectors.a2ajcs` is the packaged reference implementation of the contract.
+
+## Test a canonicalizer from Python
+
+A project that writes or fixes an RFC 8785 canonicalizer can test it in process against the corpus the wheel ships, with no copy of the vectors in its own tree. Pin the package as a test dependency and parametrize a test with `a2ajcs.params()`:
+
+```python
+import pytest
+from agent_evidence_vectors import a2ajcs
+
+@pytest.mark.parametrize("vector", a2ajcs.params())
+def test_rfc8785(vector):
+    a2ajcs.assert_conforms(my_canonicalize, vector)
+```
+
+Each vector becomes one test whose id is the vector id, such as `test_rfc8785[A5-001]`. A failure names the vector, its clause and what went wrong, for example `A5-001 (RFC8785-3.2.2.3): diverged: got b'{"tolerance":1e-06}' want b'{"tolerance":0.000001}'`.
+
+| Function | Returns |
+| --- | --- |
+| `vectors(target="rfc8785")` | the `Vector`s the target owns, in manifest order |
+| `params(target="rfc8785")` | the same vectors as `pytest.param` objects with the vector ids; plain vectors when pytest is absent |
+| `assert_conforms(fn, vector, *, text=False)` | `None`, or raises `AssertionError` naming the vector and clause |
+| `failure(fn, vector, *, text=False)` | why `fn` fails the vector, or `None` |
+| `check(fn, target="rfc8785", *, text=False)` | one line per failing vector; empty when `fn` conforms |
+
+`fn` takes a parsed JSON value and returns `bytes`; raising any exception is a refusal. With `text=True` it gets the vector's JSON text instead, number tokens as the file spells them, for a canonicalizer that parses for itself. The `target` is one of the two in the table above: `rfc8785` for a plain canonicalizer, `card-signing-input` for one that also drops the card's top-level `signatures`. Each answer is scored by the same rules as the external contract, so `check` and a harness run give the same verdict. `vectors` first checks the corpus against its manifest and raises `ValueError` on a mismatch rather than testing against bytes nothing vouches for. The module's own `canonicalize` and `signing_input` pass every vector of both targets, and `scripts/a2a-jcs-rails-test.py` requires `json.dumps(value, sort_keys=True)` to fail exactly the ten vectors on UTF-16 key order, ECMAScript number spelling and NaN or Infinity.
