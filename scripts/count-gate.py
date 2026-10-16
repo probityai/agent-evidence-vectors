@@ -1653,6 +1653,16 @@ FROZEN: tuple[Frozen, ...] = (
         "The rows of Table A.3.1 of the NIST AI 300-1 draft, a property of that "
         "PDF, not a count of any corpus.",
     ),
+    # This one came to collide with the ACS-Core corpus total when families
+    # acs-f-18 and acs-f-19 took it to 139.
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the rules the NIST AI 300-1 manifest derives from the draft's four tables",
+        "members over 139 rules",
+        "The number of rules MANIFEST.json derives from the rows of Tables 1, 2, "
+        "A.2.1 and A.3.1 of the NIST AI 300-1 draft, as check_vectors.py prints "
+        "it. A property of that PDF's tables, not a count of any corpus.",
+    ),
     Frozen(
         "interop/nist-ai-300-1/test_check_vectors.py",
         "the Table A.2.1 row count a census mutation test feeds the checker",
