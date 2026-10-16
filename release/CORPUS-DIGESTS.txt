@@ -7,6 +7,7 @@ ceadb29d215a963a24c8f25ae967c09406c56c7df65bdf18a312866214bed8c0  vectors-acs-co
 811c1affc0b1669529c572efa7cf1869d09312df22ffafdc490844d4c43a0ba1  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=68  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
+17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9  vectors-agentic-process-evidence/MANIFEST.json  agentic-process-evidence/v0.1  vectors=52  no-suiteRevision
 36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5  vectors-ai-agent-action/MANIFEST.json  ai-agent-action-conformance  vectors=75  no-suiteRevision
 786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037  vectors-ai-generation/MANIFEST.json  ai-generation-v01-conformance  vectors=38  no-suiteRevision
 6bc10ebd3b65776e96e78797101f85687437bcff89963864067795de2f2948be  vectors-anchor-stream/MANIFEST.json  anchor-stream-conformance  vectors=32  no-suiteRevision
@@ -23,5 +24,6 @@ cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae  vectors-receip
 79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da  vectors-scitt-cose/MANIFEST.json  scitt-cose-carriage-conformance  vectors=27  no-suiteRevision
 75393685568336f1ca2a5b1836f42d7e498b4927930234e7cc11d8f4aa81a064  vectors-self-reported-record/MANIFEST.json  self-reported-record-conformance  vectors=11  no-suiteRevision
 1cb4748f8c2e4fd390a0a330d7631fed24023d927a612c32e8ee7b069472f9a3  vectors-source-coverage/MANIFEST.json  source-text-coverage/v1  vectors=6  no-suiteRevision
+bda9952cc553d78d4315e6119e745bb15bb0078fe70c2de29d196679d0582144  vectors-trace-anchor/MANIFEST.json  trace-registry-anchor/v1  vectors=27  no-suiteRevision
 f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc  vectors-w3c-report/MANIFEST.json  w3c-report-v01-conformance  vectors=269  no-suiteRevision
 200f25888bafde0aee5f0f751d8c3282449aa25dda6fae2ae2473babb515690b  vectors/MANIFEST.json  adversarial-execution-evidence-conformance  vectors=285  suiteRevision=31

@@ -128,6 +128,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    agenticprocess,
     anchoredchain,
     auditrecord,
     changeadmission,
@@ -137,6 +138,7 @@ from agent_evidence_vectors import (
     receiptchainend,
     receiptsignature,
     sourcecoverage,
+    traceanchor,
     w3creport,
 )
 
@@ -3752,8 +3754,10 @@ def _run_non_reference_suite(
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
         receiptchainend.SUITE,
+        traceanchor.SUITE,
         gradefloor.SUITE,
         changeadmission.SUITE,
+        agenticprocess.SUITE,
         a2ajcs.SUITE,
         mcpowasp.SUITE,
     )
@@ -3764,8 +3768,10 @@ def _run_non_reference_suite(
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
         receiptchainend.SUITE: receiptchainend.run,
+        traceanchor.SUITE: traceanchor.run,
         gradefloor.SUITE: gradefloor.run,
         changeadmission.SUITE: changeadmission.run,
+        agenticprocess.SUITE: agenticprocess.run,
         sourcecoverage.SUITE: sourcecoverage.run_or_refuse,
         a2ajcs.SUITE: a2ajcs.run,
     }.get(suite)
