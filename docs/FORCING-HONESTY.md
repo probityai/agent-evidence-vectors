@@ -30,8 +30,8 @@ all.**
 | vendored specification | commit `0dbe10bcc959b63dc42370a5db09812c9476f59a`, fetchable from `astrogilda/attestation` at branch `predicate/adversarial-execution-evidence` |
 | reviewed at | `in-toto/attestation#570` |
 | `vectors/MANIFEST.json` | `sha256:5f828f57e4e6845a48d802ae6c9a32d3365b092aa7d23969a2daa7438ac7f368` |
-| `docs/FORCING-BASELINE.json` | `sha256:beb47ac1539590c440d7a12228b515243f74c5e8611bc0feb7564b09c7a43d3a` |
-| campaign | 810 single-site weakenings: 468 KILLED, 36 SILENT, 301 DEAD, 5 INCONCLUSIVE |
+| `docs/FORCING-BASELINE.json` | `sha256:d980ba9194e26b6e53ee71b2d5c911f040e3cd4a92c049bf62419e6d50d5e423` |
+| campaign | 915 single-site weakenings: 470 KILLED, 36 SILENT, 404 DEAD, 5 INCONCLUSIVE |
 
 Every vector in the corpus is depended on by at least one recorded weakening, so no
 vector is wholly redundant and the campaign covers the corpus as it stands.
@@ -131,32 +131,32 @@ column is how many weakenings its vectors catch alongside somebody else's.
 
 | condition | spec anchor | rule | vectors | kills it shares |
 |---|---|---|---|---|
-| `aee-c-3` | L440-442 | a row carrying a label from the carried caught set contributes fail | 2 | 105 |
-| `aee-c-7` | L447-450 | UNRESOLVED -- ok-002 is the sole carrier and the corpus does not separate this id from aee-c-2. Candidate reading, recorded rather than asserted: the third recompute condition, which contributes pass_indirect when some clean row is not (substrate, intercepted) and pass when none is | 1 | 90 |
-| `aee-c-14` | L557-560 | clean intercepted row refs arming AND covering sealed | 5 | 133 |
-| `aee-c-15` | L958-960 | one run-level arming/sealed/examination record covers every row earned under it | 1 | 95 |
-| `aee-c-16` | L953-958 | observationSelectors is producer vocabulary positionally parallel to observationRefs; no gate reads it | 1 | 90 |
+| `aee-c-3` | L440-442 | a row carrying a label from the carried caught set contributes fail | 2 | 107 |
+| `aee-c-7` | L447-450 | UNRESOLVED -- ok-002 is the sole carrier and the corpus does not separate this id from aee-c-2. Candidate reading, recorded rather than asserted: the third recompute condition, which contributes pass_indirect when some clean row is not (substrate, intercepted) and pass when none is | 1 | 92 |
+| `aee-c-14` | L557-560 | clean intercepted row refs arming AND covering sealed | 5 | 135 |
+| `aee-c-15` | L958-960 | one run-level arming/sealed/examination record covers every row earned under it | 1 | 97 |
+| `aee-c-16` | L953-958 | observationSelectors is producer vocabulary positionally parallel to observationRefs; no gate reads it | 1 | 92 |
 | `aee-c-25` | L1744-1747 | RFC 6962 domain-separated hashing | 1 | 56 |
-| `aee-c-26` | L1747-1749 | RFC 6962 recursive split, never duplicate-pad | 5 | 116 |
+| `aee-c-26` | L1747-1749 | RFC 6962 recursive split, never duplicate-pad | 5 | 118 |
 | `aee-c-27` | L1749 | leaves in array order | 1 | 56 |
-| `aee-c-28` | L1749 | a single-record tree's root is its leaf hash | 1 | 92 |
-| `aee-c-30` | L1754-1756 | batchRoot must recompute | 3 | 70 |
-| `aee-c-32` | L1744-1748 | batchRoot is over every carried record in array order, referenced by a row or not | 2 | 100 |
-| `aee-c-33` | L766-775 | the evidence tier is derived per row and never carried: artifact is declared, substrate is attested when every covering signature verifies under consumer policy and unattested otherwise, and the tier never alters result | 1 | 109 |
-| `aee-c-34` | L772-774 | no TOFU: a consumer with no policy-pinned substrate root treats every substrate row as unattested and MUST NOT infer the root from the predicate | 1 | 95 |
-| `aee-c-35` | L1901-1903 | keyid is an unauthenticated lookup hint, never the check | 1 | 95 |
-| `aee-c-36` | L1302-1304; L545-546 | a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault | 2 | 95 |
-| `aee-c-38` | L779-781 | a carried predicate-level evidenceTier member MUST be ignored | 1 | 90 |
-| `aee-c-41` | L992-993 | basis required, closed {substrate, artifact} | 1 | 109 |
-| `aee-c-45` | L1046-1052 | weakest-input method composition | 5 | 120 |
-| `aee-c-49` | L1283-1286 | the literal none is valid on a caught row too, and states that the event was observed and no enforcement layer acted | 1 | 91 |
-| `aee-c-50` | L1269-1270 | actualLayer names the enforcement layer that acted on the row's containment event | 1 | 92 |
-| `aee-c-61` | L779-781 | a predicate-level member beginning with the reserved aee prefix MUST be ignored | 1 | 90 |
+| `aee-c-28` | L1749 | a single-record tree's root is its leaf hash | 1 | 93 |
+| `aee-c-30` | L1754-1756 | batchRoot must recompute | 3 | 71 |
+| `aee-c-32` | L1744-1748 | batchRoot is over every carried record in array order, referenced by a row or not | 2 | 102 |
+| `aee-c-33` | L766-775 | the evidence tier is derived per row and never carried: artifact is declared, substrate is attested when every covering signature verifies under consumer policy and unattested otherwise, and the tier never alters result | 1 | 110 |
+| `aee-c-34` | L772-774 | no TOFU: a consumer with no policy-pinned substrate root treats every substrate row as unattested and MUST NOT infer the root from the predicate | 1 | 97 |
+| `aee-c-35` | L1901-1903 | keyid is an unauthenticated lookup hint, never the check | 1 | 97 |
+| `aee-c-36` | L1302-1304; L545-546 | a record signature is DSSE PAE over (payloadType, payload); the byte-pure validity gate never reads a signature, so a signature that does not verify is a tier fact and not a validity fault | 2 | 96 |
+| `aee-c-38` | L779-781 | a carried predicate-level evidenceTier member MUST be ignored | 1 | 92 |
+| `aee-c-41` | L992-993 | basis required, closed {substrate, artifact} | 1 | 110 |
+| `aee-c-45` | L1046-1052 | weakest-input method composition | 5 | 122 |
+| `aee-c-49` | L1283-1286 | the literal none is valid on a caught row too, and states that the event was observed and no enforcement layer acted | 1 | 92 |
+| `aee-c-50` | L1269-1270 | actualLayer names the enforcement layer that acted on the row's containment event | 1 | 93 |
+| `aee-c-61` | L779-781 | a predicate-level member beginning with the reserved aee prefix MUST be ignored | 1 | 92 |
 | `aee-c-62` | L229-237 | binding is anti-splice | 1 | 57 |
-| `aee-c-64` | L1330-1335 | sealed record required members | 5 | 99 |
-| `aee-c-68` | L1187-1188 | each referenced record independently satisfies its class constraints | 2 | 99 |
-| `aee-c-71` | L1687-1691 | unknown aeeKind covers nothing | 3 | 102 |
-| `aee-c-73` | L1693-1695 | the aee payload member prefix is reserved; every other payload member is producer territory and does not stop a record covering | 5 | 110 |
+| `aee-c-64` | L1330-1335 | sealed record required members | 5 | 101 |
+| `aee-c-68` | L1187-1188 | each referenced record independently satisfies its class constraints | 2 | 101 |
+| `aee-c-71` | L1687-1691 | unknown aeeKind covers nothing | 3 | 104 |
+| `aee-c-73` | L1693-1695 | the aee payload member prefix is reserved; every other payload member is producer territory and does not stop a record covering | 5 | 112 |
 | `aee-c-81` | L920 | row attackId appears in the manifest | 1 | 10 |
 
 ## The conditions the corpus does not force at all
@@ -177,29 +177,32 @@ implementer to produce these codes.
 
 | code | sites, by outcome |
 |---|---|
-| `corpus-anchor-mismatch` | 1 DEAD |
+| `clean-row-unintercepted` | 1 DEAD |
+| `evidence-age-exceeded` | 1 DEAD |
+| `issuance-lag-exceeded` | 1 DEAD |
+| `observation-key-published` | 1 DEAD |
 | `record-undecodable` | 2 SILENT |
+| `result-not-accepted` | 1 DEAD |
 | `row-attack-unknown` | 1 SILENT |
-| `substrate-anchor-mismatch` | 1 DEAD |
+| `row-gate-decline-unreachable` | 1 DEAD |
+| `row-gate-undeclared` | 1 DEAD |
+| `substrate-row-unattested` | 1 DEAD |
 
-`corpus-anchor-mismatch` and `substrate-anchor-mismatch` are the consumer-policy anchor
-comparison, which `vectors/coverage-unforced.json` cell U5 already records as
-unreachable by a self-contained corpus by construction: the anchor is an operand each
-consumer supplies, and no vector can carry one. The rest are unminted rather than
-unmintable, and each is a vector somebody could write.
-
-That is measured over the 45 codes an emission-removal site names directly. 20 of the
+That is measured over the 51 codes an emission-removal site names directly. 30 of the
 rail's declared codes are reached only through a shared helper that takes the code as an
-argument, and 14 emission-removal sites name no code for the same reason. Those codes
+argument, and 16 emission-removal sites name no code for the same reason. Those codes
 are not measured on this axis, and they are not counted as forced either:
-`arming-covers-nothing`, `assessed-set-exceeds-declaration`,
-`attribution-pin-unmatched`, `attribution-pinned-recordless`, `attribution-unpinnable`,
-`caught-row-uncovered`, `clean-row-contradicted`, `clean-row-uncovered`,
-`examination-covers-nothing`, `interception-record-orphaned`,
-`moat-drop-covers-nothing`, `observed-attack-uncaught`, `observed-set-mismatch`,
-`payload-commitment-malformed`, `reconstructed-row-uncovered`,
-`record-kind-unknown-covers-nothing`, `result-recompute-mismatch`,
-`sealed-covers-nothing`, `sealed-record-absent`,
+`accepted-results-malformed`, `arming-covers-nothing`,
+`assessed-set-exceeds-declaration`, `attribution-pin-unmatched`,
+`attribution-pinned-recordless`, `attribution-unpinnable`, `caught-row-uncovered`,
+`clean-row-contradicted`, `clean-row-uncovered`, `corpus-anchor-mismatch`,
+`corpus-anchor-unpinned`, `demanded-class-unassessed`, `examination-covers-nothing`,
+`interception-record-orphaned`, `moat-drop-covers-nothing`, `observed-attack-uncaught`,
+`observed-instant-absent`, `observed-set-mismatch`, `payload-commitment-malformed`,
+`reconstructed-row-uncovered`, `record-kind-unknown-covers-nothing`,
+`result-recompute-mismatch`, `scope-unpinned`, `sealed-covers-nothing`,
+`sealed-record-absent`, `subject-anchor-mismatch`, `subject-anchor-unpinned`,
+`substrate-anchor-mismatch`, `substrate-anchor-unpinned`,
 `uncommitted-observation-covers-nothing`.
 
 ## The requirements no vector pins, which is a separate register
