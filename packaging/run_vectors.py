@@ -134,6 +134,7 @@ from agent_evidence_vectors import (
     gradefloor,
     mcpowasp,
     observedeffect,
+    receiptchainend,
     receiptsignature,
     sourcecoverage,
     w3creport,
@@ -3750,6 +3751,7 @@ def _run_non_reference_suite(
         auditrecord.SUITE,
         sourcecoverage.SUITE,
         anchoredchain.SUITE,
+        receiptchainend.SUITE,
         gradefloor.SUITE,
         changeadmission.SUITE,
         a2ajcs.SUITE,
@@ -3761,6 +3763,7 @@ def _run_non_reference_suite(
     # contract their README states, so every case is answered or the run fails.
     full_reader = {
         anchoredchain.SUITE: anchoredchain.run,
+        receiptchainend.SUITE: receiptchainend.run,
         gradefloor.SUITE: gradefloor.run,
         changeadmission.SUITE: changeadmission.run,
         sourcecoverage.SUITE: sourcecoverage.run_or_refuse,
