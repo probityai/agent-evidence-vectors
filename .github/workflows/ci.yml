@@ -1173,7 +1173,7 @@ jobs:
         id: replay
         uses: ./
         with:
-          verifier: ./aee-verify -json
+          verifier: ./aee-verify -validity-only -json
       - name: the outputs carry the totals
         env:
           RESULT: ${{ steps.replay.outputs.result }}

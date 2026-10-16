@@ -58,7 +58,7 @@ Rails
    never inferred from the predicate -- and it is also where the assertion that
    tier derivation never alters ``result`` becomes checkable from outside.
    ``--verifier`` accepts a full command line, not only a path, so a rail
-   needing flags (``"./aee-verify -json"``) is drivable without a wrapper.
+   needing flags (``"./aee-verify -validity-only -json"``) is drivable without a wrapper.
 
 2. REFERENCE RAIL (default, self-contained, stdlib-only): an independent
    Python implementation of the spec's checks -- statement well-formedness
@@ -3036,12 +3036,21 @@ def external_record(
     """
     reported = parsed.get("verdict")
     if reported is not None and reported != exit_verdict and keys_path is None:
+        # A rail whose exit status answers admission rather than validity says
+        # so in its report. aee-verify does from 0.14.0, when a run with no
+        # consumer policy stopped exiting 0; the fix is its validity-only mode.
+        hint = (
+            " The rail reports mode 'admission': its exit status answers whether "
+            "the statement is admitted, which this corpus does not judge. Drive "
+            "it in its validity-only mode (aee-verify -validity-only -json)."
+            if parsed.get("mode") == "admission" else ""
+        )
         return external_failure(
             [
                 f"external-verdict-contradicts-exit-status: {name}: the rail "
                 f"reported {reported!r} in its JSON and {exit_verdict!r} in its "
                 "exit status, and with no consumer policy supplied the two "
-                "channels state the same thing"
+                f"channels state the same thing.{hint}"
             ]
         )
     return {
@@ -5325,7 +5334,7 @@ def main() -> int:
         "--verifier",
         default=None,
         help="command line for an external verifier to run differentially, e.g. "
-        "'./aee-verify -json' (also read from AEE_EXTERNAL_VERIFIER); it always "
+        "'./aee-verify -validity-only -json' (also read from AEE_EXTERNAL_VERIFIER); it always "
         "runs, and a verifier that cannot be started exits 2 rather than falling "
         f"back to the reference rail; the key policy is handed to it in ${EXTERNAL_KEYS_ENV}",
     )

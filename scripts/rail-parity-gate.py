@@ -146,7 +146,7 @@ def _python_answer(
 
 def _go_answer(binary: str, policy: str, path: Path) -> tuple[str, list[str]]:
     proc = subprocess.run(
-        [binary, "-keys", policy, "-json", str(path)],
+        [binary, "-validity-only", "-keys", policy, "-json", str(path)],
         capture_output=True,
         text=True,
         timeout=120,
