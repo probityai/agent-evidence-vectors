@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"math/big"
 	"os"
 	"path/filepath"
@@ -382,26 +383,35 @@ func rceEqual(a, b *rceVal) bool {
 	case 's':
 		return a.str == b.str
 	case 'a':
-		if len(a.items) != len(b.items) {
-			return false
-		}
-		for i := range a.items {
-			if !rceEqual(a.items[i], b.items[i]) {
-				return false
-			}
-		}
-		return true
+		return rceEqualArrays(a, b)
 	default:
-		if len(a.keys) != len(b.keys) {
+		return rceEqualObjects(a, b)
+	}
+}
+
+func rceEqualArrays(a, b *rceVal) bool {
+	if len(a.items) != len(b.items) {
+		return false
+	}
+	for i := range a.items {
+		if !rceEqual(a.items[i], b.items[i]) {
 			return false
 		}
-		for i, k := range a.keys {
-			if !b.has(k) || !rceEqual(a.vals[i], b.get(k)) {
-				return false
-			}
-		}
-		return true
 	}
+	return true
+}
+
+// rceEqualObjects compares members by name, as a Python dict does.
+func rceEqualObjects(a, b *rceVal) bool {
+	if len(a.keys) != len(b.keys) {
+		return false
+	}
+	for i, k := range a.keys {
+		if !b.has(k) || !rceEqual(a.vals[i], b.get(k)) {
+			return false
+		}
+	}
+	return true
 }
 
 func rceStr(s string) *rceVal           { return &rceVal{kind: 's', str: s} }
@@ -537,11 +547,13 @@ func rcePyInt(v *rceVal) (*big.Int, bool) {
 		if n, ok := new(big.Int).SetString(v.num.String(), 10); ok {
 			return n, true
 		}
-		f, ok := new(big.Float).SetString(v.num.String())
-		if !ok || f.IsInf() {
+		// CPython reads a non-integer token as a double, and int() of an
+		// infinite double raises.
+		f, err := strconv.ParseFloat(v.num.String(), 64)
+		if err != nil || math.IsInf(f, 0) {
 			return nil, false
 		}
-		n, _ := f.Int(nil)
+		n, _ := big.NewFloat(f).Int(nil)
 		return n, true
 	case 's':
 		n, ok := new(big.Int).SetString(strings.TrimSpace(v.str), 10)
@@ -698,47 +710,74 @@ func rceLoad(caseDir string) (*rceInput, error) {
 		return nil, err
 	}
 	in := &rceInput{trust: c.get("trust")}
-	if !in.trust.isObject() || c.get("chain") == nil || c.get("chain").kind != 's' {
+	chain := c.get("chain")
+	if !in.trust.isObject() || chain == nil || chain.kind != 's' {
 		return nil, errors.New("case.json carries no chain or no trust object")
 	}
-	chain, err := readIn(caseDir, c.get("chain").str)
+	if in.receipts, err = rceLoadChain(caseDir, chain.str); err != nil {
+		return nil, err
+	}
+	if in.head, err = rceLoadHead(caseDir, c.get("head")); err != nil {
+		return nil, err
+	}
+	in.endorsements, err = rceLoadEndorsements(caseDir, in.trust.get("endorsements"))
+	return in, err
+}
+
+// rceLoadChain reads one receipt per non-empty line.
+func rceLoadChain(caseDir, name string) ([]*rceVal, error) {
+	chain, err := readIn(caseDir, name)
 	if err != nil {
 		return nil, fmt.Errorf("the chain cannot be read: %w", err)
 	}
+	var receipts []*rceVal
 	for _, line := range bytes.Split(chain, []byte("\n")) {
 		if len(line) == 0 {
 			continue
 		}
 		r, err := rceParse(line)
 		if err != nil || !r.isObject() {
-			return nil, fmt.Errorf("a chain line is not a JSON object")
+			return nil, errors.New("a chain line is not a JSON object")
 		}
-		in.receipts = append(in.receipts, r)
+		receipts = append(receipts, r)
 	}
-	if h := c.get("head"); h != nil {
-		if h.kind != 's' {
-			return nil, errors.New("case.json names a head that is not a file name")
+	return receipts, nil
+}
+
+// rceLoadHead reads the retained head a case names, or returns nil when it names none.
+func rceLoadHead(caseDir string, name *rceVal) (*rceVal, error) {
+	if name == nil {
+		return nil, nil
+	}
+	if name.kind != 's' {
+		return nil, errors.New("case.json names a head that is not a file name")
+	}
+	head, err := rceReadValue(caseDir, name.str)
+	if err != nil {
+		return nil, err
+	}
+	if !head.isObject() {
+		return nil, errors.New("the retained head is not a JSON object")
+	}
+	return head, nil
+}
+
+func rceLoadEndorsements(caseDir string, names *rceVal) ([]*rceVal, error) {
+	if names == nil {
+		return nil, nil
+	}
+	var out []*rceVal
+	for _, name := range names.items {
+		if name.kind != 's' {
+			return nil, errors.New("an endorsement name is not a file name")
 		}
-		if in.head, err = rceReadValue(caseDir, h.str); err != nil {
+		e, err := rceReadValue(caseDir, name.str)
+		if err != nil {
 			return nil, err
 		}
-		if !in.head.isObject() {
-			return nil, errors.New("the retained head is not a JSON object")
-		}
+		out = append(out, e)
 	}
-	if names := in.trust.get("endorsements"); names != nil {
-		for _, name := range names.items {
-			if name.kind != 's' {
-				return nil, errors.New("an endorsement name is not a file name")
-			}
-			e, err := rceReadValue(caseDir, name.str)
-			if err != nil {
-				return nil, err
-			}
-			in.endorsements = append(in.endorsements, e)
-		}
-	}
-	return in, nil
+	return out, nil
 }
 
 func (in *rceInput) endorsed(w *rceWalk) bool {
