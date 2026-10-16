@@ -1,0 +1,100 @@
+{
+  "cites": "the session id passed as the HKDF salt and the info left empty. The pre-fix sentence, quoted in the payload, says the key is HKDF-derived from the secret together with the session id and fixes nothing else, and RFC 5869's salt is the input that reading reaches for first. Pull request 272 puts the session id in info and leaves the salt empty.",
+  "coverage": "effective",
+  "doesNotAssert": "that the signer meant harm or that the request is otherwise unacceptable; it fails because the key the verifier derives under the fixed parameters does not produce this MAC",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": "SIGNATURE_INVALID",
+    "codeValue": -32004,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-13",
+  "id": "va3cc0f12ae4e8a35",
+  "kind": "reject",
+  "payload": {
+    "preFix": {
+      "line": 293,
+      "text": "The per-session HMAC key is `HKDF`-derived from deployment-provided input keying material (a pre-shared secret, or a transport channel binding such as a TLS exporter) together with the `session_id`.",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "to": {
+              "value": "ops@example.org"
+            }
+          },
+          "tool": {
+            "name": "email.send"
+          }
+        },
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "2026-10",
+          "value": "Od12mQKTcRHBlZ9J9or5JPDYeoWS6GVy4VoWr5MjBdw="
+        },
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "signed_input": "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"steps/toolCallRequest\",\"params\":{\"acs_version\":\"0.1.0\",\"metadata\":{\"agent_id\":\"agent-acs-vectors\",\"session_id\":\"6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36\"},\"payload\":{\"arguments\":{\"to\":{\"value\":\"ops@example.org\"}},\"tool\":{\"name\":\"email.send\"}},\"request_id\":\"56a78506-aa4a-489d-8171-8833ef83f7bd\",\"timestamp\":\"2026-10-15T12:00:00Z\"}}",
+    "signed_input_sha256": "708e5264ae8ec135c6f043607ef84fac2b2993f0ce69955a6ace3d68de9281bf",
+    "signer_derivation": {
+      "derived_key_hex": "bd837a145d45e5218b31a339f904580f1de26aa758b4bc567379441fec160d9d",
+      "info_utf8": "",
+      "kdf": "HKDF-SHA256",
+      "length": 32,
+      "salt_hex": "36623166326339652d346437612d346533622d386135312d396330643265376631613336",
+      "secret_key_id": "2026-10"
+    },
+    "verifier": {
+      "configured_key_ids": [
+        "2026-10"
+      ],
+      "secret_hex": {
+        "2026-10": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-026",
+      "line": 352,
+      "sentence": "For `HMAC-SHA256`, the per-session key is HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)) with SHA-256, no salt (RFC 5869's default, a string of 32 zero bytes, which gives the same key as an empty salt), `info` set to the UTF-8 bytes of `metadata.session_id`, and a 32-byte output, applied to the secret that `key_id` names.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-027",
+      "line": 352,
+      "sentence": "Both parties MUST derive the key with exactly these parameters, so independent implementations holding the same secret derive the same key.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-026",
+    "ACS-R-027"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

@@ -1,4 +1,5 @@
 {
+  "cites": "a signature computed over an envelope with the session identifier removed. It verifies against the bytes it covers, which is what makes it the case a verifier that checks the signature and not the canonical form accepts.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -39,6 +40,18 @@
       "metadata.session_id"
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-001",
+      "line": 295,
+      "sentence": "A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-001"
   ],

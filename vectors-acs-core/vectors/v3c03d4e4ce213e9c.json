@@ -1,4 +1,5 @@
 {
+  "cites": "the same entry carrying the request digest the profile requires.",
   "coverage": "configured",
   "evidenceBasis": "artifact",
   "expected": {
@@ -18,6 +19,18 @@
     },
     "profile": "ACS-Audit"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-016",
+      "line": 75,
+      "sentence": "A deployment claiming ACS-Audit MUST populate `request_hash`",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/conformance-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-016"
   ],
