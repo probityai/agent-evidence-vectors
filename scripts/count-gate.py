@@ -1786,6 +1786,26 @@ FROZEN: tuple[Frozen, ...] = (
     ),
     Frozen(
         "RUNS.md",
+        "the agent audit record corpus size an outside reader ran",
+        "at release 0.16.0, 47 members, corpus digest",
+        (
+            "The size of vectors-agent-audit-record at release 0.16.0, pinned by its "
+            "corpus digest, as an outside reader ran it on 2026-10-01. It records one "
+            "past run of one release and does not track the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
+        "the agent audit record outside run score",
+        "47 of 47 agree: 9 accept members valid, 36 reject members malformed",
+        (
+            "The score an outside reader posted for vectors-agent-audit-record at "
+            "release 0.16.0. It records one past run of one release, and its figures "
+            "are that release's counts, not the corpus as it grows."
+        ),
+    ),
+    Frozen(
+        "RUNS.md",
         "the a2a-jcs-v01 verify score before the fix, ValueError",
         "it scored 54/57",
         (
