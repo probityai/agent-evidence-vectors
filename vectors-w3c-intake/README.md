@@ -4,16 +4,20 @@ The conformance set for the intake criteria for a submitted conformance result
 of the W3C public-agent-conformance community group: version 2 as posted on
 2026-10-13 (list message `2026Oct/0067`), with the five wording deltas the
 editor accepted the same day (`0070` deltas 1 to 4, `0075` delta 5) and the
-field `0073` announced for the consolidated v2.1 text. The four messages are
-vendored under `spec-vendored/` and pinned by sha256 in `MANIFEST.json`.
+field `0073` announced for the consolidated v2.1 text, plus the criterion-6
+consumed state Lars Kersten Kroehl proposed in `0090` and Nicolas Rocchia
+measured in `0091` (a file can be pinned, listed and carried and still enter no
+verdict). The six messages are vendored under `spec-vendored/` and pinned by
+sha256 in `MANIFEST.json`.
 
 ## Every ground is a sentence
 
 The messages carry no identifiers. Each rejection ground is minted here as
 `W3C-I-NNN` and bound to the exact sentence that fixed it: `gen_vectors.py`
 finds the sentence in the vendored copy, records its line and hashes its bytes,
-and a reword stops the build. `INDEX.md` lists all 45 grounds with criterion,
-status (`v2`, `v2.1-delta`, `v2.1-announced`), sentence and digest, and every
+and a reword stops the build. `INDEX.md` lists all 48 grounds with criterion,
+status (`v2`, `v2.1-delta`, `v2.1-announced`, `v2.1-proposed`), sentence and
+digest, and every
 member with the ground it is refused under. Criterion 13 carries no ground: the
 criteria name no implementation, and these vectors are the shared test.
 
@@ -27,7 +31,12 @@ checker named by a branch, a native line transcribed clean. Every ground also
 has a record that must be admitted, so a reader that refuses everything scores
 zero. Members whose ground reads bytes on disk name a `root` under `trees/`, a
 small fixture package with its output, anchor, checker source, lock file and
-run-time helper.
+run-time helper. The anchor is a digest list signed with a fixture Ed25519 key
+derived from a fixed label in `gen_vectors.py`; it signs nothing else. Three
+members re-pin a consistent rewrite (a member edited, a member deleted, the list
+re-signed under another key) and must be refused under W3C-I-024, because the
+signature no longer verifies under the pinned key even though every digest
+agrees.
 
 ## Run it
 

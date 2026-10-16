@@ -7,8 +7,9 @@
 The text this corpus tests is vendored in ``spec-vendored/`` and pinned by
 digest: the intake criteria v2 as posted to the W3C public-agent-conformance
 list on 2026-10-13 (2026Oct/0067), the four wording deltas the editor accepted
-the same day (0070), the field he announced for the consolidated text (0073)
-and the fifth delta (0075). None of them carries an identifier, so each
+the same day (0070), the field he announced for the consolidated text (0073),
+the fifth delta (0075), and the criterion-6 consumed state proposed in 0090
+and measured in 0091. None of them carries an identifier, so each
 rejection ground is minted here as ``W3C-I-NNN`` and bound to its sentence by
 sha256; a reword stops the build rather than re-pointing the members that cite
 it.
@@ -26,6 +27,7 @@ judged with it.
 from __future__ import annotations
 
 import argparse
+import base64
 import copy
 import hashlib
 import json
@@ -51,18 +53,33 @@ VENDORED = {
     "2026Oct-0070": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt",
     "2026Oct-0073": "spec-vendored/2026Oct-0073-wang-2026-10-13-criterion-8-terminology.txt",
     "2026Oct-0075": "spec-vendored/2026Oct-0075-wang-2026-10-13-fifth-delta.txt",
+    "2026Oct-0090": "spec-vendored/2026Oct-0090-kroehl-2026-10-14-consumed-state.txt",
+    "2026Oct-0091": "spec-vendored/2026Oct-0091-rocchia-2026-10-14-swap-and-re-pin.txt",
 }
-AUTHOR = "Guigui Wang"
+#: Who posted each vendored message, as the archive's Author field names them.
+AUTHORS = {
+    "2026Oct-0067": "Guigui Wang",
+    "2026Oct-0070": "Guigui Wang",
+    "2026Oct-0073": "Guigui Wang",
+    "2026Oct-0075": "Guigui Wang",
+    "2026Oct-0090": "Lars Kersten Kroehl",
+    "2026Oct-0091": "Nicolas Rocchia",
+}
 
-#: What each vendored text is, as the list states it.
+#: What each vendored text is, as the list states it. 0090 proposes the
+#: wording for the criterion-6 consumed state and 0091 measures it; the editor
+#: has not yet ruled on either.
 STATUS = {
     "2026Oct-0067": "v2",
     "2026Oct-0070": "v2.1-delta",
     "2026Oct-0075": "v2.1-delta",
     "2026Oct-0073": "v2.1-announced",
+    "2026Oct-0090": "v2.1-proposed",
+    "2026Oct-0091": "v2.1-proposed",
 }
 
 V2, D = "2026Oct-0067", "2026Oct-0070"
+LK, NR = "2026Oct-0090", "2026Oct-0091"
 
 #: One row per ground: (number, criterion, message, verbatim sentence, needs root).
 GROUNDS: tuple[tuple[int, str, str, str, bool], ...] = (
@@ -148,6 +165,12 @@ GROUNDS: tuple[tuple[int, str, str, str, bool], ...] = (
     (45, "12", V2, "It does not claim coverage of the whole attack surface, does not rank "
      "implementations, makes no claim about threats outside the corpus, and does not establish "
      "that an action happened or that its actor had authority", False),
+    (46, "6", LK, "for each artifact declared carried inline, the record states whether the "
+     "checker read it.", False),
+    (47, "6", LK, "An artifact that no check consumes gets its own state, distinct from carried.",
+     False),
+    (48, "6", NR, "a\nfile no check reads gets its own state, and the record says which\nground "
+     "refused.", False),
 )
 
 
@@ -215,6 +238,18 @@ HELPER = "#!/bin/sh\n# fetches the fixture suite at run time\nexit 0\n"
 HELPER_URI = "https://example.invalid/fixture/fetch.sh"
 ANCHOR_URI = "https://example.invalid/fixture/DIGESTS.txt"
 SUMMARY_LINE = "verdict: every member behaves as MANIFEST.json declares"
+#: The fixture suite's digest routine, as code the record can name by its file.
+ROUTINE_SOURCE = (
+    "#!/bin/sh\n"
+    "# The fixture suite's corpus digest: SHA-256 over the case files in identifier order.\n"
+    "cat suite/cases/*.json | sha256sum | cut -d' ' -f1\n"
+)
+#: The fixture's signing keys. They sign only the fixture digest list and are
+#: derived from these labels so the corpus regenerates byte for byte; neither
+#: is a secret, and neither signs anything else.
+FIXTURE_SEED = hashlib.sha256(b"vectors-w3c-intake fixture anchor key").digest()
+OTHER_SEED = hashlib.sha256(b"vectors-w3c-intake fixture key of another signer").digest()
+SIGNATURE_PATH, KEY_PATH = "anchor/DIGESTS.txt.sig", "anchor/key.pub"
 
 
 def jdump(value: Any) -> bytes:
@@ -225,16 +260,58 @@ def compact(value: Any) -> bytes:
     return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
+def _clamped(seed: bytes) -> tuple[int, bytes]:
+    h = hashlib.sha512(seed).digest()
+    scalar = int.from_bytes(h[:32], "little")
+    scalar &= (1 << 254) - 8
+    scalar |= 1 << 254
+    return scalar, h[32:]
+
+
+def public_key(seed: bytes) -> bytes:
+    scalar, _ = _clamped(seed)
+    return w3cintake._encode_point(w3cintake._point_mul(scalar, w3cintake.BASE_POINT))
+
+
+def ed25519_sign(seed: bytes, message: bytes) -> bytes:
+    """RFC 8032 section 5.1.6; the checker verifies with w3cintake.ed25519_verify."""
+    scalar, prefix = _clamped(seed)
+    public = public_key(seed)
+    order = w3cintake._L
+    r = int.from_bytes(hashlib.sha512(prefix + message).digest(), "little") % order
+    big_r = w3cintake._encode_point(w3cintake._point_mul(r, w3cintake.BASE_POINT))
+    k = int.from_bytes(hashlib.sha512(big_r + public + message).digest(), "little") % order
+    return big_r + ((r + k * scalar) % order).to_bytes(32, "little")
+
+
+def key_pem(seed: bytes) -> bytes:
+    der = w3cintake.ED25519_SPKI_PREFIX + public_key(seed)
+    body = base64.b64encode(der).decode("ascii")
+    return f"-----BEGIN PUBLIC KEY-----\n{body}\n-----END PUBLIC KEY-----\n".encode("ascii")
+
+
+def signature_file(seed: bytes, message: bytes) -> bytes:
+    """The cosign blob form: the 64 signature bytes in standard base64, no newline."""
+    return base64.b64encode(ed25519_sign(seed, message))
+
+
 def case_bytes(cid: str) -> bytes:
     return jdump(CASES[cid])
 
 
-def routine_digest() -> str:
+def routine_digest(cases: dict[str, bytes] | None = None) -> str:
     """The fixture suite's own corpus routine: member bytes in identifier order."""
+    if cases is None:
+        cases = {cid: case_bytes(cid) for cid in CASES}
     digest = hashlib.sha256()
-    for cid in sorted(CASES):
-        digest.update(case_bytes(cid))
+    for cid in sorted(cases):
+        digest.update(cases[cid])
     return digest.hexdigest()
+
+
+def digest_line(digest: str, count: int) -> bytes:
+    line = f"{digest}  suite/MANIFEST.json  fixture-suite  vectors={count}  no-suiteRevision\n"
+    return line.encode("ascii")
 
 
 def native_cases(kinds: dict[str, str], findings: dict[str, list[str]] | None = None) -> bytes:
@@ -248,28 +325,39 @@ def native_cases(kinds: dict[str, str], findings: dict[str, list[str]] | None = 
     return (json.dumps(document, separators=(",", ":")) + "\n").encode("utf-8")
 
 
-def native_summary() -> bytes:
-    return (
-        "suite: fixture-suite\nmembers: 3\n  accept: 2\n  reject: 1\n" + SUMMARY_LINE + "\n"
-    ).encode("utf-8")
+def native_summary(kinds: dict[str, str] | None = None) -> bytes:
+    kinds = NATIVE_KIND if kinds is None else kinds
+    counts: dict[str, int] = {}
+    for kind in kinds.values():
+        counts[kind] = counts.get(kind, 0) + 1
+    lines = ["suite: fixture-suite", f"members: {len(kinds)}"]
+    lines += [f"  {kind}: {counts[kind]}" for kind in sorted(counts)]
+    return ("\n".join(lines + [SUMMARY_LINE]) + "\n").encode("utf-8")
+
+
+def suite_files(cases: dict[str, bytes]) -> dict[str, bytes]:
+    """The suite, its manifest and the signed digest list that anchors it."""
+    manifest = {
+        "suite": "fixture-suite",
+        "corpusDigest": routine_digest(cases),
+        "vectors": [{"id": cid, "file": f"cases/{cid}.json"} for cid in sorted(cases)],
+    }
+    files = {f"suite/cases/{cid}.json": body for cid, body in cases.items()}
+    files["suite/MANIFEST.json"] = jdump(manifest)
+    files["anchor/DIGESTS.txt"] = digest_line(routine_digest(cases), len(cases))
+    return files
 
 
 def base_tree() -> dict[str, bytes]:
-    manifest = {
-        "suite": "fixture-suite",
-        "corpusDigest": routine_digest(),
-        "vectors": [{"id": cid, "file": f"cases/{cid}.json"} for cid in sorted(CASES)],
-    }
-    files = {f"suite/cases/{cid}.json": case_bytes(cid) for cid in CASES}
-    files["suite/MANIFEST.json"] = jdump(manifest)
+    files = suite_files({cid: case_bytes(cid) for cid in CASES})
     files["suite/README.md"] = b"A fixture suite; this file is outside the member locations.\n"
     files["out/cases.json"] = native_cases(NATIVE_KIND)
     files["out/summary.txt"] = native_summary()
-    files["anchor/DIGESTS.txt"] = (
-        f"{routine_digest()}  suite/MANIFEST.json  fixture-suite  vectors=3  no-suiteRevision\n"
-    ).encode()
+    files[SIGNATURE_PATH] = signature_file(FIXTURE_SEED, files["anchor/DIGESTS.txt"])
+    files[KEY_PATH] = key_pem(FIXTURE_SEED)
     files["checker/check.sh"] = CHECKER_SOURCE.encode("utf-8")
     files["checker/deps.lock"] = LOCKFILE.encode("utf-8")
+    files["checker/digest.sh"] = ROUTINE_SOURCE.encode("utf-8")
     files["helpers/fetch.sh"] = HELPER.encode("utf-8")
     return files
 
@@ -345,8 +433,21 @@ def base_record(tree: dict[str, bytes]) -> dict[str, Any]:
             "sha256": routine_digest(),
             "serialization": "corpus-routine",
             "routine": "SHA-256 over the member files concatenated in identifier order",
+            "routine-file": "checker/digest.sh",
             "verdicts": {"availability-failure": "inconclusive", "integrity-failure": "fail"},
         },
+        "artifacts": [{
+            "path": "suite/README.md",
+            "sha256": sha(tree["suite/README.md"]),
+            "serialization": "bytes",
+            "consumed": "unconsumed",
+            "evidence": {
+                "test": "swap-and-re-pin",
+                "baseline": {"sha256": sha(tree["out/cases.json"]), "exit-code": 0},
+                "swapped": {"sha256": sha(tree["out/cases.json"]), "exit-code": 0},
+                "refused-by": [G[2]],
+            },
+        }],
         "checker": {
             "name": "fixture-check",
             "revision": {
@@ -393,7 +494,7 @@ def base_record(tree: dict[str, bytes]) -> dict[str, Any]:
 
 def reseal(record: dict[str, Any]) -> dict[str, Any]:
     """Recompute the corpus digest and the pin count after a deliberate edit."""
-    entries = w3cintake._member_files(record)
+    entries = w3cintake._member_files(record) + w3cintake._artifact_files(record)
     manifest = record.get("manifest") or {}
     if isinstance(manifest, dict) and "path" in manifest and "sha256" in manifest:
         entries = entries + [(manifest["path"], manifest["sha256"])]
@@ -499,6 +600,13 @@ def build_population(m: Members) -> None:
           members_only)
     m.add(2, "reject", "the manifest on disk is not the manifest the corpus digest covers",
           root=m.tree("manifest-moved", manifest_moved))
+
+    def readme_moved(files: dict[str, bytes]) -> None:
+        files["suite/README.md"] = b"A fixture suite; edited after the run.\n"
+
+    m.add(2, "reject", "the README, which no check reads, was edited after the run; the "
+          "artifact pin is the only ground that refuses it", root=m.tree("readme-moved",
+                                                                          readme_moved))
 
     def member_moved(files: dict[str, bytes]) -> None:
         files["suite/cases/c2.json"] = files["suite/cases/c2.json"].replace(
@@ -722,6 +830,58 @@ def build_native(m: Members) -> None:
     m.add(21, "reject", "stderr declared inline and not present", inline_missing)
 
 
+def build_consumption(m: Members) -> None:
+    """Criterion 6 with 0090 and 0091: pinned, listed and carried is not consumed."""
+
+    def readme(r: dict[str, Any]) -> dict[str, Any]:
+        item: dict[str, Any] = r["artifacts"][0]
+        return item
+
+    def opened(r: dict[str, Any]) -> None:
+        readme(r)["consumed"] = "read"
+
+    def unlisted(r: dict[str, Any]) -> None:
+        r.pop("artifacts")
+        reseal(r)
+
+    m.add(46, "accept", "the README, the one file beside members and manifest, declared with "
+          "its consumed state and the swap that decides it")
+    m.add(46, "reject", "the record says nothing about which files a check consumed",
+          unlisted)
+    m.add(46, "reject", "the README is declared read, which says it was opened, not whether "
+          "it entered a verdict", opened)
+
+    def consumed(state: str, changed: bool) -> Edit:
+        def edit(r: dict[str, Any]) -> None:
+            item = readme(r)
+            item["consumed"] = state
+            if changed:
+                item["evidence"]["swapped"] = {"sha256": "3" * 64, "exit-code": 1}
+            if state == "consumed":
+                item["evidence"].pop("refused-by")
+        return edit
+
+    m.add(47, "accept", "a file whose swap, with every pin moved, changes the native result, "
+          "declared consumed", consumed("consumed", True))
+    m.add(47, "reject", "the README declared consumed while its swap with every pin moved "
+          "leaves the native result byte for byte the baseline", consumed("consumed", False))
+    m.add(47, "reject", "the README declared unconsumed while its swap changes the native "
+          "result", consumed("unconsumed", True))
+
+    def unnamed(r: dict[str, Any]) -> None:
+        readme(r)["evidence"].pop("refused-by")
+
+    def by_a_check(r: dict[str, Any]) -> None:
+        readme(r)["evidence"]["refused-by"] = ["the signature check"]
+
+    m.add(48, "accept", "the README enters no verdict, and the record names the artifact pin's "
+          "ground as what refuses its swap")
+    m.add(48, "reject", "the README enters no verdict and the record does not say which ground "
+          "refused its swap", unnamed)
+    m.add(48, "reject", "the README enters no verdict and the record credits a check, not a "
+          "ground, with refusing its swap", by_a_check)
+
+
 def build_anchor(m: Members) -> None:
     base = m.tree("base")
 
@@ -751,6 +911,100 @@ def build_anchor(m: Members) -> None:
     m.add(24, "accept", "the anchor resolves and binds the manifest's own digest", root=base)
     m.add(24, "reject", "the anchor resolves and binds another digest: an integrity failure",
           root=m.tree("anchor-other", other_line))
+    build_signed_anchor(m)
+
+
+def signed(r: dict[str, Any]) -> None:
+    r["anchor"]["kind"] = "signed-digest-list"
+    r["anchor"]["signature"] = {
+        "path": SIGNATURE_PATH, "key": KEY_PATH, "key-sha256": sha(key_pem(FIXTURE_SEED)),
+        "scheme": "ed25519", "serialization": "bytes",
+    }
+
+
+def rewritten_cases() -> dict[str, bytes]:
+    """c2 rewritten consistently: the shape of a corpus edit whose digests all move with it."""
+    cases = {cid: case_bytes(cid) for cid in CASES}
+    cases["c2"] = cases["c2"].replace(b"forged", b"genuine")
+    return cases
+
+
+def dropped_cases() -> dict[str, bytes]:
+    """c3 deleted consistently from the suite, its manifest and the digest list."""
+    return {cid: case_bytes(cid) for cid in CASES if cid != "c3"}
+
+
+def repinned(cases: dict[str, bytes]) -> Callable[[dict[str, bytes]], None]:
+    """The suite and its digest-list line moved to these cases; the signature left as it was."""
+    def change(files: dict[str, bytes]) -> None:
+        for cid in CASES:
+            files.pop(f"suite/cases/{cid}.json", None)
+        files.update(suite_files(cases))
+        kinds = {cid: NATIVE_KIND[cid] for cid in cases}
+        files["out/cases.json"] = native_cases(kinds)
+        files["out/summary.txt"] = native_summary(kinds)
+    return change
+
+
+def record_for(cases: dict[str, bytes]) -> Edit:
+    """A record re-pinned in full to these cases, the way a consistent rewrite repins it."""
+    def edit(r: dict[str, Any]) -> None:
+        signed(r)
+        tree = suite_files(cases)
+        kinds = {cid: NATIVE_KIND[cid] for cid in cases}
+        ids = sorted(cases)
+        r["members"] = [{"id": cid, "files": [{"path": f"suite/cases/{cid}.json",
+                                                "sha256": sha(cases[cid])}]} for cid in ids]
+        r["manifest"].update(sha256=sha(tree["suite/MANIFEST.json"]), ids=ids)
+        r["selector"].update(selected=ids, matched=len(ids))
+        r["checks"] = [c for c in r["checks"] if c["check"] in cases]
+        r["refusals"] = [x for x in r["refusals"] if x["check"] in cases]
+        recount(r)
+        cases_json, summary = native_cases(kinds), native_summary(kinds)
+        r["observations"][0]["reference"]["sha256"] = sha(cases_json)
+        r["observations"][1]["reference"]["sha256"] = sha(summary)
+        for run in r["replay-stability"]["runs"]:
+            run["sha256"] = sha(cases_json)
+        r["anchor"]["sha256"] = routine_digest(cases)
+        reseal(r)
+    return edit
+
+
+def build_signed_anchor(m: Members) -> None:
+    base = m.tree("base")
+
+    def unsigned_signed(r: dict[str, Any]) -> None:
+        r["anchor"]["kind"] = "signed-digest-list"
+
+    m.add(22, "accept", "a signed digest list naming its signature, its pinned key and the "
+          "scheme it is verified under", signed)
+    m.add(22, "reject", "the anchor calls itself a signed digest list and names no signature, "
+          "so nothing can be verified", unsigned_signed)
+
+    def signature_gone(files: dict[str, bytes]) -> None:
+        files.pop(SIGNATURE_PATH)
+
+    m.add(23, "accept", "the signed digest list, its signature and its key all resolve",
+          signed, root=base)
+    m.add(23, "reject", "the signature over the digest list does not resolve: an availability "
+          "failure", signed, root=m.tree("signature-gone", signature_gone))
+
+    def other_signer(files: dict[str, bytes]) -> None:
+        files[KEY_PATH] = key_pem(OTHER_SEED)
+        files[SIGNATURE_PATH] = signature_file(OTHER_SEED, files["anchor/DIGESTS.txt"])
+
+    m.add(24, "accept", "the signature over the digest list verifies under the pinned key",
+          signed, root=base)
+    m.add(24, "reject", "c2 rewritten, its pin, the manifest and the digest-list line re-pinned "
+          "to match, and the list's signature no longer verifies",
+          record_for(rewritten_cases()),
+          root=m.tree("anchor-repinned", repinned(rewritten_cases())))
+    m.add(24, "reject", "c3 deleted from the suite, the record, the manifest and the digest "
+          "list, and the list's signature no longer verifies",
+          record_for(dropped_cases()),
+          root=m.tree("member-dropped-repinned", repinned(dropped_cases())))
+    m.add(24, "reject", "the list re-signed under another key placed beside it, which is not "
+          "the key the record pins", signed, root=m.tree("other-signer", other_signer))
 
 
 def build_checker(m: Members) -> None:
@@ -874,6 +1128,19 @@ def build_encoding(m: Members) -> None:
     m.add(33, "reject", "a referenced observation's digest declares no input serialization",
           observation_undeclared)
 
+    def routine_escapes(r: dict[str, Any]) -> None:
+        r["anchor"]["routine-file"] = "../digest.sh"
+
+    def routine_gone(files: dict[str, bytes]) -> None:
+        files.pop("checker/digest.sh")
+
+    m.add(33, "accept", "the anchor digest's routine is named by a file that resolves",
+          root=m.tree("base"))
+    m.add(33, "reject", "the anchor digest's routine names a file outside the root",
+          routine_escapes)
+    m.add(33, "reject", "the anchor digest's routine names a file that is not here",
+          root=m.tree("routine-gone", routine_gone))
+
 
 def build_replay(m: Members) -> None:
     m.add(34, "accept", "byte identity and replay stability recorded as two claims")
@@ -991,7 +1258,8 @@ def build_scope(m: Members) -> None:
 BUILDERS = (
     build_population, build_inventory, build_boundary, build_selector, build_recount,
     build_headline,
-    build_native, build_anchor, build_checker, build_environment, build_relationship,
+    build_native, build_consumption, build_anchor, build_checker, build_environment,
+    build_relationship,
     build_encoding, build_replay, build_faults, build_scope,
 )
 
@@ -1055,9 +1323,11 @@ def build(out: str) -> dict[str, Any]:
                     "conformance result",
         "specVersion": SPEC_VERSION,
         "specAmendments": "the five wording deltas accepted in 2026Oct/0070 and 2026Oct/0075, "
-                          "and the field announced in 2026Oct/0073, for the consolidated v2.1",
+                          "the field announced in 2026Oct/0073, and the criterion-6 consumed "
+                          "state proposed in 2026Oct/0090 and measured in 2026Oct/0091, for "
+                          "the consolidated v2.1",
         "specVendored": {
-            key: {"path": path, "sha256": sha(read(path)), "author": AUTHOR,
+            key: {"path": path, "sha256": sha(read(path)), "author": AUTHORS[key],
                   "source": ARCHIVE + key.split("-", 1)[1] + ".html"}
             for key, path in VENDORED.items()
         },

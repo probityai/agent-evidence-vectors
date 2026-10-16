@@ -64,9 +64,28 @@ fields below are ours, each carrying a rule the group stated without a field:
   ``-json``. In this format a member passes exactly when it carries no
   finding, so a per-case state is recounted from its own native line.
 - ``carry`` (criterion 6): ``carried``, ``referenced`` or ``absent``.
+- ``artifacts`` (criterion 6 with 2026Oct/0090 and 0091): every file of the
+  package that is neither a member nor the manifest, pinned by its bytes, with
+  ``consumed`` either ``consumed`` or ``unconsumed`` and the evidence that
+  decides it: the swap-and-re-pin test of 0091 (replace the file's bytes, move
+  every pin that covers it, rerun the checker) as the native result before and
+  after, and for an unconsumed file the grounds that refuse its swap while its
+  pin stays (``refused-by``). An artifact is consumed exactly when the two
+  native results differ, so opening a file is not consuming it.
 - ``anchor.kind`` = ``digest-list-line`` (criterion 7): a line of a digest
   list naming the corpus digest and the manifest path, the form
-  ``release/CORPUS-DIGESTS.txt`` takes.
+  ``release/CORPUS-DIGESTS.txt`` takes. ``signed-digest-list`` is the same
+  line in a list that carries a detached signature: ``signature`` names the
+  signature file, the public key file and its sha256, and the scheme
+  (``ed25519``, RFC 8032 over the list's exact bytes, the signature base64 in
+  its file, the key an Ed25519 SubjectPublicKeyInfo in PEM). The reader
+  verifies the signature; locating the line is not checking the anchor. A
+  signature or key that does not resolve is an availability failure, and one
+  that resolves and does not verify, or a key that is not the pinned one, is an
+  integrity failure.
+- ``anchor.routine-file`` (criterion 9): the file a ``corpus-routine`` digest's
+  routine lives in, when the routine is code. A named routine whose file does
+  not resolve under the root leaves the anchor digest's input undeclared.
 - ``checker.revision`` (criterion 8): ``git-commit`` (40 or 64 hex digits) or
   ``source-listing``, a digest over the checker's source files, recomputable
   from the bytes.
@@ -90,6 +109,8 @@ fields below are ours, each carrying a rule the group stated without a field:
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -101,10 +122,10 @@ FORMAT = "public-agent-conformance/intake-record/v2"
 
 #: Ground identifiers, minted by the corpus. The sentence each binds to is in
 #: vectors-w3c-intake/MANIFEST.json and the corpus's INDEX.md.
-G = {n: f"W3C-I-{n:03d}" for n in range(1, 46)}
+G = {n: f"W3C-I-{n:03d}" for n in range(1, 49)}
 
 #: The grounds that read bytes on disk and run only under a root.
-ROOT_GROUNDS = (G[3], G[8], G[19], G[23], G[24], G[25], G[26], G[28])
+ROOT_GROUNDS = (G[2], G[3], G[8], G[19], G[23], G[24], G[25], G[26], G[28], G[33])
 
 #: v0.1's five states, reused for a per-case line, a fault result and the two
 #: halves of a relaxed control.
@@ -115,7 +136,10 @@ EXIT_RULES = ("zero-iff-every-check-passes", "undeclared")
 INPUT_LITERALS = ("aggregate", "exit-code")
 NATIVE_FORMATS = ("corpus-result-json-v1",)
 CARRY = ("carried", "referenced", "absent")
-ANCHOR_KINDS = ("digest-list-line",)
+CONSUMED = ("consumed", "unconsumed")
+CONSUMPTION_TESTS = ("swap-and-re-pin",)
+ANCHOR_KINDS = ("digest-list-line", "signed-digest-list")
+SIGNATURE_SCHEMES = ("ed25519",)
 ANCHOR_FAILURES = ("availability-failure", "integrity-failure")
 #: A verdict for an anchor failure is any state but pass: an anchor that does
 #: not resolve, or resolves to other bytes, never passes.
@@ -276,6 +300,117 @@ def source_listing(root: str, paths: list[str]) -> str | None:
 
 
 # --------------------------------------------------------------------------
+# Ed25519 (RFC 8032), verification only, so a signed anchor is checked with
+# nothing installed. Decoding follows Go's crypto/ed25519, which the twin
+# reader in corpora/w3cintake.go calls: the public key's y is taken modulo p,
+# and the signature's R is compared as bytes against the recomputed point, so
+# both readers accept and refuse the same signatures.
+# --------------------------------------------------------------------------
+
+_P = 2**255 - 19
+_L = 2**252 + 27742317777372353535851937790883648493
+_D = -121665 * pow(121666, _P - 2, _P) % _P
+_SQRT_M1 = pow(2, (_P - 1) // 4, _P)
+_Point = tuple[int, int, int, int]
+#: The DER prefix of an Ed25519 SubjectPublicKeyInfo: SEQUENCE, the algorithm
+#: identifier 1.3.101.112, and a 33-byte BIT STRING holding the 32-byte key.
+ED25519_SPKI_PREFIX = bytes.fromhex("302a300506032b6570032100")
+
+
+def _point_add(p: _Point, q: _Point) -> _Point:
+    a = (p[1] - p[0]) * (q[1] - q[0]) % _P
+    b = (p[1] + p[0]) * (q[1] + q[0]) % _P
+    c = 2 * p[3] * q[3] * _D % _P
+    d = 2 * p[2] * q[2] % _P
+    e, f, g, h = b - a, d - c, d + c, b + a
+    return (e * f % _P, g * h % _P, f * g % _P, e * h % _P)
+
+
+def _point_mul(scalar: int, point: _Point) -> _Point:
+    result: _Point = (0, 1, 1, 0)
+    while scalar > 0:
+        if scalar & 1:
+            result = _point_add(result, point)
+        point = _point_add(point, point)
+        scalar >>= 1
+    return result
+
+
+def _recover_x(y: int, sign: int) -> int | None:
+    x2 = (y * y - 1) * pow(_D * y * y + 1, _P - 2, _P) % _P
+    x = pow(x2, (_P + 3) // 8, _P)
+    if (x * x - x2) % _P != 0:
+        x = x * _SQRT_M1 % _P
+    if (x * x - x2) % _P != 0:
+        return None
+    if (x & 1) != sign:
+        x = (_P - x) % _P
+    return x
+
+
+def _decode_point(encoded: bytes) -> _Point | None:
+    value = int.from_bytes(encoded, "little")
+    y = (value & ((1 << 255) - 1)) % _P
+    x = _recover_x(y, value >> 255)
+    if x is None:
+        return None
+    return (x, y, 1, x * y % _P)
+
+
+def _encode_point(point: _Point) -> bytes:
+    inverse = pow(point[2], _P - 2, _P)
+    x, y = point[0] * inverse % _P, point[1] * inverse % _P
+    return (y | ((x & 1) << 255)).to_bytes(32, "little")
+
+
+_BASE_Y = 4 * pow(5, _P - 2, _P) % _P
+_BASE_X = _recover_x(_BASE_Y, 0) or 0
+BASE_POINT: _Point = (_BASE_X, _BASE_Y, 1, _BASE_X * _BASE_Y % _P)
+
+
+def ed25519_verify(public: bytes, message: bytes, signature: bytes) -> bool:
+    """RFC 8032 section 5.1.7, cofactorless, R compared as bytes."""
+    if len(public) != 32 or len(signature) != 64:
+        return False
+    point = _decode_point(public)
+    if point is None:
+        return False
+    s = int.from_bytes(signature[32:], "little")
+    if s >= _L:
+        return False
+    k = int.from_bytes(hashlib.sha512(signature[:32] + public + message).digest(), "little") % _L
+    negated: _Point = ((_P - point[0]) % _P, point[1], point[2], (_P - point[3]) % _P)
+    recomputed = _point_add(_point_mul(s, BASE_POINT), _point_mul(k, negated))
+    return _encode_point(recomputed) == signature[:32]
+
+
+def ed25519_public_key(pem: bytes) -> bytes | None:
+    """The 32-byte key of a PEM ``PUBLIC KEY`` block holding an Ed25519 SPKI."""
+    lines = pem.decode("ascii", "replace").strip("\n").split("\n")
+    if len(lines) < 3 or lines[0] != "-----BEGIN PUBLIC KEY-----" or (
+        lines[-1] != "-----END PUBLIC KEY-----"
+    ):
+        return None
+    der = _base64("".join(lines[1:-1]).encode("ascii", "replace"))
+    if der is None or len(der) != 44 or not der.startswith(ED25519_SPKI_PREFIX):
+        return None
+    return der[len(ED25519_SPKI_PREFIX):]
+
+
+def _base64(text: bytes) -> bytes | None:
+    try:
+        return base64.b64decode(text, validate=True)
+    except (binascii.Error, ValueError):
+        return None
+
+
+def signature_bytes(body: bytes) -> bytes | None:
+    """A detached signature file: standard base64 of 64 bytes, trailing newlines allowed."""
+    decoded = _base64(body.rstrip(b"\n"))
+    return decoded if decoded is not None and len(decoded) == 64 else None
+
+
+# --------------------------------------------------------------------------
 # The grounds. Each function adds the identifiers it finds to ``out``; a
 # ground in ``weaken`` is never added, which is how the mutation test removes
 # one check at a time.
@@ -311,6 +446,15 @@ def _member_files(record: dict[str, Any]) -> list[tuple[str, str]]:
             if _obj(pin) and _str(pin.get("path")) and _hex(pin.get("sha256")):
                 out.append((pin["path"], pin["sha256"]))
     return out
+
+
+def _artifact_files(record: dict[str, Any]) -> list[tuple[str, str]]:
+    """The artifacts' pins, the files of the package that are neither members nor manifest."""
+    return [
+        (item["path"], item["sha256"])
+        for item in _list(record, "artifacts")
+        if _obj(item) and safe_path(item.get("path")) and _hex(item.get("sha256"))
+    ]
 
 
 def _pins(record: dict[str, Any], f: Findings) -> None:
@@ -350,7 +494,9 @@ def _corpus_digest(record: dict[str, Any], f: Findings) -> None:
         return
     if digest.get("serialization") != LISTING:
         return  # an undeclared serialization keeps the digest outside the record (I-033)
-    entries = _member_files(record) + [(manifest["path"], manifest["sha256"])]
+    entries = (
+        _member_files(record) + _artifact_files(record) + [(manifest["path"], manifest["sha256"])]
+    )
     recomputed = listing_digest(entries)
     if recomputed != digest["sha256"]:
         f.add(G[2], f"corpus digest {digest['sha256']} and the listing recomputes {recomputed}")
@@ -369,6 +515,11 @@ def _pins_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
         body = _read(root, path)
         if body is None or sha(body) != digest:
             f.add(G[2], f"the manifest {path} does not match its pin, so the corpus digest "
+                        "does not cover these bytes")
+    for path, digest in _artifact_files(record):
+        body = _read(root, path)
+        if body is None or sha(body) != digest:
+            f.add(G[2], f"the artifact {path} does not match its pin, so the corpus digest "
                         "does not cover these bytes")
 
 
@@ -737,6 +888,67 @@ def _observations(record: dict[str, Any], f: Findings) -> None:
             f.add(G[21], f"observations[{i}] is declared inline and is not present")
 
 
+def _native_result(value: Any) -> bool:
+    """One complete native result: the digest of the checker's case output and its exit code."""
+    return _obj(value) and _hex(value.get("sha256")) and _int(value.get("exit-code"))
+
+
+def _artifact_shape(item: Any) -> bool:
+    evidence = _field(item, "evidence")
+    return (
+        _obj(item)
+        and safe_path(item.get("path"))
+        and _hex(item.get("sha256"))
+        and item.get("consumed") in CONSUMED
+        and _obj(evidence)
+        and evidence.get("test") in CONSUMPTION_TESTS
+        and _native_result(evidence.get("baseline"))
+        and _native_result(evidence.get("swapped"))
+    )
+
+
+def _names_grounds(value: Any) -> bool:
+    known = set(G.values())
+    return isinstance(value, list) and len(value) > 0 and all(
+        isinstance(v, str) and v in known for v in value
+    )
+
+
+def _artifacts(record: dict[str, Any], f: Findings) -> None:
+    """Criterion 6 with 0090 and 0091: whether a check consumed each file of the package."""
+    artifacts: Any = record.get("artifacts")
+    if not isinstance(artifacts, list):
+        f.add(G[46], "the record states no artifacts list, so whether a check read each "
+                     "file of the package is unsaid")
+        return
+    members = {path for path, _ in _member_files(record)}
+    manifest_path = _field(record.get("manifest"), "path")
+    seen: set[str] = set()
+    for i, item in enumerate(artifacts):
+        if not _artifact_shape(item):
+            f.add(G[46], f"artifacts[{i}] states no consumed state from {', '.join(CONSUMED)} "
+                         "with the swap-and-re-pin evidence that decides it")
+            continue
+        path = item["path"]
+        if path in seen or path in members or path == manifest_path:
+            f.add(G[46], f"artifacts[{i}] {path} is listed twice, or is a member or the "
+                         "manifest rather than another file of the package")
+            continue
+        seen.add(path)
+        evidence = item["evidence"]
+        before, after = evidence["baseline"], evidence["swapped"]
+        changed = (before["sha256"], before["exit-code"]) != (after["sha256"], after["exit-code"])
+        state = "consumed" if changed else "unconsumed"
+        if item["consumed"] != state:
+            f.add(G[47], f"{path} is declared {item['consumed']} and its swap with every pin "
+                         f"moved {'changes' if changed else 'leaves unchanged'} the complete "
+                         "native result")
+            continue
+        if state == "unconsumed" and not _names_grounds(evidence.get("refused-by")):
+            f.add(G[48], f"{path} enters no check's verdict and the record does not say which "
+                         "ground refused its swap")
+
+
 def _anchor(record: dict[str, Any], f: Findings) -> None:
     """Criterion 7: an anchor that tells availability from integrity, with verdicts."""
     anchor: Any = record.get("anchor")
@@ -758,6 +970,20 @@ def _anchor(record: dict[str, Any], f: Findings) -> None:
     if not ok:
         f.add(G[22], "the anchor does not carry a reference, a digest for the manifest it "
                      "anchors, and a non-passing verdict for each failure")
+    elif anchor.get("kind") == "signed-digest-list" and not _signature_declared(anchor):
+        f.add(G[22], "the anchor is a signed digest list and does not name its signature "
+                     "file, its key file and pin, and a scheme this reader verifies")
+
+
+def _signature_declared(anchor: dict[str, Any]) -> bool:
+    signature: Any = anchor.get("signature")
+    return (
+        _obj(signature)
+        and safe_path(signature.get("path"))
+        and safe_path(signature.get("key"))
+        and _hex(signature.get("key-sha256"))
+        and signature.get("scheme") in SIGNATURE_SCHEMES
+    )
 
 
 def _binds(line: str, digest: Any, manifest: Any) -> bool:
@@ -796,6 +1022,44 @@ def _anchor_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
     if declared != want:
         f.add(G[24], f"integrity-failure: the anchored digest {want} is not the digest "
                      f"{manifest} declares")
+    if anchor.get("kind") == "signed-digest-list" and _signature_declared(anchor):
+        _signature_on_disk(anchor, path, body, root, f)
+
+
+def _signature_on_disk(
+    anchor: dict[str, Any], path: str, body: bytes, root: str, f: Findings
+) -> None:
+    """The signed list's own check: the signature over its exact bytes, under the pinned key."""
+    signature = anchor["signature"]
+    raw = _read(root, signature["path"])
+    pem = _read(root, signature["key"])
+    if raw is None:
+        f.add(G[23], f"availability-failure: the signature {signature['path']} does not resolve")
+    if pem is None:
+        f.add(G[23], f"availability-failure: the key {signature['key']} does not resolve")
+    if raw is None or pem is None:
+        return
+    if sha(pem) != signature["key-sha256"]:
+        f.add(G[24], f"integrity-failure: the key {signature['key']} hashes to {sha(pem)}, "
+                     f"pinned {signature['key-sha256']}")
+        return
+    public = ed25519_public_key(pem)
+    decoded = signature_bytes(raw)
+    if public is None or decoded is None:
+        f.add(G[24], f"integrity-failure: {signature['key']} is not an Ed25519 public key or "
+                     f"{signature['path']} is not a 64-byte signature in base64")
+    elif not ed25519_verify(public, body, decoded):
+        f.add(G[24], f"integrity-failure: the signature {signature['path']} over {path} does "
+                     f"not verify under {signature['key']}")
+
+
+def _routine_on_disk(record: dict[str, Any], root: str, f: Findings) -> None:
+    """Criterion 9: a digest routine named by its file is a routine that is here."""
+    anchor: Any = record.get("anchor")
+    routine_file = _field(anchor, "routine-file")
+    if safe_path(routine_file) and _read(root, routine_file) is None:
+        f.add(G[33], f"the anchor digest's routine names {routine_file}, which does not "
+                     "resolve under the root, so its input serialization cannot be read")
 
 
 def _offered_digests(record: dict[str, Any]) -> list[tuple[str, bool]]:
@@ -808,8 +1072,15 @@ def _offered_digests(record: dict[str, Any]) -> list[tuple[str, bool]]:
         ("the corpus digest", _field(record.get("corpus-digest"), "serialization") == LISTING),
     ]
     if _obj(anchor):
+        routine_file = anchor.get("routine-file")
         offered.append(("the anchor digest", anchor.get("serialization") == ROUTINE
-                        and _str(anchor.get("routine"))))
+                        and _str(anchor.get("routine"))
+                        and (routine_file is None or safe_path(routine_file))))
+        signature = anchor.get("signature")
+        if anchor.get("kind") == "signed-digest-list" and _obj(signature):
+            offered.append(("the anchor key pin", signature.get("serialization") == BYTES))
+    for i, item in enumerate(_list(record, "artifacts")):
+        offered.append((f"artifacts[{i}]", _field(item, "serialization") == BYTES))
     if _field(revision, "kind") == "source-listing":
         offered.append(("the checker source listing",
                         _field(revision, "serialization") == LISTING))
@@ -1037,6 +1308,7 @@ def evaluate(
     _refusals(record, f)
     _native(record, f)
     _observations(record, f)
+    _artifacts(record, f)
     _anchor(record, f)
     _checker(record, f)
     _serializations(record, f)
@@ -1049,6 +1321,7 @@ def evaluate(
             _boundary_on_disk(record, locations, root, f)
         _native_on_disk(record, root, f)
         _anchor_on_disk(record, root, f)
+        _routine_on_disk(record, root, f)
         _checker_on_disk(record, root, f)
     return f.found
 

@@ -3,17 +3,20 @@ package corpora
 // The intake criteria for a submitted conformance result, judged in Go.
 //
 // packaging/agent_evidence_vectors/w3cintake.py is the reader this one is held
-// to: the same 45 grounds, the same record shape, the same judge over
+// to: the same 48 grounds, the same record shape, the same judge over
 // vectors-w3c-intake/, and the same lines printed by aee-verify.
 // scripts/w3c-intake-parity-test.py diffs the two over the committed corpus and
 // over copies with one byte flipped in one member. The rules are the W3C
 // public-agent-conformance group's (intake criteria v2, 2026Oct/0067, with the
-// deltas of 0070, 0073 and 0075); the record shape is the Python module's, and
+// deltas of 0070, 0073 and 0075, and the criterion-6 consumed state of 0090
+// and 0091); the record shape is the Python module's, and
 // its docstring says which field carries which rule.
 
 import (
 	"bytes"
+	"crypto/ed25519"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
@@ -35,7 +38,7 @@ const intakeFormat = "public-agent-conformance/intake-record/v2"
 
 func wI(n int) string { return fmt.Sprintf("W3C-I-%03d", n) }
 
-const intakeGrounds = 45
+const intakeGrounds = 48
 
 var (
 	intakeStates           = set("pass", "fail", "inconclusive", "not-exercised", "void")
@@ -44,7 +47,10 @@ var (
 	intakeExitRules        = set("zero-iff-every-check-passes", "undeclared")
 	intakeNativeFormats    = set("corpus-result-json-v1")
 	intakeCarry            = set("carried", "referenced", "absent")
-	intakeAnchorKinds      = set("digest-list-line")
+	intakeConsumed         = set("consumed", "unconsumed")
+	intakeConsumptionTests = set("swap-and-re-pin")
+	intakeAnchorKinds      = set("digest-list-line", "signed-digest-list")
+	intakeSignatureSchemes = set("ed25519")
 	intakeAnchorVerdicts   = set("fail", "inconclusive", "not-exercised", "void")
 	intakeRelationships    = set("same-implementation", "reference-derived", "written-from-specification")
 	intakeEncodings        = set("jcs-sha256")
@@ -323,6 +329,18 @@ func intakeMemberFiles(record map[string]any) []listingEntry {
 	return out
 }
 
+// intakeArtifactFiles is _artifact_files: the pins of the package's files that
+// are neither members nor the manifest.
+func intakeArtifactFiles(record map[string]any) []listingEntry {
+	var out []listingEntry
+	for _, item := range iList(record, "artifacts") {
+		if _, isObj := iObj(item); isObj && intakeSafePath(iField(item, "path")) && iHex(iField(item, "sha256"), hex64) {
+			out = append(out, listingEntry{iField(item, "path").(string), iField(item, "sha256").(string)})
+		}
+	}
+	return out
+}
+
 func intakeMemberPins(record map[string]any, f intakeFound) {
 	members, ok := record["members"].([]any)
 	if !ok {
@@ -366,7 +384,8 @@ func intakeCorpusDigest(record map[string]any, f intakeFound) {
 	if !iEq(iField(digest, "serialization"), "sha256-listing-v1") {
 		return
 	}
-	entries := append(intakeMemberFiles(record), listingEntry{
+	entries := append(intakeMemberFiles(record), intakeArtifactFiles(record)...)
+	entries = append(entries, listingEntry{
 		iField(manifest, "path").(string), iField(manifest, "sha256").(string),
 	})
 	if intakeListing(entries) != iField(digest, "sha256").(string) {
@@ -386,6 +405,12 @@ func intakePinsOnDisk(record map[string]any, root string, f intakeFound) {
 	if iStr(path) && iHex(iField(manifest, "sha256"), hex64) {
 		body, ok := intakeRead(root, path)
 		if !ok || sha(body) != iField(manifest, "sha256").(string) {
+			f.add(2)
+		}
+	}
+	for _, e := range intakeArtifactFiles(record) {
+		body, ok := intakeRead(root, e.path)
+		if !ok || sha(body) != e.digest {
 			f.add(2)
 		}
 	}
@@ -938,6 +963,101 @@ func intakeObservations(record map[string]any, f intakeFound) {
 	}
 }
 
+// intakeNativeResult is _native_result: the digest of a checker's case output
+// and its exit code.
+func intakeNativeResult(v any) (string, int64, bool) {
+	m, ok := iObj(v)
+	if !ok || !iHex(m["sha256"], hex64) {
+		return "", 0, false
+	}
+	code, ok := intValue(m["exit-code"])
+	if !ok {
+		return "", 0, false
+	}
+	return m["sha256"].(string), code, true
+}
+
+func intakeArtifactShape(item any) bool {
+	m, ok := iObj(item)
+	if !ok || !intakeSafePath(m["path"]) || !iHex(m["sha256"], hex64) || !iIn(m["consumed"], intakeConsumed) {
+		return false
+	}
+	evidence, ok := iObj(m["evidence"])
+	if !ok || !iIn(evidence["test"], intakeConsumptionTests) {
+		return false
+	}
+	_, _, before := intakeNativeResult(evidence["baseline"])
+	_, _, after := intakeNativeResult(evidence["swapped"])
+	return before && after
+}
+
+// intakeNamesGrounds is _names_grounds: a non-empty list of ground identifiers.
+func intakeNamesGrounds(v any) bool {
+	items, ok := v.([]any)
+	if !ok || len(items) == 0 {
+		return false
+	}
+	known := map[string]bool{}
+	for n := 1; n <= intakeGrounds; n++ {
+		known[wI(n)] = true
+	}
+	for _, item := range items {
+		s, ok := item.(string)
+		if !ok || !known[s] {
+			return false
+		}
+	}
+	return true
+}
+
+// intakeArtifacts is _artifacts: criterion 6 with 2026Oct/0090 and 0091.
+func intakeArtifacts(record map[string]any, f intakeFound) {
+	artifacts, ok := record["artifacts"].([]any)
+	if !ok {
+		f.add(46)
+		return
+	}
+	members := map[string]bool{}
+	for _, e := range intakeMemberFiles(record) {
+		members[e.path] = true
+	}
+	manifestPath := iField(record["manifest"], "path")
+	seen := map[string]bool{}
+	for _, item := range artifacts {
+		if !intakeArtifactShape(item) {
+			f.add(46)
+			continue
+		}
+		m := item.(map[string]any)
+		path := m["path"].(string)
+		if seen[path] || members[path] || iEq(manifestPath, path) {
+			f.add(46)
+			continue
+		}
+		seen[path] = true
+		evidence := m["evidence"].(map[string]any)
+		beforeSHA, beforeCode, _ := intakeNativeResult(evidence["baseline"])
+		afterSHA, afterCode, _ := intakeNativeResult(evidence["swapped"])
+		state := "unconsumed"
+		if beforeSHA != afterSHA || beforeCode != afterCode {
+			state = "consumed"
+		}
+		if !iEq(m["consumed"], state) {
+			f.add(47)
+			continue
+		}
+		if state == "unconsumed" && !intakeNamesGrounds(evidence["refused-by"]) {
+			f.add(48)
+		}
+	}
+}
+
+func intakeSignatureDeclared(anchor map[string]any) bool {
+	signature, ok := iObj(anchor["signature"])
+	return ok && intakeSafePath(signature["path"]) && intakeSafePath(signature["key"]) &&
+		iHex(signature["key-sha256"], hex64) && iIn(signature["scheme"], intakeSignatureSchemes)
+}
+
 func intakeAnchor(record map[string]any, f intakeFound) {
 	anchor, isObj := iObj(record["anchor"])
 	reference, refObj := iObj(iField(anchor, "reference"))
@@ -951,6 +1071,8 @@ func intakeAnchor(record map[string]any, f intakeFound) {
 		}
 	}
 	if !ok {
+		f.add(22)
+	} else if iEq(anchor["kind"], "signed-digest-list") && !intakeSignatureDeclared(anchor) {
 		f.add(22)
 	}
 }
@@ -1001,13 +1123,86 @@ func intakeAnchorOnDisk(record map[string]any, root string, f intakeFound) {
 	if !jsonEqual(declared, want) || declared == nil {
 		f.add(24)
 	}
+	if m, isObj := iObj(anchor); isObj && iEq(m["kind"], "signed-digest-list") && intakeSignatureDeclared(m) {
+		intakeSignatureOnDisk(m, body, root, f)
+	}
+}
+
+// intakeEd25519SPKIPrefix is the DER prefix of an Ed25519 SubjectPublicKeyInfo
+// holding a 32-byte key, the form release/cosign.pub takes.
+var intakeEd25519SPKIPrefix = []byte{0x30, 0x2a, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x03, 0x21, 0x00}
+
+// intakeBase64 decodes standard base64 with padding, refusing any byte outside
+// the alphabet; the encoding package alone skips newlines, which the Python
+// reader does not.
+func intakeBase64(text []byte) ([]byte, bool) {
+	for _, c := range text {
+		if !(c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '+' || c == '/' || c == '=') {
+			return nil, false
+		}
+	}
+	out, err := base64.StdEncoding.DecodeString(string(text))
+	return out, err == nil
+}
+
+// intakeEd25519PublicKey is ed25519_public_key: the key of a PEM PUBLIC KEY block.
+func intakeEd25519PublicKey(pem []byte) ([]byte, bool) {
+	lines := strings.Split(strings.Trim(string(pem), "\n"), "\n")
+	if len(lines) < 3 || lines[0] != "-----BEGIN PUBLIC KEY-----" || lines[len(lines)-1] != "-----END PUBLIC KEY-----" {
+		return nil, false
+	}
+	der, ok := intakeBase64([]byte(strings.Join(lines[1:len(lines)-1], "")))
+	if !ok || len(der) != 44 || !bytes.HasPrefix(der, intakeEd25519SPKIPrefix) {
+		return nil, false
+	}
+	return der[len(intakeEd25519SPKIPrefix):], true
+}
+
+// intakeSignatureOnDisk is _signature_on_disk: the signature over the list's
+// exact bytes, under the key the record pins.
+func intakeSignatureOnDisk(anchor map[string]any, list []byte, root string, f intakeFound) {
+	signature := anchor["signature"].(map[string]any)
+	raw, rawOK := intakeRead(root, signature["path"])
+	pem, pemOK := intakeRead(root, signature["key"])
+	if !rawOK || !pemOK {
+		f.add(23)
+		return
+	}
+	if sha(pem) != signature["key-sha256"].(string) {
+		f.add(24)
+		return
+	}
+	public, publicOK := intakeEd25519PublicKey(pem)
+	decoded, decodedOK := intakeBase64(bytes.TrimRight(raw, "\n"))
+	if !publicOK || !decodedOK || len(decoded) != ed25519.SignatureSize || !ed25519.Verify(public, list, decoded) {
+		f.add(24)
+	}
+}
+
+// intakeRoutineOnDisk is _routine_on_disk: a routine named by its file is here.
+func intakeRoutineOnDisk(record map[string]any, root string, f intakeFound) {
+	routineFile := iField(record["anchor"], "routine-file")
+	if !intakeSafePath(routineFile) {
+		return
+	}
+	if _, ok := intakeRead(root, routineFile); !ok {
+		f.add(33)
+	}
 }
 
 func intakeSerializations(record map[string]any, f intakeFound) {
 	declared := iEq(record["pin-serialization"], "bytes") &&
 		iEq(iField(record["corpus-digest"], "serialization"), "sha256-listing-v1")
 	if anchor, ok := iObj(record["anchor"]); ok {
-		declared = declared && iEq(anchor["serialization"], "corpus-routine") && iStr(anchor["routine"])
+		routineFile, named := anchor["routine-file"]
+		declared = declared && iEq(anchor["serialization"], "corpus-routine") && iStr(anchor["routine"]) &&
+			(!named || routineFile == nil || intakeSafePath(routineFile))
+		if signature, isObj := iObj(anchor["signature"]); isObj && iEq(anchor["kind"], "signed-digest-list") {
+			declared = declared && iEq(signature["serialization"], "bytes")
+		}
+	}
+	for _, item := range iList(record, "artifacts") {
+		declared = declared && iEq(iField(item, "serialization"), "bytes")
 	}
 	checker := record["checker"]
 	revision := iField(checker, "revision")
@@ -1288,6 +1483,7 @@ func intakeRejections(value any, root string, hasRoot bool) []string {
 	intakeRefusals(record, f)
 	intakeNative(record, f)
 	intakeObservations(record, f)
+	intakeArtifacts(record, f)
 	intakeAnchor(record, f)
 	intakeChecker(record, f)
 	intakeSerializations(record, f)
@@ -1302,6 +1498,7 @@ func intakeRejections(value any, root string, hasRoot bool) []string {
 		}
 		intakeNativeOnDisk(record, root, f)
 		intakeAnchorOnDisk(record, root, f)
+		intakeRoutineOnDisk(record, root, f)
 		intakeCheckerOnDisk(record, root, f)
 	}
 	return intakeSorted(f)
