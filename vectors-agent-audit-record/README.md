@@ -120,6 +120,47 @@ reference reader one sentence at a time and requires the corpus to fail on
 exactly that sentence's members, so a member that stopped forcing its sentence
 would be caught.
 
+## Freshness: Section 5.4 of the successor draft
+
+This corpus reads Section 5.4 as
+[`draft-gilda-audit-agent-audit-record-00`](https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/),
+the draft that replaces revision 02, states it. Every evaluation carries
+`inputs`, one entry per input the decision depended on, each with `input`,
+`lastResult` and `maxAge`. An entry's age runs from `lastResult` to
+`decision.reportedAt`, never to `issuedAt`; an age equal to `maxAge` is fresh;
+`lastResult` of `none` is never established; and a `lastResult` more than the
+300-second skew tolerance after `reportedAt` is malformed. The unavailable
+inputs are derived from the entries: under `evaluated` they must be none, and
+under `not-evaluated` `unavailableInput` must name exactly them. Every member
+carries entries that agree with it, so a record shaped for revision 02, with no
+`inputs`, is refused (`EV13`). The members that only the successor draft
+defines carry its name in `draftDocument`.
+
+- `FR1` to `FR13` are that draft's Appendix B rows. `FR2` sits on the boundary
+  and on the reference time at once: its age is exactly `maxAge` at
+  `reportedAt` and nine seconds past it at `issuedAt`.
+- `FR13b` and `EV14` isolate two sentences the rows reach only through a later
+  check: a negative `maxAge` stales its entry, so `FR13` is refused by the
+  derived set as well, and `FR13b` names that entry so only the sign refuses it;
+  `EV14` is an all-fresh record marked `not-evaluated` with an empty
+  `unavailableInput`, which matches the empty derived set and is refused only
+  because `not-evaluated` names at least one input.
+- `FR14` refuses a record with no `decision.reportedAt`, the time every age is
+  measured to. `FR16` puts a `lastResult` exactly the skew tolerance after
+  `reportedAt` and is accepted, so a verifier allowing no skew is caught.
+- `FR15a` to `FR15c` are one forwarded value judged at two hops. The first hop
+  reads standing at 10:00:00 under its own `maxAge` of 7200 and evaluates. The
+  second copies the source's `lastResult` unchanged, applies its own `maxAge` of
+  3600, finds the value 3842 seconds old, and must record `not-evaluated`
+  (`FR15b`); recording `evaluated`, the first hop's verdict, is malformed
+  (`FR15c`). A verifier sees only each record's own entries, so each hop's
+  verdict follows from its own `maxAge` and `reportedAt`.
+
+A verifier cannot tell from the bytes which entry was forwarded: `FR1`, `FR3`
+and `FR4` fix that the age runs from the carried `lastResult`, which is all a
+forwarded entry can be held to. `FR14` to `FR16`, `FR13b` and `EV14` are
+proposed rows for the next revision of the draft.
+
 ## What the members are built from
 
 Every reject member is its `from` member with the one mutation its row names.

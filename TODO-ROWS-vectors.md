@@ -56,3 +56,23 @@ carrying the number that makes it real and the command that starts it.
   the next upstream edit moves them silently. That is a correctness debt with no
   deadline attached, which is exactly the kind that needs a row rather than a
   memory.
+
+## Move the audit record corpus wholly onto draft-gilda-audit-agent-audit-record-00
+
+- [ ] **Publish the rest of the successor draft's Appendix B and retarget the
+  manifest.** The corpus now holds Section 5.4 to the successor draft (entries,
+  freshness, `EV13`, `FR1` to `FR16`), but its manifest still names
+  `draft-gilda-wimse-agent-audit-record-02`, because the successor's other new
+  rows are not published here: `A18` to `A20` (policy-source unavailable and the
+  fallback's `decision.policyDigest`), `EV11` (a status outside the closed set),
+  `EV12` (an evaluation member the draft does not define, which neither reader
+  refuses yet), `R1` to `R9` (the Section 4.7 retention entry and the dating
+  check), and `N1`, which the successor gives a single conforming verdict. When
+  those land, set `DRAFT` in `gen_vectors.py` to the successor, drop
+  `draftDocument`, and rerun:
+
+  ```sh
+  uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
+  uv run --extra generators python vectors-agent-audit-record/check_vectors.py
+  heavy-queue heavy-run --name go-test --timeout 3600 -- go test ./corpora/ -run AuditRecord
+  ```
