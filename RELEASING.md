@@ -159,7 +159,12 @@ python3 scripts/verify-release-tag.py vX.Y.Z
 #    This is what step 5's ordering costs and it is the whole payment: the tag
 #    now precedes the remote run, so the evidence that the run will pass has to
 #    come from here instead. Nothing is pushed until this is green.
-python3 scripts/workflow-steps-gate.py
+#    Run it the way the pre-push hook does: from the project's own Python 3.13
+#    environment. The gate builds its controls' environments from the
+#    interpreter that runs it, so a system python3 older than 3.13 fails the
+#    pool controls on a tree the remote accepts.
+uv sync --locked --extra dev --python 3.13
+UV_PROJECT_ENVIRONMENT="$PWD/.venv" .venv/bin/python -B scripts/workflow-steps-gate.py
 
 # 7. Publish the owned feature branch and the new tag atomically. The feature
 #    branch's installation pin and signed tag arrive together. The default
@@ -243,7 +248,8 @@ over the eight other suites and printed that rail's failures as a verdict.
 ## Before you start
 
 - The local gate is the pre-push mirror, and it is the same 89-plus steps CI
-  runs: `python3 scripts/workflow-steps-gate.py`. It takes upwards of ninety
+  runs: `.venv/bin/python -B scripts/workflow-steps-gate.py`, from the
+  environment step 6 syncs. It takes upwards of ninety
   minutes and holds a single-instance lock, so one release at a time.
 - Read the count you publish off the tagged tree, by counting members in the
   manifests. Never quote it from a README: that is the defect that put a wrong

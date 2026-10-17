@@ -29,7 +29,16 @@ func TestSafeIntegerProfile(t *testing.T) {
 		{"1E21", true, ErrUnsafeInteger},
 		{"1.0e21", true, ErrUnsafeInteger},
 		{"-1e21", true, ErrUnsafeInteger},
-		{"1.5", true, ErrNonIntegerNumber}, // non-integer -> rejected
+		// Spellings a canonicalizer that keeps integer digits, or that decides by
+		// spelling rather than value, gets wrong: each is one value at or above
+		// 2^53, so each is rejected whatever its form.
+		{"9007199254740992.0", true, ErrUnsafeInteger}, // 2^53 with a fraction part
+		{"9007199254740993.0", true, ErrUnsafeInteger}, // parses to 2^53 as a double
+		{"9007199254740994", true, ErrUnsafeInteger},   // exactly representable, still unsafe
+		{"-9007199254740993", true, ErrUnsafeInteger},
+		{"9223372036854775807", true, ErrUnsafeInteger},    // int64 max
+		{"1000000000000000000000", true, ErrUnsafeInteger}, // 10^21 in digits
+		{"1.5", true, ErrNonIntegerNumber},                 // non-integer -> rejected
 		{"-0.1", true, ErrNonIntegerNumber},
 	}
 	for _, c := range cases {
