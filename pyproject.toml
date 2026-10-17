@@ -50,6 +50,10 @@ agent-evidence-heldout = "agent_evidence_vectors.heldout:main"
 # alone reproduces an E7 run without a clone.
 agent-evidence-vectors-remora-e7 = "agent_evidence_vectors.remora_e7.run:main"
 
+# One pinned MCP invocation judged on three separate axes (package integrity,
+# request and decision correspondence, observed effect), with its frozen corpus.
+agent-evidence-vectors-invocation-axes = "agent_evidence_vectors.invocation_axes.run:main"
+
 [build-system]
 requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
