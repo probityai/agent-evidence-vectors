@@ -1,0 +1,1734 @@
+{
+  "aggregate": {
+    "counts": {
+      "contradicted": 17,
+      "not_established": 11,
+      "supported": 10
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 38
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-spoofed-tool-output/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-spoofed-tool-output/gen_vectors.py",
+    "routine-file": "vectors-spoofed-tool-output/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "b27b04715de152dc32e185e3b803738741f1034b4d3fcbbbb156fb692e79c4aa",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "swapped-in": "e9e4b953c505840236e07114317451a527da87277c2e5a28e449fbb83de098a6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-spoofed-tool-output/README.md",
+      "serialization": "bytes",
+      "sha256": "a9df0a3fd26cb86ba6b2d8f996cc122932f6e507d67034ac57d6792d9ce89ee0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "swapped-in": "561348319e22785a38168fcd4340c706568aaaa51b3b1a0029f4cde19cc0bcc1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-spoofed-tool-output/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "af9186b07e6d384891b2dcd2848501b7df6e3978353169317db95d9c307e7059"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+        },
+        "swapped-in": "22ee06c26163e70d23681c8e2f72ed2a827c086244c1d39b85ee48419a8908de",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-spoofed-tool-output/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e3b781c014a721447ba91e1954f3774bc8e56d05f4d6f6d8d893f41b39a49c02"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-spoofed-tool-output"
+  },
+  "byte-identity": {
+    "pins": 190,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-spoofed-tool-output",
+      "aee-verify -json vectors-spoofed-tool-output",
+      "aee-verify vectors-spoofed-tool-output"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "7e3fb58c3e4431e1247521f724ce481160f2d472911e57b73bc441f6d77472b4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "claim-matched-after-edit",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "claim-without-exit",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-claims",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "own-cache-writes-do-not-stale-the-run",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rerun-after-second-edit",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "two-claims-both-matched",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fabricated-output-printf",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fabricated-output-echo",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fabricated-output-python",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "no-exec-at-all",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "near-miss-extra-flag",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "near-miss-other-path",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "near-miss-argument-order",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "run-before-the-last-edit",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "run-before-an-edit-by-another-command",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "edit-of-a-test-after-the-run",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exit-claimed-zero-recorded-one",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exit-claimed-zero-recorded-signal",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "second-claim-fabricated",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "first-contradiction-in-claim-order-unmatched",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "first-contradiction-in-claim-order-stale",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exit-not-seen",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "coverage-incomplete-fabrication",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "coverage-unknown-fabrication",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exec-not-visible",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mutation-type-not-visible",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "observation-self-reported",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "observer-is-the-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "capability-from-another-observer",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "claims-from-another-invocation",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "observation-of-another-interval",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "known-limit-edit-inside-the-claimed-command",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-honest",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-spoofed-output",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-edit-run-revert",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-nested-mkdir",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-grandchild-write",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-lost-events",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "10d2405151d3271c32f90b5f592ada8990f0181b5bfc1df2441f201acbab2bae"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "claim-matched-after-edit",
+      "claim-without-exit",
+      "no-claims",
+      "own-cache-writes-do-not-stale-the-run",
+      "rerun-after-second-edit",
+      "two-claims-both-matched",
+      "fabricated-output-printf",
+      "fabricated-output-echo",
+      "fabricated-output-python",
+      "no-exec-at-all",
+      "near-miss-extra-flag",
+      "near-miss-other-path",
+      "near-miss-argument-order",
+      "run-before-the-last-edit",
+      "run-before-an-edit-by-another-command",
+      "edit-of-a-test-after-the-run",
+      "exit-claimed-zero-recorded-one",
+      "exit-claimed-zero-recorded-signal",
+      "second-claim-fabricated",
+      "first-contradiction-in-claim-order-unmatched",
+      "first-contradiction-in-claim-order-stale",
+      "exit-not-seen",
+      "coverage-incomplete-fabrication",
+      "coverage-unknown-fabrication",
+      "exec-not-visible",
+      "mutation-type-not-visible",
+      "observation-self-reported",
+      "observer-is-the-agent",
+      "capability-from-another-observer",
+      "claims-from-another-invocation",
+      "observation-of-another-interval",
+      "known-limit-edit-inside-the-claimed-command",
+      "recorded-honest",
+      "recorded-spoofed-output",
+      "recorded-edit-run-revert",
+      "recorded-nested-mkdir",
+      "recorded-grandchild-write",
+      "recorded-lost-events"
+    ],
+    "path": "vectors-spoofed-tool-output/MANIFEST.json",
+    "sha256": "f9baa696ba197db50f5989e714a00e3357a9b3b135e03941e8b087266702d2b9"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-matched-after-edit/capability.json",
+          "sha256": "971137aed623733159f4899d6e068b8800db90059baacfa9899b552c37537c1f"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-matched-after-edit/claims.json",
+          "sha256": "6e8c45c2bd42b3c3af84307bf8ef61a52c033e019feab624f19e92ce263b4fd6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-matched-after-edit/observation.json",
+          "sha256": "5b51c13efa5849b1db9312870f0011c4bc30beda0143ec8d3d4a121501164279"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-matched-after-edit/tool-claims.case.json",
+          "sha256": "acd2bff803f806e1ccd585b0178807072f124cf88e484a556aa03f526b7e54c2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-matched-after-edit/tool-claims.policy.json",
+          "sha256": "176691e65fb44f2ced0eb089c9927414ac905772097d29f62020b63995e57e22"
+        }
+      ],
+      "id": "claim-matched-after-edit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-without-exit/capability.json",
+          "sha256": "9f40aa51db04b1dd259107f321586ba5f4f4798fdcccadcde24dca84562641e2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-without-exit/claims.json",
+          "sha256": "5e119ad6ac200e76ea4e5e12892478aa93834a779377033b7e3684f49e9ba9bc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-without-exit/observation.json",
+          "sha256": "03573fb5b7e58ee1cbde127617839f129dc96b7c8078425935289f50ada67f73"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-without-exit/tool-claims.case.json",
+          "sha256": "a86cd7235c2fddee2d7cdedc0e16ee368dee2b812f16e030203c67bdd53d6ffa"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claim-without-exit/tool-claims.policy.json",
+          "sha256": "4c616d3e13e01241a8171d3c08455525d8f3f7e293292d7336945a038371a945"
+        }
+      ],
+      "id": "claim-without-exit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-claims/capability.json",
+          "sha256": "beea406f43444a8133cf0d107cedc2fe60c1858a4a2e8b5a4e0948120f182686"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-claims/claims.json",
+          "sha256": "4544e064829fb0f040fae1a2be35cf2cbf0db9399e4b5dc752bbfb7e37899e6c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-claims/observation.json",
+          "sha256": "9b00fe880ce3be3398a5891af8b9423a8cf97b32b339cf61825e2a3fda04947a"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-claims/tool-claims.case.json",
+          "sha256": "8901a2cf0ff4ddfd4687c4626e7d30954a5355d0c3f58b12fb47f98b3a5c3792"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-claims/tool-claims.policy.json",
+          "sha256": "a98f88d82ea420a2eb1a0d74d345c2c3de8fc5a433511bcf636e1a9f8fb9b6c7"
+        }
+      ],
+      "id": "no-claims"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/own-cache-writes-do-not-stale-the-run/capability.json",
+          "sha256": "b9cff1016d442df967907f09815f4f78198e52f5663de1c2d51dd046144fff42"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/own-cache-writes-do-not-stale-the-run/claims.json",
+          "sha256": "7ad8c0e36cd8536c79816b8300f067a5c04414c346505c58fc101e22c2c42d44"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/own-cache-writes-do-not-stale-the-run/observation.json",
+          "sha256": "a9b9482626fa73fd0345a52f4219a31800f2a80400225efd705bb32320af8156"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/own-cache-writes-do-not-stale-the-run/tool-claims.case.json",
+          "sha256": "c4df60eb5acd5855247480a02a5c416416481143cd3c384db5870d7021bb09e5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/own-cache-writes-do-not-stale-the-run/tool-claims.policy.json",
+          "sha256": "78b343d0811053e9d90eb8fd49f0706af8551658928c5e47a43223dc9f2ddb2b"
+        }
+      ],
+      "id": "own-cache-writes-do-not-stale-the-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/rerun-after-second-edit/capability.json",
+          "sha256": "00907b1df532d7133608109eec964ca9263135e94b9c14a821a99249c504b8c5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/rerun-after-second-edit/claims.json",
+          "sha256": "2a6b1dca6d2c54d43deafaa4049e5cdb046931199d65a2dec1952abb797fb164"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/rerun-after-second-edit/observation.json",
+          "sha256": "ef73461d00f5a159c36f98dbcd70dc4ffa56d0fc6aee50c7cfcb465c5f09f2bc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/rerun-after-second-edit/tool-claims.case.json",
+          "sha256": "3d3a265dbd777491434e3326a8b7ce1ff21100d67b105816f4cf916101adb644"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/rerun-after-second-edit/tool-claims.policy.json",
+          "sha256": "86f0a9cde26351421c71c66f8267ce9a5fa8c293f48e1d953e61c12e0728a924"
+        }
+      ],
+      "id": "rerun-after-second-edit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/two-claims-both-matched/capability.json",
+          "sha256": "d13c02c15578cb39e7c5ee20ae58876ed53730624fdbc60f25e3ca16b15ba986"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/two-claims-both-matched/claims.json",
+          "sha256": "2626a9ad8e23fde25072eb93a1afdced1bcaca91c36da325a22d5903069ea1c2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/two-claims-both-matched/observation.json",
+          "sha256": "047905195cf77592d66f77d5436a2a1143bbd4d4f1d110a99862ca470887eac2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/two-claims-both-matched/tool-claims.case.json",
+          "sha256": "d49fb6fedc697a0a92e595735fe9484052c15462e916a17a34ed3dbb3e251bd2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/two-claims-both-matched/tool-claims.policy.json",
+          "sha256": "56a892529b361cde5a02955cc4e52abe259ccba486a7526fae98c3828502f364"
+        }
+      ],
+      "id": "two-claims-both-matched"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-printf/capability.json",
+          "sha256": "ec9f365238c1503bd641dc1cd27648ab7129bedcce4d90cdf2db8245a081fb78"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-printf/claims.json",
+          "sha256": "cdfc815b327c38654670ddb5ddd4572035ab3fa54554d8ccd6affbb31523c309"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-printf/observation.json",
+          "sha256": "9a061b878f6e70679ab71235e66fed63b9e3cfeab1d8f08363b6c82b895637f3"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-printf/tool-claims.case.json",
+          "sha256": "83efc0379157792f7d8f39965dfbd501d42f403aa31a5e87367fd6ddeb35bc03"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-printf/tool-claims.policy.json",
+          "sha256": "9962059c240b9430e5c68f7e9a38cbf3e09413247b4d17602a4801f244927532"
+        }
+      ],
+      "id": "fabricated-output-printf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-echo/capability.json",
+          "sha256": "c1ad6084440775fdd9968038da998cc56d51e070af2e00d05de27a2688e66bcb"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-echo/claims.json",
+          "sha256": "be62f1611d329b19eec8666ba7fa780e4475920296292025a99c8da764ac80c5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-echo/observation.json",
+          "sha256": "b103d136c796ecea0a1f05da4a0c277bc09a8d93bd89d42b1e8e5b666fb061d4"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-echo/tool-claims.case.json",
+          "sha256": "d28e5aab655e75bcd1839b308b5c6f47e20a66b14f031b1925ca1dac794d4290"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-echo/tool-claims.policy.json",
+          "sha256": "fda186bbbaff61cd4cb27d93e9758f077abd62a56385279d6eafb66ded93ebb6"
+        }
+      ],
+      "id": "fabricated-output-echo"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-python/capability.json",
+          "sha256": "1d558bbddb9be725d68eaf54ae2c677bbcda8728914e367f3f2b37de08d43747"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-python/claims.json",
+          "sha256": "56bf5cd20162aa367919fd97fea79d027872123b8f837217ab55e3ac8934b94e"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-python/observation.json",
+          "sha256": "58c45296e83d25872d70c0f5de48d44a7419e32026843615aa51afc1fd9f4879"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-python/tool-claims.case.json",
+          "sha256": "fe6fc64a330a0a1e112d1d7a4083994582b15f593a9a768e411a529682e4610f"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/fabricated-output-python/tool-claims.policy.json",
+          "sha256": "591ec11b91fee52c782669d14290f5706f47aef88236329b0b839964671e7667"
+        }
+      ],
+      "id": "fabricated-output-python"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-exec-at-all/capability.json",
+          "sha256": "01385a64abb121bc45e58fdb9e9ad5bea5dd4aa76adcd1712a626c243a168bd7"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-exec-at-all/claims.json",
+          "sha256": "823fc6886d2f4c6e8df6a4434b5416fad62f77ed3e8d991e33f019a62f6e3488"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-exec-at-all/observation.json",
+          "sha256": "789a960aaf64810b8a791b50b52179aefbc035a5c4d5f155d0ee0b7c665cd279"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-exec-at-all/tool-claims.case.json",
+          "sha256": "55716da8828855083c0f2056f7031e23aa949ea619f75059e38dd19a85c2772b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/no-exec-at-all/tool-claims.policy.json",
+          "sha256": "447aca4d264f83044777d17a5f674fae18ac424f731759405351676227a85971"
+        }
+      ],
+      "id": "no-exec-at-all"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-extra-flag/capability.json",
+          "sha256": "12cac543fae8a7f2700e946e0932ba469143a14ffb9fa60be353de3badf07d76"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-extra-flag/claims.json",
+          "sha256": "c9de24caf0f86407933766aa57c8d13d406284759daf1390a7348d60a67d1427"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-extra-flag/observation.json",
+          "sha256": "eef80df6a06ca02769f8e25c0f613190408a890f211c85f0b9bf37dad54ff312"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-extra-flag/tool-claims.case.json",
+          "sha256": "e3ce83b4aa6a0dec2ba93c62619d9ee0c28bbdcd78a33ca4f2cc0f26b77c6f27"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-extra-flag/tool-claims.policy.json",
+          "sha256": "c8e5681ca1b72ea9b861b41ca3c16ac9a7bddcc405075553f23aeebc1cc59bc0"
+        }
+      ],
+      "id": "near-miss-extra-flag"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-other-path/capability.json",
+          "sha256": "24141c4b4045bd4a7140c6cf0faf4e1665346555d73bef1c14a005790ada55da"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-other-path/claims.json",
+          "sha256": "acd3d961999f024264720e47bbc1f4cffb8553f2ded4f8f98dd926010c329290"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-other-path/observation.json",
+          "sha256": "5f1741315e246518c54ef1070b4c92555d303edc528c87a94defa1f888a0d9cc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-other-path/tool-claims.case.json",
+          "sha256": "8641107c2297f9e0a0595aa26a95f586d39fa1ba416b2bc05b4c8a56a472e096"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-other-path/tool-claims.policy.json",
+          "sha256": "0e8c9b1d1f0fd2058afc2ac887bbce3a8fd641b0e331693ee6a71193a93d9c63"
+        }
+      ],
+      "id": "near-miss-other-path"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-argument-order/capability.json",
+          "sha256": "b16b46e6657701214b6a8a709d4a2ce7c7695e9b10aec37699acc9223aeaa891"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-argument-order/claims.json",
+          "sha256": "395c40d8421c066c53421b214de0fe61300065b9747e224291ce469749e73040"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-argument-order/observation.json",
+          "sha256": "12d889d22333532bb7145daeb0acddebc6de86132a3e2ea603770711dfba606a"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-argument-order/tool-claims.case.json",
+          "sha256": "3101d0c93173ea3f3c792248eb2dcdf13386bf27d04c46a36db2f11704c906f0"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/near-miss-argument-order/tool-claims.policy.json",
+          "sha256": "cd5f096f26b23146b1342642b29ea253ba9b86da401a59a18da138a3e76c4e86"
+        }
+      ],
+      "id": "near-miss-argument-order"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-the-last-edit/capability.json",
+          "sha256": "13446c98cf4e597c65a85b15dd1d3e4dcb632e8929c858c53442fa9ad3802dcc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-the-last-edit/claims.json",
+          "sha256": "8faf179c4fb778a8d8a6c7b32bd0d20570e410874f306ad26bd4639f5ab06182"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-the-last-edit/observation.json",
+          "sha256": "2f744dd5da607e9e4d1184b789e497051717f5c692d9b3cc774ff5984a7038ed"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-the-last-edit/tool-claims.case.json",
+          "sha256": "3e0251d39b63dfc0419d11b2e8a5570f9c00d5706a0923382add69a86fe207e1"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-the-last-edit/tool-claims.policy.json",
+          "sha256": "b32e14177f313efe6c776be29f23d14537b279d651ffbcf1313df0d90a07b0d8"
+        }
+      ],
+      "id": "run-before-the-last-edit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-an-edit-by-another-command/capability.json",
+          "sha256": "aa5dfcb127c586e73c505ee0deae40f7e4ade79e4c23e5795c068cb334a5e1b1"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-an-edit-by-another-command/claims.json",
+          "sha256": "d5bbb27378b2da479e80397741b4f0fddf5e7c9d6e4d2c62bab693bff8879fae"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-an-edit-by-another-command/observation.json",
+          "sha256": "7155912c69203bdcdfc9a7d2642cdd961abb068d540199bbeeabcb92fdf92ba6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-an-edit-by-another-command/tool-claims.case.json",
+          "sha256": "232fee838f6c89beb2219fabd6f65ea45f1372af050f54166e8d0e0b8d41add1"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/run-before-an-edit-by-another-command/tool-claims.policy.json",
+          "sha256": "e776435cd850f129e9cf98cda40a2a2991ef241e989eb852c2099772db6f69f6"
+        }
+      ],
+      "id": "run-before-an-edit-by-another-command"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/edit-of-a-test-after-the-run/capability.json",
+          "sha256": "0c71824305ac2d364953df3b37e9441b628d10d4605e2d9ef32b76e7461ea80e"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/edit-of-a-test-after-the-run/claims.json",
+          "sha256": "06d69eaf8c989f201c4b5a6685a1a839a4ba08ce7d825de7a38bb9ad2c8cfda9"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/edit-of-a-test-after-the-run/observation.json",
+          "sha256": "a30eb0cac0287a91647f3864a79bfff5fddbad1d686b0a5ea6daf7ac4efa283b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/edit-of-a-test-after-the-run/tool-claims.case.json",
+          "sha256": "5e303334a78b5151ea1511bbbdaa339edcb84495a45112c92c187754f509fb56"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/edit-of-a-test-after-the-run/tool-claims.policy.json",
+          "sha256": "4cf1fbbeaa3200ff95c62598541e60205799a48b046ad9b290c810899dcc6993"
+        }
+      ],
+      "id": "edit-of-a-test-after-the-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-one/capability.json",
+          "sha256": "9e75481a39284eb5888f1599f4296e351a9cb3aaac6225f723dfcb2642bf9c70"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-one/claims.json",
+          "sha256": "e121813d5122bbe700e819233d3c6f1fff2615d604da39676d230ee13d1c5395"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-one/observation.json",
+          "sha256": "2b8a00795a03e9675781ec67e3f7f0a6c6ec27d548e82a854b994b888a3a79a3"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-one/tool-claims.case.json",
+          "sha256": "19ec0d2a56ed3f4a60a3529f8505e83ca7094bec35fbde7117cad67b5980f89c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-one/tool-claims.policy.json",
+          "sha256": "1ae825c862fc17a236df508ae5a5686b9c7af15971ed30dffa8326352aca08e7"
+        }
+      ],
+      "id": "exit-claimed-zero-recorded-one"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-signal/capability.json",
+          "sha256": "80820d1c5d5e10b215bc7e1e70016070309dd6302880212e9d624581c27452d0"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-signal/claims.json",
+          "sha256": "9d7712630badf38cc06170bc37c86d037ca3c1239f2e9752d738c7376685f0a1"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-signal/observation.json",
+          "sha256": "dd34f380d91d126c26e1e2379edc39b57377c14ebbd4303529b14833272f0970"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-signal/tool-claims.case.json",
+          "sha256": "276a8f9d1afb4ac224a0b93f46a4ce1aa4270f169aecd149bcc1907d897df3e5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-claimed-zero-recorded-signal/tool-claims.policy.json",
+          "sha256": "9ec60caf9837a97b24536f2b1415526aa3bfc93f5c95ca6419dd34079aa517c7"
+        }
+      ],
+      "id": "exit-claimed-zero-recorded-signal"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/second-claim-fabricated/capability.json",
+          "sha256": "ce5767aa944e619ff64dfc947501415418361f1f3ee33ec92fbd09cc5cc4fa7d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/second-claim-fabricated/claims.json",
+          "sha256": "70427fa22c97086896cfb4c32917d2b1492a48cf1395742f194afc7156fdb01c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/second-claim-fabricated/observation.json",
+          "sha256": "eb051aa8dcdbcd13df325963c01017a11cd4dd4865a2f1a0cf8b098fc959a77b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/second-claim-fabricated/tool-claims.case.json",
+          "sha256": "6217400baf546ab62001b20a7bf4f3bba1cb909bf223450e6f33159987cb2068"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/second-claim-fabricated/tool-claims.policy.json",
+          "sha256": "563c853dba0c762ef82b2862351cf6a2025219e94e8e648dd1323c7fc1f95001"
+        }
+      ],
+      "id": "second-claim-fabricated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-unmatched/capability.json",
+          "sha256": "7b599cb6396cac6929028120cb1ba0e315e22d2fa8f20387b66eb3bf23451464"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-unmatched/claims.json",
+          "sha256": "a2688984f6267bef7e9925f1536594b17767f7600240694e21e09092fcfdf26c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-unmatched/observation.json",
+          "sha256": "c45682b15e7641e6e082b9b81bcdfcd353d0d3877b89f063a550deecdc3a0152"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-unmatched/tool-claims.case.json",
+          "sha256": "6c2a01603c475ddc2b7d3b74bbee1baa5101dc68b89ef78d6e8c909a0223f35f"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-unmatched/tool-claims.policy.json",
+          "sha256": "2c018082fa5f9594fe31fb4737b2e08f2e328d301731c0aa492c99fa40e88e53"
+        }
+      ],
+      "id": "first-contradiction-in-claim-order-unmatched"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-stale/capability.json",
+          "sha256": "d998d728f1544bfb2d64e4dd94e2ddeebb41a0ca5745030c5b4813c010f2902b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-stale/claims.json",
+          "sha256": "5fa77616e8b168469bc0cd3ce8763dbe5de75d70a72f7861ec701dc11336d9a7"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-stale/observation.json",
+          "sha256": "b81d9db6b532a9f64f28e930e69a67fd09e4a8bea8a21c2d0202896a730cf017"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-stale/tool-claims.case.json",
+          "sha256": "83f4cfeb8eda0ab1f2c48b02d288443226d0dbe57e2b19bf1ec5bc8fa9c1022d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/first-contradiction-in-claim-order-stale/tool-claims.policy.json",
+          "sha256": "a5f6b934c293a8562d5cdadbd216e5a83ac1ef14eae21096ebddcbbfcf7ca0cc"
+        }
+      ],
+      "id": "first-contradiction-in-claim-order-stale"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-not-seen/capability.json",
+          "sha256": "ed0922a57a68624286b1346adc4ef99aa59b6417eba699e4763cae77c0a34145"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-not-seen/claims.json",
+          "sha256": "e5b39e71da45793f0a5d32e7eb76d5fee06fd36f672faca31f424a07f527e750"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-not-seen/observation.json",
+          "sha256": "b10c316b2473c1fd68180ff5e6b57bb08e48457b87f9f67ea97d4802364f0216"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-not-seen/tool-claims.case.json",
+          "sha256": "c91bfccb535d47a2dfe6d0d7430f058556af75f5a80605b96580b7d5b7a9f6e6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exit-not-seen/tool-claims.policy.json",
+          "sha256": "af815bfa42ba14625b0cc8b250cb20fd9da06335621573c0ec8c6f39149174ea"
+        }
+      ],
+      "id": "exit-not-seen"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-incomplete-fabrication/capability.json",
+          "sha256": "7707660283a5c00fbd887753548c9a1d09d8c989bca10c58cd083df8372415b5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-incomplete-fabrication/claims.json",
+          "sha256": "c216804c8f235eec0be8cb9e0f2865573c171531705d6081a7d50fb1049e7feb"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-incomplete-fabrication/observation.json",
+          "sha256": "6844a1e3918eee470fd2e272153739ad6bda1c254fadf60c0d63e1ed2d328fe9"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-incomplete-fabrication/tool-claims.case.json",
+          "sha256": "79452639b64b2c6ab457a2f99af5801a96ad423f016eced16909a9fbb69c07ff"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-incomplete-fabrication/tool-claims.policy.json",
+          "sha256": "5cebddfcc5c880d9d8edaafcdd3b74258e8ae794ee01c128f8638a0d538eced5"
+        }
+      ],
+      "id": "coverage-incomplete-fabrication"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-unknown-fabrication/capability.json",
+          "sha256": "3b3d87ce0c77f60a756ede912735eb897fa8df876e0bf03fce74e29be3280c5d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-unknown-fabrication/claims.json",
+          "sha256": "24d602d7ca296fb226893d7b1318c5f616d9549190290d1de0403d4ca8c02cf4"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-unknown-fabrication/observation.json",
+          "sha256": "f23909f182e584c2d3686c7ca9f989c3e70f3fafc193192c339f5f1f61f8e077"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-unknown-fabrication/tool-claims.case.json",
+          "sha256": "07505c845936d8fb0fdcc35bee7cb332d565654f7eff1b112d3baefdc184d1f9"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/coverage-unknown-fabrication/tool-claims.policy.json",
+          "sha256": "e967f7e7bc24496974dea2980790d9d8b9ab2a0da819b0766a15c99f5b118ccc"
+        }
+      ],
+      "id": "coverage-unknown-fabrication"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/exec-not-visible/capability.json",
+          "sha256": "551d26bf4dfc0802ecdeb0180e51ea3694c2bfd28db2ba247ec44f8849869f2b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exec-not-visible/claims.json",
+          "sha256": "4f1dc9db8252914a37872481464f2d906cb05131964622a6fb32826438a017cf"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exec-not-visible/observation.json",
+          "sha256": "7a000f8d56c9ca24b08e027f6f80187405dd5b2e4d7e2913e36ed832be17a8d6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exec-not-visible/tool-claims.case.json",
+          "sha256": "425cd9f64023743c8b27c82e0eca4f1a4394a8597ca5dd1542362f2c71d1359d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/exec-not-visible/tool-claims.policy.json",
+          "sha256": "cc9a88476d9dc487d2de64ff777f481680feeaf7b71f15fdfc01aa0c3380692f"
+        }
+      ],
+      "id": "exec-not-visible"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/mutation-type-not-visible/capability.json",
+          "sha256": "878caeb110be4d0b9df32c87b420e888174326d3fa320f60ec0c821927786422"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/mutation-type-not-visible/claims.json",
+          "sha256": "34dd49b64356945cc716be3e013a6566c42a36ba044053d3cb0bb654ea45cc0a"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/mutation-type-not-visible/observation.json",
+          "sha256": "6b868709f7b44aa60f6cbb196f4bc1db97035d095eb0a3e3d47598d9512ac18c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/mutation-type-not-visible/tool-claims.case.json",
+          "sha256": "4d84bf6e8e28a4ca293266373bc506ed9c516df0b08a7f163d1156f12aeb400e"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/mutation-type-not-visible/tool-claims.policy.json",
+          "sha256": "087c788b4e1f355acf6a4b9fd63575825236fef3b9c16e9a1ff7c13caa2481e6"
+        }
+      ],
+      "id": "mutation-type-not-visible"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-self-reported/capability.json",
+          "sha256": "176001e22b342ff71bb3bed65cdca23787f79c9e47a829272874656e96b11d33"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-self-reported/claims.json",
+          "sha256": "bf4684af60f7833580fbed3775774617e75ecef0184472730bc2daa3936817df"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-self-reported/observation.json",
+          "sha256": "ff9be78be5224e4d82b77c0599b602c227a150f46604ba72a81eef5be5452a88"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-self-reported/tool-claims.case.json",
+          "sha256": "62472fd99875e45cf040cbebae40653749ba8588b95a631a4c683534494217d3"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-self-reported/tool-claims.policy.json",
+          "sha256": "1e0334d050428db419d80b4ae82411db9fc679ebcabecde970d5664a858f60ca"
+        }
+      ],
+      "id": "observation-self-reported"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/observer-is-the-agent/capability.json",
+          "sha256": "69845c0699b4450d5fd5dfc46039bc6eb45d25675b83eb760e7a71ab0b5c0d26"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observer-is-the-agent/claims.json",
+          "sha256": "a0d5d82107f5f1f56e5cc99422be432f0d33dce404d983d020f712b6b90a07e4"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observer-is-the-agent/observation.json",
+          "sha256": "8c5a6b607cce2d7eb2bf982e8afbaeb7878ab0cee4a740539ad24df6d4fc0f5d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observer-is-the-agent/tool-claims.case.json",
+          "sha256": "c73610a39653913a295289aaf6728ca660a551d59cc79035f4df43e7b2504a8b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observer-is-the-agent/tool-claims.policy.json",
+          "sha256": "a088d8c957909b11d32f0896dd137fb894f0fb9b7b3ab2991533ec2bdb338077"
+        }
+      ],
+      "id": "observer-is-the-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/capability-from-another-observer/capability.json",
+          "sha256": "6df3c5b1f6dcf5888c9061d8ef8bccea0b3e3491a28dc8aa4e1f90101af95bb6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/capability-from-another-observer/claims.json",
+          "sha256": "82c03c19401190bc4a6d186dfd017953050cb54dab016755857e66da8956d7f4"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/capability-from-another-observer/observation.json",
+          "sha256": "e1d8477a924630796bd3585a715873ca102abe9bf3da41cad693f5ada8e8b695"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/capability-from-another-observer/tool-claims.case.json",
+          "sha256": "5d0cd477cfc74ed94742bf52b97ed54c8bbc4830d8fa39744a7ccb479876bf6c"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/capability-from-another-observer/tool-claims.policy.json",
+          "sha256": "454695d81ade211737b5d1eb88112768d0abc2637ce130d05247eed36691982f"
+        }
+      ],
+      "id": "capability-from-another-observer"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/claims-from-another-invocation/capability.json",
+          "sha256": "3c017384594acf6595b6149c2c99b82fc691cdad138e16cd2c7bf123b468b5f2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claims-from-another-invocation/claims.json",
+          "sha256": "485345ba97185b64025c97e8c3b267dd917d5a0593abc189091cebc5f4eaa89f"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claims-from-another-invocation/observation.json",
+          "sha256": "4c80a0b68aa12e7e967de142b7afd2aba76f157bcd7e3bd65b724f26b41a52ea"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claims-from-another-invocation/tool-claims.case.json",
+          "sha256": "b0a6aa541f07d6428d1ad04043d6a0b63878ec590592766e41b50024f6194930"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/claims-from-another-invocation/tool-claims.policy.json",
+          "sha256": "398741d958a5f3ca13cae269781a51e5eeed889a1049d12d5e8e4a98a5303b32"
+        }
+      ],
+      "id": "claims-from-another-invocation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-of-another-interval/capability.json",
+          "sha256": "7f1d6b1d9a85ad115c12224adf528b285550659ee1f3f69efc80e4c96ded0b97"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-of-another-interval/claims.json",
+          "sha256": "25409d797af03f68aa2d09cee7e34f914c5ceb42399ce61e21fe5a080e62d6b6"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-of-another-interval/observation.json",
+          "sha256": "4acca298c85c84c6063402ef23d0fef152b1edefb94c8e0d7a7e452617b1f838"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-of-another-interval/tool-claims.case.json",
+          "sha256": "61d08fb680e8a1661c056f434ce7882ec0adb02824ffbea28ee0e636278c2f94"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/observation-of-another-interval/tool-claims.policy.json",
+          "sha256": "399a13cbd9cca4e6d647498a818b52633eae9320bb34ccb0efffcdd7a130d9b4"
+        }
+      ],
+      "id": "observation-of-another-interval"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/known-limit-edit-inside-the-claimed-command/capability.json",
+          "sha256": "4191d43957a02362c36462b4257fda850d8b2148a81ae3ac2a49763f9ef8b7fc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/known-limit-edit-inside-the-claimed-command/claims.json",
+          "sha256": "79e543ac8c86ce765ad8033dfb8ddb0a4df16a978c4c503e724e895e1215d7a0"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/known-limit-edit-inside-the-claimed-command/observation.json",
+          "sha256": "b0921294842731451f4653aa6154589a7bc41c6eaa56c0e378d90369ed8a6344"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/known-limit-edit-inside-the-claimed-command/tool-claims.case.json",
+          "sha256": "0b4a96e7cbfae660ce559a8dac5dfa58214ed21e18961d8d130afb537744a45f"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/known-limit-edit-inside-the-claimed-command/tool-claims.policy.json",
+          "sha256": "534585ab88ba7adb8f99dd365bbae08d057fb21773f330e4edb8f7ee75f07d47"
+        }
+      ],
+      "id": "known-limit-edit-inside-the-claimed-command"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-honest/capability.json",
+          "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-honest/claims.json",
+          "sha256": "c03331fe86384d436f3ce8bf3531176ce9431acccf4151c8c1070eae74d45228"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-honest/observation.json",
+          "sha256": "4b7cb171ad6fb6f494135011c397b9f8f07dc22b6ad5233f39ed59ddbe8bfc39"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-honest/tool-claims.case.json",
+          "sha256": "c713d791977a1546a1942bc93533ea9a07c135e2f74c7543a9b1e8e5ed895c47"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-honest/tool-claims.policy.json",
+          "sha256": "59f33ab97a8895b19c57e435df0c824ae8eb15c43d6d238f9e13ef16f212b5ad"
+        }
+      ],
+      "id": "recorded-honest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-spoofed-output/capability.json",
+          "sha256": "679f4ead4768073cc9483192f008a5dafd8e983ddebc619dc2d924f272e2a9ca"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-spoofed-output/claims.json",
+          "sha256": "0f42db30af4bd235cbf6b617046637a6d1b5f81c21ecbe4f8422ba9cfc4a9fb2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-spoofed-output/observation.json",
+          "sha256": "f3db64dd08603abcad34dc473fef1f5cd9fac65785b4a45fa58fc5f77a0865d4"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-spoofed-output/tool-claims.case.json",
+          "sha256": "5acb35a57393a5e844ba5a38e96856067ca426bdfffa489d68b2e22f6ef0d3ce"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-spoofed-output/tool-claims.policy.json",
+          "sha256": "58402106eaa4d628277d85727f32cc3eaf75d34229a563cfffe5620e1ee24dba"
+        }
+      ],
+      "id": "recorded-spoofed-output"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-edit-run-revert/capability.json",
+          "sha256": "c018355edb617e8e07ccb11ce2414f24fc3977cbc57b8fe1e2b12d9129e0f404"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-edit-run-revert/claims.json",
+          "sha256": "a4010c347359537a58a57c5ba086e81080ec2e474d23e741bace3688e991c794"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-edit-run-revert/observation.json",
+          "sha256": "63d3340186fb68be67bdc4888091874c1663f46c06227953e6fc95a4998f35fb"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-edit-run-revert/tool-claims.case.json",
+          "sha256": "6e54ce8b87b8540c8809a9bdb628888ea3a804e332aed69ccf0c46cc802ea5b2"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-edit-run-revert/tool-claims.policy.json",
+          "sha256": "a696e163058c9a49493fdfc6e3d54a966230b03760452bd9acb7a3c5c997cb82"
+        }
+      ],
+      "id": "recorded-edit-run-revert"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-nested-mkdir/capability.json",
+          "sha256": "54796a1f4574b6e10d805c143870e8182120263dfa5cc673441c4e2d7ce75a2e"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-nested-mkdir/claims.json",
+          "sha256": "f9943bd5291412ed60d4416724abf104788dd8a90de31cb1941db34077eb4b92"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-nested-mkdir/observation.json",
+          "sha256": "31778fdf0f871503291885150541a94e6d4eb3b41ea1024b2504623d440db48d"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-nested-mkdir/tool-claims.case.json",
+          "sha256": "c0d0eacdbd008607496e93a2c3d6f6936f77a16d580cfb7730ed27e47d6ba5fa"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-nested-mkdir/tool-claims.policy.json",
+          "sha256": "54dd794ed46f15effc1529e9afd19e73cee97ff1409add46bb5185c8c0ba7a6a"
+        }
+      ],
+      "id": "recorded-nested-mkdir"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-grandchild-write/capability.json",
+          "sha256": "0125b6b7ce3c3550e76bf2733054560c8958c59418892ce9bbda7fee2c719b64"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-grandchild-write/claims.json",
+          "sha256": "74f6e1565ea89d3b6e7007789b8b28fb1a746cdc0d3463833a797a779c5b6b7b"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-grandchild-write/observation.json",
+          "sha256": "b9db3ccaa3c2a0f9de1e210b032e28fdc3d3a38c6001d7925166fc4fa959cfec"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-grandchild-write/tool-claims.case.json",
+          "sha256": "720f4e2ec681e0191d5d1285fe32464c7fb154bb96a3145f4e21ae2743e57b50"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-grandchild-write/tool-claims.policy.json",
+          "sha256": "7eeec40b52a5342e0633f3c82ebb44271b5ec7db2f9bd99ff780929600a96f98"
+        }
+      ],
+      "id": "recorded-grandchild-write"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-lost-events/capability.json",
+          "sha256": "d5139edc665c6bd65d3a57eb785f99721e01cf8db1206f73225089dd2ae70337"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-lost-events/claims.json",
+          "sha256": "eb361574dba0bf97cb02b5e8f6bdc6006959eea33a0278d5a7e1b479c1863bfc"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-lost-events/observation.json",
+          "sha256": "7a4efd53a0386bd6ecb18884175504ffe306242c5db98ec9f1846ba13dc9f4b5"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-lost-events/tool-claims.case.json",
+          "sha256": "1c2bb601c387a8921226c64db0279c45110e98a889962efba93e6b8d8696b8ba"
+        },
+        {
+          "path": "vectors-spoofed-tool-output/cases/recorded-lost-events/tool-claims.policy.json",
+          "sha256": "9718d288701ac352596fee65054620ab0678232fc00e362bf69210dd8f21e94b"
+        }
+      ],
+      "id": "recorded-lost-events"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-spoofed-tool-output.json",
+        "serialization": "bytes",
+        "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-spoofed-tool-output.txt",
+        "serialization": "bytes",
+        "sha256": "1dfa44f8285736776a820ef3a38e49ca74b1df11a378216ed2e8349a5b280cce"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "fabricated-output-printf",
+      "inputs": [
+        "member:fabricated-output-printf",
+        "check:fabricated-output-printf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "fabricated-output-echo",
+      "inputs": [
+        "member:fabricated-output-echo",
+        "check:fabricated-output-echo"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "fabricated-output-python",
+      "inputs": [
+        "member:fabricated-output-python",
+        "check:fabricated-output-python"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "no-exec-at-all",
+      "inputs": [
+        "member:no-exec-at-all",
+        "check:no-exec-at-all"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "near-miss-extra-flag",
+      "inputs": [
+        "member:near-miss-extra-flag",
+        "check:near-miss-extra-flag"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "near-miss-other-path",
+      "inputs": [
+        "member:near-miss-other-path",
+        "check:near-miss-other-path"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "near-miss-argument-order",
+      "inputs": [
+        "member:near-miss-argument-order",
+        "check:near-miss-argument-order"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "run-before-the-last-edit",
+      "inputs": [
+        "member:run-before-the-last-edit",
+        "check:run-before-the-last-edit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_precedes_last_edit\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "run-before-an-edit-by-another-command",
+      "inputs": [
+        "member:run-before-an-edit-by-another-command",
+        "check:run-before-an-edit-by-another-command"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_precedes_last_edit\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "edit-of-a-test-after-the-run",
+      "inputs": [
+        "member:edit-of-a-test-after-the-run",
+        "check:edit-of-a-test-after-the-run"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_precedes_last_edit\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "exit-claimed-zero-recorded-one",
+      "inputs": [
+        "member:exit-claimed-zero-recorded-one",
+        "check:exit-claimed-zero-recorded-one"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_exit_mismatch\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "exit-claimed-zero-recorded-signal",
+      "inputs": [
+        "member:exit-claimed-zero-recorded-signal",
+        "check:exit-claimed-zero-recorded-signal"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_exit_mismatch\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "second-claim-fabricated",
+      "inputs": [
+        "member:second-claim-fabricated",
+        "check:second-claim-fabricated"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "first-contradiction-in-claim-order-unmatched",
+      "inputs": [
+        "member:first-contradiction-in-claim-order-unmatched",
+        "check:first-contradiction-in-claim-order-unmatched"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "first-contradiction-in-claim-order-stale",
+      "inputs": [
+        "member:first-contradiction-in-claim-order-stale",
+        "check:first-contradiction-in-claim-order-stale"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_precedes_last_edit\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-spoofed-output",
+      "inputs": [
+        "member:recorded-spoofed-output",
+        "check:recorded-spoofed-output"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_unmatched\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-edit-run-revert",
+      "inputs": [
+        "member:recorded-edit-run-revert",
+        "check:recorded-edit-run-revert"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"tool_claim_match/v1\":{\"decision\":\"contradicted\",\"reason\":\"tool_claim_precedes_last_edit\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+      },
+      {
+        "process": "run-2",
+        "sha256": "0a1229789e1b112e01b2a9ad68e71ae1c7b6a0d92c468d5c5f9541fd50f975c2"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 38 pinned members of spoofed-tool-output/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 38,
+    "require": "at-least-one",
+    "selected": [
+      "claim-matched-after-edit",
+      "claim-without-exit",
+      "no-claims",
+      "own-cache-writes-do-not-stale-the-run",
+      "rerun-after-second-edit",
+      "two-claims-both-matched",
+      "fabricated-output-printf",
+      "fabricated-output-echo",
+      "fabricated-output-python",
+      "no-exec-at-all",
+      "near-miss-extra-flag",
+      "near-miss-other-path",
+      "near-miss-argument-order",
+      "run-before-the-last-edit",
+      "run-before-an-edit-by-another-command",
+      "edit-of-a-test-after-the-run",
+      "exit-claimed-zero-recorded-one",
+      "exit-claimed-zero-recorded-signal",
+      "second-claim-fabricated",
+      "first-contradiction-in-claim-order-unmatched",
+      "first-contradiction-in-claim-order-stale",
+      "exit-not-seen",
+      "coverage-incomplete-fabrication",
+      "coverage-unknown-fabrication",
+      "exec-not-visible",
+      "mutation-type-not-visible",
+      "observation-self-reported",
+      "observer-is-the-agent",
+      "capability-from-another-observer",
+      "claims-from-another-invocation",
+      "observation-of-another-interval",
+      "known-limit-edit-inside-the-claimed-command",
+      "recorded-honest",
+      "recorded-spoofed-output",
+      "recorded-edit-run-revert",
+      "recorded-nested-mkdir",
+      "recorded-grandchild-write",
+      "recorded-lost-events"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "spoofed-tool-output/v1"
+}

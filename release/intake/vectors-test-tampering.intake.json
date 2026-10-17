@@ -1,0 +1,1934 @@
+{
+  "aggregate": {
+    "counts": {
+      "contradicted": 23,
+      "not_established": 6,
+      "supported": 9
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 38
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-test-tampering/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-test-tampering/gen_vectors.py",
+    "routine-file": "vectors-test-tampering/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "22af7293c0b99cfac69178d86629236fdbd1d0bd2d747b99d29368c22ec33f82",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "swapped-in": "e111f938501e7163a364482faed28106126ae960c74e57fda7f77c2696858792",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-test-tampering/README.md",
+      "serialization": "bytes",
+      "sha256": "2666fae5fc12ded73aad4eb507571e7a8a385e433b3fb0240a1c0a9ea377108e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "swapped-in": "279adae80da313b31c2f0d4ad61b8227722fa531b00f1c3097cdf2e1c44a01aa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-test-tampering/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "00d118598068ad280b8f3d1ff1569d47bc165820bcdd9249c4450cdae234f66b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        },
+        "swapped-in": "48d9066391597b8e7e915fe3297041c855b3fa146bc14eacb61bf0bd48ed824b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-test-tampering/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "551172970b5189e166bd5ec7c9c4376f437d299b6961b02406d80003d4bf0ffa"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-test-tampering"
+  },
+  "byte-identity": {
+    "pins": 228,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-test-tampering",
+      "aee-verify -json vectors-test-tampering",
+      "aee-verify vectors-test-tampering"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "7e3fb58c3e4431e1247521f724ce481160f2d472911e57b73bc441f6d77472b4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "untouched",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "new-source-file",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "read-of-a-protected-file",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "write-in-an-excluded-segment",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "file-entry-untouched",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "edit-test-file",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "create-conftest-in-protected-directory",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delete-protected-test",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "truncate-protected-test",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "chmod-protected-test",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rename-onto-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rename-away-from-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "link-onto-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mmap-write-to-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "edit-run-revert",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "edit-run-revert-incomplete-coverage",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "edit-then-unknown-coverage",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "lost-events-test-edited",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "lost-events-file-added-to-protected-directory",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "lost-events-test-deleted",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "lost-events-file-entry-changed",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "lost-events-tree-unchanged",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "write-through-a-link-recorded-unresolved",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "write-under-a-folded-name",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "incomplete-coverage-nothing-seen",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "truncate-not-visible",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tree-not-independent",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tree-not-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "known-limit-contract-leaves-conftest-unprotected",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "known-limit-poisoned-bytecode-in-an-excluded-segment",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-honest",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-protected-edit",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-edit-run-revert",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-mmap-write",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-raw-open-create",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-direct-host-write",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-lost-events",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recorded-forged-trace-attempt",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "b7f31e84d70a6b38eeeaae5571366640571680ef4c1faff398e17348d58530f8"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "untouched",
+      "new-source-file",
+      "read-of-a-protected-file",
+      "write-in-an-excluded-segment",
+      "file-entry-untouched",
+      "edit-test-file",
+      "create-conftest-in-protected-directory",
+      "delete-protected-test",
+      "truncate-protected-test",
+      "chmod-protected-test",
+      "rename-onto-protected",
+      "rename-away-from-protected",
+      "link-onto-protected",
+      "mmap-write-to-protected",
+      "edit-run-revert",
+      "edit-run-revert-incomplete-coverage",
+      "edit-then-unknown-coverage",
+      "lost-events-test-edited",
+      "lost-events-file-added-to-protected-directory",
+      "lost-events-test-deleted",
+      "lost-events-file-entry-changed",
+      "lost-events-tree-unchanged",
+      "write-through-a-link-recorded-unresolved",
+      "write-under-a-folded-name",
+      "incomplete-coverage-nothing-seen",
+      "truncate-not-visible",
+      "tree-not-independent",
+      "tree-not-bound",
+      "known-limit-contract-leaves-conftest-unprotected",
+      "known-limit-poisoned-bytecode-in-an-excluded-segment",
+      "recorded-honest",
+      "recorded-protected-edit",
+      "recorded-edit-run-revert",
+      "recorded-mmap-write",
+      "recorded-raw-open-create",
+      "recorded-direct-host-write",
+      "recorded-lost-events",
+      "recorded-forged-trace-attempt"
+    ],
+    "path": "vectors-test-tampering/MANIFEST.json",
+    "sha256": "5f010debd0a017e49511ba16433ae5a2f254e58e503b04c76c901170f85466f7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/untouched/capability.json",
+          "sha256": "7dba618df0bbc7e5ecde28dcfeeefc3ff3728a4c0abb527ef9dfd48adb501106"
+        },
+        {
+          "path": "vectors-test-tampering/cases/untouched/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/untouched/observation.json",
+          "sha256": "c0fc94b05327cf2374b0e37ced1d7e0d554a12c93aaabe428fb9f3041ae8df74"
+        },
+        {
+          "path": "vectors-test-tampering/cases/untouched/protected-paths.case.json",
+          "sha256": "c4321f19c8c8ba22d83c0d74f0a6e2a3cdcb7323fcc74f339dc15e9152b417f2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/untouched/protected-paths.policy.json",
+          "sha256": "3f8c8793d45f3ca158c03b1f5e787c965d7fed9c8aa9cdc52e6a371293e886a2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/untouched/tree.json",
+          "sha256": "0b2f68cd2df4ce91022a98edbe367c703af0178298043726346357e2c4d12ed1"
+        }
+      ],
+      "id": "untouched"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/capability.json",
+          "sha256": "549a1e5a81e0e7ee3dd8028dd14b5912f03d688fba78c1cfacdd280dcebca0a7"
+        },
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/observation.json",
+          "sha256": "4e800d3203c2ab8a931d6b9a622f298e1bff4230bcb182c5167b72cf1668d018"
+        },
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/protected-paths.case.json",
+          "sha256": "073085877fb00f8ffd18a7b1fb692479d256f3b6a172468c07d5eee440f8ae5c"
+        },
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/protected-paths.policy.json",
+          "sha256": "8785015aada28542df7b71817b917c14ea3468b64c9d24c5c347e8674dbfec68"
+        },
+        {
+          "path": "vectors-test-tampering/cases/new-source-file/tree.json",
+          "sha256": "269c685d34f9a239d833020889b97c32a3490376a70d687b8403ab89b30dd773"
+        }
+      ],
+      "id": "new-source-file"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/capability.json",
+          "sha256": "dd6847f741649cd49d4848dbb452270ff61700ca945a22ed7cd324c29525d87e"
+        },
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/observation.json",
+          "sha256": "5aeb56f4c9197cce8770e26c8d5e9cf5765413331b2654fb566ca734546d5138"
+        },
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/protected-paths.case.json",
+          "sha256": "d1ce6dcbe080403a387fa4fe1e574bb64f262fd49696950783aee1d705a09603"
+        },
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/protected-paths.policy.json",
+          "sha256": "8ec07a817fb20deae528fa8d86db9e961dd4ade25596d920dea28d35f8d9965a"
+        },
+        {
+          "path": "vectors-test-tampering/cases/read-of-a-protected-file/tree.json",
+          "sha256": "11b71e70e4d365fc8ccc2415709a121565a6926a8b115c8a2f22a67a134256f0"
+        }
+      ],
+      "id": "read-of-a-protected-file"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/capability.json",
+          "sha256": "45b6acc50f3473a4963123cd75709200f91a7756dd0a70fb9ef40c818a6aac09"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/observation.json",
+          "sha256": "e1daac15f59783a4b99cdac5431cc8b5113c6b63bd8f3d792e67868b92d5c134"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/protected-paths.case.json",
+          "sha256": "898073fd5b8eae5073dd12dd48f4147d7a9fb2f8c506f3c115ffe4fe471b83ac"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/protected-paths.policy.json",
+          "sha256": "bc0c1adcd5a8a42b4d5a28a92f092f5f4b14c8a025d1fe3c7b42634fcb332e28"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/tree.json",
+          "sha256": "91945c3d65a016380827d5a818f083eed7fa322d7350d9867da2507da77cf862"
+        }
+      ],
+      "id": "write-in-an-excluded-segment"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/capability.json",
+          "sha256": "82f678ade8fe35323189a4201757c2907d885edb0daff19ab2cb524e2a68ed1f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/contract.json",
+          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+        },
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/observation.json",
+          "sha256": "2e17a5f7f238957d9959d82753a8c1615b87f0f209d226bb2de5d2db34641248"
+        },
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/protected-paths.case.json",
+          "sha256": "a07e264e5950380ca735ad408eb519757d8ecf5ec0e1f3b0305d5c47f9e84854"
+        },
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/protected-paths.policy.json",
+          "sha256": "8daaf1a7189a5845411b6eaee89989b527c68969e70668a657fb5700207d4357"
+        },
+        {
+          "path": "vectors-test-tampering/cases/file-entry-untouched/tree.json",
+          "sha256": "841ca94c3bd97f3b5f74864e684a7809766be10938cbf50eff99fc4f0bcbb117"
+        }
+      ],
+      "id": "file-entry-untouched"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/capability.json",
+          "sha256": "278e8e7092cdff1f5a106a37dab41d8b2bf6f0dff7636e2e8273b60696eeb916"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/observation.json",
+          "sha256": "11dd40df4ddef537e50d1f497ed7626ec79111c7cf0286f0cde6ddf979f38e43"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/protected-paths.case.json",
+          "sha256": "997decf36857d984e33f160415a97bb3620101909ec6e6f86569ef3f24e75731"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/protected-paths.policy.json",
+          "sha256": "3d0c7091a54bfd835e22b95b3497c13f7cd8abb4afdfe86227b1ffc8cfcc4a1b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-test-file/tree.json",
+          "sha256": "2ede818ec8298159ec596152a66c9a5cd6c49c03296e80c12f4fc318b732be3a"
+        }
+      ],
+      "id": "edit-test-file"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/capability.json",
+          "sha256": "494d9512156262fbc713cacb4a7d8f4fe67d4d59078ecc815e55d522239c8ffa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/observation.json",
+          "sha256": "0e5f5f3523e1cd43205c6cc9218fb3f4fe2a46ce3b2818020d66a0de947ef54b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/protected-paths.case.json",
+          "sha256": "e03d818db8e362ad771c0e6ad91c7cc2c35a2f4de3de1c0da425ee17c4f52770"
+        },
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/protected-paths.policy.json",
+          "sha256": "df4b6f7e3fc55d84c0e7c4bb9bc31eb31f797fe0d0ed86a534ef7f620f52c5b2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/tree.json",
+          "sha256": "420c604521ad3a83392c43faca733e43a26be3d34f8f5d981ca11e570aa45226"
+        }
+      ],
+      "id": "create-conftest-in-protected-directory"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/capability.json",
+          "sha256": "5031d10b878ba5305d491905cf962a35d4d392cddd66099b146ae5d21577531a"
+        },
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/observation.json",
+          "sha256": "f52a5d84ebe3121247a0feb5c6dd5814cc5cdb42c35bee1931275ccda403f027"
+        },
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/protected-paths.case.json",
+          "sha256": "41534811b9d81fea8154802f238f1b61aaf97cdad4418fd29f84921eb5a56492"
+        },
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/protected-paths.policy.json",
+          "sha256": "4858f2bfa3ed49e92f934083048fa182c90c180485501c85bffde7367473371c"
+        },
+        {
+          "path": "vectors-test-tampering/cases/delete-protected-test/tree.json",
+          "sha256": "baca59f3806214fe3080b32cbc1f4a81f60f8f50251c8c036a01f7177d934b10"
+        }
+      ],
+      "id": "delete-protected-test"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/capability.json",
+          "sha256": "9d012fc191595f85db74a67f186191b844a46483e39948f8f489f54025d10b11"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/observation.json",
+          "sha256": "2943e507b3f7f24a06876c846a87e9d3c9c26b29606579537ac06034d7988d4b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/protected-paths.case.json",
+          "sha256": "0e99dbbb0f075ed91e41a72d45bbb272922b5a287639718de78343556af6e036"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/protected-paths.policy.json",
+          "sha256": "d932731947f11e1949f1c5adaca12ce1c8b307544ff25644d97695189ef3d8fa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-protected-test/tree.json",
+          "sha256": "3279bc396450e2469d719e3567ac7372511633d01810ae8e59b5d52233a942ca"
+        }
+      ],
+      "id": "truncate-protected-test"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/capability.json",
+          "sha256": "21a90b5edf60370b7d6e120406c20116b3920d9137849971ffaf4c3a17f5f274"
+        },
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/observation.json",
+          "sha256": "fc572e3beea00bb1ecbe9aaa830f0d5b655f973ae286ceab0afbad95c01dea0c"
+        },
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/protected-paths.case.json",
+          "sha256": "8225a075145583c9b1b5c755230bafb42c1de0d648d4e8310623e37af01ba0e2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/protected-paths.policy.json",
+          "sha256": "2268a7e19a0a9ebfb0f862a216a8c11ff0acb1bbe4b068ce68443651fde1136f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/chmod-protected-test/tree.json",
+          "sha256": "f8d716de06bf583aa55d1b350b68cc156c2a72205e4fde14cd2ca493be11b730"
+        }
+      ],
+      "id": "chmod-protected-test"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/capability.json",
+          "sha256": "22b4c7f66d53635adbdee8e4305d90da7dfba56d8319a58f82cf8ee908e7f3f2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/observation.json",
+          "sha256": "5ef749465fc201fbcd291194ab8ae1d692b9d9b86dc64106dbdcf1bd27a5bbef"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/protected-paths.case.json",
+          "sha256": "046557d070dcf317ca7db2a8c1c3bd595b853811129873963877bc9aa62d2419"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/protected-paths.policy.json",
+          "sha256": "fcd8ee4714ec4acc5e2543422baf6252ce648c28e962fe0ccdbdc4fecc34a93e"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-onto-protected/tree.json",
+          "sha256": "b123fed28b88a46312f0739de4b9bed3e094228a93e205251a019c8219df3eee"
+        }
+      ],
+      "id": "rename-onto-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/capability.json",
+          "sha256": "56f5c11e775d1fd9eeead6379245bf88fd9bf6e717778c78f60ddb5616c4513a"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/observation.json",
+          "sha256": "72a7648b7c7d51bb68a666067ab8b62dce4d97eaae4086f1942d618a7d860609"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/protected-paths.case.json",
+          "sha256": "a566cbc6f647943d661eb6000c64d7bbd6de4106fc354cb0b538ea28c654f718"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/protected-paths.policy.json",
+          "sha256": "b1f205f82205cdada15af3a666d15b0feeeb4b6d1260d1e250fa73b2b79e6314"
+        },
+        {
+          "path": "vectors-test-tampering/cases/rename-away-from-protected/tree.json",
+          "sha256": "a63e8ef39fa454b916d1774332b24a8bba0c4f220aa38bca433929b46ff1f1e8"
+        }
+      ],
+      "id": "rename-away-from-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/capability.json",
+          "sha256": "f8803ad6ff7b9a6a2650b159da40d92c772b81d0abc7e627cad5254e864fb800"
+        },
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/observation.json",
+          "sha256": "d29034a84bdef3a88aff2f1967fef2a53d3af537ddf2066e11e421a67a4f00f7"
+        },
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/protected-paths.case.json",
+          "sha256": "d4679ab1406ea1a35195e05f1c77a680d8ce8eb8268fc86be80a4a14af01b456"
+        },
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/protected-paths.policy.json",
+          "sha256": "72393697e14a095012bd3d4cbce85017c2d8817203b0707c4a8b773f1146ddba"
+        },
+        {
+          "path": "vectors-test-tampering/cases/link-onto-protected/tree.json",
+          "sha256": "5464678506f6a75abfeb32bcce84ce04f705ae0adffb122570b8ebf18d05bea1"
+        }
+      ],
+      "id": "link-onto-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/capability.json",
+          "sha256": "14cb31a587675eadac4edbe92e8255051adbf4295d40cf89a8b0d7ff2b60d290"
+        },
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/observation.json",
+          "sha256": "f632d10cc11fd1139dfa6c6eaf3e677b74e2be3c26d913ed75a1265f41d73028"
+        },
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/protected-paths.case.json",
+          "sha256": "d7409b290a92b055860652c2ef97ebc86892d20cd55368b552004714efc60760"
+        },
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/protected-paths.policy.json",
+          "sha256": "7f996ea88babfc86d01b945a2ab7615ee1a7f3ed1eb009215652c37cadebc7b0"
+        },
+        {
+          "path": "vectors-test-tampering/cases/mmap-write-to-protected/tree.json",
+          "sha256": "1e32280c2f1576a5ea4076317e568fc508f3b539a3763bdf81405cddb0096f1e"
+        }
+      ],
+      "id": "mmap-write-to-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/capability.json",
+          "sha256": "54fa2c809dbb39ba2290595120f769766a77d2e0b8b10b9165de045596c0fb05"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/observation.json",
+          "sha256": "87d63b53d1c012156ad6fe8dec80566296823a46cb0a86e0253b68fe3258cc93"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/protected-paths.case.json",
+          "sha256": "d3f81d6d4fa734eca1c8338377d6df575de37167baf7c0737f069e7ae63a5245"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/protected-paths.policy.json",
+          "sha256": "7e07b9d68404243b9084c4c6054a1f02319a0f9239621ec29d8a79356a9f1812"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert/tree.json",
+          "sha256": "ff814985a8cc50f20bf4a536582b2fa90252b6b9eccf293bfdc43831410e810c"
+        }
+      ],
+      "id": "edit-run-revert"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/capability.json",
+          "sha256": "fd9a2b4198a514a9f460b03237da88983dd09d34ac33e777d2530577fbc7caf1"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/observation.json",
+          "sha256": "4ecce543be7da918d943099e5364379919736ceb8c4ab306fa8f79ee56acea08"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/protected-paths.case.json",
+          "sha256": "085196a958c576820b661dc13fe6220f66035b2a6a7f09697fca72fc54638bf4"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/protected-paths.policy.json",
+          "sha256": "2ad458955dbfeba58ed49e892ac2e2e73508daccc502e1b592767af6124cb2a4"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/tree.json",
+          "sha256": "575844b9d70c586ec5c4c5b01bb229dc60e3320ac6d3588e54698a3bf6fdd325"
+        }
+      ],
+      "id": "edit-run-revert-incomplete-coverage"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/capability.json",
+          "sha256": "40c589eec84dcc1773803adc5737ac98f457e52e410696eb54e6090ae5ba29f0"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/observation.json",
+          "sha256": "bf7a15aa20cae51ffd204401b328916a90034a1680df072f4093753dd6181555"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/protected-paths.case.json",
+          "sha256": "cd8538d92283b11b71ba09c0c97b2bd83c6853cf0bb1a30312909c1059a5ca4f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/protected-paths.policy.json",
+          "sha256": "92ec686279b18cd60512c35059d6ae18d40afabed6bc15ec2a02e944ff94b2de"
+        },
+        {
+          "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/tree.json",
+          "sha256": "945d85ac522bf26525f227222f941740177fd658c57ba64ac39dfb995948fbe7"
+        }
+      ],
+      "id": "edit-then-unknown-coverage"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/capability.json",
+          "sha256": "0f62cf0dbf9ea6616697d588983c173efe7c23fb26967e4a4a24dda4e51634cd"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/observation.json",
+          "sha256": "f28cef91a97ed9144b6ad671c80f7121c70322773beb603c6df78d1d21cfcbdb"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/protected-paths.case.json",
+          "sha256": "02206dc6021ae277a7e6e75fd289044bb249f02eb95a44e161df8c3010288314"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/protected-paths.policy.json",
+          "sha256": "e5c08a07643641e32a715e00b3a879d308788e8a0fc14521bffa462dc2737318"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-edited/tree.json",
+          "sha256": "bc8d582ba232ad9a07ef397c0c7643cff2fd9b01b4da02c0592ed5f965a1a5d9"
+        }
+      ],
+      "id": "lost-events-test-edited"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/capability.json",
+          "sha256": "7cf0896b277276b3c5e526e4951416b3811e92722314449743725d7d71c0e609"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/observation.json",
+          "sha256": "f5d1e932cd24d7759d10347b60008ade8d731108ff901e8a7e0ec45054e03ae6"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/protected-paths.case.json",
+          "sha256": "5424543ba5168b15863f1e5c7b148405ef973ea5ac93a19ef4959f1df8741651"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/protected-paths.policy.json",
+          "sha256": "6ef0d290f24892e4db64506c7c1c3fca38bdf12c18498f271a832be7a19770f7"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/tree.json",
+          "sha256": "5830f994bb330654cc562eef78f7d55b6288197c4852bc530b9388398efa03d5"
+        }
+      ],
+      "id": "lost-events-file-added-to-protected-directory"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/capability.json",
+          "sha256": "829e5058b501a2f72ef1773f8aad59a24a341a01ed3703b0fc766f022b539657"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/observation.json",
+          "sha256": "4ad7291f86ce1bb30191c9070f7e0e2f31129c05a141716a65b71755529d9f4a"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/protected-paths.case.json",
+          "sha256": "f0de931f091c8103b54474a4a846f9d49d10e51372831bc5295d8fc5bd7b1d80"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/protected-paths.policy.json",
+          "sha256": "e839713475df253fbbce45e16299bb4e00c3832d9d79b8a5749d9360a847f81d"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-test-deleted/tree.json",
+          "sha256": "5fe61676d27fb39a87f30c2da690f525331556d766126af1a5289f6c8249135d"
+        }
+      ],
+      "id": "lost-events-test-deleted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/capability.json",
+          "sha256": "968bd6fe01a78859bf3ad1f1f96b2cde91a93b37f53a1121b64af8d93ef016e5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/contract.json",
+          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/observation.json",
+          "sha256": "52336ac8d47717de039fb0fef8f997d8a480bcbb7b6aca7f785fbd4b1ebf3fb0"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/protected-paths.case.json",
+          "sha256": "a606b41642efb61359b00f5f7087aaaec82eedeb7750d7ef22f86829533c3c9f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/protected-paths.policy.json",
+          "sha256": "b47cf8c93d516ed1ec0baa0642df33893cf35631bcfdeb5d216dd9801e0f77d3"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/tree.json",
+          "sha256": "f5da9376f92714078ec3662f4a29922f4fb203d19cf8b8aa69433636b71acc41"
+        }
+      ],
+      "id": "lost-events-file-entry-changed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/capability.json",
+          "sha256": "e1a5ff400ba4b8524b9fbad14fdbf544792c1c4c4d5be8c68d99c807f50d113f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/observation.json",
+          "sha256": "bbdb01c1aad7b3125c73b0268514358faf2400d565ad83254a185cbd4f704407"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/protected-paths.case.json",
+          "sha256": "787b0560533711e128fac99bdfb26aa2a8723a80767132066e9ed1b585d35045"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/protected-paths.policy.json",
+          "sha256": "83217e873f30c0b3a81d0e8fbefe6126986bc7ff73c4094c5c53f5c073f09e50"
+        },
+        {
+          "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/tree.json",
+          "sha256": "6d210cb384365778ad49a2c7efd429b5d31ece6f8b43a1b9c1a8a4f0624beb13"
+        }
+      ],
+      "id": "lost-events-tree-unchanged"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/capability.json",
+          "sha256": "f0cd103d0b208351468fca01b12ee7977e7def48b813cae4dd152e2799666c2e"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/observation.json",
+          "sha256": "9eb04f23fa8aa2b2b1d9e47c58a67be6fd495b74077f2c4fcd2ef32ee209f531"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/protected-paths.case.json",
+          "sha256": "001969291acbd22ac91e39e9194108e9ee8bbf037ac45c275504402e8ac6ad2d"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/protected-paths.policy.json",
+          "sha256": "fe870fbfc992c150d206c7f9d827bb5dc9c03bb56d0d45fc1c77cd558129df73"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/tree.json",
+          "sha256": "c5c27ff8304cb105d32afa7845e69569d1842fce7a07b269245b32dd1754ab70"
+        }
+      ],
+      "id": "write-through-a-link-recorded-unresolved"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/capability.json",
+          "sha256": "940bf1fedb33adc863ff77a29e05622e256a09c0a89ab1823bb8238aa08ce0c7"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/observation.json",
+          "sha256": "a9d70f05f3ae1e717893ad13f9c16245d4c6940f27ce635a21d83a5605848ca0"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/protected-paths.case.json",
+          "sha256": "c42dbf46d25635bcdb5143652bfb01006be8cac408097ee47dd2fe15b952b53b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/protected-paths.policy.json",
+          "sha256": "30a1c28f9ce4a8339b07fd7483e99b585116afb6fd1514df0e8e8f3230fb922f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/write-under-a-folded-name/tree.json",
+          "sha256": "3d6ad408bcae0d48655a1edf3766b0f7e4d5715bb63bbe49f1b4ff040b0db5be"
+        }
+      ],
+      "id": "write-under-a-folded-name"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/capability.json",
+          "sha256": "91f72d8a452f5c62cd0f657d76cf7c5cbd1612081637ee75de3f595f2c931c20"
+        },
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/observation.json",
+          "sha256": "0d7afbd704c96d94cd385d837c3232edc8cfe3be1d127e2f1b088c6d0c17f3f1"
+        },
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/protected-paths.case.json",
+          "sha256": "9bac6186854bb46755e8a8d30734d0f7ccf7e7c6cf19556b565237cf0bac850b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/protected-paths.policy.json",
+          "sha256": "f4642c1d80a4785df9fff341d2ad6b471648e118f670f290a9417bcbb04025c0"
+        },
+        {
+          "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/tree.json",
+          "sha256": "190dd5fb0975e6b8f5501bab2450f07b153b87f23464a1c2aee6e540b69d01b9"
+        }
+      ],
+      "id": "incomplete-coverage-nothing-seen"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/capability.json",
+          "sha256": "23dc8b24c98d3ab9e04a86a7d0b73522f3c2206db07aefbd4526fc89427c87b2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/observation.json",
+          "sha256": "ab5cfd14ef39a61d99e91c768b7e3f20a8e98234f9c1d1e39f0b5e508defe4e3"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/protected-paths.case.json",
+          "sha256": "dff3643dcbb02d1ced52b3e894901e6ab3828f6d892852bbd98f19867cae26f8"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/protected-paths.policy.json",
+          "sha256": "4c1c0abcfd850c6f0a74806b8eef835868879015775abb5635c0869c8e8a22e6"
+        },
+        {
+          "path": "vectors-test-tampering/cases/truncate-not-visible/tree.json",
+          "sha256": "eff437123fc33e987a85cca8ed5a3fb899e8497b6e220427d1cfd478007c41b1"
+        }
+      ],
+      "id": "truncate-not-visible"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/capability.json",
+          "sha256": "cf655016ae6e6630ba085a37d11a35fddf6fca4efca4c1c194153f54fa913d1f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/observation.json",
+          "sha256": "bc700e2ecef58becda9a9e6602536083610563a99aa6ce412ca97ac114f646c5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/protected-paths.case.json",
+          "sha256": "73072cf50e812146084eedbc055f68afa7731ad97df2c6c6e307d5b92d00bef4"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/protected-paths.policy.json",
+          "sha256": "2e5acf2ff2f1d2f7c0e75444a32aeadd0ab446f3148b3ca5de91ec09dac1e225"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-independent/tree.json",
+          "sha256": "e19e71f73f9ab4059b2d04c56e6d1383c7e7778d770af8108d42a1966d17186e"
+        }
+      ],
+      "id": "tree-not-independent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/capability.json",
+          "sha256": "8e90070545f5ee0cdea91256d56f830e750c2a64aec46c0c39ba04a362d773fe"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/observation.json",
+          "sha256": "f31660ad9b3a538d7e929c33dc08c268499dbcf45b29e67e0ec75b8370ab8827"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/protected-paths.case.json",
+          "sha256": "23168c8702c742cd958073327e85182cc3f9414f850bb27f420d2c1666fdd306"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/protected-paths.policy.json",
+          "sha256": "a7183802b11f85917c06ebecc5374df4057c9fc9ff04260f3a8b2973cf466393"
+        },
+        {
+          "path": "vectors-test-tampering/cases/tree-not-bound/tree.json",
+          "sha256": "c69e0aa8aaa57e64628bb52ba5dd2ebf428018589cbfa93c8515e007fc1fdeec"
+        }
+      ],
+      "id": "tree-not-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/capability.json",
+          "sha256": "1808e10ba7efeffb45f7d7e3181e2132bde0b1d00e5b2477f24860e6c71b6e93"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/observation.json",
+          "sha256": "372ffaa98158a4d9a1a081b17cac50c8e01fbba5b3cd5decf8c1f61858651084"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/protected-paths.case.json",
+          "sha256": "1c0cb83398eedd5e8306a7b438eff022dd531b5e48168e582bd02d0009df5dad"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/protected-paths.policy.json",
+          "sha256": "c0c4b319b25cdd9c798ee2b468859fdadce88abc26c7e158e5aafb3c067ebb4c"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/tree.json",
+          "sha256": "e380bf44fea19de619de37ecc05f0d0b8478683b537bc0cc8313f579c203e063"
+        }
+      ],
+      "id": "known-limit-contract-leaves-conftest-unprotected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/capability.json",
+          "sha256": "9cea12179faecef8ce698cd086e614a2d3b889715b091a089377be21bd1a2be3"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/observation.json",
+          "sha256": "d7715d1d7ec1de0e18bfa58dda8cfd098582152a5bfc77ccbef62edd0709a7e2"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/protected-paths.case.json",
+          "sha256": "6972c9a4500614c13af0d50343a0791e5f0f8f43df1f7f6e2acc2b41e5a8a294"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/protected-paths.policy.json",
+          "sha256": "15c77f430522026eca410846878ca94a9d3a32b4f38bda3597e05a646ff66d4f"
+        },
+        {
+          "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/tree.json",
+          "sha256": "6c0cd3aa33de749d1c52a5020f73e98933ed39b842478d5956ef2afbc0936d28"
+        }
+      ],
+      "id": "known-limit-poisoned-bytecode-in-an-excluded-segment"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/capability.json",
+          "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/observation.json",
+          "sha256": "4b7cb171ad6fb6f494135011c397b9f8f07dc22b6ad5233f39ed59ddbe8bfc39"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/protected-paths.case.json",
+          "sha256": "477e58182e3c266f14874f038c4b1a788f6825cff887e09ef7e0480ec9212057"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/protected-paths.policy.json",
+          "sha256": "0b270535f06831408c58ba5e504041a9ca52e6af5050fe0a83e5ac01349744fb"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-honest/tree.json",
+          "sha256": "85793875c18b761c35e2ac6200caaa13208d93fdd277c1d60ce8d52bb5c1cea8"
+        }
+      ],
+      "id": "recorded-honest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/capability.json",
+          "sha256": "9baa625c694d8bda6c4a2245591332c74225dffa52581f481a75f1cf2f968d68"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/observation.json",
+          "sha256": "36d789f1b99ef66097a3f2e47d61a63029b83e3144723173953ef4bb5ce7b4ee"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/protected-paths.case.json",
+          "sha256": "205f14df1650cf419cca410311e6dbbabd8bcba008b940f34fe9ba688c7160d5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/protected-paths.policy.json",
+          "sha256": "0625663061d0a9a9e88961d509aa06c0f388c869785b5d8d36a6d4543399605a"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-protected-edit/tree.json",
+          "sha256": "e23e6bf792fbbdb22eaeda2216c8d906d83ada0eed4b102101e607efade79f7b"
+        }
+      ],
+      "id": "recorded-protected-edit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/capability.json",
+          "sha256": "c018355edb617e8e07ccb11ce2414f24fc3977cbc57b8fe1e2b12d9129e0f404"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/observation.json",
+          "sha256": "63d3340186fb68be67bdc4888091874c1663f46c06227953e6fc95a4998f35fb"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/protected-paths.case.json",
+          "sha256": "429de85111623f09da1575972a2eda91b0498b4b9cde2b49e4e4ccff8408d6e7"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/protected-paths.policy.json",
+          "sha256": "6dfd18e1bef3992680b48b985ded14cabebad8d564d3a64387ed2b826b77562b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/tree.json",
+          "sha256": "b452ab65e4cbc1878f1b88356f02359a189647fa298c5730a61e815111821f3a"
+        }
+      ],
+      "id": "recorded-edit-run-revert"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/capability.json",
+          "sha256": "c6b70df1909940a109bff5cdad17c916d50ffdab7beda16c29aa1150c13317b5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/observation.json",
+          "sha256": "5b471d1266174e3d8471a15cf61d3f7567221a0449fbeaa4ff25c0f5dc97dd18"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/protected-paths.case.json",
+          "sha256": "887148985aa8a9060e8dfd5e18e8b557f5b0b14e1a1ab1c795cecfa9a73b346b"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/protected-paths.policy.json",
+          "sha256": "21b29e15893eee98acdc78065542a627a97cc6fa5c7a3c2e18fe74dcda60b643"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-mmap-write/tree.json",
+          "sha256": "9cfe8a8b7d5f5e442bd52cf78edab04bb0770a3ef1af0a6a1a9ec4e4260ddf77"
+        }
+      ],
+      "id": "recorded-mmap-write"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/capability.json",
+          "sha256": "4e397841131d268c20a269a433dd48c4be2a393ba3c9cd22ab5106f16132b5d4"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/observation.json",
+          "sha256": "5e8d54e18773f7c07f349d583e0eb0afeef3eec5917a4e42aa1cd8feedb44b8e"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/protected-paths.case.json",
+          "sha256": "31c635b41e42725353d8e030e58ee0044da2a18dcab28790450a72b0e05b9178"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/protected-paths.policy.json",
+          "sha256": "24dda24fd4995a6de8590e168c226426ed451b8ee380e81165fb4a0ebe035695"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-raw-open-create/tree.json",
+          "sha256": "b3c17a2121e1c66da48eb7b752e65406bacd43f4897310091bb8b0c5ab0215ed"
+        }
+      ],
+      "id": "recorded-raw-open-create"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/capability.json",
+          "sha256": "5ab38ed9f1e941faf9df4be28cb0f6049b6ea7d3426cfbbdc31ca217609957e1"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/observation.json",
+          "sha256": "5e354de6ddf3d1f7e63f2f753b954370b51fcdc534eed86f25b4cd78a9e34ad5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/protected-paths.case.json",
+          "sha256": "85f8ed9f881263e025f2c451dc0322474b7c9d05b22af0762ce463050f6a8347"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/protected-paths.policy.json",
+          "sha256": "fcedb39d59391bf653a47dbd75b821c458610d0aa3ba7f82ef158e95a956d84e"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-direct-host-write/tree.json",
+          "sha256": "9b882210a1cc0123aca54ef379a277b2259d998d947a421813393f8fa957aaac"
+        }
+      ],
+      "id": "recorded-direct-host-write"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/capability.json",
+          "sha256": "d5139edc665c6bd65d3a57eb785f99721e01cf8db1206f73225089dd2ae70337"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/observation.json",
+          "sha256": "7a4efd53a0386bd6ecb18884175504ffe306242c5db98ec9f1846ba13dc9f4b5"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/protected-paths.case.json",
+          "sha256": "bb9323085ec38e80ffe90e0ef95fd483decb27cb7b32d060b8ee7a67a2575a55"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/protected-paths.policy.json",
+          "sha256": "2b7223c62ef899db788fe16bfdd44d06e09939543616cb3e3babafe019d984ad"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-lost-events/tree.json",
+          "sha256": "e0b6286c0558771b752dd6af00479dea8484361d01b17d4d1660c858d617b120"
+        }
+      ],
+      "id": "recorded-lost-events"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/capability.json",
+          "sha256": "2b7e5e6f11ba2a1ab0a1e616d7cf8f24e9d9dd75fcfa186289fd8f856033b213"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/contract.json",
+          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/observation.json",
+          "sha256": "d763754e0e2d2d11e84429dad6f898836b1fe65ccc8a7d17bd0677b8b0ba4429"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/protected-paths.case.json",
+          "sha256": "be98d516c233a134f8a9e44f12ee113de9b9a00d87434590e2cb1d1f9fc23045"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/protected-paths.policy.json",
+          "sha256": "a1a3f69212f26b7a684ccfde1c12f2924b4b31e39a35368895584cffd9d8bbea"
+        },
+        {
+          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/tree.json",
+          "sha256": "35fd30cc7adaec924614ab2ef2b9973d22f40bbccff38a5a0fa06d9f69d5e482"
+        }
+      ],
+      "id": "recorded-forged-trace-attempt"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-test-tampering.json",
+        "serialization": "bytes",
+        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-test-tampering.txt",
+        "serialization": "bytes",
+        "sha256": "d0fca0dca112682eac688b083dbd5877dc82ba0b220276770028b4f695e60c57"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "edit-test-file",
+      "inputs": [
+        "member:edit-test-file",
+        "check:edit-test-file"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "create-conftest-in-protected-directory",
+      "inputs": [
+        "member:create-conftest-in-protected-directory",
+        "check:create-conftest-in-protected-directory"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "delete-protected-test",
+      "inputs": [
+        "member:delete-protected-test",
+        "check:delete-protected-test"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "truncate-protected-test",
+      "inputs": [
+        "member:truncate-protected-test",
+        "check:truncate-protected-test"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "chmod-protected-test",
+      "inputs": [
+        "member:chmod-protected-test",
+        "check:chmod-protected-test"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "rename-onto-protected",
+      "inputs": [
+        "member:rename-onto-protected",
+        "check:rename-onto-protected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "rename-away-from-protected",
+      "inputs": [
+        "member:rename-away-from-protected",
+        "check:rename-away-from-protected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "link-onto-protected",
+      "inputs": [
+        "member:link-onto-protected",
+        "check:link-onto-protected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "mmap-write-to-protected",
+      "inputs": [
+        "member:mmap-write-to-protected",
+        "check:mmap-write-to-protected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "edit-run-revert",
+      "inputs": [
+        "member:edit-run-revert",
+        "check:edit-run-revert"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "edit-run-revert-incomplete-coverage",
+      "inputs": [
+        "member:edit-run-revert-incomplete-coverage",
+        "check:edit-run-revert-incomplete-coverage"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "edit-then-unknown-coverage",
+      "inputs": [
+        "member:edit-then-unknown-coverage",
+        "check:edit-then-unknown-coverage"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "lost-events-test-edited",
+      "inputs": [
+        "member:lost-events-test-edited",
+        "check:lost-events-test-edited"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "lost-events-file-added-to-protected-directory",
+      "inputs": [
+        "member:lost-events-file-added-to-protected-directory",
+        "check:lost-events-file-added-to-protected-directory"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "lost-events-test-deleted",
+      "inputs": [
+        "member:lost-events-test-deleted",
+        "check:lost-events-test-deleted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "lost-events-file-entry-changed",
+      "inputs": [
+        "member:lost-events-file-entry-changed",
+        "check:lost-events-file-entry-changed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "write-through-a-link-recorded-unresolved",
+      "inputs": [
+        "member:write-through-a-link-recorded-unresolved",
+        "check:write-through-a-link-recorded-unresolved"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "write-under-a-folded-name",
+      "inputs": [
+        "member:write-under-a-folded-name",
+        "check:write-under-a-folded-name"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-protected-edit",
+      "inputs": [
+        "member:recorded-protected-edit",
+        "check:recorded-protected-edit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-edit-run-revert",
+      "inputs": [
+        "member:recorded-edit-run-revert",
+        "check:recorded-edit-run-revert"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-mmap-write",
+      "inputs": [
+        "member:recorded-mmap-write",
+        "check:recorded-mmap-write"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-raw-open-create",
+      "inputs": [
+        "member:recorded-raw-open-create",
+        "check:recorded-raw-open-create"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    },
+    {
+      "check": "recorded-direct-host-write",
+      "inputs": [
+        "member:recorded-direct-host-write",
+        "check:recorded-direct-host-write"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+      },
+      {
+        "process": "run-2",
+        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 38 pinned members of test-tampering/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 38,
+    "require": "at-least-one",
+    "selected": [
+      "untouched",
+      "new-source-file",
+      "read-of-a-protected-file",
+      "write-in-an-excluded-segment",
+      "file-entry-untouched",
+      "edit-test-file",
+      "create-conftest-in-protected-directory",
+      "delete-protected-test",
+      "truncate-protected-test",
+      "chmod-protected-test",
+      "rename-onto-protected",
+      "rename-away-from-protected",
+      "link-onto-protected",
+      "mmap-write-to-protected",
+      "edit-run-revert",
+      "edit-run-revert-incomplete-coverage",
+      "edit-then-unknown-coverage",
+      "lost-events-test-edited",
+      "lost-events-file-added-to-protected-directory",
+      "lost-events-test-deleted",
+      "lost-events-file-entry-changed",
+      "lost-events-tree-unchanged",
+      "write-through-a-link-recorded-unresolved",
+      "write-under-a-folded-name",
+      "incomplete-coverage-nothing-seen",
+      "truncate-not-visible",
+      "tree-not-independent",
+      "tree-not-bound",
+      "known-limit-contract-leaves-conftest-unprotected",
+      "known-limit-poisoned-bytecode-in-an-excluded-segment",
+      "recorded-honest",
+      "recorded-protected-edit",
+      "recorded-edit-run-revert",
+      "recorded-mmap-write",
+      "recorded-raw-open-create",
+      "recorded-direct-host-write",
+      "recorded-lost-events",
+      "recorded-forged-trace-attempt"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "test-tampering/v1"
+}

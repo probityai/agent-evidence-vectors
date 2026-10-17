@@ -1,0 +1,1324 @@
+{
+  "aggregate": {
+    "counts": {
+      "invalid": 40,
+      "valid": 6
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 46
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-done-contract/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-done-contract/gen_vectors.py",
+    "routine-file": "vectors-done-contract/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "1098bd5cd159d632e9ad28c054812acbf72b9232f71a8f09feb09bfabfe43d03",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "swapped-in": "63ebb07a6fa4281fed2093f19293dc3c1718b3048f8aa36c74f61ad647d98f28",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-contract/README.md",
+      "serialization": "bytes",
+      "sha256": "cd8f2c8b625a398a04ed1cae612edf987b8a0ef6c79a351935c00f0d1aadd8cb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "swapped-in": "e4d77df89ce605114d3e3ffe3f74dc8ccbb1868359485367161d303c09938f36",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-contract/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "3bb5415c1debd4692fdd982c4733ba9e878819f6f157037748d118977b03fc8c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        },
+        "swapped-in": "da14eec6bf38658196b688ba896672e2d8705d20bbfe742442e4a2f66e244c72",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-contract/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "bc7895742f2c873fd33421e93c05481a4a45c96dd687f8544fb2ded6e333d7ae"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-done-contract"
+  },
+  "byte-identity": {
+    "pins": 92,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-done-contract",
+      "aee-verify -json vectors-done-contract",
+      "aee-verify vectors-done-contract"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "7e3fb58c3e4431e1247521f724ce481160f2d472911e57b73bc441f6d77472b4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "valid-directory-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-file-protected",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-no-protected-paths",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-two-acceptance-commands",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-bound-digests",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-adequacy-zero",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "schema-unsupported",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "member-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "task-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bound-digest-uppercase",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-digest-short",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-paths-not-a-list",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-path-dotdot",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-path-absolute",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-path-trailing-slash",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-kind-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exclude-on-file",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exclude-with-separator",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exclude-empty-list",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exclude-duplicate-name",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "protected-path-duplicate",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-id-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-argv-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-argv-not-text",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-id-duplicate",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-killed-exceeds-mutants",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-boolean",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-duplicate-member",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-not-a-number",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "record-truncated",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-predicate-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-predicate-type-moved",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-two-subjects",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-subject-other-algorithm",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-subject-unbound",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-predicate-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-duplicate-member",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-not-a-number",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-truncated",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d108d98d0443e850bd7610dce8f2476cc0de95b3005eb7e0307dbf69c7280a76"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "valid-directory-protected",
+      "valid-file-protected",
+      "valid-no-protected-paths",
+      "valid-two-acceptance-commands",
+      "valid-bound-digests",
+      "valid-adequacy-zero",
+      "schema-unsupported",
+      "member-unexpected",
+      "member-missing",
+      "contract-id-empty",
+      "task-empty",
+      "bound-digest-uppercase",
+      "protected-digest-short",
+      "protected-paths-not-a-list",
+      "protected-path-dotdot",
+      "protected-path-absolute",
+      "protected-path-trailing-slash",
+      "protected-kind-unknown",
+      "exclude-on-file",
+      "exclude-with-separator",
+      "exclude-empty-list",
+      "exclude-duplicate-name",
+      "protected-path-duplicate",
+      "acceptance-empty",
+      "acceptance-id-empty",
+      "acceptance-argv-empty",
+      "acceptance-argv-not-text",
+      "acceptance-id-duplicate",
+      "adequacy-killed-exceeds-mutants",
+      "adequacy-negative",
+      "adequacy-boolean",
+      "adequacy-member-unexpected",
+      "record-duplicate-member",
+      "record-not-a-number",
+      "record-truncated",
+      "statement-type-wrong",
+      "statement-predicate-type-wrong",
+      "statement-predicate-type-moved",
+      "statement-two-subjects",
+      "statement-subject-other-algorithm",
+      "statement-subject-unbound",
+      "statement-predicate-differs",
+      "statement-duplicate-member",
+      "statement-not-a-number",
+      "statement-truncated",
+      "statement-member-unexpected"
+    ],
+    "path": "vectors-done-contract/MANIFEST.json",
+    "sha256": "daeedecd6de4f35e29e96453281515523184f6862e0712dee4bbd69df7fbbdea"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-directory-protected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-directory-protected/statement.json",
+          "sha256": "7b75ac63a38a1e0979ae9135d43d8b2622743af7e06e7881c7add9bf2d44ef32"
+        }
+      ],
+      "id": "valid-directory-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-file-protected/contract.json",
+          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-file-protected/statement.json",
+          "sha256": "d16928b3ec0c61c654c507863dbfe78c97c5898c0c6aa115d44f7048cfeff37b"
+        }
+      ],
+      "id": "valid-file-protected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-no-protected-paths/contract.json",
+          "sha256": "a1a99e6cf321b6b4e9259e80e2fee380ccdf68d8e4b84596d4d0de6aafb908bd"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-no-protected-paths/statement.json",
+          "sha256": "63ca7551c26286902e555748812350c2322d00a8d13e13b46e47ea1442c1531b"
+        }
+      ],
+      "id": "valid-no-protected-paths"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-two-acceptance-commands/contract.json",
+          "sha256": "2ef9c84e1f6e8b8866bcb9d1058b7712f9fff88506d25be13d9a227767fc0e5b"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-two-acceptance-commands/statement.json",
+          "sha256": "14d9531ed1118f00cc1786dfef39fb33e721466fff145ad693a4baac20ebd1d2"
+        }
+      ],
+      "id": "valid-two-acceptance-commands"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-bound-digests/contract.json",
+          "sha256": "d9c159eaed3714181edd65226b4aa21a4f40570694f0496e1bca7593af17fddb"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-bound-digests/statement.json",
+          "sha256": "b26c3c54783f04fe9b95ec267252dd1efe26ae7ef49baf70d65326d6764f4ea5"
+        }
+      ],
+      "id": "valid-bound-digests"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-adequacy-zero/contract.json",
+          "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-adequacy-zero/statement.json",
+          "sha256": "52f3a6091471fe990fe2616a1b976f8817a8f32872b9c51bdf488f25b82dc8fe"
+        }
+      ],
+      "id": "valid-adequacy-zero"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/schema-unsupported/contract.json",
+          "sha256": "0f5a934ac3b31e523519124195ecbc2fa5db1bd752b9a55bfec636b0591b4148"
+        },
+        {
+          "path": "vectors-done-contract/cases/schema-unsupported/statement.json",
+          "sha256": "96ed6bf3a96d8c6bd1cc465524d755947a4e916b4166cf18860fa08f31e28637"
+        }
+      ],
+      "id": "schema-unsupported"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/member-unexpected/contract.json",
+          "sha256": "e05234891c62ee7ec93f6bf69f2c0089d10a6b72a2508ca8539216a69da5563d"
+        },
+        {
+          "path": "vectors-done-contract/cases/member-unexpected/statement.json",
+          "sha256": "31532453ca105a31ffba8d5874a03b479ecfdcf7f5f83280d408fc222288c251"
+        }
+      ],
+      "id": "member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/member-missing/contract.json",
+          "sha256": "75f4e91e0a44e9fbfec4aa36cf9edc525742eb7b053691039979b501fa05fad8"
+        },
+        {
+          "path": "vectors-done-contract/cases/member-missing/statement.json",
+          "sha256": "3084de64cb2ecffdb6831f3463bf76b075c3533c81799e30823051848dc13e2e"
+        }
+      ],
+      "id": "member-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/contract-id-empty/contract.json",
+          "sha256": "999f2784f30d2b33b6c8c9e24a42745e0353bf648ba36904e2486fde51b33276"
+        },
+        {
+          "path": "vectors-done-contract/cases/contract-id-empty/statement.json",
+          "sha256": "52cfada08c33477f1769da80fc8cc57e87b61f08e663afe9061acb446b9176cb"
+        }
+      ],
+      "id": "contract-id-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/task-empty/contract.json",
+          "sha256": "cd832fd4c955cb60ab5341d64d6d19dafcd8cd778c09036d6c598609dde28fe8"
+        },
+        {
+          "path": "vectors-done-contract/cases/task-empty/statement.json",
+          "sha256": "9f3312a85a47c176ac2fd35fc2ca758a0383f717649ce50f47f534d9c171406e"
+        }
+      ],
+      "id": "task-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/bound-digest-uppercase/contract.json",
+          "sha256": "921941de94841dfa9d7704a0c124ecb5384526d0aa6038c1ca0e7077c86c10d6"
+        },
+        {
+          "path": "vectors-done-contract/cases/bound-digest-uppercase/statement.json",
+          "sha256": "b306573d1b50387717661dcc02531e37affbd068f695bcc6a82d2f6c70390939"
+        }
+      ],
+      "id": "bound-digest-uppercase"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-digest-short/contract.json",
+          "sha256": "54d61adf5edaa275eb98d2a7dd31367b3e498a0f0f9d38ae1488d4a8fb82bd11"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-digest-short/statement.json",
+          "sha256": "1e57c66a6d69ef6d6963b5f6308de28e8398b8e61c70c09db83fb5fb02a8eaf1"
+        }
+      ],
+      "id": "protected-digest-short"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-paths-not-a-list/contract.json",
+          "sha256": "986c7975c70bc14edefa8abaf6507f6767b999dd97e303bddc09cc15c2df1929"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-paths-not-a-list/statement.json",
+          "sha256": "0e28ee3afd63affad3482c4adb0addbc2e38c7272c8aba34e65983a91713dc5b"
+        }
+      ],
+      "id": "protected-paths-not-a-list"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-path-dotdot/contract.json",
+          "sha256": "8ca9c170cf2bd9666e52072c5666a53474739560044dc520204e87c6c8ebcbe5"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-path-dotdot/statement.json",
+          "sha256": "65d5ed2964ed94a5b71d2a96efdd5c5df7252508db35b62e4cc0fd43b1979356"
+        }
+      ],
+      "id": "protected-path-dotdot"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-path-absolute/contract.json",
+          "sha256": "72be4963aa0e59d83474684204ceb233bb17df9ed985809fd836a0c694a0fb8e"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-path-absolute/statement.json",
+          "sha256": "6a84694d6221a1c4da128e7068bf3b9416526ff3b9e21b8a3885f9d9cab17559"
+        }
+      ],
+      "id": "protected-path-absolute"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-path-trailing-slash/contract.json",
+          "sha256": "e3ec14a15b4dea1b206e792c55f8015b9bd62b591a8716f0819e05a6274ff8c6"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-path-trailing-slash/statement.json",
+          "sha256": "4b2c01e10d84c4410c7c85292dd0fd4120e0ee2ae9ea5771baed7d1d24b313e7"
+        }
+      ],
+      "id": "protected-path-trailing-slash"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-kind-unknown/contract.json",
+          "sha256": "795563e4465baa7b4caa5333d1157f737790f11b232b831f2e7ed03827263fc9"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-kind-unknown/statement.json",
+          "sha256": "8b1de9e042d82ad0744cf3df86bc8baf25a71e1cf1da4856fa345495b5a8a792"
+        }
+      ],
+      "id": "protected-kind-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/exclude-on-file/contract.json",
+          "sha256": "c70af9eda66ea01c7845b8edd07916191f93f78daa9a61a227508b5220cf8ea9"
+        },
+        {
+          "path": "vectors-done-contract/cases/exclude-on-file/statement.json",
+          "sha256": "944687fda714d3f4f8897495434d86015dba4e20671561dd165cad842debe910"
+        }
+      ],
+      "id": "exclude-on-file"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/exclude-with-separator/contract.json",
+          "sha256": "9c9bc9df2c3876abf953147b6a79fc0cdffafd680b40792d80954cea4757d0e0"
+        },
+        {
+          "path": "vectors-done-contract/cases/exclude-with-separator/statement.json",
+          "sha256": "1b52355d7df3193016c398df0b409349647786004c7566edca1dbc0dcdd387aa"
+        }
+      ],
+      "id": "exclude-with-separator"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/exclude-empty-list/contract.json",
+          "sha256": "03b36ef3bb106908886105c423d53ebe19ca779f2fd96a93c52c886bbbb13c9f"
+        },
+        {
+          "path": "vectors-done-contract/cases/exclude-empty-list/statement.json",
+          "sha256": "be6399b69406ad881cae85af6e58712ad9d53738c9561cffd56c8e1a7ba3f421"
+        }
+      ],
+      "id": "exclude-empty-list"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/exclude-duplicate-name/contract.json",
+          "sha256": "1d2de3604b25369b294463f2a2947e2fa1d50f94781f351f262324a9a402325e"
+        },
+        {
+          "path": "vectors-done-contract/cases/exclude-duplicate-name/statement.json",
+          "sha256": "6fb6edd27b3473d45ffd1ab946e20b75568408704cd1d39f6f1214cd251a4321"
+        }
+      ],
+      "id": "exclude-duplicate-name"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/protected-path-duplicate/contract.json",
+          "sha256": "997377f8ed834dcc2047dbd7a686768d1eb0d5187e81d7cb378caeb2a5421d60"
+        },
+        {
+          "path": "vectors-done-contract/cases/protected-path-duplicate/statement.json",
+          "sha256": "c2b45014d810dcb3ca10a4f729a22f8d94592c78b37960d66692dde74344ad5f"
+        }
+      ],
+      "id": "protected-path-duplicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-empty/contract.json",
+          "sha256": "6e1ef0a343a20e20a2fe733148c5131c6886eee44272cff0d893f35e4ad18145"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-empty/statement.json",
+          "sha256": "d581ae23344df58c235c0c85ecb1a1a728bb69139ca9880802fdc8beb2766e2a"
+        }
+      ],
+      "id": "acceptance-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-id-empty/contract.json",
+          "sha256": "428bcc5d5da4a1aa67f42927f248ef3c0be6b65dfa23502105b28e86f2614340"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-id-empty/statement.json",
+          "sha256": "e5a66df8726519a52d924dc471dfb3d935b4a01150a58b6af122121005cf668f"
+        }
+      ],
+      "id": "acceptance-id-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-argv-empty/contract.json",
+          "sha256": "9cb1ce63d1e59da5130aa5d95df58536ea204bc58d16fe07fff32e0ad758c9eb"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-argv-empty/statement.json",
+          "sha256": "403dba3537ea309f5941a4b78207dca5a7dceb3a24a76f44c7f52192c9bf1916"
+        }
+      ],
+      "id": "acceptance-argv-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-argv-not-text/contract.json",
+          "sha256": "16a15e6367f643b6b0ca78d87718d768b78964eba6bdde83562bdf55406fca7a"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-argv-not-text/statement.json",
+          "sha256": "e4aacdc722e41ad4747ec2526512585eb9823316ac3daa0601e18630a1ece193"
+        }
+      ],
+      "id": "acceptance-argv-not-text"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-id-duplicate/contract.json",
+          "sha256": "3851b24d4135d1154da86d77e2b0598b6515632d39582147e21f157175572fa2"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-id-duplicate/statement.json",
+          "sha256": "9fc3cf829ac23bb28fa74c638e46d3906a755ba4c605e8a5dcdc1519cf76f4fe"
+        }
+      ],
+      "id": "acceptance-id-duplicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-killed-exceeds-mutants/contract.json",
+          "sha256": "f4ad72757995147ca9913839fe2ab4cedd56102990b9e593d25d77d24efdc8ae"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-killed-exceeds-mutants/statement.json",
+          "sha256": "425b870f33acc54c4c3038b348a952464b1eb7caea2a3ce554158d9879500a81"
+        }
+      ],
+      "id": "adequacy-killed-exceeds-mutants"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-negative/contract.json",
+          "sha256": "1c7c048d38f73065f300b8b9f8e3bd5e801a324701584cb16e691e9e20f0d01a"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-negative/statement.json",
+          "sha256": "10cd7e2e001691a7a95aff87c97b1e6ccebb8f8a41584d8f9aa78a828bdf2b9d"
+        }
+      ],
+      "id": "adequacy-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-boolean/contract.json",
+          "sha256": "4e879ea3d124ec4d538af06418dc07f8e32af6c6ea21edf0491f676dd79c563c"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-boolean/statement.json",
+          "sha256": "2ea6c5ac130427a0b19b7a6261e834229be08f776b218d37713c4b91365b5208"
+        }
+      ],
+      "id": "adequacy-boolean"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-member-unexpected/contract.json",
+          "sha256": "c1c497a79cb649315768c318334b1160efdc4196f949664cacfd1a310fb9e743"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-member-unexpected/statement.json",
+          "sha256": "f5fde464de2c1b598728ff62a6891cc7b564b0b95407118ce03733af39c0f543"
+        }
+      ],
+      "id": "adequacy-member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/record-duplicate-member/contract.json",
+          "sha256": "736dbd0d1b122fb40c50fa4a8e1a3bd029c980e500a3d835c407507074b86afd"
+        },
+        {
+          "path": "vectors-done-contract/cases/record-duplicate-member/statement.json",
+          "sha256": "caff9379f1b8d914f531d85cb3bab319da3cb5cde5d579d8b0bc50df6c40814b"
+        }
+      ],
+      "id": "record-duplicate-member"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/record-not-a-number/contract.json",
+          "sha256": "9503fa6fa447a895aab6d565e942f0faf8815a72c216b6633df2b9c472894ac1"
+        },
+        {
+          "path": "vectors-done-contract/cases/record-not-a-number/statement.json",
+          "sha256": "f7cf3fb00baba674afc84cd124a48242a2dc8fc0c56795a4e94ed8dcfe09d6ad"
+        }
+      ],
+      "id": "record-not-a-number"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/record-truncated/contract.json",
+          "sha256": "4fd44a2cef0783048965d8dc7eb15b645c6019c731498d42accaf7f56e49e9a5"
+        },
+        {
+          "path": "vectors-done-contract/cases/record-truncated/statement.json",
+          "sha256": "7dad6882566e8a591b57f007d94ea19eee61989825aa7d51111f4f77ce51e9c6"
+        }
+      ],
+      "id": "record-truncated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-type-wrong/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-type-wrong/statement.json",
+          "sha256": "b58d1753c2e625ca78b7d69f72efff52ffe5bed3e255933aaaf2f95e92103779"
+        }
+      ],
+      "id": "statement-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-type-wrong/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-type-wrong/statement.json",
+          "sha256": "bf3aa50034a867c84f6086c33fb9ee96c2fa2872619dc90b67e856409e49805a"
+        }
+      ],
+      "id": "statement-predicate-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-type-moved/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-type-moved/statement.json",
+          "sha256": "df526ee96ca09dcb7eb93275460c8c8b189ebc180ef78bf5eb6f3af29fbae413"
+        }
+      ],
+      "id": "statement-predicate-type-moved"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-two-subjects/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-two-subjects/statement.json",
+          "sha256": "3e0d84366e3411822768a8cda47e0d67254f4e1bf6b09f4210fcaaf956b4efb2"
+        }
+      ],
+      "id": "statement-two-subjects"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-subject-other-algorithm/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-subject-other-algorithm/statement.json",
+          "sha256": "993b269b528be55c804c83bf1ce2402b97d8558ef316021e96a0067e20221347"
+        }
+      ],
+      "id": "statement-subject-other-algorithm"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-subject-unbound/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-subject-unbound/statement.json",
+          "sha256": "6daa3a08dd511111942ae383d2e1c01ed697d1971a6ed71844e4d3e7b23688f7"
+        }
+      ],
+      "id": "statement-subject-unbound"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-differs/contract.json",
+          "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-predicate-differs/statement.json",
+          "sha256": "0c32f68c701b353b7d3e291c23205fd5deb7010e76184ce2d4a8a035bfa587bc"
+        }
+      ],
+      "id": "statement-predicate-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-duplicate-member/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-duplicate-member/statement.json",
+          "sha256": "b8d2e5f32311b682f39642550e90a10fa530b4cd671c5fc8b5017c6cadddad3d"
+        }
+      ],
+      "id": "statement-duplicate-member"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-not-a-number/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-not-a-number/statement.json",
+          "sha256": "c928273ac7dd67815078e668ee7f5bbc69d591162ab4f2a4d042d58fc0035eb9"
+        }
+      ],
+      "id": "statement-not-a-number"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-truncated/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-truncated/statement.json",
+          "sha256": "cbda47dc22a1489986e92392f53eae37d0941c2a22bfe9d8e19b43c805c09658"
+        }
+      ],
+      "id": "statement-truncated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/statement-member-unexpected/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-contract/cases/statement-member-unexpected/statement.json",
+          "sha256": "e4ec10dec6fa32c662afd61c06e3e19cb97da92f893b8fbbd9dcffad6b124a59"
+        }
+      ],
+      "id": "statement-member-unexpected"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-done-contract.json",
+        "serialization": "bytes",
+        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-done-contract.txt",
+        "serialization": "bytes",
+        "sha256": "c955ed2cc11ba458c7e4073fe24614bc4036dba23b1a9899edd187abef020507"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+      },
+      {
+        "process": "run-2",
+        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 46 pinned members of done-contract/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 46,
+    "require": "at-least-one",
+    "selected": [
+      "valid-directory-protected",
+      "valid-file-protected",
+      "valid-no-protected-paths",
+      "valid-two-acceptance-commands",
+      "valid-bound-digests",
+      "valid-adequacy-zero",
+      "schema-unsupported",
+      "member-unexpected",
+      "member-missing",
+      "contract-id-empty",
+      "task-empty",
+      "bound-digest-uppercase",
+      "protected-digest-short",
+      "protected-paths-not-a-list",
+      "protected-path-dotdot",
+      "protected-path-absolute",
+      "protected-path-trailing-slash",
+      "protected-kind-unknown",
+      "exclude-on-file",
+      "exclude-with-separator",
+      "exclude-empty-list",
+      "exclude-duplicate-name",
+      "protected-path-duplicate",
+      "acceptance-empty",
+      "acceptance-id-empty",
+      "acceptance-argv-empty",
+      "acceptance-argv-not-text",
+      "acceptance-id-duplicate",
+      "adequacy-killed-exceeds-mutants",
+      "adequacy-negative",
+      "adequacy-boolean",
+      "adequacy-member-unexpected",
+      "record-duplicate-member",
+      "record-not-a-number",
+      "record-truncated",
+      "statement-type-wrong",
+      "statement-predicate-type-wrong",
+      "statement-predicate-type-moved",
+      "statement-two-subjects",
+      "statement-subject-other-algorithm",
+      "statement-subject-unbound",
+      "statement-predicate-differs",
+      "statement-duplicate-member",
+      "statement-not-a-number",
+      "statement-truncated",
+      "statement-member-unexpected"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "done-contract/v1"
+}
