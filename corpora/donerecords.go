@@ -844,14 +844,14 @@ func doneScopeOf(pairs ...[2]doneObject) string {
 // doneMemberFile reads a regular, non-link file under root; nil means absent.
 func doneMemberFile(root, name, code string) ([]byte, error) {
 	target := filepath.Join(root, name)
-	info, err := os.Lstat(target)
+	info, err := os.Lstat(target) // #nosec G703 -- a path the corpus member names inside the directory the caller named
 	if os.IsNotExist(err) {
 		return nil, nil
 	}
 	if err != nil || !info.Mode().IsRegular() || info.Size() > doneMaxArtifact {
 		return nil, refuse(code)
 	}
-	return os.ReadFile(target) // #nosec G304 -- a corpus member the caller named
+	return os.ReadFile(target) // #nosec G304,G703 -- a corpus member the caller named
 }
 
 func doneArtifact(root string, meta any) ([]byte, doneObject, error) {
