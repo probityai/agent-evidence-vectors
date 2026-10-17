@@ -17,12 +17,6 @@ The checks are also replayed through an independent implementation: `python vect
 
 ## Members
 
-| verdict | count |
-| --- | --- |
-| `contradicted` | 5 |
-| `invalid` | 36 |
-| `not_established` | 10 |
-| `refused` | 134 |
-| `supported` | 8 |
+Members fall into five verdict classes: `supported`, `contradicted`, `not_established`, `invalid` and `refused`. The run prints the count of each; `MANIFEST.json` is where they are derived.
 
 Each manifest row has an `edit` sentence saying what the member changes from the control, and `expected`, the verdicts and codes a reader must reach. A row marked KNOWN LIMIT records what the rule does today and names what covers it.

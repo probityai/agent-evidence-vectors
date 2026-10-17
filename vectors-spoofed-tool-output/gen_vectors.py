@@ -31,6 +31,7 @@ from agent_evidence_vectors import donechecks as checks  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 SUITE = donerun.SPOOFED_SUITE
+corpus_digest = lib.corpus_digest
 PYTEST = lib.PYTEST
 TOOLS = (checks.TOOLS,)
 EDIT = lib.event(1, "write", path="src/app.py")
@@ -57,7 +58,7 @@ def member(case_id: str, edit: str, decision: str, reason: str, *events: dict[st
 
 def members() -> list[lib.Member]:
     run_ok = lib.event(2, "exec", argv=PYTEST, exit=0)
-    shell = ["sh", "-c", "pytest -q tests; sed -i s/1/0/ src/app.py"]
+    shell = ["sh", "-c", "pytest -q tests; sed -i s/x/y/ src/app.py"]
     return [
         member("claim-matched-after-edit", "control: the agent edits, runs the tests and "
                "claims exactly that", "supported", "tool_claims_matched", EDIT, run_ok),
@@ -107,7 +108,7 @@ def members() -> list[lib.Member]:
         member("run-before-an-edit-by-another-command", "a later command edits the code; "
                "its writes are not the test run's own", "contradicted",
                "tool_claim_precedes_last_edit", EDIT, lib.event(2, "exec", argv=PYTEST, exit=0),
-               lib.event(3, "exec", argv=["sed", "-i", "s/1/0/", "src/app.py"], exit=0),
+               lib.event(3, "exec", argv=["sed", "-i", "s/x/y/", "src/app.py"], exit=0),
                lib.event(4, "write", path="src/app.py", origin="e3")),
         member("edit-of-a-test-after-the-run", "the agent edits a test after running it",
                "contradicted", "tool_claim_precedes_last_edit", EDIT, run_ok,

@@ -27,7 +27,7 @@
       "argv": [
         "sed",
         "-i",
-        "s/1/0/",
+        "s/x/y/",
         "src/app.py"
       ],
       "exit": 0,

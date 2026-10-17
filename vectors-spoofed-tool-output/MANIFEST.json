@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "d769fbd00203454ae73449a208fdb4ccab788b9bd04255f4136cd65ccfda0c54",
+  "corpusDigest": "b27b04715de152dc32e185e3b803738741f1034b4d3fcbbbb156fb692e79c4aa",
   "predicateSpec": "spec/predicates/done-receipt.md",
   "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
   "recordSpec": "spec/predicates/done-records.md",
@@ -387,9 +387,9 @@
       "files": {
         "capability.json": "aa5dfcb127c586e73c505ee0deae40f7e4ade79e4c23e5795c068cb334a5e1b1",
         "claims.json": "d5bbb27378b2da479e80397741b4f0fddf5e7c9d6e4d2c62bab693bff8879fae",
-        "observation.json": "6fc4dc35967c4e1e106df7c8d915542ecc0e379b776b176a4e1fe70b016e813a",
-        "tool-claims.case.json": "cba0a3b1dff02f871b72b9e64d3514fc6fca8c3e964bcabd86e677b1103c1b93",
-        "tool-claims.policy.json": "056ac6a3625107170e309cc79c3985f4b5988c5f7448c062a89eb334d3fbb3c6"
+        "observation.json": "7155912c69203bdcdfc9a7d2642cdd961abb068d540199bbeeabcb92fdf92ba6",
+        "tool-claims.case.json": "232fee838f6c89beb2219fabd6f65ea45f1372af050f54166e8d0e0b8d41add1",
+        "tool-claims.policy.json": "e776435cd850f129e9cf98cda40a2a2991ef241e989eb852c2099772db6f69f6"
       },
       "id": "run-before-an-edit-by-another-command",
       "kind": "contradicted",
@@ -818,10 +818,10 @@
       },
       "files": {
         "capability.json": "4191d43957a02362c36462b4257fda850d8b2148a81ae3ac2a49763f9ef8b7fc",
-        "claims.json": "fa367afa7c336410f93dcc9d4d0f9db39c864930e22ce61fd47824a68555a76d",
-        "observation.json": "74275c7a95e645cf14439fcc64cdc27911efe77c71bea1b5d5839657bf04c549",
-        "tool-claims.case.json": "53278268a15edfc0f1b3db827ea13dc1a0265714351ddd2779643174ecf09cc1",
-        "tool-claims.policy.json": "dbfc38a3b432fab47730b589a63afc555554da04ce6ab48323d286128936774f"
+        "claims.json": "79e543ac8c86ce765ad8033dfb8ddb0a4df16a978c4c503e724e895e1215d7a0",
+        "observation.json": "b0921294842731451f4653aa6154589a7bc41c6eaa56c0e378d90369ed8a6344",
+        "tool-claims.case.json": "0b4a96e7cbfae660ce559a8dac5dfa58214ed21e18961d8d130afb537744a45f",
+        "tool-claims.policy.json": "534585ab88ba7adb8f99dd365bbae08d057fb21773f330e4edb8f7ee75f07d47"
       },
       "id": "known-limit-edit-inside-the-claimed-command",
       "kind": "supported",
