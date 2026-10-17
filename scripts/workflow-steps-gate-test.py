@@ -299,7 +299,7 @@ def an_unsupplied_context_is_empty_as_it_is_on_a_runner() -> None:
 
 def the_action_mirror_produces_the_declared_outputs() -> None:
     """The mirror runs the action's own summary script, not a copy of its sums."""
-    local = GATE.local_equivalent("./", {"verifier": "./aee-verify -json"})  # type: ignore[attr-defined]
+    local = GATE.local_equivalent("./", {"verifier": "./aee-verify -validity-only -json"})  # type: ignore[attr-defined]
     assert local.run is not None, local.reason
     assert "scripts/action-summary.py" in local.run, (
         "the mirror does not run the action's summary script, so its outputs "
@@ -352,7 +352,7 @@ def continue_on_error_is_honoured_end_to_end() -> None:
 
 def the_action_mirror_fails_on_a_non_pass_verdict() -> None:
     """The action fails a job on the exit status OR on the summary verdict; so must its mirror."""
-    local = GATE.local_equivalent("./", {"verifier": "./aee-verify -json"})  # type: ignore[attr-defined]
+    local = GATE.local_equivalent("./", {"verifier": "./aee-verify -validity-only -json"})  # type: ignore[attr-defined]
     assert local.run is not None, local.reason
     assert "result=pass" in local.run, (
         "the mirror exits on the harness status alone, so a report that does not "

@@ -6,7 +6,7 @@ Build a verifier, then pass its command to the harness. After the signed release
 - run: GOWORK=off go build -o aee-verify ./cmd/aee-verify
 - uses: probityai/agent-evidence-vectors@v0.18.1
   with:
-    verifier: ./aee-verify --json
+    verifier: ./aee-verify -validity-only --json
 ```
 
 For a shell run before publication, use the [source-wheel recipe](../../README.md#try-it) from a reviewed checkout. After the tag and PyPI wheel are published, install the matching release:

@@ -83,7 +83,7 @@ To test another implementation, follow the [external-verifier contract](../refer
 
 ```sh
 GOWORK=off go build -o aee-verify ./cmd/aee-verify
-python3 packaging/run_vectors.py --verifier "$PWD/aee-verify -json"
+python3 packaging/run_vectors.py --verifier "$PWD/aee-verify -validity-only -json"
 ```
 
 The [comparison rules](../reference/verifier-contract.md#comparison-rules) separate normative conformance, reason parity and the run's exit status.

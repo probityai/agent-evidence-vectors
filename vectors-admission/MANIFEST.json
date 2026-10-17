@@ -1,0 +1,422 @@
+{
+  "comparisonSurface": {
+    "measured": [
+      "policyCodes"
+    ],
+    "normative": [
+      "admitted"
+    ],
+    "note": "A rail conforms when its admission answer matches this manifest. The policy codes are the reference verifier's own vocabulary, compared as a set: a rail naming a different code for the same member has produced a reason-parity datum rather than a failure."
+  },
+  "conditions": {
+    "adm-c-0": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "quote": "A verification surface MUST NOT report success for a statement it did not admit",
+      "requires": "A verifier reports success only for a statement it admitted. A consumer that supplied no policy pinned nothing, and nothing is admitted to it."
+    },
+    "adm-c-1": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "A consumer MUST pin, out of band, the corpus digest and the substrate digest it expects for the deployment it is admitting into",
+      "requires": "A statement is admitted only when the consumer has pinned the corpus, the substrate and the subject digest it expects, or has declined the pins by name. Silence is not a decline."
+    },
+    "adm-c-2": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "A consumer that demands no class MUST record that decision explicitly rather than reach it by omission",
+      "requires": "A statement is admitted only when the consumer has pinned the classes it demands and every one is assessed, or has declined the demand by name."
+    },
+    "adm-c-3": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "A consumer with no policy-pinned substrate root MUST treat every `basis: substrate` row as `unattested`",
+      "requires": "A substrate row is credited only when its covering records verify under a key the consumer pinned, so a consumer that pinned none admits no substrate row."
+    },
+    "adm-c-4": {
+      "file": "spec/v1/statement.md",
+      "quote": "A verifier admitting a statement matches the subject by `subject[0].digest.sha256` and by nothing else",
+      "requires": "The subject is matched by the sha256 digest the observer's records bind, never by its name, which no observer signs."
+    },
+    "adm-c-5": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "`issuedAt` is producer-asserted, sits outside every substrate signature, and is not among the run binding digest's inputs",
+      "requires": "A bound on when a run happened is evaluated against the armedAt a verified arming record carries, never against issuedAt, and a bounded consumer handed no such record refuses."
+    },
+    "adm-c-6": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "a policy relaxed to admit `pass_indirect` MUST keep the rule",
+      "requires": "Only the result tokens the consumer accepts are admitted: `pass` by default, `pass` and `pass_indirect` when widened, and nothing else."
+    },
+    "adm-c-7": {
+      "file": "spec/predicates/adversarial-execution-evidence.md",
+      "quote": "an admission rule that needs a live observation keys on `method: intercepted` as well as the tier",
+      "requires": "A clean row is admitted only as a live substrate interception unless the consumer declines that obligation by name, under a threshold that makes the decline reachable."
+    },
+    "adm-c-8": {
+      "file": "spec/predicates/adversarial-execution-evidence/verification.md",
+      "quote": "a surface does not admit under one unless the consumer declines that refusal by name",
+      "requires": "An observation key whose seed the suite publishes attests nothing, so a verifier does not admit under one unless the consumer declines by name."
+    }
+  },
+  "contract": "README.md",
+  "corpusDigest": "df985af46115ba5cd9b6453d879fa4cac1181c061b27e7615ce69bcef3bf3ede",
+  "counts": {
+    "accept": 5,
+    "reject": 16
+  },
+  "keyRecipe": "seed(role) = SHA-256(\"in-toto-aee-test-key/<role>/v1\"), role substrate-observation-test, as ../vectors/keys/README.md publishes it",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "specPath": "spec/predicates/adversarial-execution-evidence.md",
+  "suite": "adversarial-execution-evidence-admission",
+  "vectors": [
+    {
+      "conditions": [
+        "adm-c-7"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "clean-row-unintercepted",
+          "row-gate-undeclared"
+        ]
+      },
+      "file": "statements/vc2782e6c3cbdb9b7.json",
+      "id": "v0016026d00a9abac",
+      "kind": "reject",
+      "label": "threshold widened with the row rule left unsaid",
+      "policy": "policies/v52d8eb97a1cb99d8.json"
+    },
+    {
+      "conditions": [
+        "adm-c-2"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "demanded-class-unassessed"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "v19097d16485fbe17",
+      "kind": "reject",
+      "label": "a demanded class the run did not assess",
+      "policy": "policies/v789252c10f3c18d0.json"
+    },
+    {
+      "conditions": [
+        "adm-c-1",
+        "adm-c-2"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "corpus-anchor-unpinned",
+          "scope-unpinned",
+          "subject-anchor-unpinned",
+          "substrate-anchor-unpinned"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "v1fb3c3b3044536a3",
+      "kind": "reject",
+      "label": "the observation key pinned and nothing else",
+      "policy": "policies/v88ff4be3342ed02d.json"
+    },
+    {
+      "conditions": [
+        "adm-c-3"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "substrate-row-unattested"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "v302c18a1952eeabd",
+      "kind": "reject",
+      "label": "every anchor pinned, no observation key",
+      "policy": "policies/v33595247824dc4f6.json"
+    },
+    {
+      "conditions": [
+        "adm-c-6",
+        "adm-c-7"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "clean-row-unintercepted",
+          "result-not-accepted"
+        ]
+      },
+      "file": "statements/vc2782e6c3cbdb9b7.json",
+      "id": "v36c2505763687a91",
+      "kind": "reject",
+      "label": "an artifact-only pass_indirect, default threshold",
+      "policy": "policies/ve1999bcde0c49043.json"
+    },
+    {
+      "conditions": [
+        "adm-c-7"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "row-gate-decline-unreachable"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "v791e80fd6a83d3ba",
+      "kind": "reject",
+      "label": "the row rule declined under a pass-only threshold",
+      "policy": "policies/v5f0654acf82c50ed.json"
+    },
+    {
+      "conditions": [
+        "adm-c-4"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "subject-anchor-mismatch"
+        ]
+      },
+      "file": "statements/v96d442af53d71bf4.json",
+      "id": "v7cb1b503b1949a5f",
+      "kind": "reject",
+      "label": "subject renamed and redated, the consumer pins the artifact it deploys",
+      "policy": "policies/v0a3785bcdf0f014f.json"
+    },
+    {
+      "conditions": [
+        "adm-c-5",
+        "adm-c-6"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "observed-instant-absent",
+          "result-not-accepted"
+        ]
+      },
+      "file": "statements/vcf20eae7df4f1f1b.json",
+      "id": "v90ab09b750cef3d3",
+      "kind": "reject",
+      "label": "a fail result carrying no arming record, under an issuance-lag bound",
+      "policy": "policies/vac5e7e3f482283de.json"
+    },
+    {
+      "conditions": [
+        "adm-c-3",
+        "adm-c-6"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "result-not-accepted",
+          "substrate-row-unattested"
+        ]
+      },
+      "file": "statements/v550c91df0d36a218.json",
+      "id": "v98f394423aa5b557",
+      "kind": "reject",
+      "label": "a substrate row unattested under the pinned key",
+      "policy": "policies/ve1999bcde0c49043.json"
+    },
+    {
+      "conditions": [
+        "adm-c-8"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "observation-key-published"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "v9b8ca7d684c44efa",
+      "kind": "reject",
+      "label": "every pin supplied, the observation key is a published test key",
+      "policy": "policies/vdc364e12119d732d.json"
+    },
+    {
+      "conditions": [
+        "adm-c-6",
+        "adm-c-7"
+      ],
+      "expected": {
+        "admitted": true,
+        "policyCodes": []
+      },
+      "file": "statements/vc2782e6c3cbdb9b7.json",
+      "id": "va72ebee89a241be5",
+      "kind": "accept",
+      "label": "an artifact-only pass_indirect, threshold widened, row rule declined",
+      "policy": "policies/v16ee5ffd396c91b8.json"
+    },
+    {
+      "conditions": [
+        "adm-c-6"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "result-not-accepted"
+        ]
+      },
+      "file": "statements/vcf20eae7df4f1f1b.json",
+      "id": "va7d3390a39e7f057",
+      "kind": "reject",
+      "label": "a fail result, every pin matching",
+      "policy": "policies/ve1999bcde0c49043.json"
+    },
+    {
+      "conditions": [
+        "adm-c-0",
+        "adm-c-1",
+        "adm-c-2",
+        "adm-c-3",
+        "adm-c-4",
+        "adm-c-6",
+        "adm-c-8"
+      ],
+      "expected": {
+        "admitted": true,
+        "policyCodes": []
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "vb06fc960b2573c46",
+      "kind": "accept",
+      "label": "every pin supplied and matching",
+      "policy": "policies/ve1999bcde0c49043.json"
+    },
+    {
+      "conditions": [
+        "adm-c-6"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "accepted-results-malformed"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "vbb4c9e723e13d57e",
+      "kind": "reject",
+      "label": "an accepted-results list that names no threshold",
+      "policy": "policies/vde110f77006b66e1.json"
+    },
+    {
+      "conditions": [
+        "adm-c-5"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "issuance-lag-exceeded"
+        ]
+      },
+      "file": "statements/v96d442af53d71bf4.json",
+      "id": "vc6f175851693bdb8",
+      "kind": "reject",
+      "label": "subject renamed and redated, the consumer bounds issuance lag at one day",
+      "policy": "policies/vac5e7e3f482283de.json"
+    },
+    {
+      "conditions": [
+        "adm-c-7"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "clean-row-unintercepted"
+        ]
+      },
+      "file": "statements/vc2782e6c3cbdb9b7.json",
+      "id": "vcf1aaa7d50dac677",
+      "kind": "reject",
+      "label": "an artifact-only pass_indirect, threshold widened, row rule kept",
+      "policy": "policies/v7724763d095b7caf.json"
+    },
+    {
+      "conditions": [
+        "adm-c-1"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "corpus-anchor-mismatch"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "vdb333a002c9246bd",
+      "kind": "reject",
+      "label": "a wrong corpus pinned",
+      "policy": "policies/vdbad11566f0c5c71.json"
+    },
+    {
+      "conditions": [
+        "adm-c-5"
+      ],
+      "expected": {
+        "admitted": true,
+        "policyCodes": []
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "ve68b24e46981d737",
+      "kind": "accept",
+      "label": "the statement as issued, the same one-day bound",
+      "policy": "policies/vac5e7e3f482283de.json"
+    },
+    {
+      "conditions": [
+        "adm-c-0",
+        "adm-c-1",
+        "adm-c-2",
+        "adm-c-3"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "corpus-anchor-unpinned",
+          "scope-unpinned",
+          "subject-anchor-unpinned",
+          "substrate-anchor-unpinned",
+          "substrate-row-unattested"
+        ]
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "vf04e41f7fa1b93fd",
+      "kind": "reject",
+      "label": "no consumer policy at all",
+      "policy": "policies/vca3d163bab055381.json"
+    },
+    {
+      "conditions": [
+        "adm-c-1",
+        "adm-c-2"
+      ],
+      "expected": {
+        "admitted": true,
+        "policyCodes": []
+      },
+      "file": "statements/vcc938c6038536dcb.json",
+      "id": "vfa6e85fc58dfcc19",
+      "kind": "accept",
+      "label": "the observation key pinned, the anchors and the scope declined by name",
+      "policy": "policies/vddb9f227a8794a84.json"
+    },
+    {
+      "conditions": [
+        "adm-c-4"
+      ],
+      "expected": {
+        "admitted": true,
+        "policyCodes": []
+      },
+      "file": "statements/v96d442af53d71bf4.json",
+      "id": "vffe497f243510a8f",
+      "kind": "accept",
+      "label": "subject renamed and redated, the consumer pins the digest the observer bound",
+      "policy": "policies/ve1999bcde0c49043.json"
+    }
+  ]
+}

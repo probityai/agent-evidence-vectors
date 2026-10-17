@@ -14,6 +14,7 @@ package aee
 import (
 	"crypto/ed25519"
 	"fmt"
+	"time"
 )
 
 // Tier is a derived per-row evidence tier.
@@ -28,26 +29,77 @@ const (
 	TierAttested   Tier = "attested"
 )
 
-// ConsumerPolicy is the consumer's out-of-band expectation set: the
-// substrate observation keys (GATE 2's input) and the expected corpus and
-// substrate anchors compared at the consumer-policy step after GATE 2.
-// Nothing in it is ever read from the predicate.
+// ConsumerPolicy is the consumer's out-of-band expectation set. Nothing in it
+// is ever read from the predicate. A nil policy and the zero policy are the
+// same: a consumer that pinned nothing, to whom nothing is admitted.
+//
+// The knobs, their absent-input defaults and the codes they raise are the ones
+// agent-evidence-admission's rails take in their consumer data document; see
+// admission.go for the conjunction and vectors-admission/README.md for the
+// table.
 type ConsumerPolicy struct {
+	// SubstrateObservationKeys names the keys a basis: substrate row's
+	// covering records must verify under to derive attested (GATE 2's input).
+	// With none, every substrate row is unattested and none is admitted.
 	SubstrateObservationKeys []ed25519.PublicKey
 
 	// ExpectedCorpusDigest is the corpus digest the consumer expects for the
-	// deployment it is admitting into (lowercase 64-hex sha256). Empty means
-	// unsupplied: no comparison is made and the corpus anchor never fails
-	// admission. When supplied, inequality with
-	// observationEnvironment.corpus.digest.sha256 fails admission, never
-	// validity: an anchor-mismatched attestation is valid evidence about the
-	// wrong context.
+	// deployment it is admitting into (lowercase 64-hex sha256), compared with
+	// observationEnvironment.corpus.digest.sha256. Inequality fails admission,
+	// never validity: an anchor-mismatched attestation is valid evidence about
+	// the wrong context. Empty fails admission too, as corpus-anchor-unpinned,
+	// unless AllowUnpinnedAnchors declines the pin.
 	ExpectedCorpusDigest string
 
 	// ExpectedSubstrateDigest is the substrate digest the consumer expects,
 	// with the same semantics against
 	// observationEnvironment.substrate.digest.sha256.
 	ExpectedSubstrateDigest string
+
+	// ExpectedSubjectDigest is the sha256 of the artifact the consumer is
+	// admitting, compared with subject[0].digest.sha256, the one subject
+	// value the observer's records bind. The subject's name is never
+	// compared: no observer signs it.
+	ExpectedSubjectDigest string
+
+	// AllowUnpinnedAnchors declines the three anchor pins by name. It excuses
+	// an ABSENT pin only; a supplied pin that differs is refused regardless.
+	AllowUnpinnedAnchors bool
+
+	// DemandedClasses are the assessment classes the consumer requires a run
+	// to have assessed. Empty fails admission as scope-unpinned unless
+	// AllowUnpinnedScope declines the demand by name.
+	DemandedClasses    []string
+	AllowUnpinnedScope bool
+
+	// AcceptedResults is the result threshold: nil means ["pass"], the
+	// specification's own default; ["pass", "pass_indirect"] widens it; any
+	// other list is refused as accepted-results-malformed.
+	AcceptedResults []string
+
+	// AdmitUninterceptedCleanRows, when set to true under a widened
+	// threshold, declines the clean-row rule (every clean row a live
+	// substrate interception). nil means undeclared, which a widened
+	// threshold refuses; false keeps the rule explicitly.
+	AdmitUninterceptedCleanRows *bool
+
+	// MaxIssuanceLag bounds issuedAt minus the armedAt of every arming record
+	// that verifies under a pinned key; MaxEvidenceAge bounds now minus that
+	// armedAt. Zero is unbounded. A bounded consumer handed no verified arming
+	// record refuses with observed-instant-absent: issuedAt is never the
+	// fallback, because the producer writes it.
+	MaxIssuanceLag time.Duration
+	MaxEvidenceAge time.Duration
+
+	// AllowPublishedTestKeys declines, by name, the refusal of an observation
+	// key whose seed this repository publishes. Without it such a key raises
+	// observation-key-published: rows still derive attested under it, because
+	// the tier is about signatures, and admission is refused, because anyone
+	// holding the recipe signed them.
+	AllowPublishedTestKeys bool
+
+	// Now is the clock MaxEvidenceAge reads; nil means time.Now.
+	Now func() time.Time
 }
 
 // DeriveTiers derives the per-row tier column for a statement that has
