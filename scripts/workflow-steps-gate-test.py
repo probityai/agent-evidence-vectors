@@ -35,6 +35,8 @@ import importlib.util
 import json
 import os
 import pathlib
+import re
+import subprocess
 import sys
 import tempfile
 from collections.abc import Callable, Iterator
@@ -1086,8 +1088,6 @@ def current_default_metadata_selects_the_actual_commit_lint_range() -> None:
 
 def dependabot_commits_are_left_out_and_every_other_commit_is_linted() -> None:
     """A Dependabot branch lints its human commits and leaves out the bot's own."""
-    import subprocess
-
     doc = GATE.load_yaml(HERE.parent / ".github/workflows/commit-message-lint.yml")  # type: ignore[attr-defined]
     block = next(
         step.run
@@ -1778,6 +1778,75 @@ def bounded_expression_literals_and_comparisons_match_actions() -> None:
         assert problem and value == "", (expression, value, problem)
 
 
+def every_pull_request_field_a_workflow_reads_is_absent_on_a_push() -> None:
+    """A push carries no pull_request and the mirror has no actor: both read as empty.
+
+    The runner evaluates `github.event.pull_request.<field>` to an empty string
+    on a push. The mirror knows that only for the fields LOCAL_ABSENT lists, and
+    any other one is an unknown context, which faults the step. PR_AUTHOR read
+    `github.event.pull_request.user.login` from 2026-10-13, nothing listed it,
+    and every local gate since then failed a step the remote ran.
+    """
+    used: set[str] = set()
+    for workflow in sorted((HERE.parent / ".github/workflows").glob("*.yml")):
+        used.update(
+            re.findall(
+                r"github\.event\.pull_request\.[A-Za-z0-9_.]+|github\.actor\b",
+                workflow.read_text(),
+            )
+        )
+    assert used, "no workflow reads a pull_request field, so this case reads nothing"
+    missing = sorted(used - set(GATE.LOCAL_ABSENT))  # type: ignore[attr-defined]
+    assert not missing, f"push contexts with no local value: {missing}"
+
+
+def a_step_partial_clone_can_fetch_its_blobs() -> None:
+    """A step's own partial clone checks out, as it does on the runner.
+
+    pip clones a `git+https` requirement with `--filter=blob:none`. Steps used to
+    inherit the gate's GIT_NO_LAZY_FETCH, so that checkout could not fetch its
+    blobs and the agmi workflow failed here while passing on the remote. The
+    control asserts the gate's own binding still refuses, so the case cannot
+    pass by never making a partial clone.
+    """
+    with _scratch() as scratch:
+        root = pathlib.Path(scratch)
+        source, clone = root / "source", root / "clone"
+        base = {
+            "PATH": os.environ.get("PATH", "/usr/bin:/bin"),
+            "HOME": str(root),
+            "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_AUTHOR_NAME": "t",
+            "GIT_AUTHOR_EMAIL": "t@example.invalid",
+            "GIT_COMMITTER_NAME": "t",
+            "GIT_COMMITTER_EMAIL": "t@example.invalid",
+        }
+
+        def git(*args: str, env: dict[str, str] | None = None) -> int:
+            return subprocess.run(  # noqa: S603 -- fixed git arguments in a scratch directory
+                ["git", *args],  # noqa: S607
+                env=env or base,
+                capture_output=True,
+                check=False,
+            ).returncode
+
+        assert git("init", "-q", str(source)) == 0
+        (source / "f.txt").write_text("payload\n", encoding="utf-8")
+        assert git("-C", str(source), "add", "f.txt") == 0
+        assert git("-C", str(source), "commit", "-q", "-m", "c") == 0
+        assert git("-C", str(source), "config", "uploadpack.allowFilter", "true") == 0
+        url = source.as_uri()
+        assert git("clone", "-q", "--filter=blob:none", "--no-checkout", url, str(clone)) == 0
+
+        checkout = ("-C", str(clone), "checkout", "-q", "HEAD", "--", ".")
+        gate_env = GATE.git_environment(base=base)  # type: ignore[attr-defined]
+        refused = git(*checkout, env=gate_env)
+        assert refused != 0, "control: the gate's own binding did not refuse a lazy fetch"
+        step_env = GATE.step_git_environment(base)  # type: ignore[attr-defined]
+        step = git(*checkout, env=step_env)
+    assert step == 0, f"a step's partial clone could not fetch its blobs (exit {step})"
+
+
 def setup_python_owns_uv_selection_despite_ambient_pin() -> None:
     """A real seeded setup interpreter must govern uv, even with a conflicting ambient pin."""
     workflow = (
@@ -2040,6 +2109,16 @@ def main() -> int:
     check(
         "bounded expression literals follow Actions",
         bounded_expression_literals_and_comparisons_match_actions,
+    )
+
+    check(
+        "every pull_request field a workflow reads is absent on a push",
+        every_pull_request_field_a_workflow_reads_is_absent_on_a_push,
+    )
+
+    check(
+        "a step's partial clone fetches its blobs",
+        a_step_partial_clone_can_fetch_its_blobs,
     )
 
     check(
