@@ -46,6 +46,14 @@ RELEASE_014_INTEGRATION = "685367dfc722ecb7cbc9f0fb2ef9e4f9cd19daff"
 #: `key_id`. Open against `integration` and unmerged when it was read, so these
 #: bytes are a proposal, and the vendored entry says so.
 PR272_COMMIT = "f2304bf4fd28a09f86fc68ac7896587c560f7182"
+#: The head of pull request 278, which gives the OCSF allow decision its own
+#: class entry (Application Lifecycle, 6002). Open against `integration` and
+#: unmerged when it was read, so these bytes are a proposal.
+PR278_COMMIT = "7d9b7ffa3e07786607d34187659683503673256a"
+#: Issue 264 proposes the Trace event for a verdict the Observed Agent
+#: substituted. An issue body has no commit, so the vendored bytes are pinned by
+#: their sha256 alone and the ref names the edit time they were read at.
+ISSUE264_UPDATED_AT = "2026-10-12T13:15:57Z"
 
 #: Every vendored file, with the upstream commit and path its bytes came from and
 #: whether those bytes are upstream's or a proposal. A requirement names one of
@@ -122,6 +130,30 @@ SOURCES = {
         "upstreamPath": "docs/spec/instrument/hooks.md",
         "status": "proposal",
         "ref": "pull request 272 head, open against integration",
+    },
+    "trace-events-pr278": {
+        "path": "spec-vendored/trace-events-7d9b7ff.md",
+        "commit": PR278_COMMIT,
+        "upstreamPath": "docs/spec/trace/events.md",
+        "status": "proposal",
+        "ref": "pull request 278 head, open against integration",
+    },
+    "ocsf-mapping-pr278": {
+        "path": "spec-vendored/ocsf-mapping-7d9b7ff.json",
+        "commit": PR278_COMMIT,
+        "upstreamPath": "specification/v0.1.0/trace/ocsf-mapping.json",
+        "status": "proposal",
+        "ref": "pull request 278 head, open against integration",
+    },
+    "issue-264": {
+        "path": "spec-vendored/issue-264-body.md",
+        "commit": None,
+        "upstreamPath": f"{TARGET_REPO}#264 (issue body)",
+        "status": "proposal",
+        "ref": (
+            f"issue 264 body as last edited at {ISSUE264_UPDATED_AT}; an issue has no "
+            "commit, so the sha256 of the vendored bytes is the pin"
+        ),
     },
 }
 VENDORED = {key: entry["path"] for key, entry in SOURCES.items()}
@@ -206,19 +238,6 @@ AWAITING_TEXT = {
         "unable to resolve the argument is proposed as unmeasurable rather "
         "than allow"
     ),
-    "a Trace event for a verdict the Observed Agent substituted": (
-        "sections 6.3 and 6.5 make the Observed Agent apply DENY, or keep the "
-        "original summary at postCompact, in place of a MODIFY it cannot apply, "
-        "and the release/0.1.4 Trace text rules both cases out as decision "
-        "failures, so the Guardian's acs.decision event says modify and no Trace "
-        "event says what was applied. "
-        "GenAI-Security-Project/agent-control-standard#264 proposes a span event, "
-        "acs.decision.substituted, and a reader rule that a modify verdict is not "
-        "counted as applied when that event shares its pair. Only the issue "
-        "carries that sentence. Until it lands, acs-f-12 holds the audit-log form "
-        "sections 6.3 and 6.5 already require, and one indeterminate member "
-        "records that Trace alone cannot answer the question"
-    ),
 }
 
 #: The vector families. The first six come from the enforcement-layer proposal
@@ -252,6 +271,8 @@ FAMILIES = {
     "acs-f-15": "a trace from which a reader counts an outcome nobody enforced",
     "acs-f-16": "an OpenTelemetry step span missing an attribute the mapping requires, or carrying one it forbids",
     "acs-f-17": "an OCSF decision event whose fields disagree with the verdict or with each other",
+    "acs-f-18": "an OCSF allow decision recorded under a class, or with fields, the allow rule does not give it",
+    "acs-f-19": "a substituted verdict whose Trace record a reader cannot count, or counts as applied",
 }
 
 #: One row per requirement. Each carries the verbatim normative sentence, which
@@ -811,6 +832,72 @@ REQUIREMENTS: tuple[dict, ...] = (
             "`\"\"` where an object has none."
         ),
     },
+    {
+        "id": "ACS-R-062",
+        "role": "exporter",
+        "file": "trace-events-pr278",
+        "sentence": "| Decision (allow) | Application Lifecycle | 6002 |",
+    },
+    {
+        "id": "ACS-R-063",
+        "role": "exporter",
+        "file": "trace-events-pr278",
+        "sentence": "An allow goes to Application Lifecycle (6002) with `severity_id` 1.",
+    },
+    {
+        "id": "ACS-R-064",
+        "role": "exporter",
+        "file": "trace-events-pr278",
+        "sentence": (
+            "A deployment MAY record allows as Detection Findings instead, for audit "
+            "symmetry, and then every decision event rule below applies to them."
+        ),
+    },
+    {
+        "id": "ACS-R-065",
+        "role": "exporter",
+        "file": "trace-events-pr278",
+        "sentence": (
+            "A 6002 allow carries the decision's `unmapped.acs` fields as a decision "
+            "event does, so `unmapped.acs.decision` holds the disposition and "
+            "`unmapped.acs.metadata` holds the evaluator."
+        ),
+    },
+    {
+        "id": "ACS-R-066",
+        "role": "exporter",
+        "file": "trace-events-pr278",
+        "sentence": "It sets `metadata.correlation_uid` to the gated step's pair.",
+    },
+    {
+        "id": "ACS-R-067",
+        "role": "exporter",
+        "file": "ocsf-mapping-pr278",
+        "sentence": (
+            '"default": ["severity_id", "metadata.correlation_uid", '
+            '"unmapped.acs.request_id", "unmapped.acs.session_id", '
+            '"unmapped.acs.decision"]'
+        ),
+    },
+    {
+        "id": "ACS-R-068",
+        "role": "agent",
+        "file": "issue-264",
+        "sentence": (
+            "a span event `acs.decision.substituted` on the Observed Agent's step "
+            "span, carrying `acs.decision` (the verdict received) and "
+            "`acs.substitution.applied` (`deny` or `original_kept`)."
+        ),
+    },
+    {
+        "id": "ACS-R-069",
+        "role": "reader",
+        "file": "issue-264",
+        "sentence": (
+            "A reader MUST NOT count a `modify` verdict as applied when this event "
+            "shares its session and request id."
+        ),
+    },
 )
 
 
@@ -829,6 +916,11 @@ def corpus_digest(manifest: dict, root: str = str(HERE)) -> str:
         open(os.path.join(root, entry["file"]), "rb").read()
         for entry in manifest["vectors"]))
 
+
+
+def short_commit(commit: str | None) -> str:
+    """Seven characters of a commit, or the word for a source that has none."""
+    return commit[:7] if commit else "issue body"
 
 
 def read(rel: str) -> bytes:
@@ -2169,6 +2261,8 @@ def build() -> list[dict]:
     build_acs_f_15(add)
     build_acs_f_16(add)
     build_acs_f_17(add)
+    build_acs_f_18(add)
+    build_acs_f_19(add)
 
     # A member minted from the October text says what its record does not
     # assert. Without it a reader takes an accepting member as evidence of more
@@ -2188,7 +2282,7 @@ def build() -> list[dict]:
 # substituted), and the Trace changes release 0.1.4 carries.
 
 NEEDS_DOES_NOT_ASSERT = frozenset(
-    {"acs-f-12", "acs-f-13", "acs-f-14", "acs-f-15", "acs-f-16", "acs-f-17"}
+    {"acs-f-12", "acs-f-13", "acs-f-14", "acs-f-15", "acs-f-16", "acs-f-17", "acs-f-18", "acs-f-19"}
 )
 
 #: The secret and session the specification's own worked example uses, so the
@@ -3774,6 +3868,240 @@ def build_acs_f_17(add) -> None:
         )
 
 
+def ocsf_allow(request_id: str, *, session_id: str = SESSION_EXAMPLE, drop_acs: tuple = (), **override) -> dict:
+    """An allow as Application Lifecycle (6002), the class pull request 278 gives it.
+
+    `activity_id` is open with the other 6002 rows, so 99 (Other) stands in and no
+    member turns on it.
+    """
+    event = {
+        "class_uid": 6002,
+        "class_name": "Application Lifecycle",
+        "category_uid": 6,
+        "activity_id": 99,
+        "type_uid": 600299,
+        "severity_id": 1,
+        "app": {"name": AGENT_ID},
+        "metadata": {
+            "version": "1.9.0",
+            "correlation_uid": f"{session_id}:{request_id}",
+            "product": {"name": "ACS Guardian", "vendor_name": "ACS"},
+        },
+        "unmapped": {"acs": {"decision": "allow", "request_id": request_id, "session_id": session_id}},
+    }
+    for key in drop_acs:
+        event["unmapped"]["acs"].pop(key)
+    for key, value in override.items():
+        event[key] = value
+    return event
+
+
+def build_acs_f_18(add) -> None:
+    """Pull request 278: the class and the fields of an allow decision event."""
+    rid = mint_uuid("acs-f-18/allow")
+    pair = f"{SESSION_EXAMPLE}:{rid}"
+    request_first = {
+        "version": "1.9.0",
+        "correlation_uid": f"{rid}:{SESSION_EXAMPLE}",
+        "product": {"name": "ACS Guardian", "vendor_name": "ACS"},
+    }
+    cases = (
+        (
+            "accept", ["ACS-R-062", "ACS-R-063", "ACS-R-065", "ACS-R-066", "ACS-R-067"],
+            ocsf_allow(rid),
+            (
+                "an allow as class 6002, Application Lifecycle, at severity 1, with "
+                "the disposition in unmapped.acs.decision, the pair in "
+                f"unmapped.acs and correlation_uid {pair}."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-062"],
+            ocsf_allow(rid, class_name="Application Activity"),
+            (
+                "the same allow captioned Application Activity. That is the category "
+                "6002 sits in, the caption the prose rule carried before pull request "
+                "278; the class is Application Lifecycle, so a consumer keying on the "
+                "caption finds no 6002 row."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-063"],
+            ocsf_allow(rid, severity_id=2),
+            (
+                "an allow at severity 2. The severity table gives an allow 1, and a "
+                "SIEM rule that counts severity 2 counts every allow as a modify."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-065", "ACS-R-067"],
+            ocsf_allow(rid, drop_acs=("decision",)),
+            (
+                "an allow with no unmapped.acs.decision. Turn and message steps share "
+                "class 6002, so without the disposition a reader cannot tell this "
+                "event from a turn starting."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-067"],
+            ocsf_allow(rid, drop_acs=("request_id",)),
+            (
+                "an allow with correlation_uid set and no unmapped.acs.request_id. "
+                "The mapping requires both, and a join on the native ACS fields finds "
+                "no request for this allow."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-066"],
+            ocsf_allow(rid, metadata=request_first),
+            (
+                "a correlation_uid formatted request id first. The gated step's pair "
+                "is session id, colon, request id, so a join on it matches nothing."
+            ),
+        ),
+        (
+            "accept", ["ACS-R-064"],
+            ocsf_decision("allow", rid),
+            (
+                "the opt-in: the same allow recorded as a Detection Finding, 2004, "
+                "with action and disposition 1, Allowed, severity 1 and is_alert false."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-064", "ACS-R-050"],
+            ocsf_decision("allow", rid, is_alert=True),
+            (
+                "the opt-in with is_alert true. Once an allow is a Detection Finding, "
+                "every decision event rule applies to it, and on time is_alert "
+                "follows severity, which is 1."
+            ),
+        ),
+    )
+    for kind, reqs, event, cites in cases:
+        add(
+            kind=kind, family="acs-f-18", requirements=reqs,
+            payload={"record": {"ocsf": event}},
+            verdict="allow" if kind == "accept" else "deny", code=None,
+            evidence_basis="artifact", witness_scope="EXTERNAL", coverage="observed",
+            cites=cites,
+            does_not_assert=(
+                "the activity_id of a 6002 allow, which pull request 278 leaves open "
+                "with the other 6002 rows, or that the action ran; the event records "
+                "the Guardian's verdict, never the enforced outcome"
+            ),
+        )
+
+
+def build_acs_f_19(add) -> None:
+    """Issue 264: the Trace form of a substituted verdict, and the reader rule."""
+    rid = mint_uuid("acs-f-19/request")
+    other_session = mint_uuid("acs-f-19/other-session")
+    guardian_span = with_event(
+        otel_span("gen_ai.tool.call", SESSION_EXAMPLE, rid, **{"gen_ai.tool.name": "http.post"}),
+        "acs.decision", **{"acs.decision": "modify"},
+    )
+    substituted = {
+        "acs.decision": "modify",
+        "acs.substitution.applied": "deny",
+        "acs.substitution.reason": "modify_composition",
+    }
+
+    def agent_span(session_id: str, **event) -> dict:
+        return with_event(
+            otel_span("gen_ai.tool.call", session_id, rid, **{"gen_ai.tool.name": "http.post"}),
+            "acs.decision.substituted", **event,
+        )
+
+    on_agent = {"guardian": [guardian_span], "observed_agent": [agent_span(SESSION_EXAMPLE, **substituted)]}
+    elsewhere = {"guardian": [guardian_span], "observed_agent": [agent_span(other_session, **substituted)]}
+    unapplied = dict(substituted)
+    unapplied.pop("acs.substitution.applied")
+    on_guardian = {
+        "guardian": [with_event(guardian_span, "acs.decision.substituted", **substituted)],
+        "observed_agent": [],
+    }
+    applied = {"applied_modify": [{"session_id": SESSION_EXAMPLE, "request_id": rid}]}
+    withheld = {
+        "applied_modify": [],
+        "not_counted": [{"session_id": SESSION_EXAMPLE, "request_id": rid, "why": "acs.decision.substituted"}],
+    }
+    record_dna = (
+        "that the action was blocked; the event is the Observed Agent's own "
+        "record of what it applied, and issue 264 is an open proposal"
+    )
+    reader_dna = (
+        "that the modification was applied when no substitution event exists; a "
+        "missing event is not proof of an applied modify"
+    )
+    cases = (
+        (
+            "accept", ["ACS-R-068"], {"record": {"trace": on_agent}}, record_dna,
+            (
+                "a Guardian modify, and on the Observed Agent's step span for the "
+                "same pair an acs.decision.substituted event carrying the verdict "
+                "received, modify, and what was applied, deny, with reason "
+                "modify_composition."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-068"],
+            {"record": {"trace": {"guardian": [guardian_span],
+                                  "observed_agent": [agent_span(SESSION_EXAMPLE, **unapplied)]}}},
+            record_dna,
+            (
+                "the same event with no acs.substitution.applied. It says a "
+                "substitution happened and not whether the action was denied or the "
+                "original summary kept, so nothing in the trace can be counted."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-068"], {"record": {"trace": on_guardian}}, record_dna,
+            (
+                "the substitution event on the Guardian's span. Only the Observed "
+                "Agent sees what it applied, so a Guardian that records it is "
+                "reporting an outcome it cannot observe."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-069"], {"record": {"trace": on_agent}, "reader_report": applied}, reader_dna,
+            (
+                "the first member's streams and a reader that counts the modify as "
+                "applied. The substitution event shares its session and request id, "
+                "so the modification never happened."
+            ),
+        ),
+        (
+            "accept", ["ACS-R-069"], {"record": {"trace": on_agent}, "reader_report": withheld}, reader_dna,
+            "the same streams and a reader that does not count the modify as applied.",
+        ),
+        (
+            "accept", ["ACS-R-069", "ACS-R-041"],
+            {"record": {"trace": elsewhere}, "reader_report": applied}, reader_dna,
+            (
+                "a substitution event with the same request id in another session, "
+                "and a reader that still counts this session's modify as applied. "
+                "Request ids are unique only within a session, so the event names a "
+                "different step."
+            ),
+        ),
+        (
+            "reject", ["ACS-R-041"],
+            {"record": {"trace": elsewhere}, "reader_report": withheld}, reader_dna,
+            (
+                "the same streams and a reader that drops this session's modify on "
+                "the request id alone. A join keys on session and request together."
+            ),
+        ),
+    )
+    for kind, reqs, payload, dna, cites in cases:
+        add(
+            kind=kind, family="acs-f-19", requirements=reqs, payload=payload,
+            verdict="allow" if kind == "accept" else "deny", code=None,
+            evidence_basis="artifact", witness_scope="EXTERNAL", coverage="observed",
+            cites=cites, does_not_assert=dna,
+        )
+
+
 def code_cell(expected: dict) -> str:
     """The INDEX cell for a member's code: named, forbidden, or left unasserted."""
     if expected["code"]:
@@ -3813,7 +4141,7 @@ def render_index(manifest: dict, order: list[str]) -> str:
             file=VENDORED[row["file"]],
             line=row["line"],
             path=row["upstreamPath"],
-            commit=row["upstreamCommit"][:7],
+            commit=short_commit(row["upstreamCommit"]),
             status=row["upstreamStatus"],
             digest=row["sentenceDigest"][:16],
             sentence=row["sentence"].replace("|", "\\|"),
@@ -3825,7 +4153,7 @@ def render_index(manifest: dict, order: list[str]) -> str:
         "| `{path}` | `{upstream}` | `{commit}` | {status} | {ref} |".format(
             path=entry["path"],
             upstream=entry["upstreamPath"],
-            commit=entry["upstreamCommit"][:7],
+            commit=short_commit(entry["upstreamCommit"]),
             status=entry["upstreamStatus"],
             ref=entry["upstreamRef"],
         )
@@ -3848,7 +4176,7 @@ def render_index(manifest: dict, order: list[str]) -> str:
             "> `{rid}`, `{path}` at `{commit}` ({status}), vendored `{file}:{line}`:\n> {sentence}".format(
                 rid=rid,
                 path=by_id[rid]["upstreamPath"],
-                commit=by_id[rid]["upstreamCommit"][:7],
+                commit=short_commit(by_id[rid]["upstreamCommit"]),
                 status=by_id[rid]["upstreamStatus"],
                 file=by_id[rid]["vendored"],
                 line=by_id[rid]["line"],
@@ -4114,12 +4442,24 @@ def build_manifest() -> tuple[dict, dict[str, bytes]]:
                     "proposal before it merges is a reword that stops this build."
                 ),
             },
+            "pr-278": {
+                "commit": PR278_COMMIT,
+                "pullRequest": f"{TARGET_REPO}#278",
+                "note": (
+                    "Read at the pull request's head while it was open and unmerged. "
+                    "Family acs-f-18 tests the allow class it proposes, and a change to "
+                    "the proposal before it merges is a reword that stops this build."
+                ),
+            },
             "issue-264": {
                 "issue": f"{TARGET_REPO}#264",
+                "updatedAt": ISSUE264_UPDATED_AT,
                 "note": (
-                    "An open proposal with no specification text of its own. Its "
-                    "members cite sections 6.3 and 6.5 and the Trace text at the "
-                    "release-0.1.4 pin, and its proposed event waits in awaitingText."
+                    "An open proposal with no specification text of its own. Family "
+                    "acs-f-12 cites sections 6.3 and 6.5 at the release-0.1.4 pin. "
+                    "Family acs-f-19 cites the issue body, pinned by the sha256 of the "
+                    "vendored bytes, because the event and the reader rule exist only "
+                    "there; when Trace text lands, those members are re-minted from it."
                 ),
             },
         },
