@@ -100,6 +100,11 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-done-contract",
+    "vectors-done-receipt",
+    "vectors-spoofed-tool-output",
+    "vectors-test-tampering",
+    "vectors-grader-isolation",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -113,7 +118,7 @@ only-include = [
 # Shipped in the wheel they were dead weight that crashed on import, and nothing
 # in the package loads them, so the wheel carries the data and the packaged
 # readers only. The sdist keeps them, because it is the source.
-exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py"]
+exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py", "vectors-done-receipt/recorded/**"]
 
 [tool.hatch.build.targets.wheel.sources]
 "packaging/agent_evidence_vectors" = "agent_evidence_vectors"
@@ -143,6 +148,11 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
+"vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
+"vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
+"vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
+"vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
 "vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -225,6 +235,11 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-done-contract",
+    "vectors-done-receipt",
+    "vectors-spoofed-tool-output",
+    "vectors-test-tampering",
+    "vectors-grader-isolation",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -316,6 +331,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
            "vectors-identity-binding", "vectors-authority-at-dispatch",
+           "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]
 
