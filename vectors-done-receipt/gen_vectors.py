@@ -607,7 +607,7 @@ class _Refusals:
 
 def _record_rows(rows: _Refusals) -> None:
     """Rows shared by all five bound records."""
-    role, raw = (rows.role, rows.raw,)
+    role, raw = rows.role, rows.raw
     for name, label in (("tree", "tree"), ("capability", "capability"), ("grade", "grade"),
                         ("claims", "claims"), ("observation", "observation")):
         file = f"{name}.json"
@@ -650,7 +650,7 @@ def _record_rows(rows: _Refusals) -> None:
 
 def _record_field_rows(rows: _Refusals) -> None:
     """Rows that break one field of a bound record."""
-    role = (rows.role,)
+    role = rows.role
     role("tree-files-not-an-object", "tree.json", "tree_files_type", "files is a list",
          lambda r: r.update(files=[]))
     role("tree-file-digest-uppercase", "tree.json", "tree_digest_malformed",
@@ -726,7 +726,7 @@ def _record_field_rows(rows: _Refusals) -> None:
 
 def _case_policy_rows(rows: _Refusals) -> None:
     """Rows that break the consumer's case and policy files."""
-    bare, add, document = (rows.bare, rows.add, rows.document,)
+    bare, add, document = rows.bare, rows.add, rows.document
     for name, file in (("case", "protected-paths.case.json"),
                        ("policy", "protected-paths.policy.json")):
         raw_doc = {**bare}
@@ -813,7 +813,7 @@ def _case_policy_rows(rows: _Refusals) -> None:
 
 def _launch_rows(rows: _Refusals) -> None:
     """Rows that break the launch record and launch receipt."""
-    launch = (rows.launch,)
+    launch = rows.launch
     launch("launch-schema-unsupported", "launch.json", "launch_schema_unsupported",
            "the launch record names a version that does not exist",
            lambda r: r.update(schema_version="probity-launch/v0"))
