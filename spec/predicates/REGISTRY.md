@@ -108,3 +108,20 @@ The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
 them.
+
+## Types served from another host
+
+Two types defined in this directory have their URIs on the `probityai/probity`
+Pages host, under `https://probityai.github.io/probity/predicate/v1/`, the host
+the done-run tooling consolidates on. This host does not serve them, the site
+build here publishes no page for them, and the scan in
+`scripts/predicate-uri-gate.py` does not cover that host. Each document is the
+authority for its type until that site is live, and no signed statement carries
+either URI before then.
+
+- `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
+- `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
+  `vectors-spoofed-tool-output/`, `vectors-test-tampering/` and
+  `vectors-grader-isolation/`.
+
+`spec/predicates/done-records.md` defines the records both read and no type URI.
