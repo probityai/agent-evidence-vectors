@@ -91,7 +91,9 @@ verify the receipt, and MUST refuse it rather than trust the carried verdict.
     "verdict": { "decision": "supported", "reason": "done_checks_supported",
                  "vantage": "independent", "witness_scope": "PEER" },
     "external_effects": [],
-    "policy": { "table_sha256": "<64-hex>" }          // optional
+    "policy": { "table_sha256": "<64-hex>" },         // optional
+    "stop_decision": { "action": "continue", "reason": "done_checks_supported" },  // optional
+    "verifier_isolation": { "contract_sha256": "<64-hex>", "...": "..." }          // optional
   }
 }
 ```
@@ -100,6 +102,22 @@ verify the receipt, and MUST refuse it rather than trust the carried verdict.
 when its decision is not `not_established`, and a `not_established` entry's `vantage` is
 `unestablished`. `policy.table_sha256` is the digest of the policy table the harness acted
 on, when it acted; the receipt does not interpret it.
+
+`stop_decision` is what the harness's policy table did with the verdict: `action` is one of
+`continue`, `replan`, `escalate` and `stop`, and `reason` is the reason code that drove it. A
+reader checks its shape only; the table is the harness's.
+
+`verifier_isolation` is the grading verifier's account of its own isolation, written at the end
+of the grading run. Its members, types and the obligations they close (`vi-1` to `vi-9`) are
+defined by the `agent-evidence-admission` document `docs/VERIFIER-ISOLATION.md`, and the Rego
+module there reads this block by this name. A receipt reader requires only that the block is an
+object whose `contract_sha256` equals the digest of the contract record the receipt names
+(`receipt_isolation_contract_differs`, `receipt_isolation_malformed`); judging the facts is the
+admission rule's job. The report is the verifier's word about itself, and a consumer that needs
+more pins an independent observation of the grading run as well.
+
+The source paths that other documents use for these members are `predicate.verdict`,
+`predicate.checks[claim_type=acceptance_observed/v1].decision` and `predicate.stop_decision`.
 
 ## The three checks
 
@@ -186,10 +204,16 @@ Observation records hold workspace paths only. A mutation anywhere else, and eve
 connection, is carried in `external_effects`, copied from `sensors.external_effects` of the
 launch receipt, or empty when there is no launch receipt.
 
-A mutation outside the workspace at a path a grader's interpreter loads is an effect on the
-grader whatever the three checks say. Those paths are: any file named `sitecustomize.py` or
-`usercustomize.py`, any file ending `.pth`, and any path with a `site-packages` or
-`dist-packages` segment.
+A mutation outside the workspace at a path a grader loads, or writes its result to, is an
+effect on the grader whatever the three checks say. Those paths are: any file named
+`sitecustomize.py`, `usercustomize.py`, `reward.json` or `reward.txt`, any file ending
+`.pth`, and any path with a `site-packages`, `dist-packages` or `verifier` segment. The
+first group is what a Python interpreter imports at start; the second is where a harness
+reads a result back, so that an agent able to write there can write its own grade. A rename
+or link counts when either path is one of these.
+
+The list is part of this version of the predicate. A consumer that needs another path
+reads `external_effects` itself; a receipt's verdict is derived by the list above.
 
 ## The done verdict
 
@@ -197,7 +221,7 @@ grader whatever the three checks say. Those paths are: any file named `sitecusto
 
 1. If any check is `contradicted`, the verdict is `contradicted` with that check's reason (the
    first, in order).
-2. Otherwise, if `external_effects` holds a mutation at a path a grader loads, the verdict is
+2. Otherwise, if `external_effects` holds a mutation at one of those paths, the verdict is
    `contradicted` with reason `external_effect_on_grader_path`.
 3. Otherwise, if all three are `supported`, the verdict is `supported` with reason
    `done_checks_supported`.
@@ -218,8 +242,8 @@ launch rules read the receipt and the records it names; rules 8 and 9 recompute 
 | # | Rule | Code |
 | --- | --- | --- |
 | 1 | The statement is strict JSON with `_type`, `subject`, `predicateType`, `predicate`; the first two and the predicate type are as above; `subject` is one member with a `sha256` digest | `receipt_json_invalid`, `receipt_json_duplicate_key`, `receipt_json_number`, `receipt_fields`, `receipt_type_wrong`, `receipt_predicate_type_wrong`, `receipt_subject_malformed` |
-| 2 | The predicate has exactly the members above (`policy` optional), `schema_version` is `probity-done-receipt/v1`, and the policy digest is well formed | `receipt_schema_unsupported`, `receipt_predicate_malformed`, `receipt_predicate_fields` |
-| 3 | `records` names exactly the six core records, or those and both launch records | `receipt_records_shape` |
+| 2 | The predicate has exactly the members above (`policy`, `stop_decision` and `verifier_isolation` optional), `schema_version` is `probity-done-receipt/v1`, and the policy digest is well formed | `receipt_schema_unsupported`, `receipt_predicate_malformed`, `receipt_predicate_fields`, `receipt_stop_decision_malformed`, `receipt_isolation_malformed` |
+| 3 | `records` names exactly the six core records, or those and both launch records; a carried isolation report names the contract record's digest | `receipt_records_shape`, `receipt_isolation_contract_differs` |
 | 4 | Every named record is present and its bytes have the named digest | `receipt_record_missing`, `receipt_record_digest_mismatch` |
 | 5 | The tree and observation records parse; the subject digest equals the tree record's `tree_sha256` | the record's code, `receipt_subject_unbound` |
 | 6 | With launch records: both parse; the launch receipt names this run, the launch record's digest, the observation, capability and tree records' digests, and the same tree digest; its `witnessScope` equals both records' `witness_scope`; its coverage equals the observation's; and the observation does not say `complete` where the sensors report a lost event | `receipt_launch_context_mismatch`, `receipt_launch_digest_unbound`, `receipt_launch_records_unbound`, `receipt_launch_tree_unbound`, `receipt_launch_scope_differs`, `receipt_launch_coverage_differs`, `receipt_launch_coverage_overstated` |

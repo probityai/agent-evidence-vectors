@@ -54,12 +54,6 @@ Sealed before the agent's first turn.
 | `adequacy` | `{mutants, killed}`, nonnegative integers with `killed <= mutants`: how many generated mutants the acceptance commands killed |
 | `heldout_split_sha256`, `mutant_set_sha256`, `authority_sha256` | optional digests the contract compiler bound |
 
-Codes, in rule order: `contract_schema_unsupported`, `contract_id`, `contract_task`,
-`contract_digest_malformed`, `contract_protected_paths_type`,
-`contract_protected_path_not_normalized`, `contract_protected_kind`,
-`contract_exclude_invalid`, `contract_protected_duplicate`, `contract_acceptance_empty`,
-`contract_acceptance_id`, `contract_acceptance_argv`, `contract_acceptance_duplicate_id`,
-`contract_adequacy_count`, `contract_adequacy_overcount`.
 
 **Tree digest.** The SHA-256 of the lines `"<sha256>  <path>\n"`, one per file, sorted by the
 UTF-8 bytes of the path. That is what `sha256sum` prints for the files.
@@ -99,13 +93,6 @@ that a later exec in the same process replaces has no `exit`.
 
 **Time.** Instants are whole seconds, so order between events comes from `step` alone.
 
-Codes: `observation_schema_unsupported`, `observation_coverage`,
-`observation_gaps_required`, `observation_gaps_unexpected`, `observation_gap_instant`,
-`observation_gap_outside_scope`, `observation_event_id`, `observation_event_type`,
-`observation_step`, `observation_origin_unknown`, `observation_exec_argv`,
-`observation_exec_exit`, `observation_exec_path`, `observation_argv_on_file_event`,
-`observation_path_required`, `observation_target_unexpected`, `observation_event_instant`,
-`observation_event_duplicate_or_outside`, `observation_steps_not_increasing`.
 
 ## Capabilities: `probity-capabilities/v1`
 
@@ -161,11 +148,6 @@ name; the names are the observer's, and a reader uses the paths given here.)
   workspace paths only, so these live here. Paths under `/dev`, `/proc` and `/sys` are left
   out.
 
-Codes: `launch_schema_unsupported`, `launch_backend`, `launch_types`,
-`launch_digest_malformed`, `launch_receipt_schema_unsupported`,
-`launch_receipt_witness_scope`, `launch_receipt_coverage`,
-`launch_receipt_digest_malformed`, `launch_receipt_types`, `launch_receipt_sensors`,
-`launch_receipt_effect`.
 
 ## Consumer case and policy
 
@@ -181,12 +163,26 @@ A case whose bytes differ from the length or digest it binds is refused
 match its binding but differ from the digest the policy pins leaves that witness unbound, and
 the check is `not_established`.
 
-Codes: `case_schema_unsupported`, `case_objects`, `case_artifact_path_not_normalized`,
-`case_artifact_digest_malformed`, `case_artifact_length`, `case_artifact_unsafe`,
-`case_artifact_unknown`, `case_artifact_binding_mismatch`, `policy_assessment_missing`,
-`policy_claim_type_unsupported`, `policy_witness_unknown`, `policy_witness_shared`,
-`policy_artifact_shared`, `policy_witness_digest_malformed`, `policy_witness_vantage`,
-`policy_witness_scope`.
+
+## Refusal codes
+
+A reader that refuses a record names the code below for the first rule the record breaks. Every code
+here is forced by at least one member of the conformance corpora, and a reader that names
+another code for the same member does not conform. Besides the codes listed, every record
+has four generic ones: `<record>_fields` (a missing or unexpected member),
+`<record>_json_invalid`, `<record>_json_duplicate_key` and `<record>_json_number`.
+
+- **contract**: `contract_acceptance_argv`, `contract_acceptance_duplicate_id`, `contract_acceptance_empty`, `contract_acceptance_id`, `contract_adequacy_count`, `contract_adequacy_fields`, `contract_adequacy_overcount`, `contract_digest_malformed`, `contract_exclude_invalid`, `contract_fields`, `contract_id`, `contract_json_duplicate_key`, `contract_json_invalid`, `contract_json_number`, `contract_protected_duplicate`, `contract_protected_kind`, `contract_protected_path_not_normalized`, `contract_protected_paths_type`, `contract_schema_unsupported`, `contract_task`
+- **tree**: `tree_claim_id`, `tree_digest_malformed`, `tree_digest_mismatch`, `tree_fields`, `tree_files_type`, `tree_invocation_id`, `tree_json_duplicate_key`, `tree_json_invalid`, `tree_json_number`, `tree_path_not_normalized`, `tree_producer`, `tree_schema_unsupported`, `tree_vantage`, `tree_witness_scope`
+- **observation**: `observation_argv_on_file_event`, `observation_claim_id`, `observation_coverage`, `observation_event_duplicate_or_outside`, `observation_event_fields`, `observation_event_id`, `observation_event_instant`, `observation_event_type`, `observation_events_type`, `observation_exec_argv`, `observation_exec_exit`, `observation_exec_path`, `observation_fields`, `observation_gap_instant`, `observation_gap_outside_scope`, `observation_gaps_required`, `observation_gaps_unexpected`, `observation_invocation_id`, `observation_json_duplicate_key`, `observation_json_invalid`, `observation_json_number`, `observation_origin_unknown`, `observation_path_not_normalized`, `observation_path_required`, `observation_producer`, `observation_schema_unsupported`, `observation_scope_fields`, `observation_scope_id`, `observation_scope_instant`, `observation_scope_order`, `observation_step`, `observation_steps_not_increasing`, `observation_target_unexpected`, `observation_vantage`, `observation_witness_scope`
+- **capability**: `capability_claim_id`, `capability_fields`, `capability_json_duplicate_key`, `capability_json_invalid`, `capability_json_number`, `capability_schema_unsupported`, `capability_types`, `capability_types_duplicate`
+- **grade**: `grade_claim_id`, `grade_digest_malformed`, `grade_fields`, `grade_invocation_id`, `grade_json_duplicate_key`, `grade_json_invalid`, `grade_json_number`, `grade_producer`, `grade_result_argv`, `grade_result_duplicate_id`, `grade_result_exit`, `grade_result_fields`, `grade_result_id`, `grade_results_type`, `grade_schema_unsupported`, `grade_vantage`, `grade_witness_scope`
+- **claims**: `claims_claim_id`, `claims_duplicate_id`, `claims_entry_argv`, `claims_entry_exit`, `claims_entry_fields`, `claims_entry_id`, `claims_fields`, `claims_json_duplicate_key`, `claims_json_invalid`, `claims_json_number`, `claims_schema_unsupported`, `claims_type`
+- **launch**: `launch_backend`, `launch_digest_malformed`, `launch_schema_unsupported`, `launch_types`
+- **launch receipt**: `launch_receipt_coverage`, `launch_receipt_digest_malformed`, `launch_receipt_effect`, `launch_receipt_schema_unsupported`, `launch_receipt_sensors`, `launch_receipt_types`, `launch_receipt_witness_scope`
+- **case**: `case_artifact_binding_mismatch`, `case_artifact_digest_malformed`, `case_artifact_fields`, `case_artifact_length`, `case_artifact_path`, `case_artifact_path_not_normalized`, `case_artifact_unknown`, `case_fields`, `case_id`, `case_json_duplicate_key`, `case_json_invalid`, `case_json_number`, `case_missing`, `case_objects`, `case_schema_unsupported`
+- **policy**: `policy_artifact_shared`, `policy_assessment_fields`, `policy_assessment_missing`, `policy_claim_type_unsupported`, `policy_fields`, `policy_invocation_id`, `policy_json_duplicate_key`, `policy_json_invalid`, `policy_json_number`, `policy_observed_party`, `policy_scope_instant`, `policy_witness_artifact`, `policy_witness_authority`, `policy_witness_digest_malformed`, `policy_witness_fields`, `policy_witness_producer`, `policy_witness_scope`, `policy_witness_shared`, `policy_witness_unknown`, `policy_witness_vantage`
+- **file conditions**: `case_unreadable`, `policy_unreadable`, `member_unreadable`, `case_artifact_unsafe` and `member_incomplete` name a file that cannot be read as a regular file, or is absent; a corpus of regular files does not carry them.
 
 ## What these records do not establish
 
