@@ -195,9 +195,8 @@ def members() -> list[lib.Member]:
         bad_statement("statement-predicate-type-wrong", "the statement is typed as a receipt",
                       "statement_predicate_type_wrong", predicateType=donerun.RECEIPT_TYPE),
         bad_statement("statement-predicate-type-moved", "the statement carries the URI on "
-                      "the old host", "statement_predicate_type_wrong",
-                      predicateType="https://probityai.github.io/agent-evidence-vectors/"
-                                    "predicate/v1/done-contract"),
+                      "another host", "statement_predicate_type_wrong",
+                      predicateType="https://example.org/probity/predicate/v1/done-contract"),
         bad_statement("statement-two-subjects", "the statement has two subjects",
                       "statement_subject_malformed",
                       subject=[{"name": "contract.json", "digest": {"sha256": lib.sha(raw)}},

@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "16c0f1a76343685701af85b16b6db23f2498a090460342a31aecd526b8919cf2",
+  "corpusDigest": "1098bd5cd159d632e9ad28c054812acbf72b9232f71a8f09feb09bfabfe43d03",
   "predicateSpec": "spec/predicates/done-contract.md",
   "predicateType": "https://probityai.github.io/probity/predicate/v1/done-contract",
   "recordSpec": "spec/predicates/done-records.md",
@@ -592,7 +592,7 @@
       "path": "cases/statement-predicate-type-wrong"
     },
     {
-      "edit": "the statement carries the URI on the old host",
+      "edit": "the statement carries the URI on another host",
       "expected": {
         "contract": {
           "code": "statement_predicate_type_wrong",
@@ -601,7 +601,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "9b3e5ce4b3c384b291a8b5859e79ab826b2b7ba10b6507ffdc62c7c18efd18fb"
+        "statement.json": "df526ee96ca09dcb7eb93275460c8c8b189ebc180ef78bf5eb6f3af29fbae413"
       },
       "id": "statement-predicate-type-moved",
       "kind": "invalid",
