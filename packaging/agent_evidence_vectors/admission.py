@@ -242,6 +242,26 @@ def _time_codes(
     return codes
 
 
+def _seals_verify(rv: Any, verifier: Any, stmt: dict[str, Any]) -> bool:
+    """Every sealed record verifies under a pinned key, whether or not a row resolves it.
+
+    Only a statement carrying a basis: substrate row owes a seal. A row's tier reads
+    the records the row resolves, and a caught row resolves interception records, so
+    the seal's own signature is checked here in every case.
+    """
+    pred = stmt.get("predicate") or {}
+    if not any(r.get("basis") == "substrate" for r in pred.get("attackResults") or []):
+        return True
+    if not verifier.pinned_pubs:
+        return False
+    for i, rec in enumerate(pred.get("observationRecords") or []):
+        view = rv.RecordView(i, rec)
+        payload = view.payload if isinstance(view.payload, dict) else {}
+        if payload.get("aeeKind") == "sealed" and not verifier._record_verifies(view):
+            return False
+    return True
+
+
 def admit(raw: bytes, policy: dict[str, Any], now: datetime | None = None) -> dict[str, Any]:
     """The reference admission answer for one statement under one policy."""
     rv = _rail()
@@ -261,7 +281,7 @@ def admit(raw: bytes, policy: dict[str, Any], now: datetime | None = None) -> di
     codes = []
     if any(
         r.get("basis") == "substrate" and t != "attested" for r, t in zip(rows, tiers, strict=False)
-    ):
+    ) or not _seals_verify(rv, verifier, stmt):
         codes.append("substrate-row-unattested")
     if not policy.get("allowPublishedTestKeys") and set(keys) & _published_test_keys(rv):
         codes.append("observation-key-published")
