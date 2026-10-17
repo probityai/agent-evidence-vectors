@@ -8,7 +8,7 @@ Registry test keyid: `7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d5
 
 Relying party test keyid: `d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a`
 
-Corpus digest: `9aad96e66aa811b5b582f492289e9b1f5abe1de1b35d33f12c6a913883c86d05`
+Corpus digest: `f1ee714d62f7390376ca5732efcf2a4c551f2862052f762f48be5b148314cccd`
 
 ## Revocation across a delegation tree
 
@@ -54,3 +54,15 @@ Corpus digest: `9aad96e66aa811b5b582f492289e9b1f5abe1de1b35d33f12c6a913883c86d05
 | `rereg-old-presents-after-retirement` | reject | `presenter_inactive` | agent-v1 presents its own grant after the registry retired it. | A presenter whose identifier the registry retired or revoked at or before observed_at holds nothing. |
 | `rereg-old-presents-before-retirement` | accept | `authority_valid` | agent-v1 presents its own grant after the link and before its retirement. | Proposed: an old identifier stays usable until the registry retires it; a link alone does not end it. |
 | `rereg-revocation-follows-link` | reject | `grant_revoked` | The organisation revokes agent-v1's grant and agent-v2 presents it through the link. | A link carries a grant as it stands, so a revocation of the grant applies to the successor as well. |
+
+## Recovery after a lost or compromised key
+
+| id | outcome | reason | situation | rule |
+| --- | --- | --- | --- | --- |
+| `recovery-regrant` | accept | `authority_valid` | The agent-v1 key is lost, the registry retires agent-v1, the registry and the organisation sign a recovery record to agent-v2, and the organisation grants agent-v2 anew, which agent-v2 presents. | A new grant to the recovered identifier carries authority from its own issuance. |
+| `recovery-grant-not-carried` | reject | `presenter_not_delegate` | After the same recovery, agent-v2 presents agent-v1's grant. | Proposed: a recovery record carries history, not authority; a grant reaches a new identifier only through a link signed by the old key, or through a new grant. |
+| `recovery-registry-only` | reject | `signature_invalid:recovery` | The recovery record carries the registry's signature and not the organisation's, and agent-v2 presents its new grant. | Proposed: a recovery record needs the registry's signature and the Responsible entity's, so the registry alone cannot move an agent's history, and a presenter named by a recovery record that fails is refused because its history cannot be resolved. |
+| `recovery-software-mismatch` | reject | `recovery_mismatch` | The registry registered agent-v2 with a software attestation digest that differs from agent-v1's, and agent-v2 presents its new grant. | Proposed: a recovery counts only when the registry registered the old and the new identifier to the same Responsible entity with the same software attestation digest. |
+| `recovery-after-compromise-no-revival` | reject | `presenter_not_delegate` | The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, and agent-v2 presents agent-v1's grant. | Proposed: a recovery never restores authority, including authority the registry removed by revoking the old identifier for compromise. |
+| `recovery-after-compromise-regrant` | accept | `authority_valid_with_history` | The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, and the organisation grants agent-v2 anew, which agent-v2 presents. | Proposed: adverse records of the old identifier (an identifier revocation, a revocation of a grant made to it, its disputes and their resolutions) resolve from the successor through the recovery record, and the acceptance names that history. |
+| `recovery-history-follows` | accept | `authority_valid_with_history` | agent-v1's grant was revoked, agent-v1 disputed the revocation and the organisation confirmed it; after the key is lost and recovered to agent-v2, agent-v2 presents a new grant. | Proposed: adverse records of the old identifier (an identifier revocation, a revocation of a grant made to it, its disputes and their resolutions) resolve from the successor through the recovery record, and the acceptance names that history. |

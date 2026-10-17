@@ -6,11 +6,14 @@ Every case asks one question a relying party asks about an AI agent: does this
 presenter hold this delegated authority at the time the relying party observed
 the presentation? A case is a set of signed records (identifier registrations,
 grants, revocations, disputes, resolutions, identifier links, retirements) and
-one signed presentation, with the policy that judges them. Two sets:
+one signed presentation, with the policy that judges them. Three sets:
 
 * ``tree-``: revocation across a delegation tree, including a revocation that is
   disputed;
-* ``rereg-``: re-registration, where an old identifier is linked to a new one.
+* ``rereg-``: re-registration, where an old identifier is linked to a new one;
+* ``recovery-``: recovery after the old key is lost or compromised, where a
+  record signed by the registry and the Responsible entity carries the old
+  identifier's history to a new one, and no grant.
 
 Every record is a DSSE v1 envelope signed with Ed25519 by the published test
 keys below, so every byte in the corpus is a function of this file alone. The
@@ -44,7 +47,7 @@ corpus_digest = _digest_module.corpus_digest
 
 SUITE = "delegation-lifecycle/v1"
 PAYLOAD_TYPE = "application/vnd.agent-evidence.delegation-lifecycle.v1+json"
-TREE, REREG = "delegation-tree", "re-registration"
+TREE, REREG, RECOVERY = "delegation-tree", "re-registration", "recovery"
 
 ORG = "did:example:org"
 PLANNER = "did:example:planner"
@@ -140,12 +143,19 @@ class Case:
         name = f"{len(self.records) + 1:02d}-{payload['type']}-{label}.json"
         self.records.append((name, self._sign(payload, signers)))
 
-    def register(self, identifier: str, when: str) -> None:
+    def register(self, identifier: str, when: str, responsible: str | None = None,
+                 software: str | None = None) -> None:
+        """Register an identifier. A recovery case also names the Responsible entity
+        and the software attestation digest the registry matched."""
         k = _identity_key(identifier)
-        self.add(identifier.rsplit(":", 1)[-1],
-                 {"type": "registration", "identifier": identifier, "keyid": keyid(k),
-                  "public_key": _b64(public_raw(k)), "registered_at": when},
-                 [as_self(REGISTRY)])
+        payload: dict[str, Any] = {"type": "registration", "identifier": identifier,
+                                   "keyid": keyid(k), "public_key": _b64(public_raw(k)),
+                                   "registered_at": when}
+        if responsible is not None:
+            payload["responsible"] = responsible
+        if software is not None:
+            payload["software"] = software
+        self.add(identifier.rsplit(":", 1)[-1], payload, [as_self(REGISTRY)])
 
     def retire(self, identifier: str, when: str) -> None:
         self.add(identifier.rsplit(":", 1)[-1],
@@ -193,6 +203,12 @@ class Case:
         self.add(link_id, {"type": "link", "link_id": link_id, "old": old, "new": new,
                            "linked_at": when},
                  signers if signers is not None else [of(old), of(new), as_self(REGISTRY)])
+
+    def recover(self, recovery_id: str, old: str, new: str, responsible: str, when: str,
+                signers: list[Signer] | None = None) -> None:
+        self.add(recovery_id, {"type": "recovery", "recovery_id": recovery_id, "old": old,
+                               "new": new, "responsible": responsible, "recovered_at": when},
+                 signers if signers is not None else [as_self(REGISTRY), of(responsible)])
 
     def present(self, presenter: str, chain: list[str], when: str,
                 signers: list[Signer] | None = None) -> None:
@@ -482,6 +498,74 @@ def r_unattested_link(c: Case) -> None:
     _v2_presents(c)
 
 
+SOFTWARE = "sha256:" + _sha(b"delegation-lifecycle/v1 test agent build 1")
+OTHER_SOFTWARE = "sha256:" + _sha(b"delegation-lifecycle/v1 test agent build 2")
+LOST = "the agent-v1 key was lost at redeployment"
+COMPROMISED = "the agent-v1 key was reported compromised"
+
+
+def recovery_base(c: Case, compromised: bool = False, history: bool = False,
+                  software: str = SOFTWARE, recovery_signers: list[Signer] | None = None) -> None:
+    """The organisation operates agent-v1 and grants to it. The agent-v1 key is lost,
+    or reported compromised, and the same software is registered again as agent-v2.
+    The registry and the organisation, as Responsible entity, sign a recovery record."""
+    c.register(ORG, at("08:00"))
+    c.register(V1, at("08:00"), responsible=ORG, software=SOFTWARE)
+    c.grant("g-agent", None, ORG, V1, at("09:00"))
+    if history:
+        c.revoke("r-agent", "g-agent", ORG, "the agent acted outside its task", at("09:30"),
+                 at("09:30"))
+        c.dispute("d-agent", "r-agent", V1, "the task log shows the agent acted inside its task",
+                  at("09:45"))
+        c.resolve("d-agent", "r-agent", ORG, "confirmed", at("10:00"))
+    if compromised:
+        c.revoke_identifier(V1, at("10:05"), COMPROMISED)
+    else:
+        c.retire(V1, at("10:05"))
+    c.register(V2, at("10:30"), responsible=ORG, software=software)
+    c.recover("rc-v1-v2", V1, V2, ORG, at("11:00"), signers=recovery_signers)
+
+
+def _regrant(c: Case) -> None:
+    c.grant("g-agent-2", None, ORG, V2, at("11:30"))
+    c.present(V2, ["g-agent-2"], at("13:00"))
+
+
+def rc_regrant(c: Case) -> None:
+    recovery_base(c)
+    _regrant(c)
+
+
+def rc_grant_not_carried(c: Case) -> None:
+    recovery_base(c)
+    _v2_presents(c)
+
+
+def rc_registry_only(c: Case) -> None:
+    recovery_base(c, recovery_signers=[as_self(REGISTRY)])
+    _regrant(c)
+
+
+def rc_software_mismatch(c: Case) -> None:
+    recovery_base(c, software=OTHER_SOFTWARE)
+    _regrant(c)
+
+
+def rc_compromise_no_revival(c: Case) -> None:
+    recovery_base(c, compromised=True)
+    _v2_presents(c)
+
+
+def rc_compromise_regrant(c: Case) -> None:
+    recovery_base(c, compromised=True)
+    _regrant(c)
+
+
+def rc_history_follows(c: Case) -> None:
+    recovery_base(c, history=True)
+    _regrant(c)
+
+
 ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
 
 R_TIME = ("A revocation applies to a presentation the relying party observed at or after the "
@@ -551,6 +635,24 @@ R_BEFORE_RETIRE = ("Proposed: an old identifier stays usable until the registry 
                    "link alone does not end it.")
 R_FOLLOWS = ("A link carries a grant as it stands, so a revocation of the grant applies to the "
              "successor as well.")
+R_RECOVERY_REGRANT = ("A new grant to the recovered identifier carries authority from its own "
+                      "issuance.")
+R_RECOVERY_NO_GRANT = ("Proposed: a recovery record carries history, not authority; a grant "
+                       "reaches a new identifier only through a link signed by the old key, or "
+                       "through a new grant.")
+R_RECOVERY_SIGNERS = ("Proposed: a recovery record needs the registry's signature and the "
+                      "Responsible entity's, so the registry alone cannot move an agent's "
+                      "history, and a presenter named by a recovery record that fails is "
+                      "refused because its history cannot be resolved.")
+R_RECOVERY_MATCH = ("Proposed: a recovery counts only when the registry registered the old and "
+                    "the new identifier to the same Responsible entity with the same software "
+                    "attestation digest.")
+R_RECOVERY_NO_REVIVAL = ("Proposed: a recovery never restores authority, including authority the "
+                         "registry removed by revoking the old identifier for compromise.")
+R_RECOVERY_HISTORY = ("Proposed: adverse records of the old identifier (an identifier revocation, "
+                      "a revocation of a grant made to it, its disputes and their resolutions) "
+                      "resolve from the successor through the recovery record, and the "
+                      "acceptance names that history.")
 
 
 class Spec(NamedTuple):
@@ -567,6 +669,7 @@ class Spec(NamedTuple):
 
 
 TREE_TWIN, REREG_TWIN = "tree-chain-valid", "rereg-linked-successor"
+RECOVERY_TWIN = "recovery-regrant"
 
 CASES: tuple[Spec, ...] = (
     Spec("tree-chain-valid", TREE, t_chain_valid, ACCEPT, "authority_valid",
@@ -685,6 +788,37 @@ CASES: tuple[Spec, ...] = (
     Spec("rereg-revocation-follows-link", REREG, r_revocation_follows, REJECT, "grant_revoked",
          "The organisation revokes agent-v1's grant and agent-v2 presents it through the link.",
          R_FOLLOWS, REREG_TWIN),
+    Spec("recovery-regrant", RECOVERY, rc_regrant, ACCEPT, "authority_valid",
+         "The agent-v1 key is lost, the registry retires agent-v1, the registry and the "
+         "organisation sign a recovery record to agent-v2, and the organisation grants agent-v2 "
+         "anew, which agent-v2 presents.", R_RECOVERY_REGRANT),
+    Spec("recovery-grant-not-carried", RECOVERY, rc_grant_not_carried, REJECT,
+         "presenter_not_delegate",
+         "After the same recovery, agent-v2 presents agent-v1's grant.", R_RECOVERY_NO_GRANT,
+         RECOVERY_TWIN),
+    Spec("recovery-registry-only", RECOVERY, rc_registry_only, REJECT,
+         "signature_invalid:recovery",
+         "The recovery record carries the registry's signature and not the organisation's, and "
+         "agent-v2 presents its new grant.", R_RECOVERY_SIGNERS, RECOVERY_TWIN),
+    Spec("recovery-software-mismatch", RECOVERY, rc_software_mismatch, REJECT,
+         "recovery_mismatch",
+         "The registry registered agent-v2 with a software attestation digest that differs from "
+         "agent-v1's, and agent-v2 presents its new grant.", R_RECOVERY_MATCH, RECOVERY_TWIN),
+    Spec("recovery-after-compromise-no-revival", RECOVERY, rc_compromise_no_revival, REJECT,
+         "presenter_not_delegate",
+         "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, "
+         "and agent-v2 presents agent-v1's grant.", R_RECOVERY_NO_REVIVAL,
+         "recovery-after-compromise-regrant"),
+    Spec("recovery-after-compromise-regrant", RECOVERY, rc_compromise_regrant, ACCEPT,
+         "authority_valid_with_history",
+         "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, "
+         "and the organisation grants agent-v2 anew, which agent-v2 presents.",
+         R_RECOVERY_HISTORY),
+    Spec("recovery-history-follows", RECOVERY, rc_history_follows, ACCEPT,
+         "authority_valid_with_history",
+         "agent-v1's grant was revoked, agent-v1 disputed the revocation and the organisation "
+         "confirmed it; after the key is lost and recovered to agent-v2, agent-v2 presents a new "
+         "grant.", R_RECOVERY_HISTORY),
 )
 
 
@@ -721,8 +855,9 @@ def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
         f"Relying party test keyid: `{keyid(RELYING_PARTY)}`", "",
         f"Corpus digest: `{digest}`", "",
     ]
-    titles = {TREE: "Revocation across a delegation tree", REREG: "Re-registration"}
-    for family in (TREE, REREG):
+    titles = {TREE: "Revocation across a delegation tree", REREG: "Re-registration",
+              RECOVERY: "Recovery after a lost or compromised key"}
+    for family in (TREE, REREG, RECOVERY):
         lines += [f"## {titles[family]}", "",
                   "| id | outcome | reason | situation | rule |",
                   "| --- | --- | --- | --- | --- |"]

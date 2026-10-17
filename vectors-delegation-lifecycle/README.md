@@ -5,12 +5,15 @@ asks about an AI agent: does this presenter hold this delegated authority at the
 time the relying party observed the presentation? A case is a set of signed
 records (identifier registrations, grants, revocations, disputes, resolutions,
 identifier links, retirements), one signed presentation, and the policy that
-judges them. The cases come in two sets:
+judges them. The cases come in three sets:
 
 - `tree-`: revocation across a delegation tree, including a revocation that is
   disputed, as in the case "revocation issued in error, or disputed" proposed to
   the AAIF Identity and Trust working group;
-- `rereg-`: re-registration, where an old identifier is linked to a new one.
+- `rereg-`: re-registration, where an old identifier is linked to a new one;
+- `recovery-`: recovery after the old key is lost or compromised, the question
+  asked on AAIF Identity and Trust issue 18 about use case B (redeployment
+  under a new identifier).
 
 Judge the corpus with the Go verifier, from the repository root:
 
@@ -31,7 +34,7 @@ is a JSON object with a `type`. Times are RFC 3339.
 
 | `type` | Fields | Signed by |
 | --- | --- | --- |
-| `registration` | `identifier`, `keyid`, `public_key`, `registered_at` | the registry |
+| `registration` | `identifier`, `keyid`, `public_key`, `registered_at`, optional `responsible` and `software` | the registry |
 | `retirement` | `identifier`, `retired_at` | the registry |
 | `identifier-revocation` | `identifier`, `revoked_at`, `grounds` | the registry |
 | `grant` | `grant_id`, `parent` (null for a top-level grant), `issuer`, `delegate`, `issued_at` | the issuer |
@@ -39,6 +42,7 @@ is a JSON object with a `type`. Times are RFC 3339.
 | `dispute` | `dispute_id`, `revocation_id`, `filed_by`, `grounds`, `filed_at` | the filer |
 | `resolution` | `dispute_id`, `revocation_id`, `decided_by`, `outcome` (`restored` or `confirmed`), `decided_at`, optional `replacement_grant` | the decider |
 | `link` | `link_id`, `old`, `new`, `linked_at` | the old identifier, the new identifier and the registry |
+| `recovery` | `recovery_id`, `old`, `new`, `responsible`, `recovered_at` | the registry and the Responsible entity |
 | `presentation` | `presenter`, `chain` (grant ids, top first), `observed_at` | the presenter and the relying party |
 
 A signature counts when its `keyid` names a key the registry bound to the signer
@@ -64,9 +68,13 @@ The verifier names the first check that fails.
 | no grant on the chain carries a revocation, signed by a principal with standing, with `effective_at` at or before `observed_at` | `grant_revoked` | UCAN revocation; the time rule of case GT-R8 in [interop/govops-trace-profile](../interop/govops-trace-profile/INDEX.md) |
 | that revocation states its grounds | `revocation_incomplete` | proposed |
 | no dispute of that revocation by an affected principal is still open | `grant_revoked_dispute_open` | proposed |
+| every recovery record that names the presenter as `new` is signed by the registry and the Responsible entity | `signature_invalid:recovery` | proposed |
+| the registry registered both identifiers of that recovery to its Responsible entity with one `software` digest | `recovery_mismatch` | proposed |
 
-A case that passes every check is accepted with `authority_valid`, or with
-`authority_valid_via_link` when the presenter holds the grant through a link.
+A case that passes every check is accepted with `authority_valid`, with
+`authority_valid_via_link` when the presenter holds the grant through a link, or
+with `authority_valid_with_history` when a recovered predecessor left an adverse
+record.
 
 Standing, cascade and irreversibility follow the
 [UCAN revocation specification](https://github.com/ucan-wg/revocation): the issuer
@@ -116,6 +124,30 @@ them as such: a link is one to one, so two old identifiers linked to one new one
 (a merge of two principals' authority, which needs a new grant) and one old
 identifier linked to two new ones (an ambiguous successor) are both refused with
 `link_conflict`.
+
+## Recovery
+
+A link needs the old key's signature. When that key is lost or compromised at
+redeployment, no link can be made. Use case B in AAIF Identity and Trust pull
+request 20 links the old and the new identifier by the Responsible entity and the
+software attestation instead. These cases state that path as a separate record,
+the recovery record, and keep it apart from authority:
+
+- A recovery record is signed by the registry and by the Responsible entity the
+  registry bound to both identifiers, and the two registrations carry one
+  software attestation digest. The registry alone cannot move an agent's history.
+- A recovery record carries history and no grant. The successor holds a grant
+  only when an issuer grants it again, so a recovery never revives authority,
+  including authority the registry removed by revoking the old identifier for
+  compromise.
+- History follows the agent forward. An identifier revocation of the old
+  identifier, a revocation of a grant made to it, and its disputes resolve from
+  the successor, and the acceptance names them with
+  `authority_valid_with_history`.
+- A presenter named by a recovery record that fails is refused, because its
+  history cannot be resolved.
+
+Every rule in this section is a proposal with no precedent we know of.
 
 ## What these cases do not test
 

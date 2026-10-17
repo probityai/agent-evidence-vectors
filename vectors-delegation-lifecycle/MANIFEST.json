@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "9aad96e66aa811b5b582f492289e9b1f5abe1de1b35d33f12c6a913883c86d05",
+  "corpusDigest": "f1ee714d62f7390376ca5732efcf2a4c551f2862052f762f48be5b148314cccd",
   "payloadType": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
   "registryKeyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
   "relyingPartyKeyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
@@ -880,6 +880,165 @@
       "rule": "A link carries a grant as it stands, so a revocation of the grant applies to the successor as well.",
       "set": "re-registration",
       "twin": "rereg-linked-successor"
+    },
+    {
+      "description": "The agent-v1 key is lost, the registry retires agent-v1, the registry and the organisation sign a recovery record to agent-v2, and the organisation grants agent-v2 anew, which agent-v2 presents.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "05-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "06-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "07-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "f774ba0cbbc24ba0a5947ef9f5fd40a9653eeae5e71fd519e3f91d88110a0679",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-regrant",
+      "path": "cases/recovery-regrant",
+      "rule": "A new grant to the recovered identifier carries authority from its own issuance.",
+      "set": "recovery"
+    },
+    {
+      "description": "After the same recovery, agent-v2 presents agent-v1's grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "presenter_not_delegate"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "05-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "06-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "case.json": "699896095b1929add482f94619c45ea791c4c7d3e51f141674d323ae35cd7d91",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "recovery-grant-not-carried",
+      "path": "cases/recovery-grant-not-carried",
+      "rule": "Proposed: a recovery record carries history, not authority; a grant reaches a new identifier only through a link signed by the old key, or through a new grant.",
+      "set": "recovery",
+      "twin": "recovery-regrant"
+    },
+    {
+      "description": "The recovery record carries the registry's signature and not the organisation's, and agent-v2 presents its new grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "signature_invalid:recovery"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "05-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "06-recovery-rc-v1-v2.json": "051b4304b9f642b72f6d9ba43f1a567f08b4659996a26781eeb056b679b260e7",
+        "07-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "f774ba0cbbc24ba0a5947ef9f5fd40a9653eeae5e71fd519e3f91d88110a0679",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-registry-only",
+      "path": "cases/recovery-registry-only",
+      "rule": "Proposed: a recovery record needs the registry's signature and the Responsible entity's, so the registry alone cannot move an agent's history, and a presenter named by a recovery record that fails is refused because its history cannot be resolved.",
+      "set": "recovery",
+      "twin": "recovery-regrant"
+    },
+    {
+      "description": "The registry registered agent-v2 with a software attestation digest that differs from agent-v1's, and agent-v2 presents its new grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "recovery_mismatch"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "05-registration-agent-v2.json": "f4f6e32d3547bc56d7d207bd7d19efbb022c7d97e464025ea215fb42f5d79a08",
+        "06-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "07-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "f774ba0cbbc24ba0a5947ef9f5fd40a9653eeae5e71fd519e3f91d88110a0679",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-software-mismatch",
+      "path": "cases/recovery-software-mismatch",
+      "rule": "Proposed: a recovery counts only when the registry registered the old and the new identifier to the same Responsible entity with the same software attestation digest.",
+      "set": "recovery",
+      "twin": "recovery-regrant"
+    },
+    {
+      "description": "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, and agent-v2 presents agent-v1's grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "presenter_not_delegate"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-identifier-revocation-agent-v1.json": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6",
+        "05-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "06-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "case.json": "5e76351e9edc7d135acc441e425fe812aa15e4e053ff5ff60c2a3ecc012ebde4",
+        "presentation.json": "f9585e7a4ebdc798d43cea8344879f6cccacb4f5b0d333a1c267d6309305260f"
+      },
+      "id": "recovery-after-compromise-no-revival",
+      "path": "cases/recovery-after-compromise-no-revival",
+      "rule": "Proposed: a recovery never restores authority, including authority the registry removed by revoking the old identifier for compromise.",
+      "set": "recovery",
+      "twin": "recovery-after-compromise-regrant"
+    },
+    {
+      "description": "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, and the organisation grants agent-v2 anew, which agent-v2 presents.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-identifier-revocation-agent-v1.json": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6",
+        "05-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "06-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "07-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "e6daad638add18c07a928e7784a805ac9045c4d8e3def2edd83a2ec712f7bb42",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-after-compromise-regrant",
+      "path": "cases/recovery-after-compromise-regrant",
+      "rule": "Proposed: adverse records of the old identifier (an identifier revocation, a revocation of a grant made to it, its disputes and their resolutions) resolve from the successor through the recovery record, and the acceptance names that history.",
+      "set": "recovery"
+    },
+    {
+      "description": "agent-v1's grant was revoked, agent-v1 disputed the revocation and the organisation confirmed it; after the key is lost and recovered to agent-v2, agent-v2 presents a new grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "05-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "06-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "07-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "08-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "09-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "10-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "676c9f930d4dab12fa0414a99a8b0951636bc46e0ce51d98c94ad9cd4479cd89",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-history-follows",
+      "path": "cases/recovery-history-follows",
+      "rule": "Proposed: adverse records of the old identifier (an identifier revocation, a revocation of a grant made to it, its disputes and their resolutions) resolve from the successor through the recovery record, and the acceptance names that history.",
+      "set": "recovery"
     }
   ]
 }

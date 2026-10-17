@@ -57,7 +57,7 @@ def test_every_refused_case_names_an_accepted_twin_in_its_own_set() -> None:
 
 
 def test_every_case_states_its_situation_and_rule() -> None:
-    prefix = {"delegation-tree": "tree-", "re-registration": "rereg-"}
+    prefix = {"delegation-tree": "tree-", "re-registration": "rereg-", "recovery": "recovery-"}
     for e in _manifest()["vectors"]:
         assert e["id"].startswith(prefix[e["set"]])
         assert e["description"].endswith("."), e["id"]
@@ -79,6 +79,11 @@ def test_both_sets_cover_the_situations_the_issue_names() -> None:
         "rereg-two-old-one-new": "reject",
         "rereg-link-after-old-revoked": "reject",
         "rereg-chain-old-middle-new": "accept",
+        "recovery-regrant": "accept",
+        "recovery-grant-not-carried": "reject",
+        "recovery-registry-only": "reject",
+        "recovery-after-compromise-no-revival": "reject",
+        "recovery-history-follows": "accept",
     }
     assert {i: ids[i]["decision"] for i in named} == named
 

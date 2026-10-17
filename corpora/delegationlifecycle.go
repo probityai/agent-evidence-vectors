@@ -39,7 +39,15 @@ func init() { register(delegationLifecycle{}) }
 //     standing, whose effective_at is at or before observed_at
 //     (revocation_incomplete when it states no grounds,
 //     grant_revoked_dispute_open while an affected principal's dispute has no
-//     resolution with standing, grant_revoked otherwise).
+//     resolution with standing, grant_revoked otherwise);
+//  7. every recovery record that names the presenter as its new identifier is
+//     signed by the registry and the Responsible entity
+//     (signature_invalid:recovery), and the registry registered both identifiers
+//     to that entity with one software attestation digest (recovery_mismatch).
+//
+// A recovery record never carries a grant. An accepted presenter whose
+// recovered predecessors left adverse records is accepted with
+// authority_valid_with_history.
 //
 // A record whose signature does not verify counts as absent. The README states
 // each rule and which of them are proposals.
@@ -101,6 +109,7 @@ var dlRequired = map[string]struct{ text, times []string }{
 	"dispute":               {[]string{"dispute_id", "revocation_id", "filed_by"}, []string{"filed_at"}},
 	"resolution":            {[]string{"dispute_id", "revocation_id", "decided_by", "outcome"}, []string{"decided_at"}},
 	"link":                  {[]string{"link_id", "old", "new"}, []string{"linked_at"}},
+	"recovery":              {[]string{"recovery_id", "old", "new", "responsible"}, []string{"recovered_at"}},
 	"presentation":          {[]string{"presenter"}, []string{"observed_at"}},
 }
 
@@ -109,7 +118,8 @@ var dlRules = []string{
 	"signature", "relying_party_attestation", "link_registry_attestation", "chain",
 	"presenter_active", "links", "link_conflict", "link_old_active", "revocation",
 	"revocation_time", "standing", "revocation_complete", "dispute", "resolution",
-	"resolution_standing",
+	"resolution_standing", "recovery_no_authority", "recovery_signature", "recovery_match",
+	"recovery_history",
 }
 
 func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
@@ -293,6 +303,9 @@ func (s *dlState) verify(r *dlRecord) bool {
 	case "link":
 		registered := s.off("link_registry_attestation") || s.signedBy(r, registry)
 		return registered && s.signedBy(r, s.keys[r.str("old")]) && s.signedBy(r, s.keys[r.str("new")])
+	case "recovery":
+		responsible := s.off("recovery_signature") || s.signedBy(r, s.keys[r.str("responsible")])
+		return responsible && s.signedBy(r, registry)
 	}
 	return false
 }
@@ -320,10 +333,93 @@ func (s *dlState) decide(p *dlRecord) scDecision {
 	if reason := s.revoked(chain, p.str("presenter"), observed); reason != "" {
 		return dlReject(reason)
 	}
-	if viaLink {
+	history, reason := s.recovered(p.str("presenter"))
+	if reason != "" {
+		return dlReject(reason)
+	}
+	switch {
+	case viaLink:
 		return scDecision{Decision: "accept", Reason: "authority_valid_via_link"}
+	case history:
+		return scDecision{Decision: "accept", Reason: "authority_valid_with_history"}
 	}
 	return scDecision{Decision: "accept", Reason: "authority_valid"}
+}
+
+// recovered follows the recovery records that end at presenter back to every
+// predecessor. It refuses a recovery that does not verify or whose two
+// registrations do not match, and reports whether any predecessor left an
+// adverse record.
+func (s *dlState) recovered(presenter string) (bool, string) {
+	history := false
+	visited := map[string]bool{}
+	for queue := []string{presenter}; len(queue) > 0; queue = queue[1:] {
+		at := queue[0]
+		if visited[at] {
+			continue
+		}
+		visited[at] = true
+		for _, r := range s.records {
+			if r.kind != "recovery" || r.str("new") != at {
+				continue
+			}
+			if !r.verified {
+				return false, "signature_invalid:recovery"
+			}
+			if !s.off("recovery_match") && !s.recoveryMatches(r) {
+				return false, "recovery_mismatch"
+			}
+			old := r.str("old")
+			history = history || (!s.off("recovery_history") && s.adverse(old))
+			queue = append(queue, old)
+		}
+	}
+	return history, ""
+}
+
+func (s *dlState) registration(identifier string) *dlRecord {
+	for _, r := range s.records {
+		if r.kind == "registration" && r.verified && r.str("identifier") == identifier {
+			return r
+		}
+	}
+	return nil
+}
+
+// recoveryMatches reports whether the registry registered the old and the new
+// identifier to the recovery's Responsible entity with one software digest.
+func (s *dlState) recoveryMatches(r *dlRecord) bool {
+	old, next := s.registration(r.str("old")), s.registration(r.str("new"))
+	if old == nil || next == nil {
+		return false
+	}
+	responsible := r.str("responsible")
+	return old.str("responsible") == responsible && next.str("responsible") == responsible &&
+		old.str("software") != "" && old.str("software") == next.str("software")
+}
+
+// adverse reports whether identifier left a record a relying party must see: an
+// identifier revocation, a revocation of a grant made to it, or a dispute it
+// filed.
+func (s *dlState) adverse(identifier string) bool {
+	delegated := map[string]bool{}
+	for _, r := range s.records {
+		if r.kind == "grant" && r.verified && r.str("delegate") == identifier {
+			delegated[r.str("grant_id")] = true
+		}
+	}
+	for _, r := range s.records {
+		if !r.verified {
+			continue
+		}
+		switch {
+		case r.kind == "identifier-revocation" && r.str("identifier") == identifier,
+			r.kind == "revocation" && delegated[r.str("grant_id")],
+			r.kind == "dispute" && r.str("filed_by") == identifier:
+			return true
+		}
+	}
+	return false
 }
 
 func (s *dlState) presentationAttested(p *dlRecord) bool {
@@ -450,7 +546,7 @@ func (s *dlState) holder(delegate, presenter string) (bool, string) {
 func (s *dlState) hop(old string) (string, string) {
 	var links []*dlRecord
 	for _, r := range s.records {
-		if r.kind == "link" && r.verified && r.str("old") == old {
+		if s.carries(r) && r.verified && r.str("old") == old {
 			links = append(links, r)
 		}
 	}
@@ -461,10 +557,23 @@ func (s *dlState) hop(old string) (string, string) {
 	if !s.off("link_conflict") && (len(links) > 1 || s.predecessors(link.str("new")) > 1) {
 		return "", "link_conflict"
 	}
-	if !s.off("link_old_active") && s.inactive(old, link.times["linked_at"]) {
+	if !s.off("link_old_active") && s.inactive(old, dlLinkedAt(link)) {
 		return "", "link_old_inactive"
 	}
 	return link.str("new"), ""
+}
+
+// carries reports whether r passes a grant on: a link always, a recovery record
+// only when the recovery_no_authority rule is switched off.
+func (s *dlState) carries(r *dlRecord) bool {
+	return r.kind == "link" || (r.kind == "recovery" && s.off("recovery_no_authority"))
+}
+
+func dlLinkedAt(r *dlRecord) time.Time {
+	if r.kind == "recovery" {
+		return r.times["recovered_at"]
+	}
+	return r.times["linked_at"]
 }
 
 func (s *dlState) predecessors(identifier string) int {
