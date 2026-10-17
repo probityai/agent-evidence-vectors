@@ -41,6 +41,7 @@ import tempfile
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Any
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "count-gate.py"
@@ -836,6 +837,240 @@ CENSUS_CASES.append(
 )
 
 # --------------------------------------------------------------------------
+# A measurement is not a count, and no count is read as a measurement
+# --------------------------------------------------------------------------
+
+# A registered corpus's total, read from its manifest. It is the value that
+# walked onto 104 digest lengths and bit widths when the audit record corpus
+# reached 64 members, so the cases below plant whatever that total is today.
+AUDIT_RECORD_TOTAL = len(
+    json.loads(
+        (REPO_ROOT / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
+    )["vectors"]
+)
+
+
+# The scores the independent-runs ledger posts, spelled as posted.
+POSTED = frozenset(
+    str(figure["figure"])
+    for run in json.loads(
+        (REPO_ROOT / "docs" / "INDEPENDENT-RUNS.json").read_text(encoding="utf-8")
+    )["runs"]
+    for figure in run.get("figures", [])
+)
+
+
+def claim_forms(value: int) -> list[str]:
+    """Every shape in which this repository states a total, carrying ``value``.
+
+    Read off the census of the tree as it stood before measurements were told
+    apart: the declared claims and the counted prose state a total in these
+    shapes and no others. Each is one sentence with no other digit in it, so the
+    census can object to exactly one integer per sentence. The last two are the
+    cases that matter most: a bare integer whose context says nothing, which must
+    still be refused, and a count noun reached through a hyphen after a unit
+    word, which must not be mistaken for a measurement.
+    """
+    return [
+        f"Form A: the suite replays {value} members as this is written",
+        f"Form B: it cleared all {value} strict passes",
+        f"Form C: the verifier exits cleanly over {value} members",
+        f"Form D: it prints `members: {value}` on success",
+        f"Form E: a gate demanding {value} would go red",
+        f"Form F: it stays silent about the {value} that already disagree",
+        f"Form G: this is a {value}-member corpus",
+        f"Form H: the profile runs {value} cases",
+        f"Form I: the ledger carries {value} entries",
+        f"Form J: the census reads {value} records",
+        f"Form K: the corpus stands at {value} statements",
+        f"Form L: it reports {value} single-site weakenings",
+        f"Form M: the suite holds {value} vectors",
+        *(
+            # A ratio the independent-runs ledger posts verbatim is accounted
+            # for by that ledger, so planting one would test the ledger rather
+            # than this rule. Only those are left out, and only for that value.
+            [
+                f"Form N: the reader agreed on {value} of {value}",
+                f"Form O: the score is {value}/{value}",
+            ]
+            if f"{value}/{value}" not in POSTED
+            else []
+        ),
+        f"Form P: the export carries the full {value}",
+        f"Form Q: the suite ships {value} hex-encoded vectors",
+    ]
+
+
+def measure_forms(value: int) -> list[tuple[str, str]]:
+    """Each measurement shape, with the same sentence stripped of what measures.
+
+    The first of each pair must pass and the second must be refused. Holding both
+    is what makes the pair mean something: a measure form that passed only
+    because its value was not live would pass stripped as well, and the stripped
+    sentences are the fail-closed half, an integer whose context no longer says
+    what it is.
+    """
+    return [
+        (f"A digest is {value} hex characters", f"A digest is {value} long"),
+        (f"Each id is {value} lowercase hex characters", f"Each id is {value} lowercase"),
+        (f"The field is a {value}-bit integer", f"The field is a {value} integer"),
+        (f"The key carries {value} bits", f"The key carries {value} in all"),
+        (f"The buffer is {value} bytes", f"The buffer is {value} wide"),
+        (f"The id has {value} digits", f"The id has {value} parts"),
+        (
+            f"The sentinel is `NOT-{value}-HEX` on purpose",
+            f"The sentinel is `NOT-{value}` on purpose",
+        ),
+        (f"The pattern is `[0-9a-f]{{{value}}}`", f"The pattern is `{{{value}}}`"),
+        (f"The check is `len(s) != {value}`", f"The check is `s != {value}`"),
+        (f"The prefix is `digest[:{value}]`", f"The prefix is `digest {value}`"),
+        (f"A sha256 is <{value} lowercase hex>", f"A sha256 is <{value}>"),
+        (f"The digest is {value}\nlowercase hex", f"The digest is {value}\nlowercase"),
+    ]
+
+
+def plant(root: Path, sentences: list[str]) -> None:
+    """Append each sentence as its own paragraph, so each is its own sentence."""
+    append(root, "BUILD-NOTES.md", "".join(f"\n\n{sentence}.\n" for sentence in sentences))
+
+
+def claim_form_case(value: int, what: str) -> Case:
+    forms = claim_forms(value)
+    return (
+        f"every claim form states {what} by hand",
+        lambda root: plant(root, forms),
+        (
+            f"FAIL: {len(forms)} count claim(s) do not hold",
+            *(f"In: '{form}'" for form in forms),
+        ),
+    )
+
+
+def measure_case(value: int, stripped: bool) -> Case:
+    pairs = measure_forms(value)
+    sentences = [pair[1] if stripped else pair[0] for pair in pairs]
+    if stripped:
+        return (
+            "the measure sentences with their measuring context removed",
+            lambda root: plant(root, sentences),
+            (f"FAIL: {len(sentences)} count claim(s) do not hold",),
+        )
+    return (
+        "a live corpus total used as a size, a width, a length and an index",
+        lambda root: plant(root, sentences),
+        ("are accounted for",),
+    )
+
+
+def retype_every_claim(root: Path) -> None:
+    """Give every declared claim a wrong value at once, in its own sentence.
+
+    The claims are read from the gate itself, against the staged tree, so the
+    case covers every claim form the gate declares today and every one it gains
+    later, and names none of their values.
+    """
+    gate = load_gate(root)
+    import countcensus
+
+    by_path: dict[str, list[tuple[int, int, str]]] = {}
+    for claim in gate.claims(gate.load_sources()):
+        text = (root / claim.path).read_text(encoding="utf-8")
+        for hit in countcensus.claim_pattern(claim.opens, claim.closes).finditer(text):
+            value = hit.group(1)
+            wrong = (
+                re.sub(r"\d+", lambda m: str(int(m.group(0)) + 1), value, count=1)
+                if re.search(r"\d", value)
+                else "9999"
+            )
+            by_path.setdefault(claim.path, []).append((hit.start(1), hit.end(1), wrong))
+    for rel, edits in by_path.items():
+        path = root / rel
+        text = path.read_text(encoding="utf-8")
+        for start, end, wrong in sorted(set(edits), reverse=True):
+            text = text[:start] + wrong + text[end:]
+        path.write_text(text, encoding="utf-8")
+
+
+def load_gate(root: Path) -> Any:
+    """The gate module, pointed at ``root``, for cases that need its declarations."""
+    import importlib.util
+
+    sys.path.insert(0, str(REPO_ROOT / "scripts"))
+    spec = importlib.util.spec_from_file_location("count_gate_under_test", GATE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"test setup: {GATE} cannot be loaded as a module.")
+    module: Any = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    module.REPO_ROOT = root
+    return module
+
+
+def every_claim_label() -> tuple[str, ...]:
+    gate = load_gate(REPO_ROOT)
+    return tuple(sorted({claim.label for claim in gate.claims(gate.load_sources())}))
+
+
+def measure_scope_failures() -> list[str]:
+    """On the tree as it stands, a measure context takes out no counted integer.
+
+    Run in process over the real tree, read only. Every integer the measure rule
+    removes from the census is checked against the routes that account for an
+    integer AS A COUNT -- a declared claim, a revision attribution, the changelog
+    scope -- and any hit is a measurement pattern swallowing a real count.
+    """
+    import dataclasses
+
+    gate = load_gate(REPO_ROOT)
+    import countcensus as cc
+
+    src = gate.load_sources()
+    quantities = gate.quantities(src)
+    texts = cc.read_tracked(REPO_ROOT, gate.READ_SUFFIXES, gate.EXEMPT, gate.EXEMPT_PREFIXES)
+    _, covered = cc.check_claims(gate.claims(src), texts)
+    bare = dataclasses.replace(gate.CENSUS, measures=())
+    failures: list[str] = []
+    for rel, text in sorted(texts.items()):
+        if rel in gate.CENSUS.self_files:
+            continue
+        masked = cc.mask(gate.CENSUS, text)
+        regions = cc.prose_regions(rel, text)
+        kept = {(t.start, t.end) for t in cc.count_tokens(gate.CENSUS, quantities, masked, regions)}
+        for token in cc.count_tokens(bare, quantities, masked, regions):
+            if (token.start, token.end) in kept:
+                continue
+            why = cc.accounted(bare, quantities, rel, text, token, covered.get(rel, [])) or ""
+            if (
+                why.startswith("the declared claim")
+                or why == gate.CENSUS.attribution_why
+                or why.startswith("a size the corpus had")
+            ):
+                line = text.count("\n", 0, token.start) + 1
+                failures.append(
+                    f"{rel}:{line}: {token.figure!r} is accounted for as a count ({why}) "
+                    "and a measure context took it out of the census."
+                )
+    return failures
+
+
+MEASURE_CASES: list[Case] = [
+    claim_form_case(TOTAL, "the corpus total"),
+    claim_form_case(AUDIT_RECORD_TOTAL, "the audit record corpus total"),
+    measure_case(AUDIT_RECORD_TOTAL, stripped=True),
+    measure_case(TOTAL, stripped=True),
+    (
+        "every declared claim is retyped to a wrong value",
+        retype_every_claim,
+        every_claim_label(),
+    ),
+]
+
+MEASURE_ACCEPT_CASES: list[Case] = [
+    measure_case(AUDIT_RECORD_TOTAL, stripped=False),
+    measure_case(TOTAL, stripped=False),
+]
+
+# --------------------------------------------------------------------------
 # The accepting cases
 # --------------------------------------------------------------------------
 
@@ -962,6 +1197,8 @@ def main() -> int:
         ("census", CENSUS_CASES, True),
         ("source", SOURCE_CASES, True),
         ("accept", ACCEPT_CASES, False),
+        ("measure", MEASURE_CASES, True),
+        ("measured", MEASURE_ACCEPT_CASES, False),
     )
     failures: list[str] = []
     with tempfile.TemporaryDirectory() as raw:
@@ -983,15 +1220,20 @@ def main() -> int:
                 failure = future.result()
                 if failure is not None:
                     failures.append(failure)
-    total = len(CLAIM_CASES) + len(CENSUS_CASES) + len(SOURCE_CASES) + len(ACCEPT_CASES)
-    if len(futures) != total:
-        raise SystemExit(f"judged {len(futures)} case(s) of {total}; refusing to report a pass")
+    staged = sum(len(cases) for _, cases, _ in groups)
+    if len(futures) != staged:
+        raise SystemExit(f"judged {len(futures)} case(s) of {staged}; refusing to report a pass")
+    # The one case that reads the real tree rather than a staged copy: no integer
+    # a measure context removes is one the tree accounts for as a count.
+    failures.extend(measure_scope_failures())
+    accepting = sum(len(cases) for _, cases, want_refusal in groups if not want_refusal)
+    total = staged + 1
     if failures:
         print(f"FAIL: {len(failures)} of {total} case(s) do not hold:", file=sys.stderr)
         for failure in failures:
             print(f"  {failure}", file=sys.stderr)
         return 1
-    refusals = total - len(ACCEPT_CASES)
+    refusals = total - accepting
     print(
         f"OK: {total} case(s), of which {refusals} assert a refusal the gate makes "
         "and name the sentence it makes it about."
