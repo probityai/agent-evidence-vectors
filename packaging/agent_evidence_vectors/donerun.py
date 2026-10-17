@@ -464,7 +464,8 @@ def run(suite: str, root: str, verifier: list[str] | None, report_path: str,
         manifest, total = {}, 0
     for error in errors:
         print(error)
-    print(f"{suite}: reference reader answered {answered} of {total} cases, {len(errors)} disagreements")
+    print(f"{suite}: reference reader answered {answered} of {total} cases, "
+          f"{len(errors)} disagreements")
     if not answered or not total:
         print("no report written: no case was answered")
         return 2
@@ -491,7 +492,8 @@ def runner(suite: str) -> Callable[[str, list[str] | None, str, str], int]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("suite", choices=SUITES)
-    parser.add_argument("corpus", nargs="?", help="the corpus directory (default: the packaged one)")
+    parser.add_argument("corpus", nargs="?",
+                        help="the corpus directory (default: the packaged one)")
     args = parser.parse_args(argv)
     root = Path(args.corpus) if args.corpus else None
     answered, errors = check(args.suite, root)

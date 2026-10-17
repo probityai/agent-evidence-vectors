@@ -462,8 +462,8 @@ def witness(case: dict[str, Any], policy: dict[str, Any], witness_id: str, root:
     return data, pin
 
 
-def start(case: Any, policy: Any, claim_type: str,
-          assessment_fields: set[str]) -> tuple[str, dict[str, Any], dict[str, Any], dict[str, Any]]:
+def start(case: Any, policy: Any, claim_type: str, assessment_fields: set[str]
+          ) -> tuple[str, dict[str, Any], dict[str, Any], dict[str, Any]]:
     """Validate the case and policy envelopes; return case id, assessment, case, policy."""
     case = fields(case, "case", {"schema_version", "case_id", "artifacts"})
     policy = fields(policy, "policy", {"schema_version", "witnesses", "assessments"})

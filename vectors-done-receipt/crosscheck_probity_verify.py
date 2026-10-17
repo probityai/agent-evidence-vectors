@@ -10,7 +10,8 @@ does not rest on one implementation. Run it with the adapters installed:
 
 Exit 0 when every check agrees, 1 on a disagreement, 2 when nothing was compared.
 A member whose launch record or launch receipt breaks a rule is not compared:
-probity-verify does not read those. A member whose other records break a rule is expected to be refused by probity-verify too
+probity-verify does not read those. A member whose other records break a rule is expected to be
+refused by probity-verify too
 (it raises ``CaseError``); the codes are this repository's own and are not compared.
 """
 
