@@ -1,10 +1,10 @@
-# Install, verify and cite Probity Vectors
+# Install, verify and cite Agent Evidence Vectors
 
 Use this page to choose an installation route or identify the corpus you ran. For the verifier interface, see the [verifier contract](docs/reference/verifier-contract.md).
 
 ## The tag to cite
 
-`v0.18.1`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.19.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.18.1) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.18.1/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.19.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.19.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.18.1
-uvx agent-evidence-vectors==0.18.1 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.19.0
+uvx agent-evidence-vectors==0.19.0 --verifier "aee-verify --json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.18.1
+cd agent-evidence-vectors && git checkout v0.19.0
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.18.1
+git checkout v0.19.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -95,6 +95,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-mcp-response-phase/` | `mcp-response-phase-interception` | whether a response-phase MCP interceptor is invoked on JSON-RPC error frames, and whether its decision governs what the caller receives |
 | `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
 | `vectors-receipt-signature/` | `receipt-signature-conformance` | signed decision receipts under draft-farley-acta-signed-receipts-03: the signing input, the key's validity window and the Section 6.6 rules, judged against an external key set with and without its windows |
+| `vectors-admission/` | `adversarial-execution-evidence-admission` | the admission answer a verifier reports for an Adversarial Execution Evidence statement under a consumer's policy: every pin supplied or declined by name, the subject matched by the digest an observer bound, a fail result refused, and time bounded against an observer-signed instant |
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-anchored-chain/` | `anchored-record-chain/v1` | signed agent memory records whose head is anchored outside the store: the storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity, including the ones that pass every signature check and fail only against the chain links or the anchor |
 | `vectors-receipt-chain-end/` | `receipt-chain-end/v1` | signed agent action receipt chains in the ActionReceipt v1 wire format, judged on whether the chain held is the whole chain: tail cuts, forks, re-rooted rotations and stale heads that keep every signature and link valid, and the close or retained head that proves the end |

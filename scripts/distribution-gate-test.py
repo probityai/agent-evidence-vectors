@@ -594,7 +594,10 @@ def missing_python_command(root: Path) -> str:
     _edit(
         root,
         Path("README.md"),
-        lambda text: _sub(r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE),
+        # Every command goes: the README carries one per route (the reference
+        # rail and an external verifier), and removing only the first leaves a
+        # pinned command behind, so the tree still holds no defect.
+        lambda text: _sub(r"^uvx --from [^\n]+\n", "", text, flags=re.MULTILINE, count=0),
     )
     return "README.md has no pinned Python install command"
 

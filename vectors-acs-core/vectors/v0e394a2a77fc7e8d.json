@@ -1,0 +1,62 @@
+{
+  "cites": "an allow with correlation_uid set and no unmapped.acs.request_id. The mapping requires both, and a join on the native ACS fields finds no request for this allow.",
+  "coverage": "observed",
+  "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-18",
+  "id": "v0e394a2a77fc7e8d",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "activity_id": 99,
+        "app": {
+          "name": "agent-acs-vectors"
+        },
+        "category_uid": 6,
+        "class_name": "Application Lifecycle",
+        "class_uid": 6002,
+        "metadata": {
+          "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259",
+          "product": {
+            "name": "ACS Guardian",
+            "vendor_name": "ACS"
+          },
+          "version": "1.9.0"
+        },
+        "severity_id": 1,
+        "type_uid": 600299,
+        "unmapped": {
+          "acs": {
+            "decision": "allow",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-067",
+      "line": 61,
+      "sentence": "\"default\": [\"severity_id\", \"metadata.correlation_uid\", \"unmapped.acs.request_id\", \"unmapped.acs.session_id\", \"unmapped.acs.decision\"]",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "specification/v0.1.0/trace/ocsf-mapping.json",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/ocsf-mapping-7d9b7ff.json"
+    }
+  ],
+  "requirements": [
+    "ACS-R-067"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

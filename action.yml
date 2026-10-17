@@ -13,7 +13,7 @@ branding:
 inputs:
   verifier:
     description: >-
-      Command line of the verifier under test, for example `./aee-verify -json`.
+      Command line of the verifier under test, for example `./aee-verify -validity-only -json`.
       The first token must be on PATH or a path relative to the workspace. This
       verifier is always the program that runs: the job fails when it cannot be
       started or when it answered fewer vectors than the corpus holds.

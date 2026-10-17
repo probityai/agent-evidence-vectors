@@ -3,7 +3,8 @@
 # Every digest is recomputed from the vector files on disk, never copied from the manifest.
 29b3f2c5a9c2e6b07dc7e925b13c81563e2efd407a62ce05df513fca04e9361c  vectors-a2a-jcs-v01/MANIFEST.json  a2a-agent-card-canonicalization-conformance  vectors=57  no-suiteRevision
 aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MANIFEST.json  aci  vectors=26  no-suiteRevision
-ed64cc6a0e2f903531066b725af79625b4d0f72fe75a809bc31160897366c4a8  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=124  no-suiteRevision
+7cb4d3489db9ef765dec169ca1c080b209fbab184956a8c7d32c2712bc9db0ce  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=139  no-suiteRevision
+df985af46115ba5cd9b6453d879fa4cac1181c061b27e7615ce69bcef3bf3ede  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=21  no-suiteRevision
 fec27bdf2660063872967d6abde35d7c4b86a4c5038237e952edfb0d92d884cf  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=71  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision

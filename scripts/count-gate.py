@@ -79,6 +79,12 @@ What makes an integer count-shaped, mechanically:
 Values below twenty are ambiguous with ordinary prose, so for those VALUE fires
 only next to a word from the closed vocabulary in SMALL_VALUE_NOUNS below.
 
+VALUE does not fire on a MEASUREMENT: an integer whose own syntax says it is a
+size, a width, a length or an index (`64 hex characters`, `64-bit`, `{64}`,
+`len(s) != 64`, `digest[:16]`). MEASURES below lists those contexts and argues
+why they are the only ones. An integer with no such context stays count-shaped,
+so a number whose context is ambiguous still needs one of the accounts below.
+
 Forms that are not counts are masked before any of this runs: spec anchors
 (`L157-165`, `spec:req-fields-row-per-executed-attack-attackid@73a2f29b13fa08fa`),
 vector ids and id lists (`ok-006/007/029`),
@@ -216,6 +222,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-ai-generation",
     "vectors-receipt-signature",
     "vectors-agent-audit-record",
+    "vectors-admission",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1326,6 +1333,16 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- the output of a published, immutable release, shown as it prints.
+    Frozen(
+        'README.md',
+        "the last line the pinned v0.19.0 package prints for its default corpus",
+        'totals: 288 vectors, 288 pass, 0 fail',
+        'The output of `uvx agent-evidence-vectors==0.19.0`, the release the README pins, for '
+        'the suiteRevision 32 corpus that wheel ships. A published wheel does not change, so '
+        'the line must match that wheel and not the corpus on main; the release that moves the '
+        'pin re-records it.',
+    ),
     # ---- an outside implementer's reported results, recorded as posted.
     Frozen(
         'RUNS.md',
@@ -1652,6 +1669,16 @@ FROZEN: tuple[Frozen, ...] = (
         "| Table A.3.1: Default AI model profile | A.3 | 71 |",
         "The rows of Table A.3.1 of the NIST AI 300-1 draft, a property of that "
         "PDF, not a count of any corpus.",
+    ),
+    # This one came to collide with the ACS-Core corpus total when families
+    # acs-f-18 and acs-f-19 took it to 139.
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the rules the NIST AI 300-1 manifest derives from the draft's four tables",
+        "members over 139 rules",
+        "The number of rules MANIFEST.json derives from the rows of Tables 1, 2, "
+        "A.2.1 and A.3.1 of the NIST AI 300-1 draft, as check_vectors.py prints "
+        "it. A property of that PDF's tables, not a count of any corpus.",
     ),
     Frozen(
         "interop/nist-ai-300-1/test_check_vectors.py",
@@ -2524,6 +2551,27 @@ FROZEN: tuple[Frozen, ...] = (
         "A past behaviour of a cap that no longer ships. The figure explains why "
         "the constant was raised; tracking it to the present would erase that.",
     ),
+    # ---- two integers whose context does not say whether they count or measure.
+    # MEASURES takes an integer out of the census only where its own syntax says
+    # it measures, and these two say it only through the sentence before them, so
+    # the census refuses them, as it should, the day a corpus reaches 64, until
+    # something accounts for them.
+    Frozen(
+        "scripts/_decoding.py",
+        "what the retired item cap reported over a 100-envelope corpus",
+        "reported 64 of its 100\n# hosts",
+        "A measurement taken once, at a cap of 128 items that no longer ships: how "
+        "many hosts the decoder reported before it stopped looking. It counts hosts "
+        "in a staged input, not members of any corpus here.",
+    ),
+    Frozen(
+        "spec/README.md",
+        "the length of a full anchor digest",
+        "`CITATION-ANCHORS.json` carries the full 64",
+        "The length in hex characters of a full SHA-256 anchor digest, named by the "
+        "sentence before it, which gives the inline form's 16. It is a property of "
+        "SHA-256, not a count of anything in a corpus.",
+    ),
     # ---- the number-family page. The one figure on it that is not a vector id
     # is a property of RFC 8785's own Appendix B table, so it does not track any
     # corpus here.
@@ -2749,6 +2797,16 @@ MASKS = tuple(
         # repository publishes is spelled `line 209`. Spec anchors already have
         # their own mask above; this one covers the prose that discusses them.
         r"\blines?\s+\d+\b",
+        # An HTTP status, spelled as prose. Same family as the line numbers
+        # above: `returns 404` names a response a server gave and counts
+        # nothing, and it stayed invisible only while no published quantity
+        # equalled it. The unforced tally reached 404 when the admission rules
+        # joined the forcing campaign, and every sentence saying a predicate
+        # type URI returns 404 was reported as an unaccounted count on the same
+        # run. The verb or article has to sit next to the number, so `404
+        # unforced` and `404 DEAD` are still read and checked.
+        r"\b(?:HTTP|returns?|returned|an?|the|temporarily|will)\s+404\b",
+        r"\b404ed\b",
         r"\bdecisions?\s+\d+",  # interpretation-registry decision ids
         # The w3c-report rule ids. Same family as `aee-c-NN` above, and added
         # for the reason that family's comment predicts: the digit names a rule
@@ -2835,6 +2893,58 @@ MASKS = tuple(
         # spaces is a range wherever it appears; no count in this repository is
         # written that way, and a subtraction would carry spaces.
         r"\b\d{1,4}-\d{1,4}\b",
+    )
+)
+
+# The contexts that make an integer a MEASUREMENT, read by the VALUE trigger only.
+#
+# Why this exists. The VALUE rule fires on an integer for its value alone, and
+# every corpus here is a small integer that grows one member at a time, so each
+# new size walks onto every integer the prose already uses for something else.
+# When the audit record corpus reached 64 members, 104 sentences that state a
+# SHA-256 digest is 64 hex characters, that a field is 64 bits, or that a regex
+# repeats `{64}` times were each refused as an unaccounted corpus total. The
+# corpus had not moved under any of them; the value had moved onto them. Masking
+# or freezing them one at a time is what this gate did at 43, 59, 63 and 68, and
+# it was going to keep doing it at every size a corpus could reach. The byte-size
+# and byte-length masks above are the same argument made for one unit each; this
+# list makes it once for every unit of size or width.
+#
+# What decides. A measurement says so in its own syntax: a unit of size or width
+# directly after the integer, a regex repetition bound, a length comparison, a
+# subscript or slice. Those contexts and nothing else take an integer out of the
+# VALUE rule. A count of a corpus never takes one of these units: there is no
+# claim form in this repository that counts members in bits, characters or
+# bytes. The test suite holds that line from both sides, with every real claim
+# form planted at a live value and refused, and with every measure form accepted.
+#
+# What does not decide. The ABSENCE of a count noun takes nothing out. A bare
+# integer equal to a corpus total, with no unit and no count noun, is still
+# refused until something accounts for it, because "the full 64" may be a length
+# and may be a count and only its writer knows which. Two such sentences are
+# frozen above with what each one measures.
+MEASURE_UNIT = r"(?:hex(?:adecimal)?|bits?|bytes?|octets?|nibbles?|char(?:acter)?s?|digits?)"
+# Words that may sit between the integer and its unit without changing what is
+# measured: `64 lowercase hex characters`, `<64 lowercase hex>`.
+MEASURE_MODIFIER = r"(?:lower-?case|upper-?case|ascii|raw|hex(?:adecimal)?)"
+MEASURES = tuple(
+    re.compile(pattern)
+    for pattern in (
+        # A size or a width: `64 hex characters`, `64-hex`, `NOT-64-HEX`,
+        # `64 bits`, `a 64-bit integer`, `64 lowercase hex`. The unit may follow
+        # a line break, because prose here is hard-wrapped. It must END the
+        # compound: in `64 hex-encoded vectors` the hyphen carries on to the noun
+        # the integer counts, so that is a count and stays one.
+        rf"(?i)(?<![\w.])\d+(?:[-\s]+{MEASURE_MODIFIER}){{0,2}}[-\s]+{MEASURE_UNIT}\b(?!-\w)",
+        # A regex repetition bound: `[0-9a-f]{64}`, `\d{2,64}`. The brace has to
+        # follow the thing it repeats, so a bare `{64}` in prose is not one.
+        r"(?<=[\]).\w}])\{\d*(?:,\d*)?\}",
+        # A length comparison, either way round: `len(s) != 64`, `x.length === 64`.
+        r"\b(?:len\([^()\n]{0,80}\)|\.length)\s*(?:[!=]==?|[<>]=?)\s*\d+",
+        r"\b\d+\s*(?:[!=]==?|[<>]=?)\s*(?:len\(|[\w.]+\.length\b)",
+        # A subscript or a slice: `digest[:16]`, `parts[2]`. The bracket has to
+        # follow what it indexes, so a bracketed number in prose is not one.
+        r"(?<=[\w)\]])\[\s*-?\d*\s*(?::\s*-?\d*\s*){0,2}\]",
     )
 )
 
@@ -3005,6 +3115,7 @@ CENSUS = Census(
     masks=MASKS,
     nouns=((NOUN, "an integer counting vectors"),),
     small_value_nouns=SMALL_VALUE_NOUNS,
+    measures=MEASURES,
     small_value=SMALL_VALUE,
     small_value_window=SMALL_VALUE_WINDOW,
     attribution=ATTRIBUTION,
@@ -3017,7 +3128,7 @@ CENSUS = Census(
 # --------------------------------------------------------------------------
 
 
-def collect() -> tuple[list[str], int, int]:
+def collect() -> tuple[list[str], int, int, int]:
     src = load_sources()
     texts = read_tracked(REPO_ROOT, READ_SUFFIXES, EXEMPT, EXEMPT_PREFIXES)
     failures = manifest_integrity_failures(src)
@@ -3026,9 +3137,10 @@ def collect() -> tuple[list[str], int, int]:
     failures.extend(claim_out)
     failures.extend(check_declarations(DELEGATED, FROZEN, texts, covered))
     failures.extend(index_failures(texts, covered))
-    census_out, examined = run_census(CENSUS, quantities(src), texts, covered)
+    measured: list[tuple[str, int, int]] = []
+    census_out, examined = run_census(CENSUS, quantities(src), texts, covered, measured)
     failures.extend(census_out)
-    return failures, len(texts), examined
+    return failures, len(texts), examined, len(measured)
 
 
 def main(argv: list[str]) -> int:
@@ -3041,7 +3153,7 @@ def main(argv: list[str]) -> int:
         help="the tree to check; a staged copy when the gate's own tests run it",
     )
     REPO_ROOT = parser.parse_args(argv[1:]).root.resolve()
-    failures, files, examined = collect()
+    failures, files, examined, measured = collect()
     if failures:
         print(f"FAIL: {len(failures)} count claim(s) do not hold:", file=sys.stderr)
         for failure in failures:
@@ -3061,7 +3173,9 @@ def main(argv: list[str]) -> int:
         return 1
     print(
         f"OK: every published count is derived from its source, and all {examined} "
-        f"count-shaped integer(s) across {files} tracked file(s) are accounted for."
+        f"count-shaped integer(s) across {files} tracked file(s) are accounted for. "
+        f"{measured} integer(s) equal to a published count were read as "
+        "measurements (a size, a width, a length or an index), not counts."
     )
     return 0
 

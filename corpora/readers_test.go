@@ -66,6 +66,9 @@ var corpusCases = []corpusCase{
 	// A member of the agent-decision corpus is one DSSE envelope in one file,
 	// with its disclosed arguments, where it has any, in a second.
 	{dir: "vectors-agent-decision", memberFileKey: "file"},
+	// A member of the admission corpus is a statement and a consumer policy;
+	// the policy is the half no other member shares, so its bytes are flipped.
+	{dir: "vectors-admission", memberFileKey: "policy"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }
