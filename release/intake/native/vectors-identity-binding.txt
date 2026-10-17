@@ -1,0 +1,5 @@
+suite: agent-did-identity-binding/v1
+members: 12
+  rejected: 9
+  verified: 3
+verdict: every member behaves as MANIFEST.json declares
