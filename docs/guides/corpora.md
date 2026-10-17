@@ -17,9 +17,13 @@ Choose the record format you need, then follow its [reader route](../reference/c
 | Record an AI-assisted dependency change | [vectors-dependency-selection](../../vectors-dependency-selection/) | [Artifact-binding v1, section 6.2](../../spec/artifact-binding/v1.md) |
 | Selected source passages in a report | [vectors-source-coverage](../../vectors-source-coverage/README.md) | Consumer-pinned source capture and time window; named verifier required |
 | Evidence grade derived by the consumer, E0-E4 | [vectors-grade-floor](../../vectors-grade-floor/README.md) | Ladder of AAIF Observability WG issue #37; packaged reader or named verifier |
+| The admission answer for an AEE statement under a consumer policy | [vectors-admission](../../vectors-admission/README.md) | AEE consumer obligations and the statement-layer subject rule; packaged reader or named verifier through `AEE_CONSUMER_POLICY` |
 | Signed admission of a change to an agent's harness | [vectors-agent-change-admission](../../vectors-agent-change-admission/README.md) | Agent change admission predicate, version 1; packaged reader or named verifier |
 | Signed provenance of an agentic process | [vectors-agentic-process-evidence](../../vectors-agentic-process-evidence/README.md) | Agentic Process Evidence predicate v0.1 (in-toto/attestation#609); packaged reader or named verifier |
+| SCITT-wave agent record drafts | [vectors-ietf-agent-record-drafts](../../vectors-ietf-agent-record-drafts/README.md) | the AIR hash chain of draft-emirdag-scitt-ai-agent-execution-01, checkpoint registration in draft-mih-scitt-checkpointed-local-log-02, statement identification in draft-gruszka-scitt-statement-identification-02 |
 | Delegated authority after a revocation, a dispute or a re-registration | [vectors-delegation-lifecycle](../../vectors-delegation-lifecycle/README.md) | Revocation across a delegation tree and identifier links; `aee-verify` |
+| Delegated authority at the moment of dispatch | [vectors-authority-at-dispatch](../../vectors-authority-at-dispatch/README.md) | Authority-at-dispatch contract of agent-evidence-observer: evidence age, revocation, grant window, scope across hops and the approved bytes; packaged reader or named verifier |
+| Agent records bound to a did:web or did:wba subject | [vectors-identity-binding](../../vectors-identity-binding/README.md) | DSSE over DID-subject records, with resolved DID documents and the did:wba `e1_` binding; packaged reader or named verifier |
 | Hash of an agent's tool-call arguments | [vectors-agent-decision](../../vectors-agent-decision/README.md) | `args_hash` and `args_state` of the agent-decision v0.1 predicate proposed in in-toto/attestation#554; `aee-verify` |
 | Signed memory records anchored outside the store | [vectors-anchored-chain](../../vectors-anchored-chain/README.md) | Storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity; packaged reader or named verifier |
 | Whether a signed receipt chain is the whole chain | [vectors-receipt-chain-end](../../vectors-receipt-chain-end/README.md) | ActionReceipt v1 chains with session close, rotation endorsement and retained heads; packaged reader or named verifier |
@@ -61,6 +65,8 @@ These have their own inputs and policies.
 | [WS4 prior-witness candidate](../../interop/ws4-prior-witness-candidate/README.md) | Provenance fixtures for the proposed Section 7.4 integration, using an author-held key and consumer-stipulated pins. Fixture execution supplies neither outside witness custody nor WS4 conformance. |
 | [Framed action tuple](../../interop/action-tuple-framed-v1/README.md) | Separate unsigned profile with explicit UTF-8 byte lengths and a versioned domain. |
 | [A2A retained-field gate](../../interop/a2a-s3-retain-2026-10-01/README.md) | Thirteen source-pinned signature cases. Accepts signer-side dual signing; rejects verifier fallback that leaves an altered legacy URL unsigned. Its consumer policy is separate from A2A's canonicalization ruling. |
+| [JEP Core 0.7 reader](../../interop/jep-core07-reader/README.md) | Runs the pinned JEP fixtures without importing JEP's validator, adapter or runner, under a protocol committed before execution. Reports the validation, producer and acceptance assertions separately. |
+| [REMORA E7 reader](../../packaging/agent_evidence_vectors/remora_e7/README.md) | Checks the native `runtime-surface-e7-v0.1` fixtures against the producer-pinned package digest and computes each result without reading the case's expected answer. |
 
 ## Specification pins
 

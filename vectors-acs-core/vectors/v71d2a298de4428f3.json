@@ -1,0 +1,87 @@
+{
+  "cites": "the same streams and a reader that does not count the modify as applied.",
+  "coverage": "observed",
+  "doesNotAssert": "that the modification was applied when no substitution event exists; a missing event is not proof of an applied modify",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-19",
+  "id": "v71d2a298de4428f3",
+  "kind": "accept",
+  "payload": {
+    "reader_report": {
+      "applied_modify": [],
+      "not_counted": [
+        {
+          "request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+          "why": "acs.decision.substituted"
+        }
+      ]
+    },
+    "record": {
+      "trace": {
+        "guardian": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify"
+                },
+                "name": "acs.decision"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ],
+        "observed_agent": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify",
+                  "acs.substitution.applied": "deny",
+                  "acs.substitution.reason": "modify_composition"
+                },
+                "name": "acs.decision.substituted"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ]
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-069",
+      "line": 25,
+      "sentence": "A reader MUST NOT count a `modify` verdict as applied when this event shares its session and request id.",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/issue-264-body.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-069"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

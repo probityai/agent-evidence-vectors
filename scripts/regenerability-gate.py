@@ -109,6 +109,11 @@ GENERATORS = (
     # over disclosed argument bytes, so a hand-placed member is one whose hash and
     # signature nobody recomputed. It builds its own manifest and index.
     "vectors-agent-decision/gen_vectors.py",
+    # The IETF agent-record drafts corpus. Its AIR records are ES256 under the
+    # deterministic nonce of RFC 6979 and its checkpoints and statements are
+    # Ed25519, so every case is byte-exact. It reads its vendored upstream vectors
+    # and builds its own manifest and index.
+    "vectors-ietf-agent-record-drafts/gen_vectors.py",
     # The conformance appendix for the W3C report format is rendered from that
     # corpus's manifest: every identifier in it is a function of the vectors'
     # bytes, so it runs after the corpus generator and is owned like a vector.
@@ -129,6 +134,8 @@ GENERATORS = (
     "vectors-source-coverage/gen_vectors.py",
     "vectors-anchored-chain/gen_vectors.py",
     "vectors-receipt-chain-end/gen_vectors.py",
+    "vectors-identity-binding/gen_vectors.py",
+    "vectors-authority-at-dispatch/gen_vectors.py",
     "vectors-trace-anchor/gen_vectors.py",
     "vectors-grade-floor/gen_vectors.py",
     "vectors-agent-change-admission/gen_vectors.py",
@@ -138,6 +145,10 @@ GENERATORS = (
     # The MCP receipt examples import the observed-effect generator's helpers,
     # so they run after it and regenerate with it.
     "examples/mcp-receipts/gen_examples.py",
+    # The admission corpus: statements copied from vectors/ or rewritten in a
+    # field the run binding does not cover, the policies beside them, and the
+    # manifest and index emitted from both.
+    "vectors-admission/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -259,11 +270,22 @@ OWNED = (
     ("vectors-receipt-chain-end/cases", "**/chain.jsonl"),
     ("vectors-receipt-chain-end/cases", "**/head.json"),
     ("vectors-receipt-chain-end/cases", "**/endorsement.json"),
+    ("vectors-identity-binding", "MANIFEST.json"),
+    ("vectors-identity-binding/cases", "**/case.json"),
+    ("vectors-identity-binding/cases", "**/envelope.json"),
+    ("vectors-identity-binding/cases", "**/did-*.json"),
+    ("vectors-authority-at-dispatch", "MANIFEST.json"),
+    ("vectors-authority-at-dispatch/cases", "**/record.json"),
+    ("vectors-authority-at-dispatch/cases", "**/dispatched.bin"),
     ("vectors-trace-anchor/cases", "**/case.json"),
     ("vectors-source-coverage/cases", "**/case.json"),
     ("vectors-source-coverage/cases", "**/policy.json"),
     ("vectors-source-coverage/cases", "**/report.txt"),
     ("vectors-source-coverage/cases", "**/source.html"),
+    ("vectors-admission/statements", "v*.json"),
+    ("vectors-admission/policies", "v*.json"),
+    ("vectors-admission", "MANIFEST.json"),
+    ("vectors-admission", "INDEX.md"),
     ("vectors-self-reported-record/statements", "v*.json"),
     ("vectors-self-reported-record", "MANIFEST.json"),
     ("vectors-self-reported-record", "INDEX.md"),
@@ -271,6 +293,9 @@ OWNED = (
     ("vectors-agent-decision/arguments", "v*.json"),
     ("vectors-agent-decision", "MANIFEST.json"),
     ("vectors-agent-decision", "INDEX.md"),
+    ("vectors-ietf-agent-record-drafts/cases", "v*.json"),
+    ("vectors-ietf-agent-record-drafts", "MANIFEST.json"),
+    ("vectors-ietf-agent-record-drafts", "INDEX.md"),
 )
 
 # Deliberately NOT owned above, for the two reasons the header already gives.

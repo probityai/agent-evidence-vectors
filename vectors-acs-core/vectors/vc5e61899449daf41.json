@@ -1,0 +1,63 @@
+{
+  "cites": "the same allow captioned Application Activity. That is the category 6002 sits in, the caption the prose rule carried before pull request 278; the class is Application Lifecycle, so a consumer keying on the caption finds no 6002 row.",
+  "coverage": "observed",
+  "doesNotAssert": "the activity_id of a 6002 allow, which pull request 278 leaves open with the other 6002 rows, or that the action ran; the event records the Guardian's verdict, never the enforced outcome",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-18",
+  "id": "vc5e61899449daf41",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "activity_id": 99,
+        "app": {
+          "name": "agent-acs-vectors"
+        },
+        "category_uid": 6,
+        "class_name": "Application Activity",
+        "class_uid": 6002,
+        "metadata": {
+          "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:929babb2-273b-41ce-800f-35eea097a259",
+          "product": {
+            "name": "ACS Guardian",
+            "vendor_name": "ACS"
+          },
+          "version": "1.9.0"
+        },
+        "severity_id": 1,
+        "type_uid": 600299,
+        "unmapped": {
+          "acs": {
+            "decision": "allow",
+            "request_id": "929babb2-273b-41ce-800f-35eea097a259",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-062",
+      "line": 82,
+      "sentence": "| Decision (allow) | Application Lifecycle | 6002 |",
+      "upstreamCommit": "7d9b7ffa3e07786607d34187659683503673256a",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/trace-events-7d9b7ff.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-062"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

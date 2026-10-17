@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.18.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.18.1`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.18.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.18.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.18.1) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.18.1/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.18.0
-uvx agent-evidence-vectors==0.18.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.18.1
+uvx agent-evidence-vectors==0.18.1 --verifier "aee-verify --json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.18.0
+cd agent-evidence-vectors && git checkout v0.18.1
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.18.0
+git checkout v0.18.1
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -83,6 +83,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors/` | `adversarial-execution-evidence-conformance` | the adversarial-execution-evidence predicate this repository vendors, tracked at in-toto/attestation#570 |
 | `vectors-agent-audit-record/` | `agent-audit-record-conformance` | the agent audit record of draft-gilda-wimse-agent-audit-record-02: one member per row of its Appendix B, each carrying its Appendix B identifier, then members for the sentences of Sections 5.3, 5.4 and 5.5 that Appendix B has no row for, covering the canonical form, the request-digest and write-chain recomputes, the derived agreement, the recomputed tier, and whether the decision point could evaluate |
 | `vectors-agent-decision/` | `agent-decision-conformance` | the `args_hash` rule of the agent-decision predicate proposed at in-toto/attestation#554: SHA-256 over the RFC 8785 bytes of the arguments, number forms across the exponent range and the 2^53 - 1 boundary, and an `args_state` that keeps a redacted call apart from an unrecorded one |
+| `vectors-ietf-agent-record-drafts/` | `ietf-agent-record-drafts-conformance` | three SCITT-wave Internet-Drafts: the AgentInteractionRecord hash chain of draft-emirdag-scitt-ai-agent-execution-01, checkpoint registration in draft-mih-scitt-checkpointed-local-log-02, and statement references across equivalent encodings in draft-gruszka-scitt-statement-identification-02; each member records the verdict the draft's own steps reach and what its expected verdict does not assert |
 | `vectors-aci/` | `aci` | the agent capability interface levels and their serialization |
 | `vectors-acs-core/` | `acs-core-negative-conformance` | the mandatory profile of the agent control standard, by negative members against vendored specification text |
 | `vectors-ai-agent-action/` | `ai-agent-action-conformance` | the AI Agent Action predicate proposed at in-toto/attestation#588, plus the canonicalization text this repository puts forward for it |
@@ -94,6 +95,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-mcp-response-phase/` | `mcp-response-phase-interception` | whether a response-phase MCP interceptor is invoked on JSON-RPC error frames, and whether its decision governs what the caller receives |
 | `vectors-observed-effect/` | `observed-effect-conformance` | the observed-effect predicate: a mutation interval recorded from a vantage the observed party does not control, with the authority tier recomputed rather than read as a claim |
 | `vectors-receipt-signature/` | `receipt-signature-conformance` | signed decision receipts under draft-farley-acta-signed-receipts-03: the signing input, the key's validity window and the Section 6.6 rules, judged against an external key set with and without its windows |
+| `vectors-admission/` | `adversarial-execution-evidence-admission` | the admission answer a verifier reports for an Adversarial Execution Evidence statement under a consumer's policy: every pin supplied or declined by name, the subject matched by the digest an observer bound, a fail result refused, and time bounded against an observer-signed instant |
 | `vectors-scitt-cose/` | `scitt-cose-carriage-conformance` | carriage of the predicate over SCITT and COSE receipts |
 | `vectors-anchored-chain/` | `anchored-record-chain/v1` | signed agent memory records whose head is anchored outside the store: the storage-level edits of draft-khandelwal-bmwg-agent-memory-integrity, including the ones that pass every signature check and fail only against the chain links or the anchor |
 | `vectors-receipt-chain-end/` | `receipt-chain-end/v1` | signed agent action receipt chains in the ActionReceipt v1 wire format, judged on whether the chain held is the whole chain: tail cuts, forks, re-rooted rotations and stale heads that keep every signature and link valid, and the close or retained head that proves the end |
@@ -102,6 +104,8 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-agent-change-admission/` | `agent-change-admission/v1` | signed decisions that admit or reject a change to an AI agent's harness, in a bare DSSE carriage and an in-toto Statement carriage: pinned keys, the predicate's required fields, the gate record against the admitted flag, and stored reports against the digests the decision names |
 | `vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |
 | `vectors-delegation-lifecycle/` | `delegation-lifecycle/v1` | signed grants, revocations, disputes and identifier links, each case asking whether a presenter holds delegated authority when the relying party observed it: revocation across a delegation tree, a disputed revocation, and re-registration of an agent under a new identifier |
+| `vectors-authority-at-dispatch/` | `authority-at-dispatch/v1` | delegated authority judged at the moment of dispatch: revocation, expiry, stale evidence and scope amplification across hops, including denied records that dispatch exactly the approved bytes |
+| `vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
 | `vectors-a2a-jcs-v01/` | `a2a-agent-card-canonicalization-conformance` | RFC 8785 canonical bytes and the bytes an A2A Agent Card signature covers, vendored byte for byte from a2aproject/a2a-tck at a locked commit and corpus digest |
 | `vectors-mcp-owasp/` | `owasp-mcp-verification-draft` | draft MCP verification requirements MCPVS-1 to MCPVS-12 and threats MCPTM-1 to MCPTM-10, minted once in one registry, with one accept and one reject observation per requirement |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |

@@ -222,6 +222,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-ai-generation",
     "vectors-receipt-signature",
     "vectors-agent-audit-record",
+    "vectors-admission",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -1659,6 +1660,16 @@ FROZEN: tuple[Frozen, ...] = (
         "The rows of Table A.3.1 of the NIST AI 300-1 draft, a property of that "
         "PDF, not a count of any corpus.",
     ),
+    # This one came to collide with the ACS-Core corpus total when families
+    # acs-f-18 and acs-f-19 took it to 139.
+    Frozen(
+        "interop/nist-ai-300-1/README.md",
+        "the rules the NIST AI 300-1 manifest derives from the draft's four tables",
+        "members over 139 rules",
+        "The number of rules MANIFEST.json derives from the rows of Tables 1, 2, "
+        "A.2.1 and A.3.1 of the NIST AI 300-1 draft, as check_vectors.py prints "
+        "it. A property of that PDF's tables, not a count of any corpus.",
+    ),
     Frozen(
         "interop/nist-ai-300-1/test_check_vectors.py",
         "the Table A.2.1 row count a census mutation test feeds the checker",
@@ -2776,6 +2787,16 @@ MASKS = tuple(
         # repository publishes is spelled `line 209`. Spec anchors already have
         # their own mask above; this one covers the prose that discusses them.
         r"\blines?\s+\d+\b",
+        # An HTTP status, spelled as prose. Same family as the line numbers
+        # above: `returns 404` names a response a server gave and counts
+        # nothing, and it stayed invisible only while no published quantity
+        # equalled it. The unforced tally reached 404 when the admission rules
+        # joined the forcing campaign, and every sentence saying a predicate
+        # type URI returns 404 was reported as an unaccounted count on the same
+        # run. The verb or article has to sit next to the number, so `404
+        # unforced` and `404 DEAD` are still read and checked.
+        r"\b(?:HTTP|returns?|returned|an?|the|temporarily|will)\s+404\b",
+        r"\b404ed\b",
         r"\bdecisions?\s+\d+",  # interpretation-registry decision ids
         # The w3c-report rule ids. Same family as `aee-c-NN` above, and added
         # for the reason that family's comment predicts: the digit names a rule
