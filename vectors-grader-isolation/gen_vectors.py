@@ -43,6 +43,7 @@ from agent_evidence_vectors import donechecks as checks  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 SUITE = donerun.GRADER_SUITE
+corpus_digest = lib.corpus_digest
 ALL = (checks.PROTECTED, checks.ACCEPTANCE, checks.TOOLS)
 PYTEST = lib.PYTEST
 OK = ("supported:protected_paths_untouched", "supported:acceptance_passed_in_verifier",

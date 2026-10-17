@@ -30,6 +30,7 @@ from agent_evidence_vectors import donechecks as checks  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 SUITE = donerun.TAMPERING_SUITE
+corpus_digest = lib.corpus_digest
 PROTECTED = (checks.PROTECTED,)
 SKIPPED = "def test_app():\n    pass\n"
 APP = lib.event(1, "write", path="src/app.py")

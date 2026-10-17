@@ -30,6 +30,7 @@ import bundle_lib as lib  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 SUITE = donerun.CONTRACT_SUITE
+corpus_digest = lib.corpus_digest
 BASE = lib.Run(name="base").contract()
 DIGEST = "a" * 64
 ONE = {"path": "tests/test_app.py", "kind": "file", "sha256": lib.sha(lib.TEST_TEXT)}

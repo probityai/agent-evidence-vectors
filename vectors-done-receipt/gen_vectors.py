@@ -35,6 +35,7 @@ from agent_evidence_vectors import donechecks as checks  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 SUITE = donerun.RECEIPT_SUITE
+corpus_digest = lib.corpus_digest
 ALL = (checks.PROTECTED, checks.ACCEPTANCE, checks.TOOLS)
 PYTEST = lib.PYTEST
 HONEST_EVENTS = (

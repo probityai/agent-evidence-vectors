@@ -266,6 +266,19 @@ def write_corpus(root: Path, suite: str, members: list[Member], extra: dict[str,
     (root / "MANIFEST.json").write_bytes(enc(manifest))
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the corpus digest from the files on disk, not from the declared hashes."""
+    base = Path(root)
+    for entry in manifest["vectors"]:
+        directory = base / entry["path"]
+        found = {p.name for p in directory.iterdir() if p.is_file()}
+        if found != set(entry["files"]):
+            raise ValueError(f"{entry['id']}: file set changed")
+        if {name: sha((directory / name).read_bytes()) for name in found} != entry["files"]:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+    return sha(enc(manifest["vectors"]))
+
+
 def check_member(suite: str, member: Member) -> None:
     """Refuse to write a member whose declared verdicts the reader does not reach."""
     with tempfile.TemporaryDirectory() as tmp:
