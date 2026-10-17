@@ -118,8 +118,6 @@ def run_members() -> list[lib.Member]:
                         "supported:acceptance_passed_in_verifier",
                         "supported:tool_claims_matched")
     done_ok = "supported:done_checks_supported"
-    external = HONEST.with_pin("observation", witness_scope="EXTERNAL").with_edit(
-        "observation", lambda r: {**r, "witness_scope": "EXTERNAL"})
     return [
         make("honest", "control: the agent edits src/app.py and runs the tests; the run's own "
              "cache writes carry the run as their origin", build(HONEST),
@@ -175,9 +173,7 @@ def run_members() -> list[lib.Member]:
 
 def vantage_members() -> list[lib.Member]:
     """Runs whose records are well formed and whose vantage the consumer cannot establish."""
-    p_ok, a_ok, t_ok = ("supported:protected_paths_untouched",
-                        "supported:acceptance_passed_in_verifier",
-                        "supported:tool_claims_matched")
+    a_ok = "supported:acceptance_passed_in_verifier"
     ne_vantage = "not_established:observation_vantage_unestablished"
     unestablished = expected(ne_vantage, a_ok, ne_vantage, ne_vantage, None)
     return [
@@ -553,51 +549,65 @@ def record_members() -> list[lib.Member]:
     ]
 
 
-def refusal_members() -> list[lib.Member]:
-    """One record, case or policy at a time breaking one rule of done-records.md."""
-    bare = build(HONEST, receipt=False)
-    launched = build(HONEST, launch=True, receipt=False)
-    out: list[lib.Member] = []
+def _event(index: int, **change: Any) -> Callable[[Any], None]:
+    return lambda r: r["events"][index].update(change)
 
-    def add(case_id: str, edit: str, files: dict[str, bytes], code: str) -> None:
-        out.append(refused(case_id, edit, files, code))
 
-    def role(case_id: str, name: str, code: str, edit: str,
+def _truncated(data: bytes) -> bytes:
+    return data[: len(data) // 2]
+
+
+def _nan(data: bytes) -> bytes:
+    return data.replace(b'"step": 1', b'"step": NaN', 1)
+
+
+def _duplicated(key: bytes) -> Callable[[bytes], bytes]:
+    return lambda data: data.replace(b'  "' + key + b'":', b'  "' + key + b'": 0,\n  "' + key
+                                     + b'":', 1)
+
+
+class _Refusals:
+    """The members that break one rule of done-records.md, built a row at a time."""
+
+    def __init__(self) -> None:
+        self.bare = build(HONEST, receipt=False)
+        self.launched = build(HONEST, launch=True, receipt=False)
+        self.out: list[lib.Member] = []
+
+    def add(self, case_id: str, edit: str, files: dict[str, bytes], code: str) -> None:
+        self.out.append(refused(case_id, edit, files, code))
+
+    def role(self, case_id: str, name: str, code: str, edit: str,
              change: Callable[[Any], None]) -> None:
         def apply(record: dict[str, Any]) -> dict[str, Any]:
             change(record)
             return record
-        add(case_id, edit, pinned(swap(bare, name, apply), name.removesuffix(".json")), code)
+        self.add(case_id, edit, pinned(swap(self.bare, name, apply), name.removesuffix(".json")),
+                 code)
 
-    def raw(case_id: str, name: str, code: str, edit: str,
+    def raw(self, case_id: str, name: str, code: str, edit: str,
             transform: Callable[[bytes], bytes]) -> None:
-        files = {**bare, name: transform(bare[name])}
-        add(case_id, edit, pinned(files, name.removesuffix(".json")), code)
+        files = {**self.bare, name: transform(self.bare[name])}
+        self.add(case_id, edit, pinned(files, name.removesuffix(".json")), code)
 
-    def document(case_id: str, name: str, code: str, edit: str,
+    def document(self, case_id: str, name: str, code: str, edit: str,
                  change: Callable[[Any], None]) -> None:
         def apply(record: dict[str, Any]) -> dict[str, Any]:
             change(record)
             return record
-        add(case_id, edit, swap(bare, name, apply), code)
+        self.add(case_id, edit, swap(self.bare, name, apply), code)
 
-    def launch(case_id: str, name: str, code: str, edit: str,
+    def launch(self, case_id: str, name: str, code: str, edit: str,
                change: Callable[[Any], None]) -> None:
         def apply(record: dict[str, Any]) -> dict[str, Any]:
             change(record)
             return record
-        add(case_id, edit, rebuilt(swap(launched, name, apply), HONEST), code)
+        self.add(case_id, edit, rebuilt(swap(self.launched, name, apply), HONEST), code)
 
-    def event(index: int, **change: Any) -> Callable[[Any], None]:
-        return lambda r: r["events"][index].update(change)
 
-    truncated = lambda data: data[: len(data) // 2]  # noqa: E731
-    nan = lambda data: data.replace(b'"step": 1', b'"step": NaN', 1)  # noqa: E731
-
-    def duplicated(key: bytes) -> Callable[[bytes], bytes]:
-        return lambda data: data.replace(b'  "' + key + b'":', b'  "' + key + b'": 0,\n  "' + key
-                                         + b'":', 1)
-
+def _record_rows(rows: _Refusals) -> None:
+    """Rows shared by all five bound records."""
+    role, raw = (rows.role, rows.raw,)
     for name, label in (("tree", "tree"), ("capability", "capability"), ("grade", "grade"),
                         ("claims", "claims"), ("observation", "observation")):
         file = f"{name}.json"
@@ -607,13 +617,13 @@ def refusal_members() -> list[lib.Member]:
              f"the {label} record names a version that does not exist",
              lambda r: r.update(schema_version="probity-x/v0"))
         raw(f"{label}-truncated", file, f"{label}_json_invalid",
-            f"the {label} record ends in the middle of an object", truncated)
+            f"the {label} record ends in the middle of an object", _truncated)
         raw(f"{label}-duplicate-member", file, f"{label}_json_duplicate_key",
-            f"the {label} record names invocation_id twice", duplicated(b"invocation_id"))
+            f"the {label} record names invocation_id twice", _duplicated(b"invocation_id"))
         role(f"{label}-claim-id-empty", file, f"{label}_claim_id",
              f"the {label} record names no claim", lambda r: r.update(claim_id=""))
     raw("observation-not-a-number", "observation.json", "observation_json_number",
-        "a step that is NaN, which is not JSON", nan)
+        "a step that is NaN, which is not JSON", _nan)
     raw("tree-not-a-number", "tree.json", "tree_json_number", "NaN in the tree record",
         lambda data: data.replace(b'"tree_sha256":', b'"files_total": NaN, "tree_sha256":', 1))
     raw("capability-not-a-number", "capability.json", "capability_json_number",
@@ -636,6 +646,11 @@ def refusal_members() -> list[lib.Member]:
         role(f"{name}-witness-scope-unknown", f"{name}.json", f"{name}_witness_scope",
              f"the {name} record's witness scope is not PEER or EXTERNAL",
              lambda r: r.update(witness_scope="x"))
+
+
+def _record_field_rows(rows: _Refusals) -> None:
+    """Rows that break one field of a bound record."""
+    role = (rows.role,)
     role("tree-files-not-an-object", "tree.json", "tree_files_type", "files is a list",
          lambda r: r.update(files=[]))
     role("tree-file-digest-uppercase", "tree.json", "tree_digest_malformed",
@@ -663,25 +678,25 @@ def refusal_members() -> list[lib.Member]:
     role("observation-events-not-a-list", "observation.json", "observation_events_type",
          "events is an object", lambda r: r.update(events={}))
     role("observation-event-member-unexpected", "observation.json", "observation_event_fields",
-         "an event with a member it does not define", event(0, pid=1))
+         "an event with a member it does not define", _event(0, pid=1))
     role("observation-event-id-empty", "observation.json", "observation_event_id",
-         "an event with no id", event(0, id=""))
+         "an event with no id", _event(0, id=""))
     role("observation-event-type-empty", "observation.json", "observation_event_type",
-         "an event with no type", event(0, type=""))
+         "an event with no type", _event(0, type=""))
     role("observation-step-negative", "observation.json", "observation_step",
-         "a negative step", event(0, step=-1))
+         "a negative step", _event(0, step=-1))
     role("observation-event-time-malformed", "observation.json", "observation_event_instant",
-         "an event time with a zone offset", event(0, time="2026-10-17T00:00:01+00:00"))
+         "an event time with a zone offset", _event(0, time="2026-10-17T00:00:01+00:00"))
     role("observation-exec-without-argv", "observation.json", "observation_exec_argv",
          "an exec event with no argv", lambda r: r["events"][1].pop("argv"))
     role("observation-exec-exit-out-of-range", "observation.json", "observation_exec_exit",
-         "an exit status of 999", event(1, exit=999))
+         "an exit status of 999", _event(1, exit=999))
     role("observation-write-with-argv", "observation.json", "observation_argv_on_file_event",
-         "a write event that carries an argv", event(0, argv=["x"]))
+         "a write event that carries an argv", _event(0, argv=["x"]))
     role("observation-path-dotdot", "observation.json", "observation_path_not_normalized",
-         "an event path that climbs out of the workspace", event(0, path="src/../x"))
+         "an event path that climbs out of the workspace", _event(0, path="src/../x"))
     role("observation-target-on-a-write", "observation.json", "observation_target_unexpected",
-         "a write that names a target", event(0, target="src/x"))
+         "a write that names a target", _event(0, target="src/x"))
     role("capability-types-not-a-list", "capability.json", "capability_types",
          "visible_event_types is a string", lambda r: r.update(visible_event_types="write"))
     role("grade-digest-uppercase", "grade.json", "grade_digest_malformed",
@@ -707,6 +722,11 @@ def refusal_members() -> list[lib.Member]:
          lambda r: r["claims"][0].update(argv=[]))
     role("claims-entry-exit-out-of-range", "claims.json", "claims_entry_exit",
          "a claimed exit status of 999", lambda r: r["claims"][0].update(exit=999))
+
+
+def _case_policy_rows(rows: _Refusals) -> None:
+    """Rows that break the consumer's case and policy files."""
+    bare, add, document = (rows.bare, rows.add, rows.document,)
     for name, file in (("case", "protected-paths.case.json"),
                        ("policy", "protected-paths.policy.json")):
         raw_doc = {**bare}
@@ -789,6 +809,11 @@ def refusal_members() -> list[lib.Member]:
              lambda r: next(iter(r["assessments"].values()))["scope"].update(start="soon"))
     add("case-file-absent", "the consumer's case file is not in the bundle",
         {k: v for k, v in bare.items() if k != "tool-claims.case.json"}, "case_missing")
+
+
+def _launch_rows(rows: _Refusals) -> None:
+    """Rows that break the launch record and launch receipt."""
+    launch = (rows.launch,)
     launch("launch-schema-unsupported", "launch.json", "launch_schema_unsupported",
            "the launch record names a version that does not exist",
            lambda r: r.update(schema_version="probity-launch/v0"))
@@ -822,7 +847,16 @@ def refusal_members() -> list[lib.Member]:
            "an external effect with neither paths nor an address",
            lambda r: r["sensors"].update(external_effects=[{"type": "write",
                                                              "time": "2026-10-17T00:00:04Z"}]))
-    return out
+
+
+def refusal_members() -> list[lib.Member]:
+    """One record, case or policy at a time breaking one rule of done-records.md."""
+    rows = _Refusals()
+    _record_rows(rows)
+    _record_field_rows(rows)
+    _case_policy_rows(rows)
+    _launch_rows(rows)
+    return rows.out
 
 
 def pinned(files: dict[str, bytes], role: str) -> dict[str, bytes]:
@@ -899,9 +933,9 @@ def recorded_members() -> list[lib.Member]:
 
 
 def generate(root: Path = ROOT) -> None:
-    built = (run_members() + vantage_members() + structure_members() + report_members() + launch_members()
-             + recompute_members() + record_members() + pth_members() + unbound_members() + refusal_members()
-             + recorded_members())
+    built = (run_members() + vantage_members() + structure_members() + report_members()
+             + launch_members() + recompute_members() + record_members() + pth_members()
+             + unbound_members() + refusal_members() + recorded_members())
     for entry in built:
         lib.check_member(SUITE, entry)
     lib.write_corpus(root, SUITE, built, {
