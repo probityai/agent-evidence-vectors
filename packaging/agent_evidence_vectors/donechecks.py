@@ -164,6 +164,31 @@ def _compare(acceptance: list[dict[str, Any]], results: list[dict[str, Any]]) ->
     return ("acceptance_result_unexpected" if by_id else None), outcomes
 
 
+def _acceptance_refusal(ids: tuple[str, str, str], contract_pair: tuple[Any, Any],
+                        tree_pair: tuple[Any, Any], grade_pair: tuple[Any, Any]) -> str | None:
+    """The first reason the acceptance inputs cannot be established, in checking order."""
+    case_id, invocation, observed_party = ids
+    contract, contract_pin = contract_pair
+    tree, tree_pin = tree_pair
+    grade, grade_pin = grade_pair
+    if contract is None:
+        return "contract_unavailable_or_unbound"
+    if not (tree is not None and _context_ok(tree, case_id, invocation, None)
+            and rec.independent(tree, tree_pin, observed_party)):
+        return "final_tree_unestablished"
+    if grade is None:
+        return "grade_unavailable_or_unbound"
+    if not _context_ok(grade, case_id, invocation, None):
+        return "grade_context_mismatch"
+    if not rec.independent(grade, grade_pin, observed_party):
+        return "grade_vantage_unestablished"
+    if grade["contract_sha256"] != contract_pin["consumer_pinned_sha256"]:
+        return "grade_contract_mismatch"
+    if grade["tree_sha256"] != tree["tree_sha256"]:
+        return "grade_tree_unbound"
+    return None
+
+
 def acceptance_observed(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     case_id, assessment, case, policy = rec.start(case, policy, ACCEPTANCE, {
         "claim_type", "invocation_id", "observed_party", "contract_witness", "tree_witness",
@@ -179,21 +204,11 @@ def acceptance_observed(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     contract = rec.contract(contract_bytes) if contract_bytes is not None else None
     tree = rec.tree(tree_bytes) if tree_bytes is not None else None
     grade = rec.grade(grade_bytes) if grade_bytes is not None else None
-    if contract is None:
-        return decided(base, "not_established", "contract_unavailable_or_unbound")
-    if not (tree is not None and _context_ok(tree, case_id, invocation, None)
-            and rec.independent(tree, tree_pin, observed_party)):
-        return decided(base, "not_established", "final_tree_unestablished")
-    if grade is None:
-        return decided(base, "not_established", "grade_unavailable_or_unbound")
-    if not _context_ok(grade, case_id, invocation, None):
-        return decided(base, "not_established", "grade_context_mismatch")
-    if not rec.independent(grade, grade_pin, observed_party):
-        return decided(base, "not_established", "grade_vantage_unestablished")
-    if grade["contract_sha256"] != contract_pin["consumer_pinned_sha256"]:
-        return decided(base, "not_established", "grade_contract_mismatch")
-    if grade["tree_sha256"] != tree["tree_sha256"]:
-        return decided(base, "not_established", "grade_tree_unbound")
+    refusal = _acceptance_refusal(
+        (case_id, invocation, observed_party), (contract, contract_pin),
+        (tree, tree_pin), (grade, grade_pin))
+    if refusal is not None:
+        return decided(base, "not_established", refusal)
     problem, outcomes = _compare(contract["acceptance"], grade["results"])
     if problem is not None:
         return decided(base, "not_established", problem)
@@ -225,6 +240,33 @@ def _claim_status(claim: dict[str, Any], events: list[dict[str, Any]]) -> str:
     return "exit_unobserved" if any("exit" not in e for e in fresh) else "exit_mismatch"
 
 
+def _tool_claim_refusal(ids: tuple[str, str, Any, str], claimed: Any,
+                        record_pair: tuple[Any, Any], manifest: Any) -> str | None:
+    """The first reason the tool-claim inputs cannot be established, in checking order."""
+    case_id, invocation, scope, observed_party = ids
+    record, observation_pin = record_pair
+    if claimed is None:
+        return "claims_unavailable_or_unbound"
+    if not _context_ok(claimed, case_id, invocation, None):
+        return "claims_context_mismatch"
+    if record is None:
+        return "observation_unavailable_or_unbound"
+    if not _context_ok(record, case_id, invocation, scope):
+        return "observation_context_mismatch"
+    if not rec.independent(record, observation_pin, observed_party):
+        return "observation_vantage_unestablished"
+    if manifest is None:
+        return "capability_unavailable_or_unbound"
+    if (manifest["claim_id"] != case_id or manifest["invocation_id"] != invocation
+            or manifest["producer"] != record["producer"]):
+        return "capability_context_mismatch"
+    if not REQUIRED_TOOL_TYPES <= set(manifest["visible_event_types"]):
+        return "field_visibility_unestablished"
+    if record["coverage"] != "complete":
+        return "observation_coverage_unestablished"
+    return None
+
+
 def tool_claim_match(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     case_id, assessment, case, policy = rec.start(case, policy, TOOLS, {
         "claim_type", "invocation_id", "scope", "observed_party", "claims_witness",
@@ -241,27 +283,12 @@ def tool_claim_match(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     claimed = rec.claims(claims_bytes) if claims_bytes is not None else None
     record = rec.observation(observed) if observed is not None else None
     manifest = rec.capability(capability) if capability is not None else None
-    if claimed is None:
-        return decided(base, "not_established", "claims_unavailable_or_unbound")
-    if not _context_ok(claimed, case_id, invocation, None):
-        return decided(base, "not_established", "claims_context_mismatch")
-    if record is None:
-        return decided(base, "not_established", "observation_unavailable_or_unbound")
-    if not _context_ok(record, case_id, invocation, scope):
-        return decided(base, "not_established", "observation_context_mismatch")
-    if not rec.independent(record, observation_pin, observed_party):
-        return decided(base, "not_established", "observation_vantage_unestablished")
+    refusal = _tool_claim_refusal(
+        (case_id, invocation, scope, observed_party), claimed, (record, observation_pin), manifest)
+    if refusal is not None:
+        return decided(base, "not_established", refusal)
     statuses = [_claim_status(claim, record.get("events", [])) for claim in claimed["claims"]]
     unsettled = [status for status in statuses if status != "matched"]
-    if manifest is None:
-        return decided(base, "not_established", "capability_unavailable_or_unbound")
-    if (manifest["claim_id"] != case_id or manifest["invocation_id"] != invocation
-            or manifest["producer"] != record["producer"]):
-        return decided(base, "not_established", "capability_context_mismatch")
-    if not REQUIRED_TOOL_TYPES <= set(manifest["visible_event_types"]):
-        return decided(base, "not_established", "field_visibility_unestablished")
-    if record["coverage"] != "complete":
-        return decided(base, "not_established", "observation_coverage_unestablished")
     pair = (record, observation_pin)
     contradicted = [status for status in unsettled if status in CONTRADICTIONS]
     if contradicted:
