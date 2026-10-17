@@ -63,7 +63,7 @@ func admissionCodes(ctx *EvalContext, tiers []Tier, policy *ConsumerPolicy, arme
 		policy = &ConsumerPolicy{}
 	}
 	var codes []Code
-	if !tierPolicySatisfied(ctx, tiers) {
+	if !tierPolicySatisfied(ctx, tiers) || !sealsVerify(ctx, policy) {
 		codes = appendCode(codes, CodeSubstrateRowUnattested)
 	}
 	if !policy.AllowPublishedTestKeys {
@@ -79,6 +79,32 @@ func admissionCodes(ctx *EvalContext, tiers []Tier, policy *ConsumerPolicy, arme
 	codes = append(codes, thresholdPolicyCodes(ctx, policy)...)
 	codes = append(codes, timePolicyCodes(ctx, policy, armed)...)
 	return codes
+}
+
+// sealsVerify reports whether every sealed record of a statement carrying a
+// basis: substrate row verifies under a pinned key. A row's tier reads only the
+// records the row resolves, and a caught row resolves interception records, so
+// a seal no row references would otherwise carry any signature bytes at all.
+// The seal is the producer's closing statement of what the observer saw; it is
+// checked in every case, never because of what the rows contain.
+func sealsVerify(ctx *EvalContext, policy *ConsumerPolicy) bool {
+	p := ctx.s.Predicate
+	if !hasSubstrateRows(p) {
+		return true
+	}
+	if policy == nil || len(policy.SubstrateObservationKeys) == 0 {
+		return false
+	}
+	kinds := recordKinds(p, ctx.states)
+	for i := range p.Records {
+		if kinds[i] != KindSealed {
+			continue
+		}
+		if !recordVerifies(&ctx.states[i], p.Records[i].Signatures, policy.SubstrateObservationKeys) {
+			return false
+		}
+	}
+	return true
 }
 
 // anchorPolicyCodes compares the three pins against the carried digests. A pin
