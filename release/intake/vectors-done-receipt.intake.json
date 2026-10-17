@@ -2,13 +2,13 @@
   "aggregate": {
     "counts": {
       "contradicted": 5,
-      "invalid": 36,
+      "invalid": 38,
       "not_established": 10,
       "refused": 134,
-      "supported": 8
+      "supported": 9
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 193
+    "total": 196
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -20,7 +20,7 @@
     "routine": "corpus_digest in vectors-done-receipt/gen_vectors.py",
     "routine-file": "vectors-done-receipt/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "3d186ad27136eb0cefbb437190388f7933bb582fdd4701b9214c5b0d93ed1a89",
+    "sha256": "3dd8609438b69332d5276bbe07dc34edc1893ef3a363b60cd3d17fc71504a207",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -32,7 +32,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -41,7 +41,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a23ffa63aa5c75a068f107cf4271e719f78b0157b18cc64625013e2679c81a18",
         "test": "swap-and-re-pin"
@@ -55,7 +55,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -64,21 +64,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "095248bd527b29b70869f969db839c01e7c384ef26ec0a6ad26aee60bb3c0a70",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-receipt/bundle_lib.py",
       "serialization": "bytes",
-      "sha256": "702804cd2dddf8d4128c0eb141813f8ec3ba29d8d67d751f07639531ed370041"
+      "sha256": "0bd7b34a1384714e19ea80ef70ef19efc79dcd2dc86d5d379a15824a99a195d7"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -87,7 +87,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "7f1c3d64aa676dd80420f37571e941a4984a38fb2d096e790ca1d423af3c9752",
         "test": "swap-and-re-pin"
@@ -101,7 +101,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -110,7 +110,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "b0ed191a17fc984edef67017037d3c2ed67f114d9854dd7a4f60888f96c80253",
         "test": "swap-and-re-pin"
@@ -124,7 +124,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -133,21 +133,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "bf626e6fb942945c40a16bc9d2298d4fd8d821da18398b345dd3f3e84e4fa19b",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-receipt/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "027b3246f1b630bbbb04d781b5daea4dee45fcb0068f00509e0419273c1a0080"
+      "sha256": "14939ee1fdd86e1295d2bac04c73ca601d060c2e64eda610d5632dbc8bc00356"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -158,7 +158,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "c5b0e6a31d78418663036e7435f24d457eb477507b04507a1e4b46a0c4d10547",
         "test": "swap-and-re-pin"
@@ -172,7 +172,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -181,7 +181,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "e74681cb9d0ad14a4ae23f68c3526ed6e86cce54565c44804c025d0aaee9678c",
         "test": "swap-and-re-pin"
@@ -195,7 +195,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -206,7 +206,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "d3eec6865ab306b6d2584a16d43e86e2bab67288d5f30b09ca8288eba5c8b8ba",
         "test": "swap-and-re-pin"
@@ -220,7 +220,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -232,7 +232,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "40d0b3a8c00dd7cb8e0c295d8bbaf9ea129a073ea0296fe3edfe002f673f30c6",
         "test": "swap-and-re-pin"
@@ -246,7 +246,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -257,7 +257,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "f441affdae8d037a56c0302acd534b5d6405f429c3b64b1e3aeb08326facb9ba",
         "test": "swap-and-re-pin"
@@ -271,7 +271,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -304,7 +304,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "a1654abcd69bde660adbfab81e644c309bc390735ff9153b6fa287c9e0e099c0"
+          "sha256": "bd928cafa7ad416df58bc64d5b9ccbeb6c18ea52f2fe417f7cdc3e88eaf72ea2"
         },
         "swapped-in": "615f3ce56f19dbf1c7a22e455751f02fb41e3d52f37e079050f9d56f69153c68",
         "test": "swap-and-re-pin"
@@ -318,7 +318,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -329,7 +329,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "26584bd7ba3ed2594bc1350a9cae5e86af0e3be65a1f35c34b98ea2a158adcbb",
         "test": "swap-and-re-pin"
@@ -343,7 +343,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -355,7 +355,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "f606c9d3c202f739f67141be18971472a40cb29cfd726c112f840f3eea76098c",
         "test": "swap-and-re-pin"
@@ -369,7 +369,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -381,7 +381,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a1bc88e5bd2469324a18ec66aea743901b7b7943f72779217ccf36933934ff57",
         "test": "swap-and-re-pin"
@@ -395,7 +395,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -407,7 +407,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "ce64942a8892d05c9dfbcd19a853e681dfe81b9d07d0dd8818d7cc27d2e93aa3",
         "test": "swap-and-re-pin"
@@ -421,7 +421,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -452,7 +452,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "4705f99c56dbe9f845b53a204ad078abe5f79ed0c98817d566a8dce622dfce6a",
         "test": "swap-and-re-pin"
@@ -466,7 +466,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -478,7 +478,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "6703c0d845df441dda09311c062525da44a5aceb8c83a400425606da180c1267",
         "test": "swap-and-re-pin"
@@ -492,7 +492,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -504,7 +504,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a9b394ca7ccca78b62e3014612e1d5e0b80975dfbed8f2d18505449855e9d09d",
         "test": "swap-and-re-pin"
@@ -518,7 +518,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -529,7 +529,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "30aa1ef822421a42c3df626bf7beb138d1542af5c5eacb088792723ba9a41f51",
         "test": "swap-and-re-pin"
@@ -543,7 +543,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -576,7 +576,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "31b709c4a693212e6606adef38b815882a83af1e90a342a9b9df0a43e7b05e8a"
+          "sha256": "eac5e23dd65d641bb28c1422bf62c974051b24bf1c7c50e87f3097cf66884b81"
         },
         "swapped-in": "cb73bc5976c8d05fc5c3b04dba08817aa5a503a45fddabe0824f131ae38a062c",
         "test": "swap-and-re-pin"
@@ -590,7 +590,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -601,7 +601,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "ca699b615d6704728f7811e27ee827182c819e2983c8ee7cff89aa4d885b9df3",
         "test": "swap-and-re-pin"
@@ -615,7 +615,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -627,7 +627,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "7bf15e4087774e3ee04f038c75d96d92d156cf7a8ebe961d9905f82295a30e99",
         "test": "swap-and-re-pin"
@@ -641,7 +641,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -653,7 +653,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "02c80161059530db1a3f265f7afcb9139500e3ba85484df89ca09c6e6316cd92",
         "test": "swap-and-re-pin"
@@ -667,7 +667,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -679,7 +679,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "46840613184e7c6cf53c5337ed7862c52521ba923b63b36107bf2f0a5e3d1031",
         "test": "swap-and-re-pin"
@@ -693,7 +693,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -705,7 +705,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ff437f79324e31036c072f94a5cc7044cf493c29c4ac1ff348d515cc80dfc25b"
+          "sha256": "86911d43f22117edc8605485147a7084d5c8ab9d4ec13b9c5c18467c2b5f5744"
         },
         "swapped-in": "f22912332527e0df64f29d63eb2afabaa953cfb971751fe4304eaea018e92516",
         "test": "swap-and-re-pin"
@@ -719,7 +719,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -731,7 +731,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "718b884235ebd0a7375752d17098c3fab73dfa3ca3f0c763b33a15fd44450ded",
         "test": "swap-and-re-pin"
@@ -745,7 +745,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -757,7 +757,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "681911b861752b207fe9248f794487fa67d6a5342e542886c8cc1e99fb2ba289",
         "test": "swap-and-re-pin"
@@ -771,7 +771,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -782,7 +782,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "912c57586eb9c5eb74a80c72277495922fe7d105da5e1e0ab02a9de39166b232",
         "test": "swap-and-re-pin"
@@ -796,7 +796,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -829,7 +829,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "3a59d18e97434cab8bf581c9e74615c7547a3d68ffee218a59714a283ed336ca"
+          "sha256": "3b5eb9865251b84cb64952d31d184625f532a5e54d9bca331730de4585046bc8"
         },
         "swapped-in": "fab0533aebaac61cd4969bd599390a7e52cdbb8065fd406315742484103ab55d",
         "test": "swap-and-re-pin"
@@ -843,7 +843,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -854,7 +854,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "83964ab99d502a2761e5f58871fcbc9a0682836a65443a4011f537fea3b04bc7",
         "test": "swap-and-re-pin"
@@ -868,7 +868,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -880,7 +880,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "efbd5b3a4ceaeca2ef13b06c29afe36cadb7c98b18142eb72f52e6f85ed2bd8d",
         "test": "swap-and-re-pin"
@@ -894,7 +894,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -906,7 +906,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "3d856d49180d0219e6fe8fd51fe14152e70f35029d1f82cfb4e4e322867ea224",
         "test": "swap-and-re-pin"
@@ -920,7 +920,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -932,7 +932,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a21287e15f05a04191fa33e1dd50c2da5513f1954a1346b6917ed49235e40c48",
         "test": "swap-and-re-pin"
@@ -946,7 +946,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -958,7 +958,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "292f272aad97af9e8ed5077c6079a7e8c2fd40d21840bac5a852bbd0225c33f4",
         "test": "swap-and-re-pin"
@@ -972,7 +972,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -984,7 +984,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "2c51434c352c7ed08858889617f79943c13f8c3bb9fb52e25ada1f93ee6e85dd",
         "test": "swap-and-re-pin"
@@ -998,7 +998,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1010,7 +1010,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "571231b1510211aeafea0d41f75e32df1385cc5957e12261ccaf12e64a43139b",
         "test": "swap-and-re-pin"
@@ -1024,7 +1024,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1035,7 +1035,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "1c997b36ea810761d5184b9c2a723741d8f6465a94f0745970f3b569c8559a1a",
         "test": "swap-and-re-pin"
@@ -1049,7 +1049,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1082,7 +1082,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "5b2a4a20547db98449500064a9208c637a4150e6c6d9130e5871e72995481311"
+          "sha256": "5e7ba32322a20bc982549afa27147a6913fc00e9333f3f47bc769bcc2d529b84"
         },
         "swapped-in": "845cefecb382cc613962a885d6d3fca9e8d3ffdde50e1b70b7dcc01fb0fc1eed",
         "test": "swap-and-re-pin"
@@ -1096,7 +1096,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1107,7 +1107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "5b5890ad0292bf1659c46888c9fca8ba638915c8bb29cd1db5b488c97f5e9351",
         "test": "swap-and-re-pin"
@@ -1121,7 +1121,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1133,7 +1133,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a32ea020aea0b5b66e8121907c5fd0093fa66021a404549686049c6f91b75fad",
         "test": "swap-and-re-pin"
@@ -1147,7 +1147,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1159,7 +1159,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "15f80bf78fa1da93ca07630fcfd6d04ab085fc63804ac14a81e684c4c7536aed",
         "test": "swap-and-re-pin"
@@ -1173,7 +1173,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1185,7 +1185,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "58149f39318e8a0668290b850588106170ca42ec50ae0e039ed5b5b50aa14ac5",
         "test": "swap-and-re-pin"
@@ -1199,7 +1199,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1230,7 +1230,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "90b5e8755a9508f96a58661e0984914285d903ecf9e787fb2f7ff4434362cae6",
         "test": "swap-and-re-pin"
@@ -1244,7 +1244,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1256,7 +1256,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "e4d1f9b217d0d9004ccc7825d7222177bf9238b3d72e6b9d97a3e64f84c4b9cb",
         "test": "swap-and-re-pin"
@@ -1270,7 +1270,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1286,7 +1286,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "b84e9e676aff2c16a362413ec54e15f9d13a9651210a40ecbeeb68e63ae45f19"
+          "sha256": "9815bf09a2af2e85221103719329e04adcf87a75dbd14cb6fe50f54216803b88"
         },
         "swapped-in": "dd8524593fbd7b896e04f9471e8d7393189870dbfdfa260a402302d558de3aae",
         "test": "swap-and-re-pin"
@@ -1300,7 +1300,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1312,7 +1312,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "9d07fc4241404eaae4ac10892f9e2a7686d49777cd62e4f6e0ef1565c81aed03"
+          "sha256": "83e3f5dd9aa915bd2c688f9bdfb6d52fb7cd13467dc9e909cb56bfca72655630"
         },
         "swapped-in": "116419183c8435db6a2880c6c923466d08a72204b903c2f0f571470b7897d8a3",
         "test": "swap-and-re-pin"
@@ -1326,7 +1326,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1359,7 +1359,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "6b6c9cbbe3c0151362398311fa0f5ab71bc62ecf71264ddd730d2f6bb4b418b6"
+          "sha256": "43ac7c8733d6976760bce96150b49bb86d27e826dc74ddec482562e71c71030a"
         },
         "swapped-in": "543814868acb940e7b77442cefb92f304f93c9173da8b156de0e1cbbc5185cd1",
         "test": "swap-and-re-pin"
@@ -1373,7 +1373,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1385,7 +1385,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "420bdc20a4577c6988824852c6c17b5368d7ada4fa741231f12c32ec762cb31e"
+          "sha256": "971aa0304d2722636dc77c7433c11eeeae7c1cbba04300619758680453dc7fd7"
         },
         "swapped-in": "262d65fc5f0a2457808d8ebdc18294d975085ecb7d654eb1147ede621e512b48",
         "test": "swap-and-re-pin"
@@ -1399,7 +1399,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1409,7 +1409,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "b2dbaf8fd53d961c1ebd8fda00177f576dbc721ca208890bfb6762b4559528a9"
+          "sha256": "a0fbf121ef1f71e92a2be75593074333f3af76a7f5721e8a2ea0063a003949bd"
         },
         "swapped-in": "60474d8f6d24dd166cf3a9cdd6ae6d8ca60b6c95d62bbc4329c9cd7dba6669f3",
         "test": "swap-and-re-pin"
@@ -1423,7 +1423,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1435,7 +1435,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "5acb3f3ae82e3d3960fd4d7bcee139aa35735ae30cdec510e9ce4537ee1fc9bf"
+          "sha256": "bad8db6d0a412b7b73e13ea5f8c6c6e4a96a9bfa181f5fb4919e44dd3262944c"
         },
         "swapped-in": "1691c05441b2cc57be86382cd88a2e571783569e46d7ed996f7807557e1b1079",
         "test": "swap-and-re-pin"
@@ -1449,7 +1449,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1465,7 +1465,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "6e7b211ac561b68bcb95ffed27a56e632cad9caad9fa7f74b226c00f8436f3f9"
+          "sha256": "0d3e8b074464aa430dcb4653f9de96616024e550cb72a2e68cf73386b7af1386"
         },
         "swapped-in": "9bef8761bf39511b31041a8ea443b9a97064afedc8da28573811fee142b284c1",
         "test": "swap-and-re-pin"
@@ -1479,7 +1479,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1489,7 +1489,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ff437f79324e31036c072f94a5cc7044cf493c29c4ac1ff348d515cc80dfc25b"
+          "sha256": "86911d43f22117edc8605485147a7084d5c8ab9d4ec13b9c5c18467c2b5f5744"
         },
         "swapped-in": "bf786974b844ac188ba60d9038d6316a904c5a56d44b58e49230c8211053f0b5",
         "test": "swap-and-re-pin"
@@ -1503,7 +1503,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1515,7 +1515,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ff437f79324e31036c072f94a5cc7044cf493c29c4ac1ff348d515cc80dfc25b"
+          "sha256": "86911d43f22117edc8605485147a7084d5c8ab9d4ec13b9c5c18467c2b5f5744"
         },
         "swapped-in": "71db82f7109fb9af3e48de2a5f69fea775dc4390ece35952551ac08d9238fbc6",
         "test": "swap-and-re-pin"
@@ -1529,7 +1529,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1545,7 +1545,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "53fbd84cdd604bbce355379097d289e1a4657f6170cc6db4f1bd74df3ba623cb"
+          "sha256": "3c033023983ce15a31a7afa8187da86f8c753eb6cdda4f3012e9130d45c2c197"
         },
         "swapped-in": "404d3f04cdda52f6677fab80c8384e560b1c081dda108462ba07239d873416b1",
         "test": "swap-and-re-pin"
@@ -1559,7 +1559,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1574,7 +1574,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "a99bdbfd2bc80b8e88b7cf123f035d67d83f23c6c4e2cfd1c03f094a46c0adf6"
+          "sha256": "ac765f930361e6aa4b9f5e70c1f4889d49040ae89519c5382ccfeb02bb1e3885"
         },
         "swapped-in": "d9280d7f72082736326472e61a6f9fcedddb201e4452c12207c49714dbccd52a",
         "test": "swap-and-re-pin"
@@ -1588,7 +1588,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1599,7 +1599,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "b53edd9bd0533446badf3289c04208e2bfb3db6a3e30515a27840c0e58e8aa01"
+          "sha256": "e97c497b8c165fd62316c303fe9efaaa9ba2eee66910ec568643c6dc00fe8dd5"
         },
         "swapped-in": "e059c088cb702a8a8693e77698ed22242953b1715d19d1aba60cf530628c41cc",
         "test": "swap-and-re-pin"
@@ -1613,7 +1613,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1646,7 +1646,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "953eb85a55739855cf97a64311d6e02e5491521dbbb6189db41e691a9b9beb18"
+          "sha256": "4d3fd83b184f321233784d07d3fc686497035c5d79262ec94c393cdefcf2dbd0"
         },
         "swapped-in": "5bd45ec1cefbce1065fac70349321b317c83d0f79eecf5cb84b184f88747d904",
         "test": "swap-and-re-pin"
@@ -1660,7 +1660,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1669,7 +1669,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "a9546af969610a81c70589ceeb373df588a3dab37f7c59dba8dfa7db6ec46871"
+          "sha256": "5d386a884907d71cd336288cb999af89bb192fc57f3c9ae991dfb18de1977f11"
         },
         "swapped-in": "1d8b06e00d7c6f3b14dd9f37451fe7a5a6667a02a52ede7335e8ac525c19b2bf",
         "test": "swap-and-re-pin"
@@ -1683,7 +1683,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1694,7 +1694,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "7f784e31bdecbdcd1a326f584f78eb4cc9f1e389e08d9262b09937ff2ae017c4"
+          "sha256": "e2d70bae13847f054509ca813763a6da058cdab5c4381d3d8148b63e5f8e8dae"
         },
         "swapped-in": "ba1f22f7ebef800017ed56f488c8e52bebed74bebc013d88dee9a5440245c470",
         "test": "swap-and-re-pin"
@@ -1708,7 +1708,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1723,7 +1723,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "36fc7acd375867fab8d352df99501c4e97ff6091c4a08d24e703dee8b0ce6501"
+          "sha256": "e5285fbb3fea228dffe549fc121dcb8a08c9bdac6f449baf4de9069bd270dc9b"
         },
         "swapped-in": "3c8ac624910e9ed0792f2cf0d1b4db0fc6f33b46176fcd934badac5b403a52a8",
         "test": "swap-and-re-pin"
@@ -1737,7 +1737,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1747,7 +1747,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ed571dde5ce64a5fb54f7565c10177b6dafae7580b7234e16b5b58082e4c0f6c"
+          "sha256": "82d6caf69dfeca716f17ba382a08cf99c27eac78fe62c7de1e0d27ffdf4cca12"
         },
         "swapped-in": "13a9a427de0285100ee048780312182683c2eb7f02940974e8e78c2432f997be",
         "test": "swap-and-re-pin"
@@ -1761,7 +1761,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1792,7 +1792,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "54612e3e90d1ea36322d3caca9d9ee682ba027fba45f32bb7f95d9b5dc3df399",
         "test": "swap-and-re-pin"
@@ -1806,7 +1806,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1819,7 +1819,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "d8ba29b099bc2258760c14dfcf650f72a88da803bed69158814bf1fd6b1f0ca6"
+          "sha256": "cd3a41c23eeaaed1d90cb2f9673066b4e3ea44800bbb0438507621be61e4ec01"
         },
         "swapped-in": "9c40de1f145e77db2265a4e8c76baf7e1fde89bbf2677f97278eacc4e8eab22e",
         "test": "swap-and-re-pin"
@@ -1833,7 +1833,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1845,7 +1845,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "64cb22d4e5bede54a6b35a271544b745b02d742d112ed7be00055f627255d390",
         "test": "swap-and-re-pin"
@@ -1859,7 +1859,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1870,7 +1870,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "384935d195e1e276cb9bedbd099edd9a209ad2bbd5acaa10a29d7c4a71fe4678",
         "test": "swap-and-re-pin"
@@ -1884,7 +1884,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -1917,7 +1917,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "5be861fe68469b608ebe3eec145b49d4fe4edca6b105f5ffce75e3916c563be9"
+          "sha256": "b9514fb9d3c9f24a613cd0288ed1929bf5f0edf5a847a036ba39dc6ebcc8de07"
         },
         "swapped-in": "a72dbb0462f9f4321f63d442ea89a622f0d7ed1cfe779f5a8a3ab55a3067a3d0",
         "test": "swap-and-re-pin"
@@ -1931,7 +1931,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1942,7 +1942,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "4b446de4246685af5d632549a3215f7e6b5d6a1d92185deafee4551498856d8c",
         "test": "swap-and-re-pin"
@@ -1956,7 +1956,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1968,7 +1968,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "9736ffdd2442dcaf6841f67bf52d5e0b83d507e476eeb02fbe53563565809c8c",
         "test": "swap-and-re-pin"
@@ -1982,7 +1982,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -1994,7 +1994,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "f1895bdf840a297de14003e83a36a8b0a3b9e51e38f0a9e8968ec5709f2e1073",
         "test": "swap-and-re-pin"
@@ -2008,7 +2008,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2020,7 +2020,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "fbc72e4b1cbdad059bbfdc23865aeb3ebafba1b7fa0a409e28c4e129bd2e5ec8",
         "test": "swap-and-re-pin"
@@ -2034,7 +2034,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2046,7 +2046,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ff437f79324e31036c072f94a5cc7044cf493c29c4ac1ff348d515cc80dfc25b"
+          "sha256": "86911d43f22117edc8605485147a7084d5c8ab9d4ec13b9c5c18467c2b5f5744"
         },
         "swapped-in": "24a7b5ca28499b426c79350d9b94641d4aa0b4ef7c1e824ecfafb223e519cc15",
         "test": "swap-and-re-pin"
@@ -2060,7 +2060,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2072,7 +2072,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "0515536f2753a4b852749e12ffe02882f9d4b53968799d6ba3cb5faf31baaf5c",
         "test": "swap-and-re-pin"
@@ -2086,7 +2086,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2098,7 +2098,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "dc49a5f10f7b8a455a8b6d7e2a6f728521ecab048b834c10d849039fa6f12707",
         "test": "swap-and-re-pin"
@@ -2112,7 +2112,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2123,7 +2123,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "0c4c53b36ca890252ffbe269e0cce0b8a7d8e9b117a4693718cf855422487c4f",
         "test": "swap-and-re-pin"
@@ -2137,7 +2137,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2170,7 +2170,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "f9b893e6a05c313ad4df4168a9eea3454e37d6b461e9c145c14a670119aab60e"
+          "sha256": "39e1cd9524f48848ab4afc6793b446c29eb8596cd58ddca9e33f2e4089153af8"
         },
         "swapped-in": "029570dcc5a9788b011424afb254a7ceea67fc69cd403ca039f46ae6785be5cb",
         "test": "swap-and-re-pin"
@@ -2184,7 +2184,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2195,7 +2195,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "87e2a44dc28563fbcb6b7eda85a0eb0a769accc080ce880f4d1bf50b216ee789",
         "test": "swap-and-re-pin"
@@ -2209,7 +2209,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2221,7 +2221,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "a60f85b4fadf17c0ab71454a54d90ff65abf33dda18fdc2ab4039a591c072f0e",
         "test": "swap-and-re-pin"
@@ -2235,7 +2235,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2247,7 +2247,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "16f70bfd2538c9fc04f9fe44fedc5f332350e30675b007f3443d6b3fcfd36076",
         "test": "swap-and-re-pin"
@@ -2261,7 +2261,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2273,7 +2273,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "f8e3ca4c11e8104e139e300d0b8c342092110ffe07d712a4ac743ac80433ff38",
         "test": "swap-and-re-pin"
@@ -2287,7 +2287,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2318,7 +2318,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "45e191fe568c640c481090f6fe586bdd3eced21df1e6afd4125ffdab09e70af1",
         "test": "swap-and-re-pin"
@@ -2332,7 +2332,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2344,7 +2344,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "8f4434e8028455cd2808871cc01fc762d0c3fa88790a39af77b6c0d223e597b2",
         "test": "swap-and-re-pin"
@@ -2358,7 +2358,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2374,7 +2374,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "8b43f34cac157d7b9cbd24f157631b609176fb5ba17a44204b49abfec71b85dc"
+          "sha256": "c591b97a96b878503bc0b5d1d64cd4e55caed7da4860772c831f4449fe4f7f0e"
         },
         "swapped-in": "dbf68099dcd34a9af5996f5097711fef795bef87418d23a1694c800e05dc249d",
         "test": "swap-and-re-pin"
@@ -2388,7 +2388,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2400,7 +2400,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "29cacc3b227c7967ec773b3ba751e323daf96e6c488c49dccef2b275214c81f2"
+          "sha256": "c43a1327425e2654bb41d31c65957e93f2c95aa7e439bfad89b3e98a07d84936"
         },
         "swapped-in": "ed2f1ef31807a4508066f08b8e24ee97fcd9a3828d948a95b747bf56ce9c1079",
         "test": "swap-and-re-pin"
@@ -2414,7 +2414,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2447,7 +2447,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "989f8ce98f6bbe2d792f6817c80bdc78e8ea88d25bbb95c705305eb0c092d617"
+          "sha256": "77586290e792163365d790032750013e506f2fef22266ca48924e1ff9b4265fb"
         },
         "swapped-in": "dc70667602b2ddf84034b30fa31e4a74720744d250733bc1f0b947a59c7c816b",
         "test": "swap-and-re-pin"
@@ -2461,7 +2461,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2473,7 +2473,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "5b0006b41410f5192ec257699558c4fbd0e34bc37a78f6369a5afb70c9ef4c3c"
+          "sha256": "7f28d691a364f307cd48caa33c2d5d1b2df541f2f0c587b14eab58e2bbb2fead"
         },
         "swapped-in": "8c2ef3654c6c7c83d3172b9dd83fb4df11af1e7ef4e4d3710ef5c6c7266cd173",
         "test": "swap-and-re-pin"
@@ -2487,7 +2487,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2497,7 +2497,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "03117db6ab06ed163ea685e55b9aa909f6e5d3241bc383b781eb0a6770235339"
+          "sha256": "2d966bdd1e0dff37d020fe94ae6938c553b4bce62610f09a6effbd385f83c7b9"
         },
         "swapped-in": "871eec2c02da510486c17a53062acbdd4b0daf1fcee3feaba3353e4650b55f90",
         "test": "swap-and-re-pin"
@@ -2511,7 +2511,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2523,7 +2523,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "30ac53974b75283e944e2d86053cb64427ffd7fe96f49a3b9c95adad2c11ee39"
+          "sha256": "b4872e04ee881a932280dc9fe9e358bc726316c9feb101809b960471d7cd8c3c"
         },
         "swapped-in": "4ebed94c6b1b63a20503938c8e5976b6cb0f42f97bf654a21df2afaa0de95b57",
         "test": "swap-and-re-pin"
@@ -2537,7 +2537,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2553,7 +2553,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "4fe221320a1931fd40e331cc8c94c2d600934f57488f36cd18a960ef504eb634"
+          "sha256": "815cd481b156b0a2db0b38e234466499acc621030a1ef0aec2f14cad8d8b3ac1"
         },
         "swapped-in": "f505342a29136edef3fdb6e70fb18bedf0df34b3e6cbc02f844af0bc618cec14",
         "test": "swap-and-re-pin"
@@ -2567,7 +2567,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2577,7 +2577,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "05540de497a9c8dd95a669af6b49b5773c0f048dd00afb3d4dd4e21c4a1efcbb"
+          "sha256": "434a7cd4039e409dda508453d94e0db8f2e4052b905edf0dbb51650e6ca5baae"
         },
         "swapped-in": "61e6b822f2386f08204ee704c91ed9ccc8036c5f71d0b63f827a747b9ea34904",
         "test": "swap-and-re-pin"
@@ -2591,7 +2591,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2601,7 +2601,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "05540de497a9c8dd95a669af6b49b5773c0f048dd00afb3d4dd4e21c4a1efcbb"
+          "sha256": "434a7cd4039e409dda508453d94e0db8f2e4052b905edf0dbb51650e6ca5baae"
         },
         "swapped-in": "3dd3d98033423dc50b691dbe53318e3dbe298c225afe8a803d1a4d279b59d429",
         "test": "swap-and-re-pin"
@@ -2615,7 +2615,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2631,7 +2631,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "93b00587f55b4c82e58ab303e1cab039feb8c1805716e03977db0b2ec50b05d1"
+          "sha256": "a2392c3b44400ff6621de12048b132c850ab307e37a72ee49025d94461134df4"
         },
         "swapped-in": "c959a3c6dce2ffb8e15b765c538cdddd4c556eba66a22e871d13ba5be9fb4173",
         "test": "swap-and-re-pin"
@@ -2645,7 +2645,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2657,7 +2657,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "779dbf807e97192180202b957fc74002ea1fa3aad5a919b7e85f106ad16d5506",
         "test": "swap-and-re-pin"
@@ -2671,7 +2671,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2682,7 +2682,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "48863a13ff0b3a9293d692628158aca3aea54e39678473883e761ba2716fb201",
         "test": "swap-and-re-pin"
@@ -2696,7 +2696,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2729,7 +2729,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "b4476bafe364f0a0aa3ed9ae949c0c1fb1eae927adb300afbb876d4963ab71ff"
+          "sha256": "fbfcd85497615f4306683169da2b6e302fc1251f42612f301f0ede4b873c7b91"
         },
         "swapped-in": "4da700b52d968f08cdf337ed2d863e3c3d23dd6048e594f627049d488943c84d",
         "test": "swap-and-re-pin"
@@ -2743,7 +2743,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2754,7 +2754,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "3f716cbb1be0e2a599256ae8fbdd7565c120deea0c42c7562ae9fc34b8617a64",
         "test": "swap-and-re-pin"
@@ -2768,7 +2768,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2779,7 +2779,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "7f1c0f838e5333d7ee518a09d65ed0a718a2894c368e0ad029df28c755ff1f9f",
         "test": "swap-and-re-pin"
@@ -2793,7 +2793,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2805,7 +2805,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "424e5ec9c1e8d95c6070aa07e8c000be81d9c20eae9008d33fba4a1ace1794dc",
         "test": "swap-and-re-pin"
@@ -2819,7 +2819,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2831,7 +2831,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "485d74edc275aae1d1a1a29b0a5b783e338bdaee7f2e968b329790c578120c00",
         "test": "swap-and-re-pin"
@@ -2845,7 +2845,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2857,7 +2857,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "71445759c6fad4c55c3c71a5083a8283abef2f83a59c5203199283f403a3db6d",
         "test": "swap-and-re-pin"
@@ -2871,7 +2871,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -2902,7 +2902,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "98e4be6c39182ddc36419bdd9f241b88e3773acd20eda5747a2c88025d090ac0",
         "test": "swap-and-re-pin"
@@ -2916,7 +2916,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2928,7 +2928,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "aa9bbbd04e568fc6bd69d26529b3eaf0a182861f3d99d882e206b2f677e65f03",
         "test": "swap-and-re-pin"
@@ -2942,7 +2942,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2954,7 +2954,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "1ae9ebc62fdd842f0e9fedab3a2d6b6661529fe285513c6be6a08d04109ebd49",
         "test": "swap-and-re-pin"
@@ -2968,7 +2968,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -2979,7 +2979,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "1f223616bc87ea09d369576fce60c0d3dd0509fabeffb50990e3bcb45ead46cc",
         "test": "swap-and-re-pin"
@@ -2993,7 +2993,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3026,7 +3026,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "af897121583b5f496352abb2a09db7d677038481f87fed5f4e86a44bb3279213"
+          "sha256": "7dd5fac99e53487de73ed4e11797c8af318eacacfef00e0ae66fed2d240924cb"
         },
         "swapped-in": "14368ebcd7f0492d710ad84f466111f1c6ebb2dea952c0cdc73c8394c7b92241",
         "test": "swap-and-re-pin"
@@ -3040,7 +3040,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -3051,7 +3051,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "88000f984d3332f90fe962a5f0ca84e389c9eb83a57f1430a043c1ae64934dcb",
         "test": "swap-and-re-pin"
@@ -3065,7 +3065,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -3077,7 +3077,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "c2b8ed30d542568bbfaec92ccea64cfad3a300ea148fc26677a629b51c13f736",
         "test": "swap-and-re-pin"
@@ -3091,7 +3091,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -3103,7 +3103,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "ca8f48b59bc8c43a5d566e99a83008fcc8508685b8c5427f60656555c84d0ce6",
         "test": "swap-and-re-pin"
@@ -3117,7 +3117,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -3129,7 +3129,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "6450a4c59d65a385231ca967382c3fc875d6e1c7bee24d0b623a953c72eccdc0",
         "test": "swap-and-re-pin"
@@ -3143,7 +3143,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3174,7 +3174,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "c0b5712af7a1d79d18e41b60f887d312e2e834cb90f43386c15f34be0d0ea12e"
+          "sha256": "d5d77a3e7c292867df542556f77c6ffd2759d0902c5d101cc34bceb97961ff67"
         },
         "swapped-in": "edeb68d9cefaa4e35bc4b8513873865826b4a27e988988972df7cdeaa024d1eb",
         "test": "swap-and-re-pin"
@@ -3188,7 +3188,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [
@@ -3200,7 +3200,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "b07a7aca552009b5b759ae499893e936be116a805c3530854fb76ed06a1b31d2",
         "test": "swap-and-re-pin"
@@ -3214,7 +3214,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3230,7 +3230,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "ea95fa03027a74658ba1b187c8024fb926968f412e22d3593d4e829bc243c515"
+          "sha256": "d07f82ea0ebf857e9bc82d8485baa70c336963d94d449de95ba9cad3b3fc441a"
         },
         "swapped-in": "e46e15f9040776878e209c561dc8446df43f56c37fe7efdbdec4119965999e3d",
         "test": "swap-and-re-pin"
@@ -3244,7 +3244,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3256,7 +3256,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "d94b8e3ccfb8c24ac4b82e18251fd4902c16431ab7b62144d474267f9254e8e4"
+          "sha256": "525990fd4be6d14c66f25a2c94a4232d402799fd2560a7763b33254b1c99d605"
         },
         "swapped-in": "a8dfd4336ff7a1abea71ec7debc7695f92ec9df1782940d3bb0e90698a6a7e50",
         "test": "swap-and-re-pin"
@@ -3270,7 +3270,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3303,7 +3303,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "abedf8a043c2d451a71b3df9a3aef8fb7d097a78492c8e3da584fabaa68f173b"
+          "sha256": "0e4f90d33d6feebe7ef714184426efb369479c090552c99120568bc171dbb041"
         },
         "swapped-in": "4ba8f6297b45f64347f19399ad54bb358c29b9fad8858527b37cc872451bf229",
         "test": "swap-and-re-pin"
@@ -3317,7 +3317,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3329,7 +3329,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "6d3358114f83be65489745b66a6ca828124d4e34d78367e919f281362d537ffd"
+          "sha256": "47ffbf69066dd71e5db01e4de38f174b477b0c703bbce83bda4924a9617479dd"
         },
         "swapped-in": "1e6616dbd31a5932fc93f036dec4ae37c74b4c525eb846c725ff21ea574df0d4",
         "test": "swap-and-re-pin"
@@ -3343,7 +3343,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3353,7 +3353,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "f755ca00b36bb373087e7b7d467fd2144b97df670acf3efe9eb56e7f48f2d577"
+          "sha256": "aa73cb26587d96d510a56095da0c62412f08ed7442c153ebfcee633aadafa415"
         },
         "swapped-in": "bcdda2bd68a0676df6b3f1bae54eb34d49f46a65f5406f2466a1b8bd6d089890",
         "test": "swap-and-re-pin"
@@ -3367,7 +3367,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3379,7 +3379,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "7596e74fe2209d3b0ec13180c05f0f81789cca1178ad192a5c2f58dd2df0fbda"
+          "sha256": "498f062f15c7805a99576e2efb66c912b6b9b6cdf769ec4d13fb2af2bbfa286c"
         },
         "swapped-in": "5557690bd0601c6bc6d358f60124344f782b247ddc5b2e2f136ba6b80ecbe1cc",
         "test": "swap-and-re-pin"
@@ -3393,7 +3393,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3409,7 +3409,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "09b94731139f7e931e15ff96e3eb2877e4632d4a4dd143aaddfce07ce692cd56"
+          "sha256": "a1bcd5f5ae6f9b9fe381f1847b3d239d2fdc230c3a0e1f33679f91c1e2e185bb"
         },
         "swapped-in": "95229e2c43070f69e6b4e038980a046c7ce164fe6bf25ef7247d09bef520e000",
         "test": "swap-and-re-pin"
@@ -3423,7 +3423,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3433,7 +3433,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "83e1007dccc19bcd843b35b14b167dbffa56c4830e645b6785f40f85af3d058b"
+          "sha256": "779a3d5bf1595642859c50d177de21498ae966d73d1d2dab26759cd565433cac"
         },
         "swapped-in": "ca518aa5c790a7c8e7a75980378afa3b68b2829127eeed7a8dd1697488611cfb",
         "test": "swap-and-re-pin"
@@ -3447,7 +3447,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3457,7 +3457,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "83e1007dccc19bcd843b35b14b167dbffa56c4830e645b6785f40f85af3d058b"
+          "sha256": "779a3d5bf1595642859c50d177de21498ae966d73d1d2dab26759cd565433cac"
         },
         "swapped-in": "2a8da4ed12e1237f3eaf07bc0f27d55b4ca1dbc7bf29dc3aa592ecf1e53d6535",
         "test": "swap-and-re-pin"
@@ -3471,7 +3471,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "not recomputable over the swapped bytes (ValueError)",
         "pins-moved": [
@@ -3487,7 +3487,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "bfad9cd08f2777027a7d40d11a099420f579376464cf3257d7c856f81d9ed09a"
+          "sha256": "7307e5b3217c1b7fe57b4db8cc05026422faeff23079c85a49e48856af536ace"
         },
         "swapped-in": "922612234a7efd048f15a73abdd0898d99d516a366dd84f3dd5cc5532ecd8927",
         "test": "swap-and-re-pin"
@@ -3501,7 +3501,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -3510,7 +3510,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+          "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
         },
         "swapped-in": "397069aa08bbb393eea1eca8f32b5c0b92dcf3e484a5391897705464a66480ff",
         "test": "swap-and-re-pin"
@@ -3532,7 +3532,7 @@
     "root": "vectors-done-receipt"
   },
   "byte-identity": {
-    "pins": 2430,
+    "pins": 2469,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -3569,7 +3569,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "93b46a8c37f43dbe50c8634c6075576b6c0b55f6665d4e7c7d4454ccfddd993b"
+      "sha256": "9820e54501173d4eff884386322b76e95dbebff139cc4a9a8e9d874e88da0da8"
     },
     "runtime": {
       "name": "go",
@@ -3585,6 +3585,14 @@
   "checks": [
     {
       "check": "honest",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "honest-verifier-other-uri",
       "native": {
         "reasons": [],
         "verdict": "supported"
@@ -3745,6 +3753,22 @@
     },
     {
       "check": "receipt-predicate-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-verifier-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-verifier-id-not-a-uri",
       "native": {
         "reasons": [],
         "verdict": "invalid"
@@ -5130,7 +5154,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "acd93539067d32fec062f2d367d4ae5a9fe79f165f30fb72be9394b94eb68187"
+    "sha256": "d76e6d8b6be6ac513837c17067e79f78055364a08b73d657736af4e0f39abe77"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -5141,6 +5165,7 @@
     "closed": true,
     "ids": [
       "honest",
+      "honest-verifier-other-uri",
       "honest-with-launch",
       "honest-connect-recorded",
       "planted-adversary",
@@ -5161,6 +5186,8 @@
       "receipt-two-subjects",
       "receipt-schema-unsupported",
       "receipt-predicate-member-unexpected",
+      "receipt-verifier-missing",
+      "receipt-verifier-id-not-a-uri",
       "receipt-policy-digest-malformed",
       "receipt-records-missing-claims",
       "receipt-names-launch-without-receipt",
@@ -5335,7 +5362,7 @@
       "recorded-lost-events"
     ],
     "path": "vectors-done-receipt/MANIFEST.json",
-    "sha256": "254c6656b2f83cc9a0a7efeb0935180a006ff5c5c8eab9d31244af1fc3a13901"
+    "sha256": "dbcf90ba5d97a55fa6c7ef2601eea8163e40cf76691dd9b10397d05ed8e7aabf"
   },
   "members": [
     {
@@ -5378,7 +5405,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/honest/receipt.json",
-          "sha256": "302a5417bbf587b07aac8ee90da1fc3e6b86bed84cc266306520f877c21d64f1"
+          "sha256": "a74ffdcb3391a72841d3b582929af4510a5ff5433f906bf411957b9eed12bceb"
         },
         {
           "path": "vectors-done-receipt/cases/honest/tool-claims.case.json",
@@ -5394,6 +5421,63 @@
         }
       ],
       "id": "honest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/acceptance.case.json",
+          "sha256": "7c698fa6173034728710b72e72effbc816266657ebf9f425d9ce0e45e54e6456"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/acceptance.policy.json",
+          "sha256": "6451b9b3dd5da0a3c6cef8ab9a09812e88a29e43a456025e8160c1338161fa35"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/capability.json",
+          "sha256": "11efaeb94b1d47452131ae13d9d9083a3af009a0f89ac3947f05142187b91344"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/claims.json",
+          "sha256": "7b8a21a53f1696de8576d8e671a83031eacade8c2658fca192cabc2e41a0e0da"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/grade.json",
+          "sha256": "7d535a5f339a4ea590254b5fd918af0e03cf29d780f89526e0e69f70e75338e4"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/observation.json",
+          "sha256": "e7b8e7bbb91b114d107b4aef4aec9acf0d72af1e12d869356c11d9bc15ac41c9"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/protected-paths.case.json",
+          "sha256": "3f9b5df9b3f51de69c33f6b49ed7f2ac3bdb0241c2840362a9ad84132d7e8867"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/protected-paths.policy.json",
+          "sha256": "eb62f916606e961bf2068859541a4fd034bbb6dc1fd7265b57b6179184fc4692"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/receipt.json",
+          "sha256": "1283a40e1c3608d71308ab8131dc2c3c3ce37caa958b0f3391b5fb198c0dae9c"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/tool-claims.case.json",
+          "sha256": "817ddac9447931d858054a5c9ebe1e2fd2191aef3ad3a82214a8fb5a37839bcd"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/tool-claims.policy.json",
+          "sha256": "7c2b29b87a5aa5cb449209fac15d54f86c0f33d6105ffa9c66b2f8567163c97c"
+        },
+        {
+          "path": "vectors-done-receipt/cases/honest-verifier-other-uri/tree.json",
+          "sha256": "a6db850e8f507613ae138b0c7b3570c602bccaab76a47430cd0a332ce08d2a40"
+        }
+      ],
+      "id": "honest-verifier-other-uri"
     },
     {
       "files": [
@@ -5443,7 +5527,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/honest-with-launch/receipt.json",
-          "sha256": "1d2a53ad8a7c162cbda2542a4f15a6c120d5159de29a213fb4eb1e939021e7da"
+          "sha256": "eec2b8fafb0ba18689c7cca77708e2af1adab78697104fba13ce89b7926a2b6c"
         },
         {
           "path": "vectors-done-receipt/cases/honest-with-launch/tool-claims.case.json",
@@ -5508,7 +5592,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/honest-connect-recorded/receipt.json",
-          "sha256": "9c2c7ea81275b0367a538e13e2cb5a2619e92a7189e030be759f0acdcbb96543"
+          "sha256": "ea298641232088d7d78cb53cf005128076c46243a7d2e5e1c614b0bff21168f0"
         },
         {
           "path": "vectors-done-receipt/cases/honest-connect-recorded/tool-claims.case.json",
@@ -5565,7 +5649,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/planted-adversary/receipt.json",
-          "sha256": "6192bde2d1ce04cc0f1c60ff8b5f44268d2f54de6605241ce23fd90ab3913b93"
+          "sha256": "ee4a0c7a419ba6585ee21252280a9ff12a359f8b689d581bd000301314c78bb1"
         },
         {
           "path": "vectors-done-receipt/cases/planted-adversary/tool-claims.case.json",
@@ -5622,7 +5706,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/lost-events/receipt.json",
-          "sha256": "49478759eaf60fb3e9af746c0e6539009565c1e9e47d16b6c8f2bd896f8de099"
+          "sha256": "1cd058db3f2af23c266d19b97b16d1b75f478d90040e724f8d041d5b41d0a810"
         },
         {
           "path": "vectors-done-receipt/cases/lost-events/tool-claims.case.json",
@@ -5679,7 +5763,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/acceptance-fails-honestly/receipt.json",
-          "sha256": "7b5e353086e3a098dc522b93fd3870a679d4f3cdb145784c1296f915ac64ad32"
+          "sha256": "5ba6ca89cf7360582392779e9964df30d99ab853f36d5e0cc6483f8b9eb5ef7a"
         },
         {
           "path": "vectors-done-receipt/cases/acceptance-fails-honestly/tool-claims.case.json",
@@ -5736,7 +5820,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/external-scope/receipt.json",
-          "sha256": "9932aec1f1fb429cbda81a63c65d05ebd569104e5fef343842681543456b5b6e"
+          "sha256": "fb673596f76a9196a36d04191c8843487bb5e8e2114d59c861a9a0c660b81a96"
         },
         {
           "path": "vectors-done-receipt/cases/external-scope/tool-claims.case.json",
@@ -5793,7 +5877,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/scope-mixed/receipt.json",
-          "sha256": "08ad9c749a27d0da456238b6cc9a71517378c8ce81988da7d90f529e29f56050"
+          "sha256": "71243ffda137dab2fe1b016a38b057ee2b6066a7996259c411c61397acecc5d3"
         },
         {
           "path": "vectors-done-receipt/cases/scope-mixed/tool-claims.case.json",
@@ -5850,7 +5934,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/scope-pin-lower/receipt.json",
-          "sha256": "cb1c4097e5eb76c9a897212b1fa3fe97397bfe1f7f4173951ff5e50eaa1a08fa"
+          "sha256": "d6f887b7621fbbd4dc3bf976a8b610b6513529efffc9d1c4c58f2a9a45f0fc1c"
         },
         {
           "path": "vectors-done-receipt/cases/scope-pin-lower/tool-claims.case.json",
@@ -6119,7 +6203,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-type-wrong/receipt.json",
-          "sha256": "12b311033da7a8540c1d90e9c7e29d555c37249c99c4bed886cf7d9bb42908e4"
+          "sha256": "97e96b2ee12f6e5cb9c71400b98bcd122b87c43328f9a13da0ccbc01807bd5f9"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-type-wrong/tool-claims.case.json",
@@ -6176,7 +6260,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-predicate-type-wrong/receipt.json",
-          "sha256": "6134dfafa6342369598982908a8c39f891dcb770decda6e0f53abdda10765c10"
+          "sha256": "fec425f1d2da9dfab7359e9a1b77426614cf0ac652f2562b4c261992ee1aab08"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-predicate-type-wrong/tool-claims.case.json",
@@ -6290,7 +6374,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-duplicate-member/receipt.json",
-          "sha256": "bae29e0c465bf5c03d586c3b6310102338ac07a91c2f16425947979da830496a"
+          "sha256": "b0ff64789601835a821e424dc3c50349f00f69d5faacd6d2dcea3cb628f6a946"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-duplicate-member/tool-claims.case.json",
@@ -6347,7 +6431,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-member-unexpected/receipt.json",
-          "sha256": "65c72b10e3a102db75c2c53432b3678d02e5a0529c91d2ffb3f0d99013791ec1"
+          "sha256": "693d5f0b844e4776fe7de382032cb076bbc6ecb9c0ed6ef2caa000705b0567a6"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-member-unexpected/tool-claims.case.json",
@@ -6404,7 +6488,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-two-subjects/receipt.json",
-          "sha256": "7befac8b41f90ad12b29ed723b3a0688ae148291f491c9ef86c1926f90d8697c"
+          "sha256": "a601e15f5ece669a2430aa3ff2bedd93e30b98b40688847036c26bc8de059df7"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-two-subjects/tool-claims.case.json",
@@ -6461,7 +6545,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-schema-unsupported/receipt.json",
-          "sha256": "59ef3ea259131f3a7969c921ceb7f6564648898e5f709f1a1741ac2ab4dc8bf4"
+          "sha256": "b3a275a525fd5d5964044fcaf703176cc0865bf3158ec1ef7c8f5c7fe98a1508"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-schema-unsupported/tool-claims.case.json",
@@ -6518,7 +6602,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-predicate-member-unexpected/receipt.json",
-          "sha256": "64acd9284aefaf5649c5d25b778669052c61059ff80cd75728d7d312c202dd75"
+          "sha256": "0532120fe05ea188713b8a4ca1053674f8dc0d3e82c08d6bf33e25c9777a6d09"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-predicate-member-unexpected/tool-claims.case.json",
@@ -6534,6 +6618,120 @@
         }
       ],
       "id": "receipt-predicate-member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/acceptance.case.json",
+          "sha256": "7c698fa6173034728710b72e72effbc816266657ebf9f425d9ce0e45e54e6456"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/acceptance.policy.json",
+          "sha256": "6451b9b3dd5da0a3c6cef8ab9a09812e88a29e43a456025e8160c1338161fa35"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/capability.json",
+          "sha256": "11efaeb94b1d47452131ae13d9d9083a3af009a0f89ac3947f05142187b91344"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/claims.json",
+          "sha256": "7b8a21a53f1696de8576d8e671a83031eacade8c2658fca192cabc2e41a0e0da"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/grade.json",
+          "sha256": "7d535a5f339a4ea590254b5fd918af0e03cf29d780f89526e0e69f70e75338e4"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/observation.json",
+          "sha256": "e7b8e7bbb91b114d107b4aef4aec9acf0d72af1e12d869356c11d9bc15ac41c9"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/protected-paths.case.json",
+          "sha256": "3f9b5df9b3f51de69c33f6b49ed7f2ac3bdb0241c2840362a9ad84132d7e8867"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/protected-paths.policy.json",
+          "sha256": "eb62f916606e961bf2068859541a4fd034bbb6dc1fd7265b57b6179184fc4692"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/receipt.json",
+          "sha256": "d382aa46d44e5d993358ff531eae1eb29f6c858a42514897f4832f1f76a6d62a"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/tool-claims.case.json",
+          "sha256": "817ddac9447931d858054a5c9ebe1e2fd2191aef3ad3a82214a8fb5a37839bcd"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/tool-claims.policy.json",
+          "sha256": "7c2b29b87a5aa5cb449209fac15d54f86c0f33d6105ffa9c66b2f8567163c97c"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-missing/tree.json",
+          "sha256": "a6db850e8f507613ae138b0c7b3570c602bccaab76a47430cd0a332ce08d2a40"
+        }
+      ],
+      "id": "receipt-verifier-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/acceptance.case.json",
+          "sha256": "7c698fa6173034728710b72e72effbc816266657ebf9f425d9ce0e45e54e6456"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/acceptance.policy.json",
+          "sha256": "6451b9b3dd5da0a3c6cef8ab9a09812e88a29e43a456025e8160c1338161fa35"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/capability.json",
+          "sha256": "11efaeb94b1d47452131ae13d9d9083a3af009a0f89ac3947f05142187b91344"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/claims.json",
+          "sha256": "7b8a21a53f1696de8576d8e671a83031eacade8c2658fca192cabc2e41a0e0da"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/contract.json",
+          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/grade.json",
+          "sha256": "7d535a5f339a4ea590254b5fd918af0e03cf29d780f89526e0e69f70e75338e4"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/observation.json",
+          "sha256": "e7b8e7bbb91b114d107b4aef4aec9acf0d72af1e12d869356c11d9bc15ac41c9"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/protected-paths.case.json",
+          "sha256": "3f9b5df9b3f51de69c33f6b49ed7f2ac3bdb0241c2840362a9ad84132d7e8867"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/protected-paths.policy.json",
+          "sha256": "eb62f916606e961bf2068859541a4fd034bbb6dc1fd7265b57b6179184fc4692"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/receipt.json",
+          "sha256": "3c62a2528fd75b70dfe7d1f02d9392facd5d49b85529b517deb3685f828d65f7"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/tool-claims.case.json",
+          "sha256": "817ddac9447931d858054a5c9ebe1e2fd2191aef3ad3a82214a8fb5a37839bcd"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/tool-claims.policy.json",
+          "sha256": "7c2b29b87a5aa5cb449209fac15d54f86c0f33d6105ffa9c66b2f8567163c97c"
+        },
+        {
+          "path": "vectors-done-receipt/cases/receipt-verifier-id-not-a-uri/tree.json",
+          "sha256": "a6db850e8f507613ae138b0c7b3570c602bccaab76a47430cd0a332ce08d2a40"
+        }
+      ],
+      "id": "receipt-verifier-id-not-a-uri"
     },
     {
       "files": [
@@ -6575,7 +6773,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-policy-digest-malformed/receipt.json",
-          "sha256": "cf65f5f2f51c1fb75267beb2116dd5ddcafbed96a892605d5566d1c6cb5fa76a"
+          "sha256": "a664e332a7b8148d4c425e0a5b32220b5774bc486d3306b094909d29da86c99e"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-policy-digest-malformed/tool-claims.case.json",
@@ -6632,7 +6830,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-records-missing-claims/receipt.json",
-          "sha256": "2559e910ffc5f6777e97e415f12346804cb0da7f5af2b3fa2b5c51839fecc504"
+          "sha256": "715d4c29cfbd626171a276b322ad84bf0d5de00a6fba55b3164f3447a230ce93"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-records-missing-claims/tool-claims.case.json",
@@ -6697,7 +6895,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-names-launch-without-receipt/receipt.json",
-          "sha256": "9ea19de235355392c43b2c8d7975bf9ebb84d1a1e5f4c30c366a30d5d5a83c5c"
+          "sha256": "89a99bec64e0dc0491c3c33c42c43963dfa09fc7423a1ef0dfab72bb988e7a34"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-names-launch-without-receipt/tool-claims.case.json",
@@ -6750,7 +6948,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-record-absent/receipt.json",
-          "sha256": "302a5417bbf587b07aac8ee90da1fc3e6b86bed84cc266306520f877c21d64f1"
+          "sha256": "a74ffdcb3391a72841d3b582929af4510a5ff5433f906bf411957b9eed12bceb"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-record-absent/tool-claims.case.json",
@@ -6807,7 +7005,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-record-changed-after/receipt.json",
-          "sha256": "302a5417bbf587b07aac8ee90da1fc3e6b86bed84cc266306520f877c21d64f1"
+          "sha256": "a74ffdcb3391a72841d3b582929af4510a5ff5433f906bf411957b9eed12bceb"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-record-changed-after/tool-claims.case.json",
@@ -6864,7 +7062,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-subject-is-another-tree/receipt.json",
-          "sha256": "5accdc052b25cee95f313c918e06c5c58987f61e849510fc440b73b24e371423"
+          "sha256": "5f3f23be90ad2641a30d35f0da1e344e33ef875cfa553ea1163cfc0484a2b19d"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-subject-is-another-tree/tool-claims.case.json",
@@ -6921,7 +7119,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-carries-isolation-report-and-stop-decision/receipt.json",
-          "sha256": "3540641c0b103d583a306807486b7971ce0ba5b3251583ad52fd30a3e634af42"
+          "sha256": "ba36883d6d1d7b16a74c9330cee2e23b580fdec4f89b18cf900baefbd1fe1adf"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-carries-isolation-report-and-stop-decision/tool-claims.case.json",
@@ -6978,7 +7176,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/isolation-report-for-another-contract/receipt.json",
-          "sha256": "03db250da5635896a7c4afcfad0460bf5d9b16515a9055c9a66e41a30e1bf060"
+          "sha256": "49ed2d5f99b591add74704aaa449ef71ff1e6d0675d0caae8467091c1631783c"
         },
         {
           "path": "vectors-done-receipt/cases/isolation-report-for-another-contract/tool-claims.case.json",
@@ -7035,7 +7233,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/isolation-report-not-an-object/receipt.json",
-          "sha256": "d942c5492514f49c97f4d84637a3ee5abdcb14889d0390d7f0341d50366ed130"
+          "sha256": "e5a3d4e32c55e44f26f6cc019c2339bc4331de40221b547cfc6c11bc062c9896"
         },
         {
           "path": "vectors-done-receipt/cases/isolation-report-not-an-object/tool-claims.case.json",
@@ -7092,7 +7290,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/stop-decision-unknown-action/receipt.json",
-          "sha256": "7dcd07170ffc8327f939f84fe58c9d2318e16f15923bb6e3b7473380ed8e4c2b"
+          "sha256": "efd008d762407f6b0b5a49bd87ed8b24972e89e673f02c5aaf862eb07af6f532"
         },
         {
           "path": "vectors-done-receipt/cases/stop-decision-unknown-action/tool-claims.case.json",
@@ -7157,7 +7355,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-context-differs/receipt.json",
-          "sha256": "43d81de32e73c99dbfc641ec9471b61ca8eed9e92bbceb7b38439a0ac10c6381"
+          "sha256": "b738ac474dc233956d4dc542bb071919fbbbad9da906c3f0cb2d53d64c96eade"
         },
         {
           "path": "vectors-done-receipt/cases/launch-context-differs/tool-claims.case.json",
@@ -7222,7 +7420,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-record-changed-after/receipt.json",
-          "sha256": "b59206358442f5c11a170dbabeb3397339368f0d5d542ccee037f24b13283295"
+          "sha256": "19ddef8d43cfa992896f83cb0624d5dc1c0d45b668656b69c3287691851fd765"
         },
         {
           "path": "vectors-done-receipt/cases/launch-record-changed-after/tool-claims.case.json",
@@ -7287,7 +7485,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-names-other-observation/receipt.json",
-          "sha256": "02880e1d9fbedf76d0146e836cbe2ad6ed92170164f52a577df7e06857c74b38"
+          "sha256": "8b59b78dcceb4356dd8cb8700f93647d9e8a6c5dc76d26179b9f1f2933ab8c2f"
         },
         {
           "path": "vectors-done-receipt/cases/launch-names-other-observation/tool-claims.case.json",
@@ -7352,7 +7550,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-names-other-tree/receipt.json",
-          "sha256": "3e409a08c61d3f25c3c9c935acdda721038c2bce33c564837c1d8c043d0d32de"
+          "sha256": "fcdfedce30027a34679870f89d90272bc882dca082017d66a5bff4d5d6d1d23a"
         },
         {
           "path": "vectors-done-receipt/cases/launch-names-other-tree/tool-claims.case.json",
@@ -7417,7 +7615,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-scope-differs/receipt.json",
-          "sha256": "c73697d2eca36326a1efd98cf0941757d293ee8ce9f452a09165a173a0ba9afc"
+          "sha256": "eaae7feb98376b517592f51d2e1d3cec6e5b11c3b81732befa8fb0afa26f6b27"
         },
         {
           "path": "vectors-done-receipt/cases/launch-scope-differs/tool-claims.case.json",
@@ -7482,7 +7680,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-coverage-differs/receipt.json",
-          "sha256": "3b84e4cb3d819d18c07cbb684cbe4f8d7184300f802655918623f82a6673aaba"
+          "sha256": "699ffff64876823c69e74e32edfe64c4480c77a35e4ef6fd68f647387cc98c5b"
         },
         {
           "path": "vectors-done-receipt/cases/launch-coverage-differs/tool-claims.case.json",
@@ -7547,7 +7745,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-tracer-lost-observation-complete/receipt.json",
-          "sha256": "2dac157d65d5f77d271cc33b3779796e8e5ca3b14aadd2f29323b5db758fd975"
+          "sha256": "e36c05844d8423c12949ecd829aa72e1a3500fb4b0ca23d948192e3f04efc772"
         },
         {
           "path": "vectors-done-receipt/cases/launch-tracer-lost-observation-complete/tool-claims.case.json",
@@ -7612,7 +7810,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-unattributed-change-observation-complete/receipt.json",
-          "sha256": "3c9d87c0493828b7a8db0e55844210f44f25803fb74f36490ed4bfb94c7d41a3"
+          "sha256": "477f1155aec4b8b1dccd326bea70afefd32b7c08b1907992072e77966b82e621"
         },
         {
           "path": "vectors-done-receipt/cases/launch-unattributed-change-observation-complete/tool-claims.case.json",
@@ -7677,7 +7875,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/external-effect-left-out/receipt.json",
-          "sha256": "23380641092e657dd9b7c8f9f6cc75acc17131072bda896b1c09836667e3fc84"
+          "sha256": "df146532e0ac4f98621e6fa2a349238f4c1ed3d5a82a1cb56c0cb787cbabadf7"
         },
         {
           "path": "vectors-done-receipt/cases/external-effect-left-out/tool-claims.case.json",
@@ -7734,7 +7932,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/checks-laundered/receipt.json",
-          "sha256": "889981003d0714c84aca6b36c016a9ba4c4c00f8fe4357fc458aa3f5db41114f"
+          "sha256": "7ce257ef8152916f8484158b6f8de8e93c092df04397e53e5759b9f252ec44ae"
         },
         {
           "path": "vectors-done-receipt/cases/checks-laundered/tool-claims.case.json",
@@ -7791,7 +7989,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/check-scope-raised/receipt.json",
-          "sha256": "b0dc2732176017190bb89c0d49dc516235df008e51bfe0627c961a431c432d56"
+          "sha256": "a2013cd09bda1655e0c2186896362c5b076eaa912809d9c46aaf17ae56b9cac9"
         },
         {
           "path": "vectors-done-receipt/cases/check-scope-raised/tool-claims.case.json",
@@ -7848,7 +8046,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/checks-reordered/receipt.json",
-          "sha256": "1ad97cb6a157cc34f2320e45df3fa7823f81f8d14837fa91d4ca467fd9967672"
+          "sha256": "b093a61b596bd692c3c57c7b8740c3ca92504eba3802d8b1cb9ee06a40cafee1"
         },
         {
           "path": "vectors-done-receipt/cases/checks-reordered/tool-claims.case.json",
@@ -7905,7 +8103,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/check-dropped/receipt.json",
-          "sha256": "6461ba392829f043842b02baf8a6701166f8113066ab028c5710defa02df3b23"
+          "sha256": "a0d501c5597b17573e0e960a4ffa538b570935f6a9a4fe26c86e0aafb2b7eb41"
         },
         {
           "path": "vectors-done-receipt/cases/check-dropped/tool-claims.case.json",
@@ -7962,7 +8160,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/verdict-upgraded/receipt.json",
-          "sha256": "ba16afa1875baf65b98f851a94ae7a00c0b005d78d8e49c5abadfc4c0777ef90"
+          "sha256": "60e4e413cc858991283ff4e92a409b102f4d736dcf62d55ca53a0ac61a00248b"
         },
         {
           "path": "vectors-done-receipt/cases/verdict-upgraded/tool-claims.case.json",
@@ -8019,7 +8217,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/verdict-scope-raised/receipt.json",
-          "sha256": "9d584e2694b01307955b8c07d63d0ec72997805755db3d1cf180f98791b88240"
+          "sha256": "71e880db72e562c7513495edb111446bf843cb543215f5ffca473ef740e75610"
         },
         {
           "path": "vectors-done-receipt/cases/verdict-scope-raised/tool-claims.case.json",
@@ -8076,7 +8274,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/verdict-names-another-reason/receipt.json",
-          "sha256": "a7b25c62375aac8ee0ec82b015fda896de8f63fb66ebf7b6575988f02e1f2bd1"
+          "sha256": "c0c83a625825c0d34901fe340728175128bca25f95109fbcb01568c5eef2b2e7"
         },
         {
           "path": "vectors-done-receipt/cases/verdict-names-another-reason/tool-claims.case.json",
@@ -8133,7 +8331,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/verdict-softened/receipt.json",
-          "sha256": "f2c3277beb24a6e363964623debd741a6cc8bc32aae69a476a6df7c0793333fd"
+          "sha256": "93921d441e63151ebd727e6bd79c92a254b48e7ac0a0668673ab3bd236f0caef"
         },
         {
           "path": "vectors-done-receipt/cases/verdict-softened/tool-claims.case.json",
@@ -9099,7 +9297,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/pth-injection-receipt/receipt.json",
-          "sha256": "9d132cf18caf8415d7212b57649387a761c3b39a2302958ce4dd67ca17e27c77"
+          "sha256": "d51283319d753d09d1823fd8df82b0ee4db5bc6a47af99758b542546f9ac71a7"
         },
         {
           "path": "vectors-done-receipt/cases/pth-injection-receipt/tool-claims.case.json",
@@ -9164,7 +9362,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/verdict-ignores-the-external-effect/receipt.json",
-          "sha256": "327fcea53134098bddda0d859ad7bd7ba343519754c0ef9faf4d2eeff3c9ffa4"
+          "sha256": "9313690e2668bfdb9506f5cb04ba2f31b5c6b2d9ec248779152e1c5e1c84d443"
         },
         {
           "path": "vectors-done-receipt/cases/verdict-ignores-the-external-effect/tool-claims.case.json",
@@ -9486,7 +9684,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/receipt-not-a-number/receipt.json",
-          "sha256": "b12b94cb4fcbc75b15b7829fe1c6441378727a808f0536c220f7fae7a6537fda"
+          "sha256": "8add8c8927e9490cd01aa4670b62b761d10398d839a26f4a7bf574d244dbc1a6"
         },
         {
           "path": "vectors-done-receipt/cases/receipt-not-a-number/tool-claims.case.json",
@@ -15112,7 +15310,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-schema-unsupported/receipt.json",
-          "sha256": "41742ba7cbe7eb4868d50882260fdb62525a5c4dcd2b09feae09a964bc36e389"
+          "sha256": "6afe7057975bd68084d332cfb3a114060734472875971b9fcc70b33c442cd525"
         },
         {
           "path": "vectors-done-receipt/cases/launch-schema-unsupported/tool-claims.case.json",
@@ -15177,7 +15375,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-backend-unknown/receipt.json",
-          "sha256": "7d1e6d128a5a4c0fc722df26d5afa3595b449df13bcca6fbef397e6a02befd43"
+          "sha256": "81a17b346ff25284c9bbdbb1a8ee5df381a195750e67d793080bc3ef68614be8"
         },
         {
           "path": "vectors-done-receipt/cases/launch-backend-unknown/tool-claims.case.json",
@@ -15242,7 +15440,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-network-not-a-boolean/receipt.json",
-          "sha256": "f6c00fc4cb686981b8aebc8758f974c6ceff022f23d70dc0741100747ca8491b"
+          "sha256": "d625c64cc471a6adfcdf7f95a627151b4a3f756511402eb74926a676517d2658"
         },
         {
           "path": "vectors-done-receipt/cases/launch-network-not-a-boolean/tool-claims.case.json",
@@ -15307,7 +15505,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-digest-uppercase/receipt.json",
-          "sha256": "4d83c97d1497a8d74f73d6cc561cf6f29467126f04ad24cb4d175a0e45fd0fa5"
+          "sha256": "66a7e16568ebc9675fb6fad571315c772acdc0ba0a8288758ef29eabe24e9eeb"
         },
         {
           "path": "vectors-done-receipt/cases/launch-digest-uppercase/tool-claims.case.json",
@@ -15372,7 +15570,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-schema-unsupported/receipt.json",
-          "sha256": "e3a6d61029f5294c2640730d80384a5f8e00d33c42deded4aa2213dff7d94905"
+          "sha256": "190549891bd738687e202f5609b1083e0d0a3906df5579411991c24e6e7047db"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-schema-unsupported/tool-claims.case.json",
@@ -15437,7 +15635,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-scope-unknown/receipt.json",
-          "sha256": "25fb18eac90e6c442a619ddd273d972a394bbcb4d53019f7da03c9598098da97"
+          "sha256": "05315d6611a6b7fe2c0bf67b4666a3e6ab518d1b61ad3e5589db79af320c8995"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-scope-unknown/tool-claims.case.json",
@@ -15502,7 +15700,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-coverage-unknown-word/receipt.json",
-          "sha256": "a147a3e56cb0793c32cba4ffd38d88475078439e23f7140b7a2558b6f9b16257"
+          "sha256": "9f8e1603011277ff2f436574af43c056d9415b6b606c6988a51eb7a57880779b"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-coverage-unknown-word/tool-claims.case.json",
@@ -15567,7 +15765,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-digest-short/receipt.json",
-          "sha256": "c22055c17325c3aa3bc0e6d4714f44c4dc4fe8674a5b9cc7a077286ba8f32b60"
+          "sha256": "c73e4e6fc081263cfd6782004512d677438b449663e798cc93d6765e0e4e753a"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-digest-short/tool-claims.case.json",
@@ -15632,7 +15830,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-timed-out-not-a-boolean/receipt.json",
-          "sha256": "9b5f47447e17c458b350eab94e62703174a0c89d9480b22320e45221517dd436"
+          "sha256": "68b8704f4d363afd3ce772bb9442cb348ee2a157063af1016e673a2df9a1bef8"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-timed-out-not-a-boolean/tool-claims.case.json",
@@ -15697,7 +15895,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-tracer-unknown-word/receipt.json",
-          "sha256": "97e3883e2a7a11babe92f020b3875af5ba8b8797c6b88ac7913d465647ee8be0"
+          "sha256": "811a49ca6e426e204377d4f19847bbfecc676b2294b00b460c7d142e51c51274"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-tracer-unknown-word/tool-claims.case.json",
@@ -15762,7 +15960,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-effect-malformed/receipt.json",
-          "sha256": "6d6226bb81f191080ed88b89862d12404dff8c86f4ca2e7e46aa8ffd007dc4e1"
+          "sha256": "949231538635f5ae3709dac108be9992740cc453c0bdc9a8fc3da8da912acb95"
         },
         {
           "path": "vectors-done-receipt/cases/launch-receipt-effect-malformed/tool-claims.case.json",
@@ -15827,7 +16025,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/recorded-honest/receipt.json",
-          "sha256": "484444c1ea6028c671db51b9fbac325bb779fd46cb05f072894c1c70bccdbb8a"
+          "sha256": "216c0ec527a5935315a4a2c09df8e0c04f98c53cf115723c29cf111d85fad25f"
         },
         {
           "path": "vectors-done-receipt/cases/recorded-honest/tool-claims.case.json",
@@ -15892,7 +16090,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/recorded-protected-edit/receipt.json",
-          "sha256": "3511ff047542aa35a76e6ae94f33dcdd54f1f869871c34fc60cce9d19e89b43c"
+          "sha256": "a226b407e227e817abab2760a7b949ae017d07649025c516e38c5f91612ad746"
         },
         {
           "path": "vectors-done-receipt/cases/recorded-protected-edit/tool-claims.case.json",
@@ -15957,7 +16155,7 @@
         },
         {
           "path": "vectors-done-receipt/cases/recorded-spoofed-output/receipt.json",
-          "sha256": "fd64744d26b7b48dc37f6c344e0d44e96d501dee7e6fceb02167e4e60892d813"
+          "sha256": "fe96442803deb29a9bcf239919deddf8861ead950d3c0bf36816805029d5b736"
         },
         {
           "path": "vectors-done-receipt/cases/recorded-spoofed-output/tool-claims.case.json",
@@ -16040,7 +16238,7 @@
       "reference": {
         "path": "release/intake/native/vectors-done-receipt.json",
         "serialization": "bytes",
-        "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+        "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
       }
     },
     {
@@ -16049,7 +16247,7 @@
       "reference": {
         "path": "release/intake/native/vectors-done-receipt.txt",
         "serialization": "bytes",
-        "sha256": "f4833df3c504e457f7df2bef66a9ba1a3eee39be8f436683cf69e8db63527a9c"
+        "sha256": "977d7c86e652ebf092306fd4c860e704daaa6fbf4d17568ec06c74c6a670bb4c"
       }
     },
     {
@@ -16115,11 +16313,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+        "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
       },
       {
         "process": "run-2",
-        "sha256": "4e10fe46b3fa3a7fc080dabe7b51737b9ce482fc850d207b27a1788e7b509c1b"
+        "sha256": "0c4d504e0c93e70c3f5977534e40279adcc92cb0d96deb799763420ceb963599"
       }
     ],
     "seed": null,
@@ -16133,7 +16331,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 193 pinned members of done-receipt/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 196 pinned members of done-receipt/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -16144,10 +16342,11 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 193,
+    "matched": 196,
     "require": "at-least-one",
     "selected": [
       "honest",
+      "honest-verifier-other-uri",
       "honest-with-launch",
       "honest-connect-recorded",
       "planted-adversary",
@@ -16168,6 +16367,8 @@
       "receipt-two-subjects",
       "receipt-schema-unsupported",
       "receipt-predicate-member-unexpected",
+      "receipt-verifier-missing",
+      "receipt-verifier-id-not-a-uri",
       "receipt-policy-digest-malformed",
       "receipt-records-missing-claims",
       "receipt-names-launch-without-receipt",
