@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 304,
+      "path": "capability.json",
+      "sha256": "aa5dfcb127c586e73c505ee0deae40f7e4ade79e4c23e5795c068cb334a5e1b1"
+    },
+    "claims": {
+      "length": 338,
+      "path": "claims.json",
+      "sha256": "d5bbb27378b2da479e80397741b4f0fddf5e7c9d6e4d2c62bab693bff8879fae"
+    },
+    "observation": {
+      "length": 1111,
+      "path": "observation.json",
+      "sha256": "6fc4dc35967c4e1e106df7c8d915542ecc0e379b776b176a4e1fe70b016e813a"
+    }
+  },
+  "case_id": "run-before-an-edit-by-another-command",
+  "schema_version": "probity-case/v1"
+}

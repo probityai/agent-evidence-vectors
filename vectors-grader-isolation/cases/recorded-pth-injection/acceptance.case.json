@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 605,
+      "path": "contract.json",
+      "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+    },
+    "grade": {
+      "length": 600,
+      "path": "grade.json",
+      "sha256": "5e1521ae6e332525bcb9860de80fbe5876bcd896942d491c81d3f273a8be18d9"
+    },
+    "tree": {
+      "length": 653,
+      "path": "tree.json",
+      "sha256": "8f92e9850e9628c57e1885561e8587a3cd8207d6dffacdc9bd9cd6125fab6080"
+    }
+  },
+  "case_id": "pth-injection",
+  "schema_version": "probity-case/v1"
+}

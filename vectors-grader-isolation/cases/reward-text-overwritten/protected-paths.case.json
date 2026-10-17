@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 290,
+      "path": "capability.json",
+      "sha256": "b2df98035660e4af52876854f522d0798f244006d74d088b9858d035b8568131"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 722,
+      "path": "observation.json",
+      "sha256": "b669a59bdc5cda360fa2c2d2afdcce7e3f21cda5a2ccaa8fa51f60ab40f37729"
+    },
+    "tree": {
+      "length": 479,
+      "path": "tree.json",
+      "sha256": "c34fe3c81dffdc8715abe7763c31879421d3cfc6191bb60ae5b1a205064ef4cb"
+    }
+  },
+  "case_id": "reward-text-overwritten",
+  "schema_version": "probity-case/v1"
+}

@@ -1,0 +1,16 @@
+{
+  "claim_id": "capability-from-another-observer",
+  "invocation_id": "call-1",
+  "producer": "other-host",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "create",
+    "exec",
+    "link",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

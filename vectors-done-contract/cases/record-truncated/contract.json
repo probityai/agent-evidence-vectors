@@ -1,0 +1,20 @@
+{
+  "acceptance": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "id": "unit"
+    }
+  ],
+  "adequacy": {
+    "killed": 3,
+    "mutants": 4
+  },
+  "contract_id": "contract-app-1",
+  "protected_paths": [
+   

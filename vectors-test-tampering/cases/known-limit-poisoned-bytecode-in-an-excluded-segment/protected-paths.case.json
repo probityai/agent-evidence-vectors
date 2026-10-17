@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 319,
+      "path": "capability.json",
+      "sha256": "9cea12179faecef8ce698cd086e614a2d3b889715b091a089377be21bd1a2be3"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 691,
+      "path": "observation.json",
+      "sha256": "d7715d1d7ec1de0e18bfa58dda8cfd098582152a5bfc77ccbef62edd0709a7e2"
+    },
+    "tree": {
+      "length": 626,
+      "path": "tree.json",
+      "sha256": "6c0cd3aa33de749d1c52a5020f73e98933ed39b842478d5956ef2afbc0936d28"
+    }
+  },
+  "case_id": "known-limit-poisoned-bytecode-in-an-excluded-segment",
+  "schema_version": "probity-case/v1"
+}

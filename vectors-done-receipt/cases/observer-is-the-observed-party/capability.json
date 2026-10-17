@@ -1,0 +1,16 @@
+{
+  "claim_id": "observer-is-the-observed-party",
+  "invocation_id": "call-1",
+  "producer": "agent-1",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "create",
+    "exec",
+    "link",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

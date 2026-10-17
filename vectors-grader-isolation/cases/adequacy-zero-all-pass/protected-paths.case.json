@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 280,
+      "path": "capability.json",
+      "sha256": "00ccd113434e6ff5dbff92a0d8fa926ebd9d7bb40752215db8485169fef48477"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+    },
+    "observation": {
+      "length": 712,
+      "path": "observation.json",
+      "sha256": "c4484b8c6ad93d51a0d57a6c07e945c9e820fc7e27073ca9cd269a19d35c5d20"
+    },
+    "tree": {
+      "length": 469,
+      "path": "tree.json",
+      "sha256": "ffa3476b11e2f6dddccd30a50b6cdd86dd3d5f8c4f0e4e6af4c743ffc146e566"
+    }
+  },
+  "case_id": "adequacy-zero",
+  "schema_version": "probity-case/v1"
+}

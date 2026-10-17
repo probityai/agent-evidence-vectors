@@ -1,0 +1,45 @@
+{
+  "claim_id": "launch-tracer-lost",
+  "coverage": "complete",
+  "events": [
+    {
+      "id": "e1",
+      "path": "src/app.py",
+      "step": 1,
+      "time": "2026-10-17T00:00:01Z",
+      "type": "write"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 0,
+      "id": "e2",
+      "step": 2,
+      "time": "2026-10-17T00:00:02Z",
+      "type": "exec"
+    },
+    {
+      "id": "e3",
+      "origin": "e2",
+      "path": "tests/__pycache__/test_app.cpython-312.pyc",
+      "step": 3,
+      "time": "2026-10-17T00:00:03Z",
+      "type": "create"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-observation/v2",
+  "scope": {
+    "end": "2026-10-17T00:10:00Z",
+    "id": "run-1",
+    "start": "2026-10-17T00:00:00Z"
+  },
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

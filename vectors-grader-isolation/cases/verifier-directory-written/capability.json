@@ -1,0 +1,16 @@
+{
+  "claim_id": "verifier-directory-written",
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "create",
+    "exec",
+    "link",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

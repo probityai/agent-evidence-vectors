@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 288,
+      "path": "capability.json",
+      "sha256": "b354332d083fc30f07226cf2be1d3f922faf2fadd5cbeb9357e5b31bbbe00848"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 720,
+      "path": "observation.json",
+      "sha256": "db5f13236c0960c2bacf06a6800271d431f3bff04870f21c7cf363101c3384fe"
+    },
+    "tree": {
+      "length": 477,
+      "path": "tree.json",
+      "sha256": "5ee2d02b77c33611fbd97eeeef00a79f9c7bdc26f685196b8ed4026a8a87e9ac"
+    }
+  },
+  "case_id": "control-package-cache",
+  "schema_version": "probity-case/v1"
+}

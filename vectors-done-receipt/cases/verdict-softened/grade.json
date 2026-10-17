@@ -1,0 +1,23 @@
+{
+  "claim_id": "planted-adversary",
+  "contract_sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
+  "invocation_id": "call-1",
+  "producer": "harness-verifier",
+  "results": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 1,
+      "id": "unit"
+    }
+  ],
+  "schema_version": "probity-acceptance-grade/v1",
+  "tree_sha256": "023290ee7365d8de15edfc9f34f4300557e59e84b937295b3c2640c17a5c2e55",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

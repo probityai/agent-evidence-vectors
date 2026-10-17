@@ -1,0 +1,15 @@
+{
+  "claim_id": "spoofed-output",
+  "files": {
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/app.py": "1ebbe0e45589d96ab35272507f2250fa01a8c8b0d4efe4702f483d9ff634bc30",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_app.py": "3d549e3f9d21c849df9af3824d33a2ed037a1d5cbac4f995459b1572b45823e9"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v1",
+  "tree_sha256": "efcb05dd38a0ce6de7871584f4233b8b07af2c77f9f4243d3dbe354d6c1583de",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

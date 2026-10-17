@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 283,
+      "path": "capability.json",
+      "sha256": "e3a47f78e698f84c845433cfd8325a5e6ff8b756582077720c2fb77cb1d0a78e"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 723,
+      "path": "observation.json",
+      "sha256": "8188fee99a5f2b0c18bb6ece88ad258977b4ddd552a7fb6348f1b0d3b1b8777d"
+    },
+    "tree": {
+      "length": 565,
+      "path": "tree.json",
+      "sha256": "2f7006d6908cec397d2d22fbe616b61a5cd381bf4b1a9a62e757b007343d5876"
+    }
+  },
+  "case_id": "planted-conftest",
+  "schema_version": "probity-case/v1"
+}

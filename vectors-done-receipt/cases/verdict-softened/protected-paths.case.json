@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 284,
+      "path": "capability.json",
+      "sha256": "ad413357368e8a1126f0f7143dea52d8f15d3e40a44bf5df0a6719f3aa66cb1d"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 684,
+      "path": "observation.json",
+      "sha256": "f8ce68f845a564751db128c034ed42e4accd371cd42c35ea3e1228e888e00315"
+    },
+    "tree": {
+      "length": 566,
+      "path": "tree.json",
+      "sha256": "2b022ae4e0742facdb4203c741799f583f759a7d9df0321910668a3ebcbc0eed"
+    }
+  },
+  "case_id": "planted-adversary",
+  "schema_version": "probity-case/v1"
+}

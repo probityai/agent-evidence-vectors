@@ -1,0 +1,64 @@
+{
+  "agent_exit": 0,
+  "capability_sha256": "e3a47f78e698f84c845433cfd8325a5e6ff8b756582077720c2fb77cb1d0a78e",
+  "claim_id": "planted-conftest",
+  "container_exit": 0,
+  "coverage": "complete",
+  "doesNotAssert": [
+    "that the host operator is independent of the agent's operator (scope is PEER)",
+    "effects through channels the trace expression does not name",
+    "that a symbolic link in a path outside an open() call was resolved"
+  ],
+  "invocation_id": "call-1",
+  "launch_sha256": "6556e673866e3603c38ac0cc8a1f11aa82ba42807c618f4dbd6c7e95ae05c197",
+  "observation_sha256": "8188fee99a5f2b0c18bb6ece88ad258977b4ddd552a7fb6348f1b0d3b1b8777d",
+  "producer": "host-observer",
+  "schema_version": "probity-launch-receipt/v1",
+  "sensors": {
+    "external_effects": [],
+    "join": {
+      "unattributed": []
+    },
+    "s1_inotify": {
+      "changes": 3,
+      "mask": [
+        "IN_CREATE",
+        "IN_MODIFY"
+      ],
+      "overflow": false,
+      "watch_failures": 0,
+      "watch_list": []
+    },
+    "s2_strace": {
+      "calls": 41,
+      "escapes": [],
+      "origin_rule": "first exec of the command",
+      "tracer": "complete",
+      "unparsed_lines": 0,
+      "unresolved": []
+    },
+    "s3_tree": {
+      "files": 3,
+      "special": [],
+      "symlinks": [],
+      "tree_sha256": "22e35a56b12aeb156d53652476a0fc094b6373aadb7fc4bf6f59147b642ce464"
+    }
+  },
+  "start_tarball_sha256": "13b57ea24267e1869268dc6d20deab4dc9f90b192b064a773a6cdf796b8122be",
+  "timed_out": false,
+  "trace_expression": "trace=execve,execveat,open,openat,openat2,creat,mkdir,mkdirat,mknod,mknodat,symlink,symlinkat,rename,renameat,renameat2,link,linkat,unlink,unlinkat,rmdir,truncate,ftruncate,chmod,fchmod,fchmodat,fchmodat2,chown,fchown,lchown,fchownat,utime,utimes,utimensat,futimesat,setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr,mmap,connect,fork,vfork,clone,clone3,chdir,fchdir,io_uring_setup,ptrace,process_vm_writev",
+  "trace_sha256": "fca3a292437cbc32445ca337209088c41a8bfee44f9150a9a4862c313952522d",
+  "transcript_sha256": "dc2f80888d957a34950740b818d72acfd0da10b42ae54da2420b26d71e45004f",
+  "tree_sha256": "2f7006d6908cec397d2d22fbe616b61a5cd381bf4b1a9a62e757b007343d5876",
+  "watch_list": [
+    {
+      "added": "2026-10-17T00:00:00Z",
+      "path": ""
+    },
+    {
+      "added": "2026-10-17T00:00:01Z",
+      "path": "src"
+    }
+  ],
+  "witnessScope": "PEER"
+}

@@ -1,0 +1,30 @@
+{
+  "claim_id": "first-contradiction-in-claim-order-stale",
+  "claims": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 0,
+      "id": "c1"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "src"
+      ],
+      "exit": 0,
+      "id": "c2"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "transcript-parser",
+  "schema_version": "probity-tool-claims/v1"
+}

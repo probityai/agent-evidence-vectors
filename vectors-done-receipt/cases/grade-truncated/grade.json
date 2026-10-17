@@ -1,0 +1,12 @@
+{
+  "claim_id": "honest",
+  "contract_sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
+  "invocation_id": "call-1",
+  "producer": "harness-verifier",
+  "results": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+      

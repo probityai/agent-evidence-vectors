@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 287,
+      "path": "capability.json",
+      "sha256": "b225fd2704aaf15a89e408e4c5aaf08d5e9f89fc77a3c26711a722ee502b84c6"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 719,
+      "path": "observation.json",
+      "sha256": "f141d6fe6825085176d95e25ab8cd264443e167d30d5ebe1e52ed28c1d1f0657"
+    },
+    "tree": {
+      "length": 476,
+      "path": "tree.json",
+      "sha256": "bbde8bbc8f7ec843561696c80f44424e31ece9ad6d670201338b82ee6356a902"
+    }
+  },
+  "case_id": "control-grade-failed",
+  "schema_version": "probity-case/v1"
+}

@@ -1,0 +1,27 @@
+{
+  "claim_id": "honest",
+  "coverage": "complete",
+  "events": [
+    {
+      "id": "e1",
+      "path": "src/app.py",
+      "step": 1,
+      "time": "2026-10-17T00:00:01Z",
+      "type": "write"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 0,
+      "id": "e2",
+      "step": 2,
+      "time": "2026-10-17T00:00:02Z",
+      "type": "exec"
+    },
+    {
+      "id":

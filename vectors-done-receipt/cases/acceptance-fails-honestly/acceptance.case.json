@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "grade": {
+      "length": 562,
+      "path": "grade.json",
+      "sha256": "40553ee2598af925c9c7df719614ebab158f26e4e54cfa20ef7705aede554374"
+    },
+    "tree": {
+      "length": 481,
+      "path": "tree.json",
+      "sha256": "f56ddaee20dd82cfe86b678b7fdf53f4cca4bd93477f0e621c7a00dbf80c1f06"
+    }
+  },
+  "case_id": "acceptance-fails-honestly",
+  "schema_version": "probity-case/v1"
+}

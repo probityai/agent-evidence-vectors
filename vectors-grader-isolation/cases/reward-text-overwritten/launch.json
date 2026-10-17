@@ -1,0 +1,37 @@
+{
+  "agent_argv": [
+    "python3",
+    "agent.py"
+  ],
+  "agent_uid": 65534,
+  "backend": "docker",
+  "container_argv": [
+    "docker",
+    "run",
+    "--rm",
+    "--cap-add=SYS_PTRACE",
+    "strace",
+    "-f"
+  ],
+  "container_workspace": "/workspace",
+  "env": {},
+  "image": "probity-observer-agent-test:local",
+  "image_id": "sha256:6105d6cc76af400325e94d588ce511be5bfdbb73b437dc51eca43917d7a43e3d",
+  "network": false,
+  "observer_source_sha256": "cbb6a04def4cf54fd52aaa11861a2d2d223538297f721149314e68abf210c2d9",
+  "runtime_version": "docker 28.0.1",
+  "schema_version": "probity-launch/v1",
+  "start_tarball_sha256": "d01ffa12162f84c0780461c55c276a5531e4b0a39174a5b6a4e4c159e889f7bb",
+  "strace_version": "6.13",
+  "timeout_seconds": 600,
+  "trace_expression": "trace=execve,execveat,open,openat,openat2,creat,mkdir,mkdirat,mknod,mknodat,symlink,symlinkat,rename,renameat,renameat2,link,linkat,unlink,unlinkat,rmdir,truncate,ftruncate,chmod,fchmod,fchmodat,fchmodat2,chown,fchown,lchown,fchownat,utime,utimes,utimensat,futimesat,setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr,mmap,connect,fork,vfork,clone,clone3,chdir,fchdir,io_uring_setup,ptrace,process_vm_writev",
+  "tracer_flags": [
+    "-f",
+    "-q",
+    "-y",
+    "-ttt",
+    "-xx",
+    "-z"
+  ],
+  "tracer_uid_separated": true
+}

@@ -1,0 +1,19 @@
+{
+  "claim_id": "forged-trace-attempt",
+  "files": {
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/__pycache__/__init__.cpython-312.pyc": "fe9c33952a269a9f733d6cdf51b9e7ab24438fa131be7baf20561a50cfc45b5e",
+    "src/__pycache__/app.cpython-312.pyc": "de283dc798de53ff687772f5957c1758a200c8288868c4671fac6666fc1365b2",
+    "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__pycache__/__init__.cpython-312.pyc": "af5b6d46cf25a70acb1cc6d1cdd1e3cb34976416b073cc17bab5c899c1fa07df",
+    "tests/__pycache__/test_app.cpython-312.pyc": "7cb6a8826db3d71b3e148350ac11fdab9d863ffd5d1238b6bf79e88196565238",
+    "tests/test_app.py": "3d549e3f9d21c849df9af3824d33a2ed037a1d5cbac4f995459b1572b45823e9"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v1",
+  "tree_sha256": "bc05ab790946dd490e3c61f8869d0b0725e6a691ad119d489e496b3946fedcc7",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

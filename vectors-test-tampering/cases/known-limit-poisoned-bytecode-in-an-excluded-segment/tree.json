@@ -1,0 +1,14 @@
+{
+  "claim_id": "known-limit-poisoned-bytecode-in-an-excluded-segment",
+  "files": {
+    "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c",
+    "tests/__pycache__/test_app.cpython-312.pyc": "5743abddddfa08c1e3a99fdebc2e8f3f1108fa12dcd2a8f58a42f141418c22ec",
+    "tests/test_app.py": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v1",
+  "tree_sha256": "cfa1d8246c2efbee1650ce236e2f19743b4ef8f296aad4be30d8d05cf3995312",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

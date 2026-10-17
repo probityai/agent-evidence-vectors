@@ -1,0 +1,38 @@
+{
+  "assessments": {
+    "own-cache-writes-do-not-stale-the-run": {
+      "capability_witness": "capability",
+      "claim_type": "tool_claim_match/v1",
+      "claims_witness": "claims",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "b9cff1016d442df967907f09815f4f78198e52f5663de1c2d51dd046144fff42"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "7ad8c0e36cd8536c79816b8300f067a5c04414c346505c58fc101e22c2c42d44"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "a9b9482626fa73fd0345a52f4219a31800f2a80400225efd705bb32320af8156",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

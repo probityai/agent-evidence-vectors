@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 293,
+      "path": "capability.json",
+      "sha256": "2d4dbc6e26443794761e0f2506615f5fbd6e45ed15f5d3091d9da502364d54d7"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 725,
+      "path": "observation.json",
+      "sha256": "f0a7d89ad6e8ff30391a284bc7e170d60c68c9b554248aebabcc390de05de260"
+    },
+    "tree": {
+      "length": 482,
+      "path": "tree.json",
+      "sha256": "2010aff87a76d19d4afb2a775f5d67cd394bc028330f6e477f37701e9609c0f9"
+    }
+  },
+  "case_id": "grader-skipped-the-command",
+  "schema_version": "probity-case/v1"
+}

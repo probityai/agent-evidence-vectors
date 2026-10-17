@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "grade": {
+      "length": 569,
+      "path": "grade.json",
+      "sha256": "aa6921576570ca6e9ce4a0210c0307824073ded2217e4d114a3786ffa4706fa6"
+    },
+    "tree": {
+      "length": 488,
+      "path": "tree.json",
+      "sha256": "bb2a9a4930041d36d2c858edd7267f35d4e4c2d39543b563b9c0a22133013ebc"
+    }
+  },
+  "case_id": "reward-file-in-another-directory",
+  "schema_version": "probity-case/v1"
+}

@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 288,
+      "path": "capability.json",
+      "sha256": "22b4c7f66d53635adbdee8e4305d90da7dfba56d8319a58f82cf8ee908e7f3f2"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 670,
+      "path": "observation.json",
+      "sha256": "5ef749465fc201fbcd291194ab8ae1d692b9d9b86dc64106dbdcf1bd27a5bbef"
+    },
+    "tree": {
+      "length": 477,
+      "path": "tree.json",
+      "sha256": "b123fed28b88a46312f0739de4b9bed3e094228a93e205251a019c8219df3eee"
+    }
+  },
+  "case_id": "rename-onto-protected",
+  "schema_version": "probity-case/v1"
+}

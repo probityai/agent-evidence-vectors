@@ -1,0 +1,31 @@
+{
+  "acceptance": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "id": "unit"
+    }
+  ],
+  "adequacy": {
+    "killed": 3,
+    "mutants": 4
+  },
+  "contract_id": "contract-app-1",
+  "protected_paths": [
+    {
+      "exclude": [
+        "x"
+      ],
+      "kind": "file",
+      "path": "tests/test_app.py",
+      "sha256": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+    }
+  ],
+  "schema_version": "probity-done-contract/v1",
+  "task": "make test_app pass"
+}

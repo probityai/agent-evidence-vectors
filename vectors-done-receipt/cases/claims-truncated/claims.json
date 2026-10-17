@@ -1,0 +1,12 @@
+{
+  "claim_id": "honest",
+  "claims": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+  

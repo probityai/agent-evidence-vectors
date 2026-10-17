@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 290,
+      "path": "capability.json",
+      "sha256": "9d012fc191595f85db74a67f186191b844a46483e39948f8f489f54025d10b11"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 639,
+      "path": "observation.json",
+      "sha256": "2943e507b3f7f24a06876c846a87e9d3c9c26b29606579537ac06034d7988d4b"
+    },
+    "tree": {
+      "length": 479,
+      "path": "tree.json",
+      "sha256": "3279bc396450e2469d719e3567ac7372511633d01810ae8e59b5d52233a942ca"
+    }
+  },
+  "case_id": "truncate-protected-test",
+  "schema_version": "probity-case/v1"
+}

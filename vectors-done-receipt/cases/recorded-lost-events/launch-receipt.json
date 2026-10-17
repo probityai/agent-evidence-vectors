@@ -1,0 +1,88 @@
+{
+  "agent_exit": null,
+  "capability_sha256": "d5139edc665c6bd65d3a57eb785f99721e01cf8db1206f73225089dd2ae70337",
+  "claim_id": "lost-events",
+  "container_exit": 137,
+  "coverage": "incomplete",
+  "doesNotAssert": [
+    "that the host operator is independent of the agent's operator (scope is PEER)",
+    "effects through channels the trace expression does not name",
+    "that a symbolic link in a path outside an open() call was resolved"
+  ],
+  "invocation_id": "call-1",
+  "launch_sha256": "fb47b2b1d0704f4da7b706f40ab197e2cc747efe7082fcff3f4c92308c44942c",
+  "observation_sha256": "7a4efd53a0386bd6ecb18884175504ffe306242c5db98ec9f1846ba13dc9f4b5",
+  "producer": "host-observer",
+  "schema_version": "probity-launch-receipt/v1",
+  "sensors": {
+    "external_effects": [],
+    "join": {
+      "unattributed": []
+    },
+    "s1_inotify": {
+      "changes": 3,
+      "mask": [
+        "IN_MODIFY",
+        "IN_ATTRIB",
+        "IN_CLOSE_WRITE",
+        "IN_MOVED_FROM",
+        "IN_MOVED_TO",
+        "IN_CREATE",
+        "IN_DELETE",
+        "IN_DELETE_SELF",
+        "IN_MOVE_SELF"
+      ],
+      "overflow": false,
+      "watch_failures": [],
+      "watch_list": [
+        {
+          "added": 1792239822.9849815,
+          "path": ""
+        },
+        {
+          "added": 1792239822.9850886,
+          "path": "src"
+        },
+        {
+          "added": 1792239822.9851668,
+          "path": "tests"
+        }
+      ]
+    },
+    "s2_strace": {
+      "calls": 133,
+      "escapes": [],
+      "origin_rule": "A command is a process the agent's root process started, or a process an interactive shell started (a shell run without -c, such as a persistent tool shell). An event's origin is the first exec of the command whose tree produced it; events of the agent's root process carry no origin.",
+      "tracer": "lost",
+      "unparsed_lines": 0,
+      "unresolved": []
+    },
+    "s3_tree": {
+      "files": 5,
+      "special": [],
+      "symlinks": {},
+      "tree_sha256": "9e1d974e2b22f60484269714d83c233b5959f37018507c03d6a6030f827d19b3"
+    }
+  },
+  "start_tarball_sha256": "391bc354b764b9ece12aa4bb1a19ad07dd8b252be9884493d812378bc7be2f23",
+  "timed_out": false,
+  "trace_expression": "trace=execve,execveat,open,openat,openat2,creat,mkdir,mkdirat,mknod,mknodat,symlink,symlinkat,rename,renameat,renameat2,link,linkat,unlink,unlinkat,rmdir,truncate,ftruncate,chmod,fchmod,fchmodat,fchmodat2,chown,fchown,lchown,fchownat,utime,utimes,utimensat,futimesat,setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr,mmap,connect,fork,vfork,clone,clone3,chdir,fchdir,io_uring_setup,ptrace,process_vm_writev",
+  "trace_sha256": "a79445b71c10431b6e79698ef0280ca1df545343cb459edb4609d1e48f20b23b",
+  "transcript_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tree_sha256": "e0b6286c0558771b752dd6af00479dea8484361d01b17d4d1660c858d617b120",
+  "watch_list": [
+    {
+      "added": 1792239822.9849815,
+      "path": ""
+    },
+    {
+      "added": 1792239822.9850886,
+      "path": "src"
+    },
+    {
+      "added": 1792239822.9851668,
+      "path": "tests"
+    }
+  ],
+  "witnessScope": "PEER"
+}

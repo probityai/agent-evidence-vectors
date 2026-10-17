@@ -1,0 +1,17 @@
+{
+  "claim_id": "nested-mkdir",
+  "claims": [
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "mkdir -p a/b/c/d/e && echo x > a/b/c/d/e/f.txt"
+      ],
+      "exit": 0,
+      "id": "c1"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "transcript-parser",
+  "schema_version": "probity-tool-claims/v1"
+}

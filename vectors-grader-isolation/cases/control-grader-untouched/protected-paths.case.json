@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 283,
+      "path": "capability.json",
+      "sha256": "cc107963de11e54105f0bbb5add745e27e0ba9336a8251d342bf8465855bb5a0"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 715,
+      "path": "observation.json",
+      "sha256": "ec8977e3a821ae76506ed2d9ace9694c634c2474d859827c57f85e780b74e97a"
+    },
+    "tree": {
+      "length": 472,
+      "path": "tree.json",
+      "sha256": "aa13cf0000490ffec878ecce0b84f2edb1e8a3f93981c750de2aae1d16bfd1a4"
+    }
+  },
+  "case_id": "grader-untouched",
+  "schema_version": "probity-case/v1"
+}

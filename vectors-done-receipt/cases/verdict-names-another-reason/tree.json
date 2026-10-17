@@ -1,0 +1,14 @@
+{
+  "claim_id": "planted-adversary",
+  "files": {
+    "src/app.py": "1ebbe0e45589d96ab35272507f2250fa01a8c8b0d4efe4702f483d9ff634bc30",
+    "tests/conftest.py": "607b3bf41122ace6b2ab3bda8cc96c8b994eaf56a3b37f992f2849bde3f14363",
+    "tests/test_app.py": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v1",
+  "tree_sha256": "023290ee7365d8de15edfc9f34f4300557e59e84b937295b3c2640c17a5c2e55",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

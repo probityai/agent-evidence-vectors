@@ -1,0 +1,34 @@
+{
+  "acceptance": [
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-t",
+        "."
+      ],
+      "id": "unit"
+    }
+  ],
+  "adequacy": {
+    "killed": 1,
+    "mutants": 1
+  },
+  "contract_id": "contract-app-1",
+  "protected_paths": [
+    {
+      "exclude": [
+        "__pycache__"
+      ],
+      "kind": "directory",
+      "path": "tests",
+      "sha256": "6f55d8c40febf4f8aa63cd269e9bf71143366599ea6023946c153e5dcb9935aa"
+    }
+  ],
+  "schema_version": "probity-done-contract/v1",
+  "task": "make test_app pass"
+}

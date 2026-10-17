@@ -1,0 +1,43 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "acceptance": [
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "tests"
+        ],
+        "id": "unit"
+      }
+    ],
+    "adequacy": {
+      "killed": 3,
+      "mutants": 4
+    },
+    "contract_id": "",
+    "protected_paths": [
+      {
+        "exclude": [
+          "__pycache__"
+        ],
+        "kind": "directory",
+        "path": "tests",
+        "sha256": "c08156926f4b56de81fead545a4b71c04da83346d753361e797b013dcc05abeb"
+      }
+    ],
+    "schema_version": "probity-done-contract/v1",
+    "task": "make test_app pass"
+  },
+  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-contract",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "999f2784f30d2b33b6c8c9e24a42745e0353bf648ba36904e2486fde51b33276"
+      },
+      "name": "contract.json"
+    }
+  ]
+}

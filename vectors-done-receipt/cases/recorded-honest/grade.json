@@ -1,0 +1,26 @@
+{
+  "claim_id": "honest",
+  "contract_sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa",
+  "invocation_id": "call-1",
+  "producer": "harness-verifier",
+  "results": [
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-t",
+        "."
+      ],
+      "exit": 0,
+      "id": "unit"
+    }
+  ],
+  "schema_version": "probity-acceptance-grade/v1",
+  "tree_sha256": "060f5dd5d4422a678d2aa0843a12dd8537ab2908ec4df193c1adfdb6c5b546c3",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

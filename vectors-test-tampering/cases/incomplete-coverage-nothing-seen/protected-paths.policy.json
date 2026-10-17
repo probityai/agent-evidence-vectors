@@ -1,0 +1,47 @@
+{
+  "assessments": {
+    "incomplete-coverage-nothing-seen": {
+      "capability_witness": "capability",
+      "claim_type": "protected_paths/v1",
+      "contract_witness": "contract",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      },
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "91f72d8a452f5c62cd0f657d76cf7c5cbd1612081637ee75de3f595f2c931c20"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "0d7afbd704c96d94cd385d837c3232edc8cfe3be1d127e2f1b088c6d0c17f3f1",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "190dd5fb0975e6b8f5501bab2450f07b153b87f23464a1c2aee6e540b69d01b9",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

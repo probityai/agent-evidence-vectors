@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 291,
+      "path": "capability.json",
+      "sha256": "dd6847f741649cd49d4848dbb452270ff61700ca945a22ed7cd324c29525d87e"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 636,
+      "path": "observation.json",
+      "sha256": "5aeb56f4c9197cce8770e26c8d5e9cf5765413331b2654fb566ca734546d5138"
+    },
+    "tree": {
+      "length": 480,
+      "path": "tree.json",
+      "sha256": "11b71e70e4d365fc8ccc2415709a121565a6926a8b115c8a2f22a67a134256f0"
+    }
+  },
+  "case_id": "read-of-a-protected-file",
+  "schema_version": "probity-case/v1"
+}

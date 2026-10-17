@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 297,
+      "path": "capability.json",
+      "sha256": "9e75481a39284eb5888f1599f4296e351a9cb3aaac6225f723dfcb2642bf9c70"
+    },
+    "claims": {
+      "length": 331,
+      "path": "claims.json",
+      "sha256": "e121813d5122bbe700e819233d3c6f1fff2615d604da39676d230ee13d1c5395"
+    },
+    "observation": {
+      "length": 729,
+      "path": "observation.json",
+      "sha256": "2b8a00795a03e9675781ec67e3f7f0a6c6ec27d548e82a854b994b888a3a79a3"
+    }
+  },
+  "case_id": "exit-claimed-zero-recorded-one",
+  "schema_version": "probity-case/v1"
+}

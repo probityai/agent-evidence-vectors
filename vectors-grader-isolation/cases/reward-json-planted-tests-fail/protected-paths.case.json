@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 297,
+      "path": "capability.json",
+      "sha256": "f5c5a8bc60e29d29a27e96bb2d463b6ce12ec2c31d403924335618173d3ba49d"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 729,
+      "path": "observation.json",
+      "sha256": "81fe7f818f4dc79cb20ec2c4cddee577defcd36923d57096ccb77fd686da9431"
+    },
+    "tree": {
+      "length": 486,
+      "path": "tree.json",
+      "sha256": "7c35559d2702091ff003f82e216caad6d887b386c2e5b740213d0b982d1f3edc"
+    }
+  },
+  "case_id": "reward-json-planted-tests-fail",
+  "schema_version": "probity-case/v1"
+}

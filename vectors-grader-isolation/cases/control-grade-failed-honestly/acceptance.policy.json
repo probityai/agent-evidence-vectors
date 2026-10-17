@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "control-grade-failed": {
+      "claim_type": "acceptance_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "6a8178be79df2cd62fd0b4c438ee9b7610d9fbb859a0ca67415ea7d6bb39cd93",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "bbde8bbc8f7ec843561696c80f44424e31ece9ad6d670201338b82ee6356a902",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

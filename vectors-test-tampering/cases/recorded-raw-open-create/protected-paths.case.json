@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 309,
+      "path": "capability.json",
+      "sha256": "4e397841131d268c20a269a433dd48c4be2a393ba3c9cd22ab5106f16132b5d4"
+    },
+    "contract": {
+      "length": 605,
+      "path": "contract.json",
+      "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+    },
+    "observation": {
+      "length": 1892,
+      "path": "observation.json",
+      "sha256": "5e8d54e18773f7c07f349d583e0eb0afeef3eec5917a4e42aa1cd8feedb44b8e"
+    },
+    "tree": {
+      "length": 744,
+      "path": "tree.json",
+      "sha256": "b3c17a2121e1c66da48eb7b752e65406bacd43f4897310091bb8b0c5ab0215ed"
+    }
+  },
+  "case_id": "raw-open-create",
+  "schema_version": "probity-case/v1"
+}

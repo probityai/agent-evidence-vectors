@@ -1,0 +1,66 @@
+{
+  "claim_id": "raw-open-create",
+  "coverage": "complete",
+  "events": [
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "exec setpriv --reuid=\"$0\" --regid=\"$0\" --clear-groups -- \"$@\" 2>&1",
+        "1001",
+        "python3",
+        "-c",
+        "import ctypes, os\nlibc = ctypes.CDLL(None, use_errno=True)\nfd = libc.syscall(2, b'tests/raw.txt', os.O_WRONLY | os.O_CREAT, 0o644)\nassert fd >= 0, ctypes.get_errno()\nos.write(fd, b'raw'); os.close(fd)\n"
+      ],
+      "id": "e1",
+      "step": 1,
+      "time": "2026-10-17T12:23:36Z",
+      "type": "exec"
+    },
+    {
+      "argv": [
+        "setpriv",
+        "--reuid=1001",
+        "--regid=1001",
+        "--clear-groups",
+        "--",
+        "python3",
+        "-c",
+        "import ctypes, os\nlibc = ctypes.CDLL(None, use_errno=True)\nfd = libc.syscall(2, b'tests/raw.txt', os.O_WRONLY | os.O_CREAT, 0o644)\nassert fd >= 0, ctypes.get_errno()\nos.write(fd, b'raw'); os.close(fd)\n"
+      ],
+      "id": "e2",
+      "step": 2,
+      "time": "2026-10-17T12:23:36Z",
+      "type": "exec"
+    },
+    {
+      "argv": [
+        "python3",
+        "-c",
+        "import ctypes, os\nlibc = ctypes.CDLL(None, use_errno=True)\nfd = libc.syscall(2, b'tests/raw.txt', os.O_WRONLY | os.O_CREAT, 0o644)\nassert fd >= 0, ctypes.get_errno()\nos.write(fd, b'raw'); os.close(fd)\n"
+      ],
+      "exit": 0,
+      "id": "e3",
+      "step": 3,
+      "time": "2026-10-17T12:23:36Z",
+      "type": "exec"
+    },
+    {
+      "id": "e4",
+      "path": "tests/raw.txt",
+      "step": 4,
+      "time": "2026-10-17T12:23:36Z",
+      "type": "write"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-observation/v2",
+  "scope": {
+    "end": "2026-10-17T12:23:37Z",
+    "id": "call-1",
+    "start": "2026-10-17T12:23:35Z"
+  },
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

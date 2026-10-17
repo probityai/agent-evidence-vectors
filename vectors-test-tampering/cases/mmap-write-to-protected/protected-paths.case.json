@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 290,
+      "path": "capability.json",
+      "sha256": "14cb31a587675eadac4edbe92e8255051adbf4295d40cf89a8b0d7ff2b60d290"
+    },
+    "contract": {
+      "length": 555,
+      "path": "contract.json",
+      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+    },
+    "observation": {
+      "length": 636,
+      "path": "observation.json",
+      "sha256": "f632d10cc11fd1139dfa6c6eaf3e677b74e2be3c26d913ed75a1265f41d73028"
+    },
+    "tree": {
+      "length": 479,
+      "path": "tree.json",
+      "sha256": "1e32280c2f1576a5ea4076317e568fc508f3b539a3763bdf81405cddb0096f1e"
+    }
+  },
+  "case_id": "mmap-write-to-protected",
+  "schema_version": "probity-case/v1"
+}

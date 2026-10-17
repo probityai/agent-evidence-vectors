@@ -1,0 +1,38 @@
+{
+  "assessments": {
+    "first-contradiction-in-claim-order-stale": {
+      "capability_witness": "capability",
+      "claim_type": "tool_claim_match/v1",
+      "claims_witness": "claims",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "d998d728f1544bfb2d64e4dd94e2ddeebb41a0ca5745030c5b4813c010f2902b"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "5fa77616e8b168469bc0cd3ce8763dbe5de75d70a72f7861ec701dc11336d9a7"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "b81d9db6b532a9f64f28e930e69a67fd09e4a8bea8a21c2d0202896a730cf017",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

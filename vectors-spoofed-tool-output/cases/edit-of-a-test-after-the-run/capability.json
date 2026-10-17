@@ -1,0 +1,16 @@
+{
+  "claim_id": "edit-of-a-test-after-the-run",
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "create",
+    "exec",
+    "link",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

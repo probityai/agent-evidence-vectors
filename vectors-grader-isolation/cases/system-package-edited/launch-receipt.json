@@ -1,0 +1,72 @@
+{
+  "agent_exit": 0,
+  "capability_sha256": "cee89e642dc53fc3fd0b6153a757050d8602a0b2c8183c1a9af79a9bffa5dfdc",
+  "claim_id": "system-package-edited",
+  "container_exit": 0,
+  "coverage": "complete",
+  "doesNotAssert": [
+    "that the host operator is independent of the agent's operator (scope is PEER)",
+    "effects through channels the trace expression does not name",
+    "that a symbolic link in a path outside an open() call was resolved"
+  ],
+  "invocation_id": "call-1",
+  "launch_sha256": "a83b40885f5187d0051452b1ede487cb83abd198cd89f0f93a2a64b21a92c402",
+  "observation_sha256": "3a5cbc12887484d87f4da69bf69bc76a6de8121909acb6ac5c3c865ce1a9feed",
+  "producer": "host-observer",
+  "schema_version": "probity-launch-receipt/v1",
+  "sensors": {
+    "external_effects": [
+      {
+        "paths": [
+          "/usr/lib/python3/dist-packages/pytest/__init__.py"
+        ],
+        "time": "2026-10-17T00:00:04Z",
+        "type": "write"
+      }
+    ],
+    "join": {
+      "unattributed": []
+    },
+    "s1_inotify": {
+      "changes": 3,
+      "mask": [
+        "IN_CREATE",
+        "IN_MODIFY"
+      ],
+      "overflow": false,
+      "watch_failures": 0,
+      "watch_list": []
+    },
+    "s2_strace": {
+      "calls": 41,
+      "escapes": [],
+      "origin_rule": "first exec of the command",
+      "tracer": "complete",
+      "unparsed_lines": 0,
+      "unresolved": []
+    },
+    "s3_tree": {
+      "files": 2,
+      "special": [],
+      "symlinks": [],
+      "tree_sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66"
+    }
+  },
+  "start_tarball_sha256": "716e499084206c707a1bd0fe47db06bc4b976f76a67265e6ecd82775accc0906",
+  "timed_out": false,
+  "trace_expression": "trace=execve,execveat,open,openat,openat2,creat,mkdir,mkdirat,mknod,mknodat,symlink,symlinkat,rename,renameat,renameat2,link,linkat,unlink,unlinkat,rmdir,truncate,ftruncate,chmod,fchmod,fchmodat,fchmodat2,chown,fchown,lchown,fchownat,utime,utimes,utimensat,futimesat,setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr,mmap,connect,fork,vfork,clone,clone3,chdir,fchdir,io_uring_setup,ptrace,process_vm_writev",
+  "trace_sha256": "28c3ae7b90f5fd03dfbab55e26a159d33cdca855600139463856906650817d36",
+  "transcript_sha256": "3d4701677cfa2692c4855d318448592c702a896a3a994bfe5d0448a71a7d654b",
+  "tree_sha256": "215029cd952fe7898b651e790246d5e6571fa74dcc76b94de1e16839c251df63",
+  "watch_list": [
+    {
+      "added": "2026-10-17T00:00:00Z",
+      "path": ""
+    },
+    {
+      "added": "2026-10-17T00:00:01Z",
+      "path": "src"
+    }
+  ],
+  "witnessScope": "PEER"
+}

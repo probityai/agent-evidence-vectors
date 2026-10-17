@@ -1,0 +1,38 @@
+{
+  "assessments": {
+    "grader-ran-an-extra-command": {
+      "capability_witness": "capability",
+      "claim_type": "tool_claim_match/v1",
+      "claims_witness": "claims",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "8f1db14fccce4899edf47a733d7764e00454c6e25ae7add69d7f5f1132de656f"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "b6d6700c5ca80d79db3bfab15be1cb2d1929282a01427532aee18ca82d057c0a"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "77e5774db4c206e29f612ec44b315b290be03f89fde875e7a3e08f45091fbbda",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "claim_id": "planted-adversary",
+  "coverage": "complete",
+  "events": [
+    {
+      "id": "e1",
+      "path": "tests/conftest.py",
+      "step": 1,
+      "time": "2026-10-17T00:00:01Z",
+      "type": "create"
+    },
+    {
+      "argv": [
+        "printf",
+        "12 passed\n"
+      ],
+      "exit": 0,
+      "id": "e2",
+      "step": 2,
+      "time": "2026-10-17T00:00:02Z",
+      "type": "exec"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-observation/v2",
+  "scope": {
+    "end": "2026-10-17T00:10:00Z",
+    "id": "run-1",
+    "start": "2026-10-17T00:00:00Z"
+  },
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

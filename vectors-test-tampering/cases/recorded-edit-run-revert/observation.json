@@ -1,0 +1,155 @@
+{
+  "claim_id": "edit-run-revert",
+  "coverage": "complete",
+  "events": [
+    {
+      "argv": [
+        "/bin/sh",
+        "-c",
+        "exec setpriv --reuid=\"$0\" --regid=\"$0\" --clear-groups -- \"$@\" 2>&1",
+        "1001",
+        "python3",
+        "-c",
+        "import pathlib, subprocess\ntest = pathlib.Path('tests/test_app.py')\noriginal = test.read_text()\ntest.write_text('import unittest\\nclass T(unittest.TestCase):\\n    def test_app(self): pass\\n')\nsubprocess.run(['python3', '-m', 'unittest', 'discover', '-s', 'tests', '-t', '.'])\ntest.write_text(original)\n"
+      ],
+      "id": "e1",
+      "step": 1,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "exec"
+    },
+    {
+      "argv": [
+        "setpriv",
+        "--reuid=1001",
+        "--regid=1001",
+        "--clear-groups",
+        "--",
+        "python3",
+        "-c",
+        "import pathlib, subprocess\ntest = pathlib.Path('tests/test_app.py')\noriginal = test.read_text()\ntest.write_text('import unittest\\nclass T(unittest.TestCase):\\n    def test_app(self): pass\\n')\nsubprocess.run(['python3', '-m', 'unittest', 'discover', '-s', 'tests', '-t', '.'])\ntest.write_text(original)\n"
+      ],
+      "id": "e2",
+      "step": 2,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "exec"
+    },
+    {
+      "argv": [
+        "python3",
+        "-c",
+        "import pathlib, subprocess\ntest = pathlib.Path('tests/test_app.py')\noriginal = test.read_text()\ntest.write_text('import unittest\\nclass T(unittest.TestCase):\\n    def test_app(self): pass\\n')\nsubprocess.run(['python3', '-m', 'unittest', 'discover', '-s', 'tests', '-t', '.'])\ntest.write_text(original)\n"
+      ],
+      "exit": 0,
+      "id": "e3",
+      "step": 3,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "exec"
+    },
+    {
+      "id": "e4",
+      "path": "tests/test_app.py",
+      "step": 4,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "read"
+    },
+    {
+      "id": "e5",
+      "path": "tests/test_app.py",
+      "step": 5,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "write"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-t",
+        "."
+      ],
+      "exit": 0,
+      "id": "e6",
+      "step": 6,
+      "time": "2026-10-17T12:23:30Z",
+      "type": "exec"
+    },
+    {
+      "id": "e7",
+      "origin": "e6",
+      "path": "tests/__init__.py",
+      "step": 7,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "read"
+    },
+    {
+      "id": "e8",
+      "origin": "e6",
+      "path": "tests/__pycache__",
+      "step": 8,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "create"
+    },
+    {
+      "id": "e9",
+      "origin": "e6",
+      "path": "tests/__pycache__/__init__.cpython-312.pyc.123256755778160",
+      "step": 9,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "write"
+    },
+    {
+      "id": "e10",
+      "origin": "e6",
+      "path": "tests/__pycache__/__init__.cpython-312.pyc.123256755778160",
+      "step": 10,
+      "target": "tests/__pycache__/__init__.cpython-312.pyc",
+      "time": "2026-10-17T12:23:31Z",
+      "type": "rename"
+    },
+    {
+      "id": "e11",
+      "origin": "e6",
+      "path": "tests/test_app.py",
+      "step": 11,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "read"
+    },
+    {
+      "id": "e12",
+      "origin": "e6",
+      "path": "tests/__pycache__/test_app.cpython-312.pyc.123256755778544",
+      "step": 12,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "write"
+    },
+    {
+      "id": "e13",
+      "origin": "e6",
+      "path": "tests/__pycache__/test_app.cpython-312.pyc.123256755778544",
+      "step": 13,
+      "target": "tests/__pycache__/test_app.cpython-312.pyc",
+      "time": "2026-10-17T12:23:31Z",
+      "type": "rename"
+    },
+    {
+      "id": "e14",
+      "path": "tests/test_app.py",
+      "step": 14,
+      "time": "2026-10-17T12:23:31Z",
+      "type": "write"
+    }
+  ],
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-observation/v2",
+  "scope": {
+    "end": "2026-10-17T12:23:32Z",
+    "id": "call-1",
+    "start": "2026-10-17T12:23:29Z"
+  },
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 314,
+      "path": "capability.json",
+      "sha256": "2b7e5e6f11ba2a1ab0a1e616d7cf8f24e9d9dd75fcfa186289fd8f856033b213"
+    },
+    "contract": {
+      "length": 605,
+      "path": "contract.json",
+      "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+    },
+    "observation": {
+      "length": 5712,
+      "path": "observation.json",
+      "sha256": "d763754e0e2d2d11e84429dad6f898836b1fe65ccc8a7d17bd0677b8b0ba4429"
+    },
+    "tree": {
+      "length": 1123,
+      "path": "tree.json",
+      "sha256": "35fd30cc7adaec924614ab2ef2b9973d22f40bbccff38a5a0fa06d9f69d5e482"
+    }
+  },
+  "case_id": "forged-trace-attempt",
+  "schema_version": "probity-case/v1"
+}

@@ -1,0 +1,38 @@
+{
+  "assessments": {
+    "system-package-edited": {
+      "capability_witness": "capability",
+      "claim_type": "tool_claim_match/v1",
+      "claims_witness": "claims",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "cee89e642dc53fc3fd0b6153a757050d8602a0b2c8183c1a9af79a9bffa5dfdc"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "66d63c12decbe8d43bda26df8d15e6254d2e1fa54cc707bf009da54b1fa6f28d"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "3a5cbc12887484d87f4da69bf69bc76a6de8121909acb6ac5c3c865ce1a9feed",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

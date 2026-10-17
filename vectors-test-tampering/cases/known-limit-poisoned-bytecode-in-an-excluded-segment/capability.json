@@ -1,0 +1,16 @@
+{
+  "claim_id": "known-limit-poisoned-bytecode-in-an-excluded-segment",
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "create",
+    "exec",
+    "link",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

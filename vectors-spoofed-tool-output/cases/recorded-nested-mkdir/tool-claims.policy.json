@@ -1,0 +1,38 @@
+{
+  "assessments": {
+    "nested-mkdir": {
+      "capability_witness": "capability",
+      "claim_type": "tool_claim_match/v1",
+      "claims_witness": "claims",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T12:23:52Z",
+        "id": "call-1",
+        "start": "2026-10-17T12:23:50Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "54796a1f4574b6e10d805c143870e8182120263dfa5cc673441c4e2d7ce75a2e"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "f9943bd5291412ed60d4416724abf104788dd8a90de31cb1941db34077eb4b92"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "31778fdf0f871503291885150541a94e6d4eb3b41ea1024b2504623d440db48d",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}
