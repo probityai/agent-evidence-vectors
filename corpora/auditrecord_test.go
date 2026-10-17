@@ -2,6 +2,7 @@ package corpora
 
 import (
 	"encoding/json"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -48,8 +49,9 @@ func TestAuditRecordCorpusBehaves(t *testing.T) {
 			t.Errorf("corpus: %s", f)
 		}
 	}
-	if len(result.Members) != 71 {
-		t.Fatalf("expected the 55 Appendix B rows and 16 section members, read %d", len(result.Members))
+	if len(result.Members) != 92 {
+		t.Fatalf("expected the 55 Appendix B rows, 16 section members and 21 freshness members, read %d",
+			len(result.Members))
 	}
 }
 
@@ -178,8 +180,10 @@ func TestAuditRecordClosedSetsAreForced(t *testing.T) {
 	arUnavailableInputs = []string{"standing-source"}
 	got := strings.Join(arFailingDraftIDs(t), ",")
 	arUnavailableInputs = inputs
-	if got != "A12,A13,A14" {
-		t.Errorf("unavailableInput hard-coded to standing-source: failing %q, want A12,A13,A14", got)
+	// FR7 names key-source where its fresh entry derives none: still refused,
+	// but at the vocabulary check rather than the pinned set mismatch.
+	if got != "A12,A13,A14,FR7" {
+		t.Errorf("unavailableInput hard-coded to standing-source: failing %q, want A12,A13,A14,FR7", got)
 	}
 	var acts *[]string
 	for i := range arVocabularies {
@@ -196,5 +200,52 @@ func TestAuditRecordClosedSetsAreForced(t *testing.T) {
 	*acts = saved
 	if got != "A15,A16,A17" {
 		t.Errorf("oversight.act hard-coded to check: failing %q, want A15,A16,A17", got)
+	}
+}
+
+// TestAuditRecordFreshness pins the Section 5.4 sentences one at a time: an age
+// equal to maxAge is fresh and one second more is stale, an input never held is
+// unavailable, a lastResult up to the skew tolerance after reportedAt is fresh
+// and one second past it is malformed, and maxAge is a non-negative integer.
+func TestAuditRecordFreshness(t *testing.T) {
+	reportedAt, err := arInstant("2026-09-19T11:04:02Z")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cases := []struct {
+		last        string
+		maxAge      int64
+		unavailable bool
+		code        string
+	}{
+		{"2026-09-19T10:04:02Z", 3600, false, ""},
+		{"2026-09-19T10:04:01Z", 3600, true, ""},
+		{arNeverHeld, 3600, true, ""},
+		{"2026-09-19T11:09:02Z", 0, false, ""},
+		{"2026-09-19T11:09:03Z", 3600, false, "evaluation-result-after-decision"},
+		{"2026-09-19T10:00:00Z", math.MaxInt64, false, ""},
+		{"yesterday", 3600, false, "timestamp-malformed"},
+	}
+	for _, c := range cases {
+		got, err := arEntryUnavailable(map[string]any{"lastResult": c.last}, c.maxAge, reportedAt)
+		code := ""
+		if err != nil {
+			code = err.Error()
+		}
+		if got != c.unavailable || code != c.code {
+			t.Errorf("lastResult %s, maxAge %d: got (%v, %q), want (%v, %q)",
+				c.last, c.maxAge, got, code, c.unavailable, c.code)
+		}
+	}
+	for _, c := range []struct {
+		value any
+		ok    bool
+	}{
+		{json.Number("0"), true}, {json.Number("3600"), true}, {json.Number("-1"), false},
+		{json.Number("1.5"), false}, {"3600", false}, {nil, false},
+	} {
+		if _, ok := arMaxAge(c.value); ok != c.ok {
+			t.Errorf("maxAge %#v: accepted %v, want %v", c.value, ok, c.ok)
+		}
 	}
 }

@@ -10,6 +10,12 @@ member: each manifest entry carries the Appendix B identifier in ``draftId``.
 The members after the last row test sentences of Sections 5.3, 5.4 and 5.5
 that Appendix B has no row for, and name the section in ``draftSection``.
 
+Section 5.4 is read as its successor, ``draft-gilda-audit-agent-audit-record-00``,
+states it: ``evaluation.inputs`` is required under both statuses, each entry's
+age runs from its ``lastResult`` to ``decision.reportedAt``, and the
+unavailable inputs are derived from the entries. The members only that draft
+defines name it in ``draftDocument``.
+
 Two things live here, both stdlib-only for the reason the whole rail is: a
 relying party runs it with nothing installed.
 
@@ -109,9 +115,20 @@ VOCABULARIES: dict[str, frozenset[str]] = {
     "oversight.act": frozenset({"observation", "check", "decision", "release"}),
 }
 
-#: What a decision that could not be evaluated names as missing: the standing
-#: source, the key source and the consumption state.
-UNAVAILABLE_INPUTS = frozenset({"standing-source", "key-source", "consumption-state"})
+#: The inputs an evaluation entry names (Table 3 of the successor draft): the
+#: standing source, the key source, the consumption state and the policy source.
+EVALUATION_INPUTS = frozenset(
+    {"standing-source", "key-source", "consumption-state", "policy-source"}
+)
+#: What a decision that could not be evaluated names as missing, drawn from the
+#: same table. A separate name so a sweep can narrow one without the other.
+UNAVAILABLE_INPUTS = EVALUATION_INPUTS
+#: The three members an evaluation entry carries, each required, and no other.
+ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
+#: The lastResult of an input the decision point never held a value of.
+NEVER_HELD = "none"
+#: The tolerance for every comparison between times two parties wrote.
+SKEW_TOLERANCE = datetime.timedelta(seconds=300)
 #: The only members an oversight object may carry.
 OVERSIGHT_MEMBERS = frozenset({"act", "recordDigest"})
 
@@ -164,7 +181,7 @@ NESTED_MEMBERS: dict[str, tuple[str, ...]] = {
     ),
     "observation": ("vantage", "coverage"),
     "observation.coverage": ("scopeComplete", "gaps"),
-    "evaluation": ("status",),
+    "evaluation": ("status", "inputs"),
 }
 WRITE_MEMBERS = ("path", "preStateDigest", "postStateDigest", "requestDigest", "inScope")
 REMEDIATION_MEMBERS = (
@@ -511,11 +528,59 @@ def _rule_closed_vocabularies(state: _State) -> None:
             raise Malformed("value-outside-vocabulary")
 
 
+def _entry_unavailable(entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
+    """Stale or never established at ``reported_at``; an age equal to maxAge is fresh."""
+    if entry["lastResult"] == NEVER_HELD:
+        return True
+    produced = _instant(entry["lastResult"])
+    if produced - reported_at > SKEW_TOLERANCE:
+        raise Malformed("evaluation-result-after-decision")
+    age = (reported_at - produced).total_seconds()
+    return bool(age > entry["maxAge"])
+
+
+def _entry_shape(entry: Any) -> None:
+    """Exactly input, lastResult and maxAge; an input from the closed set; a
+    maxAge that is a non-negative integer."""
+    if not isinstance(entry, dict):
+        raise Malformed("evaluation-entry-malformed")
+    if not ENTRY_MEMBERS <= set(entry):
+        raise Malformed("member-missing")
+    if set(entry) - ENTRY_MEMBERS:
+        raise Malformed("evaluation-entry-malformed")
+    if entry["input"] not in EVALUATION_INPUTS:
+        raise Malformed("value-outside-vocabulary")
+    max_age = entry["maxAge"]
+    if isinstance(max_age, bool) or not isinstance(max_age, int) or max_age < 0:
+        raise Malformed("evaluation-entry-malformed")
+
+
+def derive_unavailable(pred: dict[str, Any]) -> list[str]:
+    """The inputs a verifier derives as unavailable from ``evaluation.inputs``,
+    in entry order, after holding every entry to its shape (FR5, FR6, FR9 to FR13)."""
+    entries = pred["evaluation"]["inputs"]
+    if not isinstance(entries, list):
+        raise Malformed("evaluation-entry-malformed")
+    reported_at = _instant(pred["decision"]["reportedAt"])
+    seen: set[str] = set()
+    unavailable: list[str] = []
+    for entry in entries:
+        _entry_shape(entry)
+        if entry["input"] in seen:
+            raise Malformed("evaluation-input-repeated")
+        seen.add(entry["input"])
+        if _entry_unavailable(entry, reported_at):
+            unavailable.append(entry["input"])
+    return unavailable
+
+
 def _rule_evaluation(state: _State) -> None:
-    """Evaluated names no unavailable input; not-evaluated names one or more, once each."""
+    """The entries derive the unavailable inputs. Evaluated derives none and
+    names none; not-evaluated names the derived set, once each and no other."""
     evaluation = state.predicate["evaluation"]
+    derived = derive_unavailable(state.predicate)
     if evaluation["status"] == "evaluated":
-        if "unavailableInput" in evaluation:
+        if "unavailableInput" in evaluation or derived:
             raise Malformed("evaluation-inconsistent")
         return
     inputs = evaluation.get("unavailableInput")
@@ -524,7 +589,7 @@ def _rule_evaluation(state: _State) -> None:
     for value in inputs:
         if value not in UNAVAILABLE_INPUTS:
             raise Malformed("value-outside-vocabulary")
-    if len(set(inputs)) != len(inputs):
+    if len(set(inputs)) != len(inputs) or set(inputs) != set(derived):
         raise Malformed("evaluation-inconsistent")
 
 
