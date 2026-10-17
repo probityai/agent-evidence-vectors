@@ -33,8 +33,11 @@ import threading
 import time
 from pathlib import Path
 
-from probity_observer.launch import backend_docker, launch_agent
-from probity_observer.sensors import treedigest
+from probity_observer.launch import (  # pyright: ignore[reportMissingImports]
+    backend_docker,
+    launch_agent,
+)
+from probity_observer.sensors import treedigest  # pyright: ignore[reportMissingImports]
 
 IMAGE = "probity-observer-agent-test:local"
 UNITTEST = ["python3", "-m", "unittest", "discover", "-s", "tests", "-t", "."]

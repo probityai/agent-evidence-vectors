@@ -153,7 +153,7 @@ def protected_paths(case: Any, policy: Any, root: Path) -> dict[str, Any]:
 def _compare(acceptance: list[dict[str, Any]], results: list[dict[str, Any]]) -> tuple[
         str | None, list[dict[str, Any]]]:
     by_id = {item["id"]: item for item in results}
-    outcomes = []
+    outcomes: list[dict[str, Any]] = []
     for command in acceptance:
         found = by_id.pop(command["id"], None)
         if found is None:
@@ -164,9 +164,13 @@ def _compare(acceptance: list[dict[str, Any]], results: list[dict[str, Any]]) ->
     return ("acceptance_result_unexpected" if by_id else None), outcomes
 
 
-def _acceptance_refusal(ids: tuple[str, str, str], contract_pair: tuple[Any, Any],
-                        tree_pair: tuple[Any, Any], grade_pair: tuple[Any, Any]) -> str | None:
-    """The first reason the acceptance inputs cannot be established, in checking order."""
+Triple = tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
+
+
+def _acceptance_inputs(ids: tuple[str, str, str], contract_pair: tuple[Any, Any],
+                       tree_pair: tuple[Any, Any], grade_pair: tuple[Any, Any]
+                       ) -> str | Triple:
+    """The contract, tree and grade, or the first reason they cannot be established."""
     case_id, invocation, observed_party = ids
     contract, contract_pin = contract_pair
     tree, tree_pin = tree_pair
@@ -186,7 +190,7 @@ def _acceptance_refusal(ids: tuple[str, str, str], contract_pair: tuple[Any, Any
         return "grade_contract_mismatch"
     if grade["tree_sha256"] != tree["tree_sha256"]:
         return "grade_tree_unbound"
-    return None
+    return contract, tree, grade
 
 
 def acceptance_observed(case: Any, policy: Any, root: Path) -> dict[str, Any]:
@@ -204,11 +208,12 @@ def acceptance_observed(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     contract = rec.contract(contract_bytes) if contract_bytes is not None else None
     tree = rec.tree(tree_bytes) if tree_bytes is not None else None
     grade = rec.grade(grade_bytes) if grade_bytes is not None else None
-    refusal = _acceptance_refusal(
+    checked = _acceptance_inputs(
         (case_id, invocation, observed_party), (contract, contract_pin),
         (tree, tree_pin), (grade, grade_pin))
-    if refusal is not None:
-        return decided(base, "not_established", refusal)
+    if isinstance(checked, str):
+        return decided(base, "not_established", checked)
+    contract, tree, grade = checked
     problem, outcomes = _compare(contract["acceptance"], grade["results"])
     if problem is not None:
         return decided(base, "not_established", problem)
@@ -240,9 +245,10 @@ def _claim_status(claim: dict[str, Any], events: list[dict[str, Any]]) -> str:
     return "exit_unobserved" if any("exit" not in e for e in fresh) else "exit_mismatch"
 
 
-def _tool_claim_refusal(ids: tuple[str, str, Any, str], claimed: Any,
-                        record_pair: tuple[Any, Any], manifest: Any) -> str | None:
-    """The first reason the tool-claim inputs cannot be established, in checking order."""
+def _tool_claim_inputs(ids: tuple[str, str, Any, str], claimed: Any,
+                       record_pair: tuple[Any, Any], manifest: Any
+                       ) -> str | tuple[dict[str, Any], dict[str, Any]]:
+    """The claims and observation, or the first reason they cannot be established."""
     case_id, invocation, scope, observed_party = ids
     record, observation_pin = record_pair
     if claimed is None:
@@ -264,7 +270,7 @@ def _tool_claim_refusal(ids: tuple[str, str, Any, str], claimed: Any,
         return "field_visibility_unestablished"
     if record["coverage"] != "complete":
         return "observation_coverage_unestablished"
-    return None
+    return claimed, record
 
 
 def tool_claim_match(case: Any, policy: Any, root: Path) -> dict[str, Any]:
@@ -283,10 +289,11 @@ def tool_claim_match(case: Any, policy: Any, root: Path) -> dict[str, Any]:
     claimed = rec.claims(claims_bytes) if claims_bytes is not None else None
     record = rec.observation(observed) if observed is not None else None
     manifest = rec.capability(capability) if capability is not None else None
-    refusal = _tool_claim_refusal(
+    checked = _tool_claim_inputs(
         (case_id, invocation, scope, observed_party), claimed, (record, observation_pin), manifest)
-    if refusal is not None:
-        return decided(base, "not_established", refusal)
+    if isinstance(checked, str):
+        return decided(base, "not_established", checked)
+    claimed, record = checked
     statuses = [_claim_status(claim, record.get("events", [])) for claim in claimed["claims"]]
     unsettled = [status for status in statuses if status != "matched"]
     pair = (record, observation_pin)

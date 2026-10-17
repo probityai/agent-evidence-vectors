@@ -22,9 +22,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from probity_verify.common import MAX_ARTIFACT_BYTES
-from probity_verify.core import CaseError, adjudicate
-from probity_verify.json_input import parse_json
+from probity_verify.common import MAX_ARTIFACT_BYTES  # pyright: ignore[reportMissingImports]
+from probity_verify.core import CaseError, adjudicate  # pyright: ignore[reportMissingImports]
+from probity_verify.json_input import parse_json  # pyright: ignore[reportMissingImports]
 
 FILES = {"protected_paths/v1": "protected-paths", "acceptance_observed/v1": "acceptance",
          "tool_claim_match/v1": "tool-claims"}

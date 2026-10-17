@@ -366,6 +366,25 @@ pythonVersion = "3.13"
 # execution root, so its `from canonical import jcs` resolves to the module
 # beside it -- the one Python itself imports when the script runs.
 [[tool.pyright.executionEnvironments]]
+root = "vectors-done-receipt"
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-done-contract"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-spoofed-tool-output"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-test-tampering"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-grader-isolation"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
 root = "vectors-self-reported-record"
 
 # The MCP receipt examples import the observed-effect corpus's gen_vectors and

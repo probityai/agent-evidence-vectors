@@ -192,7 +192,7 @@ def _launch_receipt(data: bytes) -> dict[str, Any]:
 def external_effects(member: Path) -> list[dict[str, Any]]:
     """The effects outside the workspace a member's launch receipt carries, or none."""
     data = rec.read_member_file(member, ROLE_FILES["launch_receipt"], "member_unreadable")
-    return [] if data is None else _launch_receipt(data)["sensors"]["external_effects"]  # type: ignore[no-any-return]
+    return [] if data is None else _launch_receipt(data)["sensors"]["external_effects"]
 
 
 # --- the done-receipt statement --------------------------------------------------------------

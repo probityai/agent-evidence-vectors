@@ -161,7 +161,7 @@ def _protected_entry(item: Any, index: int) -> dict[str, Any]:
                 or any(not isinstance(n, str) or n in ("", ".", "..") or "/" in n or "\x00" in n
                        for n in names)):
             raise RecordError("contract_exclude_invalid", label)
-    return entry  # type: ignore[no-any-return]
+    return entry
 
 
 def _acceptance(items: Any) -> None:
