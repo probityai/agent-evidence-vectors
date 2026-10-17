@@ -61,6 +61,9 @@
       "vantage": "independent",
       "witness_scope": "PEER"
     },
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
+    },
     "verifier_isolation": {
       "contract_sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
       "verifier": {
@@ -71,7 +74,7 @@
       }
     }
   },
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "subject": [
     {
       "digest": {

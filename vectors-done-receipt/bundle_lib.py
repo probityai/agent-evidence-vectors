@@ -385,7 +385,8 @@ def receipt_predicate(files: dict[str, bytes], run: Run) -> dict[str, Any]:
         "records": {role: {"sha256": sha(files[donerun.ROLE_FILES[role]])} for role in roles},
         "checks": [{"claim_type": item["claim_type"], **checks.projection(item)}
                    for item in computed],
-        "verdict": checks.combine(computed, effects), "external_effects": effects}
+        "verdict": checks.combine(computed, effects), "external_effects": effects,
+        "verifier": {"id": donerun.VERIFIER_URI}}
 
 
 def receipt_statement(files: dict[str, bytes], run: Run) -> dict[str, Any]:

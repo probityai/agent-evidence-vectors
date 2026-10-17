@@ -46,9 +46,12 @@
       "reason": "done_checks_supported",
       "vantage": "independent",
       "witness_scope": "PEER"
+    },
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
     }
   },
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "subject": [
     {
       "digest": {

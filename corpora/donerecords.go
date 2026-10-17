@@ -36,10 +36,12 @@ func refuse(code string) error { return &doneError{code} }
 var (
 	doneMutations = map[string]bool{"write": true, "create": true, "rename": true, "link": true,
 		"unlink": true, "truncate": true, "chmod": true}
-	doneHex64   = regexp.MustCompile(`^[0-9a-f]{64}$`)
-	doneInstant = regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$`)
-	doneInt     = regexp.MustCompile(`^-?(0|[1-9][0-9]*)$`)
-	doneOrigin  = []string{"claim_id", "invocation_id", "producer", "vantage", "witness_scope"}
+	doneHex64 = regexp.MustCompile(`^[0-9a-f]{64}$`)
+	// doneVerifierID is a URI: a scheme, a colon and at least one more character, no white space.
+	doneVerifierID = regexp.MustCompile(`^[A-Za-z][A-Za-z0-9+.-]*:[^\s]+$`)
+	doneInstant    = regexp.MustCompile(`^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$`)
+	doneInt        = regexp.MustCompile(`^-?(0|[1-9][0-9]*)$`)
+	doneOrigin     = []string{"claim_id", "invocation_id", "producer", "vantage", "witness_scope"}
 )
 
 const doneMaxArtifact = 16 * 1024 * 1024

@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shlex
 from collections.abc import Callable
 from pathlib import Path
@@ -36,11 +37,13 @@ SPOOFED_SUITE = "spoofed-tool-output/v1"
 TAMPERING_SUITE = "test-tampering/v1"
 GRADER_SUITE = "grader-isolation/v1"
 SUITES = (CONTRACT_SUITE, RECEIPT_SUITE, SPOOFED_SUITE, TAMPERING_SUITE, GRADER_SUITE)
-URI = "https://probityai.github.io/probity/predicate/v1/"
+URI = "https://w3id.org/agent-evidence/predicate/v1/"
 CONTRACT_TYPE = URI + "done-contract"
 RECEIPT_TYPE = URI + "done-receipt"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 RECEIPT_SCHEMA = "probity-done-receipt/v1"
+# The verifier identity the reference command line writes into predicate.verifier.id.
+VERIFIER_URI = "https://github.com/probityai/probity"
 CORE_ROLES = ("contract", "tree", "observation", "capability", "grade", "claims")
 LAUNCH_ROLES = ("launch", "launch_receipt")
 ROLE_FILES = {role: f"{role.replace('_', '-')}.json" for role in CORE_ROLES + LAUNCH_ROLES}
@@ -202,7 +205,7 @@ def _predicate(statement: dict[str, Any]) -> dict[str, Any]:
     try:
         predicate = rec.fields(statement["predicate"], "receipt_predicate",
                                {"schema_version", "claim_id", "invocation_id", "records",
-                                "checks", "verdict", "external_effects"},
+                                "checks", "verdict", "external_effects", "verifier"},
                                {"policy", "verifier_isolation", "stop_decision"})
     except RecordError as exc:
         raise ReceiptInvalid(exc.code) from exc
@@ -211,6 +214,10 @@ def _predicate(statement: dict[str, Any]) -> dict[str, Any]:
     for key in ("claim_id", "invocation_id"):
         if not isinstance(predicate[key], str) or not predicate[key]:
             raise ReceiptInvalid("receipt_predicate_malformed")
+    verifier = predicate["verifier"]
+    if (not isinstance(verifier, dict) or set(verifier) != {"id"}
+            or not isinstance(verifier["id"], str) or not VERIFIER_ID.fullmatch(verifier["id"])):
+        raise ReceiptInvalid("receipt_verifier_malformed")
     if "policy" in predicate:
         policy = predicate["policy"]
         if (not isinstance(policy, dict) or set(policy) != {"table_sha256"}
@@ -220,6 +227,9 @@ def _predicate(statement: dict[str, Any]) -> dict[str, Any]:
     _optional_blocks(predicate)
     return predicate
 
+
+# A URI: a scheme, a colon and at least one more character with no white space.
+VERIFIER_ID = re.compile(r"[A-Za-z][A-Za-z0-9+.-]*:[^\s]+")
 
 STOP_ACTIONS = ("continue", "replan", "escalate", "stop")
 

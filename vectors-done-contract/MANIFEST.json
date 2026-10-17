@@ -1,7 +1,7 @@
 {
-  "corpusDigest": "1098bd5cd159d632e9ad28c054812acbf72b9232f71a8f09feb09bfabfe43d03",
+  "corpusDigest": "73c60897b7c03715c688b0dcd84218dadfd2e7ddc4efa598bcc63bbd393433ce",
   "predicateSpec": "spec/predicates/done-contract.md",
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-contract",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-contract",
   "recordSpec": "spec/predicates/done-records.md",
   "suite": "done-contract/v1",
   "vectors": [
@@ -14,7 +14,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "7b75ac63a38a1e0979ae9135d43d8b2622743af7e06e7881c7add9bf2d44ef32"
+        "statement.json": "38820d3353719c215dc04e7bf050cdb828d1feef965c1f11b2288adce51245dd"
       },
       "id": "valid-directory-protected",
       "kind": "valid",
@@ -29,7 +29,7 @@
       },
       "files": {
         "contract.json": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3",
-        "statement.json": "d16928b3ec0c61c654c507863dbfe78c97c5898c0c6aa115d44f7048cfeff37b"
+        "statement.json": "f34879abb2309f561afcc9745543726545b04c381635ef0be465240829ac66fe"
       },
       "id": "valid-file-protected",
       "kind": "valid",
@@ -44,7 +44,7 @@
       },
       "files": {
         "contract.json": "a1a99e6cf321b6b4e9259e80e2fee380ccdf68d8e4b84596d4d0de6aafb908bd",
-        "statement.json": "63ca7551c26286902e555748812350c2322d00a8d13e13b46e47ea1442c1531b"
+        "statement.json": "504a63e3d07c45602af62a1b15100afc5592bd7dfce925715f7cd5cacaaecb45"
       },
       "id": "valid-no-protected-paths",
       "kind": "valid",
@@ -59,7 +59,7 @@
       },
       "files": {
         "contract.json": "2ef9c84e1f6e8b8866bcb9d1058b7712f9fff88506d25be13d9a227767fc0e5b",
-        "statement.json": "14d9531ed1118f00cc1786dfef39fb33e721466fff145ad693a4baac20ebd1d2"
+        "statement.json": "a722346d8936b0ad70c465623a4e8712b518725080d344efb46e114aa5297c4a"
       },
       "id": "valid-two-acceptance-commands",
       "kind": "valid",
@@ -74,7 +74,7 @@
       },
       "files": {
         "contract.json": "d9c159eaed3714181edd65226b4aa21a4f40570694f0496e1bca7593af17fddb",
-        "statement.json": "b26c3c54783f04fe9b95ec267252dd1efe26ae7ef49baf70d65326d6764f4ea5"
+        "statement.json": "0990c94db50d6cf36e00777c0dd0972b916e8e85c43e5ec164f0626339e9cce1"
       },
       "id": "valid-bound-digests",
       "kind": "valid",
@@ -89,7 +89,7 @@
       },
       "files": {
         "contract.json": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48",
-        "statement.json": "52f3a6091471fe990fe2616a1b976f8817a8f32872b9c51bdf488f25b82dc8fe"
+        "statement.json": "c8e9039228abd34e4a55aa2d52cdaed1bceaa9133f17ad0d7a1389202c8a647c"
       },
       "id": "valid-adequacy-zero",
       "kind": "valid",
@@ -105,7 +105,7 @@
       },
       "files": {
         "contract.json": "0f5a934ac3b31e523519124195ecbc2fa5db1bd752b9a55bfec636b0591b4148",
-        "statement.json": "96ed6bf3a96d8c6bd1cc465524d755947a4e916b4166cf18860fa08f31e28637"
+        "statement.json": "3b05aea31cf5fc40c786926e9cb153737e00bfd316494c6d09067e4ea4510b41"
       },
       "id": "schema-unsupported",
       "kind": "invalid",
@@ -121,7 +121,7 @@
       },
       "files": {
         "contract.json": "e05234891c62ee7ec93f6bf69f2c0089d10a6b72a2508ca8539216a69da5563d",
-        "statement.json": "31532453ca105a31ffba8d5874a03b479ecfdcf7f5f83280d408fc222288c251"
+        "statement.json": "97dc50a2dcecbb54cfa016beb8c8e68988dd7d4c2d0c93f76bdb426b39e58d55"
       },
       "id": "member-unexpected",
       "kind": "invalid",
@@ -137,7 +137,7 @@
       },
       "files": {
         "contract.json": "75f4e91e0a44e9fbfec4aa36cf9edc525742eb7b053691039979b501fa05fad8",
-        "statement.json": "3084de64cb2ecffdb6831f3463bf76b075c3533c81799e30823051848dc13e2e"
+        "statement.json": "87a773b4e8e89871f15561d6c469216cd32df0277df34737d6df3ed6c893ce3d"
       },
       "id": "member-missing",
       "kind": "invalid",
@@ -153,7 +153,7 @@
       },
       "files": {
         "contract.json": "999f2784f30d2b33b6c8c9e24a42745e0353bf648ba36904e2486fde51b33276",
-        "statement.json": "52cfada08c33477f1769da80fc8cc57e87b61f08e663afe9061acb446b9176cb"
+        "statement.json": "e1dc1fb3838d7169737bb30221bc5b27b2e2ffe97beb3faca24830b411186e24"
       },
       "id": "contract-id-empty",
       "kind": "invalid",
@@ -169,7 +169,7 @@
       },
       "files": {
         "contract.json": "cd832fd4c955cb60ab5341d64d6d19dafcd8cd778c09036d6c598609dde28fe8",
-        "statement.json": "9f3312a85a47c176ac2fd35fc2ca758a0383f717649ce50f47f534d9c171406e"
+        "statement.json": "9194fdb8744baeccfaeccd99cb832e75372b3d491db9d376eed4439179a78a24"
       },
       "id": "task-empty",
       "kind": "invalid",
@@ -185,7 +185,7 @@
       },
       "files": {
         "contract.json": "921941de94841dfa9d7704a0c124ecb5384526d0aa6038c1ca0e7077c86c10d6",
-        "statement.json": "b306573d1b50387717661dcc02531e37affbd068f695bcc6a82d2f6c70390939"
+        "statement.json": "ab1d15b59cd51b06d1371e4bd03fa0ea92ed8f96eb66cea22c2440eee61c6709"
       },
       "id": "bound-digest-uppercase",
       "kind": "invalid",
@@ -201,7 +201,7 @@
       },
       "files": {
         "contract.json": "54d61adf5edaa275eb98d2a7dd31367b3e498a0f0f9d38ae1488d4a8fb82bd11",
-        "statement.json": "1e57c66a6d69ef6d6963b5f6308de28e8398b8e61c70c09db83fb5fb02a8eaf1"
+        "statement.json": "afdf0da5f2f70b4c0f4321ba57c0de2bfd27d4578e28068f7751a7061c05b73b"
       },
       "id": "protected-digest-short",
       "kind": "invalid",
@@ -217,7 +217,7 @@
       },
       "files": {
         "contract.json": "986c7975c70bc14edefa8abaf6507f6767b999dd97e303bddc09cc15c2df1929",
-        "statement.json": "0e28ee3afd63affad3482c4adb0addbc2e38c7272c8aba34e65983a91713dc5b"
+        "statement.json": "b9c183f57f9dadbfe75cabcdabbe51380e0e2d1c140c6d299d2a1073b5410745"
       },
       "id": "protected-paths-not-a-list",
       "kind": "invalid",
@@ -233,7 +233,7 @@
       },
       "files": {
         "contract.json": "8ca9c170cf2bd9666e52072c5666a53474739560044dc520204e87c6c8ebcbe5",
-        "statement.json": "65d5ed2964ed94a5b71d2a96efdd5c5df7252508db35b62e4cc0fd43b1979356"
+        "statement.json": "fef55587c61a4dae6b68c7c0602dbb8c8ee2f9c64c76c4e7e27a69e58eca3221"
       },
       "id": "protected-path-dotdot",
       "kind": "invalid",
@@ -249,7 +249,7 @@
       },
       "files": {
         "contract.json": "72be4963aa0e59d83474684204ceb233bb17df9ed985809fd836a0c694a0fb8e",
-        "statement.json": "6a84694d6221a1c4da128e7068bf3b9416526ff3b9e21b8a3885f9d9cab17559"
+        "statement.json": "6f3b7fbd0b9953611382ac77fcafe67e97232c9bedb40b3f964cffaf6622a9c2"
       },
       "id": "protected-path-absolute",
       "kind": "invalid",
@@ -265,7 +265,7 @@
       },
       "files": {
         "contract.json": "e3ec14a15b4dea1b206e792c55f8015b9bd62b591a8716f0819e05a6274ff8c6",
-        "statement.json": "4b2c01e10d84c4410c7c85292dd0fd4120e0ee2ae9ea5771baed7d1d24b313e7"
+        "statement.json": "4ffe02294eac54015bc30ecde28f84ec5fd1e838e46f5f755b17a1f76f94bd25"
       },
       "id": "protected-path-trailing-slash",
       "kind": "invalid",
@@ -281,7 +281,7 @@
       },
       "files": {
         "contract.json": "795563e4465baa7b4caa5333d1157f737790f11b232b831f2e7ed03827263fc9",
-        "statement.json": "8b1de9e042d82ad0744cf3df86bc8baf25a71e1cf1da4856fa345495b5a8a792"
+        "statement.json": "58015ef5829797b6c31f8cc4552f0d79789ba4bf12ce721132ab24d04f1660f1"
       },
       "id": "protected-kind-unknown",
       "kind": "invalid",
@@ -297,7 +297,7 @@
       },
       "files": {
         "contract.json": "c70af9eda66ea01c7845b8edd07916191f93f78daa9a61a227508b5220cf8ea9",
-        "statement.json": "944687fda714d3f4f8897495434d86015dba4e20671561dd165cad842debe910"
+        "statement.json": "a3e32178e836ac76ecb8304b075284d8a43c0efee5c1dbf09039ff4f32d98c7e"
       },
       "id": "exclude-on-file",
       "kind": "invalid",
@@ -313,7 +313,7 @@
       },
       "files": {
         "contract.json": "9c9bc9df2c3876abf953147b6a79fc0cdffafd680b40792d80954cea4757d0e0",
-        "statement.json": "1b52355d7df3193016c398df0b409349647786004c7566edca1dbc0dcdd387aa"
+        "statement.json": "430b660161df711816c1b4413d9871df97d890b56fd8a9806338125f2f251390"
       },
       "id": "exclude-with-separator",
       "kind": "invalid",
@@ -329,7 +329,7 @@
       },
       "files": {
         "contract.json": "03b36ef3bb106908886105c423d53ebe19ca779f2fd96a93c52c886bbbb13c9f",
-        "statement.json": "be6399b69406ad881cae85af6e58712ad9d53738c9561cffd56c8e1a7ba3f421"
+        "statement.json": "4eb2d2f42d17d62b1ab60b71a459a7609d12d90bfcb2074d10957f1fcf2ea3d5"
       },
       "id": "exclude-empty-list",
       "kind": "invalid",
@@ -345,7 +345,7 @@
       },
       "files": {
         "contract.json": "1d2de3604b25369b294463f2a2947e2fa1d50f94781f351f262324a9a402325e",
-        "statement.json": "6fb6edd27b3473d45ffd1ab946e20b75568408704cd1d39f6f1214cd251a4321"
+        "statement.json": "70278c74fe6778a9697422ada357660f07f6ba2068f308e9fda309026a629718"
       },
       "id": "exclude-duplicate-name",
       "kind": "invalid",
@@ -361,7 +361,7 @@
       },
       "files": {
         "contract.json": "997377f8ed834dcc2047dbd7a686768d1eb0d5187e81d7cb378caeb2a5421d60",
-        "statement.json": "c2b45014d810dcb3ca10a4f729a22f8d94592c78b37960d66692dde74344ad5f"
+        "statement.json": "ffa964f07f283529f8f31df76e3d3cd5ff69b72b7fe1b43851074cba34f4bd0b"
       },
       "id": "protected-path-duplicate",
       "kind": "invalid",
@@ -377,7 +377,7 @@
       },
       "files": {
         "contract.json": "6e1ef0a343a20e20a2fe733148c5131c6886eee44272cff0d893f35e4ad18145",
-        "statement.json": "d581ae23344df58c235c0c85ecb1a1a728bb69139ca9880802fdc8beb2766e2a"
+        "statement.json": "8ce8822603e5b72a4b4428217f5211e4e25fb8e2c005b8402ad754898739bcd3"
       },
       "id": "acceptance-empty",
       "kind": "invalid",
@@ -393,7 +393,7 @@
       },
       "files": {
         "contract.json": "428bcc5d5da4a1aa67f42927f248ef3c0be6b65dfa23502105b28e86f2614340",
-        "statement.json": "e5a66df8726519a52d924dc471dfb3d935b4a01150a58b6af122121005cf668f"
+        "statement.json": "e25fe6ff86d22ab2513dbb479b26038fc4fe6bb734cc5cf810512a296345530e"
       },
       "id": "acceptance-id-empty",
       "kind": "invalid",
@@ -409,7 +409,7 @@
       },
       "files": {
         "contract.json": "9cb1ce63d1e59da5130aa5d95df58536ea204bc58d16fe07fff32e0ad758c9eb",
-        "statement.json": "403dba3537ea309f5941a4b78207dca5a7dceb3a24a76f44c7f52192c9bf1916"
+        "statement.json": "322058eda767fee4d9c19b48f4f6058a27d038b5c2ae3454362c780ab4f1706b"
       },
       "id": "acceptance-argv-empty",
       "kind": "invalid",
@@ -425,7 +425,7 @@
       },
       "files": {
         "contract.json": "16a15e6367f643b6b0ca78d87718d768b78964eba6bdde83562bdf55406fca7a",
-        "statement.json": "e4aacdc722e41ad4747ec2526512585eb9823316ac3daa0601e18630a1ece193"
+        "statement.json": "be296c773b87703c1065b6adf8bec8c8924bc68893202e4fcd46c69cc340e915"
       },
       "id": "acceptance-argv-not-text",
       "kind": "invalid",
@@ -441,7 +441,7 @@
       },
       "files": {
         "contract.json": "3851b24d4135d1154da86d77e2b0598b6515632d39582147e21f157175572fa2",
-        "statement.json": "9fc3cf829ac23bb28fa74c638e46d3906a755ba4c605e8a5dcdc1519cf76f4fe"
+        "statement.json": "d050233d4a33333be73a5ee72d7aac98edbc04e0a930555516bce4c0d16a439c"
       },
       "id": "acceptance-id-duplicate",
       "kind": "invalid",
@@ -457,7 +457,7 @@
       },
       "files": {
         "contract.json": "f4ad72757995147ca9913839fe2ab4cedd56102990b9e593d25d77d24efdc8ae",
-        "statement.json": "425b870f33acc54c4c3038b348a952464b1eb7caea2a3ce554158d9879500a81"
+        "statement.json": "535a694c8c2ad738280526b53c21f22a7bc7508f2fd9456ef67f6fa8c8531208"
       },
       "id": "adequacy-killed-exceeds-mutants",
       "kind": "invalid",
@@ -473,7 +473,7 @@
       },
       "files": {
         "contract.json": "1c7c048d38f73065f300b8b9f8e3bd5e801a324701584cb16e691e9e20f0d01a",
-        "statement.json": "10cd7e2e001691a7a95aff87c97b1e6ccebb8f8a41584d8f9aa78a828bdf2b9d"
+        "statement.json": "46ce244c70e7107785e15967b2775551b085ab066f7abe6bdec3603706cf0695"
       },
       "id": "adequacy-negative",
       "kind": "invalid",
@@ -489,7 +489,7 @@
       },
       "files": {
         "contract.json": "4e879ea3d124ec4d538af06418dc07f8e32af6c6ea21edf0491f676dd79c563c",
-        "statement.json": "2ea6c5ac130427a0b19b7a6261e834229be08f776b218d37713c4b91365b5208"
+        "statement.json": "5b8d394ca58d6dc788edafdfcb6ef4a2044b241144b0411f09183c3185b4acd6"
       },
       "id": "adequacy-boolean",
       "kind": "invalid",
@@ -505,7 +505,7 @@
       },
       "files": {
         "contract.json": "c1c497a79cb649315768c318334b1160efdc4196f949664cacfd1a310fb9e743",
-        "statement.json": "f5fde464de2c1b598728ff62a6891cc7b564b0b95407118ce03733af39c0f543"
+        "statement.json": "fd96dcf1216021d7f9532612665bc063db9eedea9725f3835effe1a4547f5bd1"
       },
       "id": "adequacy-member-unexpected",
       "kind": "invalid",
@@ -521,7 +521,7 @@
       },
       "files": {
         "contract.json": "736dbd0d1b122fb40c50fa4a8e1a3bd029c980e500a3d835c407507074b86afd",
-        "statement.json": "caff9379f1b8d914f531d85cb3bab319da3cb5cde5d579d8b0bc50df6c40814b"
+        "statement.json": "18b36dd3e90bc6c2bc6b809faf7bf52e02f8182179c7c26207403c98d653e613"
       },
       "id": "record-duplicate-member",
       "kind": "invalid",
@@ -537,7 +537,7 @@
       },
       "files": {
         "contract.json": "9503fa6fa447a895aab6d565e942f0faf8815a72c216b6633df2b9c472894ac1",
-        "statement.json": "f7cf3fb00baba674afc84cd124a48242a2dc8fc0c56795a4e94ed8dcfe09d6ad"
+        "statement.json": "1783d1185d13000b638e0992cf56713d1adcf4e6865acdc30cffc4ddfd4e7518"
       },
       "id": "record-not-a-number",
       "kind": "invalid",
@@ -553,7 +553,7 @@
       },
       "files": {
         "contract.json": "4fd44a2cef0783048965d8dc7eb15b645c6019c731498d42accaf7f56e49e9a5",
-        "statement.json": "7dad6882566e8a591b57f007d94ea19eee61989825aa7d51111f4f77ce51e9c6"
+        "statement.json": "187403d9b6885ae79a88bbbbf24eca8bd43f177b196b3658fa6e8186a4f54071"
       },
       "id": "record-truncated",
       "kind": "invalid",
@@ -569,7 +569,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "b58d1753c2e625ca78b7d69f72efff52ffe5bed3e255933aaaf2f95e92103779"
+        "statement.json": "6817d89959f53b44505398b5d2f48097adda5ea6cb30b283bd936e0bce1b5790"
       },
       "id": "statement-type-wrong",
       "kind": "invalid",
@@ -585,7 +585,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "bf3aa50034a867c84f6086c33fb9ee96c2fa2872619dc90b67e856409e49805a"
+        "statement.json": "bcb00391d13acc08a4c14f2abeff2e2f5c7b94a81e3cefb2499f6721f1113583"
       },
       "id": "statement-predicate-type-wrong",
       "kind": "invalid",
@@ -617,7 +617,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "3e0d84366e3411822768a8cda47e0d67254f4e1bf6b09f4210fcaaf956b4efb2"
+        "statement.json": "fc7c25d0bcf0514d253df7c4ce65bbf28766aec869424041e078c8642711f8b2"
       },
       "id": "statement-two-subjects",
       "kind": "invalid",
@@ -633,7 +633,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "993b269b528be55c804c83bf1ce2402b97d8558ef316021e96a0067e20221347"
+        "statement.json": "2a2521dabcc31ec69be05db5fbe81ee7688889190d19856939f179bd1ad55211"
       },
       "id": "statement-subject-other-algorithm",
       "kind": "invalid",
@@ -649,7 +649,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "6daa3a08dd511111942ae383d2e1c01ed697d1971a6ed71844e4d3e7b23688f7"
+        "statement.json": "c3187a0292ef1fd5aa9ee5263f45414591bf3da4660741ad0d10f5df1d3163a4"
       },
       "id": "statement-subject-unbound",
       "kind": "invalid",
@@ -665,7 +665,7 @@
       },
       "files": {
         "contract.json": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48",
-        "statement.json": "0c32f68c701b353b7d3e291c23205fd5deb7010e76184ce2d4a8a035bfa587bc"
+        "statement.json": "b1ff097559259619486678c3994aa58bb0630c642912ac9fb348d0a4e52a5376"
       },
       "id": "statement-predicate-differs",
       "kind": "invalid",
@@ -681,7 +681,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "b8d2e5f32311b682f39642550e90a10fa530b4cd671c5fc8b5017c6cadddad3d"
+        "statement.json": "aa6d5f405e5efb89def90e4286ceece21f2a45e8f7a459ea808034b34598e027"
       },
       "id": "statement-duplicate-member",
       "kind": "invalid",
@@ -697,7 +697,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "c928273ac7dd67815078e668ee7f5bbc69d591162ab4f2a4d042d58fc0035eb9"
+        "statement.json": "04958782ac7b57ee63b5d7aa24091d2d1a7c906e31d3dd806d3f4db46751a9e6"
       },
       "id": "statement-not-a-number",
       "kind": "invalid",
@@ -729,7 +729,7 @@
       },
       "files": {
         "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "e4ec10dec6fa32c662afd61c06e3e19cb97da92f893b8fbbd9dcffad6b124a59"
+        "statement.json": "f4dd1c95bf7187ebc6da49b1c0a9e94632c635b6d71b95ede205b991eea5b719"
       },
       "id": "statement-member-unexpected",
       "kind": "invalid",

@@ -52,9 +52,12 @@
       "decision": "not_established",
       "reason": "protected_path_mutated",
       "vantage": "unestablished"
+    },
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
     }
   },
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "subject": [
     {
       "digest": {

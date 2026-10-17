@@ -9,7 +9,7 @@
     "repository": "https://github.com/harbor-framework/harbor"
   },
   "predicateSpec": "spec/predicates/done-receipt.md",
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "recordSpec": "spec/predicates/done-records.md",
   "suite": "grader-isolation/v1",
   "vectors": [

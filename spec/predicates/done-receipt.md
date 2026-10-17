@@ -1,6 +1,6 @@
 # Predicate type: Done Receipt
 
-Type URI: https://probityai.github.io/probity/predicate/v1/done-receipt
+Type URI: https://w3id.org/agent-evidence/predicate/v1/done-receipt
 
 Version: 0.1.0
 
@@ -66,7 +66,7 @@ verify the receipt, and MUST refuse it rather than trust the carried verdict.
   "subject": [
     { "name": "workspace-tree", "digest": { "sha256": "<tree_sha256 of the tree record>" } }
   ],
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "predicate": {
     "schema_version": "probity-done-receipt/v1",
     "claim_id": "<the records' claim_id>",
@@ -91,6 +91,7 @@ verify the receipt, and MUST refuse it rather than trust the carried verdict.
     "verdict": { "decision": "supported", "reason": "done_checks_supported",
                  "vantage": "independent", "witness_scope": "PEER" },
     "external_effects": [],
+    "verifier": { "id": "<a URI naming the verifier that produced this receipt>" },
     "policy": { "table_sha256": "<64-hex>" },         // optional
     "stop_decision": { "action": "continue", "reason": "done_checks_supported" },  // optional
     "verifier_isolation": { "contract_sha256": "<64-hex>", "...": "..." }          // optional
@@ -102,6 +103,12 @@ verify the receipt, and MUST refuse it rather than trust the carried verdict.
 when its decision is not `not_established`, and a `not_established` entry's `vantage` is
 `unestablished`. `policy.table_sha256` is the digest of the policy table the harness acted
 on, when it acted; the receipt does not interpret it.
+
+`verifier.id` is required. It is a URI (a scheme, a colon and a non-empty remainder, no white
+space) that names the verifier that wrote the receipt, for example
+`https://github.com/probityai/probity` for the reference command line. A reader checks the
+shape only and does not dereference it or decide which verifiers to trust; that is the
+consumer's policy. `verifier` has exactly the one member `id`.
 
 `stop_decision` is what the harness's policy table did with the verdict: `action` is one of
 `continue`, `replan`, `escalate` and `stop`, and `reason` is the reason code that drove it. A
@@ -242,7 +249,7 @@ launch rules read the receipt and the records it names; rules 8 and 9 recompute 
 | # | Rule | Code |
 | --- | --- | --- |
 | 1 | The statement is strict JSON with `_type`, `subject`, `predicateType`, `predicate`; the first two and the predicate type are as above; `subject` is one member with a `sha256` digest | `receipt_json_invalid`, `receipt_json_duplicate_key`, `receipt_json_number`, `receipt_fields`, `receipt_type_wrong`, `receipt_predicate_type_wrong`, `receipt_subject_malformed` |
-| 2 | The predicate has exactly the members above (`policy`, `stop_decision` and `verifier_isolation` optional), `schema_version` is `probity-done-receipt/v1`, and the policy digest is well formed | `receipt_schema_unsupported`, `receipt_predicate_malformed`, `receipt_predicate_fields`, `receipt_stop_decision_malformed`, `receipt_isolation_malformed` |
+| 2 | The predicate has exactly the members above (`policy`, `stop_decision` and `verifier_isolation` optional), `schema_version` is `probity-done-receipt/v1`, `verifier.id` is a URI, and the policy digest is well formed | `receipt_schema_unsupported`, `receipt_predicate_malformed`, `receipt_verifier_malformed`, `receipt_predicate_fields`, `receipt_stop_decision_malformed`, `receipt_isolation_malformed` |
 | 3 | `records` names exactly the six core records, or those and both launch records; a carried isolation report names the contract record's digest | `receipt_records_shape`, `receipt_isolation_contract_differs` |
 | 4 | Every named record is present and its bytes have the named digest | `receipt_record_missing`, `receipt_record_digest_mismatch` |
 | 5 | The tree and observation records parse; the subject digest equals the tree record's `tree_sha256` | the record's code, `receipt_subject_unbound` |

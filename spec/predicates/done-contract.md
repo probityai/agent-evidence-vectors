@@ -1,6 +1,6 @@
 # Predicate type: Done Contract
 
-Type URI: https://probityai.github.io/probity/predicate/v1/done-contract
+Type URI: https://w3id.org/agent-evidence/predicate/v1/done-contract
 
 Version: 0.1.0
 
@@ -62,7 +62,7 @@ and a statement that says another is a statement about a different contract.
   "subject": [
     { "name": "contract.json", "digest": { "sha256": "<64-hex of the record bytes>" } }
   ],
-  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-contract",
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-contract",
   "predicate": {
     "schema_version": "probity-done-contract/v1",
     "contract_id": "contract-app-1",

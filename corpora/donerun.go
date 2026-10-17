@@ -24,7 +24,7 @@ const (
 	doneTamperSuite   = "test-tampering/v1"
 	doneGraderSuite   = "grader-isolation/v1"
 
-	doneURI          = "https://probityai.github.io/probity/predicate/v1/"
+	doneURI          = "https://w3id.org/agent-evidence/predicate/v1/"
 	doneContractType = doneURI + "done-contract"
 	doneReceiptType  = doneURI + "done-receipt"
 	doneStatement    = "https://in-toto.io/Statement/v1"
@@ -315,7 +315,7 @@ func doneExternalEffects(member string) ([]any, error) {
 
 func donePredicate(statement doneObject) (doneObject, error) {
 	predicate, err := doneFields(statement["predicate"], "receipt_predicate",
-		[]string{"schema_version", "claim_id", "invocation_id", "records", "checks", "verdict", "external_effects"},
+		[]string{"schema_version", "claim_id", "invocation_id", "records", "checks", "verdict", "external_effects", "verifier"},
 		"policy", "verifier_isolation", "stop_decision")
 	if err != nil {
 		return nil, invalid(err.(*doneError).code)
@@ -327,6 +327,11 @@ func donePredicate(statement doneObject) (doneObject, error) {
 		if text, ok := predicate[key].(string); !ok || text == "" {
 			return nil, invalid("receipt_predicate_malformed")
 		}
+	}
+	verifier, ok := predicate["verifier"].(doneObject)
+	identity, _ := verifier["id"].(string)
+	if !ok || len(verifier) != 1 || !doneVerifierID.MatchString(identity) {
+		return nil, invalid("receipt_verifier_malformed")
 	}
 	if policy, present := predicate["policy"]; present {
 		table, ok := policy.(doneObject)

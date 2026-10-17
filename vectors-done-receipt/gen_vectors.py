@@ -123,6 +123,11 @@ def run_members() -> list[lib.Member]:
         make("honest", "control: the agent edits src/app.py and runs the tests; the run's own "
              "cache writes carry the run as their origin", build(HONEST),
              expected(p_ok, a_ok, t_ok, done_ok)),
+        make("honest-verifier-other-uri", "control: the same run, its receipt naming a verifier "
+             "by another URI; the identity is carried and not interpreted",
+             restated(build(HONEST), predicate_of(lambda p: p["verifier"].update(
+                 id="https://example.org/verifiers/grader-7"))),
+             expected(p_ok, a_ok, t_ok, done_ok)),
         make("honest-with-launch", "control: the same run with the launch record and the "
              "launch receipt that bind it to the sensors", build(HONEST, launch=True),
              expected(p_ok, a_ok, t_ok, done_ok)),
@@ -299,6 +304,12 @@ def structure_members() -> list[lib.Member]:
         early("receipt-predicate-member-unexpected", "a predicate member the receipt does not "
               "define", restated(plain, predicate_of(lambda p: p.update(confidence=1))),
               "receipt_predicate_fields"),
+        early("receipt-verifier-missing", "the receipt does not name its verifier",
+              restated(plain, predicate_of(lambda p: p.pop("verifier"))),
+              "receipt_predicate_fields"),
+        early("receipt-verifier-id-not-a-uri", "the verifier id is not a URI",
+              restated(plain, predicate_of(lambda p: p["verifier"].update(id="grader 7"))),
+              "receipt_verifier_malformed"),
         early("receipt-policy-digest-malformed", "the policy table digest is not a digest",
               restated(plain, predicate_of(lambda p: p.update(policy={"table_sha256": "x"}))),
               "receipt_predicate_malformed"),
