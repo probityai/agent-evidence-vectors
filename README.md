@@ -55,6 +55,7 @@ agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this reposi
 
 | I want to | Read |
 | --- | --- |
+| Start a project with this Action already in CI | [evidence-starter template](https://github.com/new?template_name=evidence-starter&template_owner=probityai) |
 | Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
 | Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
 | Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.18.1/docs/research/corpus-measurements.md) |
