@@ -216,6 +216,7 @@ EXTRA_CORPORA: tuple[str, ...] = (
     "vectors-ai-generation",
     "vectors-receipt-signature",
     "vectors-agent-audit-record",
+    "vectors-admission",
 )
 CHANGES_REL = "vectors/CHANGES.md"
 BASELINE_REL = "docs/FORCING-BASELINE.json"
@@ -2769,6 +2770,16 @@ MASKS = tuple(
         # repository publishes is spelled `line 209`. Spec anchors already have
         # their own mask above; this one covers the prose that discusses them.
         r"\blines?\s+\d+\b",
+        # An HTTP status, spelled as prose. Same family as the line numbers
+        # above: `returns 404` names a response a server gave and counts
+        # nothing, and it stayed invisible only while no published quantity
+        # equalled it. The unforced tally reached 404 when the admission rules
+        # joined the forcing campaign, and every sentence saying a predicate
+        # type URI returns 404 was reported as an unaccounted count on the same
+        # run. The verb or article has to sit next to the number, so `404
+        # unforced` and `404 DEAD` are still read and checked.
+        r"\b(?:HTTP|returns?|returned|an?|the|temporarily|will)\s+404\b",
+        r"\b404ed\b",
         r"\bdecisions?\s+\d+",  # interpretation-registry decision ids
         # The w3c-report rule ids. Same family as `aee-c-NN` above, and added
         # for the reason that family's comment predicts: the digit names a rule

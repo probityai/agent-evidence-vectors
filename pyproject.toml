@@ -86,6 +86,7 @@ only-include = [
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
+    "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
@@ -127,6 +128,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
+"vectors-admission" = "agent_evidence_vectors/corpora/vectors-admission"
 "vectors-aci" = "agent_evidence_vectors/corpora/vectors-aci"
 "vectors-acs-core" = "agent_evidence_vectors/corpora/vectors-acs-core"
 "vectors-ai-agent-action" = "agent_evidence_vectors/corpora/vectors-ai-agent-action"
@@ -171,6 +173,12 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 # check.mjs stays out: nothing in the package runs it.
 "corpora/jcs-byte-vectors/cases.json" = "agent_evidence_vectors/corpora/corpora/jcs-byte-vectors/cases.json"
 "corpora/jcs-byte-vectors/README.md" = "agent_evidence_vectors/corpora/corpora/jcs-byte-vectors/README.md"
+# The admission corpus's conditions each quote the sentence they rest on, and
+# both readers refuse a quotation the cited file no longer carries, so the two
+# files those sentences come from ship beside the corpora too.
+"spec/predicates/adversarial-execution-evidence.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence.md"
+"spec/v1/statement.md" = "agent_evidence_vectors/corpora/spec/v1/statement.md"
+"spec/predicates/adversarial-execution-evidence/verification.md" = "agent_evidence_vectors/corpora/spec/predicates/adversarial-execution-evidence/verification.md"
 
 [tool.hatch.build.targets.sdist]
 only-include = [
@@ -198,6 +206,10 @@ only-include = [
     "vectors-delegation-lifecycle",
     "vectors-agent-decision",
     "vectors-mcp-owasp",
+    "spec/predicates/adversarial-execution-evidence.md",
+    "spec/v1/statement.md",
+    "spec/predicates/adversarial-execution-evidence/verification.md",
+    "vectors-admission",
     "vectors-aci",
     "vectors-acs-core",
     "vectors-ai-agent-action",
@@ -295,6 +307,7 @@ files = ["packaging", "vectors", "tools"]
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
 include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
+           "vectors-admission",
            "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",

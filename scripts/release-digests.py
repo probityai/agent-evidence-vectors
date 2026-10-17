@@ -161,6 +161,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-mcp-response-phase": _recompute_from_generator,
     "vectors-observed-effect": _recompute_from_generator,
     "vectors-receipt-signature": _recompute_from_generator,
+    "vectors-admission": _recompute_from_generator,
     "vectors-scitt-cose": _recompute_from_generator,
     "vectors-source-coverage": _recompute_from_generator,
     "vectors-anchored-chain": _recompute_from_generator,

@@ -58,7 +58,7 @@ Rails
    never inferred from the predicate -- and it is also where the assertion that
    tier derivation never alters ``result`` becomes checkable from outside.
    ``--verifier`` accepts a full command line, not only a path, so a rail
-   needing flags (``"./aee-verify -json"``) is drivable without a wrapper.
+   needing flags (``"./aee-verify -validity-only -json"``) is drivable without a wrapper.
 
 2. REFERENCE RAIL (default, self-contained, stdlib-only): an independent
    Python implementation of the spec's checks -- statement well-formedness
@@ -128,6 +128,7 @@ from typing import Any, NamedTuple, TypeGuard
 # that contract instead of being refused.
 from agent_evidence_vectors import (
     a2ajcs,
+    admission,
     agenticprocess,
     anchoredchain,
     auditrecord,
@@ -3039,12 +3040,21 @@ def external_record(
     """
     reported = parsed.get("verdict")
     if reported is not None and reported != exit_verdict and keys_path is None:
+        # A rail whose exit status answers admission rather than validity says
+        # so in its report. aee-verify does from 0.14.0, when a run with no
+        # consumer policy stopped exiting 0; the fix is its validity-only mode.
+        hint = (
+            " The rail reports mode 'admission': its exit status answers whether "
+            "the statement is admitted, which this corpus does not judge. Drive "
+            "it in its validity-only mode (aee-verify -validity-only -json)."
+            if parsed.get("mode") == "admission" else ""
+        )
         return external_failure(
             [
                 f"external-verdict-contradicts-exit-status: {name}: the rail "
                 f"reported {reported!r} in its JSON and {exit_verdict!r} in its "
                 "exit status, and with no consumer policy supplied the two "
-                "channels state the same thing"
+                f"channels state the same thing.{hint}"
             ]
         )
     return {
@@ -3291,7 +3301,7 @@ def evaluate_vector_detailed(
     # verdict was never established, because "the rail said the wrong thing" and
     # "the rail said nothing this harness could read" are different findings and
     # the second one is already reported above under its own name.
-    if established and obs_verdict != exp_verdict:
+    if established and obs_verdict not in admissible_verdicts(kind, expected, exp_verdict):
         reasons.append(f"verdict: manifest declares {exp_verdict!r}, observed {obs_verdict!r}")
 
     if kind == "accept":
@@ -3375,6 +3385,27 @@ def readings_of(entry: dict[str, Any] | None) -> dict[str, str]:
     return {str(k): str(v) for k, v in declared.items()} if isinstance(declared, dict) else {}
 
 
+def admissible_verdicts(kind: str, expected: dict[str, Any], declared: str) -> set[str]:
+    """The verdicts a conforming rail may give a member.
+
+    For an indeterminate member the manifest's ``verdict`` is the reference
+    reading's answer, not the only admissible one: every declared reading
+    predicts an answer, and a family that declares acceptance as a reading
+    admits ``valid`` beside ``invalid``. Holding every rail to the reference
+    reading's verdict failed a perfect verifier for taking a reading the corpus
+    itself declares.
+    """
+    if kind != "indeterminate":
+        return {declared}
+    predicted = {str(v) for v in (expected.get("readings") or {}).values()}
+    if not predicted:
+        return {declared}
+    out = {"valid"} if "valid" in predicted else set()
+    if predicted - {"valid"}:
+        out.add("invalid")
+    return out
+
+
 def _eval_indeterminate(
     expected: dict[str, Any],
     observed: dict[str, Any],
@@ -3399,7 +3430,13 @@ def _eval_indeterminate(
     the finished rows in family_coherence_failures.
     """
     predicted = {str(v) for v in (expected.get("readings") or {}).values()}
-    if obs_verdict != "invalid":
+    if obs_verdict != "invalid" and "valid" in predicted:
+        # A family may declare acceptance as one of its readings (the SCITT
+        # carriage corpus does, three times). A rail answering valid under that
+        # reading has given a declared answer; scoring it as a failure failed a
+        # perfect verifier for taking a reading the corpus admits.
+        gates["gate0"] = "PASS"
+    elif obs_verdict != "invalid":
         gates["gate0"] = gates["gate1"] = gates["recompute"] = "FAIL"
         reasons.append("expected invalid, observed valid")
     else:
@@ -3440,6 +3477,8 @@ def _answers(
     """
     predicted = readings_of(idx.get(str(row["id"]))).get(reading)
     observed: dict[str, Any] = row.get("observed") or {}
+    if predicted == "valid":
+        return observed.get("verdict") == "valid"
     if committed:
         return predicted == observed.get("primaryCode")
     return predicted in {str(c) for c in (observed.get("codes") or [])}
@@ -3475,7 +3514,11 @@ def family_coherence_failures(
     failures: list[str] = []
     for family, members in sorted(families.items()):
         declared = sorted(readings_of(idx.get(str(members[0]["id"]))))
-        committed = all(m.get("observed", {}).get("primaryCode") for m in members)
+        committed = all(
+            m.get("observed", {}).get("primaryCode")
+            or m.get("observed", {}).get("verdict") == "valid"
+            for m in members
+        )
         matched = [
             name
             for name in declared
@@ -3722,6 +3765,53 @@ def write_pinned_key_policy(keys: dict[str, dict[str, Any]], directory: str) -> 
 REFERENCE_SUITE = "adversarial-execution-evidence-conformance"
 
 
+#: The verdict tokens the external-verifier contract carries: exit 0 is one,
+#: any other exit status is the other.
+CONTRACT_VERDICTS = ("valid", "invalid")
+
+
+def generic_contract_misfit(manifest: dict[str, Any]) -> list[str]:
+    """Why a suite's MANIFEST cannot be scored through the external contract.
+
+    The contract reads a verdict off the exit status, so it has two verdicts.
+    A corpus whose members expect ``allow``, ``malformed`` or a set of
+    per-member measurements, or that declares a kind this rail has no contract
+    for, or whose members are not files in one directory, cannot be passed by
+    any verifier through that contract. Running a named verifier over it
+    produced a failure that described the harness, not the verifier: the same
+    report for a perfect verifier and a broken one. Such a corpus is refused by
+    name, the way the corpora with a reader of their own are.
+    """
+    entries = manifest.get("vectors") or manifest.get("index") or []
+    reasons: list[str] = []
+    # An indeterminate member pins no verdict: its declared readings say which
+    # answers a conforming rail may give, and admissible_verdicts reads them.
+    verdicts = sorted({
+        str((e.get("expected") or {}).get("verdict"))
+        for e in entries
+        if isinstance(e, dict)
+        and not (e.get("kind") == "indeterminate" and (e.get("expected") or {}).get("readings"))
+        and (e.get("expected") or {}).get("verdict") not in CONTRACT_VERDICTS
+    })
+    if verdicts:
+        reasons.append(
+            f"member verdicts {verdicts} are not {' or '.join(CONTRACT_VERDICTS)}"
+        )
+    kinds = sorted({
+        str(e.get("kind")) for e in entries
+        if isinstance(e, dict) and e.get("kind") not in REPLAYED_KINDS
+    })
+    if kinds:
+        reasons.append(f"member kinds {kinds} have no contract in this rail")
+    fileless = [
+        str(e.get("id")) for e in entries
+        if isinstance(e, dict) and not (isinstance(e.get("file"), str) and "/" in e["file"])
+    ]
+    if fileless:
+        reasons.append(f"{len(fileless)} member(s) name no file under a directory")
+    return reasons
+
+
 def _run_non_reference_suite(
     manifest: dict[str, Any] | None,
     suite_dir: str,
@@ -3765,8 +3855,16 @@ def _run_non_reference_suite(
         agenticprocess.SUITE,
         a2ajcs.SUITE,
         mcpowasp.SUITE,
+        admission.SUITE,
     )
     if not own_reader and external_cmd is not None:
+        misfit = generic_contract_misfit(manifest or {})
+        if misfit:
+            return refuse_verifier(
+                f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
+                f"{suite!r} declares expectations the external-verifier contract cannot "
+                f"carry ({'; '.join(misfit)}). Judge it with `aee-verify {suite_dir}`."
+            )
         return None
     # These readers judge with their own reader or a named verifier through the
     # contract their README states, so every case is answered or the run fails.
@@ -3786,6 +3884,10 @@ def _run_non_reference_suite(
         return full_reader(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None and suite == receiptsignature.SUITE:
         return receiptsignature.run_external(suite_dir, external_cmd, report_path, rail_note)
+    # The admission corpus writes down a contract of its own: the policy path in
+    # AEE_CONSUMER_POLICY, and exit 0 exactly when the statement is admitted.
+    if external_cmd is not None and suite == admission.SUITE:
+        return admission.run_external(suite_dir, external_cmd, report_path, rail_note)
     if external_cmd is not None:
         return refuse_verifier(
             f"the verifier {shlex.join(external_cmd)!r} {DID_NOT_RUN}: the corpus "
@@ -3814,6 +3916,7 @@ def _run_non_reference_suite(
         w3creport.SUITE: w3creport,
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
+        admission.SUITE: admission,
     }.get(suite, observedeffect)
     judged = reader.judge(suite_dir)
     sys.stdout.write(reader.render(judged, reader.SUITE))
@@ -4251,8 +4354,19 @@ def _parity_status(kind: str, parity: list[str]) -> str:
     return "PASS" if kind == "reject" else "-"
 
 
-def _closure_kind_coverage(listed: dict[str, list[str]]) -> list[str]:
-    """The kinds the MANIFEST declares against the kinds this rail scores."""
+def _closure_kind_coverage(
+    listed: dict[str, list[str]], required: Sequence[str] = REPLAYED_KINDS
+) -> list[str]:
+    """The kinds the MANIFEST declares against the kinds this rail scores.
+
+    ``required`` is the set of kinds the suite must still carry. For the
+    reference suite that is every kind this rail scores, because this rail's
+    coverage claim is a claim about that suite: a kind dropping out of it is a
+    contract silently running over nothing. Another suite never carried the
+    kinds its predicate does not have, and requiring them made a perfect
+    verifier fail such a corpus on a refusal about this rail's own bookkeeping
+    (``vectors-ai-agent-action`` has no ``indeterminate`` member and never has).
+    """
     failures: list[str] = []
     for kind in sorted(listed):
         if kind not in REPLAYED_KINDS:
@@ -4262,7 +4376,7 @@ def _closure_kind_coverage(listed: dict[str, list[str]]) -> list[str]:
                 "contract. Add the contract and name the kind in REPLAYED_KINDS -- naming "
                 "it alone is the same absence with a green tick on it"
             )
-    for kind in REPLAYED_KINDS:
+    for kind in required:
         if not listed.get(kind):
             failures.append(
                 f"REPLAYED_KINDS names kind {kind!r} that the MANIFEST no longer carries, "
@@ -4316,6 +4430,95 @@ def _closure_both_directions(
     # is no kind directory to derive a path from, and deriving one is what a
     # rail must stop doing once the layout stops naming the answer.
     return _closure_flat(suite_dir, idx, listed, flat_layout(idx))
+
+
+#: The shape of a content-addressed member file name, in any encoding. A file
+#: of this shape outside the one directory the MANIFEST declares is a stray
+#: vector wherever it sits, which is the refusal the directory rule exists for.
+VECTOR_FILE_STEM = re.compile(r"^v[0-9a-f]{16}$")
+
+
+def manifest_referenced_paths(suite_dir: str, manifest: dict[str, Any]) -> set[str]:
+    """Every file under the suite that its MANIFEST names by relative path.
+
+    A corpus that carries records beside its statements (``records`` on a row)
+    or its vendored specification (``specVendored``) names those files in its
+    own manifest. They are declared by the corpus, not guessed at by this rail.
+    """
+    found: set[str] = set()
+
+    def walk(value: Any) -> None:
+        if isinstance(value, str):
+            if "/" in value and os.path.isfile(os.path.join(suite_dir, value)):
+                found.add(os.path.normpath(value))
+        elif isinstance(value, dict):
+            for item in value.values():
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+
+    walk(manifest)
+    return found
+
+
+def stray_vector_files(
+    suite_dir: str, directory: str, member_ids: set[str], referenced: set[str]
+) -> list[str]:
+    """Every file under ``directory`` named like a corpus member, recursively,
+    that the MANIFEST does not itself name.
+
+    The name is compared on its stem, so a member re-encoded under another
+    extension is still found, and against both the MANIFEST's own identifiers
+    and the identifier shape, so a member the MANIFEST no longer lists is found
+    too. A file the MANIFEST names by path (a row's ``records`` file, which is
+    named for the member it belongs to) is the corpus declaring it, not a stray.
+    """
+    hits: list[str] = []
+    for root, dirs, files in os.walk(os.path.join(suite_dir, directory)):
+        dirs.sort()
+        for name in sorted(files):
+            rel = os.path.normpath(os.path.relpath(os.path.join(root, name), suite_dir))
+            if rel in referenced:
+                continue
+            stem = name.split(".", 1)[0]
+            if stem in member_ids or VECTOR_FILE_STEM.match(stem):
+                hits.append(rel)
+    return hits
+
+
+def _closure_directories_other_suite(
+    suite_dir: str, manifest: dict[str, Any], listed: dict[str, list[str]],
+    idx: dict[str, Any]
+) -> list[str]:
+    """The directory rule for a suite other than the reference one.
+
+    Every directory beside the one the MANIFEST replays is admitted unless it
+    holds a file named like a corpus member that the MANIFEST does not name.
+    That keeps the refusal the rule was written for, a vector file outside the
+    directory the MANIFEST replays, and drops the one it was never meant to
+    make: a corpus keeping its generator, its records or its vendored
+    specification in a directory of its own, which every corpus other than the
+    reference one does. The reference suite keeps the stricter set equality in
+    ``_closure_directories``, because this rail's claim about its own layout is
+    a claim about that suite.
+    """
+    failures: list[str] = []
+    flat = flat_layout(idx)
+    referenced = manifest_referenced_paths(suite_dir, manifest)
+    member_ids = set(idx)
+    for name in sorted(os.listdir(suite_dir)):
+        if not os.path.isdir(os.path.join(suite_dir, name)) or name == flat:
+            continue
+        strays = stray_vector_files(suite_dir, name, member_ids, referenced)
+        if strays:
+            failures.append(
+                f"{name}/ holds {len(strays)} file(s) named like a corpus member "
+                f"({', '.join(strays[:3])}) outside the {flat}/ directory the MANIFEST "
+                "replays, and the MANIFEST names none of them, so whatever they carry "
+                "is replayed by nothing"
+            )
+    return failures
 
 
 def _closure_directories(
@@ -4433,10 +4636,14 @@ def manifest_closure(
     by name since the directory blind spot was closed there.
     """
     listed = manifest_kinds(idx)
-    failures = _closure_kind_coverage(listed)
+    reference = manifest.get("suite") in (None, REFERENCE_SUITE)
+    failures = _closure_kind_coverage(listed, REPLAYED_KINDS if reference else ())
     direction_failures, unlisted = _closure_both_directions(suite_dir, idx, listed)
     failures.extend(direction_failures)
-    failures.extend(_closure_directories(suite_dir, listed, idx))
+    if reference:
+        failures.extend(_closure_directories(suite_dir, listed, idx))
+    else:
+        failures.extend(_closure_directories_other_suite(suite_dir, manifest, listed, idx))
     failures.extend(
         _closure_counts(suite_dir, manifest.get("counts"), listed, idx)
     )
@@ -5143,7 +5350,7 @@ def main() -> int:
         "--verifier",
         default=None,
         help="command line for an external verifier to run differentially, e.g. "
-        "'./aee-verify -json' (also read from AEE_EXTERNAL_VERIFIER); it always "
+        "'./aee-verify -validity-only -json' (also read from AEE_EXTERNAL_VERIFIER); it always "
         "runs, and a verifier that cannot be started exits 2 rather than falling "
         f"back to the reference rail; the key policy is handed to it in ${EXTERNAL_KEYS_ENV}",
     )

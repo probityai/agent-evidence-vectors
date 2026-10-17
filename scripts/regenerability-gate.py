@@ -145,6 +145,10 @@ GENERATORS = (
     # The MCP receipt examples import the observed-effect generator's helpers,
     # so they run after it and regenerate with it.
     "examples/mcp-receipts/gen_examples.py",
+    # The admission corpus: statements copied from vectors/ or rewritten in a
+    # field the run binding does not cover, the policies beside them, and the
+    # manifest and index emitted from both.
+    "vectors-admission/gen_vectors.py",
     "scripts/gen-w3c-appendix.py",
 )
 
@@ -278,6 +282,10 @@ OWNED = (
     ("vectors-source-coverage/cases", "**/policy.json"),
     ("vectors-source-coverage/cases", "**/report.txt"),
     ("vectors-source-coverage/cases", "**/source.html"),
+    ("vectors-admission/statements", "v*.json"),
+    ("vectors-admission/policies", "v*.json"),
+    ("vectors-admission", "MANIFEST.json"),
+    ("vectors-admission", "INDEX.md"),
     ("vectors-self-reported-record/statements", "v*.json"),
     ("vectors-self-reported-record", "MANIFEST.json"),
     ("vectors-self-reported-record", "INDEX.md"),

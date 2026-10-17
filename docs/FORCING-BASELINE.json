@@ -2,9 +2,9 @@
   "$comment": "What the conformance corpus FORCES, measured by mutation rather than counted. Each row is one single-site weakening of the Go rail in aee/, replayed over the whole corpus: KILLED means some vector goes PASS->FAIL and the corpus forces the rule; SILENT means the corpus sees the rail change and stays green; DEAD means nothing in the corpus depends on the rule; INCONCLUSIVE means the mutant did not build, crash-free, terminate, and nothing is asserted about it. `annotations` records the sites where 'unforced' would be the wrong word -- `unkillable` for a true equivalent mutant no vector can ever kill, `masked` for a real rule an earlier check reaches first, which is unmintable rather than unminted. Both are claims this gate falsifies: an annotated site that is ever KILLED fails it. scripts/forcing-gate.py holds every KILLED row as a tighten-only ratchet and rewrites this file with --scope all --sync.",
   "suite": "adversarial-execution-evidence-conformance",
   "counts": {
-    "KILLED": 468,
+    "KILLED": 470,
     "SILENT": 36,
-    "DEAD": 301,
+    "DEAD": 404,
     "INCONCLUSIVE": 5
   },
   "annotations": {
@@ -26,6 +26,737 @@
     }
   },
   "sites": {
+    "admission.go::ParseConsumerPolicy::IF_CONJ::7322c7a8239c": {
+      "class": "DEAD",
+      "snippet": "v != nil",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_CONJ::ceb0cb18d85f": {
+      "class": "DEAD",
+      "snippet": "*v <= 0",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_DISJ::1dd07bcc56a8": {
+      "class": "DEAD",
+      "snippet": "len(pub) != ed25519.PublicKeySize",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_DISJ::c7462b9a2227": {
+      "class": "DEAD",
+      "snippet": "err != nil",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_OFF::22ec647efbde": {
+      "class": "DEAD",
+      "snippet": "if err != nil || len(pub) != ed25519.PublicKeySize { return nil, fmt.Errorf(\"key %q: publicKeyHex must be %d hex-encoded bytes\", k.KeyID, ed25519.Publ...",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_OFF::4df4c4211b72": {
+      "class": "DEAD",
+      "snippet": "if doc.MaxEvidenceAgeSeconds != nil { policy.MaxEvidenceAge = time.Duration(*doc.MaxEvidenceAgeSeconds * float64(time.Second)) }",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_OFF::545278f91351": {
+      "class": "DEAD",
+      "snippet": "if doc.MaxIssuanceLagSeconds != nil { policy.MaxIssuanceLag = time.Duration(*doc.MaxIssuanceLagSeconds * float64(time.Second)) }",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_OFF::d41d195a1a99": {
+      "class": "DEAD",
+      "snippet": "if v != nil && *v <= 0 { return nil, fmt.Errorf(\"%s must be a positive number of seconds, got %v\", name, *v) }",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::IF_OFF::f3092015e608": {
+      "class": "DEAD",
+      "snippet": "if err := dec.Decode(&doc); err != nil { return nil, fmt.Errorf(\"consumer policy does not parse: %w\", err) }",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::LOOP_FIRST::d46ca3895abd": {
+      "class": "DEAD",
+      "snippet": "for _, k := range doc.SubstrateObservationKeys { pub, err := hex.DecodeString(k.PublicKeyHex) if err != nil || len(pub) != ed25519.PublicKeySize { ret...",
+      "branch": "never-taken"
+    },
+    "admission.go::ParseConsumerPolicy::LOOP_FIRST::ee50cc4a9a5d": {
+      "class": "DEAD",
+      "snippet": "for name, v := range map[string]*float64{\"maxIssuanceLagSeconds\": doc.MaxIssuanceLagSeconds, \"maxEvidenceAgeSeconds\": doc.MaxEvidenceAgeSeconds} { if ...",
+      "branch": "never-taken"
+    },
+    "admission.go::admissionCodes::CODE_OFF::5fe997ce98c8": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodePublishedTestKey)",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::CODE_OFF::6627d681aa03": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeSubstrateRowUnattested)",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::IF_OFF::326747d41d7b": {
+      "class": "DEAD",
+      "snippet": "if !policy.AllowPublishedTestKeys { for _, key := range policy.SubstrateObservationKeys { if isPublishedTestKey(key) { codes = appendCode(codes, CodeP...",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::IF_OFF::a28d7c035d45": {
+      "class": "DEAD",
+      "snippet": "if !tierPolicySatisfied(ctx, tiers) { codes = appendCode(codes, CodeSubstrateRowUnattested) }",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::IF_OFF::a338ab8b283b": {
+      "class": "KILLED",
+      "snippet": "if policy == nil { policy = &ConsumerPolicy{} }",
+      "killers": [
+        "v0099f25838779fcc",
+        "v02f2be8cd63828f4",
+        "v05e2e6ba0093d37a",
+        "v085acd94abf21364",
+        "v097ad0cc5b7c0490",
+        "v0a8a7826e4499ff6",
+        "v12389306fa02ce0c",
+        "v15e3a93a59a65391",
+        "v164cf7f3f529eaff",
+        "v18bdbadef67b38f4",
+        "v194265397248929b",
+        "v1b2d2d26efeb7835",
+        "v26db60a5d09ec82c",
+        "v36fe88ae1da31194",
+        "v393e5fb361cedaae",
+        "v3bf3c0fa0e6a52b3",
+        "v3fbc377adbe6dcf1",
+        "v4130b125a1c2d5b1",
+        "v44c5b469882b4a0e",
+        "v48542b44ffd26237",
+        "v4dfeab58a9cbdf24",
+        "v4f78835e75e8a400",
+        "v51e9223d08fcc4e1",
+        "v550c91df0d36a218",
+        "v5ec463cdbbe6dab5",
+        "v73244f2068e58c68",
+        "v7400cd757fd046e9",
+        "v774eb1ad06e94311",
+        "v79735e29bd3c1c55",
+        "v7d2a79cb1ddc59a5",
+        "v87d0a19d4b41aafc",
+        "v9383066da404cbda",
+        "v948fbb64b96197e6",
+        "v9a886701250e5a06",
+        "v9aa8ed2b3bfb4042",
+        "v9cc570167acf4ae8",
+        "va1881488724114fd",
+        "va4d6b048f2e9cc5f",
+        "va8ff24a38152fc31",
+        "vb2af33bb3cc0da77",
+        "vb835ee95031d6e97",
+        "vb9ffa071ee33678b",
+        "vba7081ad0eae11bf",
+        "vc2782e6c3cbdb9b7",
+        "vc7a74e2cef5586ed",
+        "vc8db427883cd80ea",
+        "vcc938c6038536dcb",
+        "vcebc3fca7e54f763",
+        "vcf20eae7df4f1f1b",
+        "vcf5a4601dee5c2ee",
+        "vd024efc41945fe54",
+        "vd1aa74416099f3f0",
+        "vd601fae914a58643",
+        "vda285efc96ac6e75",
+        "vdb34a3c9aca2ad5c",
+        "vdf9d432c5a63e441",
+        "vea21d85d4e531e66",
+        "vf1fcbad160189ca5",
+        "vf56664ac324b6613",
+        "vf720662dff34b8f5",
+        "vf88590533f7b3599",
+        "vfa152052ea49dfdb",
+        "vfcb846afff2d6979"
+      ]
+    },
+    "admission.go::admissionCodes::IF_OFF::c034ed26eb19": {
+      "class": "DEAD",
+      "snippet": "if isPublishedTestKey(key) { codes = appendCode(codes, CodePublishedTestKey) break }",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::LOOP_FIRST::aaf63758268e": {
+      "class": "DEAD",
+      "snippet": "for _, key := range policy.SubstrateObservationKeys { if isPublishedTestKey(key) { codes = appendCode(codes, CodePublishedTestKey) break } }",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_CONJ::5f87375f8705": {
+      "class": "DEAD",
+      "snippet": "pin.expected == \"\"",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_CONJ::63ce5b8a3a7b": {
+      "class": "DEAD",
+      "snippet": "pin.expected != pin.carried",
+      "branch": "never-taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_CONJ::9109c55d98f9": {
+      "class": "DEAD",
+      "snippet": "!policy.AllowUnpinnedAnchors",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_CONJ::d983869564f1": {
+      "class": "DEAD",
+      "snippet": "pin.expected != \"\"",
+      "branch": "never-taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_OFF::7f8c922b0588": {
+      "class": "DEAD",
+      "snippet": "pin.expected == \"\" && !policy.AllowUnpinnedAnchors",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::CASE_OFF::9c6709f78608": {
+      "class": "DEAD",
+      "snippet": "pin.expected != \"\" && pin.expected != pin.carried",
+      "branch": "never-taken"
+    },
+    "admission.go::anchorPolicyCodes::CODE_OFF::26ad2025665a": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, pin.unpinned)",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::CODE_OFF::970fd421389a": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, pin.mismatch)",
+      "branch": "never-taken"
+    },
+    "admission.go::anchorPolicyCodes::IF_OFF::3c97950cc246": {
+      "class": "DEAD",
+      "snippet": "if len(ctx.s.Subject) > 0 { subject = ctx.s.Subject[0].Digest[\"sha256\"] }",
+      "branch": "taken"
+    },
+    "admission.go::anchorPolicyCodes::LOOP_FIRST::0b47a2c89e9a": {
+      "class": "DEAD",
+      "snippet": "for _, pin := range pins { switch { case pin.expected == \"\" && !policy.AllowUnpinnedAnchors: codes = appendCode(codes, pin.unpinned) case pin.expected...",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_CONJ::4cb0855b561f": {
+      "class": "DEAD",
+      "snippet": "p.Env.Vocabulary != nil",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_CONJ::eba7cf5eb0d7": {
+      "class": "DEAD",
+      "snippet": "p.Env != nil",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_DISJ::059eab83ff27": {
+      "class": "DEAD",
+      "snippet": "caught[row.ContainmentObserved]",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_DISJ::1dad7b8e4d22": {
+      "class": "DEAD",
+      "snippet": "*row.Method != MethodIntercepted",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_DISJ::24b06a5368b0": {
+      "class": "DEAD",
+      "snippet": "!labels[row.ContainmentObserved]",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_DISJ::473f8dd86305": {
+      "class": "DEAD",
+      "snippet": "row.Method == nil",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_DISJ::7e9f4f141acd": {
+      "class": "DEAD",
+      "snippet": "!row.IsSubstrate()",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_OFF::5c5633d29292": {
+      "class": "DEAD",
+      "snippet": "if !labels[row.ContainmentObserved] || caught[row.ContainmentObserved] { continue }",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_OFF::dff4db1ffd90": {
+      "class": "DEAD",
+      "snippet": "if p.Env != nil && p.Env.Vocabulary != nil { for _, l := range p.Env.Vocabulary.Labels { labels[l] = true } for _, c := range p.Env.Vocabulary.Caught ...",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::IF_OFF::e83de2d0ddcb": {
+      "class": "DEAD",
+      "snippet": "if !row.IsSubstrate() || row.Method == nil || *row.Method != MethodIntercepted { return true }",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::LOOP_FIRST::30380a63b38b": {
+      "class": "DEAD",
+      "snippet": "for i := range p.Rows { row := &p.Rows[i] if !labels[row.ContainmentObserved] || caught[row.ContainmentObserved] { continue } if !row.IsSubstrate() ||...",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::RET_FALSE::7e4fe8351c22": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::cleanRowUnintercepted::RET_TRUE::19921ccfad14": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "taken"
+    },
+    "admission.go::containsToken::IF_OFF::c4391c50fe6c": {
+      "class": "DEAD",
+      "snippet": "if s == t { return true }",
+      "branch": "taken"
+    },
+    "admission.go::containsToken::LOOP_FIRST::d81db2545efd": {
+      "class": "DEAD",
+      "snippet": "for _, s := range set { if s == t { return true } }",
+      "branch": "taken"
+    },
+    "admission.go::containsToken::RET_FALSE::7e4fe8351c22": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::containsToken::RET_TRUE::19921ccfad14": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "taken"
+    },
+    "admission.go::isPublishedTestKey::IF_OFF::ea0c14bca4d4": {
+      "class": "DEAD",
+      "snippet": "if ed25519.NewKeyFromSeed(seed[:]).Public().(ed25519.PublicKey).Equal(pub) { return true }",
+      "branch": "taken"
+    },
+    "admission.go::isPublishedTestKey::LOOP_FIRST::b382855b27d3": {
+      "class": "DEAD",
+      "snippet": "for _, role := range PublishedTestKeyRoles { seed := sha256.Sum256([]byte(\"in-toto-aee-test-key/\" + role + \"/v1\")) if ed25519.NewKeyFromSeed(seed[:])....",
+      "branch": "taken"
+    },
+    "admission.go::isPublishedTestKey::RET_FALSE::7e4fe8351c22": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::isPublishedTestKey::RET_TRUE::19921ccfad14": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "never-taken"
+    },
+    "admission.go::producerAsserted::IF_OFF::5ab2da926ab9": {
+      "class": "DEAD",
+      "snippet": "if len(st.Subject) > 0 { out = append(out, unboundIn(\"subject[0]\", st.Subject[0], map[string]bool{\"digest\": true})...) }",
+      "branch": "taken"
+    },
+    "admission.go::producerAsserted::IF_OFF::5b7ac824c3a4": {
+      "class": "DEAD",
+      "snippet": "if err := json.Unmarshal(statementJSON, &st); err != nil { return nil }",
+      "branch": "never-taken"
+    },
+    "admission.go::producerAsserted::IF_OFF::9ad2b514106f": {
+      "class": "DEAD",
+      "snippet": "if obj, ok := st.Predicate.Env[member]; ok { out = append(out, unboundIn(\"predicate.observationEnvironment.\"+member, obj, bound)...) }",
+      "branch": "taken"
+    },
+    "admission.go::producerAsserted::IF_OFF::d729f62f46e0": {
+      "class": "DEAD",
+      "snippet": "if st.Predicate.IssuedAt != nil { out = append(out, \"predicate.issuedAt\") }",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::IF_OFF::4e253e0e6b23": {
+      "class": "DEAD",
+      "snippet": "if !seen[t] { return false }",
+      "branch": "never-taken"
+    },
+    "admission.go::sameTokens::IF_OFF::ab352c4cda01": {
+      "class": "DEAD",
+      "snippet": "if len(a) != len(b) { return false }",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::IF_OFF::f2374619cfe6": {
+      "class": "DEAD",
+      "snippet": "if seen[t] { return false }",
+      "branch": "never-taken"
+    },
+    "admission.go::sameTokens::LOOP_FIRST::3932e06b6bb7": {
+      "class": "DEAD",
+      "snippet": "for _, t := range a { if seen[t] { return false } seen[t] = true }",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::LOOP_FIRST::b7351d6859fa": {
+      "class": "DEAD",
+      "snippet": "for _, t := range b { if !seen[t] { return false } }",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::RET_FALSE::7e4fe8351c22": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::RET_TRUE::19921ccfad14": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "taken"
+    },
+    "admission.go::sameTokens::RET_TRUE::19921ccfad14#2": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "never-taken"
+    },
+    "admission.go::sameTokens::RET_TRUE::19921ccfad14#3": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "never-taken"
+    },
+    "admission.go::scopePolicyCodes::IF_OFF::0ffef37f912e": {
+      "class": "DEAD",
+      "snippet": "if len(policy.DemandedClasses) == 0 { if policy.AllowUnpinnedScope { return nil } return []Code{CodeScopeUnpinned} }",
+      "branch": "taken"
+    },
+    "admission.go::scopePolicyCodes::IF_OFF::26b22b8d2efd": {
+      "class": "DEAD",
+      "snippet": "if policy.AllowUnpinnedScope { return nil }",
+      "branch": "never-taken"
+    },
+    "admission.go::scopePolicyCodes::IF_OFF::2c1bbea4d71f": {
+      "class": "DEAD",
+      "snippet": "if !assessed[c] { return []Code{CodeDemandedClassUnassessed} }",
+      "branch": "never-taken"
+    },
+    "admission.go::scopePolicyCodes::IF_OFF::670574d9a89f": {
+      "class": "DEAD",
+      "snippet": "if ctx.s.Predicate.Coverage != nil { for _, c := range ctx.s.Predicate.Coverage.AssessedClasses { assessed[c] = true } }",
+      "branch": "never-taken"
+    },
+    "admission.go::scopePolicyCodes::LOOP_FIRST::6914ba681005": {
+      "class": "DEAD",
+      "snippet": "for _, c := range policy.DemandedClasses { if !assessed[c] { return []Code{CodeDemandedClassUnassessed} } }",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_CONJ::008e1e2920f5": {
+      "class": "DEAD",
+      "snippet": "!declared",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_CONJ::07c11b88b8ea": {
+      "class": "DEAD",
+      "snippet": "!relaxed",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_CONJ::a8bfacf3bcd7": {
+      "class": "DEAD",
+      "snippet": "declined",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_CONJ::acd85c97bf4d": {
+      "class": "DEAD",
+      "snippet": "relaxed",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_OFF::85c4e4530ed8": {
+      "class": "DEAD",
+      "snippet": "relaxed && !declared",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CASE_OFF::f1ed5d5a5abb": {
+      "class": "DEAD",
+      "snippet": "declined && !relaxed",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CODE_OFF::05d1f25e1103": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeResultNotAccepted)",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::CODE_OFF::923727ce3ce8": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeCleanRowUnintercepted)",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::CODE_OFF::d57db0661f30": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeRowGateDeclineUnreachable)",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::CODE_OFF::f662880e2f9e": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeRowGateUndeclared)",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_CONJ::07c11b88b8ea": {
+      "class": "DEAD",
+      "snippet": "!relaxed",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_CONJ::2b481aa8db94": {
+      "class": "DEAD",
+      "snippet": "cleanRowUnintercepted(ctx)",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_CONJ::b7d071b0add1": {
+      "class": "DEAD",
+      "snippet": "!sameTokens(threshold, thresholdPass)",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_CONJ::cab95aeef004": {
+      "class": "DEAD",
+      "snippet": "(!declined || !relaxed)",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_OFF::00e1922b5f89": {
+      "class": "DEAD",
+      "snippet": "if policy.AcceptedResults != nil { threshold = policy.AcceptedResults }",
+      "branch": "never-taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_OFF::665d25e41b6d": {
+      "class": "DEAD",
+      "snippet": "if (!declined || !relaxed) && cleanRowUnintercepted(ctx) { codes = appendCode(codes, CodeCleanRowUnintercepted) }",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_OFF::81b87fc5ef8c": {
+      "class": "DEAD",
+      "snippet": "if !containsToken(threshold, ctx.result) { codes = appendCode(codes, CodeResultNotAccepted) }",
+      "branch": "taken"
+    },
+    "admission.go::thresholdPolicyCodes::IF_OFF::c96c5340cc57": {
+      "class": "DEAD",
+      "snippet": "if !relaxed && !sameTokens(threshold, thresholdPass) { return []Code{CodeAcceptedResultsMalformed} }",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::CODE_OFF::554a592b56ae": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeEvidenceAgeExceeded)",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::CODE_OFF::f9a97a1683c2": {
+      "class": "DEAD",
+      "snippet": "appendCode(codes, CodeIssuanceLagExceeded)",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::1e855734a69c": {
+      "class": "DEAD",
+      "snippet": "now().Sub(at) > policy.MaxEvidenceAge",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::6d8f26cb5ce4": {
+      "class": "DEAD",
+      "snippet": "policy.MaxIssuanceLag <= 0",
+      "branch": "taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::7850e77d5342": {
+      "class": "DEAD",
+      "snippet": "ctx.issuedAt.Sub(at) > policy.MaxIssuanceLag",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::7ef49410fd6f": {
+      "class": "DEAD",
+      "snippet": "policy.MaxEvidenceAge <= 0",
+      "branch": "taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::abf4e68bf448": {
+      "class": "DEAD",
+      "snippet": "policy.MaxIssuanceLag > 0",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_CONJ::ef3d07f9f024": {
+      "class": "DEAD",
+      "snippet": "policy.MaxEvidenceAge > 0",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_OFF::31c7dbb77931": {
+      "class": "DEAD",
+      "snippet": "if len(armed) == 0 { return []Code{CodeObservedInstantAbsent} }",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_OFF::377518d24421": {
+      "class": "DEAD",
+      "snippet": "if policy.MaxEvidenceAge > 0 && now().Sub(at) > policy.MaxEvidenceAge { codes = appendCode(codes, CodeEvidenceAgeExceeded) }",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_OFF::8f53c110f17d": {
+      "class": "DEAD",
+      "snippet": "if policy.Now != nil { now = policy.Now }",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_OFF::b13d160e27a3": {
+      "class": "DEAD",
+      "snippet": "if policy.MaxIssuanceLag > 0 && ctx.issuedAt.Sub(at) > policy.MaxIssuanceLag { codes = appendCode(codes, CodeIssuanceLagExceeded) }",
+      "branch": "never-taken"
+    },
+    "admission.go::timePolicyCodes::IF_OFF::d3fd4c07cb3b": {
+      "class": "DEAD",
+      "snippet": "if policy.MaxIssuanceLag <= 0 && policy.MaxEvidenceAge <= 0 { return nil }",
+      "branch": "taken"
+    },
+    "admission.go::timePolicyCodes::LOOP_FIRST::4cb5c2372db1": {
+      "class": "DEAD",
+      "snippet": "for _, at := range armed { if policy.MaxIssuanceLag > 0 && ctx.issuedAt.Sub(at) > policy.MaxIssuanceLag { codes = appendCode(codes, CodeIssuanceLagExc...",
+      "branch": "never-taken"
+    },
+    "admission.go::unboundIn::IF_OFF::231a92374099": {
+      "class": "DEAD",
+      "snippet": "if json.Unmarshal(raw, &algs) != nil { continue }",
+      "branch": "never-taken"
+    },
+    "admission.go::unboundIn::IF_OFF::3f65b9598794": {
+      "class": "DEAD",
+      "snippet": "if name != \"digest\" { continue }",
+      "branch": "taken"
+    },
+    "admission.go::unboundIn::IF_OFF::7f889143f477": {
+      "class": "DEAD",
+      "snippet": "if alg != \"sha256\" { out = append(out, prefix+\".digest.\"+alg) }",
+      "branch": "never-taken"
+    },
+    "admission.go::unboundIn::IF_OFF::b146d015cca8": {
+      "class": "DEAD",
+      "snippet": "if !bound[name] { out = append(out, prefix+\".\"+name) continue }",
+      "branch": "taken"
+    },
+    "admission.go::verifiedArmedAt::IF_DISJ::3ae6a3e3c7b6": {
+      "class": "DEAD",
+      "snippet": "len(policy.SubstrateObservationKeys) == 0",
+      "branch": "taken"
+    },
+    "admission.go::verifiedArmedAt::IF_DISJ::68a1e560349b": {
+      "class": "DEAD",
+      "snippet": "!ok",
+      "branch": "never-taken"
+    },
+    "admission.go::verifiedArmedAt::IF_DISJ::ded23dc7ada6": {
+      "class": "KILLED",
+      "snippet": "policy == nil",
+      "killers": [
+        "v0099f25838779fcc",
+        "v02f2be8cd63828f4",
+        "v05e2e6ba0093d37a",
+        "v085acd94abf21364",
+        "v097ad0cc5b7c0490",
+        "v0a8a7826e4499ff6",
+        "v12389306fa02ce0c",
+        "v15e3a93a59a65391",
+        "v164cf7f3f529eaff",
+        "v18bdbadef67b38f4",
+        "v194265397248929b",
+        "v1b2d2d26efeb7835",
+        "v26db60a5d09ec82c",
+        "v36fe88ae1da31194",
+        "v393e5fb361cedaae",
+        "v3bf3c0fa0e6a52b3",
+        "v3fbc377adbe6dcf1",
+        "v4130b125a1c2d5b1",
+        "v44c5b469882b4a0e",
+        "v48542b44ffd26237",
+        "v4dfeab58a9cbdf24",
+        "v4f78835e75e8a400",
+        "v51e9223d08fcc4e1",
+        "v550c91df0d36a218",
+        "v5ec463cdbbe6dab5",
+        "v73244f2068e58c68",
+        "v7400cd757fd046e9",
+        "v774eb1ad06e94311",
+        "v79735e29bd3c1c55",
+        "v7d2a79cb1ddc59a5",
+        "v87d0a19d4b41aafc",
+        "v9383066da404cbda",
+        "v948fbb64b96197e6",
+        "v9a886701250e5a06",
+        "v9aa8ed2b3bfb4042",
+        "v9cc570167acf4ae8",
+        "va1881488724114fd",
+        "va4d6b048f2e9cc5f",
+        "va8ff24a38152fc31",
+        "vb2af33bb3cc0da77",
+        "vb835ee95031d6e97",
+        "vb9ffa071ee33678b",
+        "vba7081ad0eae11bf",
+        "vc2782e6c3cbdb9b7",
+        "vc7a74e2cef5586ed",
+        "vc8db427883cd80ea",
+        "vcc938c6038536dcb",
+        "vcebc3fca7e54f763",
+        "vcf20eae7df4f1f1b",
+        "vcf5a4601dee5c2ee",
+        "vd024efc41945fe54",
+        "vd1aa74416099f3f0",
+        "vd601fae914a58643",
+        "vda285efc96ac6e75",
+        "vdb34a3c9aca2ad5c",
+        "vdf9d432c5a63e441",
+        "vea21d85d4e531e66",
+        "vf1fcbad160189ca5",
+        "vf56664ac324b6613",
+        "vf720662dff34b8f5",
+        "vf88590533f7b3599",
+        "vfa152052ea49dfdb",
+        "vfcb846afff2d6979"
+      ]
+    },
+    "admission.go::verifiedArmedAt::IF_DISJ::eb5bcceeef8a": {
+      "class": "DEAD",
+      "snippet": "binding != ctx.binding",
+      "branch": "never-taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::001e1ca1f716": {
+      "class": "DEAD",
+      "snippet": "if binding, ok := objString(obj, memberRunBinding); !ok || binding != ctx.binding { continue }",
+      "branch": "never-taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::29b980c16926": {
+      "class": "KILLED",
+      "snippet": "if policy == nil || len(policy.SubstrateObservationKeys) == 0 { return nil }",
+      "killers": [
+        "v02f2be8cd63828f4",
+        "v05e2e6ba0093d37a",
+        "v085acd94abf21364",
+        "v097ad0cc5b7c0490",
+        "v0a8a7826e4499ff6",
+        "v12389306fa02ce0c",
+        "v164cf7f3f529eaff",
+        "v26db60a5d09ec82c",
+        "v393e5fb361cedaae",
+        "v3bf3c0fa0e6a52b3",
+        "v4130b125a1c2d5b1",
+        "v44c5b469882b4a0e",
+        "v4f78835e75e8a400",
+        "v5ec463cdbbe6dab5",
+        "v73244f2068e58c68",
+        "v774eb1ad06e94311",
+        "v79735e29bd3c1c55",
+        "v7d2a79cb1ddc59a5",
+        "v9a886701250e5a06",
+        "v9aa8ed2b3bfb4042",
+        "va1881488724114fd",
+        "va4d6b048f2e9cc5f",
+        "vb2af33bb3cc0da77",
+        "vb835ee95031d6e97",
+        "vcc938c6038536dcb",
+        "vcebc3fca7e54f763",
+        "vd024efc41945fe54",
+        "vdb34a3c9aca2ad5c",
+        "vdf9d432c5a63e441",
+        "vf1fcbad160189ca5",
+        "vf720662dff34b8f5",
+        "vfcb846afff2d6979"
+      ]
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::4d4de5c778e5": {
+      "class": "DEAD",
+      "snippet": "if !recordVerifies(&ctx.states[i], p.Records[i].Signatures, policy.SubstrateObservationKeys) { continue }",
+      "branch": "never-taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::53273959bc84": {
+      "class": "DEAD",
+      "snippet": "if at, err := parseTimestamp(raw); err == nil { out = append(out, at) }",
+      "branch": "taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::911388f89619": {
+      "class": "DEAD",
+      "snippet": "if kinds[i] != KindArming { continue }",
+      "branch": "taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::97faa7718dbd": {
+      "class": "DEAD",
+      "snippet": "if !ok { continue }",
+      "branch": "never-taken"
+    },
+    "admission.go::verifiedArmedAt::IF_OFF::ffe16b9389a8": {
+      "class": "DEAD",
+      "snippet": "if obj == nil { continue }",
+      "branch": "never-taken"
+    },
     "carried_base64.go::decodeCarriedBase64::IF_OFF::de396ae60e3c": {
       "class": "DEAD",
       "snippet": "if err != nil { return nil, err }",
@@ -19738,115 +20469,6 @@
       "class": "DEAD",
       "snippet": "if len(codes) > 0 { return nil, fmt.Errorf(\"statement fails GATE 0/1 or recompute: %s\", joinCodes(codes)) }",
       "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::CODE_OFF::623bf9178a14": {
-      "class": "DEAD",
-      "snippet": "appendCode(codes, CodeCorpusAnchorMismatch)",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::CODE_OFF::fe191acc5cf0": {
-      "class": "DEAD",
-      "snippet": "appendCode(codes, CodeSubstrateAnchorMismatch)",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_CONJ::293bc2736436": {
-      "class": "DEAD",
-      "snippet": "policy.ExpectedCorpusDigest != env.Corpus.Sha256()",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_CONJ::4d438b63a579": {
-      "class": "DEAD",
-      "snippet": "policy.ExpectedSubstrateDigest != env.Substrate.Sha256()",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_CONJ::4d7d35e1a95c": {
-      "class": "DEAD",
-      "snippet": "policy.ExpectedSubstrateDigest != \"\"",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_CONJ::5eb1458e9caa": {
-      "class": "DEAD",
-      "snippet": "policy.ExpectedCorpusDigest != \"\"",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_OFF::3aa43e8d34f2": {
-      "class": "DEAD",
-      "snippet": "if policy.ExpectedCorpusDigest != \"\" && policy.ExpectedCorpusDigest != env.Corpus.Sha256() { codes = appendCode(codes, CodeCorpusAnchorMismatch) }",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_OFF::e78236cd60ac": {
-      "class": "DEAD",
-      "snippet": "if policy.ExpectedSubstrateDigest != \"\" && policy.ExpectedSubstrateDigest != env.Substrate.Sha256() { codes = appendCode(codes, CodeSubstrateAnchorMis...",
-      "branch": "never-taken"
-    },
-    "verify.go::anchorPolicyCodes::IF_OFF::ed58b9be9c83": {
-      "class": "KILLED",
-      "snippet": "if policy == nil { return nil }",
-      "killers": [
-        "v0099f25838779fcc",
-        "v02f2be8cd63828f4",
-        "v05e2e6ba0093d37a",
-        "v085acd94abf21364",
-        "v097ad0cc5b7c0490",
-        "v0a8a7826e4499ff6",
-        "v12389306fa02ce0c",
-        "v15e3a93a59a65391",
-        "v164cf7f3f529eaff",
-        "v18bdbadef67b38f4",
-        "v194265397248929b",
-        "v1b2d2d26efeb7835",
-        "v26db60a5d09ec82c",
-        "v36fe88ae1da31194",
-        "v393e5fb361cedaae",
-        "v3bf3c0fa0e6a52b3",
-        "v3fbc377adbe6dcf1",
-        "v4130b125a1c2d5b1",
-        "v44c5b469882b4a0e",
-        "v48542b44ffd26237",
-        "v4dfeab58a9cbdf24",
-        "v4f78835e75e8a400",
-        "v51e9223d08fcc4e1",
-        "v550c91df0d36a218",
-        "v5ec463cdbbe6dab5",
-        "v73244f2068e58c68",
-        "v7400cd757fd046e9",
-        "v774eb1ad06e94311",
-        "v79735e29bd3c1c55",
-        "v7d2a79cb1ddc59a5",
-        "v87d0a19d4b41aafc",
-        "v9383066da404cbda",
-        "v948fbb64b96197e6",
-        "v9a886701250e5a06",
-        "v9aa8ed2b3bfb4042",
-        "v9cc570167acf4ae8",
-        "va1881488724114fd",
-        "va4d6b048f2e9cc5f",
-        "va8ff24a38152fc31",
-        "vb2af33bb3cc0da77",
-        "vb835ee95031d6e97",
-        "vb9ffa071ee33678b",
-        "vba7081ad0eae11bf",
-        "vc2782e6c3cbdb9b7",
-        "vc7a74e2cef5586ed",
-        "vc8db427883cd80ea",
-        "vcc938c6038536dcb",
-        "vcebc3fca7e54f763",
-        "vcf20eae7df4f1f1b",
-        "vcf5a4601dee5c2ee",
-        "vd024efc41945fe54",
-        "vd1aa74416099f3f0",
-        "vd601fae914a58643",
-        "vda285efc96ac6e75",
-        "vdb34a3c9aca2ad5c",
-        "vdf9d432c5a63e441",
-        "vea21d85d4e531e66",
-        "vf1fcbad160189ca5",
-        "vf56664ac324b6613",
-        "vf720662dff34b8f5",
-        "vf88590533f7b3599",
-        "vfa152052ea49dfdb",
-        "vfcb846afff2d6979"
-      ]
     },
     "verify.go::tierPolicySatisfied::IF_CONJ::5f631a2669e9": {
       "class": "DEAD",
