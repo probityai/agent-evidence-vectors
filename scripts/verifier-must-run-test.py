@@ -277,6 +277,33 @@ def case_action_summary(work: Path) -> list[str]:
             errors.append(f"action-summary {label}: result {got!r}, expected {want!r}")
     if summarise(work, None, "2").get("result") != "fail":
         errors.append("action-summary: no report and exit 2 did not read as fail")
+    # The source-coverage reader writes no `pass` or `reasonParityMismatch`
+    # total. Release v0.18.1 raised KeyError on such a report, so every Action
+    # run on that corpus failed after the verifier had passed every vector.
+    coverage = {
+        "rail": "external",
+        "suite": "source-text-coverage/v1",
+        "totals": {"vectors": 6, "fail": 0, "conform": 6, "suiteRefusals": 0},
+        "verifier": {"command": ["x"], "vectorsExecuted": 6},
+        "failures": [],
+    }
+    try:
+        coverage_out = summarise(work, coverage, "0")
+    except subprocess.CalledProcessError as exc:
+        errors.append(f"action-summary source coverage: exited {exc.returncode}: "
+                      f"{exc.stderr.decode(errors='replace').strip()[-300:]}")
+    else:
+        if coverage_out.get("result") != "pass" or coverage_out.get("executed") != "6":
+            errors.append(
+                f"action-summary source coverage: outputs {coverage_out!r}, expected pass on 6"
+            )
+    short = dict(coverage, verifier={"command": ["x"], "vectorsExecuted": 5},
+                 failures=["the verifier stopped before the last vector"])
+    try:
+        if summarise(work, short, "0").get("result") != "fail":
+            errors.append("action-summary source coverage: a short count did not read as fail")
+    except subprocess.CalledProcessError as exc:
+        errors.append(f"action-summary source coverage short count: exited {exc.returncode}")
     return errors
 
 
