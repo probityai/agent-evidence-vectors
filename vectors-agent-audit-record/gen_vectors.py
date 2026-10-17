@@ -52,6 +52,9 @@ PREDICATE_TYPE = (
 )
 PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/"
 DRAFT = "draft-gilda-wimse-agent-audit-record-02"
+#: The draft that replaces DRAFT. Its Section 5.4 is the one the corpus holds
+#: every member to, and the members only it defines carry it in draftDocument.
+SUCCESSOR = "draft-gilda-audit-agent-audit-record-00"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 ID_HEX = 16
@@ -130,6 +133,52 @@ def seal_commitment(pred: dict[str, Any]) -> None:
     commitment["commitmentDigest"] = commitment_digest(pred)
     signed = OBSERVER_KEY.sign(commitment["commitmentDigest"].encode("ascii"))
     commitment["sig"] = base64.b64encode(signed).decode()
+
+
+# ---------------------------------------------------------------------------
+# Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
+# Every entry carries input, lastResult and maxAge, and every age is measured
+# from lastResult to decision.reportedAt, 2026-09-19T11:04:02Z in every member
+# except FR15a; the skew tolerance is 300 seconds. The accept members carry the
+# inputs the draft's own example prints: a policy read at 10:00:00 under a
+# day's maximum and a standing value read at 11:00:00 under an hour's.
+# ---------------------------------------------------------------------------
+
+NEVER_HELD = "none"
+HOUR = 3600
+DAY = 86400
+
+
+def entry(name: str, last_result: str, max_age: int) -> dict[str, Any]:
+    return {"input": name, "lastResult": last_result, "maxAge": max_age}
+
+
+def baseline_inputs() -> list[dict[str, Any]]:
+    return [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+    ]
+
+
+#: A value read at 09:30:00 is 5642 seconds old at reportedAt, past an hour.
+STALE = "2026-09-19T09:30:00Z"
+
+
+def second_hop_inputs(standing_last_result: str) -> list[dict[str, Any]]:
+    """The inputs of a decision point that is the second of two hops.
+
+    It reads the policy and the key source itself and receives standing from the
+    first hop, so the standing entry carries the SOURCE's lastResult unchanged
+    and this hop's own maxAge. Nothing in the bytes says which entry was
+    forwarded: what the members fix is that the age runs from the carried
+    lastResult to this record's reportedAt, never from when the hop received it,
+    and never from issuedAt.
+    """
+    return [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("key-source", "2026-09-19T11:00:00Z", HOUR),
+        entry("standing-source", standing_last_result, HOUR),
+    ]
 
 
 def baseline() -> dict[str, Any]:
@@ -214,7 +263,7 @@ def baseline() -> dict[str, Any]:
             "that the reported decision is the decision the policy engine evaluated",
         ],
         "issuedAt": "2026-09-19T11:04:11Z",
-        "evaluation": {"status": "evaluated"},
+        "evaluation": {"status": "evaluated", "inputs": baseline_inputs()},
     }
     request = request_digest(pred)
     pred["decision"]["requestDigest"] = request
@@ -289,6 +338,7 @@ def member(
     tier: str | None = None,
     readings: list[dict[str, str]] | None = None,
     section: str | None = None,
+    document: str | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -312,6 +362,7 @@ def member(
             "tier": tier,
             "readings": readings,
             "section": section,
+            "document": document,
         }
     )
 
@@ -428,7 +479,14 @@ def build_a10() -> Built:
     because its standing source was unavailable, and enforced a deny. Under -01
     this record and A2 were the same record."""
     pred = from_pred("A2")
-    pred["evaluation"] = {"status": "not-evaluated", "unavailableInput": ["standing-source"]}
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", STALE, HOUR),
+        ],
+        "unavailableInput": ["standing-source"],
+    }
     return accept("A10", pred)
 
 
@@ -447,12 +505,87 @@ def build_a11() -> Built:
 
 
 def _unavailable(name: str, inputs: list[str]) -> Callable[[], Built]:
+    """A10 with ``inputs`` unavailable: each named input's entry is stale and
+    every other entry fresh, so the set a verifier derives is the named one."""
+
     def build() -> Built:
         pred = from_pred("A10")
+        standing = STALE if "standing-source" in inputs else "2026-09-19T11:00:00Z"
+        pred["evaluation"]["inputs"] = [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", standing, HOUR),
+        ] + [entry(n, STALE, HOUR) for n in ("key-source", "consumption-state") if n in inputs]
         pred["evaluation"]["unavailableInput"] = inputs
         return accept(name, pred)
 
     return build
+
+
+# --- freshness members (Section 5.4, rows FR1 to FR15) -----------------------
+
+
+def _with_inputs(parent: str, name: str, entries: list[dict[str, Any]]) -> Callable[[], Built]:
+    def build() -> Built:
+        pred = from_pred(parent)
+        pred["evaluation"]["inputs"] = entries
+        return accept(name, pred)
+
+    return build
+
+
+def _entry_change(
+    index: int, change: Callable[[dict[str, Any]], None]
+) -> Callable[[dict[str, Any]], None]:
+    def apply(pred: dict[str, Any]) -> None:
+        change(pred["evaluation"]["inputs"][index])
+
+    return apply
+
+
+#: Indices into second_hop_inputs.
+KEY_ENTRY, STANDING_ENTRY = 1, 2
+
+
+def build_fr15a() -> Built:
+    """The first hop: it reads standing from its source at 10:00:00 and applies
+    a two-hour maximum, so at its reportedAt of 11:04:00 the value is 3840
+    seconds old and fresh."""
+    pred = baseline()
+    pred["decision"]["decisionPointId"] = "pdp://prod.example.org/gateway-1"
+    pred["decision"]["reportedAt"] = "2026-09-19T11:04:00Z"
+    pred["evaluation"]["inputs"] = [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("standing-source", "2026-09-19T10:00:00Z", 2 * HOUR),
+    ]
+    return accept("FR15a", pred)
+
+
+def build_fr15b() -> Built:
+    """The second hop: it copies the source's lastResult of 10:00:00 unchanged
+    and applies its own one-hour maximum, so at its reportedAt of 11:04:02 the
+    same value is 3842 seconds old and stale. It could not evaluate, and it
+    denied."""
+    pred = from_pred("A10")
+    pred["evaluation"]["inputs"] = [
+        entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+        entry("standing-source", "2026-09-19T10:00:00Z", HOUR),
+    ]
+    return accept("FR15b", pred)
+
+
+def _fr13b(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["inputs"][KEY_ENTRY]["maxAge"] = -1
+    pred["evaluation"]["unavailableInput"] = ["key-source", "standing-source"]
+
+
+def _ev14(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["status"] = "not-evaluated"
+    pred["evaluation"]["unavailableInput"] = []
+
+
+def _fr15c(pred: dict[str, Any]) -> None:
+    pred["evaluation"]["status"] = "evaluated"
+    del pred["evaluation"]["unavailableInput"]
 
 
 def _oversight(name: str, act: str, *, record_digest: bool = True) -> Callable[[], Built]:
@@ -1271,6 +1404,247 @@ def define() -> None:
     for draft_id, slug, parent, section, row, build, code in section_rejects:
         member(draft_id, slug, parent, row, build, "malformed", [code], section=section)
 
+    define_freshness()
+
+
+def define_freshness() -> None:
+    """Section 5.4 as draft-gilda-audit-agent-audit-record-00 states it: every
+    entry of evaluation.inputs, its age from lastResult to decision.reportedAt,
+    and the unavailable inputs a verifier derives from the entries. FR1 to FR13
+    and EV13 are rows of that draft's Appendix B. FR14 and FR15a to FR15c are
+    for its next revision: FR14 refuses a record with no reportedAt, the time
+    every age is measured to, FR15 is one forwarded value judged at two hops
+    that each apply their own maxAge, and FR16 holds the skew tolerance FR9
+    refuses past, so a verifier allowing no skew at all is caught."""
+    fresh = second_hop_inputs("2026-09-19T10:30:00Z")
+    accepts: list[tuple[str, str, str, Callable[[], Built]]] = [
+        (
+            "FR1",
+            "fr1-second-hop-every-input-fresh",
+            "A1 written by the second of two hops: each input fresh at decision.reportedAt, "
+            "standing-source carried from the first hop with the source's lastResult unchanged",
+            _with_inputs("A1", "FR1", fresh),
+        ),
+        (
+            "FR2",
+            "fr2-age-equal-to-max-age-is-fresh",
+            "FR1 with standing-source's age at decision.reportedAt exactly equal to its "
+            "maxAge, 3600 seconds, so the input is fresh",
+            _with_inputs("A1", "FR2", second_hop_inputs("2026-09-19T10:04:02Z")),
+        ),
+        (
+            "FR3",
+            "fr3-forwarded-standing-one-second-stale",
+            "A10 written by the second of two hops, the forwarded standing-source one second "
+            "older than its maxAge",
+            _with_inputs("A10", "FR3", second_hop_inputs("2026-09-19T10:04:01Z")),
+        ),
+        (
+            "FR4",
+            "fr4-forwarded-standing-never-established",
+            "A10 written by the second of two hops, which received standing-source as never "
+            "established, lastResult of none",
+            _with_inputs("A10", "FR4", second_hop_inputs(NEVER_HELD)),
+        ),
+    ]
+    for draft_id, slug, row, build in accepts:
+        member(draft_id, slug, None, row, build, "valid", tier="authoritative", document=SUCCESSOR)
+
+    rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "FR5",
+            "fr5-entry-without-last-result",
+            "FR1",
+            "an entry with lastResult removed",
+            mutate("FR1", _entry_change(STANDING_ENTRY, lambda e: e.pop("lastResult"))),
+            "member-missing",
+        ),
+        (
+            "FR6",
+            "fr6-entry-without-max-age",
+            "FR1",
+            "an entry with maxAge removed",
+            mutate("FR1", _entry_change(STANDING_ENTRY, lambda e: e.pop("maxAge"))),
+            "member-missing",
+        ),
+        (
+            "FR7",
+            "fr7-unavailable-input-names-a-fresh-entry",
+            "FR3",
+            "unavailableInput naming key-source, whose entry is fresh, in place of standing-source",
+            mutate("FR3", _set("evaluation.unavailableInput", ["key-source"])),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR8",
+            "fr8-evaluated-beside-a-stale-entry",
+            "FR1",
+            "evaluated beside an entry one second older than its maxAge",
+            mutate(
+                "FR1",
+                _entry_change(
+                    STANDING_ENTRY, lambda e: e.update(lastResult="2026-09-19T10:04:01Z")
+                ),
+            ),
+            "evaluation-inconsistent",
+        ),
+        (
+            "FR9",
+            "fr9-last-result-after-the-decision",
+            "FR1",
+            "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more "
+            "than the skew tolerance",
+            mutate(
+                "FR1",
+                _entry_change(KEY_ENTRY, lambda e: e.update(lastResult="2026-09-19T11:09:03Z")),
+            ),
+            "evaluation-result-after-decision",
+        ),
+        (
+            "FR10",
+            "fr10-one-input-in-two-entries",
+            "FR1",
+            "one input named in two entries",
+            mutate(
+                "FR1",
+                lambda p: p["evaluation"]["inputs"].append(
+                    dict(p["evaluation"]["inputs"][KEY_ENTRY])
+                ),
+            ),
+            "evaluation-input-repeated",
+        ),
+        (
+            "FR11",
+            "fr11-entry-with-a-fourth-member",
+            "FR1",
+            "an entry carrying a fourth member, source, this document does not define",
+            mutate(
+                "FR1",
+                _entry_change(
+                    KEY_ENTRY, lambda e: e.update(source="https://keys.example.org/jwks")
+                ),
+            ),
+            "evaluation-entry-malformed",
+        ),
+        (
+            "FR12",
+            "fr12-entry-input-outside-closed-set",
+            "FR1",
+            "an entry whose input is network, outside the closed set",
+            mutate("FR1", _entry_change(KEY_ENTRY, lambda e: e.update(input="network"))),
+            "value-outside-vocabulary",
+        ),
+        (
+            "FR13",
+            "fr13-entry-with-negative-max-age",
+            "FR1",
+            "an entry with a negative maxAge",
+            mutate("FR1", _entry_change(KEY_ENTRY, lambda e: e.update(maxAge=-1))),
+            "evaluation-entry-malformed",
+        ),
+        (
+            "FR13b",
+            "fr13b-negative-max-age-named-unavailable",
+            "FR3",
+            "FR3 with key-source's maxAge of -1 and unavailableInput naming key-source and "
+            "standing-source: the entry a negative maxAge makes stale is named, so only the "
+            "sign of maxAge refuses the record",
+            mutate("FR3", _fr13b),
+            "evaluation-entry-malformed",
+        ),
+        (
+            "EV13",
+            "ev13-evaluation-inputs-removed",
+            "A1",
+            "evaluation.inputs removed, the shape of a record under "
+            "draft-gilda-wimse-agent-audit-record-02",
+            mutate("A1", _drop("evaluation.inputs")),
+            "member-missing",
+        ),
+        (
+            "EV14",
+            "ev14-not-evaluated-all-fresh-empty-unavailable-input",
+            "A2",
+            "A2 recorded as not-evaluated with every entry fresh and unavailableInput of the "
+            "empty array: it matches the empty derived set, so only the rule that "
+            "not-evaluated names at least one input refuses it",
+            mutate("A2", _ev14),
+            "evaluation-inconsistent",
+        ),
+    ]
+    for draft_id, slug, parent, row, build, code in rejects:
+        member(draft_id, slug, parent, row, build, "malformed", [code], document=SUCCESSOR)
+
+    member(
+        "FR14",
+        "fr14-no-decision-reported-at",
+        "FR1",
+        "FR1 with decision.reportedAt removed: no reference time to measure any input's age to",
+        mutate("FR1", _drop("decision.reportedAt")),
+        "malformed",
+        ["member-missing"],
+        section="5.4",
+        document=SUCCESSOR,
+    )
+    member(
+        "FR16",
+        "fr16-last-result-inside-skew-tolerance",
+        None,
+        "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the "
+        "skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+        _with_inputs(
+            "A1",
+            "FR16",
+            [
+                entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+                entry("key-source", "2026-09-19T11:09:02Z", HOUR),
+                entry("standing-source", "2026-09-19T10:30:00Z", HOUR),
+            ],
+        ),
+        "valid",
+        tier="authoritative",
+        section="5.4",
+        document=SUCCESSOR,
+    )
+    member(
+        "FR15a",
+        "fr15a-first-hop-two-hour-max-age-fresh",
+        None,
+        "the first of two hops: standing-source read from its source at 10:00:00 under the "
+        "hop's own maxAge of 7200, 3840 seconds old at its reportedAt of 11:04:00, fresh, "
+        "evaluated",
+        build_fr15a,
+        "valid",
+        tier="authoritative",
+        section="5.4",
+        document=SUCCESSOR,
+    )
+    member(
+        "FR15b",
+        "fr15b-second-hop-one-hour-max-age-stale",
+        None,
+        "the second hop, receiving FR15a's standing-source: the source's lastResult of "
+        "10:00:00 copied unchanged under this hop's own maxAge of 3600, 3842 seconds old at "
+        "11:04:02, stale, not-evaluated naming standing-source, deny beside none",
+        build_fr15b,
+        "valid",
+        tier="authoritative",
+        section="5.4",
+        document=SUCCESSOR,
+    )
+    member(
+        "FR15c",
+        "fr15c-second-hop-carries-first-hops-verdict",
+        "FR15b",
+        "FR15b recorded as evaluated, the first hop's verdict carried over in place of this "
+        "hop's own maxAge",
+        mutate("FR15b", _fr15c),
+        "malformed",
+        ["evaluation-inconsistent"],
+        section="5.4",
+        document=SUCCESSOR,
+    )
+
 
 def expected_of(entry: Member) -> dict[str, Any]:
     """The manifest's expected block: a settled row's verdict, never an open row's."""
@@ -1284,6 +1658,21 @@ def expected_of(entry: Member) -> dict[str, Any]:
 
 def vector_id(body: bytes) -> str:
     return "v" + hashlib.sha256(body).hexdigest()[:ID_HEX]
+
+
+def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
+    """The manifest fields only some members carry."""
+    out: dict[str, Any] = {}
+    if entry["parent"] is not None:
+        out["parent"] = ids[entry["parent"]]
+        out["parentDraftId"] = entry["parent"]
+    if entry["readings"] is not None:
+        out["readings"] = entry["readings"]
+    if entry["section"] is not None:
+        out["draftSection"] = entry["section"]
+    if entry["document"] is not None:
+        out["draftDocument"] = entry["document"]
+    return out
 
 
 def emit() -> None:
@@ -1317,13 +1706,7 @@ def emit() -> None:
             "row": entry["row"],
             "expected": expected_of(entry),
         }
-        if entry["parent"] is not None:
-            out["parent"] = ids[entry["parent"]]
-            out["parentDraftId"] = entry["parent"]
-        if entry["readings"] is not None:
-            out["readings"] = entry["readings"]
-        if entry["section"] is not None:
-            out["draftSection"] = entry["section"]
+        out.update(optional_fields(entry, ids))
         vectors.append(out)
 
     for stale in sorted(os.listdir(statements_dir)):
@@ -1402,6 +1785,8 @@ def write_index(manifest: dict[str, Any]) -> None:
         else:
             verdict = v["expected"]["verdict"]
         source = f"Section {v['draftSection']}" if "draftSection" in v else "Appendix B"
+        if "draftDocument" in v:
+            source = f"{v['draftDocument']} {source}"
         lines.append(
             f"| `{v['draftId']}` | {source} | {parent} | {verdict} | "
             f"[`{v['id']}`]({v['file']}) | {v['row']} |"

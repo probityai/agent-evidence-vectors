@@ -9,7 +9,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -19,7 +21,10 @@ import (
 func init() { register(auditRecord{}) }
 
 // auditRecord judges vectors-agent-audit-record/, the conformance corpus of
-// Appendix B of draft-gilda-wimse-agent-audit-record-02.
+// Appendix B of draft-gilda-wimse-agent-audit-record-02. Section 5.4 is read as
+// its successor, draft-gilda-audit-agent-audit-record-00, states it: every
+// evaluation carries inputs, each entry's age runs from lastResult to
+// decision.reportedAt, and the unavailable inputs are derived from the entries.
 //
 // It is the Go rail over that corpus, restated from the draft rather than
 // imported from the Python reader at packaging/agent_evidence_vectors/
@@ -77,10 +82,26 @@ var arVocabularies = []struct {
 	{"oversight.act", []string{"observation", "check", "decision", "release"}},
 }
 
-// arUnavailableInputs is the closed set an evaluation that did not happen
-// names its missing inputs from: the standing source, the key source and the
-// consumption state a verifier reads before it can decide.
-var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state"}
+// arEvaluationInputs is the closed set an evaluation entry names its input
+// from: the standing source, the key source, the consumption state and the
+// policy source (Table 3 of the successor draft).
+var arEvaluationInputs = []string{"standing-source", "key-source", "consumption-state", "policy-source"}
+
+// arUnavailableInputs is the set an evaluation that did not happen names its
+// missing inputs from. It is the same table, under its own name so a test can
+// narrow one without the other.
+var arUnavailableInputs = []string{"standing-source", "key-source", "consumption-state", "policy-source"}
+
+// arEntryMembers are the three members an evaluation entry carries, each
+// required, and no other.
+var arEntryMembers = []string{"input", "lastResult", "maxAge"}
+
+const (
+	// arNeverHeld is the lastResult of an input the decision point never held.
+	arNeverHeld = "none"
+	// arSkewTolerance bounds every comparison between times two parties wrote.
+	arSkewTolerance = 300 * time.Second
+)
 
 // arOversightMembers are the only members an oversight object may carry.
 var arOversightMembers = []string{"act", "recordDigest"}
@@ -113,7 +134,7 @@ var arNestedMembers = []struct {
 	{"posture", []string{"reported", "reportedDigest", "observed", "observedDigest", "assessedAt", "agreement"}},
 	{"observation", []string{"vantage", "coverage"}},
 	{"observation.coverage", []string{"scopeComplete", "gaps"}},
-	{"evaluation", []string{"status"}},
+	{"evaluation", []string{"status", "inputs"}},
 }
 
 var (
@@ -517,16 +538,104 @@ func arRuleVocabularies(s *arState) error {
 	return nil
 }
 
-// arRuleEvaluation holds the evaluation member to its two shapes. An evaluated
-// decision names no unavailable input; a decision that could not be evaluated
-// names at least one, each once, from the closed set. The reported decision and
-// the agreement table are not read here: a verifier that could not evaluate
-// still reports what it enforced, and this member says why.
+// arMaxAge reads an entry's maxAge: a non-negative integer, never a string,
+// a fraction or a negative number.
+func arMaxAge(value any) (int64, bool) {
+	number, ok := value.(json.Number)
+	if !ok {
+		return 0, false
+	}
+	parsed, err := strconv.ParseInt(number.String(), 10, 64)
+	if err != nil || parsed < 0 {
+		return 0, false
+	}
+	return parsed, true
+}
+
+// arEntryUnavailable says whether one entry is stale or never established at
+// reportedAt. An age equal to maxAge is fresh, and a lastResult later than
+// reportedAt by more than the skew tolerance is malformed.
+func arEntryUnavailable(entry map[string]any, maxAge int64, reportedAt time.Time) (bool, error) {
+	last, _ := entry["lastResult"].(string)
+	if last == arNeverHeld {
+		return true, nil
+	}
+	produced, err := arInstant(last)
+	if err != nil {
+		return false, err
+	}
+	if produced.Sub(reportedAt) > arSkewTolerance {
+		return false, arRefuse("evaluation-result-after-decision")
+	}
+	if maxAge > math.MaxInt64/int64(time.Second) {
+		return false, nil // no age a Duration can hold exceeds it
+	}
+	return reportedAt.Sub(produced) > time.Duration(maxAge)*time.Second, nil
+}
+
+// arDeriveUnavailable holds every evaluation entry to its shape and returns
+// the inputs that are stale or were never established, in entry order.
+func arDeriveUnavailable(pred map[string]any) ([]string, error) {
+	entries, ok := arAt(pred, "evaluation.inputs")
+	list, isList := entries.([]any)
+	if !ok || !isList {
+		return nil, arRefuse("evaluation-entry-malformed")
+	}
+	reportedAt, err := arInstant(arStr(pred, "decision.reportedAt"))
+	if err != nil {
+		return nil, err
+	}
+	seen := map[string]bool{}
+	var unavailable []string
+	for _, item := range list {
+		entry, isObject := item.(map[string]any)
+		if !isObject {
+			return nil, arRefuse("evaluation-entry-malformed")
+		}
+		if !arHasAll(entry, arEntryMembers) {
+			return nil, arRefuse("member-missing")
+		}
+		if len(entry) != len(arEntryMembers) {
+			return nil, arRefuse("evaluation-entry-malformed")
+		}
+		name, _ := entry["input"].(string)
+		if !arContains(arEvaluationInputs, name) {
+			return nil, arRefuse("value-outside-vocabulary")
+		}
+		maxAge, valid := arMaxAge(entry["maxAge"])
+		if !valid {
+			return nil, arRefuse("evaluation-entry-malformed")
+		}
+		if seen[name] {
+			return nil, arRefuse("evaluation-input-repeated")
+		}
+		seen[name] = true
+		stale, err := arEntryUnavailable(entry, maxAge, reportedAt)
+		if err != nil {
+			return nil, err
+		}
+		if stale {
+			unavailable = append(unavailable, name)
+		}
+	}
+	return unavailable, nil
+}
+
+// arRuleEvaluation derives the unavailable inputs from the entries. An
+// evaluated decision derives none and names none; a decision that could not
+// be evaluated names the derived set, each input once and no other. The
+// reported decision and the agreement table are not read here: a verifier
+// that could not evaluate still reports what it enforced, and this member
+// says why.
 func arRuleEvaluation(s *arState) error {
+	derived, err := arDeriveUnavailable(s.pred)
+	if err != nil {
+		return err
+	}
 	evaluation := arObj(s.pred, "evaluation")
 	raw, carried := evaluation["unavailableInput"]
 	if evaluation["status"] == "evaluated" {
-		if carried {
+		if carried || len(derived) > 0 {
 			return arRefuse("evaluation-inconsistent")
 		}
 		return nil
@@ -545,6 +654,14 @@ func arRuleEvaluation(s *arState) error {
 			return arRefuse("evaluation-inconsistent")
 		}
 		seen[text] = true
+	}
+	if len(seen) != len(derived) {
+		return arRefuse("evaluation-inconsistent")
+	}
+	for _, name := range derived {
+		if !seen[name] {
+			return arRefuse("evaluation-inconsistent")
+		}
 	}
 	return nil
 }

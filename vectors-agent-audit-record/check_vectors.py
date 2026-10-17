@@ -36,6 +36,8 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import dataclasses
+import datetime
 import json
 import os
 import sys
@@ -137,24 +139,74 @@ def _mutation_sweep(manifest: dict[str, object]) -> tuple[list[str], list[str]]:
 Rule = Callable[[Any], None]
 
 
+@dataclasses.dataclass(frozen=True)
+class _Freshness:
+    """The freshness sentences of Section 5.4 as a reader might take them."""
+
+    reference: str = "reportedAt"
+    inclusive: bool = True
+    skew: datetime.timedelta | None = auditrecord.SKEW_TOLERANCE
+    never_held_unavailable: bool = True
+    refuse_negative: bool = True
+    refuse_extra: bool = True
+    refuse_repeat: bool = True
+
+    def shape(self, entry: dict[str, Any], seen: set[str]) -> None:
+        if self.refuse_extra and set(entry) - auditrecord.ENTRY_MEMBERS:
+            raise auditrecord.Malformed("evaluation-entry-malformed")
+        if entry["input"] not in auditrecord.EVALUATION_INPUTS:
+            raise auditrecord.Malformed("value-outside-vocabulary")
+        if self.refuse_negative and entry["maxAge"] < 0:
+            raise auditrecord.Malformed("evaluation-entry-malformed")
+        if self.refuse_repeat and entry["input"] in seen:
+            raise auditrecord.Malformed("evaluation-input-repeated")
+        seen.add(entry["input"])
+
+    def unavailable(self, entry: dict[str, Any], reported_at: datetime.datetime) -> bool:
+        if entry["lastResult"] == auditrecord.NEVER_HELD:
+            return self.never_held_unavailable
+        produced = auditrecord._instant(entry["lastResult"])
+        if self.skew is not None and produced - reported_at > self.skew:
+            raise auditrecord.Malformed("evaluation-result-after-decision")
+        age = (reported_at - produced).total_seconds()
+        return age > entry["maxAge"] or (not self.inclusive and age == entry["maxAge"])
+
+    def derive(self, pred: dict[str, Any]) -> list[str]:
+        moment = (
+            pred["issuedAt"] if self.reference == "issuedAt" else pred["decision"]["reportedAt"]
+        )
+        reported_at = auditrecord._instant(moment)
+        seen: set[str] = set()
+        out: list[str] = []
+        for entry in pred["evaluation"]["inputs"]:
+            self.shape(entry, seen)
+            if self.unavailable(entry, reported_at):
+                out.append(entry["input"])
+        return out
+
+
 def _evaluation_reading(
     *,
     refuse_empty: bool = True,
     refuse_repeat: bool = True,
     wrap_string: bool = False,
     evaluated_by_truth: bool = False,
+    evaluated_by_entries: bool = True,
+    match_entries: bool = True,
+    derive: Callable[[dict[str, Any]], list[str]] | None = None,
 ) -> Rule:
     """Section 5.4 as a reader might take it, one sentence at a time."""
 
     def rule(state: Any) -> None:
         evaluation = state.predicate["evaluation"]
+        derived = (derive or auditrecord.derive_unavailable)(state.predicate)
         if evaluation["status"] == "evaluated":
             carried = (
                 bool(evaluation.get("unavailableInput"))
                 if evaluated_by_truth
                 else "unavailableInput" in evaluation
             )
-            if carried:
+            if carried or (evaluated_by_entries and derived):
                 raise auditrecord.Malformed("evaluation-inconsistent")
             return
         inputs = evaluation.get("unavailableInput")
@@ -167,8 +219,14 @@ def _evaluation_reading(
                 raise auditrecord.Malformed("value-outside-vocabulary")
         if refuse_repeat and len(set(inputs)) != len(inputs):
             raise auditrecord.Malformed("evaluation-inconsistent")
+        if match_entries and set(inputs) != set(derived):
+            raise auditrecord.Malformed("evaluation-inconsistent")
 
     return rule
+
+
+def _freshness(**knobs: Any) -> contextlib.AbstractContextManager[None]:
+    return _swapped_rule("evaluation", _evaluation_reading(derive=_Freshness(**knobs).derive))
 
 
 def _oversight_reading(*, act_required: bool = True, digest_required: bool = False) -> Rule:
@@ -234,7 +292,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "an empty unavailableInput accepted",
         lambda: _swapped_rule("evaluation", _evaluation_reading(refuse_empty=False)),
-        "EV5",
+        "EV14",
     ),
     (
         "a repeated unavailableInput accepted",
@@ -250,6 +308,56 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "evaluated refusing only a non-empty unavailableInput",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_truth=True)),
         "EV8,EV9,EV10",
+    ),
+    (
+        "an age measured to issuedAt rather than decision.reportedAt",
+        lambda: _freshness(reference="issuedAt"),
+        "FR2,FR9",
+    ),
+    (
+        "an age equal to maxAge read as stale",
+        lambda: _freshness(inclusive=False),
+        "FR2",
+    ),
+    (
+        "a lastResult after decision.reportedAt accepted however late",
+        lambda: _freshness(skew=None),
+        "FR9",
+    ),
+    (
+        "a lastResult after decision.reportedAt refused with no skew tolerance",
+        lambda: _freshness(skew=datetime.timedelta(0)),
+        "FR16",
+    ),
+    (
+        "a lastResult of none read as fresh",
+        lambda: _freshness(never_held_unavailable=False),
+        "FR4",
+    ),
+    (
+        "a negative maxAge accepted",
+        lambda: _freshness(refuse_negative=False),
+        "FR13b",
+    ),
+    (
+        "an entry member the draft does not define accepted",
+        lambda: _freshness(refuse_extra=False),
+        "FR11",
+    ),
+    (
+        "one input named in two entries accepted",
+        lambda: _freshness(refuse_repeat=False),
+        "FR10",
+    ),
+    (
+        "unavailableInput not matched against the entries",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(match_entries=False)),
+        "FR7",
+    ),
+    (
+        "evaluated not checked against the entries",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
+        "FR8,FR15c",
     ),
     (
         "oversight without act accepted",

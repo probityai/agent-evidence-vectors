@@ -176,7 +176,7 @@ CASES: list[Case] = [
         "a verdict pinned on an open member is refused",
         pin_n1,
         1,
-        ("vectors-agent-audit-record", "vbdf904629383722b", "['indeterminate', 'valid']"),
+        ("vectors-agent-audit-record", "vc29dbb6d741e7b8f", "['indeterminate', 'valid']"),
     ),
     (
         "pinning the reference reader's own reading is refused too",
