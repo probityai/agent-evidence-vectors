@@ -120,8 +120,12 @@ identifier linked to two new ones (an ambiguous successor) are both refused with
 ## What these cases do not test
 
 Scope narrowing between hops, grant expiry, and whether a grant's issuer was
-still active when it signed are out of scope here; the authority-at-dispatch
-cases of AAIF Identity and Trust issue 13 cover scope and expiry.
+still active when it signed are out of scope here. Scope and expiry are
+covered by [vectors-authority-at-dispatch](../vectors-authority-at-dispatch/README.md),
+the authority-at-dispatch cases of AAIF Identity and Trust issue 13, which
+judge one dispatch against its delegation chain and share this corpus's
+revocation time rule and its `grant_revoked` refusal. Whether an issuer was
+still active when it signed is tested in neither corpus.
 
 ## Keys
 

@@ -165,6 +165,8 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-source-coverage": _recompute_from_generator,
     "vectors-anchored-chain": _recompute_from_generator,
     "vectors-receipt-chain-end": _recompute_from_generator,
+    "vectors-identity-binding": _recompute_from_generator,
+    "vectors-authority-at-dispatch": _recompute_from_generator,
     "vectors-trace-anchor": _recompute_from_generator,
     "vectors-grade-floor": _recompute_from_generator,
     "vectors-agent-change-admission": _recompute_from_generator,

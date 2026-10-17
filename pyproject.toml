@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.18.1"
+version = "0.19.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -97,6 +97,8 @@ only-include = [
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
     "vectors-receipt-chain-end",
+    "vectors-identity-binding",
+    "vectors-authority-at-dispatch",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -137,6 +139,8 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
 "vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
+"vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
+"vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -207,6 +211,8 @@ only-include = [
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
     "vectors-receipt-chain-end",
+    "vectors-identity-binding",
+    "vectors-authority-at-dispatch",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -296,6 +302,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
+           "vectors-identity-binding", "vectors-authority-at-dispatch",
            "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]
 
