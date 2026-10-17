@@ -2,8 +2,9 @@
 
 Negative conformance vectors for the mandatory profile of the OWASP Agent
 Control Standard, read from `GenAI-Security-Project/agent-control-standard` at
-three commits: `9d4a9da` on `main`, the head of the release/0.1.4 pull request
-(`7efa539`), and the head of pull request 272 (`f2304bf`). The normative files
+four commits and one issue: `9d4a9da` on `main`, the head of the release/0.1.4
+pull request (`7efa539`), the heads of pull requests 272 (`f2304bf`) and 278
+(`7d9b7ff`), and the body of issue 264. The normative files
 the vectors cite are vendored in `spec-vendored/`, pinned by sha256 in
 `MANIFEST.json`, and each `specVendored` entry names the commit and the
 upstream path its bytes came from and whether they are upstream's or a
@@ -105,10 +106,10 @@ separate them scores a deployment on what it says about itself.
 | `INDEX.md` | every requirement and every member in one table |
 | `gen_vectors.py` | regenerates the corpus byte-identically |
 
-## The October text: release 0.1.4, pull request 272 and issue 264
+## The October text: release 0.1.4, pull requests 272 and 278, and issue 264
 
-Families `acs-f-12` to `acs-f-17` are minted from text that landed, or was
-proposed, between 2026-10-12 and 2026-10-15. Each member carries a
+Families `acs-f-12` to `acs-f-19` are minted from text that landed, or was
+proposed, between 2026-10-12 and 2026-10-16. Each member carries a
 `doesNotAssert` line beside its verdict, because an accepting member read as
 evidence of more than the one property it turns on is the error a corpus like
 this one invites.
@@ -146,16 +147,36 @@ Family `acs-f-14` holds the `request_id_ref` rule from `hooks.md`: a reference
 the Guardian cannot resolve within the session is recorded whatever the
 decision, and the decision stays the deployment's policy.
 
-**Issue 264.** An open proposal with no specification text of its own, so
-nothing is minted from it. Family `acs-f-12` reads sections 6.3 and 6.5 at the
-release pin, where the substitution the issue is about is already required: a
-MODIFY the Observed Agent cannot apply becomes DENY, or keeps the original
-summary at `postCompact`, and an audit event records it. The members cover a
-substitution recorded correctly, one omitted, and one whose record claims a
-modification that never happened, which is the harm section 6.5 names. The
-Trace form the issue proposes, `acs.decision.substituted`, waits in
-`awaitingText`, and one indeterminate member records that a reader holding only
-the trace cannot tell an applied MODIFY from a substituted one.
+**Pull request 278.** Open and unmerged at its pinned head, so family
+`acs-f-18` tests a proposal. It reads the allow row and rule the pull request
+adds to `events.md`, and the `required_fields` default it adds to
+`ocsf-mapping.json`, which is vendored beside it. An allow goes to class 6002,
+Application Lifecycle, at severity 1, carries the disposition in
+`unmapped.acs.decision`, and sets `correlation_uid` to the step's pair. The
+rejecting members caption the class Application Activity, which is its category,
+raise the severity, drop the disposition or the request id, or reverse the pair.
+The opt-in that records allows as Detection Findings has an accepting member and
+one that breaks the decision event's `is_alert` rule. The `activity_id` of a 6002
+allow is left open by the pull request, so no member turns on it.
+
+**Issue 264.** An open proposal with no specification text of its own. Family
+`acs-f-12` reads sections 6.3 and 6.5 at the release pin, where the substitution
+the issue is about is already required: a MODIFY the Observed Agent cannot apply
+becomes DENY, or keeps the original summary at `postCompact`, and an audit event
+records it. The members cover a substitution recorded correctly, one omitted, and
+one whose record claims a modification that never happened, which is the harm
+section 6.5 names. One indeterminate member there records that a reader holding
+only a trace at the release pin cannot tell an applied MODIFY from a substituted
+one.
+
+Family `acs-f-19` takes the Trace form the issue proposes, from the issue body
+itself. The body is vendored and pinned by its sha256, because an issue has no
+commit, and the manifest records the edit time it was read at. The members hold
+the event `acs.decision.substituted` on the Observed Agent's step span, the same
+event with no applied outcome, and the event on the Guardian's span, which only
+the Observed Agent can see. They hold the reader rule both ways, and a same
+request id in another session, which a join on session and request together
+keeps apart. When the Trace text lands, these members are minted again from it.
 
 A requirement quoting a sentence that runs on past a section sign is quoted as
 ASCII fragments, because the Go reader hashes only ASCII and a digest it cannot
