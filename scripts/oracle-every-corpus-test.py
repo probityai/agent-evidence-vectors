@@ -75,6 +75,7 @@ REFUSES_A_VERIFIER = (
     "vectors-observed-effect",
     "vectors-self-reported-record",
     "vectors-w3c-report",
+    "vectors-w3c-intake",
 )
 
 READINGS = ("condition", "accept")
