@@ -511,6 +511,29 @@ func normalize(value any) any {
 	return out
 }
 
+// doneReceiptPrelude reads the receipt statement, its predicate, the record digests it lists
+// and the records those digests name. Every error it returns is reported as a receipt verdict.
+func doneReceiptPrelude(member string, data []byte) (statement, predicate doneObject, raw map[string][]byte, err error) {
+	if statement, err = doneStatementOf(data, doneReceiptType, "receipt"); err != nil {
+		return nil, nil, nil, err
+	}
+	if predicate, err = donePredicate(statement); err != nil {
+		return nil, nil, nil, err
+	}
+	digests, err := doneRecordDigests(predicate["records"])
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	if report, present := predicate["verifier_isolation"]; present &&
+		report.(doneObject)["contract_sha256"] != digests["contract"] {
+		return nil, nil, nil, invalid("receipt_isolation_contract_differs")
+	}
+	if raw, err = doneReadRoles(member, digests); err != nil {
+		return nil, nil, nil, err
+	}
+	return statement, predicate, raw, nil
+}
+
 func doneJudgeReceipt(member string) (map[string]any, error) {
 	data, err := doneMemberFile(member, "receipt.json", "member_unreadable")
 	if err != nil {
@@ -528,23 +551,7 @@ func doneJudgeReceipt(member string) (map[string]any, error) {
 		}
 		return nil, err
 	}
-	statement, err := doneStatementOf(data, doneReceiptType, "receipt")
-	if err != nil {
-		return fail(err)
-	}
-	predicate, err := donePredicate(statement)
-	if err != nil {
-		return fail(err)
-	}
-	digests, err := doneRecordDigests(predicate["records"])
-	if err != nil {
-		return fail(err)
-	}
-	if report, present := predicate["verifier_isolation"]; present &&
-		report.(doneObject)["contract_sha256"] != digests["contract"] {
-		return fail(invalid("receipt_isolation_contract_differs"))
-	}
-	raw, err := doneReadRoles(member, digests)
+	statement, predicate, raw, err := doneReceiptPrelude(member, data)
 	if err != nil {
 		return fail(err)
 	}

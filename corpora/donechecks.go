@@ -273,6 +273,36 @@ func doneCompare(acceptance []any, results []any) (string, []int64) {
 	return "", exits
 }
 
+// doneParseOptional parses a record when its bytes are present and returns nil when they are not.
+func doneParseOptional(data []byte, parse func([]byte) (doneObject, error)) (doneObject, error) {
+	if data == nil {
+		return nil, nil
+	}
+	return parse(data)
+}
+
+// doneAcceptanceRefusal returns the first reason the acceptance inputs cannot be established.
+func doneAcceptanceRefusal(caseID, invocation, party string, contract doneObject, contractPin doneObject, treePair, gradePair [2]doneObject) string {
+	tree, grade := treePair[0], gradePair[0]
+	switch {
+	case contract == nil:
+		return "contract_unavailable_or_unbound"
+	case tree == nil || !doneContextOK(tree, caseID, invocation, nil) || !doneIndependent(tree, treePair[1], party):
+		return "final_tree_unestablished"
+	case grade == nil:
+		return "grade_unavailable_or_unbound"
+	case !doneContextOK(grade, caseID, invocation, nil):
+		return "grade_context_mismatch"
+	case !doneIndependent(grade, gradePair[1], party):
+		return "grade_vantage_unestablished"
+	case grade["contract_sha256"] != contractPin["consumer_pinned_sha256"]:
+		return "grade_contract_mismatch"
+	case grade["tree_sha256"] != tree["tree_sha256"]:
+		return "grade_tree_unbound"
+	}
+	return ""
+}
+
 func doneAcceptanceObserved(caseValue, policyValue any, root string) (doneVerdict, error) {
 	caseID, assessment, caseDoc, policy, err := doneStart(caseValue, policyValue, doneACCEPTANCE,
 		[]string{"claim_type", "invocation_id", "observed_party", "contract_witness", "tree_witness", "grade_witness"})
@@ -289,39 +319,22 @@ func doneAcceptanceObserved(caseValue, policyValue any, root string) (doneVerdic
 		return nil, err
 	}
 	base := doneBase(caseID, doneACCEPTANCE)
-	var contract, tree, grade doneObject
-	if data := bound["contract"].data; data != nil {
-		if contract, err = doneContract(data); err != nil {
-			return nil, err
-		}
+	contract, err := doneParseOptional(bound["contract"].data, doneContract)
+	if err != nil {
+		return nil, err
 	}
-	if data := bound["tree"].data; data != nil {
-		if tree, err = doneTree(data); err != nil {
-			return nil, err
-		}
+	tree, err := doneParseOptional(bound["tree"].data, doneTree)
+	if err != nil {
+		return nil, err
 	}
-	if data := bound["grade"].data; data != nil {
-		if grade, err = doneGrade(data); err != nil {
-			return nil, err
-		}
+	grade, err := doneParseOptional(bound["grade"].data, doneGrade)
+	if err != nil {
+		return nil, err
 	}
 	treePair := [2]doneObject{tree, bound["tree"].pin}
 	gradePair := [2]doneObject{grade, bound["grade"].pin}
-	switch {
-	case contract == nil:
-		return doneDecided(base, "not_established", "contract_unavailable_or_unbound"), nil
-	case tree == nil || !doneContextOK(tree, caseID, invocation, nil) || !doneIndependent(tree, bound["tree"].pin, party):
-		return doneDecided(base, "not_established", "final_tree_unestablished"), nil
-	case grade == nil:
-		return doneDecided(base, "not_established", "grade_unavailable_or_unbound"), nil
-	case !doneContextOK(grade, caseID, invocation, nil):
-		return doneDecided(base, "not_established", "grade_context_mismatch"), nil
-	case !doneIndependent(grade, bound["grade"].pin, party):
-		return doneDecided(base, "not_established", "grade_vantage_unestablished"), nil
-	case grade["contract_sha256"] != bound["contract"].pin["consumer_pinned_sha256"]:
-		return doneDecided(base, "not_established", "grade_contract_mismatch"), nil
-	case grade["tree_sha256"] != tree["tree_sha256"]:
-		return doneDecided(base, "not_established", "grade_tree_unbound"), nil
+	if reason := doneAcceptanceRefusal(caseID, invocation, party, contract, bound["contract"].pin, treePair, gradePair); reason != "" {
+		return doneDecided(base, "not_established", reason), nil
 	}
 	problem, exits := doneCompare(contract["acceptance"].([]any), grade["results"].([]any))
 	if problem != "" {
@@ -339,8 +352,9 @@ func doneAcceptanceObserved(caseValue, policyValue any, root string) (doneVerdic
 	return doneDecided(base, "supported", "acceptance_passed_in_verifier", treePair, gradePair), nil
 }
 
-func doneClaimStatus(claim doneObject, events []doneObject) string {
-	var candidates []doneObject
+// doneFreshExecs returns the exec events that match a claim's argv and, among them, those that
+// come after the last mutation the claimed command did not itself make.
+func doneFreshExecs(claim doneObject, events []doneObject) (candidates, fresh []doneObject) {
 	for _, event := range events {
 		if event["type"] == "exec" && doneEqual(event["argv"], claim["argv"]) {
 			candidates = append(candidates, event)
@@ -367,18 +381,16 @@ func doneClaimStatus(claim doneObject, events []doneObject) string {
 			lastEdit = step
 		}
 	}
-	var fresh []doneObject
 	for _, event := range candidates {
 		if step, _ := doneInteger(event["step"]); step > lastEdit {
 			fresh = append(fresh, event)
 		}
 	}
-	switch {
-	case len(candidates) == 0:
-		return "unmatched"
-	case len(fresh) == 0:
-		return "precedes_last_edit"
-	}
+	return candidates, fresh
+}
+
+// doneExitStatus compares a claimed exit status with the fresh exec events.
+func doneExitStatus(claim doneObject, fresh []doneObject) string {
 	want, hasExit := claim["exit"]
 	if !hasExit {
 		return "matched"
@@ -396,6 +408,43 @@ func doneClaimStatus(claim doneObject, events []doneObject) string {
 		return "exit_unobserved"
 	}
 	return "exit_mismatch"
+}
+
+func doneClaimStatus(claim doneObject, events []doneObject) string {
+	candidates, fresh := doneFreshExecs(claim, events)
+	switch {
+	case len(candidates) == 0:
+		return "unmatched"
+	case len(fresh) == 0:
+		return "precedes_last_edit"
+	}
+	return doneExitStatus(claim, fresh)
+}
+
+// doneToolClaimRefusal returns the first reason the tool-claim inputs cannot be established.
+func doneToolClaimRefusal(caseID, invocation, party string, scope doneObject, claimed doneObject, recordPair [2]doneObject, manifest doneObject) string {
+	record := recordPair[0]
+	switch {
+	case claimed == nil:
+		return "claims_unavailable_or_unbound"
+	case !doneContextOK(claimed, caseID, invocation, nil):
+		return "claims_context_mismatch"
+	case record == nil:
+		return "observation_unavailable_or_unbound"
+	case !doneContextOK(record, caseID, invocation, scope):
+		return "observation_context_mismatch"
+	case !doneIndependent(record, recordPair[1], party):
+		return "observation_vantage_unestablished"
+	case manifest == nil:
+		return "capability_unavailable_or_unbound"
+	case manifest["claim_id"] != caseID || manifest["invocation_id"] != invocation || manifest["producer"] != record["producer"]:
+		return "capability_context_mismatch"
+	case !doneHasAll(manifest["visible_event_types"], doneToolTypes):
+		return "field_visibility_unestablished"
+	case record["coverage"] != "complete":
+		return "observation_coverage_unestablished"
+	}
+	return ""
 }
 
 func doneToolClaimMatch(caseValue, policyValue any, root string) (doneVerdict, error) {
@@ -419,34 +468,21 @@ func doneToolClaimMatch(caseValue, policyValue any, root string) (doneVerdict, e
 		return nil, err
 	}
 	base := doneBase(caseID, doneTOOLS)
-	var claimed, record, manifest doneObject
-	if data := bound["claims"].data; data != nil {
-		if claimed, err = doneClaims(data); err != nil {
-			return nil, err
-		}
+	claimed, err := doneParseOptional(bound["claims"].data, doneClaims)
+	if err != nil {
+		return nil, err
 	}
-	if data := bound["observation"].data; data != nil {
-		if record, err = doneObservation(data); err != nil {
-			return nil, err
-		}
+	record, err := doneParseOptional(bound["observation"].data, doneObservation)
+	if err != nil {
+		return nil, err
 	}
-	if data := bound["capability"].data; data != nil {
-		if manifest, err = doneCapability(data); err != nil {
-			return nil, err
-		}
+	manifest, err := doneParseOptional(bound["capability"].data, doneCapability)
+	if err != nil {
+		return nil, err
 	}
 	obsPin := bound["observation"].pin
-	switch {
-	case claimed == nil:
-		return doneDecided(base, "not_established", "claims_unavailable_or_unbound"), nil
-	case !doneContextOK(claimed, caseID, invocation, nil):
-		return doneDecided(base, "not_established", "claims_context_mismatch"), nil
-	case record == nil:
-		return doneDecided(base, "not_established", "observation_unavailable_or_unbound"), nil
-	case !doneContextOK(record, caseID, invocation, scope):
-		return doneDecided(base, "not_established", "observation_context_mismatch"), nil
-	case !doneIndependent(record, obsPin, party):
-		return doneDecided(base, "not_established", "observation_vantage_unestablished"), nil
+	if reason := doneToolClaimRefusal(caseID, invocation, party, scope, claimed, [2]doneObject{record, obsPin}, manifest); reason != "" {
+		return doneDecided(base, "not_established", reason), nil
 	}
 	events := doneEvents2(record)
 	var unsettled []string
@@ -454,16 +490,6 @@ func doneToolClaimMatch(caseValue, policyValue any, root string) (doneVerdict, e
 		if status := doneClaimStatus(item.(doneObject), events); status != "matched" {
 			unsettled = append(unsettled, status)
 		}
-	}
-	switch {
-	case manifest == nil:
-		return doneDecided(base, "not_established", "capability_unavailable_or_unbound"), nil
-	case manifest["claim_id"] != caseID || manifest["invocation_id"] != invocation || manifest["producer"] != record["producer"]:
-		return doneDecided(base, "not_established", "capability_context_mismatch"), nil
-	case !doneHasAll(manifest["visible_event_types"], doneToolTypes):
-		return doneDecided(base, "not_established", "field_visibility_unestablished"), nil
-	case record["coverage"] != "complete":
-		return doneDecided(base, "not_established", "observation_coverage_unestablished"), nil
 	}
 	pair := [2]doneObject{record, obsPin}
 	for _, status := range unsettled {
