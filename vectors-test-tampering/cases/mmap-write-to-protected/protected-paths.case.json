@@ -1,24 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 290,
+      "length": 317,
       "path": "capability.json",
-      "sha256": "14cb31a587675eadac4edbe92e8255051adbf4295d40cf89a8b0d7ff2b60d290"
+      "sha256": "12e96672e651c67871acc019ec2664a04140e2a47ae87a8273516518672ee847"
     },
     "contract": {
-      "length": 555,
+      "length": 797,
       "path": "contract.json",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 636,
+      "length": 698,
       "path": "observation.json",
-      "sha256": "f632d10cc11fd1139dfa6c6eaf3e677b74e2be3c26d913ed75a1265f41d73028"
+      "sha256": "57485634047b2e2bb43cd9838cc00e03daa93e39de08f4bcc993a1c999f056e9"
     },
     "tree": {
-      "length": 479,
+      "length": 534,
       "path": "tree.json",
-      "sha256": "1e32280c2f1576a5ea4076317e568fc508f3b539a3763bdf81405cddb0096f1e"
+      "sha256": "18c372d21c9c9640527988beed6952667ffbe8f0ccc4e50bea161f7f2d910000"
     }
   },
   "case_id": "mmap-write-to-protected",

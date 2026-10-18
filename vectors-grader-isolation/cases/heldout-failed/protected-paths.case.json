@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 308,
+      "path": "capability.json",
+      "sha256": "685353ab7ddc4b5bf9f12b12bb91c1700c533d4b552e8e54cd0e615898e56e4f"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 942,
+      "path": "observation.json",
+      "sha256": "14b5a2a373f01bc0745714eae67a25a6fab0820298b29a8e97166f2ee487fa9e"
+    },
+    "tree": {
+      "length": 525,
+      "path": "tree.json",
+      "sha256": "dc9e046a2bf81c573f801305964b06db2394305e6d4405dd0664bec28e4f5e57"
+    }
+  },
+  "case_id": "heldout-failed",
+  "schema_version": "probity-case/v1"
+}

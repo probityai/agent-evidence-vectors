@@ -2,7 +2,7 @@
 
 Type URI: https://w3id.org/agent-evidence/predicate/v1/done-contract
 
-Version: 0.1.0
+Version: 0.2.0
 
 Predicate Name: Done Contract
 
@@ -73,14 +73,23 @@ and a statement that says another is a statement about a different contract.
       { "path": "tests", "kind": "directory", "exclude": ["__pycache__"],
         "sha256": "<tree digest of the files under tests>" }
     ],
-    "acceptance": [ { "id": "unit", "argv": ["python", "-m", "pytest", "-q", "tests"] } ],
-    "adequacy": { "mutants": 4, "killed": 3 }
+    "acceptance": [
+      { "id": "unit", "argv": ["python", "-m", "pytest", "-q", "tests"] },
+      { "id": "heldout-unit", "argv": ["python", "-m", "pytest", "-q", "/heldout"] }
+    ],
+    "adequacy": { "mutants": 4, "killed": 3 },
+    "heldout_split_sha256": "<64-hex of the held-out split>"
   }
 }
 ```
 
 The members of the predicate, their types and their rules are those of the done contract in
-[done-records](done-records.md).
+[done-records](done-records.md): beside the paths, commands and adequacy shown, a contract may
+seal how and where each command runs (`cwd`, `exe`, `interpreter`, `run_writes`, `ids`), mark
+oracle-free probes and in-process twins, measure adequacy by mutant class and gate, and seal
+the agent image's execution surface and the module under test. Version 0.2.0 follows the
+done contract of probity-verify at probityai/probity commit `932c1e3`; 0.1.0 named the paths,
+commands and adequacy only.
 
 ## Rules
 
@@ -106,7 +115,8 @@ a statement that is not signed proves nothing about its origin.
 
 ## Conformance
 
-`vectors-done-contract/` holds the members, a valid case for every optional member and one
-invalid case for every rule above, with the code each is refused under. A reader conforms
+`vectors-done-contract/` (suite `done-contract/v2`) holds the members, a valid case for every
+optional member and one invalid case for every rule above and every rule of the record, with
+the code each is refused under. A reader conforms
 when it reaches the declared verdict and code for every member. `aee-verify` and the packaged
 Python reader both replay it.

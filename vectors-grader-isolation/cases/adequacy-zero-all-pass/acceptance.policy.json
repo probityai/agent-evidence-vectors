@@ -1,6 +1,6 @@
 {
   "assessments": {
-    "adequacy-zero": {
+    "adequacy-zero-all-pass": {
       "claim_type": "acceptance_observed/v1",
       "contract_witness": "contract",
       "grade_witness": "grade",
@@ -14,13 +14,13 @@
     "contract": {
       "artifact": "contract",
       "authority": "synthetic fixture",
-      "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+      "sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a"
     },
     "grade": {
       "artifact": "grade",
       "authority": "synthetic fixture",
       "producer": "harness-verifier",
-      "sha256": "b5d9f5582c3705283f70ff0fb6662cb96cfce8702e516197f9447eb047d0c63d",
+      "sha256": "3d8f509c002eecd3d8fba077fdc3cc99c14e79e1d5b91841d5c9bf4613238774",
       "vantage": "independent",
       "witness_scope": "PEER"
     },
@@ -28,7 +28,7 @@
       "artifact": "tree",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "ffa3476b11e2f6dddccd30a50b6cdd86dd3d5f8c4f0e4e6af4c743ffc146e566",
+      "sha256": "51cff954b5c0e0cf2076448c04ef3195798c0acbe483598beb14f5c1978a6899",
       "vantage": "independent",
       "witness_scope": "PEER"
     }

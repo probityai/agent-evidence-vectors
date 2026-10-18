@@ -1,0 +1,58 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "accepted": false,
+    "claim_id": "honest",
+    "completion_claimed": false,
+    "integrity": {
+      "checks": [
+        {}
+      ],
+      "decision": "not_established",
+      "reason": "placeholder",
+      "vantage": "unestablished"
+    },
+    "invocation_id": "call-1",
+    "outcome": {
+      "checks": [
+        {}
+      ],
+      "decision": "not_established",
+      "reason": "placeholder",
+      "vantage": "unestablished"
+    },
+    "records": {
+      "capability": {
+        "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+      },
+      "claims": {
+        "sha256": "d77aad0972099027f6f55eb9bdc2a8b75d16b0c3d51cbef451d8495ae7e13967"
+      },
+      "contract": {
+        "sha256": "88ddfa5ee6db23833a0f8adc29f3302b5ef758e0ca5fcaa47db3e5db358695ad"
+      },
+      "grade": {
+        "sha256": "c12f9fe1ff609d9d5fa21e323b0c394b25d648b019154e3f2d554a4d57f2fba9"
+      },
+      "observation": {
+        "sha256": "7e7a80e7b3515598a1e35ee04b418413e1926f67a58092636cec759f6dee4f3e"
+      },
+      "tree": {
+        "sha256": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
+      }
+    },
+    "schema_version": "probity-done-receipt/v2",
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
+    }
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66"
+      },
+      "name": "workspace-tree"
+    }
+  ]
+}

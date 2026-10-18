@@ -1,6 +1,6 @@
 {
   "assessments": {
-    "planted-conftest": {
+    "planted-conftest-acceptance-passes": {
       "claim_type": "acceptance_observed/v1",
       "contract_witness": "contract",
       "grade_witness": "grade",
@@ -14,13 +14,13 @@
     "contract": {
       "artifact": "contract",
       "authority": "synthetic fixture",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "grade": {
       "artifact": "grade",
       "authority": "synthetic fixture",
       "producer": "harness-verifier",
-      "sha256": "a02f526fd640fc619fa8f071601746dbe1f13df3684c10f4ad33d8cf127196bd",
+      "sha256": "534f3021d886d58f25639b677ae318d29aa9b08bc43046a4dd53e087ee6b184c",
       "vantage": "independent",
       "witness_scope": "PEER"
     },
@@ -28,7 +28,7 @@
       "artifact": "tree",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "2f7006d6908cec397d2d22fbe616b61a5cd381bf4b1a9a62e757b007343d5876",
+      "sha256": "e629417607a746d7c2a1802c9f241a25fed2dca79f1644ac61487a938656b9b5",
       "vantage": "independent",
       "witness_scope": "PEER"
     }

@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 285,
+      "length": 312,
       "path": "capability.json",
-      "sha256": "9f40aa51db04b1dd259107f321586ba5f4f4798fdcccadcde24dca84562641e2"
+      "sha256": "850c9bd4701825fc859ea17a91bcf3141d9a6e0feba7faa8595f4eeffe0a4ecd"
     },
     "claims": {
-      "length": 302,
+      "length": 367,
       "path": "claims.json",
-      "sha256": "5e119ad6ac200e76ea4e5e12892478aa93834a779377033b7e3684f49e9ba9bc"
+      "sha256": "a47f2a8e91e66e91289b0a4d3270a782a658d132dbb2f37dce90f9f3e692c54d"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 717,
+      "length": 946,
       "path": "observation.json",
-      "sha256": "03573fb5b7e58ee1cbde127617839f129dc96b7c8078425935289f50ada67f73"
+      "sha256": "9d13226dcd8ba5a00af0b755d2989e5797f86f86abe9cc4377c9de4319b1f51e"
     }
   },
   "case_id": "claim-without-exit",

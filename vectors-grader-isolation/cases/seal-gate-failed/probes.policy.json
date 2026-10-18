@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "seal-gate-failed": {
+      "claim_type": "probe_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "4d81eb18401be5801244a613e690e85a213829e3a26c84a203909b19e4ac5c0e"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "0ec105405776299ca99f17f6db814dfb73096f2b2282797d53c4480c27bdc85a",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "b468562e612b00d7c073af0e7a5f10bad0aedd722a6fa3e4a5c4e153e8f195bd",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

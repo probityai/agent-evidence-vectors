@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 290,
+      "length": 317,
       "path": "capability.json",
-      "sha256": "b2df98035660e4af52876854f522d0798f244006d74d088b9858d035b8568131"
+      "sha256": "e5506e7458282da0dac582e2b755cf7c6bf913d16c857f291fcb1debcf210df5"
     },
     "claims": {
-      "length": 324,
+      "length": 389,
       "path": "claims.json",
-      "sha256": "0e1f71fbd233f733cc93a1b3d847a808c43118e4a84832fa979b10e32a225da4"
+      "sha256": "64cd4d429fd8c52bd2690bb52ed4c4f7dbd4e0ac3b8f25ef09bf80bec0aff241"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 722,
+      "length": 1162,
       "path": "observation.json",
-      "sha256": "b669a59bdc5cda360fa2c2d2afdcce7e3f21cda5a2ccaa8fa51f60ab40f37729"
+      "sha256": "6c88ee13b287d51e4bff3d01568220875fc5b260e3efb425f1fa209067e16bfc"
     }
   },
   "case_id": "reward-text-overwritten",

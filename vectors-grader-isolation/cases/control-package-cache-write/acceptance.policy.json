@@ -1,6 +1,6 @@
 {
   "assessments": {
-    "control-package-cache": {
+    "control-package-cache-write": {
       "claim_type": "acceptance_observed/v1",
       "contract_witness": "contract",
       "grade_witness": "grade",
@@ -14,13 +14,13 @@
     "contract": {
       "artifact": "contract",
       "authority": "synthetic fixture",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "grade": {
       "artifact": "grade",
       "authority": "synthetic fixture",
       "producer": "harness-verifier",
-      "sha256": "c897df94da5864ae38f924a02ea400d2048902b9ede39ce700ef42b0d04274d0",
+      "sha256": "7d322f16c8f3aa1f6a0d268f10db4c664c54e1ba84db7945a945d6c4f0c3be30",
       "vantage": "independent",
       "witness_scope": "PEER"
     },
@@ -28,7 +28,7 @@
       "artifact": "tree",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "5ee2d02b77c33611fbd97eeeef00a79f9c7bdc26f685196b8ed4026a8a87e9ac",
+      "sha256": "584cb7ad7f303a68cb3a5ee4d3b62792752677f74f77be8a782e9816b268c548",
       "vantage": "independent",
       "witness_scope": "PEER"
     }

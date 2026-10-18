@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 289,
+      "length": 316,
       "path": "capability.json",
-      "sha256": "c1ad6084440775fdd9968038da998cc56d51e070af2e00d05de27a2688e66bcb"
+      "sha256": "de2e47f11f977bf90e09f864c68a2f01e0a9eb50f2c3b362578198c6f0ad2af1"
     },
     "claims": {
-      "length": 323,
+      "length": 388,
       "path": "claims.json",
-      "sha256": "be62f1611d329b19eec8666ba7fa780e4475920296292025a99c8da764ac80c5"
+      "sha256": "223887ad361cb97fd46497483e336f703fa706b1c7a69f3ade98534380906822"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 694,
+      "length": 913,
       "path": "observation.json",
-      "sha256": "b103d136c796ecea0a1f05da4a0c277bc09a8d93bd89d42b1e8e5b666fb061d4"
+      "sha256": "65e1af6828e98b3c0be1b01f03d9297866b30816b4b9a8f58283f8e2c53ce35e"
     }
   },
   "case_id": "fabricated-output-echo",

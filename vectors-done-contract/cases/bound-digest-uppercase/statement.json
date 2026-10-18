@@ -11,6 +11,16 @@
           "tests"
         ],
         "id": "unit"
+      },
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "/heldout"
+        ],
+        "id": "heldout-unit"
       }
     ],
     "adequacy": {
@@ -36,7 +46,7 @@
   "subject": [
     {
       "digest": {
-        "sha256": "921941de94841dfa9d7704a0c124ecb5384526d0aa6038c1ca0e7077c86c10d6"
+        "sha256": "6f19594591d672b21d79ddea2aa36b6ac889897e1211981cd97accff3f33413a"
       },
       "name": "contract.json"
     }

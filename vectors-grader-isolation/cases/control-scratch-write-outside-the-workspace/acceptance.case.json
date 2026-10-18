@@ -1,21 +1,21 @@
 {
   "artifacts": {
     "contract": {
-      "length": 555,
+      "length": 797,
       "path": "contract.json",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "grade": {
-      "length": 558,
+      "length": 745,
       "path": "grade.json",
-      "sha256": "bc478a1fb383ec50b5863e1b425098f7057b2d26a3a8746ced8e0a28e4458bba"
+      "sha256": "b4605d9cd4d7dffc163d45ad0e73150aa35e28327adb280bc92de2e50b7e4893"
     },
     "tree": {
-      "length": 477,
+      "length": 554,
       "path": "tree.json",
-      "sha256": "23894a67b1a74aec9af291ff422bb86d796223b6251aee6377dc498c5c29787a"
+      "sha256": "dbed31c655c8942e81dc85d861d117abc66587e035868c31d17756f7e26dbff8"
     }
   },
-  "case_id": "control-scratch-write",
+  "case_id": "control-scratch-write-outside-the-workspace",
   "schema_version": "probity-case/v1"
 }

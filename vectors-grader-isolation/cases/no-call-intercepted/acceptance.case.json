@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 808,
+      "path": "grade.json",
+      "sha256": "8e54c3497370b315a1e409562afcccbcb6b22796193162e9f37196c956aeb8f1"
+    },
+    "tree": {
+      "length": 530,
+      "path": "tree.json",
+      "sha256": "d65e2504e95506484ba860550c98f1be7f21d358ff92997be71622f6226b9bd7"
+    }
+  },
+  "case_id": "no-call-intercepted",
+  "schema_version": "probity-case/v1"
+}

@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 291,
+      "length": 318,
       "path": "capability.json",
-      "sha256": "ec9f365238c1503bd641dc1cd27648ab7129bedcce4d90cdf2db8245a081fb78"
+      "sha256": "f9b81b346e44e020f12b739e9b55992d228bb914760c579f9db431d07308a5ab"
     },
     "claims": {
-      "length": 325,
+      "length": 390,
       "path": "claims.json",
-      "sha256": "cdfc815b327c38654670ddb5ddd4572035ab3fa54554d8ccd6affbb31523c309"
+      "sha256": "33b812ce056fae78c44c28a060c344b1eecc30c661e04e9e33c45873e8a704f0"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 683,
+      "length": 906,
       "path": "observation.json",
-      "sha256": "9a061b878f6e70679ab71235e66fed63b9e3cfeab1d8f08363b6c82b895637f3"
+      "sha256": "e20b421a48b10352fd065334bffcbcc9342321afb4cb0e2673b4e265cfa70bf9"
     }
   },
   "case_id": "fabricated-output-printf",

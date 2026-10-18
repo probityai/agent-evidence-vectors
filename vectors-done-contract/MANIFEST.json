@@ -1,9 +1,9 @@
 {
-  "corpusDigest": "73c60897b7c03715c688b0dcd84218dadfd2e7ddc4efa598bcc63bbd393433ce",
+  "corpusDigest": "d0ada63ea7cccc91033ffe50d3bb49dfd132c239985acace2bd5d22c27e182f8",
   "predicateSpec": "spec/predicates/done-contract.md",
   "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-contract",
   "recordSpec": "spec/predicates/done-records.md",
-  "suite": "done-contract/v1",
+  "suite": "done-contract/v2",
   "vectors": [
     {
       "edit": "control: a protected directory with an excluded segment name, one acceptance command, three of four mutants killed",
@@ -13,8 +13,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "38820d3353719c215dc04e7bf050cdb828d1feef965c1f11b2288adce51245dd"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "cee0653e6a3d14aafed9c6c316ea39d17b89d50e1cb1f0f790f269f97bcff582"
       },
       "id": "valid-directory-protected",
       "kind": "valid",
@@ -28,8 +28,8 @@
         }
       },
       "files": {
-        "contract.json": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3",
-        "statement.json": "f34879abb2309f561afcc9745543726545b04c381635ef0be465240829ac66fe"
+        "contract.json": "764286e7ac2031237d9d8194bf78b1303e26a657816f68cfe5628f9f98c46b03",
+        "statement.json": "9860333e8fe569143c99e36fc0ee6b984774c51aeca8196c79bb92bb4edd0654"
       },
       "id": "valid-file-protected",
       "kind": "valid",
@@ -43,8 +43,8 @@
         }
       },
       "files": {
-        "contract.json": "a1a99e6cf321b6b4e9259e80e2fee380ccdf68d8e4b84596d4d0de6aafb908bd",
-        "statement.json": "504a63e3d07c45602af62a1b15100afc5592bd7dfce925715f7cd5cacaaecb45"
+        "contract.json": "51242669c1c96d0377229c33cc2e6db0d85f30f399fd49986283478b65d04d96",
+        "statement.json": "b5b895ce5bf53a321be5396f930826da6f810866e148fd15460d870d643ddc8a"
       },
       "id": "valid-no-protected-paths",
       "kind": "valid",
@@ -58,8 +58,8 @@
         }
       },
       "files": {
-        "contract.json": "2ef9c84e1f6e8b8866bcb9d1058b7712f9fff88506d25be13d9a227767fc0e5b",
-        "statement.json": "a722346d8936b0ad70c465623a4e8712b518725080d344efb46e114aa5297c4a"
+        "contract.json": "ea61935ba424868f1d45567a42f94139de8e51e01caa7eb7ba48a53494fc3f55",
+        "statement.json": "0a29e037f68614fd9725aa7892aff0fc78dae4284f7a982f9a31c624499c1a7b"
       },
       "id": "valid-two-acceptance-commands",
       "kind": "valid",
@@ -73,8 +73,8 @@
         }
       },
       "files": {
-        "contract.json": "d9c159eaed3714181edd65226b4aa21a4f40570694f0496e1bca7593af17fddb",
-        "statement.json": "0990c94db50d6cf36e00777c0dd0972b916e8e85c43e5ec164f0626339e9cce1"
+        "contract.json": "f90150dd541d75828e90de5355c62b7cb65d2924f512b344cd9e66be033e4830",
+        "statement.json": "180cb78f6bbcac2dba5347e4199bcb09fd2be75eefb386185fb67bc61f2e4ee8"
       },
       "id": "valid-bound-digests",
       "kind": "valid",
@@ -88,8 +88,8 @@
         }
       },
       "files": {
-        "contract.json": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48",
-        "statement.json": "c8e9039228abd34e4a55aa2d52cdaed1bceaa9133f17ad0d7a1389202c8a647c"
+        "contract.json": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a",
+        "statement.json": "8f231e02716f4e2f61b653b58d19ab0c3cb0317c7f98ba8d7753737ef85f44bf"
       },
       "id": "valid-adequacy-zero",
       "kind": "valid",
@@ -104,8 +104,8 @@
         }
       },
       "files": {
-        "contract.json": "0f5a934ac3b31e523519124195ecbc2fa5db1bd752b9a55bfec636b0591b4148",
-        "statement.json": "3b05aea31cf5fc40c786926e9cb153737e00bfd316494c6d09067e4ea4510b41"
+        "contract.json": "f953938dfca72bce4244d3457a88f3ca23c11c7cacb66c08e655e66cb7a3622d",
+        "statement.json": "645351f51f9f9262b31c8b3d16703ab659c3b0474b77877b1714b1d26e2f28bd"
       },
       "id": "schema-unsupported",
       "kind": "invalid",
@@ -120,8 +120,8 @@
         }
       },
       "files": {
-        "contract.json": "e05234891c62ee7ec93f6bf69f2c0089d10a6b72a2508ca8539216a69da5563d",
-        "statement.json": "97dc50a2dcecbb54cfa016beb8c8e68988dd7d4c2d0c93f76bdb426b39e58d55"
+        "contract.json": "0f05f9acec608476534dc52fd7ea5d052048bf9204e24d76769af59ebff442be",
+        "statement.json": "523bbb45f0a0a3ca4c01189fe1fce3260eb4f7aa33bead44a9cfa64d05aee3e3"
       },
       "id": "member-unexpected",
       "kind": "invalid",
@@ -136,8 +136,8 @@
         }
       },
       "files": {
-        "contract.json": "75f4e91e0a44e9fbfec4aa36cf9edc525742eb7b053691039979b501fa05fad8",
-        "statement.json": "87a773b4e8e89871f15561d6c469216cd32df0277df34737d6df3ed6c893ce3d"
+        "contract.json": "75a2efb2abde222ee2179e476eb22952c6b1c592809ff260f961edbea6b5b7b9",
+        "statement.json": "48473d75ef4c1e5cc4949b088a1880385d04a9a8607f3da102affd1c0621ce8a"
       },
       "id": "member-missing",
       "kind": "invalid",
@@ -152,8 +152,8 @@
         }
       },
       "files": {
-        "contract.json": "999f2784f30d2b33b6c8c9e24a42745e0353bf648ba36904e2486fde51b33276",
-        "statement.json": "e1dc1fb3838d7169737bb30221bc5b27b2e2ffe97beb3faca24830b411186e24"
+        "contract.json": "f5263fe849c17e0935b8f4ee3f92c81140eed0a881c95ccf18104c11f0a891dd",
+        "statement.json": "10c11f572a6ea6d4880672da990a28105487c210ca523d9cf3ecb61382ce4794"
       },
       "id": "contract-id-empty",
       "kind": "invalid",
@@ -168,8 +168,8 @@
         }
       },
       "files": {
-        "contract.json": "cd832fd4c955cb60ab5341d64d6d19dafcd8cd778c09036d6c598609dde28fe8",
-        "statement.json": "9194fdb8744baeccfaeccd99cb832e75372b3d491db9d376eed4439179a78a24"
+        "contract.json": "fe9edc11faf5ebf7430b450ada8e07acff42657c877d84498910e12dbf85b2ba",
+        "statement.json": "615458b0b5dd6c4b78a22c6d2d503a974a318b6eb9706ecd7e4686ce20ab5b83"
       },
       "id": "task-empty",
       "kind": "invalid",
@@ -184,8 +184,8 @@
         }
       },
       "files": {
-        "contract.json": "921941de94841dfa9d7704a0c124ecb5384526d0aa6038c1ca0e7077c86c10d6",
-        "statement.json": "ab1d15b59cd51b06d1371e4bd03fa0ea92ed8f96eb66cea22c2440eee61c6709"
+        "contract.json": "6f19594591d672b21d79ddea2aa36b6ac889897e1211981cd97accff3f33413a",
+        "statement.json": "f9f46946f23c20e5c922fb13f589930714e5e0fca8fa9539c6745f9409b5f1d7"
       },
       "id": "bound-digest-uppercase",
       "kind": "invalid",
@@ -200,8 +200,8 @@
         }
       },
       "files": {
-        "contract.json": "54d61adf5edaa275eb98d2a7dd31367b3e498a0f0f9d38ae1488d4a8fb82bd11",
-        "statement.json": "afdf0da5f2f70b4c0f4321ba57c0de2bfd27d4578e28068f7751a7061c05b73b"
+        "contract.json": "b3c2b4cd00541050215e32fd3ca7ba53365466e49df25e932f8dcb45af13b570",
+        "statement.json": "1a307da2430c364f2d74b4b611fbbb8baf13c236f967615342cf661d37c3988e"
       },
       "id": "protected-digest-short",
       "kind": "invalid",
@@ -216,8 +216,8 @@
         }
       },
       "files": {
-        "contract.json": "986c7975c70bc14edefa8abaf6507f6767b999dd97e303bddc09cc15c2df1929",
-        "statement.json": "b9c183f57f9dadbfe75cabcdabbe51380e0e2d1c140c6d299d2a1073b5410745"
+        "contract.json": "9d14c44e7724394ea913bea11d9098126d5ea266906be1273bb2bdd76f471585",
+        "statement.json": "c317ba881e7896070cfd9d0187c1e15e1f13433942e05752302a876c7ed7b369"
       },
       "id": "protected-paths-not-a-list",
       "kind": "invalid",
@@ -232,8 +232,8 @@
         }
       },
       "files": {
-        "contract.json": "8ca9c170cf2bd9666e52072c5666a53474739560044dc520204e87c6c8ebcbe5",
-        "statement.json": "fef55587c61a4dae6b68c7c0602dbb8c8ee2f9c64c76c4e7e27a69e58eca3221"
+        "contract.json": "97202e2d6e2a08fd47d67b0801089ef8d7ff63920581439fbd5809f1fd8e6cb8",
+        "statement.json": "6bc2e8c03b0605c05902a569447b73ac8914be072c109bc1a0177dd1117b8b78"
       },
       "id": "protected-path-dotdot",
       "kind": "invalid",
@@ -248,8 +248,8 @@
         }
       },
       "files": {
-        "contract.json": "72be4963aa0e59d83474684204ceb233bb17df9ed985809fd836a0c694a0fb8e",
-        "statement.json": "6f3b7fbd0b9953611382ac77fcafe67e97232c9bedb40b3f964cffaf6622a9c2"
+        "contract.json": "8cce2f3247bd393cf6430ffae4085ab8954105ac03c0f6280d2a08bc37ce42cb",
+        "statement.json": "ba76e23847e74539eb7c3bc05a521f1729a0ed5da0d71f1ef2e2eb52e1f8a4bc"
       },
       "id": "protected-path-absolute",
       "kind": "invalid",
@@ -264,8 +264,8 @@
         }
       },
       "files": {
-        "contract.json": "e3ec14a15b4dea1b206e792c55f8015b9bd62b591a8716f0819e05a6274ff8c6",
-        "statement.json": "4ffe02294eac54015bc30ecde28f84ec5fd1e838e46f5f755b17a1f76f94bd25"
+        "contract.json": "c36e482b7bb4ac3bb5bbe3d3e79c6aa7748ee373f6a21f13082f66ff354b9243",
+        "statement.json": "7e7672177dfd4c2a9b5bc3e91b8792bbeb5dabde410fc64b3f986e63bf264463"
       },
       "id": "protected-path-trailing-slash",
       "kind": "invalid",
@@ -280,8 +280,8 @@
         }
       },
       "files": {
-        "contract.json": "795563e4465baa7b4caa5333d1157f737790f11b232b831f2e7ed03827263fc9",
-        "statement.json": "58015ef5829797b6c31f8cc4552f0d79789ba4bf12ce721132ab24d04f1660f1"
+        "contract.json": "d179965b4a0865053126826718513b47a9a1539ae3b200ff8a733cbf34801f5e",
+        "statement.json": "b56279a8527b3a141dab0257bf1caef0aa1f2605170a37215aa8e053d277f0c2"
       },
       "id": "protected-kind-unknown",
       "kind": "invalid",
@@ -296,15 +296,30 @@
         }
       },
       "files": {
-        "contract.json": "c70af9eda66ea01c7845b8edd07916191f93f78daa9a61a227508b5220cf8ea9",
-        "statement.json": "a3e32178e836ac76ecb8304b075284d8a43c0efee5c1dbf09039ff4f32d98c7e"
+        "contract.json": "818d62b08958cddacb7d2080f56c364457025a187c8899a6c7a5dd29263d5e6f",
+        "statement.json": "0553654d1670444afe691c4c67916581f5ff45cb8c5de689fd128fa3bede4601"
       },
       "id": "exclude-on-file",
       "kind": "invalid",
       "path": "cases/exclude-on-file"
     },
     {
-      "edit": "an excluded name that is a path",
+      "edit": "control: an exclusion with a separator is a workspace path under the entry, left out with everything below it",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "c572583391768aabc74471b7126678534b2f7d56620b6ab4ac72caab5ed5f28f",
+        "statement.json": "d93cb07e0c2dcff4cea6f86bf8ce15b2bd6bbf1427113861e08f1ec78fb7c2d1"
+      },
+      "id": "valid-exclude-path",
+      "kind": "valid",
+      "path": "cases/valid-exclude-path"
+    },
+    {
+      "edit": "an excluded path that does not lie under the entry",
       "expected": {
         "contract": {
           "code": "contract_exclude_invalid",
@@ -312,12 +327,12 @@
         }
       },
       "files": {
-        "contract.json": "9c9bc9df2c3876abf953147b6a79fc0cdffafd680b40792d80954cea4757d0e0",
-        "statement.json": "430b660161df711816c1b4413d9871df97d890b56fd8a9806338125f2f251390"
+        "contract.json": "7d771d58300b6b90f4fef2a156fe8879efcce65da410d6cbb6175cec452c3728",
+        "statement.json": "9b88966b1b683ec9851294c4554634eef4e8575262cc3d9de7f862928d1a9981"
       },
-      "id": "exclude-with-separator",
+      "id": "exclude-path-outside-the-entry",
       "kind": "invalid",
-      "path": "cases/exclude-with-separator"
+      "path": "cases/exclude-path-outside-the-entry"
     },
     {
       "edit": "an exclude list with no name in it",
@@ -328,8 +343,8 @@
         }
       },
       "files": {
-        "contract.json": "03b36ef3bb106908886105c423d53ebe19ca779f2fd96a93c52c886bbbb13c9f",
-        "statement.json": "4eb2d2f42d17d62b1ab60b71a459a7609d12d90bfcb2074d10957f1fcf2ea3d5"
+        "contract.json": "00d541a5a2ff794d22991313eff1cde02fa8d4491d60b6e2dde6b6d67455053c",
+        "statement.json": "dab15cf53cb4c833dfb0bcc8e37e65cd78b719a8925bb2c1c44453a59be602e5"
       },
       "id": "exclude-empty-list",
       "kind": "invalid",
@@ -344,8 +359,8 @@
         }
       },
       "files": {
-        "contract.json": "1d2de3604b25369b294463f2a2947e2fa1d50f94781f351f262324a9a402325e",
-        "statement.json": "70278c74fe6778a9697422ada357660f07f6ba2068f308e9fda309026a629718"
+        "contract.json": "c66902c95ecdf27754103511742901d7ae114380d2de40857d12d9cd234f1e34",
+        "statement.json": "b3b1a1c48816f04cd1ff668e9698d17facd96f3e98ec3a4370a132403b53b409"
       },
       "id": "exclude-duplicate-name",
       "kind": "invalid",
@@ -360,8 +375,8 @@
         }
       },
       "files": {
-        "contract.json": "997377f8ed834dcc2047dbd7a686768d1eb0d5187e81d7cb378caeb2a5421d60",
-        "statement.json": "ffa964f07f283529f8f31df76e3d3cd5ff69b72b7fe1b43851074cba34f4bd0b"
+        "contract.json": "d7d4329c060187ae54a85080874a8cfa02bf62bc80d2db58d81a7e833ae4ed73",
+        "statement.json": "6a3787051e9b08413513aca52277dcb18ef364aec6523c5a1fa193a2c526c8a8"
       },
       "id": "protected-path-duplicate",
       "kind": "invalid",
@@ -376,8 +391,8 @@
         }
       },
       "files": {
-        "contract.json": "6e1ef0a343a20e20a2fe733148c5131c6886eee44272cff0d893f35e4ad18145",
-        "statement.json": "8ce8822603e5b72a4b4428217f5211e4e25fb8e2c005b8402ad754898739bcd3"
+        "contract.json": "d96eb783187a2c8313dae6ce19ae12e21f6d8fa04c2274d131f32532d9f88704",
+        "statement.json": "027518ee648e1fbd948c4cfda6722fe9d5973ebfd7d88e0210e6814cf0f3fd39"
       },
       "id": "acceptance-empty",
       "kind": "invalid",
@@ -392,8 +407,8 @@
         }
       },
       "files": {
-        "contract.json": "428bcc5d5da4a1aa67f42927f248ef3c0be6b65dfa23502105b28e86f2614340",
-        "statement.json": "e25fe6ff86d22ab2513dbb479b26038fc4fe6bb734cc5cf810512a296345530e"
+        "contract.json": "42d0a1fa620bb9d355ba64962f77939c8088e92859109e32634b99655f66f89e",
+        "statement.json": "19fd1dd8c7ef5b3ecd1add201260ee224ba0168aa4d7e826a2ca7efdeec6ace0"
       },
       "id": "acceptance-id-empty",
       "kind": "invalid",
@@ -408,8 +423,8 @@
         }
       },
       "files": {
-        "contract.json": "9cb1ce63d1e59da5130aa5d95df58536ea204bc58d16fe07fff32e0ad758c9eb",
-        "statement.json": "322058eda767fee4d9c19b48f4f6058a27d038b5c2ae3454362c780ab4f1706b"
+        "contract.json": "99914bed865a6ab9f4d1711aef7c3ac9d3ba241ddabe713e4f8cb124fc6ccb78",
+        "statement.json": "47f7fc15960a65357d2c0bb314fd5be2acaa697a75499a8bad6c1e30c5d1a8c0"
       },
       "id": "acceptance-argv-empty",
       "kind": "invalid",
@@ -424,8 +439,8 @@
         }
       },
       "files": {
-        "contract.json": "16a15e6367f643b6b0ca78d87718d768b78964eba6bdde83562bdf55406fca7a",
-        "statement.json": "be296c773b87703c1065b6adf8bec8c8924bc68893202e4fcd46c69cc340e915"
+        "contract.json": "35075c7499e7394885aa47cc7f26a519c0bcc4d475c0be4eed4a1b0c81ca0851",
+        "statement.json": "52406df93897bc806935241469735a69697ecb9880a6dc29f822c00df9ca7c00"
       },
       "id": "acceptance-argv-not-text",
       "kind": "invalid",
@@ -440,8 +455,8 @@
         }
       },
       "files": {
-        "contract.json": "3851b24d4135d1154da86d77e2b0598b6515632d39582147e21f157175572fa2",
-        "statement.json": "d050233d4a33333be73a5ee72d7aac98edbc04e0a930555516bce4c0d16a439c"
+        "contract.json": "68d5405bc6f27568c0fe3a43b535ec8122e04d6e03380e90a5309d161542455c",
+        "statement.json": "33749a88449981a723493d85e0a6ac74eff37191d68f473a321a97046248e3b1"
       },
       "id": "acceptance-id-duplicate",
       "kind": "invalid",
@@ -456,8 +471,8 @@
         }
       },
       "files": {
-        "contract.json": "f4ad72757995147ca9913839fe2ab4cedd56102990b9e593d25d77d24efdc8ae",
-        "statement.json": "535a694c8c2ad738280526b53c21f22a7bc7508f2fd9456ef67f6fa8c8531208"
+        "contract.json": "8ca8f05a7c393f3de64d7213dc95fa938d552404eb7ec9174e979a3c445ed178",
+        "statement.json": "60a1752bb094dd44faee389ed5241a887fb56ff609b0743e98b10f01b3dd496e"
       },
       "id": "adequacy-killed-exceeds-mutants",
       "kind": "invalid",
@@ -472,8 +487,8 @@
         }
       },
       "files": {
-        "contract.json": "1c7c048d38f73065f300b8b9f8e3bd5e801a324701584cb16e691e9e20f0d01a",
-        "statement.json": "46ce244c70e7107785e15967b2775551b085ab066f7abe6bdec3603706cf0695"
+        "contract.json": "c4344275347c575dc784345014edf990a0a4ab8338246c0ff42780321ddd6124",
+        "statement.json": "e7e017c39cbae156946a338d8c5379c9d0e55f9237236548c001796362b766b9"
       },
       "id": "adequacy-negative",
       "kind": "invalid",
@@ -488,8 +503,8 @@
         }
       },
       "files": {
-        "contract.json": "4e879ea3d124ec4d538af06418dc07f8e32af6c6ea21edf0491f676dd79c563c",
-        "statement.json": "5b8d394ca58d6dc788edafdfcb6ef4a2044b241144b0411f09183c3185b4acd6"
+        "contract.json": "a821c5360aa45258a9e68c94bcc2f58bbaacccff72c954f08be9dca612b9bc2d",
+        "statement.json": "deb766b6721572b4ae02ca0449ab5c1309da167f5096bd93d41273ea580bed36"
       },
       "id": "adequacy-boolean",
       "kind": "invalid",
@@ -504,12 +519,471 @@
         }
       },
       "files": {
-        "contract.json": "c1c497a79cb649315768c318334b1160efdc4196f949664cacfd1a310fb9e743",
-        "statement.json": "fd96dcf1216021d7f9532612665bc063db9eedea9725f3835effe1a4547f5bd1"
+        "contract.json": "89ac6e19197c400fdbb2a520c0eeb03bf57e5e0aa1fa26d752ad3488bd4e76ab",
+        "statement.json": "b0a1acfc29635e5fc7cbe0799b4e6f4835df4d18938d0d1800e2d00db10b5d36"
       },
       "id": "adequacy-member-unexpected",
       "kind": "invalid",
       "path": "cases/adequacy-member-unexpected"
+    },
+    {
+      "edit": "control: the visible command sealed with the directory, the paths that name its executable, the interpreter, its test ids and the paths its run writes",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "964de25f7396df99096d383004689f5b22adaa175e2c297c3a0ebe06ac9fa3e2",
+        "statement.json": "60a83a24476383db5e4e71a864b332b3ce4c3faaca4ba1ca73ed286f9562e96f"
+      },
+      "id": "valid-sealed-run",
+      "kind": "valid",
+      "path": "cases/valid-sealed-run"
+    },
+    {
+      "edit": "control: a sealed execution surface, the image links into it and the module under test",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "926c204182a55fc47b3453d5018f13ddb342947fbac2305d96c337f1d5f68b69",
+        "statement.json": "6df11bf50dcc55520382aecff9201d173dc20fb4eb3c57da4f438e8f482ed389"
+      },
+      "id": "valid-execution-surface",
+      "kind": "valid",
+      "path": "cases/valid-execution-surface"
+    },
+    {
+      "edit": "control: an oracle-free probe, a generated held-out command and an in-process twin of the visible command",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "84b9b5eae7b91c2a76d23bb08a54523cbf71e4c95a70c17c27d05f03255ce682",
+        "statement.json": "b1187d7bc0e7dea17833edcc9efcc2e3936da547739abd2dab0606f859bf160b"
+      },
+      "id": "valid-probes-and-twin",
+      "kind": "valid",
+      "path": "cases/valid-probes-and-twin"
+    },
+    {
+      "edit": "control: adequacy by mutant class, the kill vector digest and the gates the compiler measured, with the strength and the native code the commands loaded",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "e9c1af029502b48f67f49cad35b30361e3dfedf8c85332ad4338d9bf329d3fcb",
+        "statement.json": "f45e62bfbb70d28386cc621d8af6b1cdd7edf75a154bb1f64585219d341b86cf"
+      },
+      "id": "valid-measured-adequacy",
+      "kind": "valid",
+      "path": "cases/valid-measured-adequacy"
+    },
+    {
+      "edit": "control: a protected file judged by its Python syntax tree",
+      "expected": {
+        "contract": {
+          "verdict": "valid"
+        }
+      },
+      "files": {
+        "contract.json": "3ccaff392ea1278d7305ea5d02a102b3543f9e7b704c06ae62f1ffbde3ee5a7f",
+        "statement.json": "eaa90d69417eab9d2666de433930408b8706aed40e4859f6db672a23f506c765"
+      },
+      "id": "valid-file-equivalence",
+      "kind": "valid",
+      "path": "cases/valid-file-equivalence"
+    },
+    {
+      "edit": "a syntax-tree equivalence on a directory entry",
+      "expected": {
+        "contract": {
+          "code": "contract_equivalence",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "d500466ea105d77f7af6b8908553bb7283d7f40a63d838b94ad235a4ae70dade",
+        "statement.json": "e3cbf65ceeea3671431d59ec1ffae41c33631d8bc2cb8d4f79e0fd5c6324644f"
+      },
+      "id": "equivalence-on-a-directory",
+      "kind": "invalid",
+      "path": "cases/equivalence-on-a-directory"
+    },
+    {
+      "edit": "an equivalence the specification does not define",
+      "expected": {
+        "contract": {
+          "code": "contract_equivalence",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "f2280b97c9bdf721c11a0474e20831f3d4cfc79f22080e72bd0ea3b7997596a8",
+        "statement.json": "717d32890a15dd97cd728f033030faedac891f74917452c37c4991cd102be75d"
+      },
+      "id": "equivalence-unknown",
+      "kind": "invalid",
+      "path": "cases/equivalence-unknown"
+    },
+    {
+      "edit": "a strength the specification does not define",
+      "expected": {
+        "contract": {
+          "code": "contract_strength",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "2dc169564a19b3dd657f68221494c23a46d81e9f87592458e50d6aa76a3cb5aa",
+        "statement.json": "be63674e9c6b567232ff6f88e93b7d8e4ca60f7ad7fcef236273a85351c5e705"
+      },
+      "id": "strength-unknown",
+      "kind": "invalid",
+      "path": "cases/strength-unknown"
+    },
+    {
+      "edit": "native code named by an absolute path",
+      "expected": {
+        "contract": {
+          "code": "contract_native_loaded",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "8d6834876031c16cd16169d07e3cb9c20bf9cda76a3bc3ff68f60c8d0e1b37aa",
+        "statement.json": "89dbdf9e40647dc1ee10767d67c48f9e8649d84a3c1da3bfc49a97c967f5cfc4"
+      },
+      "id": "native-loaded-path-absolute",
+      "kind": "invalid",
+      "path": "cases/native-loaded-path-absolute"
+    },
+    {
+      "edit": "a command with a member the contract does not define",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_fields",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "3adc7b8df2ea727cc9d696ed00246450b8a02c72c338076e6425f05c99e788e9",
+        "statement.json": "8f55e789384e22692b93e5f2421916d75b139c677c42a9033c176450c32b1b79"
+      },
+      "id": "acceptance-member-unexpected",
+      "kind": "invalid",
+      "path": "cases/acceptance-member-unexpected"
+    },
+    {
+      "edit": "a command of a tier that does not exist",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_tier",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "586ac3599b03f73e1baa967030f24aa946678777ffb7325c0d1b884046d46620",
+        "statement.json": "3a4530f0fa4bb6c37f1d89f218e19a0586c3b1570b281356655a8acbfad93b6c"
+      },
+      "id": "acceptance-tier-unknown",
+      "kind": "invalid",
+      "path": "cases/acceptance-tier-unknown"
+    },
+    {
+      "edit": "a probe of a mode that does not exist",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_probe",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "e03a62e67205b93753702e7e0297cd1f85c07fee0d8069b158f852e994cf9511",
+        "statement.json": "c4370225328f4a585899f9cded931cf5da58d22994a1ce6f7977192c278e884e"
+      },
+      "id": "acceptance-probe-unknown",
+      "kind": "invalid",
+      "path": "cases/acceptance-probe-unknown"
+    },
+    {
+      "edit": "a sealed directory without the executable",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_seal",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "b450f6e091ce8680f402fcc48d21d0fc385e8953586282d303e613245e29216a",
+        "statement.json": "b3416f9137d380b84166c001665e79a92011ea423e5e4f154719075913ff7426"
+      },
+      "id": "acceptance-cwd-without-exe",
+      "kind": "invalid",
+      "path": "cases/acceptance-cwd-without-exe"
+    },
+    {
+      "edit": "the paths of the executable out of order",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_seal",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "3cbe1ee02011644d42980f018f967fdfc2c75a0666eadf8aebfdb43bef7d8ee4",
+        "statement.json": "4f86d1a324b7123fd98f6e7b4300f79d179490d66e0aac702ca3b032bb91d18c"
+      },
+      "id": "acceptance-exe-unsorted",
+      "kind": "invalid",
+      "path": "cases/acceptance-exe-unsorted"
+    },
+    {
+      "edit": "a sealed directory that is not absolute",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_seal",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "36809d53b81dd7d04b375e4e9dc055bf637577d2d4edcfe0e5a366ed9799b011",
+        "statement.json": "10f89df901c830ffc94341f266938ef3ba6507a693fe2a93290fd916f3433f68"
+      },
+      "id": "acceptance-cwd-relative",
+      "kind": "invalid",
+      "path": "cases/acceptance-cwd-relative"
+    },
+    {
+      "edit": "an interpreter with no sealed executable",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_interpreter",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "0cbf8447cc17ff91bac5237fafb3185642393f10abdd271d11ef0cf5040e6b68",
+        "statement.json": "e4e2e417639ab70a2a364ac69d895533c9872ad06c04c9ef9aafae259dfd45e6"
+      },
+      "id": "acceptance-interpreter-without-exe",
+      "kind": "invalid",
+      "path": "cases/acceptance-interpreter-without-exe"
+    },
+    {
+      "edit": "a test id sealed twice",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_ids",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "4fe66d7efb3334b5dedffd5dbf397587223053384e7fbb4d38d32395a386f61a",
+        "statement.json": "0f3681a483dca73fdadf9e497a09cac3bad668024420690d105edf5d1d086618"
+      },
+      "id": "acceptance-ids-duplicate",
+      "kind": "invalid",
+      "path": "cases/acceptance-ids-duplicate"
+    },
+    {
+      "edit": "a run-writes path that climbs out of the workspace",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_run_writes",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "abfcdcc178e42b6a1e7b9ddd730cf6c7bb28187b78a9c3daaffa233873d5a0ab",
+        "statement.json": "e5b852765e4c3e5dc23992dd5b10f92127685888eb67da03868f6f584faf6d35"
+      },
+      "id": "acceptance-run-writes-climb",
+      "kind": "invalid",
+      "path": "cases/acceptance-run-writes-climb"
+    },
+    {
+      "edit": "an in-process twin of its own id",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_twin",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "db3f6dfc2bbf8a9e419493bfcd0dcb8eb30374124fb812859b6301454b06e334",
+        "statement.json": "91423930c0e03ac888e2567efbe50339271409f16eab106151ca7d941f6153d9"
+      },
+      "id": "twin-of-itself",
+      "kind": "invalid",
+      "path": "cases/twin-of-itself"
+    },
+    {
+      "edit": "an in-process twin of an id the contract does not have",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_twin",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "3cf86c6891a3e47f44ebb61eff1d9b2fa9f8f85e8cf4c6c9f600ff60a7f510c5",
+        "statement.json": "680dcc7e814d866bb87d1fcf50751eaba5aa10c8b2bde4855f853a3af497ffae"
+      },
+      "id": "twin-of-unknown",
+      "kind": "invalid",
+      "path": "cases/twin-of-unknown"
+    },
+    {
+      "edit": "an in-process twin of a probe",
+      "expected": {
+        "contract": {
+          "code": "contract_acceptance_twin",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "c9880cf696c6b5da26c0279fe481ff92f82a5bd4e0d251e09166d61ed119c449",
+        "statement.json": "d1b2023aa743892491354591de98903eae46b443ea38b14910d14f724f7944af"
+      },
+      "id": "twin-of-a-probe",
+      "kind": "invalid",
+      "path": "cases/twin-of-a-probe"
+    },
+    {
+      "edit": "execution surface entries out of order",
+      "expected": {
+        "contract": {
+          "code": "contract_execution_surface",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "31081e5f63845037e2514f0a86925b9c0f710d936c0e0344729e1398a186db6d",
+        "statement.json": "8e64a33bdeb6d980c4a7849a0378751896d5fafc4e64559bd4792c704d205136"
+      },
+      "id": "surface-unsorted",
+      "kind": "invalid",
+      "path": "cases/surface-unsorted"
+    },
+    {
+      "edit": "/tmp as a whole execution surface entry",
+      "expected": {
+        "contract": {
+          "code": "contract_execution_surface_shared_root",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "8a3d2875eca9cef5ff92f125c2ab04fe1769b2950afef62dab1ea1a9c3e6a670",
+        "statement.json": "894e0fe64bc2bcc099d94a7bd9172926b9a261befd65c443ddc360a81351d18f"
+      },
+      "id": "surface-shared-root",
+      "kind": "invalid",
+      "path": "cases/surface-shared-root"
+    },
+    {
+      "edit": "image links with no execution surface",
+      "expected": {
+        "contract": {
+          "code": "contract_surface_aliases",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "05a6d2fa9bcb81e96dee662d4610025201631dd271d79f0aa8e9337867550d79",
+        "statement.json": "99e7a02f3a052bee7506178fb385083155292516cc042296ded165a91af0789a"
+      },
+      "id": "surface-aliases-without-surface",
+      "kind": "invalid",
+      "path": "cases/surface-aliases-without-surface"
+    },
+    {
+      "edit": "an image link to a relative path",
+      "expected": {
+        "contract": {
+          "code": "contract_surface_aliases",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "05f3de78ca19a95f14a58a211a9e30a0a89bdd0a7706d0c8937714e5a119ce1d",
+        "statement.json": "f2730d8f519cb6708f1986da77006574b89f1ad154643d7dd97775d30a671609"
+      },
+      "id": "surface-alias-relative",
+      "kind": "invalid",
+      "path": "cases/surface-alias-relative"
+    },
+    {
+      "edit": "a module-under-test list with nothing in it",
+      "expected": {
+        "contract": {
+          "code": "contract_module_under_test",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "9041f0174a1d58935859376168bf966d3f970caa4f9be17aff4815b1543e59f5",
+        "statement.json": "5d3afc7daee946f5d0aede9cd18d3cd69343662a373fa87bb7ba3e938afe7ce0"
+      },
+      "id": "module-under-test-empty",
+      "kind": "invalid",
+      "path": "cases/module-under-test-empty"
+    },
+    {
+      "edit": "a gate whose pass is not a boolean",
+      "expected": {
+        "contract": {
+          "code": "contract_adequacy_gates",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "3eae8c5cc028393721aedcf7969c07301fb56e01f0075f63475dfb4810c830a7",
+        "statement.json": "8388ad297e84f60455415530af3f9b6909e839d9140e3ef8fd6134f577acf27d"
+      },
+      "id": "adequacy-gate-not-boolean",
+      "kind": "invalid",
+      "path": "cases/adequacy-gate-not-boolean"
+    },
+    {
+      "edit": "mutant classes that do not sum to the totals",
+      "expected": {
+        "contract": {
+          "code": "contract_adequacy_by_class",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "c09ab482588c88c6eaa2e1323f54862b34cb221b2a86d8de5ffbef591d9fe662",
+        "statement.json": "ee3fc10659923e2656a28c6528a754ae1f5436ff6d5e77522c48490fb812407b"
+      },
+      "id": "adequacy-classes-do-not-sum",
+      "kind": "invalid",
+      "path": "cases/adequacy-classes-do-not-sum"
+    },
+    {
+      "edit": "a kill vector digest of 63 characters",
+      "expected": {
+        "contract": {
+          "code": "contract_digest_malformed",
+          "verdict": "invalid"
+        }
+      },
+      "files": {
+        "contract.json": "4ca122b7d4698c4e8ce7c0c43d4bb7829b9267b19b1ccf404e001206ca85aee1",
+        "statement.json": "a772222845100bffa55c0df43e16ff5dd52fa37937f6303704e09be30f47abab"
+      },
+      "id": "kill-vector-digest-short",
+      "kind": "invalid",
+      "path": "cases/kill-vector-digest-short"
     },
     {
       "edit": "the record names adequacy twice, so two readers could keep different ones",
@@ -520,8 +994,8 @@
         }
       },
       "files": {
-        "contract.json": "736dbd0d1b122fb40c50fa4a8e1a3bd029c980e500a3d835c407507074b86afd",
-        "statement.json": "18b36dd3e90bc6c2bc6b809faf7bf52e02f8182179c7c26207403c98d653e613"
+        "contract.json": "671cd877c7765f5d81026e633672d5003868f2b56341181a5a9c014bd06bad15",
+        "statement.json": "432336e12319425104ac1045d32774b924020bb1b2b032596b3e0fe152c7554d"
       },
       "id": "record-duplicate-member",
       "kind": "invalid",
@@ -536,8 +1010,8 @@
         }
       },
       "files": {
-        "contract.json": "9503fa6fa447a895aab6d565e942f0faf8815a72c216b6633df2b9c472894ac1",
-        "statement.json": "1783d1185d13000b638e0992cf56713d1adcf4e6865acdc30cffc4ddfd4e7518"
+        "contract.json": "d8480244f5d28f17bd6216d8c873fc9b370156d2c41913a8dea66bbb57684c0e",
+        "statement.json": "f6be71f36636c8590c9dc1602cc68dc76d42753293250c1c54c9549503b2a4a0"
       },
       "id": "record-not-a-number",
       "kind": "invalid",
@@ -552,8 +1026,8 @@
         }
       },
       "files": {
-        "contract.json": "4fd44a2cef0783048965d8dc7eb15b645c6019c731498d42accaf7f56e49e9a5",
-        "statement.json": "187403d9b6885ae79a88bbbbf24eca8bd43f177b196b3658fa6e8186a4f54071"
+        "contract.json": "cee3b4c3af968f670fc18902121d355cd7d59656544fc896f1bceb68a28d1890",
+        "statement.json": "8b1ed03bdc517484e3981250f58ea5e37b76327b12ab67c101307a3510529e29"
       },
       "id": "record-truncated",
       "kind": "invalid",
@@ -568,8 +1042,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "6817d89959f53b44505398b5d2f48097adda5ea6cb30b283bd936e0bce1b5790"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "4bd27bc29ca721ac87502b0f0f760b3314a40d3960bb9b9ed257975dde4931a3"
       },
       "id": "statement-type-wrong",
       "kind": "invalid",
@@ -584,8 +1058,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "bcb00391d13acc08a4c14f2abeff2e2f5c7b94a81e3cefb2499f6721f1113583"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "a6d59a001d2b7c1164378938ba82737d9a42a1f8c10cfdc6a775c6cc30528057"
       },
       "id": "statement-predicate-type-wrong",
       "kind": "invalid",
@@ -600,8 +1074,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "df526ee96ca09dcb7eb93275460c8c8b189ebc180ef78bf5eb6f3af29fbae413"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "54a01f1b2b744c7c2390ebf39f65f866c9314124fc6d11cb553e965ee893d1d8"
       },
       "id": "statement-predicate-type-moved",
       "kind": "invalid",
@@ -616,8 +1090,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "fc7c25d0bcf0514d253df7c4ce65bbf28766aec869424041e078c8642711f8b2"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "7b1ad43b84f6fb6820308fad1b85f22363f23bdffdbf3c09099bc2ccc1bda4f8"
       },
       "id": "statement-two-subjects",
       "kind": "invalid",
@@ -632,8 +1106,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "2a2521dabcc31ec69be05db5fbe81ee7688889190d19856939f179bd1ad55211"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "39aea75f47ed494a6b7c379c768ebcc967a02dc6fc3330e75a67fe383dab1bd4"
       },
       "id": "statement-subject-other-algorithm",
       "kind": "invalid",
@@ -648,8 +1122,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "c3187a0292ef1fd5aa9ee5263f45414591bf3da4660741ad0d10f5df1d3163a4"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "cec700ec03d347692a630106a34f1fa6dfedd7cfe5aafc3a9561e5270e6293a9"
       },
       "id": "statement-subject-unbound",
       "kind": "invalid",
@@ -664,8 +1138,8 @@
         }
       },
       "files": {
-        "contract.json": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48",
-        "statement.json": "b1ff097559259619486678c3994aa58bb0630c642912ac9fb348d0a4e52a5376"
+        "contract.json": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a",
+        "statement.json": "66def81ebb550703159b9128a567488a393edadb2d678aef1b7cc08854ef1b30"
       },
       "id": "statement-predicate-differs",
       "kind": "invalid",
@@ -680,8 +1154,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "aa6d5f405e5efb89def90e4286ceece21f2a45e8f7a459ea808034b34598e027"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "682373ca4ce494521e249c191b7137567e6b739622579e8c4eb2661bf6465b48"
       },
       "id": "statement-duplicate-member",
       "kind": "invalid",
@@ -696,8 +1170,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "04958782ac7b57ee63b5d7aa24091d2d1a7c906e31d3dd806d3f4db46751a9e6"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "50a03ab89c74673497fa4cecdee3e79435e86267ee8ae0ae6445f35cd40cce62"
       },
       "id": "statement-not-a-number",
       "kind": "invalid",
@@ -712,7 +1186,7 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
         "statement.json": "cbda47dc22a1489986e92392f53eae37d0941c2a22bfe9d8e19b43c805c09658"
       },
       "id": "statement-truncated",
@@ -728,8 +1202,8 @@
         }
       },
       "files": {
-        "contract.json": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571",
-        "statement.json": "f4dd1c95bf7187ebc6da49b1c0a9e94632c635b6d71b95ede205b991eea5b719"
+        "contract.json": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48",
+        "statement.json": "6d3e3ee06895e86fabe713bf851949f27835219274ffe2659e1a25adf87fad55"
       },
       "id": "statement-member-unexpected",
       "kind": "invalid",
