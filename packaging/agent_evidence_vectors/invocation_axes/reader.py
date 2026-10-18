@@ -28,6 +28,11 @@ ESTABLISHED = "ESTABLISHED"
 CONTRADICTED = "CONTRADICTED"
 NOT_ESTABLISHED = "NOT_ESTABLISHED"
 
+# Dispatch outcomes of REMORA's effect-evidence-v1 contract. REFUSED means
+# dispatch never began; BEGAN_OUTCOME_UNKNOWN still counts as a dispatch.
+REFUSED = "REFUSED"
+DISPATCH_OUTCOMES = frozenset({"DISPATCHED", "BEGAN_OUTCOME_UNKNOWN", REFUSED})
+
 AXES = (
     "package_integrity",
     "request_decision_correspondence",
@@ -214,7 +219,10 @@ def _dispatch_gate(
         raise MalformedInput(f"execution bundle schema is not {EXECUTION_SCHEMA}")
     if bundle.get("call_binding") != binding:
         return _result(CONTRADICTED, "bundle_bound_to_other_call")
-    dispatched = (bundle.get("dispatch") or {}).get("outcome") == "DISPATCHED"
+    outcome = (bundle.get("dispatch") or {}).get("outcome")
+    if outcome not in DISPATCH_OUTCOMES:
+        return _result(NOT_ESTABLISHED, "dispatch_outcome_unrecognised", outcome=outcome)
+    dispatched = outcome != REFUSED
     if dispatched and correspondence.get("decision") == "deny":
         return _result(CONTRADICTED, "dispatched_after_deny")
     report = bundle.get("execution_report") or {}

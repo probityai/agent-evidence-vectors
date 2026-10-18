@@ -809,7 +809,7 @@
         "schema": "aev-invocation-execution-bundle/v1",
         "call_binding": "sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
         "dispatch": {
-          "outcome": "NOT_DISPATCHED"
+          "outcome": "REFUSED"
         },
         "execution_report": null,
         "postcondition": {
@@ -1092,7 +1092,7 @@
         "schema": "aev-invocation-execution-bundle/v1",
         "call_binding": "sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
         "dispatch": {
-          "outcome": "NOT_DISPATCHED"
+          "outcome": "REFUSED"
         },
         "execution_report": {
           "status": "success",

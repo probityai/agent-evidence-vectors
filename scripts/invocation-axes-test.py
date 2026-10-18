@@ -55,6 +55,28 @@ def test_reader_never_reads_the_expected_answer() -> None:
     assert summary(evaluate(INVOCATION, case))["observed_effect"] == "ESTABLISHED"
 
 
+def _with_outcome(case_id: str, outcome: Any) -> dict[str, str]:
+    case = copy.deepcopy(BY_ID[case_id])
+    case["execution"]["dispatch"]["outcome"] = outcome
+    return summary(evaluate(INVOCATION, case))
+
+
+def test_dispatch_outcomes_follow_remora_vocabulary() -> None:
+    assert _with_outcome("intact_pair", "BEGAN_OUTCOME_UNKNOWN")["observed_effect"] == "ESTABLISHED"
+    assert _with_outcome("dispatched_after_deny", "BEGAN_OUTCOME_UNKNOWN")[
+        "observed_effect"
+    ] == "CONTRADICTED"
+    assert _with_outcome("intact_pair", "REFUSED")["observed_effect"] == "CONTRADICTED"
+
+
+@pytest.mark.parametrize("outcome", ["NOT_DISPATCHED", "dispatched", None, 1])
+def test_unrecognised_dispatch_outcome_is_not_established(outcome: Any) -> None:
+    case = copy.deepcopy(BY_ID["success_reported_without_dispatch"])
+    case["execution"]["dispatch"]["outcome"] = outcome
+    result = evaluate(INVOCATION, case)
+    assert summary(result)["observed_effect"] == "NOT_ESTABLISHED"
+
+
 def test_corpus_is_what_the_builder_writes() -> None:
     script = Path(__file__).with_name("invocation-axes-build.py")
     assert subprocess.run([sys.executable, str(script), "--check"], check=False).returncode == 0

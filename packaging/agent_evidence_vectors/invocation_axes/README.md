@@ -29,7 +29,9 @@ must both carry this value.
 The execution bundle follows the state rules of REMORA's `effect-evidence-v1`
 contract: `NOT_DISPATCHED`, `DISPATCHED`, a reported success, and a verified
 effect stay distinct. A reported success is never promoted without an
-independent observation.
+independent observation. `dispatch.outcome` uses that contract's values:
+`DISPATCHED`, `BEGAN_OUTCOME_UNKNOWN` (dispatch began) and `REFUSED` (dispatch
+never began). Any other value leaves `observed_effect` unestablished.
 
 ## Run it
 

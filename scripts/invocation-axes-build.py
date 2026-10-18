@@ -163,7 +163,7 @@ def _changed_argument() -> dict[str, Any]:
 
 def _cases() -> list[dict[str, Any]]:
     other = sha256_tag(b"a different tools/call")
-    not_dispatched = {"outcome": "NOT_DISPATCHED"}
+    not_dispatched = {"outcome": "REFUSED"}
     rows: list[tuple[str, str, str, dict[str, Any], dict[str, Any] | None, dict[str, str]]] = [
         (
             "intact_pair",
