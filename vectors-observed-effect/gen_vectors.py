@@ -436,6 +436,11 @@ CONDITIONS: dict[str, str] = {
         "tier: an authoritative record carries at least one read or one write "
         "(attack A2, second spelling)"
     ),
+    "oe-coverage-not-established": (
+        "coverage: an observer that could not determine its coverage says why in "
+        "notEstablished, beside no located gap and no claim of completeness, and the "
+        "record grades voluntary (clause 4 of the tier recompute, attack A34)"
+    ),
 }
 
 class _Omit:
@@ -1686,6 +1691,157 @@ add(
     "gap, so it establishes no absence; the two writes it carries were still observed "
     "independently, and a verifier that refused to read them as such would make an "
     "observer who discloses a blind spot worth less than one who hides it.",
+    reading=("voluntary", True, False),
+)
+
+# --- coverage that could not be determined ----------------------------------
+#
+# The third coverage shape. The observer sat below the observed party and
+# committed before the interval, but cannot say what it covered: its audit buffer
+# overflowed and dropped events without recording which paths they touched. It
+# names no gap because it cannot locate one, and it does not claim completeness.
+
+_UNDETERMINED_REASON = (
+    "the kernel audit buffer overflowed during the interval and dropped events "
+    "without recording which paths they touched"
+)
+
+
+def _undetermined_observation(
+    interval_id: str, reason: Any = _UNDETERMINED_REASON, **coverage: Any
+) -> dict[str, Any]:
+    shape: dict[str, Any] = {"scopeComplete": False, "gaps": [], "notEstablished": reason}
+    shape.update(coverage)
+    return {
+        "vantage": "below-observed",
+        "origin": "first-hand",
+        "coverage": shape,
+        "observedSigners": [OBSERVED_KEYID],
+        "priorCommitment": commitment(before_root=R0, interval_id=interval_id),
+    }
+
+
+_UNDETERMINED_DOES_NOT_ASSERT = [
+    "that the observed party performed no action outside pathScope",
+    "that the authority document permits what the writes did",
+    "that no write occurred under pathScope",
+]
+
+
+def _undetermined_record(interval_id: str, **over: Any) -> dict[str, Any]:
+    fields: dict[str, Any] = {
+        "intervalId": interval_id,
+        "tier": "voluntary",
+        "mutation": "none",
+        "interval": _unchanged_interval(),
+        "writes": [],
+        "dualValues": [dual("writes.count", "0", "0", "agree")],
+        "observation": _undetermined_observation(interval_id),
+        "doesNotAssert": _UNDETERMINED_DOES_NOT_ASSERT,
+    }
+    fields.update(over)
+    return statement(predicate(**fields))
+
+
+add(
+    "coverage-not-established-with-reason",
+    "accept",
+    _undetermined_record("iv-0401"),
+    ["oe-coverage-not-established"],
+    "valid",
+    [],
+    "An observer that cannot say what it covered, and says why. Before notEstablished "
+    "existed it had no true value to write: an empty gaps list beside scopeComplete "
+    "false is malformed, so it could only invent a gap or claim completeness. The "
+    "record grades voluntary under clause 4 of the tier recompute, and a consumer "
+    "asking whether any write landed under /srv/app/ gets no answer from it, with the "
+    "reason attached.",
+    reading=("voluntary", True, False),
+)
+
+add(
+    "coverage-not-established-without-reason",
+    "reject",
+    _undetermined_record(
+        "iv-0402", observation=_undetermined_observation("iv-0402", reason="")
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-not-established-without-reason"],
+    "The same record with the reason left empty. A coverage the observer cannot "
+    "determine and will not explain is attack A25 under another member: it admits a "
+    "blind spot and withholds what a consumer would need to judge it.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "coverage-not-established-beside-a-gap",
+    "reject",
+    _undetermined_record(
+        "iv-0403",
+        observation=_undetermined_observation("iv-0403", gaps=["/srv/app/vendor/"]),
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-shape-ambiguous"],
+    "The record says it could not determine its coverage and, in the next member, "
+    "locates a gap. Those are two coverage statements, and a verifier that preferred "
+    "either would be choosing the producer's claim for it.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "coverage-not-established-claiming-completeness",
+    "reject",
+    _undetermined_record(
+        "iv-0404",
+        observation=_undetermined_observation("iv-0404", scopeComplete=True),
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-shape-ambiguous"],
+    "The record says it could not determine its coverage and that its coverage was "
+    "complete. The second claim is the one an absence would rest on, and the first "
+    "says it cannot be made.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "authoritative-with-coverage-not-established",
+    "reject",
+    _undetermined_record("iv-0405", tier="authoritative"),
+    ["oe-coverage-not-established"],
+    "invalid",
+    ["authoritative-coverage-not-established"],
+    "The undetermined record claiming the independent tier. Clause 3 of the tier "
+    "recompute asks whether every member of gaps lies outside pathScope, which an "
+    "empty list satisfies vacuously, so without clause 4 this record would establish "
+    "an absence over a scope it says it cannot speak for (attack A34).",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "write-observed-with-coverage-not-established",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0406",
+            tier="voluntary",
+            observation=_undetermined_observation("iv-0406"),
+            doesNotAssert=[
+                "that the observed party performed no action outside pathScope",
+                "that the authority document permits what the writes did",
+                "that the write set under pathScope is complete",
+            ],
+        )
+    ),
+    ["oe-coverage-not-established"],
+    "valid",
+    [],
+    "Writes seen from below the observed party settle that a write happened, "
+    "whatever the observer could not determine about the rest of its scope. The "
+    "record is voluntary under clause 4, so it establishes no absence, and the writes "
+    "it carries were still observed independently.",
     reading=("voluntary", True, False),
 )
 

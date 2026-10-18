@@ -20,6 +20,7 @@
     "oe-commitment-signature-form": "priorCommitment: sig is spelled one way, 128 lowercase hex, so every rail reads the same bytes (attack A32)",
     "oe-coverage-contradiction": "coverage: scopeComplete true with a gap inside pathScope is malformed",
     "oe-coverage-named": "coverage: an incomplete observation names where it was blind (attack A25)",
+    "oe-coverage-not-established": "coverage: an observer that could not determine its coverage says why in notEstablished, beside no located gap and no claim of completeness, and the record grades voluntary (clause 4 of the tier recompute, attack A34)",
     "oe-dual-recompute": "dualValues: for a fact the statement can compute about itself, the observed side is that value (attack A28)",
     "oe-dual-values-absent": "dualValues: a row carrying neither value is not a comparison",
     "oe-empty-tree": "baseResolution: empty-tree requires the constant for the declared hashAlgorithm",
@@ -50,11 +51,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "cb620a7760f6265b87a514987b3c8410c3437e7fa8652832638e9ab6248b1b6c",
+  "corpusDigest": "c685709f99ebf178616eff0e59ba6244aaed1fe0431d6fbcaf976e3b95214059",
   "counts": {
-    "accept": 12,
+    "accept": 14,
     "indeterminate": 1,
-    "reject": 49
+    "reject": 53
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -818,6 +819,108 @@
       "id": "vd5e05b0f5d3cde4e",
       "kind": "accept",
       "slug": "write-observed-despite-a-named-gap"
+    },
+    {
+      "cites": "An observer that cannot say what it covered, and says why. Before notEstablished existed it had no true value to write: an empty gaps list beside scopeComplete false is malformed, so it could only invent a gap or claim completeness. The record grades voluntary under clause 4 of the tier recompute, and a consumer asking whether any write landed under /srv/app/ gets no answer from it, with the reason attached.",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/vaf2adbfde5df9b4c.json",
+      "id": "vaf2adbfde5df9b4c",
+      "kind": "accept",
+      "slug": "coverage-not-established-with-reason"
+    },
+    {
+      "cites": "The same record with the reason left empty. A coverage the observer cannot determine and will not explain is attack A25 under another member: it admits a blind spot and withholds what a consumer would need to judge it.",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-not-established-without-reason"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v6f954ce325447242.json",
+      "id": "v6f954ce325447242",
+      "kind": "reject",
+      "parent": "vaf2adbfde5df9b4c",
+      "slug": "coverage-not-established-without-reason"
+    },
+    {
+      "cites": "The record says it could not determine its coverage and, in the next member, locates a gap. Those are two coverage statements, and a verifier that preferred either would be choosing the producer's claim for it.",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-shape-ambiguous"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v615b689288f486a5.json",
+      "id": "v615b689288f486a5",
+      "kind": "reject",
+      "parent": "vaf2adbfde5df9b4c",
+      "slug": "coverage-not-established-beside-a-gap"
+    },
+    {
+      "cites": "The record says it could not determine its coverage and that its coverage was complete. The second claim is the one an absence would rest on, and the first says it cannot be made.",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-shape-ambiguous"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9393e2a000b4d3bb.json",
+      "id": "v9393e2a000b4d3bb",
+      "kind": "reject",
+      "parent": "vaf2adbfde5df9b4c",
+      "slug": "coverage-not-established-claiming-completeness"
+    },
+    {
+      "cites": "The undetermined record claiming the independent tier. Clause 3 of the tier recompute asks whether every member of gaps lies outside pathScope, which an empty list satisfies vacuously, so without clause 4 this record would establish an absence over a scope it says it cannot speak for (attack A34).",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-coverage-not-established"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v0a1f02c862db03ac.json",
+      "id": "v0a1f02c862db03ac",
+      "kind": "reject",
+      "parent": "vaf2adbfde5df9b4c",
+      "slug": "authoritative-with-coverage-not-established"
+    },
+    {
+      "cites": "Writes seen from below the observed party settle that a write happened, whatever the observer could not determine about the rest of its scope. The record is voluntary under clause 4, so it establishes no absence, and the writes it carries were still observed independently.",
+      "conditions": [
+        "oe-coverage-not-established"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/v856e6ba1445290e7.json",
+      "id": "v856e6ba1445290e7",
+      "kind": "accept",
+      "slug": "write-observed-with-coverage-not-established"
     },
     {
       "cites": "Two attempts, one timeout, one write. The observed party reports two attempts and one completed write; the observer, below it for the whole span of both attempts, saw exactly one write land and nothing else in scope. The record therefore establishes the operation completed once, and a consumer that reads the timed-out attempt as a failed operation contradicts it.",

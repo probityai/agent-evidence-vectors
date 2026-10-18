@@ -516,8 +516,31 @@ def rule_coverage_gaps_named(pred: dict[str, Any]) -> None:
     authoritative. The blind spot is where the writes went.
     """
     coverage = pred["observation"]["coverage"]
-    if not coverage["scopeComplete"] and not coverage["gaps"]:
+    if (
+        not coverage["scopeComplete"]
+        and not coverage["gaps"]
+        and "notEstablished" not in coverage
+    ):
         raise Malformed("coverage-incomplete-without-gaps")
+
+
+def rule_coverage_not_established_shape(pred: dict[str, Any]) -> None:
+    """The third coverage shape: the observer could not determine its coverage.
+
+    It carries the reason, and it stands alone. An empty reason is the unnamed gap
+    under another member, and a reason beside a located gap or scopeComplete true
+    says two things about one coverage. Clause 4 of the tier recompute keeps it
+    from grading authoritative, because clause 3 reads an empty gaps list as
+    vacuously outside the scope.
+    """
+    coverage = pred["observation"]["coverage"]
+    if "notEstablished" not in coverage:
+        return
+    reason = coverage["notEstablished"]
+    if not isinstance(reason, str) or not reason.strip():
+        raise Malformed("coverage-not-established-without-reason")
+    if coverage["scopeComplete"] or coverage["gaps"]:
+        raise Malformed("coverage-shape-ambiguous")
 
 
 def rule_origin_carries_the_vantage(pred: dict[str, Any]) -> None:
@@ -733,6 +756,7 @@ def rule_tier_recompute(pred: dict[str, Any]) -> None:
         or not any(
             _under(gap, scope) for gap in obs["coverage"]["gaps"] for scope in pred["pathScope"]
         ),
+        "authoritative-coverage-not-established": "notEstablished" not in obs["coverage"],
     }
     # The prior-commitment clause is gone for the same reason, and it went the same
     # way: rule_prior_commitment_present refuses a below-observed record with no
@@ -800,6 +824,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_read_chain", rule_read_chain),
     ("rule_empty_tree_holds_no_bytes", rule_empty_tree_holds_no_bytes),
     ("rule_coverage_coherence", rule_coverage_coherence),
+    ("rule_coverage_not_established_shape", rule_coverage_not_established_shape),
     ("rule_coverage_gaps_named", rule_coverage_gaps_named),
     ("rule_origin_carries_the_vantage", rule_origin_carries_the_vantage),
     ("rule_import_origin_platform", rule_import_origin_platform),

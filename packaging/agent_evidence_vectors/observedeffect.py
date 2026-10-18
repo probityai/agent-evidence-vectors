@@ -782,8 +782,30 @@ def _rule_coverage_gaps_named(state: _State) -> None:
     authoritative. The blind spot is where the writes went.
     """
     coverage = state.predicate["observation"]["coverage"]
-    if not coverage["scopeComplete"] and not coverage["gaps"]:
+    if (
+        not coverage["scopeComplete"]
+        and not coverage["gaps"]
+        and "notEstablished" not in coverage
+    ):
         raise Malformed("coverage-incomplete-without-gaps")
+
+
+def _rule_coverage_not_established_shape(state: _State) -> None:
+    """A coverage the observer could not determine says why, and says only that.
+
+    ``notEstablished`` is the third coverage shape, beside complete and
+    incomplete-with-located-gaps. An empty reason is the unnamed gap again under
+    another member, and a reason beside a located gap or a claim of completeness
+    is a record that has said two things about one coverage.
+    """
+    coverage = state.predicate["observation"]["coverage"]
+    if "notEstablished" not in coverage:
+        return
+    reason = coverage["notEstablished"]
+    if not isinstance(reason, str) or not reason.strip():
+        raise Malformed("coverage-not-established-without-reason")
+    if coverage["scopeComplete"] or coverage["gaps"]:
+        raise Malformed("coverage-shape-ambiguous")
 
 
 def _rule_origin_carries_the_vantage(state: _State) -> None:
@@ -990,6 +1012,7 @@ def _rule_tier_recompute(state: _State) -> None:
         "authoritative-empty-path-scope": bool(pred["pathScope"]),
         "authoritative-coverage-incomplete": bool(coverage["scopeComplete"])
         or not any(_in_scope(pred, gap) for gap in coverage["gaps"]),
+        "authoritative-coverage-not-established": "notEstablished" not in coverage,
     }
     derived = "authoritative" if all(clauses.values()) else "voluntary"
     state.derived_tier = derived
@@ -1044,6 +1067,7 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("read-chain", _rule_read_chain),
     ("empty-tree-holds-no-bytes", _rule_empty_tree_holds_no_bytes),
     ("coverage-coherence", _rule_coverage_coherence),
+    ("coverage-not-established-shape", _rule_coverage_not_established_shape),
     ("coverage-gaps-named", _rule_coverage_gaps_named),
     ("origin-carries-the-vantage", _rule_origin_carries_the_vantage),
     ("import-origin-platform", _rule_import_origin_platform),
