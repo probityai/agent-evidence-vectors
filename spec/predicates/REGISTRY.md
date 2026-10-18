@@ -47,6 +47,17 @@ declaring whether a substrate observation covers it or the record's own
 attesting key alone, so a consumer can tell the observed fields from the
 self-asserted ones.
 
+### `predicate/v1/peer-verification`
+
+- Document: `spec/predicates/peer-verification.md`
+- Corpus: `packaging/agent_evidence_vectors/verdict_evidence/corpus/`, suite `acs-verdict-evidence/v1.0.1-draft`
+- Rails: `packaging/agent_evidence_vectors/verdict_evidence/reader.py` in this repository
+
+The statement a second party signs when it checked a conformance requirement itself:
+the vector, the requirement, and the client run or retained transcript it used. A
+verdict record names it by digest to lift `witness_scope` above `SELF`; the runner
+cannot write one.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`

@@ -1,0 +1,23 @@
+{
+  "schema": "aev-request-occurrence/v1",
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 41,
+    "method": "tools/call",
+    "params": {
+      "name": "audit_estimate",
+      "arguments": {
+        "estimate_id": "EST-2291",
+        "line_items": 14,
+        "region": "JP-13"
+      }
+    }
+  },
+  "occurrence_nonce": "occ-0001",
+  "payer_agent": "agent:buyer-1",
+  "responder": "service:estimate-audit",
+  "price_units": 300,
+  "currency": "test-units",
+  "trust_inputs": "trust.json",
+  "verifier_command": "agent-evidence-vectors-occurrence-binding --output <new directory>"
+}

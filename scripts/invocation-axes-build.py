@@ -161,6 +161,25 @@ def _changed_argument() -> dict[str, Any]:
     return request
 
 
+def _hop_meta() -> dict[str, Any]:
+    request = _request()
+    request["params"]["_meta"] = {
+        "progressToken": "hop-2",
+        "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+        "aiInvocation": {"reason": "close the resolved ticket", "turnId": "t-19"},
+    }
+    return request
+
+
+def _argument_moved_into_meta() -> dict[str, Any]:
+    request = _request()
+    args = dict(request["params"]["arguments"])
+    status = args.pop("status")
+    request["params"]["arguments"] = args
+    request["params"]["_meta"] = {"status": status}
+    return request
+
+
 def _cases() -> list[dict[str, Any]]:
     other = sha256_tag(b"a different tools/call")
     not_dispatched = {"outcome": "REFUSED"}
@@ -245,6 +264,24 @@ def _cases() -> list[dict[str, Any]]:
             "request_decision_correspondence",
             "The captured request closes a different state than the pinned call.",
             _capture(_objects(_changed_argument())),
+            _execution(),
+            _expect(E, C, E),
+        ),
+        (
+            "hop_metadata_added",
+            "request_decision_correspondence",
+            "A later hop added params._meta (progress token, trace context, client audit"
+            " context) and a new JSON-RPC id; the call is the same.",
+            _capture(_objects(_hop_meta())),
+            _execution(),
+            _expect(E, E, E),
+        ),
+        (
+            "argument_moved_into_meta",
+            "request_decision_correspondence",
+            "An argument was taken out of arguments and put in params._meta; excluding"
+            " _meta does not hide the change.",
+            _capture(_objects(_argument_moved_into_meta())),
             _execution(),
             _expect(E, C, E),
         ),
@@ -402,8 +439,8 @@ def render() -> dict[str, str]:
             "invocation": "invocation.json",
             "invocation_binding": BINDING,
             "binding_rule": (
-                "sha256 over RFC 8785 bytes of {method, params};"
-                " the JSON-RPC id and version tag are excluded"
+                "sha256 over RFC 8785 bytes of {method, params without _meta};"
+                " the JSON-RPC id, version tag and params._meta are excluded"
             ),
             "result_vocabulary": ["ESTABLISHED", "CONTRADICTED", "NOT_ESTABLISHED"],
             "non_claims": [

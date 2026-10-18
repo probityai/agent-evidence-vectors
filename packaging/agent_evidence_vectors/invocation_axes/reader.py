@@ -120,17 +120,24 @@ def sha256_tag(data: bytes) -> str:
 
 
 def invocation_binding(request: Any) -> str:
-    """Bind an MCP request by its method and params, never its JSON-RPC id.
+    """Bind an MCP request by its method and params, never its framing.
 
     The id and the ``jsonrpc`` version tag are transport framing: a proxy and an
-    executor may see different ids for the same call. Member order inside
-    ``params`` is not a change; array order and scalar kind are.
+    executor may see different ids for the same call. ``params._meta`` is
+    excluded too: MCP reserves it for protocol metadata (a progress token, trace
+    context, client-asserted audit context), and each hop may add or rewrite it
+    without changing the call. Member order inside ``params`` is not a change;
+    array order and scalar kind are.
     """
     if not isinstance(request, dict):
         raise MalformedInput("request is not a JSON object")
-    if request.get("method") != "tools/call" or not isinstance(request.get("params"), dict):
+    params = request.get("params")
+    if request.get("method") != "tools/call" or not isinstance(params, dict):
         raise MalformedInput("request is not an MCP tools/call")
-    return sha256_tag(canonical({"method": request["method"], "params": request["params"]}))
+    if "_meta" in params and not isinstance(params["_meta"], dict):
+        raise MalformedInput("params._meta is not a JSON object")
+    bound = {key: value for key, value in params.items() if key != "_meta"}
+    return sha256_tag(canonical({"method": request["method"], "params": bound}))
 
 
 def _result(status: str, reason: str, **extra: Any) -> dict[str, Any]:

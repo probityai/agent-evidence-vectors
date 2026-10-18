@@ -13,10 +13,10 @@ The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tap
 Run every vector in the default corpus through the bundled reference verifier. You need Python 3.11+ and [uv](https://docs.astral.sh/uv/); there is nothing to clone or build, and a cold run takes about six seconds:
 
 ```bash
-uvx agent-evidence-vectors==0.19.0
+uvx agent-evidence-vectors==0.20.0
 ```
 
-At v0.19.0 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
+At v0.20.0 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
 ```text
 totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 ```
@@ -24,13 +24,13 @@ totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go's executable directory on your `PATH`; put your own command in its place:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.19.0
-uvx agent-evidence-vectors==0.19.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.20.0
+uvx agent-evidence-vectors==0.20.0 --verifier "aee-verify --json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement. `--list-corpora` names the other shipped corpora and `--corpus <name>` selects one.
 
-The release is `v0.19.0` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.19.0) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.19.0/). To run from a reviewed source checkout instead, follow the [source build](docs/guides/source-build.md). [Installation routes and release identity](DISTRIBUTION.md) covers package availability and signature checks.
+The release is `v0.20.0` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.20.0) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.20.0/). To run from a reviewed source checkout instead, follow the [source build](docs/guides/source-build.md). [Installation routes and release identity](DISTRIBUTION.md) covers package availability and signature checks.
 
 <a name="what-a-conformance-claim-must-show"></a>
 <a name="the-verification-pipeline"></a>
@@ -57,7 +57,7 @@ agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this reposi
 | Start a project with this Action already in CI | [evidence-starter template](https://github.com/new?template_name=evidence-starter&template_owner=probityai) |
 | Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
 | Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
-| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.19.0/docs/research/corpus-measurements.md) |
+| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.20.0/docs/research/corpus-measurements.md) |
 | Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
 | Report a run or disagreement | [Run reporting](docs/guides/report-run.md) |
 | Check a W3C intake record | [W3C intake checker](docs/reference/w3c-intake.md) |
@@ -76,7 +76,7 @@ Each corpus manifest records its source revision, digest and expected outcomes. 
 <a name="on-independence"></a>
 <a name="verify-a-release-without-trusting-us"></a>
 
-For fixture coverage, see [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.19.0/docs/research/corpus-measurements.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
+For fixture coverage, see [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.20.0/docs/research/corpus-measurements.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
 
 <a name="layout"></a>
 <a name="the-go-witness-attestor-witnessattestor"></a>

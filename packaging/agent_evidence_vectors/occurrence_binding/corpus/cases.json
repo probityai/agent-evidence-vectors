@@ -1,0 +1,843 @@
+{
+  "schema": "aev-occurrence-binding-cases/v1",
+  "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+  "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+  "cases": [
+    {
+      "id": "intact_occurrence",
+      "axis": "all",
+      "description": "Budget, payment and execution, each signed by its trusted key and bound to the frozen occurrence.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "mismatched_occurrence",
+      "axis": "occurrence_link",
+      "description": "Control: every artifact is natively valid, but the execution receipt is for another occurrence of a different call.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:b3cfa24f819d94389853eb9fbd711fa32854bc6e6bd85a696ca6250bfce94266",
+            "occurrence_binding": "sha256:ed523e58259e16838786736f282ea6cb5a78cc1dab6a3853909c869cfc2551ad",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "de03dd0cc074bb653963699810cea51e78a27f552d9a97de00a2b1e35bcbc6324da6fb7c01831229460eefbde2c6e86dc0980bacf1ef8ee8dca69ddf9fdf4508"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "CONTRADICTED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "same_content_different_execution",
+      "axis": "occurrence_link",
+      "description": "Control: the execution receipt carries the same call content but is for a second run of that call. Matching call content is not the same execution.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:573dc5334e3204229485caec7a6da84575d1cbdafd809c996fbdd85136e5a4ab",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "1730a8778b09236a5cb392ae2c6c85464b9d3cd9affe7ba9ed8cadb3e1d667b393a22f06fe487cee81c627c4d740f1c4cc4b28fc34e77fb38d88e5663794bd0f"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "CONTRADICTED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "execution_names_call_content_only",
+      "axis": "occurrence_link",
+      "description": "The execution receipt commits to the call content and to no occurrence, so the link cannot be decided.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "8645fc18fba032a513611793bfd98cd21829753201303c2d6bf15ac422298e721036311e4edc84569ef3ce4749c34b9fdf3831b40a611d1f7501f7326f7f3000"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "NOT_ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_names_no_occurrence",
+      "axis": "occurrence_link",
+      "description": "The payment receipt commits to no occurrence, so it could be moved to any call.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "fcaff0a1b8fddaec4ecf27359f71f892ee59f7316881ca08dbea22b4f81647183ac8b664621b7318f8b26543d4944e49c3e826be86aa12ea01e647647b98ec0b"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "NOT_ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_moved_to_other_occurrence",
+      "axis": "occurrence_link",
+      "description": "The payment receipt names a second run of the same call.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:573dc5334e3204229485caec7a6da84575d1cbdafd809c996fbdd85136e5a4ab"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "a3f04be202728ac8187012f1997bd647fe74daae041619c3a5e47974383e9e0d94cde992a207eee5407dac82e588c9a643dda75941013b03f73e6695ea0df603"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "CONTRADICTED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "budget_signed_by_agent",
+      "axis": "budget_statement",
+      "description": "The spending limit is the agent's own statement, not the issuer's.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:12d0a2b4d38a1f983bd2523c43864f903f248ada3e390d49694b6189d3ec1de3",
+          "signature_hex": "a7d3f4d61aa3f09d5ac2c5a81c42d7660253d14c702f90c117283c3bdd133c3e405c48c5c00921f58f4dfce5bfdcd6429981ed377dc01ec74352a9c30bb4bb04"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "NOT_ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "NOT_ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "budget_signature_broken",
+      "axis": "budget_statement",
+      "description": "One bit of the issuer's signature changed.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b22499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "CONTRADICTED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "NOT_ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "budget_signed_by_untrusted_key",
+      "axis": "budget_statement",
+      "description": "A valid signature by a key the trust inputs do not list.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:78d0e40e043fb4b38b6bdad03b9454b51569d7a32048ca24a6ec61b04aba6013",
+          "signature_hex": "ef7ed1aa8e773be429dc50da2380e7cca6206da53ecbe055d3c6ec0be877bed99c072a97e3cb8190bd71650c510703c059b2ac4ed1f9121be35b3a18ccb35307"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "NOT_ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "NOT_ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_exceeds_issuer_limit",
+      "axis": "spend_within_budget",
+      "description": "The payment is larger than what is left of the issuer's limit.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 401,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "eb12b4e327aac116616da28849989e076f519bfb06801a852787fe257107af0949d828a27ee9411d1ebc1f657f2574f30fcb00522e3e8bf303f9a59b3321c50d"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "CONTRADICTED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_names_other_budget",
+      "axis": "spend_within_budget",
+      "description": "The payment names a budget statement other than the one presented.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:455513b40bc60c242ddc1676593983ddfa0907d562e8569422c62507f0bc6071",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "8007566e2649565e130d44b0b3771b79e9a7c7d8ebedd936da1727749ec5573d3ab5ec4df9e72c6a8a505a6a443e6d0a5183996c67606c1b88cd59de3b5cd309"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "CONTRADICTED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_signed_by_untrusted_key",
+      "axis": "payment_receipt",
+      "description": "A valid signature by a key the trust inputs do not list for the rail.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:78d0e40e043fb4b38b6bdad03b9454b51569d7a32048ca24a6ec61b04aba6013",
+          "signature_hex": "57baf0a4323a7b538a45b11f8ad170b76cad6708956e0bb0f1fec4cdd70e10894bf7476b35f60d7248e9be9373e73c2ffef19b4d3e543a1d084fa6ec92f7410f"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "NOT_ESTABLISHED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "NOT_ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "payment_signature_broken_link_intact",
+      "axis": "payment_receipt",
+      "description": "The payment signature fails while its committed occurrence is right: the native verdict and the link are separate claims.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de7129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46036b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "CONTRADICTED",
+        "execution_receipt": "ESTABLISHED",
+        "spend_within_budget": "NOT_ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "execution_signature_broken_link_intact",
+      "axis": "execution_receipt",
+      "description": "The execution signature fails while its committed occurrence is right.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e",
+          "signature_hex": "6211e6a8f46136b2d84e9decc1b307ee8faae5ffa2d77408b3eb118cd1520beaabd4bcbee132a2fbb33385b766809f489160c087b48e4a797cc78be8143a740c"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "CONTRADICTED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "execution_signed_by_issuer_key",
+      "axis": "execution_receipt",
+      "description": "A trusted key, but trusted for the issuer role, not the responder role.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": {
+          "statement": {
+            "schema": "aev-execution-receipt/v1",
+            "responder": "service:estimate-audit",
+            "call_binding": "sha256:87921761fe7f14fdb11629c504bdd73b10eae19285e456ade0362af2a926d992",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8",
+            "outcome": "DISPATCHED"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "7f200091cc750d5f17fbfa6c264c234daaace6843478645fc7734607eebac23690ae545838f4e73880980a855acdbf749d27eb1a63f0568658cc715467ee2e09"
+        }
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "NOT_ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "no_execution_receipt",
+      "axis": "execution_receipt",
+      "description": "Paid, with no execution receipt.",
+      "artifacts": {
+        "budget": {
+          "statement": {
+            "schema": "aev-issuer-budget/v1",
+            "budget_id": "budget-17",
+            "issuer": "issuer:principal-1",
+            "agent": "agent:buyer-1",
+            "limit_units": 1000,
+            "spent_before_units": 600,
+            "currency": "test-units"
+          },
+          "keyid": "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5",
+          "signature_hex": "79595788f9b32499b44c4b0eca4aeb2322447006977a342d4b6ba06692a6d3de824c1a89566b444ee953275275df0edb67e27c01243fa317cb7ff39d31ab9704"
+        },
+        "payment": {
+          "statement": {
+            "schema": "aev-payment-receipt/v1",
+            "budget_digest": "sha256:b738a1d392978b434142964a8a1e165f936d25b068a50cef45264b89ef007d60",
+            "amount_units": 300,
+            "currency": "test-units",
+            "rail": "testnet",
+            "occurrence_binding": "sha256:51f77f13b503371dde84bff035d04f7e00c7c9b18bf038f3f474a360feff9fa8"
+          },
+          "keyid": "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5",
+          "signature_hex": "0dc5690c3de6129bd943a4c64ffe6ca1d9490889035a8a5a278147b295555479d514bdb7bf31499220f59753f0950cac4443bd6d31a92b4d60a9f1471e520a09"
+        },
+        "execution": null
+      },
+      "expected": {
+        "budget_statement": "ESTABLISHED",
+        "payment_receipt": "ESTABLISHED",
+        "execution_receipt": "NOT_ESTABLISHED",
+        "spend_within_budget": "ESTABLISHED",
+        "occurrence_link": "NOT_ESTABLISHED",
+        "settlement_finality": "NOT_ESTABLISHED",
+        "work_acceptance": "NOT_ESTABLISHED",
+        "observed_effect": "NOT_ESTABLISHED"
+      }
+    }
+  ]
+}

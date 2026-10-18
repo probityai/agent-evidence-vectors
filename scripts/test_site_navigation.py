@@ -48,6 +48,7 @@ PREDICATES = (
     ("v2", "launch-chain"),
     ("v1", "agent-audit-record"),
     ("v1", "govops-trace-record"),
+    ("v1", "peer-verification"),
 )
 EXPECTED_HTML = (
     {Path(f"{relative}.html") for relative in COMPANIONS}
@@ -131,6 +132,7 @@ def repository(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
         "spec/predicates/REGISTRY.md",
         "spec/predicates/observed-effect.md",
         "spec/self-reported-record/v1.md",
+        "spec/predicates/peer-verification.md",
         "spec/predicates/adversarial-execution-evidence.md",
         "spec/schemas/observed-effect-code-digest-v0.5.schema.json",
     ):
