@@ -4,7 +4,9 @@ This corpus pins one MCP `tools/call` and judges two kinds of evidence about it:
 a decision capture package (what a proxy saw and decided) and an execution
 bundle (what ran and what an independent reader saw afterwards). Both are bound
 to the same invocation bytes. The reader keeps three claims apart, and each
-claim has its own expected answer in every case.
+claim has its own expected answer in every case. An answer is `ESTABLISHED`
+(the evidence supports the claim), `CONTRADICTED` (the evidence shows the claim
+is false) or `NOT_ESTABLISHED` (the evidence cannot decide it).
 
 | Axis | ESTABLISHED means | It does not mean |
 | --- | --- | --- |
@@ -47,8 +49,8 @@ exits 1 if any case differs. From a checkout, run
 ## Cases
 
 The corpus is built by `scripts/invocation-axes-build.py`; CI checks that the
-committed files are what it writes. Each axis has accept, contradict and
-not-established cases:
+committed files are what it writes. Each axis has `ESTABLISHED`,
+`CONTRADICTED` and `NOT_ESTABLISHED` cases:
 
 - Package integrity: `intact_pair`, `one_byte_changed_in_member`,
   `manifest_rewritten_to_cover_change`, `member_missing`,
