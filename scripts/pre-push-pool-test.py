@@ -131,7 +131,7 @@ class Controls(unittest.TestCase):
         self.gate.write_text(FIXTURE_GATE)
         shutil.copyfile(HERE / "pre-push-pool.py", self.root / "scripts/pre-push-pool.py")
         shutil.copyfile(HERE.parent / ".githooks/pre-push", self.root / ".githooks/pre-push")
-        for name in ("commit-msg.permitted-paths", "commit-msg.forbidden-words"):
+        for name in ("commit-msg", "commit-msg.permitted-paths", "commit-msg.forbidden-words"):
             shutil.copyfile(HERE.parent / ".githooks" / name, self.root / ".githooks" / name)
         # The real history scanner remains active in the actual hook tests.
         for name in (

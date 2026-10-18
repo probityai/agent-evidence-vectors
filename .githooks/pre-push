@@ -253,12 +253,20 @@ while read -r local_ref local_sha _remote_ref remote_sha; do
 		fi
 		;;
 	esac
+	# A new branch has no remote tip, so its new commits are the ones the
+	# remote's default branch does not reach: origin/main, or whatever
+	# origin/HEAD names when the default branch is called something else.
 	if [ -z "$base" ]; then
-		if ! git -C "$src_root" cat-file -e "refs/remotes/origin/main^{commit}" 2>/dev/null; then
-			echo "pre-push: ABORT -- no published base for $local_ref; the commit messages it adds cannot be identified." >&2
-			exit 1
-		fi
-		base="refs/remotes/origin/main"
+		for candidate in refs/remotes/origin/main refs/remotes/origin/HEAD; do
+			if git -C "$src_root" cat-file -e "${candidate}^{commit}" 2>/dev/null; then
+				base="$candidate"
+				break
+			fi
+		done
+	fi
+	if [ -z "$base" ]; then
+		echo "pre-push: ABORT -- no published base for $local_ref; the commit messages it adds cannot be identified." >&2
+		exit 1
 	fi
 	(cd "$src_root" && "$source_python" -B "$msg_gate" --check-range "${base}..${local_sha}") && msg_status=0 || msg_status=$?
 	case "$msg_status" in
