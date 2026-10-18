@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.8.0
+Version: 0.9.0
 
 Predicate Name: Observed Effect
 
@@ -190,6 +190,7 @@ Verdicts are out of scope. They belong downstream, computed over this evidence.
     "pathScope": ["/srv/app/"],
     "authorityDigest": "<64-hex JCS digest of the authority document>",
     "codeDigest": { "sha256": "<optional 64-hex code-identity join>" },
+    "invocationBinding": { "sha256": "<optional 64-hex call binding, see Optional invocation binding join>" },
     "observation": {
       "vantage": "below-observed",
       "origin": "first-hand",
@@ -340,6 +341,63 @@ or a consumer's join. Readers predating 0.5 may ignore the field; consumers that
 require the join must select a reader implementing this rule rather than infer
 support from the stable predicate URI. Existing statements without this field
 retain their previous verdicts when code joining is not requested.
+
+## Optional invocation binding join
+
+`predicate.invocationBinding` is an OPTIONAL object containing exactly one
+member, `sha256`, whose value MUST be a lowercase 64-character hexadecimal
+SHA-256 digest. The shape rules are the code identity join's, word for word: a
+present null, empty object, non-object, non-string digest, unknown or additional
+algorithm, an algorithm-prefixed spelling such as `sha256:<hex>`, uppercase
+digest, or digest of another length is malformed. Absence is permitted and means
+no call binding is carried; a reader MUST NOT infer one from `intervalId`, a
+path, the authority digest or any other member.
+
+The value names the call this interval answers. It is SHA-256 over the [RFC 8785]
+bytes of the object `{"method": <method>, "params": <params>}` taken from the
+JSON-RPC request that caused the interval. The request's `id` and `jsonrpc`
+members are transport framing and are excluded, so a proxy that sees one id and
+an executor that sees another compute the same value for one call. Member order
+inside `params` is not a change, because canonicalization removes it. Array
+order, scalar kind, the tool name and every argument value are changes. This is
+the binding the `invocation_axes` corpus of this repository pins over an MCP
+`tools/call`, written without its `sha256:` prefix, so one value joins a
+decision capture, an execution bundle and an Observed Effect record about the
+same call.
+
+A consumer requiring this join MUST compute the expected value itself, from the
+request it holds or from a decision record whose signature and policy it has
+already verified, require `invocationBinding`, and reject a mismatch. An empty
+policy setting means the join was not requested, never that it succeeded. The
+reference implementations name these refusals `invocation-binding-required`,
+`invocation-binding-mismatch` and `invocation-binding-policy-invalid`; an invalid
+consumer value is a policy failure, not evidence that the statement's bytes are
+malformed.
+
+This is the join a decision record needs and the interval and authority bindings
+cannot give it. A decision record, such as the agent-decision predicate discussed
+in in-toto/attestation#554, that carries the same value over the same request
+lets a consumer pair one decision with the effect of that one call. Without it, a
+consumer can pair the two records only by interval and authority, and two calls
+made under one authority inside one interval are indistinguishable.
+
+The statement's subject remains exactly one after-state root. The binding is not
+a second subject and MUST NOT replace that root. `invocationBinding` is inside the
+DSSE-signed payload but is not added to the prior-commitment preimage. It is
+therefore the observer's signed declaration that this interval answers that
+call. It is not proof that the call was dispatched, that every path to the tool
+passed a decision point, or that the binding was committed before the interval
+opened. A matching binding alone also does not join two records to the same
+interval or authority; the interval and authority bindings remain required for
+an end-to-end claim.
+
+The JSON Schema overlay for this optional field is
+[`observed-effect-invocation-binding-v0.9.schema.json`](../schemas/observed-effect-invocation-binding-v0.9.schema.json).
+It validates only the extension's shape. Its signed cases live in
+`interop/observed-invocation-binding-candidate/`, built over the released
+baseline member and the pinned request
+`packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json`,
+without rewriting any released corpus member.
 
 ## Fields
 
@@ -1104,6 +1162,16 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.9.0 adds the optional signed `invocationBinding` field and a consumer-computed
+exact call join, built on the same pattern as `codeDigest` in 0.5.0. The
+one-subject after-state rule and the prior-commitment preimage are unchanged.
+Every released member keeps its bytes and its verdict, and a record without the
+field keeps its verdict when no call join is requested. What moves is a record
+carrying an `invocationBinding` member of a nonconforming shape: a reader written
+to 0.8.0 ignores it, and a 0.9-aware reader refuses it as malformed. That is why
+a consumer that requires the join must pin its reader rather than infer support
+from the stable predicate URI, and why the version moves in its minor position.
 
 0.8.0 adds `coverage.notEstablished`, the third coverage shape: the observer
 could not determine its coverage, and the member says why. Clause 4 of the `tier`
