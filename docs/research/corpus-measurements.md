@@ -12,11 +12,11 @@ Pinned test keys are derived from `seed(role) = SHA-256("in-toto-aee-test-key/<r
 
 A vector count alone does not measure rule coverage. Removing the `result-vocabulary` emission makes two gate-0 displays fail while the suite still reports 288 of 288, exit 0. A rail with no result-vocabulary check clears that corpus.
 
-[forcing-gate.py](../../scripts/forcing-gate.py) disables one reference-rail rule, rebuilds and replays the population. It measures what the corpus notices -- 915 single-site weakenings of `aee/`, one rebuild and one full replay per site.
+[forcing-gate.py](../../scripts/forcing-gate.py) disables one reference-rail rule, rebuilds and replays the population. It measures what the corpus notices -- 928 single-site weakenings of `aee/`, one rebuild and one full replay per site.
 
 The quantifier operator stops a collection loop after one member. That tests whether the corpus forces a rule for every member, including when the defective member is not the first one.
 
-[FORCING-BASELINE.json](../FORCING-BASELINE.json) is the tighten-only ratchet: **470 rules forced, 36 seen-but-tolerated, 404 unforced, 5
+[FORCING-BASELINE.json](../FORCING-BASELINE.json) is the tighten-only ratchet: **470 rules forced, 36 seen-but-tolerated, 417 unforced, 5
 unmeasurable.** The four outcomes retain their own meanings:
 
 | Outcome | Meaning |
@@ -30,7 +30,7 @@ Most of the unforced rows added with the admission conjunction in `aee/admission
 
 The baseline annotates four sites as equivalent behavior (three) or masked by an earlier check (one). An annotated site that is ever killed fails the gate.
 
-CI checks the previously forced sites on every push and sweeps all 915 sites nightly. The measurement describes this corpus against this reference implementation. Because the answer key is public, an external verifier can look up expected answers; a complete sweep records correct outputs, rather than proving how they were computed.
+CI checks the previously forced sites on every push and sweeps all 928 sites nightly. The measurement describes this corpus against this reference implementation. Because the answer key is public, an external verifier can look up expected answers; a complete sweep records correct outputs, rather than proving how they were computed.
 
 ## Specification-level projection
 
