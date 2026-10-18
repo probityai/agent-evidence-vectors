@@ -75,6 +75,9 @@ PREDICATE_TYPE = _predicate_type_from_spec()
 #: An Ed25519 signature is 64 bytes, so priorCommitment.sig is 128 hex characters.
 SIGNATURE_BYTES = 64
 CODE_DIGEST_PROFILE = os.path.join(HERE, "..", "interop", "observed-code-digest-candidate")
+INVOCATION_BINDING_PROFILE = os.path.join(
+    HERE, "..", "interop", "observed-invocation-binding-candidate"
+)
 #: RFC 3339, UTC, Z designator, no fractional second. The grammar is fixed so that
 #: a lexical comparison of two timestamps IS a comparison of two instants. While it
 #: was not, a commitment stamped 2026-09-18T20:00:00-05:00 sorted before an interval
@@ -278,6 +281,31 @@ def rule_code_digest_policy(pred: dict[str, Any], expected: str) -> None:
     value = pred["codeDigest"]
     if not isinstance(value, dict) or value.get("sha256") != expected:
         raise Invalid("code-digest-mismatch")
+
+
+def rule_invocation_binding_shape(pred: dict[str, Any]) -> None:
+    """Validate a present call binding without supplying a missing field."""
+    if "invocationBinding" not in pred:
+        return
+    value = pred["invocationBinding"]
+    if not isinstance(value, dict) or set(value) != {"sha256"}:
+        raise Malformed("invocation-binding-shape")
+    sha = value["sha256"]
+    if not isinstance(sha, str) or re.fullmatch(r"[0-9a-f]{64}", sha) is None:
+        raise Malformed("invocation-binding-value")
+
+
+def rule_invocation_binding_policy(pred: dict[str, Any], expected: str) -> None:
+    """Match the producer's signed call binding against a consumer-computed one."""
+    if expected == "":
+        return
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        raise Invalid("invocation-binding-policy-invalid")
+    if "invocationBinding" not in pred:
+        raise Invalid("invocation-binding-required")
+    value = pred["invocationBinding"]
+    if not isinstance(value, dict) or value.get("sha256") != expected:
+        raise Invalid("invocation-binding-mismatch")
 
 
 def rule_subject_binding(statement: dict[str, Any]) -> None:
@@ -819,6 +847,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_write_chain", rule_write_chain),
     ("rule_subject_binding", rule_subject_binding),
     ("rule_code_digest_shape", rule_code_digest_shape),
+    ("rule_invocation_binding_shape", rule_invocation_binding_shape),
     ("rule_read_bindings", rule_read_bindings),
     ("rule_range_preimage", rule_range_preimage),
     ("rule_read_chain", rule_read_chain),
@@ -841,6 +870,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_tier_recompute", rule_tier_recompute),
     ("rule_authoritative_carries_rows", rule_authoritative_carries_rows),
     ("rule_code_digest_policy", rule_code_digest_policy),
+    ("rule_invocation_binding_policy", rule_invocation_binding_policy),
 ]
 
 
@@ -860,6 +890,7 @@ def verify(
     disabled: str | None = None,
     *,
     expected_code_digest: str = "",
+    expected_invocation_binding: str = "",
 ) -> tuple[str, list[str]]:
     """Return (verdict, codes) for one vector file.
 
@@ -883,7 +914,14 @@ def verify(
     except Exception:
         return "malformed", ["not-parseable"]
 
-    refusal = _apply_rules(statement, blobs, disabled, observer_public_key, expected_code_digest)
+    refusal = _apply_rules(
+        statement,
+        blobs,
+        disabled,
+        observer_public_key,
+        expected_code_digest,
+        expected_invocation_binding,
+    )
     if refusal is not None:
         return refusal
     return _verify_envelope(envelope, payload, observer_public_key)
@@ -896,10 +934,13 @@ def _rule_arguments(
     blobs: dict[str, bytes],
     observer_public_key: str,
     expected_code_digest: str,
+    expected_invocation_binding: str = "",
 ) -> tuple[Any, ...]:
     """Select a rule's explicit evidence or consumer-policy arguments."""
     if name == "rule_code_digest_policy":
         return pred, expected_code_digest
+    if name == "rule_invocation_binding_policy":
+        return pred, expected_invocation_binding
     if name in STATEMENT_SCOPED:
         return (statement,)
     if name in BLOB_SCOPED:
@@ -915,6 +956,7 @@ def _apply_rules(
     disabled: str | None,
     observer_public_key: str,
     expected_code_digest: str = "",
+    expected_invocation_binding: str = "",
 ) -> tuple[str, list[str]] | None:
     """Run stage one and stage two. Return a refusal, or None where every rule held."""
     try:
@@ -926,7 +968,13 @@ def _apply_rules(
                 continue
             fn(
                 *_rule_arguments(
-                    name, statement, pred, blobs, observer_public_key, expected_code_digest
+                    name,
+                    statement,
+                    pred,
+                    blobs,
+                    observer_public_key,
+                    expected_code_digest,
+                    expected_invocation_binding,
                 )
             )
     except Malformed as exc:
@@ -1141,6 +1189,16 @@ def check_schema_spellings(manifest: dict[str, Any]) -> None:
         profile = json.load(fh)
     accepted += [
         (f"code-digest/{entry['id']}", os.path.join(CODE_DIGEST_PROFILE, entry["file"]))
+        for entry in profile["vectors"]
+        if entry["expected"]["verdict"] == "valid"
+    ]
+    with open(os.path.join(INVOCATION_BINDING_PROFILE, "MANIFEST.json"), encoding="utf-8") as fh:
+        profile = json.load(fh)
+    accepted += [
+        (
+            f"invocation-binding/{entry['id']}",
+            os.path.join(INVOCATION_BINDING_PROFILE, entry["file"]),
+        )
         for entry in profile["vectors"]
         if entry["expected"]["verdict"] == "valid"
     ]

@@ -176,6 +176,7 @@ func rules() []rule {
 		{"write-chain", ruleWriteChain},
 		{"subject-binding", ruleSubjectBinding},
 		{"code-digest-shape", ruleCodeDigestShape},
+		{"invocation-binding-shape", ruleInvocationBindingShape},
 		{"read-bindings", ruleReadBindings},
 		{"range-preimage", ruleRangePreimage},
 		{"read-chain", ruleReadChain},
@@ -198,6 +199,7 @@ func rules() []rule {
 		{"tier-recompute", ruleTierRecompute},
 		{"authoritative-carries-rows", ruleAuthoritativeCarriesRows},
 		{"code-digest-policy", ruleCodeDigestPolicy},
+		{"invocation-binding-policy", ruleInvocationBindingPolicy},
 	}
 }
 
@@ -232,6 +234,10 @@ type Policy struct {
 	// leaves code joining unrequested; nonempty requires a present exact match.
 	// The caller supplies this value from its own trusted capability selection.
 	ExpectedCodeDigest string
+	// ExpectedInvocationBinding optionally pins the call binding: sha256 over
+	// the RFC 8785 bytes of the request's method and params. Empty leaves the
+	// call join unrequested; nonempty requires a present exact match.
+	ExpectedInvocationBinding string
 }
 
 // PredicateTypeFromSpec reads the Type URI out of the predicate document that

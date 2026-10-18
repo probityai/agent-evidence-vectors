@@ -209,6 +209,13 @@ class Policy:
     The caller selects this value from its own capability policy, never from the
     effect record. A successful match is not an independent code measurement.
     """
+    expected_invocation_binding: str = ""
+    """Consumer-pinned call binding for a required invocation join; empty leaves it unrequested.
+
+    The caller computes this value from the request it holds (sha256 over the RFC
+    8785 bytes of the request's method and params) or takes it from a decision
+    record it has already verified, never from the effect record.
+    """
 
 
 @dataclass
@@ -656,6 +663,37 @@ def _rule_code_digest_policy(state: _State) -> None:
         raise Invalid("code-digest-mismatch")
 
 
+def _rule_invocation_binding_shape(state: _State) -> None:
+    """Validate the optional signed call binding without inventing a default.
+
+    The binding names the call this interval answers: sha256 over the RFC 8785
+    bytes of the request's method and params. It is a join key, not evidence that
+    the call was dispatched. See ``_rule_invocation_binding_policy``.
+    """
+    if "invocationBinding" not in state.predicate:
+        return
+    value = state.predicate["invocationBinding"]
+    if not isinstance(value, dict) or set(value) != {"sha256"}:
+        raise Malformed("invocation-binding-shape")
+    digest = value["sha256"]
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        raise Malformed("invocation-binding-value")
+
+
+def _rule_invocation_binding_policy(state: _State) -> None:
+    """Require a match only when the caller pins an expected call binding."""
+    expected = state.policy.expected_invocation_binding
+    if expected == "":
+        return
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        raise Invalid("invocation-binding-policy-invalid")
+    if "invocationBinding" not in state.predicate:
+        raise Invalid("invocation-binding-required")
+    value = state.predicate["invocationBinding"]
+    if not isinstance(value, dict) or value.get("sha256") != expected:
+        raise Invalid("invocation-binding-mismatch")
+
+
 def _rule_subject_binding(state: _State) -> None:
     """The subject is the interval's after-state, and nothing else.
 
@@ -1062,6 +1100,7 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("write-chain", _rule_write_chain),
     ("subject-binding", _rule_subject_binding),
     ("code-digest-shape", _rule_code_digest_shape),
+    ("invocation-binding-shape", _rule_invocation_binding_shape),
     ("read-bindings", _rule_read_bindings),
     ("range-preimage", _rule_range_preimage),
     ("read-chain", _rule_read_chain),
@@ -1084,6 +1123,7 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("tier-recompute", _rule_tier_recompute),
     ("authoritative-carries-rows", _rule_authoritative_carries_rows),
     ("code-digest-policy", _rule_code_digest_policy),
+    ("invocation-binding-policy", _rule_invocation_binding_policy),
 )
 
 

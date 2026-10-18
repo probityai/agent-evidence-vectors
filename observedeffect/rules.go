@@ -133,6 +133,49 @@ func ruleCodeDigestPolicy(c *ctx) *fault {
 	return nil
 }
 
+// ruleInvocationBindingShape validates a present optional call binding. It is
+// a signed join key; passing this check does not show the call was dispatched.
+func ruleInvocationBindingShape(c *ctx) *fault {
+	value, present := c.pred["invocationBinding"]
+	if !present {
+		return nil
+	}
+	binding, ok := value.(map[string]any)
+	if !ok || len(binding) != 1 {
+		return malformed("invocation-binding-shape")
+	}
+	sha, present := binding["sha256"]
+	if !present {
+		return malformed("invocation-binding-shape")
+	}
+	text, ok := sha.(string)
+	if !ok || !codeSHA256.MatchString(text) {
+		return malformed("invocation-binding-value")
+	}
+	return nil
+}
+
+// ruleInvocationBindingPolicy joins only against a binding the consumer
+// computed from the request it holds, or took from a verified decision record.
+func ruleInvocationBindingPolicy(c *ctx) *fault {
+	expected := c.policy.ExpectedInvocationBinding
+	if expected == "" {
+		return nil
+	}
+	if !codeSHA256.MatchString(expected) {
+		return invalid("invocation-binding-policy-invalid")
+	}
+	value, present := c.pred["invocationBinding"]
+	if !present {
+		return invalid("invocation-binding-required")
+	}
+	binding, ok := value.(map[string]any)
+	if !ok || binding["sha256"] != expected {
+		return invalid("invocation-binding-mismatch")
+	}
+	return nil
+}
+
 // ruleRequiredMembers states that no member has a default and no verifier may
 // supply one.
 func ruleRequiredMembers(c *ctx) *fault {
