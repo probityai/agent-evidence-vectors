@@ -371,6 +371,35 @@ class Controls(unittest.TestCase):
             BRIDGE.require_packet(destination, request["branchAuthority"]), source.authority
         )
 
+    def test_without_a_gh_login_the_public_endpoint_is_read_with_no_credential(self):
+        # A gate box holds no GitHub token, and gh refuses every call without a login (exit 4).
+        self.executable(
+            "gh",
+            "#!/bin/sh\necho 'To get started with GitHub CLI, please run:  gh auth login' >&2\n"
+            '[ "$1" = auth ] && exit 1\nexit 4\n',
+        )
+        public = "https://api.github.com/repos/example/transport"
+        self.executable(
+            "curl",
+            "#!/bin/sh\nfor a; do last=$a; case $a in *uthorization*) exit 9;; esac; done\n"
+            f'[ "$last" = {public} ] || exit 8\n'
+            'echo \'{"full_name":"example/transport","default_branch":"trunk"}\'\n',
+        )
+        request = self.request()
+        argv = request["branchAuthority"]["primary"]["repository"]["argv"]
+        self.assertEqual(argv[0], "curl")
+        self.assertEqual(argv[-1], public)
+        self.assertEqual(
+            BRIDGE.require_packet(self.root, request["branchAuthority"])["default_branch"], "trunk"
+        )
+
+    def test_a_metadata_command_outside_the_two_accepted_ones_refuses(self):
+        request = self.request()
+        record = request["branchAuthority"]["primary"]["repository"]
+        record["argv"] = ["curl", "--fail", "https://api.example.invalid/repos/example/transport"]
+        with self.assertRaisesRegex(ValueError, "differs from its contract"):
+            BRIDGE.require_packet(self.root, request["branchAuthority"])
+
     def test_transport_restores_only_the_captured_arbitrary_default_ref(self):
         request = self.request()
         tip = request["branchAuthority"]["authority"]["frozen_published_tip"]
