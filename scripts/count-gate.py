@@ -1333,6 +1333,15 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- a count from a past audit, recorded in the change history.
+    Frozen(
+        'vectors/CHANGES.md',
+        "the number of loop sites a past audit enumerated in aee/",
+        'it enumerated 53 sites in `aee/`',
+        'A count of source sites an audit enumerated in the reference verifier at the time '
+        'the entry was written. It is history, does not track any corpus, and met the '
+        'observed-effect reject count by coincidence.',
+    ),
     # ---- the output of a published, immutable release, shown as it prints.
     Frozen(
         'README.md',
@@ -2962,6 +2971,9 @@ MASKS = tuple(
         # written as shapes for the reason the rule-id mask above gives: a freeze
         # per site would have to move every time a corpus total walked onto one.
         r"\b\d+\*\*\d+\b",
+        # The same power written with a caret: `2^53`, the I-JSON integer bound,
+        # met the observed-effect reject count when that corpus reached 53.
+        r"\b\d+\^\d+\b",
         r"\bto-the-\d+\b",
         r"\b\d+\s+days?\b",
         # A NUMERIC RANGE. `(90-100 Full Compliance, 70-89 Partial, 50-69 Minimal,
