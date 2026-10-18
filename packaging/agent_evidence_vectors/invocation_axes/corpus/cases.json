@@ -2,7 +2,7 @@
   "schema": "aev-invocation-axes-cases/v1",
   "invocation": "invocation.json",
   "invocation_binding": "sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
-  "binding_rule": "sha256 over RFC 8785 bytes of {method, params}; the JSON-RPC id and version tag are excluded",
+  "binding_rule": "sha256 over RFC 8785 bytes of {method, params without _meta}; the JSON-RPC id, version tag and params._meta are excluded",
   "result_vocabulary": [
     "ESTABLISHED",
     "CONTRADICTED",
@@ -512,6 +512,124 @@
         },
         "objects": {
           "request.json": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"proxy-31\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"update_ticket\",\n    \"arguments\": {\n      \"ticket_id\": \"OPS-4127\",\n      \"status\": \"deleted\",\n      \"labels\": [\n        \"resolved\",\n        \"p2\"\n      ],\n      \"reopen_count\": 0\n    }\n  }\n}\n",
+          "decision.json": "{\n  \"request_binding\": \"sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761\",\n  \"decision\": \"allow\",\n  \"policy\": \"tickets-close-allowed@3\"\n}\n"
+        }
+      },
+      "execution": {
+        "schema": "aev-invocation-execution-bundle/v1",
+        "call_binding": "sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+        "dispatch": {
+          "outcome": "DISPATCHED"
+        },
+        "execution_report": {
+          "status": "success",
+          "message": "ticket closed"
+        },
+        "postcondition": {
+          "tool_id": "update_ticket",
+          "expected_fields": {
+            "status": "closed",
+            "reopen_count": 0
+          }
+        },
+        "observation": {
+          "source": "independent_reader",
+          "fields": {
+            "status": "closed",
+            "reopen_count": 0,
+            "assignee": "ops"
+          }
+        }
+      },
+      "expected": {
+        "package_integrity": "ESTABLISHED",
+        "request_decision_correspondence": "CONTRADICTED",
+        "observed_effect": "ESTABLISHED",
+        "capture_authenticity": "NOT_ESTABLISHED",
+        "capture_coverage": "NOT_ESTABLISHED",
+        "kernel_to_tool_attribution": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "hop_metadata_added",
+      "axis": "request_decision_correspondence",
+      "note": "A later hop added params._meta (progress token, trace context, client audit context) and a new JSON-RPC id; the call is the same.",
+      "capture": {
+        "pinned_package_digest": "sha256:8433c139dfac84f88a40503ab724a22e663413e76bd7b8ce402db5abe682394f",
+        "manifest": {
+          "schema": "aev-invocation-capture-package/v1",
+          "objects": [
+            {
+              "name": "decision.json",
+              "sha256": "sha256:5b424e936efae6492c59d3db3da2281546c7378f4bec812665c7c2fdc4c645d2"
+            },
+            {
+              "name": "request.json",
+              "sha256": "sha256:f3107ed9ad5d1076edc03d7a74ef9af2b91e256db3a42c29c821276bc477b9a4"
+            }
+          ]
+        },
+        "objects": {
+          "request.json": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"proxy-31\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"update_ticket\",\n    \"arguments\": {\n      \"ticket_id\": \"OPS-4127\",\n      \"status\": \"closed\",\n      \"labels\": [\n        \"resolved\",\n        \"p2\"\n      ],\n      \"reopen_count\": 0\n    },\n    \"_meta\": {\n      \"progressToken\": \"hop-2\",\n      \"traceparent\": \"00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01\",\n      \"aiInvocation\": {\n        \"reason\": \"close the resolved ticket\",\n        \"turnId\": \"t-19\"\n      }\n    }\n  }\n}\n",
+          "decision.json": "{\n  \"request_binding\": \"sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761\",\n  \"decision\": \"allow\",\n  \"policy\": \"tickets-close-allowed@3\"\n}\n"
+        }
+      },
+      "execution": {
+        "schema": "aev-invocation-execution-bundle/v1",
+        "call_binding": "sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+        "dispatch": {
+          "outcome": "DISPATCHED"
+        },
+        "execution_report": {
+          "status": "success",
+          "message": "ticket closed"
+        },
+        "postcondition": {
+          "tool_id": "update_ticket",
+          "expected_fields": {
+            "status": "closed",
+            "reopen_count": 0
+          }
+        },
+        "observation": {
+          "source": "independent_reader",
+          "fields": {
+            "status": "closed",
+            "reopen_count": 0,
+            "assignee": "ops"
+          }
+        }
+      },
+      "expected": {
+        "package_integrity": "ESTABLISHED",
+        "request_decision_correspondence": "ESTABLISHED",
+        "observed_effect": "ESTABLISHED",
+        "capture_authenticity": "NOT_ESTABLISHED",
+        "capture_coverage": "NOT_ESTABLISHED",
+        "kernel_to_tool_attribution": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "argument_moved_into_meta",
+      "axis": "request_decision_correspondence",
+      "note": "An argument was taken out of arguments and put in params._meta; excluding _meta does not hide the change.",
+      "capture": {
+        "pinned_package_digest": "sha256:589ef805cf33321895201a60d6f49d547204c428b1fb92be7f1cb15332a8cfdb",
+        "manifest": {
+          "schema": "aev-invocation-capture-package/v1",
+          "objects": [
+            {
+              "name": "decision.json",
+              "sha256": "sha256:5b424e936efae6492c59d3db3da2281546c7378f4bec812665c7c2fdc4c645d2"
+            },
+            {
+              "name": "request.json",
+              "sha256": "sha256:da7f5ed2597e4a778195f27bf292e9245b8ceab0ff721c83c7e9cf737e7454a7"
+            }
+          ]
+        },
+        "objects": {
+          "request.json": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": \"proxy-31\",\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"update_ticket\",\n    \"arguments\": {\n      \"ticket_id\": \"OPS-4127\",\n      \"labels\": [\n        \"resolved\",\n        \"p2\"\n      ],\n      \"reopen_count\": 0\n    },\n    \"_meta\": {\n      \"status\": \"closed\"\n    }\n  }\n}\n",
           "decision.json": "{\n  \"request_binding\": \"sha256:16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761\",\n  \"decision\": \"allow\",\n  \"policy\": \"tickets-close-allowed@3\"\n}\n"
         }
       },
