@@ -283,7 +283,8 @@ prior-commitment signature against consumer key policy, then the ordering and
 disjointness checks under [`observation`], then the `inScope` label on every
 `writes` member and the refusal of an out-of-scope write in an authoritative
 record, then the `tier` recompute and the rows requirement on an authoritative
-record, then the rest of consumer policy, including the code identity join.
+record, then the rest of consumer policy, including the code identity join and
+the invocation binding join.
 
 **A refusal in stage one is `malformed` and a refusal in stage two is
 `invalid`.** The one exception is a signature whose bytes cannot be decoded at

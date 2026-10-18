@@ -1241,6 +1241,7 @@ STAGE_TWO_GATES: dict[str, str] = {
     "rule_tier_recompute": "the `tier` recompute",
     "rule_authoritative_carries_rows": "the rows requirement on an authoritative record",
     "rule_code_digest_policy": "the code identity join",
+    "rule_invocation_binding_policy": "the invocation binding join",
 }
 
 #: Stage-one gates the predicate names outright, because a reader could not place
