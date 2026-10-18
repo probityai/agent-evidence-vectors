@@ -1,59 +1,153 @@
 {
   "_type": "https://in-toto.io/Statement/v1",
   "predicate": {
-    "checks": [
-      {
-        "claim_type": "protected_paths/v1",
-        "decision": "supported",
-        "reason": "protected_paths_untouched",
-        "vantage": "independent",
-        "witness_scope": "PEER"
-      },
-      {
-        "claim_type": "acceptance_observed/v1",
-        "decision": "supported",
-        "reason": "acceptance_passed_in_verifier",
-        "vantage": "independent",
-        "witness_scope": "PEER"
-      },
-      {
-        "claim_type": "tool_claim_match/v1",
-        "decision": "supported",
-        "reason": "tool_claims_matched",
-        "vantage": "independent",
-        "witness_scope": "PEER"
-      }
-    ],
+    "accepted": true,
     "claim_id": "scope-pin-lower",
-    "external_effects": [],
-    "invocation_id": "call-1",
-    "records": {
-      "capability": {
-        "sha256": "895ba6d24cddff36041fe959da139673bbe6aa8dd14e38fc7fa33d1c103ad9b4"
-      },
-      "claims": {
-        "sha256": "284d36787e45a41a34aa80df74aa0d9f1e958904729f68368d2c2eeb2c9e9a5f"
-      },
-      "contract": {
-        "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
-      },
-      "grade": {
-        "sha256": "1f08f276f6728cd9d94b0f03ca81567197dfb4f68f4a226e647472a814a8d99e"
-      },
-      "observation": {
-        "sha256": "28b1248cffae8d4f8d343bc44f46555d0376c97a8911c72f5d7617aaa88e0c21"
-      },
-      "tree": {
-        "sha256": "53d5ef2c001f68f6ddea43a2184f4ed7e877084f90756fb842f193a5c5784395"
-      }
-    },
-    "schema_version": "probity-done-receipt/v1",
-    "verdict": {
+    "completion_claimed": true,
+    "integrity": {
+      "checks": [
+        {
+          "claim_type": "protected_paths/v1",
+          "decision": "supported",
+          "reason": "protected_paths_untouched",
+          "unwitnessed_scope_claims": [
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "observation"
+            },
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "tree"
+            }
+          ],
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        },
+        {
+          "claim_type": "probe_observed/v1",
+          "decision": "not_established",
+          "reason": "no_probes",
+          "vantage": "unestablished"
+        },
+        {
+          "claim_type": "tool_claim_match/v1",
+          "decision": "supported",
+          "reason": "tool_claims_matched",
+          "unwitnessed_scope_claims": [
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "observation"
+            }
+          ],
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        },
+        {
+          "claim_type": "completion_claim/v1",
+          "decision": "supported",
+          "reason": "completion_claim_observed",
+          "unwitnessed_scope_claims": [
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "observation"
+            }
+          ],
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        }
+      ],
       "decision": "supported",
-      "reason": "done_checks_supported",
+      "reason": "integrity_checks_supported",
+      "unwitnessed_scope_claims": [
+        {
+          "claimed": "EXTERNAL",
+          "earned": "PEER",
+          "reason": "no witness bundle is pinned for this record",
+          "witness": "observation"
+        },
+        {
+          "claimed": "EXTERNAL",
+          "earned": "PEER",
+          "reason": "no witness bundle is pinned for this record",
+          "witness": "tree"
+        }
+      ],
       "vantage": "independent",
       "witness_scope": "PEER"
     },
+    "invocation_id": "call-1",
+    "outcome": {
+      "checks": [
+        {
+          "claim_type": "acceptance_observed/v1",
+          "decision": "supported",
+          "reason": "acceptance_passed_in_verifier",
+          "unwitnessed_scope_claims": [
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "tree"
+            },
+            {
+              "claimed": "EXTERNAL",
+              "earned": "PEER",
+              "reason": "no witness bundle is pinned for this record",
+              "witness": "grade"
+            }
+          ],
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        }
+      ],
+      "decision": "supported",
+      "reason": "acceptance_passed_in_verifier",
+      "unwitnessed_scope_claims": [
+        {
+          "claimed": "EXTERNAL",
+          "earned": "PEER",
+          "reason": "no witness bundle is pinned for this record",
+          "witness": "tree"
+        },
+        {
+          "claimed": "EXTERNAL",
+          "earned": "PEER",
+          "reason": "no witness bundle is pinned for this record",
+          "witness": "grade"
+        }
+      ],
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "records": {
+      "capability": {
+        "sha256": "64bf3fa31293b9eda86084bacbb9e4097daaa6298044d6dc28f1429b8a552844"
+      },
+      "claims": {
+        "sha256": "7444a5cf90502f42c7083fadff20c5f0debadb37ab7a211b79240a94e32ab12a"
+      },
+      "contract": {
+        "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+      },
+      "grade": {
+        "sha256": "573ea1a100597349783ece9291f96ebfc2c59d565a63c65f223ddcf24a103b49"
+      },
+      "observation": {
+        "sha256": "90bec5153d5b54adb3973130eb80b92505cfe5c17e020d22994f46610fc1a462"
+      },
+      "tree": {
+        "sha256": "51afa4bc8f61e90ca075ef288ca520571403d1e62c6f364071b50c1bdd435828"
+      }
+    },
+    "schema_version": "probity-done-receipt/v2",
     "verifier": {
       "id": "https://github.com/probityai/probity"
     }

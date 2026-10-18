@@ -1,21 +1,21 @@
 {
   "artifacts": {
     "contract": {
-      "length": 555,
+      "length": 797,
       "path": "contract.json",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "grade": {
-      "length": 557,
+      "length": 731,
       "path": "grade.json",
-      "sha256": "6a8178be79df2cd62fd0b4c438ee9b7610d9fbb859a0ca67415ea7d6bb39cd93"
+      "sha256": "ac996d5567fac42feb395ee206a31ca1b95f7c921fcacf4b87a090f78282de42"
     },
     "tree": {
-      "length": 476,
+      "length": 540,
       "path": "tree.json",
-      "sha256": "bbde8bbc8f7ec843561696c80f44424e31ece9ad6d670201338b82ee6356a902"
+      "sha256": "70f5d3b09ccbf3501436754b2a7d9a7eca48ca14a48597691741793d23d619d3"
     }
   },
-  "case_id": "control-grade-failed",
+  "case_id": "control-grade-failed-honestly",
   "schema_version": "probity-case/v1"
 }

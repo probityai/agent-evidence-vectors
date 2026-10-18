@@ -1,0 +1,18 @@
+{
+  "claim_id": "honest",
+  "executable": [],
+  "files": {
+    "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c",
+    "tests/test_app.py": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v2",
+  "special": {},
+  "symlinks": {
+    "lib": ""
+  },
+  "tree_sha256": "0397938e62265d319bd02a459ec4f36e5e702d2c71c64ccddf2edbe4983b01d6",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 291,
+      "length": 318,
       "path": "capability.json",
-      "sha256": "971137aed623733159f4899d6e068b8800db90059baacfa9899b552c37537c1f"
+      "sha256": "bd9edd235b82d558b70c21c0b646cd1c54bc56b8430dc39d5253594dcf505b1d"
     },
     "claims": {
-      "length": 325,
+      "length": 390,
       "path": "claims.json",
-      "sha256": "6e8c45c2bd42b3c3af84307bf8ef61a52c033e019feab624f19e92ce263b4fd6"
+      "sha256": "b1fbda5dcfe4bb79eba29f9ce448863e1e83873df74bd03c0c92c53d8a76d02b"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 723,
+      "length": 952,
       "path": "observation.json",
-      "sha256": "5b51c13efa5849b1db9312870f0011c4bc30beda0143ec8d3d4a121501164279"
+      "sha256": "1240d31c282b6618b7c7d0c2bd6c054749957a58783fecd509431cec8b23d443"
     }
   },
   "case_id": "claim-matched-after-edit",

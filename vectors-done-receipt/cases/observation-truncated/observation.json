@@ -17,11 +17,13 @@
         "-q",
         "tests"
       ],
+      "cwd": "/workspace",
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin",
+        "PYTHONSAFEPATH": "1"
+      },
+      "exe": "/usr/local/bin/python",
       "exit": 0,
       "id": "e2",
       "step": 2,
-      "time": "2026-10-17T00:00:02Z",
-      "type": "exec"
-    },
-    {
-      "id":
+      "time": "2026-10-17T00:0

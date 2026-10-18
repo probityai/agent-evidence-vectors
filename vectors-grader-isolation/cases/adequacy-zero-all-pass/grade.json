@@ -1,6 +1,6 @@
 {
-  "claim_id": "adequacy-zero",
-  "contract_sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48",
+  "claim_id": "adequacy-zero-all-pass",
+  "contract_sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a",
   "invocation_id": "call-1",
   "producer": "harness-verifier",
   "results": [
@@ -14,6 +14,17 @@
       ],
       "exit": 0,
       "id": "unit"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "/heldout"
+      ],
+      "exit": 0,
+      "id": "heldout-unit"
     }
   ],
   "schema_version": "probity-acceptance-grade/v1",

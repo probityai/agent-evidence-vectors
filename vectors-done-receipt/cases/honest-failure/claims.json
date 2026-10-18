@@ -1,0 +1,23 @@
+{
+  "claim_id": "honest-failure",
+  "claims": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 1,
+      "id": "c1"
+    }
+  ],
+  "completion": {
+    "asserted": false,
+    "basis": "none"
+  },
+  "invocation_id": "call-1",
+  "producer": "transcript-parser",
+  "schema_version": "probity-tool-claims/v2"
+}

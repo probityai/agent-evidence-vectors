@@ -11,9 +11,20 @@
           "tests"
         ],
         "id": "unit"
+      },
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "/heldout"
+        ],
+        "id": "heldout-unit"
       }
     ],
     "contract_id": "contract-app-1",
+    "heldout_split_sha256": "dfade9df9d40645ebde318903b783e866cdf042b4624213cfb02aeaf000a6172",
     "protected_paths": [
       {
         "exclude": [
@@ -31,7 +42,7 @@
   "subject": [
     {
       "digest": {
-        "sha256": "75f4e91e0a44e9fbfec4aa36cf9edc525742eb7b053691039979b501fa05fad8"
+        "sha256": "75a2efb2abde222ee2179e476eb22952c6b1c592809ff260f961edbea6b5b7b9"
       },
       "name": "contract.json"
     }

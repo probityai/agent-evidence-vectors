@@ -9,6 +9,16 @@
         "tests"
       ],
       "id": "unit"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "/heldout"
+      ],
+      "id": "heldout-unit"
     }
   ],
   "adequacy": {

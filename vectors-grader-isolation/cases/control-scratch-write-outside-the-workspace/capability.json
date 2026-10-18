@@ -1,13 +1,15 @@
 {
-  "claim_id": "control-scratch-write",
+  "claim_id": "control-scratch-write-outside-the-workspace",
   "invocation_id": "call-1",
   "producer": "host-observer",
   "schema_version": "probity-capabilities/v1",
   "visible_event_types": [
     "chmod",
+    "connect",
     "create",
     "exec",
     "link",
+    "read",
     "rename",
     "truncate",
     "unlink",

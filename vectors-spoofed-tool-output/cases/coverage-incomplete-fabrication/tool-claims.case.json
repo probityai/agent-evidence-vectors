@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 298,
+      "length": 325,
       "path": "capability.json",
-      "sha256": "7707660283a5c00fbd887753548c9a1d09d8c989bca10c58cd083df8372415b5"
+      "sha256": "688d83a12e4de98bf1657da5c7bb7a45a10a802218d891a2c7de4f7314f0bcc1"
     },
     "claims": {
-      "length": 332,
+      "length": 397,
       "path": "claims.json",
-      "sha256": "c216804c8f235eec0be8cb9e0f2865573c171531705d6081a7d50fb1049e7feb"
+      "sha256": "f935a045966c30629231a61af0dcb0dd1b88064260bef31878ba08891f9abad7"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 796,
+      "length": 1048,
       "path": "observation.json",
-      "sha256": "6844a1e3918eee470fd2e272153739ad6bda1c254fadf60c0d63e1ed2d328fe9"
+      "sha256": "ea40b1969d016e1017116e4f43c030661511a06b2a89f094dcf81c62557bb0bb"
     }
   },
   "case_id": "coverage-incomplete-fabrication",
