@@ -215,3 +215,31 @@ func TestPresentSignaturesArePassedNotVerified(t *testing.T) {
 		t.Fatal("a statement with unverifiable signatures must not be admitted")
 	}
 }
+
+// TestUnverifiedSealIsNotAdmitted pins that a run-end seal's signature is
+// checked whether or not any row references the seal. A caught-row statement
+// references only its interception record, so a seal carrying garbage
+// signature bytes has no row to fail through; admission must still refuse it.
+func TestUnverifiedSealIsNotAdmitted(t *testing.T) {
+	garbage := []any{map[string]any{"keyid": "", "sig": "bm90LWEtc2lnbmF0dXJl"}}
+	base := aeetest.Build(aeetest.Options{})
+
+	control := aee.Verify(base, pinnedPolicy())
+	requireValid(t, control)
+	if hasPolicyCode(control, aee.CodeSubstrateRowUnattested) {
+		t.Fatalf("control must not raise substrate-row-unattested, got %v", control.PolicyCodes)
+	}
+
+	b := mutateRecordSignatures(t, base, []int{1}, garbage)
+	r := aee.Verify(b, pinnedPolicy())
+	requireValid(t, r)
+	if len(r.Tiers) != 1 || r.Tiers[0] != aee.TierAttested {
+		t.Fatalf("the caught row's own record is signed, want attested, got %v", r.Tiers)
+	}
+	if r.Admitted {
+		t.Fatal("a statement whose seal signature does not verify must not be admitted")
+	}
+	if !hasPolicyCode(r, aee.CodeSubstrateRowUnattested) {
+		t.Fatalf("want %s, got %v", aee.CodeSubstrateRowUnattested, r.PolicyCodes)
+	}
+}

@@ -509,8 +509,30 @@ func ruleCoverageCoherence(c *ctx) *fault {
 func ruleCoverageGapsNamed(c *ctx) *fault {
 	coverage := c.obj(c.observation(), "coverage")
 	complete, _ := coverage["scopeComplete"].(bool)
-	if !complete && len(c.list(coverage, "gaps")) == 0 {
+	_, undetermined := coverage["notEstablished"]
+	if !complete && len(c.list(coverage, "gaps")) == 0 && !undetermined {
 		return malformed("coverage-incomplete-without-gaps")
+	}
+	return nil
+}
+
+// ruleCoverageNotEstablishedShape holds the third coverage shape: the observer
+// could not determine its coverage, says why, and says nothing else about it. An
+// empty reason is the unnamed gap under another member, and a reason beside a
+// located gap or a claim of completeness says two things about one coverage.
+func ruleCoverageNotEstablishedShape(c *ctx) *fault {
+	coverage := c.obj(c.observation(), "coverage")
+	value, present := coverage["notEstablished"]
+	if !present {
+		return nil
+	}
+	reason, ok := value.(string)
+	if !ok || strings.TrimSpace(reason) == "" {
+		return malformed("coverage-not-established-without-reason")
+	}
+	complete, _ := coverage["scopeComplete"].(bool)
+	if complete || len(c.list(coverage, "gaps")) > 0 {
+		return malformed("coverage-shape-ambiguous")
 	}
 	return nil
 }
@@ -796,6 +818,7 @@ func ruleTierRecompute(c *ctx) *fault {
 	obs := c.observation()
 	coverage := c.obj(obs, "coverage")
 	complete, _ := coverage["scopeComplete"].(bool)
+	_, undetermined := coverage["notEstablished"]
 	gapInsideScope := false
 	for _, entry := range c.list(coverage, "gaps") {
 		gap, _ := entry.(string)
@@ -810,6 +833,7 @@ func ruleTierRecompute(c *ctx) *fault {
 		{"authoritative-vantage-not-independent", c.str(obs, "vantage") == "below-observed"},
 		{"authoritative-empty-path-scope", len(c.list(c.pred, "pathScope")) > 0},
 		{"authoritative-coverage-incomplete", complete || !gapInsideScope},
+		{"authoritative-coverage-not-established", !undetermined},
 	}
 	derived := "authoritative"
 	for _, clause := range clauses {

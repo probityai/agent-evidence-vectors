@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.7.0
+Version: 0.8.0
 
 Predicate Name: Observed Effect
 
@@ -274,7 +274,7 @@ order (`openedAt` strictly before `sealedAt`, and `issuedAt` not before
 `sealedAt`), the predicate type, the subject binding and the path forms; the
 `mutation` coherence recompute; the write chain and the read-binding integrity
 rules, including the `rangeDigest` recompute against a blob the consumer holds;
-the commitment digest
+the coverage shape under [`observation`]; the commitment digest
 recompute and the spelling of every key identifier and of `priorCommitment.sig`;
 and the self-recompute of any `dualValues` fact the statement determines. Stage
 two judges a well-formed statement's claims: the envelope signature, then the
@@ -384,8 +384,9 @@ hold, and is `voluntary` otherwise.
 2.  `pathScope` is non-empty.
 3.  `coverage.scopeComplete` is `true`, or every member of `coverage.gaps`
     names a path outside `pathScope`.
+4.  `coverage.notEstablished` is absent.
 
-There are three clauses and five were drafted. Both removals were forced by the
+There are four clauses and six were drafted. Both removals were forced by the
 mutation sweep in `vectors-observed-effect/mutation_check.py`, which disables one
 rule at a time and requires some member to stop being refused, and both removed
 clauses were **unreachable**.
@@ -617,7 +618,8 @@ of literal path prefixes the observation did not cover. `scopeComplete: true`
 with a non-empty `gaps` naming a path inside `pathScope` is malformed: the two
 members contradict, and a verifier MUST NOT prefer either.
 
-**`scopeComplete: false` with an empty `gaps` is malformed as well**, and that is
+**`scopeComplete: false` with an empty `gaps` is malformed as well**, unless the
+record says coverage could not be determined (below), and that is
 the direction which was open. An incomplete observation MUST say where it was
 blind. Otherwise a producer admits in one member that it did not cover its own
 scope, declines in the next to say which part, and still grades authoritative
@@ -625,6 +627,29 @@ through clause 3 of the `tier` recompute, which an empty list satisfies vacuousl
 The unnamed gap is where the writes went, and an admission of incompleteness that
 withholds its location is worth less than no admission at all, because it reads as
 candour.
+
+`coverage.notEstablished` _string, optional_ says that the observer could not
+determine its coverage of `pathScope` for the interval, and why: for example a
+kernel audit buffer that overflowed and dropped events without recording which
+paths they touched. A coverage statement therefore takes exactly one of three
+shapes: complete (`scopeComplete: true`, `gaps` naming no path inside
+`pathScope`); incomplete with every gap located (`scopeComplete: false`, `gaps`
+non-empty); or not established (`scopeComplete: false`, `gaps: []`,
+`notEstablished` carrying the reason). These are the three shapes of clause C7
+of the CoSAI WS4 Agent Containment paper.
+
+Before this member existed an observer in that position had no true value to
+write. `scopeComplete: false` with an empty `gaps` is malformed, so it could only
+invent a gap or claim completeness. A record carrying `notEstablished` follows
+three rules. The reason MUST be a non-empty string, because a coverage the
+observer cannot determine and will not explain is the A25 defect again, and a
+record whose reason is empty or is not a string is malformed. The member MUST NOT
+appear beside `scopeComplete: true` or a non-empty `gaps`, because a record that
+says it could not determine its coverage and also locates its gaps or claims
+completeness has said two things, and that record is malformed. The record also
+fails clause 4 of the `tier` recompute, so it grades voluntary, and an
+authoritative claim over it is invalid. The writes it carries were still seen by
+the observer: clause 4 decides only that the record cannot establish an absence.
 
 `observedSigners` is the set of key identifiers the observed party signs its own
 records with, as the observer knows them. It is required and MAY be empty, and
@@ -1034,6 +1059,16 @@ integers by value at any depth and refusing the non-JSON constants at parse.
 The same defect was found first in a canonicalizer outside this repository, which
 kept the digits of integers past the bound.
 
+**A34. Undetermined coverage graded authoritative. CLOSED.**
+`coverage.notEstablished` carrying a reason, with `scopeComplete: false` and
+`gaps: []`, and `tier: authoritative`. The record admits it could not determine
+what it covered. Clause 3 of the recompute asks only whether every member of
+`gaps` lies outside `pathScope`, which an empty list satisfies vacuously, so
+without a further clause the record grades authoritative and establishes an
+absence over a scope it says it cannot speak for. Closed by clause 4. Two
+stage-one rules close the neighbouring shapes: a `notEstablished` with no reason,
+and a `notEstablished` beside a located gap or a claim of completeness.
+
 **A6. The self-refuting record. CLOSED, and it is the vector shape this
 repository lacked.** A record declares `mutation: none` with `beforeRoot` equal
 to `afterRoot`, and carries a `writes` member whose `postStateDigest` differs
@@ -1069,6 +1104,16 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.8.0 adds `coverage.notEstablished`, the third coverage shape: the observer
+could not determine its coverage, and the member says why. Clause 4 of the `tier`
+recompute grades such a record voluntary (A34). Two stage-one rules refuse a
+`notEstablished` with an empty reason and one beside a located gap or
+`scopeComplete: true`. Every existing member keeps its verdict and its bytes. What
+moves is a record with `scopeComplete: false`, `gaps: []` and a non-empty
+`notEstablished`. At 0.7.0 it was malformed for naming no gap, and at 0.8.0 it is
+valid and voluntary. A verifier written to 0.7.0 refuses the new accept member, so
+the version moves in its minor position.
 
 0.7.0 decides the I-JSON integer bound by a number's value rather than its
 spelling, and refuses the non-JSON constants `NaN`, `Infinity` and `-Infinity`

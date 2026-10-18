@@ -1333,6 +1333,15 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- a count from a past audit, recorded in the change history.
+    Frozen(
+        'vectors/CHANGES.md',
+        "the number of loop sites a past audit enumerated in aee/",
+        'it enumerated 53 sites in `aee/`',
+        'A count of source sites an audit enumerated in the reference verifier at the time '
+        'the entry was written. It is history, does not track any corpus, and met the '
+        'observed-effect reject count by coincidence.',
+    ),
     # ---- the output of a published, immutable release, shown as it prints.
     Frozen(
         'README.md',
@@ -2841,6 +2850,10 @@ MASKS = tuple(
         # collided with the suiteRevision and a reject count while claiming
         # nothing about either.
         r"\b[Rr]ules?\s+\d{1,3}\b",
+        # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
+        # file and counts nothing. A pin of that shape collided with the unforced
+        # count when the forcing baseline moved from 404 to 417 rules.
+        r"\b[Ll]ines?\s+\d+(?:\s*(?:to|-)\s*\d+)?\b",
         r"\b0\d+\b",  # zero-padded: a count is never written 0020
         r"\b\d+\s*(?:<<|>>)\s*\d+\b",  # shift expressions: 20 << 20
         r"\b\d+\s*[KMGT]i?B\b",  # byte sizes: 20 MiB
@@ -2962,6 +2975,9 @@ MASKS = tuple(
         # written as shapes for the reason the rule-id mask above gives: a freeze
         # per site would have to move every time a corpus total walked onto one.
         r"\b\d+\*\*\d+\b",
+        # The same power written with a caret: `2^53`, the I-JSON integer bound,
+        # met the observed-effect reject count when that corpus reached 53.
+        r"\b\d+\^\d+\b",
         r"\bto-the-\d+\b",
         r"\b\d+\s+days?\b",
         # A NUMERIC RANGE. `(90-100 Full Compliance, 70-89 Partial, 50-69 Minimal,
@@ -3052,7 +3068,12 @@ ATTRIBUTION = re.compile(r"(?:suite)?[Rr]evisions?[-\s]+(?:[#>*]+\s*)?(\d+)")
 # keep moving, and each step is one more small integer that prose can use
 # innocently. The check that survives is the one below, which asks whether a count
 # NOUN sits beside the number.
-SMALL_VALUE = 22
+#
+# Raised again from 22 to 23 at suiteRevision 22, when the admission corpus grew
+# to 22 vectors and its total walked into the band: bare 22s in workflow node
+# versions, test fixtures and prose were reported as unaccounted corpus totals,
+# none of them a claim about that corpus. The same argument holds.
+SMALL_VALUE = 23
 SMALL_VALUE_NOUNS = re.compile(
     r"(?i)\b(?:vectors?|suiteRevisions?|revisions?|sites?|rules?|forced|unforced|"
     r"tolerated|unmeasurable|annotations?|KILLED|SILENT|DEAD|INCONCLUSIVE)\b"

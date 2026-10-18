@@ -181,6 +181,7 @@ func rules() []rule {
 		{"read-chain", ruleReadChain},
 		{"empty-tree-holds-no-bytes", ruleEmptyTreeHoldsNoBytes},
 		{"coverage-coherence", ruleCoverageCoherence},
+		{"coverage-not-established-shape", ruleCoverageNotEstablishedShape},
 		{"coverage-gaps-named", ruleCoverageGapsNamed},
 		{"origin-carries-the-vantage", ruleOriginCarriesTheVantage},
 		{"import-origin-platform", ruleImportOriginPlatform},
