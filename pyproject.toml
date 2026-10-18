@@ -77,6 +77,16 @@ build-backend = "hatchling.build"
 [tool.uv]
 package = false
 
+# probity-verify is the implementation the done corpora's rules come from. The
+# cross-check (vectors-done-receipt/crosscheck_probity_verify.py) replays every done
+# member through it, pinned to the commit the readers were ported against. A
+# dependency group, so it never reaches the published package's metadata.
+[tool.uv.sources]
+probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3ecc8f2142cb878cd43bf9689cbcb5f342", subdirectory = "packages/probity-verify" }
+
+[dependency-groups]
+crosscheck = ["probity-verify"]
+
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
 # path; the wheel moves it under a package named after the distribution rather
@@ -135,7 +145,7 @@ only-include = [
 # Shipped in the wheel they were dead weight that crashed on import, and nothing
 # in the package loads them, so the wheel carries the data and the packaged
 # readers only. The sdist keeps them, because it is the source.
-exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py", "vectors-done-receipt/recorded/**"]
+exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py"]
 
 [tool.hatch.build.targets.wheel.sources]
 "packaging/agent_evidence_vectors" = "agent_evidence_vectors"
