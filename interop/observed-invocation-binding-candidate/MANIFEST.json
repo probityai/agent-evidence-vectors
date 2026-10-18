@@ -1,0 +1,302 @@
+{
+  "profile": "observed-invocation-binding-candidate-v1",
+  "status": "candidate",
+  "classification": "same-author synthetic conformance cases; published test keys",
+  "baseStatement": "vectors-observed-effect/statements/v1c6fdd82db5229e4.json",
+  "baseStatementSha256": "1c6fdd82db5229e40dac91c1ef1360dc5bc3b2474a2f9154304bea014c5818e5",
+  "request": "packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json",
+  "requestSha256": "406b6adf07da614374094f66b9cfef4ffc39d452be04edd0bebb38c060e515aa",
+  "invocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+  "vectors": [
+    {
+      "id": "legacy-absent",
+      "file": "fixtures/legacy-absent.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "sha256": "1c6fdd82db5229e40dac91c1ef1360dc5bc3b2474a2f9154304bea014c5818e5"
+    },
+    {
+      "id": "present-unrequested",
+      "file": "fixtures/present-unrequested.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "required-match",
+      "file": "fixtures/required-match.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "request-id-differs-match",
+      "file": "fixtures/request-id-differs-match.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "params-member-reordered-match",
+      "file": "fixtures/params-member-reordered-match.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "params-value-changed-mismatch",
+      "file": "fixtures/params-value-changed-mismatch.json",
+      "expectedInvocationBinding": "f51204f94a208ac872a7588e170c5e4e0389d8ac4d8e443f9c1bdae2d9c06ef3",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "invocation-binding-mismatch"
+        ]
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "required-absent",
+      "file": "fixtures/required-absent.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "invocation-binding-required"
+        ]
+      },
+      "sha256": "1c6fdd82db5229e40dac91c1ef1360dc5bc3b2474a2f9154304bea014c5818e5"
+    },
+    {
+      "id": "required-mismatch",
+      "file": "fixtures/required-mismatch.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "invocation-binding-mismatch"
+        ]
+      },
+      "sha256": "095e7c9c46ebb685c38f26afa397153c710bfc9051c147e7e0fce9923350f53f"
+    },
+    {
+      "id": "null-field",
+      "file": "fixtures/null-field.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "23776f3871d1b0ed34fcad08900e1f37552428cbda1307ea178f72aa3fec13c9"
+    },
+    {
+      "id": "string-field",
+      "file": "fixtures/string-field.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "cc8805d340d218042ff9650f9086b5f069502666dfd1e80ab660b8744c38bd71"
+    },
+    {
+      "id": "array-field",
+      "file": "fixtures/array-field.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "99238ede552ce1811b03fa387ae77a66af4e902d3b4b7bac2ad982107a0d81ef"
+    },
+    {
+      "id": "empty-field",
+      "file": "fixtures/empty-field.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "efeec9cb5b223864281904031ce8e1e9b97c82e9f5b8892d77e6664717d482e8"
+    },
+    {
+      "id": "unknown-algorithm",
+      "file": "fixtures/unknown-algorithm.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "ab361a5f153361325305467196b251db69fb5ab09c639187121d2ca32acd0e54"
+    },
+    {
+      "id": "extra-algorithm",
+      "file": "fixtures/extra-algorithm.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-shape"
+        ]
+      },
+      "sha256": "4df52545ddc6f5deffbd463bb59c6c9eb6089fcacaf27fc4c8c4da2cb56d7c52"
+    },
+    {
+      "id": "tagged-value",
+      "file": "fixtures/tagged-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "10923c305c6f2f11fcdec0b4474b34a5e78d31cd19f6fc726339d516dcda8f00"
+    },
+    {
+      "id": "uppercase-value",
+      "file": "fixtures/uppercase-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "121a19f1068784fc4e02b16f17c546dec40e967602a6fffce8a0dfc9134c6d6b"
+    },
+    {
+      "id": "trailing-newline",
+      "file": "fixtures/trailing-newline.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "72595f3d353be9dbf750b8e083f050b6c668e698a6f9286937f6195efb26bbc5"
+    },
+    {
+      "id": "short-value",
+      "file": "fixtures/short-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "86cc6f4564889fc574ee520e09429d2e382369356091c6f234b0c6a629856fa0"
+    },
+    {
+      "id": "nonhex-value",
+      "file": "fixtures/nonhex-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "51cae0e7abb41c37c49ffca615186ca2d2a64c6101447cecc09ce204c0955b06"
+    },
+    {
+      "id": "numeric-value",
+      "file": "fixtures/numeric-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "96399ee74fb9a03174c4f6f4ebc857b0255b57329d203e605550f33c215a9878"
+    },
+    {
+      "id": "null-value",
+      "file": "fixtures/null-value.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "invocation-binding-value"
+        ]
+      },
+      "sha256": "08db3fc2013ebbe5171770861f132ce566edc1334a71217b925081b1f9beafbe"
+    },
+    {
+      "id": "invalid-consumer-pin",
+      "file": "fixtures/invalid-consumer-pin.json",
+      "expectedInvocationBinding": "BAD",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "invocation-binding-policy-invalid"
+        ]
+      },
+      "sha256": "d2caa69775d8084b9d311d4827a46ad3694e081359abdb6fb0cea6fb046e29e3"
+    },
+    {
+      "id": "binding-replaces-after-root",
+      "file": "fixtures/binding-replaces-after-root.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "subject-not-the-after-root"
+        ]
+      },
+      "sha256": "a128b4b5a5acced305d01f35a30aee654e98fbbe9c8f7bbe9dd425e8a5e302bf"
+    },
+    {
+      "id": "binding-is-second-subject",
+      "file": "fixtures/binding-is-second-subject.json",
+      "expectedInvocationBinding": "16944d7c4e9028cd7923febf8e5c35d8b1be54b6d08ccfe2a35e1fb22e579761",
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "subject-not-a-single-member"
+        ]
+      },
+      "sha256": "55cecdeb5399f81fd7165e6b080be1ce5dfe63cfbd5b6da8736a2540c7f6318f"
+    },
+    {
+      "id": "unsigned-binding-change",
+      "file": "fixtures/unsigned-binding-change.json",
+      "expectedInvocationBinding": "",
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "envelope-signature-invalid"
+        ]
+      },
+      "sha256": "25fa87ff2a92c37d43f428533bbbb96f9b3773f8d27405e393b8ecc7b3e95201"
+    }
+  ]
+}
