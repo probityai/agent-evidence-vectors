@@ -834,6 +834,8 @@ jobs:
           .venv/bin/python -B scripts/readme-lint-test.py
       - name: the pool venue retains source-bound native results and refuses incomplete runs
         run: .venv/bin/python -B scripts/pre-push-pool-test.py
+      - name: the pre-push hook refuses a pushed commit message the commit-msg hook never saw
+        run: bash scripts/prepush-commit-msg-test.sh
       - name: required native providers bind real tools and refuse unsafe archives
         run: .venv/bin/python -B scripts/native-provider-test.py
       - name: setup-go selects the declared workspace file before dependent commands

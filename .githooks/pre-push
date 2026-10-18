@@ -229,6 +229,52 @@ if [ -n "$push_lines" ]; then
 	esac
 fi
 
+# The commit messages of the push. The commit-msg hook is advisory: a commit
+# made with `git commit --no-verify`, or in a clone whose core.hooksPath was
+# never set, reaches this point unchecked. On 2026-10-18 a 78-character subject
+# reached main that way and turned the commit-message-lint run red for the push
+# that carried it. Every new commit of every pushed branch is therefore linted
+# here by the same tracked file and the same --check-range CI runs, against the
+# same baseline. A tag names commits already linted when they landed.
+msg_gate="$src_root/.githooks/commit-msg"
+if [ ! -f "$msg_gate" ]; then
+	echo "pre-push: ABORT -- $msg_gate is missing; refusing to pass a push whose message guard is absent." >&2
+	exit 1
+fi
+while read -r local_ref local_sha _remote_ref remote_sha; do
+	[ -z "${local_ref:-}" ] && continue
+	case "$local_sha" in *[!0]*) ;; *) continue ;; esac
+	case "$local_ref" in refs/tags/*) continue ;; esac
+	base=""
+	case "${remote_sha:-0}" in
+	*[!0]*)
+		if git -C "$src_root" cat-file -e "${remote_sha}^{commit}" 2>/dev/null; then
+			base="$remote_sha"
+		fi
+		;;
+	esac
+	if [ -z "$base" ]; then
+		if ! git -C "$src_root" cat-file -e "refs/remotes/origin/main^{commit}" 2>/dev/null; then
+			echo "pre-push: ABORT -- no published base for $local_ref; the commit messages it adds cannot be identified." >&2
+			exit 1
+		fi
+		base="refs/remotes/origin/main"
+	fi
+	(cd "$src_root" && "$source_python" -B "$msg_gate" --check-range "${base}..${local_sha}") && msg_status=0 || msg_status=$?
+	case "$msg_status" in
+	0) ;;
+	1)
+		echo "pre-push: REFUSED -- a commit message in $local_ref breaks the commit-message rules." >&2
+		echo "pre-push: reword it before pushing; CI runs the same check on the pushed range." >&2
+		exit 1
+		;;
+	*)
+		echo "pre-push: ABORT -- the commit-message check could not run (exit $msg_status); nothing was verified." >&2
+		exit 1
+		;;
+	esac
+done <<< "$push_lines"
+
 pushed_shas=""
 saw_ref=0
 while read -r local_ref local_sha _remote_ref _remote_sha; do
