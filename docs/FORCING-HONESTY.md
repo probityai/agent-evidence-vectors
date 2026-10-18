@@ -30,8 +30,8 @@ all.**
 | vendored specification | commit `0dbe10bcc959b63dc42370a5db09812c9476f59a`, fetchable from `astrogilda/attestation` at branch `predicate/adversarial-execution-evidence` |
 | reviewed at | `in-toto/attestation#570` |
 | `vectors/MANIFEST.json` | `sha256:5f828f57e4e6845a48d802ae6c9a32d3365b092aa7d23969a2daa7438ac7f368` |
-| `docs/FORCING-BASELINE.json` | `sha256:d980ba9194e26b6e53ee71b2d5c911f040e3cd4a92c049bf62419e6d50d5e423` |
-| campaign | 915 single-site weakenings: 470 KILLED, 36 SILENT, 404 DEAD, 5 INCONCLUSIVE |
+| `docs/FORCING-BASELINE.json` | `sha256:8063095485db9d2dc28d922d0e2d56160eca3abc13ec41960c1468d8d66306ce` |
+| campaign | 928 single-site weakenings: 470 KILLED, 36 SILENT, 417 DEAD, 5 INCONCLUSIVE |
 
 Every vector in the corpus is depended on by at least one recorded weakening, so no
 vector is wholly redundant and the campaign covers the corpus as it stands.
