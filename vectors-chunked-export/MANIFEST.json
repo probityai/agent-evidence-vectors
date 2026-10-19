@@ -1,0 +1,197 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/chunked-export/v1",
+  "corpusDigest": "8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a",
+  "source": {
+    "author": "Mayur021",
+    "thread": "https://github.com/probityai/agent-evidence/issues/24#issuecomment-6247271570",
+    "variant": "Variant A, boundary B2"
+  },
+  "suite": "chunked-export/v1",
+  "vectors": [
+    {
+      "composedClass": "reversible",
+      "edit": "control: two of five chunks out under k=3; both gates permit",
+      "expected": {
+        "decision": "allow",
+        "reason": "reversible_so_far"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "record.json": "f280cc36bbe267178e78cdebed94e3b79efbb762f2f36b8ef175011758268a73"
+      },
+      "id": "variant-a-below-threshold",
+      "path": "cases/variant-a-below-threshold"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "the third chunk crosses k=3 and the seal says irreversible; the composition-aware gate denies here, not at the final chunk",
+      "expected": {
+        "decision": "deny",
+        "reason": "export_irreversible"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "chunk-2.bin": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3",
+        "record.json": "a94fe4b48e14474c8418736a0c87c5ef73ef59281e7511559daf2d079c615da7"
+      },
+      "id": "variant-a-at-crossing",
+      "path": "cases/variant-a-at-crossing"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "the final chunk is denied on the same basis; the denial is not one-shot",
+      "expected": {
+        "decision": "deny",
+        "reason": "export_irreversible"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "chunk-2.bin": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3",
+        "chunk-3.bin": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4",
+        "chunk-4.bin": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190",
+        "record.json": "70b901ff6fa66addd788a3c9621477b3ba81585d38aa8338d33675bea57e94e2"
+      },
+      "id": "variant-a-final-chunk",
+      "path": "cases/variant-a-final-chunk"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "the seal takes the maximum of the per-step labels and says reversible at the crossing chunk",
+      "expected": {
+        "decision": "deny",
+        "reason": "seal_understates_composition"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "chunk-2.bin": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3",
+        "record.json": "e87f253f0dce964622082ef2516851b32e508342eebc0d02f6865c42c408e035"
+      },
+      "id": "variant-a-max-of-labels-seal",
+      "path": "cases/variant-a-max-of-labels-seal"
+    },
+    {
+      "composedClass": "reversible",
+      "edit": "k was committed thirty seconds after the first chunk left",
+      "expected": {
+        "decision": "deny",
+        "reason": "threshold_not_precommitted"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "record.json": "a0eb70681083c83868b8db5ebbcc839c493c825f28b6c5a4bd9b8521e612f95a"
+      },
+      "id": "threshold-committed-after-first-chunk",
+      "path": "cases/threshold-committed-after-first-chunk"
+    },
+    {
+      "composedClass": "reversible",
+      "edit": "control: three chunks out, but no minimal reconstructing set is complete",
+      "expected": {
+        "decision": "allow",
+        "reason": "reversible_so_far"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "chunk-4.bin": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190",
+        "record.json": "b955a6cfc0f6f4f7d1df723f31e2cd6427a78341ef07561aae28f61ebf35d718"
+      },
+      "id": "sets-three-chunks-no-reconstructing-set",
+      "path": "cases/sets-three-chunks-no-reconstructing-set"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "one chunk out, and it carries the key field",
+      "expected": {
+        "decision": "deny",
+        "reason": "export_irreversible"
+      },
+      "files": {
+        "chunk-3.bin": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4",
+        "record.json": "03569eba1949e93725e339518cc98d5593462a14a3cda99d180b9f5de3367af7"
+      },
+      "id": "sets-key-field-chunk-alone",
+      "path": "cases/sets-key-field-chunk-alone"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "the chunks of sets-three-chunks-no-reconstructing-set under a count rule of k=3",
+      "expected": {
+        "decision": "deny",
+        "reason": "export_irreversible"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "chunk-4.bin": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190",
+        "record.json": "5046db6d915dd7c37e0232a4e05d8dee7b6ac216d84ad21fa32958874efabecb"
+      },
+      "id": "count-same-three-chunks",
+      "path": "cases/count-same-three-chunks"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "the key-field chunk alone, sealed reversible because one chunk is under any count",
+      "expected": {
+        "decision": "deny",
+        "reason": "seal_understates_composition"
+      },
+      "files": {
+        "chunk-3.bin": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4",
+        "record.json": "5d731ebf261b6007682419247305e7f52d330ce40ffafd7a094a8e0838db98c7"
+      },
+      "id": "sets-key-field-max-of-labels-seal",
+      "path": "cases/sets-key-field-max-of-labels-seal"
+    },
+    {
+      "composedClass": "irreversible",
+      "edit": "control: one chunk whose own step is irreversible makes the chain irreversible",
+      "expected": {
+        "decision": "deny",
+        "reason": "export_irreversible"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "record.json": "89ebf401105beee5554301d3e55167ed76c660f882b55d03ae2c6df43ed2e978"
+      },
+      "id": "step-class-irreversible",
+      "path": "cases/step-class-irreversible"
+    },
+    {
+      "composedClass": "reversible",
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "record.json": "515ec57d420cd8cf1290959f343936041df830c7bdcd0bb30d709e092d86efa5"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "composedClass": "reversible",
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "chunk-0.bin": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3",
+        "chunk-1.bin": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff",
+        "record.json": "64d6a571608bc267ca54b2cabb5b23ab993fcb960212e83061701f27f83da508"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

@@ -1,0 +1,36 @@
+{
+  "chunks": [
+    {
+      "index": 3,
+      "leftAt": "2026-10-10T11:03:00Z",
+      "payloadFile": "chunk-3.bin",
+      "payloadSha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4",
+      "stepClass": "reversible"
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/chunked-export/v1",
+  "dataset": {
+    "chunkCount": 5,
+    "sha256": "f0fd50e34c11d6b516da0267629726529ae5fd82040a98b37256beb65d0b44bb"
+  },
+  "exported": [
+    3
+  ],
+  "reconstruction": {
+    "committedAt": "2026-10-10T10:59:00Z",
+    "kind": "sets",
+    "minimalSets": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        3
+      ]
+    ]
+  },
+  "seal": {
+    "maxClass": "irreversible"
+  }
+}
