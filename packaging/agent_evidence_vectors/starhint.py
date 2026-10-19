@@ -21,7 +21,8 @@ _FLAG_NAME = "star-hint-shown-agent-evidence-vectors"
 
 
 def _flag_path(env: Mapping[str, str]) -> Path:
-    base = env.get("XDG_STATE_HOME") or str(Path(env.get("HOME") or Path.home()) / ".local" / "state")
+    home = Path(env.get("HOME") or Path.home())
+    base = env.get("XDG_STATE_HOME") or str(home / ".local" / "state")
     return Path(base) / "agent-evidence" / _FLAG_NAME
 
 
