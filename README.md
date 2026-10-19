@@ -13,6 +13,8 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
 
+Add it to a project with `uv add agent-evidence-vectors==0.20.0`, then `pip install agent-evidence-vectors==0.20.0`. Verified by Probity (github.com/probityai/probity); the `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
+
 <a name="run-the-suite-against-your-verifier"></a>
 
 ## Try it
