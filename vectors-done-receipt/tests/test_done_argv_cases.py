@@ -7,7 +7,8 @@ what Python answers for each, and keeps the answers in ``corpora/testdata/done-a
 The Go test ``TestDoneArgvAgreesWithPython`` reads the same file, so the two readers are
 compared on every case and the file cannot drift from Python:
 
-    AEV_WRITE_DONE_ARGV=1 uv run --extra dev pytest vectors-done-receipt/tests/test_done_argv_cases.py
+    AEV_WRITE_DONE_ARGV=1 uv run --extra dev pytest \
+        vectors-done-receipt/tests/test_done_argv_cases.py
 """
 
 from __future__ import annotations
