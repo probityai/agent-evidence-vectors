@@ -74,45 +74,45 @@ def record(exported: list[int], seal: str, *, rule: dict[str, Any] | None = None
     return body
 
 
-R, I = reader.REVERSIBLE, reader.IRREVERSIBLE
+REV, IRR = reader.REVERSIBLE, reader.IRREVERSIBLE
 Case = tuple[str, dict[str, Any], str, str, str]
 
 
 def cases() -> list[Case]:
     """Every case: id, record, expected decision and reason, and what it departs from."""
     return [
-        ("variant-a-below-threshold", record([0, 1], R), "allow", "reversible_so_far",
+        ("variant-a-below-threshold", record([0, 1], REV), "allow", "reversible_so_far",
          "control: two of five chunks out under k=3; both gates permit"),
-        ("variant-a-at-crossing", record([0, 1, 2], I), "deny", "export_irreversible",
+        ("variant-a-at-crossing", record([0, 1, 2], IRR), "deny", "export_irreversible",
          "the third chunk crosses k=3 and the seal says irreversible; the "
          "composition-aware gate denies here, not at the final chunk"),
-        ("variant-a-final-chunk", record([0, 1, 2, 3, 4], I), "deny", "export_irreversible",
+        ("variant-a-final-chunk", record([0, 1, 2, 3, 4], IRR), "deny", "export_irreversible",
          "the final chunk is denied on the same basis; the denial is not one-shot"),
-        ("variant-a-max-of-labels-seal", record([0, 1, 2], R), "deny",
+        ("variant-a-max-of-labels-seal", record([0, 1, 2], REV), "deny",
          "seal_understates_composition",
          "the seal takes the maximum of the per-step labels and says reversible at the "
          "crossing chunk"),
         ("threshold-committed-after-first-chunk",
-         record([0, 1], R, rule={**COUNT, "committedAt": COMMITTED_LATE}), "deny",
+         record([0, 1], REV, rule={**COUNT, "committedAt": COMMITTED_LATE}), "deny",
          "threshold_not_precommitted",
          "k was committed thirty seconds after the first chunk left"),
-        ("sets-three-chunks-no-reconstructing-set", record([0, 1, 4], R, rule=SETS),
+        ("sets-three-chunks-no-reconstructing-set", record([0, 1, 4], REV, rule=SETS),
          "allow", "reversible_so_far",
          "control: three chunks out, but no minimal reconstructing set is complete"),
-        ("sets-key-field-chunk-alone", record([3], I, rule=SETS), "deny",
+        ("sets-key-field-chunk-alone", record([3], IRR, rule=SETS), "deny",
          "export_irreversible", "one chunk out, and it carries the key field"),
-        ("count-same-three-chunks", record([0, 1, 4], I), "deny", "export_irreversible",
+        ("count-same-three-chunks", record([0, 1, 4], IRR), "deny", "export_irreversible",
          "the chunks of sets-three-chunks-no-reconstructing-set under a count rule of k=3"),
-        ("sets-key-field-max-of-labels-seal", record([3], R, rule=SETS), "deny",
+        ("sets-key-field-max-of-labels-seal", record([3], REV, rule=SETS), "deny",
          "seal_understates_composition",
          "the key-field chunk alone, sealed reversible because one chunk is under any count"),
-        ("step-class-irreversible", record([0], I, irreversible=frozenset({0})), "deny",
+        ("step-class-irreversible", record([0], IRR, irreversible=frozenset({0})), "deny",
          "export_irreversible",
          "control: one chunk whose own step is irreversible makes the chain irreversible"),
-        ("contract-id-missing", record([0, 1], R, contract=None), "deny",
+        ("contract-id-missing", record([0, 1], REV, contract=None), "deny",
          "contract_id_missing", "the record names no contract"),
         ("contract-id-unknown",
-         record([0, 1], R, contract=reader.CONTRACT_ID.replace("/v1", "/v0")), "deny",
+         record([0, 1], REV, contract=reader.CONTRACT_ID.replace("/v1", "/v0")), "deny",
          "contract_id_unknown", "the record names a contract version that does not exist"),
     ]
 

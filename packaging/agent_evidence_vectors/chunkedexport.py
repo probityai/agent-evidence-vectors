@@ -179,6 +179,17 @@ def _external_answer(command: list[str], path: Path) -> tuple[bool, dict[str, An
     return True, observed
 
 
+def _corpus_errors(record_path: Path, entry: dict[str, Any]) -> list[str]:
+    """Corpus errors in one member, whichever verifier is under test."""
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    errors = []
+    if not payloads_match(record, record_path.parent):
+        errors.append("a chunk payload does not match its stated digest")
+    if composed_class(record) != entry["composedClass"]:
+        errors.append("declared composed class does not hold")
+    return errors
+
+
 def check(
     verifier: str | list[str] | None = None, root: Path = ROOT,
     skip: frozenset[str] = frozenset(),
@@ -207,11 +218,7 @@ def check(
             errors.append(f"{name}: {fixture_error}")
             continue
         record_path = directory / "record.json"
-        record = json.loads(record_path.read_text(encoding="utf-8"))
-        if not payloads_match(record, directory):
-            errors.append(f"{name}: a chunk payload does not match its stated digest")
-        if composed_class(record) != entry["composedClass"]:
-            errors.append(f"{name}: declared composed class does not hold")
+        errors.extend(f"{name}: {error}" for error in _corpus_errors(record_path, entry))
         observed: dict[str, Any] | str
         if command is None:
             ran, observed = True, verify(record_path, skip)
