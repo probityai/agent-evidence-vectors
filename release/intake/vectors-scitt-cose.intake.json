@@ -9,7 +9,7 @@
     "total": 27
   },
   "anchor": {
-    "kind": "digest-list-line",
+    "kind": "signed-digest-list",
     "manifest": "vectors-scitt-cose/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,6 +19,13 @@
     "routine-file": "vectors-scitt-cose/digest.py",
     "serialization": "corpus-routine",
     "sha256": "79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -167,12 +174,12 @@
       {
         "path": "pyproject.toml",
         "serialization": "bytes",
-        "sha256": "e091a0b6f4b4c1ccc8f87cc672b6bc8b96af494c2b37b53ba43882d0f80c2238"
+        "sha256": "b8632773e716fba8b6ad8daa178c133ca74f56f314aeac866d1e9bac1a30fd35"
       },
       {
         "path": "uv.lock",
         "serialization": "bytes",
-        "sha256": "4da033cf4b15637cc87bb4c737fa5621c07674b04c39abe9bf0ac0b0a8f42921"
+        "sha256": "4773e699935a4ef68464c149226a37cff5494806e19e41c68d3a648e5ddb2dee"
       }
     ],
     "helpers": [],
@@ -926,8 +933,7 @@
       "vectors-scitt-cose/check_vectors.py, at the source listing named here, judges each of the 27 pinned members of scitt-cose-carriage-conformance as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
-      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
     ]
   },
   "selector": {
