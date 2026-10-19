@@ -12,6 +12,7 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 HERE = Path(__file__).resolve().parent
 _spec = importlib.util.spec_from_file_location(
@@ -38,11 +39,11 @@ class CompareTests(unittest.TestCase):
         (self.root / "corpus" / "a.json").write_text("{}\n")
         _git(self.root, "add", "corpus/a.json")
         (self.dest / "corpus" / "a.json").write_text("{}\n")
-        self._owned = gate.OWNED
-        gate.OWNED = [("corpus", "*.json")]
+        patcher = mock.patch.object(gate, "OWNED", [("corpus", "*.json")])
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def tearDown(self) -> None:
-        gate.OWNED = self._owned
         self._tmp.cleanup()
 
     def test_clean_tree_passes(self) -> None:
