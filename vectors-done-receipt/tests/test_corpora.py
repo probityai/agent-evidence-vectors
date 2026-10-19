@@ -80,6 +80,18 @@ def test_reader_judges_the_committed_corpus_clean(suite: str) -> None:
 
 
 @pytest.mark.parametrize("suite", list(CORPORA))
+def test_each_corpus_check_script_judges_its_corpus_clean(
+        suite: str, capsys: pytest.CaptureFixture[str]) -> None:
+    # The README tells a reader to run this script, so it must name the suite the corpus is.
+    path = ROOT / CORPORA[suite] / "check_vectors.py"
+    with pytest.raises(SystemExit) as stopped:
+        exec(compile(path.read_text(encoding="utf-8"), str(path), "exec"),  # noqa: S102
+             {"__name__": "__main__", "__file__": str(path)})
+    assert stopped.value.code == 0
+    assert "0 disagreements" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("suite", list(CORPORA))
 def test_corpus_holds_more_than_one_verdict(suite: str) -> None:
     kinds = {entry["kind"] for entry in manifest(CORPORA[suite])["vectors"]}
     assert len(kinds) >= 2, kinds
