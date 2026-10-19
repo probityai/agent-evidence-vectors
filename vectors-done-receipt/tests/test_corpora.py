@@ -29,6 +29,7 @@ CORPORA = {
     donerun.SPOOFED_SUITE: "vectors-spoofed-tool-output",
     donerun.TAMPERING_SUITE: "vectors-test-tampering",
     donerun.GRADER_SUITE: "vectors-grader-isolation",
+    donerun.PROBES_SUITE: "vectors-done-probes",
 }
 
 # Words that look like codes in the sources and are not: member names of records, role

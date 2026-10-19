@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "grade": {
+      "length": 1280,
+      "path": "grade.json",
+      "sha256": "763af51f4027f8eebfabc661dad7a5d5069483bf85356c9e2ef62b394375cea2"
+    },
+    "tree": {
+      "length": 526,
+      "path": "tree.json",
+      "sha256": "4b035c94f769583743f0c1c61b46f8f9dfcc8edb76ddbc6eb9f6b6abf54802a1"
+    }
+  },
+  "case_id": "probe-timed-out",
+  "schema_version": "probity-case/v1"
+}

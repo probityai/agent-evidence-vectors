@@ -1,4 +1,4 @@
-"""Build the records of a done run, byte for byte, for the five done corpora.
+"""Build the records of a done run, byte for byte, for the six done corpora.
 
 One task is run again and again with one thing changed: "make ``test_app`` pass",
 with the test directory protected, a visible and a held-out unit-test command as

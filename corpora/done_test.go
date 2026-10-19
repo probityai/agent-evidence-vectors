@@ -15,7 +15,7 @@ import (
 
 var doneCorpora = []string{
 	"vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output",
-	"vectors-test-tampering", "vectors-grader-isolation",
+	"vectors-test-tampering", "vectors-grader-isolation", "vectors-done-probes",
 }
 
 func doneStage(t *testing.T, dir, member, name string, body []byte) string {

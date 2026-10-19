@@ -1,0 +1,18 @@
+{
+  "claim_id": "twin-no-kind",
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-capabilities/v1",
+  "visible_event_types": [
+    "chmod",
+    "connect",
+    "create",
+    "exec",
+    "link",
+    "read",
+    "rename",
+    "truncate",
+    "unlink",
+    "write"
+  ]
+}

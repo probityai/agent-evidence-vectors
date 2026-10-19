@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 306,
+      "path": "capability.json",
+      "sha256": "4d16ddf6d860f436c428d84199d348e22194675692e27532e93814adf6767eba"
+    },
+    "contract": {
+      "length": 933,
+      "path": "contract.json",
+      "sha256": "b5e3db6bd46951f530f086374dbc9957a1d01162fd1fef49e19d2878cf12c300"
+    },
+    "observation": {
+      "length": 1292,
+      "path": "observation.json",
+      "sha256": "b9a353642f140162d36c1f52bf58c4117c399544e976ec5cb218ba87137b4559"
+    },
+    "tree": {
+      "length": 523,
+      "path": "tree.json",
+      "sha256": "7cdea8dcc5e53fa38a161d63e0e11838aa3d842c474050843aca30fd8761d019"
+    }
+  },
+  "case_id": "twin-no-kind",
+  "schema_version": "probity-case/v1"
+}

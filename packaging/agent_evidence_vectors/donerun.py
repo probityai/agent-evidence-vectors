@@ -1,11 +1,12 @@
-"""Judge the done-contract and done-receipt corpora, and the three that build on them.
+"""Judge the done-contract and done-receipt corpora, and the four that build on them.
 
-Five corpora share one reader, because they share one question: given the records
+Six corpora share one reader, because they share one question: given the records
 of a coding agent's run, what does an outside verifier conclude? ``done-contract``
 asks it of a sealed contract. ``done-receipt`` asks it of a whole run and of the
 receipt that summarises the run. ``spoofed-tool-output``, ``test-tampering`` and
 ``grader-isolation`` ask it of the runs in which an agent fabricates a tool run,
-edits what it is graded by, or reaches the grader.
+edits what it is graded by, or reaches the grader, and ``done-probes`` of the runs a
+grader probes, runs in the candidate's own process, or reads with detectors.
 
 A member is a directory of records and, for each check the manifest declares, the
 consumer's case and policy for it. The reader derives each declared check's verdict
@@ -37,7 +38,9 @@ RECEIPT_SUITE = "done-receipt/v2"
 SPOOFED_SUITE = "spoofed-tool-output/v2"
 TAMPERING_SUITE = "test-tampering/v2"
 GRADER_SUITE = "grader-isolation/v2"
-SUITES = (CONTRACT_SUITE, RECEIPT_SUITE, SPOOFED_SUITE, TAMPERING_SUITE, GRADER_SUITE)
+PROBES_SUITE = "done-probes/v1"
+SUITES = (CONTRACT_SUITE, RECEIPT_SUITE, SPOOFED_SUITE, TAMPERING_SUITE, GRADER_SUITE,
+          PROBES_SUITE)
 CONTRACT_TYPE = "https://w3id.org/agent-evidence/predicate/v1/done-contract"
 RECEIPT_TYPE = checks.RECEIPT_TYPE
 STATEMENT_TYPE = checks.STATEMENT_TYPE

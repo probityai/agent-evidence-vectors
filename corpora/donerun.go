@@ -7,9 +7,9 @@ import (
 	"reflect"
 )
 
-// The done-contract and done-receipt corpora, and the three that build on them.
+// The done-contract and done-receipt corpora, and the four that build on them.
 //
-// Five corpora share one reader because they share one question: given the records
+// Six corpora share one reader because they share one question: given the records
 // of a coding agent's run, what does an outside verifier conclude? A member is a
 // directory of records and, for each check the manifest declares, the consumer's case
 // and policy for it; the manifest declares what the reader derives, and the reader
@@ -22,6 +22,7 @@ const (
 	doneSpoofedSuite  = "spoofed-tool-output/v2"
 	doneTamperSuite   = "test-tampering/v2"
 	doneGraderSuite   = "grader-isolation/v2"
+	doneProbesSuite   = "done-probes/v1"
 
 	doneURI          = "https://w3id.org/agent-evidence/predicate/v1/"
 	doneContractType = doneURI + "done-contract"
@@ -33,7 +34,7 @@ const (
 var jsonZero any = json.Number("0")
 
 func init() {
-	for _, suite := range []string{doneContractSuite, doneReceiptSuite, doneSpoofedSuite, doneTamperSuite, doneGraderSuite} {
+	for _, suite := range []string{doneContractSuite, doneReceiptSuite, doneSpoofedSuite, doneTamperSuite, doneGraderSuite, doneProbesSuite} {
 		register(doneReader{suite})
 	}
 }

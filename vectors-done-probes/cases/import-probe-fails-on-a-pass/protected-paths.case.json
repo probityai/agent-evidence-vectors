@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 314,
+      "path": "capability.json",
+      "sha256": "8dcee1efc0c647ba31c32db959688edb6ae337efb4d25b979c9860fab19059f3"
+    },
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "observation": {
+      "length": 948,
+      "path": "observation.json",
+      "sha256": "1ac7ce770df3667e6107d87ada34bebb0bd46c269748f4ff845a95abc4067e0a"
+    },
+    "tree": {
+      "length": 531,
+      "path": "tree.json",
+      "sha256": "7c468f73e571f89e28016e48537a18f74f9034754573fa5cc19de91454aa4ddd"
+    }
+  },
+  "case_id": "import-fails-on-pass",
+  "schema_version": "probity-case/v1"
+}
