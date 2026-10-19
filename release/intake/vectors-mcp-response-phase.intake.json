@@ -8,7 +8,7 @@
     "total": 8
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-mcp-response-phase/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,13 +18,6 @@
     "routine-file": "vectors-mcp-response-phase/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "caa09e57af6e6ee85feff1fa5117095fa424c11a57a7518ca127d19676bfd5bc",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -175,7 +168,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2f447e2e71d2dae59ea9bf7ae3060d298f31caa2d556344fc043c194cff0b5bd"
+      "sha256": "157cc6fe01d7f245c77651830d1a0c764488a5fa1af943e0ad21563a5eec9f9c"
     },
     "runtime": {
       "name": "go",
@@ -466,7 +459,8 @@
       "aee-verify, at the source listing named here, judges each of the 8 pinned members of mcp-response-phase-interception as its manifest declares"
     ],
     "leaves-open": [
-      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts"
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
     ]
   },
   "selector": {
