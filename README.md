@@ -30,7 +30,7 @@ At v0.22.0 the default corpus is suiteRevision 32, and the run prints one row pe
 totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 ```
 
-Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go's executable directory on your `PATH`; put your own command in its place:
+Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go 1.26+ and Go's executable directory on your `PATH`; put your own command in its place:
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.22.0
