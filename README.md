@@ -1,10 +1,19 @@
 # Agent Evidence Vectors
 
+[![CI](https://img.shields.io/github/actions/workflow/status/probityai/agent-evidence-vectors/ci.yml?label=CI)](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/agent-evidence-vectors)](https://pypi.org/project/agent-evidence-vectors/)
+[![Monthly](https://img.shields.io/pypi/dm/agent-evidence-vectors?label=downloads)](https://pepy.tech/projects/agent-evidence-vectors)
+[![Total](https://static.pepy.tech/badge/agent-evidence-vectors)](https://pepy.tech/projects/agent-evidence-vectors)
+[![Licence](https://img.shields.io/github/license/probityai/agent-evidence-vectors)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/probityai/agent-evidence-vectors?style=flat)](https://github.com/probityai/agent-evidence-vectors/stargazers)
+
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
 
 ![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](demo/four-arms.gif)
 
 The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
+
+Add it to a project with `uv add agent-evidence-vectors==0.20.0`, then `pip install agent-evidence-vectors==0.20.0`. Verified by Probity (github.com/probityai/probity); the `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 
@@ -91,6 +100,6 @@ Source maps: [repository layout](docs/reference/layout.md), [corpus readers](doc
 
 [Open an issue](https://github.com/probityai/agent-evidence-vectors/issues/new) with the corpus revision, verifier build and report. For patches, start with [CONTRIBUTING.md](CONTRIBUTING.md). For citations, use the [citation guide](docs/reference/citing.md).
 
-Need to check a supplied claim against saved evidence? See [Probity Verify](https://github.com/probityai/probity-verify). Browse the [Probity projects](https://github.com/probityai) for records, vocabulary and admission tools.
+Need to check a supplied claim against saved evidence? See [Probity Verify](https://github.com/probityai/probity). Browse the [Probity projects](https://github.com/probityai) for records, vocabulary and admission tools.
 
 Apache-2.0. [LICENSE](LICENSE).
