@@ -116,6 +116,7 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
     "vectors-spoofed-tool-output",
@@ -164,6 +165,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
 "vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
@@ -254,6 +256,7 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
     "vectors-spoofed-tool-output",
@@ -349,7 +352,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]
