@@ -17,7 +17,7 @@ compares each verdict with probity-verify's.
 
     uv run --group crosscheck python vectors-done-receipt/crosscheck_probity_verify.py \\
         vectors-done-contract vectors-done-receipt vectors-spoofed-tool-output \\
-        vectors-test-tampering vectors-grader-isolation
+        vectors-test-tampering vectors-grader-isolation vectors-done-probes
 
 Exit 0 when every verdict agrees but those listed in ``KNOWN``, 1 on a disagreement,
 2 when nothing was compared.

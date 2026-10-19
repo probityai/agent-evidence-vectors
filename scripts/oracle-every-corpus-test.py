@@ -73,6 +73,7 @@ REFUSES_A_VERIFIER = (
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
 
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",

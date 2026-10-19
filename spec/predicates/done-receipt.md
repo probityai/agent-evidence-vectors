@@ -346,7 +346,8 @@ The corpora in this repository exercise the receipt and the checks it rests on:
 | `vectors-done-receipt/` | whole runs in each corner of the two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule |
 | `vectors-spoofed-tool-output/` | fabricated, stale and shadowed tool output and completion claims against the observer's record |
 | `vectors-test-tampering/` | edits of protected paths, the ones an observer sees and the ones it loses |
-| `vectors-grader-isolation/` | reaching what grades the run: its output files, its interpreter, its tree, and the rules a pass must still meet |
+| `vectors-grader-isolation/` | reaching what grades the run: its output files, its interpreter, its sealed execution surface, its tree, and the rules a pass must still meet |
+| `vectors-done-probes/` | the probes beside the acceptance commands: the import probe on its own failure, the in-process twin of the visible test, and the detectors, each with its honest divergence |
 
 A member declares each check's verdict and, when it declares all five, the two verdicts and
 `accepted`. A reader conforms when it reaches every declared decision, reason, vantage, scope
