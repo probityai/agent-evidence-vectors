@@ -142,6 +142,7 @@ from agent_evidence_vectors import (
     receiptchainend,
     receiptsignature,
     sourcecoverage,
+    starhint,
     traceanchor,
     w3cintake,
     w3creport,
@@ -5407,6 +5408,8 @@ def main() -> int:
             )
             return status or 2
         _emit_w3c(args)
+    if status == 0:
+        starhint.maybe_print_hint()
     return status
 
 
