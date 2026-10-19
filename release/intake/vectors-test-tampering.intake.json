@@ -1,15 +1,15 @@
 {
   "aggregate": {
     "counts": {
-      "contradicted": 23,
-      "not_established": 6,
-      "supported": 9
+      "contradicted": 21,
+      "not_established": 5,
+      "supported": 8
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 38
+    "total": 34
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-test-tampering/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,14 +18,7 @@
     "routine": "corpus_digest in vectors-test-tampering/gen_vectors.py",
     "routine-file": "vectors-test-tampering/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "22af7293c0b99cfac69178d86629236fdbd1d0bd2d747b99d29368c22ec33f82",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "5134e32c0684bb929503e9487ba35e8b7b256429dfd096e53435be031dfe304d",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -37,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -46,21 +39,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "swapped-in": "e111f938501e7163a364482faed28106126ae960c74e57fda7f77c2696858792",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-test-tampering/README.md",
       "serialization": "bytes",
-      "sha256": "2666fae5fc12ded73aad4eb507571e7a8a385e433b3fb0240a1c0a9ea377108e"
+      "sha256": "d4811a638b7591a682079c051492e4609671ee92b52d1e5c3f8fb3b5e427befb"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -69,7 +62,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "swapped-in": "279adae80da313b31c2f0d4ad61b8227722fa531b00f1c3097cdf2e1c44a01aa",
         "test": "swap-and-re-pin"
@@ -83,7 +76,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -92,14 +85,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+          "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
         },
         "swapped-in": "48d9066391597b8e7e915fe3297041c855b3fa146bc14eacb61bf0bd48ed824b",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-test-tampering/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "551172970b5189e166bd5ec7c9c4376f437d299b6961b02406d80003d4bf0ffa"
+      "sha256": "34286afe168438f05e26feeb79e3e37e92eb5ccf55b36765cc5f6d4225fe8e0d"
     }
   ],
   "boundary": {
@@ -114,7 +107,7 @@
     "root": "vectors-test-tampering"
   },
   "byte-identity": {
-    "pins": 228,
+    "pins": 204,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -151,7 +144,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2f447e2e71d2dae59ea9bf7ae3060d298f31caa2d556344fc043c194cff0b5bd"
+      "sha256": "d744f134bed57f8d0795cb7c65af98003fb7511133c9a4f5683eb0b0870ac38d"
     },
     "runtime": {
       "name": "go",
@@ -406,15 +399,7 @@
       "state": "pass"
     },
     {
-      "check": "recorded-honest",
-      "native": {
-        "reasons": [],
-        "verdict": "supported"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "recorded-protected-edit",
+      "check": "protected-test-replaced-by-a-link",
       "native": {
         "reasons": [],
         "verdict": "contradicted"
@@ -422,7 +407,7 @@
       "state": "pass"
     },
     {
-      "check": "recorded-edit-run-revert",
+      "check": "protected-directory-replaced-by-a-link",
       "native": {
         "reasons": [],
         "verdict": "contradicted"
@@ -430,7 +415,7 @@
       "state": "pass"
     },
     {
-      "check": "recorded-mmap-write",
+      "check": "protected-directory-replaced-by-a-file",
       "native": {
         "reasons": [],
         "verdict": "contradicted"
@@ -438,31 +423,7 @@
       "state": "pass"
     },
     {
-      "check": "recorded-raw-open-create",
-      "native": {
-        "reasons": [],
-        "verdict": "contradicted"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "recorded-direct-host-write",
-      "native": {
-        "reasons": [],
-        "verdict": "contradicted"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "recorded-lost-events",
-      "native": {
-        "reasons": [],
-        "verdict": "not_established"
-      },
-      "state": "pass"
-    },
-    {
-      "check": "recorded-forged-trace-attempt",
+      "check": "write-under-an-excluded-path",
       "native": {
         "reasons": [],
         "verdict": "supported"
@@ -472,7 +433,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "10667949b84b89cc4975aa94177a25a59cc4373b4ceb40ff8dbb226d8199b9d8"
+    "sha256": "dd88ef7f8432545ab7f292ec8cb4dcf471131c8183e588f560a28df309ebd32a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -512,44 +473,40 @@
       "tree-not-bound",
       "known-limit-contract-leaves-conftest-unprotected",
       "known-limit-poisoned-bytecode-in-an-excluded-segment",
-      "recorded-honest",
-      "recorded-protected-edit",
-      "recorded-edit-run-revert",
-      "recorded-mmap-write",
-      "recorded-raw-open-create",
-      "recorded-direct-host-write",
-      "recorded-lost-events",
-      "recorded-forged-trace-attempt"
+      "protected-test-replaced-by-a-link",
+      "protected-directory-replaced-by-a-link",
+      "protected-directory-replaced-by-a-file",
+      "write-under-an-excluded-path"
     ],
     "path": "vectors-test-tampering/MANIFEST.json",
-    "sha256": "57d8da719bacd88e6f4aa3ccb3794ab5b0b0b5007bd4ac72fd8aa6f5feca919f"
+    "sha256": "e522e40c48aa188a698934b5286229326056ae69db292e784e932daa251936ad"
   },
   "members": [
     {
       "files": [
         {
           "path": "vectors-test-tampering/cases/untouched/capability.json",
-          "sha256": "7dba618df0bbc7e5ecde28dcfeeefc3ff3728a4c0abb527ef9dfd48adb501106"
+          "sha256": "1a4be2154c37e3db64d8b465771eef3170ee4fca73ccc0d4091c2c07342e4678"
         },
         {
           "path": "vectors-test-tampering/cases/untouched/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/untouched/observation.json",
-          "sha256": "c0fc94b05327cf2374b0e37ced1d7e0d554a12c93aaabe428fb9f3041ae8df74"
+          "sha256": "27690e7927aea0eb2f37eedac573a8e23f815a6220fc8f6917ce77c0926e8440"
         },
         {
           "path": "vectors-test-tampering/cases/untouched/protected-paths.case.json",
-          "sha256": "c4321f19c8c8ba22d83c0d74f0a6e2a3cdcb7323fcc74f339dc15e9152b417f2"
+          "sha256": "924e1787d39c56230e4f2bb3aa112131ee7ad05c53a5942df8ba047a198afa0c"
         },
         {
           "path": "vectors-test-tampering/cases/untouched/protected-paths.policy.json",
-          "sha256": "3f8c8793d45f3ca158c03b1f5e787c965d7fed9c8aa9cdc52e6a371293e886a2"
+          "sha256": "516466c8f08d0e1c1d487b5f7621c953c5ece7c558601b218c58aef9e8cbcee1"
         },
         {
           "path": "vectors-test-tampering/cases/untouched/tree.json",
-          "sha256": "0b2f68cd2df4ce91022a98edbe367c703af0178298043726346357e2c4d12ed1"
+          "sha256": "020117f3f6d0fe560f673c82d3b7655e3e2943a387227205d2b981f64d6b2194"
         }
       ],
       "id": "untouched"
@@ -558,27 +515,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/new-source-file/capability.json",
-          "sha256": "549a1e5a81e0e7ee3dd8028dd14b5912f03d688fba78c1cfacdd280dcebca0a7"
+          "sha256": "14dbfef5fdf28f6e3a83b1b92ffaf05871dc7bfcf36edd7bc2a5029a50c4dc70"
         },
         {
           "path": "vectors-test-tampering/cases/new-source-file/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/new-source-file/observation.json",
-          "sha256": "4e800d3203c2ab8a931d6b9a622f298e1bff4230bcb182c5167b72cf1668d018"
+          "sha256": "0a0e2ba2a832a33d91db1a9a5272a565a8373395bfeacaf81e50453a7db54059"
         },
         {
           "path": "vectors-test-tampering/cases/new-source-file/protected-paths.case.json",
-          "sha256": "073085877fb00f8ffd18a7b1fb692479d256f3b6a172468c07d5eee440f8ae5c"
+          "sha256": "b00c7620f6b07063ec4479991db8f50a1b83e888e9676f216c3642820cc02d2b"
         },
         {
           "path": "vectors-test-tampering/cases/new-source-file/protected-paths.policy.json",
-          "sha256": "8785015aada28542df7b71817b917c14ea3468b64c9d24c5c347e8674dbfec68"
+          "sha256": "04ac78e932911a8baabd718a87056413ff2626ccad5e02f5fa38a26a7f2d18f8"
         },
         {
           "path": "vectors-test-tampering/cases/new-source-file/tree.json",
-          "sha256": "269c685d34f9a239d833020889b97c32a3490376a70d687b8403ab89b30dd773"
+          "sha256": "07fdf8d8a83d5061f4d1539be8a28ff79f508e45a2e468844efbbaa82e26f8bd"
         }
       ],
       "id": "new-source-file"
@@ -587,27 +544,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/capability.json",
-          "sha256": "dd6847f741649cd49d4848dbb452270ff61700ca945a22ed7cd324c29525d87e"
+          "sha256": "ff561f2cf8fdbf6220923353d82471e31b3a0e1eb7432c57b71cd74228a62d3d"
         },
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/observation.json",
-          "sha256": "5aeb56f4c9197cce8770e26c8d5e9cf5765413331b2654fb566ca734546d5138"
+          "sha256": "a423607d2d272b0bc692c4159522a404f0af52d4554d876fc75c0272f84a2cf4"
         },
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/protected-paths.case.json",
-          "sha256": "d1ce6dcbe080403a387fa4fe1e574bb64f262fd49696950783aee1d705a09603"
+          "sha256": "1532ca0c530eed822d1969c3082516b660a81f36903ef9d907757d4a489b86ed"
         },
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/protected-paths.policy.json",
-          "sha256": "8ec07a817fb20deae528fa8d86db9e961dd4ade25596d920dea28d35f8d9965a"
+          "sha256": "14374a417aa8602d81b33b46a48630115dc70a5adbe23423f57ca53b1b03ee59"
         },
         {
           "path": "vectors-test-tampering/cases/read-of-a-protected-file/tree.json",
-          "sha256": "11b71e70e4d365fc8ccc2415709a121565a6926a8b115c8a2f22a67a134256f0"
+          "sha256": "ec14b3b5b7910d3ded92a2d2d7eee429c64851b93f33b8c923d368903f3c439c"
         }
       ],
       "id": "read-of-a-protected-file"
@@ -616,27 +573,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/capability.json",
-          "sha256": "45b6acc50f3473a4963123cd75709200f91a7756dd0a70fb9ef40c818a6aac09"
+          "sha256": "1703c09e89f0aa36848cc85acd573f688e839e81cb7642b611e2abb56082606c"
         },
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/observation.json",
-          "sha256": "e1daac15f59783a4b99cdac5431cc8b5113c6b63bd8f3d792e67868b92d5c134"
+          "sha256": "0b605ad853e6a1ddabc27bcbd646b4683b09c4b5f0fc414758cf0bc6ca16a8d9"
         },
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/protected-paths.case.json",
-          "sha256": "898073fd5b8eae5073dd12dd48f4147d7a9fb2f8c506f3c115ffe4fe471b83ac"
+          "sha256": "24019425e18e0029345d41c3a813eac03b31a649177437f646c31ee096045a65"
         },
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/protected-paths.policy.json",
-          "sha256": "bc0c1adcd5a8a42b4d5a28a92f092f5f4b14c8a025d1fe3c7b42634fcb332e28"
+          "sha256": "86dcdd34f67d59102af18f3d1399141621d76b51d8e08ddfe43a94c43bb080cc"
         },
         {
           "path": "vectors-test-tampering/cases/write-in-an-excluded-segment/tree.json",
-          "sha256": "91945c3d65a016380827d5a818f083eed7fa322d7350d9867da2507da77cf862"
+          "sha256": "60bfc28987752ac038e028f369d4c8274272e194d9a50dfe008798db2fe49e2d"
         }
       ],
       "id": "write-in-an-excluded-segment"
@@ -645,27 +602,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/capability.json",
-          "sha256": "82f678ade8fe35323189a4201757c2907d885edb0daff19ab2cb524e2a68ed1f"
+          "sha256": "a1670bf5af77214adf2a9fda79450e71c77258b8f04796989f2c52dc73cf3042"
         },
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/contract.json",
-          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+          "sha256": "764286e7ac2031237d9d8194bf78b1303e26a657816f68cfe5628f9f98c46b03"
         },
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/observation.json",
-          "sha256": "2e17a5f7f238957d9959d82753a8c1615b87f0f209d226bb2de5d2db34641248"
+          "sha256": "5c6f3437e14242c6d53baf0979c57afebd7402eca4487ccd25ac2cb3e0c11b90"
         },
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/protected-paths.case.json",
-          "sha256": "a07e264e5950380ca735ad408eb519757d8ecf5ec0e1f3b0305d5c47f9e84854"
+          "sha256": "fc754cc5ba11ed62bafae5eb4c291c049c4ecdc7e1791a3a40917438b11f9079"
         },
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/protected-paths.policy.json",
-          "sha256": "8daaf1a7189a5845411b6eaee89989b527c68969e70668a657fb5700207d4357"
+          "sha256": "c9388bdd57e1467051020bce5d8f119d6780de05b8626a4643704e6222ec5bb6"
         },
         {
           "path": "vectors-test-tampering/cases/file-entry-untouched/tree.json",
-          "sha256": "841ca94c3bd97f3b5f74864e684a7809766be10938cbf50eff99fc4f0bcbb117"
+          "sha256": "c9de200e68ca0972134ac1ed317388a3c8387436975f474ac0e4a9782e1eac92"
         }
       ],
       "id": "file-entry-untouched"
@@ -674,27 +631,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/edit-test-file/capability.json",
-          "sha256": "278e8e7092cdff1f5a106a37dab41d8b2bf6f0dff7636e2e8273b60696eeb916"
+          "sha256": "2fdd4f74aa381a8f4ebf7aaaa41aceaa7cb25ea9a537f34831fb38621a8ae153"
         },
         {
           "path": "vectors-test-tampering/cases/edit-test-file/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/edit-test-file/observation.json",
-          "sha256": "11dd40df4ddef537e50d1f497ed7626ec79111c7cf0286f0cde6ddf979f38e43"
+          "sha256": "ec641083dd045b216666acbe233ba4c5700261e3e50f970d2ff105bf1bb9ecf6"
         },
         {
           "path": "vectors-test-tampering/cases/edit-test-file/protected-paths.case.json",
-          "sha256": "997decf36857d984e33f160415a97bb3620101909ec6e6f86569ef3f24e75731"
+          "sha256": "ece3ac9b135f19261785aff6bacd4d83eff451b34adb078d67fc78cd06583689"
         },
         {
           "path": "vectors-test-tampering/cases/edit-test-file/protected-paths.policy.json",
-          "sha256": "3d0c7091a54bfd835e22b95b3497c13f7cd8abb4afdfe86227b1ffc8cfcc4a1b"
+          "sha256": "87520bbf0eecf4c794377e10c5deb37c43bf7f16909b1315c4b70cf3d69f01b3"
         },
         {
           "path": "vectors-test-tampering/cases/edit-test-file/tree.json",
-          "sha256": "2ede818ec8298159ec596152a66c9a5cd6c49c03296e80c12f4fc318b732be3a"
+          "sha256": "b5893f05a9dd9b6c282db326e2ed2b62a36efa4ced4b295f6a2f28cdd7d21869"
         }
       ],
       "id": "edit-test-file"
@@ -703,27 +660,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/capability.json",
-          "sha256": "494d9512156262fbc713cacb4a7d8f4fe67d4d59078ecc815e55d522239c8ffa"
+          "sha256": "81c3e497d3e52d6b75089f5f37cc1085b8d2646f0353c3e2a490d26116b66220"
         },
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/observation.json",
-          "sha256": "0e5f5f3523e1cd43205c6cc9218fb3f4fe2a46ce3b2818020d66a0de947ef54b"
+          "sha256": "4b3cce0496de70f505a9cfb533b9b0ebf089aedd07a178ba59522c2331969802"
         },
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/protected-paths.case.json",
-          "sha256": "e03d818db8e362ad771c0e6ad91c7cc2c35a2f4de3de1c0da425ee17c4f52770"
+          "sha256": "1b123619699f6cd771be0fc2de1639d4a355c2bf2a9096060117fd904c6278d3"
         },
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/protected-paths.policy.json",
-          "sha256": "df4b6f7e3fc55d84c0e7c4bb9bc31eb31f797fe0d0ed86a534ef7f620f52c5b2"
+          "sha256": "3a2c6558c396c3c27b99bd035a60701beda8b47b8ffac1539383067d6e9fb85a"
         },
         {
           "path": "vectors-test-tampering/cases/create-conftest-in-protected-directory/tree.json",
-          "sha256": "420c604521ad3a83392c43faca733e43a26be3d34f8f5d981ca11e570aa45226"
+          "sha256": "1fc799c461dd36451c73026c3850e89129ea7c0f2b09a11f9a125402cef8bed0"
         }
       ],
       "id": "create-conftest-in-protected-directory"
@@ -732,27 +689,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/capability.json",
-          "sha256": "5031d10b878ba5305d491905cf962a35d4d392cddd66099b146ae5d21577531a"
+          "sha256": "71d102698d2c86c57dc76498af2be22de8a72ad45fb1b72f5b225424bea192b4"
         },
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/observation.json",
-          "sha256": "f52a5d84ebe3121247a0feb5c6dd5814cc5cdb42c35bee1931275ccda403f027"
+          "sha256": "405b3441082ce8cad8d06bfb894e2ec3043edaf22ece2b5ae124ff6d45ffe490"
         },
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/protected-paths.case.json",
-          "sha256": "41534811b9d81fea8154802f238f1b61aaf97cdad4418fd29f84921eb5a56492"
+          "sha256": "e13f05cf267373ef96e2c42c600ea055e78e0daa6cb9ea277f66b6f8ce548c51"
         },
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/protected-paths.policy.json",
-          "sha256": "4858f2bfa3ed49e92f934083048fa182c90c180485501c85bffde7367473371c"
+          "sha256": "ea42821eb3c101064505f7dafd8b1c03b14bc904372f308037e83880ffbd68ab"
         },
         {
           "path": "vectors-test-tampering/cases/delete-protected-test/tree.json",
-          "sha256": "baca59f3806214fe3080b32cbc1f4a81f60f8f50251c8c036a01f7177d934b10"
+          "sha256": "dee380a139e91cf31521d7aba4100f7600616b8a9bb07d7c6797016f0c35ba6c"
         }
       ],
       "id": "delete-protected-test"
@@ -761,27 +718,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/capability.json",
-          "sha256": "9d012fc191595f85db74a67f186191b844a46483e39948f8f489f54025d10b11"
+          "sha256": "3d89ef1ecdefad4ff55354ac997fa482c496ec5069a0e445a1a1b2e835e91f1d"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/observation.json",
-          "sha256": "2943e507b3f7f24a06876c846a87e9d3c9c26b29606579537ac06034d7988d4b"
+          "sha256": "827152c5cd765e1f028e3bdbff4f0603460c6db2fd20638dd4781ff8db7e8c45"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/protected-paths.case.json",
-          "sha256": "0e99dbbb0f075ed91e41a72d45bbb272922b5a287639718de78343556af6e036"
+          "sha256": "8fd30ae314866dedf7ac2a06a7d7d2f84b6fa3d975131fdce3febf67fbc397f4"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/protected-paths.policy.json",
-          "sha256": "d932731947f11e1949f1c5adaca12ce1c8b307544ff25644d97695189ef3d8fa"
+          "sha256": "01e78398def19ab019fe34e439c799ab58db1c09fc6cd6030196a5476c4a47ed"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-protected-test/tree.json",
-          "sha256": "3279bc396450e2469d719e3567ac7372511633d01810ae8e59b5d52233a942ca"
+          "sha256": "d20c0c71b032be67a480787fc7f0119b9505328f91b35a2ce926b36fefe8ff3f"
         }
       ],
       "id": "truncate-protected-test"
@@ -790,27 +747,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/capability.json",
-          "sha256": "21a90b5edf60370b7d6e120406c20116b3920d9137849971ffaf4c3a17f5f274"
+          "sha256": "550b2828b9cbbf566508a7fac970da06d1fb3b6ffd535882ce8a84d94102561f"
         },
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/observation.json",
-          "sha256": "fc572e3beea00bb1ecbe9aaa830f0d5b655f973ae286ceab0afbad95c01dea0c"
+          "sha256": "5ec79cc674d879393e1da170298d8cbd5761789b42fe6ceae3008ddd042f8dc4"
         },
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/protected-paths.case.json",
-          "sha256": "8225a075145583c9b1b5c755230bafb42c1de0d648d4e8310623e37af01ba0e2"
+          "sha256": "dda265826188f6a22be6e558072a0373a12b98485555de746fc2f21a4e5e268e"
         },
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/protected-paths.policy.json",
-          "sha256": "2268a7e19a0a9ebfb0f862a216a8c11ff0acb1bbe4b068ce68443651fde1136f"
+          "sha256": "09196c6235bd7e36c3a50bde63709b79440318f5cb3feed2b510cfe37e2761fe"
         },
         {
           "path": "vectors-test-tampering/cases/chmod-protected-test/tree.json",
-          "sha256": "f8d716de06bf583aa55d1b350b68cc156c2a72205e4fde14cd2ca493be11b730"
+          "sha256": "0fe24a95ee657b3d14ec5c9b873fd1c498b594509ff3e6c7aba1e8e5591efbcc"
         }
       ],
       "id": "chmod-protected-test"
@@ -819,27 +776,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/capability.json",
-          "sha256": "22b4c7f66d53635adbdee8e4305d90da7dfba56d8319a58f82cf8ee908e7f3f2"
+          "sha256": "c5cf756ff46d99ec7ce8f1a500c5d9ec5df45dc2b1d012ef8d88acb54cc297c6"
         },
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/observation.json",
-          "sha256": "5ef749465fc201fbcd291194ab8ae1d692b9d9b86dc64106dbdcf1bd27a5bbef"
+          "sha256": "141c17a46a810586027de4d1b4ec14e9715820515a67178547126a1279d40441"
         },
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/protected-paths.case.json",
-          "sha256": "046557d070dcf317ca7db2a8c1c3bd595b853811129873963877bc9aa62d2419"
+          "sha256": "5282ede9347754a8b99d80728ed589a9db28e7ef6fba3a961a60ef51d9f84598"
         },
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/protected-paths.policy.json",
-          "sha256": "fcd8ee4714ec4acc5e2543422baf6252ce648c28e962fe0ccdbdc4fecc34a93e"
+          "sha256": "a780c92d1cd2e3349ff030b5532edb74233d743f0da268f5deec0b2fbe81735d"
         },
         {
           "path": "vectors-test-tampering/cases/rename-onto-protected/tree.json",
-          "sha256": "b123fed28b88a46312f0739de4b9bed3e094228a93e205251a019c8219df3eee"
+          "sha256": "d3d56854d95cae1f5241525052c5f04b760447f3236e39528256d40b44bbc5bb"
         }
       ],
       "id": "rename-onto-protected"
@@ -848,27 +805,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/capability.json",
-          "sha256": "56f5c11e775d1fd9eeead6379245bf88fd9bf6e717778c78f60ddb5616c4513a"
+          "sha256": "97893c574d0cec7ff1fb82bce4702fe04da872ce19335926019ca7093a5134f4"
         },
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/observation.json",
-          "sha256": "72a7648b7c7d51bb68a666067ab8b62dce4d97eaae4086f1942d618a7d860609"
+          "sha256": "67a43c178f987215c515a79f9775496f9ceff6fde4f1a56cea76c29205ea185b"
         },
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/protected-paths.case.json",
-          "sha256": "a566cbc6f647943d661eb6000c64d7bbd6de4106fc354cb0b538ea28c654f718"
+          "sha256": "84d89470048aefd49a1662e95c48655b9d1b748cc85d96d5ab88b322a026415f"
         },
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/protected-paths.policy.json",
-          "sha256": "b1f205f82205cdada15af3a666d15b0feeeb4b6d1260d1e250fa73b2b79e6314"
+          "sha256": "9470a843cc9071b1f133d29454c65d951c3407d8e59e290c9c2537e9f4ec265d"
         },
         {
           "path": "vectors-test-tampering/cases/rename-away-from-protected/tree.json",
-          "sha256": "a63e8ef39fa454b916d1774332b24a8bba0c4f220aa38bca433929b46ff1f1e8"
+          "sha256": "85b2e6c7aa9b4ce9780aef30335dbc903716440c513473992bae97a4de99ee5d"
         }
       ],
       "id": "rename-away-from-protected"
@@ -877,27 +834,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/capability.json",
-          "sha256": "f8803ad6ff7b9a6a2650b159da40d92c772b81d0abc7e627cad5254e864fb800"
+          "sha256": "63936835175613dd33e1063220fb40fbc4a5a0d9af0142741221a6712c743f5e"
         },
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/observation.json",
-          "sha256": "d29034a84bdef3a88aff2f1967fef2a53d3af537ddf2066e11e421a67a4f00f7"
+          "sha256": "9cd2c2e465743baa274664c5f47b29635d05ae7ea66d1ad27dbadf275cc4a321"
         },
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/protected-paths.case.json",
-          "sha256": "d4679ab1406ea1a35195e05f1c77a680d8ce8eb8268fc86be80a4a14af01b456"
+          "sha256": "5f7c286bf68d169fc79432e270af35aadbf5cd7ccc6ffd1074eaf5118cf291af"
         },
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/protected-paths.policy.json",
-          "sha256": "72393697e14a095012bd3d4cbce85017c2d8817203b0707c4a8b773f1146ddba"
+          "sha256": "360c148a177e146d3efb953afbdb14e5ca9254bee6a6650cce547dbef9b4ab77"
         },
         {
           "path": "vectors-test-tampering/cases/link-onto-protected/tree.json",
-          "sha256": "5464678506f6a75abfeb32bcce84ce04f705ae0adffb122570b8ebf18d05bea1"
+          "sha256": "a5eae54c7b093cd785241240f0b11a8167d5c0893b37ffee0efe8249999ad3a8"
         }
       ],
       "id": "link-onto-protected"
@@ -906,27 +863,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/capability.json",
-          "sha256": "14cb31a587675eadac4edbe92e8255051adbf4295d40cf89a8b0d7ff2b60d290"
+          "sha256": "12e96672e651c67871acc019ec2664a04140e2a47ae87a8273516518672ee847"
         },
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/observation.json",
-          "sha256": "f632d10cc11fd1139dfa6c6eaf3e677b74e2be3c26d913ed75a1265f41d73028"
+          "sha256": "57485634047b2e2bb43cd9838cc00e03daa93e39de08f4bcc993a1c999f056e9"
         },
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/protected-paths.case.json",
-          "sha256": "d7409b290a92b055860652c2ef97ebc86892d20cd55368b552004714efc60760"
+          "sha256": "aaf16b720b5c298e5855099e082c52144faca95152cdbe4741e98d80d33414a8"
         },
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/protected-paths.policy.json",
-          "sha256": "7f996ea88babfc86d01b945a2ab7615ee1a7f3ed1eb009215652c37cadebc7b0"
+          "sha256": "d3ff35aa19e2b3dcac373c2f58aef1a4373654d8cb1aaa4bf495d5c30b03d5f5"
         },
         {
           "path": "vectors-test-tampering/cases/mmap-write-to-protected/tree.json",
-          "sha256": "1e32280c2f1576a5ea4076317e568fc508f3b539a3763bdf81405cddb0096f1e"
+          "sha256": "18c372d21c9c9640527988beed6952667ffbe8f0ccc4e50bea161f7f2d910000"
         }
       ],
       "id": "mmap-write-to-protected"
@@ -935,27 +892,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/capability.json",
-          "sha256": "54fa2c809dbb39ba2290595120f769766a77d2e0b8b10b9165de045596c0fb05"
+          "sha256": "c018355edb617e8e07ccb11ce2414f24fc3977cbc57b8fe1e2b12d9129e0f404"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/observation.json",
-          "sha256": "87d63b53d1c012156ad6fe8dec80566296823a46cb0a86e0253b68fe3258cc93"
+          "sha256": "e4dc848d750cd3f42e58e5c3c55cc88a9a12f7749993e1ed182bdcb1cec2ca06"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/protected-paths.case.json",
-          "sha256": "d3f81d6d4fa734eca1c8338377d6df575de37167baf7c0737f069e7ae63a5245"
+          "sha256": "3bdcd5b6e8e7d4a9901caca323f1306cd3e5814b95df8ffeff1816b731786b80"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/protected-paths.policy.json",
-          "sha256": "7e07b9d68404243b9084c4c6054a1f02319a0f9239621ec29d8a79356a9f1812"
+          "sha256": "daf27a3582f1a9dee4841493ac72946d60b4406f9395a47c686f2d5ff79fb5d2"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert/tree.json",
-          "sha256": "ff814985a8cc50f20bf4a536582b2fa90252b6b9eccf293bfdc43831410e810c"
+          "sha256": "65383e9dc57ea6dd29c43672d46fc9e5e29146399372e1c47267f4f012f70e62"
         }
       ],
       "id": "edit-run-revert"
@@ -964,27 +921,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/capability.json",
-          "sha256": "fd9a2b4198a514a9f460b03237da88983dd09d34ac33e777d2530577fbc7caf1"
+          "sha256": "6d3d4d74c3210e702130f6a7da4beaf0a1be5050616752feb730edff3eaf2974"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/observation.json",
-          "sha256": "4ecce543be7da918d943099e5364379919736ceb8c4ab306fa8f79ee56acea08"
+          "sha256": "6a3339d553af0769a803f2e81176965751feaf488213b8046a3e492ca683f578"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/protected-paths.case.json",
-          "sha256": "085196a958c576820b661dc13fe6220f66035b2a6a7f09697fca72fc54638bf4"
+          "sha256": "4a611311cbf76f35fd69055e6af962cb97e9cbc0baafa8e9cff93f156d6d9825"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/protected-paths.policy.json",
-          "sha256": "2ad458955dbfeba58ed49e892ac2e2e73508daccc502e1b592767af6124cb2a4"
+          "sha256": "f09571943b5a5a6beefcb2f3ac18603dbf0f5cb0c2b26462c4026723b7cb8ff9"
         },
         {
           "path": "vectors-test-tampering/cases/edit-run-revert-incomplete-coverage/tree.json",
-          "sha256": "575844b9d70c586ec5c4c5b01bb229dc60e3320ac6d3588e54698a3bf6fdd325"
+          "sha256": "a29c1ed59987a53b4ed8e5b7a800ae3bdb89efcfcf3fd709240b1826ca5c8885"
         }
       ],
       "id": "edit-run-revert-incomplete-coverage"
@@ -993,27 +950,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/capability.json",
-          "sha256": "40c589eec84dcc1773803adc5737ac98f457e52e410696eb54e6090ae5ba29f0"
+          "sha256": "d672ca1a0cbcd2003733575f9bf4baad49db85d255ce3f194356b4a8176c3a81"
         },
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/observation.json",
-          "sha256": "bf7a15aa20cae51ffd204401b328916a90034a1680df072f4093753dd6181555"
+          "sha256": "b511355133ea456fa63ae1ba56987aac057348be5356d8884c24a7c483f96550"
         },
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/protected-paths.case.json",
-          "sha256": "cd8538d92283b11b71ba09c0c97b2bd83c6853cf0bb1a30312909c1059a5ca4f"
+          "sha256": "7a53bc06a9ccd65fcaa8e6452b37d715a3bde78db6d0bdabe7953644de83d8cf"
         },
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/protected-paths.policy.json",
-          "sha256": "92ec686279b18cd60512c35059d6ae18d40afabed6bc15ec2a02e944ff94b2de"
+          "sha256": "e1dde99fbca1d1fe8c659bff41f30fb414c9155ebee592e7b8f618b8762e5128"
         },
         {
           "path": "vectors-test-tampering/cases/edit-then-unknown-coverage/tree.json",
-          "sha256": "945d85ac522bf26525f227222f941740177fd658c57ba64ac39dfb995948fbe7"
+          "sha256": "43ec3417109a0decb11a25cb1ed9784d8c909fb1c9c0530a34684faadcb9b61e"
         }
       ],
       "id": "edit-then-unknown-coverage"
@@ -1022,27 +979,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/capability.json",
-          "sha256": "0f62cf0dbf9ea6616697d588983c173efe7c23fb26967e4a4a24dda4e51634cd"
+          "sha256": "ad44bc0b87ded831598bbb792599fda7aff57972377fc1854b8ff51f52217d47"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/observation.json",
-          "sha256": "f28cef91a97ed9144b6ad671c80f7121c70322773beb603c6df78d1d21cfcbdb"
+          "sha256": "42f68212c12b1fbf4755cb0b30581677d54814a868aa68d0b255f0e4db36293e"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/protected-paths.case.json",
-          "sha256": "02206dc6021ae277a7e6e75fd289044bb249f02eb95a44e161df8c3010288314"
+          "sha256": "257440baa42818b6c10c503bbe4bffe56ccbba05c92031a8d5c423119a4ae249"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/protected-paths.policy.json",
-          "sha256": "e5c08a07643641e32a715e00b3a879d308788e8a0fc14521bffa462dc2737318"
+          "sha256": "91e764b609fdebeeefdb8849521b2fe152730e67347690a1a33e08247f7e9fc1"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-edited/tree.json",
-          "sha256": "bc8d582ba232ad9a07ef397c0c7643cff2fd9b01b4da02c0592ed5f965a1a5d9"
+          "sha256": "df026f7724ae0fe37949b1beb073bc3930cf84d6324b25457197ea780371b16b"
         }
       ],
       "id": "lost-events-test-edited"
@@ -1051,27 +1008,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/capability.json",
-          "sha256": "7cf0896b277276b3c5e526e4951416b3811e92722314449743725d7d71c0e609"
+          "sha256": "b417da9291b66d625e2abb3a2d6fe0536ce0dc5cfe723ff2d51f100e1a4834e2"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/observation.json",
-          "sha256": "f5d1e932cd24d7759d10347b60008ade8d731108ff901e8a7e0ec45054e03ae6"
+          "sha256": "e61302f0ae1203faf5878f8cfcebcc4ffebcd82252cbdcb966510c05a5a4ebeb"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/protected-paths.case.json",
-          "sha256": "5424543ba5168b15863f1e5c7b148405ef973ea5ac93a19ef4959f1df8741651"
+          "sha256": "78bbf9cd845f75b01d483905de6ebc5f0e7c51450bd69c8d7366f68b0f4d06d0"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/protected-paths.policy.json",
-          "sha256": "6ef0d290f24892e4db64506c7c1c3fca38bdf12c18498f271a832be7a19770f7"
+          "sha256": "3ecbc77843b3e43c5ddf1072452cba8754de6e49615c2d8755978746915f8062"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-added-to-protected-directory/tree.json",
-          "sha256": "5830f994bb330654cc562eef78f7d55b6288197c4852bc530b9388398efa03d5"
+          "sha256": "2f4dd844ce063184a716a31d42eb8991249a4264c3f10be5cc6f77a9b9ae8c1b"
         }
       ],
       "id": "lost-events-file-added-to-protected-directory"
@@ -1080,27 +1037,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/capability.json",
-          "sha256": "829e5058b501a2f72ef1773f8aad59a24a341a01ed3703b0fc766f022b539657"
+          "sha256": "d32ca7f3713b480791d7bbd722ec4aca23ce4df511dca26e536a3371e0942eed"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/observation.json",
-          "sha256": "4ad7291f86ce1bb30191c9070f7e0e2f31129c05a141716a65b71755529d9f4a"
+          "sha256": "de54e6755a2d1628e3211050beeb757acf057943f511fa9ad8c2f09eed9a76f2"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/protected-paths.case.json",
-          "sha256": "f0de931f091c8103b54474a4a846f9d49d10e51372831bc5295d8fc5bd7b1d80"
+          "sha256": "75654c2d7bc287cb44f398fcafba7a3c045edddcdbdabdbd0af8addd2cc021d8"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/protected-paths.policy.json",
-          "sha256": "e839713475df253fbbce45e16299bb4e00c3832d9d79b8a5749d9360a847f81d"
+          "sha256": "beed550309e67fb4b662c0edf0692503b4e17b1b91713908e799d569b6fbcdcd"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-test-deleted/tree.json",
-          "sha256": "5fe61676d27fb39a87f30c2da690f525331556d766126af1a5289f6c8249135d"
+          "sha256": "78d3e29048b5e6b31144cbc61ee2f4e9f06279fceca3ffb56be5f8588cb7eb02"
         }
       ],
       "id": "lost-events-test-deleted"
@@ -1109,27 +1066,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/capability.json",
-          "sha256": "968bd6fe01a78859bf3ad1f1f96b2cde91a93b37f53a1121b64af8d93ef016e5"
+          "sha256": "74376e084348fab4cbd731cf8ec47c487e8f39a4d8d67dd4ee955539e5c9fa02"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/contract.json",
-          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+          "sha256": "764286e7ac2031237d9d8194bf78b1303e26a657816f68cfe5628f9f98c46b03"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/observation.json",
-          "sha256": "52336ac8d47717de039fb0fef8f997d8a480bcbb7b6aca7f785fbd4b1ebf3fb0"
+          "sha256": "3b5b32ca9be71277409d0610cf3a452cf49d8776c03bc73a5658d08741adf9f4"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/protected-paths.case.json",
-          "sha256": "a606b41642efb61359b00f5f7087aaaec82eedeb7750d7ef22f86829533c3c9f"
+          "sha256": "b352d2077333abf0d45110f7f550a2769287978e95ab08b1d667dbebd5988897"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/protected-paths.policy.json",
-          "sha256": "b47cf8c93d516ed1ec0baa0642df33893cf35631bcfdeb5d216dd9801e0f77d3"
+          "sha256": "17254835606af32c3c2a256448036fd18f682e3193e523efe7d3233180a9615d"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-file-entry-changed/tree.json",
-          "sha256": "f5da9376f92714078ec3662f4a29922f4fb203d19cf8b8aa69433636b71acc41"
+          "sha256": "513238747bb9b453557dcaa2e0877c70909046e69c5e874ba5c9bd07f2804920"
         }
       ],
       "id": "lost-events-file-entry-changed"
@@ -1138,27 +1095,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/capability.json",
-          "sha256": "e1a5ff400ba4b8524b9fbad14fdbf544792c1c4c4d5be8c68d99c807f50d113f"
+          "sha256": "c52571875dd7403eab23ed8a4d030e8e527ed539db82382909a33235e074aa5f"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/observation.json",
-          "sha256": "bbdb01c1aad7b3125c73b0268514358faf2400d565ad83254a185cbd4f704407"
+          "sha256": "d87868bdd6f1e76c61c3dc1e4b3adf176bf4a148c263c42b81ab44c22e498474"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/protected-paths.case.json",
-          "sha256": "787b0560533711e128fac99bdfb26aa2a8723a80767132066e9ed1b585d35045"
+          "sha256": "c9d78a6141e93de04cca35b5bebb5546d4b8f24b3b7bd1fa8e004d668bb04ef2"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/protected-paths.policy.json",
-          "sha256": "83217e873f30c0b3a81d0e8fbefe6126986bc7ff73c4094c5c53f5c073f09e50"
+          "sha256": "9ffd61f8952cb933cf1ba85ee73c453c0b64b52de6860eaed14662408ecda2b6"
         },
         {
           "path": "vectors-test-tampering/cases/lost-events-tree-unchanged/tree.json",
-          "sha256": "6d210cb384365778ad49a2c7efd429b5d31ece6f8b43a1b9c1a8a4f0624beb13"
+          "sha256": "a2050c823d7034b27eaef495d81787680fd8c4a9107484a9be53d80a5250a803"
         }
       ],
       "id": "lost-events-tree-unchanged"
@@ -1167,27 +1124,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/capability.json",
-          "sha256": "f0cd103d0b208351468fca01b12ee7977e7def48b813cae4dd152e2799666c2e"
+          "sha256": "b99f088e55b0b2a8a3760c350d22bc7d26f009f38c186840b3ac30ba5dcae493"
         },
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/observation.json",
-          "sha256": "9eb04f23fa8aa2b2b1d9e47c58a67be6fd495b74077f2c4fcd2ef32ee209f531"
+          "sha256": "85d071f013174e65417a25924e1838c441682b6d1f298a09d7f48c45da30e114"
         },
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/protected-paths.case.json",
-          "sha256": "001969291acbd22ac91e39e9194108e9ee8bbf037ac45c275504402e8ac6ad2d"
+          "sha256": "431789057ea71e932e0776badc0b6e3392efe83092cf34d8e1636c93727197f8"
         },
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/protected-paths.policy.json",
-          "sha256": "fe870fbfc992c150d206c7f9d827bb5dc9c03bb56d0d45fc1c77cd558129df73"
+          "sha256": "fa143d6db6af5204fcc3e8de530c980a54e73138bed5b633a9d86a2e3f0be889"
         },
         {
           "path": "vectors-test-tampering/cases/write-through-a-link-recorded-unresolved/tree.json",
-          "sha256": "c5c27ff8304cb105d32afa7845e69569d1842fce7a07b269245b32dd1754ab70"
+          "sha256": "43f0ebe071fc616fd82b23768d62cd4882157883566f9e7800eaf78f6ddacc0d"
         }
       ],
       "id": "write-through-a-link-recorded-unresolved"
@@ -1196,27 +1153,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/capability.json",
-          "sha256": "940bf1fedb33adc863ff77a29e05622e256a09c0a89ab1823bb8238aa08ce0c7"
+          "sha256": "dbdf6f3adb3fa44e9a3b967cedc7317b91ef524f89b4562d052baaae7a1feb34"
         },
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/observation.json",
-          "sha256": "a9d70f05f3ae1e717893ad13f9c16245d4c6940f27ce635a21d83a5605848ca0"
+          "sha256": "79958d5e2c822be593e25dbea72d5b1d404523bd376d319243e9353e2e161937"
         },
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/protected-paths.case.json",
-          "sha256": "c42dbf46d25635bcdb5143652bfb01006be8cac408097ee47dd2fe15b952b53b"
+          "sha256": "d8d8194552e9da856f7c7b418c2efc4beaa1b8f7b62ded20022345ce1a154228"
         },
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/protected-paths.policy.json",
-          "sha256": "30a1c28f9ce4a8339b07fd7483e99b585116afb6fd1514df0e8e8f3230fb922f"
+          "sha256": "48846ac21a2e08e8e3e74f33b826a6053bd3a6cd079a397e9ae3d295e617dfe4"
         },
         {
           "path": "vectors-test-tampering/cases/write-under-a-folded-name/tree.json",
-          "sha256": "3d6ad408bcae0d48655a1edf3766b0f7e4d5715bb63bbe49f1b4ff040b0db5be"
+          "sha256": "83ef71f732858c8c70b83657d5ae77a980577adf732e4c01258e8758cc281ea5"
         }
       ],
       "id": "write-under-a-folded-name"
@@ -1225,27 +1182,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/capability.json",
-          "sha256": "91f72d8a452f5c62cd0f657d76cf7c5cbd1612081637ee75de3f595f2c931c20"
+          "sha256": "a9a6604b61aebb4550856192a433847736b4e3dfe89891554089f816bd29979c"
         },
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/observation.json",
-          "sha256": "0d7afbd704c96d94cd385d837c3232edc8cfe3be1d127e2f1b088c6d0c17f3f1"
+          "sha256": "da44caa43bc1c7650bd507c7d1902e99b5c8a7783c11ca41ba559e285e2ae225"
         },
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/protected-paths.case.json",
-          "sha256": "9bac6186854bb46755e8a8d30734d0f7ccf7e7c6cf19556b565237cf0bac850b"
+          "sha256": "35d580cd0d84811b4803cb3d5f67338cb6f2c23ab710c37c7d7097ecf0d558ed"
         },
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/protected-paths.policy.json",
-          "sha256": "f4642c1d80a4785df9fff341d2ad6b471648e118f670f290a9417bcbb04025c0"
+          "sha256": "8c3829dea1e69de452b7912cc70f676782b66488824ce8fb871f69f98ce5ccda"
         },
         {
           "path": "vectors-test-tampering/cases/incomplete-coverage-nothing-seen/tree.json",
-          "sha256": "190dd5fb0975e6b8f5501bab2450f07b153b87f23464a1c2aee6e540b69d01b9"
+          "sha256": "0684de2a4f24187fa0f96222686127f1140d3c0849e07232229373d3f76ee5a6"
         }
       ],
       "id": "incomplete-coverage-nothing-seen"
@@ -1254,27 +1211,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/capability.json",
-          "sha256": "23dc8b24c98d3ab9e04a86a7d0b73522f3c2206db07aefbd4526fc89427c87b2"
+          "sha256": "f2ee71b1c48dd7aef19b3434bd56ea52625470ab53364aba238d7de2140b7cdc"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/observation.json",
-          "sha256": "ab5cfd14ef39a61d99e91c768b7e3f20a8e98234f9c1d1e39f0b5e508defe4e3"
+          "sha256": "f3c19b5ea14bff6a39bba436430ea5d33cdc745fa8fc0e9c13e1fdcb34f4e577"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/protected-paths.case.json",
-          "sha256": "dff3643dcbb02d1ced52b3e894901e6ab3828f6d892852bbd98f19867cae26f8"
+          "sha256": "a5b636da21ae2704515fa2cae38b6fd538d41c581b27436d425f6e559a48a66d"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/protected-paths.policy.json",
-          "sha256": "4c1c0abcfd850c6f0a74806b8eef835868879015775abb5635c0869c8e8a22e6"
+          "sha256": "34f37829b1e5ef79f5a4c97e02bc801d61672beec88a5b7ec424e7e4bdcab930"
         },
         {
           "path": "vectors-test-tampering/cases/truncate-not-visible/tree.json",
-          "sha256": "eff437123fc33e987a85cca8ed5a3fb899e8497b6e220427d1cfd478007c41b1"
+          "sha256": "81607753471f3daa457d169646ea2723fa95160ed1c47c4d3a6f25490d5b0799"
         }
       ],
       "id": "truncate-not-visible"
@@ -1283,27 +1240,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/capability.json",
-          "sha256": "cf655016ae6e6630ba085a37d11a35fddf6fca4efca4c1c194153f54fa913d1f"
+          "sha256": "3f0c612c8a7d22f576755e8dd7fb47c08fab37cbf373bb039ee2d2e93d30efef"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/observation.json",
-          "sha256": "bc700e2ecef58becda9a9e6602536083610563a99aa6ce412ca97ac114f646c5"
+          "sha256": "2343dadff96e9bcd29c2df94c2b647974706e3898156cc8da3e38e639f5c3539"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/protected-paths.case.json",
-          "sha256": "73072cf50e812146084eedbc055f68afa7731ad97df2c6c6e307d5b92d00bef4"
+          "sha256": "b49ac85b2885b73143371df4258b24877f10febbe47b9d2a6105ff8008c4601a"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/protected-paths.policy.json",
-          "sha256": "2e5acf2ff2f1d2f7c0e75444a32aeadd0ab446f3148b3ca5de91ec09dac1e225"
+          "sha256": "842f435ea05930e70e63f2a75fd115da17ebc8cc4ee9d93fea432e992a03dee9"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-independent/tree.json",
-          "sha256": "e19e71f73f9ab4059b2d04c56e6d1383c7e7778d770af8108d42a1966d17186e"
+          "sha256": "39cad7452c498a1c1c77d7f1deff9f4cea4b3b8fa81465701a6af1500cb1481c"
         }
       ],
       "id": "tree-not-independent"
@@ -1312,27 +1269,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/capability.json",
-          "sha256": "8e90070545f5ee0cdea91256d56f830e750c2a64aec46c0c39ba04a362d773fe"
+          "sha256": "b04d4886b771d242af9e4b41947b39f6833e387d2ea8862b874d0c59d7102772"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/observation.json",
-          "sha256": "f31660ad9b3a538d7e929c33dc08c268499dbcf45b29e67e0ec75b8370ab8827"
+          "sha256": "0ef1ff2e6a3d7a62b3d767873f1ad618c503d23b4fe8bdb6938270d8657d34bd"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/protected-paths.case.json",
-          "sha256": "23168c8702c742cd958073327e85182cc3f9414f850bb27f420d2c1666fdd306"
+          "sha256": "6e47a8898cad57441a9cb543433c4aac1a335a669adad9ed6e37c4a9c7ff0f01"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/protected-paths.policy.json",
-          "sha256": "a7183802b11f85917c06ebecc5374df4057c9fc9ff04260f3a8b2973cf466393"
+          "sha256": "f7b682282c6cfa5ef033643b960f34324d645d20f32ab978574902b5a43b6fd1"
         },
         {
           "path": "vectors-test-tampering/cases/tree-not-bound/tree.json",
-          "sha256": "c69e0aa8aaa57e64628bb52ba5dd2ebf428018589cbfa93c8515e007fc1fdeec"
+          "sha256": "3edbd8ee44fbf34e4659219d52de04753baa4f0b33ec8be98e48fc5b55f14770"
         }
       ],
       "id": "tree-not-bound"
@@ -1341,27 +1298,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/capability.json",
-          "sha256": "1808e10ba7efeffb45f7d7e3181e2132bde0b1d00e5b2477f24860e6c71b6e93"
+          "sha256": "4a594d781d86afea22289ac2b6d74ebd3be3d342856c6da1f0d153dc88038639"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/observation.json",
-          "sha256": "372ffaa98158a4d9a1a081b17cac50c8e01fbba5b3cd5decf8c1f61858651084"
+          "sha256": "a9f88d3282c1035e36febf48ac59cfd0a8d060028bb4a27ee664ffbbb167652b"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/protected-paths.case.json",
-          "sha256": "1c0cb83398eedd5e8306a7b438eff022dd531b5e48168e582bd02d0009df5dad"
+          "sha256": "afb3166ba0f538f047c72a9f3a9f08a801e969426f6ab915bb15d8b6aa17abde"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/protected-paths.policy.json",
-          "sha256": "c0c4b319b25cdd9c798ee2b468859fdadce88abc26c7e158e5aafb3c067ebb4c"
+          "sha256": "1c965e1a691d7e01903caa2acd8ea588eabc7eccdfba11fcdd7984abee862905"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-contract-leaves-conftest-unprotected/tree.json",
-          "sha256": "e380bf44fea19de619de37ecc05f0d0b8478683b537bc0cc8313f579c203e063"
+          "sha256": "3684918af4be621dd553a6e29c03f10e7a8ecaea3a6c7a03c7a3a94b530f486b"
         }
       ],
       "id": "known-limit-contract-leaves-conftest-unprotected"
@@ -1370,27 +1327,27 @@
       "files": [
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/capability.json",
-          "sha256": "9cea12179faecef8ce698cd086e614a2d3b889715b091a089377be21bd1a2be3"
+          "sha256": "b0ca04b6f4d8a61c719c4c26524ef0e4242699dac6665c99f9734ae11290b5ea"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/observation.json",
-          "sha256": "d7715d1d7ec1de0e18bfa58dda8cfd098582152a5bfc77ccbef62edd0709a7e2"
+          "sha256": "49305c1022077ef6e16104565709dfe88d9e0382cc6fa6fe9a602da851911185"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/protected-paths.case.json",
-          "sha256": "6972c9a4500614c13af0d50343a0791e5f0f8f43df1f7f6e2acc2b41e5a8a294"
+          "sha256": "f974f2977bc8ff8c22876047481f7484ce6f82b702295a70ed9dc1ebfd7428d1"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/protected-paths.policy.json",
-          "sha256": "15c77f430522026eca410846878ca94a9d3a32b4f38bda3597e05a646ff66d4f"
+          "sha256": "e1e70f0b48a0063b49cc5289738e476b163de9707d2570147d208a24e8ab6f6d"
         },
         {
           "path": "vectors-test-tampering/cases/known-limit-poisoned-bytecode-in-an-excluded-segment/tree.json",
-          "sha256": "6c0cd3aa33de749d1c52a5020f73e98933ed39b842478d5956ef2afbc0936d28"
+          "sha256": "6882e2829c5ba4c4df89172b5ad29874ccacd852b3caf539d05c5824a4906ece"
         }
       ],
       "id": "known-limit-poisoned-bytecode-in-an-excluded-segment"
@@ -1398,234 +1355,118 @@
     {
       "files": [
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/capability.json",
-          "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/capability.json",
+          "sha256": "e892833412709143984d112e83c41801a952a2dbbadee8b1724623d9638a6713"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/contract.json",
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/observation.json",
-          "sha256": "4b7cb171ad6fb6f494135011c397b9f8f07dc22b6ad5233f39ed59ddbe8bfc39"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/observation.json",
+          "sha256": "18fee6cbbc575d383220d239fee790eb845b2103213b6bf7b93f92e6bed1f2b7"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/protected-paths.case.json",
-          "sha256": "477e58182e3c266f14874f038c4b1a788f6825cff887e09ef7e0480ec9212057"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/protected-paths.case.json",
+          "sha256": "0957923a5a08920c76f57e037759ce2188a39655767197ed7e6854110fefa7d0"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/protected-paths.policy.json",
-          "sha256": "0b270535f06831408c58ba5e504041a9ca52e6af5050fe0a83e5ac01349744fb"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/protected-paths.policy.json",
+          "sha256": "9eee0dd1830674f1c020117516330ca513a45b73c2ec7335a1def9ea64608c73"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-honest/tree.json",
-          "sha256": "85793875c18b761c35e2ac6200caaa13208d93fdd277c1d60ce8d52bb5c1cea8"
+          "path": "vectors-test-tampering/cases/protected-test-replaced-by-a-link/tree.json",
+          "sha256": "320321f536ca2fc2551dab4b35a0b9f4009cc52782122330d4f0c2c2d051c69a"
         }
       ],
-      "id": "recorded-honest"
+      "id": "protected-test-replaced-by-a-link"
     },
     {
       "files": [
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/capability.json",
-          "sha256": "9baa625c694d8bda6c4a2245591332c74225dffa52581f481a75f1cf2f968d68"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/capability.json",
+          "sha256": "6fe8f19b0efb692bba32964f2fef62acfcc89eb2cbcacefca9db71e2ce2f6abf"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/contract.json",
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/observation.json",
-          "sha256": "36d789f1b99ef66097a3f2e47d61a63029b83e3144723173953ef4bb5ce7b4ee"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/observation.json",
+          "sha256": "a9c3c9584a2fe70faf37a683e46076230f23ff8a1cc71d7f4360dda78ae376d4"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/protected-paths.case.json",
-          "sha256": "205f14df1650cf419cca410311e6dbbabd8bcba008b940f34fe9ba688c7160d5"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/protected-paths.case.json",
+          "sha256": "b75ed0f08b99c1b6eabac8e5b763341a04c077f0cfa1fd6bba1e8114399a0390"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/protected-paths.policy.json",
-          "sha256": "0625663061d0a9a9e88961d509aa06c0f388c869785b5d8d36a6d4543399605a"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/protected-paths.policy.json",
+          "sha256": "bed96e3eb03caf2aa76c0d613d2cec6e96b400b0c7b456584a6cfd332fdcd4c4"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-protected-edit/tree.json",
-          "sha256": "e23e6bf792fbbdb22eaeda2216c8d906d83ada0eed4b102101e607efade79f7b"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-link/tree.json",
+          "sha256": "cf51a58d950132c6b5dc935be56ddc6145fb71ab7e171f269526c853128c1d85"
         }
       ],
-      "id": "recorded-protected-edit"
+      "id": "protected-directory-replaced-by-a-link"
     },
     {
       "files": [
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/capability.json",
-          "sha256": "c018355edb617e8e07ccb11ce2414f24fc3977cbc57b8fe1e2b12d9129e0f404"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/capability.json",
+          "sha256": "b349c3d92e4bc60349d6208ce2efd82407035f14cb6d2ac4d39aa2d91d92877a"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/contract.json",
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/observation.json",
-          "sha256": "63d3340186fb68be67bdc4888091874c1663f46c06227953e6fc95a4998f35fb"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/observation.json",
+          "sha256": "02a8ff55ff55b2dd434119f4ac0b3d1857a22eabefa031ad97d72374d59f7683"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/protected-paths.case.json",
-          "sha256": "429de85111623f09da1575972a2eda91b0498b4b9cde2b49e4e4ccff8408d6e7"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/protected-paths.case.json",
+          "sha256": "a26cb81685267b7ba34d309e96e534c0f5d36622bc14b42d59a3f2cd7e3e4f3b"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/protected-paths.policy.json",
-          "sha256": "6dfd18e1bef3992680b48b985ded14cabebad8d564d3a64387ed2b826b77562b"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/protected-paths.policy.json",
+          "sha256": "e54157b1e8eb4edee42e8a1001cb6d01e71810851b42beea4455bacf8f8efcc1"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-edit-run-revert/tree.json",
-          "sha256": "b452ab65e4cbc1878f1b88356f02359a189647fa298c5730a61e815111821f3a"
+          "path": "vectors-test-tampering/cases/protected-directory-replaced-by-a-file/tree.json",
+          "sha256": "ff73f6dbb9686761ac7d2a3ec148ddfbc3fe6c39a5f3d2760c56b9eb06e8c4d5"
         }
       ],
-      "id": "recorded-edit-run-revert"
+      "id": "protected-directory-replaced-by-a-file"
     },
     {
       "files": [
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/capability.json",
-          "sha256": "c6b70df1909940a109bff5cdad17c916d50ffdab7beda16c29aa1150c13317b5"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/capability.json",
+          "sha256": "b86ce27db81a36c485327e5b584c064ed6249e97f908fe8c419e3dbb4d41cdde"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/contract.json",
+          "sha256": "6f6585a1a58e503d323f7d048ac49d69b1e84a0e8ae006dc8586756839b527b0"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/observation.json",
-          "sha256": "5b471d1266174e3d8471a15cf61d3f7567221a0449fbeaa4ff25c0f5dc97dd18"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/observation.json",
+          "sha256": "4d4b9196b7ec9371782a83a7b10561599c1127cc1450024866fde9e6abec18b7"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/protected-paths.case.json",
-          "sha256": "887148985aa8a9060e8dfd5e18e8b557f5b0b14e1a1ab1c795cecfa9a73b346b"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/protected-paths.case.json",
+          "sha256": "175f2c5bb29b5a59444d2ac837c15e25216ebefdb44f7aa8aeee3589d09bdb2b"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/protected-paths.policy.json",
-          "sha256": "21b29e15893eee98acdc78065542a627a97cc6fa5c7a3c2e18fe74dcda60b643"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/protected-paths.policy.json",
+          "sha256": "a0e642e82c6b1272dd5ed076a5f682f646c89a41a1737e2ff75a50c386791b00"
         },
         {
-          "path": "vectors-test-tampering/cases/recorded-mmap-write/tree.json",
-          "sha256": "9cfe8a8b7d5f5e442bd52cf78edab04bb0770a3ef1af0a6a1a9ec4e4260ddf77"
+          "path": "vectors-test-tampering/cases/write-under-an-excluded-path/tree.json",
+          "sha256": "65dd1c9fb8ba6028975b2d3d6821f395348664a4b424c90834cf3be39119adb5"
         }
       ],
-      "id": "recorded-mmap-write"
-    },
-    {
-      "files": [
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/capability.json",
-          "sha256": "4e397841131d268c20a269a433dd48c4be2a393ba3c9cd22ab5106f16132b5d4"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/observation.json",
-          "sha256": "5e8d54e18773f7c07f349d583e0eb0afeef3eec5917a4e42aa1cd8feedb44b8e"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/protected-paths.case.json",
-          "sha256": "31c635b41e42725353d8e030e58ee0044da2a18dcab28790450a72b0e05b9178"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/protected-paths.policy.json",
-          "sha256": "24dda24fd4995a6de8590e168c226426ed451b8ee380e81165fb4a0ebe035695"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-raw-open-create/tree.json",
-          "sha256": "b3c17a2121e1c66da48eb7b752e65406bacd43f4897310091bb8b0c5ab0215ed"
-        }
-      ],
-      "id": "recorded-raw-open-create"
-    },
-    {
-      "files": [
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/capability.json",
-          "sha256": "5ab38ed9f1e941faf9df4be28cb0f6049b6ea7d3426cfbbdc31ca217609957e1"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/observation.json",
-          "sha256": "5e354de6ddf3d1f7e63f2f753b954370b51fcdc534eed86f25b4cd78a9e34ad5"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/protected-paths.case.json",
-          "sha256": "85f8ed9f881263e025f2c451dc0322474b7c9d05b22af0762ce463050f6a8347"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/protected-paths.policy.json",
-          "sha256": "fcedb39d59391bf653a47dbd75b821c458610d0aa3ba7f82ef158e95a956d84e"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-direct-host-write/tree.json",
-          "sha256": "9b882210a1cc0123aca54ef379a277b2259d998d947a421813393f8fa957aaac"
-        }
-      ],
-      "id": "recorded-direct-host-write"
-    },
-    {
-      "files": [
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/capability.json",
-          "sha256": "d5139edc665c6bd65d3a57eb785f99721e01cf8db1206f73225089dd2ae70337"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/observation.json",
-          "sha256": "7a4efd53a0386bd6ecb18884175504ffe306242c5db98ec9f1846ba13dc9f4b5"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/protected-paths.case.json",
-          "sha256": "bb9323085ec38e80ffe90e0ef95fd483decb27cb7b32d060b8ee7a67a2575a55"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/protected-paths.policy.json",
-          "sha256": "2b7223c62ef899db788fe16bfdd44d06e09939543616cb3e3babafe019d984ad"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-lost-events/tree.json",
-          "sha256": "e0b6286c0558771b752dd6af00479dea8484361d01b17d4d1660c858d617b120"
-        }
-      ],
-      "id": "recorded-lost-events"
-    },
-    {
-      "files": [
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/capability.json",
-          "sha256": "2b7e5e6f11ba2a1ab0a1e616d7cf8f24e9d9dd75fcfa186289fd8f856033b213"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/contract.json",
-          "sha256": "18d7f40903a13a953af9ced71be57172589d7d372393f45a3f79d18959b2eeaa"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/observation.json",
-          "sha256": "d763754e0e2d2d11e84429dad6f898836b1fe65ccc8a7d17bd0677b8b0ba4429"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/protected-paths.case.json",
-          "sha256": "be98d516c233a134f8a9e44f12ee113de9b9a00d87434590e2cb1d1f9fc23045"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/protected-paths.policy.json",
-          "sha256": "a1a3f69212f26b7a684ccfde1c12f2924b4b31e39a35368895584cffd9d8bbea"
-        },
-        {
-          "path": "vectors-test-tampering/cases/recorded-forged-trace-attempt/tree.json",
-          "sha256": "35fd30cc7adaec924614ab2ef2b9973d22f40bbccff38a5a0fa06d9f69d5e482"
-        }
-      ],
-      "id": "recorded-forged-trace-attempt"
+      "id": "write-under-an-excluded-path"
     }
   ],
   "native": {
@@ -1644,7 +1485,7 @@
       "reference": {
         "path": "release/intake/native/vectors-test-tampering.json",
         "serialization": "bytes",
-        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
       }
     },
     {
@@ -1653,7 +1494,7 @@
       "reference": {
         "path": "release/intake/native/vectors-test-tampering.txt",
         "serialization": "bytes",
-        "sha256": "d0fca0dca112682eac688b083dbd5877dc82ba0b220276770028b4f695e60c57"
+        "sha256": "84c8f36c49ff8311999b5335bfc7fc4a6c4ac3a9195fb24b298e3901a7a99041"
       }
     },
     {
@@ -1677,7 +1518,7 @@
         "member:edit-test-file",
         "check:edit-test-file"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "create-conftest-in-protected-directory",
@@ -1685,7 +1526,7 @@
         "member:create-conftest-in-protected-directory",
         "check:create-conftest-in-protected-directory"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "delete-protected-test",
@@ -1693,7 +1534,7 @@
         "member:delete-protected-test",
         "check:delete-protected-test"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "truncate-protected-test",
@@ -1701,7 +1542,7 @@
         "member:truncate-protected-test",
         "check:truncate-protected-test"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "chmod-protected-test",
@@ -1709,7 +1550,7 @@
         "member:chmod-protected-test",
         "check:chmod-protected-test"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "rename-onto-protected",
@@ -1717,7 +1558,7 @@
         "member:rename-onto-protected",
         "check:rename-onto-protected"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "rename-away-from-protected",
@@ -1725,7 +1566,7 @@
         "member:rename-away-from-protected",
         "check:rename-away-from-protected"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "link-onto-protected",
@@ -1733,7 +1574,7 @@
         "member:link-onto-protected",
         "check:link-onto-protected"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "mmap-write-to-protected",
@@ -1741,7 +1582,7 @@
         "member:mmap-write-to-protected",
         "check:mmap-write-to-protected"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "edit-run-revert",
@@ -1749,7 +1590,7 @@
         "member:edit-run-revert",
         "check:edit-run-revert"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "edit-run-revert-incomplete-coverage",
@@ -1757,7 +1598,7 @@
         "member:edit-run-revert-incomplete-coverage",
         "check:edit-run-revert-incomplete-coverage"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "edit-then-unknown-coverage",
@@ -1765,7 +1606,7 @@
         "member:edit-then-unknown-coverage",
         "check:edit-then-unknown-coverage"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "lost-events-test-edited",
@@ -1773,7 +1614,7 @@
         "member:lost-events-test-edited",
         "check:lost-events-test-edited"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "lost-events-file-added-to-protected-directory",
@@ -1781,7 +1622,7 @@
         "member:lost-events-file-added-to-protected-directory",
         "check:lost-events-file-added-to-protected-directory"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "lost-events-test-deleted",
@@ -1789,7 +1630,7 @@
         "member:lost-events-test-deleted",
         "check:lost-events-test-deleted"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "lost-events-file-entry-changed",
@@ -1797,7 +1638,7 @@
         "member:lost-events-file-entry-changed",
         "check:lost-events-file-entry-changed"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "write-through-a-link-recorded-unresolved",
@@ -1805,7 +1646,7 @@
         "member:write-through-a-link-recorded-unresolved",
         "check:write-through-a-link-recorded-unresolved"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
       "check": "write-under-a-folded-name",
@@ -1813,47 +1654,31 @@
         "member:write-under-a-folded-name",
         "check:write-under-a-folded-name"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
-      "check": "recorded-protected-edit",
+      "check": "protected-test-replaced-by-a-link",
       "inputs": [
-        "member:recorded-protected-edit",
-        "check:recorded-protected-edit"
+        "member:protected-test-replaced-by-a-link",
+        "check:protected-test-replaced-by-a-link"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
-      "check": "recorded-edit-run-revert",
+      "check": "protected-directory-replaced-by-a-link",
       "inputs": [
-        "member:recorded-edit-run-revert",
-        "check:recorded-edit-run-revert"
+        "member:protected-directory-replaced-by-a-link",
+        "check:protected-directory-replaced-by-a-link"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     },
     {
-      "check": "recorded-mmap-write",
+      "check": "protected-directory-replaced-by-a-file",
       "inputs": [
-        "member:recorded-mmap-write",
-        "check:recorded-mmap-write"
+        "member:protected-directory-replaced-by-a-file",
+        "check:protected-directory-replaced-by-a-file"
       ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
-    },
-    {
-      "check": "recorded-raw-open-create",
-      "inputs": [
-        "member:recorded-raw-open-create",
-        "check:recorded-raw-open-create"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
-    },
-    {
-      "check": "recorded-direct-host-write",
-      "inputs": [
-        "member:recorded-direct-host-write",
-        "check:recorded-direct-host-write"
-      ],
-      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"decision\":\"contradicted\",\"reason\":\"protected_path_mutated\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"checks\":{\"protected_paths/v1\":{\"class\":\"tamper\",\"decision\":\"contradicted\",\"reason\":\"protected_path_digest_changed\",\"vantage\":\"independent\",\"witness_scope\":\"PEER\"}}}}"
     }
   ],
   "relaxed-controls": [],
@@ -1863,11 +1688,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
       },
       {
         "process": "run-2",
-        "sha256": "846f7ded0729723c2feb77411f1393c10f5bc03b1b894343387b1e9b6e468900"
+        "sha256": "a2f43c9550d305ab07f68a216817a235d510a6aa6c755f8c287d2cb4b8215732"
       }
     ],
     "seed": null,
@@ -1881,17 +1706,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 38 pinned members of test-tampering/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 34 pinned members of test-tampering/v2 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 38,
+    "matched": 34,
     "require": "at-least-one",
     "selected": [
       "untouched",
@@ -1924,17 +1750,13 @@
       "tree-not-bound",
       "known-limit-contract-leaves-conftest-unprotected",
       "known-limit-poisoned-bytecode-in-an-excluded-segment",
-      "recorded-honest",
-      "recorded-protected-edit",
-      "recorded-edit-run-revert",
-      "recorded-mmap-write",
-      "recorded-raw-open-create",
-      "recorded-direct-host-write",
-      "recorded-lost-events",
-      "recorded-forged-trace-attempt"
+      "protected-test-replaced-by-a-link",
+      "protected-directory-replaced-by-a-link",
+      "protected-directory-replaced-by-a-file",
+      "write-under-an-excluded-path"
     ]
   },
   "specification-readers": [],
   "state": "pass",
-  "suite": "test-tampering/v1"
+  "suite": "test-tampering/v2"
 }
