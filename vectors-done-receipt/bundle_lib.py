@@ -469,10 +469,15 @@ def member(case_id: str, edit: str, files: dict[str, bytes], declared: tuple[str
            expected: dict[str, Any], kind: str | None = None) -> Member:
     """A member whose declared verdicts are the ones given; the kind defaults to the
     integrity verdict, or the outcome, or a refusal."""
-    if kind is None:
-        integrity = expected.get("integrity", {}).get("decision")
-        kind = integrity or expected.get("outcome", {}).get("decision") or "refused"
-        if integrity == "supported" and expected.get("outcome", {}).get("decision") != "supported":
-            kind = expected["outcome"]["decision"]
-    return Member(id=case_id, edit=edit, files=files, expected=expected, kind=kind,
+    return Member(id=case_id, edit=edit, files=files, expected=expected,
+                  kind=kind if kind is not None else default_kind(expected),
                   checks=list(declared))
+
+
+def default_kind(expected: dict[str, Any]) -> str:
+    """The integrity verdict, or the outcome where the integrity holds, or a refusal."""
+    integrity = expected.get("integrity", {}).get("decision")
+    outcome = expected.get("outcome", {}).get("decision")
+    if integrity == "supported" and outcome != "supported":
+        return str(outcome)
+    return str(integrity or outcome or "refused")
