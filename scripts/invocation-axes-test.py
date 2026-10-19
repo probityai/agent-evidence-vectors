@@ -78,9 +78,10 @@ def _with_outcome(case_id: str, outcome: Any) -> dict[str, str]:
 
 def test_dispatch_outcomes_follow_remora_vocabulary() -> None:
     assert _with_outcome("intact_pair", "BEGAN_OUTCOME_UNKNOWN")["observed_effect"] == "ESTABLISHED"
-    assert _with_outcome("dispatched_after_deny", "BEGAN_OUTCOME_UNKNOWN")[
-        "observed_effect"
-    ] == "CONTRADICTED"
+    assert (
+        _with_outcome("dispatched_after_deny", "BEGAN_OUTCOME_UNKNOWN")["observed_effect"]
+        == "CONTRADICTED"
+    )
     assert _with_outcome("intact_pair", "REFUSED")["observed_effect"] == "CONTRADICTED"
 
 

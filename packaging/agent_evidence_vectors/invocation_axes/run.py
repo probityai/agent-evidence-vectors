@@ -11,7 +11,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .reader import AXES, DERIVED, NON_CLAIMS, MalformedInput, evaluate, parse_strict, sha256_tag, summary
+from .reader import (
+    AXES,
+    DERIVED,
+    NON_CLAIMS,
+    MalformedInput,
+    evaluate,
+    parse_strict,
+    sha256_tag,
+    summary,
+)
 
 DISTRIBUTION = "agent-evidence-vectors"
 PACKAGED_CORPUS = Path(__file__).parent / "corpus"
