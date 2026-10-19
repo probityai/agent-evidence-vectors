@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "0de79619b504fa6d8376f876f702654a347ee0ad26bbf0c7b180bae568df97c3",
+  "corpusDigest": "d26907e72fa15a009883a4d9d4b52a64261a71aac6592905cd69e072129b29a8",
   "predicateSpec": "spec/predicates/done-receipt.md",
   "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
   "recordSpec": "spec/predicates/done-records.md",
@@ -629,7 +629,7 @@
         "tree.json": "5bdad9546644554bde7c9cc71f0263b6eb2906d33d3851c9bd8cad59978882a4"
       },
       "id": "forged-receipt",
-      "kind": "contradicted",
+      "kind": "invalid",
       "path": "cases/forged-receipt"
     },
     {
@@ -1814,7 +1814,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-type-wrong",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-type-wrong"
     },
     {
@@ -1898,7 +1898,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-predicate-type-wrong",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-predicate-type-wrong"
     },
     {
@@ -1982,7 +1982,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-truncated",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-truncated"
     },
     {
@@ -2066,7 +2066,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-duplicate-member",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-duplicate-member"
     },
     {
@@ -2150,7 +2150,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-not-a-number",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-not-a-number"
     },
     {
@@ -2234,7 +2234,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-member-unexpected",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-member-unexpected"
     },
     {
@@ -2318,7 +2318,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-subject-empty",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-subject-empty"
     },
     {
@@ -2402,7 +2402,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-subject-other-algorithm",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-subject-other-algorithm"
     },
     {
@@ -2486,7 +2486,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-verifier-missing",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-verifier-missing"
     },
     {
@@ -2570,7 +2570,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-schema-unsupported",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-schema-unsupported"
     },
     {
@@ -2654,7 +2654,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-predicate-member-unexpected",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-predicate-member-unexpected"
     },
     {
@@ -2738,7 +2738,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-claim-id-empty",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-claim-id-empty"
     },
     {
@@ -2822,7 +2822,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-verifier-member-unexpected",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-verifier-member-unexpected"
     },
     {
@@ -2906,7 +2906,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-verifier-id-not-a-uri",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-verifier-id-not-a-uri"
     },
     {
@@ -2990,7 +2990,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-records-missing-claims",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-records-missing-claims"
     },
     {
@@ -3074,7 +3074,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-record-digest-short",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-record-digest-short"
     },
     {
@@ -3158,7 +3158,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-accepted-not-a-boolean",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-accepted-not-a-boolean"
     },
     {
@@ -3242,7 +3242,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-axis-decision-unknown",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-axis-decision-unknown"
     },
     {
@@ -3326,7 +3326,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-axis-class-unknown",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-axis-class-unknown"
     },
     {
@@ -3410,7 +3410,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-axis-checks-empty",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-axis-checks-empty"
     },
     {
@@ -3494,7 +3494,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-axis-member-unexpected",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-axis-member-unexpected"
     },
     {
@@ -4011,7 +4011,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "receipt-verifier-ids-empty",
-      "kind": "supported",
+      "kind": "refused",
       "path": "cases/receipt-verifier-ids-empty"
     },
     {
@@ -4103,7 +4103,7 @@
         "tree.json": "8317b5beae090dfb79a932915cceb7fa240d67cc986ee31ea726110cd276a210"
       },
       "id": "integrity-laundered",
-      "kind": "contradicted",
+      "kind": "invalid",
       "path": "cases/integrity-laundered"
     },
     {
@@ -4195,7 +4195,7 @@
         "tree.json": "8317b5beae090dfb79a932915cceb7fa240d67cc986ee31ea726110cd276a210"
       },
       "id": "accepted-flipped",
-      "kind": "contradicted",
+      "kind": "invalid",
       "path": "cases/accepted-flipped"
     },
     {
@@ -4283,7 +4283,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "completion-claim-dropped",
-      "kind": "supported",
+      "kind": "invalid",
       "path": "cases/completion-claim-dropped"
     },
     {
@@ -4371,7 +4371,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "integrity-checks-reordered",
-      "kind": "supported",
+      "kind": "invalid",
       "path": "cases/integrity-checks-reordered"
     },
     {
@@ -4459,7 +4459,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "integrity-check-dropped",
-      "kind": "supported",
+      "kind": "invalid",
       "path": "cases/integrity-check-dropped"
     },
     {
@@ -4547,7 +4547,7 @@
         "tree.json": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
       },
       "id": "outcome-scope-raised",
-      "kind": "supported",
+      "kind": "invalid",
       "path": "cases/outcome-scope-raised"
     },
     {
@@ -4639,7 +4639,7 @@
         "tree.json": "8317b5beae090dfb79a932915cceb7fa240d67cc986ee31ea726110cd276a210"
       },
       "id": "integrity-class-dropped",
-      "kind": "contradicted",
+      "kind": "invalid",
       "path": "cases/integrity-class-dropped"
     },
     {
@@ -16125,7 +16125,7 @@
         "tree.json": "3379d5ae3366de20dc2e8514195412f7144481ca70b38e1d741e24be48440a56"
       },
       "id": "receipt-ignores-the-external-effect",
-      "kind": "contradicted",
+      "kind": "invalid",
       "path": "cases/receipt-ignores-the-external-effect"
     }
   ]

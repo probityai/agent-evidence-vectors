@@ -68,10 +68,19 @@ func TestDoneRecordsMoveTheDerivedVerdict(t *testing.T) {
 			t.Fatalf("want a derived finding, got %q", got)
 		}
 	})
-	t.Run("a record changed after the receipt took its digest is named", func(t *testing.T) {
+	t.Run("a record changed after the consumer pinned it is named", func(t *testing.T) {
 		staged := doneStage(t, dir, "honest", "tree.json", []byte("{"))
-		if got := scDerived(t, staged, "honest"); !strings.Contains(got, "receipt_record_digest_mismatch") {
-			t.Fatalf("want a digest finding, got %q", got)
+		if got := scDerived(t, staged, "honest"); !strings.Contains(got, "case_artifact_binding_mismatch") {
+			t.Fatalf("want a binding finding, got %q", got)
+		}
+	})
+	t.Run("a forged receipt is caught by rederiving its verdicts", func(t *testing.T) {
+		verdict, err := corpora.DoneCheck("done_receipt/v2", filepath.Join(corpusPath(dir), "cases", "forged-receipt"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if verdict["reason"] != "receipt_outcome_mismatch" || verdict["receipt_valid"] != false {
+			t.Fatalf("want receipt_outcome_mismatch with receipt_valid false, got %v", verdict)
 		}
 	})
 }
