@@ -509,10 +509,12 @@ func doneBindGraded(caseValue, policyValue any, root, claimType string, optional
 		return doneDecided(base, "not_established", reason), nil, nil
 	}
 	treePin, gradePin := bound["tree"].pin, bound["grade"].pin
+	treeEstablished := tree != nil && tree["claim_id"] == ids.caseID &&
+		tree["invocation_id"] == ids.invocation && doneIndependent(tree, treePin, ids.party)
 	switch {
 	case contract == nil:
 		return open("contract_unavailable_or_unbound")
-	case !(tree != nil && tree["claim_id"] == ids.caseID && tree["invocation_id"] == ids.invocation && doneIndependent(tree, treePin, ids.party)):
+	case !treeEstablished:
 		return open("final_tree_unestablished")
 	case grade == nil:
 		return open("grade_unavailable_or_unbound")
