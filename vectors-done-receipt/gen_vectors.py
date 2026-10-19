@@ -106,8 +106,11 @@ def make(case_id: str, edit: str, files: dict[str, bytes], exp: dict[str, Any]) 
     """A member whose kind is the receipt's: refused, invalid (a receipt its records do not
     give), or else the verdict the work gets."""
     receipt = exp["checks"].get(checks.RECEIPT, {})
-    kind = ("refused" if "refused" in receipt else "invalid" if receipt.get("receipt_valid") is False
-            else None)
+    kind = None
+    if "refused" in receipt:
+        kind = "refused"
+    elif receipt.get("receipt_valid") is False:
+        kind = "invalid"
     return lib.member(case_id, edit, files, FULL, exp, kind)
 
 
