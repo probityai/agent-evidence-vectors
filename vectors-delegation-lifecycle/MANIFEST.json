@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "f1ee714d62f7390376ca5732efcf2a4c551f2862052f762f48be5b148314cccd",
+  "corpusDigest": "8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71",
   "payloadType": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
   "registryKeyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
   "relyingPartyKeyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
@@ -1039,6 +1039,138 @@
       "path": "cases/recovery-history-follows",
       "rule": "Proposed: adverse records of the old identifier (an identifier revocation, a revocation of a grant made to it, its disputes and their resolutions) resolve from the successor through the recovery record, and the acceptance names that history.",
       "set": "recovery"
+    },
+    {
+      "description": "agent-v1 left adverse records and was retired; the organisation registers the same software as agent-v2 and asks for no continuity, the registry records the succession, and agent-v2 presents a new grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "05-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "06-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "07-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "08-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "09-succession-s-v1-v2.json": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3",
+        "10-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "4ef7d024878a67e517d434caecbb3ad4bb4590d3a3c2578b551da9b60c73833e",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-unclaimed-succession",
+      "path": "cases/recovery-unclaimed-succession",
+      "rule": "Proposed: when the registry registers an identifier whose Responsible entity and software attestation digest match an agent it had retired or revoked, it records a succession on its own signature, without a claim from the Responsible entity; the succession carries history and no grant, like a recovery.",
+      "set": "recovery"
+    },
+    {
+      "description": "The same re-registration, and the registry records no succession; agent-v2 presents a new grant.",
+      "expected": {
+        "decision": "reject",
+        "reason": "succession_unrecorded"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "05-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "06-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "07-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "08-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "09-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "8969854725da31046189d446422be4bf29f6d00ec406c47ff7349c3a63d4e1fc",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-unclaimed-unrecorded",
+      "path": "cases/recovery-unclaimed-unrecorded",
+      "rule": "Proposed: a presenter whose registration matches a retired or revoked agent of the same Responsible entity and software, with no succession or recovery record joining them, is refused, because its history was dropped at registration.",
+      "set": "recovery",
+      "twin": "recovery-unclaimed-succession"
+    },
+    {
+      "description": "After the registry records the succession, the organisation asserts that agent-v2 is a new agent, and agent-v2 presents a new grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history_contested"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "04-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "05-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "06-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "07-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "08-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "09-succession-s-v1-v2.json": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3",
+        "10-new-agent-assertion-a-v2-new.json": "c03a643bb1b024a9e7c42b6c30765342a2bf9b4b9ccaa1d44ca680869cbd7acb",
+        "11-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "ce3ba5f3bc8ee534e0399af29cf54cf7f77363390c9a15be53595517aad98ffc",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-new-agent-asserted",
+      "path": "cases/recovery-new-agent-asserted",
+      "rule": "Proposed: a Responsible entity's assertion that a matched agent is new is recorded and does not cut the succession; the predecessor's adverse records still resolve, and the acceptance names the history as contested so that a relying party or a dispute can take it up.",
+      "set": "recovery"
+    },
+    {
+      "description": "The operator responsible for agent-v1 hands its agents to a successor operator; the agent-v1 key is lost, the successor registers the same software as agent-v2 and signs the recovery with the registry, and agent-v2 presents a new grant.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-operator.json": "0e7ed544742724aa52d6933ddcc8976858403ddebfebf8956774d8115bc08419",
+        "03-registration-agent-v1.json": "626849de7edb2ee3606b09138fa0235d1385268fcc81289a3336556d430d8a2d",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "06-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "07-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "08-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "09-registration-operator-successor.json": "d5f204c3247675f512173558057aaed5bb31497d0661233b82114c3b727ddfbd",
+        "10-responsible-succession-h-operator.json": "ebf89a7253d3d6d921b465e7e3a98d90191a1fef6d1bc808d8e0fb6597afbe44",
+        "11-registration-agent-v2.json": "03f1ee22b990665a8855ec207ed8fb681bbf10948d117214f3f618fbfa923b44",
+        "12-recovery-rc-v1-v2.json": "fe37df4fc9c3693dfff1813e2395509ad9fa2d4073ed87c73967d5ad60fcd161",
+        "13-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "c93ae90230d25927464a33d510c0ce83016ccc6f8d803bbd32c588aff7b6f02d",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-successor-responsible",
+      "path": "cases/recovery-successor-responsible",
+      "rule": "Proposed: a recovery may be signed by a successor Responsible entity when a responsible-succession record, signed by the registry and the predecessor, hands the predecessor's agents to it before the recovery.",
+      "set": "recovery"
+    },
+    {
+      "description": "The successor operator signs the recovery, and no responsible-succession record hands agent-v1 to it.",
+      "expected": {
+        "decision": "reject",
+        "reason": "recovery_mismatch"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-operator.json": "0e7ed544742724aa52d6933ddcc8976858403ddebfebf8956774d8115bc08419",
+        "03-registration-agent-v1.json": "626849de7edb2ee3606b09138fa0235d1385268fcc81289a3336556d430d8a2d",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-revocation-r-agent.json": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d",
+        "06-dispute-d-agent.json": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3",
+        "07-resolution-d-agent-outcome.json": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c",
+        "08-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "09-registration-operator-successor.json": "d5f204c3247675f512173558057aaed5bb31497d0661233b82114c3b727ddfbd",
+        "10-registration-agent-v2.json": "03f1ee22b990665a8855ec207ed8fb681bbf10948d117214f3f618fbfa923b44",
+        "11-recovery-rc-v1-v2.json": "fe37df4fc9c3693dfff1813e2395509ad9fa2d4073ed87c73967d5ad60fcd161",
+        "12-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "case.json": "60bbecf19c5fca1d23987b637622a43e9db3dbd4229b9ec53074be613a2fa530",
+        "presentation.json": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+      },
+      "id": "recovery-successor-responsible-unrecorded",
+      "path": "cases/recovery-successor-responsible-unrecorded",
+      "rule": "Proposed: a recovery signed by a Responsible entity that the registry did not bind to the old identifier, directly or through a recorded responsible succession, does not match.",
+      "set": "recovery",
+      "twin": "recovery-successor-responsible"
     }
   ]
 }

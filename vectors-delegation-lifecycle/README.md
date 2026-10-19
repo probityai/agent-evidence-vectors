@@ -13,7 +13,8 @@ judges them. The cases come in three sets:
 - `rereg-`: re-registration, where an old identifier is linked to a new one;
 - `recovery-`: recovery after the old key is lost or compromised, the question
   asked on AAIF Identity and Trust issue 18 about use case B (redeployment
-  under a new identifier).
+  under a new identifier), and the re-registration that asks for no
+  continuity at all, which use case B names as its failure.
 
 Judge the corpus with the Go verifier, from the repository root:
 
@@ -43,6 +44,9 @@ is a JSON object with a `type`. Times are RFC 3339.
 | `resolution` | `dispute_id`, `revocation_id`, `decided_by`, `outcome` (`restored` or `confirmed`), `decided_at`, optional `replacement_grant` | the decider |
 | `link` | `link_id`, `old`, `new`, `linked_at` | the old identifier, the new identifier and the registry |
 | `recovery` | `recovery_id`, `old`, `new`, `responsible`, `recovered_at` | the registry and the Responsible entity |
+| `succession` | `succession_id`, `old`, `new`, `responsible`, `recorded_at` | the registry |
+| `new-agent-assertion` | `assertion_id`, `identifier`, `succession_id`, `responsible`, `grounds`, `asserted_at` | the Responsible entity |
+| `responsible-succession` | `record_id`, `old_responsible`, `new_responsible`, `succeeded_at` | the registry and the predecessor Responsible entity |
 | `presentation` | `presenter`, `chain` (grant ids, top first), `observed_at` | the presenter and the relying party |
 
 A signature counts when its `keyid` names a key the registry bound to the signer
@@ -69,12 +73,14 @@ The verifier names the first check that fails.
 | that revocation states its grounds | `revocation_incomplete` | proposed |
 | no dispute of that revocation by an affected principal is still open | `grant_revoked_dispute_open` | proposed |
 | every recovery record that names the presenter as `new` is signed by the registry and the Responsible entity | `signature_invalid:recovery` | proposed |
-| the registry registered both identifiers of that recovery to its Responsible entity with one `software` digest | `recovery_mismatch` | proposed |
+| the registry registered both identifiers of that recovery to its Responsible entity, or the old one to a predecessor that handed over to it, with one `software` digest; succession records are checked the same way | `recovery_mismatch` | proposed |
+| no retired or revoked agent with the presenter's Responsible entity and `software` is left unjoined to the presenter by a succession or recovery record | `succession_unrecorded` | proposed |
 
 A case that passes every check is accepted with `authority_valid`, with
 `authority_valid_via_link` when the presenter holds the grant through a link, or
 with `authority_valid_with_history` when a recovered predecessor left an adverse
-record.
+record, or with `authority_valid_with_history_contested` when the Responsible
+entity also asserted that the presenter is a new agent.
 
 Standing, cascade and irreversibility follow the
 [UCAN revocation specification](https://github.com/ucan-wg/revocation): the issuer
@@ -148,6 +154,33 @@ the recovery record, and keep it apart from authority:
   history cannot be resolved.
 
 Every rule in this section is a proposal with no precedent we know of.
+
+## Succession without a claim
+
+Recovery starts when the Responsible entity asks for continuity. Use case B's
+failure is the opposite: the operator re-registers the same software without
+asking, and the history drops. These cases put the duty on the registry, which
+is the one party that sees both registrations:
+
+- When the registry registers an identifier whose Responsible entity and
+  software attestation digest match an agent it had retired or revoked, it
+  signs a succession record on its own. The Responsible entity's signature is
+  not needed, because the record carries history and never a grant.
+- A presenter whose registration matches a retired or revoked agent, with no
+  succession or recovery record joining them, is refused with
+  `succession_unrecorded`: the namespace dropped its history at registration.
+- A Responsible entity may assert that a matched agent is new. The assertion is
+  recorded with its grounds and can be disputed by its `assertion_id`, but it
+  does not cut the succession: the predecessor's adverse records still resolve,
+  and the acceptance is `authority_valid_with_history_contested`.
+- A recovery may be signed by a successor Responsible entity when a
+  responsible-succession record, signed by the registry and the predecessor,
+  hands the predecessor's agents to it before the recovery. Without that record
+  the recovery does not match.
+
+History continuity and authority stay separate throughout: every succession,
+recovery and hand-over carries records forward, and only a new grant from an
+issuer carries authority.
 
 ## What these cases do not test
 
