@@ -8,9 +8,11 @@ Predicate Name: Done Contract
 
 > Status: DRAFT, issued under a self-hosted `predicateType` URI. The in-toto
 > new-predicate guidelines leave the URI namespace to the predicate designer.
-> The page at the URI is built from this file by the `probityai/probity` Pages site.
-> The URI will not move once a signed statement carries it, and no signed statement
-> carries it before that page is live. The conformance corpus in this repository,
+> The URI redirects to a page built from this file and served by the Pages site of
+> `probityai/agent-evidence`, at
+> `https://probityai.github.io/agent-evidence/predicate/v1/done-contract/`. The URI will
+> not move once a signed statement carries it, and no signed statement carries it before
+> that page is live. The conformance corpus in this repository,
 > `vectors-done-contract/`, carries it in unsigned statements.
 
 ## Purpose
