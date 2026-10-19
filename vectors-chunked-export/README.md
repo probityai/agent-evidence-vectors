@@ -69,7 +69,7 @@ left whole). It then checks in this order and names the first check that fails:
 5. the composed class is `reversible` (`export_irreversible`). Proposed.
 
 A record that passes all five is `allow` with reason `reversible_so_far`. The
-`sets` rule and the order of checks 4 and 5 are Proposed: no published contract
+`sets` rule and the order of the seal check and the composition check are Proposed: no published contract
 states them yet.
 
 ## What these cases cannot establish
