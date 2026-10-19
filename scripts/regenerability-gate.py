@@ -409,8 +409,21 @@ def owned_files(root: Path) -> dict[str, Path]:
     return found
 
 
+def committed_files(root: Path) -> dict[str, Path]:
+    """The owned files git tracks in ``root``.
+
+    A glob over the working tree is not the committed set: an untracked file left
+    under an owned path (a case from another branch, a half-finished generator
+    run) was reported as "committed and no generator produced it", naming a file
+    no commit holds. ``stage`` copies only tracked files, so this is the set the
+    copy started from.
+    """
+    tracked_set = set(tracked(root))
+    return {rel: path for rel, path in owned_files(root).items() if rel in tracked_set}
+
+
 def compare(root: Path, destination: Path) -> list[str]:
-    committed = owned_files(root)
+    committed = committed_files(root)
     regenerated = owned_files(destination)
     failures: list[str] = []
     for rel in sorted(set(committed) - set(regenerated)):
@@ -449,7 +462,7 @@ def main(argv: list[str]) -> int:
         wipe(destination)
         failures = regenerate(destination)
         failures.extend(compare(root, destination))
-        checked = len(owned_files(root))
+        checked = len(committed_files(root))
 
     if failures:
         print(

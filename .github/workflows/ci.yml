@@ -854,6 +854,8 @@ jobs:
       # `generators` extra was synced into.
       - name: every generated file regenerates byte-identically
         run: uv run python scripts/regenerability-gate.py
+      - name: the regenerability gate counts only tracked files as committed
+        run: uv run python scripts/regenerability-gate-test.py
       # The v0.1 report reader's rules that no corpus member can pin: a tree
       # shape outside the closed set is refused rather than hashed as another
       # shape, and each registered shape is hashed by the construction its name
