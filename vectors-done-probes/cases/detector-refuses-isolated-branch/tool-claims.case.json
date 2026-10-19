@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 318,
+      "path": "capability.json",
+      "sha256": "7b233f512f1fad172c05a465066f1a37f5ec6469556f96351fbee6f0c5d0536a"
+    },
+    "claims": {
+      "length": 390,
+      "path": "claims.json",
+      "sha256": "3b08b16046ab663d87fbd51d8a33f16ad08ed7bd187af6f823650b3b7bccd99b"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 952,
+      "path": "observation.json",
+      "sha256": "c96b9dc08504231850210c14deee6b4e02e578f1005f6c73aab05beabaf16a24"
+    }
+  },
+  "case_id": "detector-isolated-branch",
+  "schema_version": "probity-case/v1"
+}
