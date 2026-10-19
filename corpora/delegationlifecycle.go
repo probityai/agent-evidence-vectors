@@ -290,37 +290,34 @@ func (s *dlState) bindKeys() {
 	}
 }
 
+// dlSelfSigned names, for each record type its own principal signs, the field
+// holding that principal.
+var dlSelfSigned = map[string]string{
+	"grant": "issuer", "revocation": "initiator", "dispute": "filed_by",
+	"resolution": "decided_by", "new-agent-assertion": "responsible",
+}
+
 // verify reports whether a record carries the signatures its type needs: the
 // registry's for what the registry records, the signer's own registered key for
-// everything else, and all three for a link.
+// what a principal asserts, and several for a link, a recovery or a hand-over.
 func (s *dlState) verify(r *dlRecord) bool {
 	if s.off("signature") {
 		return true
 	}
-	registry := s.registryKeys()
+	if field, ok := dlSelfSigned[r.kind]; ok {
+		return s.signedBy(r, s.keys[r.str(field)])
+	}
+	registry := s.signedBy(r, s.registryKeys())
 	switch r.kind {
-	case "registration", "retirement", "identifier-revocation":
-		return s.signedBy(r, registry)
-	case "grant":
-		return s.signedBy(r, s.keys[r.str("issuer")])
-	case "revocation":
-		return s.signedBy(r, s.keys[r.str("initiator")])
-	case "dispute":
-		return s.signedBy(r, s.keys[r.str("filed_by")])
-	case "resolution":
-		return s.signedBy(r, s.keys[r.str("decided_by")])
+	case "registration", "retirement", "identifier-revocation", "succession":
+		return registry
 	case "link":
-		registered := s.off("link_registry_attestation") || s.signedBy(r, registry)
+		registered := s.off("link_registry_attestation") || registry
 		return registered && s.signedBy(r, s.keys[r.str("old")]) && s.signedBy(r, s.keys[r.str("new")])
 	case "recovery":
-		responsible := s.off("recovery_signature") || s.signedBy(r, s.keys[r.str("responsible")])
-		return responsible && s.signedBy(r, registry)
-	case "succession":
-		return s.signedBy(r, registry)
-	case "new-agent-assertion":
-		return s.signedBy(r, s.keys[r.str("responsible")])
+		return registry && (s.off("recovery_signature") || s.signedBy(r, s.keys[r.str("responsible")]))
 	case "responsible-succession":
-		return s.signedBy(r, registry) && s.signedBy(r, s.keys[r.str("old_responsible")])
+		return registry && s.signedBy(r, s.keys[r.str("old_responsible")])
 	}
 	return false
 }
