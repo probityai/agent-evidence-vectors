@@ -18,6 +18,11 @@
   "responder": "service:estimate-audit",
   "price_units": 300,
   "currency": "test-units",
+  "input_pins": {
+    "input_sha256": "sha256:1f75bcabc3506eca614e047d72629e175160b7b3688c1016a31b4e7a09eb1fbd",
+    "dataset_sha256": "sha256:7b16600e50ed73b844ff5b2718f04a6dd4d9ace0367982fb8d139db509d023fd"
+  },
+  "input_file": "input.json",
   "trust_inputs": "trust.json",
   "verifier_command": "agent-evidence-vectors-occurrence-binding --output <new directory>"
 }

@@ -37,6 +37,8 @@ from agent_evidence_vectors.occurrence_binding.reader import (  # noqa: E402
     AXES,
     BUDGET_SCHEMA,
     EXECUTION_SCHEMA,
+    NOT_RUN,
+    NOT_RUN_SCHEMA,
     OCCURRENCE_SCHEMA,
     PAYMENT_SCHEMA,
     TRUST_SCHEMA,
@@ -70,6 +72,26 @@ REQUEST: dict[str, Any] = {
 }
 
 
+# The input the call is pinned to: the first two lines of an estimate fixture,
+# as a payer sends it for the audit. The pin is sha256 over its RFC 8785 bytes.
+FULL_FIXTURE: dict[str, Any] = {
+    "lines": [
+        {"item": "外壁塗装 シリコン", "qty": 180, "unit": "㎡", "unit_price": 3200},
+        {"item": "足場設置 ㎡単価", "qty": 240, "unit": "㎡", "unit_price": 900},
+        {"item": "高圧洗浄", "qty": 180, "unit": "㎡", "unit_price": 250},
+    ],
+    "type": "horizon-shield.estimate-fixture.v0",
+}
+INPUT = dict(FULL_FIXTURE, lines=FULL_FIXTURE["lines"][:2])
+INPUT_PIN = sha256_tag(canonical(INPUT))
+# The full three-line fixture: a run that audits it audited another input.
+OTHER_INPUT_PIN = sha256_tag(canonical(FULL_FIXTURE))
+# Two published versions of the reference price dataset the audit reads; the
+# occurrence freezes the later one. These are digests of the published files.
+DATASET_PIN = "sha256:7b16600e50ed73b844ff5b2718f04a6dd4d9ace0367982fb8d139db509d023fd"
+OTHER_DATASET_PIN = "sha256:85418e4af9d3d727af2eb1c95566aa56f21d8ae1046601bc259baa302515680d"
+
+
 def _occurrence(nonce: str = "occ-0001", request: dict[str, Any] | None = None) -> dict[str, Any]:
     return {
         "schema": OCCURRENCE_SCHEMA,
@@ -79,6 +101,8 @@ def _occurrence(nonce: str = "occ-0001", request: dict[str, Any] | None = None) 
         "responder": "service:estimate-audit",
         "price_units": 300,
         "currency": "test-units",
+        "input_pins": {"input_sha256": INPUT_PIN, "dataset_sha256": DATASET_PIN},
+        "input_file": "input.json",
         "trust_inputs": "trust.json",
         "verifier_command": VERIFIER_COMMAND,
     }
@@ -150,7 +174,21 @@ def _execution(**override: Any) -> dict[str, Any]:
         "responder": "service:estimate-audit",
         "call_binding": CALL,
         "occurrence_binding": OCC,
+        "input_sha256": INPUT_PIN,
+        "dataset_sha256": DATASET_PIN,
         "outcome": "DISPATCHED",
+    }
+    statement.update(override)
+    return {k: v for k, v in statement.items() if v is not None}
+
+
+def _not_run(**override: Any) -> dict[str, Any]:
+    statement: dict[str, Any] = {
+        "schema": NOT_RUN_SCHEMA,
+        "responder": "service:estimate-audit",
+        "call_binding": CALL,
+        "occurrence_binding": OCC,
+        "outcome": NOT_RUN,
     }
     statement.update(override)
     return {k: v for k, v in statement.items() if v is not None}
@@ -161,14 +199,18 @@ def _set(
     payment: dict[str, Any] | None = None,
     execution: dict[str, Any] | None = None,
     no_execution: bool = False,
+    not_run: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    return {
+    out = {
         "budget": budget,
         "payment": payment if payment is not None else _sign(_payment(), "payment_rail"),
         "execution": None
         if no_execution
         else (execution if execution is not None else _sign(_execution(), "responder")),
     }
+    if not_run is not None:
+        out["not_run"] = not_run
+    return out
 
 
 def _expect(*words: str) -> dict[str, str]:
@@ -186,7 +228,7 @@ def _cases() -> list[dict[str, Any]]:
             "Budget, payment and execution, each signed by its trusted key and bound to the"
             " frozen occurrence.",
             _set(),
-            _expect(E, E, E, E, E),
+            _expect(E, E, E, E, E, E, N),
         ),
         (
             "mismatched_occurrence",
@@ -202,7 +244,7 @@ def _cases() -> list[dict[str, Any]]:
                     "responder",
                 )
             ),
-            _expect(E, E, E, E, C),
+            _expect(E, E, E, E, C, N, N),
         ),
         (
             "same_content_different_execution",
@@ -210,7 +252,7 @@ def _cases() -> list[dict[str, Any]]:
             "Control: the execution receipt carries the same call content but is for a second"
             " run of that call. Matching call content is not the same execution.",
             _set(execution=_sign(_execution(occurrence_binding=SAME_CALL_SECOND_RUN), "responder")),
-            _expect(E, E, E, E, C),
+            _expect(E, E, E, E, C, N, N),
         ),
         (
             "execution_names_call_content_only",
@@ -218,21 +260,21 @@ def _cases() -> list[dict[str, Any]]:
             "The execution receipt commits to the call content and to no occurrence, so the"
             " link cannot be decided.",
             _set(execution=_sign(_execution(occurrence_binding=None), "responder")),
-            _expect(E, E, E, E, N),
+            _expect(E, E, E, E, N, N, N),
         ),
         (
             "payment_names_no_occurrence",
             "occurrence_link",
             "The payment receipt commits to no occurrence, so it could be moved to any call.",
             _set(payment=_sign(_payment(occurrence_binding=None), "payment_rail")),
-            _expect(E, E, E, E, N),
+            _expect(E, E, E, E, N, E, N),
         ),
         (
             "payment_moved_to_other_occurrence",
             "occurrence_link",
             "The payment receipt names a second run of the same call.",
             _set(payment=_sign(_payment(occurrence_binding=SAME_CALL_SECOND_RUN), "payment_rail")),
-            _expect(E, E, E, E, C),
+            _expect(E, E, E, E, C, E, N),
         ),
         (
             "budget_signed_by_agent",
@@ -242,14 +284,14 @@ def _cases() -> list[dict[str, Any]]:
                 budget=agent_budget,
                 payment=_sign(_payment(budget=agent_budget), "payment_rail"),
             ),
-            _expect(N, E, E, N, E),
+            _expect(N, E, E, N, E, E, N),
         ),
         (
             "budget_signature_broken",
             "budget_statement",
             "One bit of the issuer's signature changed.",
             _set(budget=_broken(BUDGET)),
-            _expect(C, E, E, N, E),
+            _expect(C, E, E, N, E, E, N),
         ),
         (
             "budget_signed_by_untrusted_key",
@@ -259,14 +301,14 @@ def _cases() -> list[dict[str, Any]]:
                 budget=_sign(_budget(), "outsider"),
                 payment=_sign(_payment(budget=_sign(_budget(), "outsider")), "payment_rail"),
             ),
-            _expect(N, E, E, N, E),
+            _expect(N, E, E, N, E, E, N),
         ),
         (
             "payment_exceeds_issuer_limit",
             "spend_within_budget",
             "The payment is larger than what is left of the issuer's limit.",
             _set(payment=_sign(_payment(amount_units=401), "payment_rail")),
-            _expect(E, E, E, C, E),
+            _expect(E, E, E, C, E, E, N),
         ),
         (
             "payment_names_other_budget",
@@ -278,14 +320,14 @@ def _cases() -> list[dict[str, Any]]:
                     "payment_rail",
                 )
             ),
-            _expect(E, E, E, C, E),
+            _expect(E, E, E, C, E, E, N),
         ),
         (
             "payment_signed_by_untrusted_key",
             "payment_receipt",
             "A valid signature by a key the trust inputs do not list for the rail.",
             _set(payment=_sign(_payment(), "outsider")),
-            _expect(E, N, E, N, E),
+            _expect(E, N, E, N, E, E, N),
         ),
         (
             "payment_signature_broken_link_intact",
@@ -293,28 +335,112 @@ def _cases() -> list[dict[str, Any]]:
             "The payment signature fails while its committed occurrence is right: the native"
             " verdict and the link are separate claims.",
             _set(payment=_broken(_sign(_payment(), "payment_rail"))),
-            _expect(E, C, E, N, E),
+            _expect(E, C, E, N, E, E, N),
         ),
         (
             "execution_signature_broken_link_intact",
             "execution_receipt",
             "The execution signature fails while its committed occurrence is right.",
             _set(execution=_broken(_sign(_execution(), "responder"))),
-            _expect(E, E, C, E, E),
+            _expect(E, E, C, E, E, N, N),
         ),
         (
             "execution_signed_by_issuer_key",
             "execution_receipt",
             "A trusted key, but trusted for the issuer role, not the responder role.",
             _set(execution=_sign(_execution(), "issuer")),
-            _expect(E, E, N, E, E),
+            _expect(E, E, N, E, E, N, N),
         ),
         (
             "no_execution_receipt",
             "execution_receipt",
             "Paid, with no execution receipt.",
             _set(no_execution=True),
-            _expect(E, E, N, E, N),
+            _expect(E, E, N, E, N, N, N),
+        ),
+        (
+            "input_other_fixture",
+            "input_pinned",
+            "The receipt states it audited the full three-line fixture, not the pinned"
+            " two-line input. A different input digest is refused.",
+            _set(execution=_sign(_execution(input_sha256=OTHER_INPUT_PIN), "responder")),
+            _expect(E, E, E, E, E, C, N),
+        ),
+        (
+            "input_other_dataset_version",
+            "input_pinned",
+            "The receipt states the earlier version of the reference dataset, not the one"
+            " the occurrence froze. A different dataset digest is refused.",
+            _set(execution=_sign(_execution(dataset_sha256=OTHER_DATASET_PIN), "responder")),
+            _expect(E, E, E, E, E, C, N),
+        ),
+        (
+            "input_not_stated",
+            "input_pinned",
+            "The receipt states no input digest, so whether the pinned input was audited"
+            " cannot be decided.",
+            _set(execution=_sign(_execution(input_sha256=None), "responder")),
+            _expect(E, E, E, E, E, N, N),
+        ),
+        (
+            "lost_call_no_statement",
+            "not_run_settlement",
+            "Control: paid, no reply and no statement. A bare missing reply leaves the call"
+            " unresolved and the held amount held.",
+            _set(no_execution=True),
+            _expect(E, E, N, E, N, N, N),
+        ),
+        (
+            "lost_call_settled_not_run",
+            "not_run_settlement",
+            "Paid, no reply, and the responder signs a statement naming this occurrence and"
+            " saying the call did not run. The call is settled as not run.",
+            _set(no_execution=True, not_run=_sign(_not_run(), "responder")),
+            _expect(E, E, N, E, N, N, E),
+        ),
+        (
+            "lost_call_statement_names_other_occurrence",
+            "not_run_settlement",
+            "Control: the responder's not-run statement names a second run of the same call."
+            " It says nothing about this occurrence, which stays unresolved.",
+            _set(
+                no_execution=True,
+                not_run=_sign(_not_run(occurrence_binding=SAME_CALL_SECOND_RUN), "responder"),
+            ),
+            _expect(E, E, N, E, N, N, N),
+        ),
+        (
+            "lost_call_statement_names_call_content_only",
+            "not_run_settlement",
+            "The not-run statement names the call content and no occurrence, so it could be"
+            " moved to any run of the call.",
+            _set(
+                no_execution=True,
+                not_run=_sign(_not_run(occurrence_binding=None), "responder"),
+            ),
+            _expect(E, E, N, E, N, N, N),
+        ),
+        (
+            "lost_call_statement_signed_by_payer",
+            "not_run_settlement",
+            "The payer agent, not the responder, signs that the call did not run.",
+            _set(no_execution=True, not_run=_sign(_not_run(), "agent")),
+            _expect(E, E, N, E, N, N, N),
+        ),
+        (
+            "lost_call_statement_signature_broken",
+            "not_run_settlement",
+            "One bit of the responder's not-run signature changed.",
+            _set(no_execution=True, not_run=_broken(_sign(_not_run(), "responder"))),
+            _expect(E, E, N, E, N, N, C),
+        ),
+        (
+            "not_run_beside_execution_receipt",
+            "not_run_settlement",
+            "The responder signs both an execution receipt and a not-run statement for this"
+            " occurrence.",
+            _set(not_run=_sign(_not_run(), "responder")),
+            _expect(E, E, E, E, E, E, C),
         ),
     ]
     return [
@@ -341,6 +467,7 @@ def build() -> dict[str, str]:
     """Return every corpus file's text, manifest last."""
     files = {
         "occurrence.json": _dump(OCCURRENCE),
+        "input.json": _dump(INPUT),
         "trust.json": _dump(_trust()),
         "cases.json": _dump(
             {

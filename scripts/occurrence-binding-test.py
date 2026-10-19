@@ -131,6 +131,75 @@ def test_non_integer_or_negative_amount_is_refused(amount: Any) -> None:
         reader.judge_spend(case["artifacts"], native)
 
 
+def test_input_pin_is_the_two_line_fixture() -> None:
+    pins = reader.input_pins(OCCURRENCE)
+    held = json.loads((CORPUS / OCCURRENCE["input_file"]).read_text())
+    digest = reader.sha256_tag(reader.canonical(held))
+    assert digest == pins["input_sha256"]
+    assert digest == "sha256:1f75bcabc3506eca614e047d72629e175160b7b3688c1016a31b4e7a09eb1fbd"
+    assert len(reader.canonical(held)) == 207 and len(held["lines"]) == 2
+
+
+def test_lost_call_controls_stay_unresolved() -> None:
+    for cid in (
+        "lost_call_no_statement",
+        "lost_call_statement_names_other_occurrence",
+        "lost_call_statement_names_call_content_only",
+        "lost_call_statement_signed_by_payer",
+    ):
+        got = _judge(cid)
+        assert got["not_run_settlement"] == NOT_ESTABLISHED, cid
+        assert got["execution_receipt"] == NOT_ESTABLISHED, cid
+    assert _judge("lost_call_settled_not_run")["not_run_settlement"] == "ESTABLISHED"
+
+
+def test_other_occurrence_statement_is_signed_by_the_responder() -> None:
+    case = BY_ID["lost_call_statement_names_other_occurrence"]
+    verdict = reader.judge_signed(
+        case["artifacts"]["not_run"], reader.NOT_RUN_SCHEMA, "responder", TRUST
+    )
+    assert verdict["result"] == "ESTABLISHED"
+
+
+def test_not_run_statement_must_say_not_run() -> None:
+    case = copy.deepcopy(BY_ID["lost_call_settled_not_run"])
+    case["artifacts"]["not_run"]["statement"]["outcome"] = "RAN"
+    with pytest.raises(MalformedInput):
+        reader.judge_not_run(
+            case["artifacts"],
+            {"execution_receipt": {"result": NOT_ESTABLISHED}},
+            {"keys": TRUST["keys"], "roles": {"responder": list(TRUST["keys"])}},
+            reader.occurrence_binding(OCCURRENCE),
+            reader.invocation_binding(OCCURRENCE["request"]),
+        )
+
+
+@pytest.mark.parametrize(
+    "pins",
+    [None, {"input_sha256": "sha256:" + "0" * 64}, {"input_sha256": "x", "dataset_sha256": "y"}],
+    ids=["absent", "one-pin", "not-tags"],
+)
+def test_malformed_pins_are_refused(pins: Any) -> None:
+    occurrence = copy.deepcopy(OCCURRENCE)
+    occurrence["input_pins"] = pins
+    with pytest.raises(MalformedInput):
+        evaluate(occurrence, TRUST, BY_ID["intact_occurrence"])
+
+
+def test_input_file_that_differs_from_its_pin_is_refused(tmp_path: Path) -> None:
+    copy_root = tmp_path / "corpus"
+    shutil.copytree(CORPUS, copy_root)
+    held = json.loads((copy_root / "input.json").read_text())
+    held["lines"] = held["lines"][:1]
+    text = json.dumps(held, indent=2, ensure_ascii=False) + "\n"
+    (copy_root / "input.json").write_text(text)
+    manifest = json.loads((copy_root / "manifest.json").read_text())
+    manifest["members"]["input.json"] = reader.sha256_tag(text.encode())
+    (copy_root / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    with pytest.raises(MalformedInput):
+        run_corpus(copy_root)
+
+
 class TestKills:
     """Disable one rule at a time; a named case must turn."""
 
@@ -164,6 +233,49 @@ class TestKills:
         named = case["artifacts"]["payment"]["statement"]["budget_digest"]
         monkeypatch.setattr(reader, "statement_digest", lambda env: named)
         assert _judge("", case)["spend_within_budget"] == "ESTABLISHED"
+
+    def test_input_digest_check(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        real = reader.judge_input
+
+        def other_pin(arts: Any, native: Any, pins: dict[str, str], occ: str) -> Any:
+            return real(arts, native, dict(pins, input_sha256="sha256:" + "0" * 64), occ)
+
+        def lax(arts: Any, native: Any, pins: dict[str, str], occ: str) -> Any:
+            got = real(arts, native, pins, occ)
+            return reader._result("ESTABLISHED", "lax") if got["result"] == "CONTRADICTED" else got
+
+        monkeypatch.setattr(reader, "judge_input", lax)
+        assert _judge("input_other_fixture")["input_pinned"] == "ESTABLISHED"
+        assert _judge("input_other_dataset_version")["input_pinned"] == "ESTABLISHED"
+        monkeypatch.setattr(reader, "judge_input", other_pin)
+        assert _judge("intact_occurrence")["input_pinned"] == "CONTRADICTED"
+
+    def test_not_run_needs_the_responder_role(self) -> None:
+        trust = copy.deepcopy(TRUST)
+        trust["roles"]["responder"] = list(trust["keys"])
+        got = summary(evaluate(OCCURRENCE, trust, BY_ID["lost_call_statement_signed_by_payer"]))
+        assert got["not_run_settlement"] == "ESTABLISHED"
+
+    def test_not_run_needs_this_occurrence(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        real = reader.judge_not_run
+
+        def any_occurrence(arts: Any, native: Any, trust: Any, occ: str, call: str) -> Any:
+            named = arts.get("not_run", {}).get("statement", {}).get("occurrence_binding", occ)
+            return real(arts, native, trust, named, call)
+
+        monkeypatch.setattr(reader, "judge_not_run", any_occurrence)
+        got = _judge("lost_call_statement_names_other_occurrence")
+        assert got["not_run_settlement"] == "ESTABLISHED"
+
+    def test_not_run_yields_to_an_execution_receipt(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        real = reader.judge_not_run
+
+        def no_receipt_check(arts: Any, native: Any, trust: Any, occ: str, call: str) -> Any:
+            blind = dict(native, execution_receipt={"result": NOT_ESTABLISHED})
+            return real(arts, blind, trust, occ, call)
+
+        monkeypatch.setattr(reader, "judge_not_run", no_receipt_check)
+        assert _judge("not_run_beside_execution_receipt")["not_run_settlement"] == "ESTABLISHED"
 
     def test_link_ignores_signatures(self) -> None:
         got = _judge("payment_signature_broken_link_intact")

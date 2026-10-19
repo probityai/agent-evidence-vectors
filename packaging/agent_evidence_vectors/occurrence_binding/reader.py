@@ -23,6 +23,21 @@ verdicts so neither can stand in for the other:
   link not established, and one that names another occurrence of the same call
   contradicts it.
 
+Two further claims settle what happened to the call:
+
+* ``input_pinned``: the execution receipt states the digest of the input it
+  processed and of the reference dataset it read, and both equal the pins the
+  frozen occurrence fixed before the call. A receipt naming another digest is
+  refused. It rests on the execution verdict, so it is not established unless
+  the receipt is, and only a receipt for this occurrence is read.
+* ``not_run_settlement``: a lost call (paid or held, no answer) stays
+  unresolved. It is settled as not run only by a statement, signed by a key the
+  trust inputs name for the responder, that names this occurrence and says the
+  call did not run. A bare missing reply, a statement naming another occurrence
+  or only the call content, or one signed by any other key leaves it
+  unresolved; a statement beside an execution receipt for the same occurrence
+  contradicts it.
+
 Three properties are ``NOT_ESTABLISHED`` in every case: settlement finality, work
 acceptance and the observed effect of the call (the invocation three-axis corpus
 judges the last one). The reader never reads a case's expected answer.
@@ -47,6 +62,8 @@ __all__ = [
     "MalformedInput",
     "canonical",
     "evaluate",
+    "input_pins",
+    "invocation_binding",
     "occurrence_binding",
     "parse_strict",
     "sha256_tag",
@@ -58,7 +75,7 @@ CONTRADICTED = "CONTRADICTED"
 NOT_ESTABLISHED = "NOT_ESTABLISHED"
 
 NATIVE_AXES = ("budget_statement", "payment_receipt", "execution_receipt")
-LINK_AXES = ("spend_within_budget", "occurrence_link")
+LINK_AXES = ("spend_within_budget", "occurrence_link", "input_pinned", "not_run_settlement")
 AXES = (*NATIVE_AXES, *LINK_AXES)
 NON_CLAIMS = ("settlement_finality", "work_acceptance", "observed_effect")
 
@@ -67,6 +84,8 @@ TRUST_SCHEMA = "aev-occurrence-trust/v1"
 BUDGET_SCHEMA = "aev-issuer-budget/v1"
 PAYMENT_SCHEMA = "aev-payment-receipt/v1"
 EXECUTION_SCHEMA = "aev-execution-receipt/v1"
+NOT_RUN_SCHEMA = "aev-not-run-statement/v1"
+NOT_RUN = "NOT_RUN"
 
 #: Native axis -> (artifact name in a case, schema it must carry, trust role).
 ARTIFACTS = {
@@ -198,11 +217,92 @@ def judge_link(
     return _result(ESTABLISHED, "both_receipts_commit_to_the_occurrence")
 
 
+def input_pins(occurrence: Any) -> dict[str, str]:
+    """The input and dataset digests the occurrence fixed before the call."""
+    pins = occurrence.get("input_pins") if isinstance(occurrence, dict) else None
+    if not isinstance(pins, dict) or set(pins) != {"input_sha256", "dataset_sha256"}:
+        raise MalformedInput("occurrence needs input_pins with input_sha256 and dataset_sha256")
+    for value in pins.values():
+        if not isinstance(value, str) or not value.startswith("sha256:") or len(value) != 71:
+            raise MalformedInput("an input pin must be a sha256:<64 hex> tag")
+    return pins
+
+
+def judge_input(
+    artifacts: dict[str, Any],
+    native: dict[str, dict[str, Any]],
+    pins: dict[str, str],
+    expected_occurrence: str,
+) -> dict[str, Any]:
+    """The receipt for this occurrence processed exactly the pinned input and dataset."""
+    if native["execution_receipt"]["result"] != ESTABLISHED:
+        return _result(NOT_ESTABLISHED, "execution_not_established")
+    receipt = artifacts["execution"]["statement"]
+    if receipt.get("occurrence_binding") != expected_occurrence:
+        return _result(NOT_ESTABLISHED, "receipt_not_for_this_occurrence")
+    stated = {name: receipt.get(name) for name in ("input_sha256", "dataset_sha256")}
+    if stated["input_sha256"] is None:
+        return _result(NOT_ESTABLISHED, "receipt_states_no_input_digest")
+    if stated["dataset_sha256"] is None:
+        return _result(NOT_ESTABLISHED, "receipt_states_no_dataset_digest")
+    if stated["input_sha256"] != pins["input_sha256"]:
+        return _result(
+            CONTRADICTED,
+            "input_differs_from_pin",
+            pinned=pins["input_sha256"],
+            stated=stated["input_sha256"],
+        )
+    if stated["dataset_sha256"] != pins["dataset_sha256"]:
+        return _result(
+            CONTRADICTED,
+            "dataset_differs_from_pin",
+            pinned=pins["dataset_sha256"],
+            stated=stated["dataset_sha256"],
+        )
+    return _result(ESTABLISHED, "input_and_dataset_match_pins")
+
+
+def judge_not_run(
+    artifacts: dict[str, Any],
+    native: dict[str, dict[str, Any]],
+    trust: dict[str, Any],
+    expected_occurrence: str,
+    expected_call: str,
+) -> dict[str, Any]:
+    """A lost call is settled as not run only by the responder's signed word for it."""
+    statement = artifacts.get("not_run")
+    if statement is None:
+        return _result(NOT_ESTABLISHED, "no_signed_not_run_statement")
+    shape = statement.get("statement") if isinstance(statement, dict) else None
+    if isinstance(shape, dict) and shape.get("outcome") != NOT_RUN:
+        raise MalformedInput(f"a not-run statement must say outcome {NOT_RUN}")
+    signed = judge_signed(statement, NOT_RUN_SCHEMA, "responder", trust)
+    if signed["result"] != ESTABLISHED:
+        return _result(signed["result"], "not_run_" + signed["reason"])
+    body: dict[str, Any] = statement["statement"]
+    named = body.get("occurrence_binding")
+    if named is None:
+        if body.get("call_binding") == expected_call:
+            return _result(NOT_ESTABLISHED, "not_run_names_call_content_only")
+        return _result(NOT_ESTABLISHED, "not_run_names_other_call")
+    if named != expected_occurrence:
+        return _result(NOT_ESTABLISHED, "not_run_names_other_occurrence")
+    execution = artifacts.get("execution")
+    if (
+        native["execution_receipt"]["result"] == ESTABLISHED
+        and execution is not None
+        and execution["statement"].get("occurrence_binding") == expected_occurrence
+    ):
+        return _result(CONTRADICTED, "execution_receipt_says_it_ran")
+    return _result(ESTABLISHED, "responder_signed_not_run_for_this_occurrence")
+
+
 def evaluate(occurrence: Any, trust: Any, case: dict[str, Any]) -> dict[str, Any]:
     """Judge one case. ``case['expected']`` is never read here."""
     _check_trust(trust)
     expected_occurrence = occurrence_binding(occurrence)
     expected_call = invocation_binding(occurrence["request"])
+    pins = input_pins(occurrence)
     artifacts = case.get("artifacts")
     if not isinstance(artifacts, dict):
         raise MalformedInput("a case needs an artifacts map")
@@ -214,6 +314,10 @@ def evaluate(occurrence: Any, trust: Any, case: dict[str, Any]) -> dict[str, Any
         out[axis] = judge_signed(artifacts.get(name), schema, role, trust)
     out["spend_within_budget"] = judge_spend(artifacts, out)
     out["occurrence_link"] = judge_link(artifacts, expected_occurrence, expected_call)
+    out["input_pinned"] = judge_input(artifacts, out, pins, expected_occurrence)
+    out["not_run_settlement"] = judge_not_run(
+        artifacts, out, trust, expected_occurrence, expected_call
+    )
     for prop in NON_CLAIMS:
         out[prop] = _result(NOT_ESTABLISHED, "outside_this_corpus")
     return out

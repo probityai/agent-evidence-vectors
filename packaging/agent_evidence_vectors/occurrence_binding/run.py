@@ -17,7 +17,9 @@ from .reader import (
     NATIVE_AXES,
     NON_CLAIMS,
     MalformedInput,
+    canonical,
     evaluate,
+    input_pins,
     occurrence_binding,
     parse_strict,
     sha256_tag,
@@ -55,6 +57,10 @@ def load_corpus(root: Path) -> tuple[Any, Any, dict[str, Any], dict[str, str]]:
     cases = parse_strict((root / "cases.json").read_bytes())
     if cases.get("occurrence_binding") != occurrence_binding(occurrence):
         raise MalformedInput("cases.json is not built for this occurrence")
+    pinned = input_pins(occurrence)["input_sha256"]
+    held = sha256_tag(canonical(parse_strict((root / occurrence["input_file"]).read_bytes())))
+    if held != pinned:
+        raise MalformedInput(f"{occurrence['input_file']} is {held}, the occurrence pins {pinned}")
     return occurrence, trust, cases, digests
 
 
