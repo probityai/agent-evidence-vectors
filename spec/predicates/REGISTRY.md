@@ -131,7 +131,7 @@ live, and no signed statement carries either URI before then.
 
 - `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
 - `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
-  `vectors-spoofed-tool-output/`, `vectors-test-tampering/` and
-  `vectors-grader-isolation/`.
+  `vectors-spoofed-tool-output/`, `vectors-test-tampering/`,
+  `vectors-grader-isolation/` and `vectors-done-probes/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.

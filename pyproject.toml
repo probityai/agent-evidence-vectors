@@ -132,6 +132,7 @@ only-include = [
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -181,6 +182,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
 "vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
+"vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -272,6 +274,7 @@ only-include = [
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -364,7 +367,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
            "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
+           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
@@ -414,6 +417,10 @@ extraPaths = ["vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
 root = "vectors-grader-isolation"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-done-probes"
 extraPaths = ["vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]

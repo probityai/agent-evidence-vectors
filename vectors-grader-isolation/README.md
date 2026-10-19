@@ -1,6 +1,6 @@
 # vectors-grader-isolation
 
-Suite `grader-isolation/v2`. Reaching what grades the run: a result file planted where a harness reads it back, a .pth file or sitecustomize.py in the grader's interpreter path, a grade run on another tree or against another contract, and the rules a passing grade must still meet. Every member declares the five checks' verdicts and the outcome and integrity verdicts over them.
+Suite `grader-isolation/v2`. Reaching what grades the run: a result file planted where a harness reads it back, a .pth file or sitecustomize.py in the grader's interpreter path, a write, unlink or link on the execution surface a contract seals from the agent's image, test configuration created above the workspace, a grade run on another tree or against another contract, and the rules a passing grade must still meet. Every member declares the five checks' verdicts and the outcome and integrity verdicts over them.
 
 Follows the Done Receipt predicate (spec/predicates/done-receipt.md); harness code at harbor-framework-harbor@1f84b4c.
 

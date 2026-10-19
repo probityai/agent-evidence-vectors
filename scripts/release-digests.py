@@ -174,6 +174,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-spoofed-tool-output": _recompute_from_generator,
     "vectors-test-tampering": _recompute_from_generator,
     "vectors-grader-isolation": _recompute_from_generator,
+    "vectors-done-probes": _recompute_from_generator,
     "vectors-trace-anchor": _recompute_from_generator,
     "vectors-grade-floor": _recompute_from_generator,
     "vectors-agent-change-admission": _recompute_from_generator,
