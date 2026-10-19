@@ -39,12 +39,12 @@ def maybe_print_hint(
     stream: TextIO | None = None,
 ) -> bool:
     """Print the hint if every condition allows it; return whether it was printed."""
-    argv = sys.argv[1:] if argv is None else argv
-    env = os.environ if env is None else env
-    stream = sys.stderr if stream is None else stream
-    if _quiet(argv, env, stream):
+    args: Sequence[str] = sys.argv[1:] if argv is None else argv
+    environ: Mapping[str, str] = os.environ if env is None else env
+    out: TextIO = sys.stderr if stream is None else stream
+    if _quiet(args, environ, out):
         return False
-    flag = _flag_path(env)
+    flag = _flag_path(environ)
     if flag.exists():
         return False
     try:
@@ -52,5 +52,5 @@ def maybe_print_hint(
         flag.write_text("shown\n", encoding="utf-8")
     except OSError:
         return False
-    print(f"Found this useful? Star github.com/{REPO}", file=stream)
+    print(f"Found this useful? Star github.com/{REPO}", file=out)
     return True
