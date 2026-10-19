@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 320,
+      "path": "capability.json",
+      "sha256": "6a8b109dbccaf4fbb562e537dea05459260aeb4435f47c40363025ff40212b2e"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 1182,
+      "path": "observation.json",
+      "sha256": "9030ccddc9af224a33b7fffce9ce16000277030bbf96f70c921b426808dd8d71"
+    },
+    "tree": {
+      "length": 537,
+      "path": "tree.json",
+      "sha256": "5a1bc35fdee5b58a7b1a6826c8d793f252a2ccda706da45edcf0dfcc7dff1937"
+    }
+  },
+  "case_id": "control-surface-not-sealed",
+  "schema_version": "probity-case/v1"
+}
