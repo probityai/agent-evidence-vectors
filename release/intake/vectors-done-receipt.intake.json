@@ -164,6 +164,75 @@
       "path": "vectors-done-receipt/tests/test_corpora.py",
       "serialization": "bytes",
       "sha256": "67fcd2ffaeaac8c6527fe5559c5bcd97b03be727d9bf9426ffb97dee194388a4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "swapped-in": "c8a5a3a6d76864c9b8bf4644ab6a1fe639b903ad5cff295d3a363f97eda3cbdb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-receipt/tests/test_done_argv_cases.py",
+      "serialization": "bytes",
+      "sha256": "736d5e53c13fda6c7b4fdf4fdcdbdc0c04b6765adaae2e608e94c42011c3c42c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "swapped-in": "a269b1df813dee1e11d91594de8e78d4aab6748a857b70c070ca06a8f244af61",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-receipt/tests/test_done_member_cases.py",
+      "serialization": "bytes",
+      "sha256": "89882aa426bbcc5cae4f0965d45323cbdf54ad7b559a4f3b7cf298311ad0ce5d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "swapped-in": "6c3233e7cb9500435044096cae17c17dedb4dafea5d6cda7ec0c6cd25a59df0f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-receipt/tests/test_done_record_cases.py",
+      "serialization": "bytes",
+      "sha256": "095e7749d4ab17a931e4f3abdb0d3af7117bba53ebb76539d8f8792bb8e63da4"
     }
   ],
   "boundary": {
@@ -215,7 +284,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "d744f134bed57f8d0795cb7c65af98003fb7511133c9a4f5683eb0b0870ac38d"
+      "sha256": "55a8a442dba5d58f24cc8e262297d42e02943cc45adb80ef6d6fd20fe477cb0c"
     },
     "runtime": {
       "name": "go",
@@ -2048,7 +2117,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b01651cb76a1935eb6bc23d980fcff4e3f9fcab5c98a5350cf77d5fa838bff0d"
+    "sha256": "b6c9d7724197edd92a46aa35c56d3551f5d7676b5df0ca44ac86280a7223993a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
