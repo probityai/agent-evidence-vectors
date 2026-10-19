@@ -571,7 +571,9 @@ def _event(item: Any, exec_ids: set[str]) -> dict[str, Any]:
     text(event["id"], "observation_event_id")
     kind = text(event["type"], "observation_event_type")
     count(event["step"], "observation_step")
-    if "origin" in event and event["origin"] not in exec_ids:
+    # An origin names an exec event's id; a value that is not text names none.
+    if "origin" in event and (not isinstance(event["origin"], str)
+                              or event["origin"] not in exec_ids):
         raise RecordError("observation_origin_unknown")
     if kind == EXEC_TYPE:
         _exec_fields(event)
@@ -613,7 +615,8 @@ def _external(item: Any, exec_ids: set[str], root: str) -> dict[str, Any]:
     for name in paths:
         if under(absolute_path(name, "observation_external_paths"), root):
             raise RecordError("observation_external_in_workspace")
-    if "origin" in entry and entry["origin"] not in exec_ids:
+    if "origin" in entry and (not isinstance(entry["origin"], str)
+                              or entry["origin"] not in exec_ids):
         raise RecordError("observation_origin_unknown")
     return entry
 
