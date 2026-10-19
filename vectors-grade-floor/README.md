@@ -20,7 +20,7 @@ The reader derives the grade from each observation's `source`,
 `relationship`, `observation_vantage` (`substrate` or `artifact`),
 `observation_directness` (`intercepted` or `reconstructed`) and
 `witness_scope` (`SELF`, `PEER`, `EXTERNAL`), the last three as defined in
-[agent-evidence-vocabulary](https://github.com/probityai/agent-evidence-vocabulary).
+[agent-evidence-vocabulary](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary).
 It also reads the distinct basis engines, the reconciliation state
 (`agreement`, `contradiction`, `no_independent_evidence`) and the integrity
 marker objects.

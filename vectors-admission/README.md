@@ -83,7 +83,7 @@ member is a reason-parity datum rather than a failure.
 | `maxIssuanceLagSeconds` | no bound | `issuance-lag-exceeded` when `issuedAt` is more than this after any verified arming record's `armedAt`; `observed-instant-absent` when no arming record verifies under a pinned key |
 
 The same knobs, with the same absent-input defaults, are the ones
-[agent-evidence-admission](https://github.com/probityai/agent-evidence-admission)
+[agent-evidence-admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission)
 takes in its consumer data document, so a policy pinned for an offline check
 and for a cluster says the same thing in both places.
 
