@@ -83,7 +83,7 @@ five attacks do not touch.
 ## Where the closed vocabularies come from
 
 Five members of each record are values of terms registered in
-[`agent-evidence-vocabulary`](https://github.com/probityai/agent-evidence/tree/main/packages/vocabulary):
+[`agent-evidence-vocabulary`](https://github.com/probityai/agent-evidence-vocabulary):
 `origin_kind`, `attestation_tier`, `observation_vantage`,
 `observation_directness` and `field_evidence_partition`. The registry is the
 definition and the contract is a consumer of it.
