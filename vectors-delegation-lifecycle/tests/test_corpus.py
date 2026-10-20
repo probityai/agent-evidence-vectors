@@ -84,6 +84,11 @@ def test_both_sets_cover_the_situations_the_issue_names() -> None:
         "recovery-registry-only": "reject",
         "recovery-after-compromise-no-revival": "reject",
         "recovery-history-follows": "accept",
+        "recovery-unclaimed-succession": "accept",
+        "recovery-unclaimed-unrecorded": "reject",
+        "recovery-new-agent-asserted": "accept",
+        "recovery-successor-responsible": "accept",
+        "recovery-successor-responsible-unrecorded": "reject",
     }
     assert {i: ids[i]["decision"] for i in named} == named
 
@@ -107,7 +112,8 @@ def test_every_signature_the_generator_wrote_is_a_real_ed25519_signature() -> No
         keys[generator.keyid(k)] = k
     for identifier in (generator.ORG, generator.PLANNER, generator.WORKER, generator.SUB,
                        generator.SIBLING, generator.V1, generator.V2, generator.V3,
-                       generator.V2B, generator.B1):
+                       generator.V2B, generator.B1, generator.OPERATOR,
+                       generator.OPERATOR_2):
         k = generator._identity_key(identifier)
         keys[generator.keyid(k)] = k
     public = {kid: Ed25519PublicKey.from_public_bytes(generator.public_raw(k))

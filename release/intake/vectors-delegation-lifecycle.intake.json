@@ -1,12 +1,12 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 14,
+      "accept": 17,
       "no_verdict": 1,
-      "reject": 27
+      "reject": 29
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 42
+    "total": 47
   },
   "anchor": {
     "kind": "signed-digest-list",
@@ -18,7 +18,7 @@
     "routine": "corpus_digest in vectors-delegation-lifecycle/digest.py",
     "routine-file": "vectors-delegation-lifecycle/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "f1ee714d62f7390376ca5732efcf2a4c551f2862052f762f48be5b148314cccd",
+    "sha256": "8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71",
     "signature": {
       "key": "release/cosign.pub",
       "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
@@ -37,7 +37,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -46,21 +46,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "swapped-in": "e471cc7575f253bb6ab62e78d000570530d12cf82df5d2f70aa6251e7143e31d",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/INDEX.md",
       "serialization": "bytes",
-      "sha256": "d5199a247464d504eed6ef0cb3b6743872721237ddfac8477153ecd9a84a6f11"
+      "sha256": "ebda7eb4c3dbb4d5e408a76c5d51c622e627dae9d37c7d30956452a9acb7a588"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -69,21 +69,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "swapped-in": "8e648569f93cda36d17e0227abcaf37f66c8312f4ac906249ed8796aade9d8ba",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/README.md",
       "serialization": "bytes",
-      "sha256": "c60dbc293c0ad36b4d220e4e25cd2640565402d36c4abcebf34258f2af4aec38"
+      "sha256": "f317d3dcdb89d0a2b55ec73ca3f2ac4aa0d28f62cb1aa5a12947d17869133aca"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -92,7 +92,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "swapped-in": "395dd042613d7a1b3cb3f7166e074cfe6cfb10ae171af5fc015b61ea1f7f0267",
         "test": "swap-and-re-pin"
@@ -106,7 +106,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -115,21 +115,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "swapped-in": "c6f01418bb43d3316d0c2c4b9470c3f121009ca9216f065dfb7c8b59e7e72e56",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "3e760cd6fa0a4f15b3763bfc2ab47a9095add6b3690fac02e3abe3230171e13c"
+      "sha256": "0f1b3203c753bd07ac52b9bc32154867419fcba92415d71057598f9b30269dc6"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -138,14 +138,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
         },
         "swapped-in": "15b087545d84b2c7dd49da718a68364ee2902f69be845496c82c77b211045293",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "699ce1ccf5d7c71ee2fcc190966cc6ce01855ddb3eba097f476789b32f51252f"
+      "sha256": "1efeb1f6a3aff5a8ce6b702b9ed79da938a287dbf937b12b74a39cafc7a55587"
     }
   ],
   "boundary": {
@@ -160,7 +160,7 @@
     "root": "vectors-delegation-lifecycle"
   },
   "byte-identity": {
-    "pins": 461,
+    "pins": 526,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -197,7 +197,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "157cc6fe01d7f245c77651830d1a0c764488a5fa1af943e0ad21563a5eec9f9c"
+      "sha256": "2a368506845f692a297c7e2c79b35068877b04aa7934baf3f37f7e146a585049"
     },
     "runtime": {
       "name": "go",
@@ -546,11 +546,51 @@
         "verdict": "accept"
       },
       "state": "pass"
+    },
+    {
+      "check": "recovery-unclaimed-succession",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recovery-unclaimed-unrecorded",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recovery-new-agent-asserted",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recovery-successor-responsible",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "recovery-successor-responsible-unrecorded",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "584d82f90173880be4724c65f5f0af7d6f56fab9f7b112b868094c1498cc9f88"
+    "sha256": "336881ecb50981ee63816a1938befff0e2906ebbf3cb8279bec7c7bec9c8a2ed"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -601,10 +641,15 @@
       "recovery-software-mismatch",
       "recovery-after-compromise-no-revival",
       "recovery-after-compromise-regrant",
-      "recovery-history-follows"
+      "recovery-history-follows",
+      "recovery-unclaimed-succession",
+      "recovery-unclaimed-unrecorded",
+      "recovery-new-agent-asserted",
+      "recovery-successor-responsible",
+      "recovery-successor-responsible-unrecorded"
     ],
     "path": "vectors-delegation-lifecycle/MANIFEST.json",
-    "sha256": "7ff355c7a5c8dfd5aa9390cde2760e07e102c15f16f7357521082c691705b921"
+    "sha256": "94a97daeddf94b7ca225843c751f993d11126064b867d163f14a53623de3bd6b"
   },
   "members": [
     {
@@ -2660,6 +2705,291 @@
         }
       ],
       "id": "recovery-history-follows"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/03-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/04-revocation-r-agent.json",
+          "sha256": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/05-dispute-d-agent.json",
+          "sha256": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/06-resolution-d-agent-outcome.json",
+          "sha256": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/07-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/08-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/09-succession-s-v1-v2.json",
+          "sha256": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/10-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/case.json",
+          "sha256": "4ef7d024878a67e517d434caecbb3ad4bb4590d3a3c2578b551da9b60c73833e"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-succession/presentation.json",
+          "sha256": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+        }
+      ],
+      "id": "recovery-unclaimed-succession"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/03-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/04-revocation-r-agent.json",
+          "sha256": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/05-dispute-d-agent.json",
+          "sha256": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/06-resolution-d-agent-outcome.json",
+          "sha256": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/07-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/08-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/09-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/case.json",
+          "sha256": "8969854725da31046189d446422be4bf29f6d00ec406c47ff7349c3a63d4e1fc"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-unclaimed-unrecorded/presentation.json",
+          "sha256": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+        }
+      ],
+      "id": "recovery-unclaimed-unrecorded"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/03-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/04-revocation-r-agent.json",
+          "sha256": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/05-dispute-d-agent.json",
+          "sha256": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/06-resolution-d-agent-outcome.json",
+          "sha256": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/07-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/08-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/09-succession-s-v1-v2.json",
+          "sha256": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/10-new-agent-assertion-a-v2-new.json",
+          "sha256": "c03a643bb1b024a9e7c42b6c30765342a2bf9b4b9ccaa1d44ca680869cbd7acb"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/11-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/case.json",
+          "sha256": "ce3ba5f3bc8ee534e0399af29cf54cf7f77363390c9a15be53595517aad98ffc"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-new-agent-asserted/presentation.json",
+          "sha256": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+        }
+      ],
+      "id": "recovery-new-agent-asserted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/02-registration-operator.json",
+          "sha256": "0e7ed544742724aa52d6933ddcc8976858403ddebfebf8956774d8115bc08419"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/03-registration-agent-v1.json",
+          "sha256": "626849de7edb2ee3606b09138fa0235d1385268fcc81289a3336556d430d8a2d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/05-revocation-r-agent.json",
+          "sha256": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/06-dispute-d-agent.json",
+          "sha256": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/07-resolution-d-agent-outcome.json",
+          "sha256": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/08-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/09-registration-operator-successor.json",
+          "sha256": "d5f204c3247675f512173558057aaed5bb31497d0661233b82114c3b727ddfbd"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/10-responsible-succession-h-operator.json",
+          "sha256": "ebf89a7253d3d6d921b465e7e3a98d90191a1fef6d1bc808d8e0fb6597afbe44"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/11-registration-agent-v2.json",
+          "sha256": "03f1ee22b990665a8855ec207ed8fb681bbf10948d117214f3f618fbfa923b44"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/12-recovery-rc-v1-v2.json",
+          "sha256": "fe37df4fc9c3693dfff1813e2395509ad9fa2d4073ed87c73967d5ad60fcd161"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/13-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/case.json",
+          "sha256": "c93ae90230d25927464a33d510c0ce83016ccc6f8d803bbd32c588aff7b6f02d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible/presentation.json",
+          "sha256": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+        }
+      ],
+      "id": "recovery-successor-responsible"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/02-registration-operator.json",
+          "sha256": "0e7ed544742724aa52d6933ddcc8976858403ddebfebf8956774d8115bc08419"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/03-registration-agent-v1.json",
+          "sha256": "626849de7edb2ee3606b09138fa0235d1385268fcc81289a3336556d430d8a2d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/05-revocation-r-agent.json",
+          "sha256": "5c9be9ceebe36c6e4fb532cd484465cf6a6d5b26b89d39a749256fcd5a67972d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/06-dispute-d-agent.json",
+          "sha256": "a3ca43b7496c5dd7ad6ffb171ae1273eb9f4d2619fb6bc3fa6ef67fb59e15be3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/07-resolution-d-agent-outcome.json",
+          "sha256": "b3df6207ff73ae64b52af41353f5cceddc64df19acd5414f1c18e7bbbee7832c"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/08-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/09-registration-operator-successor.json",
+          "sha256": "d5f204c3247675f512173558057aaed5bb31497d0661233b82114c3b727ddfbd"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/10-registration-agent-v2.json",
+          "sha256": "03f1ee22b990665a8855ec207ed8fb681bbf10948d117214f3f618fbfa923b44"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/11-recovery-rc-v1-v2.json",
+          "sha256": "fe37df4fc9c3693dfff1813e2395509ad9fa2d4073ed87c73967d5ad60fcd161"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/12-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/case.json",
+          "sha256": "60bbecf19c5fca1d23987b637622a43e9db3dbd4229b9ec53074be613a2fa530"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/recovery-successor-responsible-unrecorded/presentation.json",
+          "sha256": "986ce42ce02111254c6b20e34ff19af2c26ae00cf80cc0984e570092520b943e"
+        }
+      ],
+      "id": "recovery-successor-responsible-unrecorded"
     }
   ],
   "native": {
@@ -2678,7 +3008,7 @@
       "reference": {
         "path": "release/intake/native/vectors-delegation-lifecycle.json",
         "serialization": "bytes",
-        "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
       }
     },
     {
@@ -2687,7 +3017,7 @@
       "reference": {
         "path": "release/intake/native/vectors-delegation-lifecycle.txt",
         "serialization": "bytes",
-        "sha256": "465d97a994ecdd5433e1df98758907ef92fb263cc2641ccf0bed3f1d74d3a0cf"
+        "sha256": "576c6be558b8319988aed51ccaaaed71f3f19148f00538d5b1ce14dba6824e77"
       }
     },
     {
@@ -2920,6 +3250,22 @@
         "check:recovery-after-compromise-no-revival"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"presenter_not_delegate\"}}"
+    },
+    {
+      "check": "recovery-unclaimed-unrecorded",
+      "inputs": [
+        "member:recovery-unclaimed-unrecorded",
+        "check:recovery-unclaimed-unrecorded"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"succession_unrecorded\"}}"
+    },
+    {
+      "check": "recovery-successor-responsible-unrecorded",
+      "inputs": [
+        "member:recovery-successor-responsible-unrecorded",
+        "check:recovery-successor-responsible-unrecorded"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"recovery_mismatch\"}}"
     }
   ],
   "relaxed-controls": [],
@@ -2929,11 +3275,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
       },
       {
         "process": "run-2",
-        "sha256": "951b97e4535d17a6fb7fa627d7198672e3659940daae6363c4f9c85f9354dcb9"
+        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
       }
     ],
     "seed": null,
@@ -2947,7 +3293,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 42 pinned members of delegation-lifecycle/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 47 pinned members of delegation-lifecycle/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -2957,7 +3303,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 42,
+    "matched": 47,
     "require": "at-least-one",
     "selected": [
       "tree-chain-valid",
@@ -3001,7 +3347,12 @@
       "recovery-software-mismatch",
       "recovery-after-compromise-no-revival",
       "recovery-after-compromise-regrant",
-      "recovery-history-follows"
+      "recovery-history-follows",
+      "recovery-unclaimed-succession",
+      "recovery-unclaimed-unrecorded",
+      "recovery-new-agent-asserted",
+      "recovery-successor-responsible",
+      "recovery-successor-responsible-unrecorded"
     ]
   },
   "specification-readers": [],
