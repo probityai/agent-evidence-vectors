@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71",
+  "corpusDigest": "84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442",
   "payloadType": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
   "registryKeyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
   "relyingPartyKeyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
@@ -1171,6 +1171,194 @@
       "rule": "Proposed: a recovery signed by a Responsible entity that the registry did not bind to the old identifier, directly or through a recorded responsible succession, does not match.",
       "set": "recovery",
       "twin": "recovery-successor-responsible"
+    },
+    {
+      "description": "agent-v1 spawns sub-agent-v1, the registry registers it with agent-v1 as its parent, and sub-agent-v1 presents its grant under agent-v1's while agent-v1 is active.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "case.json": "2193dd1688f43647f5e1ef5f9532351439963dc84fd264bf684c57648378c1a9",
+        "presentation.json": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+      },
+      "id": "subagent-parent-active",
+      "path": "cases/subagent-parent-active",
+      "rule": "A sub-agent whose parent is active holds the grants made to it like any other delegate.",
+      "set": "sub-agent"
+    },
+    {
+      "description": "The registry retires agent-v1 at 12:00, and sub-agent-v1 presents the same unrevoked grants at 13:00.",
+      "expected": {
+        "decision": "reject",
+        "reason": "parent_inactive"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-retirement-agent-v1.json": "76f09a96612a1dc57229f712fe7b33ebc103c09e2b8fba6d61ae26d980f9977d",
+        "case.json": "10e4943d349922c95aa2f94a5e95a47facb1134973b280775b60c787c301bf50",
+        "presentation.json": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+      },
+      "id": "subagent-parent-retired",
+      "path": "cases/subagent-parent-retired",
+      "rule": "Proposed: a sub-agent's identifier is bound to the lifespan of the parent its registration names, so a presenter whose parent, or any parent above it, the registry retired or revoked at or before the observation is refused, even when its own grants are unrevoked.",
+      "set": "sub-agent",
+      "twin": "subagent-parent-active"
+    },
+    {
+      "description": "The registry revokes agent-v1 for key compromise and the organisation recovers it to agent-v2; agent-v2 spawns sub-agent-v2 from the same sub-agent software, the registry records the succession from sub-agent-v1, and sub-agent-v2 presents new grants from the organisation and agent-v2.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-identifier-revocation-agent-v1.json": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6",
+        "07-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "08-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "09-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "10-registration-sub-agent-v2.json": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a",
+        "11-succession-s-sub.json": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b",
+        "12-grant-g-sub-2.json": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25",
+        "case.json": "3cccc72a50e5ec0b3efb85a0ee2594ba3262526e0f65eac16d5c63aecb59fe87",
+        "presentation.json": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+      },
+      "id": "subagent-respawned-after-parent-recovery",
+      "path": "cases/subagent-respawned-after-parent-recovery",
+      "rule": "Proposed: the successor's sub-agent holds authority only through new grants from the successor, and its acceptance names the history the successor carries from its predecessor.",
+      "set": "sub-agent"
+    },
+    {
+      "description": "After the same recovery, sub-agent-v1 presents its grant under agent-v1's.",
+      "expected": {
+        "decision": "reject",
+        "reason": "parent_inactive"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-identifier-revocation-agent-v1.json": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6",
+        "07-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "08-recovery-rc-v1-v2.json": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618",
+        "09-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "10-registration-sub-agent-v2.json": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a",
+        "11-succession-s-sub.json": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b",
+        "12-grant-g-sub-2.json": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25",
+        "case.json": "3cccc72a50e5ec0b3efb85a0ee2594ba3262526e0f65eac16d5c63aecb59fe87",
+        "presentation.json": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+      },
+      "id": "subagent-not-carried-by-parent-recovery",
+      "path": "cases/subagent-not-carried-by-parent-recovery",
+      "rule": "Proposed: a recovery or succession record that joins a parent to a successor carries history, and neither the parent's grants nor its sub-agents; a sub-agent of the old parent ends with it.",
+      "set": "sub-agent",
+      "twin": "subagent-respawned-after-parent-recovery"
+    },
+    {
+      "description": "agent-v1 revoked sub-agent-v1's grant and confirmed the revocation over sub-agent-v1's dispute; agent-v1 is retired at redeployment, the registry records the successions to agent-v2 and sub-agent-v2, and sub-agent-v2 presents new grants.",
+      "expected": {
+        "decision": "accept",
+        "reason": "authority_valid_with_history"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-revocation-r-sub.json": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4",
+        "07-dispute-d-sub.json": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9",
+        "08-resolution-d-sub-outcome.json": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986",
+        "09-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "10-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "11-succession-s-v1-v2.json": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3",
+        "12-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "13-registration-sub-agent-v2.json": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a",
+        "14-succession-s-sub.json": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b",
+        "15-grant-g-sub-2.json": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25",
+        "case.json": "f6e7e8ecda30dfafc283e015696762cefa246c896ca35ba70694d303b0959116",
+        "presentation.json": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+      },
+      "id": "subagent-succession-history-only",
+      "path": "cases/subagent-succession-history-only",
+      "rule": "Proposed: a sub-agent redeployed under the successor follows its predecessor through the registry's succession record as history only, so the predecessor sub-agent's adverse records resolve from it.",
+      "set": "sub-agent"
+    },
+    {
+      "description": "After the same successions, sub-agent-v2 presents the grants made to agent-v1 and sub-agent-v1.",
+      "expected": {
+        "decision": "reject",
+        "reason": "presenter_not_delegate"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-revocation-r-sub.json": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4",
+        "07-dispute-d-sub.json": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9",
+        "08-resolution-d-sub-outcome.json": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986",
+        "09-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "10-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "11-succession-s-v1-v2.json": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3",
+        "12-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "13-registration-sub-agent-v2.json": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a",
+        "14-succession-s-sub.json": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b",
+        "15-grant-g-sub-2.json": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25",
+        "case.json": "f6e7e8ecda30dfafc283e015696762cefa246c896ca35ba70694d303b0959116",
+        "presentation.json": "38b613394045da46d9e5ad9719ceaa9e984a8a870b69d501ad986ba1f7a9e11e"
+      },
+      "id": "subagent-succession-grant-not-carried",
+      "path": "cases/subagent-succession-grant-not-carried",
+      "rule": "Proposed: a succession record carries no grant, so the successor sub-agent cannot present the grants made to its predecessor.",
+      "set": "sub-agent",
+      "twin": "subagent-succession-history-only"
+    },
+    {
+      "description": "The same redeployment, and the registry records no succession from sub-agent-v1 to sub-agent-v2; sub-agent-v2 presents new grants.",
+      "expected": {
+        "decision": "reject",
+        "reason": "succession_unrecorded"
+      },
+      "files": {
+        "01-registration-org.json": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8",
+        "02-registration-agent-v1.json": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249",
+        "03-registration-sub-agent-v1.json": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a",
+        "04-grant-g-agent.json": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9",
+        "05-grant-g-sub.json": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875",
+        "06-revocation-r-sub.json": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4",
+        "07-dispute-d-sub.json": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9",
+        "08-resolution-d-sub-outcome.json": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986",
+        "09-retirement-agent-v1.json": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246",
+        "10-registration-agent-v2.json": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780",
+        "11-succession-s-v1-v2.json": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3",
+        "12-grant-g-agent-2.json": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68",
+        "13-registration-sub-agent-v2.json": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a",
+        "14-grant-g-sub-2.json": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25",
+        "case.json": "0b232247de57b04ca80421ea45dbc2d37dbcbcf58eb609782bcada0288dc6158",
+        "presentation.json": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+      },
+      "id": "subagent-respawn-unrecorded",
+      "path": "cases/subagent-respawn-unrecorded",
+      "rule": "Proposed: a sub-agent that ended with its parent is a retired agent for the succession rule, so a matching sub-agent registered later with no succession record joining them is refused.",
+      "set": "sub-agent",
+      "twin": "subagent-succession-history-only"
     }
   ]
 }

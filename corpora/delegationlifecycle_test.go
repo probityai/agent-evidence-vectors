@@ -76,14 +76,15 @@ func TestDelegationLifecycleCommittedCorpusIsClean(t *testing.T) {
 		t.Fatalf("corpus findings: %v %v", result.Findings, result.Members)
 	}
 	counts := result.CountsByVerdict()
-	if counts["accept"] != 17 || counts["reject"] != 29 || counts["no_verdict"] != 1 {
+	if counts["accept"] != 20 || counts["reject"] != 33 || counts["no_verdict"] != 1 {
 		t.Fatalf("counts: %v", counts)
 	}
 	sets := map[string]int{}
 	for _, row := range dlRows(t) {
 		sets[row.Set]++
 	}
-	if sets["delegation-tree"] != 23 || sets["re-registration"] != 12 || sets["recovery"] != 12 {
+	if sets["delegation-tree"] != 23 || sets["re-registration"] != 12 || sets["recovery"] != 12 ||
+		sets["sub-agent"] != 7 {
 		t.Fatalf("sets: %v", sets)
 	}
 }

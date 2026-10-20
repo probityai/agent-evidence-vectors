@@ -8,7 +8,7 @@ Registry test keyid: `7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d5
 
 Relying party test keyid: `d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a`
 
-Corpus digest: `8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71`
+Corpus digest: `84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442`
 
 ## Revocation across a delegation tree
 
@@ -71,3 +71,15 @@ Corpus digest: `8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71
 | `recovery-new-agent-asserted` | accept | `authority_valid_with_history_contested` | After the registry records the succession, the organisation asserts that agent-v2 is a new agent, and agent-v2 presents a new grant. | Proposed: a Responsible entity's assertion that a matched agent is new is recorded and does not cut the succession; the predecessor's adverse records still resolve, and the acceptance names the history as contested so that a relying party or a dispute can take it up. |
 | `recovery-successor-responsible` | accept | `authority_valid_with_history` | The operator responsible for agent-v1 hands its agents to a successor operator; the agent-v1 key is lost, the successor registers the same software as agent-v2 and signs the recovery with the registry, and agent-v2 presents a new grant. | Proposed: a recovery may be signed by a successor Responsible entity when a responsible-succession record, signed by the registry and the predecessor, hands the predecessor's agents to it before the recovery. |
 | `recovery-successor-responsible-unrecorded` | reject | `recovery_mismatch` | The successor operator signs the recovery, and no responsible-succession record hands agent-v1 to it. | Proposed: a recovery signed by a Responsible entity that the registry did not bind to the old identifier, directly or through a recorded responsible succession, does not match. |
+
+## Sub-agents bound to the parent's lifespan
+
+| id | outcome | reason | situation | rule |
+| --- | --- | --- | --- | --- |
+| `subagent-parent-active` | accept | `authority_valid` | agent-v1 spawns sub-agent-v1, the registry registers it with agent-v1 as its parent, and sub-agent-v1 presents its grant under agent-v1's while agent-v1 is active. | A sub-agent whose parent is active holds the grants made to it like any other delegate. |
+| `subagent-parent-retired` | reject | `parent_inactive` | The registry retires agent-v1 at 12:00, and sub-agent-v1 presents the same unrevoked grants at 13:00. | Proposed: a sub-agent's identifier is bound to the lifespan of the parent its registration names, so a presenter whose parent, or any parent above it, the registry retired or revoked at or before the observation is refused, even when its own grants are unrevoked. |
+| `subagent-respawned-after-parent-recovery` | accept | `authority_valid_with_history` | The registry revokes agent-v1 for key compromise and the organisation recovers it to agent-v2; agent-v2 spawns sub-agent-v2 from the same sub-agent software, the registry records the succession from sub-agent-v1, and sub-agent-v2 presents new grants from the organisation and agent-v2. | Proposed: the successor's sub-agent holds authority only through new grants from the successor, and its acceptance names the history the successor carries from its predecessor. |
+| `subagent-not-carried-by-parent-recovery` | reject | `parent_inactive` | After the same recovery, sub-agent-v1 presents its grant under agent-v1's. | Proposed: a recovery or succession record that joins a parent to a successor carries history, and neither the parent's grants nor its sub-agents; a sub-agent of the old parent ends with it. |
+| `subagent-succession-history-only` | accept | `authority_valid_with_history` | agent-v1 revoked sub-agent-v1's grant and confirmed the revocation over sub-agent-v1's dispute; agent-v1 is retired at redeployment, the registry records the successions to agent-v2 and sub-agent-v2, and sub-agent-v2 presents new grants. | Proposed: a sub-agent redeployed under the successor follows its predecessor through the registry's succession record as history only, so the predecessor sub-agent's adverse records resolve from it. |
+| `subagent-succession-grant-not-carried` | reject | `presenter_not_delegate` | After the same successions, sub-agent-v2 presents the grants made to agent-v1 and sub-agent-v1. | Proposed: a succession record carries no grant, so the successor sub-agent cannot present the grants made to its predecessor. |
+| `subagent-respawn-unrecorded` | reject | `succession_unrecorded` | The same redeployment, and the registry records no succession from sub-agent-v1 to sub-agent-v2; sub-agent-v2 presents new grants. | Proposed: a sub-agent that ended with its parent is a retired agent for the succession rule, so a matching sub-agent registered later with no succession record joining them is refused. |
