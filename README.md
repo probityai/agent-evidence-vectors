@@ -55,6 +55,14 @@ The harness calls your executable with a vector-file path. Return a verdict thro
 
 Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
 
+```yaml
+- uses: probityai/agent-evidence-vectors@v0.22.0
+  with:
+    verifier: VERIFIER_COMMAND --json
+```
+
+Replace VERIFIER_COMMAND with the command that runs your verifier.
+
 ## Verifiers that pin this corpus
 
 agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this repository in their own CI at a pinned release or commit, and this repository's CI runs agmi's anchored-chain verifier back against `vectors-anchored-chain`. The [verifier table](docs/VERIFIERS.md) gives each one's corpus, pin and CI run.
