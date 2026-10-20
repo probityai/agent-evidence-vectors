@@ -1,15 +1,15 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 17,
+      "accept": 20,
       "no_verdict": 1,
-      "reject": 29
+      "reject": 33
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 47
+    "total": 54
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-delegation-lifecycle/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,14 +18,7 @@
     "routine": "corpus_digest in vectors-delegation-lifecycle/digest.py",
     "routine-file": "vectors-delegation-lifecycle/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "8595f5c79498d7f498b606bdf23bcc52fc6756b16bfab1a85188cfbbb3142f71",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -37,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -46,21 +39,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "swapped-in": "e471cc7575f253bb6ab62e78d000570530d12cf82df5d2f70aa6251e7143e31d",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/INDEX.md",
       "serialization": "bytes",
-      "sha256": "ebda7eb4c3dbb4d5e408a76c5d51c622e627dae9d37c7d30956452a9acb7a588"
+      "sha256": "776843a0b0a54b907e5bb8de97ae5ba6b3dd813d8213f595b87896c3f9527101"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -69,21 +62,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "swapped-in": "8e648569f93cda36d17e0227abcaf37f66c8312f4ac906249ed8796aade9d8ba",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/README.md",
       "serialization": "bytes",
-      "sha256": "f317d3dcdb89d0a2b55ec73ca3f2ac4aa0d28f62cb1aa5a12947d17869133aca"
+      "sha256": "2057e1808e88880901775c5e66231397f65683ed2fe21d868178c46a2a8ffb50"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -92,7 +85,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "swapped-in": "395dd042613d7a1b3cb3f7166e074cfe6cfb10ae171af5fc015b61ea1f7f0267",
         "test": "swap-and-re-pin"
@@ -106,7 +99,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -115,21 +108,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "swapped-in": "c6f01418bb43d3316d0c2c4b9470c3f121009ca9216f065dfb7c8b59e7e72e56",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "0f1b3203c753bd07ac52b9bc32154867419fcba92415d71057598f9b30269dc6"
+      "sha256": "30c013a2333ea3e015a0f5cc82942d922963cdf447215baeb73ee266621c0e46"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -138,14 +131,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+          "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
         },
         "swapped-in": "15b087545d84b2c7dd49da718a68364ee2902f69be845496c82c77b211045293",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-delegation-lifecycle/tests/test_corpus.py",
       "serialization": "bytes",
-      "sha256": "1efeb1f6a3aff5a8ce6b702b9ed79da938a287dbf937b12b74a39cafc7a55587"
+      "sha256": "979bb6d957656e14bff2cd81f48cec6879ddfb40c711c25c5538655297a40496"
     }
   ],
   "boundary": {
@@ -160,7 +153,7 @@
     "root": "vectors-delegation-lifecycle"
   },
   "byte-identity": {
-    "pins": 526,
+    "pins": 619,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -197,7 +190,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "2a368506845f692a297c7e2c79b35068877b04aa7934baf3f37f7e146a585049"
+      "sha256": "b2a9602a4e8aec0fd8085a47d8502adeaaa5ccfff81bfbf308c35c3c4deb8142"
     },
     "runtime": {
       "name": "go",
@@ -586,11 +579,67 @@
         "verdict": "reject"
       },
       "state": "pass"
+    },
+    {
+      "check": "subagent-parent-active",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-parent-retired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-respawned-after-parent-recovery",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-not-carried-by-parent-recovery",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-succession-history-only",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-succession-grant-not-carried",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subagent-respawn-unrecorded",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
     }
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "336881ecb50981ee63816a1938befff0e2906ebbf3cb8279bec7c7bec9c8a2ed"
+    "sha256": "697f4c393c160007bfa18462749c61f9289618c2f8fbfab3c811796b0f7b78ac"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -646,10 +695,17 @@
       "recovery-unclaimed-unrecorded",
       "recovery-new-agent-asserted",
       "recovery-successor-responsible",
-      "recovery-successor-responsible-unrecorded"
+      "recovery-successor-responsible-unrecorded",
+      "subagent-parent-active",
+      "subagent-parent-retired",
+      "subagent-respawned-after-parent-recovery",
+      "subagent-not-carried-by-parent-recovery",
+      "subagent-succession-history-only",
+      "subagent-succession-grant-not-carried",
+      "subagent-respawn-unrecorded"
     ],
     "path": "vectors-delegation-lifecycle/MANIFEST.json",
-    "sha256": "94a97daeddf94b7ca225843c751f993d11126064b867d163f14a53623de3bd6b"
+    "sha256": "1265f6922f2d4dc8e03ee0390eacc1a217f331743d408cb3d8085e5c7b4fe67c"
   },
   "members": [
     {
@@ -2990,6 +3046,413 @@
         }
       ],
       "id": "recovery-successor-responsible-unrecorded"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/case.json",
+          "sha256": "2193dd1688f43647f5e1ef5f9532351439963dc84fd264bf684c57648378c1a9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-active/presentation.json",
+          "sha256": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+        }
+      ],
+      "id": "subagent-parent-active"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/06-retirement-agent-v1.json",
+          "sha256": "76f09a96612a1dc57229f712fe7b33ebc103c09e2b8fba6d61ae26d980f9977d"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/case.json",
+          "sha256": "10e4943d349922c95aa2f94a5e95a47facb1134973b280775b60c787c301bf50"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-parent-retired/presentation.json",
+          "sha256": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+        }
+      ],
+      "id": "subagent-parent-retired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/06-identifier-revocation-agent-v1.json",
+          "sha256": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/07-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/08-recovery-rc-v1-v2.json",
+          "sha256": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/09-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/10-registration-sub-agent-v2.json",
+          "sha256": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/11-succession-s-sub.json",
+          "sha256": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/12-grant-g-sub-2.json",
+          "sha256": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/case.json",
+          "sha256": "3cccc72a50e5ec0b3efb85a0ee2594ba3262526e0f65eac16d5c63aecb59fe87"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawned-after-parent-recovery/presentation.json",
+          "sha256": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+        }
+      ],
+      "id": "subagent-respawned-after-parent-recovery"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/06-identifier-revocation-agent-v1.json",
+          "sha256": "d39907815d39c0af0083d81848f7bc08134d70f6e63fa4113b066e83edf9bbe6"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/07-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/08-recovery-rc-v1-v2.json",
+          "sha256": "5b7723cd239f058831d696664b3281b21104b78222c258b445baf8a252cac618"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/09-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/10-registration-sub-agent-v2.json",
+          "sha256": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/11-succession-s-sub.json",
+          "sha256": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/12-grant-g-sub-2.json",
+          "sha256": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/case.json",
+          "sha256": "3cccc72a50e5ec0b3efb85a0ee2594ba3262526e0f65eac16d5c63aecb59fe87"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-not-carried-by-parent-recovery/presentation.json",
+          "sha256": "4a56d11a41df9c0832ade1bcfca5a6ad60fb0364309a731c25f03159f2569ee7"
+        }
+      ],
+      "id": "subagent-not-carried-by-parent-recovery"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/06-revocation-r-sub.json",
+          "sha256": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/07-dispute-d-sub.json",
+          "sha256": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/08-resolution-d-sub-outcome.json",
+          "sha256": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/09-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/10-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/11-succession-s-v1-v2.json",
+          "sha256": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/12-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/13-registration-sub-agent-v2.json",
+          "sha256": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/14-succession-s-sub.json",
+          "sha256": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/15-grant-g-sub-2.json",
+          "sha256": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/case.json",
+          "sha256": "f6e7e8ecda30dfafc283e015696762cefa246c896ca35ba70694d303b0959116"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-history-only/presentation.json",
+          "sha256": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+        }
+      ],
+      "id": "subagent-succession-history-only"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/06-revocation-r-sub.json",
+          "sha256": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/07-dispute-d-sub.json",
+          "sha256": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/08-resolution-d-sub-outcome.json",
+          "sha256": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/09-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/10-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/11-succession-s-v1-v2.json",
+          "sha256": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/12-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/13-registration-sub-agent-v2.json",
+          "sha256": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/14-succession-s-sub.json",
+          "sha256": "477d0602a3930e1d93d20bcfdddf27ff5bf3ea14b590be8eb7245bce38e39b8b"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/15-grant-g-sub-2.json",
+          "sha256": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/case.json",
+          "sha256": "f6e7e8ecda30dfafc283e015696762cefa246c896ca35ba70694d303b0959116"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-succession-grant-not-carried/presentation.json",
+          "sha256": "38b613394045da46d9e5ad9719ceaa9e984a8a870b69d501ad986ba1f7a9e11e"
+        }
+      ],
+      "id": "subagent-succession-grant-not-carried"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/01-registration-org.json",
+          "sha256": "b0981d0caea17a35427498217e2c9c38974963187da72677612374a03d4b84a8"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/02-registration-agent-v1.json",
+          "sha256": "cb269ab042fca925becf02503e9819d32ef5e4daf402fea992e619e4a076e249"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/03-registration-sub-agent-v1.json",
+          "sha256": "e7064b09362472de02585cb7cad3ee880663e7469363aaa92d375a3a114ca14a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/04-grant-g-agent.json",
+          "sha256": "3f6544fb5243c3b151af5b66ac2e7661968b7eaaa8131af8aa5543e12cbe21c9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/05-grant-g-sub.json",
+          "sha256": "7c67c4d402712bbf017125a6495029c42e251d9f4a9adf5282c6a904ec597875"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/06-revocation-r-sub.json",
+          "sha256": "6e9d8519de04f050b171f885f64b32d227f57394f9716c80700ff4bf2efa3fd4"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/07-dispute-d-sub.json",
+          "sha256": "1ee9fff8d9058d8bac905617d0c49fad40ba86611a71696f4aa0b76925d6b7e9"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/08-resolution-d-sub-outcome.json",
+          "sha256": "d6ced8d9569056c4d3b818500372966a180b5c869b80dcc0ba2eaf2dc8535986"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/09-retirement-agent-v1.json",
+          "sha256": "8658e79d227d1f11202238c3f9d9b0caae7fdb3600b95e2c2e33fd2ab9d26246"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/10-registration-agent-v2.json",
+          "sha256": "9a453da5482b67d30d5a55b0a81dc03601744216b062068d198dc088052ab780"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/11-succession-s-v1-v2.json",
+          "sha256": "3286347a467b6890aaa5b8e6cd10467cf97976fbb63ee8e78cdcb89d47c848d3"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/12-grant-g-agent-2.json",
+          "sha256": "1d64c0c96e610a2dc9fefc80bfe7db9b3302194f4252dadf641db16fc9974a68"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/13-registration-sub-agent-v2.json",
+          "sha256": "c42b83b6d11560d12f94c9103cce73d504717267725d71455552b7371d3ff40a"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/14-grant-g-sub-2.json",
+          "sha256": "70522bf1bfa35d3dc660b3582888d410f29948de70959060c9b322d75d469b25"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/case.json",
+          "sha256": "0b232247de57b04ca80421ea45dbc2d37dbcbcf58eb609782bcada0288dc6158"
+        },
+        {
+          "path": "vectors-delegation-lifecycle/cases/subagent-respawn-unrecorded/presentation.json",
+          "sha256": "a9df0c45d8b4805dd1c8d7c443e4b190cdf3d50e6f845b2dd19a34087a2344f0"
+        }
+      ],
+      "id": "subagent-respawn-unrecorded"
     }
   ],
   "native": {
@@ -3008,7 +3471,7 @@
       "reference": {
         "path": "release/intake/native/vectors-delegation-lifecycle.json",
         "serialization": "bytes",
-        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+        "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
       }
     },
     {
@@ -3017,7 +3480,7 @@
       "reference": {
         "path": "release/intake/native/vectors-delegation-lifecycle.txt",
         "serialization": "bytes",
-        "sha256": "576c6be558b8319988aed51ccaaaed71f3f19148f00538d5b1ce14dba6824e77"
+        "sha256": "8418cd1fb198cac8cf56e214eefb32782bf7e2f47886e8ee31e155cdd27d1e6c"
       }
     },
     {
@@ -3266,6 +3729,38 @@
         "check:recovery-successor-responsible-unrecorded"
       ],
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"recovery_mismatch\"}}"
+    },
+    {
+      "check": "subagent-parent-retired",
+      "inputs": [
+        "member:subagent-parent-retired",
+        "check:subagent-parent-retired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"parent_inactive\"}}"
+    },
+    {
+      "check": "subagent-not-carried-by-parent-recovery",
+      "inputs": [
+        "member:subagent-not-carried-by-parent-recovery",
+        "check:subagent-not-carried-by-parent-recovery"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"parent_inactive\"}}"
+    },
+    {
+      "check": "subagent-succession-grant-not-carried",
+      "inputs": [
+        "member:subagent-succession-grant-not-carried",
+        "check:subagent-succession-grant-not-carried"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"presenter_not_delegate\"}}"
+    },
+    {
+      "check": "subagent-respawn-unrecorded",
+      "inputs": [
+        "member:subagent-respawn-unrecorded",
+        "check:subagent-respawn-unrecorded"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"succession_unrecorded\"}}"
     }
   ],
   "relaxed-controls": [],
@@ -3275,11 +3770,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+        "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
       },
       {
         "process": "run-2",
-        "sha256": "3482dd90a8d2df0cf4af22dd545daf89ae8c98d016cd24df7c6b37d2375aefc7"
+        "sha256": "6def91395dd68243ab470fccd868ee2bb9069faec4011550b2974fe0005a1497"
       }
     ],
     "seed": null,
@@ -3293,17 +3788,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 47 pinned members of delegation-lifecycle/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 54 pinned members of delegation-lifecycle/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 47,
+    "matched": 54,
     "require": "at-least-one",
     "selected": [
       "tree-chain-valid",
@@ -3352,7 +3848,14 @@
       "recovery-unclaimed-unrecorded",
       "recovery-new-agent-asserted",
       "recovery-successor-responsible",
-      "recovery-successor-responsible-unrecorded"
+      "recovery-successor-responsible-unrecorded",
+      "subagent-parent-active",
+      "subagent-parent-retired",
+      "subagent-respawned-after-parent-recovery",
+      "subagent-not-carried-by-parent-recovery",
+      "subagent-succession-history-only",
+      "subagent-succession-grant-not-carried",
+      "subagent-respawn-unrecorded"
     ]
   },
   "specification-readers": [],
