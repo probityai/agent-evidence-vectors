@@ -19,6 +19,7 @@ import itertools
 import json
 import os
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
@@ -32,67 +33,93 @@ CWD = "/work/space"
 EXES = ("/usr/bin/python3", "python", "/opt/pypy3.10", "/bin/sh", "/usr/bin/env", "xpython", "")
 FIRST = ("python3", "pypy", "sh", "/usr/bin/python3.12", "env", "")
 OPTIONS = ("-c", "-m", "-cprint", "-mpkg.mod", "-W", "-Wignore", "-X", "-Xdev", "-I", "-E", "-P",
-           "-B", "-S", "-s", "-u", "-Bs", "-BcX", "-Wd", "-WX", "-Xo", "--", "--check-hash-based-pycs",
-           "--foo", "-", "-V", "--version", "-Pc", "-Ic", "-sm", "-uW")
-KEY = ("-c", "-m", "-cx", "-mp.q", "-W", "-Wd", "-X", "-I", "-E", "-P", "--", "--check-hash-based-pycs", "--foo", "-B")
+           "-B", "-S", "-s", "-u", "-Bs", "-BcX", "-Wd", "-WX", "-Xo", "--",
+           "--check-hash-based-pycs", "--foo", "-", "-V", "--version", "-Pc", "-Ic", "-sm", "-uW")
+KEY = ("-c", "-m", "-cx", "-mp.q", "-W", "-Wd", "-X", "-I", "-E", "-P", "--",
+       "--check-hash-based-pycs", "--foo", "-B")
+SAFE_OPTIONS = ((), ("-E",), ("-P",), ("-I",), ("-c", "x"), ("-m", "pkg.mod"), ("-EI",),
+                ("-B",))
 TAILS = ((), ("a.py",), ("sub/a.py",), ("../a.py",), ("/abs/a.py",), ("-",), ("pkg.mod",),
          ("always",), ("x", "y"))
-ENVS = ({}, {"PYTHONSAFEPATH": "1"}, {"PYTHONSAFEPATH": ""}, {"PYTHONPATH": "p"})
+ENVS: tuple[dict[str, str], ...] = (
+    {}, {"PYTHONSAFEPATH": "1"}, {"PYTHONSAFEPATH": ""}, {"PYTHONPATH": "p"})
 LOADER_KEYS = ("PYTHONHOME", "PYTHONSTARTUP", "PYTHONUSERBASE", "PYTHONPYCACHEPREFIX", "LD_PRELOAD",
                "LD_AUDIT", "PYTHONPATH", "LD_LIBRARY_PATH", "OTHER")
-LOADER_VALUES = ("", "a", "a:b", "/x:/y", ":a", "a:", "a b", "a  b", "a:b c", " a", "a\tb", "../up:./here",
-                 "/abs", "a\u2003b")
+LOADER_VALUES = ("", "a", "a:b", "/x:/y", ":a", "a:", "a b", "a  b", "a:b c", " a", "a\tb",
+                 "../up:./here", "/abs", "a\u2003b")
 NAMES = ("/work/space/a.py", "/work/space/pkg/mod.py", "/work/space/__pycache__/a.cpython-312.pyc",
-         "/work/space/__pycache__/a.pyc", "/work/space/__pycache__/a", "/work/space/pkg/__pycache__/m.x.pyc",
-         "/work/space/a.pyc", "/work/space/a.so", "/work/space/a.pth", "/work/space/sub/b.txt",
-         "/work/spacex/a.py", "/other/a.py", "/work/space", "/work/space/.pytest_cache/v", "/work/space/__pycache__",
+         "/work/space/__pycache__/a.pyc", "/work/space/__pycache__/a",
+         "/work/space/pkg/__pycache__/m.x.pyc", "/work/space/a.pyc", "/work/space/a.so",
+         "/work/space/a.pth", "/work/space/sub/b.txt", "/work/spacex/a.py", "/other/a.py",
+         "/work/space", "/work/space/.pytest_cache/v", "/work/space/__pycache__",
          "/work/space/__pycache__/a.cpython-312.pyc/x", "/work/space/pkg", "/work/space/pkg.py")
-ALLOWED = ([], ["/work/space/a.py"], ["/work/space/pkg"], ["/work/space/a.py", "/work/space/pkg"],
-           ["/work/space/__pycache__"], ["/work"])
+ALLOWED: tuple[list[str], ...] = (
+    [], ["/work/space/a.py"], ["/work/space/pkg"], ["/work/space/a.py", "/work/space/pkg"],
+    ["/work/space/__pycache__"], ["/work"])
 
 
 def event(argv: list[str], exe: str, env: dict[str, str]) -> dict[str, Any]:
     return {"argv": argv, "exe": exe, "cwd": CWD, "env": env}
 
 
-def started_cases() -> list[dict[str, Any]]:
-    out: list[dict[str, Any]] = []
-    seen: set[str] = set()
+def started_case(item: dict[str, Any]) -> dict[str, Any]:
+    found = chk._started(item)
+    started = None if found is None else [sorted(found[0]), found[1], found[2]]
+    return {"event": item, "started": started, "zero": chk._python_path_zero(item),
+            "replacing": sorted(chk._replacing(item)),
+            "safe": None if found is None else chk._safe(found[0], item)}
 
-    def add(argv: list[str], exe: str, env: dict[str, str]) -> None:
-        item = event(argv, exe, env)
-        key = json.dumps(item, sort_keys=True)
-        if key in seen:
-            return
-        seen.add(key)
-        found = chk._started(item)
-        started = None if found is None else [sorted(found[0]), found[1], found[2]]
-        out.append({"event": item, "started": started, "zero": chk._python_path_zero(item),
-                    "replacing": sorted(chk._replacing(item)),
-                    "safe": None if found is None else chk._safe(found[0], item)})
 
+def bare_events() -> Iterator[dict[str, Any]]:
     for exe in EXES:
         for first in FIRST:
-            add([first], exe, {})
-    for options in itertools.product(OPTIONS, repeat=1):
+            yield event([first], exe, {})
+    for option in OPTIONS:
         for tail in TAILS:
-            add(["python3", *options, *tail], "/usr/bin/python3", {})
-    for options in itertools.product(KEY, repeat=2):
+            yield event(["python3", option, *tail], "/usr/bin/python3", {})
+
+
+def clustered_events() -> Iterator[dict[str, Any]]:
+    for pair in itertools.product(KEY, repeat=2):
         for tail in TAILS[:5]:
-            add(["python3", *options, *tail], "/usr/bin/python3", {})
-    for options in itertools.product(KEY[:8], repeat=3):
+            yield event(["python3", *pair, *tail], "/usr/bin/python3", {})
+    for triple in itertools.product(KEY[:8], repeat=3):
         for tail in TAILS[:2]:
-            add(["python3", *options, *tail], "/usr/bin/python3", {})
+            yield event(["python3", *triple, *tail], "/usr/bin/python3", {})
+
+
+def spelled_events() -> Iterator[dict[str, Any]]:
     for exe in EXES[3:]:
-        for options in KEY:
-            add(["python3", options, "a.py"], exe, {})
+        for option in KEY:
+            yield event(["python3", option, "a.py"], exe, {})
     for first in FIRST[2:]:
-        for options in KEY:
-            add([first, options, "a.py"], "/bin/sh", {})
+        for option in KEY:
+            yield event([first, option, "a.py"], "/bin/sh", {})
+
+
+def environment_events() -> Iterator[dict[str, Any]]:
     for env in ENVS:
-        for options in [(), ("-E",), ("-P",), ("-I",), ("-c", "x"), ("-m", "pkg.mod"), ("-EI",), ("-B",)]:
+        for options in SAFE_OPTIONS:
             for tail in TAILS:
-                add(["python3", *options, *tail], "/usr/bin/python3", env)
+                yield event(["python3", *options, *tail], "/usr/bin/python3", env)
+
+
+def started_events() -> Iterator[dict[str, Any]]:
+    """Every event the started cases judge, in a fixed order, possibly with repeats."""
+    yield from bare_events()
+    yield from clustered_events()
+    yield from spelled_events()
+    yield from environment_events()
+
+
+def started_cases() -> list[dict[str, Any]]:
+    seen: set[str] = set()
+    out: list[dict[str, Any]] = []
+    for item in started_events():
+        key = json.dumps(item, sort_keys=True)
+        if key not in seen:
+            seen.add(key)
+            out.append(started_case(item))
     return out
 
 
@@ -115,8 +142,14 @@ def text_cases() -> dict[str, list[dict[str, Any]]]:
     return {"top_level": top, "entries": entries, "excused": excused, "importable": importable}
 
 
+OWNERS: tuple[tuple[str, str | None, set[str]], ...] = (
+    ("write", "agent", {"agent"}), ("write", "tool", {"agent"}), ("exec", "agent", {"agent"}),
+    ("rename", "agent", set()), ("write", None, {"agent"}))
+
+
 def exempt_cases() -> list[dict[str, Any]]:
-    writes_pool = ([], ["/work/space/out"], ["/work/space/out", "/tmp"], ["/work/space"])
+    writes_pool: tuple[list[str], ...] = (
+        [], ["/work/space/out"], ["/work/space/out", "/tmp"], ["/work/space"])
     paths = ("/work/space/out/a", "/work/space/out", "/work/space/x/__pycache__/a", "/tmp/z",
              "/etc/passwd", "/work/space/outx", "a/__pycache__/b")
     out: list[dict[str, Any]] = []
@@ -128,9 +161,7 @@ def exempt_cases() -> list[dict[str, Any]]:
                 if json.dumps(item, sort_keys=True) in seen and keys != ("path", "target"):
                     continue
                 seen.add(json.dumps(item, sort_keys=True))
-                for kind, origin, own in (("write", "agent", {"agent"}), ("write", "tool", {"agent"}),
-                                          ("exec", "agent", {"agent"}), ("rename", "agent", set()),
-                                          ("write", None, {"agent"})):
+                for kind, origin, own in OWNERS:
                     full = {**item, "type": kind, "step": 3}
                     if origin is not None:
                         full["origin"] = origin
