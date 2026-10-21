@@ -164,6 +164,95 @@ source_python="$(own_python "$src_root")"
 push_lines="$(cat)"
 
 # ---------------------------------------------------------------------------
+# EVERY GUARD IS READ FROM THE REVISION IT JUDGES.
+# ---------------------------------------------------------------------------
+# `src_root` is the directory holding the repository's common git directory,
+# which for a push from a linked worktree is the MAIN clone, not the tree being
+# pushed. This hook used to run the identity scan, the commit-message check and
+# the runner-label check from that working tree, on the theory that "the guard
+# for the history is whatever guard exists now". The main clone's working tree
+# is not "now": it is wherever that checkout was last moved, which on 2026-10-21
+# was 715 commits behind origin/main. It refused a 22-case vector family whose
+# own scanner, and origin/main's, both pass it, and the same stale copy would
+# wave through any string a newer rule forbids. Both directions are the defect
+# the isolation rewrite below removed for the workflow gate.
+#
+# So each guard, and every rule file it reads (the sidecars under .githooks/,
+# the sibling modules under scripts/, the workflows under .github/), comes from
+# the pushed commit itself, extracted with `git archive` into a private
+# directory. That is also what the remote does: CI runs the pushed commit's own
+# copy of each of these scripts on the same range. A pushed commit that weakens
+# a guard is a reviewed diff the remote runs too; a stale checkout nobody looks
+# at is not reviewed by anyone.
+#
+# A pushed revision that does not carry a guard is judged by origin/main's
+# COMMITTED copy, and the hook says so on stderr naming both commits. When
+# neither has it the push is refused. It never falls back to a working tree.
+guard_base="$(mktemp -d "${TMPDIR:-/tmp}/aee-guards.XXXXXXXX")"
+trap 'rm -rf "$guard_base"' EXIT
+
+# Print the directory holding <commit>'s scripts/, .githooks/ and .github/,
+# extracting it on first use. Exit 2 when the commit does not resolve or the
+# extraction fails: "could not read the guard" is never "the guard passed".
+guard_tree() {
+	local commit dir paths p
+	commit="$(git -C "$src_root" rev-parse -q --verify "${1}^{commit}" 2>/dev/null)" || return 2
+	dir="$guard_base/$commit"
+	if [ ! -d "$dir" ]; then
+		paths=()
+		for p in scripts .githooks .github; do
+			if git -C "$src_root" cat-file -e "${commit}:${p}" 2>/dev/null; then
+				paths+=("$p")
+			fi
+		done
+		mkdir -p "$dir"
+		if [ "${#paths[@]}" -gt 0 ]; then
+			git -C "$src_root" archive --format=tar "$commit" -- "${paths[@]}" | tar -x -C "$dir" || return 2
+		fi
+	fi
+	printf '%s\n' "$dir"
+}
+
+# Print the path of <relpath> as <revision> carries it, or as origin/main
+# carries it when <revision> does not, with a warning naming both. Exit 1 when
+# neither carries it, 2 when a tree could not be read.
+guard_file() {
+	local rev="$1" rel="$2" tree fallback
+	tree="$(guard_tree "$rev")" || return 2
+	if [ -f "$tree/$rel" ]; then
+		printf '%s\n' "$tree/$rel"
+		return 0
+	fi
+	fallback="$(git -C "$src_root" rev-parse -q --verify "refs/remotes/origin/main^{commit}" 2>/dev/null)" || return 1
+	tree="$(guard_tree "$fallback")" || return 2
+	if [ -f "$tree/$rel" ]; then
+		printf 'pre-push: WARNING -- %.12s carries no %s; it is judged by the copy committed at origin/main (%.12s) instead.\n' \
+			"$(git -C "$src_root" rev-parse "${rev}^{commit}")" "$rel" "$fallback" >&2
+		printf '%s\n' "$tree/$rel"
+		return 0
+	fi
+	return 1
+}
+
+# Resolve a guard or stop the push. The command substitution runs in a
+# subshell, so this prints the path and the caller checks the status.
+require_guard() {
+	local rev="$1" rel="$2" what="$3" found status
+	found="$(guard_file "$rev" "$rel")" && status=0 || status=$?
+	case "$status" in
+	0) printf '%s\n' "$found" ;;
+	1)
+		echo "pre-push: ABORT -- neither $(printf '%.12s' "$rev") nor origin/main carries $rel; refusing to pass a push whose $what is absent." >&2
+		return 1
+		;;
+	*)
+		echo "pre-push: ABORT -- the $what could not be read from $(printf '%.12s' "$rev") (exit $status); nothing was verified." >&2
+		return 1
+		;;
+	esac
+}
+
+# ---------------------------------------------------------------------------
 # FIRST GATE: the history of the push, not its tip.
 # ---------------------------------------------------------------------------
 # Everything below this block materialises the pushed REVISION and gates that
@@ -172,10 +261,8 @@ push_lines="$(cat)"
 # name and a product name reached this repository's public history that way
 # in 2026-09 with a clean tip. So before any tree is checked out, every commit
 # in every pushed range is scanned, added lines and messages both, by the
-# same script CI runs on the same range. It reads the working tree's copy of
-# the script on purpose: the range it scans is the history, and the guard
-# for the history is whatever guard exists now, not the one a pushed commit
-# happens to carry.
+# same script CI runs on the same range, read from the pushed commit (above).
+#
 # A runner label nothing can serve does not fail a push and does not fail a
 # build. The job QUEUES until GitHub expires it, which reads as a slow build,
 # so the outage is invisible until a human reads an email from the vendor.
@@ -186,17 +273,25 @@ push_lines="$(cat)"
 # This runs here rather than in CI because CI's own token cannot read an
 # organisation's installations: the check would return INCONCLUSIVE in the one
 # place it is supposed to be authoritative. A local push has a token that can.
+# It reads the workflows of the pushed commit, because those are the jobs the
+# push will queue.
 #
 # Exit 2 means the installation set could not be read, which is a failed check
 # and never an empty account, so it warns and lets the push through instead of
 # refusing on an answer it does not have.
-label_gate="$src_root/scripts/runner-labels-gate.py"
-if [ -f "$label_gate" ]; then
+while read -r local_ref local_sha _remote_ref _remote_sha; do
+	[ -z "${local_ref:-}" ] && continue
+	case "$local_sha" in *[!0]*) ;; *) continue ;; esac
+	label_gate="$(guard_file "$local_sha" scripts/runner-labels-gate.py)" && label_found=0 || label_found=$?
+	if [ "$label_found" -ne 0 ]; then
+		echo "pre-push: WARNING -- $local_ref carries no scripts/runner-labels-gate.py; runner availability is NOT MEASURED for this push." >&2
+		continue
+	fi
 	"$source_python" -B "$label_gate" && label_status=0 || label_status=$?
 	case "$label_status" in
 	0) ;;
 	1)
-		echo "pre-push: REFUSED -- a workflow asks for a runner label nothing on this account can serve." >&2
+		echo "pre-push: REFUSED -- a workflow in $local_ref asks for a runner label nothing on this account can serve." >&2
 		echo "pre-push: those jobs would queue rather than fail. Install the app, or move the jobs to a GitHub-hosted label." >&2
 		exit 1
 		;;
@@ -204,21 +299,23 @@ if [ -f "$label_gate" ]; then
 		echo "pre-push: WARNING -- the runner-label check could not read the account's installations; runner availability is NOT MEASURED for this push." >&2
 		;;
 	esac
-else
-	echo "pre-push: WARNING -- $label_gate is missing; runner availability is NOT MEASURED for this push." >&2
-fi
+done <<< "$push_lines"
 
-range_scan="$src_root/scripts/pre-push-identity-scan.py"
-if [ ! -f "$range_scan" ]; then
-	echo "pre-push: ABORT -- $range_scan is missing; refusing to pass a push whose history guard is absent." >&2
-	exit 1
-fi
-if [ -n "$push_lines" ]; then
-	printf '%s\n' "$push_lines" | "$source_python" -B "$range_scan" && range_status=0 || range_status=$?
+# One scan per pushed ref, each by the scanner that ref carries, fed only that
+# ref's protocol line. A push of two branches whose scanners differ is judged
+# by each branch's own rules, as CI judges each of them.
+while read -r local_ref local_sha remote_ref remote_sha; do
+	[ -z "${local_ref:-}" ] && continue
+	case "$local_sha" in *[!0]*) ;; *) continue ;; esac
+	range_scan="$(require_guard "$local_sha" scripts/pre-push-identity-scan.py "history guard")" || exit 1
+	scan_src="${range_scan#"$guard_base"/}"
+	echo "pre-push: $local_ref: history scanned by the scanner committed at $(printf '%.12s' "${scan_src%%/*}")."
+	printf '%s %s %s %s\n' "$local_ref" "$local_sha" "$remote_ref" "$remote_sha" |
+		"$source_python" -B "$range_scan" && range_status=0 || range_status=$?
 	case "$range_status" in
 	0) ;;
 	1)
-		echo "pre-push: REFUSED -- a commit in this push carries a private path, a dossier name or a product name." >&2
+		echo "pre-push: REFUSED -- a commit in $local_ref carries a private path, a dossier name or a product name." >&2
 		echo "pre-push: the tip may be clean; the history is not. Rewrite the commits before pushing." >&2
 		exit 1
 		;;
@@ -227,24 +324,21 @@ if [ -n "$push_lines" ]; then
 		exit 1
 		;;
 	esac
-fi
+done <<< "$push_lines"
 
 # The commit messages of the push. The commit-msg hook is advisory: a commit
 # made with `git commit --no-verify`, or in a clone whose core.hooksPath was
 # never set, reaches this point unchecked. On 2026-10-18 a 78-character subject
 # reached main that way and turned the commit-message-lint run red for the push
 # that carried it. Every new commit of every pushed branch is therefore linted
-# here by the same tracked file and the same --check-range CI runs, against the
-# same baseline. A tag names commits already linted when they landed.
-msg_gate="$src_root/.githooks/commit-msg"
-if [ ! -f "$msg_gate" ]; then
-	echo "pre-push: ABORT -- $msg_gate is missing; refusing to pass a push whose message guard is absent." >&2
-	exit 1
-fi
+# here by the pushed commit's own copy of the hook, its baseline and its
+# sidecars, with the same --check-range CI runs. A tag names commits already
+# linted when they landed.
 while read -r local_ref local_sha _remote_ref remote_sha; do
 	[ -z "${local_ref:-}" ] && continue
 	case "$local_sha" in *[!0]*) ;; *) continue ;; esac
 	case "$local_ref" in refs/tags/*) continue ;; esac
+	msg_gate="$(require_guard "$local_sha" .githooks/commit-msg "message guard")" || exit 1
 	base=""
 	case "${remote_sha:-0}" in
 	*[!0]*)
@@ -363,8 +457,7 @@ if [ "$venue" = leak ]; then
 	# The check is read from the PUSHED revision, as the workflow gate below is:
 	# the main checkout may predate it, and the commit being pushed is what the
 	# remote will hold.
-	hygiene="$(mktemp "${TMPDIR:-/tmp}/aee-push-hygiene.XXXXXXXX")"
-	trap 'rm -f "$hygiene"' EXIT
+	hygiene="$guard_base/push-hygiene.py"
 	while read -r local_ref local_sha _remote_ref remote_sha; do
 		[ -z "${local_ref:-}" ] && continue
 		case "$local_sha" in *[!0]*) ;; *) continue ;; esac
@@ -397,6 +490,7 @@ iso_base=""
 iso=""
 
 cleanup() {
+	rm -rf "$guard_base"
 	if [ -n "$iso" ]; then
 		git -C "$src_root" worktree remove --force "$iso" >/dev/null 2>&1 || :
 	fi
