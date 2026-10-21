@@ -105,10 +105,7 @@ func TestDoneEventsAgreeWithPython(t *testing.T) {
 			if started.has {
 				value = started.value
 			}
-			want := []any{}
-			for _, flag := range item.Started[0].([]any) {
-				want = append(want, flag)
-			}
+			want := item.Started[0].([]any)
 			got := []any{}
 			for _, flag := range flags {
 				got = append(got, flag)
