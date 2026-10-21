@@ -963,6 +963,19 @@ jobs:
         run: uv run --extra dev pytest vectors-chunked-export/tests -q
       - name: done corpora regenerate, are judged clean and force every rule
         run: uv run --extra dev pytest vectors-done-receipt/tests -q
+      # probity-verify is the implementation the done rules come from, pinned in
+      # pyproject.toml's crosscheck group. Every done member goes through it, and so
+      # do its own example runs, fetched at the same commit and read by our reader.
+      - name: the done readers agree with probity-verify on every member
+        run: |
+          rev=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['tool']['uv']['sources']['probity-verify']['rev'])")
+          probity="${RUNNER_TEMP:-$(mktemp -d)}/probity-at-pin"
+          git clone --quiet --filter=blob:none --no-checkout https://github.com/probityai/probity "$probity"
+          git -C "$probity" checkout --quiet "$rev" -- packages/probity-verify/examples/done-receipt
+          uv run --locked --extra dev --group crosscheck python vectors-done-receipt/crosscheck_probity_verify.py \
+            vectors-done-contract vectors-done-receipt vectors-spoofed-tool-output \
+            vectors-test-tampering vectors-grader-isolation \
+            --examples "$probity/packages/probity-verify/examples/done-receipt"
       - name: TRACE registry anchor cases regenerate and force every check
         run: uv run --extra dev pytest vectors-trace-anchor/tests -q
       - name: grade-floor cases regenerate, agree and every rule is load-bearing

@@ -11,6 +11,16 @@
           "tests"
         ],
         "id": "unit"
+      },
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "/heldout"
+        ],
+        "id": "heldout-unit"
       }
     ],
     "adequacy": {
@@ -18,6 +28,7 @@
       "mutants": 4
     },
     "contract_id": "contract-app-1",
+    "heldout_split_sha256": "dfade9df9d40645ebde318903b783e866cdf042b4624213cfb02aeaf000a6172",
     "protected_paths": [],
     "schema_version": "probity-done-contract/v1",
     "task": "make test_app pass"
@@ -26,7 +37,7 @@
   "subject": [
     {
       "digest": {
-        "sha256": "a1a99e6cf321b6b4e9259e80e2fee380ccdf68d8e4b84596d4d0de6aafb908bd"
+        "sha256": "51242669c1c96d0377229c33cc2e6db0d85f30f399fd49986283478b65d04d96"
       },
       "name": "contract.json"
     }

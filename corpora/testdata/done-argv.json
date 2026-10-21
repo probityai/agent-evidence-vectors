@@ -1,0 +1,1215 @@
+{
+  "invocations": [
+    {
+      "argv": [
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "py.test",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "./pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-mpytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python3.12",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "pypy3",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "/usr/local/bin/python",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-W",
+        "error",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-X",
+        "dev",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "--check-hash-based-pycs",
+        "always",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-W"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-W"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-m"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-",
+        "-m",
+        "pytest"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-",
+          "-m",
+          "pytest"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "test.py"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "test.py"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "./test.py",
+        "./"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "test.py",
+          "./"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-c",
+        "print(1)"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-c",
+          "print(1)"
+        ],
+        "program": "python"
+      }
+    },
+    {
+      "argv": [
+        "pythonx",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-m",
+          "pytest",
+          "tests"
+        ],
+        "program": "pythonx"
+      }
+    },
+    {
+      "argv": [
+        "python3.12x",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-m",
+          "pytest",
+          "tests"
+        ],
+        "program": "python3.12x"
+      }
+    },
+    {
+      "argv": [
+        "python\n",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "py",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "/usr/bin/python3.12",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests"
+      ],
+      "exe": "/usr/bin/env",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "sh",
+        "-c",
+        "pytest tests"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "-c",
+          "pytest tests"
+        ],
+        "program": "sh"
+      }
+    },
+    {
+      "argv": [
+        "make",
+        "./check",
+        "test"
+      ],
+      "exe": "",
+      "want": {
+        "args": [
+          "check",
+          "test"
+        ],
+        "program": "make"
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "./tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests/"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "a/../b",
+        "b"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "b"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "../tests",
+        "/abs//x/./y"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "../tests",
+          "/abs/x/y"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "-"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--",
+        "-k",
+        "./x"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "-k",
+          "x"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "b",
+        "a"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "a",
+          "b"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-v",
+        "-s",
+        "-x",
+        "-ra",
+        "-rN",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--tb=short",
+        "--color=yes",
+        "--code-highlight=no",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--durations=5",
+        "--maxfail=1",
+        "--capture=no",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--tb",
+        "short",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--maxfail",
+        "2",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests",
+        "--tb"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--tbx",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "--tbx"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--tb-short",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "--tb-short"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-rZ",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-rZ"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-k",
+        "edge",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-k",
+            "edge"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "tests",
+        "-k"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-k",
+            ""
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-m",
+        "slow",
+        "-k",
+        "a",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-k",
+            "a"
+          ],
+          [
+            "-m",
+            "slow"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-k",
+        "b",
+        "-k",
+        "a",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-k",
+            "a"
+          ],
+          [
+            "-k",
+            "b"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-p",
+        "no:cacheprovider",
+        "--ignore",
+        "x",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "--ignore",
+            "x"
+          ],
+          [
+            "-p",
+            "no:cacheprovider"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--lf",
+        "--ff",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "--ff"
+          ],
+          [
+            "--lf"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "--lf",
+        "-k",
+        "a",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "--lf"
+          ],
+          [
+            "-k",
+            "a"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-k=x",
+        "tests"
+      ],
+      "exe": "",
+      "want": {
+        "program": "pytest",
+        "selecting": [
+          [
+            "-k=x"
+          ]
+        ],
+        "targets": [
+          "tests"
+        ]
+      }
+    }
+  ],
+  "join": [
+    {
+      "a": "a",
+      "b": "b",
+      "want": "a/b"
+    },
+    {
+      "a": "a/",
+      "b": "b",
+      "want": "a/b"
+    },
+    {
+      "a": "",
+      "b": "b",
+      "want": "b"
+    },
+    {
+      "a": "a",
+      "b": "/b",
+      "want": "/b"
+    },
+    {
+      "a": "a",
+      "b": "",
+      "want": "a/"
+    },
+    {
+      "a": "/",
+      "b": "b",
+      "want": "/b"
+    },
+    {
+      "a": "a//",
+      "b": "b",
+      "want": "a//b"
+    }
+  ],
+  "normpath": [
+    {
+      "path": "",
+      "want": "."
+    },
+    {
+      "path": ".",
+      "want": "."
+    },
+    {
+      "path": "/",
+      "want": "/"
+    },
+    {
+      "path": "//",
+      "want": "//"
+    },
+    {
+      "path": "///",
+      "want": "/"
+    },
+    {
+      "path": "////x",
+      "want": "/x"
+    },
+    {
+      "path": "//x",
+      "want": "//x"
+    },
+    {
+      "path": "a",
+      "want": "a"
+    },
+    {
+      "path": "a/",
+      "want": "a"
+    },
+    {
+      "path": "a//b",
+      "want": "a/b"
+    },
+    {
+      "path": "a/./b",
+      "want": "a/b"
+    },
+    {
+      "path": "a/../b",
+      "want": "b"
+    },
+    {
+      "path": "../a",
+      "want": "../a"
+    },
+    {
+      "path": "../../a",
+      "want": "../../a"
+    },
+    {
+      "path": "a/../..",
+      "want": ".."
+    },
+    {
+      "path": "/..",
+      "want": "/"
+    },
+    {
+      "path": "/../a",
+      "want": "/a"
+    },
+    {
+      "path": "//../a",
+      "want": "//a"
+    },
+    {
+      "path": "./",
+      "want": "."
+    },
+    {
+      "path": "a/b/../../..",
+      "want": ".."
+    },
+    {
+      "path": "../..",
+      "want": "../.."
+    },
+    {
+      "path": "x/..",
+      "want": "."
+    },
+    {
+      "path": "./x/../y",
+      "want": "y"
+    }
+  ],
+  "space": [
+    {
+      "rune": 9,
+      "want": true
+    },
+    {
+      "rune": 10,
+      "want": true
+    },
+    {
+      "rune": 11,
+      "want": true
+    },
+    {
+      "rune": 12,
+      "want": true
+    },
+    {
+      "rune": 13,
+      "want": true
+    },
+    {
+      "rune": 27,
+      "want": false
+    },
+    {
+      "rune": 28,
+      "want": true
+    },
+    {
+      "rune": 29,
+      "want": true
+    },
+    {
+      "rune": 30,
+      "want": true
+    },
+    {
+      "rune": 31,
+      "want": true
+    },
+    {
+      "rune": 32,
+      "want": true
+    },
+    {
+      "rune": 33,
+      "want": false
+    },
+    {
+      "rune": 65,
+      "want": false
+    },
+    {
+      "rune": 133,
+      "want": true
+    },
+    {
+      "rune": 160,
+      "want": true
+    },
+    {
+      "rune": 5760,
+      "want": true
+    },
+    {
+      "rune": 8192,
+      "want": true
+    },
+    {
+      "rune": 8203,
+      "want": false
+    },
+    {
+      "rune": 8232,
+      "want": true
+    },
+    {
+      "rune": 12288,
+      "want": true
+    },
+    {
+      "rune": 65279,
+      "want": false
+    }
+  ],
+  "split": [
+    {
+      "path": "",
+      "want": [
+        "",
+        ""
+      ]
+    },
+    {
+      "path": "a",
+      "want": [
+        "",
+        "a"
+      ]
+    },
+    {
+      "path": "/a",
+      "want": [
+        "/",
+        "a"
+      ]
+    },
+    {
+      "path": "a/b",
+      "want": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "path": "a/b/",
+      "want": [
+        "a/b",
+        ""
+      ]
+    },
+    {
+      "path": "//a",
+      "want": [
+        "//",
+        "a"
+      ]
+    },
+    {
+      "path": "///",
+      "want": [
+        "///",
+        ""
+      ]
+    },
+    {
+      "path": "a//b",
+      "want": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "path": "/a//b",
+      "want": [
+        "/a",
+        "b"
+      ]
+    },
+    {
+      "path": "a/",
+      "want": [
+        "a",
+        ""
+      ]
+    }
+  ]
+}

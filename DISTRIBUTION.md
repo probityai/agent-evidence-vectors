@@ -107,11 +107,11 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-authority-at-dispatch/` | `authority-at-dispatch/v1` | delegated authority judged at the moment of dispatch: revocation, expiry, stale evidence and scope amplification across hops, including denied records that dispatch exactly the approved bytes |
 | `vectors-chunked-export/` | `chunked-export/v1` | an export gate's decision on each chunk of a chunked export whose every step is reversible on its own: a count or a set-of-chunks reconstruction rule committed before the first chunk, and a seal that must state the composed class rather than the maximum of the per-step labels |
 | `vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
-| `vectors-done-contract/` | `done-contract/v1` | sealed contracts for a coding agent's task, valid and invalid, each invalid one under the code of the rule it breaks |
-| `vectors-done-receipt/` | `done-receipt/v1` | whole runs of a task and the receipts for them, including runs recorded from a real launcher, with a defect for every receipt and record rule |
-| `vectors-spoofed-tool-output/` | `spoofed-tool-output/v1` | an agent that prints a passing run and never runs it, against the observer's record, with the near misses |
-| `vectors-test-tampering/` | `test-tampering/v1` | edits of the files an agent is judged by, seen by the observer or lost to it and shown only by the final tree |
-| `vectors-grader-isolation/` | `grader-isolation/v1` | a result file or interpreter hook planted where the grader reads it, and a grade run on another tree or contract |
+| `vectors-done-contract/` | `done-contract/v2` | sealed contracts for a coding agent's task, valid and invalid, each invalid one under the code of the rule it breaks |
+| `vectors-done-receipt/` | `done-receipt/v2` | whole runs of a task in each corner of the receipt's two verdicts and the receipts for them, honest and forged, with a defect for every receipt and record rule |
+| `vectors-spoofed-tool-output/` | `spoofed-tool-output/v2` | an agent that prints a passing run and never runs it, or claims done without one, against the observer's record, with the near misses |
+| `vectors-test-tampering/` | `test-tampering/v2` | edits of the files an agent is judged by, seen by the observer or lost to it and shown only by the final tree |
+| `vectors-grader-isolation/` | `grader-isolation/v2` | a result file or interpreter hook planted where the grader reads it, and a grade run on another tree or contract |
 | `vectors-a2a-jcs-v01/` | `a2a-agent-card-canonicalization-conformance` | RFC 8785 canonical bytes and the bytes an A2A Agent Card signature covers, vendored byte for byte from a2aproject/a2a-tck at a locked commit and corpus digest |
 | `vectors-mcp-owasp/` | `owasp-mcp-verification-draft` | draft MCP verification requirements MCPVS-1 to MCPVS-12 and threats MCPTM-1 to MCPTM-10, minted once in one registry, with one accept and one reject observation per requirement |
 | `vectors-source-coverage/` | `source-text-coverage/v1` | selected source passages against a consumer-pinned capture, report, and time window |

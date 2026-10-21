@@ -1,6 +1,6 @@
 {
   "assessments": {
-    "planted-conftest": {
+    "planted-conftest-acceptance-passes": {
       "capability_witness": "capability",
       "claim_type": "protected_paths/v1",
       "contract_witness": "contract",
@@ -20,18 +20,18 @@
     "capability": {
       "artifact": "capability",
       "authority": "synthetic fixture",
-      "sha256": "e3a47f78e698f84c845433cfd8325a5e6ff8b756582077720c2fb77cb1d0a78e"
+      "sha256": "d5f9e9d92f995a28ce81f7d3e948c27f0b64bb866ae60096e6e0288fb3ee8094"
     },
     "contract": {
       "artifact": "contract",
       "authority": "synthetic fixture",
-      "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
       "artifact": "observation",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "8188fee99a5f2b0c18bb6ece88ad258977b4ddd552a7fb6348f1b0d3b1b8777d",
+      "sha256": "c2ea11fe6fa4d5def92cccc62a90da9d8ec1b29c56339896639c26b54a0ca6ec",
       "vantage": "independent",
       "witness_scope": "PEER"
     },
@@ -39,7 +39,7 @@
       "artifact": "tree",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "2f7006d6908cec397d2d22fbe616b61a5cd381bf4b1a9a62e757b007343d5876",
+      "sha256": "e629417607a746d7c2a1802c9f241a25fed2dca79f1644ac61487a938656b9b5",
       "vantage": "independent",
       "witness_scope": "PEER"
     }

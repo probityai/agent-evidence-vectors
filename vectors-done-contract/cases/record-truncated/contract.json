@@ -9,6 +9,16 @@
         "tests"
       ],
       "id": "unit"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "/heldout"
+      ],
+      "id": "heldout-unit"
     }
   ],
   "adequacy": {
@@ -16,5 +26,3 @@
     "mutants": 4
   },
   "contract_id": "contract-app-1",
-  "protected_paths": [
-   

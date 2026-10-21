@@ -17,6 +17,12 @@
         "-q",
         "tests"
       ],
+      "cwd": "/workspace",
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin",
+        "PYTHONSAFEPATH": "1"
+      },
+      "exe": "/usr/local/bin/python",
       "exit": 0,
       "id": "e2",
       "step": 2,
@@ -24,14 +30,16 @@
       "type": "exec"
     }
   ],
+  "external_mutations": [],
   "invocation_id": "call-1",
   "producer": "host-observer",
-  "schema_version": "probity-observation/v2",
+  "schema_version": "probity-observation/v3",
   "scope": {
     "end": "2026-10-17T00:10:00Z",
     "id": "run-1",
     "start": "2026-10-17T00:00:00Z"
   },
   "vantage": "self_reported",
-  "witness_scope": "PEER"
+  "witness_scope": "PEER",
+  "workspace_root": "/workspace"
 }
