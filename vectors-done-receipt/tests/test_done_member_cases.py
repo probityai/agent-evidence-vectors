@@ -40,7 +40,7 @@ CORPORA = {"vectors-done-receipt": donerun.RECEIPT_SUITE,
            "vectors-grader-isolation": donerun.GRADER_SUITE}
 ROLES = ("contract", "observation", "tree", "grade", "claims", "capability", "receipt")
 # Members of one verdict signature are alike; this many of each are changed.
-PER_SIGNATURE = 1
+PER_SIGNATURE = 4
 DELETE = object()
 
 

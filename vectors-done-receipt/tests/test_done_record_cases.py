@@ -34,7 +34,7 @@ CORPORA = ("vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-too
 PARSERS: dict[str, Callable[[bytes], Any]] = {
     "contract": rec.contract, "tree": rec.tree, "observation": rec.observation,
     "capability": rec.capability, "grade": rec.grade, "claims": rec.claims}
-BASES_PER_KIND = 3
+BASES_PER_KIND = 8
 # Values of the right type that a rule may refuse, tried in place of every string.
 STRINGS = ("", "x", "/abs", "../up", "a/./b", "A" * 64, "a" * 64, "2026-10-17T00:00:00Z",
            "2026-10-17T00:00:00", "tests", "-")
