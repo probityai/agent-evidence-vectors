@@ -525,11 +525,46 @@ def rule_empty_tree_holds_no_bytes(pred: dict[str, Any]) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
+def rule_coverage_unobserved_intervals(pred: dict[str, Any]) -> None:
+    """The sub-intervals an observer was not watching, located in time.
+
+    A monitor that attached after the call began, or stopped and restarted, was
+    blind to every path for a span it knows exactly. gaps locates by path and
+    notEstablished says coverage could not be determined, so neither is true of it.
+    Each span is an object carrying exactly from and to, both in the one timestamp
+    grammar, from strictly before to, inside the interval, and the list is ordered
+    with each span ending strictly before the next begins, so one blind span has
+    one spelling and every ordering check below is a lexical comparison.
+    """
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = coverage["unobservedIntervals"]
+    if not isinstance(spans, list):
+        raise Malformed("unobserved-interval-malformed")
+    for span in spans:
+        if not isinstance(span, dict) or set(span) != {"from", "to"}:
+            raise Malformed("unobserved-interval-malformed")
+        for bound in ("from", "to"):
+            _timestamp(span[bound], f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}")
+    interval = pred["interval"]
+    for span in spans:
+        if span["from"] >= span["to"]:
+            raise Malformed("unobserved-interval-not-ordered")
+        if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
+            raise Malformed("unobserved-interval-outside-interval")
+    for earlier, later in zip(spans, spans[1:]):
+        if earlier["to"] >= later["from"]:
+            raise Malformed("unobserved-intervals-not-disjoint")
+
+
 def rule_coverage_coherence(pred: dict[str, Any]) -> None:
     coverage = pred["observation"]["coverage"]
     _required(coverage, "scopeComplete", "gaps")
     if not coverage["scopeComplete"]:
         return
+    if coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-self-contradictory")
     for gap in coverage["gaps"]:
         if any(_under(gap, scope) for scope in pred["pathScope"]):
             raise Malformed("coverage-self-contradictory")
@@ -547,6 +582,7 @@ def rule_coverage_gaps_named(pred: dict[str, Any]) -> None:
     if (
         not coverage["scopeComplete"]
         and not coverage["gaps"]
+        and not coverage.get("unobservedIntervals")
         and "notEstablished" not in coverage
     ):
         raise Malformed("coverage-incomplete-without-gaps")
@@ -567,7 +603,7 @@ def rule_coverage_not_established_shape(pred: dict[str, Any]) -> None:
     reason = coverage["notEstablished"]
     if not isinstance(reason, str) or not reason.strip():
         raise Malformed("coverage-not-established-without-reason")
-    if coverage["scopeComplete"] or coverage["gaps"]:
+    if coverage["scopeComplete"] or coverage["gaps"] or coverage.get("unobservedIntervals"):
         raise Malformed("coverage-shape-ambiguous")
 
 
@@ -785,6 +821,7 @@ def rule_tier_recompute(pred: dict[str, Any]) -> None:
             _under(gap, scope) for gap in obs["coverage"]["gaps"] for scope in pred["pathScope"]
         ),
         "authoritative-coverage-not-established": "notEstablished" not in obs["coverage"],
+        "authoritative-interval-not-observed": not obs["coverage"].get("unobservedIntervals"),
     }
     # The prior-commitment clause is gone for the same reason, and it went the same
     # way: rule_prior_commitment_present refuses a below-observed record with no
@@ -852,6 +889,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_range_preimage", rule_range_preimage),
     ("rule_read_chain", rule_read_chain),
     ("rule_empty_tree_holds_no_bytes", rule_empty_tree_holds_no_bytes),
+    ("rule_coverage_unobserved_intervals", rule_coverage_unobserved_intervals),
     ("rule_coverage_coherence", rule_coverage_coherence),
     ("rule_coverage_not_established_shape", rule_coverage_not_established_shape),
     ("rule_coverage_gaps_named", rule_coverage_gaps_named),

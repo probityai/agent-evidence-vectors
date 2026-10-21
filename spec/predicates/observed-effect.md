@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.9.0
+Version: 0.10.0
 
 Predicate Name: Observed Effect
 
@@ -444,8 +444,9 @@ hold, and is `voluntary` otherwise.
 3.  `coverage.scopeComplete` is `true`, or every member of `coverage.gaps`
     names a path outside `pathScope`.
 4.  `coverage.notEstablished` is absent.
+5.  `coverage.unobservedIntervals` is absent or empty.
 
-There are four clauses and six were drafted. Both removals were forced by the
+There are five clauses, and seven were drafted. Both removals were forced by the
 mutation sweep in `vectors-observed-effect/mutation_check.py`, which disables one
 rule at a time and requires some member to stop being refused, and both removed
 clauses were **unreachable**.
@@ -474,7 +475,7 @@ the forgery. The clause is left as written rather than strengthened here for the
 reachability reason above: with the stage-one rule in place, no input reaches this
 clause vacuously.
 
-Separately, and deliberately not as a fourth clause, **a `tier: authoritative`
+Separately, and deliberately not as a further clause, **a `tier: authoritative`
 statement MUST carry at least one `reads` member or one `writes` member.** It is a
 gate rather than a clause so that its refusal names itself: the clauses above
 decide what independence means, and this one asks whether the record observed
@@ -692,10 +693,12 @@ determine its coverage of `pathScope` for the interval, and why: for example a
 kernel audit buffer that overflowed and dropped events without recording which
 paths they touched. A coverage statement therefore takes exactly one of three
 shapes: complete (`scopeComplete: true`, `gaps` naming no path inside
-`pathScope`); incomplete with every gap located (`scopeComplete: false`, `gaps`
-non-empty); or not established (`scopeComplete: false`, `gaps: []`,
-`notEstablished` carrying the reason). These are the three shapes of clause C7
-of the CoSAI WS4 Agent Containment paper.
+`pathScope`, no `unobservedIntervals`); incomplete with every gap located
+(`scopeComplete: false`, with the gaps located by path in `gaps`, by sub-interval
+in `unobservedIntervals`, or both); or not established (`scopeComplete: false`,
+`gaps: []`, no `unobservedIntervals`, `notEstablished` carrying the reason). These
+are the three shapes of clause C7 of the CoSAI WS4 Agent Containment paper, which
+locates a gap "by the path, field, resource or sub-interval it did not observe".
 
 Before this member existed an observer in that position had no true value to
 write. `scopeComplete: false` with an empty `gaps` is malformed, so it could only
@@ -709,6 +712,41 @@ completeness has said two things, and that record is malformed. The record also
 fails clause 4 of the `tier` recompute, so it grades voluntary, and an
 authoritative claim over it is invalid. The writes it carries were still seen by
 the observer: clause 4 decides only that the record cannot establish an absence.
+
+`coverage.unobservedIntervals` _array, optional_ locates a gap in time: each
+member is a span of the interval during which the observer observed nothing under
+`pathScope`. The case it exists for is a monitor that started watching after the
+protected call began. Its observer committed to the before-state at admission, so
+`priorCommitment` precedes `openedAt` as required, but its probe attached later, and
+for that span it was blind to every path. A path gap cannot locate that, and
+`notEstablished` would be false, because the observer knows exactly when it was not
+watching. A monitor that stopped and restarted inside the interval writes one span
+per outage. A path that was blind for only part of the interval is still named in
+`gaps`, which is conservative: it claims blindness for the whole interval on that
+path, and claims nothing it did not see.
+
+Each member is an object carrying exactly two members, `from` and `to`, both
+timestamps in the grammar under [Parsing Rules]. A span MUST satisfy three
+ordering rules: `from` is strictly before `to`, because a span of no width
+locates no time; `openedAt` is at or before `from` and `to` is at or before
+`sealedAt`, because a span outside the interval discloses a blind spot in time
+the record does not describe; and the list is ordered, with each span's `to`
+strictly before the next span's `from`, so one blind span has one spelling. Any other
+shape is malformed in stage one, including a span written as an ISO 8601
+interval string. Three coverage rules extend to the member. A non-empty
+`unobservedIntervals` beside `scopeComplete: true` is malformed for the reason a
+gap inside the scope is: complete coverage covers every path for the whole
+interval. Beside `notEstablished` it is malformed as a second coverage statement.
+And it locates the gap that `scopeComplete: false` requires, so a record whose only
+located gap is a span is not refused for naming no gap. Clause 5 of the `tier`
+recompute grades such a record voluntary, and an authoritative claim over it is
+invalid (A35). The writes it carries were seen after the observer attached, and
+they still count as independently observed; clause 5 decides only that the record
+cannot establish an absence over the time it names.
+
+Writes carry no timestamp, so a verifier cannot place a write inside or outside a
+span, and the predicate does not ask it to. What the member changes is the absence
+reading alone.
 
 `observedSigners` is the set of key identifiers the observed party signs its own
 records with, as the observer knows them. It is required and MAY be empty, and
@@ -1128,6 +1166,19 @@ absence over a scope it says it cannot speak for. Closed by clause 4. Two
 stage-one rules close the neighbouring shapes: a `notEstablished` with no reason,
 and a `notEstablished` beside a located gap or a claim of completeness.
 
+**A35. A late monitor graded authoritative. CLOSED.**
+`coverage.unobservedIntervals` naming the span before the observer attached, with
+`scopeComplete: false`, `gaps: []`, no `notEstablished`, and `tier:
+authoritative`. That is the claim that the protected call wrote nothing, made by
+a monitor that says it was not watching when the call began. No path gap is named
+and `notEstablished` is absent, so clauses 3 and 4 both hold, and without a further
+clause the record grades authoritative and establishes an absence over time its own
+observer did not see. Closed by clause 5. Stage-one rules close the neighbouring
+shapes: a span beside `scopeComplete: true` or `notEstablished`, a span outside the
+interval or of no width, spans that overlap or meet, a span bound outside the
+timestamp grammar, and a span that is not an object carrying exactly `from` and
+`to`.
+
 **A6. The self-refuting record. CLOSED, and it is the vector shape this
 repository lacked.** A record declares `mutation: none` with `beforeRoot` equal
 to `afterRoot`, and carries a `writes` member whose `postStateDigest` differs
@@ -1163,6 +1214,18 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.10.0 adds `coverage.unobservedIntervals`, which locates a coverage gap in time:
+the spans of the interval during which the observer observed nothing under
+`pathScope`, such as the seconds before a monitor attached to a call that had
+already begun. Clause 5 of the `tier` recompute grades such a record voluntary
+(A35), and stage-one rules fix the member's shape, its ordering inside the interval,
+and its exclusion beside `scopeComplete: true` or `notEstablished`. Every released
+member keeps its bytes and its verdict. What moves is a record with `scopeComplete:
+false`, `gaps: []` and a non-empty `unobservedIntervals`: a reader written to 0.9.0
+ignores the member and refuses the record for naming no gap, and a 0.10-aware reader
+judges it valid and voluntary. A verifier written to 0.9.0 refuses the new accept
+members, so the version moves in its minor position.
 
 0.9.0 adds the optional signed `invocationBinding` field and a consumer-computed
 exact call join, built on the same pattern as `codeDigest` in 0.5.0. The
