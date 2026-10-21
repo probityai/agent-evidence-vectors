@@ -1,0 +1,58 @@
+{
+  "approval": {
+    "approvalId": "appr-0001",
+    "approver": "agent:builder-assistant",
+    "clientId": "client-ide-7",
+    "event": "tools/call",
+    "expiresAt": "2026-10-21T12:05:00Z",
+    "issuedAt": "2026-10-21T11:55:00Z",
+    "keyId": "tool-argument:confirm_deletion",
+    "payloadSha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
+    "phase": "pre-execution",
+    "principal": "user:alice",
+    "target": "agent/root_agent.yaml",
+    "tool": "delete_files"
+  },
+  "consumedApprovalIds": [
+    "appr-0000"
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
+  "decisionTime": "2026-10-21T12:00:00Z",
+  "policyRelease": {
+    "firstServedAt": "2026-10-21T09:00:00Z",
+    "graceSeconds": 300,
+    "lastServedAt": "2026-10-21T12:30:00Z",
+    "lookup": "ok",
+    "releaseId": "policy-release-41"
+  },
+  "presentedApprovals": [
+    {
+      "approvalId": "appr-0001",
+      "approver": "agent:builder-assistant",
+      "clientId": "client-ide-7",
+      "event": "tools/call",
+      "expiresAt": "2026-10-21T12:05:00Z",
+      "issuedAt": "2026-10-21T11:55:00Z",
+      "keyId": "tool-argument:confirm_deletion",
+      "payloadSha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
+      "phase": "pre-execution",
+      "principal": "user:alice",
+      "target": "agent/root_agent.yaml",
+      "tool": "delete_files"
+    }
+  ],
+  "trustedKeys": {
+    "human:reviewer-1": "reviewer-1-key-2026-10"
+  },
+  "use": {
+    "approvalId": "appr-0001",
+    "clientId": "client-ide-7",
+    "event": "tools/call",
+    "payloadFile": "payload.bin",
+    "phase": "pre-execution",
+    "principal": "user:alice",
+    "target": "agent/root_agent.yaml",
+    "tool": "delete_files",
+    "usedAt": "2026-10-21T12:00:00Z"
+  }
+}

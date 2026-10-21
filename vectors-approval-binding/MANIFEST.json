@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
-  "corpusDigest": "8b4ee697cf9103703aa757ff8a1d5a2ca44e3a0feaf1ba1e2cc73943f5d0d1a1",
+  "corpusDigest": "49f077e5da1227669292e7524c1d3d52eb12c2b7ad58b09c0df27d19d00fb170",
   "suite": "approval-binding/v1",
   "vectors": [
     {
@@ -127,6 +127,20 @@
       },
       "id": "approval-key-not-approvers",
       "path": "cases/approval-key-not-approvers",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the only approval is a flag the model set in the tool arguments; its approver is the agent, which holds no key in trustedKeys",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_not_bound"
+      },
+      "files": {
+        "payload.bin": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd",
+        "record.json": "8a020f1c579d2f145192f7fd5a1dbc6f5f64601558e4ceff09740c712f615f50"
+      },
+      "id": "approval-asserted-in-tool-arguments",
+      "path": "cases/approval-asserted-in-tool-arguments",
       "useMatchesApproval": true
     },
     {
