@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"io"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -66,92 +65,187 @@ const (
 
 // --- strict JSON and member rules ---------------------------------------------------------
 
-// doneStrictJSON parses UTF-8 JSON, refusing a duplicate member and a non-JSON number.
+// doneStrictJSON parses UTF-8 JSON, refusing a duplicate member and a non-JSON number, in
+// the order Python's json.loads meets them: a non-JSON number is refused where the scanner
+// reaches it as a value, a duplicate member when its object closes (object_pairs_hook), and
+// anything else that is not JSON is invalid.
 func doneStrictJSON(data []byte, record string) (any, error) {
 	if !utf8.Valid(data) {
 		return nil, refuse(record + "_json_invalid")
 	}
-	dec := json.NewDecoder(bytes.NewReader(data))
-	dec.UseNumber()
-	value, err := doneDecode(dec, record)
-	if err == nil {
-		if _, extra := dec.Token(); !errors.Is(extra, io.EOF) {
-			err = refuse(record + "_json_invalid")
-		}
+	scan := &doneScanner{data: data, record: record}
+	value, err := scan.value(scan.space(0))
+	if err == nil && scan.space(scan.end) != len(data) {
+		err = errDoneJSON
 	}
-	if err != nil {
-		var refused *doneError
-		if errors.As(err, &refused) {
-			return nil, err
-		}
-		if doneHasConstant(data) {
-			return nil, refuse(record + "_json_number")
-		}
+	if errors.Is(err, errDoneJSON) {
 		return nil, refuse(record + "_json_invalid")
 	}
-	return value, nil
+	return value, err
 }
 
-func doneDecode(dec *json.Decoder, record string) (any, error) {
-	token, err := dec.Token()
-	if err != nil {
-		return nil, err
+var (
+	errDoneJSON   = errors.New("not JSON")
+	doneJSONNum   = regexp.MustCompile(`^-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?`)
+	doneConstants = []string{"NaN", "Infinity", "-Infinity"}
+	// doneLiterals and doneLiteralValues are JSON's three words and what each reads as.
+	doneLiterals      = []string{"null", "true", "false"}
+	doneLiteralValues = []any{nil, true, false}
+)
+
+// doneScanner is Python's json scanner over bytes; end is the offset after the last value.
+type doneScanner struct {
+	data   []byte
+	record string
+	end    int
+}
+
+func (s *doneScanner) space(at int) int {
+	for at < len(s.data) && strings.IndexByte(" \t\n\r", s.data[at]) >= 0 {
+		at++
 	}
-	delim, ok := token.(json.Delim)
-	if !ok {
-		return token, nil
+	return at
+}
+
+func (s *doneScanner) value(at int) (any, error) {
+	if at >= len(s.data) {
+		return nil, errDoneJSON
 	}
-	if delim == '[' {
-		list := []any{}
-		for dec.More() {
-			item, err := doneDecode(dec, record)
-			if err != nil {
-				return nil, err
+	rest := s.data[at:]
+	switch {
+	case rest[0] == '"':
+		return s.text(at)
+	case rest[0] == '{':
+		return s.object(at + 1)
+	case rest[0] == '[':
+		return s.array(at + 1)
+	}
+	for index, word := range doneLiterals {
+		if bytes.HasPrefix(rest, []byte(word)) {
+			s.end = at + len(word)
+			return doneLiteralValues[index], nil
+		}
+	}
+	if number := doneJSONNum.Find(rest); number != nil {
+		s.end = at + len(number)
+		return json.Number(number), nil
+	}
+	for _, constant := range doneConstants {
+		if bytes.HasPrefix(rest, []byte(constant)) {
+			return nil, refuse(s.record + "_json_number")
+		}
+	}
+	return nil, errDoneJSON
+}
+
+// text reads a string as Python's strict scanner does (no control character, only JSON
+// escapes); its value is what encoding/json makes of the same bytes.
+func (s *doneScanner) text(at int) (string, error) {
+	for index := at + 1; index < len(s.data); index++ {
+		switch c := s.data[index]; {
+		case c == '"':
+			var out string
+			if err := json.Unmarshal(s.data[at:index+1], &out); err != nil {
+				return "", errDoneJSON
 			}
-			list = append(list, item)
+			s.end = index + 1
+			return out, nil
+		case c < 0x20:
+			return "", errDoneJSON
+		case c == '\\':
+			index++
+			if index >= len(s.data) {
+				return "", errDoneJSON
+			}
+			if s.data[index] == 'u' {
+				if index+4 >= len(s.data) || !doneHex4(s.data[index+1:index+5]) {
+					return "", errDoneJSON
+				}
+				index += 4
+			} else if strings.IndexByte(`"\\/bfnrt`, s.data[index]) < 0 {
+				return "", errDoneJSON
+			}
 		}
-		_, err = dec.Token()
-		return list, err
 	}
+	return "", errDoneJSON
+}
+
+func doneHex4(digits []byte) bool {
+	for _, c := range digits {
+		if !strings.ContainsRune("0123456789abcdefABCDEF", rune(c)) {
+			return false
+		}
+	}
+	return true
+}
+
+func (s *doneScanner) object(at int) (any, error) {
 	object := doneObject{}
-	for dec.More() {
-		key, err := dec.Token()
+	duplicate := false
+	at = s.space(at)
+	if at < len(s.data) && s.data[at] == '}' {
+		s.end = at + 1
+		return object, nil
+	}
+	for {
+		if at >= len(s.data) || s.data[at] != '"' {
+			return nil, errDoneJSON
+		}
+		name, err := s.text(at)
 		if err != nil {
 			return nil, err
 		}
-		name, _ := key.(string)
+		at = s.space(s.end)
+		if at >= len(s.data) || s.data[at] != ':' {
+			return nil, errDoneJSON
+		}
+		item, err := s.value(s.space(at + 1))
+		if err != nil {
+			return nil, err
+		}
 		if _, seen := object[name]; seen {
-			return nil, refuse(record + "_json_duplicate_key")
-		}
-		item, err := doneDecode(dec, record)
-		if err != nil {
-			return nil, err
+			duplicate = true
 		}
 		object[name] = item
+		at = s.space(s.end)
+		if at < len(s.data) && s.data[at] == '}' {
+			break
+		}
+		if at >= len(s.data) || s.data[at] != ',' {
+			return nil, errDoneJSON
+		}
+		at = s.space(at + 1)
 	}
-	_, err = dec.Token()
-	return object, err
+	if duplicate {
+		return nil, refuse(s.record + "_json_duplicate_key")
+	}
+	s.end = at + 1
+	return object, nil
 }
 
-// doneHasConstant reports a bare NaN or Infinity outside any string.
-func doneHasConstant(data []byte) bool {
-	inString, escaped := false, false
-	for i := 0; i < len(data); i++ {
-		c := data[i]
-		switch {
-		case inString && escaped:
-			escaped = false
-		case inString && c == '\\':
-			escaped = true
-		case c == '"':
-			inString = !inString
-		case !inString && (bytes.HasPrefix(data[i:], []byte("NaN")) ||
-			bytes.HasPrefix(data[i:], []byte("Infinity")) ||
-			bytes.HasPrefix(data[i:], []byte("-Infinity"))):
-			return true
-		}
+func (s *doneScanner) array(at int) (any, error) {
+	list := []any{}
+	at = s.space(at)
+	if at < len(s.data) && s.data[at] == ']' {
+		s.end = at + 1
+		return list, nil
 	}
-	return false
+	for {
+		item, err := s.value(at)
+		if err != nil {
+			return nil, err
+		}
+		list = append(list, item)
+		at = s.space(s.end)
+		if at < len(s.data) && s.data[at] == ']' {
+			s.end = at + 1
+			return list, nil
+		}
+		if at >= len(s.data) || s.data[at] != ',' {
+			return nil, errDoneJSON
+		}
+		at = s.space(at + 1)
+	}
 }
 
 func doneFields(value any, record string, required []string, optional ...string) (doneObject, error) {

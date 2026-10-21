@@ -152,7 +152,33 @@ def cases() -> dict[str, Any]:
                     edit = {"op": "delete"} if new is DELETE else {"op": "set", "value": new}
                     out.append({"kind": kind, "base": index, "path": list(path), **edit,
                                 "want": verdict(kind, data)})
-    return {"bases": chosen, "cases": out}
+    return {"bases": chosen, "cases": out, "raw": raw_cases(chosen)}
+
+
+def raw_variants(data: bytes) -> list[bytes]:
+    """Byte-level breaks of one record that no structured edit can spell."""
+    first = data.index(b'":') + 2
+    key_end = data.index(b'"', 2)
+    duplicate = data[:1] + data[1:key_end + 1] + b":0," + data[1:]
+    number = data.replace(b":0", b":NaN", 1) if b":0" in data else data[:-1] + b',"n":NaN}'
+    return [
+        b"", b" ", b"[]", b"1", b'"x"', b"null", b"{}", data[:-1], data + b" {}", data + b"x",
+        data + b"\n", b"\xef\xbb\xbf" + data, data[:first] + b"\xff" + data[first:],
+        duplicate, number, data[:-1] + b',"n":Infinity}', data[:-1] + b',"n":-Infinity}',
+        data[:-1] + b',"n":-NaN}', data[:-1] + b',"n":NaN,}', data[:-1] + b',"a":0,"a":NaN}',
+        data[:-1] + b',"a":NaN,"a":0}', data[:-1] + b',"s":"\\"NaN",}', data[:-1] + b',"s":"NaN"x}',
+        data[:-1] + b',"s":"x\\\\"NaN}', data[:-1] + b',"o":{"a":1,"a":2}}',
+        data[:-1] + b',"o":[{"a":1,"a":NaN}]}', data[:-1] + b',"n":1e999}',
+        data[:-1] + b',"n":01}', data[:-1] + b',"s":"\\ud800"}', data[:-1] + b',"s":"\x01"}',
+    ]
+
+
+def raw_cases(chosen: dict[str, list[Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for kind, records in chosen.items():
+        for data in raw_variants(encode(records[0])):
+            out.append({"kind": kind, "hex": data.hex(), "want": verdict(kind, data)})
+    return out
 
 
 def encoded() -> bytes:
@@ -161,7 +187,10 @@ def encoded() -> bytes:
              for item in found["cases"]]
     bases_text = json.dumps(found["bases"], sort_keys=True, separators=(",", ":"),
                             ensure_ascii=True)
-    return ('{"bases":' + bases_text + ',\n"cases":[\n' + ",\n".join(lines) + "\n]}\n").encode()
+    raw = [json.dumps(item, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+           for item in found["raw"]]
+    return ('{"bases":' + bases_text + ',\n"cases":[\n' + ",\n".join(lines) + '\n],\n"raw":[\n'
+            + ",\n".join(raw) + "\n]}\n").encode()
 
 
 def test_the_go_record_cases_are_what_python_answers() -> None:

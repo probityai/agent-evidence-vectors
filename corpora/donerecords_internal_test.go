@@ -9,6 +9,7 @@ package corpora
 
 import (
 	"bytes"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -135,5 +136,46 @@ func TestDoneRecordsAgreeWithPython(t *testing.T) {
 	}
 	if answers["ok"] == 0 || len(answers) < 3 {
 		t.Fatalf("the cases reach too few answers: %v", answers)
+	}
+}
+
+// TestDoneRawRecordsAgreeWithPython holds the byte-level reading of a record (encoding,
+// duplicate members, non-JSON numbers, trailing data) to the Python reader's answers on
+// the raw cases of testdata/done-records.json.
+func TestDoneRawRecordsAgreeWithPython(t *testing.T) {
+	raw, err := os.ReadFile("testdata/done-records.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var fixture struct {
+		Raw []struct {
+			Kind string `json:"kind"`
+			Hex  string `json:"hex"`
+			Want string `json:"want"`
+		} `json:"raw"`
+	}
+	if err := json.Unmarshal(raw, &fixture); err != nil {
+		t.Fatal(err)
+	}
+	if len(fixture.Raw) < len(doneRecordParsers) {
+		t.Fatalf("done-records.json holds %d raw cases", len(fixture.Raw))
+	}
+	for index, item := range fixture.Raw {
+		parse, known := doneRecordParsers[item.Kind]
+		data, err := hex.DecodeString(item.Hex)
+		if !known || err != nil {
+			t.Fatalf("raw case %d: %s %v", index, item.Kind, err)
+		}
+		got := "ok"
+		if _, err := parse(data); err != nil {
+			var refused *doneError
+			if !errors.As(err, &refused) {
+				t.Fatalf("raw case %d: %s refused with no code: %v", index, item.Kind, err)
+			}
+			got = refused.code
+		}
+		if got != item.Want {
+			t.Errorf("raw case %d: %s %q: Go says %s, Python says %s", index, item.Kind, data, got, item.Want)
+		}
 	}
 }
