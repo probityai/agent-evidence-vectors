@@ -29,6 +29,10 @@ type doneMemberCase struct {
 	Want   int    `json:"want"`
 }
 
+// doneMemberDisagreements is how many disagreements the member test reports before it stops;
+// the cases number in the tens of thousands, and one wrong rule can disagree with most.
+const doneMemberDisagreements = 20
+
 var doneMemberSuites = map[string]string{
 	"vectors-done-receipt": doneReceiptSuite, "vectors-spoofed-tool-output": doneSpoofedSuite,
 	"vectors-test-tampering": doneTamperSuite, "vectors-grader-isolation": doneGraderSuite,
@@ -100,6 +104,7 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 		t.Fatalf("done-members.json.gz holds %d cases and %d answers", len(fixture.Cases), len(fixture.Wants))
 	}
 	base := t.TempDir()
+	disagreed := 0
 	for index, item := range fixture.Cases {
 		corpus := strings.SplitN(item.Member, "/", 2)[0]
 		suite, known := doneMemberSuites[corpus]
@@ -156,6 +161,9 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 			wantText, _ := json.Marshal(want)
 			t.Errorf("case %d: %s %s.json %v %s %v:\n Go     %s\n Python %s", index, item.Member,
 				item.Role, item.Path, item.Op, item.Value, gotText, wantText)
+			if disagreed++; disagreed == doneMemberDisagreements {
+				t.Fatalf("stopping after %d disagreements", disagreed)
+			}
 		}
 	}
 }
