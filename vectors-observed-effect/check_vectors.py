@@ -83,6 +83,13 @@ INVOCATION_BINDING_PROFILE = os.path.join(
 #: was not, a commitment stamped 2026-09-18T20:00:00-05:00 sorted before an interval
 #: that opened at 2026-09-19T00:00:00Z and was made an hour AFTER it.
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+#: strptime alone is not the grammar: it reads %H, %M and %S from one digit, so
+#: 2026-09-19T00:00:3Z parsed here while the packaged and Go rails refused it, and
+#: an unpadded second sorts after every padded one. issuedAt at 00:00:3Z passed the
+#: issued-before-sealed gate against a seal at 00:00:04Z on this rail alone. The
+#: digits are [0-9] rather than \d, which in Python also matches every other
+#: script's decimal digits, and strptime reads those as numbers too.
+TIMESTAMP_GRAMMAR = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 TIMESTAMP_MEMBERS = ("openedAt", "sealedAt")
 #: Facts a statement can recompute about itself. dualValues is the one member the
 #: predicate offers as catching a lying producer, and it caught nothing while the
@@ -191,7 +198,7 @@ def _under(path: str, scope: str) -> bool:
 
 
 def _timestamp(value: Any, code: str) -> datetime.datetime:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or not TIMESTAMP_GRAMMAR.match(value):
         raise Malformed(code)
     try:
         return datetime.datetime.strptime(value, TIMESTAMP_FORMAT)

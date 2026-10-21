@@ -1487,6 +1487,36 @@ add(
 )
 
 add(
+    "issued-at-with-an-unpadded-second",
+    "reject",
+    statement(predicate(intervalId="iv-0219", issuedAt="2026-09-19T00:00:3Z")),
+    ["oe-timestamp-grammar"],
+    "malformed",
+    ["timestamp-not-utc-basic:issuedAt"],
+    "2026-09-19T00:00:3Z is three seconds after the interval opened and one before it "
+    "sealed, and it sorts after the seal as a string, because a colon or a Z sorts "
+    "after every digit. A reader that parses a one-digit second passes the "
+    "issued-before-sealed gate on a record issued before its interval closed. The "
+    "reference checker read it that way while the other two rails refused it.",
+    parent=BASELINE,
+)
+
+add(
+    "issued-at-with-a-non-ascii-digit",
+    "reject",
+    statement(predicate(intervalId="iv-0220", issuedAt="2026-09-19T00:00:0\u0665Z")),
+    ["oe-timestamp-grammar"],
+    "malformed",
+    ["timestamp-not-utc-basic:issuedAt"],
+    "The last digit of the second is ARABIC-INDIC DIGIT FIVE. Python's \\d matches it "
+    "and strptime reads it as 5, so both Python rails parsed this record while the Go "
+    "rail refused it; it also sorts after every ASCII timestamp, so an issuedAt written "
+    "this way passes any issued-after-sealed comparison whatever instant it names. The "
+    "grammar's digits are ASCII.",
+    parent=BASELINE,
+)
+
+add(
     "write-path-escapes-with-dot-dot",
     "reject",
     statement(

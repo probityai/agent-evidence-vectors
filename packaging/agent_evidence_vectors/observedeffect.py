@@ -102,7 +102,10 @@ IJSON_LIMIT = 2**53
 #: strings, which is sound for exactly one grammar. The regular expression fixes
 #: the shape and the parse below fixes the calendar, because 2026-13-01T00:00:00Z
 #: matches the shape and names no day.
-TIMESTAMP_GRAMMAR = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+#: [0-9] rather than \d: Python's \d matches every script's decimal digits and
+#: strptime reads them as numbers, so 00:00:0\u0665Z parsed here while the Go rail
+#: refused it, and it sorts after every ASCII timestamp.
+TIMESTAMP_GRAMMAR = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 #: The object name of the empty tree per hash algorithm: the terminal case of

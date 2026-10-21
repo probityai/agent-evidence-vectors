@@ -52,11 +52,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "8d8da638d6f658bcb082f7f71ee15c3909f1bb8062aef75b0b7e462c2df5fc9a",
+  "corpusDigest": "06f0b24339bc33826f2ad88eeaab8f2ed203d79bca429c2a68c6393169fa2b1d",
   "counts": {
     "accept": 16,
     "indeterminate": 1,
-    "reject": 61
+    "reject": 63
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -701,6 +701,40 @@
       "kind": "reject",
       "parent": "v1c6fdd82db5229e4",
       "slug": "commitment-timestamp-with-an-offset"
+    },
+    {
+      "cites": "2026-09-19T00:00:3Z is three seconds after the interval opened and one before it sealed, and it sorts after the seal as a string, because a colon or a Z sorts after every digit. A reader that parses a one-digit second passes the issued-before-sealed gate on a record issued before its interval closed. The reference checker read it that way while the other two rails refused it.",
+      "conditions": [
+        "oe-timestamp-grammar"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:issuedAt"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3259056a84220c5e.json",
+      "id": "v3259056a84220c5e",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "issued-at-with-an-unpadded-second"
+    },
+    {
+      "cites": "The last digit of the second is ARABIC-INDIC DIGIT FIVE. Python's \\d matches it and strptime reads it as 5, so both Python rails parsed this record while the Go rail refused it; it also sorts after every ASCII timestamp, so an issuedAt written this way passes any issued-after-sealed comparison whatever instant it names. The grammar's digits are ASCII.",
+      "conditions": [
+        "oe-timestamp-grammar"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:issuedAt"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v82a3ba29e9f316d2.json",
+      "id": "v82a3ba29e9f316d2",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "issued-at-with-a-non-ascii-digit"
     },
     {
       "cites": "A write to /etc/shadow that starts with /srv/app/ and travels as in-scope. Containment was a string prefix, so the traversal did the work; the path is refused before any scope question is asked.",
