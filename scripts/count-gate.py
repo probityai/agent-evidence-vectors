@@ -2802,6 +2802,8 @@ MASKS = tuple(
         r"\b[A-F][0-9A-F](?:\s[0-9A-F]{2})+\b",
         r"%[0-9A-Fa-f]{2}",
         r"\b\d{1,3}(?:,\d{3})+[\s-]?bytes?\b",
+        # A NETWORK ADDRESS WITH A PORT (`1.2.3.4:80`): the port names a service.
+        r"\b\d{1,3}(?:\.\d{1,3}){3}:\d+\b",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and

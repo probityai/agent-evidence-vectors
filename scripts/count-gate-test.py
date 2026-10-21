@@ -1155,6 +1155,25 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "a percentage, an option value, an address port and a grouped byte size count nothing",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe floor is {TOTAL}% under --threshold {TOTAL}, the probe dials "
+            f"10.0.0.1:{TOTAL}, and the log holds 1,{TOTAL:03d} bytes.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a run of hex octets and a percent-encoded octet count nothing",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            "\nCESU-8 writes the surrogate as ED A0 80, and the URL carries it as %ED%A0%80.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "an exponent and a span of days count nothing",
         lambda root: append(
             root,
