@@ -21,6 +21,12 @@ regexes = [
 ]
 
 [[allowlists]]
+description = "HKDF outputs from the ACS specification's published example secret (vectors-acs-core)"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''derived_key_hex"\s*:\s*"[0-9a-f]{128}"''']
+
+[[allowlists]]
 description = "did:key identifiers (multibase public keys)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
