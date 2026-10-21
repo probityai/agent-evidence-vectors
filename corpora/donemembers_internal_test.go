@@ -32,6 +32,7 @@ type doneMemberCase struct {
 var doneMemberSuites = map[string]string{
 	"vectors-done-receipt": doneReceiptSuite, "vectors-spoofed-tool-output": doneSpoofedSuite,
 	"vectors-test-tampering": doneTamperSuite, "vectors-grader-isolation": doneGraderSuite,
+	"vectors-done-probes": doneProbesSuite,
 }
 
 func doneDecodeNumbers(data []byte, out any) error {

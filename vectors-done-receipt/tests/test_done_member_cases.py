@@ -37,7 +37,8 @@ FIXTURE = ROOT / "corpora" / "testdata" / "done-members.json.gz"
 CORPORA = {"vectors-done-receipt": donerun.RECEIPT_SUITE,
            "vectors-spoofed-tool-output": donerun.SPOOFED_SUITE,
            "vectors-test-tampering": donerun.TAMPERING_SUITE,
-           "vectors-grader-isolation": donerun.GRADER_SUITE}
+           "vectors-grader-isolation": donerun.GRADER_SUITE,
+           "vectors-done-probes": donerun.PROBES_SUITE}
 ROLES = ("contract", "observation", "tree", "grade", "claims", "capability", "receipt")
 # Members of one verdict signature are alike; this many of each are changed.
 PER_SIGNATURE = 4
