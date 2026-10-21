@@ -31,6 +31,7 @@ sys.path.insert(0, str(ROOT / "packaging"))
 sys.path.insert(0, str(ROOT / "vectors-done-receipt"))
 
 import bundle_lib as lib  # noqa: E402
+from agent_evidence_vectors import donerecords as rec  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 FIXTURE = ROOT / "corpora" / "testdata" / "done-members.json.gz"
@@ -90,6 +91,8 @@ def candidates(value: Any, pool: list[str]) -> list[Any]:
 
 
 def edit(base: Any, path: tuple[Any, ...], new: Any) -> Any:
+    if not path:
+        return copy.deepcopy(new)
     out = copy.deepcopy(base)
     parent = get(out, path[:-1])
     if new is DELETE:
@@ -97,6 +100,33 @@ def edit(base: Any, path: tuple[Any, ...], new: Any) -> Any:
     else:
         parent[path[-1]] = new
     return out
+
+
+def redirected_trees(tree: Any, contract: Any) -> Iterator[Any]:
+    """Final trees that put a link, a special file or a file where a protected entry is.
+
+    A single-leaf change cannot add an entry to a tree, and the tree's own digest covers
+    every entry, so these are whole records with the digest recomputed: a symlink or a
+    special file at each protected path, at each of its ancestors, under it and beside
+    it, and a regular file at the path of a protected directory."""
+    if not isinstance(tree, dict) or not isinstance(contract, dict):
+        return
+    for entry in contract.get("protected_paths", []):
+        path = entry["path"]
+        parts = path.split("/")
+        names = [path, f"{path}/x", f"{path}x",
+                 *("/".join(parts[:index]) for index in range(1, len(parts)))]
+        for name in names:
+            for member, value in (("symlinks", "elsewhere"), ("special", "fifo")):
+                changed = copy.deepcopy(tree)
+                changed[member] = {**changed[member], name: value}
+                changed["tree_sha256"] = rec.record_digest(changed)
+                yield changed
+        if entry["kind"] == "directory":
+            changed = copy.deepcopy(tree)
+            changed["files"] = {**changed["files"], path: "0" * 64}
+            changed["tree_sha256"] = rec.record_digest(changed)
+            yield changed
 
 
 def judged(suite: str, files: dict[str, bytes], declared: list[str]) -> Any:
@@ -148,6 +178,11 @@ def variants() -> Iterator[tuple[dict[str, Any], Any]]:
                                             "path": list(path)}
                     item.update({"op": "delete"} if new is DELETE else {"op": "set", "value": new})
                     yield item, (files, record, new, entry["checks"], CORPORA[corpus])
+            if role == "tree" and "contract.json" in files:
+                for new in redirected_trees(record, json.loads(files["contract.json"])):
+                    item = {"member": f"{corpus}/{entry['path']}", "role": role, "path": [],
+                            "op": "set", "value": new}
+                    yield item, (files, record, new, entry["checks"], CORPORA[corpus])
 
 
 def answer(item: dict[str, Any], context: Any) -> Any:
@@ -164,13 +199,16 @@ def selected() -> list[dict[str, Any]]:
     """For each member and record, the first change that reaches each distinct verdict set.
 
     The full sweep is about 47,000 changes; one per distinct answer keeps every verdict
-    the sweep reaches on every member and record, and the Go test reads it in seconds."""
+    the sweep reaches on every member and record, and the Go test reads it in seconds.
+    Whole-record changes are few and are all kept."""
     out: list[dict[str, Any]] = []
     seen: set[tuple[str, str, str]] = set()
     for item, context in variants():
         want = answer(item, context)
         key = (item["member"], item["role"], json.dumps(want, sort_keys=True))
-        if key not in seen:
+        # A whole-record change reaches its answer by a path no leaf change takes, so it
+        # is kept even when a leaf change already reached the same answer.
+        if key not in seen or not item["path"]:
             seen.add(key)
             out.append({**item, "want": want})
     return out
