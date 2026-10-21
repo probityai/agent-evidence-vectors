@@ -13,20 +13,18 @@
 useDefault = true
 
 [[allowlists]]
-description = "SHA-256 digests and hex public keys in key, signer and token fields"
+description = "64-hex SHA-256 digests and Ed25519 public keys in key, digest and credential fields"
 targetRules = ["generic-api-key"]
-regexTarget = "line"
+regexTarget = "match"
 regexes = [
-  '''(key-sha256|token_sha256|derived_key_hex|segment_signer_key|observerKey)["']?\s*[:=]\s*["'][0-9a-f]{64}["']''',
-  '''key: `[0-9a-f]{64}`''',
-  '''^KEY = "[0-9a-f]{64}"''',
+  '''(?i)[a-z0-9_-]*(key|digest|token_sha256)[a-z0-9_-]*["'`]?\s*[:=]\s*["'`][0-9a-f]{64}["'`]''',
 ]
 
 [[allowlists]]
-description = "did:key Ed25519 identifiers (public keys)"
+description = "did:key identifiers (multibase public keys)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"
-regexes = ['''key:z6Mk[1-9A-HJ-NP-Za-km-z]{44}''']
+regexes = ['''key:z[1-9A-HJ-NP-Za-km-z]{44,}''']
 
 [[allowlists]]
 description = "Type annotation, not a value"
