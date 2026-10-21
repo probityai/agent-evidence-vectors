@@ -2,8 +2,8 @@ package corpora
 
 // The Go done checks are held to the Python reader's verdicts on runs the corpora do not
 // hold. testdata/done-members.json.gz names corpus members and, for each, one change to one
-// record and the verdicts the Python reader derives once the consumer's pins move to the
-// changed bytes (written by vectors-done-receipt/tests/test_done_member_cases.py, which
+// record, case or policy and the verdicts the Python reader derives once the consumer's pins
+// move to a changed record's bytes (written by vectors-done-receipt/tests/test_done_member_cases.py, which
 // also checks it). This test makes the same change, moves the pins the same way and
 // requires the same verdicts.
 
@@ -130,7 +130,9 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 		if files[item.Role+".json"], err = doneEncoded(edited); err != nil {
 			t.Fatal(err)
 		}
-		donePinned(t, files, item.Role)
+		if !strings.HasSuffix(item.Role, ".case") && !strings.HasSuffix(item.Role, ".policy") {
+			donePinned(t, files, item.Role)
+		}
 		directory := filepath.Join(base, "m")
 		if err := os.RemoveAll(directory); err != nil {
 			t.Fatal(err)

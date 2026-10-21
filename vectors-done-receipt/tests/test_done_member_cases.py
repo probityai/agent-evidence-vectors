@@ -2,9 +2,9 @@
 
 A corpus member is one run, so each verdict rule of the done checks was reached by the few
 runs that the corpora hold. This file takes corpus members of every verdict, changes one
-member of one record in a way that keeps the record valid (a value removed, a string
-replaced by another string the run already uses, a number moved by one, a flag flipped, a
-list shortened or given a duplicate), moves the consumer's pins to the changed bytes, and
+member of one record, case or policy (a value removed, a string replaced by another string
+the file already uses, a number moved by one, a flag flipped, a list shortened or given a
+duplicate), moves the consumer's pins to a changed record's bytes, and
 keeps the verdicts the Python reader derives for every variant in
 ``corpora/testdata/done-members.json.gz`` (one change per member, record and distinct
 answer). The Go test ``TestDoneMembersAgreeWithPython``
@@ -131,7 +131,9 @@ def variants() -> Iterator[tuple[dict[str, Any], Any]]:
     for corpus, entry in bases():
         directory = ROOT / corpus / entry["path"]
         files = {path.name: path.read_bytes() for path in sorted(directory.iterdir())}
-        for role in ROLES:
+        bound = sorted(name[:-5] for name in files
+                       if name.endswith((".case.json", ".policy.json")))
+        for role in (*ROLES, *bound):
             name = f"{role}.json"
             if name not in files:
                 continue
@@ -152,6 +154,9 @@ def answer(item: dict[str, Any], context: Any) -> Any:
     files, record, new, declared, suite = context
     name = f"{item['role']}.json"
     changed = {**files, name: encode(edit(record, tuple(item["path"]), new))}
+    if item["role"].endswith((".case", ".policy")):
+        # Nothing pins a case or a policy; its own edit is the change judged.
+        return judged(suite, changed, declared)
     return judged(suite, lib.pinned(changed, item["role"]), declared)
 
 
