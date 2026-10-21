@@ -14,6 +14,17 @@ is false) or `NOT_ESTABLISHED` (the evidence cannot decide it).
 | `request_decision_correspondence` | The captured request is the pinned invocation, and the captured decision is bound to that invocation. Member order and the JSON-RPC id are not changes. Array order, scalar kind, tool name and argument values are. | That the decision was correct, or that every path to the tool passed the decision point. |
 | `observed_effect` | A bundle bound to the same invocation shows a dispatch, and a reader other than the tool observed the declared delta with strict scalar kinds. A dispatch after a bound deny is a contradiction. | That the observed object is the only effect, or that the reader is independent of the host. |
 
+One answer is derived from the axes and never judged on its own.
+`effect_under_authority` is `ESTABLISHED` when the decision bound to the
+invocation is an allow and the observed effect is `ESTABLISHED`. A bound deny
+or a contradicted effect makes it `CONTRADICTED`. A capture that binds no
+decision leaves it `NOT_ESTABLISHED` even when the effect was observed, because
+capture coverage is never established, so a missing allow is not evidence that
+none was given. This is why `observed_effect` can stay `ESTABLISHED` in
+`decision_absent`, `decision_bound_to_other_request` and `member_missing`: the
+effect was seen, and whether it ran under authority is the derived answer's
+question, not the effect axis's.
+
 Three properties are `NOT_ESTABLISHED` in every case, whatever a package says
 about itself: `capture_authenticity` (no capture attestation is checked),
 `capture_coverage` and `kernel_to_tool_attribution`. The case

@@ -11,6 +11,10 @@ A decision capture and an execution bundle can both name the same MCP
   dispatch and an independent observation of the declared delta.
 
 Each axis answers ``ESTABLISHED``, ``CONTRADICTED`` or ``NOT_ESTABLISHED``.
+One further answer is derived from the three and never judged on its own:
+``effect_under_authority`` holds only when an allow is bound to the invocation
+and its effect was observed. Observed effect stays a separate claim, so it can
+be ``ESTABLISHED`` while ``effect_under_authority`` is not.
 Three further properties are always ``NOT_ESTABLISHED`` here, whatever the
 inputs say about themselves: capture authenticity, capture coverage, and
 kernel-to-tool attribution. Nothing in a self-describing package can raise them.
@@ -38,6 +42,7 @@ AXES = (
     "request_decision_correspondence",
     "observed_effect",
 )
+DERIVED = ("effect_under_authority",)
 NON_CLAIMS = (
     "capture_authenticity",
     "capture_coverage",
@@ -264,6 +269,36 @@ def judge_effect(
     return _result(ESTABLISHED, "independent_observation_matches_declared_delta")
 
 
+def _authority(correspondence: dict[str, Any]) -> str:
+    """A bound allow, a bound deny, or no decision this capture can bind."""
+    if correspondence["result"] != ESTABLISHED:
+        return NOT_ESTABLISHED
+    return ESTABLISHED if correspondence.get("decision") == "allow" else CONTRADICTED
+
+
+def judge_effect_under_authority(
+    correspondence: dict[str, Any], effect: dict[str, Any]
+) -> dict[str, Any]:
+    """Derived: the observed effect of this invocation under an allow bound to it.
+
+    This is the conjunction of two answers, in three values. A bound deny or a
+    contradicted effect makes it ``CONTRADICTED``. A capture that binds no
+    decision leaves it ``NOT_ESTABLISHED`` even when the effect is observed:
+    capture coverage is never established here, so a missing allow is not
+    evidence that none was given.
+    """
+    authority = _authority(correspondence)
+    if authority == CONTRADICTED:
+        return _result(CONTRADICTED, "deny_bound_to_invocation")
+    if effect["result"] == CONTRADICTED:
+        return _result(CONTRADICTED, "effect_contradicted")
+    if authority != ESTABLISHED:
+        return _result(NOT_ESTABLISHED, "no_allow_bound_to_invocation")
+    if effect["result"] != ESTABLISHED:
+        return _result(NOT_ESTABLISHED, "effect_not_established")
+    return _result(ESTABLISHED, "allow_bound_and_effect_observed")
+
+
 def evaluate(invocation: Any, case: dict[str, Any]) -> dict[str, Any]:
     """Judge one case. ``case['expected']`` is never read here."""
     binding = invocation_binding(invocation)
@@ -276,6 +311,7 @@ def evaluate(invocation: Any, case: dict[str, Any]) -> dict[str, Any]:
         "package_integrity": integrity,
         "request_decision_correspondence": correspondence,
         "observed_effect": effect,
+        "effect_under_authority": judge_effect_under_authority(correspondence, effect),
     }
     for prop in NON_CLAIMS:
         out[prop] = _result(NOT_ESTABLISHED, "outside_this_corpus")
@@ -283,5 +319,5 @@ def evaluate(invocation: Any, case: dict[str, Any]) -> dict[str, Any]:
 
 
 def summary(actual: dict[str, Any]) -> dict[str, str]:
-    """The per-axis and non-claim result words, in a fixed order."""
-    return {key: actual[key]["result"] for key in (*AXES, *NON_CLAIMS)}
+    """The per-axis, derived and non-claim result words, in a fixed order."""
+    return {key: actual[key]["result"] for key in (*AXES, *DERIVED, *NON_CLAIMS)}

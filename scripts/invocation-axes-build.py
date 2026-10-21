@@ -118,11 +118,14 @@ def _execution(**override: Any) -> dict[str, Any]:
     return bundle
 
 
-def _expect(integrity: str, correspondence: str, effect: str) -> dict[str, str]:
+def _expect(
+    integrity: str, correspondence: str, effect: str, under_authority: str
+) -> dict[str, str]:
     return {
         "package_integrity": integrity,
         "request_decision_correspondence": correspondence,
         "observed_effect": effect,
+        "effect_under_authority": under_authority,
         "capture_authenticity": N,
         "capture_coverage": N,
         "kernel_to_tool_attribution": N,
@@ -190,7 +193,7 @@ def _cases() -> list[dict[str, Any]]:
             "The pinned package and a bundle for the same call; every axis holds.",
             _capture(_objects()),
             _execution(),
-            _expect(E, E, E),
+            _expect(E, E, E, E),
         ),
         (
             "one_byte_changed_in_member",
@@ -199,7 +202,7 @@ def _cases() -> list[dict[str, Any]]:
             " The effect bundle is judged on its own.",
             _one_byte_changed(),
             _execution(),
-            _expect(C, N, E),
+            _expect(C, N, E, N),
         ),
         (
             "manifest_rewritten_to_cover_change",
@@ -207,7 +210,7 @@ def _cases() -> list[dict[str, Any]]:
             "A consistent package for a different tool, presented under the original pin.",
             _manifest_rewritten(),
             _execution(),
-            _expect(C, N, E),
+            _expect(C, N, E, N),
         ),
         (
             "member_missing",
@@ -215,7 +218,7 @@ def _cases() -> list[dict[str, Any]]:
             "decision.json is listed but absent.",
             _missing_member(),
             _execution(),
-            _expect(C, N, E),
+            _expect(C, N, E, N),
         ),
         (
             "unlisted_member_added",
@@ -223,7 +226,7 @@ def _cases() -> list[dict[str, Any]]:
             "An extra member the manifest does not list.",
             _unlisted_member(),
             _execution(),
-            _expect(C, N, E),
+            _expect(C, N, E, N),
         ),
         (
             "unpinned_self_consistent",
@@ -231,7 +234,7 @@ def _cases() -> list[dict[str, Any]]:
             "Every member matches its manifest, but no digest was pinned beforehand.",
             _capture(_objects(), pinned=False),
             _execution(),
-            _expect(N, N, E),
+            _expect(N, N, E, N),
         ),
         (
             "package_claims_complete_coverage",
@@ -249,7 +252,7 @@ def _cases() -> list[dict[str, Any]]:
                 )
             ),
             _execution(),
-            _expect(E, E, E),
+            _expect(E, E, E, E),
         ),
         (
             "argument_members_reordered",
@@ -257,7 +260,7 @@ def _cases() -> list[dict[str, Any]]:
             "Object member order and JSON-RPC id differ; the call is the same.",
             _capture(_objects(_reordered_request())),
             _execution(),
-            _expect(E, E, E),
+            _expect(E, E, E, E),
         ),
         (
             "argument_value_changed",
@@ -265,7 +268,7 @@ def _cases() -> list[dict[str, Any]]:
             "The captured request closes a different state than the pinned call.",
             _capture(_objects(_changed_argument())),
             _execution(),
-            _expect(E, C, E),
+            _expect(E, C, E, N),
         ),
         (
             "hop_metadata_added",
@@ -274,7 +277,7 @@ def _cases() -> list[dict[str, Any]]:
             " context) and a new JSON-RPC id; the call is the same.",
             _capture(_objects(_hop_meta())),
             _execution(),
-            _expect(E, E, E),
+            _expect(E, E, E, E),
         ),
         (
             "argument_moved_into_meta",
@@ -283,7 +286,7 @@ def _cases() -> list[dict[str, Any]]:
             " _meta does not hide the change.",
             _capture(_objects(_argument_moved_into_meta())),
             _execution(),
-            _expect(E, C, E),
+            _expect(E, C, E, N),
         ),
         (
             "array_order_changed",
@@ -291,7 +294,7 @@ def _cases() -> list[dict[str, Any]]:
             "Label order is part of the call.",
             _capture(_objects(_labels_reversed())),
             _execution(),
-            _expect(E, C, E),
+            _expect(E, C, E, N),
         ),
         (
             "tool_name_changed",
@@ -299,7 +302,7 @@ def _cases() -> list[dict[str, Any]]:
             "The captured request names another tool.",
             _capture(_objects(_request(name="delete_ticket"))),
             _execution(),
-            _expect(E, C, E),
+            _expect(E, C, E, N),
         ),
         (
             "decision_bound_to_other_request",
@@ -309,7 +312,7 @@ def _cases() -> list[dict[str, Any]]:
                 {"request.json": _dump(_request()), "decision.json": _decision(binding=other)}
             ),
             _execution(),
-            _expect(E, C, E),
+            _expect(E, C, E, N),
         ),
         (
             "decision_absent",
@@ -317,7 +320,7 @@ def _cases() -> list[dict[str, Any]]:
             "An intact package that retains the request and no decision.",
             _capture({"request.json": _dump(_request())}),
             _execution(),
-            _expect(E, N, E),
+            _expect(E, N, E, N),
         ),
         (
             "deny_and_not_dispatched",
@@ -325,7 +328,7 @@ def _cases() -> list[dict[str, Any]]:
             "A bound deny, and a bundle that shows no dispatch.",
             _capture(_objects(verdict="deny")),
             _execution(dispatch=not_dispatched, execution_report=None, observation=None),
-            _expect(E, E, N),
+            _expect(E, E, N, C),
         ),
         (
             "bundle_for_other_call",
@@ -333,7 +336,7 @@ def _cases() -> list[dict[str, Any]]:
             "The execution bundle is bound to another call.",
             _capture(_objects()),
             _execution(call_binding=other),
-            _expect(E, E, C),
+            _expect(E, E, C, C),
         ),
         (
             "dispatched_after_deny",
@@ -341,7 +344,7 @@ def _cases() -> list[dict[str, Any]]:
             "The capture binds a deny and the bundle shows a dispatch.",
             _capture(_objects(verdict="deny")),
             _execution(),
-            _expect(E, E, C),
+            _expect(E, E, C, C),
         ),
         (
             "observation_contradicts_delta",
@@ -354,7 +357,7 @@ def _cases() -> list[dict[str, Any]]:
                     "fields": {"status": "open", "reopen_count": 0},
                 }
             ),
-            _expect(E, E, C),
+            _expect(E, E, C, C),
         ),
         (
             "bool_is_not_integer",
@@ -367,7 +370,7 @@ def _cases() -> list[dict[str, Any]]:
                     "fields": {"status": "closed", "reopen_count": False},
                 }
             ),
-            _expect(E, E, C),
+            _expect(E, E, C, C),
         ),
         (
             "success_reported_without_dispatch",
@@ -375,7 +378,7 @@ def _cases() -> list[dict[str, Any]]:
             "A success report with no dispatch.",
             _capture(_objects()),
             _execution(dispatch=not_dispatched),
-            _expect(E, E, C),
+            _expect(E, E, C, C),
         ),
         (
             "observation_absent",
@@ -383,7 +386,7 @@ def _cases() -> list[dict[str, Any]]:
             "Dispatched and reported, never read back.",
             _capture(_objects()),
             _execution(observation=None),
-            _expect(E, E, N),
+            _expect(E, E, N, N),
         ),
         (
             "observation_from_the_tool",
@@ -393,7 +396,7 @@ def _cases() -> list[dict[str, Any]]:
             _execution(
                 observation={"source": "tool", "fields": {"status": "closed", "reopen_count": 0}}
             ),
-            _expect(E, E, N),
+            _expect(E, E, N, N),
         ),
         (
             "vacuous_postcondition",
@@ -401,7 +404,7 @@ def _cases() -> list[dict[str, Any]]:
             "No declared fields, so nothing can be observed.",
             _capture(_objects()),
             _execution(postcondition={"tool_id": "update_ticket", "expected_fields": {}}),
-            _expect(E, E, N),
+            _expect(E, E, N, N),
         ),
         (
             "no_execution_bundle",
@@ -409,7 +412,7 @@ def _cases() -> list[dict[str, Any]]:
             "A capture with no execution evidence at all.",
             _capture(_objects()),
             None,
-            _expect(E, E, N),
+            _expect(E, E, N, N),
         ),
     ]
     return [
@@ -443,6 +446,13 @@ def render() -> dict[str, str]:
                 " the JSON-RPC id, version tag and params._meta are excluded"
             ),
             "result_vocabulary": ["ESTABLISHED", "CONTRADICTED", "NOT_ESTABLISHED"],
+            "derived": {
+                "effect_under_authority": (
+                    "observed effect of this invocation under an allow bound to it;"
+                    " a bound deny or a contradicted effect contradicts it, and a"
+                    " capture that binds no decision leaves it not established"
+                )
+            },
             "non_claims": [
                 "capture_authenticity",
                 "capture_coverage",
