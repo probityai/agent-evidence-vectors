@@ -204,12 +204,35 @@
           "exit-code": 0,
           "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
         },
+        "swapped-in": "e6fc2d9f4b184cb69ce1b554a7dca8c669581b35f24606ac05644e22cf605b8c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-done-receipt/tests/test_done_event_cases.py",
+      "serialization": "bytes",
+      "sha256": "41eed818829c04511753c8464775924643d2f28223c58c1ac89f3a0fb1629725"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "606989df9fbee1a39cde9cc4b1ee64beb3f84ce326325e0dd789055936060b0b"
+        },
         "swapped-in": "a269b1df813dee1e11d91594de8e78d4aab6748a857b70c070ca06a8f244af61",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-receipt/tests/test_done_member_cases.py",
       "serialization": "bytes",
-      "sha256": "89882aa426bbcc5cae4f0965d45323cbdf54ad7b559a4f3b7cf298311ad0ce5d"
+      "sha256": "0c08e8dfe76f3ff9a6836e312ef252ccfeaf9ce17742ec9c3a9771d536bbad81"
     },
     {
       "consumed": "unconsumed",
@@ -232,7 +255,7 @@
       },
       "path": "vectors-done-receipt/tests/test_done_record_cases.py",
       "serialization": "bytes",
-      "sha256": "095e7749d4ab17a931e4f3abdb0d3af7117bba53ebb76539d8f8792bb8e63da4"
+      "sha256": "04652ce04900e692dddaa747139866c49eec35b4d0ba34883b3afcc3c4eba0c0"
     }
   ],
   "boundary": {
@@ -284,7 +307,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "033e09733df9b6f5a3128b43f6370257da198c23ed47845bbd0b13d9895bb276"
+      "sha256": "f1ed59a93dda208bd82f9f33a67d4c146f417324824469a9c5a79585f0862a82"
     },
     "runtime": {
       "name": "go",
@@ -2117,7 +2140,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b6c9d7724197edd92a46aa35c56d3551f5d7676b5df0ca44ac86280a7223993a"
+    "sha256": "dbad5adf0a91c9b831a73689fd76aa29d948a18b225d5d142404e9ee4658a09a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
