@@ -13,14 +13,16 @@ import (
 	"testing"
 )
 
+type doneStartedCase struct {
+	Event   doneObject `json:"event"`
+	Started []any      `json:"started"`
+	Zero    *string    `json:"zero"`
+	Replace []string   `json:"replacing"`
+	Safe    *bool      `json:"safe"`
+}
+
 type doneEventFixture struct {
-	Started []struct {
-		Event   doneObject `json:"event"`
-		Started []any      `json:"started"`
-		Zero    *string    `json:"zero"`
-		Replace []string   `json:"replacing"`
-		Safe    *bool      `json:"safe"`
-	} `json:"started"`
+	Started  []doneStartedCase `json:"started"`
 	TopLevel []struct {
 		Name      string `json:"name"`
 		Directory string `json:"directory"`
@@ -76,7 +78,8 @@ func doneSortedKeys(set map[string]bool) []string {
 	return out
 }
 
-func TestDoneEventsAgreeWithPython(t *testing.T) {
+func loadDoneEvents(t *testing.T) doneEventFixture {
+	t.Helper()
 	raw, err := os.ReadFile("testdata/done-events.json")
 	if err != nil {
 		t.Fatal(err)
@@ -90,33 +93,49 @@ func TestDoneEventsAgreeWithPython(t *testing.T) {
 		len(cases.Links) == 0 {
 		t.Fatal("a section of done-events.json is empty")
 	}
+	return cases
+}
+
+func TestDoneEventsAgreeWithPython(t *testing.T) {
+	cases := loadDoneEvents(t)
+	checkDoneStarted(t, cases)
+	checkDoneNames(t, cases)
+	checkDoneWrites(t, cases)
+}
+
+func checkDoneStartedOne(t *testing.T, item doneStartedCase) {
+	t.Helper()
+	started, ok := doneStartedOf(item.Event)
+	if (item.Started != nil) != ok {
+		t.Errorf("started(%v): ran %v, Python gives %v", item.Event, ok, item.Started)
+		return
+	}
+	if !ok {
+		return
+	}
+	var mode, value any
+	if started.mode != "" {
+		mode = started.mode
+	}
+	if started.has {
+		value = started.value
+	}
+	got := []any{}
+	for _, flag := range doneSortedKeys(started.flags) {
+		got = append(got, flag)
+	}
+	if !reflect.DeepEqual(got, item.Started[0].([]any)) || mode != item.Started[1] || value != item.Started[2] {
+		t.Errorf("started(%v): got %v %v %v, Python gives %v", item.Event, got, mode, value, item.Started)
+	}
+	if safe := doneSafe(started.flags, item.Event); item.Safe == nil || safe != *item.Safe {
+		t.Errorf("safe(%v): got %v, Python gives %v", item.Event, safe, item.Safe)
+	}
+}
+
+func checkDoneStarted(t *testing.T, cases doneEventFixture) {
+	t.Helper()
 	for _, item := range cases.Started {
-		started, ok := doneStartedOf(item.Event)
-		if (item.Started != nil) != ok {
-			t.Errorf("started(%v): ran %v, Python gives %v", item.Event, ok, item.Started)
-			continue
-		}
-		if ok {
-			flags := doneSortedKeys(started.flags)
-			var mode, value any
-			if started.mode != "" {
-				mode = started.mode
-			}
-			if started.has {
-				value = started.value
-			}
-			want := item.Started[0].([]any)
-			got := []any{}
-			for _, flag := range flags {
-				got = append(got, flag)
-			}
-			if !reflect.DeepEqual(got, want) || mode != item.Started[1] || value != item.Started[2] {
-				t.Errorf("started(%v): got %v %v %v, Python gives %v", item.Event, got, mode, value, item.Started)
-			}
-			if safe := doneSafe(started.flags, item.Event); item.Safe == nil || safe != *item.Safe {
-				t.Errorf("safe(%v): got %v, Python gives %v", item.Event, safe, item.Safe)
-			}
-		}
+		checkDoneStartedOne(t, item)
 		zero, found := donePythonPathZero(item.Event)
 		if found != (item.Zero != nil) || (found && zero != *item.Zero) {
 			t.Errorf("pathzero(%v): got %q %v, Python gives %v", item.Event, zero, found, item.Zero)
@@ -125,6 +144,10 @@ func TestDoneEventsAgreeWithPython(t *testing.T) {
 			t.Errorf("replacing(%v): got %v, Python gives %v", item.Event, replacing, item.Replace)
 		}
 	}
+}
+
+func checkDoneNames(t *testing.T, cases doneEventFixture) {
+	t.Helper()
 	for _, item := range cases.TopLevel {
 		if got := doneTopLevel(item.Name, item.Directory); got != item.Want {
 			t.Errorf("toplevel(%q, %q): got %q, Python gives %q", item.Name, item.Directory, got, item.Want)
@@ -140,6 +163,10 @@ func TestDoneEventsAgreeWithPython(t *testing.T) {
 			t.Errorf("excused(%q, %q): got %v, Python gives %v", item.Name, item.Allowed, got, item.Want)
 		}
 	}
+}
+
+func checkDoneWrites(t *testing.T, cases doneEventFixture) {
+	t.Helper()
 	for _, item := range cases.Importable {
 		got := doneImportableWrites(item.Directory, doneSet(item.Written), doneSet(item.Links), item.Allowed)
 		if !reflect.DeepEqual(got, item.Want) {
