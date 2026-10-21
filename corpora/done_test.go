@@ -118,3 +118,38 @@ func TestDoneDamagedManifestIsAFinding(t *testing.T) {
 		})
 	}
 }
+
+func TestDoneRefusedCheckIsAnError(t *testing.T) {
+	member := filepath.Join(corpusPath("vectors-done-receipt"), "cases", "receipt-type-wrong")
+	verdict, err := corpora.DoneCheck("done_receipt/v2", member)
+	if err == nil || verdict != nil || !strings.Contains(err.Error(), "receipt_type_wrong") {
+		t.Fatalf("want the receipt_type_wrong refusal as an error, got %v, %v", verdict, err)
+	}
+}
+
+func TestDoneManifestThatDoesNotParse(t *testing.T) {
+	for _, tc := range []struct{ name, manifest, want string }{
+		{"vectors of the wrong type", `{"suite":"done-receipt/v2","vectors":"x"}`, "error"},
+		{"a row that is not an object", `{"suite":"done-receipt/v2","vectors":[1]}`, "a manifest row does not parse"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			dir := t.TempDir()
+			if err := os.WriteFile(filepath.Join(dir, corpora.ManifestName), []byte(tc.manifest), 0o600); err != nil {
+				t.Fatal(err)
+			}
+			result, err := corpora.Judge(dir)
+			if tc.want == "error" {
+				if err == nil || !strings.Contains(err.Error(), "does not parse") {
+					t.Fatalf("want a parse error, got %v, %v", result, err)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatal(err)
+			}
+			if len(result.Members) != 0 || len(result.Findings) == 0 || !strings.Contains(result.Findings[0], tc.want) {
+				t.Fatalf("want only the finding %q, got members %v findings %v", tc.want, result.Members, result.Findings)
+			}
+		})
+	}
+}
