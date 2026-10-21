@@ -30,6 +30,7 @@ import base64
 import datetime
 import hashlib
 import inspect
+import itertools
 import json
 import os
 import re
@@ -532,20 +533,9 @@ def rule_empty_tree_holds_no_bytes(pred: dict[str, Any]) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
-def rule_coverage_unobserved_intervals(pred: dict[str, Any]) -> None:
-    """The sub-intervals an observer was not watching, located in time.
-
-    A monitor that attached after the call began, or stopped and restarted, was
-    blind to every path for a span it knows exactly. gaps locates by path and
-    notEstablished says coverage could not be determined, so neither is true of it.
-    Each span is an object carrying exactly from and to, both in the one timestamp
-    grammar, from strictly before to, inside the interval, and the list is ordered
-    with each span ending strictly before the next begins, so one blind span has
-    one spelling and every ordering check below is a lexical comparison.
-    """
-    coverage = pred["observation"]["coverage"]
-    if "unobservedIntervals" not in coverage:
-        return
+def _unobserved_spans(coverage: dict[str, Any]) -> list[dict[str, str]]:
+    """The spans in unobservedIntervals, each an object of exactly from and to,
+    both in the one timestamp grammar; anything else is malformed."""
     spans = coverage["unobservedIntervals"]
     if not isinstance(spans, list):
         raise Malformed("unobserved-interval-malformed")
@@ -553,14 +543,32 @@ def rule_coverage_unobserved_intervals(pred: dict[str, Any]) -> None:
         if not isinstance(span, dict) or set(span) != {"from", "to"}:
             raise Malformed("unobserved-interval-malformed")
         for bound in ("from", "to"):
-            _timestamp(span[bound], f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}")
+            code = f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}"
+            _timestamp(span[bound], code)
+    return spans
+
+
+def rule_coverage_unobserved_intervals(pred: dict[str, Any]) -> None:
+    """The sub-intervals an observer was not watching, located in time.
+
+    A monitor that attached after the call began, or stopped and restarted, was
+    blind to every path for a span it knows exactly. gaps locates by path and
+    notEstablished says coverage could not be determined, so neither is true of it.
+    Each span runs from strictly before to, inside the interval, and the list is
+    ordered with each span ending strictly before the next begins, so one blind
+    span has one spelling and every ordering check here is a lexical comparison.
+    """
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = _unobserved_spans(coverage)
     interval = pred["interval"]
     for span in spans:
         if span["from"] >= span["to"]:
             raise Malformed("unobserved-interval-not-ordered")
         if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
             raise Malformed("unobserved-interval-outside-interval")
-    for earlier, later in zip(spans, spans[1:]):
+    for earlier, later in itertools.pairwise(spans):
         if earlier["to"] >= later["from"]:
             raise Malformed("unobserved-intervals-not-disjoint")
 

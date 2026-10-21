@@ -52,6 +52,7 @@ import base64
 import datetime
 import hashlib
 import importlib
+import itertools
 import json
 import os
 import re
@@ -801,19 +802,9 @@ def _rule_empty_tree_holds_no_bytes(state: _State) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
-def _rule_coverage_unobserved_intervals(state: _State) -> None:
-    """The spans an observer was not watching, located in time.
-
-    A monitor that attached after the call began was blind to every path for a
-    span it knows exactly, so neither a path gap nor ``notEstablished`` is true of
-    it. Each span is an object carrying exactly ``from`` and ``to`` in the one
-    timestamp grammar, ``from`` strictly before ``to``, inside the interval, and
-    the list is ordered with each span ending strictly before the next begins.
-    """
-    pred = state.predicate
-    coverage = pred["observation"]["coverage"]
-    if "unobservedIntervals" not in coverage:
-        return
+def _unobserved_spans(coverage: dict[str, Any]) -> list[dict[str, str]]:
+    """The spans in ``unobservedIntervals``, each an object of exactly ``from`` and
+    ``to``, both in the one timestamp grammar; anything else is malformed."""
     spans = coverage["unobservedIntervals"]
     if not isinstance(spans, list):
         raise Malformed("unobserved-interval-malformed")
@@ -825,13 +816,29 @@ def _rule_coverage_unobserved_intervals(state: _State) -> None:
                 raise Malformed(
                     f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}"
                 )
+    return spans
+
+
+def _rule_coverage_unobserved_intervals(state: _State) -> None:
+    """The spans an observer was not watching, located in time.
+
+    A monitor that attached after the call began was blind to every path for a
+    span it knows exactly, so neither a path gap nor ``notEstablished`` is true of
+    it. Each span runs from strictly before to, inside the interval, and the list
+    is ordered with each span ending strictly before the next begins.
+    """
+    pred = state.predicate
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = _unobserved_spans(coverage)
     interval = pred["interval"]
     for span in spans:
         if span["from"] >= span["to"]:
             raise Malformed("unobserved-interval-not-ordered")
         if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
             raise Malformed("unobserved-interval-outside-interval")
-    for earlier, later in zip(spans, spans[1:]):
+    for earlier, later in itertools.pairwise(spans):
         if earlier["to"] >= later["from"]:
             raise Malformed("unobserved-intervals-not-disjoint")
 
