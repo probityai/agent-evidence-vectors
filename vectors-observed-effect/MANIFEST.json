@@ -21,6 +21,7 @@
     "oe-coverage-contradiction": "coverage: scopeComplete true with a gap inside pathScope is malformed",
     "oe-coverage-named": "coverage: an incomplete observation names where it was blind (attack A25)",
     "oe-coverage-not-established": "coverage: an observer that could not determine its coverage says why in notEstablished, beside no located gap and no claim of completeness, and the record grades voluntary (clause 4 of the tier recompute, attack A34)",
+    "oe-coverage-unobserved-interval": "coverage: an observer that was not watching for part of the interval names each sub-interval in unobservedIntervals, inside the interval, ordered and disjoint, beside no claim of completeness and no notEstablished, and the record grades voluntary (clause 5 of the tier recompute, attack A35)",
     "oe-dual-recompute": "dualValues: for a fact the statement can compute about itself, the observed side is that value (attack A28)",
     "oe-dual-values-absent": "dualValues: a row carrying neither value is not a comparison",
     "oe-empty-tree": "baseResolution: empty-tree requires the constant for the declared hashAlgorithm",
@@ -51,11 +52,11 @@
     "oe-write-scope": "writes: a write outside pathScope invalidates the authoritative tier",
     "oe-write-scope-label": "writes: inScope is derived from path and pathScope, never a producer opinion"
   },
-  "corpusDigest": "c685709f99ebf178616eff0e59ba6244aaed1fe0431d6fbcaf976e3b95214059",
+  "corpusDigest": "06f0b24339bc33826f2ad88eeaab8f2ed203d79bca429c2a68c6393169fa2b1d",
   "counts": {
-    "accept": 14,
+    "accept": 16,
     "indeterminate": 1,
-    "reject": 53
+    "reject": 63
   },
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
@@ -702,6 +703,40 @@
       "slug": "commitment-timestamp-with-an-offset"
     },
     {
+      "cites": "2026-09-19T00:00:3Z is three seconds after the interval opened and one before it sealed, and it sorts after the seal as a string, because a colon or a Z sorts after every digit. A reader that parses a one-digit second passes the issued-before-sealed gate on a record issued before its interval closed. The reference checker read it that way while the other two rails refused it.",
+      "conditions": [
+        "oe-timestamp-grammar"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:issuedAt"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3259056a84220c5e.json",
+      "id": "v3259056a84220c5e",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "issued-at-with-an-unpadded-second"
+    },
+    {
+      "cites": "The last digit of the second is ARABIC-INDIC DIGIT FIVE. Python's \\d matches it and strptime reads it as 5, so both Python rails parsed this record while the Go rail refused it; it also sorts after every ASCII timestamp, so an issuedAt written this way passes any issued-after-sealed comparison whatever instant it names. The grammar's digits are ASCII.",
+      "conditions": [
+        "oe-timestamp-grammar"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:issuedAt"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v82a3ba29e9f316d2.json",
+      "id": "v82a3ba29e9f316d2",
+      "kind": "reject",
+      "parent": "v1c6fdd82db5229e4",
+      "slug": "issued-at-with-a-non-ascii-digit"
+    },
+    {
       "cites": "A write to /etc/shadow that starts with /srv/app/ and travels as in-scope. Containment was a string prefix, so the traversal did the work; the path is refused before any scope question is asked.",
       "conditions": [
         "oe-path-normalized"
@@ -921,6 +956,176 @@
       "id": "v856e6ba1445290e7",
       "kind": "accept",
       "slug": "write-observed-with-coverage-not-established"
+    },
+    {
+      "cites": "A monitor that started after the protected call began cannot establish whether that call was contained. The interval opens when the call is dispatched, the observer committed to the before-state at admission, and its probe attached three seconds later; it saw no write after that, and it names the three seconds it did not watch. The record grades voluntary under clause 5 of the tier recompute, so a consumer asking whether any write landed under /srv/app/ during the call gets no answer from it, and the unobserved sub-interval is the reason. This is the C7 shape of the CoSAI WS4 containment paper with the gap located by sub-interval: incomplete coverage, the gap named, and not_established for the absence claim.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/v30bdfdd5ec728258.json",
+      "id": "v30bdfdd5ec728258",
+      "kind": "accept",
+      "slug": "observer-attached-after-the-call"
+    },
+    {
+      "cites": "The late monitor's record claiming the independent tier, which is the claim that the call wrote nothing. No gap is named and notEstablished is absent, so clauses 3 and 4 of the tier recompute both hold, and without clause 5 the record would establish an absence over three seconds its own observer says it did not watch (attack A35).",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "authoritative-interval-not-observed"
+        ],
+        "verdict": "invalid"
+      },
+      "file": "statements/v30974c4290f26fa5.json",
+      "id": "v30974c4290f26fa5",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "authoritative-over-an-unobserved-sub-interval"
+    },
+    {
+      "cites": "scopeComplete true beside a named span the observer did not watch. Complete coverage means every path under pathScope for the whole interval, so the two members contradict, and a verifier MUST NOT prefer either.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-self-contradictory"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vdb06c5a5e29d4874.json",
+      "id": "vdb06c5a5e29d4874",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-beside-complete-coverage"
+    },
+    {
+      "cites": "The record says it could not determine its coverage and, in the next member, locates the time it did not watch. Those are two coverage statements, and a verifier that preferred either would be choosing the producer's claim for it.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "coverage-shape-ambiguous"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9242647c5e1a4a00.json",
+      "id": "v9242647c5e1a4a00",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-beside-not-established"
+    },
+    {
+      "cites": "The record admits incomplete coverage and names a span that ended before the interval opened. It discloses a blind spot in time the record does not describe, so its only located gap is no gap at all: attack A25 moved from paths to time. Every named span lies within openedAt and sealedAt.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "unobserved-interval-outside-interval"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v82141caa65ab327e.json",
+      "id": "v82141caa65ab327e",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-outside-the-interval"
+    },
+    {
+      "cites": "A span that starts and ends at the same instant. It locates no time, so the record admits it was not watching and declines to say when, which is the unnamed gap again. from is strictly before to.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "unobserved-interval-not-ordered"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb4b4378d5944b9c7.json",
+      "id": "vb4b4378d5944b9c7",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-with-no-width"
+    },
+    {
+      "cites": "The same three seconds written as two spans that meet at 00:00:02Z. One blind span has one spelling, so the list is ordered with each span ending strictly before the next begins; a rail that refuses only overlap accepts this member, and two records with the same coverage would otherwise carry different bytes.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "unobserved-intervals-not-disjoint"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vac4a21a6f40f11d6.json",
+      "id": "vac4a21a6f40f11d6",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-intervals-that-meet"
+    },
+    {
+      "cites": "A span ending at 00:00:03.5Z. It sorts inside the interval and after its own start, so every ordering check passes on it, and only the timestamp grammar refuses it. The ordering checks compare strings, which is sound for one grammar.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "timestamp-not-utc-basic:coverage.unobservedIntervals.to"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v92e57e17fd299f73.json",
+      "id": "v92e57e17fd299f73",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-with-a-fractional-second"
+    },
+    {
+      "cites": "The span written as an ISO 8601 interval string, the spelling a producer reaches for first. A span is an object carrying exactly from and to, so a rail never parses a second interval grammar to find the bounds it compares.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "codes": [
+          "unobserved-interval-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v320444e094a32bed.json",
+      "id": "v320444e094a32bed",
+      "kind": "reject",
+      "parent": "v30bdfdd5ec728258",
+      "slug": "unobserved-interval-as-an-iso-8601-string"
+    },
+    {
+      "cites": "Writes the late monitor saw after attaching settle that a write happened, whatever it missed before. The record is voluntary under clause 5, so it establishes no absence, and the writes it carries were still observed independently; an admissible observation of the prohibited event still settles fail under C3.",
+      "conditions": [
+        "oe-coverage-unobserved-interval"
+      ],
+      "expected": {
+        "absenceEstablished": false,
+        "codes": [],
+        "derivedTier": "voluntary",
+        "effectsIndependentlyObserved": true,
+        "verdict": "valid"
+      },
+      "file": "statements/v34df849ce2d82067.json",
+      "id": "v34df849ce2d82067",
+      "kind": "accept",
+      "slug": "write-observed-after-the-observer-attached"
     },
     {
       "cites": "Two attempts, one timeout, one write. The observed party reports two attempts and one completed write; the observer, below it for the whole span of both attempts, saw exactly one write land and nothing else in scope. The record therefore establishes the operation completed once, and a consumer that reads the timed-out attempt as a failed operation contradicts it.",

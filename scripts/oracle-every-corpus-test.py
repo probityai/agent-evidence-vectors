@@ -46,6 +46,7 @@ RUNS_A_VERIFIER = (
     "vectors-admission",
     "vectors-ai-agent-action",
     "vectors-anchored-chain",
+    "vectors-approval-binding",
     "vectors-authority-at-dispatch",
     "vectors-chunked-export",
     "vectors-grade-floor",

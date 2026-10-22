@@ -2787,6 +2787,23 @@ MASKS = tuple(
         # in any corpus. The key has to sit next to the number, so a bare
         # quantity in a workflow is still read and still checked.
         r"\b(?:timeout-minutes|retention-days):\s*\d+",
+        # Five shapes that count nothing, all found the day the observed-effect
+        # corpus reached 80 members and twelve sites were reported against it: a
+        # PERCENTAGE (`an 80% floor`), the VALUE OF A COMMAND-LINE OPTION
+        # (`--threshold 80`, `"--first-screen", "80"`), a RUN OF HEX OCTETS
+        # (`ED A0 80`, the CESU-8 spelling of a surrogate; written before the
+        # requirement-id mask below, which would otherwise take `A0` and leave
+        # the `80`), a PERCENT-ENCODED OCTET (`%80`), and a BYTE SIZE written
+        # with a thousands separator (`80,438 bytes`, whose `438 bytes` the byte
+        # mask already took). A ratio, a setting, an encoding and a size are not
+        # claims about a corpus, and a corpus total walks onto each of them.
+        r"\b\d+(?:\.\d+)?%",
+        r"--[a-z][\w-]*[\"']?,?\s*[\"']?\d+",
+        r"\b[A-F][0-9A-F](?:\s[0-9A-F]{2})+\b",
+        r"%[0-9A-Fa-f]{2}",
+        r"\b\d{1,3}(?:,\d{3})+[\s-]?bytes?\b",
+        # A NETWORK ADDRESS WITH A PORT (`1.2.3.4:80`): the port names a service.
+        r"\b\d{1,3}(?:\.\d{1,3}){3}:\d+\b",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and

@@ -352,12 +352,40 @@ REJECT = corpus_figure(REPO_ROOT, "reject")
 INDETERMINATE = corpus_figure(REPO_ROOT, "indeterminate")
 # A per-kind count of a registered corpus, read from its own manifest. The
 # census treats it as count-shaped only beside a count noun, and these cases
-# hold both sides of that line.
-OBSERVED_EFFECT_REJECT = int(
-    json.loads(
-        (REPO_ROOT / "vectors-observed-effect" / "MANIFEST.json").read_text(encoding="utf-8")
-    )["counts"]["reject"]
-)
+# hold both sides of that line. That is true only of a value the gate holds
+# NOUN-BOUND (no other source publishes it) and at or above SMALL_VALUE (below
+# it, only the small-value vocabulary fires). The cases used the observed-effect
+# reject count until it reached 63 and met the headline accept count: the bare
+# use beside "pairs" was then refused for the headline collision rather than
+# accepted for the reason it was written to test. So the figure is chosen by
+# the gate's own rule, from the registered corpora in order, and a tree where no
+# per-kind count qualifies stops the suite rather than testing the wrong thing.
+def _registered_figure() -> tuple[str, str, int]:
+    import importlib.util
+
+    sys.path.insert(0, str(REPO_ROOT / "scripts"))
+    spec = importlib.util.spec_from_file_location("count_gate_figure", GATE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"test setup: {GATE} cannot be loaded as a module.")
+    gate: Any = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = gate
+    spec.loader.exec_module(gate)
+    bound = gate.load_sources().noun_bound()
+    for directory in ("vectors-observed-effect", *gate.EXTRA_CORPORA):
+        counts = json.loads((REPO_ROOT / directory / "MANIFEST.json").read_text(encoding="utf-8"))[
+            "counts"
+        ]
+        for kind in ("reject", "accept"):
+            value = int(counts[kind])
+            if value >= gate.SMALL_VALUE and value in bound:
+                return directory, kind, value
+    raise SystemExit(
+        "count-gate-test: no registered corpus has a per-kind count the census holds "
+        "noun-bound at or above SMALL_VALUE, so no case can isolate that rule"
+    )
+
+
+REGISTERED_CORPUS, REGISTERED_KIND, REGISTERED_COUNT = _registered_figure()
 
 
 # --------------------------------------------------------------------------
@@ -811,16 +839,16 @@ SOURCE_CASES: list[Case] = [
 
 CENSUS_CASES.append(
     (
-        "a registered corpus's reject count typed beside a count noun",
+        "a registered corpus's per-kind count typed beside a count noun",
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nThe sweep records {OBSERVED_EFFECT_REJECT} unforced rules today.\n",
+            f"\nThe sweep records {REGISTERED_COUNT} unforced rules today.\n",
         ),
         # Not "equal to the reject count of ...": when another published count
         # shares the value the refusal names every source it equals, and this
-        # case asks only that the observed-effect reject count is among them.
-        ("the reject count of vectors-observed-effect",),
+        # case asks only that the chosen per-kind count is among them.
+        (f"the {REGISTERED_KIND} count of {REGISTERED_CORPUS}",),
     )
 )
 
@@ -830,7 +858,7 @@ CENSUS_CASES.append(
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nIt took 3 days to write {OBSERVED_EFFECT_REJECT} vectors.\n",
+            f"\nIt took 3 days to write {REGISTERED_COUNT} vectors.\n",
         ),
         ("is an integer counting vectors",),
     )
@@ -1090,11 +1118,11 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
-        "a registered corpus's reject count used bare for something else",
+        "a registered corpus's per-kind count used bare for something else",
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nThe other project publishes {OBSERVED_EFFECT_REJECT} one-field pairs.\n",
+            f"\nThe other project publishes {REGISTERED_COUNT} one-field pairs.\n",
         ),
         ("are accounted for",),
     ),
@@ -1103,7 +1131,7 @@ ACCEPT_CASES: list[Case] = [
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nRule {OBSERVED_EFFECT_REJECT} of the report table reads the control.\n",
+            f"\nRule {REGISTERED_COUNT} of the report table reads the control.\n",
         ),
         ("are accounted for",),
     ),
@@ -1113,7 +1141,7 @@ ACCEPT_CASES: list[Case] = [
             root,
             "BUILD-NOTES.md",
             "\nThe report is at https://github.com/probityai/agent-evidence-vectors/"
-            f"issues/{OBSERVED_EFFECT_REJECT}#issuecomment-1 and nowhere else.\n",
+            f"issues/{REGISTERED_COUNT}#issuecomment-1 and nowhere else.\n",
         ),
         ("are accounted for",),
     ),
@@ -1127,12 +1155,31 @@ ACCEPT_CASES: list[Case] = [
         ("are accounted for",),
     ),
     (
+        "a percentage, an option value, an address port and a grouped byte size count nothing",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            f"\nThe floor is {TOTAL}% under --threshold {TOTAL}, the probe dials "
+            f"10.0.0.1:{TOTAL}, and the log holds 1,{TOTAL:03d} bytes.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
+        "a run of hex octets and a percent-encoded octet count nothing",
+        lambda root: append(
+            root,
+            "BUILD-NOTES.md",
+            "\nCESU-8 writes the surrogate as ED A0 80, and the URL carries it as %ED%A0%80.\n",
+        ),
+        ("are accounted for",),
+    ),
+    (
         "an exponent and a span of days count nothing",
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nThe double is 2**{OBSERVED_EFFECT_REJECT}, its slug two-to-the-"
-            f"{OBSERVED_EFFECT_REJECT}, and the thread ran {OBSERVED_EFFECT_REJECT} days.\n",
+            f"\nThe double is 2**{REGISTERED_COUNT}, its slug two-to-the-"
+            f"{REGISTERED_COUNT}, and the thread ran {REGISTERED_COUNT} days.\n",
         ),
         ("are accounted for",),
     ),

@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.23.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.24.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.23.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.23.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.24.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.24.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.23.0
-uvx agent-evidence-vectors==0.23.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
+uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify --json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.23.0
+cd agent-evidence-vectors && git checkout v0.24.0
 python3 packaging/run_vectors.py --verifier "aee-verify --json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.23.0
+git checkout v0.24.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -105,6 +105,7 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-agentic-process-evidence/` | `agentic-process-evidence/v0.1` | signed in-toto Statements carrying the Agentic Process Evidence predicate proposed in in-toto/attestation#609: provider stacks, result, accountable owner, timestamps, session logs, tools and context artifacts, each field rule taken from the predicate's own specification |
 | `vectors-delegation-lifecycle/` | `delegation-lifecycle/v1` | signed grants, revocations, disputes and identifier links, each case asking whether a presenter holds delegated authority when the relying party observed it: revocation across a delegation tree, a disputed revocation, re-registration of an agent under a new identifier, recovery after a lost or compromised key, and sub-agents bound to the parent's lifespan |
 | `vectors-authority-at-dispatch/` | `authority-at-dispatch/v1` | delegated authority judged at the moment of dispatch: revocation, expiry, stale evidence and scope amplification across hops, including denied records that dispatch exactly the approved bytes |
+| `vectors-approval-binding/` | `approval-binding/v1` | an approval presented for a use, refused when it is not bound to that use: a reused approval identifier, a consumed approval, a key that is not the approver's, another user behind the same OAuth client, a different event or phase, a payload changed after approval, a use outside the validity window, a failed policy lookup, and a policy release not served at the decision time |
 | `vectors-chunked-export/` | `chunked-export/v1` | an export gate's decision on each chunk of a chunked export whose every step is reversible on its own: a count or a set-of-chunks reconstruction rule committed before the first chunk, and a seal that must state the composed class rather than the maximum of the per-step labels |
 | `vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
 | `vectors-done-contract/` | `done-contract/v2` | sealed contracts for a coding agent's task, valid and invalid, each invalid one under the code of the rule it breaks |
