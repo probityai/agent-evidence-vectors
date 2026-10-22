@@ -92,7 +92,9 @@ check "the refusal names the rule" 1 "subject line is 78 chars; max is 72"
 
 # 4. A range the gate cannot resolve aborts rather than passing.
 run_hook "1111111111111111111111111111111111111111"
-check "an unresolvable range aborts" 1 "ABORT -- the commit-message check could not run"
+# The guards are now read from the pushed commit, so an unresolvable one
+# aborts at that read, before the message check; either way nothing passes.
+check "an unresolvable range aborts" 1 "nothing was verified"
 
 if [ "$failures" -ne 0 ]; then
 	echo "prepush-commit-msg-test: $failures case(s) FAILED"

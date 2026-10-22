@@ -7,7 +7,7 @@ name = "probity-govops-ids"
 version = "0.0.0"
 description = "Raw descriptor correlation and explicit signed decision bindings"
 requires-python = ">=3.11"
-dependencies = ["cryptography==46.0.0"]
+dependencies = ["cryptography==50.0.0"]
 
 [project.scripts]
 probity-govops-ids = "govops_ids.cli:main"
