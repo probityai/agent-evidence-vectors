@@ -358,6 +358,19 @@ while read -r local_ref local_sha _remote_ref remote_sha; do
 			fi
 		done
 	fi
+	# A branch other than the default is judged the way CI judges its push: by the
+	# commits the default branch does not reach. The remote's own tip is the wrong
+	# base once a branch has merged main, because every commit that merge brought
+	# in then falls inside the range although main published it long ago, and a
+	# long subject there refused the push of three pull requests on 2026-10-22.
+	case "$local_ref" in
+	refs/heads/main) ;;
+	*)
+		if git -C "$src_root" cat-file -e "refs/remotes/origin/main^{commit}" 2>/dev/null; then
+			base="refs/remotes/origin/main"
+		fi
+		;;
+	esac
 	if [ -z "$base" ]; then
 		echo "pre-push: ABORT -- no published base for $local_ref; the commit messages it adds cannot be identified." >&2
 		exit 1

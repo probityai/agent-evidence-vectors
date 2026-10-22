@@ -96,8 +96,40 @@ run_hook "1111111111111111111111111111111111111111"
 # aborts at that read, before the message check; either way nothing passes.
 check "an unresolvable range aborts" 1 "nothing was verified"
 
+# 5. A commit main already published does not refuse a branch that merged main.
+# The remote branch tip is an old base; the merge pulls the 78-character commit
+# of case 2 into the pushed range, but it is on origin/main, so only the merge
+# commit is new. CI judges a branch push by the same rule (commit-message-lint).
+git -C "$repo" push -q --no-verify origin main
+git -C "$repo" fetch -q origin
+git -C "$repo" checkout -q -b topic "$base"
+printf 'three\n' >"$repo/c.txt"
+git -C "$repo" add -A
+git -C "$repo" commit -q --no-verify -m "feat: add the third file"
+git -C "$repo" merge -q --no-edit main
+merged="$(git -C "$repo" rev-parse HEAD)"
+run_branch_hook() {
+	local sha="$1" remote_tip="$2"
+	set +e
+	out="$(cd "$repo" && printf 'refs/heads/topic %s refs/heads/topic %s\n' "$sha" "$remote_tip" |
+		./.githooks/pre-push origin "file://$origin" 2>&1)"
+	rc=$?
+	set -e
+}
+run_branch_hook "$merged" "$base"
+check "a published long subject brought in by a merge of main passes" 0 "checked 2 commit message(s)"
+
+# 6. A bad subject written on the branch itself is still refused.
+printf 'four\n' >"$repo/d.txt"
+git -C "$repo" add -A
+git -C "$repo" commit -q --no-verify \
+	-m "fix(site): copy the invocation-binding schema into the navigation test fixture again"
+branch_bad="$(git -C "$repo" rev-parse HEAD)"
+run_branch_hook "$branch_bad" "$merged"
+check "a long subject written on the branch is refused" 1 "REFUSED -- a commit message"
+
 if [ "$failures" -ne 0 ]; then
 	echo "prepush-commit-msg-test: $failures case(s) FAILED"
 	exit 1
 fi
-echo "prepush-commit-msg-test: all 4 cases passed"
+echo "prepush-commit-msg-test: all 6 cases passed"

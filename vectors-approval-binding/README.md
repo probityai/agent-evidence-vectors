@@ -21,6 +21,7 @@ from any project.
 | One identifier, one approval | `approval-id-reused-different-content` | [microsoft/agent-framework#9535](https://github.com/microsoft/agent-framework/pull/9535): filtering one approval response could expose another with the same identifier |
 | Used once | `approval-already-consumed` | approval reuse, the same pull request |
 | Signing key | `approval-key-not-approvers` | [MoltyCel/moltrust-api#887](https://github.com/MoltyCel/moltrust-api/pull/887): ownership and key-binding checks before signing; an authorizer key id that differs from the trusted key's id |
+| Approval asserted by the model | `approval-asserted-in-tool-arguments` | [google/adk-python#7655](https://github.com/google/adk-python/issues/7655): a delete tool takes `confirm_deletion=True` from the model's own arguments as its confirmation, with no framework confirmation step |
 | User, not client | `same-client-other-user` | [modelcontextprotocol/typescript-sdk#2782](https://github.com/modelcontextprotocol/typescript-sdk/pull/2782): task ownership keyed by the OAuth client identifier |
 | Event and phase | `event-differs`, `phase-differs` | [modelcontextprotocol/experimental-ext-interceptors#46](https://github.com/modelcontextprotocol/experimental-ext-interceptors/pull/46): confirmation bound to event, phase, target and payload |
 | Payload after mutation | `payload-mutated-after-approval`, `target-differs`, `tool-differs` | the same proposal: rechecked after a mutation |
