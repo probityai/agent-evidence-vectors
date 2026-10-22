@@ -1,0 +1,636 @@
+{
+  "aggregate": {
+    "counts": {
+      "failed": 3,
+      "not-established": 2,
+      "verified": 1
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 6
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-dependency-selection/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-dependency-selection/digest.py",
+    "routine-file": "vectors-dependency-selection/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "swapped-in": "91f72cbdba009fb080bcda6a063a3b3b8cb3f4466c1bfe4d7ab5642ae5ed0876",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dependency-selection/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "654d6347cce285fd5fa9f0147f75da09240d6c62616622d8f141dd45abe52d38"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "swapped-in": "3cbd0f48dcc9ed81f99706fa60ed425e0fe7abc26f206ef9a8e277e8ae6a4ca4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dependency-selection/README.md",
+      "serialization": "bytes",
+      "sha256": "641d0b2dcf9124b6b2143ed29a1ea12f8e329205de95133b5b53cc2f09b87183"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "swapped-in": "bb4093dc59830a503f2b7b99eb6ef71fc11be64afa9cfd0fc05ba04b7c8465f5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dependency-selection/digest.py",
+      "serialization": "bytes",
+      "sha256": "44785a95ed1c1c6f819b61735f6cc9e88bc3e4c903780031bece14cd12b90919"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "swapped-in": "7803f2dc9767c5809cef395c505c6ddc16718805f77609cbd7080b31be3d239c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dependency-selection/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e8c8c7cf3e31f09c8046a94db1dfd5ebfb54cca72f898676cfa928fc058237f1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+        },
+        "swapped-in": "ddbdd90f17999783e601c2238466d8a5a5fd6739dd423f6505b3e91eda7f9015",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dependency-selection/public.key",
+      "serialization": "bytes",
+      "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-dependency-selection"
+  },
+  "byte-identity": {
+    "pins": 52,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-dependency-selection",
+      "aee-verify -json vectors-dependency-selection",
+      "aee-verify vectors-dependency-selection"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v041ef6b03dade091",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v31c08bd68611a0e3",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v47607cb6a6545f2e",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v60618b6bb07a9894",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6ab1d5a5b703b65f",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va281d192c2f57e92",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "3084dd823c9e4f5c37b2854faccb13bd7d58cadf7bb12748a624486bf62589a0"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v041ef6b03dade091",
+      "v31c08bd68611a0e3",
+      "v47607cb6a6545f2e",
+      "v60618b6bb07a9894",
+      "v6ab1d5a5b703b65f",
+      "va281d192c2f57e92"
+    ],
+    "path": "vectors-dependency-selection/MANIFEST.json",
+    "sha256": "686e89135fbbf3f08507bc197cc3fb3c7c7fdcb42f9a4ec1a3d9fe9d71012340"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/agent/skills/dependency-selection.md",
+          "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.json",
+          "sha256": "2991ea7b80981cf822dc0289e74f1cddce664f0094d057b756ad659f12c1d799"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/binding/manifest.sig",
+          "sha256": "b76623f02817155b060952934aeb56f5174e94fa97d9bfdce56569634f29f44f"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/checks/vulnerability-scan.log",
+          "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/lock/after/requirements.lock",
+          "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/approval-absent/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "v041ef6b03dade091"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/agent/skills/dependency-selection.md",
+          "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/approval/approval.json",
+          "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.json",
+          "sha256": "01383515cd52c99ad0d2b89a8e9255f1457f7aeb6d73b9b49d78e8d483f1babe"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/binding/manifest.sig",
+          "sha256": "d1c2551d355c15cc9bfc17128d00a38425e8b0d676015a081094a60b33336614"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/after/requirements.lock",
+          "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/vulnerability-scan-absent/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "v31c08bd68611a0e3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/agent/skills/dependency-selection.md",
+          "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/approval/approval.json",
+          "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.json",
+          "sha256": "93c8c195b6ae75e60972f6f3c0a6a13351769731f391d5d61251fbabe1d52db8"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/binding/manifest.sig",
+          "sha256": "43111f957c8466f03a804599a1d5ab608eaa4d55908a2bd36bbd62755d5ae09c"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/checks/vulnerability-scan.log",
+          "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/lock/after/requirements.lock",
+          "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/wrong-signer/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "v47607cb6a6545f2e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/agent/skills/dependency-selection.md",
+          "sha256": "f2ad5c6c4557a3c224cda1c2f3986cb44f73939af4e0fd5b64314a407f6115ab"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/approval/approval.json",
+          "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.json",
+          "sha256": "7b6dd468bde7f65bdfa28da2fa52b54d05df5dad937705f95b57f1dc4d0e4ea5"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/binding/manifest.sig",
+          "sha256": "96b725da73f410ad06c6190476d4b8c2e6b7985b8094f7d89145ce519a1fdb02"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/checks/vulnerability-scan.log",
+          "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/lock/after/requirements.lock",
+          "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/skill-not-in-force/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "v60618b6bb07a9894"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/agent/skills/dependency-selection.md",
+          "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/approval/approval.json",
+          "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.json",
+          "sha256": "e7fb81365ddaa9f5ac4fc553b4f2e36c2bd1f83d76da874f59f0e44d29713285"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/binding/manifest.sig",
+          "sha256": "27d4d386f54cd832f57bf953e0214f5e9f35cbcee9ce818e399ff31191133883"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/checks/vulnerability-scan.log",
+          "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/lock/after/requirements.lock",
+          "sha256": "e62076cb187e0e9fa1c7b6d083abedc993a89092cd37bfd8976ebe93bd08b8cd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/intact-selection/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "v6ab1d5a5b703b65f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/agent/skills/dependency-selection.md",
+          "sha256": "8122c9dab14d6fd5e67595d666c997f984e741a7944d622bbe3d3fcde982abeb"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/approval/approval.json",
+          "sha256": "fef4bf5bb8e622734bb2ff783919f006dc468adc1eeb028a86b57e5e0f9052ed"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/grading-inputs/checks.txt",
+          "sha256": "b741ef78fd408ccf1baf10b4b2e188c79011ea43251b83a0c6976b34a3730657"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.json",
+          "sha256": "e7fb81365ddaa9f5ac4fc553b4f2e36c2bd1f83d76da874f59f0e44d29713285"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/binding/manifest.sig",
+          "sha256": "27d4d386f54cd832f57bf953e0214f5e9f35cbcee9ce818e399ff31191133883"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/provenance-check.log",
+          "sha256": "c365c12d07f49a93756b0ed36718db284bdb4119b23913449f9a49b74d5843e6"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/checks/vulnerability-scan.log",
+          "sha256": "b477abe52c2045ba799a0e00ba8bbe5ecb00e6f32ede1215052aaa35519ce317"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/after/requirements.lock",
+          "sha256": "2ca429f9b8f1dc0d2beadeffb5568b8403cf07bc24d68d2da8e6f57cf46421dd"
+        },
+        {
+          "path": "vectors-dependency-selection/cases/lockfile-after-changed/trial/lock/before/requirements.lock",
+          "sha256": "713fb3bafe2ed7be146fc10374903d94547d40b595b2d343ed3556a423ecd8de"
+        }
+      ],
+      "id": "va281d192c2f57e92"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-dependency-selection.json",
+        "serialization": "bytes",
+        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-dependency-selection.txt",
+        "serialization": "bytes",
+        "sha256": "099345a7f602e5030a4e7a5885984f844cbabd31a0f73e48fa94c51245911a54"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v47607cb6a6545f2e",
+      "inputs": [
+        "member:v47607cb6a6545f2e",
+        "check:v47607cb6a6545f2e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signer-key-mismatch\"],\"messagesDigest\":\"0d299d99a61099c603127c21d9157081b90bf1c64b0abd9b9498b23ce0582b54\",\"verdict\":\"failed\"}}"
+    },
+    {
+      "check": "v60618b6bb07a9894",
+      "inputs": [
+        "member:v60618b6bb07a9894",
+        "check:v60618b6bb07a9894"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"role-not-in-force\"],\"messagesDigest\":\"1e76a1416c1447fd95e0e786cfebfb5780662b2e5c7ea8940fdb57e2ab61178b\",\"verdict\":\"failed\"}}"
+    },
+    {
+      "check": "va281d192c2f57e92",
+      "inputs": [
+        "member:va281d192c2f57e92",
+        "check:va281d192c2f57e92"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"artifact-digest-mismatch\"],\"messagesDigest\":\"701790c0c6734df4f9c81ec47378bd2ed9472bcece16951d6ca829f7445aa6e9\",\"verdict\":\"failed\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+      },
+      {
+        "process": "run-2",
+        "sha256": "d2839fa43e0cb5f1059a96c116a4dac43f27f921a4faf49266d986b4a2bce393"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 6 pinned members of artifact-binding-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 6,
+    "require": "at-least-one",
+    "selected": [
+      "v041ef6b03dade091",
+      "v31c08bd68611a0e3",
+      "v47607cb6a6545f2e",
+      "v60618b6bb07a9894",
+      "v6ab1d5a5b703b65f",
+      "va281d192c2f57e92"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "artifact-binding-conformance"
+}

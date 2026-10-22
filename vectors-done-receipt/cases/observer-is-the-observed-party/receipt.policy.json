@@ -1,0 +1,68 @@
+{
+  "assessments": {
+    "observer-is-the-observed-party": {
+      "capability_witness": "capability",
+      "claim_type": "done_receipt/v2",
+      "claims_witness": "claims",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "receipt_witness": "receipt",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      },
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "17f40d7a3d25cb8c9bb0addc7905b273578657ccbb13387273cf781bc8491375"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "7d0f26072a0767cc721a9d992b659b956f75cf49153a6da9ed7c44a9d4b5f432"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "c3a339188ed514f826a9c28db0241e0b4ea84a7171e2987b8b7ed9f935e213a6",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "agent-1",
+      "sha256": "57696fd27cdec41e98add37034c4f54453d45f5958414290e031b89e37213d0b",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "receipt": {
+      "artifact": "receipt",
+      "authority": "synthetic fixture",
+      "sha256": "2d6750cfc1011f98dad2828521347e8adff56cfdf3fb60787afb083e99f925b9"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "agent-1",
+      "sha256": "50f909d2c564ddc1d3abcf0bd6564e191ccc56c40f377842ff17ddfe6314d109",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

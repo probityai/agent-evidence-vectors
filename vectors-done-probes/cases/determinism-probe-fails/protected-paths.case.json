@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 311,
+      "path": "capability.json",
+      "sha256": "529d61904ef6dd0f673a562434b20b51e6647984e6ab531ad92c30b2bd8e2be3"
+    },
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "observation": {
+      "length": 945,
+      "path": "observation.json",
+      "sha256": "865471f7eb597e70cd273f7ead932938d783b384cbce912697f15745420faf8c"
+    },
+    "tree": {
+      "length": 528,
+      "path": "tree.json",
+      "sha256": "1138292206cdbd2e61c2a1768b2c4c9324edc44b88294e73c2c29b2d4798756c"
+    }
+  },
+  "case_id": "determinism-fails",
+  "schema_version": "probity-case/v1"
+}

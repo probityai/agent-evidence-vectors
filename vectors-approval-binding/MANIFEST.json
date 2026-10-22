@@ -1,0 +1,316 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/approval-binding/v1",
+  "corpusDigest": "8b4ee697cf9103703aa757ff8a1d5a2ca44e3a0feaf1ba1e2cc73943f5d0d1a1",
+  "suite": "approval-binding/v1",
+  "vectors": [
+    {
+      "edit": "control: every binding holds",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+      },
+      "id": "allow-bound",
+      "path": "cases/allow-bound",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: another approval is presented under a different identifier",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "8ce3f0bb478fbab4c0d721a98d3d984c7b284133a05150ab03a3df9560ece89b"
+      },
+      "id": "allow-other-approval-distinct-id",
+      "path": "cases/allow-other-approval-distinct-id",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: the same approval appears twice with identical content",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "f880c025f69d18f6ad94672aad225140864c31bb8880faddacef3e739858f88a"
+      },
+      "id": "allow-same-approval-presented-twice",
+      "path": "cases/allow-same-approval-presented-twice",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: used one second before the approval expires",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "6c6b802f33c5f1141f9e63b57a7489d9b1e20111081c080d275abb412a4cc571"
+      },
+      "id": "allow-last-second-of-validity",
+      "path": "cases/allow-last-second-of-validity",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: the release was first served exactly at the decision time",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "c197d50c8981e6c5fa123fde78d82e0aa98062879ef122ac97c5e13ee928120d"
+      },
+      "id": "allow-release-first-served-at-decision",
+      "path": "cases/allow-release-first-served-at-decision",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "control: the release was last served exactly the grace period before the decision",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "08d97163571e9546240f851a20d40c570a34901ee81512a2b76332f274d47041"
+      },
+      "id": "allow-release-within-grace",
+      "path": "cases/allow-release-within-grace",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "a second approval with the same identifier and different content is presented",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_id_ambiguous"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "fec2b26108064fc47d2248ed9da48ba83330d48864b26072d1b5ebe217e953ec"
+      },
+      "id": "approval-id-reused-different-content",
+      "path": "cases/approval-id-reused-different-content",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval identifier was already consumed",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_replayed"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "9f14975c6032d782a096fc15388ab26d9d42574b206098627ba4675e12c23bd6"
+      },
+      "id": "approval-already-consumed",
+      "path": "cases/approval-already-consumed",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval names a key id other than the approver's trusted key",
+      "expected": {
+        "decision": "deny",
+        "reason": "key_not_bound"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "665970a9b652781b4f15943c8edb4d441894a7b237e672a038531005eac5d0ee"
+      },
+      "id": "approval-key-not-approvers",
+      "path": "cases/approval-key-not-approvers",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "another user reaches the approval through the same OAuth client",
+      "expected": {
+        "decision": "deny",
+        "reason": "principal_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "42a42cb55f2c703c56d2209fe5f75ac74eb5bb9bed05995e299aa8c20265c6c8"
+      },
+      "id": "same-client-other-user",
+      "path": "cases/same-client-other-user",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval is used for a different event",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_phase_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "c2d0dd631b1268dcf5dfa386ee6fe00e1a5703872f68f2126db1dbda2dc4ff15"
+      },
+      "id": "event-differs",
+      "path": "cases/event-differs",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the approval is used in a different phase",
+      "expected": {
+        "decision": "deny",
+        "reason": "event_phase_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "35114786ae8db2b0fcce8fb460a00017cb48c79fbdee49d18d5aadc8dc5275e4"
+      },
+      "id": "phase-differs",
+      "path": "cases/phase-differs",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the payload was changed after the approval was given",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_mismatch"
+      },
+      "files": {
+        "payload.bin": "74d7e13244f046cded734b90116df2f8cf2da84584b90b287d5be4645e2285b6",
+        "record.json": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+      },
+      "id": "payload-mutated-after-approval",
+      "path": "cases/payload-mutated-after-approval",
+      "useMatchesApproval": false
+    },
+    {
+      "edit": "the approved bytes go to a different target",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "e16f87cb4acf949b18d55d1fef28d3d97f1523f1a7f010954a0add10dadfe627"
+      },
+      "id": "target-differs",
+      "path": "cases/target-differs",
+      "useMatchesApproval": false
+    },
+    {
+      "edit": "a different tool is used under the approval",
+      "expected": {
+        "decision": "deny",
+        "reason": "payload_mismatch"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "7bb485796225cb81b196642ce0dc9f0d4d97f0a6306efd383e530882de1a768a"
+      },
+      "id": "tool-differs",
+      "path": "cases/tool-differs",
+      "useMatchesApproval": false
+    },
+    {
+      "edit": "used at the instant the approval expires",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_outside_validity"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "ea427a1c7801f9e51867008eaac46961cf2e265c7894d1ad67617c81e14645f4"
+      },
+      "id": "used-at-expiry",
+      "path": "cases/used-at-expiry",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "used one second before the approval was issued",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_outside_validity"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "01eb0cd45b528b40bb967bbd8d10b34727ab33d3974fdd50abc2029745cac21e"
+      },
+      "id": "used-before-issued",
+      "path": "cases/used-before-issued",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the policy release lookup failed; a failed lookup is not a match",
+      "expected": {
+        "decision": "deny",
+        "reason": "comparison_unavailable"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "625b38933dc985baddb029d9a3b7534fa92a02ba74b65295c9a249a24811e541"
+      },
+      "id": "release-lookup-unavailable",
+      "path": "cases/release-lookup-unavailable",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the release that judged the record was first served after the decision time",
+      "expected": {
+        "decision": "deny",
+        "reason": "release_not_served_at_decision"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "8fc045ff6f04975dac1cd139b015005c6d4510169b27ebea5978150760d254da"
+      },
+      "id": "release-first-served-after-decision",
+      "path": "cases/release-first-served-after-decision",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the release stopped being served more than the grace period before the decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "release_not_served_at_decision"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "fd26b20cae6249708759fde4785041d9f40dfa8c9d6acc539016c693ba5c18bb"
+      },
+      "id": "release-retired-beyond-grace",
+      "path": "cases/release-retired-beyond-grace",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "3399a0016bf1f5ca2404dc685efcc5cfa14a5af23b0e447c0c82b649815534ea"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "useMatchesApproval": true
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "payload.bin": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974",
+        "record.json": "604609ab6d15646bfcb2e0198533a3619fe1436abd4dcdb2436fefd6d045c87c"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "useMatchesApproval": true
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

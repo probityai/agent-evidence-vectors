@@ -1,4 +1,5 @@
 {
+  "cites": "a hello the Guardian answered with SESSION_REFUSED, followed by the startup posture applied as though nothing had answered: the session started and the deployment log records an unguarded start. A refusal is a decision, and section 4.1 applies the posture only when no answer arrives, so the session is refused with the code the Guardian sent. A checker that looks only for the deployment-log record passes this member, and so does an Observed Agent that reads every error without a ServerHello as an outage.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -55,6 +56,18 @@
     "session_started": true,
     "startup_posture": "proceed"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-024",
+      "line": 77,
+      "sentence": "A Guardian that answers with a refusal (`SESSION_REFUSED`, `UNSUPPORTED_VERSION`, `PROVENANCE_REQUIRED`) has decided; the startup posture applies only when no answer arrives.",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-024"
   ],

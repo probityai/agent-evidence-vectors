@@ -1,0 +1,23 @@
+{
+  "claim_id": "forged-receipt",
+  "claims": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 0,
+      "id": "c1"
+    }
+  ],
+  "completion": {
+    "asserted": true,
+    "basis": "both"
+  },
+  "invocation_id": "call-1",
+  "producer": "transcript-parser",
+  "schema_version": "probity-tool-claims/v2"
+}

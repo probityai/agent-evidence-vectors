@@ -7,10 +7,10 @@
     "url": "https://github.com/probityai/agent-evidence-vectors",
     "upstream": "https://github.com/in-toto/attestation/pull/570",
     "conformance_suite": {
-      "revision": 31,
-      "vectors": 285,
+      "revision": 32,
+      "vectors": 288,
       "accept": 63,
-      "reject": 220,
+      "reject": 223,
       "indeterminate": 2,
       "derived_by": "python3 -c \"import json,re,pathlib; m=json.loads(pathlib.Path('vectors/MANIFEST.json').read_text()); r=re.search(r'^## suiteRevision (\\d+)\\b', pathlib.Path('vectors/CHANGES.md').read_text(), re.M).group(1); print(r, len(m['vectors']), m['counts'])\""
     }
@@ -174,6 +174,6 @@
   "limits": [
     "AEE detects nothing and does not compete with AVE's classification work. It cannot tell you a component is malicious, only whether the account of how you found out is checkable.",
     "AEE is presently exercised by a first-party implementation set, so cross-rail agreement is a drift check rather than independent corroboration.",
-    "The predicate is a draft under review at in-toto, not a ratified standard."
+    "The predicate is a proposal to in-toto, made in attestation pull request 570, not a ratified standard."
   ]
 }

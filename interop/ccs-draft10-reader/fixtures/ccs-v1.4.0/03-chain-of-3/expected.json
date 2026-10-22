@@ -1,0 +1,18 @@
+{
+  "verdict": "valid",
+  "chain_length": 3,
+  "shared_trace_id": "conformance-v1.4.0-trace",
+  "shared_run_id": "run-conformance-v1.4.0-trace",
+  "sequences": [
+    0,
+    1,
+    2
+  ],
+  "checks": [
+    "chain:all-signatures-valid",
+    "chain:trace-id-consistent",
+    "chain:sequences-monotonic",
+    "chain:runtime-context-linked",
+    "structure:each-30-fields"
+  ]
+}

@@ -1,0 +1,5 @@
+suite: chunked-export/v1
+members: 12
+  allow: 2
+  deny: 10
+verdict: every member behaves as MANIFEST.json declares

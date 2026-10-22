@@ -1,0 +1,17 @@
+{
+  "receipt_type": "ccs.behavior_evidence.v1",
+  "trace_id": "conformance-v1.4.0-trace",
+  "tool_call_id": "call-l2-base",
+  "sequence": 0,
+  "linked_l1_receipt_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "behavior_evidence_verdict": "not_observed",
+  "evidence_ref": "ccs:behavior/none",
+  "issuer": "ccs-conformance/v1.4.0",
+  "audience": "independent-verifier",
+  "issued_at": "2025-06-15T12:00:00Z",
+  "deployment_mode": "in-process",
+  "signing_algorithm": "Ed25519",
+  "public_key_fingerprint": "26a02d86f5d0a10f",
+  "public_key": "ndAkiPndnKQ7hLAMOQBu4BE79y0BM3NA0diA0YDB2cI=",
+  "signature": "visQ6BzYhD+6I5EXjzLWm9rspp43u7at7IXFcYQb4exEgXxn/uv9150BMfNVvpgKY394m+guiKVeM4tIXvkvDw=="
+}

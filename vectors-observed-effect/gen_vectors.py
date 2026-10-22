@@ -436,6 +436,17 @@ CONDITIONS: dict[str, str] = {
         "tier: an authoritative record carries at least one read or one write "
         "(attack A2, second spelling)"
     ),
+    "oe-coverage-not-established": (
+        "coverage: an observer that could not determine its coverage says why in "
+        "notEstablished, beside no located gap and no claim of completeness, and the "
+        "record grades voluntary (clause 4 of the tier recompute, attack A34)"
+    ),
+    "oe-coverage-unobserved-interval": (
+        "coverage: an observer that was not watching for part of the interval names "
+        "each sub-interval in unobservedIntervals, inside the interval, ordered and "
+        "disjoint, beside no claim of completeness and no notEstablished, and the "
+        "record grades voluntary (clause 5 of the tier recompute, attack A35)"
+    ),
 }
 
 class _Omit:
@@ -1476,6 +1487,36 @@ add(
 )
 
 add(
+    "issued-at-with-an-unpadded-second",
+    "reject",
+    statement(predicate(intervalId="iv-0219", issuedAt="2026-09-19T00:00:3Z")),
+    ["oe-timestamp-grammar"],
+    "malformed",
+    ["timestamp-not-utc-basic:issuedAt"],
+    "2026-09-19T00:00:3Z is three seconds after the interval opened and one before it "
+    "sealed, and it sorts after the seal as a string, because a colon or a Z sorts "
+    "after every digit. A reader that parses a one-digit second passes the "
+    "issued-before-sealed gate on a record issued before its interval closed. The "
+    "reference checker read it that way while the other two rails refused it.",
+    parent=BASELINE,
+)
+
+add(
+    "issued-at-with-a-non-ascii-digit",
+    "reject",
+    statement(predicate(intervalId="iv-0220", issuedAt="2026-09-19T00:00:0\u0665Z")),
+    ["oe-timestamp-grammar"],
+    "malformed",
+    ["timestamp-not-utc-basic:issuedAt"],
+    "The last digit of the second is ARABIC-INDIC DIGIT FIVE. Python's \\d matches it "
+    "and strptime reads it as 5, so both Python rails parsed this record while the Go "
+    "rail refused it; it also sorts after every ASCII timestamp, so an issuedAt written "
+    "this way passes any issued-after-sealed comparison whatever instant it names. The "
+    "grammar's digits are ASCII.",
+    parent=BASELINE,
+)
+
+add(
     "write-path-escapes-with-dot-dot",
     "reject",
     statement(
@@ -1686,6 +1727,399 @@ add(
     "gap, so it establishes no absence; the two writes it carries were still observed "
     "independently, and a verifier that refused to read them as such would make an "
     "observer who discloses a blind spot worth less than one who hides it.",
+    reading=("voluntary", True, False),
+)
+
+# --- coverage that could not be determined ----------------------------------
+#
+# The third coverage shape. The observer sat below the observed party and
+# committed before the interval, but cannot say what it covered: its audit buffer
+# overflowed and dropped events without recording which paths they touched. It
+# names no gap because it cannot locate one, and it does not claim completeness.
+
+_UNDETERMINED_REASON = (
+    "the kernel audit buffer overflowed during the interval and dropped events "
+    "without recording which paths they touched"
+)
+
+
+def _undetermined_observation(
+    interval_id: str, reason: Any = _UNDETERMINED_REASON, **coverage: Any
+) -> dict[str, Any]:
+    shape: dict[str, Any] = {"scopeComplete": False, "gaps": [], "notEstablished": reason}
+    shape.update(coverage)
+    return {
+        "vantage": "below-observed",
+        "origin": "first-hand",
+        "coverage": shape,
+        "observedSigners": [OBSERVED_KEYID],
+        "priorCommitment": commitment(before_root=R0, interval_id=interval_id),
+    }
+
+
+_UNDETERMINED_DOES_NOT_ASSERT = [
+    "that the observed party performed no action outside pathScope",
+    "that the authority document permits what the writes did",
+    "that no write occurred under pathScope",
+]
+
+
+def _undetermined_record(interval_id: str, **over: Any) -> dict[str, Any]:
+    fields: dict[str, Any] = {
+        "intervalId": interval_id,
+        "tier": "voluntary",
+        "mutation": "none",
+        "interval": _unchanged_interval(),
+        "writes": [],
+        "dualValues": [dual("writes.count", "0", "0", "agree")],
+        "observation": _undetermined_observation(interval_id),
+        "doesNotAssert": _UNDETERMINED_DOES_NOT_ASSERT,
+    }
+    fields.update(over)
+    return statement(predicate(**fields))
+
+
+add(
+    "coverage-not-established-with-reason",
+    "accept",
+    _undetermined_record("iv-0401"),
+    ["oe-coverage-not-established"],
+    "valid",
+    [],
+    "An observer that cannot say what it covered, and says why. Before notEstablished "
+    "existed it had no true value to write: an empty gaps list beside scopeComplete "
+    "false is malformed, so it could only invent a gap or claim completeness. The "
+    "record grades voluntary under clause 4 of the tier recompute, and a consumer "
+    "asking whether any write landed under /srv/app/ gets no answer from it, with the "
+    "reason attached.",
+    reading=("voluntary", True, False),
+)
+
+add(
+    "coverage-not-established-without-reason",
+    "reject",
+    _undetermined_record(
+        "iv-0402", observation=_undetermined_observation("iv-0402", reason="")
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-not-established-without-reason"],
+    "The same record with the reason left empty. A coverage the observer cannot "
+    "determine and will not explain is attack A25 under another member: it admits a "
+    "blind spot and withholds what a consumer would need to judge it.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "coverage-not-established-beside-a-gap",
+    "reject",
+    _undetermined_record(
+        "iv-0403",
+        observation=_undetermined_observation("iv-0403", gaps=["/srv/app/vendor/"]),
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-shape-ambiguous"],
+    "The record says it could not determine its coverage and, in the next member, "
+    "locates a gap. Those are two coverage statements, and a verifier that preferred "
+    "either would be choosing the producer's claim for it.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "coverage-not-established-claiming-completeness",
+    "reject",
+    _undetermined_record(
+        "iv-0404",
+        observation=_undetermined_observation("iv-0404", scopeComplete=True),
+    ),
+    ["oe-coverage-not-established"],
+    "malformed",
+    ["coverage-shape-ambiguous"],
+    "The record says it could not determine its coverage and that its coverage was "
+    "complete. The second claim is the one an absence would rest on, and the first "
+    "says it cannot be made.",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "authoritative-with-coverage-not-established",
+    "reject",
+    _undetermined_record("iv-0405", tier="authoritative"),
+    ["oe-coverage-not-established"],
+    "invalid",
+    ["authoritative-coverage-not-established"],
+    "The undetermined record claiming the independent tier. Clause 3 of the tier "
+    "recompute asks whether every member of gaps lies outside pathScope, which an "
+    "empty list satisfies vacuously, so without clause 4 this record would establish "
+    "an absence over a scope it says it cannot speak for (attack A34).",
+    parent="coverage-not-established-with-reason",
+)
+
+add(
+    "write-observed-with-coverage-not-established",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0406",
+            tier="voluntary",
+            observation=_undetermined_observation("iv-0406"),
+            doesNotAssert=[
+                "that the observed party performed no action outside pathScope",
+                "that the authority document permits what the writes did",
+                "that the write set under pathScope is complete",
+            ],
+        )
+    ),
+    ["oe-coverage-not-established"],
+    "valid",
+    [],
+    "Writes seen from below the observed party settle that a write happened, "
+    "whatever the observer could not determine about the rest of its scope. The "
+    "record is voluntary under clause 4, so it establishes no absence, and the writes "
+    "it carries were still observed independently.",
+    reading=("voluntary", True, False),
+)
+
+# --- an observer that started watching after the call began -----------------
+#
+# The case: the protected call is dispatched when the interval opens, and the
+# observer committed to the before-state at admission, but its probe attached
+# three seconds later. For those three seconds it saw nothing anywhere under
+# pathScope. That is not a path it was blind to, so gaps cannot locate it, and it
+# is not a coverage it could not determine, so notEstablished would be false: the
+# observer knows exactly when it was not watching. unobservedIntervals is where it
+# says so, and clause 5 of the tier recompute keeps the record from establishing
+# an absence over the time it names. A write it saw after attaching still counts.
+
+T_ATTACH = "2026-09-19T00:00:03Z"
+_LATE_ATTACH = [{"from": T_OPEN, "to": T_ATTACH}]
+
+
+def _late_observation(
+    interval_id: str, intervals: Any = None, **coverage: Any
+) -> dict[str, Any]:
+    shape: dict[str, Any] = {
+        "scopeComplete": False,
+        "gaps": [],
+        "unobservedIntervals": _LATE_ATTACH if intervals is None else intervals,
+    }
+    shape.update(coverage)
+    return {
+        "vantage": "below-observed",
+        "origin": "first-hand",
+        "coverage": shape,
+        "observedSigners": [OBSERVED_KEYID],
+        "priorCommitment": commitment(before_root=R0, interval_id=interval_id),
+    }
+
+
+_LATE_DOES_NOT_ASSERT = [
+    "that the observed party performed no action outside pathScope",
+    "that the authority document permits what the writes did",
+    f"that no write occurred under pathScope before {T_ATTACH}",
+]
+
+
+def _late_record(interval_id: str, **over: Any) -> dict[str, Any]:
+    fields: dict[str, Any] = {
+        "intervalId": interval_id,
+        "tier": "voluntary",
+        "mutation": "none",
+        "interval": _unchanged_interval(),
+        "writes": [],
+        "dualValues": [dual("writes.count", "0", "0", "agree")],
+        "observation": _late_observation(interval_id),
+        "doesNotAssert": _LATE_DOES_NOT_ASSERT,
+    }
+    fields.update(over)
+    return statement(predicate(**fields))
+
+
+_LATE = "observer-attached-after-the-call"
+
+add(
+    _LATE,
+    "accept",
+    _late_record("iv-0601"),
+    ["oe-coverage-unobserved-interval"],
+    "valid",
+    [],
+    "A monitor that started after the protected call began cannot establish whether "
+    "that call was contained. The interval opens when the call is dispatched, the "
+    "observer committed to the before-state at admission, and its probe attached "
+    "three seconds later; it saw no write after that, and it names the three seconds "
+    "it did not watch. The record grades voluntary under clause 5 of the tier "
+    "recompute, so a consumer asking whether any write landed under /srv/app/ during "
+    "the call gets no answer from it, and the unobserved sub-interval is the reason. "
+    "This is the C7 shape of the CoSAI WS4 containment paper with the gap located by "
+    "sub-interval: incomplete coverage, the gap named, and not_established for the "
+    "absence claim.",
+    reading=("voluntary", True, False),
+)
+
+add(
+    "authoritative-over-an-unobserved-sub-interval",
+    "reject",
+    _late_record("iv-0602", tier="authoritative"),
+    ["oe-coverage-unobserved-interval"],
+    "invalid",
+    ["authoritative-interval-not-observed"],
+    "The late monitor's record claiming the independent tier, which is the claim that "
+    "the call wrote nothing. No gap is named and notEstablished is absent, so clauses "
+    "3 and 4 of the tier recompute both hold, and without clause 5 the record would "
+    "establish an absence over three seconds its own observer says it did not watch "
+    "(attack A35).",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-beside-complete-coverage",
+    "reject",
+    _late_record(
+        "iv-0603", observation=_late_observation("iv-0603", scopeComplete=True)
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["coverage-self-contradictory"],
+    "scopeComplete true beside a named span the observer did not watch. Complete "
+    "coverage means every path under pathScope for the whole interval, so the two "
+    "members contradict, and a verifier MUST NOT prefer either.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-beside-not-established",
+    "reject",
+    _late_record(
+        "iv-0604",
+        observation=_late_observation("iv-0604", notEstablished=_UNDETERMINED_REASON),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["coverage-shape-ambiguous"],
+    "The record says it could not determine its coverage and, in the next member, "
+    "locates the time it did not watch. Those are two coverage statements, and a "
+    "verifier that preferred either would be choosing the producer's claim for it.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-outside-the-interval",
+    "reject",
+    _late_record(
+        "iv-0605",
+        observation=_late_observation(
+            "iv-0605",
+            [{"from": "2026-09-18T23:59:55Z", "to": "2026-09-18T23:59:58Z"}],
+        ),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["unobserved-interval-outside-interval"],
+    "The record admits incomplete coverage and names a span that ended before the "
+    "interval opened. It discloses a blind spot in time the record does not describe, "
+    "so its only located gap is no gap at all: attack A25 moved from paths to time. "
+    "Every named span lies within openedAt and sealedAt.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-with-no-width",
+    "reject",
+    _late_record(
+        "iv-0606",
+        observation=_late_observation("iv-0606", [{"from": T_OPEN, "to": T_OPEN}]),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["unobserved-interval-not-ordered"],
+    "A span that starts and ends at the same instant. It locates no time, so the "
+    "record admits it was not watching and declines to say when, which is the "
+    "unnamed gap again. from is strictly before to.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-intervals-that-meet",
+    "reject",
+    _late_record(
+        "iv-0607",
+        observation=_late_observation(
+            "iv-0607",
+            [
+                {"from": T_OPEN, "to": "2026-09-19T00:00:02Z"},
+                {"from": "2026-09-19T00:00:02Z", "to": T_ATTACH},
+            ],
+        ),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["unobserved-intervals-not-disjoint"],
+    "The same three seconds written as two spans that meet at 00:00:02Z. One blind "
+    "span has one spelling, so the list is ordered with each span ending strictly "
+    "before the next begins; a rail that refuses only overlap accepts this member, and "
+    "two records with the same coverage would otherwise carry different bytes.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-with-a-fractional-second",
+    "reject",
+    _late_record(
+        "iv-0608",
+        observation=_late_observation(
+            "iv-0608", [{"from": T_OPEN, "to": "2026-09-19T00:00:03.5Z"}]
+        ),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["timestamp-not-utc-basic:coverage.unobservedIntervals.to"],
+    "A span ending at 00:00:03.5Z. It sorts inside the interval and after its own "
+    "start, so every ordering check passes on it, and only the timestamp grammar "
+    "refuses it. The ordering checks compare strings, which is sound for one grammar.",
+    parent=_LATE,
+)
+
+add(
+    "unobserved-interval-as-an-iso-8601-string",
+    "reject",
+    _late_record(
+        "iv-0609",
+        observation=_late_observation("iv-0609", [f"{T_OPEN}/{T_ATTACH}"]),
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "malformed",
+    ["unobserved-interval-malformed"],
+    "The span written as an ISO 8601 interval string, the spelling a producer reaches "
+    "for first. A span is an object carrying exactly from and to, so a rail never "
+    "parses a second interval grammar to find the bounds it compares.",
+    parent=_LATE,
+)
+
+add(
+    "write-observed-after-the-observer-attached",
+    "accept",
+    statement(
+        predicate(
+            intervalId="iv-0610",
+            tier="voluntary",
+            observation=_late_observation("iv-0610"),
+            doesNotAssert=[
+                "that the observed party performed no action outside pathScope",
+                "that the authority document permits what the writes did",
+                f"that the write set under pathScope is complete before {T_ATTACH}",
+            ],
+        )
+    ),
+    ["oe-coverage-unobserved-interval"],
+    "valid",
+    [],
+    "Writes the late monitor saw after attaching settle that a write happened, "
+    "whatever it missed before. The record is voluntary under clause 5, so it "
+    "establishes no absence, and the writes it carries were still observed "
+    "independently; an admissible observation of the prohibited event still settles "
+    "fail under C3.",
     reading=("voluntary", True, False),
 )
 
@@ -2098,6 +2532,58 @@ add(
     parent=BASELINE,
     raw_payload=_ijson_payload,
 )
+
+# The same bound, spelled so that a parser hands back a float, in a member no other
+# rule types. The integer rule says "anywhere, at any depth"; a reader that walks
+# only `int` values reads 1e21 and 9007199254740993.0 as floats and never applies
+# it. Whether a number is an integer is decided by its value, not its spelling.
+# Found first in a canonicalizer outside this repository that kept integer digits,
+# then in this corpus's own reader.
+_extension_predicate = predicate(intervalId="iv-0214")
+# A member the baseline does not have, added outside predicate() on purpose: the
+# builder refuses unknown names so that no other member grows one by accident.
+_extension_predicate["observerSequence"] = 27
+_extension_statement = statement(_extension_predicate)
+for _slug, _spelling, _why in (
+    (
+        "extension-integer-in-exponent-form",
+        b"1e21",
+        "An extension member holding 1e21, which is 10^21 written with an exponent. It "
+        "is an integer by value, far past the bound, in a member nothing else types, so "
+        "only the integer rule can refuse it, and a reader that decides by spelling "
+        "reads a float and lets it through.",
+    ),
+    (
+        "extension-integer-with-a-fraction-part",
+        b"9007199254740993.0",
+        "An extension member holding 9007199254740993.0. A double reads it as 2^53, an "
+        "integer by value at the bound; the fraction part must not carry it past the "
+        "integer rule.",
+    ),
+    (
+        "extension-non-json-constant",
+        b"NaN",
+        "An extension member holding NaN, a token JSON does not have. Python's parser "
+        "accepts it as a float unless told not to, so a reader built on it takes a "
+        "non-JSON document as a statement.",
+    ),
+):
+    _payload = canonical_bytes(_extension_statement).replace(
+        b'"observerSequence":27', b'"observerSequence":' + _spelling, 1
+    )
+    if b'"observerSequence":' + _spelling not in _payload:
+        raise SystemExit(f"the {_slug} byte edit did not apply")
+    add(
+        _slug,
+        "reject",
+        _extension_statement,
+        ["oe-ijson-integer"],
+        "malformed",
+        ["not-parseable"] if _spelling == b"NaN" else ["integer-not-ijson-safe"],
+        _why,
+        parent=BASELINE,
+        raw_payload=_payload,
+    )
 
 add(
     "log-import-wearing-a-vantage",

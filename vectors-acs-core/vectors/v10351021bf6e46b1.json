@@ -1,4 +1,5 @@
 {
+  "cites": "the same budget with the fourth request carrying a session-state hint claiming a fresh count. The hint comes from the party under governance, so an implementation that reads its counter out of the request has handed the budget to the agent it bounds.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -123,6 +124,18 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-009",
+      "line": 189,
+      "sentence": "Receivers (especially across A2A or multi-Guardian boundaries) MUST treat the field as a hint and re-derive trust against local policy",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-009"
   ],

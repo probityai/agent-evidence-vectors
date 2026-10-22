@@ -1,0 +1,5 @@
+suite: ai-agent-action-conformance
+members: 75
+  accept: 42
+  reject: 33
+verdict: every member behaves as MANIFEST.json declares

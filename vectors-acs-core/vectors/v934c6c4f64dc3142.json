@@ -1,0 +1,87 @@
+{
+  "cites": "two Provenance objects, the second without a source_id, and an acs.provenance.source_id array of one element against an acs.provenance.origin array of two.",
+  "coverage": "observed",
+  "doesNotAssert": "anything about trust, which v0.1 does not put on the span",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-16",
+  "id": "v934c6c4f64dc3142",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "otel_span": {
+        "attributes": {
+          "acs.provenance.origin": [
+            "user_input",
+            "agent_generated"
+          ],
+          "acs.provenance.source_id": [
+            "user-1"
+          ],
+          "acs.request_id": "138aaa58-0c97-4ffd-9359-023978f1059e",
+          "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+          "gen_ai.tool.name": "files.read"
+        },
+        "events": [],
+        "name": "gen_ai.tool.call"
+      }
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "mode": {
+              "provenance": {
+                "origin": "agent_generated"
+              },
+              "value": "r"
+            },
+            "path": {
+              "provenance": {
+                "origin": "user_input",
+                "source_id": "user-1"
+              },
+              "value": "/srv/notes.txt"
+            }
+          },
+          "tool": {
+            "name": "files.read"
+          }
+        },
+        "request_id": "138aaa58-0c97-4ffd-9359-023978f1059e",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-061",
+      "line": 63,
+      "sentence": "It then has the same length and order as `acs.provenance.origin`, with `\"\"` where an object has none.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-061"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

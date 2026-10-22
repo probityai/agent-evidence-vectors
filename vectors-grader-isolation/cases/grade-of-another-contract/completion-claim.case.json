@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 319,
+      "path": "capability.json",
+      "sha256": "30e1d3406fe1486f9656e097c9cb77db9686c22ea89a0dbf4c58805c4ef522fd"
+    },
+    "claims": {
+      "length": 391,
+      "path": "claims.json",
+      "sha256": "99a07365cc8dbd653123d01914df68c15b5ce099e03038d7da27f877911a346e"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 953,
+      "path": "observation.json",
+      "sha256": "db8121c51475947584285a42449c8da0e237002d9efd03f6fe95aa3f5bec36a2"
+    }
+  },
+  "case_id": "grade-of-another-contract",
+  "schema_version": "probity-case/v1"
+}

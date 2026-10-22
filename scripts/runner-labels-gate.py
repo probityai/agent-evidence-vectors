@@ -37,6 +37,16 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 WORKFLOWS = HERE.parent / ".github" / "workflows"
 
+
+def inconclusive(message: str) -> SystemExit:
+    """Exit 2, the documented code for a check that could not read its input.
+
+    `SystemExit(message)` with a string exits 1, which is the code for a label
+    nothing serves: an unread account was reported as a refusal by name.
+    """
+    print(f"runner-labels-gate: {message}", file=sys.stderr)
+    return SystemExit(2)
+
 # GitHub-hosted labels need no installation. Kept as prefixes because the
 # version suffix moves (ubuntu-22.04, ubuntu-24.04) and a list of exact strings
 # would refuse a valid upgrade.
@@ -79,7 +89,7 @@ def installed_apps(owner: str) -> set[str]:
         timeout=90,
     )
     if proc.returncode != 0:
-        raise SystemExit(
+        raise inconclusive(
             f"could not read installations for {owner}: {proc.stderr.strip()[:200]}. "
             "This is a failed check, not an empty account. A token without "
             "admin:org and an organisation with no apps return the same nothing."
@@ -92,11 +102,11 @@ def owner_of_origin() -> str:
         ["git", "remote", "get-url", "origin"], capture_output=True, text=True, timeout=30
     )
     if proc.returncode != 0:
-        raise SystemExit(f"could not read the origin remote: {proc.stderr.strip()[:200]}")
+        raise inconclusive(f"could not read the origin remote: {proc.stderr.strip()[:200]}")
     url = proc.stdout.strip()
     match = re.search(r"[:/]([^/:]+)/[^/]+?(?:\.git)?$", url)
     if not match:
-        raise SystemExit(f"could not read an owner out of the origin remote: {url}")
+        raise inconclusive(f"could not read an owner out of the origin remote: {url}")
     return match.group(1)
 
 

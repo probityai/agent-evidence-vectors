@@ -1,0 +1,611 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 4,
+      "deny": 10
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 14
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-authority-at-dispatch/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-authority-at-dispatch/gen_vectors.py",
+    "routine-file": "vectors-authority-at-dispatch/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "6ca7ba7ec5a425f4b9e4c4b4a03be5fcfb4354760339e9f0b37be53b3b6f2dff",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "swapped-in": "ef38fa00dff46efa9ecc6e2acd60baf9e7bb652e1138b2f726553eb9c4a243b2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-authority-at-dispatch/README.md",
+      "serialization": "bytes",
+      "sha256": "f64cdf033fe28034347424fdc04fbbe96a6fb70c88a7dee94ca58dc1a35de5a4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "swapped-in": "0942f9b07a22624ef9f68ed9ef250b9b19017a8b7d09c44897ec6cc44f9f771a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-authority-at-dispatch/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "00964204d1c547ecb859941eb8ef4bbf0b1701417e7bfe7e6a1a2d45b55d11fc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "swapped-in": "e593dc5698058f11ea09d042f0a567be498af9622dff52f610d7cf876b17c694",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-authority-at-dispatch/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "863362e76758e8a21054ab3ff25dfa66dddcab40edd388dac01c681dcc3bcfec"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+        },
+        "swapped-in": "a68c26d9f4d4c11df15b25ddbfd8ef425e4765cd2a68d68a8b5325e91dfa0863",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-authority-at-dispatch/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "f5a54b0a47164ed2b04fd85712298f1378d96def681b8041519f54626a933413"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-authority-at-dispatch"
+  },
+  "byte-identity": {
+    "pins": 28,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-authority-at-dispatch",
+      "aee-verify -json vectors-authority-at-dispatch",
+      "aee-verify vectors-authority-at-dispatch"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-direct",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-two-hop-narrowing",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-revoked-after-dispatch",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-evidence-age-at-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revoked-before-dispatch",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dispatched-bytes-differ",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dispatched-object-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dispatched-action-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "stale-authority-evidence",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "scope-amplified-across-hops",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "grant-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "evidence-age-inconsistent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "fac5929dde64f1194be8e1565f824e648be83a9c3ee73a03dfd94a680adbe285"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-direct",
+      "allow-two-hop-narrowing",
+      "allow-revoked-after-dispatch",
+      "allow-evidence-age-at-limit",
+      "revoked-before-dispatch",
+      "dispatched-bytes-differ",
+      "dispatched-object-differs",
+      "dispatched-action-differs",
+      "stale-authority-evidence",
+      "scope-amplified-across-hops",
+      "grant-expired",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "evidence-age-inconsistent"
+    ],
+    "path": "vectors-authority-at-dispatch/MANIFEST.json",
+    "sha256": "e71935b4569b9537278a1d718ad9d8a90b32d01dd581189185de9c5d404f5fee"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-direct/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-direct/record.json",
+          "sha256": "bd7fe7859e1139513d5d9bf3bd4a93492f077b157790ab40b5b0dee1aeaadfcb"
+        }
+      ],
+      "id": "allow-direct"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-two-hop-narrowing/record.json",
+          "sha256": "f1066afa2390793212dce39be39edcc00a8ad59f29f58fde73a171bb5e00ff95"
+        }
+      ],
+      "id": "allow-two-hop-narrowing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-revoked-after-dispatch/record.json",
+          "sha256": "dbb77f3c8f1f1503a108517a677b4360af21eb08fe172b4c1706b91a64c0dcca"
+        }
+      ],
+      "id": "allow-revoked-after-dispatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/allow-evidence-age-at-limit/record.json",
+          "sha256": "7b3d5de81fd60024c1478c8043f3de0ffd04c9a0e03992bf2b1c90fe23c3808b"
+        }
+      ],
+      "id": "allow-evidence-age-at-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/revoked-before-dispatch/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/revoked-before-dispatch/record.json",
+          "sha256": "d793ba2e7b1ba7f889b55d905c584be7639f0255760d8f8a3fa5874917765513"
+        }
+      ],
+      "id": "revoked-before-dispatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-bytes-differ/dispatched.bin",
+          "sha256": "787cddd4109177a231ab97b0f4a171a9823e113a9da06d9c88604467944abbb2"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-bytes-differ/record.json",
+          "sha256": "2ebb9ebde5a266c15caba7504b3578176988324beb8573e201129bac7e042a2f"
+        }
+      ],
+      "id": "dispatched-bytes-differ"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-object-differs/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-object-differs/record.json",
+          "sha256": "78532e9478e2d9c938b63f33e5408af5276c524f1026f7524a415e51d1bf85b8"
+        }
+      ],
+      "id": "dispatched-object-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-action-differs/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/dispatched-action-differs/record.json",
+          "sha256": "35e4939a08ac569e510842e67d0c5011fbd9000d28b8776a0783a2e8ecedc4dc"
+        }
+      ],
+      "id": "dispatched-action-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/stale-authority-evidence/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/stale-authority-evidence/record.json",
+          "sha256": "642cd12a5fa96e220eeedf5cf9a5959638240d82d48757adb3559e2124e20e50"
+        }
+      ],
+      "id": "stale-authority-evidence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/scope-amplified-across-hops/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/scope-amplified-across-hops/record.json",
+          "sha256": "2b42854a597afb8c98c2c97c9d556ab4d742226fa7d99ab03741bbac4c21614f"
+        }
+      ],
+      "id": "scope-amplified-across-hops"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/grant-expired/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/grant-expired/record.json",
+          "sha256": "d5f21f918b3fb7cfac12e364f5ebfebd9746920c9c7201febc93f6f0e4427bc6"
+        }
+      ],
+      "id": "grant-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/contract-id-missing/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/contract-id-missing/record.json",
+          "sha256": "bfa8dede09005b79d1de1ae58226fc34a80084ba05a6f2179d02f64afe454a43"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/contract-id-unknown/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/contract-id-unknown/record.json",
+          "sha256": "bad3b480c0d1c23325ca6c2f9b64995d2b9f978d8e1c70dae18d837b8ef85678"
+        }
+      ],
+      "id": "contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-authority-at-dispatch/cases/evidence-age-inconsistent/dispatched.bin",
+          "sha256": "881f8088cb1c39e383485cc8d0adf03e510cae2e5594e2ab6cf414d5c30b297e"
+        },
+        {
+          "path": "vectors-authority-at-dispatch/cases/evidence-age-inconsistent/record.json",
+          "sha256": "58b2f7ab6436cd1fda6822bc45d68582ef886c58f1e3dc1c83587c5e4f52bfe3"
+        }
+      ],
+      "id": "evidence-age-inconsistent"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-authority-at-dispatch.json",
+        "serialization": "bytes",
+        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-authority-at-dispatch.txt",
+        "serialization": "bytes",
+        "sha256": "15005add6a0d551b06d3218efd5f9464d38ada03340ee6d6b03477181ce0e858"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+      },
+      {
+        "process": "run-2",
+        "sha256": "3b3a8422418e13fa283c932ad77650ed230d791c9ef88cd25d8afc76e7fa84bc"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 14 pinned members of authority-at-dispatch/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 14,
+    "require": "at-least-one",
+    "selected": [
+      "allow-direct",
+      "allow-two-hop-narrowing",
+      "allow-revoked-after-dispatch",
+      "allow-evidence-age-at-limit",
+      "revoked-before-dispatch",
+      "dispatched-bytes-differ",
+      "dispatched-object-differs",
+      "dispatched-action-differs",
+      "stale-authority-evidence",
+      "scope-amplified-across-hops",
+      "grant-expired",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "evidence-age-inconsistent"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "authority-at-dispatch/v1"
+}

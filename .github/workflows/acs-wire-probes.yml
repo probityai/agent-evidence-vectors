@@ -1,10 +1,12 @@
 name: ACS-Core wire probes
 
-# Runs vectors-acs-core/wire-probes against the AGT reference Guardian at two
-# pinned refs of the specification's repository: the integration tip before
-# pull request 229 (every probe fails, which proves each one can) and the head
-# of that pull request. Each run must match its recorded expectation exactly,
-# so a probe that starts passing, or stops, turns this red.
+# Runs vectors-acs-core/wire-probes against the AGT reference Guardian at pinned
+# refs of the specification's repository: the integration tip before pull
+# request 229 (every D1 to D10 probe fails there, which proves each one can),
+# the pull request head the probes were first written against (where the D11
+# probes fail, which proves they can), and its current head. Each run must match
+# its recorded expectation exactly, so a probe that starts passing, or stops,
+# turns this red.
 
 # Pull requests only. The job runs a third party's code, so it never runs in
 # the default branch's context, where a cache it wrote could be read later.
@@ -32,6 +34,9 @@ jobs:
           - label: pr229
             ref: beee5b54d1292c30137d66ab660c2639929a5284
             expect: agt-pr229.json
+          - label: pr229-6e6942d
+            ref: 6e6942deb8393e15916976b95e3bd18b97071b62
+            expect: agt-pr229-6e6942d.json
     steps:
       - name: Check out the probes
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09

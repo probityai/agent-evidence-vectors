@@ -1,0 +1,582 @@
+{
+ "mutations": {
+  "embedded-key-substituted": {
+   "grounds": [
+    "sig-all-but-signature"
+   ],
+   "reading_b": "invalid",
+   "refused": true
+  },
+  "signature-byte-flipped": {
+   "grounds": [
+    "sig-all-but-signature"
+   ],
+   "reading_b": "invalid",
+   "refused": true
+  },
+  "signed-field-changed-verified_at": {
+   "grounds": [
+    "sig-all-but-signature"
+   ],
+   "reading_b": "invalid",
+   "refused": true
+  },
+  "unsigned-member-added": {
+   "grounds": [
+    "sig-all-but-signature"
+   ],
+   "reading_b": "invalid",
+   "refused": true
+  }
+ },
+ "relaxed_signature": [
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "sig-all-but-signature",
+    "deny-response_hash-empty"
+   ],
+   "case": "04-tampered-negative",
+   "relaxed_grounds": [
+    "deny-response_hash-empty"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "numeric-fields"
+   ],
+   "case": "05-cross-field-semantic/05a-invalid-timestamp-month13",
+   "relaxed_grounds": [
+    "numeric-fields"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "05-cross-field-semantic/05b-sandbox-flag-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "response_hash-value"
+   ],
+   "case": "05-cross-field-semantic/05c-response-hash-mismatch",
+   "relaxed_grounds": [
+    "response_hash-value"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "deny-response_hash-empty"
+   ],
+   "case": "05-cross-field-semantic/05d-verdict-response-inconsistency",
+   "relaxed_grounds": [
+    "deny-response_hash-empty"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "06-l2-behavior/06d-behavior-wrong-l1-digest",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-action",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-args_digest",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-audience",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-config_hash",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-deployment_mode",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-expires_at",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-issued_at",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-issuer",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-latency_us",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-max_clock_skew",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-nonce",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-params_hash",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "sig-all-but-signature"
+   ],
+   "case": "07-structure-negatives/07a-missing-public_key",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-public_key_fingerprint",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-receipt_version",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-request_hash",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-response_hash",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-rule_summary",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-rule_version",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-runtime_context_hash",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-sequence",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "sig-all-but-signature",
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-signature",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-signing_algorithm",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-timestamp",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-tool",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-tool_call_id",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-trace_id",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b",
+    "verdict-enum-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-verdict",
+   "relaxed_grounds": [
+    "required-fields-b",
+    "verdict-enum-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "required-fields-b"
+   ],
+   "case": "07-structure-negatives/07a-missing-verified_at",
+   "relaxed_grounds": [
+    "required-fields-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07a-missing-verifier_source_class",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07b-unknown-field",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "07-structure-negatives/07c-latency-as-string",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "numeric-fields"
+   ],
+   "case": "07-structure-negatives/07c-max-clock-skew-as-string",
+   "relaxed_grounds": [
+    "numeric-fields"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "sequence-integer"
+   ],
+   "case": "07-structure-negatives/07c-sequence-as-string",
+   "relaxed_grounds": [
+    "sequence-integer"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "numeric-fields"
+   ],
+   "case": "07-structure-negatives/07c-timestamp-as-boolean",
+   "relaxed_grounds": [
+    "numeric-fields"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "verdict-enum-b"
+   ],
+   "case": "07-structure-negatives/07c-verdict-as-number",
+   "relaxed_grounds": [
+    "verdict-enum-b"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "numeric-fields"
+   ],
+   "case": "08-temporal-negatives/08a-expired",
+   "relaxed_grounds": [
+    "numeric-fields"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "08-temporal-negatives/08b-future-timestamp",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "numeric-fields"
+   ],
+   "case": "08-temporal-negatives/08c-issued-after-timestamp",
+   "relaxed_grounds": [
+    "numeric-fields"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "08-temporal-negatives/08d-clock-skew-boundary",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "freshness-6.9-at-verified_at"
+   ],
+   "case": "08-temporal-negatives/08e-verified-after-expiry",
+   "relaxed_grounds": [
+    "freshness-6.9-at-verified_at"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "09-identity-negatives/09a-fingerprint-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "signing_algorithm-ed25519"
+   ],
+   "case": "09-identity-negatives/09b-wrong-algorithm",
+   "relaxed_grounds": [
+    "signing_algorithm-ed25519"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "sig-all-but-signature"
+   ],
+   "case": "09-identity-negatives/09c-malformed-public-key",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "10-chain-negatives/10a-sequence-gap",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "10-chain-negatives/10b-prev-hash-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "10-chain-negatives/10c-trace-id-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "10-chain-negatives/10d-empty-chain",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "10-chain-negatives/10e-prev-hash-unanchored",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "11-integrity-negatives/11a-request-hash-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "11-integrity-negatives/11b-params-hash-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "valid",
+   "baseline_grounds": [],
+   "case": "11-integrity-negatives/11c-config-hash-mismatch",
+   "relaxed_grounds": [],
+   "signature_relaxed": "valid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "nonce-replay"
+   ],
+   "case": "12-nonce-negatives/12a-nonce-replay",
+   "relaxed_grounds": [
+    "nonce-replay"
+   ],
+   "signature_relaxed": "invalid"
+  },
+  {
+   "baseline": "invalid",
+   "baseline_grounds": [
+    "nonce-nonempty"
+   ],
+   "case": "12-nonce-negatives/12b-empty-nonce",
+   "relaxed_grounds": [
+    "nonce-nonempty"
+   ],
+   "signature_relaxed": "invalid"
+  }
+ ]
+}

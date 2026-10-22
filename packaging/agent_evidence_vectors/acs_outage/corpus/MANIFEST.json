@@ -1,0 +1,252 @@
+{
+  "cases": [
+    {
+      "control": "warm session with on_decision_failure=proceed: the step proceeds and is audited",
+      "expected": {
+        "decision": "supported",
+        "reason": "cached_proceed_applied_and_audited"
+      },
+      "files": {
+        "case.json": "814664d85a074ff9d71dc2b71d5d40946f91f3d06b47c90e5b4b6d88be573221"
+      },
+      "id": "accept-cached-proceed",
+      "source": "replay:proceed-cached"
+    },
+    {
+      "control": "warm session with on_decision_failure=deny: the step is blocked and audited",
+      "expected": {
+        "decision": "supported",
+        "reason": "cached_deny_applied_and_audited"
+      },
+      "files": {
+        "case.json": "e162e51917b13c654f6b4693f30308517d94611bc506fef21ede0f63f612d1b9"
+      },
+      "id": "accept-cached-deny",
+      "source": "replay:deny-cached"
+    },
+    {
+      "control": "no session was negotiated: the default posture proceeds and the failed handshake is audited",
+      "expected": {
+        "decision": "supported",
+        "reason": "startup_default_proceed_audited"
+      },
+      "files": {
+        "case.json": "466d531873ae0088175c81ecf6ad7238ce6f354befb4a8970dcf68b2e7e5ed4d"
+      },
+      "id": "accept-fresh-default-proceed",
+      "source": "replay:proceed-fresh"
+    },
+    {
+      "control": "no session was negotiated and the hook's environment says deny: the default still applies",
+      "expected": {
+        "decision": "supported",
+        "reason": "startup_default_proceed_audited"
+      },
+      "files": {
+        "case.json": "32e04bba6b3ac5d24556c0ba33e58f95ed55aa66a364628a832fa2c1d24157f1"
+      },
+      "id": "accept-fresh-default-despite-env-deny",
+      "source": "replay:deny-fresh"
+    },
+    {
+      "control": "the host allows a step its cached deny posture should block",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "posture_not_applied"
+      },
+      "files": {
+        "case.json": "d74da6bef3d303491ffd084b6ca6b5a9e1967e509c6899047830e6918f212503"
+      },
+      "id": "reject-cached-deny-allowed",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the host applies a deny read from its own environment to a session that never negotiated",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "unnegotiated_posture_applied"
+      },
+      "files": {
+        "case.json": "9d0927ba1cf2bf51a76fcf26fb2bd3818ac8730a02a28c7cf3af48412ac87781"
+      },
+      "id": "reject-fresh-env-deny-applied",
+      "twin": "accept-fresh-default-despite-env-deny"
+    },
+    {
+      "control": "the host blocks a step its cached proceed posture should allow",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "posture_not_applied"
+      },
+      "files": {
+        "case.json": "58455ea1b3ae3c8017213ebc06500b3de68231f535e71abaad66724803d5a6f3"
+      },
+      "id": "reject-cached-proceed-denied",
+      "twin": "accept-cached-proceed"
+    },
+    {
+      "control": "the hook says deny but the marker shows the command ran",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "blocked_step_executed"
+      },
+      "files": {
+        "case.json": "9690defabaec4e4433350923e1320edfb9c3ce0e21ef53aec561f56f29c165a3"
+      },
+      "id": "reject-blocked-step-executed",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the hook says allow but the marker shows nothing ran",
+      "expected": {
+        "decision": "not_established",
+        "reason": "allowed_step_not_executed"
+      },
+      "files": {
+        "case.json": "19c96073315e0b1b33a04fe9160c2280e176bee0b397cc0e7cca6b2f6bd4ff2d"
+      },
+      "id": "reject-allowed-step-not-executed",
+      "twin": "accept-cached-proceed"
+    },
+    {
+      "control": "the step proceeded without a decision and left no audit record",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "outage_step_not_audited"
+      },
+      "files": {
+        "case.json": "6ac37f69e6fd9323ddeb5bd85d40c3e62e8bb7204f7d33adb5efc8db28d4b462"
+      },
+      "id": "reject-step-not-audited",
+      "twin": "accept-cached-proceed"
+    },
+    {
+      "control": "the audit record names a posture the session did not negotiate",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "audit_posture_mismatch"
+      },
+      "files": {
+        "case.json": "d3186ebf608b36a5a64ad5fc3daba23cc4763acd7bf25a0eccd5517915d3af72"
+      },
+      "id": "reject-audit-posture-edited",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the audit record says negotiated for a session whose handshake never succeeded",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "posture_source_misreported"
+      },
+      "files": {
+        "case.json": "9246dc874df5baa77976e9320176035f38729da64c7e05b09f06ce8d1fc74f4a"
+      },
+      "id": "reject-fresh-source-claimed-negotiated",
+      "twin": "accept-fresh-default-proceed"
+    },
+    {
+      "control": "the audit record says proceeded for a step the hook blocked",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "audit_outcome_mismatch"
+      },
+      "files": {
+        "case.json": "e7e80962a4612613eeabe6fc32c6d0d8b339143ac3771c166889a821fe6bd205"
+      },
+      "id": "reject-audit-outcome-edited",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the unguarded start is audited without the failed handshake",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "unguarded_startup_not_audited"
+      },
+      "files": {
+        "case.json": "ad9e9c9c71a2370481f319bd37d7c38d6fa69e06b5e451ee715dd86bc4dc8a9e"
+      },
+      "id": "reject-fresh-handshake-not-audited",
+      "twin": "accept-fresh-default-proceed"
+    },
+    {
+      "control": "the audit record has no acs.decision.failure event in the OTLP export",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "audit_not_exported"
+      },
+      "files": {
+        "case.json": "84791bb71fbb835ac6f36b00ea2cb65895b9576b3a4c1f8f92e9a6354691a5ab"
+      },
+      "id": "reject-audit-not-exported",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the exported failure class is not unreachable",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "failure_class_mismatch"
+      },
+      "files": {
+        "case.json": "cb198ac8c22f5ee1d82fee0eef51cc331a460f547ac6fab8bc27b038be345690"
+      },
+      "id": "reject-export-class-edited",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "a blocked step is exported as fail_open",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "failure_posture_mismatch"
+      },
+      "files": {
+        "case.json": "8b7d94c9b876a905b882fa414ab1a82e429e711229a9d69abc97e74cbc1448d3"
+      },
+      "id": "reject-export-posture-edited",
+      "twin": "accept-cached-deny"
+    },
+    {
+      "control": "the export says the Guardian reported a failure only the host could observe",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "reporter_mismatch"
+      },
+      "files": {
+        "case.json": "915b944516f5b1cbf0849aedebde8435cd362075a89efb12872f6f897b9a8c6e"
+      },
+      "id": "reject-export-reporter-edited",
+      "twin": "accept-fresh-default-proceed"
+    },
+    {
+      "control": "a step taken with the Guardian reachable is not an outage step",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed_step"
+      },
+      "files": {
+        "case.json": "c3ed6c162d9496a56b03f431752fa8efb8a3283891a2d6a9f2a0e5f13b1f66f7"
+      },
+      "id": "reject-guardian-reachable",
+      "twin": "accept-cached-proceed"
+    }
+  ],
+  "corpusDigest": "fe345ef34459e27ab26f86c6ec14b94b5d2aef8c9e4a79565f5845924ef4d8c4",
+  "origin": {
+    "acs_commit": "8a459524530b320c70c68d1d0b85bbcabb3771e6",
+    "bundle_sha256": "eec4b2d39683740dac5742c53ac3c7cb17f1f70a6698d8bf3419ae8eeff9b737",
+    "guardian": "a loopback Guardian shut down cleanly before the unreachable steps",
+    "host": "the bundle's synthetic host driving hosts/claude-code/acs-hook.ts",
+    "report": "https://github.com/GenAI-Security-Project/agent-control-standard/issues/92",
+    "runtime": "bun 1.3.11"
+  },
+  "sources": {
+    "deny/audit.jsonl": "315efb9428c87290d4b720f3ffc6057509e169df13b8b69d08b8c77796d65ee3",
+    "deny/audit.otlp.jsonl": "dc4261a6113cdcf113de1b31bb08c5efeca1e086b7f4637201c076de15293dca",
+    "deny/sessions/warm-session.json": "d726f00115a3ca1c10bade500e58720f31a50ca7acf1db3e4b81ae2488027e44",
+    "deny/steps.jsonl": "9143bd1d9ec7f633798d2789ea55376918489ce63e68f18de07c8cadb8875b46",
+    "proceed/audit.jsonl": "9b44cfbe41a327c886c5d0d544cbb3508c69fd3a256e7c3b0fcb0f081e5e0ef0",
+    "proceed/audit.otlp.jsonl": "c61e3364eaea4b23350cb4731b89424e352abc3af49e50edfa50e5e8e2de5119",
+    "proceed/sessions/warm-session.json": "d10d0efc9b1a8c1e3ad908908cf13fd4c44892165940ea10958e0fb7a836a8ca",
+    "proceed/steps.jsonl": "e9cfa20356d332610f014698099563f99da9d3ee99552bf25f9464b91858de81"
+  },
+  "suite": "acs-outage-posture/8a459524530b"
+}

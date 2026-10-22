@@ -2,7 +2,7 @@
 // go-witness attestor module against the sibling core module without any
 // replace directive. The core module alone builds and tests with no
 // workspace at all.
-go 1.25.0
+go 1.26.0
 
 use (
 	.

@@ -1,0 +1,86 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "accepted": false,
+    "claim_id": "lost-events",
+    "completion_claimed": true,
+    "integrity": {
+      "checks": [
+        {
+          "claim_type": "protected_paths/v1",
+          "decision": "not_established",
+          "reason": "observation_coverage_unestablished",
+          "vantage": "unestablished"
+        },
+        {
+          "claim_type": "probe_observed/v1",
+          "decision": "not_established",
+          "reason": "no_probes",
+          "vantage": "unestablished"
+        },
+        {
+          "claim_type": "tool_claim_match/v1",
+          "decision": "not_established",
+          "reason": "observation_coverage_unestablished",
+          "vantage": "unestablished"
+        },
+        {
+          "claim_type": "completion_claim/v1",
+          "decision": "not_established",
+          "reason": "observation_coverage_unestablished",
+          "vantage": "unestablished"
+        }
+      ],
+      "decision": "not_established",
+      "reason": "observation_coverage_unestablished",
+      "vantage": "unestablished"
+    },
+    "invocation_id": "call-1",
+    "outcome": {
+      "checks": [
+        {
+          "claim_type": "acceptance_observed/v1",
+          "decision": "not_established",
+          "reason": "contract_adequacy_zero",
+          "vantage": "unestablished"
+        }
+      ],
+      "decision": "not_established",
+      "reason": "contract_adequacy_zero",
+      "vantage": "unestablished"
+    },
+    "records": {
+      "capability": {
+        "sha256": "d5139edc665c6bd65d3a57eb785f99721e01cf8db1206f73225089dd2ae70337"
+      },
+      "claims": {
+        "sha256": "0bce38f0ad02d429e5f3abf1e344cb75ba37856a9a18f764f551e2620c12d150"
+      },
+      "contract": {
+        "sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a"
+      },
+      "grade": {
+        "sha256": "7b603d1af90b4477470fa41958e3c025d9deb2aa04b95055165c7af43750f519"
+      },
+      "observation": {
+        "sha256": "eb408e84122f083ee61bb87edae946ac97eaa839fab8902a8d5bb510b026a2ad"
+      },
+      "tree": {
+        "sha256": "c002399122dc57825b79fad11b158493b0b65f909fe72b6b0badf598eebf114e"
+      }
+    },
+    "schema_version": "probity-done-receipt/v2",
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
+    }
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66"
+      },
+      "name": "workspace-tree"
+    }
+  ]
+}

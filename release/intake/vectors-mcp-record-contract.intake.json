@@ -1,0 +1,656 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 7,
+      "reject": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 15
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-mcp-record-contract/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-mcp-record-contract/gen_vectors.py",
+    "routine-file": "vectors-mcp-record-contract/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "8b07ccb890bac86bbff1a811a76a59f19971f0619e35113b7d194857c5d755fa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "62c3dc07c6c9900879b6f3a3474d8bebbfdad7a0aba0725b0ac158091a78029f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "0aa784a85529e7e7807646b88b4dbeb5fe487467f3193fb6e8f52b3b8148015f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/README.md",
+      "serialization": "bytes",
+      "sha256": "2b50127ace6c8f6709bfcca923f6ec29b1773b2912aaf3609c7900d279710341"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "828ae533f351dba232679a11ef2e98b238706357ace5a592a2039940a35f4558",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/check_run_record.py",
+      "serialization": "bytes",
+      "sha256": "b004fd88c83408616fda00dea40401221b50fb2f6b71d6f86b175b88b06f571e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+        },
+        "swapped-in": "b3dea3ffbeec844e69eab333942aa976363222a50b51d38f7278fd5cdec259f7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-record-contract/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "72ba72c287c7d1f72c14d4a1df49ce89a82669d3950fbf6090a38e65335df14f"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "records",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-mcp-record-contract"
+  },
+  "byte-identity": {
+    "pins": 15,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-mcp-record-contract",
+      "aee-verify -json vectors-mcp-record-contract",
+      "aee-verify vectors-mcp-record-contract"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v14d745599996345e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1a24e046d96b0499",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2dc4d0dbfd880265",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4ec0532db09c7a54",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v50e907fcb9b806f8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v58de6293c9625b14",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v711b6687a6425d47",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v714a7eb9aca0469c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v740658c91965f801",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v744318c472f31dab",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v74b9938f39ca94e2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8ddcb96b3a0892c3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v95396ec402906fb0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va45cc5fefb1fe725",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve5eb95730b9c0acc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "3d35f56c32ab912afc3ea0302a2bc45abd5efad87a709539aecf389c84264837"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v14d745599996345e",
+      "v1a24e046d96b0499",
+      "v2dc4d0dbfd880265",
+      "v4ec0532db09c7a54",
+      "v50e907fcb9b806f8",
+      "v58de6293c9625b14",
+      "v711b6687a6425d47",
+      "v714a7eb9aca0469c",
+      "v740658c91965f801",
+      "v744318c472f31dab",
+      "v74b9938f39ca94e2",
+      "v8ddcb96b3a0892c3",
+      "v95396ec402906fb0",
+      "va45cc5fefb1fe725",
+      "ve5eb95730b9c0acc"
+    ],
+    "path": "vectors-mcp-record-contract/MANIFEST.json",
+    "sha256": "762eb5cb908136574756a0d22fb26b35844bc36dc8943220c913d4828fc7b6d7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v14d745599996345e.json",
+          "sha256": "1c067c6935a9f6795d95c50a46d9ec042c64d3f6a75a076bd6e65601b58d4f41"
+        }
+      ],
+      "id": "v14d745599996345e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v1a24e046d96b0499.json",
+          "sha256": "a2463addbdd6b35f2746e3f40288509728ac61a84eb0cc859a70c7a1bc173388"
+        }
+      ],
+      "id": "v1a24e046d96b0499"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v2dc4d0dbfd880265.json",
+          "sha256": "b17eae3bca582fa1e891dbf5c172a6ad8a597c554475afcc72f9fdc5860a676a"
+        }
+      ],
+      "id": "v2dc4d0dbfd880265"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v4ec0532db09c7a54.json",
+          "sha256": "95353266a1f94793278f4891d386e9c385722067c90916369d98af680e71a10f"
+        }
+      ],
+      "id": "v4ec0532db09c7a54"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v50e907fcb9b806f8.json",
+          "sha256": "e4f7f4ed47886f212fb724e64d0a4df890412171d37e04b0965fd24d8593d6b8"
+        }
+      ],
+      "id": "v50e907fcb9b806f8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v58de6293c9625b14.json",
+          "sha256": "e12654a4daa3bfd297cfe294ba158e95b6d19210fc703bb184a28c1d83d7c5fb"
+        }
+      ],
+      "id": "v58de6293c9625b14"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v711b6687a6425d47.json",
+          "sha256": "46c90519014ac60df5db30f8b5dc9a8699b9d522117fcbd0e81b0a38b348cc78"
+        }
+      ],
+      "id": "v711b6687a6425d47"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v714a7eb9aca0469c.json",
+          "sha256": "e5eee171051c7c20ffaff41159897bb4a57e2a8df0df1ea37a361c6b336d0c2d"
+        }
+      ],
+      "id": "v714a7eb9aca0469c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v740658c91965f801.json",
+          "sha256": "c225095d5612e63dae4124642881b77528459e503ac768c75687a9307bdc3559"
+        }
+      ],
+      "id": "v740658c91965f801"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v744318c472f31dab.json",
+          "sha256": "f51f203d342ef4f4d529b3b8bb913428816a29822e8d9c81b627bd91b3e638a9"
+        }
+      ],
+      "id": "v744318c472f31dab"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v74b9938f39ca94e2.json",
+          "sha256": "340060c66040d6bc4e49fc77dfca92f043b735995e57b736999099a21cbf0a45"
+        }
+      ],
+      "id": "v74b9938f39ca94e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v8ddcb96b3a0892c3.json",
+          "sha256": "51d254fa97cd15ec112323db9b5b1f8f089e99be3e19b79a476618108f4df69c"
+        }
+      ],
+      "id": "v8ddcb96b3a0892c3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/v95396ec402906fb0.json",
+          "sha256": "d17f07136f02685bd09c0f06466b65832dd52ae9f25a76a47257bf3de3fd2b41"
+        }
+      ],
+      "id": "v95396ec402906fb0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/va45cc5fefb1fe725.json",
+          "sha256": "6f1c88d170aa74ed7685a79b39f507482f42dfbed43e0d479ba2f37990adeed4"
+        }
+      ],
+      "id": "va45cc5fefb1fe725"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-record-contract/records/ve5eb95730b9c0acc.json",
+          "sha256": "648ebdb13838587025e98efe3f8ec150a4336b80059f40204fd2158bf7637d83"
+        }
+      ],
+      "id": "ve5eb95730b9c0acc"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "90ba5e8cc42aca0383fe76608b1648406a5824ed303c178dd40a22f1d8e36f26",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-record-contract.json",
+        "serialization": "bytes",
+        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-record-contract.txt",
+        "serialization": "bytes",
+        "sha256": "dd0cdeeeef8b9bbd85f019ebe15602c8621b29784c5f0df0c85c3afcd64cf083"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v14d745599996345e",
+      "inputs": [
+        "member:v14d745599996345e",
+        "check:v14d745599996345e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-5\"],\"expected\":{\"figureMeansWhatItSays\":false,\"independence\":\"independent\",\"recheckable\":true}}"
+    },
+    {
+      "check": "v1a24e046d96b0499",
+      "inputs": [
+        "member:v1a24e046d96b0499",
+        "check:v1a24e046d96b0499"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-6\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"undeclared\",\"recheckable\":true}}"
+    },
+    {
+      "check": "v2dc4d0dbfd880265",
+      "inputs": [
+        "member:v2dc4d0dbfd880265",
+        "check:v2dc4d0dbfd880265"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-1\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"independent\",\"recheckable\":false}}"
+    },
+    {
+      "check": "v4ec0532db09c7a54",
+      "inputs": [
+        "member:v4ec0532db09c7a54",
+        "check:v4ec0532db09c7a54"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-2\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"independent\",\"recheckable\":false}}"
+    },
+    {
+      "check": "v58de6293c9625b14",
+      "inputs": [
+        "member:v58de6293c9625b14",
+        "check:v58de6293c9625b14"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-4\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"independent\",\"recheckable\":false}}"
+    },
+    {
+      "check": "v711b6687a6425d47",
+      "inputs": [
+        "member:v711b6687a6425d47",
+        "check:v711b6687a6425d47"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-3\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"independent\",\"recheckable\":false}}"
+    },
+    {
+      "check": "v714a7eb9aca0469c",
+      "inputs": [
+        "member:v714a7eb9aca0469c",
+        "check:v714a7eb9aca0469c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-5\"],\"expected\":{\"figureMeansWhatItSays\":false,\"independence\":\"independent\",\"recheckable\":true}}"
+    },
+    {
+      "check": "va45cc5fefb1fe725",
+      "inputs": [
+        "member:va45cc5fefb1fe725",
+        "check:va45cc5fefb1fe725"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"mrc-c-4\"],\"expected\":{\"figureMeansWhatItSays\":true,\"independence\":\"independent\",\"recheckable\":false}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+      },
+      {
+        "process": "run-2",
+        "sha256": "01ab422d0c7c628209d8ffeda4f4ac9d4d2807ae983e601da07f0744b13975b5"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 15 pinned members of cross-run-record-contract as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 15,
+    "require": "at-least-one",
+    "selected": [
+      "v14d745599996345e",
+      "v1a24e046d96b0499",
+      "v2dc4d0dbfd880265",
+      "v4ec0532db09c7a54",
+      "v50e907fcb9b806f8",
+      "v58de6293c9625b14",
+      "v711b6687a6425d47",
+      "v714a7eb9aca0469c",
+      "v740658c91965f801",
+      "v744318c472f31dab",
+      "v74b9938f39ca94e2",
+      "v8ddcb96b3a0892c3",
+      "v95396ec402906fb0",
+      "va45cc5fefb1fe725",
+      "ve5eb95730b9c0acc"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "cross-run-record-contract"
+}

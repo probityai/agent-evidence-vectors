@@ -66,10 +66,10 @@ For a content-layer record the same chain is shorter and should be, because noth
 
 AEE does not detect anything and does not compete with AVE's classification work. It cannot tell you a component is malicious. It can only tell you whether the account of how you found out is checkable.
 
-The two conformance-relevant limits, stated plainly: AEE is presently exercised by a first-party implementation set, so cross-rail agreement is a drift check rather than independent corroboration; and the predicate is a draft under review at in-toto, not a ratified standard.
+The two conformance-relevant limits, stated plainly: AEE is presently exercised by a first-party implementation set, so cross-rail agreement is a drift check rather than independent corroboration; and the predicate is a proposal to in-toto, made in attestation pull request 570, not a ratified standard.
 
 ## Provenance
 
 AVE records were read from the published corpus on 2026-07-28, 59 in total. That read names a date and no commit, and it cannot be pinned to one now: twelve upstream commits across seven days carried a 59-record tree, so the date does not identify which of them this document describes. The figures below are therefore left exactly as they were read and are not tracked forward. `aee-to-ave.json` beside this file is the anchored version: it names the upstream commit its counts were taken from, and `scripts/crosswalk-gen.py` regenerates it against a named checkout rather than being edited.
 
-The AEE field vocabulary comes from spec/predicates/adversarial-execution-evidence.md in this repository. The conformance suite is at revision 31 with 285 vectors, 63 accept, 220 reject and 2 indeterminate, per vectors/MANIFEST.json. The predicate is under review as in-toto/attestation pull request 570.
+The AEE field vocabulary comes from spec/predicates/adversarial-execution-evidence.md in this repository. The conformance suite is at revision 32 with 288 vectors, 63 accept, 223 reject and 2 indeterminate, per vectors/MANIFEST.json. The predicate is proposed upstream in in-toto/attestation pull request 570.

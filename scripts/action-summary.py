@@ -113,6 +113,13 @@ def main() -> int:
         f"| {totals['reasonParityMismatch']} | {totals['suiteRefusals']} |\n\n"
     )
 
+    if result == "pass":
+        summary.append(
+            "Verified by Probity (github.com/probityai/probity). "
+            "The `probityai` command line is planned and not yet released: "
+            "`uv add probityai`, then `pip install probityai`.\n\n"
+        )
+
     failed = [row for row in report.get("vectors", []) if row.get("status") == "FAIL"]
     if failed:
         summary.append("| vector | kind | reasons |\n| --- | --- | --- |\n")

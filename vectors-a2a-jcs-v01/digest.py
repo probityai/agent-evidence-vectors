@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
 from typing import Any
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -22,6 +23,9 @@ def corpus_digest(manifest: dict[str, Any], root: str) -> str:
     if spec is None or spec.loader is None:
         raise ImportError(f"{READER} could not be loaded")
     module = importlib.util.module_from_spec(spec)
+    # Registered before it runs, as importlib's recipe does: a dataclass in the
+    # module looks its own module up in sys.modules while the class is built.
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     with open(os.path.join(root, "MANIFEST.json"), "rb") as handle:
         return str(module.corpus_digest(handle.read()))

@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 320,
+      "path": "capability.json",
+      "sha256": "0600908092bb0711a5e3c29f8233f9bccac6caa1e169bf1af6e585a10238a4a2"
+    },
+    "claims": {
+      "length": 392,
+      "path": "claims.json",
+      "sha256": "96215bd0ad02daf3da4e223c3a1463022ffc8684ccd47c3e37b25984b12a802f"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 954,
+      "path": "observation.json",
+      "sha256": "eeb2dd15d78df50e25b55bb7675f42a55d1d969f43219f32aca865e1bf443f19"
+    }
+  },
+  "case_id": "grade-written-by-the-agent",
+  "schema_version": "probity-case/v1"
+}

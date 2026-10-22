@@ -1,0 +1,105 @@
+{
+  "cites": "an OCSF deny whose finding_info.types carries late_decision_fail_open, counted by a reader as enforced. Under fail-open the late deny means the action ran; action_id and disposition_id still say Denied and Blocked, because they record the verdict.",
+  "coverage": "observed",
+  "doesNotAssert": "that the Guardian measured its time correctly; a late decision can also look on time",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-15",
+  "id": "v7d14727c84d2020d",
+  "kind": "reject",
+  "payload": {
+    "reader_report": {
+      "enforced": [
+        {
+          "decision": "deny",
+          "request_id": "b9a9133f-fe13-4585-a39e-4c06db445325",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        }
+      ]
+    },
+    "record": {
+      "ocsf": [
+        {
+          "action": "Denied",
+          "action_id": 2,
+          "activity_id": 1,
+          "category_uid": 2,
+          "class_name": "Detection Finding",
+          "class_uid": 2004,
+          "disposition": "Blocked",
+          "disposition_id": 2,
+          "evidences": [
+            {
+              "actor": {
+                "session": {
+                  "uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+                }
+              },
+              "ai_agent": {
+                "uid": "agent-acs-vectors"
+              }
+            }
+          ],
+          "finding_info": {
+            "title": "decision deny",
+            "types": [
+              "late_decision_fail_open"
+            ],
+            "uid": "57c5e69f-dfd8-4a67-8973-df2a9ffe26b5"
+          },
+          "is_alert": true,
+          "metadata": {
+            "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:b9a9133f-fe13-4585-a39e-4c06db445325",
+            "product": {
+              "name": "ACS Guardian",
+              "vendor_name": "ACS"
+            },
+            "profiles": [
+              "security_control"
+            ],
+            "version": "1.9.0"
+          },
+          "severity_id": 4,
+          "type_uid": 200401,
+          "unmapped": {
+            "acs": {
+              "decision": "deny",
+              "failure": {
+                "class": "timeout",
+                "elapsed_ms": 2450,
+                "payload_bytes": 512,
+                "posture": "proceed",
+                "timeout_ms": 2000
+              },
+              "request_id": "b9a9133f-fe13-4585-a39e-4c06db445325",
+              "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-052",
+      "line": 119,
+      "sentence": "A reader MUST NOT count a decision event whose `finding_info.types` includes `late_decision_fail_open` or `late_decision_fail_closed` as an enforced outcome.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-052"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

@@ -34,9 +34,10 @@ our side rather than ambiguities:
   see it.** He read the safe-integer rule as reaching only numbers written in
   integer form, so his rail accepts an exponent-form integer above the bound.
   Both of ours reject it, deliberately and with exact arithmetic. Neither run
-  caught the split because **the corpus contains no exponent-form number literal
-  at all**, so every vector agrees with every reading. A third rail decides this
-  by guessing.
+  caught the split because **the corpus then contained no exponent-form number
+  literal at all**, so every vector agreed with every reading and a third rail
+  decided this by guessing. The corpus now carries the discriminating vectors;
+  passage one's vector note names them.
 - **Passage eight: our two first-party rails disagree with each other.** On a
   predicate carrying no observation vocabulary, the Go rail runs the result
   recompute and reports a mismatch; the Python rail skips the recompute and
@@ -100,23 +101,26 @@ expand to a billion digits inside the parse.
 > binary floating-point approximation of the bound, so that a notation-blind or
 > float-rounded check cannot accept a value another rail refuses.
 
-**The blind spot, measured directly.** A text search cannot answer this, because
-the numbers live inside base64 DSSE payloads. Decoding every payload in the
-corpus and scanning every JSON number literal in both the statements and the
-decoded bytes -- with the statement count and the decoded-payload count as
-positive controls, both non-zero -- returns **no exponent-form number literal
-anywhere in the corpus**. The safe-integer bound is exercised by a single
-integer-form literal above it, and the non-integer rule by a single fractional
-literal; the notation axis is untouched. So `checkSafeInteger` uses exact
-rational arithmetic precisely so that an exponent-form integer cannot slip the
-bound, and nothing in the corpus ever hands it one.
+**The blind spot, as measured when the audit came in.** A text search cannot
+answer this, because the numbers live inside base64 DSSE payloads. Decoding every
+payload in the corpus and scanning every JSON number literal in both the
+statements and the decoded bytes -- with the statement count and the
+decoded-payload count as positive controls, both non-zero -- returned **no
+exponent-form number literal anywhere in the corpus**. The safe-integer bound was
+exercised by a single integer-form literal above it, and the non-integer rule by a
+single fractional literal; the notation axis was untouched. So `checkSafeInteger`
+used exact rational arithmetic precisely so that an exponent-form integer could
+not slip the bound, and nothing in the corpus handed it one.
 
-**Vector.** A reject vector carrying `1e21` in a field the chain hash covers,
-expecting the unsafe-integer refusal. It is the discriminating case by
-construction: a rail holding the written-form reading accepts the statement this
-one refuses. Recorded as absent today: a whole-tree search for `1e-7` and for
-`1234567890123456789` exits clean with no file, against a control that returns
-four files for the safe-integer boundary already covered.
+**Vector, landed.** A reject vector carrying `1e21` inside a covering record
+payload, expecting the refusal `payload-not-ijson`, is the discriminating case by
+construction: a rail holding the written-form reading accepts the statement it
+refuses. The corpus now carries it as `vd3ead02f7ed16d0a`, beside
+`v61efcc48543d8cea` (`9007199254740993`) and three spelling rejects,
+`vd5e0b3f3d1fabb05` (`1E2`), `v97c6888cf7e88f42` (`1.0e2`) and
+`v13ede3e42645eb1a` (`-0e0`). The other two number edges a third-party rail
+named, `1e-7` and the decode-boundary literal `1234567890123456789`, are covered
+in `vectors-ai-agent-action/`; the last section of this file says where.
 
 ---
 
@@ -568,7 +572,7 @@ vectors.
 
 ---
 
-## The two JCS number edges, and what our own gate refused
+## The two JCS number edges, and where each landed
 
 A third-party rail published the number cases that had bitten it and stated its
 coverage bar: if two implementations agree on `1e21`, `1e-7`, and integers past
@@ -577,12 +581,12 @@ one -- a safe-integer guard inside a canonicalizer "turned out to be theatre",
 because `1234567890123456789` has already become `1234567890123456800` in the
 JavaScript parser before the canonicalizer sees it.
 
-Measured against this repository, with a proven read path: a whole-tree search
-for `1e-7` exits one with no file, the same for `1234567890123456789`, and a
-control search for the safe-integer boundary already covered exits zero with four
-files. Both edges were genuinely absent.
+When that bar was published, a whole-tree search here for `1e-7` exited one with
+no file, the same for `1234567890123456789`, and a control search for the
+safe-integer boundary already covered exited zero with four files. Both edges
+were genuinely absent. Both are now covered.
 
-**Landed: the decode-boundary case.** `v1a09354386e0ed57`, a reject vector in
+**The decode-boundary case.** `v1a09354386e0ed57`, a reject vector in
 `vectors-ai-agent-action/` under `aia-c-14`, carrying the literal in a signed
 field and expecting the unsafe-integer refusal. Its expectation declares both
 renderings -- the literal as carried and the rendering a lossy parse produces --
@@ -593,54 +597,20 @@ refuses. The placement is decided in the specification text instead, by passages
 one and three above, and the vector's own description says so rather than
 implying more.
 
-**Not landed, and refused by our own gate: `1e-7`.** The vector was written,
-generated, and verified green -- and `scripts/surface-leakage-gate.py` then
-refused the corpus, because adding it moved two surface measurements:
-`identifier` outside its null, and `shape` up from its recorded figure. The
-diagnosis is attributable and was confirmed by measurement, by generating the
-corpus with the reject vector alone and watching the gate pass.
+**`1e-7`.** An accept, `vf1492a40d7a7c2c9`, and its reject twin,
+`v031c8b3d46725200`, in `vectors-ai-agent-action/` under `aia-c-16`, landed in
+`8f81e37` (2026-10-04). The accept carries the double `3e7ad7f29abcaf48` as
+`1e-7`, the only text RFC 8785 produces for it; the twin carries the same double
+as `0.0000001`, the spelling a serializer without the 1e-6 exponent switch
+writes, and a verifier holding the payload recomputes a different digest. The
+pair could not land in this corpus, where no exponent-form literal can be an
+accept, and it could not land alone in that one: `scripts/surface-leakage-gate.py`
+refused any reject added to a family that had no reject side. It landed with
+eleven other `aia-c-16` rejects and the corpus's leakage figures re-recorded in
+the same change.
+[docs/NUMBER-FAMILY-BALANCE.md](NUMBER-FAMILY-BALANCE.md) has the full account.
 
-The cause is structural and already declared in this repository. The number
-family is accept-only, which the gate already records as "blocked by the Appendix
-B family having no reject counterpart", and the block is not an oversight: a
-number in this corpus can only live in an uncarried content payload, because the
-safe-integer profile binds the fields the chain hash covers and a float in a
-signed record field is a different refusal with a different code. So the family
-cannot be given a reject twin without a payload-carrying vector shape the corpus
-does not have.
-
-That is a design change, not a vector, and the honest sequence is that order.
-Loosening a published anti-scoreability ratchet to admit one accept vector into a
-structurally unbalanced family trades a measured guarantee for a single edge case.
-The edge is worth having and lands the moment the family can be balanced.
-
-**Owed, as one follow-up, and now designed rather than owed in the abstract:**
-[docs/NUMBER-FAMILY-BALANCE.md](NUMBER-FAMILY-BALANCE.md) carries the
-payload-carrying vector shape for the number family, its reject counterpart, the
-measured arithmetic of the refusal that blocks it, and the ordered sequence that
-lands it. Two corrections to the paragraphs above belong with it.
-
-**The block is the fingerprint-drift check, not the two surface measurements this
-file named.** `scripts/surface-leakage-gate.py` pins each corpus's nulls to the
-class counts they were calibrated over and refuses when either class moves by
-more than ten per cent. `vectors-ai-agent-action` is recorded at 16 rejects and
-holds 17, so the budget is already 6.25 per cent spent and the next reject is
-12.5 per cent and over the bound -- for any reject, number or not. Measured by
-staging the tree and running the real gate, a matched accept-and-reject pair
-moves every leakage-bearing surface DOWN (`lexicon` 0.7886 to 0.7405, `paths`
-0.7862 to 0.7571, `all` 0.7785 to 0.7408) and pulls `identifier` to 0.5175, under
-its null; a reject alone pushes `identifier` to 0.5285, over it. So the pair is
-required and the ratchet is not loosened by landing it, which is the opposite of
-what this file previously implied.
-
-**`vf1492a40d7a7c2c9` has never existed in this repository.** `git log -S` and
-`git grep` across all 1172 commits on all refs both return nothing for it,
-against a control that returns two commits and three files in the same session.
-Identifiers here are digests of the bytes, so a vector written in a working tree
-and never committed mints none. The vector was real; the identifier is not, and
-it should not be quoted as though a vector had been removed.
-
-**Four of the notation cases landed here instead, in the corpus where they can
-be decided.** See passage one's vector note: `vd3ead02f7ed16d0a` (`1e21`),
+**Four of the notation cases landed here, in the corpus where they can be
+decided.** See passage one's vector note: `vd3ead02f7ed16d0a` (`1e21`),
 `vd5e0b3f3d1fabb05` (`1E2`), `v97c6888cf7e88f42` (`1.0e2`) and
 `v13ede3e42645eb1a` (`-0e0`).

@@ -171,11 +171,24 @@ class Census:
     ``attribution`` is the pattern by which a sentence dates a number to a
     revision it names; ``scope_route`` is any further route a consumer needs, for
     prose whose position settles the question.
+
+    ``measures`` are the contexts that make an integer a MEASUREMENT -- a length,
+    a width, a size or an index -- and so not a count of anything. They are read
+    by the VALUE trigger only, and that is the whole difference from a mask. The
+    VALUE trigger is the one that fires on an integer for its value alone, and a
+    value alone cannot tell `64 vectors` from `64 hex characters`: both equal a
+    corpus that holds 64 members, and only the words beside the integer say which
+    one counts the corpus. A measure says so positively, from a unit or a syntax
+    that measures. Everything else stays count-shaped, including a bare integer
+    whose context says nothing either way, so an ambiguous integer still needs an
+    explicit account. The ratio and noun triggers do not consult this list,
+    because their context already states a count.
     """
 
     masks: tuple[re.Pattern[str], ...]
     nouns: tuple[tuple[re.Pattern[str], str], ...]
     small_value_nouns: re.Pattern[str]
+    measures: tuple[re.Pattern[str], ...] = ()
     small_value: int = 20
     small_value_window: int = 32
     attribution: re.Pattern[str] | None = None
@@ -588,12 +601,20 @@ def count_tokens(
     quantities: Quantities,
     masked: str,
     regions: Sequence[tuple[int, int]],
+    measured: list[tuple[int, int]] | None = None,
 ) -> list[Token]:
-    """Every count-shaped integer inside the prose regions."""
+    """Every count-shaped integer inside the prose regions.
+
+    ``measured``, when given, receives the span of every integer that equals a
+    published count and that a measure context excludes. The caller reports how
+    many there were, so an exclusion is a number a reader sees, never a silent
+    drop.
+    """
     live = quantities.current
     found: dict[tuple[int, int], Token] = {}
     for start, end in regions:
         window = masked[start:end]
+        measures = [m.span() for pattern in census.measures for m in pattern.finditer(window)]
         for hit in RATIO.finditer(window):
             span = (start + hit.start(), start + hit.end())
             found[span] = Token(
@@ -617,6 +638,14 @@ def count_tokens(
             span = (start + hit.start(), start + hit.end())
             needs_noun = value < census.small_value or value in quantities.noun_bound
             if needs_noun and not near_noun(census, window, hit.start(), hit.end()):
+                continue
+            # Checked last, so ``measured`` holds exactly the integers this rule
+            # took out and none another rule had already passed over.
+            if span not in found and any(
+                low <= hit.start() and hit.end() <= high for low, high in measures
+            ):
+                if measured is not None:
+                    measured.append(span)
                 continue
             found.setdefault(
                 span,
@@ -712,12 +741,15 @@ def run_census(
     quantities: Quantities,
     texts: Mapping[str, str],
     covered: Mapping[str, list[Covered]],
+    measured: list[tuple[str, int, int]] | None = None,
 ) -> tuple[list[str], int]:
     """Refuse every count-shaped integer nothing accounts for.
 
     Returns the refusals and how many count-shaped integers were examined. The
     second number is the point rather than decoration: a census with an empty
-    subject set passes every run while enforcing nothing.
+    subject set passes every run while enforcing nothing. ``measured``, when
+    given, receives (path, start, end) for every integer a measure context took
+    out of the census, for the same reason.
     """
     failures: list[str] = []
     examined = 0
@@ -725,7 +757,10 @@ def run_census(
         if rel in census.self_files:
             continue
         regions = prose_regions(rel, text)
-        tokens = count_tokens(census, quantities, mask(census, text), regions)
+        spans_measured: list[tuple[int, int]] = []
+        tokens = count_tokens(census, quantities, mask(census, text), regions, spans_measured)
+        if measured is not None:
+            measured.extend((rel, low, high) for low, high in spans_measured)
         examined += len(tokens)
         spans = covered.get(rel, [])
         starts = line_starts(text)

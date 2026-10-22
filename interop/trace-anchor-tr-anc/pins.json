@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/agentrust-io/trace-spec",
+  "files": {
+    "trace_tests/__init__.py": "conformance/src/trace_tests/__init__.py",
+    "trace_tests/result.py": "conformance/src/trace_tests/result.py",
+    "trace_tests/inclusion.py": "conformance/src/trace_tests/inclusion.py",
+    "trace_tests/modules/__init__.py": "conformance/src/trace_tests/modules/__init__.py",
+    "trace_tests/modules/tr_anc.py": "conformance/src/trace_tests/modules/tr_anc.py"
+  },
+  "pins": [
+    {
+      "label": "main before trace-spec#533",
+      "commit": "6fb2570254023ee78d9bdc9f6c2c696ad7a9862c",
+      "sha256": {
+        "trace_tests/__init__.py": "edb08680be8cf5d37f28296542d5330f3929b24d68f8e256fff6a516cc31df80",
+        "trace_tests/result.py": "859be37b38b93a33638d996cede1d0726f360cfa07d49f6e2753f595030dc06f",
+        "trace_tests/inclusion.py": "feb0e034bb53dde50416fabf85def734659136da6869d3ec5ed07d3d8e583499",
+        "trace_tests/modules/__init__.py": "5d424b2b5e766fe66d3d1852e1e687f1966eddbe32f227c0f9ea438ae4ef9368",
+        "trace_tests/modules/tr_anc.py": "28644f16b818f4405fa1444aef96e3783c77d31ac62e1db58cd2b23ba28f5b9a"
+      },
+      "disagreements": {
+        "anchored-proof-only-receipt": "refuses the section 5 proof shape: the receipt must also carry merkle_root and leaf_count",
+        "entry-absent": "replays against the receipt's own root and takes no entry",
+        "entry-missing-ts": "takes no entry, so an entry's defects are never seen",
+        "entry-producer-empty": "takes no entry, so an entry's defects are never seen",
+        "receipt-count-lies": "replays with the receipt's own count, under which leaf 2's path reaches the same root",
+        "receipt-subtree-root": "replays against the receipt's own root, an interior node of the real tree",
+        "self-anchored-no-entry": "passes a record never anchored anywhere, whose one-leaf receipt names its own leaf hash as root",
+        "self-anchored-with-real-entry": "passes the self-anchored record beside a genuine entry it is not in"
+      }
+    },
+    {
+      "label": "trace-spec#533 head",
+      "commit": "95e160a8ef1c54081d987c6ce4dfcce121d9440b",
+      "sha256": {
+        "trace_tests/__init__.py": "edb08680be8cf5d37f28296542d5330f3929b24d68f8e256fff6a516cc31df80",
+        "trace_tests/result.py": "859be37b38b93a33638d996cede1d0726f360cfa07d49f6e2753f595030dc06f",
+        "trace_tests/inclusion.py": "1b76e2732645d59eb219d7f79440e92906f40d80755b0481950399546c7c4cc7",
+        "trace_tests/modules/__init__.py": "5d424b2b5e766fe66d3d1852e1e687f1966eddbe32f227c0f9ea438ae4ef9368",
+        "trace_tests/modules/tr_anc.py": "3fd904570fd909afe3910b406fc3fae29342bcda65c22398daea342aa0531653"
+      },
+      "disagreements": {
+        "anchored-proof-only-receipt": "refuses the section 5 proof shape: the receipt must also carry merkle_root and leaf_count, which section 6 as amended treats as optional"
+      }
+    }
+  ]
+}

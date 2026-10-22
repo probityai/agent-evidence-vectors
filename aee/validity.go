@@ -15,7 +15,6 @@ package aee
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"strings"
@@ -185,7 +184,7 @@ func checkRecordsStatementLevel(p *Predicate) ([]recordState, []Code) {
 	decodeFailed := false
 	leaves := make([][32]byte, len(p.Records))
 	for i := range p.Records {
-		payload, err := base64.StdEncoding.Strict().DecodeString(p.Records[i].PayloadB64)
+		payload, err := decodeCarriedBase64(p.Records[i].PayloadB64)
 		if err != nil {
 			states[i].decodeErr = true
 			decodeFailed = true

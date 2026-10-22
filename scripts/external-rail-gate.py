@@ -98,7 +98,7 @@ def check_full_corpus(binary: str, work_dir: str) -> list[str]:
             sys.executable,
             str(HARNESS),
             "--verifier",
-            f"{binary} -json",
+            f"{binary} -validity-only -json",
             "--report",
             report_path,
         ],
@@ -148,22 +148,24 @@ def check_single_line(binary: str) -> list[str]:
     # Resolved through the MANIFEST rather than built from a kind directory:
     # a path spelling the verdict only exists while the layout spells it.
     vector = REPO_ROOT / "vectors" / _manifest_file("vcf5a4601dee5c2ee")
-    parsed = run_vectors.run_external([binary, "-json"], str(vector), None, "gate")
+    parsed = run_vectors.run_external(
+        [binary, "-validity-only", "-json"], str(vector), None, "gate"
+    )
     errors: list[str] = []
     if parsed["verdict"] != "valid" or parsed["result"] is None or parsed["tiers"] is None:
         errors.append(
-            "run_external read no report back from `aee-verify -json`: got "
+            "run_external read no report back from `aee-verify -validity-only -json`: got "
             f"{parsed!r}. The last stdout line has to BE the report; valid JSON "
             "spread over several lines arrives as nothing."
         )
     raw = subprocess.run(
-        [binary, "-json", str(vector)], capture_output=True, timeout=120
+        [binary, "-validity-only", "-json", str(vector)], capture_output=True, timeout=120
     ).stdout.decode("utf-8", "replace")
     lines = [ln for ln in raw.splitlines() if ln.strip()]
     if len(lines) != 1:
         errors.append(
-            f"`aee-verify -json` wrote {len(lines)} non-blank lines; the harness reads "
-            "only the last, so every earlier line is unreachable by construction"
+            f"`aee-verify -validity-only -json` wrote {len(lines)} non-blank lines; "
+            "the harness reads only the last, so every earlier line is unreachable by construction"
         )
     return errors
 
@@ -208,7 +210,9 @@ def check_no_key_column_binds(binary: str, work_dir: str, manifest: dict[str, An
     for entry in entries:
         expected = entry["expected"]
         vector = REPO_ROOT / "vectors" / entry["file"]
-        observed = run_vectors.observe_external([binary, "-json"], str(vector), keys_path)
+        observed = run_vectors.observe_external(
+            [binary, "-validity-only", "-json"], str(vector), keys_path
+        )
         for field, key in (("tierWithoutKey", "tiers_without_key"),
                            ("tierWithPinnedKey", "tiers_with_key")):
             if field in expected and observed[key] != expected[field]:

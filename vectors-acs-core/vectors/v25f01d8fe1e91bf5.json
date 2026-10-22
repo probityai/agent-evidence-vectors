@@ -1,4 +1,5 @@
 {
+  "cites": "the same response with the chain head inside the signed set.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -24,6 +25,18 @@
       "chain_hash"
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-006",
+      "line": 254,
+      "sentence": "the Guardian MUST include the resulting `chain_hash` in its response, and that `chain_hash` MUST be covered by the response signature",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-006"
   ],

@@ -1,0 +1,91 @@
+{
+  "cites": "the same exchange with the response signed under \"2026-09\", the label the request named. The member turns on the label alone.",
+  "coverage": "effective",
+  "doesNotAssert": "the decision itself; the verdict here is about which key signed the response, and the pull request's author flagged this sentence as his addition for review",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-13",
+  "id": "v7b0219cc72681b5a",
+  "kind": "accept",
+  "payload": {
+    "observed_agent": {
+      "configured_key_ids": [
+        "2026-09",
+        "2026-10"
+      ],
+      "secret_hex": {
+        "2026-09": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+        "2026-10": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      }
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "to": {
+              "value": "ops@example.org"
+            }
+          },
+          "tool": {
+            "name": "email.send"
+          }
+        },
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "2026-09",
+          "value": "Z10sCIH8d+Ml7YvhFBRrWx5bWyzmp/2FN6SF3gAEq34="
+        },
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "acs_version": "0.1.0",
+        "decision": "deny",
+        "reasoning": "recipient outside the committed intent",
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "2026-09",
+          "value": "6Avy7TLtaLnIJ1JlEFrXji/ZNikaIQW95ZIy5/b1n1c="
+        },
+        "type": "final"
+      }
+    },
+    "response_signed_input": "{\"id\":1,\"jsonrpc\":\"2.0\",\"result\":{\"acs_version\":\"0.1.0\",\"decision\":\"deny\",\"reasoning\":\"recipient outside the committed intent\",\"request_id\":\"56a78506-aa4a-489d-8171-8833ef83f7bd\",\"type\":\"final\"}}"
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-031",
+      "line": 354,
+      "sentence": "A Guardian signs its response with the secret, and the `key_id`, that the request named.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-031"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

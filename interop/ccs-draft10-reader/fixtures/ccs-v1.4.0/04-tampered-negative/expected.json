@@ -1,0 +1,11 @@
+{
+  "verdict": "invalid",
+  "reason": "signature mismatch",
+  "checks": [
+    "structure:30-fields",
+    "signature:ed25519-INVALID"
+  ],
+  "tampered_field": "verdict",
+  "original_value": "allow",
+  "tampered_value": "block"
+}

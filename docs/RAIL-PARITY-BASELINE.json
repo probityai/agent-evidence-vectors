@@ -1,6 +1,6 @@
 {
   "note": "Per-member code-set divergence between the two first-party rails. The verdict is NOT recorded here and never can be: a verdict split is an unconditional refusal in scripts/rail-parity-gate.py. These rows exist because the Go pipeline stops at the first failing gate and the Python rail accumulates every independent fault, which vectors/MANIFEST.json already declares measured rather than normative. The list is a ratchet: a new row is a refusal until somebody writes it down, and a row that has stopped describing the corpus is a refusal too.",
-  "members": 285,
+  "members": 288,
   "divergences": [
     {
       "id": "v08251931ec038e91",
@@ -92,6 +92,16 @@
       ],
       "pythonOnly": [],
       "cause": "the Go rail reports a code this rail does not derive at all on these bytes"
+    },
+    {
+      "id": "v44d1a62bf45413ea",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "payload-not-canonical",
+        "reconstructed-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
     {
       "id": "v4ff6cb70764bf703",
@@ -197,6 +207,16 @@
       "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
     {
+      "id": "v93573824d5835bd4",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "payload-not-canonical",
+        "reconstructed-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
+    },
+    {
       "id": "v94d877ffcc3a30fe",
       "kind": "reject",
       "goOnly": [],
@@ -233,6 +253,16 @@
       ],
       "pythonOnly": [],
       "cause": "the Go rail reports a code this rail does not derive at all on these bytes"
+    },
+    {
+      "id": "va39a20d87c5e9fcf",
+      "kind": "reject",
+      "goOnly": [],
+      "pythonOnly": [
+        "payload-not-canonical",
+        "reconstructed-row-uncovered"
+      ],
+      "cause": "the Go pipeline stopped at an earlier gate and never reached the check that produced these"
     },
     {
       "id": "va507b8f9a9cc675c",

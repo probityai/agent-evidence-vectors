@@ -18,7 +18,7 @@ The harness invokes `<cmd> <vector-file>` twice with identical arguments: once w
 | `primaryCode` | Optional chosen condition for indeterminate-family analysis |
 | Key-policy file | `{"substrateObservationKeys": [{"keyid": ..., "publicKeyHex": ...}]}` |
 
-The command may include flags, such as `aee-verify --json`. Present fields are type-checked before scoring. A missing tier or result fails whenever the manifest or a behavior assertion requires it. A timeout or unavailable process does not count as an executed vector.
+The command may include flags, such as `aee-verify -validity-only --json`. Present fields are type-checked before scoring. A missing tier or result fails whenever the manifest or a behavior assertion requires it. A timeout or unavailable process does not count as an executed vector.
 
 The shipped CLI once pretty-printed its JSON; on its first harness run it scored 0 of 186. The [external-rail gate](../../scripts/external-rail-gate.py) now runs that pairing in CI. One-line JSON is required even when other stdout lines contain diagnostics.
 

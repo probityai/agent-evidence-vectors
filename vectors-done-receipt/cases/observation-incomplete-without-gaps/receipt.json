@@ -1,0 +1,92 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "accepted": true,
+    "claim_id": "honest",
+    "completion_claimed": true,
+    "integrity": {
+      "checks": [
+        {
+          "claim_type": "protected_paths/v1",
+          "decision": "supported",
+          "reason": "protected_paths_untouched",
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        },
+        {
+          "claim_type": "probe_observed/v1",
+          "decision": "not_established",
+          "reason": "no_probes",
+          "vantage": "unestablished"
+        },
+        {
+          "claim_type": "tool_claim_match/v1",
+          "decision": "supported",
+          "reason": "tool_claims_matched",
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        },
+        {
+          "claim_type": "completion_claim/v1",
+          "decision": "supported",
+          "reason": "completion_claim_observed",
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        }
+      ],
+      "decision": "supported",
+      "reason": "integrity_checks_supported",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "invocation_id": "call-1",
+    "outcome": {
+      "checks": [
+        {
+          "claim_type": "acceptance_observed/v1",
+          "decision": "supported",
+          "reason": "acceptance_passed_in_verifier",
+          "vantage": "independent",
+          "witness_scope": "PEER"
+        }
+      ],
+      "decision": "supported",
+      "reason": "acceptance_passed_in_verifier",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "records": {
+      "capability": {
+        "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+      },
+      "claims": {
+        "sha256": "d77aad0972099027f6f55eb9bdc2a8b75d16b0c3d51cbef451d8495ae7e13967"
+      },
+      "contract": {
+        "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+      },
+      "grade": {
+        "sha256": "cba51bfa89a9b0048883ad3ea179aecd1c65d2e76feb3a27b92be424b55e40a6"
+      },
+      "observation": {
+        "sha256": "0b8bf02afaf27817431d9d4079d0b7a0a1229f4a543ac4d243230548b922ee63"
+      },
+      "tree": {
+        "sha256": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
+      }
+    },
+    "schema_version": "probity-done-receipt/v2",
+    "verifier": {
+      "id": "https://github.com/probityai/probity"
+    }
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66"
+      },
+      "name": "workspace-tree"
+    }
+  ]
+}

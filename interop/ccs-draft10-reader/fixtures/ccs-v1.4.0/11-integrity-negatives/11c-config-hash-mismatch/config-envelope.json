@@ -1,0 +1,10 @@
+{
+  "rule_version": "1.4.0-conformance",
+  "issuer": "ccs-conformance/v1.4.0",
+  "audience": "independent-verifier",
+  "deployment_mode": "in-process",
+  "verifier_source_class": "ConformanceVectorGenerator",
+  "receipt_ttl_seconds": 86400,
+  "max_clock_skew": 30,
+  "public_key_fingerprint": "26a02d86f5d0a10f"
+}

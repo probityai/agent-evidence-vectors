@@ -1,0 +1,1452 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 16,
+      "reject": 25
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 41
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-decision/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-agent-decision/digest.py",
+    "routine-file": "vectors-agent-decision/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "fd3c58ae64270382ebf17bb96d82ab295b970cf0544a821127e5cf8d390e05b3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "909ce1a0607f9d960fe6aa8cf9d6f528f14ddb23d4d8ec96b5d7a907b9d9bf53"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "decee1bb4d5a5626f4a7b9c90fc7a49b847cb65ec5e2dc60d466e7f95e01ef64",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/README.md",
+      "serialization": "bytes",
+      "sha256": "34b63be24eff7d72695fd9d9b5e827bd9e173421d023e40f9ce13fa819e2f8bb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "fd302a9ad4f7f8935462a0bf14bbd6f3b52fad36b782d454f1e7fe31a2c52158",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/canonical.py",
+      "serialization": "bytes",
+      "sha256": "4eddda11fcd55ba7286f2e0164a09b8207f707bd32b3eda756488241bd6380eb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "ae8f0cfea2e7f82b2b37c0cdeffa531bc9add1dfac1e860aa5717600ee518626",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "9f78d1864d6c8ce4357f36ed3c60c1e225b8a3dd567cfad54533df4800f5d285"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "d1280cdc9bab6dd49a9138567e58bb1733d39f62c5853a4045c46d720072d5e6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/digest.py",
+      "serialization": "bytes",
+      "sha256": "538179eeb7b45b62da35f31020b349d4eb5b7e3d817028d85591fe2a50730635"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+        },
+        "swapped-in": "4a94bea46a18683a526769f3888f17cf8e5ddadc14cb296d1e4650378fe61a43",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-decision/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "890060453e159e61512bc2312c81030b14f40027b6c5d7686dcc956fa4fe03cc"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "arguments",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "statements",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-agent-decision"
+  },
+  "byte-identity": {
+    "pins": 74,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-agent-decision",
+      "aee-verify -json vectors-agent-decision",
+      "aee-verify vectors-agent-decision"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v06a8c6ac559daa15",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v12af945ff61fba34",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v15e3eb6b1879db28",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1e0f8f6020f36e17",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2014ef47ee7cee4e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2284940a27344c18",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v23495c55a6546e67",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v29a3a6bc8748b8dc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2a767498599c917d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v339183abc44352b6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3fff2fc0450878c2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v415f4c2e87fb8bcf",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4894d0a7d91c3fc7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v495ecfd0aeb47262",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4ce5d82405dae406",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4e1507f009cbc80d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v56d4b6480ce48273",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v69fbd962dcd3778c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6e2e4e1f955a996f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6f68087a6f2ac0d0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v70c03756e24bf80d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7448329eed2ae36f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8a3aa5fbe538fc11",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9bf8cf8798d17bd4",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va212e7ca11bb10d3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va49cc7eba1306281",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va8e8df4271c4ab93",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaa3f6d878cefece5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vab9485aaa1cc16c6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaccea9396f8bdb6b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb131ab1e6d75fc35",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbb1394c46dace5ff",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcbe83ce9abf4720f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcd4ff5dd804aa429",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd24ab9accf98f4d1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd5e7c5e20ab405df",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd71376868c0a727b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve0417c625a28533c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve8baaedbb81ba750",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "veca390969b070fe0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf15b2cf59647c11e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "293098e1d9a84dedeb87d3b9ce63d1ae994c99cd43f310b323a45112b4bffe24"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v06a8c6ac559daa15",
+      "v12af945ff61fba34",
+      "v15e3eb6b1879db28",
+      "v1e0f8f6020f36e17",
+      "v2014ef47ee7cee4e",
+      "v2284940a27344c18",
+      "v23495c55a6546e67",
+      "v29a3a6bc8748b8dc",
+      "v2a767498599c917d",
+      "v339183abc44352b6",
+      "v3fff2fc0450878c2",
+      "v415f4c2e87fb8bcf",
+      "v4894d0a7d91c3fc7",
+      "v495ecfd0aeb47262",
+      "v4ce5d82405dae406",
+      "v4e1507f009cbc80d",
+      "v56d4b6480ce48273",
+      "v69fbd962dcd3778c",
+      "v6e2e4e1f955a996f",
+      "v6f68087a6f2ac0d0",
+      "v70c03756e24bf80d",
+      "v7448329eed2ae36f",
+      "v8a3aa5fbe538fc11",
+      "v9bf8cf8798d17bd4",
+      "va212e7ca11bb10d3",
+      "va49cc7eba1306281",
+      "va8e8df4271c4ab93",
+      "vaa3f6d878cefece5",
+      "vab9485aaa1cc16c6",
+      "vaccea9396f8bdb6b",
+      "vb131ab1e6d75fc35",
+      "vbb1394c46dace5ff",
+      "vcbe83ce9abf4720f",
+      "vcd4ff5dd804aa429",
+      "vd24ab9accf98f4d1",
+      "vd5e7c5e20ab405df",
+      "vd71376868c0a727b",
+      "ve0417c625a28533c",
+      "ve8baaedbb81ba750",
+      "veca390969b070fe0",
+      "vf15b2cf59647c11e"
+    ],
+    "path": "vectors-agent-decision/MANIFEST.json",
+    "sha256": "fe3d90da3108411ee49b6db7486dcafd06cdab7aaaef3638bde088108f28e11a"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v06a8c6ac559daa15.json",
+          "sha256": "224787d4c472b86ba9edd5f32c8b49461d0e8dc2ea13264102e9f474e825344b"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v06a8c6ac559daa15.json",
+          "sha256": "f086a01380f35cfb6ab9431670b27ef6ce34bf0d1b972f274afa57b152d536cd"
+        }
+      ],
+      "id": "v06a8c6ac559daa15"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v12af945ff61fba34.json",
+          "sha256": "47cf5dec16a0fe8250e1bd42f9d725813a7181259e941ae5c2286ba8863c4a28"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v12af945ff61fba34.json",
+          "sha256": "ed65bd567f87ca9f9181d929525193fcf45049a95737b07a32f414608eb88519"
+        }
+      ],
+      "id": "v12af945ff61fba34"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v15e3eb6b1879db28.json",
+          "sha256": "45b27bbdd9301823b445892f8249700ca3cb607003ba03e799184dd416906c15"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v15e3eb6b1879db28.json",
+          "sha256": "65d76a0f6a4371476bef96ab42b5486676d8957fd1caab900f637096a7e7d82d"
+        }
+      ],
+      "id": "v15e3eb6b1879db28"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v1e0f8f6020f36e17.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v1e0f8f6020f36e17.json",
+          "sha256": "e8c09ddae250951fb3f2d970031d345ba1f13aa03a892ecd829aa30daedb8df8"
+        }
+      ],
+      "id": "v1e0f8f6020f36e17"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v2014ef47ee7cee4e.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v2014ef47ee7cee4e.json",
+          "sha256": "51b3c88b83ae72c82d0a76e3222349c760424ba6e37bf3c32ed93c67c8178f36"
+        }
+      ],
+      "id": "v2014ef47ee7cee4e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v2284940a27344c18.json",
+          "sha256": "6a9ef05986bbd224edf29a6b5fc519dd948cd664dc01eb2d3f5f9cf9a4f6733a"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v2284940a27344c18.json",
+          "sha256": "045c35b339a5fb9ecae75beb922037f24f79a333852f4b026a15bbd47c4da67e"
+        }
+      ],
+      "id": "v2284940a27344c18"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v23495c55a6546e67.json",
+          "sha256": "23495c55a6546e6701dfb5df4d4cdac15efdc9fe16b9a351f599ebdff805fa50"
+        }
+      ],
+      "id": "v23495c55a6546e67"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v29a3a6bc8748b8dc.json",
+          "sha256": "29a3a6bc8748b8dcfb1a20a316463108ce0bd3389805363de6f9243b97920c0e"
+        }
+      ],
+      "id": "v29a3a6bc8748b8dc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v2a767498599c917d.json",
+          "sha256": "2a767498599c917dd0757edf5fb7179be720a180d1551947122d111151fcde14"
+        }
+      ],
+      "id": "v2a767498599c917d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v339183abc44352b6.json",
+          "sha256": "6b1b6fbfe8726312ace9e4e31376f5ff16fbabd5a2b1d7b01950ee532fcba3af"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v339183abc44352b6.json",
+          "sha256": "b3d29f41f09dc5ade12a761aa6be06a086144e63cbebab6935e147c676ce6a10"
+        }
+      ],
+      "id": "v339183abc44352b6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v3fff2fc0450878c2.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v3fff2fc0450878c2.json",
+          "sha256": "6c94ce06bb2f186a559d24d24d8352856ab44998b081b33871fe595087c694fc"
+        }
+      ],
+      "id": "v3fff2fc0450878c2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v415f4c2e87fb8bcf.json",
+          "sha256": "ae8025e4833ae9c0aecdbd73b4b60b6a74d6221000f21abc34d23bd4297f7298"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v415f4c2e87fb8bcf.json",
+          "sha256": "c52aa97ccdb61774a12d710c6264f8875bb3ceabd2ddfa316dc670965d43edbe"
+        }
+      ],
+      "id": "v415f4c2e87fb8bcf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v4894d0a7d91c3fc7.json",
+          "sha256": "341a67a90b4c4ed9ffa3d2b0eefc2345857f031b86543e35349a5c8136b0ad4a"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v4894d0a7d91c3fc7.json",
+          "sha256": "b9c0f0e9d818a31626b495983f96a14d548adc1a1469e6e64bba58eb12738bf3"
+        }
+      ],
+      "id": "v4894d0a7d91c3fc7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v495ecfd0aeb47262.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v495ecfd0aeb47262.json",
+          "sha256": "5210cda248893729cd3567c6e10b7843ea4eb1156ce52eb199ce6f9fa1f906c6"
+        }
+      ],
+      "id": "v495ecfd0aeb47262"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v4ce5d82405dae406.json",
+          "sha256": "4ce5d82405dae4069ebb81ba95667537fda139f3891cf46cfc404cc15ea77a44"
+        }
+      ],
+      "id": "v4ce5d82405dae406"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v4e1507f009cbc80d.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v4e1507f009cbc80d.json",
+          "sha256": "9535ba52d33b2e199d5506c18b02d3383a8ac4d884198c1d122376bcc9c02999"
+        }
+      ],
+      "id": "v4e1507f009cbc80d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v56d4b6480ce48273.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v56d4b6480ce48273.json",
+          "sha256": "0b4cd24c9ac484df1059240d718228b2870f704fb5c2be17be193753d729e921"
+        }
+      ],
+      "id": "v56d4b6480ce48273"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v69fbd962dcd3778c.json",
+          "sha256": "69fbd962dcd3778c20a2138e6935fcf872c19b8cdeb0a37aa08211e80cbc724d"
+        }
+      ],
+      "id": "v69fbd962dcd3778c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v6e2e4e1f955a996f.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v6e2e4e1f955a996f.json",
+          "sha256": "19e93de820871f8aee452878963aa67d3418c8130b6d1273d26a7c0f7b17edff"
+        }
+      ],
+      "id": "v6e2e4e1f955a996f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v6f68087a6f2ac0d0.json",
+          "sha256": "30b651298b7fdf2d48f62fa15fa94614f87d1e6d034d88815d0a624716bd1754"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v6f68087a6f2ac0d0.json",
+          "sha256": "413fa89b91b91e3ef53ca4698f35d553f77d6d579e6f7f74f1a9416bb8def040"
+        }
+      ],
+      "id": "v6f68087a6f2ac0d0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v70c03756e24bf80d.json",
+          "sha256": "6a9ef05986bbd224edf29a6b5fc519dd948cd664dc01eb2d3f5f9cf9a4f6733a"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v70c03756e24bf80d.json",
+          "sha256": "86851bb104a01f3a78c6f03d31bea0509319aa8e00327a24d60662ab14e6cc7a"
+        }
+      ],
+      "id": "v70c03756e24bf80d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v7448329eed2ae36f.json",
+          "sha256": "d5d530d420a13934e86a4d23cd1a420661ec03437aaaf1b80038e649b5a7264d"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v7448329eed2ae36f.json",
+          "sha256": "7f6a32b4ded9e491aa1d2762b8cd4ca6a4bdfee6ec2b21ade0ec6c6021d952a0"
+        }
+      ],
+      "id": "v7448329eed2ae36f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/v8a3aa5fbe538fc11.json",
+          "sha256": "4b5a272fe04a5cb7b39b8c075ff23ce482a2dd54f5e9117b0372a32661f26aa8"
+        },
+        {
+          "path": "vectors-agent-decision/statements/v8a3aa5fbe538fc11.json",
+          "sha256": "e48c41c034d65fceae880efe2f8a09f1842fb776a2a45f2b55b4275b3ef3d6f0"
+        }
+      ],
+      "id": "v8a3aa5fbe538fc11"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/v9bf8cf8798d17bd4.json",
+          "sha256": "9bf8cf8798d17bd44312174cda0865e78d2e915bd5724980c1aec747b2880400"
+        }
+      ],
+      "id": "v9bf8cf8798d17bd4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/va212e7ca11bb10d3.json",
+          "sha256": "a212e7ca11bb10d3e7f489461eb155b20223f6bd1d753e36ad1343c5827766e2"
+        }
+      ],
+      "id": "va212e7ca11bb10d3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/va49cc7eba1306281.json",
+          "sha256": "382141c64697d040cd4f410464640adbe822951c48f6231364cbe8dbf6c497aa"
+        },
+        {
+          "path": "vectors-agent-decision/statements/va49cc7eba1306281.json",
+          "sha256": "0355bfd9cc5aa96ad54e41a2de4e9edd0d3a316fa17923f1e05c6d06b9e7124c"
+        }
+      ],
+      "id": "va49cc7eba1306281"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/va8e8df4271c4ab93.json",
+          "sha256": "106f625f75e9328783c9ec1d5e64457783e360821bf84b396a766afe8a041dc6"
+        },
+        {
+          "path": "vectors-agent-decision/statements/va8e8df4271c4ab93.json",
+          "sha256": "6a0d2c49904dd7436e143220a4eb52a3b3a089feb8bdbb077983fa41a9c88d65"
+        }
+      ],
+      "id": "va8e8df4271c4ab93"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vaa3f6d878cefece5.json",
+          "sha256": "b3a59344c6731fa7b0d468718af828001dccdca2ca2c37645c95ba3eef1b40d2"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vaa3f6d878cefece5.json",
+          "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
+        }
+      ],
+      "id": "vaa3f6d878cefece5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vab9485aaa1cc16c6.json",
+          "sha256": "c7108a8ece3fa4553c720290fb8e6daf15724d7e11c18e991588d4e8a8f51f24"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vab9485aaa1cc16c6.json",
+          "sha256": "483bb4019dc6d91e5648e2ab05e4e117cd2e6010e74df1db3e301e253eb5ea9a"
+        }
+      ],
+      "id": "vab9485aaa1cc16c6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vaccea9396f8bdb6b.json",
+          "sha256": "45b27bbdd9301823b445892f8249700ca3cb607003ba03e799184dd416906c15"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vaccea9396f8bdb6b.json",
+          "sha256": "7f6a32b4ded9e491aa1d2762b8cd4ca6a4bdfee6ec2b21ade0ec6c6021d952a0"
+        }
+      ],
+      "id": "vaccea9396f8bdb6b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vb131ab1e6d75fc35.json",
+          "sha256": "ae8025e4833ae9c0aecdbd73b4b60b6a74d6221000f21abc34d23bd4297f7298"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vb131ab1e6d75fc35.json",
+          "sha256": "ad22dd1767163a122fb7ffcd1a2db633b53831a0d5f67418e54342e39dd879ab"
+        }
+      ],
+      "id": "vb131ab1e6d75fc35"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vbb1394c46dace5ff.json",
+          "sha256": "03c27cec0bb7623bca3747beb83211aa025a2796d048dd3b9278a5ff2231dc39"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vbb1394c46dace5ff.json",
+          "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
+        }
+      ],
+      "id": "vbb1394c46dace5ff"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/statements/vcbe83ce9abf4720f.json",
+          "sha256": "cbe83ce9abf4720f0dfac6eccecc768e1ee9a98eb9d978883af465aaeed04fc4"
+        }
+      ],
+      "id": "vcbe83ce9abf4720f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vcd4ff5dd804aa429.json",
+          "sha256": "6b1b6fbfe8726312ace9e4e31376f5ff16fbabd5a2b1d7b01950ee532fcba3af"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vcd4ff5dd804aa429.json",
+          "sha256": "e34b5c406e8fef70699ddbd3983c47ce72d1d69322718bd9b788632b8d9271fc"
+        }
+      ],
+      "id": "vcd4ff5dd804aa429"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vd24ab9accf98f4d1.json",
+          "sha256": "30b651298b7fdf2d48f62fa15fa94614f87d1e6d034d88815d0a624716bd1754"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vd24ab9accf98f4d1.json",
+          "sha256": "35e22bae2342db4ff2fce85eed1413efbf40bf7c0dd9d9712ebd266a4f623f4f"
+        }
+      ],
+      "id": "vd24ab9accf98f4d1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vd5e7c5e20ab405df.json",
+          "sha256": "382141c64697d040cd4f410464640adbe822951c48f6231364cbe8dbf6c497aa"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vd5e7c5e20ab405df.json",
+          "sha256": "61437c3e31c6166c43972d818eb26f105a1f0abce073ee6ff38f85d04869a015"
+        }
+      ],
+      "id": "vd5e7c5e20ab405df"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vd71376868c0a727b.json",
+          "sha256": "7e7db47dce9d2fe94e394dd692bdd9090acbc68ea9422affe9486fe888cd077b"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vd71376868c0a727b.json",
+          "sha256": "108efab3ee2b6d2f2d45a796e587a2246d5ce89010389daa5bd66de06fc36776"
+        }
+      ],
+      "id": "vd71376868c0a727b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/ve0417c625a28533c.json",
+          "sha256": "531d14ab1fc0ac6f19d2676d9d13946a98da353991141790635537096a8546e6"
+        },
+        {
+          "path": "vectors-agent-decision/statements/ve0417c625a28533c.json",
+          "sha256": "08a549ee2ba6103424f7c2df18496f13772c477a6b8e4d82c6f78e524bb1d7b7"
+        }
+      ],
+      "id": "ve0417c625a28533c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/ve8baaedbb81ba750.json",
+          "sha256": "f42ac82341c4ca1e6cc44582ae14a4453390e15eca541416b0e166de2b11f5f9"
+        },
+        {
+          "path": "vectors-agent-decision/statements/ve8baaedbb81ba750.json",
+          "sha256": "3c22fe0acd6fc8e6aa9dd9f4bea37e37fea66c91cf2bb9e17497358608f338c6"
+        }
+      ],
+      "id": "ve8baaedbb81ba750"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/veca390969b070fe0.json",
+          "sha256": "a89b08b2c63a7d31e51534186e0b6c7fb7bc8613d949169f72c03bffa176d55d"
+        },
+        {
+          "path": "vectors-agent-decision/statements/veca390969b070fe0.json",
+          "sha256": "bbab7b2856ce36274eea1613599be950c48d45aaee0373243b89957ce4b7120e"
+        }
+      ],
+      "id": "veca390969b070fe0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-decision/arguments/vf15b2cf59647c11e.json",
+          "sha256": "224787d4c472b86ba9edd5f32c8b49461d0e8dc2ea13264102e9f474e825344b"
+        },
+        {
+          "path": "vectors-agent-decision/statements/vf15b2cf59647c11e.json",
+          "sha256": "e040317f2ee09b42887b0316efafabf1821f0da7f927d6d978f75a6277962f11"
+        }
+      ],
+      "id": "vf15b2cf59647c11e"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-decision.json",
+        "serialization": "bytes",
+        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-decision.txt",
+        "serialization": "bytes",
+        "sha256": "6bd54bbadac072b9fdc014b4ed54946c40bd7fc004782e410b6de72577fb73b6"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v06a8c6ac559daa15",
+      "inputs": [
+        "member:v06a8c6ac559daa15",
+        "check:v06a8c6ac559daa15"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v15e3eb6b1879db28",
+      "inputs": [
+        "member:v15e3eb6b1879db28",
+        "check:v15e3eb6b1879db28"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v1e0f8f6020f36e17",
+      "inputs": [
+        "member:v1e0f8f6020f36e17",
+        "check:v1e0f8f6020f36e17"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v2014ef47ee7cee4e",
+      "inputs": [
+        "member:v2014ef47ee7cee4e",
+        "check:v2014ef47ee7cee4e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"predicate-malformed\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v2284940a27344c18",
+      "inputs": [
+        "member:v2284940a27344c18",
+        "check:v2284940a27344c18"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v23495c55a6546e67",
+      "inputs": [
+        "member:v23495c55a6546e67",
+        "check:v23495c55a6546e67"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-required\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v2a767498599c917d",
+      "inputs": [
+        "member:v2a767498599c917d",
+        "check:v2a767498599c917d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-forbidden\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v3fff2fc0450878c2",
+      "inputs": [
+        "member:v3fff2fc0450878c2",
+        "check:v3fff2fc0450878c2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-format\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v495ecfd0aeb47262",
+      "inputs": [
+        "member:v495ecfd0aeb47262",
+        "check:v495ecfd0aeb47262"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-required\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v4e1507f009cbc80d",
+      "inputs": [
+        "member:v4e1507f009cbc80d",
+        "check:v4e1507f009cbc80d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-format\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v69fbd962dcd3778c",
+      "inputs": [
+        "member:v69fbd962dcd3778c",
+        "check:v69fbd962dcd3778c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-forbidden\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v6e2e4e1f955a996f",
+      "inputs": [
+        "member:v6e2e4e1f955a996f",
+        "check:v6e2e4e1f955a996f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"statement-malformed\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v6f68087a6f2ac0d0",
+      "inputs": [
+        "member:v6f68087a6f2ac0d0",
+        "check:v6f68087a6f2ac0d0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v7448329eed2ae36f",
+      "inputs": [
+        "member:v7448329eed2ae36f",
+        "check:v7448329eed2ae36f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-integer-unsafe\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v9bf8cf8798d17bd4",
+      "inputs": [
+        "member:v9bf8cf8798d17bd4",
+        "check:v9bf8cf8798d17bd4"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"predicate-malformed\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "va212e7ca11bb10d3",
+      "inputs": [
+        "member:va212e7ca11bb10d3",
+        "check:va212e7ca11bb10d3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-state-unknown\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "va49cc7eba1306281",
+      "inputs": [
+        "member:va49cc7eba1306281",
+        "check:va49cc7eba1306281"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "va8e8df4271c4ab93",
+      "inputs": [
+        "member:va8e8df4271c4ab93",
+        "check:va8e8df4271c4ab93"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-duplicate-member\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vaa3f6d878cefece5",
+      "inputs": [
+        "member:vaa3f6d878cefece5",
+        "check:vaa3f6d878cefece5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-integer-unsafe\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vab9485aaa1cc16c6",
+      "inputs": [
+        "member:vab9485aaa1cc16c6",
+        "check:vab9485aaa1cc16c6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-state-missing\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vb131ab1e6d75fc35",
+      "inputs": [
+        "member:vb131ab1e6d75fc35",
+        "check:vb131ab1e6d75fc35"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vbb1394c46dace5ff",
+      "inputs": [
+        "member:vbb1394c46dace5ff",
+        "check:vbb1394c46dace5ff"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-integer-unsafe\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vcd4ff5dd804aa429",
+      "inputs": [
+        "member:vcd4ff5dd804aa429",
+        "check:vcd4ff5dd804aa429"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"args-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "ve0417c625a28533c",
+      "inputs": [
+        "member:ve0417c625a28533c",
+        "check:ve0417c625a28533c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-number-overflow\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "ve8baaedbb81ba750",
+      "inputs": [
+        "member:ve8baaedbb81ba750",
+        "check:ve8baaedbb81ba750"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"arguments-not-json\"],\"verdict\":\"malformed\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+      },
+      {
+        "process": "run-2",
+        "sha256": "584620247fa61d1db92dccd65108dd57e8295b7d2559b8db1ebbf5fa7fa21e31"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 41 pinned members of agent-decision-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 41,
+    "require": "at-least-one",
+    "selected": [
+      "v06a8c6ac559daa15",
+      "v12af945ff61fba34",
+      "v15e3eb6b1879db28",
+      "v1e0f8f6020f36e17",
+      "v2014ef47ee7cee4e",
+      "v2284940a27344c18",
+      "v23495c55a6546e67",
+      "v29a3a6bc8748b8dc",
+      "v2a767498599c917d",
+      "v339183abc44352b6",
+      "v3fff2fc0450878c2",
+      "v415f4c2e87fb8bcf",
+      "v4894d0a7d91c3fc7",
+      "v495ecfd0aeb47262",
+      "v4ce5d82405dae406",
+      "v4e1507f009cbc80d",
+      "v56d4b6480ce48273",
+      "v69fbd962dcd3778c",
+      "v6e2e4e1f955a996f",
+      "v6f68087a6f2ac0d0",
+      "v70c03756e24bf80d",
+      "v7448329eed2ae36f",
+      "v8a3aa5fbe538fc11",
+      "v9bf8cf8798d17bd4",
+      "va212e7ca11bb10d3",
+      "va49cc7eba1306281",
+      "va8e8df4271c4ab93",
+      "vaa3f6d878cefece5",
+      "vab9485aaa1cc16c6",
+      "vaccea9396f8bdb6b",
+      "vb131ab1e6d75fc35",
+      "vbb1394c46dace5ff",
+      "vcbe83ce9abf4720f",
+      "vcd4ff5dd804aa429",
+      "vd24ab9accf98f4d1",
+      "vd5e7c5e20ab405df",
+      "vd71376868c0a727b",
+      "ve0417c625a28533c",
+      "ve8baaedbb81ba750",
+      "veca390969b070fe0",
+      "vf15b2cf59647c11e"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-decision-conformance"
+}

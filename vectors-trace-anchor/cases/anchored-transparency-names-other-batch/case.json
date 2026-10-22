@@ -1,0 +1,25 @@
+{
+  "claim": {
+    "iat": 1792000001,
+    "signature": "fixture-signature-b-five-agent-1",
+    "subject": "b-five-agent-1",
+    "transparency": "https://registry.example.org/anchors/b-some-other-batch"
+  },
+  "entry": {
+    "batch_id": "b-five-moved",
+    "leaf_count": 5,
+    "merkle_root": "sha256:a67e62939a4d8b35cae770708ca88ebabc840e3c2884d976d9972c7d697fa21c",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:a278647f8ee3b55c31a9c713c8422e077f70ca83d18ba3116dbc827176f00a9a",
+      "sha256:160d82b791287c6e28c8db5636b8150fe1131ab02502f77733027de1e8ae794f",
+      "sha256:8de9708314f8c36c97360630445b7021b6ae5aeb5ef5fe97827151abde2ee4ad"
+    ],
+    "leaf_count": 5,
+    "leaf_index": 1,
+    "merkle_root": "sha256:a67e62939a4d8b35cae770708ca88ebabc840e3c2884d976d9972c7d697fa21c"
+  }
+}

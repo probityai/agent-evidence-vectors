@@ -21,8 +21,9 @@ store resolves a reference to other bytes (the reading table's mismatch line),
 a member whose fixed slot restates the domain (the domain-once row), a member
 whose check-set names a tree shape outside the closed set, a pass carrying the
 confinement cause (two rows at once), a control rebound to another constraint
-set, and the reference emitter's published run with a wrong digest and with a
-report the validator would reject. Four more give a member a field of the wrong
+set, a prior run rebound to another checker, and the reference emitter's
+published run with a wrong digest and with a report the validator would
+reject. Four more give a member a field of the wrong
 JSON type: robots exclusion rules as an integer, step_count as a string, a
 cache ledger's tokens as a string, and a delta's changes as a string. One more
 states a cause a member's rejection does not name. The last lists the
@@ -160,27 +161,36 @@ def confinement_on_pass(corpus: Path) -> None:
     edit_member(corpus, edit)
 
 
-def rebound_control(corpus: Path) -> None:
-    """A bound control moved to another constraint set than the run's (rule 29)."""
-    def edit(document: dict[str, Any]) -> None:
-        control = document["subject"]["roll-up"]["negative-capable"]["control"]
-        control["fixed"]["constraint-set"] = "cs-3"
-
-    def bound(document: dict[str, Any]) -> bool:
-        return "fixed" in document["subject"]
-
+def rebind(corpus: Path, family: str, edit: Callable[[dict[str, Any]], None]) -> None:
+    """Edit the first accept member of a binding family whose run declares a binding."""
     manifest = manifest_of(corpus)
     for entry in manifest["vectors"]:
-        if entry["family"] != "w3c-f-29" or entry["kind"] != "accept":
+        if entry["family"] != family or entry["kind"] != "accept":
             continue
         path = corpus / entry["file"]
         document = json.loads(path.read_text(encoding="utf-8"))
-        if bound(document):
-            edit(document)
+        if "fixed" in document["subject"]:
+            edit(document["subject"]["roll-up"]["negative-capable"])
             path.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n",
                             encoding="utf-8")
             return
-    raise SystemExit("no bound control member to rebind")
+    raise SystemExit(f"no bound {family} member to rebind")
+
+
+def rebound_control(corpus: Path) -> None:
+    """A bound control moved to another constraint set than the run's (rule 29)."""
+    def edit(field: dict[str, Any]) -> None:
+        field["control"]["fixed"]["constraint-set"] = "cs-3"
+
+    rebind(corpus, "w3c-f-29", edit)
+
+
+def rebound_prior(corpus: Path) -> None:
+    """A bound prior run moved to another checker than the run's (rule 33)."""
+    def edit(field: dict[str, Any]) -> None:
+        field["fixed"]["checker"] = "checker-3"
+
+    rebind(corpus, "w3c-f-33", edit)
 
 
 def edit_subject(corpus: Path, subject_type: str, edit: Callable[[dict[str, Any]], None]) -> None:
@@ -288,6 +298,7 @@ CASES: list[tuple[str, Callable[[Path], None] | None]] = [
     ("unregistered-shape", unregistered_shape),
     ("confinement-on-pass", confinement_on_pass),
     ("rebound-control", rebound_control),
+    ("rebound-prior", rebound_prior),
     ("robots-integer", robots_integer),
     ("string-step-count", string_step_count),
     ("string-ledger-tokens", string_ledger_tokens),

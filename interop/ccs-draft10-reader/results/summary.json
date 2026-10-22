@@ -1,0 +1,392 @@
+{
+ "check_tally": {
+  "action-6.4": {
+   "FAIL": 32,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "audience-uri": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "config_hash-5.3": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 68
+  },
+  "deny-response_hash-empty": {
+   "FAIL": 3,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "fields-outside-draft": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 69
+  },
+  "fingerprint-7.2": {
+   "FAIL": 66,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "freshness-6.9": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 7
+  },
+  "freshness-6.9-at-verified_at": {
+   "FAIL": 1,
+   "PASS": 61,
+   "SILENT": 0
+  },
+  "issuer-uri": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "nonce-hex": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "nonce-nonempty": {
+   "FAIL": 1,
+   "PASS": 67,
+   "SILENT": 0
+  },
+  "nonce-replay": {
+   "FAIL": 1,
+   "PASS": 6,
+   "SILENT": 0
+  },
+  "numeric-fields": {
+   "FAIL": 5,
+   "PASS": 64,
+   "SILENT": 0
+  },
+  "our-bytes-equal-corpus-signing-input": {
+   "FAIL": 0,
+   "PASS": 73,
+   "SILENT": 0
+  },
+  "params_hash-6.5": {
+   "FAIL": 32,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "params_hash-hex": {
+   "FAIL": 1,
+   "PASS": 68,
+   "SILENT": 0
+  },
+  "previous-receipt-hash": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 6
+  },
+  "receipt-type": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 4
+  },
+  "request_hash-6.1": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 68
+  },
+  "required-fields": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "required-fields-b": {
+   "FAIL": 16,
+   "PASS": 53,
+   "SILENT": 0
+  },
+  "response_hash-6.2": {
+   "FAIL": 32,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "response_hash-value": {
+   "FAIL": 1,
+   "PASS": 31,
+   "SILENT": 0
+  },
+  "runtime_context_hash-6.3": {
+   "FAIL": 12,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "sequence-integer": {
+   "FAIL": 1,
+   "PASS": 67,
+   "SILENT": 0
+  },
+  "sequence-monotonic": {
+   "FAIL": 0,
+   "PASS": 7,
+   "SILENT": 0
+  },
+  "sig-4.2+7.2": {
+   "FAIL": 73,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "sig-4.2-literal": {
+   "FAIL": 73,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "sig-all-but-signature": {
+   "FAIL": 4,
+   "PASS": 69,
+   "SILENT": 0
+  },
+  "signature-128-hex": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "signing_algorithm-ed25519": {
+   "FAIL": 1,
+   "PASS": 67,
+   "SILENT": 0
+  },
+  "trace_id-16-hex": {
+   "FAIL": 69,
+   "PASS": 0,
+   "SILENT": 0
+  },
+  "verdict-enum": {
+   "FAIL": 5,
+   "PASS": 64,
+   "SILENT": 0
+  },
+  "verdict-enum-b": {
+   "FAIL": 2,
+   "PASS": 67,
+   "SILENT": 0
+  },
+  "zero-hop": {
+   "FAIL": 0,
+   "PASS": 0,
+   "SILENT": 1
+  }
+ },
+ "jcs_admit_cross_check": true,
+ "manifest_cases": 66,
+ "manifest_equals_disk": true,
+ "on_disk_cases": 66,
+ "reading_a_matches_expected": 60,
+ "reading_b_disagreements": [
+  {
+   "case": "02-deny-pre-admission",
+   "expected": "valid",
+   "expected_reason": "",
+   "grounds": [
+    "deny-response_hash-empty"
+   ],
+   "reader": "invalid"
+  },
+  {
+   "case": "05-cross-field-semantic/05b-sandbox-flag-mismatch",
+   "expected": "invalid",
+   "expected_reason": "sandbox flag not bound to principal",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "06-l2-behavior/06d-behavior-wrong-l1-digest",
+   "expected": "invalid",
+   "expected_reason": "linked_l1_receipt_digest mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-args_digest",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-deployment_mode",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-latency_us",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-max_clock_skew",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-public_key_fingerprint",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-receipt_version",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-response_hash",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-rule_version",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-runtime_context_hash",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-sequence",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-signing_algorithm",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-tool_call_id",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07a-missing-verifier_source_class",
+   "expected": "invalid",
+   "expected_reason": "missing required field",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07b-unknown-field",
+   "expected": "invalid",
+   "expected_reason": "unknown field in strict mode",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "07-structure-negatives/07c-latency-as-string",
+   "expected": "invalid",
+   "expected_reason": "latency_us must be non-negative number",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "08-temporal-negatives/08b-future-timestamp",
+   "expected": "invalid",
+   "expected_reason": "timestamp skew exceeds max_clock_skew",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "08-temporal-negatives/08d-clock-skew-boundary",
+   "expected": "invalid",
+   "expected_reason": "timestamp skew exceeds max_clock_skew",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "09-identity-negatives/09a-fingerprint-mismatch",
+   "expected": "invalid",
+   "expected_reason": "fingerprint mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "10-chain-negatives/10a-sequence-gap",
+   "expected": "invalid",
+   "expected_reason": "sequence gap",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "10-chain-negatives/10b-prev-hash-mismatch",
+   "expected": "invalid",
+   "expected_reason": "prev_hash mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "10-chain-negatives/10c-trace-id-mismatch",
+   "expected": "invalid",
+   "expected_reason": "trace_id differ",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "10-chain-negatives/10d-empty-chain",
+   "expected": "invalid",
+   "expected_reason": "no predecessor receipt in chain",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "10-chain-negatives/10e-prev-hash-unanchored",
+   "expected": "invalid",
+   "expected_reason": "prev_hash mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "11-integrity-negatives/11a-request-hash-mismatch",
+   "expected": "invalid",
+   "expected_reason": "request_hash mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "11-integrity-negatives/11b-params-hash-mismatch",
+   "expected": "invalid",
+   "expected_reason": "params_hash mismatch",
+   "grounds": [],
+   "reader": "valid"
+  },
+  {
+   "case": "11-integrity-negatives/11c-config-hash-mismatch",
+   "expected": "invalid",
+   "expected_reason": "config_hash mismatch",
+   "grounds": [],
+   "reader": "valid"
+  }
+ ],
+ "reading_b_matches_expected": 37
+}

@@ -1,0 +1,808 @@
+{
+  "suite": "ietf-agent-record-drafts-conformance",
+  "drafts": [
+    "draft-emirdag-scitt-ai-agent-execution-01",
+    "draft-mih-scitt-checkpointed-local-log-02",
+    "draft-gruszka-scitt-statement-identification-02"
+  ],
+  "sources": {
+    "draft-emirdag-scitt-ai-agent-execution-01": "https://datatracker.ietf.org/doc/draft-emirdag-scitt-ai-agent-execution/01/",
+    "draft-mih-scitt-checkpointed-local-log-02": "https://datatracker.ietf.org/doc/draft-mih-scitt-checkpointed-local-log/02/",
+    "draft-gruszka-scitt-statement-identification-02": "https://datatracker.ietf.org/doc/draft-gruszka-scitt-statement-identification/02/",
+    "cllVectors": "https://github.com/action-state-group/checkpointed-local-log/tree/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors",
+    "cllReferenceVerifier": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+    "scittChairsRequest": "https://mailarchive.ietf.org/arch/browse/scitt/"
+  },
+  "upstream": {
+    "cll-02-vectors.json": {
+      "path": "upstream/cll-02-vectors.json",
+      "sha256": "7eec8d865571223ea8cbc3ecdae5d6f2f9ac3582ab7c187d2feca588c4c4ed64",
+      "commit": "4e8f098bef262c718f7217bf62e2b10030b4bcb3"
+    }
+  },
+  "keys": {
+    "air-operator": {
+      "alg": "ES256",
+      "x": "7cedf0394221ca10e222e1e53b5f81205e39ec2145df78ed5e2f6ed7da11b17b",
+      "y": "a047c50ec3c7c3ff6bd0efcc1ac1674296441b3fd52fec7763373ea704b0ef0b",
+      "recipe": "sha256(\"agent-evidence-ietf-agent-record-drafts-test-key/air-operator/v1\")"
+    },
+    "cll-producer": {
+      "alg": "Ed25519",
+      "publicKey": "ea4a6c63e29c520abef5507b132ec5f9954776aebebe7b92421eea691446d22c",
+      "recipe": "seed 0x07 repeated 32 times, the fixture of the draft's own vectors"
+    },
+    "sid-issuer": {
+      "alg": "Ed25519",
+      "publicKey": "1831d195d17773f68240dd53d6bd178d20bca88801da011ac113a0fc22776e32",
+      "recipe": "seed 51bdccce75df50a4bcee21a2f730ccdcd4917a0a4d20dd2ab3d2e5ffad3f6fd3, the issuer test key of the draft's Appendix A.2"
+    }
+  },
+  "keyNote": "PUBLISHED TEST KEYS. The AIR operator key is derived from the recipe above; the CLL and statement identification keys are the fixtures the drafts publish.",
+  "counts": {
+    "accept": 10,
+    "indeterminate": 1,
+    "reject": 20
+  },
+  "perDraft": {
+    "draft-gruszka-scitt-statement-identification-02": 5,
+    "draft-emirdag-scitt-ai-agent-execution-01": 12,
+    "draft-mih-scitt-checkpointed-local-log-02": 14
+  },
+  "rules": {
+    "draft-emirdag-scitt-ai-agent-execution-01": {
+      "cose-shape": "COSE_Sign1 under tag 18, alg -7, a kid, and CWT Claims carrying iss and sub (Section 5.5)",
+      "signature": "the ES256 signature verifies under the operator's registered key",
+      "content-hash": "content_hash is SHA-256 over the payload bytes (Section 5.7)",
+      "chain-hash": "chain_hash is SHA-256 over the 76 + len(agent_id) byte pre-image of Section 5.7",
+      "sequence": "sequence_number is one more than the preceding record's, or zero first (Section 5.8 step 4)",
+      "header-payload": "the header's action_timestamp_ms and agent_id equal the payload's [corpus]",
+      "prev-chain-link": "prev_chain_hash equals the preceding record's chain_hash, or all zero first [corpus]",
+      "time-order": "action_timestamp_ms is not below the preceding record's [corpus]",
+      "position-unique": "no two records claim one (agent_id, sequence_number) [corpus]"
+    },
+    "draft-mih-scitt-checkpointed-local-log-02": {
+      "deterministic-encoding": "the checkpoint, its protected header and its payload are core deterministic CBOR, so no map repeats a key [corpus; Section 4.2 binds only the producer]",
+      "cose-shape": "COSE_Sign1 under tag 18, alg -19, and CWT Claims whose (iss, sub) is the case's log identity",
+      "signature": "the Ed25519 signature verifies under the producer key",
+      "claims": "kind is cll-checkpoint and the required claims carry Table 1's types (Section 4.3 step 2)",
+      "continuity": "prev_size and prev_commitment equal the service's last registration, or the service holds none and prev_size is 0 (Section 4.5)",
+      "issued-at-order": "issued_at is not earlier than the service's last registered issued_at [corpus]",
+      "registration-time": "the service's clock is within the declared cadence of issued_at [corpus]",
+      "history-fork": "no other named service holds a registration of the same log_size with another commitment [corpus]"
+    },
+    "draft-gruszka-scitt-statement-identification-02": {
+      "duplicate-key": "no map in the protected header repeats a key (Section 6)",
+      "signature": "the Ed25519 signature verifies under the issuer key",
+      "identity": "SHA-256 over ToBeSigned, with the protected header in its deterministic encoding, equals the reference digest [corpus; the draft hashes the header bytes as written]"
+    }
+  },
+  "comparisonSurface": {
+    "normative": [
+      "verdict"
+    ],
+    "measured": [
+      "codes"
+    ],
+    "note": "A verifier conforms on a member when its verdict equals expected.verdict, or, for an indeterminate member, is one of the verdicts its readings list. The codes name the reference reader's first refusal; the drafts define none. A rule marked [corpus] is one the draft's text does not state, and draftReading is the verdict the draft's own procedure reaches without it: every member where the two differ is a case the draft's verification steps do not catch."
+  },
+  "note": "Each member is one case file: the bytes a verifier reads, as hex, and the state it reads them against. What the verifier must decide lives here and never beside the input. does_not_assert lists what the expected verdict does not establish, so a verdict is never read as more than it is.",
+  "vectors": [
+    {
+      "id": "v009ee09f1bd85876",
+      "slug": "sid-signature-other-key",
+      "draft": "draft-gruszka-scitt-statement-identification-02",
+      "kind": "reject",
+      "file": "cases/v009ee09f1bd85876.json",
+      "row": "statement 01's ToBeSigned signed with the auditor seed in place of the issuer's",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "that the candidate's content differs from statement 01"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "signature-invalid"
+        ]
+      },
+      "parent": "va96badd9df6ce030"
+    },
+    {
+      "id": "v059494e0bdc24d98",
+      "slug": "air-third-follows",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "accept",
+      "file": "cases/v059494e0bdc24d98.json",
+      "row": "record 2 after records 0 and 1, timestamped one minute after record 1",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that the record's content is accurate, or that the Issuer recorded every action",
+        "that the timestamps are the times the actions happened"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v1ab8391a77ee6b5e",
+      "slug": "sid-header-keys-reordered",
+      "draft": "draft-gruszka-scitt-statement-identification-02",
+      "kind": "indeterminate",
+      "file": "cases/v1ab8391a77ee6b5e.json",
+      "row": "statement 01 re-signed by its own issuer seed, the decoded protected header and payload unchanged, the header keys written 15, 4, 3, 1; the draft's ToBeSigned rule reports NO_MATCH with a valid signature",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "that the payload is true, that the issuer is trusted, or that it was registered",
+        "that the issuer re-encoded the header to evade the reference"
+      ],
+      "expected": {
+        "codes": []
+      },
+      "readings": [
+        {
+          "verdict": "valid",
+          "rationale": "the identifier is computed over the deterministic encoding of the protected header, so it stays stable across equivalent encodings and this candidate is statement 01"
+        },
+        {
+          "verdict": "malformed",
+          "rationale": "the scheme defines a canonical encoding and requires it, so a protected header not in RFC 8949 Section 4.2.1 form is refused"
+        }
+      ],
+      "parent": "va96badd9df6ce030"
+    },
+    {
+      "id": "v1c3e1aeefe89445a",
+      "slug": "air-two-records-one-position",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/v1c3e1aeefe89445a.json",
+      "row": "two records, completed and failed, both at sequence 1 over record 0 and both signed by the Issuer; each passes Section 5.8 on its own",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which of the two records is the true one",
+        "that either record was registered at a Transparency Service"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "chain-position-equivocation"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "v27bcb59c03bb551a",
+      "slug": "air-header-payload-time-differ",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/v27bcb59c03bb551a.json",
+      "row": "record 2 whose header action_timestamp_ms, the value bound into chain_hash, is a minute before the payload's",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which of the two times is the true one"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "header-payload-disagree"
+        ]
+      },
+      "parent": "v059494e0bdc24d98"
+    },
+    {
+      "id": "v30fe94ad421269f8",
+      "slug": "cll-cp4-registered-two-weeks-late",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v30fe94ad421269f8.json",
+      "row": "the published cp4, unchanged, registered on 27 October, two weeks after its issued_at and its declared cadence of 3600 seconds; Sections 4.3 and 4.5 read neither time",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that entries 7 to 20 were fabricated after 13 October",
+        "when the producer actually signed the checkpoint"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "registration-late"
+        ]
+      },
+      "parent": "v7e6c2a0f4349a03c",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "v396893a5747f2d4e",
+      "slug": "cll-issued-at-regression",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v396893a5747f2d4e.json",
+      "row": "cp3's claims issued again at 01:45, before cp3's 02:00, registered after cp3",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which of the two times the producer's clock really read"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "issued-at-regression"
+        ]
+      },
+      "parent": "vaef5b4a3f78e4f85",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "v41c9ac27ed7f9e37",
+      "slug": "cll-cp3-continuous",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/v41c9ac27ed7f9e37.json",
+      "row": "the published cp3, no growth since cp2",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "v5d18ac5ccc2f020b",
+      "slug": "cll-cp1-at-second-service",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/v5d18ac5ccc2f020b.json",
+      "row": "the published cp1 registered first-seen at ts2, while ts1, also named by the producer, holds cp1 to cp4",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "first-seen"
+      }
+    },
+    {
+      "id": "v619036653b6d7369",
+      "slug": "air-genesis",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "accept",
+      "file": "cases/v619036653b6d7369.json",
+      "row": "the first record of agent-pay-01's chain: sequence 0, prev_chain_hash all zero",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that the record's content is accurate, or that the Issuer recorded every action"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v7799ec7b1c4bf125",
+      "slug": "cll-second-history-same-identity",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v7799ec7b1c4bf125.json",
+      "row": "a first checkpoint for the same (iss, sub) over three other entries, registered first-seen at ts2 while ts1 holds cp1 to cp4; Section 4.5 lets ts2 start a history and nothing compares the two services",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which of the two histories is the true one",
+        "that either service colluded with the producer"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "history-fork"
+        ]
+      },
+      "parent": "v5d18ac5ccc2f020b",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "first-seen"
+      }
+    },
+    {
+      "id": "v7e6c2a0f4349a03c",
+      "slug": "cll-cp4-on-time",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/v7e6c2a0f4349a03c.json",
+      "row": "the published cp4 after cp3, registered thirty seconds after its issued_at",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended",
+        "that entries 7 to 20 were appended at their own times"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "v7ed4d3fdd37eef96",
+      "slug": "air-timestamp-before-predecessor",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/v7ed4d3fdd37eef96.json",
+      "row": "record 2 whose action_timestamp_ms, in the header and the payload alike, is one day before record 0's; Section 6.3 checks only captured time against action time",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "when the action actually happened",
+        "that the Issuer backdated it deliberately rather than by a clock fault"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "timestamp-regression"
+        ]
+      },
+      "parent": "v059494e0bdc24d98"
+    },
+    {
+      "id": "v82b42bf6b7a52249",
+      "slug": "cll-kind-wrong",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v82b42bf6b7a52249.json",
+      "row": "cp1 with kind cll-checkpoint-v1, which Table 1 does not allow",
+      "draftReading": {
+        "verdict": "malformed"
+      },
+      "does_not_assert": [
+        "that the log's history is wrong"
+      ],
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "claims-malformed"
+        ]
+      },
+      "parent": "vd2a07f2769aca84f",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "kind",
+        "registration": ""
+      }
+    },
+    {
+      "id": "v8e112d2716472d27",
+      "slug": "air-content-hash-mismatch",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/v8e112d2716472d27.json",
+      "row": "record 1 whose header content_hash is the hash of a payload it does not carry",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "what the payload the hash names said"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "content-hash-mismatch"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "v8eb997c4e82b6312",
+      "slug": "air-follows",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "accept",
+      "file": "cases/v8eb997c4e82b6312.json",
+      "row": "record 1, whose prev_chain_hash is record 0's chain_hash",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that the record's content is accurate, or that the Issuer recorded every action",
+        "that no other record claims sequence 1 at another custodian"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "v94c5e9a4ad1e0bd0",
+      "slug": "cll-not-continuous",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v94c5e9a4ad1e0bd0.json",
+      "row": "the published cp4 at a service whose last registration is cp1",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "which checkpoints the service missed"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "not-continuous"
+        ]
+      },
+      "parent": "v7e6c2a0f4349a03c",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "not-continuous"
+      }
+    },
+    {
+      "id": "v955ebd7f6716690b",
+      "slug": "cll-sub-missing",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/v955ebd7f6716690b.json",
+      "row": "cp1 signed under CWT Claims with iss and no sub, the log name Section 4.5 needs",
+      "draftReading": {
+        "verdict": "malformed"
+      },
+      "does_not_assert": [
+        "which log the checkpoint belongs to"
+      ],
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "cose-malformed"
+        ]
+      },
+      "parent": "vd2a07f2769aca84f",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "log-identity-missing",
+        "registration": ""
+      }
+    },
+    {
+      "id": "v9af0955e6f118541",
+      "slug": "air-signed-by-other-key",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/v9af0955e6f118541.json",
+      "row": "record 1 signed by a P-256 key other than the operator's registered one",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "who did sign the record"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "signature-invalid"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "va16f8ecfd7c4bf12",
+      "slug": "cll-cp2-continuous",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/va16f8ecfd7c4bf12.json",
+      "row": "the published cp2 after cp1, with its consistency proof",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "va96badd9df6ce030",
+      "slug": "sid-statement-01",
+      "draft": "draft-gruszka-scitt-statement-identification-02",
+      "kind": "accept",
+      "file": "cases/va96badd9df6ce030.json",
+      "row": "statement 01 of Appendix A as printed, against the reference statement 02 carries",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that the payload is true, that the issuer is trusted, or that it was registered",
+        "that no newer statement corrects it"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      }
+    },
+    {
+      "id": "vab2f9e4fc1ca6b44",
+      "slug": "air-prev-chain-hash-mismatch",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/vab2f9e4fc1ca6b44.json",
+      "row": "record 1 whose prev_chain_hash is the chain_hash of another agent's record, not record 0's; Section 5.8 takes the preceding chain_hash as input and never compares it",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which history the record does continue",
+        "that the record's content is false",
+        "that the Issuer meant to splice the chain"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "prev-chain-hash-mismatch"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "vacb161d3ce78204d",
+      "slug": "sid-protected-header-key-repeated",
+      "draft": "draft-gruszka-scitt-statement-identification-02",
+      "kind": "reject",
+      "file": "cases/vacb161d3ce78204d.json",
+      "row": "statement 01's protected header with label 3 written twice, signed by the issuer; Section 6 refuses a map with two equal keys",
+      "draftReading": {
+        "verdict": "malformed"
+      },
+      "does_not_assert": [
+        "that either content type is wrong"
+      ],
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "cbor-duplicate-key"
+        ]
+      },
+      "parent": "va96badd9df6ce030"
+    },
+    {
+      "id": "vaef5b4a3f78e4f85",
+      "slug": "cll-cp3-reissued",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/vaef5b4a3f78e4f85.json",
+      "row": "cp3's claims issued again at 02:30, after cp3, with no growth",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "continuous"
+      }
+    },
+    {
+      "id": "vb8b2caa513c47af8",
+      "slug": "cll-commitment-key-repeated",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/vb8b2caa513c47af8.json",
+      "row": "a first checkpoint whose payload map writes commitment twice, cp1's then a forked one; a last-wins decoder reads the fork, a first-wins decoder reads cp1, and each reading passes Section 4.3",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "which of the two commitments the producer meant"
+      ],
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "cbor-not-deterministic"
+        ]
+      },
+      "parent": "vd2a07f2769aca84f",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "cbor-not-deterministic",
+        "registration": ""
+      }
+    },
+    {
+      "id": "vbf1554388dcfa67b",
+      "slug": "cll-signed-by-other-key",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "reject",
+      "file": "cases/vbf1554388dcfa67b.json",
+      "row": "cp1's claims and header, signed by another Ed25519 key",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "who did sign the checkpoint"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "signature-invalid"
+        ]
+      },
+      "parent": "vd2a07f2769aca84f",
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "signature-invalid",
+        "registration": ""
+      }
+    },
+    {
+      "id": "vbf32fe6235ed3d69",
+      "slug": "sid-different-payload",
+      "draft": "draft-gruszka-scitt-statement-identification-02",
+      "kind": "reject",
+      "file": "cases/vbf32fe6235ed3d69.json",
+      "row": "statement 01's protected header over a payload whose license is Apache-2.0, signed by the issuer: a different statement",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "which of the two payloads the issuer stands behind"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "reference-mismatch"
+        ]
+      },
+      "parent": "va96badd9df6ce030"
+    },
+    {
+      "id": "vd2a07f2769aca84f",
+      "slug": "cll-cp1-first",
+      "draft": "draft-mih-scitt-checkpointed-local-log-02",
+      "kind": "accept",
+      "file": "cases/vd2a07f2769aca84f.json",
+      "row": "the published cp1, registered as the first checkpoint of the log",
+      "draftReading": {
+        "verdict": "valid"
+      },
+      "does_not_assert": [
+        "that any entry's content is true (Section 7)",
+        "that this is the producer's only log, or that every record was appended"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "codes": []
+      },
+      "referenceVerifier": {
+        "source": "https://github.com/action-state-group/checkpointed-local-log/blob/4e8f098bef262c718f7217bf62e2b10030b4bcb3/cll-02-vectors/cll02.py",
+        "checkClaims": "pass",
+        "registration": "first-seen"
+      }
+    },
+    {
+      "id": "vd3794ac0671808f2",
+      "slug": "air-chain-hash-mismatch",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/vd3794ac0671808f2.json",
+      "row": "record 1 whose chain_hash takes action_timestamp_ms little-endian, against the big-endian encoding Section 5.7 pins",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "that the record's other fields are wrong"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "chain-hash-mismatch"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "vdc35eea744fd7224",
+      "slug": "air-sequence-gap",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/vdc35eea744fd7224.json",
+      "row": "a record at sequence 2 directly after record 0",
+      "draftReading": {
+        "verdict": "invalid"
+      },
+      "does_not_assert": [
+        "that a record 1 existed, or what it said"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "sequence-gap"
+        ]
+      },
+      "parent": "v8eb997c4e82b6312"
+    },
+    {
+      "id": "veb528a11595d1920",
+      "slug": "air-cwt-sub-missing",
+      "draft": "draft-emirdag-scitt-ai-agent-execution-01",
+      "kind": "reject",
+      "file": "cases/veb528a11595d1920.json",
+      "row": "record 0 whose CWT Claims carry iss and no sub, which Section 5.5 requires",
+      "draftReading": {
+        "verdict": "malformed"
+      },
+      "does_not_assert": [
+        "which agent the record is about"
+      ],
+      "expected": {
+        "verdict": "malformed",
+        "codes": [
+          "cose-malformed"
+        ]
+      },
+      "parent": "v619036653b6d7369"
+    }
+  ],
+  "corpusDigest": "b080bfb0df5a6929d83d5b94cd6654fe4c05945f12df37d8dbe03d9253d39468"
+}

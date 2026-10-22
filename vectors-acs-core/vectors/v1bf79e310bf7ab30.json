@@ -1,0 +1,65 @@
+{
+  "cites": "an AgBOM snapshot as class 5001 with activity_id 1, Log, the activity the mapping used before it pinned OCSF 1.9.0. The release row fixes activity_id 2, Collect.",
+  "coverage": "observed",
+  "doesNotAssert": "that the inventory is complete",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-17",
+  "id": "v1bf79e310bf7ab30",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "activity_id": 1,
+        "activity_name": "Log",
+        "category_uid": 5,
+        "class_name": "Device Inventory Info",
+        "class_uid": 5001,
+        "device": {
+          "type": "AI Agent",
+          "type_id": 99,
+          "uid": "agent-acs-vectors"
+        },
+        "metadata": {
+          "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:dad82623-435c-4713-9cd6-fd6aff1c4b59",
+          "version": "1.9.0"
+        },
+        "severity_id": 1,
+        "type_uid": 500101,
+        "unmapped": {
+          "acs": {
+            "agbom": {
+              "component_count": 7,
+              "format": "canonical"
+            },
+            "request_id": "dad82623-435c-4713-9cd6-fd6aff1c4b59",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-056",
+      "line": 82,
+      "sentence": "| `agbom/snapshot`, `agbom/changed` | Device Inventory Info | 5001 (`activity_id` 2, Collect) |",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-056"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

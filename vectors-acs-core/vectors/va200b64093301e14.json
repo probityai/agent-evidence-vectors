@@ -1,4 +1,5 @@
 {
+  "cites": "a request the policy engine escalates, sent by a client with no way to resolve an ASK. The Guardian must substitute DEFER or DENY; an `ask` carrying no `ask_details` is neither a decision the client can act on nor the substitution the rule requires. A bridge that maps escalate to ask by name and has no source for an approver or a question emits exactly that.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -40,6 +41,18 @@
       "timestamp": "2026-09-09T12:00:00Z"
     }
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-018",
+      "line": 282,
+      "sentence": "When the Guardian determines that the client cannot resolve `ASK`, the Guardian MUST NOT return `ASK`",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-018"
   ],
