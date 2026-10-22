@@ -27,13 +27,15 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "packaging"))
 
 from agent_evidence_vectors import donerecords as rec  # noqa: E402
+from agent_evidence_vectors import donerun  # noqa: E402
 
 FIXTURE = ROOT / "corpora" / "testdata" / "done-records.json"
 CORPORA = ("vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output",
            "vectors-test-tampering", "vectors-grader-isolation", "vectors-done-probes")
 PARSERS: dict[str, Callable[[bytes], Any]] = {
     "contract": rec.contract, "tree": rec.tree, "observation": rec.observation,
-    "capability": rec.capability, "grade": rec.grade, "claims": rec.claims}
+    "capability": rec.capability, "grade": rec.grade, "claims": rec.claims,
+    "statement": donerun._statement}
 BASES_PER_KIND = 8
 # Values of the right type that a rule may refuse, tried in place of every string.
 STRINGS = ("", "x", "/abs", "../up", "a/./b", "A" * 64, "a" * 64, "2026-10-17T00:00:00Z",

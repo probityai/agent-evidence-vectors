@@ -35,12 +35,14 @@ from agent_evidence_vectors import donerecords as rec  # noqa: E402
 from agent_evidence_vectors import donerun  # noqa: E402
 
 FIXTURE = ROOT / "corpora" / "testdata" / "done-members.json.gz"
-CORPORA = {"vectors-done-receipt": donerun.RECEIPT_SUITE,
+CORPORA = {"vectors-done-contract": donerun.CONTRACT_SUITE,
+           "vectors-done-receipt": donerun.RECEIPT_SUITE,
            "vectors-spoofed-tool-output": donerun.SPOOFED_SUITE,
            "vectors-test-tampering": donerun.TAMPERING_SUITE,
            "vectors-grader-isolation": donerun.GRADER_SUITE,
            "vectors-done-probes": donerun.PROBES_SUITE}
-ROLES = ("contract", "observation", "tree", "grade", "claims", "capability", "receipt")
+ROLES = ("contract", "observation", "tree", "grade", "claims", "capability", "receipt",
+         "statement")
 # Members of one verdict signature are alike; this many of each are changed.
 PER_SIGNATURE = 4
 DELETE = object()
@@ -102,6 +104,14 @@ def edit(base: Any, path: tuple[Any, ...], new: Any) -> Any:
     return out
 
 
+def loaded(data: bytes) -> Any:
+    """The file's JSON, or None for a member whose fault is a file that is not JSON."""
+    try:
+        return json.loads(data)
+    except ValueError:
+        return None
+
+
 def redirected_trees(tree: Any, contract: Any) -> Iterator[Any]:
     """Final trees that put a link, a special file or a file where a protected entry is.
 
@@ -109,9 +119,12 @@ def redirected_trees(tree: Any, contract: Any) -> Iterator[Any]:
     every entry, so these are whole records with the digest recomputed: a symlink or a
     special file at each protected path, at each of its ancestors, under it and beside
     it, and a regular file at the path of a protected directory."""
-    if not isinstance(tree, dict) or not isinstance(contract, dict):
-        return
-    for entry in contract.get("protected_paths", []):
+    try:
+        rec.tree(encode(tree))
+        entries = rec.contract(encode(contract))["protected_paths"]
+    except (rec.RecordError, TypeError):
+        return  # a member whose fault is its tree or contract: nothing to redirect
+    for entry in entries:
         path = entry["path"]
         parts = path.split("/")
         names = [path, f"{path}/x", f"{path}x",
@@ -147,8 +160,6 @@ def bases() -> list[tuple[str, dict[str, Any]]]:
         manifest = json.loads((ROOT / corpus / "MANIFEST.json").read_bytes())
         taken: dict[str, int] = {}
         for entry in manifest["vectors"]:
-            if any("refused" in check for check in entry["expected"].get("checks", {}).values()):
-                continue
             key = signature(entry)
             if taken.get(key, 0) < PER_SIGNATURE:
                 taken[key] = taken.get(key, 0) + 1
@@ -167,7 +178,12 @@ def variants() -> Iterator[tuple[dict[str, Any], Any]]:
             name = f"{role}.json"
             if name not in files:
                 continue
-            record = json.loads(files[name])
+            removed = {"member": f"{corpus}/{entry['path']}", "role": role, "path": [],
+                       "op": "remove"}
+            yield removed, (files, None, DELETE, entry.get("checks", []), CORPORA[corpus])
+            record = loaded(files[name])
+            if record is None:
+                continue
             pool = sorted(strings(record))
             for path in leaves(record):
                 options = candidates(get(record, path), pool)
@@ -177,17 +193,20 @@ def variants() -> Iterator[tuple[dict[str, Any], Any]]:
                     item: dict[str, Any] = {"member": f"{corpus}/{entry['path']}", "role": role,
                                             "path": list(path)}
                     item.update({"op": "delete"} if new is DELETE else {"op": "set", "value": new})
-                    yield item, (files, record, new, entry["checks"], CORPORA[corpus])
+                    yield item, (files, record, new, entry.get("checks", []), CORPORA[corpus])
             if role == "tree" and "contract.json" in files:
-                for new in redirected_trees(record, json.loads(files["contract.json"])):
+                for new in redirected_trees(record, loaded(files["contract.json"])):
                     item = {"member": f"{corpus}/{entry['path']}", "role": role, "path": [],
                             "op": "set", "value": new}
-                    yield item, (files, record, new, entry["checks"], CORPORA[corpus])
+                    yield item, (files, record, new, entry.get("checks", []), CORPORA[corpus])
 
 
 def answer(item: dict[str, Any], context: Any) -> Any:
     files, record, new, declared, suite = context
     name = f"{item['role']}.json"
+    if item["op"] == "remove":
+        return judged(suite, {key: value for key, value in files.items() if key != name},
+                      declared)
     changed = {**files, name: encode(edit(record, tuple(item["path"]), new))}
     if item["role"].endswith((".case", ".policy")):
         # Nothing pins a case or a policy; its own edit is the change judged.
@@ -206,8 +225,8 @@ def selected() -> list[dict[str, Any]]:
     for item, context in variants():
         want = answer(item, context)
         key = (item["member"], item["role"], json.dumps(want, sort_keys=True))
-        # A whole-record change reaches its answer by a path no leaf change takes, so it
-        # is kept even when a leaf change already reached the same answer.
+        # A whole-record change or a removed file reaches its answer by a path no leaf
+        # change takes, so it is kept even when a leaf change reached the same answer.
         if key not in seen or not item["path"]:
             seen.add(key)
             out.append({**item, "want": want})

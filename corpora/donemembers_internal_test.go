@@ -34,7 +34,8 @@ type doneMemberCase struct {
 const doneMemberDisagreements = 20
 
 var doneMemberSuites = map[string]string{
-	"vectors-done-receipt": doneReceiptSuite, "vectors-spoofed-tool-output": doneSpoofedSuite,
+	"vectors-done-contract": doneContractSuite,
+	"vectors-done-receipt":  doneReceiptSuite, "vectors-spoofed-tool-output": doneSpoofedSuite,
 	"vectors-test-tampering": doneTamperSuite, "vectors-grader-isolation": doneGraderSuite,
 	"vectors-done-probes": doneProbesSuite,
 }
@@ -124,19 +125,10 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 			}
 			files[entry.Name()] = data
 		}
-		var record any
-		if err := doneDecodeNumbers(files[item.Role+".json"], &record); err != nil {
-			t.Fatal(err)
-		}
-		edited, err := doneEdited(record, doneRecordCase{Path: item.Path, Op: item.Op, Value: item.Value})
-		if err != nil {
-			t.Fatalf("case %d: %v", index, err)
-		}
-		if files[item.Role+".json"], err = doneEncoded(edited); err != nil {
-			t.Fatal(err)
-		}
-		if !strings.HasSuffix(item.Role, ".case") && !strings.HasSuffix(item.Role, ".policy") {
-			donePinned(t, files, item.Role)
+		if item.Op == "remove" {
+			delete(files, item.Role+".json")
+		} else {
+			doneEditMember(t, files, item, index)
 		}
 		directory := filepath.Join(base, "m")
 		if err := os.RemoveAll(directory); err != nil {
@@ -165,6 +157,25 @@ func TestDoneMembersAgreeWithPython(t *testing.T) {
 				t.Fatalf("stopping after %d disagreements", disagreed)
 			}
 		}
+	}
+}
+
+// doneEditMember makes the case's change to one file and moves the pins to a changed record.
+func doneEditMember(t *testing.T, files map[string][]byte, item doneMemberCase, index int) {
+	t.Helper()
+	var record any
+	if err := doneDecodeNumbers(files[item.Role+".json"], &record); err != nil {
+		t.Fatal(err)
+	}
+	edited, err := doneEdited(record, doneRecordCase{Path: item.Path, Op: item.Op, Value: item.Value})
+	if err != nil {
+		t.Fatalf("case %d: %v", index, err)
+	}
+	if files[item.Role+".json"], err = doneEncoded(edited); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.HasSuffix(item.Role, ".case") && !strings.HasSuffix(item.Role, ".policy") {
+		donePinned(t, files, item.Role)
 	}
 }
 

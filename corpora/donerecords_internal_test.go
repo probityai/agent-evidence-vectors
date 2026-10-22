@@ -29,6 +29,7 @@ type doneRecordCase struct {
 var doneRecordParsers = map[string]func([]byte) (doneObject, error){
 	"contract": doneContract, "tree": doneTree, "observation": doneObservation,
 	"capability": doneCapability, "grade": doneGrade, "claims": doneClaims,
+	"statement": doneContractStatement,
 }
 
 func loadDoneRecordCases(t *testing.T) (map[string][]any, []doneRecordCase) {
