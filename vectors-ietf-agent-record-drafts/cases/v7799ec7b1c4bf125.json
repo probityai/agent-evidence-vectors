@@ -1,0 +1,46 @@
+{
+  "checkpoint": "d2845865a30132045820ea4a6c63e29c520abef5507b132ec5f9954776aebebe7b92421eea691446d22c0fa201781868747470733a2f2f70726f64756365722e6578616d706c6502781f68747470733a2f2f70726f64756365722e6578616d706c652f6c6f67732f31a058b2a7646b696e646e636c6c2d636865636b706f696e7467636164656e6365190e10686c6f675f73697a6504696973737565645f617474323032362d31302d31335430303a30303a30305a69707265765f73697a65006a636f6d6d69746d656e745840e32d836c60dbf2c572ff33e548122c5910a39ea6ab9cedd8339a0cdded08016ea7832063faa52822ff9812f012ac18daeed829095f5564b4fa7efc1b780826e26f707265765f636f6d6d69746d656e744058407c48c5c18ebd487b80f29d51f1ff6d8b99caad9cd4b9bf3dd859c4d66a98077bb8dc8336ac3375fb465d809bc697bc25e073254bf7804d03d12ce8522e436a04",
+  "clock": "2026-10-13T00:00:20Z",
+  "draft": "draft-mih-scitt-checkpointed-local-log-02",
+  "logIdentity": {
+    "iss": "https://producer.example",
+    "sub": "https://producer.example/logs/1"
+  },
+  "namedServices": [
+    "ts2",
+    "ts1"
+  ],
+  "producerKey": "cll-producer",
+  "registerAt": "ts2",
+  "services": [
+    {
+      "history": [],
+      "name": "ts2"
+    },
+    {
+      "history": [
+        {
+          "commitment": "643e9cb5b896b008a16c1333fecce044e510a94de8124c3798d3488277263324857277deb54352114b86f34f5ede1c50a8ab7de359acc5e362efc3c0a46ded4b",
+          "issued_at": "2026-10-13T00:00:00Z",
+          "log_size": 4
+        },
+        {
+          "commitment": "046b6c15dfa5998f23e49ba135f22ba0fe3ebc25078f5d087b78ed18106ba1bda0b64392f61d15267e0355dcc1907d30d55ebb895c425d944e9a0ae26170aea3bd0ce39b0f88ee1ff3b35c8ecf7a7eaf6041459d49c22b459c5a69d6d2ca6c61",
+          "issued_at": "2026-10-13T01:00:00Z",
+          "log_size": 11
+        },
+        {
+          "commitment": "046b6c15dfa5998f23e49ba135f22ba0fe3ebc25078f5d087b78ed18106ba1bda0b64392f61d15267e0355dcc1907d30d55ebb895c425d944e9a0ae26170aea3bd0ce39b0f88ee1ff3b35c8ecf7a7eaf6041459d49c22b459c5a69d6d2ca6c61",
+          "issued_at": "2026-10-13T02:00:00Z",
+          "log_size": 11
+        },
+        {
+          "commitment": "8b98ce521d2a00cfd43e89a53592b51038a29de124d777b673af92eb15fc41d4200fb4971134871c02ae84c90946aab14163d44375665864ff06617210dc155b768cbebfc0387181e02f9c945ceb880af9c9fdafad59bcad4681da29404a2668",
+          "issued_at": "2026-10-13T03:00:00Z",
+          "log_size": 39
+        }
+      ],
+      "name": "ts1"
+    }
+  ]
+}

@@ -1,0 +1,6835 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 175,
+      "reject": 98
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 273
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-w3c-report/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-w3c-report/gen_vectors.py",
+    "routine-file": "vectors-w3c-report/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "c93f7497264bd547a420713f33706243970d06ba00a4c54f2b5a0a72c8ef3a17",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "49cd1435e135362a2a2bd54c2e3dc56da998fab71fe765d4a91b9782d8c33668",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "17ef9b5585bed9cc1f45115269187c0e04bf1b2961929999f23e4658540f6771"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "e012358cdbd89973e5889212cd695add3bf25d45787ac9b66dca51977495a136",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/MUTATION-SWEEP.md",
+      "serialization": "bytes",
+      "sha256": "a338bc49022ffa1fb04999c8f9c0e01eddfa0e8bbcbb9b9f751f9160ca62edc5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "4f6f98c550cf9815b638746486de04b97b0c5bad520fb2a2914f7eddadf34517",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/README.md",
+      "serialization": "bytes",
+      "sha256": "446dd19846bbbda39345a656b3fa3a6ede2e147211d8445903b75cc83e78a8e7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "a25506a191fec6ccf0aa81451074edf046fe4b49e37df0365a72a9d8676bf632",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "343c026e032a13f35390134b2859dc7a951a3fe7836c0bb6b23b7ef5b00c10ad"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "61c8601e963ea02a906b0d924e35a4428f9915bc64fe6e40929eef047302c8af",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/RUN.json",
+      "serialization": "bytes",
+      "sha256": "00007b271fd027a5c952c17a8100190b8af360929f906936be352bb806c97448"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json",
+          "vectors-w3c-report/observed/aee-v0.12.0/RUN.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7ef4f30b1ae161fb69e026724288182d1c3bb975015d5bd0d2525a86a79277fc"
+        },
+        "swapped-in": "fda36bab5b56b43aa5b2684870ce75916c2722ee4ebb36529af98e61ff34dad6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/conformance-report.json",
+      "serialization": "bytes",
+      "sha256": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json",
+          "vectors-w3c-report/observed/aee-v0.12.0/RUN.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "cb464bfa3d423c07c1dea5d10ac07baaf6dd5bfc0e83124d53f516cb84d1ad68"
+        },
+        "swapped-in": "322526a6fdcf6277ec7e33006a9ca6cf2c2cbe03e5d1d34033b17dd02788fac8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/observed/aee-v0.12.0/report.json",
+      "serialization": "bytes",
+      "sha256": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "4063ec04c8218b718c0eb5f3fecef6d3fce173717c0d70d0799dfa6a1794d9fc",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/origin/derive_pairs.py",
+      "serialization": "bytes",
+      "sha256": "d196120f24e550f34c2e7844d8eb7c26b15d18eb2ec5c37f993c956800229590"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "936d3b532583724cbe34b6c25d96096c2c03b83a4ea536c872e43d43998ef507",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/origin/disensor-1e36257-pairs.json",
+      "serialization": "bytes",
+      "sha256": "f22c6fae3acea53f440cc1c73902789ef87e8bf3a2199a1c8d8f4a4689363bb0"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "69a7fbb5457d9babff5062e01d6a50bd584a2ae574bbbe62c84779d9e6bc4a50"
+        },
+        "swapped-in": "b8d3875ee96e212992dd2f196fb2151b2af60e9a1584e1528ed9cd5d9a7eceaa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0001-ives-2026-09-01-coverage-block.txt",
+      "serialization": "bytes",
+      "sha256": "62bafb6e88629bda0dc09c1d19982aaf831be7b8845bf80a2fb31deda676b143"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "df7978115392c31b9eb6c24673ad68fe9a6e4eac42bde4c200ecc66cd34f585b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0025-rocchia-2026-09-13-state-cause-pair-table.txt",
+      "serialization": "bytes",
+      "sha256": "2ee9306408474a6966d8294d4e641c39aa253a2ab2bb377d01abcee5c3b94e95"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "5066ca2a5f45484abf3d1c5dc4266325eaab78ea3d82baccdfc9be289038a4ee",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0036-arsentev-2026-09-14-discrimination-and-populations.txt",
+      "serialization": "bytes",
+      "sha256": "7a034174eb5f27f8f8865f49ab6999de20157dd3906b9d158366b62cc83b7738"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "6a9ab8b0331627b6d2c1ad067e1f39bfa2505ab389f7ad77fd0fd947acea4759",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0043-rocchia-2026-09-15-consolidated-table.txt",
+      "serialization": "bytes",
+      "sha256": "76f5af49f11108fccf5d01c3710771acdb4539c8761b655b8e06bda993bb03f1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "95bcdf4cb0f37556716ee13e8745142d6e7b14904fb7e668172ff8dd48c08bf9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0050-ives-2026-09-15-recomputed-delta.txt",
+      "serialization": "bytes",
+      "sha256": "1399c56136e7aa7630000f723a92169c12313ef6012eab130b3511ed2c7a5e35"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "b6489c24e374648626eed10b0011ddbf5dd520503449160826f5c3272bc1d407",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0060-rocchia-2026-09-16-freeze-list.txt",
+      "serialization": "bytes",
+      "sha256": "47f96e10c2ac5dc023a0dde77582331f58431cf4e8fabbb53a068a6d6a8f12bd"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "88f059a799007d01352200c432f8193898ee0c62e718b54c57ce9b235885f5bb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0062-arsentev-2026-09-17-editor-freeze-list.txt",
+      "serialization": "bytes",
+      "sha256": "b92f4a6ca926eaa8514c313054cf1736524d187ce36c9b6ef6c1f5d2b19ed977"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "b50a9c57adf529ed350f7264b2d63650e4be41d4c5efda8841f6e6da374e3dbe",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0069-arsentev-2026-09-18-late-additions.txt",
+      "serialization": "bytes",
+      "sha256": "40153b17403b0e6594dfe00a9e9a5c01e5b978b6ce47b12a4ef0bbe31817514b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "f341932a9126aeaf91be32d85909a79caa8a539d309c3f63d95f2d3c06fb3be8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0072-rocchia-2026-09-18-handover.txt",
+      "serialization": "bytes",
+      "sha256": "27cea4f3ffd48ed4fd0cab47ae08df3542f3cdded2aded7163a489e2edf8b831"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "5cd00f46c8cba5aa62f668123bd0d66c368898090248d1017bf1b37761474b6e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0073-arsentev-2026-09-18-fixed-scope.txt",
+      "serialization": "bytes",
+      "sha256": "42fa833367e0e1d5b484f988da520c96936f009bbe2578fa7d0f22691830a134"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "1ab4389d2d737baed7b3ced5baf2cf529e45541dc11ff299dc072e230109baae",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0076-schuurkes-2026-09-22-v01-comments.txt",
+      "serialization": "bytes",
+      "sha256": "7622d0dc1cf7fc1d8b136739e042e3cc648a9291367301716e21c7b8dd05e751"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "e0607899c6f959aa41d57b3654960d6e76cb0bd35fabcb2f54383983fc9deb96",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0077-rocchia-2026-09-23-v01-answers.txt",
+      "serialization": "bytes",
+      "sha256": "88531111f9d8c4243532011b983b9885a67b88c06560da36746dbbdb70769a7a"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "dcdd843f9c00f6d0b974bab7115fe470bf80dc9546e34b705e3cc80358e54c6f"
+        },
+        "swapped-in": "fa4b3bcde228d14a95aa6cd9edf14817f8ed555f63572fb668013c0dc94afba7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0087-arsentev-2026-09-30-v01.txt",
+      "serialization": "bytes",
+      "sha256": "35625d73baa56f2705bb2fffe7e2a4075293fa6df075bc61bdd349a5d3618d9d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "swapped-in": "3d6254a088aed1e6124738535cb16db74bb9edd75c831575f46cfe60290f54ae",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/0088-schuurkes-2026-09-30-v01-row4.txt",
+      "serialization": "bytes",
+      "sha256": "d22914e6146f1fb11d404d8d3e63cd5282af42e2a8acf5cee4a227d113a41798"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "127fc8f8241b056f3ee539792110bedfff32ba7fdde819f77c03ee17a538e142"
+        },
+        "swapped-in": "aee6a07053a53e1cc43e6d5970a69f1b69ef14dcb4cef6ecf0d8ba2e936451a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/2026Oct-0038-kroehl-2026-10-10-digest-encoding.txt",
+      "serialization": "bytes",
+      "sha256": "9b71fe89b22c9f8b0a20b85e3a9cc9b0e5ee0909b629bddeb26fd4728d255ec1"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "01fddd16342e4b523eb715e895a89113de69a0b49882fd8689eefabb861dde63"
+        },
+        "swapped-in": "76b1cf60f17b364f63a4675c3035a7455af34c1666bb4465cc57e68386265d9e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/2026Oct-0040-ives-2026-10-10-numeric-profile.txt",
+      "serialization": "bytes",
+      "sha256": "051ff39f291884c2d5b01edf4d0c9c477bbe78fe698f91cd6e72883dddeab35b"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "93b5cdcc2ebf1deccf00c6481d26633f5ba8f6df47a8600457bf2ababb85a561"
+        },
+        "swapped-in": "193f15762fef0221facb1daddcd6ac7961fef721deb6d70f84803e9310cf2cbd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/draft-arsentev-agent-run-metrics-00.txt",
+      "serialization": "bytes",
+      "sha256": "0ef9e7fbc39d04bf2e245ed12b6a15eb4988d56abf3b07a65aab7861ad14d7f0"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-w3c-report/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "34ff2e11d6b3d8c354e901a1c659655c524256206e5c12fce15b7a2bd3070264"
+        },
+        "swapped-in": "29019f03ee2fc23bfcb50c99ee2975faa81a819f777e317fb13c46c3767b58cd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-w3c-report/spec-vendored/draft-arsentev-llm-context-discovery-00.txt",
+      "serialization": "bytes",
+      "sha256": "13081268c70a19e9b3f74a6f772b657c56403ce6c45623da39a188394eefd411"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "vectors",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-w3c-report"
+  },
+  "byte-identity": {
+    "pins": 273,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-w3c-report",
+      "aee-verify -json vectors-w3c-report",
+      "aee-verify vectors-w3c-report"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v0090b52048ca1f51",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0120d95db38b892b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v04934d23180f6d9c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v050e5667630b8bf7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v068436e239f3711a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0a887e6b24bdd940",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0e286b53de78162a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0f620037c42bbfc3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0f648c5f3080e1b1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1032eb59a7cdb30f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1158315f2ce233a8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v12f1e7e27b3f59c5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v13b3c66e7fc7dae2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v148fc59046a8548a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v159bcd24a7e74a43",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1660acd2e4efb7c7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v16bbc5bfef80043e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17b2ad943b1f051d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v183b37dea5ad4159",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v187e4435786b17f9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1910c8190bcd1b5c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v191fc069115f8706",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1a0f984d88bb9fe2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1afbcaac4b0d514d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1afe0d60b2df5d39",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1c020dd1ed49874c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v20a798b25fc2ec0b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v20f99b9d22c842a3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v21fe5a5de5f50124",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v22e6c34b776baff7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v22f803622ac75918",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v254933bf314c82fc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2652b0b04c946504",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v265c2e6f0a3d31f6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v26a379aeeebabd1e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v27a01b14321f6ae5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v28820b464a335617",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v28824a66a84f4b8c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2a251ae413920da5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2b052236457b678c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2b4990ad53fbf28b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2ddb14c9194e0341",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2f563dc0b6fc9ec8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v320406e03fff4faa",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v32c1e0be1a7bf104",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36ba5fca23b6a162",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v37729703d471ba9b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v37d8ddc87ed265e8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v388dee224f53c2c1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v392e5b863085868b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3add8861d36c2543",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3aef8ba9ac745dbf",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3cf361bbfb973f7d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3d5079f23e498451",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3fd6a6a262a72f91",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3fef7c8cc4ed5e4b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v40ab7c6deec16438",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4193637206138b32",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v42d2d180b1c0b5b3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v44f7a4acc7f66fa4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v472759709d82c585",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v48877f27bbd03b55",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v494ac13464d685ee",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v499412698a1dd50e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v49afe44cc51bc376",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4a06b866afca0d49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4c778d3ee20deb35",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4e4face5dd4ff492",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4e8fc1ab4f3fc5b3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4f343e8bd3d6af08",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5196f1761ea14b2b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v522b0a6b91e74c95",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v53dd1aa630064e4c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v55772816f872150f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v568e8a1311ecb396",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v56b6337b612b1ee3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v56f37afaff2a6ca8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v59b5c22988c70b05",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5a2ff35648828621",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5a678e8560a4f0f1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5c26b11179a2277a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5f92e1d7ef255730",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v606504b1125a3885",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v60bd06deca6e832d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6397c3de47a1882c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v64e02942221729d2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v668c618f2a50e26e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v66fd68ad7d106fac",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v67e996a3fa03e959",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v696c5dd5918c854b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6b1ea60273861c5a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6cd84ff1aea45153",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6f15889cec93060d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6f4ff1db603ecfec",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v70533f1029ed78e6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v70bdf863fb9cd6ac",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v719b5f3fe23d8c03",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7257ad4efb1d0638",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7351d22d2343dfb5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v735efb00ce85d044",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v737955ac1c0d9c2e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v76c0022fb2a7f21e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v79266aba771310af",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v796a6048345b8f58",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v79bebd0793e2fa7b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7bc7c1460093e973",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7c22f1451e51aeb5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7cac3bda7403c268",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7ce1218057f32f1c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v804ca6858fa22efe",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v81c7f6fc68ea35a7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8224d0f41c80f492",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v822b02c01fe9ddd2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v822c4bed9ba714d3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v827901388ec40c23",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v828ec4d8309aa2e3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v838fe3be3393696c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8474a83c45f293fc",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v84f8c68bc5fc2810",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v85c0428fc7fdabc7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v85db98532abea6d9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v86e1560a0d27b432",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v876f8aa31676cf48",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v88935f0b29397a80",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8981e0830c69b869",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8a7442b19984a1ff",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8a8da062cba9fce5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8aec53e0502ced65",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8c15455bb3d933cb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8d4e61737e9ee6a6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8ec1375690daa188",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8f818aaaa7cdc7ed",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v900fc651cea938e9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v91f45fe53b9cb4f7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v920852737e02ae49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9614879a484c4fc0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v973e82c1857b0a7e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9815e1f08a7e0664",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v98252c989e84999d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v98ee154eeceb9c55",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9b7c8cf7d1b9f679",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9c68a108ed63da63",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9cfb2c8197757948",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9d05fc7c9c249317",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9dc96e6ca225e6e2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9f618dfd3e44b84a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9ff65c5b03dd074c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va0620b488f2ff2f5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va18bfa567e0405b7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va19ba1b3f9f382bb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va1e910d25ebbb2c4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va213bada85cc9abe",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va2ba93081d3a6c13",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va32bdaeb5f8aed8f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va3c277aa6743807a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va4fc9fc8f711bd58",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va64493c76c57f982",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va83db4001b89e73e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va86e962a5024f152",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va8dfb25c6d62d458",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va91d537fa714f2d3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va934761de6c65857",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaac3a24b2552738b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaad2cb64c5b0646b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vab508347e605c0af",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vac146420618655c5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaca8620fefade22f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vad9b72227e24e32f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaeb76896b202e837",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb11134a37e7c0c2b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb195f23e8436fd19",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb1c8d4729c06472c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb37f841c9e91bf18",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb450f39bace98641",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb4de5d37845a1546",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb608f4ddfcc00a20",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb684dfb39487fcb1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb6e8cb7973f1fab5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb7065104515600ba",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb7ef2cf28c013f46",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vba057012581af13b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbb1688d0226174aa",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbb5bb72ed5c3bcb1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbba71aa9e6a41e1c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbca0a5030104e2f3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbe6937292f4f1614",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbee48753abe90e1a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbf88ec51ebd083b6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc12a1c0f00be35f3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc17bb5b854981008",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc2cab6dea09f0a3b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc34eb74f8bbc70ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc39c75a8c00ab957",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc3fa59108d1ead8a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc46bee7a31918d67",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc55768118bb88e53",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc58647a590befbb7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc653bb099d9c5839",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc66120fe5e1af394",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc7c310827b9dbd10",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc82b6b45a103ce1d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc938b2ab36cae34a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcbd0eaef95bc9181",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vccb24c478c736bc5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vccc374459c05dd52",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcd6021208e8e8a6e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcdb9ae63a12852a8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcf1cbb85d729dcd1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd02cc7abe1dbc2bf",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd1eb6a3fb13eb97d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd27e483fe63e78c0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd2a25cb35e1b8bce",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd2ae28ba9140bc89",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd2e50306dcd6c470",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd302fdc2d7a97e6e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd3e84d6a85cb6a0f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd53bcd623743858d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd5cc438bcd34a9d5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd64679c8b7f9e736",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd7d23c0d86701fc6",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd88fd757419269aa",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd8d93fd735111aa5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vda5261ec1d0bd74e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vda6c078e77700b28",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdca2c29b3d1d31b7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdcb0849fc754aaea",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdcbd067d047bfbd0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdd9207f5aa2fc9e3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdec1361509de89d4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdf05d359490e7833",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve2b3a699bc06e53d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve2c7ff41cba0be5d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve3fcd2bc70913ea2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve4744745405812b9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve4b9c82536808f52",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve53f0521c7e3a30c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve5819dc9edb1f47b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve5d916a50130739e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve70386fdb6f071d3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve7520b18160365d2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve75a143e2bdb4d61",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve9c436f93e42e394",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve9cefed56bbc8359",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vea3ee7919ceb2e10",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vea598711b897286e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vea80ece35200e349",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "veaee43cdb4a113d0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vec36e393a92b69eb",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vecd8b7bb20fed3a3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vecddffbd8678e5ef",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vee997c119f09258b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vef09761654b57a92",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vef3f22a57a308f45",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf1e99cf0310cc1c6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf374114fe7f28e7d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf3af943ff1bf7375",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf3fbd991d8e666a4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf407ebb4a9cb8a3d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf414a4c9065ad7b8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf7334aa7dcf00826",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf753bb908231e0a1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf82e507d268fed9d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf86d92beb5a12905",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf9b5623144960dda",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfa24e4f45c2e826e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfa79ad0a7bd957b9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfacf2b3dafdb5c0a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfbc5db1c2a012359",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfbd7379026575f04",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfeb5d1872929ab35",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vff1d02d89ab42ef7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vff5545c0760d7544",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vff8f75223d6658ef",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "4d34bc9488c5865331ebe39d169f4020cb77b54ed18de6c7eca9c367cd58ad64"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v0090b52048ca1f51",
+      "v0120d95db38b892b",
+      "v04934d23180f6d9c",
+      "v050e5667630b8bf7",
+      "v068436e239f3711a",
+      "v0a887e6b24bdd940",
+      "v0e286b53de78162a",
+      "v0f620037c42bbfc3",
+      "v0f648c5f3080e1b1",
+      "v1032eb59a7cdb30f",
+      "v1158315f2ce233a8",
+      "v12f1e7e27b3f59c5",
+      "v13b3c66e7fc7dae2",
+      "v148fc59046a8548a",
+      "v159bcd24a7e74a43",
+      "v1660acd2e4efb7c7",
+      "v16bbc5bfef80043e",
+      "v17b2ad943b1f051d",
+      "v183b37dea5ad4159",
+      "v187e4435786b17f9",
+      "v1910c8190bcd1b5c",
+      "v191fc069115f8706",
+      "v1a0f984d88bb9fe2",
+      "v1afbcaac4b0d514d",
+      "v1afe0d60b2df5d39",
+      "v1c020dd1ed49874c",
+      "v20a798b25fc2ec0b",
+      "v20f99b9d22c842a3",
+      "v21fe5a5de5f50124",
+      "v22e6c34b776baff7",
+      "v22f803622ac75918",
+      "v254933bf314c82fc",
+      "v2652b0b04c946504",
+      "v265c2e6f0a3d31f6",
+      "v26a379aeeebabd1e",
+      "v27a01b14321f6ae5",
+      "v28820b464a335617",
+      "v28824a66a84f4b8c",
+      "v2a251ae413920da5",
+      "v2b052236457b678c",
+      "v2b4990ad53fbf28b",
+      "v2ddb14c9194e0341",
+      "v2f563dc0b6fc9ec8",
+      "v320406e03fff4faa",
+      "v32c1e0be1a7bf104",
+      "v36ba5fca23b6a162",
+      "v37729703d471ba9b",
+      "v37d8ddc87ed265e8",
+      "v388dee224f53c2c1",
+      "v392e5b863085868b",
+      "v3add8861d36c2543",
+      "v3aef8ba9ac745dbf",
+      "v3cf361bbfb973f7d",
+      "v3d5079f23e498451",
+      "v3fd6a6a262a72f91",
+      "v3fef7c8cc4ed5e4b",
+      "v40ab7c6deec16438",
+      "v4193637206138b32",
+      "v42d2d180b1c0b5b3",
+      "v44f7a4acc7f66fa4",
+      "v472759709d82c585",
+      "v48877f27bbd03b55",
+      "v494ac13464d685ee",
+      "v499412698a1dd50e",
+      "v49afe44cc51bc376",
+      "v4a06b866afca0d49",
+      "v4c778d3ee20deb35",
+      "v4e4face5dd4ff492",
+      "v4e8fc1ab4f3fc5b3",
+      "v4f343e8bd3d6af08",
+      "v5196f1761ea14b2b",
+      "v522b0a6b91e74c95",
+      "v53dd1aa630064e4c",
+      "v55772816f872150f",
+      "v568e8a1311ecb396",
+      "v56b6337b612b1ee3",
+      "v56f37afaff2a6ca8",
+      "v59b5c22988c70b05",
+      "v5a2ff35648828621",
+      "v5a678e8560a4f0f1",
+      "v5c26b11179a2277a",
+      "v5f92e1d7ef255730",
+      "v606504b1125a3885",
+      "v60bd06deca6e832d",
+      "v6397c3de47a1882c",
+      "v64e02942221729d2",
+      "v668c618f2a50e26e",
+      "v66fd68ad7d106fac",
+      "v67e996a3fa03e959",
+      "v696c5dd5918c854b",
+      "v6b1ea60273861c5a",
+      "v6cd84ff1aea45153",
+      "v6f15889cec93060d",
+      "v6f4ff1db603ecfec",
+      "v70533f1029ed78e6",
+      "v70bdf863fb9cd6ac",
+      "v719b5f3fe23d8c03",
+      "v7257ad4efb1d0638",
+      "v7351d22d2343dfb5",
+      "v735efb00ce85d044",
+      "v737955ac1c0d9c2e",
+      "v76c0022fb2a7f21e",
+      "v79266aba771310af",
+      "v796a6048345b8f58",
+      "v79bebd0793e2fa7b",
+      "v7bc7c1460093e973",
+      "v7c22f1451e51aeb5",
+      "v7cac3bda7403c268",
+      "v7ce1218057f32f1c",
+      "v804ca6858fa22efe",
+      "v81c7f6fc68ea35a7",
+      "v8224d0f41c80f492",
+      "v822b02c01fe9ddd2",
+      "v822c4bed9ba714d3",
+      "v827901388ec40c23",
+      "v828ec4d8309aa2e3",
+      "v838fe3be3393696c",
+      "v8474a83c45f293fc",
+      "v84f8c68bc5fc2810",
+      "v85c0428fc7fdabc7",
+      "v85db98532abea6d9",
+      "v86e1560a0d27b432",
+      "v876f8aa31676cf48",
+      "v88935f0b29397a80",
+      "v8981e0830c69b869",
+      "v8a7442b19984a1ff",
+      "v8a8da062cba9fce5",
+      "v8aec53e0502ced65",
+      "v8c15455bb3d933cb",
+      "v8d4e61737e9ee6a6",
+      "v8ec1375690daa188",
+      "v8f818aaaa7cdc7ed",
+      "v900fc651cea938e9",
+      "v91f45fe53b9cb4f7",
+      "v920852737e02ae49",
+      "v9614879a484c4fc0",
+      "v973e82c1857b0a7e",
+      "v9815e1f08a7e0664",
+      "v98252c989e84999d",
+      "v98ee154eeceb9c55",
+      "v9b7c8cf7d1b9f679",
+      "v9c68a108ed63da63",
+      "v9cfb2c8197757948",
+      "v9d05fc7c9c249317",
+      "v9dc96e6ca225e6e2",
+      "v9f618dfd3e44b84a",
+      "v9ff65c5b03dd074c",
+      "va0620b488f2ff2f5",
+      "va18bfa567e0405b7",
+      "va19ba1b3f9f382bb",
+      "va1e910d25ebbb2c4",
+      "va213bada85cc9abe",
+      "va2ba93081d3a6c13",
+      "va32bdaeb5f8aed8f",
+      "va3c277aa6743807a",
+      "va4fc9fc8f711bd58",
+      "va64493c76c57f982",
+      "va83db4001b89e73e",
+      "va86e962a5024f152",
+      "va8dfb25c6d62d458",
+      "va91d537fa714f2d3",
+      "va934761de6c65857",
+      "vaac3a24b2552738b",
+      "vaad2cb64c5b0646b",
+      "vab508347e605c0af",
+      "vac146420618655c5",
+      "vaca8620fefade22f",
+      "vad9b72227e24e32f",
+      "vaeb76896b202e837",
+      "vb11134a37e7c0c2b",
+      "vb195f23e8436fd19",
+      "vb1c8d4729c06472c",
+      "vb37f841c9e91bf18",
+      "vb450f39bace98641",
+      "vb4de5d37845a1546",
+      "vb608f4ddfcc00a20",
+      "vb684dfb39487fcb1",
+      "vb6e8cb7973f1fab5",
+      "vb7065104515600ba",
+      "vb7ef2cf28c013f46",
+      "vba057012581af13b",
+      "vbb1688d0226174aa",
+      "vbb5bb72ed5c3bcb1",
+      "vbba71aa9e6a41e1c",
+      "vbca0a5030104e2f3",
+      "vbe6937292f4f1614",
+      "vbee48753abe90e1a",
+      "vbf88ec51ebd083b6",
+      "vc12a1c0f00be35f3",
+      "vc17bb5b854981008",
+      "vc2cab6dea09f0a3b",
+      "vc34eb74f8bbc70ca",
+      "vc39c75a8c00ab957",
+      "vc3fa59108d1ead8a",
+      "vc46bee7a31918d67",
+      "vc55768118bb88e53",
+      "vc58647a590befbb7",
+      "vc653bb099d9c5839",
+      "vc66120fe5e1af394",
+      "vc7c310827b9dbd10",
+      "vc82b6b45a103ce1d",
+      "vc938b2ab36cae34a",
+      "vcbd0eaef95bc9181",
+      "vccb24c478c736bc5",
+      "vccc374459c05dd52",
+      "vcd6021208e8e8a6e",
+      "vcdb9ae63a12852a8",
+      "vcf1cbb85d729dcd1",
+      "vd02cc7abe1dbc2bf",
+      "vd1eb6a3fb13eb97d",
+      "vd27e483fe63e78c0",
+      "vd2a25cb35e1b8bce",
+      "vd2ae28ba9140bc89",
+      "vd2e50306dcd6c470",
+      "vd302fdc2d7a97e6e",
+      "vd3e84d6a85cb6a0f",
+      "vd53bcd623743858d",
+      "vd5cc438bcd34a9d5",
+      "vd64679c8b7f9e736",
+      "vd7d23c0d86701fc6",
+      "vd88fd757419269aa",
+      "vd8d93fd735111aa5",
+      "vda5261ec1d0bd74e",
+      "vda6c078e77700b28",
+      "vdca2c29b3d1d31b7",
+      "vdcb0849fc754aaea",
+      "vdcbd067d047bfbd0",
+      "vdd9207f5aa2fc9e3",
+      "vdec1361509de89d4",
+      "vdf05d359490e7833",
+      "ve2b3a699bc06e53d",
+      "ve2c7ff41cba0be5d",
+      "ve3fcd2bc70913ea2",
+      "ve4744745405812b9",
+      "ve4b9c82536808f52",
+      "ve53f0521c7e3a30c",
+      "ve5819dc9edb1f47b",
+      "ve5d916a50130739e",
+      "ve70386fdb6f071d3",
+      "ve7520b18160365d2",
+      "ve75a143e2bdb4d61",
+      "ve9c436f93e42e394",
+      "ve9cefed56bbc8359",
+      "vea3ee7919ceb2e10",
+      "vea598711b897286e",
+      "vea80ece35200e349",
+      "veaee43cdb4a113d0",
+      "vec36e393a92b69eb",
+      "vecd8b7bb20fed3a3",
+      "vecddffbd8678e5ef",
+      "vee997c119f09258b",
+      "vef09761654b57a92",
+      "vef3f22a57a308f45",
+      "vf1e99cf0310cc1c6",
+      "vf374114fe7f28e7d",
+      "vf3af943ff1bf7375",
+      "vf3fbd991d8e666a4",
+      "vf407ebb4a9cb8a3d",
+      "vf414a4c9065ad7b8",
+      "vf7334aa7dcf00826",
+      "vf753bb908231e0a1",
+      "vf82e507d268fed9d",
+      "vf86d92beb5a12905",
+      "vf9b5623144960dda",
+      "vfa24e4f45c2e826e",
+      "vfa79ad0a7bd957b9",
+      "vfacf2b3dafdb5c0a",
+      "vfbc5db1c2a012359",
+      "vfbd7379026575f04",
+      "vfeb5d1872929ab35",
+      "vff1d02d89ab42ef7",
+      "vff5545c0760d7544",
+      "vff8f75223d6658ef"
+    ],
+    "path": "vectors-w3c-report/MANIFEST.json",
+    "sha256": "67a8e85c41e195e4f6042506faeebbaefe8158a9c4307bc6b589e2601ce3976a"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0090b52048ca1f51.json",
+          "sha256": "c02a95231c9f05c3db29adb5e1f33d70ace9d53989645f15633d0ba18af3b7e1"
+        }
+      ],
+      "id": "v0090b52048ca1f51"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0120d95db38b892b.json",
+          "sha256": "0aced0df2c68a1c5684c3ebdb0d6ae1c5c7ff9c3216067d1a47ddf998142bba4"
+        }
+      ],
+      "id": "v0120d95db38b892b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v04934d23180f6d9c.json",
+          "sha256": "bfb0b2456b13cf7a2c60b266502a805511a79f8e5afa21fc4ca8f9ef3519f290"
+        }
+      ],
+      "id": "v04934d23180f6d9c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v050e5667630b8bf7.json",
+          "sha256": "0718e19a8a0b2a656526ea0cf84c771d4b98d4a5b986c423a0ec6c8cf7862575"
+        }
+      ],
+      "id": "v050e5667630b8bf7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v068436e239f3711a.json",
+          "sha256": "2fcee226b0d7e6352cd03c052c23037bad04e78290fd0cb55bc3a877c83f3d3d"
+        }
+      ],
+      "id": "v068436e239f3711a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0a887e6b24bdd940.json",
+          "sha256": "2ae631f1f5c1111348357ceb77c016a09c09e997f8335462e3892d3e94a6f8ac"
+        }
+      ],
+      "id": "v0a887e6b24bdd940"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0e286b53de78162a.json",
+          "sha256": "189513b19940bfee76117c05ea0d586cad5ccb78ff86f04f4d0c30cefd44635b"
+        }
+      ],
+      "id": "v0e286b53de78162a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0f620037c42bbfc3.json",
+          "sha256": "8625a078dfddffe2ad652e91e8255a27b607e11cb9ba6a7e0dc62b76c1fe5390"
+        }
+      ],
+      "id": "v0f620037c42bbfc3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v0f648c5f3080e1b1.json",
+          "sha256": "829fbb69f34f40b63203f71542d9af2b63a13e212e1502ef2d3e29d67933e9c4"
+        }
+      ],
+      "id": "v0f648c5f3080e1b1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1032eb59a7cdb30f.json",
+          "sha256": "d940f96d8c7b005113ac57ccdd784a5c0a6dc41b8ef2b0b90a50dc2010212d97"
+        }
+      ],
+      "id": "v1032eb59a7cdb30f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1158315f2ce233a8.json",
+          "sha256": "08a663f6436586954a46826e1659865585df23748692955930943a4a2a3fc6cf"
+        }
+      ],
+      "id": "v1158315f2ce233a8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v12f1e7e27b3f59c5.json",
+          "sha256": "d42d7819924168da1bde55b8aaf6208d6aee23af1be287c031c930a1ef40fb8a"
+        }
+      ],
+      "id": "v12f1e7e27b3f59c5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v13b3c66e7fc7dae2.json",
+          "sha256": "1eff50d1612d35fac5042e8bb7c8a2f6c3db1902e2b2667cd662382cf02c95fa"
+        }
+      ],
+      "id": "v13b3c66e7fc7dae2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v148fc59046a8548a.json",
+          "sha256": "9471e140a3bb0b894b965da582d290c0fb6b018fb70fe9334815fb193c449871"
+        }
+      ],
+      "id": "v148fc59046a8548a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v159bcd24a7e74a43.json",
+          "sha256": "138f45eb7c69843673541c4a0be61df0a9c7ecb5c9fc20eef1f3d810b1489f32"
+        }
+      ],
+      "id": "v159bcd24a7e74a43"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1660acd2e4efb7c7.json",
+          "sha256": "5112961f339c61ad6826262eecd319df26528784c01f58b6df853da3951a3dcf"
+        }
+      ],
+      "id": "v1660acd2e4efb7c7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v16bbc5bfef80043e.json",
+          "sha256": "06fe083e1ec650bc867b39b69db2457c851e42693ee914c83f75cc4381a286ce"
+        }
+      ],
+      "id": "v16bbc5bfef80043e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v17b2ad943b1f051d.json",
+          "sha256": "9173328170e2938ab37d2af6aef40271c768c3992f143ec27bbc220f8bdd4bd8"
+        }
+      ],
+      "id": "v17b2ad943b1f051d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v183b37dea5ad4159.json",
+          "sha256": "16148bce800872f098765ea479a7830d941f5d7ffea1e3ec17691608866fa390"
+        }
+      ],
+      "id": "v183b37dea5ad4159"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v187e4435786b17f9.json",
+          "sha256": "ba9af91b6583fe66f75373bdc6f1a07b07a42a96846ffc1f02b7cb6c81e43854"
+        }
+      ],
+      "id": "v187e4435786b17f9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1910c8190bcd1b5c.json",
+          "sha256": "97da346fb228131b03068a057ffa3b62ebceab1c5fcbac5b0c27e2f6d31666ae"
+        }
+      ],
+      "id": "v1910c8190bcd1b5c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v191fc069115f8706.json",
+          "sha256": "9e3ac31df7d7cb2b66eb2b9cf71e333fd52d723e64b9c278d3fc3102324d27f4"
+        }
+      ],
+      "id": "v191fc069115f8706"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1a0f984d88bb9fe2.json",
+          "sha256": "871717a15e7aa7b8218da56a0cdedfb7ba34d3ba4c1f398f15796e6f77fc6570"
+        }
+      ],
+      "id": "v1a0f984d88bb9fe2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1afbcaac4b0d514d.json",
+          "sha256": "6e7da7c726976c59d9f5f3eece56e01ed67bde3742fe1cb4b35af89eb43fb07f"
+        }
+      ],
+      "id": "v1afbcaac4b0d514d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1afe0d60b2df5d39.json",
+          "sha256": "ca549326a8aa8f351c5ac0a32156ce18a0ae43ff3afd79d68e42b3b1592b6355"
+        }
+      ],
+      "id": "v1afe0d60b2df5d39"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v1c020dd1ed49874c.json",
+          "sha256": "35186be5484fe36ac2bf8a6e66d06749d2029d56d5581d8d78ebadaadcda17b6"
+        }
+      ],
+      "id": "v1c020dd1ed49874c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v20a798b25fc2ec0b.json",
+          "sha256": "98c66b83eb3ae322458d17b6f610d6ebc6aae01b6ed7a2e6c3f1275405b0f134"
+        }
+      ],
+      "id": "v20a798b25fc2ec0b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v20f99b9d22c842a3.json",
+          "sha256": "2fb63f21f0a01274b69a63ab6c4580ea44c361e780e7cba312a40cb915003216"
+        }
+      ],
+      "id": "v20f99b9d22c842a3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v21fe5a5de5f50124.json",
+          "sha256": "d50697269b52c7a7bf1438e4f11087d3a2b1727ed3724579674b4923d2bb0435"
+        }
+      ],
+      "id": "v21fe5a5de5f50124"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v22e6c34b776baff7.json",
+          "sha256": "af6cc9bcbbd14c2c95a5166f52e3c6a0f6665ef03af7b01875c297f85ee9b558"
+        }
+      ],
+      "id": "v22e6c34b776baff7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v22f803622ac75918.json",
+          "sha256": "6a35255904d85cfaa26b52efeb0a28d0bf95248c6bf30a7a6e656a61e01886d3"
+        }
+      ],
+      "id": "v22f803622ac75918"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v254933bf314c82fc.json",
+          "sha256": "bb6c0104782aef8894543daaac0bedf2ba1495b54739a171e025c9aa36e547b5"
+        }
+      ],
+      "id": "v254933bf314c82fc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2652b0b04c946504.json",
+          "sha256": "4e4f0b2299b0a92c89bfccd9d6db657c28e0d871818b0fafbe399aea0d832f0a"
+        }
+      ],
+      "id": "v2652b0b04c946504"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v265c2e6f0a3d31f6.json",
+          "sha256": "37c22b009899492b9b660de5c76ecbf611894dbf29b99856c7b1c0bbc81d49fb"
+        }
+      ],
+      "id": "v265c2e6f0a3d31f6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v26a379aeeebabd1e.json",
+          "sha256": "535e7fa110c4b12c95f15d049aa75b57261abebbf9df4dbf6835b0fbd1f54ad4"
+        }
+      ],
+      "id": "v26a379aeeebabd1e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v27a01b14321f6ae5.json",
+          "sha256": "e052756526304ee7850fcc9b1e1c4a76d0c11339e9002f13266aba7abe48edf9"
+        }
+      ],
+      "id": "v27a01b14321f6ae5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v28820b464a335617.json",
+          "sha256": "8e555621c7a315ec2ab12ba825244eb95c0c0bde058526f19355f5d509a39745"
+        }
+      ],
+      "id": "v28820b464a335617"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v28824a66a84f4b8c.json",
+          "sha256": "faa653a31341b529e3b4792ecefb5c3f02ef2aba80abf040d6b36b72b130ab4d"
+        }
+      ],
+      "id": "v28824a66a84f4b8c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2a251ae413920da5.json",
+          "sha256": "86eb0b751fc0312c9150e8a934cbb35d725e4ce6c0b43a3473d3c279894d427f"
+        }
+      ],
+      "id": "v2a251ae413920da5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2b052236457b678c.json",
+          "sha256": "5fecba23380bae3fd6613ef52ca515ecf374be3a53512cfa88fe82291754fa9a"
+        }
+      ],
+      "id": "v2b052236457b678c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2b4990ad53fbf28b.json",
+          "sha256": "f51bba3e7a202ba6b98cf5345a6ab4882554186439bd1af15ce6665ca4227b3a"
+        }
+      ],
+      "id": "v2b4990ad53fbf28b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2ddb14c9194e0341.json",
+          "sha256": "093054606a6ea9dc9911dadba1ab22c238900626ea5ea7bb21ac93712675341a"
+        }
+      ],
+      "id": "v2ddb14c9194e0341"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v2f563dc0b6fc9ec8.json",
+          "sha256": "b833be3337e1c3b276d1313725b95b977c5a96e385992353ebbf496bbbba68c2"
+        }
+      ],
+      "id": "v2f563dc0b6fc9ec8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v320406e03fff4faa.json",
+          "sha256": "f1efa770846175e6afb4ea28424bfe2c3c0e86ac27971188ff02f6ddf501151d"
+        }
+      ],
+      "id": "v320406e03fff4faa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v32c1e0be1a7bf104.json",
+          "sha256": "a8bc2d041c3003361c58b650e3257444ab772cceef405f58cc35fe2d6af2b389"
+        }
+      ],
+      "id": "v32c1e0be1a7bf104"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v36ba5fca23b6a162.json",
+          "sha256": "bba0fbddd7314bd498c58cb79e7d4e5db1e6eef9b76072c97051aa1783609af6"
+        }
+      ],
+      "id": "v36ba5fca23b6a162"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v37729703d471ba9b.json",
+          "sha256": "a70a6130751bc7209db396cb164719133d7f363d1f65d9559b355e459791437d"
+        }
+      ],
+      "id": "v37729703d471ba9b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v37d8ddc87ed265e8.json",
+          "sha256": "8638b5dad5c8e2dfff5357e5be4b440d51a984eeb1800e78c2f3354a154fe730"
+        }
+      ],
+      "id": "v37d8ddc87ed265e8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v388dee224f53c2c1.json",
+          "sha256": "0813f094653ce7b06a9908de4fee14bf40ebba4bdeadddbfa8474d5151b138d8"
+        }
+      ],
+      "id": "v388dee224f53c2c1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v392e5b863085868b.json",
+          "sha256": "f617018385f111fb6a432aac446ec4b51e3b9711e737f6a562eb28f5831e2d8e"
+        }
+      ],
+      "id": "v392e5b863085868b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3add8861d36c2543.json",
+          "sha256": "c72167306ed693e7f5acb2930674a681b561dc3e31a689060907d00a28d59feb"
+        }
+      ],
+      "id": "v3add8861d36c2543"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3aef8ba9ac745dbf.json",
+          "sha256": "7fcf96e85c90b13b2c27852200a91712970d0592379248aae7767ad2dadb9a70"
+        }
+      ],
+      "id": "v3aef8ba9ac745dbf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3cf361bbfb973f7d.json",
+          "sha256": "100067a340f250f2abce8255244dc70ba2a0b9385e54c0311e88e0c155fab4c4"
+        }
+      ],
+      "id": "v3cf361bbfb973f7d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3d5079f23e498451.json",
+          "sha256": "d247cdbbd3b497aad99100af393d2bd0de8c9b482592ca2e727685c27ee2bda4"
+        }
+      ],
+      "id": "v3d5079f23e498451"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3fd6a6a262a72f91.json",
+          "sha256": "888a52e4e4a92d66c11ad630dbdfbe9bd3efffe7b4dbcf45776c67e29902a26b"
+        }
+      ],
+      "id": "v3fd6a6a262a72f91"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v3fef7c8cc4ed5e4b.json",
+          "sha256": "460362698ded74fb1af921404ac98b33e51ea948ce270ad6103ce3ba9dd9aa79"
+        }
+      ],
+      "id": "v3fef7c8cc4ed5e4b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v40ab7c6deec16438.json",
+          "sha256": "4aabcd4b170e15e564384c1bcf7e8ad408eec527125788aed45afda3d3314fce"
+        }
+      ],
+      "id": "v40ab7c6deec16438"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4193637206138b32.json",
+          "sha256": "ef460c3020d76c6776c4126edd14d59dc0cfa9ff158d1f8de4a7d8e1f54aa61c"
+        }
+      ],
+      "id": "v4193637206138b32"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v42d2d180b1c0b5b3.json",
+          "sha256": "67b03e26f5c8383c91fc3b83da4bfe12d4ef0b678285ee92f3b49f4667634c4a"
+        }
+      ],
+      "id": "v42d2d180b1c0b5b3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v44f7a4acc7f66fa4.json",
+          "sha256": "f41387b93784a2e38e2064ad56eb2259b94c43b76c01aee9a60020a984cece8f"
+        }
+      ],
+      "id": "v44f7a4acc7f66fa4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v472759709d82c585.json",
+          "sha256": "8afddc4ddad37dea766a09b33d13a71c32183ac1002a4a0e8247afeeed5240b8"
+        }
+      ],
+      "id": "v472759709d82c585"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v48877f27bbd03b55.json",
+          "sha256": "18c11c5e95609b36f75cece3ad7a5b50b9b5cede1622ecf72622f1ae8261b887"
+        }
+      ],
+      "id": "v48877f27bbd03b55"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v494ac13464d685ee.json",
+          "sha256": "e6eaff1396f229538a8709a57f2ee2e34745ecb9c571c07eb2c1601c85aa6a3d"
+        }
+      ],
+      "id": "v494ac13464d685ee"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v499412698a1dd50e.json",
+          "sha256": "381fc5a62ee64902dfba839544212675f914e6421d673f8a216e29e4ba82535c"
+        }
+      ],
+      "id": "v499412698a1dd50e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v49afe44cc51bc376.json",
+          "sha256": "58a724acfb6c03f583701cf6299f47e0d11911dcbfb26290e8dff6b5716027af"
+        }
+      ],
+      "id": "v49afe44cc51bc376"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4a06b866afca0d49.json",
+          "sha256": "d88428f7da3629996c8c788d13d743f5b50664f7a9045ab16d37502055434aea"
+        }
+      ],
+      "id": "v4a06b866afca0d49"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4c778d3ee20deb35.json",
+          "sha256": "456252418319fa724212ae30bffa10f263622b5d46611fd3802c1cc1fab5a5f7"
+        }
+      ],
+      "id": "v4c778d3ee20deb35"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4e4face5dd4ff492.json",
+          "sha256": "c607383f2e951c3034d48805bed0400b8ef7b97915b7164ae4edf14d504e12ec"
+        }
+      ],
+      "id": "v4e4face5dd4ff492"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4e8fc1ab4f3fc5b3.json",
+          "sha256": "c6fcdd1a448d5a81e6acdb5e342d140362a1c626d22ee7adbb1ea2d2fe821e29"
+        }
+      ],
+      "id": "v4e8fc1ab4f3fc5b3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v4f343e8bd3d6af08.json",
+          "sha256": "4b17cc3c9db796106f4ba84c7a22d978ad3aa62a3c57d86686fa5414890e4016"
+        }
+      ],
+      "id": "v4f343e8bd3d6af08"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v5196f1761ea14b2b.json",
+          "sha256": "664cba818e47accfe92565559bc4598d603f07a1ad455adfc6656ad73601fc07"
+        }
+      ],
+      "id": "v5196f1761ea14b2b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v522b0a6b91e74c95.json",
+          "sha256": "91cf7b31943c46037fcfe333914a5f085a1b196f48496efc78261102d5493ffb"
+        }
+      ],
+      "id": "v522b0a6b91e74c95"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v53dd1aa630064e4c.json",
+          "sha256": "21cbbb932a3ca820494ea13e95ae78c6a2ae83ba1c7dd04021b8472d31e9d9a0"
+        }
+      ],
+      "id": "v53dd1aa630064e4c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v55772816f872150f.json",
+          "sha256": "2e4f0f99b852151054517353899f572be1540401b633db4cb7c1e4595d5a9d21"
+        }
+      ],
+      "id": "v55772816f872150f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v568e8a1311ecb396.json",
+          "sha256": "2c556ab473b6a442628bada05dc060f5c522d6e867fe272b63fc81fee56cf0ec"
+        }
+      ],
+      "id": "v568e8a1311ecb396"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v56b6337b612b1ee3.json",
+          "sha256": "437b6536db2699e0e5e51efa8f42a3a3a68135ecb4f2998a8b5b837d5d54b36c"
+        }
+      ],
+      "id": "v56b6337b612b1ee3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v56f37afaff2a6ca8.json",
+          "sha256": "73fadd79a407415381d736f58c10b8c2675080d6d479e3e00962c545ebcd13bf"
+        }
+      ],
+      "id": "v56f37afaff2a6ca8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v59b5c22988c70b05.json",
+          "sha256": "b150daac3bb0a1c56d8bd363bd6b24d4dce0c7b1beadcc57b37728b876f30425"
+        }
+      ],
+      "id": "v59b5c22988c70b05"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v5a2ff35648828621.json",
+          "sha256": "009ef04426cc428efaa0b9144b8f0029d817ce524049f9e88db2096c60701a8a"
+        }
+      ],
+      "id": "v5a2ff35648828621"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v5a678e8560a4f0f1.json",
+          "sha256": "d1bdf557111641e367f0c675ac8eabe41f8d82055e0ac20fd1d92f04fd4424e6"
+        }
+      ],
+      "id": "v5a678e8560a4f0f1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v5c26b11179a2277a.json",
+          "sha256": "bf996fbd8fd7eb8e6c3b2d803336d07ca087b805a216369df22b3eaee9e95c4c"
+        }
+      ],
+      "id": "v5c26b11179a2277a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v5f92e1d7ef255730.json",
+          "sha256": "aeada8e52ccb1a85ce4560c1b5d09401a3109048f46e132d7a479517b0667221"
+        }
+      ],
+      "id": "v5f92e1d7ef255730"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v606504b1125a3885.json",
+          "sha256": "42e3a202753f9c1d9dfcfd15fec71e24ff25c535723e90ecf646521b75d1399d"
+        }
+      ],
+      "id": "v606504b1125a3885"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v60bd06deca6e832d.json",
+          "sha256": "d667848fdaa2ce7c1f8df5efa50a41c279c661edf2f579a7e329798d9b016f15"
+        }
+      ],
+      "id": "v60bd06deca6e832d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v6397c3de47a1882c.json",
+          "sha256": "4a7feaaa2c119cb3752d48341ce2bd125c6a53efc40fe8c62f113e0876589a03"
+        }
+      ],
+      "id": "v6397c3de47a1882c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v64e02942221729d2.json",
+          "sha256": "eb2bc503cb7f90caaa148a73eff1583f3388bc83c9c41067513afa90dee46dfe"
+        }
+      ],
+      "id": "v64e02942221729d2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v668c618f2a50e26e.json",
+          "sha256": "2ecd648b7d67c1578f438de2b88e9c9641403c42b8c2bf1fec3e05d760388a58"
+        }
+      ],
+      "id": "v668c618f2a50e26e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v66fd68ad7d106fac.json",
+          "sha256": "0ec586978568318e986f84defdf336aabe5d4fa7a4cb15c6c40d5744650c7c26"
+        }
+      ],
+      "id": "v66fd68ad7d106fac"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v67e996a3fa03e959.json",
+          "sha256": "e5d088d724de32fd16c8e4a82a12c4445bcacd92075598f87ad6ef53fbaf210a"
+        }
+      ],
+      "id": "v67e996a3fa03e959"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v696c5dd5918c854b.json",
+          "sha256": "baed6c5a7e8e6972b3414f3fa7fdeac79987463d8e26855186d1d2a40d10a35e"
+        }
+      ],
+      "id": "v696c5dd5918c854b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v6b1ea60273861c5a.json",
+          "sha256": "f2feb6b954dad1d5cd2023198602700dafaccab77177ab5f1f6e3f92b91013f5"
+        }
+      ],
+      "id": "v6b1ea60273861c5a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v6cd84ff1aea45153.json",
+          "sha256": "343fd56b0e0dd9284db341ec5720a76833be72955048ba01fbbd6cad9b1bff4a"
+        }
+      ],
+      "id": "v6cd84ff1aea45153"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v6f15889cec93060d.json",
+          "sha256": "9fb6a4b43842ac255a742109551c3660d8c56ee32dcd805f9f58931f551fc3c6"
+        }
+      ],
+      "id": "v6f15889cec93060d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v6f4ff1db603ecfec.json",
+          "sha256": "6b06ce266e152dc8a1ce67231f9242ed37cd8d7cbbfbb7f114fd8909c1a9752c"
+        }
+      ],
+      "id": "v6f4ff1db603ecfec"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v70533f1029ed78e6.json",
+          "sha256": "78db6c1eced0ec7dd6d792d2cef1a9f51728a120ef33de4fa625c751b229e795"
+        }
+      ],
+      "id": "v70533f1029ed78e6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v70bdf863fb9cd6ac.json",
+          "sha256": "81a3e4cc3d41ad17dddfe37e7070c76ce2bc5e4fd3219efbdefdab78865a1074"
+        }
+      ],
+      "id": "v70bdf863fb9cd6ac"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v719b5f3fe23d8c03.json",
+          "sha256": "ab7d63dcd233f3e3f62130da1691a8b28ce4150aa3fb61dd136e562860448614"
+        }
+      ],
+      "id": "v719b5f3fe23d8c03"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7257ad4efb1d0638.json",
+          "sha256": "e4d0fad148dccbeae599c30a903fd8d92a7c3f0bb403786e7a3573e977dc4463"
+        }
+      ],
+      "id": "v7257ad4efb1d0638"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7351d22d2343dfb5.json",
+          "sha256": "b4fc044ba197738e32cb527e540d557143cf065f0ff8f882df1f30ade3e65608"
+        }
+      ],
+      "id": "v7351d22d2343dfb5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v735efb00ce85d044.json",
+          "sha256": "dfdd296039091cce6e1266a15eb419dbfc79fe26765d3d06b3dc3c349e3e2efd"
+        }
+      ],
+      "id": "v735efb00ce85d044"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v737955ac1c0d9c2e.json",
+          "sha256": "1404b89932af894902430a9bf987e66535f3540c0efa248a27c8c4a45676a82b"
+        }
+      ],
+      "id": "v737955ac1c0d9c2e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v76c0022fb2a7f21e.json",
+          "sha256": "85c8ba27b9234b3a7f8ec93c475379de336d2d0dd40ab3cdfa588d318f9a2eba"
+        }
+      ],
+      "id": "v76c0022fb2a7f21e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v79266aba771310af.json",
+          "sha256": "6a6c18ec77c92b1659a710f20f5d7133a075d0e29f2109147e951c3e590382b5"
+        }
+      ],
+      "id": "v79266aba771310af"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v796a6048345b8f58.json",
+          "sha256": "e535b8bc155e05963fd65482cbf1d5fd7bf279c9ef87d98415653ec960813cc3"
+        }
+      ],
+      "id": "v796a6048345b8f58"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v79bebd0793e2fa7b.json",
+          "sha256": "b23f8051b57419d69bd7b0171b011081d41c41dacf32f32c16a07180ca2b5624"
+        }
+      ],
+      "id": "v79bebd0793e2fa7b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7bc7c1460093e973.json",
+          "sha256": "5c120e3f47baaec8836334bd081a62197b3891752c3b02e9e362473e309cde2f"
+        }
+      ],
+      "id": "v7bc7c1460093e973"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7c22f1451e51aeb5.json",
+          "sha256": "df4c593cb99e03395c35f73184a403b21775835a5f5444f5f2e169d8a89c49d7"
+        }
+      ],
+      "id": "v7c22f1451e51aeb5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7cac3bda7403c268.json",
+          "sha256": "df8b78dcb79b11c691ec83be2b23ad33cb47725e27e2294c2a8185d640a11570"
+        }
+      ],
+      "id": "v7cac3bda7403c268"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v7ce1218057f32f1c.json",
+          "sha256": "7e39c8dbff6c82dedd4e6630fec0a8725649b086764172cd642ec3ce81b3a881"
+        }
+      ],
+      "id": "v7ce1218057f32f1c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v804ca6858fa22efe.json",
+          "sha256": "232d3170d06832c5c830bef82883943a33690ff387ba03ca2a4f7db9be720cce"
+        }
+      ],
+      "id": "v804ca6858fa22efe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v81c7f6fc68ea35a7.json",
+          "sha256": "376dfc5a785f6048bbcaec449a8fc6111348e5e42a55f7984dc1e55fad348764"
+        }
+      ],
+      "id": "v81c7f6fc68ea35a7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8224d0f41c80f492.json",
+          "sha256": "8fc400d20ab50eba17e69ee863baabbaf46e7676bc68dcef394a8161b7d54c26"
+        }
+      ],
+      "id": "v8224d0f41c80f492"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v822b02c01fe9ddd2.json",
+          "sha256": "9eba87c7715873d614125244b09ce8f59d9b56fafc1fa2895a875d8c699ce2c5"
+        }
+      ],
+      "id": "v822b02c01fe9ddd2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v822c4bed9ba714d3.json",
+          "sha256": "66679f91d38fca44fa89392d086fe1d2f4f8766ef2732ed21ca0d0b8b13bf12d"
+        }
+      ],
+      "id": "v822c4bed9ba714d3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v827901388ec40c23.json",
+          "sha256": "44557be056c19f681ab9394b0b117f1c0f2738350819b51454af0bc384c9ffb4"
+        }
+      ],
+      "id": "v827901388ec40c23"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v828ec4d8309aa2e3.json",
+          "sha256": "8a24873695009bbc4e04afae912883d7abd45b5b3a35630577a40a71ce4e8f10"
+        }
+      ],
+      "id": "v828ec4d8309aa2e3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v838fe3be3393696c.json",
+          "sha256": "a65674908ebdeb3ab8acde215361131fa309a70ca9ed86e9f44bcaed28fd6396"
+        }
+      ],
+      "id": "v838fe3be3393696c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8474a83c45f293fc.json",
+          "sha256": "b8eca1131ac11731a9beebd35feddc5431990207b653f81bb115e9385c8113b9"
+        }
+      ],
+      "id": "v8474a83c45f293fc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v84f8c68bc5fc2810.json",
+          "sha256": "3eda357f4937f0563e08ac717d071e15bd7fc137d4fe3e97f6882d35d8ed0241"
+        }
+      ],
+      "id": "v84f8c68bc5fc2810"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v85c0428fc7fdabc7.json",
+          "sha256": "7b9d5f471b011a43f3725799a87ec55e72e0674d1db3db7d55885e799c77d3ad"
+        }
+      ],
+      "id": "v85c0428fc7fdabc7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v85db98532abea6d9.json",
+          "sha256": "1892a345dc564c26dab4df1dcd0685f0c647a10f46e29bcb710df62f3e97d223"
+        }
+      ],
+      "id": "v85db98532abea6d9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v86e1560a0d27b432.json",
+          "sha256": "9724f08e5ae2350a2149aeccb2ace382deec40e571d74d8b48e614748eac0d63"
+        }
+      ],
+      "id": "v86e1560a0d27b432"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v876f8aa31676cf48.json",
+          "sha256": "1f83cc04b1aa27102aa723f01bd0f4b6c89ca02d19e379211842e39c23a30c36"
+        }
+      ],
+      "id": "v876f8aa31676cf48"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v88935f0b29397a80.json",
+          "sha256": "c098761fb5b9fe7df8d5e0c401d82b0d32e1ef3091dd6d951ac19a18eedcff39"
+        }
+      ],
+      "id": "v88935f0b29397a80"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8981e0830c69b869.json",
+          "sha256": "7460bdb8e9f55d8ba0a07dd0b015ad865a5116801fda7c9c7b6bfaa872904968"
+        }
+      ],
+      "id": "v8981e0830c69b869"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8a7442b19984a1ff.json",
+          "sha256": "2992d44fd908630077970fb49327f0b28d4483304036ae63ed3ce0c8dd93a855"
+        }
+      ],
+      "id": "v8a7442b19984a1ff"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8a8da062cba9fce5.json",
+          "sha256": "f4eba623905bfb077872e590056e7b2e1ddc5272c9f4d4ecc81db5a3394e7380"
+        }
+      ],
+      "id": "v8a8da062cba9fce5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8aec53e0502ced65.json",
+          "sha256": "cc9f6f44f8b0006b0eaf548b552f91daa6be290214f19fb003b9196af27a4f23"
+        }
+      ],
+      "id": "v8aec53e0502ced65"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8c15455bb3d933cb.json",
+          "sha256": "d26b4d811f7d0f775a4b350185f381b8a9407f1cd0381205399a6bdbade9d340"
+        }
+      ],
+      "id": "v8c15455bb3d933cb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8d4e61737e9ee6a6.json",
+          "sha256": "9064235fa431f533fd3b5c7582de7ac5df14f06272207487050ee4f2f2ccc68d"
+        }
+      ],
+      "id": "v8d4e61737e9ee6a6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8ec1375690daa188.json",
+          "sha256": "aa255f5aca45f3ceeef0e882f2483cb4b4d26335f2d968b14f093d14090f0c0e"
+        }
+      ],
+      "id": "v8ec1375690daa188"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v8f818aaaa7cdc7ed.json",
+          "sha256": "cdfb8e997a3fc19e4fc7e56ecc16cb20c24e635759d0cf631a0068e22e0b7ded"
+        }
+      ],
+      "id": "v8f818aaaa7cdc7ed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v900fc651cea938e9.json",
+          "sha256": "10cb82f3e5fd2f9302ccf521de3276d04b819b2f3c47acd17f5e0f932bd8278e"
+        }
+      ],
+      "id": "v900fc651cea938e9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v91f45fe53b9cb4f7.json",
+          "sha256": "d5ff12dd94c6378a6b38cd7454717acc44e58fc1435ca3b2df955cbe47d5bf08"
+        }
+      ],
+      "id": "v91f45fe53b9cb4f7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v920852737e02ae49.json",
+          "sha256": "d58277e702fb6d474d39b563cd462b3fe188bb09348e546885c34730a2455030"
+        }
+      ],
+      "id": "v920852737e02ae49"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9614879a484c4fc0.json",
+          "sha256": "59ebad9b66c12b31ac3875d011150ad8c412553ca8cedf6491671eef1e0a4c16"
+        }
+      ],
+      "id": "v9614879a484c4fc0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v973e82c1857b0a7e.json",
+          "sha256": "6a337495cc2c9cbc6501359b987c503a14c42bfbd8866c7205bf9f2a0ba94c2e"
+        }
+      ],
+      "id": "v973e82c1857b0a7e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9815e1f08a7e0664.json",
+          "sha256": "5275e57ead73ee399eb480874498735deb1004de3b301589e031660c901eeecb"
+        }
+      ],
+      "id": "v9815e1f08a7e0664"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v98252c989e84999d.json",
+          "sha256": "fe0a30319a7b3552ec844af000476e091a5cbd624553006f6cc9b1fd407537f7"
+        }
+      ],
+      "id": "v98252c989e84999d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v98ee154eeceb9c55.json",
+          "sha256": "c3d4de95653acf7ecc0138875eb424bd7b7de29d9c3f556ec83e2814c2de4922"
+        }
+      ],
+      "id": "v98ee154eeceb9c55"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9b7c8cf7d1b9f679.json",
+          "sha256": "fbb2bc3834e2b1f990e2da2892c798c487e69c0e7aeca0a4ca429c085eabf5df"
+        }
+      ],
+      "id": "v9b7c8cf7d1b9f679"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9c68a108ed63da63.json",
+          "sha256": "da62c1718dfb2e1ab7e8698c53d09ca14c47731e3762879ccc8f7f4cee896a68"
+        }
+      ],
+      "id": "v9c68a108ed63da63"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9cfb2c8197757948.json",
+          "sha256": "33ed3963395c7c6a2b790837f199d5a0f94c0f861dee37eabeba54b900a2c4a2"
+        }
+      ],
+      "id": "v9cfb2c8197757948"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9d05fc7c9c249317.json",
+          "sha256": "26cf4e13caa04622d9c31ee7edad1b8e3c946f52b551ddb24e6834b7eb7f956c"
+        }
+      ],
+      "id": "v9d05fc7c9c249317"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9dc96e6ca225e6e2.json",
+          "sha256": "f100d27fc33330d15fda04db22aec8a045d92e34ed73a8cc53932df5c12aa58f"
+        }
+      ],
+      "id": "v9dc96e6ca225e6e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9f618dfd3e44b84a.json",
+          "sha256": "ab5dda5fc1a83df1fd2c6c57884c98fde9d97ebfb2158243dcd7b4b750484c76"
+        }
+      ],
+      "id": "v9f618dfd3e44b84a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/v9ff65c5b03dd074c.json",
+          "sha256": "84e6519cef30a0f09713647028a145cc31a11e1ce300cb983fdbe07b2e139250"
+        }
+      ],
+      "id": "v9ff65c5b03dd074c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va0620b488f2ff2f5.json",
+          "sha256": "0cae14852ab6251f3a10ecb5005608dce98c542a2ec4b97496881e11ec00ae8f"
+        }
+      ],
+      "id": "va0620b488f2ff2f5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va18bfa567e0405b7.json",
+          "sha256": "7a0aaa5520613bb10565dad127ce7e9d2811265701afc0510a12046623e9838b"
+        }
+      ],
+      "id": "va18bfa567e0405b7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va19ba1b3f9f382bb.json",
+          "sha256": "cf429847d6b6ce200b0c1ac6bfa104498a01bbc2fc4f050a6ac2db46b3d61d39"
+        }
+      ],
+      "id": "va19ba1b3f9f382bb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va1e910d25ebbb2c4.json",
+          "sha256": "d145fd9080089b1748208eef13941b62dd4a8968571917fd11352ec663e25061"
+        }
+      ],
+      "id": "va1e910d25ebbb2c4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va213bada85cc9abe.json",
+          "sha256": "cd885574f984ee7945241c235bd9fd26d3ebae829ff2e05b3a1fddf44189d76d"
+        }
+      ],
+      "id": "va213bada85cc9abe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va2ba93081d3a6c13.json",
+          "sha256": "3723e6716697f60824760b57c0067eb13972dac7fdbc6098a48d4109c0031db5"
+        }
+      ],
+      "id": "va2ba93081d3a6c13"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va32bdaeb5f8aed8f.json",
+          "sha256": "43ac24b1c2f4ed9a9600698d5561d663c876e246faebc7ef7eff1a382555b6d8"
+        }
+      ],
+      "id": "va32bdaeb5f8aed8f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va3c277aa6743807a.json",
+          "sha256": "c268e85764e99cef751140614f0714ed6a6e5015fb5d5d8c92eeb05b7a478794"
+        }
+      ],
+      "id": "va3c277aa6743807a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va4fc9fc8f711bd58.json",
+          "sha256": "9f26489d033c63d02c51debdf04c7170fa2b81a45fc0cc505683edd35f8a6990"
+        }
+      ],
+      "id": "va4fc9fc8f711bd58"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va64493c76c57f982.json",
+          "sha256": "9f0111e49924723ad0bfd732779c3b545af54c7fc310a96c4b48fccbc4a98a0e"
+        }
+      ],
+      "id": "va64493c76c57f982"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va83db4001b89e73e.json",
+          "sha256": "ac2edcfe010e79d8b13fbc3c3ac53b24434bee761e72d4cbe57239a1316f7dd2"
+        }
+      ],
+      "id": "va83db4001b89e73e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va86e962a5024f152.json",
+          "sha256": "15d71668c0b2a8ae37084f1c3090c9160fb1c8d440af0bef0457f014604e8385"
+        }
+      ],
+      "id": "va86e962a5024f152"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va8dfb25c6d62d458.json",
+          "sha256": "86b01eec3d22292209a0525fc4db1877d5d93ec5be4941a5fe67b3c71b9f05cc"
+        }
+      ],
+      "id": "va8dfb25c6d62d458"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va91d537fa714f2d3.json",
+          "sha256": "499ce1ec323722108b0f95895b85b13e6015fadb427870614d0a65d449b4fe4f"
+        }
+      ],
+      "id": "va91d537fa714f2d3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/va934761de6c65857.json",
+          "sha256": "1e188ff8fd6423b58ccdb4bd6b01f4608c966f658f428811849cd6bd82b757af"
+        }
+      ],
+      "id": "va934761de6c65857"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vaac3a24b2552738b.json",
+          "sha256": "d167601801cee993b705fa60f113de7e4156ff30a8319288412061a17af88c79"
+        }
+      ],
+      "id": "vaac3a24b2552738b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vaad2cb64c5b0646b.json",
+          "sha256": "bb1312aa7ea6dc49c19d08a83ce60e4e616c6e068e9f0d7fe14818d01da3fe30"
+        }
+      ],
+      "id": "vaad2cb64c5b0646b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vab508347e605c0af.json",
+          "sha256": "5bf4de2ae111dd4b751f6b43d020676d82241c1622c20894c73e4ee85bc49bc4"
+        }
+      ],
+      "id": "vab508347e605c0af"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vac146420618655c5.json",
+          "sha256": "f75a0a7fdd856ea58b6fec0a0588a4f9bc9ea99f34b734386f7cf2dba154df89"
+        }
+      ],
+      "id": "vac146420618655c5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vaca8620fefade22f.json",
+          "sha256": "a8ea4d350ccb7b7824902a2d47dee432d2de049a81ae693c6a3d1a727d7e061a"
+        }
+      ],
+      "id": "vaca8620fefade22f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vad9b72227e24e32f.json",
+          "sha256": "3cfe191d4dcf71d5e642bead362cc8980fb1e55709d08d8c5792850e8f6a6aa6"
+        }
+      ],
+      "id": "vad9b72227e24e32f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vaeb76896b202e837.json",
+          "sha256": "7cdf3d42094d2d4c605b85568701602dc3ff0083f1bbed9f5fb0439aaca5794b"
+        }
+      ],
+      "id": "vaeb76896b202e837"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb11134a37e7c0c2b.json",
+          "sha256": "99bcf41041033d0f13ce164c02070acb10b37837f331c4f69681bad90b51906c"
+        }
+      ],
+      "id": "vb11134a37e7c0c2b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb195f23e8436fd19.json",
+          "sha256": "981a9b314b1823cf786b28ca6b898c3846da3e7f9579a7f8a800319d6dc303fe"
+        }
+      ],
+      "id": "vb195f23e8436fd19"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb1c8d4729c06472c.json",
+          "sha256": "35013c41df7b01b34ccf4a00e33aaa66bc4d837fa273ea432c4cd5b257519a0f"
+        }
+      ],
+      "id": "vb1c8d4729c06472c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb37f841c9e91bf18.json",
+          "sha256": "36a3a0066228020b06958019b357fc0e3d867cd225c31482123fff617c648910"
+        }
+      ],
+      "id": "vb37f841c9e91bf18"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb450f39bace98641.json",
+          "sha256": "d73148c797b77bbd50745572fa305f79d450d1bf35b87ed4740c48ed241d4a8c"
+        }
+      ],
+      "id": "vb450f39bace98641"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb4de5d37845a1546.json",
+          "sha256": "22731a29dbef40f52db75a9624201c40ded8a7968277860bda1dc88db5c3d8c7"
+        }
+      ],
+      "id": "vb4de5d37845a1546"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb608f4ddfcc00a20.json",
+          "sha256": "6b7ed9f1ede0b38cffb58caaaa0a7c2ac645ed0a99dbc93ad4c6801b0148e513"
+        }
+      ],
+      "id": "vb608f4ddfcc00a20"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb684dfb39487fcb1.json",
+          "sha256": "6146c2a56e0f84a03de365ed65a860d5acb2ec3d32a1f00cc71ab8e44a2a1522"
+        }
+      ],
+      "id": "vb684dfb39487fcb1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb6e8cb7973f1fab5.json",
+          "sha256": "ecde9358ed12d2cc8d766b4288d63ca693b146d10633b782ff468abec21290ae"
+        }
+      ],
+      "id": "vb6e8cb7973f1fab5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb7065104515600ba.json",
+          "sha256": "730184a874d81afee6b62e688a59b93d05017b42ea432963e8d8496381f5322a"
+        }
+      ],
+      "id": "vb7065104515600ba"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vb7ef2cf28c013f46.json",
+          "sha256": "be4701256aaeb312007988e86c466458a120ecbf178c53b7a3669df4365b2f54"
+        }
+      ],
+      "id": "vb7ef2cf28c013f46"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vba057012581af13b.json",
+          "sha256": "931a1e0f64e45768aa9a5c59d9aa81aa84a8c3460fdf364825b3db5031a5465d"
+        }
+      ],
+      "id": "vba057012581af13b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbb1688d0226174aa.json",
+          "sha256": "d8a1b9029315cf35ac6394381133bd1b5ba5ba2ea194e816b0b62450fc436ae3"
+        }
+      ],
+      "id": "vbb1688d0226174aa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbb5bb72ed5c3bcb1.json",
+          "sha256": "f310d319875a847ac98c4dcb6b7060d864185d4b68995cad562245423d39b9ff"
+        }
+      ],
+      "id": "vbb5bb72ed5c3bcb1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbba71aa9e6a41e1c.json",
+          "sha256": "58a62f1032834d7c720fceded08ebe4d94003069efac0892275a2d02aa205275"
+        }
+      ],
+      "id": "vbba71aa9e6a41e1c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbca0a5030104e2f3.json",
+          "sha256": "e5a69fb313479854be72045a32b25b17ece5d688941dbd009643b7cc886b892c"
+        }
+      ],
+      "id": "vbca0a5030104e2f3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbe6937292f4f1614.json",
+          "sha256": "e7bf0ee299db1ad748fba54e937a8e9a166f73f6d4062a7f86d14d2afaac2c6f"
+        }
+      ],
+      "id": "vbe6937292f4f1614"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbee48753abe90e1a.json",
+          "sha256": "a5e2a7bd3655c0c269fb315c903930835039e5c351ffc64ce17333c9ce0364fd"
+        }
+      ],
+      "id": "vbee48753abe90e1a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vbf88ec51ebd083b6.json",
+          "sha256": "0336da3fff1a469643f8299c5348b42244cd8cb5b99926194e8ae1fe69518a59"
+        }
+      ],
+      "id": "vbf88ec51ebd083b6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc12a1c0f00be35f3.json",
+          "sha256": "1d12b543655d661d32d7c1a5b9c7793e10ba2d4a8bb77594db46567fb1571f71"
+        }
+      ],
+      "id": "vc12a1c0f00be35f3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc17bb5b854981008.json",
+          "sha256": "f5d254c05a23fbd279eb59a8f06343a0a131c197898561c3197f5be29cbc8657"
+        }
+      ],
+      "id": "vc17bb5b854981008"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc2cab6dea09f0a3b.json",
+          "sha256": "9c67bffae6d2f9e98b1c66fc3159f641183a264d7ad6cddb6a4e0f33c925c70b"
+        }
+      ],
+      "id": "vc2cab6dea09f0a3b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc34eb74f8bbc70ca.json",
+          "sha256": "3ea2e3aaa9c28657e3adba8524edfda384d2eb20f85841be5a46ddc580010530"
+        }
+      ],
+      "id": "vc34eb74f8bbc70ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc39c75a8c00ab957.json",
+          "sha256": "dbeae9ae3875721cdb68d0af1c421c963a06c2eba4b7c75b9d04913096e6f1a6"
+        }
+      ],
+      "id": "vc39c75a8c00ab957"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc3fa59108d1ead8a.json",
+          "sha256": "b63285aa04c5c2ba400b91192ccc94d6ebd3e559a426034ed88503f819746a18"
+        }
+      ],
+      "id": "vc3fa59108d1ead8a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc46bee7a31918d67.json",
+          "sha256": "3dfe75dc2a1b5fe4a8b7f0d48c413ade0805aeb2ab25f00876a2e0b95560d151"
+        }
+      ],
+      "id": "vc46bee7a31918d67"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc55768118bb88e53.json",
+          "sha256": "c5253342865f9337ef4483d91e265d18486912dabd556e06f8dc7965681c31e0"
+        }
+      ],
+      "id": "vc55768118bb88e53"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc58647a590befbb7.json",
+          "sha256": "9e6f297c313cfc65652fd5ff8f0ed92a29e6b0fc0cd096de6ded98a5aac93fbb"
+        }
+      ],
+      "id": "vc58647a590befbb7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc653bb099d9c5839.json",
+          "sha256": "46f2cb94ac7aa148942e20b97f4edc7db8dad66b90213b19f4f84a080e05356e"
+        }
+      ],
+      "id": "vc653bb099d9c5839"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc66120fe5e1af394.json",
+          "sha256": "0d9b875b662ea9d2a48d62d633c63f6b44397f344834432bdd044b27720b590b"
+        }
+      ],
+      "id": "vc66120fe5e1af394"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc7c310827b9dbd10.json",
+          "sha256": "53eedbaaa06e317e4c46906de558ee809e54a0e2e4938834482d1f600e50b953"
+        }
+      ],
+      "id": "vc7c310827b9dbd10"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc82b6b45a103ce1d.json",
+          "sha256": "1b6f25a6fc0ca51f3173ca9cf58d2f673697823c8633f070e94eda965c335635"
+        }
+      ],
+      "id": "vc82b6b45a103ce1d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vc938b2ab36cae34a.json",
+          "sha256": "8d3a7d6b66e44e6d41b8ad957f6b00e86bab3e844de1a2f8d8171133f19f8573"
+        }
+      ],
+      "id": "vc938b2ab36cae34a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vcbd0eaef95bc9181.json",
+          "sha256": "72bde31ad7d15440093ac96e981f4d03130087da20ba2435cb8fb84ff0ac489b"
+        }
+      ],
+      "id": "vcbd0eaef95bc9181"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vccb24c478c736bc5.json",
+          "sha256": "2a1515e715b3509b10c274b04d5d96de6f011e2b9f2cdf11c15123d94305212c"
+        }
+      ],
+      "id": "vccb24c478c736bc5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vccc374459c05dd52.json",
+          "sha256": "0ab2d21cf2cb3a464b072b0d22f7f87a5b4a68337b6ee56c614ef3a69637e5bf"
+        }
+      ],
+      "id": "vccc374459c05dd52"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vcd6021208e8e8a6e.json",
+          "sha256": "aeafc9635fa5e4360b64064e43a317ae1153d3a42e737af3c226e220605e2ee3"
+        }
+      ],
+      "id": "vcd6021208e8e8a6e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vcdb9ae63a12852a8.json",
+          "sha256": "9f30d3f678a3b6fdef8fb70fae5f58e25d6827124e40f7a48157bf43b07fab1a"
+        }
+      ],
+      "id": "vcdb9ae63a12852a8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vcf1cbb85d729dcd1.json",
+          "sha256": "9eaf30c764acef6677a04f8a325ed92a157680de2f79f17b9fe31381dfb6652f"
+        }
+      ],
+      "id": "vcf1cbb85d729dcd1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd02cc7abe1dbc2bf.json",
+          "sha256": "f1ee4137660ab3204ce9135a79ab67bcee4fd3f3db4b116c5bdc782fd88d63d9"
+        }
+      ],
+      "id": "vd02cc7abe1dbc2bf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd1eb6a3fb13eb97d.json",
+          "sha256": "9d4a1e7fb8d949b51c6966fda05ce7df39849b67a77bbafc7c823ea8c5ce359b"
+        }
+      ],
+      "id": "vd1eb6a3fb13eb97d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd27e483fe63e78c0.json",
+          "sha256": "1564e86323a58b252a98bb315077569a40d9aeb79e80881f3b7b07c13cfa519d"
+        }
+      ],
+      "id": "vd27e483fe63e78c0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd2a25cb35e1b8bce.json",
+          "sha256": "665afb770de8c4135cff107ccc38c0a809886524e74e87103d4693d7da78dd2b"
+        }
+      ],
+      "id": "vd2a25cb35e1b8bce"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd2ae28ba9140bc89.json",
+          "sha256": "52eb6d4912898e73e0599eb08fdd785fe7a2857784311a6b136f8af3bfa35061"
+        }
+      ],
+      "id": "vd2ae28ba9140bc89"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd2e50306dcd6c470.json",
+          "sha256": "6247c6595244cb5de2a529444ea2c11fda01feaccd245d5a91c7514628c297e0"
+        }
+      ],
+      "id": "vd2e50306dcd6c470"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd302fdc2d7a97e6e.json",
+          "sha256": "258a8bfa6493bd14dc06e1c87b07ceee2d130d6be7acb1ce54d10f92fcc70ddb"
+        }
+      ],
+      "id": "vd302fdc2d7a97e6e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd3e84d6a85cb6a0f.json",
+          "sha256": "cbce25462455efd5fa294f30e0ad22352aa58d2d3c071fbfebacd7ef3a1163e1"
+        }
+      ],
+      "id": "vd3e84d6a85cb6a0f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd53bcd623743858d.json",
+          "sha256": "4c3d7e748f899dea268e78236a5405a8ccb17a09ba8827c7008a4f0321618e32"
+        }
+      ],
+      "id": "vd53bcd623743858d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd5cc438bcd34a9d5.json",
+          "sha256": "1739369d51a194f4753946b7cc75ef0eae0e2c3ffc27eedaa724c049286a8736"
+        }
+      ],
+      "id": "vd5cc438bcd34a9d5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd64679c8b7f9e736.json",
+          "sha256": "d54c3c8dbd6fc05b9e789755a2bf4d4eb68cb0d2363336f96fe967e0b8b8f885"
+        }
+      ],
+      "id": "vd64679c8b7f9e736"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd7d23c0d86701fc6.json",
+          "sha256": "c953f1f6b26a3b13cff8c9b877187db37aa035bdc38e9af90ba60f5e319a839d"
+        }
+      ],
+      "id": "vd7d23c0d86701fc6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd88fd757419269aa.json",
+          "sha256": "0b265e0e63b6495816a352ee952195ee2df5bcf46dc505e153ced6907b8872ae"
+        }
+      ],
+      "id": "vd88fd757419269aa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vd8d93fd735111aa5.json",
+          "sha256": "3445f7ee6455270a2724d755159e81a3a5bd967cb70f7890a2ecc6b0b43d27ed"
+        }
+      ],
+      "id": "vd8d93fd735111aa5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vda5261ec1d0bd74e.json",
+          "sha256": "effadd89ccf67106102a90966c3deb0c5ea5979ea6d1f95f8028426e1b0c27f6"
+        }
+      ],
+      "id": "vda5261ec1d0bd74e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vda6c078e77700b28.json",
+          "sha256": "593ef17844c79b200f501faae42f6451129f545396744a406db78fe869a4da30"
+        }
+      ],
+      "id": "vda6c078e77700b28"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdca2c29b3d1d31b7.json",
+          "sha256": "5b781eed3aece6ddccaa28b53bf1e9e538e98222f18bf080520e089852f79bcd"
+        }
+      ],
+      "id": "vdca2c29b3d1d31b7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdcb0849fc754aaea.json",
+          "sha256": "25ab6e34441a3fd9dbe9d714f3fc4e97b068437ac9f077046fdc43e4bd534c1b"
+        }
+      ],
+      "id": "vdcb0849fc754aaea"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdcbd067d047bfbd0.json",
+          "sha256": "bc0194c6fa014fc1f77ec8fe8bec438785fa072e74515e6d81c61bb3545dae4e"
+        }
+      ],
+      "id": "vdcbd067d047bfbd0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdd9207f5aa2fc9e3.json",
+          "sha256": "8324ba193cb03e6bb510fdd043338004f0d2d154316db7b1c89025d3fad70c95"
+        }
+      ],
+      "id": "vdd9207f5aa2fc9e3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdec1361509de89d4.json",
+          "sha256": "076b3bb93539ee0efaf81c5d61428e174befd7f516120e06ba776806639fd5d2"
+        }
+      ],
+      "id": "vdec1361509de89d4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vdf05d359490e7833.json",
+          "sha256": "5779c5928dedfcec14f4f2933ed2cbc4239c9b443f4e8076345b76d46f206cb3"
+        }
+      ],
+      "id": "vdf05d359490e7833"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve2b3a699bc06e53d.json",
+          "sha256": "5c6235e267a726df120e7293d2669282dd072b85d81f0a9b0a389e8420f38759"
+        }
+      ],
+      "id": "ve2b3a699bc06e53d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve2c7ff41cba0be5d.json",
+          "sha256": "00a7d8d5d8b0d4199f9821499860220a0d03b4bc3efb29230f56662271f4e256"
+        }
+      ],
+      "id": "ve2c7ff41cba0be5d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve3fcd2bc70913ea2.json",
+          "sha256": "43b758f9ef81a191ecda7237fd640780091d68adce20333d9c016f7cbf7ea36c"
+        }
+      ],
+      "id": "ve3fcd2bc70913ea2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve4744745405812b9.json",
+          "sha256": "236eb853dd94700175fc96fe0b40bc6473a94b8dfb7555fe64045f104e6ba7c2"
+        }
+      ],
+      "id": "ve4744745405812b9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve4b9c82536808f52.json",
+          "sha256": "6fc54663efd7ef7ec82a3c082a1946a6f957d0fccff23b71c5d60574c205f4c7"
+        }
+      ],
+      "id": "ve4b9c82536808f52"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve53f0521c7e3a30c.json",
+          "sha256": "6cc57d341ccab8585dec18d6e764fccc2ab706fccdb8d202af2ab7f76f89413c"
+        }
+      ],
+      "id": "ve53f0521c7e3a30c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve5819dc9edb1f47b.json",
+          "sha256": "6cc28c624c66199d42eb47c06a8e9a392815ff51abc3ef89c18ba44a219ac54d"
+        }
+      ],
+      "id": "ve5819dc9edb1f47b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve5d916a50130739e.json",
+          "sha256": "ffd06198892fc1522bdd465a766dcca3aaec9ca4e0f838889bc92c843f374a54"
+        }
+      ],
+      "id": "ve5d916a50130739e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve70386fdb6f071d3.json",
+          "sha256": "6e94c3a067c5e73321cbc5a10d68a916850d747ce080b14d36aabb6adcab4d02"
+        }
+      ],
+      "id": "ve70386fdb6f071d3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve7520b18160365d2.json",
+          "sha256": "d6eb87f01513238a357c0780361cfc1fbed4f8433e9e0a7a8d71a8a0d48f40cd"
+        }
+      ],
+      "id": "ve7520b18160365d2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve75a143e2bdb4d61.json",
+          "sha256": "93ac4e8e66fdf66b6e71fad96a36b246a28ae69c83bcb80fd449194488b7f834"
+        }
+      ],
+      "id": "ve75a143e2bdb4d61"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve9c436f93e42e394.json",
+          "sha256": "7f539cd292ae5ea5b5e414d56559cf588bbbdb8c74f3daa1e509a3cc3ddfbecb"
+        }
+      ],
+      "id": "ve9c436f93e42e394"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/ve9cefed56bbc8359.json",
+          "sha256": "61941426f9e9408907f669a9ff4aae04f4e77275d609b9af0229c2dee7174df3"
+        }
+      ],
+      "id": "ve9cefed56bbc8359"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vea3ee7919ceb2e10.json",
+          "sha256": "5fe2fbac4fdd15a36b52c541c07fe6f900ca5e0802c25348876c4d8f1fa4e7e4"
+        }
+      ],
+      "id": "vea3ee7919ceb2e10"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vea598711b897286e.json",
+          "sha256": "73031edba9b3c08b029875c9eaf30fb7e9021470609437b7c555df2c63723064"
+        }
+      ],
+      "id": "vea598711b897286e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vea80ece35200e349.json",
+          "sha256": "e978b6c08c6435aca04b3ab2a3661ed7c796c163e7507c1ceba783c8f932e162"
+        }
+      ],
+      "id": "vea80ece35200e349"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/veaee43cdb4a113d0.json",
+          "sha256": "5812ce0b5e9b2df602e52f00f654f8e9ffc3912b4cefbbf02ced8ab2f115a091"
+        }
+      ],
+      "id": "veaee43cdb4a113d0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vec36e393a92b69eb.json",
+          "sha256": "4c061af330652b564bedb5e73afe68935a45973f032140ba12b7717461c31b9c"
+        }
+      ],
+      "id": "vec36e393a92b69eb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vecd8b7bb20fed3a3.json",
+          "sha256": "89b964118e544a8117d9856a7548d6e8dd9fe45e6d436a9a36c1893b8a6a4267"
+        }
+      ],
+      "id": "vecd8b7bb20fed3a3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vecddffbd8678e5ef.json",
+          "sha256": "f9dda476eed7c1db1fdb0de656c74568d6871e7eb429e408366f4b2eccf1fab1"
+        }
+      ],
+      "id": "vecddffbd8678e5ef"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vee997c119f09258b.json",
+          "sha256": "856cd2da3a734d091a5ef921314e20901ca37cab62b87dc207c952b9ef39de59"
+        }
+      ],
+      "id": "vee997c119f09258b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vef09761654b57a92.json",
+          "sha256": "bb6e434377b5a712cfba552b851a3447c3a0696f4c97d08b395b93f072d13af8"
+        }
+      ],
+      "id": "vef09761654b57a92"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vef3f22a57a308f45.json",
+          "sha256": "03c92da75525e65f30bb887bb18b5973411bbe0807b47cb616f2d18ea871c0e2"
+        }
+      ],
+      "id": "vef3f22a57a308f45"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf1e99cf0310cc1c6.json",
+          "sha256": "eaad7695026393660b86c8701404cd5bfdc709a2a5391942185d109d4438105b"
+        }
+      ],
+      "id": "vf1e99cf0310cc1c6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf374114fe7f28e7d.json",
+          "sha256": "f16a568ef0f616261b999c62ccd68c16ad9d26336cb5f66687217c0a9f9b4901"
+        }
+      ],
+      "id": "vf374114fe7f28e7d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf3af943ff1bf7375.json",
+          "sha256": "9ce3e2ac2edb9a11401846285ac7c0ef1eae4614579d7b4b2f44eedc3847bbcf"
+        }
+      ],
+      "id": "vf3af943ff1bf7375"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf3fbd991d8e666a4.json",
+          "sha256": "697095f7e690a330507bbfe8c3c67845a25a01b39ee81d0fc38d9dab918c0edc"
+        }
+      ],
+      "id": "vf3fbd991d8e666a4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf407ebb4a9cb8a3d.json",
+          "sha256": "c1bf60a6b2f82968e2321a605f7cd1eb889ba4eea4dec722744c13747143a15a"
+        }
+      ],
+      "id": "vf407ebb4a9cb8a3d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf414a4c9065ad7b8.json",
+          "sha256": "0249be228804139b303224bdef375836aed374992ddd27ad37f389db170caa20"
+        }
+      ],
+      "id": "vf414a4c9065ad7b8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf7334aa7dcf00826.json",
+          "sha256": "9aefedba5607b99b602ee263deea2b232330cf4d97ad0ed54f12081eccb5d61d"
+        }
+      ],
+      "id": "vf7334aa7dcf00826"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf753bb908231e0a1.json",
+          "sha256": "289f6b4d04faef50c1ff7b88bc6353e9594e5234a95fcf5add54c7ba2ae36e8e"
+        }
+      ],
+      "id": "vf753bb908231e0a1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf82e507d268fed9d.json",
+          "sha256": "aa046e1656550ca6651f0e4c636a894ab00bd6c1d9ff7039c2b4ffb9de251afa"
+        }
+      ],
+      "id": "vf82e507d268fed9d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf86d92beb5a12905.json",
+          "sha256": "a7c7c97871a41a3e5d78da02f863fc6c3236f4cc90a64996b68f15e6fc9b3632"
+        }
+      ],
+      "id": "vf86d92beb5a12905"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vf9b5623144960dda.json",
+          "sha256": "ab7a6d57cfa3401618588e4508151828696425e1ec7dc5bded93008356930424"
+        }
+      ],
+      "id": "vf9b5623144960dda"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfa24e4f45c2e826e.json",
+          "sha256": "70297e14ab057ce8fcae8ad7f15beae421f35430158dee401a48960f37ba3757"
+        }
+      ],
+      "id": "vfa24e4f45c2e826e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfa79ad0a7bd957b9.json",
+          "sha256": "497e15530e81fff4a65b87fbb1afb433c64d0c121b7833f1ab5a14e1bda09432"
+        }
+      ],
+      "id": "vfa79ad0a7bd957b9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfacf2b3dafdb5c0a.json",
+          "sha256": "229f84a8bff5803c1efb9aa2b1476a1e060bc550df67890fe5675e2e5bf7a80e"
+        }
+      ],
+      "id": "vfacf2b3dafdb5c0a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfbc5db1c2a012359.json",
+          "sha256": "5f56a208344e758c57b1e24e4477ae2ad7c5bcc9b636354733c068930d6cee26"
+        }
+      ],
+      "id": "vfbc5db1c2a012359"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfbd7379026575f04.json",
+          "sha256": "0b1398f470294eb44d4dafe7f768dc7c71d6ef1d6fadad568000df8f8ad69681"
+        }
+      ],
+      "id": "vfbd7379026575f04"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vfeb5d1872929ab35.json",
+          "sha256": "b11e634869f564608788423fa8cc5eb5b35497ee1e8908058700d14bc4ff9e13"
+        }
+      ],
+      "id": "vfeb5d1872929ab35"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vff1d02d89ab42ef7.json",
+          "sha256": "84a39bc7cad20faed053c2c24cb3024491152a7dbdf6ac8977c5bfa1091180e1"
+        }
+      ],
+      "id": "vff1d02d89ab42ef7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vff5545c0760d7544.json",
+          "sha256": "bef42d0da657d8d4cf5e680e07193d3c8a57758459fc27db942ec9252f3008ea"
+        }
+      ],
+      "id": "vff5545c0760d7544"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-w3c-report/vectors/vff8f75223d6658ef.json",
+          "sha256": "92ad2f192460e840b7ea79d1758c826e7f90aa9f4c1e7afc1425ba61dd9835fe"
+        }
+      ],
+      "id": "vff8f75223d6658ef"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe",
+      "covers-these-bytes": false,
+      "depth": "full rules",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "235/235 verdicts agree",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-w3c-report.json",
+        "serialization": "bytes",
+        "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-w3c-report.txt",
+        "serialization": "bytes",
+        "sha256": "cc3017fa636831d4764bc66b7802e89d7c0fa164c5a1e6365478458bc7557fb9"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0120d95db38b892b",
+      "inputs": [
+        "member:v0120d95db38b892b",
+        "check:v0120d95db38b892b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-010\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-010\"]}"
+    },
+    {
+      "check": "v0a887e6b24bdd940",
+      "inputs": [
+        "member:v0a887e6b24bdd940",
+        "check:v0a887e6b24bdd940"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v0e286b53de78162a",
+      "inputs": [
+        "member:v0e286b53de78162a",
+        "check:v0e286b53de78162a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-008\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-008\"]}"
+    },
+    {
+      "check": "v1158315f2ce233a8",
+      "inputs": [
+        "member:v1158315f2ce233a8",
+        "check:v1158315f2ce233a8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-022\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-022\"]}"
+    },
+    {
+      "check": "v12f1e7e27b3f59c5",
+      "inputs": [
+        "member:v12f1e7e27b3f59c5",
+        "check:v12f1e7e27b3f59c5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-006\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-006\"]}"
+    },
+    {
+      "check": "v1660acd2e4efb7c7",
+      "inputs": [
+        "member:v1660acd2e4efb7c7",
+        "check:v1660acd2e4efb7c7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-013\"]}"
+    },
+    {
+      "check": "v16bbc5bfef80043e",
+      "inputs": [
+        "member:v16bbc5bfef80043e",
+        "check:v16bbc5bfef80043e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v1afe0d60b2df5d39",
+      "inputs": [
+        "member:v1afe0d60b2df5d39",
+        "check:v1afe0d60b2df5d39"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"non-integer-number\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v1c020dd1ed49874c",
+      "inputs": [
+        "member:v1c020dd1ed49874c",
+        "check:v1c020dd1ed49874c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-017\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-017\"]}"
+    },
+    {
+      "check": "v20a798b25fc2ec0b",
+      "inputs": [
+        "member:v20a798b25fc2ec0b",
+        "check:v20a798b25fc2ec0b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-027\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-027\"]}"
+    },
+    {
+      "check": "v2652b0b04c946504",
+      "inputs": [
+        "member:v2652b0b04c946504",
+        "check:v2652b0b04c946504"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-020\"]}"
+    },
+    {
+      "check": "v26a379aeeebabd1e",
+      "inputs": [
+        "member:v26a379aeeebabd1e",
+        "check:v26a379aeeebabd1e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"non-integer-number\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v27a01b14321f6ae5",
+      "inputs": [
+        "member:v27a01b14321f6ae5",
+        "check:v27a01b14321f6ae5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-019\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-019\"]}"
+    },
+    {
+      "check": "v28820b464a335617",
+      "inputs": [
+        "member:v28820b464a335617",
+        "check:v28820b464a335617"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\"]}"
+    },
+    {
+      "check": "v28824a66a84f4b8c",
+      "inputs": [
+        "member:v28824a66a84f4b8c",
+        "check:v28824a66a84f4b8c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-013\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-013\"]}"
+    },
+    {
+      "check": "v2b4990ad53fbf28b",
+      "inputs": [
+        "member:v2b4990ad53fbf28b",
+        "check:v2b4990ad53fbf28b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"non-integer-number\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v32c1e0be1a7bf104",
+      "inputs": [
+        "member:v32c1e0be1a7bf104",
+        "check:v32c1e0be1a7bf104"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-016\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-016\"]}"
+    },
+    {
+      "check": "v37729703d471ba9b",
+      "inputs": [
+        "member:v37729703d471ba9b",
+        "check:v37729703d471ba9b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-023\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-023\"]}"
+    },
+    {
+      "check": "v388dee224f53c2c1",
+      "inputs": [
+        "member:v388dee224f53c2c1",
+        "check:v388dee224f53c2c1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-005\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-005\"]}"
+    },
+    {
+      "check": "v3add8861d36c2543",
+      "inputs": [
+        "member:v3add8861d36c2543",
+        "check:v3add8861d36c2543"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-008\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-008\"]}"
+    },
+    {
+      "check": "v3fd6a6a262a72f91",
+      "inputs": [
+        "member:v3fd6a6a262a72f91",
+        "check:v3fd6a6a262a72f91"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v3fef7c8cc4ed5e4b",
+      "inputs": [
+        "member:v3fef7c8cc4ed5e4b",
+        "check:v3fef7c8cc4ed5e4b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-025\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-025\"]}"
+    },
+    {
+      "check": "v40ab7c6deec16438",
+      "inputs": [
+        "member:v40ab7c6deec16438",
+        "check:v40ab7c6deec16438"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v4193637206138b32",
+      "inputs": [
+        "member:v4193637206138b32",
+        "check:v4193637206138b32"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v48877f27bbd03b55",
+      "inputs": [
+        "member:v48877f27bbd03b55",
+        "check:v48877f27bbd03b55"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-018\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-018\"]}"
+    },
+    {
+      "check": "v499412698a1dd50e",
+      "inputs": [
+        "member:v499412698a1dd50e",
+        "check:v499412698a1dd50e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\"]}"
+    },
+    {
+      "check": "v4a06b866afca0d49",
+      "inputs": [
+        "member:v4a06b866afca0d49",
+        "check:v4a06b866afca0d49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\"]}"
+    },
+    {
+      "check": "v4e4face5dd4ff492",
+      "inputs": [
+        "member:v4e4face5dd4ff492",
+        "check:v4e4face5dd4ff492"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-013\"]}"
+    },
+    {
+      "check": "v5196f1761ea14b2b",
+      "inputs": [
+        "member:v5196f1761ea14b2b",
+        "check:v5196f1761ea14b2b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v522b0a6b91e74c95",
+      "inputs": [
+        "member:v522b0a6b91e74c95",
+        "check:v522b0a6b91e74c95"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "v5a2ff35648828621",
+      "inputs": [
+        "member:v5a2ff35648828621",
+        "check:v5a2ff35648828621"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-009\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-009\"]}"
+    },
+    {
+      "check": "v5c26b11179a2277a",
+      "inputs": [
+        "member:v5c26b11179a2277a",
+        "check:v5c26b11179a2277a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-023\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-023\"]}"
+    },
+    {
+      "check": "v60bd06deca6e832d",
+      "inputs": [
+        "member:v60bd06deca6e832d",
+        "check:v60bd06deca6e832d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v64e02942221729d2",
+      "inputs": [
+        "member:v64e02942221729d2",
+        "check:v64e02942221729d2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"unsupported-digest-encoding\",\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\",\"W3C-R-032\"]}"
+    },
+    {
+      "check": "v66fd68ad7d106fac",
+      "inputs": [
+        "member:v66fd68ad7d106fac",
+        "check:v66fd68ad7d106fac"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-014\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-014\"]}"
+    },
+    {
+      "check": "v67e996a3fa03e959",
+      "inputs": [
+        "member:v67e996a3fa03e959",
+        "check:v67e996a3fa03e959"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-022\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-022\"]}"
+    },
+    {
+      "check": "v696c5dd5918c854b",
+      "inputs": [
+        "member:v696c5dd5918c854b",
+        "check:v696c5dd5918c854b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-002\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-002\"]}"
+    },
+    {
+      "check": "v6b1ea60273861c5a",
+      "inputs": [
+        "member:v6b1ea60273861c5a",
+        "check:v6b1ea60273861c5a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-023\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-023\"]}"
+    },
+    {
+      "check": "v6cd84ff1aea45153",
+      "inputs": [
+        "member:v6cd84ff1aea45153",
+        "check:v6cd84ff1aea45153"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\"]}"
+    },
+    {
+      "check": "v70533f1029ed78e6",
+      "inputs": [
+        "member:v70533f1029ed78e6",
+        "check:v70533f1029ed78e6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-009\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-009\"]}"
+    },
+    {
+      "check": "v79266aba771310af",
+      "inputs": [
+        "member:v79266aba771310af",
+        "check:v79266aba771310af"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-011\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-011\"]}"
+    },
+    {
+      "check": "v7bc7c1460093e973",
+      "inputs": [
+        "member:v7bc7c1460093e973",
+        "check:v7bc7c1460093e973"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-003\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-003\"]}"
+    },
+    {
+      "check": "v7c22f1451e51aeb5",
+      "inputs": [
+        "member:v7c22f1451e51aeb5",
+        "check:v7c22f1451e51aeb5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\"]}"
+    },
+    {
+      "check": "v7cac3bda7403c268",
+      "inputs": [
+        "member:v7cac3bda7403c268",
+        "check:v7cac3bda7403c268"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-005\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-005\"]}"
+    },
+    {
+      "check": "v8474a83c45f293fc",
+      "inputs": [
+        "member:v8474a83c45f293fc",
+        "check:v8474a83c45f293fc"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v85db98532abea6d9",
+      "inputs": [
+        "member:v85db98532abea6d9",
+        "check:v85db98532abea6d9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-007\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-007\"]}"
+    },
+    {
+      "check": "v88935f0b29397a80",
+      "inputs": [
+        "member:v88935f0b29397a80",
+        "check:v88935f0b29397a80"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\"]}"
+    },
+    {
+      "check": "v8981e0830c69b869",
+      "inputs": [
+        "member:v8981e0830c69b869",
+        "check:v8981e0830c69b869"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-006\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-006\"]}"
+    },
+    {
+      "check": "v8aec53e0502ced65",
+      "inputs": [
+        "member:v8aec53e0502ced65",
+        "check:v8aec53e0502ced65"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-033\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-033\"]}"
+    },
+    {
+      "check": "v8d4e61737e9ee6a6",
+      "inputs": [
+        "member:v8d4e61737e9ee6a6",
+        "check:v8d4e61737e9ee6a6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-019\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-019\"]}"
+    },
+    {
+      "check": "v8ec1375690daa188",
+      "inputs": [
+        "member:v8ec1375690daa188",
+        "check:v8ec1375690daa188"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-016\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-016\"]}"
+    },
+    {
+      "check": "v920852737e02ae49",
+      "inputs": [
+        "member:v920852737e02ae49",
+        "check:v920852737e02ae49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v973e82c1857b0a7e",
+      "inputs": [
+        "member:v973e82c1857b0a7e",
+        "check:v973e82c1857b0a7e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-033\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-033\"]}"
+    },
+    {
+      "check": "v9815e1f08a7e0664",
+      "inputs": [
+        "member:v9815e1f08a7e0664",
+        "check:v9815e1f08a7e0664"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-003\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-003\"]}"
+    },
+    {
+      "check": "v98252c989e84999d",
+      "inputs": [
+        "member:v98252c989e84999d",
+        "check:v98252c989e84999d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-003\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-003\"]}"
+    },
+    {
+      "check": "v9c68a108ed63da63",
+      "inputs": [
+        "member:v9c68a108ed63da63",
+        "check:v9c68a108ed63da63"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-021\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-021\"]}"
+    },
+    {
+      "check": "v9d05fc7c9c249317",
+      "inputs": [
+        "member:v9d05fc7c9c249317",
+        "check:v9d05fc7c9c249317"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "v9ff65c5b03dd074c",
+      "inputs": [
+        "member:v9ff65c5b03dd074c",
+        "check:v9ff65c5b03dd074c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "va3c277aa6743807a",
+      "inputs": [
+        "member:va3c277aa6743807a",
+        "check:va3c277aa6743807a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-024\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-024\"]}"
+    },
+    {
+      "check": "va86e962a5024f152",
+      "inputs": [
+        "member:va86e962a5024f152",
+        "check:va86e962a5024f152"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-029\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-029\"]}"
+    },
+    {
+      "check": "va8dfb25c6d62d458",
+      "inputs": [
+        "member:va8dfb25c6d62d458",
+        "check:va8dfb25c6d62d458"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "va934761de6c65857",
+      "inputs": [
+        "member:va934761de6c65857",
+        "check:va934761de6c65857"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-001\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-001\"]}"
+    },
+    {
+      "check": "vaac3a24b2552738b",
+      "inputs": [
+        "member:vaac3a24b2552738b",
+        "check:vaac3a24b2552738b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-017\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-017\"]}"
+    },
+    {
+      "check": "vab508347e605c0af",
+      "inputs": [
+        "member:vab508347e605c0af",
+        "check:vab508347e605c0af"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\"]}"
+    },
+    {
+      "check": "vaeb76896b202e837",
+      "inputs": [
+        "member:vaeb76896b202e837",
+        "check:vaeb76896b202e837"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-013\"]}"
+    },
+    {
+      "check": "vb11134a37e7c0c2b",
+      "inputs": [
+        "member:vb11134a37e7c0c2b",
+        "check:vb11134a37e7c0c2b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-001\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-001\"]}"
+    },
+    {
+      "check": "vb37f841c9e91bf18",
+      "inputs": [
+        "member:vb37f841c9e91bf18",
+        "check:vb37f841c9e91bf18"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"integer-outside-safe-range\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-031\"]}"
+    },
+    {
+      "check": "vb608f4ddfcc00a20",
+      "inputs": [
+        "member:vb608f4ddfcc00a20",
+        "check:vb608f4ddfcc00a20"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-004\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-004\"]}"
+    },
+    {
+      "check": "vbe6937292f4f1614",
+      "inputs": [
+        "member:vbe6937292f4f1614",
+        "check:vbe6937292f4f1614"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-010\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-010\"]}"
+    },
+    {
+      "check": "vc17bb5b854981008",
+      "inputs": [
+        "member:vc17bb5b854981008",
+        "check:vc17bb5b854981008"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-009\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-009\"]}"
+    },
+    {
+      "check": "vc3fa59108d1ead8a",
+      "inputs": [
+        "member:vc3fa59108d1ead8a",
+        "check:vc3fa59108d1ead8a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"cause\":\"digests-differ\",\"rejects\":[\"W3C-R-020\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-020\",\"W3C-R-030\"]}"
+    },
+    {
+      "check": "vc58647a590befbb7",
+      "inputs": [
+        "member:vc58647a590befbb7",
+        "check:vc58647a590befbb7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-013\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-013\"]}"
+    },
+    {
+      "check": "vcbd0eaef95bc9181",
+      "inputs": [
+        "member:vcbd0eaef95bc9181",
+        "check:vcbd0eaef95bc9181"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-010\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-010\"]}"
+    },
+    {
+      "check": "vccc374459c05dd52",
+      "inputs": [
+        "member:vccc374459c05dd52",
+        "check:vccc374459c05dd52"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-006\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-006\"]}"
+    },
+    {
+      "check": "vcf1cbb85d729dcd1",
+      "inputs": [
+        "member:vcf1cbb85d729dcd1",
+        "check:vcf1cbb85d729dcd1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-026\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-026\"]}"
+    },
+    {
+      "check": "vd02cc7abe1dbc2bf",
+      "inputs": [
+        "member:vd02cc7abe1dbc2bf",
+        "check:vd02cc7abe1dbc2bf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-011\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-011\"]}"
+    },
+    {
+      "check": "vd1eb6a3fb13eb97d",
+      "inputs": [
+        "member:vd1eb6a3fb13eb97d",
+        "check:vd1eb6a3fb13eb97d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-012\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-012\"]}"
+    },
+    {
+      "check": "vd2ae28ba9140bc89",
+      "inputs": [
+        "member:vd2ae28ba9140bc89",
+        "check:vd2ae28ba9140bc89"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-028\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-028\"]}"
+    },
+    {
+      "check": "vd2e50306dcd6c470",
+      "inputs": [
+        "member:vd2e50306dcd6c470",
+        "check:vd2e50306dcd6c470"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-023\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-023\"]}"
+    },
+    {
+      "check": "vd302fdc2d7a97e6e",
+      "inputs": [
+        "member:vd302fdc2d7a97e6e",
+        "check:vd302fdc2d7a97e6e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-018\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-018\"]}"
+    },
+    {
+      "check": "vda6c078e77700b28",
+      "inputs": [
+        "member:vda6c078e77700b28",
+        "check:vda6c078e77700b28"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-014\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-014\"]}"
+    },
+    {
+      "check": "vdcbd067d047bfbd0",
+      "inputs": [
+        "member:vdcbd067d047bfbd0",
+        "check:vdcbd067d047bfbd0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-007\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-007\"]}"
+    },
+    {
+      "check": "ve2b3a699bc06e53d",
+      "inputs": [
+        "member:ve2b3a699bc06e53d",
+        "check:ve2b3a699bc06e53d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-008\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-008\"]}"
+    },
+    {
+      "check": "ve2c7ff41cba0be5d",
+      "inputs": [
+        "member:ve2c7ff41cba0be5d",
+        "check:ve2c7ff41cba0be5d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-007\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-007\"]}"
+    },
+    {
+      "check": "ve3fcd2bc70913ea2",
+      "inputs": [
+        "member:ve3fcd2bc70913ea2",
+        "check:ve3fcd2bc70913ea2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-005\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-005\"]}"
+    },
+    {
+      "check": "ve4b9c82536808f52",
+      "inputs": [
+        "member:ve4b9c82536808f52",
+        "check:ve4b9c82536808f52"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-012\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-012\"]}"
+    },
+    {
+      "check": "ve9c436f93e42e394",
+      "inputs": [
+        "member:ve9c436f93e42e394",
+        "check:ve9c436f93e42e394"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-029\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-029\"]}"
+    },
+    {
+      "check": "vec36e393a92b69eb",
+      "inputs": [
+        "member:vec36e393a92b69eb",
+        "check:vec36e393a92b69eb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-004\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-004\"]}"
+    },
+    {
+      "check": "vecddffbd8678e5ef",
+      "inputs": [
+        "member:vecddffbd8678e5ef",
+        "check:vecddffbd8678e5ef"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-004\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-004\"]}"
+    },
+    {
+      "check": "vee997c119f09258b",
+      "inputs": [
+        "member:vee997c119f09258b",
+        "check:vee997c119f09258b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-011\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-011\"]}"
+    },
+    {
+      "check": "vef09761654b57a92",
+      "inputs": [
+        "member:vef09761654b57a92",
+        "check:vef09761654b57a92"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-022\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-022\"]}"
+    },
+    {
+      "check": "vf1e99cf0310cc1c6",
+      "inputs": [
+        "member:vf1e99cf0310cc1c6",
+        "check:vf1e99cf0310cc1c6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-014\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-014\"]}"
+    },
+    {
+      "check": "vf374114fe7f28e7d",
+      "inputs": [
+        "member:vf374114fe7f28e7d",
+        "check:vf374114fe7f28e7d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-002\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-002\"]}"
+    },
+    {
+      "check": "vf3af943ff1bf7375",
+      "inputs": [
+        "member:vf3af943ff1bf7375",
+        "check:vf3af943ff1bf7375"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-021\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-021\"]}"
+    },
+    {
+      "check": "vf414a4c9065ad7b8",
+      "inputs": [
+        "member:vf414a4c9065ad7b8",
+        "check:vf414a4c9065ad7b8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"ARM-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"ARM-R-015\"]}"
+    },
+    {
+      "check": "vf86d92beb5a12905",
+      "inputs": [
+        "member:vf86d92beb5a12905",
+        "check:vf86d92beb5a12905"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-002\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-002\"]}"
+    },
+    {
+      "check": "vfbc5db1c2a012359",
+      "inputs": [
+        "member:vfbc5db1c2a012359",
+        "check:vfbc5db1c2a012359"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"W3C-R-015\"],\"verdict\":\"reject\"},\"requirements\":[\"W3C-R-015\"]}"
+    },
+    {
+      "check": "vff8f75223d6658ef",
+      "inputs": [
+        "member:vff8f75223d6658ef",
+        "check:vff8f75223d6658ef"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"rejects\":[\"LCD-R-001\"],\"verdict\":\"reject\"},\"requirements\":[\"LCD-R-001\"]}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+      },
+      {
+        "process": "run-2",
+        "sha256": "dd19bdfba78feb8601e9b2bf1e32844f73e60a41ef90e0282943fd1d7a160133"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 273 pinned members of w3c-report-v01-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 273,
+    "require": "at-least-one",
+    "selected": [
+      "v0090b52048ca1f51",
+      "v0120d95db38b892b",
+      "v04934d23180f6d9c",
+      "v050e5667630b8bf7",
+      "v068436e239f3711a",
+      "v0a887e6b24bdd940",
+      "v0e286b53de78162a",
+      "v0f620037c42bbfc3",
+      "v0f648c5f3080e1b1",
+      "v1032eb59a7cdb30f",
+      "v1158315f2ce233a8",
+      "v12f1e7e27b3f59c5",
+      "v13b3c66e7fc7dae2",
+      "v148fc59046a8548a",
+      "v159bcd24a7e74a43",
+      "v1660acd2e4efb7c7",
+      "v16bbc5bfef80043e",
+      "v17b2ad943b1f051d",
+      "v183b37dea5ad4159",
+      "v187e4435786b17f9",
+      "v1910c8190bcd1b5c",
+      "v191fc069115f8706",
+      "v1a0f984d88bb9fe2",
+      "v1afbcaac4b0d514d",
+      "v1afe0d60b2df5d39",
+      "v1c020dd1ed49874c",
+      "v20a798b25fc2ec0b",
+      "v20f99b9d22c842a3",
+      "v21fe5a5de5f50124",
+      "v22e6c34b776baff7",
+      "v22f803622ac75918",
+      "v254933bf314c82fc",
+      "v2652b0b04c946504",
+      "v265c2e6f0a3d31f6",
+      "v26a379aeeebabd1e",
+      "v27a01b14321f6ae5",
+      "v28820b464a335617",
+      "v28824a66a84f4b8c",
+      "v2a251ae413920da5",
+      "v2b052236457b678c",
+      "v2b4990ad53fbf28b",
+      "v2ddb14c9194e0341",
+      "v2f563dc0b6fc9ec8",
+      "v320406e03fff4faa",
+      "v32c1e0be1a7bf104",
+      "v36ba5fca23b6a162",
+      "v37729703d471ba9b",
+      "v37d8ddc87ed265e8",
+      "v388dee224f53c2c1",
+      "v392e5b863085868b",
+      "v3add8861d36c2543",
+      "v3aef8ba9ac745dbf",
+      "v3cf361bbfb973f7d",
+      "v3d5079f23e498451",
+      "v3fd6a6a262a72f91",
+      "v3fef7c8cc4ed5e4b",
+      "v40ab7c6deec16438",
+      "v4193637206138b32",
+      "v42d2d180b1c0b5b3",
+      "v44f7a4acc7f66fa4",
+      "v472759709d82c585",
+      "v48877f27bbd03b55",
+      "v494ac13464d685ee",
+      "v499412698a1dd50e",
+      "v49afe44cc51bc376",
+      "v4a06b866afca0d49",
+      "v4c778d3ee20deb35",
+      "v4e4face5dd4ff492",
+      "v4e8fc1ab4f3fc5b3",
+      "v4f343e8bd3d6af08",
+      "v5196f1761ea14b2b",
+      "v522b0a6b91e74c95",
+      "v53dd1aa630064e4c",
+      "v55772816f872150f",
+      "v568e8a1311ecb396",
+      "v56b6337b612b1ee3",
+      "v56f37afaff2a6ca8",
+      "v59b5c22988c70b05",
+      "v5a2ff35648828621",
+      "v5a678e8560a4f0f1",
+      "v5c26b11179a2277a",
+      "v5f92e1d7ef255730",
+      "v606504b1125a3885",
+      "v60bd06deca6e832d",
+      "v6397c3de47a1882c",
+      "v64e02942221729d2",
+      "v668c618f2a50e26e",
+      "v66fd68ad7d106fac",
+      "v67e996a3fa03e959",
+      "v696c5dd5918c854b",
+      "v6b1ea60273861c5a",
+      "v6cd84ff1aea45153",
+      "v6f15889cec93060d",
+      "v6f4ff1db603ecfec",
+      "v70533f1029ed78e6",
+      "v70bdf863fb9cd6ac",
+      "v719b5f3fe23d8c03",
+      "v7257ad4efb1d0638",
+      "v7351d22d2343dfb5",
+      "v735efb00ce85d044",
+      "v737955ac1c0d9c2e",
+      "v76c0022fb2a7f21e",
+      "v79266aba771310af",
+      "v796a6048345b8f58",
+      "v79bebd0793e2fa7b",
+      "v7bc7c1460093e973",
+      "v7c22f1451e51aeb5",
+      "v7cac3bda7403c268",
+      "v7ce1218057f32f1c",
+      "v804ca6858fa22efe",
+      "v81c7f6fc68ea35a7",
+      "v8224d0f41c80f492",
+      "v822b02c01fe9ddd2",
+      "v822c4bed9ba714d3",
+      "v827901388ec40c23",
+      "v828ec4d8309aa2e3",
+      "v838fe3be3393696c",
+      "v8474a83c45f293fc",
+      "v84f8c68bc5fc2810",
+      "v85c0428fc7fdabc7",
+      "v85db98532abea6d9",
+      "v86e1560a0d27b432",
+      "v876f8aa31676cf48",
+      "v88935f0b29397a80",
+      "v8981e0830c69b869",
+      "v8a7442b19984a1ff",
+      "v8a8da062cba9fce5",
+      "v8aec53e0502ced65",
+      "v8c15455bb3d933cb",
+      "v8d4e61737e9ee6a6",
+      "v8ec1375690daa188",
+      "v8f818aaaa7cdc7ed",
+      "v900fc651cea938e9",
+      "v91f45fe53b9cb4f7",
+      "v920852737e02ae49",
+      "v9614879a484c4fc0",
+      "v973e82c1857b0a7e",
+      "v9815e1f08a7e0664",
+      "v98252c989e84999d",
+      "v98ee154eeceb9c55",
+      "v9b7c8cf7d1b9f679",
+      "v9c68a108ed63da63",
+      "v9cfb2c8197757948",
+      "v9d05fc7c9c249317",
+      "v9dc96e6ca225e6e2",
+      "v9f618dfd3e44b84a",
+      "v9ff65c5b03dd074c",
+      "va0620b488f2ff2f5",
+      "va18bfa567e0405b7",
+      "va19ba1b3f9f382bb",
+      "va1e910d25ebbb2c4",
+      "va213bada85cc9abe",
+      "va2ba93081d3a6c13",
+      "va32bdaeb5f8aed8f",
+      "va3c277aa6743807a",
+      "va4fc9fc8f711bd58",
+      "va64493c76c57f982",
+      "va83db4001b89e73e",
+      "va86e962a5024f152",
+      "va8dfb25c6d62d458",
+      "va91d537fa714f2d3",
+      "va934761de6c65857",
+      "vaac3a24b2552738b",
+      "vaad2cb64c5b0646b",
+      "vab508347e605c0af",
+      "vac146420618655c5",
+      "vaca8620fefade22f",
+      "vad9b72227e24e32f",
+      "vaeb76896b202e837",
+      "vb11134a37e7c0c2b",
+      "vb195f23e8436fd19",
+      "vb1c8d4729c06472c",
+      "vb37f841c9e91bf18",
+      "vb450f39bace98641",
+      "vb4de5d37845a1546",
+      "vb608f4ddfcc00a20",
+      "vb684dfb39487fcb1",
+      "vb6e8cb7973f1fab5",
+      "vb7065104515600ba",
+      "vb7ef2cf28c013f46",
+      "vba057012581af13b",
+      "vbb1688d0226174aa",
+      "vbb5bb72ed5c3bcb1",
+      "vbba71aa9e6a41e1c",
+      "vbca0a5030104e2f3",
+      "vbe6937292f4f1614",
+      "vbee48753abe90e1a",
+      "vbf88ec51ebd083b6",
+      "vc12a1c0f00be35f3",
+      "vc17bb5b854981008",
+      "vc2cab6dea09f0a3b",
+      "vc34eb74f8bbc70ca",
+      "vc39c75a8c00ab957",
+      "vc3fa59108d1ead8a",
+      "vc46bee7a31918d67",
+      "vc55768118bb88e53",
+      "vc58647a590befbb7",
+      "vc653bb099d9c5839",
+      "vc66120fe5e1af394",
+      "vc7c310827b9dbd10",
+      "vc82b6b45a103ce1d",
+      "vc938b2ab36cae34a",
+      "vcbd0eaef95bc9181",
+      "vccb24c478c736bc5",
+      "vccc374459c05dd52",
+      "vcd6021208e8e8a6e",
+      "vcdb9ae63a12852a8",
+      "vcf1cbb85d729dcd1",
+      "vd02cc7abe1dbc2bf",
+      "vd1eb6a3fb13eb97d",
+      "vd27e483fe63e78c0",
+      "vd2a25cb35e1b8bce",
+      "vd2ae28ba9140bc89",
+      "vd2e50306dcd6c470",
+      "vd302fdc2d7a97e6e",
+      "vd3e84d6a85cb6a0f",
+      "vd53bcd623743858d",
+      "vd5cc438bcd34a9d5",
+      "vd64679c8b7f9e736",
+      "vd7d23c0d86701fc6",
+      "vd88fd757419269aa",
+      "vd8d93fd735111aa5",
+      "vda5261ec1d0bd74e",
+      "vda6c078e77700b28",
+      "vdca2c29b3d1d31b7",
+      "vdcb0849fc754aaea",
+      "vdcbd067d047bfbd0",
+      "vdd9207f5aa2fc9e3",
+      "vdec1361509de89d4",
+      "vdf05d359490e7833",
+      "ve2b3a699bc06e53d",
+      "ve2c7ff41cba0be5d",
+      "ve3fcd2bc70913ea2",
+      "ve4744745405812b9",
+      "ve4b9c82536808f52",
+      "ve53f0521c7e3a30c",
+      "ve5819dc9edb1f47b",
+      "ve5d916a50130739e",
+      "ve70386fdb6f071d3",
+      "ve7520b18160365d2",
+      "ve75a143e2bdb4d61",
+      "ve9c436f93e42e394",
+      "ve9cefed56bbc8359",
+      "vea3ee7919ceb2e10",
+      "vea598711b897286e",
+      "vea80ece35200e349",
+      "veaee43cdb4a113d0",
+      "vec36e393a92b69eb",
+      "vecd8b7bb20fed3a3",
+      "vecddffbd8678e5ef",
+      "vee997c119f09258b",
+      "vef09761654b57a92",
+      "vef3f22a57a308f45",
+      "vf1e99cf0310cc1c6",
+      "vf374114fe7f28e7d",
+      "vf3af943ff1bf7375",
+      "vf3fbd991d8e666a4",
+      "vf407ebb4a9cb8a3d",
+      "vf414a4c9065ad7b8",
+      "vf7334aa7dcf00826",
+      "vf753bb908231e0a1",
+      "vf82e507d268fed9d",
+      "vf86d92beb5a12905",
+      "vf9b5623144960dda",
+      "vfa24e4f45c2e826e",
+      "vfa79ad0a7bd957b9",
+      "vfacf2b3dafdb5c0a",
+      "vfbc5db1c2a012359",
+      "vfbd7379026575f04",
+      "vfeb5d1872929ab35",
+      "vff1d02d89ab42ef7",
+      "vff5545c0760d7544",
+      "vff8f75223d6658ef"
+    ]
+  },
+  "specification-readers": [
+    {
+      "basis": "written from the v0.1 text and the corpus with no code path shared with the Go and Python readers (docs/research/w3c-reader-independence.md)",
+      "operator": "an author of this repository",
+      "reader": "readers/w3c-report-rs",
+      "run": "every pull request: scripts/w3c-rails-parity-test.py diffs its output with the other two readers over the corpus and mutated copies"
+    }
+  ],
+  "state": "pass",
+  "suite": "w3c-report-v01-conformance"
+}

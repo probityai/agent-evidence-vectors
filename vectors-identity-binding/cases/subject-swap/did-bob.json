@@ -1,0 +1,36 @@
+{
+  "did": "did:web:agents.example.com:bob",
+  "versions": [
+    {
+      "didDocument": {
+        "@context": [
+          "https://www.w3.org/ns/did/v1",
+          "https://w3id.org/security/suites/jws-2020/v1"
+        ],
+        "assertionMethod": [
+          "did:web:agents.example.com:bob#key-1"
+        ],
+        "authentication": [
+          "did:web:agents.example.com:bob#key-1"
+        ],
+        "id": "did:web:agents.example.com:bob",
+        "verificationMethod": [
+          {
+            "controller": "did:web:agents.example.com:bob",
+            "id": "did:web:agents.example.com:bob#key-1",
+            "publicKeyJwk": {
+              "crv": "Ed25519",
+              "kty": "OKP",
+              "x": "_e71TABk0qhtnFP65RykX3C2wVp9ycaSmsxms_A0T-0"
+            },
+            "type": "JsonWebKey"
+          }
+        ]
+      },
+      "didDocumentMetadata": {
+        "updated": "2026-01-05T09:00:00Z",
+        "versionId": "1"
+      }
+    }
+  ]
+}

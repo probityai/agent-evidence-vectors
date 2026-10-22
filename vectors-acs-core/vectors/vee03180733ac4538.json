@@ -1,0 +1,59 @@
+{
+  "cites": "the Guardian's stream alone, with an acs.decision of modify and nothing else for the pair. Scoring an answer here would credit a reader for a guess.",
+  "coverage": "observed",
+  "doesNotAssert": "what was applied; that is the point",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": "the trace alone cannot answer it. Release 0.1.4 defines no Trace event for a verdict the Observed Agent substituted, and rules the section 6.3 and 6.5 substitutions out of acs.decision.failure, so a trace in which the modify was applied and a trace in which DENY was substituted are byte-identical. Issue 264 proposes acs.decision.substituted to close this; until a sentence lands, a reader holding only the trace has no conformant answer",
+    "verdict": "unmeasurable"
+  },
+  "family": "acs-f-12",
+  "id": "vee03180733ac4538",
+  "kind": "indeterminate",
+  "payload": {
+    "question": "was the modify verdict for this pair applied?",
+    "record": {
+      "trace": {
+        "guardian": [
+          {
+            "attributes": {
+              "acs.request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify"
+                },
+                "name": "acs.decision"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ],
+        "observed_agent": []
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-044",
+      "line": 53,
+      "sentence": "An `acs.decision` event records the Guardian's verdict. Only the Observed Agent knows the applied outcome.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-044"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

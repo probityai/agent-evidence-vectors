@@ -1,0 +1,68 @@
+{
+  "assessments": {
+    "test-reformatted": {
+      "capability_witness": "capability",
+      "claim_type": "done_receipt/v2",
+      "claims_witness": "claims",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "receipt_witness": "receipt",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      },
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "53cd989458d832fd3c1fafa0420e906313e97fb73aaead74bb5e023cdfbd82f2"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "a633411ccc1417d3671705ee00c6e3c5cf086febd29ba8ae067dd347fe64eac9"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "3ccaff392ea1278d7305ea5d02a102b3543f9e7b704c06ae62f1ffbde3ee5a7f"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "b31fd82b7de478e3e7381c27af3942b1fc839e497358942f1dae5c93951871c0",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "4188b1340981db778e7b49d1ca8e4bb30eb127f1ab483b0e402d5b61953f3957",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "receipt": {
+      "artifact": "receipt",
+      "authority": "synthetic fixture",
+      "sha256": "7f0eb0511b714d0ed7a3fe0268f722822f858691db7bb90429d5c38e8ecd4322"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "67a57cc5932b4f2b72aa8298f4f8d1673ec807addd7ad15266b28d98ac110b1b",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

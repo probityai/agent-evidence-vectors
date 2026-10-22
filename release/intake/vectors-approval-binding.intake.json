@@ -1,0 +1,795 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 6,
+      "deny": 16
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 22
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-approval-binding/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-approval-binding/gen_vectors.py",
+    "routine-file": "vectors-approval-binding/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "8b4ee697cf9103703aa757ff8a1d5a2ca44e3a0feaf1ba1e2cc73943f5d0d1a1",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "swapped-in": "a8d8561496fb9f726058d23f37d7c4774eb5e8a74696ca383057498ac2334ff7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-approval-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "08f8bdf69d7a8fbe865bf8421676fd6c96ce6079b7f88cfebb49721190c20814"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "swapped-in": "4fa8893eae25654b03ca4a8407a2520edaccc6ffb21033f2b2d38386a9f047b6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-approval-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d4ac412477d8248ca6295502f7d624848cc468aaf04b956fcacc6cee18701066"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "swapped-in": "686696929a891b8fdc916e1ccad4edb384a9c3b65a81a0df011e808770c73aaf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-approval-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "6316b2fdad74be4264ac4979331654425e088d4ae5e43910394af9a29402732d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        },
+        "swapped-in": "625e805d3c4d76702c6fd3cc983d9a84f42d57a6c304ebbc973b2696d63999b4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-approval-binding/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "e966b37c3a9bc2b4ab75adf1e285649f7c78dc9acb9360d1b6938b2e50555951"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-approval-binding"
+  },
+  "byte-identity": {
+    "pins": 44,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-approval-binding",
+      "aee-verify -json vectors-approval-binding",
+      "aee-verify vectors-approval-binding"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-other-approval-distinct-id",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-same-approval-presented-twice",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-last-second-of-validity",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-release-first-served-at-decision",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-release-within-grace",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-id-reused-different-content",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-already-consumed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approval-key-not-approvers",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "same-client-other-user",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "event-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "phase-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-mutated-after-approval",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "target-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tool-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "used-at-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "used-before-issued",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "release-lookup-unavailable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "release-first-served-after-decision",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "release-retired-beyond-grace",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "e735ac7c4992260a3c8300bd1104f85fd45e1df4651917353a9212fbcbc5e749"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-bound",
+      "allow-other-approval-distinct-id",
+      "allow-same-approval-presented-twice",
+      "allow-last-second-of-validity",
+      "allow-release-first-served-at-decision",
+      "allow-release-within-grace",
+      "approval-id-reused-different-content",
+      "approval-already-consumed",
+      "approval-key-not-approvers",
+      "same-client-other-user",
+      "event-differs",
+      "phase-differs",
+      "payload-mutated-after-approval",
+      "target-differs",
+      "tool-differs",
+      "used-at-expiry",
+      "used-before-issued",
+      "release-lookup-unavailable",
+      "release-first-served-after-decision",
+      "release-retired-beyond-grace",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "vectors-approval-binding/MANIFEST.json",
+    "sha256": "88c6fd2054f44381e00cf0b40c3345bb3b7ec6c42433bf896ab8e3c6911276c4"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-bound/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-bound/record.json",
+          "sha256": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+        }
+      ],
+      "id": "allow-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-other-approval-distinct-id/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-other-approval-distinct-id/record.json",
+          "sha256": "8ce3f0bb478fbab4c0d721a98d3d984c7b284133a05150ab03a3df9560ece89b"
+        }
+      ],
+      "id": "allow-other-approval-distinct-id"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-same-approval-presented-twice/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-same-approval-presented-twice/record.json",
+          "sha256": "f880c025f69d18f6ad94672aad225140864c31bb8880faddacef3e739858f88a"
+        }
+      ],
+      "id": "allow-same-approval-presented-twice"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-last-second-of-validity/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-last-second-of-validity/record.json",
+          "sha256": "6c6b802f33c5f1141f9e63b57a7489d9b1e20111081c080d275abb412a4cc571"
+        }
+      ],
+      "id": "allow-last-second-of-validity"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-release-first-served-at-decision/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-release-first-served-at-decision/record.json",
+          "sha256": "c197d50c8981e6c5fa123fde78d82e0aa98062879ef122ac97c5e13ee928120d"
+        }
+      ],
+      "id": "allow-release-first-served-at-decision"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/allow-release-within-grace/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/allow-release-within-grace/record.json",
+          "sha256": "08d97163571e9546240f851a20d40c570a34901ee81512a2b76332f274d47041"
+        }
+      ],
+      "id": "allow-release-within-grace"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-id-reused-different-content/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-id-reused-different-content/record.json",
+          "sha256": "fec2b26108064fc47d2248ed9da48ba83330d48864b26072d1b5ebe217e953ec"
+        }
+      ],
+      "id": "approval-id-reused-different-content"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-already-consumed/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-already-consumed/record.json",
+          "sha256": "9f14975c6032d782a096fc15388ab26d9d42574b206098627ba4675e12c23bd6"
+        }
+      ],
+      "id": "approval-already-consumed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-key-not-approvers/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-key-not-approvers/record.json",
+          "sha256": "665970a9b652781b4f15943c8edb4d441894a7b237e672a038531005eac5d0ee"
+        }
+      ],
+      "id": "approval-key-not-approvers"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/same-client-other-user/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/same-client-other-user/record.json",
+          "sha256": "42a42cb55f2c703c56d2209fe5f75ac74eb5bb9bed05995e299aa8c20265c6c8"
+        }
+      ],
+      "id": "same-client-other-user"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/event-differs/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/event-differs/record.json",
+          "sha256": "c2d0dd631b1268dcf5dfa386ee6fe00e1a5703872f68f2126db1dbda2dc4ff15"
+        }
+      ],
+      "id": "event-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/phase-differs/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/phase-differs/record.json",
+          "sha256": "35114786ae8db2b0fcce8fb460a00017cb48c79fbdee49d18d5aadc8dc5275e4"
+        }
+      ],
+      "id": "phase-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/payload-mutated-after-approval/payload.bin",
+          "sha256": "74d7e13244f046cded734b90116df2f8cf2da84584b90b287d5be4645e2285b6"
+        },
+        {
+          "path": "vectors-approval-binding/cases/payload-mutated-after-approval/record.json",
+          "sha256": "edf9debc8dd96359f8865324d47ac9ae8bc400cfadfc4ce524d33efae9bf11f8"
+        }
+      ],
+      "id": "payload-mutated-after-approval"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/target-differs/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/target-differs/record.json",
+          "sha256": "e16f87cb4acf949b18d55d1fef28d3d97f1523f1a7f010954a0add10dadfe627"
+        }
+      ],
+      "id": "target-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/tool-differs/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/tool-differs/record.json",
+          "sha256": "7bb485796225cb81b196642ce0dc9f0d4d97f0a6306efd383e530882de1a768a"
+        }
+      ],
+      "id": "tool-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/used-at-expiry/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/used-at-expiry/record.json",
+          "sha256": "ea427a1c7801f9e51867008eaac46961cf2e265c7894d1ad67617c81e14645f4"
+        }
+      ],
+      "id": "used-at-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/used-before-issued/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/used-before-issued/record.json",
+          "sha256": "01eb0cd45b528b40bb967bbd8d10b34727ab33d3974fdd50abc2029745cac21e"
+        }
+      ],
+      "id": "used-before-issued"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/release-lookup-unavailable/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/release-lookup-unavailable/record.json",
+          "sha256": "625b38933dc985baddb029d9a3b7534fa92a02ba74b65295c9a249a24811e541"
+        }
+      ],
+      "id": "release-lookup-unavailable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/release-first-served-after-decision/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/release-first-served-after-decision/record.json",
+          "sha256": "8fc045ff6f04975dac1cd139b015005c6d4510169b27ebea5978150760d254da"
+        }
+      ],
+      "id": "release-first-served-after-decision"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/release-retired-beyond-grace/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/release-retired-beyond-grace/record.json",
+          "sha256": "fd26b20cae6249708759fde4785041d9f40dfa8c9d6acc539016c693ba5c18bb"
+        }
+      ],
+      "id": "release-retired-beyond-grace"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/contract-id-missing/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/contract-id-missing/record.json",
+          "sha256": "3399a0016bf1f5ca2404dc685efcc5cfa14a5af23b0e447c0c82b649815534ea"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/contract-id-unknown/payload.bin",
+          "sha256": "37e4855e2707561919f5ff0de10785061073a919f892b6d974bb35320877c974"
+        },
+        {
+          "path": "vectors-approval-binding/cases/contract-id-unknown/record.json",
+          "sha256": "604609ab6d15646bfcb2e0198533a3619fe1436abd4dcdb2436fefd6d045c87c"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-approval-binding.json",
+        "serialization": "bytes",
+        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-approval-binding.txt",
+        "serialization": "bytes",
+        "sha256": "8c8fa51b4824ce2a65e67892e4c584c8de019b72e2d6c72994176459d2716415"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+      },
+      {
+        "process": "run-2",
+        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 22 pinned members of approval-binding/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 22,
+    "require": "at-least-one",
+    "selected": [
+      "allow-bound",
+      "allow-other-approval-distinct-id",
+      "allow-same-approval-presented-twice",
+      "allow-last-second-of-validity",
+      "allow-release-first-served-at-decision",
+      "allow-release-within-grace",
+      "approval-id-reused-different-content",
+      "approval-already-consumed",
+      "approval-key-not-approvers",
+      "same-client-other-user",
+      "event-differs",
+      "phase-differs",
+      "payload-mutated-after-approval",
+      "target-differs",
+      "tool-differs",
+      "used-at-expiry",
+      "used-before-issued",
+      "release-lookup-unavailable",
+      "release-first-served-after-decision",
+      "release-retired-beyond-grace",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "approval-binding/v1"
+}

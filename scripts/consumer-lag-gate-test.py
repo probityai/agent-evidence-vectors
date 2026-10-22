@@ -13,6 +13,17 @@ staged repository, checked once while the change is a branch and once after it
 has landed, asserting green and then red. Neither half is a result on its own.
 One is the deadlock and the other is the gate not enforcing anything.
 
+The same defect came back one step later, and the pairs became triples. The
+gate then measured the rails against the default branch's tip, while the
+vendoring script every rail uses pins to release tags only, so a merged corpus
+change turned the default branch red with nothing any rail could vendor to
+clear it. The reference is now the newest release the default branch carries,
+and the cases check a corpus change three times: as a branch (green), landed
+with no release cut (green, because no rail can vendor it yet), and released
+(red until the rails carry that release). A release tag cut on a branch that
+has not landed is not the reference, and no release at all is a check that did
+not run.
+
 Every case runs against a STAGED COPY of this repository, never against the
 repository itself. The claims this gate checks are declared against real prose
 in real files and its subject is a real corpus, so a fixture tree would fail
@@ -42,6 +53,17 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 GATE = REPO_ROOT / "scripts" / "consumer-lag-gate.py"
 PUBLISHED_BRANCH = "published"
+# The release every case starts from: the rails carry it.
+BASELINE_RELEASE = "v0.0.1"
+# The release a case cuts after the corpus change, on the default branch or off it.
+NEXT_RELEASE = "v0.0.2"
+SIDE_BRANCH = "release-not-landed"
+
+# Where a case puts release tags, relative to the corpus change it publishes.
+NO_RELEASE = "no release tag at all"
+BASELINE_ONLY = "only the release the rails carry"
+RELEASED = "a release cut on the default branch after the change"
+RELEASED_OFF_BRANCH = "a release cut on a branch that has not landed"
 
 # The digest definition is the corpus generator's, imported rather than
 # restated, for the reason the gate under test imports it: a second definition
@@ -51,15 +73,27 @@ sys.path.insert(0, str(REPO_ROOT / "vectors"))
 from gen_manifest import corpus_digest  # noqa: E402
 
 Mutation = Callable[[Path], None]
-# name, what the default branch publishes, what the checked-out tree is,
-# the ref to measure against, whether the gate must accept, and words its
-# output must carry.
-Case = tuple[str, Mutation, Mutation, str, bool, tuple[str, ...]]
+# name, what the default branch publishes, where releases are cut, what the
+# checked-out tree is, the ref to measure against, whether the gate must accept,
+# and words its output must carry.
+Case = tuple[str, Mutation, str, Mutation, str, bool, tuple[str, ...]]
 
 
 # ------------------------------------------------------------------- staging
 
-def stage(destination: Path, publish: Mutation, tree: Mutation) -> None:
+def _git_in(destination: Path, *args: str) -> None:
+    subprocess.run(
+        # A developer's signing configuration has no business in a staged
+        # fixture: a signed tag needs a key this test does not have.
+        ["git", "-c", "user.email=gate@test", "-c", "user.name=gate",
+         "-c", "commit.gpgSign=false", "-c", "tag.gpgSign=false", *args],
+        cwd=destination,
+        check=True,
+        capture_output=True,
+    )
+
+
+def stage(destination: Path, publish: Mutation, releases: str, tree: Mutation) -> None:
     """Build a repository whose default branch publishes one corpus and whose
     working tree may carry another.
 
@@ -99,16 +133,30 @@ def stage(destination: Path, publish: Mutation, tree: Mutation) -> None:
     # so on a branch that adds vectors they arrive already disagreeing with the
     # corpus the fixture publishes. Both are baselined here, in the one place
     # that knows what the baseline is.
+    #
+    # The baseline is committed and tagged as the release the rails carry, and
+    # the case's `publish` lands on the default branch AFTER that release, as a
+    # merge that no release has carried yet does. Whether a later release is cut,
+    # and where, is the case's `releases`.
     refresh_ledger(destination)
     rewrite_report(destination)
+    _git_in(destination, "init", "-q", "-b", PUBLISHED_BRANCH)
+    _git_in(destination, "add", "-A")
+    _git_in(destination, "commit", "-q", "-m", "the release the rails carry")
+    if releases != NO_RELEASE:
+        _git_in(destination, "tag", BASELINE_RELEASE)
+    if releases == RELEASED_OFF_BRANCH:
+        _git_in(destination, "checkout", "-q", "-b", SIDE_BRANCH)
+        bump_corpus(destination)
+        _git_in(destination, "add", "-A")
+        _git_in(destination, "commit", "-q", "-m", "a release that has not landed")
+        _git_in(destination, "tag", NEXT_RELEASE)
+        _git_in(destination, "checkout", "-q", PUBLISHED_BRANCH)
     publish(destination)
-    for command in (
-        ["git", "init", "-q", "-b", PUBLISHED_BRANCH],
-        ["git", "add", "-A"],
-        ["git", "-c", "user.email=gate@test", "-c", "user.name=gate",
-         "commit", "-q", "-m", "published"],
-    ):
-        subprocess.run(command, cwd=destination, check=True, capture_output=True)
+    _git_in(destination, "add", "-A")
+    _git_in(destination, "commit", "-q", "--allow-empty", "-m", "landed")
+    if releases == RELEASED:
+        _git_in(destination, "tag", NEXT_RELEASE)
     tree(destination)
 
 
@@ -205,7 +253,8 @@ def rewrite_report(root: Path) -> None:
 
 
 def landed(root: Path) -> None:
-    """The bump, as the default branch carries it once the merge is in."""
+    """The bump, as the default branch carries it once the merge is in, before
+    or after a release carries it: the case's releases say which."""
     bump_corpus(root)
 
 
@@ -292,64 +341,80 @@ def repaired_manifest(root: Path) -> None:
 
 CASES: tuple[Case, ...] = (
     (
-        "the tree is the default branch and every copy carries it",
-        unchanged, unchanged, PUBLISHED_BRANCH, True,
-        ("carry the corpus the default branch publishes",),
+        "the tree is the default branch and every copy carries its release",
+        unchanged, BASELINE_ONLY, unchanged, PUBLISHED_BRANCH, True,
+        ("carry the corpus the latest release publishes", BASELINE_RELEASE),
     ),
     (
-        "a branch adds vectors and the copies still carry what was published",
-        unchanged, bump_corpus, PUBLISHED_BRANCH, True,
-        ("carry the corpus the default branch publishes",),
+        "a branch adds vectors and the copies still carry what was released",
+        unchanged, BASELINE_ONLY, bump_corpus, PUBLISHED_BRANCH, True,
+        ("carry the corpus the latest release publishes",),
     ),
     (
-        "that same branch, once it has landed, with no rail refreshed",
-        landed, unchanged, PUBLISHED_BRANCH, False,
-        ("do not carry the corpus the default branch publishes",
+        "that same branch landed, no release cut, no rail refreshed",
+        landed, BASELINE_ONLY, unchanged, PUBLISHED_BRANCH, True,
+        ("carry the corpus the latest release publishes", BASELINE_RELEASE),
+    ),
+    (
+        "landed and released, with no rail refreshed",
+        landed, RELEASED, unchanged, PUBLISHED_BRANCH, False,
+        ("do not carry the corpus the latest release publishes", NEXT_RELEASE,
          "typescript-consumer-rail", "python-consumer-rail",
          "mcp-server-consumer-rail"),
     ),
     (
-        "landed, every rail refreshed, and the report still describing the old corpus",
-        landed, refreshed_after_landing, PUBLISHED_BRANCH, False,
+        "released, every rail refreshed, and the report still describing the old corpus",
+        landed, RELEASED, refreshed_after_landing, PUBLISHED_BRANCH, False,
         ("the report", "vendoring sentence"),
     ),
     (
-        "landed, every rail refreshed, and the report rewritten to match",
-        landed, followed_after_landing, PUBLISHED_BRANCH, True,
-        ("carry the corpus the default branch publishes",),
+        "released, every rail refreshed, and the report rewritten to match",
+        landed, RELEASED, followed_after_landing, PUBLISHED_BRANCH, True,
+        ("carry the corpus the latest release publishes", NEXT_RELEASE),
     ),
     (
-        "landed, nothing refreshed, and everything re-derivable re-derived",
-        landed, regenerated_after_landing, PUBLISHED_BRANCH, False,
-        ("do not carry the corpus the default branch publishes",
+        "released, nothing refreshed, and everything re-derivable re-derived",
+        landed, RELEASED, regenerated_after_landing, PUBLISHED_BRANCH, False,
+        ("do not carry the corpus the latest release publishes",
          "typescript-consumer-rail"),
     ),
     (
-        "a copy carrying a corpus nobody published, while the change is a branch",
-        unchanged, foreign_digest, PUBLISHED_BRANCH, False,
-        ("do not carry the corpus the default branch publishes",
+        "a release cut on a branch that has not landed is not the reference",
+        unchanged, RELEASED_OFF_BRANCH, unchanged, PUBLISHED_BRANCH, True,
+        ("carry the corpus the latest release publishes", BASELINE_RELEASE),
+    ),
+    (
+        "a copy carrying a corpus nobody released, while the change is a branch",
+        unchanged, BASELINE_ONLY, foreign_digest, PUBLISHED_BRANCH, False,
+        ("do not carry the corpus the latest release publishes",
          "typescript-consumer-rail"),
     ),
     (
-        "a copy carrying a corpus nobody published, after the change has landed",
-        landed, foreign_digest_after_landing, PUBLISHED_BRANCH, False,
-        ("do not carry the corpus the default branch publishes",
+        "a copy carrying a corpus nobody released, after the change is released",
+        landed, RELEASED, foreign_digest_after_landing, PUBLISHED_BRANCH, False,
+        ("do not carry the corpus the latest release publishes",
          "typescript-consumer-rail"),
     ),
     (
         "a rail the report advertises with no copy recorded behind it",
-        unchanged, dropped_a_row, PUBLISHED_BRANCH, False,
+        unchanged, BASELINE_ONLY, dropped_a_row, PUBLISHED_BRANCH, False,
         ("one verified-against cell per rail",),
     ),
     (
         "the default branch publishing a digest its own vectors do not hash to",
-        stale_published_manifest, repaired_manifest, PUBLISHED_BRANCH, False,
-        ("does not publish the corpus it has",),
+        stale_published_manifest, BASELINE_ONLY, repaired_manifest,
+        PUBLISHED_BRANCH, False,
+        ("does not publish the corpus it has", PUBLISHED_BRANCH),
+    ),
+    (
+        "no release tag the default branch carries",
+        unchanged, NO_RELEASE, unchanged, PUBLISHED_BRANCH, False,
+        ("DID NOT RUN", "No release tag"),
     ),
     (
         "no reference to measure against at all",
-        unchanged, unchanged, "refs/heads/a-branch-this-repository-has-not-got",
-        False,
+        unchanged, BASELINE_ONLY, unchanged,
+        "refs/heads/a-branch-this-repository-has-not-got", False,
         # Both halves, because two guards refuse this and only one of them says
         # anything a reader can act on. Dropping the ref check leaves the archive
         # read to fail on an empty revision, which is still a refusal and still
@@ -362,11 +427,11 @@ CASES: tuple[Case, ...] = (
 
 def main() -> int:
     failures: list[str] = []
-    for name, publish, tree, ref, must_pass, needles in CASES:
+    for name, publish, releases, tree, ref, must_pass, needles in CASES:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / "agent-evidence-vectors"
             root.mkdir()
-            stage(root, publish, tree)
+            stage(root, publish, releases, tree)
             code, output = run(root, ref)
         passed = code == 0
         if passed != must_pass:

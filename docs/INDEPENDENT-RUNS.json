@@ -624,13 +624,13 @@
       "implementation": "Rul1an's agent-written Rust reader",
       "corpus": "vectors-observed-effect",
       "label": "independent",
-      "evidence": "directed: written by an AI agent after reading the cases and expected answers; outcome agreement on 12 accepts, 46 rejects and the indeterminate case; the verdict word matched on 24 of the 46 rejects (docs/runs/observed-effect-verdict-words.md)",
-      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/29#issuecomment-5994714914",
+      "evidence": "directed: written by an AI agent after reading the cases and expected answers; outcome agreement on 12 accepts, 46 rejects and the indeterminate case; the verdict word matched on 46 of the 46 rejects at efe2dd9 with one directed reader option that words each refusal by the predicate 0.6.1 stage rule, and on 24 of the 46 at e6f1784f before that option (docs/runs/observed-effect-verdict-words.md)",
+      "posting": "https://github.com/probityai/agent-evidence-vectors/issues/29#issuecomment-6147963317",
       "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/29",
       "consent": "posted-publicly",
       "immutableRelease": null,
-      "date": "2026-10-05",
-      "pin": "e6f1784fe4572bbbb3069648a562a9c76f5f3ce4"
+      "date": "2026-10-13",
+      "pin": "efe2dd9da05f4f97435cc19ef5b9e86f343d51cd"
     },
     {
       "runner": "MoltyCel",

@@ -57,8 +57,8 @@ That is not a criticism. A taxonomy that also mandated an evidence format would 
 
 AEE detects nothing and classifies nothing. It cannot tell you that a component is malicious. It can only make the account of how you found out checkable by someone who was not there.
 
-Two limits worth stating in the same breath: AEE is presently exercised by a first-party implementation set, so agreement between implementations is a drift check rather than independent corroboration, and the predicate is a draft under review at in-toto rather than a ratified standard.
+Two limits worth stating in the same breath: AEE is presently exercised by a first-party implementation set, so agreement between implementations is a drift check rather than independent corroboration, and the predicate is a proposal to in-toto, made in attestation pull request 570, rather than a ratified standard.
 
 ## Provenance
 
-MCP Top 10 titles were read from the published AVE crosswalk corpus on 2026-07-28, and the NIST AI RMF and MITRE ATLAS identifiers derive from the same 59-record corpus. ASI Top 10 identifiers appear there too, but their category titles were not verified against a primary OWASP source for this pass, so they are referenced by ID only and not characterised. The AEE field vocabulary comes from spec/predicates/adversarial-execution-evidence.md. The conformance suite is at revision 9 with 158 vectors, per vectors/MANIFEST.json. The predicate is under review as in-toto/attestation pull request 570.
+MCP Top 10 titles were read from the published AVE crosswalk corpus on 2026-07-28, and the NIST AI RMF and MITRE ATLAS identifiers derive from the same 59-record corpus. ASI Top 10 identifiers appear there too, but their category titles were not verified against a primary OWASP source for this pass, so they are referenced by ID only and not characterised. The AEE field vocabulary comes from spec/predicates/adversarial-execution-evidence.md. This mapping was written against suiteRevision 9 of the conformance suite, then 158 vectors; vectors/MANIFEST.json gives the current revision and size. The predicate is proposed upstream in in-toto/attestation pull request 570.

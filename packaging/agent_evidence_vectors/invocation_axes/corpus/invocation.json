@@ -1,0 +1,17 @@
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/call",
+  "params": {
+    "name": "update_ticket",
+    "arguments": {
+      "ticket_id": "OPS-4127",
+      "status": "closed",
+      "labels": [
+        "resolved",
+        "p2"
+      ],
+      "reopen_count": 0
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 325,
+      "path": "capability.json",
+      "sha256": "3d460bc129bcb83006e448408b760bfaaeb91bdeb1b0dbe1477431794b0ab730"
+    },
+    "contract": {
+      "length": 649,
+      "path": "contract.json",
+      "sha256": "1675b1b4ce9f5dd0c205b46757a5afe809d581794d96962e926a19961e0457e3"
+    },
+    "observation": {
+      "length": 959,
+      "path": "observation.json",
+      "sha256": "60e73fb8c686345dfca12fce251d08196c3ff871428423a5bee967a75dbe709b"
+    },
+    "tree": {
+      "length": 542,
+      "path": "tree.json",
+      "sha256": "6ba70fdaa88de352cd5e49b8a7be5d44ac5617fe2bc44695633e232da31012aa"
+    }
+  },
+  "case_id": "heldout-allowed-by-the-consumer",
+  "schema_version": "probity-case/v1"
+}

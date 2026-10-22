@@ -72,10 +72,16 @@ type acsVector struct {
 }
 
 type acsExpected struct {
-	Verdict             string       `json:"verdict"`
-	Code                *string      `json:"code"`
-	CodeValue           *json.Number `json:"codeValue"`
-	UnmeasurableBecause *string      `json:"unmeasurableBecause"`
+	Verdict   string       `json:"verdict"`
+	Code      *string      `json:"code"`
+	CodeValue *json.Number `json:"codeValue"`
+	// ForbidsRegistryCode is present only as true, on a deny whose answer must
+	// carry no registry code at all. A null code alone leaves the code
+	// unasserted, so a refusal naming any code passes; that is right where the
+	// specification fixes no code and forbids none, and wrong where a code
+	// would assert a verification result nobody obtained.
+	ForbidsRegistryCode *bool   `json:"forbidsRegistryCode,omitempty"`
+	UnmeasurableBecause *string `json:"unmeasurableBecause"`
 }
 
 func (a acsCore) Judge(dir string, raw []byte) (*Result, error) {
@@ -314,11 +320,35 @@ func (a acsCore) checkVerdict(m *acsManifest, v acsVector, out *Member) {
 		}
 	}
 	a.checkThirdBucket(v, out)
+	checkForbiddenCode(v.Expected, out)
 	if v.Kind == "accept" && v.Expected.Verdict != "allow" {
 		out.Findings = append(out.Findings, "is an accept member that does not expect an allow")
 	}
 	if v.Kind == "reject" && v.Expected.Verdict != "deny" {
 		out.Findings = append(out.Findings, "is a reject member that does not expect a deny")
+	}
+}
+
+// checkForbiddenCode keeps the assertion that a refusal carries no registry
+// code to the one place it means something: a deny that names no code. On an
+// allow there is no code to forbid, on an unmeasurable member there is no
+// answer to constrain, and beside a named code it contradicts itself. A false
+// value is a second spelling of an unasserted code, and two spellings of one
+// fact give two identifiers to one member.
+func checkForbiddenCode(e acsExpected, out *Member) {
+	if e.ForbidsRegistryCode == nil {
+		return
+	}
+	if !*e.ForbidsRegistryCode {
+		out.Findings = append(out.Findings,
+			"carries forbidsRegistryCode false; an unasserted code is spelled by omitting the field")
+		return
+	}
+	if e.Code != nil {
+		out.Findings = append(out.Findings, "names a registry code and forbids one")
+	}
+	if e.Verdict != "deny" {
+		out.Findings = append(out.Findings, "forbids a registry code on a verdict other than deny")
 	}
 }
 

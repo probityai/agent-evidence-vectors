@@ -1,0 +1,391 @@
+{
+  "corpusDigest": "bda9952cc553d78d4315e6119e745bb15bb0078fe70c2de29d196679d0582144",
+  "specification": {
+    "amendment": "https://github.com/agentrust-io/trace-spec/pull/533",
+    "baseCommit": "6fb2570",
+    "commit": "95e160a8ef1c54081d987c6ce4dfcce121d9440b",
+    "document": "spec/registry-anchor-v1.md",
+    "repository": "https://github.com/agentrust-io/trace-spec"
+  },
+  "suite": "trace-registry-anchor/v1",
+  "vectors": [
+    {
+      "attack": "control: a batch of one leaf has an empty audit path",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "2cd8ffdc759a9806b298ffaecb069d77617567ee70d486c440e4b71aa673bcc1"
+      },
+      "id": "anchored-one-leaf",
+      "path": "cases/anchored-one-leaf",
+      "rule": "5.1"
+    },
+    {
+      "attack": "control: the last leaf of an odd batch is promoted, never duplicated",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "7e85abbd1a53a94733ced5bc930500bb82bede0eba8632f0dce9d0ea17b55dfd"
+      },
+      "id": "anchored-five-leaves-right-edge",
+      "path": "cases/anchored-five-leaves-right-edge",
+      "rule": "3, 5.1"
+    },
+    {
+      "attack": "control: an interior leaf of a full batch",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "f589012df00b62da2e4b20e1c0ca4383f6499bc0d93d97b6675a463054952ea7"
+      },
+      "id": "anchored-eight-leaves-interior",
+      "path": "cases/anchored-eight-leaves-interior",
+      "rule": "5.1"
+    },
+    {
+      "attack": "the proof in the exact section 5 shape, leaf_index and audit_path only, with the entry supplied: section 6 says only a root or count the receipt carries is checked against the entry, so a receipt that carries neither is complete",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "a74ab43c4292c917ccfff640a0d326a3947bf9d3ac82d9c967ce24e93ced30c3"
+      },
+      "id": "anchored-proof-only-receipt",
+      "path": "cases/anchored-proof-only-receipt",
+      "rule": "5, 5.1, 6"
+    },
+    {
+      "attack": "control for the canonicalization trap: non-ASCII strings are escaped and keys sort by code point, so a U+1F600 key follows a U+FF61 key here although UTF-16 order puts it first",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "58a51e919006cbee388a992ebd40849e015aae3dfe85cd7c0f3698496c2a7460"
+      },
+      "id": "anchored-non-ascii-signed-record",
+      "path": "cases/anchored-non-ascii-signed-record",
+      "rule": "0, 1"
+    },
+    {
+      "attack": "boundary control: 2^53 - 1 is the largest integer inside the profile",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "e428bd5f60d46a1b14a363599457c240728bcfa73808dfecf15970e0029381fd"
+      },
+      "id": "anchored-max-safe-integer",
+      "path": "cases/anchored-max-safe-integer",
+      "rule": "1"
+    },
+    {
+      "attack": "the claim's transparency URI names a batch other than the entry supplied. Nothing defines the URI-to-entry link yet (trace-spec#448 finding 21), so the verdict is inclusion in the entry given, with the link stated unchecked. This member flips to refused once that link is defined",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "anchored",
+        "reason": "included_link_unchecked"
+      },
+      "files": {
+        "case.json": "682c7e8e36381523a20659aa27421af178f1353dfc0b75b4985e25de3ef49410"
+      },
+      "id": "anchored-transparency-names-other-batch",
+      "path": "cases/anchored-transparency-names-other-batch",
+      "rule": "6"
+    },
+    {
+      "attack": "a URI and an entry, but no proof to replay",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_absent"
+      },
+      "files": {
+        "case.json": "220ecea6055fea538b59cb3674f64deff824a36031dcfcf4be0c99576c792842"
+      },
+      "id": "receipt-absent",
+      "path": "cases/receipt-absent",
+      "rule": "5.1"
+    },
+    {
+      "attack": "a sibling hash in uppercase hex, which section 3's lowercase form excludes; a decoder that accepts it accepts two spellings of one hash",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_malformed"
+      },
+      "files": {
+        "case.json": "f70e75915703b56ae8166efc9b4ad96503e65bd6d2b4f35ad7794cb31a09ea86"
+      },
+      "id": "receipt-path-uppercase-hex",
+      "path": "cases/receipt-path-uppercase-hex",
+      "rule": "3, 5"
+    },
+    {
+      "attack": "leaf_index is JSON true and the claim really is leaf 1: a verifier that lets a boolean stand for an integer accepts it",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_malformed"
+      },
+      "files": {
+        "case.json": "8bfe9b07ec40845a49e59edb8bb9eed71d82b6d4e315a7c4227f32c6ffb2fad5"
+      },
+      "id": "receipt-index-boolean",
+      "path": "cases/receipt-index-boolean",
+      "rule": "5"
+    },
+    {
+      "attack": "the receipt carries the right root without its sha256: prefix; a verifier that ignores a carried root accepts it",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_malformed"
+      },
+      "files": {
+        "case.json": "5c37c79f92a01c3f64f327bab358287fa7e88da7ac7af9fe8d49266567785950"
+      },
+      "id": "receipt-root-unprefixed",
+      "path": "cases/receipt-root-unprefixed",
+      "rule": "3, 6"
+    },
+    {
+      "attack": "an honest, self-consistent receipt and no registry entry: before trace-spec#533 a suite replayed the proof against the root the receipt brought and passed it",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "entry_absent"
+      },
+      "files": {
+        "case.json": "d6a3ee77d0e860d128ea09cd610335e18f1ad65f0b98a8afca951e537ef9b76b"
+      },
+      "id": "entry-absent",
+      "path": "cases/entry-absent",
+      "rule": "6"
+    },
+    {
+      "attack": "a record never anchored anywhere, with a one-leaf receipt whose root is its own leaf hash. Any record can write this receipt for itself",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "entry_absent"
+      },
+      "files": {
+        "case.json": "9863c5ac84f8729fac09f30db778d877c33602fc7fea24d185a2093c947ea2ec"
+      },
+      "id": "self-anchored-no-entry",
+      "path": "cases/self-anchored-no-entry",
+      "rule": "6"
+    },
+    {
+      "attack": "leaf_count is JSON true in a one-leaf batch: a verifier that lets a boolean stand for 1 accepts it",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "entry_malformed"
+      },
+      "files": {
+        "case.json": "582e58b10d1374344592149555a692260ab1505ee347c8e1f123e5fba178cadf"
+      },
+      "id": "entry-leaf-count-boolean",
+      "path": "cases/entry-leaf-count-boolean",
+      "rule": "4"
+    },
+    {
+      "attack": "an entry naming no producer cannot be attributed",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "entry_malformed"
+      },
+      "files": {
+        "case.json": "6dbd5d3f9b68390387e70fb3b4f416192589a0efe22ba29fc94bc18db3e77a9f"
+      },
+      "id": "entry-producer-empty",
+      "path": "cases/entry-producer-empty",
+      "rule": "4"
+    },
+    {
+      "attack": "an entry without its anchoring time",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "entry_malformed"
+      },
+      "files": {
+        "case.json": "61ea8b09f8ed14d362667ff19eccebaa4386cfd5422100cdf8bec1ea16e15abd"
+      },
+      "id": "entry-missing-ts",
+      "path": "cases/entry-missing-ts",
+      "rule": "4"
+    },
+    {
+      "attack": "the self-anchored receipt presented beside a genuine entry the record is not in. A suite that replays against the receipt's root, as trace-spec did before #533, passes a record that was never anchored",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_root_mismatch"
+      },
+      "files": {
+        "case.json": "fb15911babbe5149cc162153cea5c553941b7156423cc6d92e677d8206310b49"
+      },
+      "id": "self-anchored-with-real-entry",
+      "path": "cases/self-anchored-with-real-entry",
+      "rule": "6"
+    },
+    {
+      "attack": "the proof replays to the entry's root, but the receipt names another batch's root: section 6 says to refuse when a carried root differs, not to ignore it",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_root_mismatch"
+      },
+      "files": {
+        "case.json": "a7b851f745d1684206114515cca8a438e430e4ad88480ef44732e5b30efd469c"
+      },
+      "id": "receipt-root-lies",
+      "path": "cases/receipt-root-lies",
+      "rule": "6"
+    },
+    {
+      "attack": "a receipt whose root is an interior node of the real tree, with a matching shortened count and path. It replays to its own root, so a suite that trusts the receipt's root passes it, although no entry commits to that node",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_root_mismatch"
+      },
+      "files": {
+        "case.json": "b383fd4650e65b47d76eb03c94b1699d1dde64ef02e7476d274416efad5f38ad"
+      },
+      "id": "receipt-subtree-root",
+      "path": "cases/receipt-subtree-root",
+      "rule": "6"
+    },
+    {
+      "attack": "the receipt says 6 leaves for a 5-leaf entry. Leaf 2's path replays to the same root under either count, so only the comparison with the entry catches it",
+      "dependsOnAmendment": true,
+      "expected": {
+        "decision": "refused",
+        "reason": "receipt_count_mismatch"
+      },
+      "files": {
+        "case.json": "71cd8f933f6eb3b91baf6f8051777aecbae3d3708f4eec104b796ae494f09674"
+      },
+      "id": "receipt-count-lies",
+      "path": "cases/receipt-count-lies",
+      "rule": "6"
+    },
+    {
+      "attack": "leaf_index equal to leaf_count",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "index_out_of_range"
+      },
+      "files": {
+        "case.json": "7317f96127329c9b598efffb80a390e33a6b8fef195b077b6539ec0cc31e5a80"
+      },
+      "id": "index-equals-count",
+      "path": "cases/index-equals-count",
+      "rule": "5.1 step 1"
+    },
+    {
+      "attack": "a negative leaf_index",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "index_out_of_range"
+      },
+      "files": {
+        "case.json": "b3aa46f6c660300305ca191038f7ffecf51971acff2796f4b6595240aa15a8dc"
+      },
+      "id": "index-negative",
+      "path": "cases/index-negative",
+      "rule": "5.1 step 1"
+    },
+    {
+      "attack": "a non-integer number: the proof was built over the bytes Python writes for it, which another language's implementation of section 1 need not write",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "claim_outside_profile"
+      },
+      "files": {
+        "case.json": "a3aaf43b035dd69509ef5e01ff1ad0277d292bc393b997d802def2e7bbe3e6d2"
+      },
+      "id": "claim-float",
+      "path": "cases/claim-float",
+      "rule": "1"
+    },
+    {
+      "attack": "2^53, which a double-only implementation writes with the same bytes as 2^53 + 1",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "claim_outside_profile"
+      },
+      "files": {
+        "case.json": "50e2a26cbfba10ae1700005d057bead6e89e37c237b036a699f73df675bb89b2"
+      },
+      "id": "claim-integer-2-53",
+      "path": "cases/claim-integer-2-53",
+      "rule": "1"
+    },
+    {
+      "attack": "the producer anchored the claim body before signing it; section 1 anchors the complete signed claim, signature included",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "proof_does_not_replay"
+      },
+      "files": {
+        "case.json": "97cca953735d52022e3242326df7ca5f02a987580e2ca3396a2a7d33e7684488"
+      },
+      "id": "pre-signature-anchored",
+      "path": "cases/pre-signature-anchored",
+      "rule": "1"
+    },
+    {
+      "attack": "the audit path with its root-side element cut",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "proof_does_not_replay"
+      },
+      "files": {
+        "case.json": "30ec8d611c0a9bf9b0ea63ae47f7951b81994d4f153ae4186055b40b916d8fa5"
+      },
+      "id": "truncated-path",
+      "path": "cases/truncated-path",
+      "rule": "5.1 step 4"
+    },
+    {
+      "attack": "a section 5 receipt with no root or count, from a batch other than the entry's: carrying nothing to compare does not excuse the replay against the entry",
+      "dependsOnAmendment": false,
+      "expected": {
+        "decision": "refused",
+        "reason": "proof_does_not_replay"
+      },
+      "files": {
+        "case.json": "4263ab628c70e8f64a9ad8b4c47b569e22ba5fadda2e80e34480efcaac448aa4"
+      },
+      "id": "proof-only-receipt-other-batch",
+      "path": "cases/proof-only-receipt-other-batch",
+      "rule": "5.1, 6"
+    }
+  ]
+}

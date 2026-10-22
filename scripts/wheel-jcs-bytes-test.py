@@ -18,6 +18,11 @@ are true of the wheel, and this test builds one and checks each:
    ``--list-corpora``. The self-reported-record corpus shipped in no wheel
    through 0.17.7 because it was missing from the pyproject lists, and nothing
    compared those lists with the tree.
+5. ``agent_evidence_vectors.a2ajcs.params()`` works under pytest collection
+   from the installed wheel: a test module parametrized with it collects one
+   test per vector, reads the corpus inside the installed package, passes the
+   packaged canonicalizer on every vector, and fails ``json.dumps`` with sorted
+   keys on exactly the vectors the checkout's ``a2ajcs.check`` says it fails.
 
 The installed checks run from a scratch directory outside the checkout, so a
 path that only resolves inside the repository fails here and not in a
@@ -30,14 +35,22 @@ Exit 0 when every check holds; 1 otherwise.
 from __future__ import annotations
 
 import hashlib
+import json
+import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import zipfile
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "packaging"))
+
+from agent_evidence_vectors import a2ajcs  # noqa: E402
+
 SOURCE = ROOT / "corpora" / "jcs-byte-vectors"
 INSTALLED = "agent_evidence_vectors/corpora/corpora/jcs-byte-vectors/"
 SHIPPED = ("cases.json", "README.md")
@@ -146,13 +159,89 @@ def check_corpora(wheel: Path, scratch: Path) -> list[str]:
     return failures
 
 
+CONFORMANCE_MODULE = """\
+import json
+import os
+from pathlib import Path
+
+import pytest
+
+from agent_evidence_vectors import a2ajcs
+
+
+def naive(value):
+    text = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return text.encode("utf-8")
+
+
+@pytest.mark.parametrize("vector", a2ajcs.params())
+def test_packaged(vector):
+    a2ajcs.assert_conforms(a2ajcs.canonicalize, vector)
+
+
+@pytest.mark.parametrize("vector", a2ajcs.params())
+def test_naive(vector):
+    a2ajcs.assert_conforms(naive, vector)
+
+
+def test_the_corpus_is_the_installed_one():
+    package = Path(a2ajcs.__file__).resolve().parent
+    assert Path(a2ajcs.ROOT).resolve().is_relative_to(package)
+    assert not package.is_relative_to(Path(os.environ["AEV_CHECKOUT"]))
+"""
+
+
+def naive(value: Any) -> bytes:
+    text = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return text.encode("utf-8")
+
+
+def check_pytest_params(wheel: Path, scratch: Path) -> list[str]:
+    """Collect and run a params()-driven test module against the installed wheel."""
+    uv = shutil.which("uv")
+    assert uv is not None
+    (scratch / "test_conformance.py").write_text(CONFORMANCE_MODULE, encoding="utf-8")
+    proc = subprocess.run(
+        [
+            uv, "run", "--no-project", "--with", str(wheel), "--with", "pytest",
+            "python", "-m", "pytest", "-q", "-rf", "-p", "no:cacheprovider",
+            "test_conformance.py",
+        ],
+        cwd=str(scratch),
+        env={**os.environ, "AEV_CHECKOUT": str(ROOT), "PYTHONPATH": ""},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    output = proc.stdout + proc.stderr
+    owned = len(list(a2ajcs.vectors()))
+    expected = {line.split()[0] for line in a2ajcs.check(naive)}
+    failed = set(re.findall(r"^FAILED test_conformance\.py::(\w+)\[([^\]]+)\]", output, re.M))
+    failures: list[str] = []
+    if not expected:
+        failures.append("json.dumps fails no vector in the checkout, so the check proves nothing")
+    if failed != {("test_naive", member) for member in expected}:
+        failures.append(
+            f"installed pytest failed {sorted(failed)}; the checkout says json.dumps fails "
+            f"{sorted(expected)}\n{output}"
+        )
+    passed = 2 * owned + 1 - len(expected)
+    summary = f"{len(expected)} failed, {passed} passed"
+    if summary not in output:
+        failures.append(f"installed pytest did not report {summary!r}:\n{output}")
+    return failures
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory(prefix="wheel-jcs-bytes-") as tmp:
         wheel = build_wheel(Path(tmp) / "dist")
         scratch = Path(tmp) / "scratch"
         scratch.mkdir()
         failures = (
-            check_members(wheel) + check_locator(wheel, scratch) + check_corpora(wheel, scratch)
+            check_members(wheel)
+            + check_locator(wheel, scratch)
+            + check_corpora(wheel, scratch)
+            + check_pytest_params(wheel, scratch)
         )
     for failure in failures:
         print(f"FAIL: {failure}")
@@ -160,7 +249,8 @@ def main() -> int:
         return 1
     print(
         f"OK: the wheel ships {', '.join(SHIPPED)} at {INSTALLED} and the package names them, "
-        "and it carries and lists every corpus in the repository"
+        "it carries and lists every corpus in the repository, and a2ajcs.params() "
+        "drives pytest from the installed package"
     )
     return 0
 

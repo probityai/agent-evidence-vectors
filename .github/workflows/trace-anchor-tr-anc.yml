@@ -1,0 +1,50 @@
+name: TRACE registry anchor comparison
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 8 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - vectors-trace-anchor/**
+      - packaging/agent_evidence_vectors/traceanchor.py
+      - interop/trace-anchor-tr-anc/**
+      - .github/workflows/trace-anchor-tr-anc.yml
+  pull_request:
+    paths:
+      - vectors-trace-anchor/**
+      - packaging/agent_evidence_vectors/traceanchor.py
+      - interop/trace-anchor-tr-anc/**
+      - .github/workflows/trace-anchor-tr-anc.yml
+
+permissions:
+  contents: read
+
+jobs:
+  tr-anc-002:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+      - name: The README table matches the recorded pins
+        run: python3 interop/trace-anchor-tr-anc/test_record.py
+      - name: Replay the corpus through TRACE's TR-ANC-002 at each pinned commit
+        run: |
+          set -euo pipefail
+          mkdir -p .build
+          capture=$(mktemp -d .build/trace-anchor-tr-anc.XXXXXXXX)
+          echo "TRACE_CAPTURE_DIR=$capture" >> "$GITHUB_ENV"
+          uv run --locked --extra dev python --version > "$capture/python-version.txt"
+          uv run --locked --extra dev python interop/trace-anchor-tr-anc/compare.py "$capture" \
+            | tee "$capture/compare.stdout"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: trace-anchor-tr-anc-${{ github.run_attempt }}
+          path: ${{ env.TRACE_CAPTURE_DIR }}
+          include-hidden-files: true
+          if-no-files-found: error

@@ -1,0 +1,1518 @@
+{
+  "aggregate": {
+    "counts": {
+      "contradicted": 10,
+      "no_verdict": 2,
+      "not_established": 17,
+      "supported": 6
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 35
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-change-admission/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-agent-change-admission/digest.py",
+    "routine-file": "vectors-agent-change-admission/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "f09d48a4151b66eccf32c78d54a2abaf8096b582b66fdf23692c18971fbb8123",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "58f625e881c3dff27fbda8e2466c918f3d43382e6a0ec61338ecdd2fefc51e35"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "586d57430d98878586a3c6df37b24d6787215a1004e68c34ce9227a637a876b3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/README.md",
+      "serialization": "bytes",
+      "sha256": "06ab18936d6e6cad48037aed7ae8908697ff8425c49c408a1a93f4fd241ea575"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "60238c44666534d36e2a7f0065b5bec820db6a70dfc750f3a01ffcbb95bd6f16",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "ae565382ccee4e30a8ebbad4d3f851afa7702a9c0afcb8fcd393bd85cc00d55a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "7c07459f7171dfbaad4bcfaad9700aeec322a8eda8be9b84a72e9fe35846b604",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/digest.py",
+      "serialization": "bytes",
+      "sha256": "17d16a0e944334659a158c58ccdcd08156744577742322b77f3cc313f2922364"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "cc3104dd628905107563a8b020ee0719da4f7a0b76e679bdb4c2c5d205d6b133",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "da857e9b8dbb3ad51f7e28ee69f5817a5ea5c538024bd3cb77950071425492f4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "3c6658d9899a22da5f999619c728fd6974d9c50a429b7b0014d8b05d85558e8c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "8db6aa48e3c16f5cdfaf97d88417a7cd4b7aba0a24a66445e698ce21fc53ac77"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+        },
+        "swapped-in": "6d98702a08740503234a78cc5a51aa2629ba53314b45a9d46e8ff896885d6966",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-change-admission/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "ed34563bb1f3a3f3d9dbde39b1cc8bbd0cb9d17b8f780878bcff10820a242ce3"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-agent-change-admission"
+  },
+  "byte-identity": {
+    "pins": 138,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-agent-change-admission",
+      "aee-verify -json vectors-agent-change-admission",
+      "aee-verify vectors-agent-change-admission"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "admitted",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rejected",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "admitted-reports-not-supplied",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "admitted-unpinned-cosigner",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "admitted-informational-check-failed",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tampered-payload",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tampered-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-key",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-key-claims-pinned-keyid",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-payload-type",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-not-object",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-predicate",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "missing-predicate",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-parent-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-candidate-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-candidate-digest-uppercase",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-evaluator-no-version",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-suite-file-short",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-exceptions-object",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-admitted-string",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-check-passed-string",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-corpus-digest-not-hex",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "field-report-digests-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "gate-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "admitted-with-failed-gate",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rejected-with-all-gates-passed",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "report-digest-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "report-not-named",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "report-not-supplied",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-not-json",
+      "native": {
+        "reasons": [],
+        "verdict": "no_verdict"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-signature-not-base64",
+      "native": {
+        "reasons": [],
+        "verdict": "no_verdict"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "intoto-admitted",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "intoto-subject-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "intoto-statement-type",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "intoto-tampered-payload",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "8ee4f5a1afa2bcd6acbd1d27db7d4ba2abef981f2087070f1a01d95e8f8f0c9e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "admitted",
+      "rejected",
+      "admitted-reports-not-supplied",
+      "admitted-unpinned-cosigner",
+      "admitted-informational-check-failed",
+      "tampered-payload",
+      "tampered-signature",
+      "wrong-key",
+      "wrong-key-claims-pinned-keyid",
+      "wrong-payload-type",
+      "payload-not-object",
+      "wrong-predicate",
+      "missing-predicate",
+      "field-parent-empty",
+      "field-candidate-missing",
+      "field-candidate-digest-uppercase",
+      "field-evaluator-no-version",
+      "field-suite-file-short",
+      "field-exceptions-object",
+      "field-admitted-string",
+      "field-check-passed-string",
+      "field-corpus-digest-not-hex",
+      "field-report-digests-empty",
+      "gate-missing",
+      "admitted-with-failed-gate",
+      "rejected-with-all-gates-passed",
+      "report-digest-mismatch",
+      "report-not-named",
+      "report-not-supplied",
+      "malformed-not-json",
+      "malformed-signature-not-base64",
+      "intoto-admitted",
+      "intoto-subject-mismatch",
+      "intoto-statement-type",
+      "intoto-tampered-payload"
+    ],
+    "path": "vectors-agent-change-admission/MANIFEST.json",
+    "sha256": "c0354f6e3758087dc49d6aaa3d46313e5d069be23d17eb0bacb3801f4714ddd7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/admitted/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted/envelope.json",
+          "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "admitted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/rejected/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected/envelope.json",
+          "sha256": "0fe30f67407cc81f084bb72c904ebf21bad0e0cf6cf38c7188e2608c7bd580a0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "rejected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-reports-not-supplied/case.json",
+          "sha256": "49e36f58ccd8d1c851d020bba9ad7e26ebaa500db0e5468191fda444930a605a"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-reports-not-supplied/envelope.json",
+          "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
+        }
+      ],
+      "id": "admitted-reports-not-supplied"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/envelope.json",
+          "sha256": "717772d0baf1131db0e18f21f424c81e5b903b0183bbaebaf173dafd5a7e57ce"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-unpinned-cosigner/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "admitted-unpinned-cosigner"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/envelope.json",
+          "sha256": "1d2fee04c9eeb40638ba6f7cd6fbafbdcc58727f7cdcf325b356115cccdc9d2b"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-informational-check-failed/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "admitted-informational-check-failed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-payload/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-payload/envelope.json",
+          "sha256": "48576728a5b5d5fca252d33aa0af41cb5a996fc836629614721d31bee223b4c7"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-payload/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-payload/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "tampered-payload"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-signature/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-signature/envelope.json",
+          "sha256": "cd00b89ddb172c70ded56290eef933a840bf27afa457df359f330781d9550afc"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-signature/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/tampered-signature/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "tampered-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key/envelope.json",
+          "sha256": "1fc7d942a11517dd933d81c4c3de13c25afd65780729164054e8d8468fef1304"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "wrong-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/envelope.json",
+          "sha256": "5af647e7d403bb7fb98fa4e831cb66029a1a3e8c23fe08011974ff9074c1e97b"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-key-claims-pinned-keyid/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "wrong-key-claims-pinned-keyid"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-payload-type/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-payload-type/envelope.json",
+          "sha256": "e14455b9b35b765c8b05f1a5c85e75d93a9f8b277d8e8900d3e55ea15042e6ad"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-payload-type/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-payload-type/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "wrong-payload-type"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/payload-not-object/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/payload-not-object/envelope.json",
+          "sha256": "d8cee3355d99457d0ec948253047993c1ee40ba4dfad1ad28f129d3ac5866f9b"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/payload-not-object/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/payload-not-object/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "payload-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-predicate/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-predicate/envelope.json",
+          "sha256": "98ce84752bef1716f679b9bef3b314fd7e5faf527594b470cf4fb98938c862e7"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-predicate/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/wrong-predicate/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "wrong-predicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/missing-predicate/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/missing-predicate/envelope.json",
+          "sha256": "65a664a744079da23f10cbfc86ba1561844c3dbc2397396048620515e8e1bcbd"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/missing-predicate/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/missing-predicate/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "missing-predicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-parent-empty/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-parent-empty/envelope.json",
+          "sha256": "c25b004c35815fa6c8af6714de8021282deb574ab657c932743985dbb73333c6"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-parent-empty/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-parent-empty/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-parent-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-missing/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-missing/envelope.json",
+          "sha256": "aca1ae209f3b03bbc55cdf77461235ba0f0e57e3155523e19a6873280544b9f8"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-missing/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-missing/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-candidate-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/envelope.json",
+          "sha256": "06c9dcdfc28635cbcc49425ea56ed0cbff152cb482b677985a25765ded78ab7f"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-candidate-digest-uppercase/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-candidate-digest-uppercase"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/envelope.json",
+          "sha256": "ae611288e8adcc10cfd346fa59dab953a1451f7a529a63e87479a7d6703633e5"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-evaluator-no-version/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-evaluator-no-version"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-suite-file-short/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-suite-file-short/envelope.json",
+          "sha256": "efdc2472402d17de11bb5f9ab8614715b0e7a801bfa050ace421337624c56504"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-suite-file-short/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-suite-file-short/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-suite-file-short"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-exceptions-object/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-exceptions-object/envelope.json",
+          "sha256": "3d397137ce2f985ea1fc7b252b680506ff0563363e9e29bbed9a5e1a85eead57"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-exceptions-object/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-exceptions-object/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-exceptions-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-admitted-string/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-admitted-string/envelope.json",
+          "sha256": "276890563fddb55ce3eb217a4282d4f23179eb1f14fb54419785a9c57fafff19"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-admitted-string/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-admitted-string/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-admitted-string"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-check-passed-string/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-check-passed-string/envelope.json",
+          "sha256": "fac8ee675ff388944c25554ee31695da0587944c0875957d03d7319684772a65"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-check-passed-string/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-check-passed-string/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-check-passed-string"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/envelope.json",
+          "sha256": "b90c2e92cb43a398bae7e538f899bd95ed9bc2f8121309270c012e8370dcbede"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-corpus-digest-not-hex/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-corpus-digest-not-hex"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/envelope.json",
+          "sha256": "3066b28ca40c64e8a1731c782cb9219adfbe98c5c7930ae647e8072be588186b"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/field-report-digests-empty/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "field-report-digests-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/gate-missing/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/gate-missing/envelope.json",
+          "sha256": "48362ac25d0b4cc365fa85da67618c3c2f1c4c02bd257d3549ac9b2d9c21645c"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/gate-missing/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/gate-missing/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "gate-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/envelope.json",
+          "sha256": "b82ef927184623428a448a9cd3e1098e5e88830fe1ece031f7700f147a885ea5"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/admitted-with-failed-gate/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "admitted-with-failed-gate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/envelope.json",
+          "sha256": "435015e8d25d8241fa14d64a35f23dcf72b70e10fa3034c76c3f02217b746224"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/rejected-with-all-gates-passed/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "rejected-with-all-gates-passed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/envelope.json",
+          "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/report-heldout.json",
+          "sha256": "1cd55649391dd0020ba7d89cfbde85bf0e8035fd4e3bb2e4926f006cd757ebe6"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-digest-mismatch/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "report-digest-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-named/case.json",
+          "sha256": "bd6ff4f65a19844c0f41f1f0be2926ca050b1f499dc73dc71c7ad204726956d3"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-named/envelope.json",
+          "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-named/report-audit-cohort.json",
+          "sha256": "a1f15ee0d71ec975235406b5c56f7aea1753dd6ed3f4170af79557011dfb59bb"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-named/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-named/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "report-not-named"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-supplied/case.json",
+          "sha256": "69e504f100df3046a92ca75aaa33ab3b0fed7886c50ccb5ba9c1c7ef67b23cc5"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-supplied/envelope.json",
+          "sha256": "e143a38b1867267dbb30f857d0cf212add47a7eb91ae18ee793722f61d265056"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/report-not-supplied/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        }
+      ],
+      "id": "report-not-supplied"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-not-json/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-not-json/envelope.json",
+          "sha256": "6c929b2d8f11bcc71ba080473377db524d77301b51de17e0f4fecdd1c0f8f65f"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-not-json/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-not-json/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "malformed-not-json"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/case.json",
+          "sha256": "1161137e5b3cb85c5093f8b51cf396b1882858a45cd22d695c53a3704cc9bb53"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/envelope.json",
+          "sha256": "2bd1fec4effeaa9fc0bb6de2e51f6544e279bcebbda41cbce73d44504949d9de"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/malformed-signature-not-base64/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "malformed-signature-not-base64"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-admitted/case.json",
+          "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-admitted/envelope.json",
+          "sha256": "cb0da4208bdc1e6b907f308a8877ff6915eeae8ae76340383d8e892ddf1494f3"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-admitted/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-admitted/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "intoto-admitted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/case.json",
+          "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/envelope.json",
+          "sha256": "af2c39c9c13625b949695476512728050160916c0c666168513a4a0884966151"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-subject-mismatch/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "intoto-subject-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-statement-type/case.json",
+          "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-statement-type/envelope.json",
+          "sha256": "ef3701eff2fe12574513c4fc2b9e4b67869eda316af1579a2e267ad4a4cc5fe7"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-statement-type/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-statement-type/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "intoto-statement-type"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/case.json",
+          "sha256": "9fbd7748df9a9844949318985adaffc33b3b3eeed63fb41561b55527c2eb4f05"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/envelope.json",
+          "sha256": "1e141cd38d0730f914136eb2049442e2386af1eee37be4c645c531221cd35986"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/report-heldout.json",
+          "sha256": "f7a09632b19538955df6f7b4b7e6d8897a9a9b77f050bbb8ccda202bec61e3d0"
+        },
+        {
+          "path": "vectors-agent-change-admission/cases/intoto-tampered-payload/report-replay.json",
+          "sha256": "d2f103ae67e3553f74308fbff61d1e91c4fec24d82a7af5d445d4bdaef6c1be9"
+        }
+      ],
+      "id": "intoto-tampered-payload"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-change-admission.json",
+        "serialization": "bytes",
+        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-change-admission.txt",
+        "serialization": "bytes",
+        "sha256": "7dad892016b52d72afd0cc3defef5d2b77344dcfef32ff3bb315b3e788db4e37"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "tampered-payload",
+      "inputs": [
+        "member:tampered-payload",
+        "check:tampered-payload"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "tampered-signature",
+      "inputs": [
+        "member:tampered-signature",
+        "check:tampered-signature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "wrong-key",
+      "inputs": [
+        "member:wrong-key",
+        "check:wrong-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"untrusted_key\"}}"
+    },
+    {
+      "check": "wrong-key-claims-pinned-keyid",
+      "inputs": [
+        "member:wrong-key-claims-pinned-keyid",
+        "check:wrong-key-claims-pinned-keyid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "admitted-with-failed-gate",
+      "inputs": [
+        "member:admitted-with-failed-gate",
+        "check:admitted-with-failed-gate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"admitted_with_failed_gate:heldout\"}}"
+    },
+    {
+      "check": "rejected-with-all-gates-passed",
+      "inputs": [
+        "member:rejected-with-all-gates-passed",
+        "check:rejected-with-all-gates-passed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"rejected_with_all_gates_passed\"}}"
+    },
+    {
+      "check": "report-digest-mismatch",
+      "inputs": [
+        "member:report-digest-mismatch",
+        "check:report-digest-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"report_digest_mismatch:heldout-summary\"}}"
+    },
+    {
+      "check": "report-not-named",
+      "inputs": [
+        "member:report-not-named",
+        "check:report-not-named"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"report_not_named:audit-cohort\"}}"
+    },
+    {
+      "check": "intoto-subject-mismatch",
+      "inputs": [
+        "member:intoto-subject-mismatch",
+        "check:intoto-subject-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"subject_digest_mismatch\"}}"
+    },
+    {
+      "check": "intoto-tampered-payload",
+      "inputs": [
+        "member:intoto-tampered-payload",
+        "check:intoto-tampered-payload"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f4fc32d1504ed2e976e1614e52b9f63ea03c0ec520e97d1c667d919df1523f00"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 35 pinned members of agent-change-admission/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 35,
+    "require": "at-least-one",
+    "selected": [
+      "admitted",
+      "rejected",
+      "admitted-reports-not-supplied",
+      "admitted-unpinned-cosigner",
+      "admitted-informational-check-failed",
+      "tampered-payload",
+      "tampered-signature",
+      "wrong-key",
+      "wrong-key-claims-pinned-keyid",
+      "wrong-payload-type",
+      "payload-not-object",
+      "wrong-predicate",
+      "missing-predicate",
+      "field-parent-empty",
+      "field-candidate-missing",
+      "field-candidate-digest-uppercase",
+      "field-evaluator-no-version",
+      "field-suite-file-short",
+      "field-exceptions-object",
+      "field-admitted-string",
+      "field-check-passed-string",
+      "field-corpus-digest-not-hex",
+      "field-report-digests-empty",
+      "gate-missing",
+      "admitted-with-failed-gate",
+      "rejected-with-all-gates-passed",
+      "report-digest-mismatch",
+      "report-not-named",
+      "report-not-supplied",
+      "malformed-not-json",
+      "malformed-signature-not-base64",
+      "intoto-admitted",
+      "intoto-subject-mismatch",
+      "intoto-statement-type",
+      "intoto-tampered-payload"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-change-admission/v1"
+}

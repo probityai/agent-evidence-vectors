@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 729,
+      "path": "grade.json",
+      "sha256": "7d322f16c8f3aa1f6a0d268f10db4c664c54e1ba84db7945a945d6c4f0c3be30"
+    },
+    "tree": {
+      "length": 538,
+      "path": "tree.json",
+      "sha256": "584cb7ad7f303a68cb3a5ee4d3b62792752677f74f77be8a782e9816b268c548"
+    }
+  },
+  "case_id": "control-package-cache-write",
+  "schema_version": "probity-case/v1"
+}

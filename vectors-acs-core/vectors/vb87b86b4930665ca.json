@@ -1,4 +1,5 @@
 {
+  "cites": "the plainly invalid signature, present because a suite whose every member asserts a valid one measures nothing about signatures: an implementation with no verification at all passes all of them, and a signature is the one thing the mandatory profile requires unconditionally.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -36,6 +37,18 @@
     },
     "signature_state": "INVALID"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-001",
+      "line": 295,
+      "sentence": "A verifier MUST recompute this canonical form and MUST reject a signature that does not cover it",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-001"
   ],

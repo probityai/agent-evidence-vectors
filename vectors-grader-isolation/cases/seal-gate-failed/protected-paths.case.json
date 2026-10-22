@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 310,
+      "path": "capability.json",
+      "sha256": "0155e29b109a6b899267e775970ceaa6503e66dd9d166b61c7ba4bb0ca464c57"
+    },
+    "contract": {
+      "length": 870,
+      "path": "contract.json",
+      "sha256": "4d81eb18401be5801244a613e690e85a213829e3a26c84a203909b19e4ac5c0e"
+    },
+    "observation": {
+      "length": 944,
+      "path": "observation.json",
+      "sha256": "5137afce6aaf730b4cd91558e2609fb21416af43e4cc64111eb4ea39a9acbedb"
+    },
+    "tree": {
+      "length": 527,
+      "path": "tree.json",
+      "sha256": "b468562e612b00d7c073af0e7a5f10bad0aedd722a6fa3e4a5c4e153e8f195bd"
+    }
+  },
+  "case_id": "seal-gate-failed",
+  "schema_version": "probity-case/v1"
+}

@@ -222,6 +222,7 @@
     "w3c-f-15": "section 3.1: a digest over a set binds its leaf count and names its tree shape; domain separation alone is not the fix",
     "w3c-f-16": "section 2: moved, recomputed, is contained in the declared compared set",
     "w3c-f-29": "section 5.4: a control built to fail is bound to the checker and constraint set of the checks it speaks for",
+    "w3c-f-33": "section 5.4: a prior discriminating run is bound to the checker and constraint set of the checks it speaks for",
     "w3c-f-17": "roll-up: the aggregate carries its complete denominator",
     "w3c-f-18": "roll-up: the counter over carried against referenced recomputes",
     "w3c-f-19": "closed vocabulary: a value outside a registry is not read",
@@ -266,7 +267,7 @@
   },
   "mutationSweep": {
     "file": "MUTATION-SWEEP.md",
-    "rows": 65,
+    "rows": 66,
     "leaks": 0,
     "encodingRules": 7,
     "encodingLeaks": 0
@@ -670,6 +671,19 @@
       "resolvedRead": false
     },
     {
+      "id": "W3C-R-033",
+      "row": "5.4 prior-run binding",
+      "file": "0087",
+      "vendored": "spec-vendored/0087-arsentev-2026-09-30-v01.txt",
+      "line": 447,
+      "sentence": "The reference lets the reader\n    establish the same revision and configuration binding for the\n    declared checks it supports",
+      "sentenceDigest": "7c74646f727411df08e64e0487e01011fca92d3bca94af748446ae635e9ff831",
+      "specVersion": "0.1",
+      "class": "consistency",
+      "status": "agreed",
+      "resolvedRead": false
+    },
+    {
       "id": "W3C-R-022",
       "row": "coverage block",
       "file": "0001",
@@ -1050,10 +1064,10 @@
     }
   ],
   "counts": {
-    "accept": 173,
-    "reject": 96
+    "accept": 175,
+    "reject": 98
   },
-  "corpusDigest": "f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc",
+  "corpusDigest": "c93f7497264bd547a420713f33706243970d06ba00a4c54f2b5a0a72c8ef3a17",
   "note": "A member is a whole subject: a v0.1 report, a Run object, or a discovery snapshot. Each reject member is rejected under exactly one requirement and has an accepting twin in its family, so a validator that refuses every subject scores zero rather than full marks.",
   "vectors": [
     {
@@ -3616,6 +3630,24 @@
       }
     },
     {
+      "id": "v8aec53e0502ced65",
+      "kind": "reject",
+      "file": "vectors/v8aec53e0502ced65.json",
+      "family": "w3c-f-33",
+      "requirements": [
+        "W3C-R-033"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-033"
+        ]
+      },
+      "cites": "a prior run that failed under constraint set cs-2, offered for checks that ran under cs-1: the check identifiers survived and the configuration changed, so the prior failure is evidence about another configuration"
+    },
+    {
       "id": "v8c15455bb3d933cb",
       "kind": "accept",
       "file": "vectors/v8c15455bb3d933cb.json",
@@ -3785,6 +3817,24 @@
         },
         "cause": "none: the declared error list is a declaration no row reads, and the recomputed moved is contained"
       }
+    },
+    {
+      "id": "v973e82c1857b0a7e",
+      "kind": "reject",
+      "file": "vectors/v973e82c1857b0a7e.json",
+      "family": "w3c-f-33",
+      "requirements": [
+        "W3C-R-033"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "reject",
+        "rejects": [
+          "W3C-R-033"
+        ]
+      },
+      "cites": "a prior run that failed under another checker than the one the reported checks ran under, with the same check identifiers"
     },
     {
       "id": "v9815e1f08a7e0664",
@@ -5598,6 +5648,22 @@
       "cites": "a ledger element whose tokens is a string, which is not a count and so cannot sum to the aggregate counter"
     },
     {
+      "id": "vdca2c29b3d1d31b7",
+      "kind": "accept",
+      "file": "vectors/vdca2c29b3d1d31b7.json",
+      "family": "w3c-f-33",
+      "requirements": [
+        "W3C-R-033"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "a prior run that declares its binding in a run that declares none: nothing to compare, and v0.1 fixes no slot for the run's binding, since the fixture record that would carry it is not normative (section 5.5, open item O7)"
+    },
+    {
       "id": "vdcb0849fc754aaea",
       "kind": "accept",
       "file": "vectors/vdcb0849fc754aaea.json",
@@ -6495,6 +6561,22 @@
         "rejects": []
       },
       "cites": "a negotiated response naming its language"
+    },
+    {
+      "id": "vff1d02d89ab42ef7",
+      "kind": "accept",
+      "file": "vectors/vff1d02d89ab42ef7.json",
+      "family": "w3c-f-33",
+      "requirements": [
+        "W3C-R-033"
+      ],
+      "specVersion": "0.1",
+      "subjectType": "report",
+      "expected": {
+        "verdict": "accept",
+        "rejects": []
+      },
+      "cites": "the same prior run bound to the checker and constraint set the reported checks ran under"
     },
     {
       "id": "vff5545c0760d7544",

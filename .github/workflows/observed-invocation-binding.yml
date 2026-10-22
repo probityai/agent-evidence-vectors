@@ -1,0 +1,38 @@
+name: observed invocation binding candidate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  invocation-binding:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.26'
+      - name: Install candidate test dependencies
+        run: python -m pip install -r interop/observed-invocation-binding-candidate/requirements-test.txt
+      - name: Rebuild only candidate fixtures
+        run: |
+          python interop/observed-invocation-binding-candidate/generate.py
+          git diff --exit-code -- interop/observed-invocation-binding-candidate
+      - name: Check syntax, joins, signatures and unchanged released outcomes
+        run: python -m pytest interop/observed-invocation-binding-candidate/test_invocation_binding.py -q
+      - name: Original reader and every mutation rule
+        run: |
+          python vectors-observed-effect/check_vectors.py
+          python vectors-observed-effect/mutation_check.py
+      - name: Go reader and candidate mutation controls
+        env:
+          GOWORK: 'off'
+        run: go test ./observedeffect -count=1

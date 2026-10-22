@@ -142,11 +142,18 @@ func TestEveryRuleIsLoadBearing(t *testing.T) {
 	m := loadManifest(t)
 	candidates, codePins := codeDigestCandidates(t)
 	m.Vectors = append(m.Vectors, candidates...)
+	callCandidates, callPins := invocationBindingCandidates(t)
+	for i := range callCandidates {
+		callCandidates[i].ID = "invocation-binding/" + callCandidates[i].ID
+		callPins[callCandidates[i].ID] = callPins[callCandidates[i].Slug]
+	}
+	m.Vectors = append(m.Vectors, callCandidates...)
 	policy := testPolicy(t, m)
 	baseline := map[string]string{}
 	bodies := map[string][]byte{}
 	for _, v := range m.Vectors {
 		policy.ExpectedCodeDigest = codePins[v.ID]
+		policy.ExpectedInvocationBinding = callPins[v.ID]
 		bodies[v.ID] = readVector(t, v)
 		baseline[v.ID] = outcome(Verify(bodies[v.ID], policy))
 	}
@@ -154,6 +161,7 @@ func TestEveryRuleIsLoadBearing(t *testing.T) {
 		var flipped []string
 		for _, v := range m.Vectors {
 			policy.ExpectedCodeDigest = codePins[v.ID]
+			policy.ExpectedInvocationBinding = callPins[v.ID]
 			got := outcome(verify(bodies[v.ID], policy, name))
 			if got != baseline[v.ID] {
 				flipped = append(flipped, v.ID+" "+v.Slug+" -> "+got)

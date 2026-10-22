@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "grader-skipped-the-command": {
+      "claim_type": "probe_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "b9bc8b22efd72f29ee6d302fc03212faed3c015ef7ff545d02428f0232e7fb53",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "2aab525952ef2383e8a02fa2580fec7058b3157a93abbf0c17ffd229c2cfe7c7",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

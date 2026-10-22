@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 320,
+      "path": "capability.json",
+      "sha256": "af1875f9f513a7cfc6dbe927de2fe521ac1b0707981217914f624e52c7c6d992"
+    },
+    "claims": {
+      "length": 392,
+      "path": "claims.json",
+      "sha256": "e39714c1ac8c91bb9e23d8b3c48ba9925e67be531d6b20a5899fb50998247fca"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 954,
+      "path": "observation.json",
+      "sha256": "713cd0eb8219d20980d5969820f2d8c45fe1a38bdde54913b7a5d8abe0d0ef5d"
+    }
+  },
+  "case_id": "detector-repeat-divergence",
+  "schema_version": "probity-case/v1"
+}

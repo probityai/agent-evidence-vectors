@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 322,
+      "path": "capability.json",
+      "sha256": "f31ec6b6dc47d9cf6938f2b5fe21950a157ca0d19b1804815807dfa30ecc54d8"
+    },
+    "claims": {
+      "length": 394,
+      "path": "claims.json",
+      "sha256": "805aa9e4c4c9f9648ec9b46d89522bc04a4bc85eab3cbfb2abead3adbf1b7a9d"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "observation": {
+      "length": 956,
+      "path": "observation.json",
+      "sha256": "2924c60a626f934a55fad2daba95ee33e174f7633d1ce4da08933247a1ca2078"
+    }
+  },
+  "case_id": "heldout-stopped-at-its-limit",
+  "schema_version": "probity-case/v1"
+}

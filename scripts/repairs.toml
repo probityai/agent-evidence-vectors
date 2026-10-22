@@ -74,3 +74,15 @@ the repair CANNOT write away a verdict split: the gate refuses to record one and
 exits non-zero with nothing written, because a verdict split is a rail defect
 rather than a figure to note down.
 """
+
+[[gate]]
+ident = "intake-records"
+argv = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/gen-intake-records.py", "--check"]
+fix = ["uv", "run", "--locked", "--extra", "generators", "python", "scripts/gen-intake-records.py"]
+why = """
+Every corpus in release/CORPUS-DIGESTS.txt has an intake record and a native
+checker output under release/intake/, written from a fresh run of that corpus's
+checker. --check reruns every checker and refuses any differing byte; a bare
+invocation is what writes the records. It needs the Go toolchain, because the
+checker is aee-verify.
+"""

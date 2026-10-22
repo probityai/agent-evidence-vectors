@@ -1,0 +1,33 @@
+{
+  "schema": "aev-occurrence-trust/v1",
+  "key_recipe": "seed = sha256('aev-occurrence-binding-test-key/<role>/v1'); TEST keys only",
+  "keys": {
+    "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5": {
+      "role_label": "issuer",
+      "public_hex": "0415ec9ce459a06e91a6b04d749ab37f58709f5469e0cf3ac4495d2ae37858cf"
+    },
+    "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5": {
+      "role_label": "payment_rail",
+      "public_hex": "5c7bafe5ea1ef6ee981758406c1e3d4182450cfe1ae4c6b7e84af5d27862cdf7"
+    },
+    "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e": {
+      "role_label": "responder",
+      "public_hex": "9e0e3db25ebcba046c5769a3b9d60a4ebd18061ce5c24f7fa51b5ba04b15c33b"
+    },
+    "sha256:12d0a2b4d38a1f983bd2523c43864f903f248ada3e390d49694b6189d3ec1de3": {
+      "role_label": "agent",
+      "public_hex": "ec3fb2ec93cebd4e2ed98c19ff8c14e64840a121e71c507b36722d18c815573c"
+    }
+  },
+  "roles": {
+    "issuer": [
+      "sha256:25ac90eb91ad51a6e5694aaa68812b785569329b95390c5e037f488f532e9eb5"
+    ],
+    "payment_rail": [
+      "sha256:3eddba06d3fa4422e81dabab8f3d7ad9ceeffde9bf8dde5cbe98fd85da79ace5"
+    ],
+    "responder": [
+      "sha256:48b4532086b037b0f7a3fd4e33b09558597eebc07f37c9a9067401954169e45e"
+    ]
+  }
+}

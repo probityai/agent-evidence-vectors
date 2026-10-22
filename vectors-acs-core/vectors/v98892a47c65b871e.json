@@ -1,0 +1,120 @@
+{
+  "cites": "a MODIFY carrying modified_content and redactions together, which section 6.3 forbids. The Observed Agent cannot tell what the Guardian meant, applies DENY, does not run the action, and records the substitution in the deployment's audit log. The record's spelling is not fixed by the specification; the member asserts that a record of the substitution exists and names the outcome actually applied.",
+  "coverage": "observed",
+  "doesNotAssert": "that the Guardian is at fault for anything beyond the malformed modifications, or how the record is spelt",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-12",
+  "id": "v98892a47c65b871e",
+  "kind": "accept",
+  "payload": {
+    "applied": {
+      "action_executed": false,
+      "outcome": "deny"
+    },
+    "deployment_audit_log": [
+      {
+        "applied": "deny",
+        "reason_codes": [
+          "modify_composition"
+        ],
+        "received": "modify",
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+      }
+    ],
+    "observed_agent": {
+      "modify_capable": true
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "api_key": {
+              "value": "sk-test-0001"
+            },
+            "url": {
+              "value": "https://api.example.org/v1/notes"
+            }
+          },
+          "tool": {
+            "name": "http.post"
+          }
+        },
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "acs_version": "0.1.0",
+        "decision": "modify",
+        "modifications": {
+          "modified_content": "{\"url\": \"https://api.example.org/v1/notes\"}",
+          "redactions": [
+            {
+              "path": "arguments.api_key"
+            }
+          ]
+        },
+        "reasoning": "redact the key and rewrite the call",
+        "request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+        "type": "final"
+      }
+    },
+    "trace": {
+      "guardian": [
+        {
+          "attributes": {
+            "acs.request_id": "a6fd4784-6667-4306-aa90-bd218274ceb6",
+            "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+            "gen_ai.tool.name": "http.post"
+          },
+          "events": [
+            {
+              "attributes": {
+                "acs.decision": "modify"
+              },
+              "name": "acs.decision"
+            }
+          ],
+          "name": "gen_ai.tool.call"
+        }
+      ],
+      "observed_agent": []
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-035",
+      "line": 190,
+      "sentence": "An Observed Agent that receives one cannot determine the Guardian's intent and MUST fail closed, treating the decision as `DENY`, and MUST record an audit event so the enforcement gap is visible.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-035"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

@@ -1,0 +1,64 @@
+Nicholas, Roel, all,
+
+All four points are accepted as wording deltas for a v2.1 revision. None
+adds or removes a criterion or changes the structure; the Ed25519/JCS
+receipt corpus remains the first suite admitted under the full set, and
+no corpus byte moves.
+
+1. Criterion 2(iii), boundary named before the check (Roel). Replacing
+2(iii) and closing the criterion with the boundary statement:
+
+  (iii) an unexpected member is present inside a package the manifest
+  declares complete. The boundary is declared before the check: a
+  returned member outside the declared population is refused, and so is
+  an unexpected member inside a package declared complete. A file outside
+  that package is outside the claim; it does not invalidate a selected
+  report, so the bidirectional inventory test does not make every file
+  on disk part of the claim.
+
+2. Criterion 8, reader's relationship to the reference implementation
+(Nicholas). Appended to the provenance requirement:
+
+  The submitter also states the reader's relationship to the reference
+  implementation - the same implementation, reference-derived code, or
+  an implementation written from the specification - and identifies any
+  shared verification code relevant to that distinction. The source pin
+  identifies the bytes; it does not by itself express that relationship.
+
+3. Criterion 10, ordering and seed settings where applicable (Roel).
+The closing sentences become:
+
+  Where stdout or another unordered stream is digested, the record
+  declares the ordering used and the seed settings where applicable; a
+  digest may pin captured stdout without a hash seed, and reproducing
+  those bytes is a separate test. A fixed seed alone does not establish
+  stability across runtimes. Where raw outputs differ, that difference
+  is retained even when a separately declared comparison of results
+  agrees. Output that varies across processes with no declared cause is
+  a refusal.
+
+4. Criterion 11, relaxed-check results paired with their baseline
+(Nicholas). Appended to the fault-separation requirement:
+
+  Pair each relaxed-check result with its baseline and compare both the
+  overall state and the complete native result. A FAIL that persists
+  with a different refusing ground is not an unchanged native result;
+  where another ground can still reject the object, that control alone
+  does not isolate the relaxed check.
+
+Two process notes:
+
+- Nicholas's control-2 helper and derived-fixture packet remain welcome
+  whenever published; the sentence added to criterion 11 is written so
+  that packet's result is exactly the distinction it describes.
+- These are wording-only changes. The independent re-runs already on the
+  record (Sankalp Gilda's unaffiliated run; Lars Kroehl's PYTHONHASHSEED
+  byte-identity run) are unaffected; under the revised criterion 8 the
+  record will simply state each reader's relationship to the reference
+  implementation rather than leave it implied.
+
+If there is no objection to these four deltas within 48 hours, I will
+post the consolidated v2.1 text as the replacement base for 0067.
+
+Guigui Wang | Correctover
+wangguigui@correctover.com

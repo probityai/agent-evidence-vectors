@@ -1,0 +1,6 @@
+suite: artifact-binding-conformance
+members: 6
+  failed: 3
+  not-established: 2
+  verified: 1
+verdict: every member behaves as MANIFEST.json declares

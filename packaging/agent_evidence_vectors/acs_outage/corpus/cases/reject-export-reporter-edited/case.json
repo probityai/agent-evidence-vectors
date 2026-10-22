@@ -1,0 +1,215 @@
+{
+  "step": {
+    "audit": [
+      {
+        "failure": {
+          "kind": "transport",
+          "message": "Unable to connect. Is the computer able to access the url?"
+        },
+        "method": "steps/toolCallRequest",
+        "outcome": "proceeded",
+        "posture": "proceed",
+        "posture_source": "default",
+        "recorded_at": "2026-10-18T05:21:51.236Z",
+        "rpc_id": "ec93ce5f-1017-4b0e-ae3d-db3df0ce2df5",
+        "seq": 2,
+        "session_failure": {
+          "kind": "handshake_failed",
+          "message": "Unable to connect. Is the computer able to access the url?"
+        },
+        "session_id": "cold-session"
+      }
+    ],
+    "guardian": "unreachable",
+    "hook_decision": "allow",
+    "hook_env": {
+      "ACS_ON_DECISION_FAILURE": "proceed"
+    },
+    "marker_delta": 1,
+    "otlp": [
+      {
+        "resourceSpans": [
+          {
+            "resource": {
+              "attributes": [
+                {
+                  "key": "service.name",
+                  "value": {
+                    "stringValue": "acs-reference-audit-converter"
+                  }
+                }
+              ],
+              "droppedAttributesCount": 0
+            },
+            "scopeSpans": [
+              {
+                "scope": {
+                  "name": "acs-reference-audit-converter"
+                },
+                "spans": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "acs.session.id",
+                        "value": {
+                          "stringValue": "970e02c1-7b3a-5820-bd9d-dc72fdc9c32b"
+                        }
+                      },
+                      {
+                        "key": "acs.request_id",
+                        "value": {
+                          "stringValue": "4bc8c489-863a-4d3f-a55a-f740f84ece6d"
+                        }
+                      }
+                    ],
+                    "droppedAttributesCount": 0,
+                    "droppedEventsCount": 0,
+                    "droppedLinksCount": 0,
+                    "endTimeUnixNano": "1792300911168000000",
+                    "events": [
+                      {
+                        "attributes": [
+                          {
+                            "key": "acs.failure.class",
+                            "value": {
+                              "stringValue": "unreachable"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.posture",
+                            "value": {
+                              "stringValue": "fail_open"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.reported_by",
+                            "value": {
+                              "stringValue": "observed_agent"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.detail",
+                            "value": {
+                              "stringValue": "The host could not reach the Guardian."
+                            }
+                          }
+                        ],
+                        "droppedAttributesCount": 0,
+                        "name": "acs.decision.failure",
+                        "timeUnixNano": "1792300911168000000"
+                      }
+                    ],
+                    "flags": 257,
+                    "kind": 1,
+                    "links": [],
+                    "name": "gen_ai.tool.call",
+                    "spanId": "b971776e8cb5e7eb",
+                    "startTimeUnixNano": "1792300911168000000",
+                    "status": {
+                      "code": 2,
+                      "message": "The host could not reach the Guardian."
+                    },
+                    "traceId": "9cde1f411830b5dcdbc07da970a976eb"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "resourceSpans": [
+          {
+            "resource": {
+              "attributes": [
+                {
+                  "key": "service.name",
+                  "value": {
+                    "stringValue": "acs-reference-audit-converter"
+                  }
+                }
+              ],
+              "droppedAttributesCount": 0
+            },
+            "scopeSpans": [
+              {
+                "scope": {
+                  "name": "acs-reference-audit-converter"
+                },
+                "spans": [
+                  {
+                    "attributes": [
+                      {
+                        "key": "acs.session.id",
+                        "value": {
+                          "stringValue": "d992e622-dffc-50bd-8984-1a97da995d89"
+                        }
+                      },
+                      {
+                        "key": "acs.request_id",
+                        "value": {
+                          "stringValue": "ec93ce5f-1017-4b0e-ae3d-db3df0ce2df5"
+                        }
+                      }
+                    ],
+                    "droppedAttributesCount": 0,
+                    "droppedEventsCount": 0,
+                    "droppedLinksCount": 0,
+                    "endTimeUnixNano": "1792300911236000000",
+                    "events": [
+                      {
+                        "attributes": [
+                          {
+                            "key": "acs.failure.class",
+                            "value": {
+                              "stringValue": "unreachable"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.posture",
+                            "value": {
+                              "stringValue": "fail_open"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.reported_by",
+                            "value": {
+                              "stringValue": "guardian"
+                            }
+                          },
+                          {
+                            "key": "acs.failure.detail",
+                            "value": {
+                              "stringValue": "The host could not reach the Guardian."
+                            }
+                          }
+                        ],
+                        "droppedAttributesCount": 0,
+                        "name": "acs.decision.failure",
+                        "timeUnixNano": "1792300911236000000"
+                      }
+                    ],
+                    "flags": 257,
+                    "kind": 1,
+                    "links": [],
+                    "name": "gen_ai.tool.call",
+                    "spanId": "026bb34c1ed9cf32",
+                    "startTimeUnixNano": "1792300911236000000",
+                    "status": {
+                      "code": 2,
+                      "message": "The host could not reach the Guardian."
+                    },
+                    "traceId": "402a9e4a0b19ada4af81f234ee469415"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "session_cache": null,
+    "session_id": "cold-session"
+  },
+  "suite": "acs-outage-posture/8a459524530b"
+}
