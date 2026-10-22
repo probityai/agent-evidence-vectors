@@ -46,7 +46,9 @@ RUNS_A_VERIFIER = (
     "vectors-admission",
     "vectors-ai-agent-action",
     "vectors-anchored-chain",
+    "vectors-approval-binding",
     "vectors-authority-at-dispatch",
+    "vectors-chunked-export",
     "vectors-grade-floor",
     "vectors-identity-binding",
     "vectors-receipt-chain-end",
@@ -68,6 +70,13 @@ REFUSES_A_VERIFIER = (
     "vectors-artifact-binding",
     "vectors-delegation-lifecycle",
     "vectors-dependency-selection",
+    "vectors-done-contract",
+    "vectors-done-receipt",
+    "vectors-spoofed-tool-output",
+    "vectors-test-tampering",
+    "vectors-grader-isolation",
+    "vectors-done-probes",
+
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
     "vectors-mcp-record-contract",
@@ -75,6 +84,7 @@ REFUSES_A_VERIFIER = (
     "vectors-observed-effect",
     "vectors-self-reported-record",
     "vectors-w3c-report",
+    "vectors-w3c-intake",
 )
 
 READINGS = ("condition", "accept")

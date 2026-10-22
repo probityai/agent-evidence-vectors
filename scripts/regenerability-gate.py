@@ -109,6 +109,10 @@ GENERATORS = (
     # over disclosed argument bytes, so a hand-placed member is one whose hash and
     # signature nobody recomputed. It builds its own manifest and index.
     "vectors-agent-decision/gen_vectors.py",
+    # The W3C intake-criteria corpus. Every member is an intake record whose
+    # digests are taken over fixture trees the generator writes beside it, and
+    # the generator refuses a member the checker does not answer as claimed.
+    "vectors-w3c-intake/gen_vectors.py",
     # The IETF agent-record drafts corpus. Its AIR records are ES256 under the
     # deterministic nonce of RFC 6979 and its checkpoints and statements are
     # Ed25519, so every case is byte-exact. It reads its vendored upstream vectors
@@ -136,6 +140,14 @@ GENERATORS = (
     "vectors-receipt-chain-end/gen_vectors.py",
     "vectors-identity-binding/gen_vectors.py",
     "vectors-authority-at-dispatch/gen_vectors.py",
+    "vectors-approval-binding/gen_vectors.py",
+    "vectors-chunked-export/gen_vectors.py",
+    "vectors-done-contract/gen_vectors.py",
+    "vectors-done-receipt/gen_vectors.py",
+    "vectors-spoofed-tool-output/gen_vectors.py",
+    "vectors-test-tampering/gen_vectors.py",
+    "vectors-grader-isolation/gen_vectors.py",
+    "vectors-done-probes/gen_vectors.py",
     "vectors-trace-anchor/gen_vectors.py",
     "vectors-grade-floor/gen_vectors.py",
     "vectors-agent-change-admission/gen_vectors.py",
@@ -277,6 +289,24 @@ OWNED = (
     ("vectors-authority-at-dispatch", "MANIFEST.json"),
     ("vectors-authority-at-dispatch/cases", "**/record.json"),
     ("vectors-authority-at-dispatch/cases", "**/dispatched.bin"),
+    ("vectors-approval-binding", "MANIFEST.json"),
+    ("vectors-approval-binding/cases", "**/record.json"),
+    ("vectors-approval-binding/cases", "**/payload.bin"),
+    ("vectors-chunked-export", "MANIFEST.json"),
+    ("vectors-chunked-export/cases", "**/record.json"),
+    ("vectors-chunked-export/cases", "**/chunk-*.bin"),
+    ("vectors-done-contract", "MANIFEST.json"),
+    ("vectors-done-receipt", "MANIFEST.json"),
+    ("vectors-spoofed-tool-output", "MANIFEST.json"),
+    ("vectors-test-tampering", "MANIFEST.json"),
+    ("vectors-grader-isolation", "MANIFEST.json"),
+    ("vectors-done-probes", "MANIFEST.json"),
+    ("vectors-done-contract/cases", "**/*.json"),
+    ("vectors-done-receipt/cases", "**/*.json"),
+    ("vectors-spoofed-tool-output/cases", "**/*.json"),
+    ("vectors-test-tampering/cases", "**/*.json"),
+    ("vectors-grader-isolation/cases", "**/*.json"),
+    ("vectors-done-probes/cases", "**/*.json"),
     ("vectors-trace-anchor/cases", "**/case.json"),
     ("vectors-source-coverage/cases", "**/case.json"),
     ("vectors-source-coverage/cases", "**/policy.json"),
@@ -293,6 +323,13 @@ OWNED = (
     ("vectors-agent-decision/arguments", "v*.json"),
     ("vectors-agent-decision", "MANIFEST.json"),
     ("vectors-agent-decision", "INDEX.md"),
+    ("vectors-w3c-intake/vectors", "v*.json"),
+    # Every fixture file carries an extension and no fixture directory does, so
+    # this names the files under trees/ and never a directory the gate would
+    # try to unlink.
+    ("vectors-w3c-intake/trees", "**/*.*"),
+    ("vectors-w3c-intake", "MANIFEST.json"),
+    ("vectors-w3c-intake", "INDEX.md"),
     ("vectors-ietf-agent-record-drafts/cases", "v*.json"),
     ("vectors-ietf-agent-record-drafts", "MANIFEST.json"),
     ("vectors-ietf-agent-record-drafts", "INDEX.md"),
@@ -379,8 +416,21 @@ def owned_files(root: Path) -> dict[str, Path]:
     return found
 
 
+def committed_files(root: Path) -> dict[str, Path]:
+    """The owned files git tracks in ``root``.
+
+    A glob over the working tree is not the committed set: an untracked file left
+    under an owned path (a case from another branch, a half-finished generator
+    run) was reported as "committed and no generator produced it", naming a file
+    no commit holds. ``stage`` copies only tracked files, so this is the set the
+    copy started from.
+    """
+    tracked_set = set(tracked(root))
+    return {rel: path for rel, path in owned_files(root).items() if rel in tracked_set}
+
+
 def compare(root: Path, destination: Path) -> list[str]:
-    committed = owned_files(root)
+    committed = committed_files(root)
     regenerated = owned_files(destination)
     failures: list[str] = []
     for rel in sorted(set(committed) - set(regenerated)):
@@ -419,7 +469,7 @@ def main(argv: list[str]) -> int:
         wipe(destination)
         failures = regenerate(destination)
         failures.extend(compare(root, destination))
-        checked = len(owned_files(root))
+        checked = len(committed_files(root))
 
     if failures:
         print(

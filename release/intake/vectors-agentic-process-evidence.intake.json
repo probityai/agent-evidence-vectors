@@ -1,0 +1,1589 @@
+{
+  "aggregate": {
+    "counts": {
+      "contradicted": 4,
+      "no_verdict": 2,
+      "not_established": 38,
+      "supported": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 52
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agentic-process-evidence/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-agentic-process-evidence/digest.py",
+    "routine-file": "vectors-agentic-process-evidence/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "72711489cf3b8ed565dc06ee2c55f943cf9508b8f97994b095903381f1e300f4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "1179d7fc3a2e0424154b458dc9d632a6fe179b4cb1bfcf9f3a2354db99af653b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "0a253aa4585daa21eb43dd5b86fd2f00320bbf0b85876841669f1fc460dbe2ba",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/README.md",
+      "serialization": "bytes",
+      "sha256": "786fc95e86319341d4ea0aeea1488a589c5d1986323f3fd99a700b6770c29cc3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "61f1d700de347d60317bf4f3f22e73cece3192758bfc6e9e6cd20a3c1a0f0104",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "cd243c60158d645c35408e313ef9998a8e27a6fd701129289b04f1694d86f599"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "00957dd2a06f5d8cde2562c88e8f36ae2e6e97d85de7758420c28477cd164420",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/digest.py",
+      "serialization": "bytes",
+      "sha256": "17d16a0e944334659a158c58ccdcd08156744577742322b77f3cc313f2922364"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "7314fedaad0fe935f429368e9259edc2df142efc421a3975fd13a3e666dac5a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "602197faa0f0c2d3335361f575d0ae9dbcb270ac604dbb6b82a49dd7606b19f3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "e658ffae1479ccf698ddb750f7bf9e0f774c58a28eead15f6ed00ec4a1d35ac9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "4c59de4896f59949cafde0d806fcdc9dcf715a4778baaf0ae3b55616e3c6acee"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+        },
+        "swapped-in": "460ba7dbcdcb1a3dc6fbbc2cf72969e2ca53a5e440dbf8036bd59dcc7a14bb3f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agentic-process-evidence/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "0c3d9403611091b4cff232bcdfdda53ec52127329a53602682448af136927491"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-agentic-process-evidence"
+  },
+  "byte-identity": {
+    "pins": 104,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-agentic-process-evidence",
+      "aee-verify -json vectors-agentic-process-evidence",
+      "aee-verify vectors-agentic-process-evidence"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "published-example",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "minimal-required-fields",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "session-as-subject",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unknown-fields-ignored",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "inline-context-artifact",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "result-misaligned",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "unpinned-cosigner",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "jfrog-predicate-type",
+      "native": {
+        "reasons": [],
+        "verdict": "supported"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tampered-payload",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tampered-signature",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-key",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-key-claims-pinned-keyid",
+      "native": {
+        "reasons": [],
+        "verdict": "contradicted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-not-json",
+      "native": {
+        "reasons": [],
+        "verdict": "no_verdict"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-signature-not-base64",
+      "native": {
+        "reasons": [],
+        "verdict": "no_verdict"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wrong-payload-type",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-not-object",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-type-v01",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-type-pr-example-spelling",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-type-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "created-at-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "created-at-placeholder",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "created-by-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-no-uri",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-digest-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-git-commit-elided",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-not-object",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "process-type-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "process-type-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "providers-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "harness-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "harness-version-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "agent-name-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "language-model-resolved-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "result-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "result-not-listed",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "owner-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "start-timestamp-placeholder",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "end-timestamp-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "trace-id-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "session-log-no-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "session-log-uri-placeholder",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tool-name-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tool-version-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "context-artifact-uri-and-data",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "context-artifact-neither",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "context-artifact-sha256-short",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "context-artifact-tags-string",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "custom-not-object",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "intents-not-strings",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "process-summary-not-string",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reviewers-not-strings",
+      "native": {
+        "reasons": [],
+        "verdict": "not_established"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "6fddf379613a95e9e19cbfe94779000e749626b7bfa9d06617067678541daf82"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "published-example",
+      "minimal-required-fields",
+      "session-as-subject",
+      "unknown-fields-ignored",
+      "inline-context-artifact",
+      "result-misaligned",
+      "unpinned-cosigner",
+      "jfrog-predicate-type",
+      "tampered-payload",
+      "tampered-signature",
+      "wrong-key",
+      "wrong-key-claims-pinned-keyid",
+      "malformed-not-json",
+      "malformed-signature-not-base64",
+      "wrong-payload-type",
+      "payload-not-object",
+      "statement-type-v01",
+      "predicate-type-pr-example-spelling",
+      "predicate-type-missing",
+      "created-at-missing",
+      "created-at-placeholder",
+      "created-by-empty",
+      "subject-empty",
+      "subject-no-uri",
+      "subject-digest-empty",
+      "subject-git-commit-elided",
+      "predicate-not-object",
+      "process-type-missing",
+      "process-type-empty",
+      "providers-empty",
+      "harness-missing",
+      "harness-version-missing",
+      "agent-name-empty",
+      "language-model-resolved-empty",
+      "result-missing",
+      "result-not-listed",
+      "owner-missing",
+      "start-timestamp-placeholder",
+      "end-timestamp-missing",
+      "trace-id-empty",
+      "session-log-no-digest",
+      "session-log-uri-placeholder",
+      "tool-name-missing",
+      "tool-version-empty",
+      "context-artifact-uri-and-data",
+      "context-artifact-neither",
+      "context-artifact-sha256-short",
+      "context-artifact-tags-string",
+      "custom-not-object",
+      "intents-not-strings",
+      "process-summary-not-string",
+      "reviewers-not-strings"
+    ],
+    "path": "vectors-agentic-process-evidence/MANIFEST.json",
+    "sha256": "39938351c0f5c84f05205764574c5f7259d4e70b0ae9068b6db69cddb90a3ae0"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/published-example/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/published-example/envelope.json",
+          "sha256": "3a4b58c5de75387f3860decb7c1c26652b196765da1b3ac22230863e10a9375d"
+        }
+      ],
+      "id": "published-example"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/minimal-required-fields/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/minimal-required-fields/envelope.json",
+          "sha256": "908def413d8880f9868af28c15e8f1861bfc14dd611d687e589dfe27da58c66f"
+        }
+      ],
+      "id": "minimal-required-fields"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-as-subject/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-as-subject/envelope.json",
+          "sha256": "fa819ccab87e671b4db07d4af02de0ecae1aa81f197e47059028a6a06e3d71d6"
+        }
+      ],
+      "id": "session-as-subject"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/unknown-fields-ignored/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/unknown-fields-ignored/envelope.json",
+          "sha256": "0737c60d09aad3c0019dbe341654e213ddd246c7440607058950e93f0110edc8"
+        }
+      ],
+      "id": "unknown-fields-ignored"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/inline-context-artifact/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/inline-context-artifact/envelope.json",
+          "sha256": "c909dccd9e53042f2b66522589c450d968f609d91cfba7af5c8c6c50e1848ea5"
+        }
+      ],
+      "id": "inline-context-artifact"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-misaligned/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-misaligned/envelope.json",
+          "sha256": "4a200d31b74ccfca2fa814b22640a13af1f55789ca2e31ad1b6b0899ea6037d7"
+        }
+      ],
+      "id": "result-misaligned"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/unpinned-cosigner/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/unpinned-cosigner/envelope.json",
+          "sha256": "4ae10b2e469f567d80d439450f2bd996838b034bc61266d8c2625bc5bb55c9bc"
+        }
+      ],
+      "id": "unpinned-cosigner"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/jfrog-predicate-type/case.json",
+          "sha256": "ce02f0eac87de7f3bc33a0a88c7455445f3c143936996946fa34f547391c073b"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/jfrog-predicate-type/envelope.json",
+          "sha256": "b6d38080401da447284ba68614291f79e97fe181a858bb25b528ab0d7ceabb88"
+        }
+      ],
+      "id": "jfrog-predicate-type"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/tampered-payload/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/tampered-payload/envelope.json",
+          "sha256": "bebf98e6f6cbd2e59b9a39b7d35e3c6683ff202e642b4585ee5f41c157a97223"
+        }
+      ],
+      "id": "tampered-payload"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/tampered-signature/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/tampered-signature/envelope.json",
+          "sha256": "32a303c70bd092ff727f027c01ae81a9e24517b926ddb585b879bdcba8e0ec27"
+        }
+      ],
+      "id": "tampered-signature"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-key/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-key/envelope.json",
+          "sha256": "a19a7193fe8b1a468828374aef9934008f020f30eb271126acadd36a7ce76cf2"
+        }
+      ],
+      "id": "wrong-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-key-claims-pinned-keyid/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-key-claims-pinned-keyid/envelope.json",
+          "sha256": "e399fdb3604beab5e0a02c09dd4dae491ce5b885d481f8f58828a3c0cf79dcec"
+        }
+      ],
+      "id": "wrong-key-claims-pinned-keyid"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/malformed-not-json/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/malformed-not-json/envelope.json",
+          "sha256": "6c929b2d8f11bcc71ba080473377db524d77301b51de17e0f4fecdd1c0f8f65f"
+        }
+      ],
+      "id": "malformed-not-json"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/malformed-signature-not-base64/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/malformed-signature-not-base64/envelope.json",
+          "sha256": "cf82c1ff246a794a3959e7ab8f48f580bd9910ac47dbd83a2bd04f21c25fe69e"
+        }
+      ],
+      "id": "malformed-signature-not-base64"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-payload-type/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/wrong-payload-type/envelope.json",
+          "sha256": "5368c8b3d56dddf047ff9fcdad3edcbc859239bf50ec2e6701cca04a1f7cccdf"
+        }
+      ],
+      "id": "wrong-payload-type"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/payload-not-object/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/payload-not-object/envelope.json",
+          "sha256": "e5a018eee969ca4853a776c512dc28cd22fc23eaf6c35c46f7b1d0dc74e7ba20"
+        }
+      ],
+      "id": "payload-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/statement-type-v01/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/statement-type-v01/envelope.json",
+          "sha256": "c2e927d430ef633252b2c5adbd3dbed04f090ed5491c28b79c29d1a4d89a0e78"
+        }
+      ],
+      "id": "statement-type-v01"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-type-pr-example-spelling/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-type-pr-example-spelling/envelope.json",
+          "sha256": "d244d3f27672d5079eea71af6331aba86f4b0b6d5a06c92ab686601801ad3999"
+        }
+      ],
+      "id": "predicate-type-pr-example-spelling"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-type-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-type-missing/envelope.json",
+          "sha256": "e54cb53e6b4038842ba04dea2b88f3477df28b5a44e64e28bf81469a2d9c7891"
+        }
+      ],
+      "id": "predicate-type-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-at-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-at-missing/envelope.json",
+          "sha256": "ec8b24432a933628d6188bcb54dc14521f7f162ca99ba48f3e6c67fdbadb93f7"
+        }
+      ],
+      "id": "created-at-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-at-placeholder/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-at-placeholder/envelope.json",
+          "sha256": "573952e27ea7ed23f944ee75f3dc891eac755d9b6e15a1ad856ada9a5d3ff233"
+        }
+      ],
+      "id": "created-at-placeholder"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-by-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/created-by-empty/envelope.json",
+          "sha256": "36973c856aa344eb7d0e04bbe36b7259482553349718e9f89117a67f68db56d1"
+        }
+      ],
+      "id": "created-by-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-empty/envelope.json",
+          "sha256": "3c7526b57836d5268179d66150da3f478923f85dd75c14513cdf1b81aefbe5bb"
+        }
+      ],
+      "id": "subject-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-no-uri/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-no-uri/envelope.json",
+          "sha256": "53fc00e9857ef0b41f1c2631606c53564ac22c1f8f6f6eb77fceababda973a1e"
+        }
+      ],
+      "id": "subject-no-uri"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-digest-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-digest-empty/envelope.json",
+          "sha256": "879e130b6014b756e42972a309d4ee5cab0c67234c81295a81bfdccba80906c3"
+        }
+      ],
+      "id": "subject-digest-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-git-commit-elided/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/subject-git-commit-elided/envelope.json",
+          "sha256": "3dab0fb64d143cb02c10f0b82c2192b87fd667a2fbee48714041ef8379ccb1a7"
+        }
+      ],
+      "id": "subject-git-commit-elided"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-not-object/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/predicate-not-object/envelope.json",
+          "sha256": "a8276e9df53a57d29f53b7ef1490819dd0d7457cd1c4477688947b758ce640ab"
+        }
+      ],
+      "id": "predicate-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-type-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-type-missing/envelope.json",
+          "sha256": "896c6950a8b945b6b8d9caef2a59591932dcb5c8bb854fce115c27de25ef3c8f"
+        }
+      ],
+      "id": "process-type-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-type-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-type-empty/envelope.json",
+          "sha256": "ce7063b7f853af317d96ea519ff1cdae0eb8f0a6e99001d8afed041b808b1a97"
+        }
+      ],
+      "id": "process-type-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/providers-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/providers-empty/envelope.json",
+          "sha256": "69e351c2e94f3b9946a8b6d75b8f3ef12dfe6936c2fd43d5915263c861ffda78"
+        }
+      ],
+      "id": "providers-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/harness-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/harness-missing/envelope.json",
+          "sha256": "5ad2a61810d585b4b0c6f0f4005648da6fefe5bc7f72283f4f0232e61f8c36c0"
+        }
+      ],
+      "id": "harness-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/harness-version-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/harness-version-missing/envelope.json",
+          "sha256": "6c031b12b5861a38d1fb252bfaf939755acc29a95133d75585fc1d98be9a0f17"
+        }
+      ],
+      "id": "harness-version-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/agent-name-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/agent-name-empty/envelope.json",
+          "sha256": "a51412ac5a730275a00df4df901c04b4fd30dba126bf89127340871272129ae8"
+        }
+      ],
+      "id": "agent-name-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/language-model-resolved-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/language-model-resolved-empty/envelope.json",
+          "sha256": "2f0f5c71188c084860571e190c583d80f34bd45b962421303c3cfe53606191c4"
+        }
+      ],
+      "id": "language-model-resolved-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-missing/envelope.json",
+          "sha256": "5757a9d3c3de0a8ba2952385f06791d89fb27f5656df48f1265d550316863d6d"
+        }
+      ],
+      "id": "result-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-not-listed/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/result-not-listed/envelope.json",
+          "sha256": "60d51776d97d245b20b8a25156845ab2574aab9ec4c847b66ad6c78418248dec"
+        }
+      ],
+      "id": "result-not-listed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/owner-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/owner-missing/envelope.json",
+          "sha256": "a2bcf1baa78f0900b5719137497ad5802204d237312216f9ba61b871a985e42f"
+        }
+      ],
+      "id": "owner-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/start-timestamp-placeholder/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/start-timestamp-placeholder/envelope.json",
+          "sha256": "48e55b014be7c8c47615b0b0ebc0bafb227edaaacb0f4a85f8dcfa77c0b48689"
+        }
+      ],
+      "id": "start-timestamp-placeholder"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/end-timestamp-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/end-timestamp-missing/envelope.json",
+          "sha256": "7bff4cc699858c154b17b9a42d70ffe56e226c4b371447bd24423608592ffa00"
+        }
+      ],
+      "id": "end-timestamp-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/trace-id-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/trace-id-empty/envelope.json",
+          "sha256": "2591eeb6ce520e48c83630efcdbcd575380d7d93e50cb3b2a51bfe5cf7fd79a3"
+        }
+      ],
+      "id": "trace-id-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-log-no-digest/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-log-no-digest/envelope.json",
+          "sha256": "df50a3daf8179f4a5690775d59bfba63d9885967f98658a8e0a50caf58a274fc"
+        }
+      ],
+      "id": "session-log-no-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-log-uri-placeholder/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/session-log-uri-placeholder/envelope.json",
+          "sha256": "6753f41c74c77cca95728f507b37c2e64e51fd08d0c92438a3e86c6b883852fa"
+        }
+      ],
+      "id": "session-log-uri-placeholder"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/tool-name-missing/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/tool-name-missing/envelope.json",
+          "sha256": "f4cefcdd347f82c6ccc632221013395c521421f9d368397d6c9ba37737117f78"
+        }
+      ],
+      "id": "tool-name-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/tool-version-empty/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/tool-version-empty/envelope.json",
+          "sha256": "6187beb099d2f5f08a64806263c3c3e25743291ea466a44648f3e05e3fbb85ef"
+        }
+      ],
+      "id": "tool-version-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-uri-and-data/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-uri-and-data/envelope.json",
+          "sha256": "9d1b8bb1f6a75a58716682ba358712896b344adda94d98df63a6584909558cab"
+        }
+      ],
+      "id": "context-artifact-uri-and-data"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-neither/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-neither/envelope.json",
+          "sha256": "c4b90ff22c7001da68b5d13d879fd66cf56d1e10f72dbd957b4892085fc970bb"
+        }
+      ],
+      "id": "context-artifact-neither"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-sha256-short/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-sha256-short/envelope.json",
+          "sha256": "1624162be77c57f18a3ba55e1106a5034c33bc55dae74585225b92015e7979ea"
+        }
+      ],
+      "id": "context-artifact-sha256-short"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-tags-string/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/context-artifact-tags-string/envelope.json",
+          "sha256": "5d468c1547ec2ad885d99ab51f79c6574b60319ac270998bf1496e9bca3735a5"
+        }
+      ],
+      "id": "context-artifact-tags-string"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/custom-not-object/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/custom-not-object/envelope.json",
+          "sha256": "b35c92e5bda457656f2d850b079e6a5a0b839b75e47f83822d2b1326c919463e"
+        }
+      ],
+      "id": "custom-not-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/intents-not-strings/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/intents-not-strings/envelope.json",
+          "sha256": "0c335b056effee4b1469e648e509bee6383e33bfcd73d3d5325e0cd5bbddbd8f"
+        }
+      ],
+      "id": "intents-not-strings"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-summary-not-string/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/process-summary-not-string/envelope.json",
+          "sha256": "157d920f7175016c8115a8638ec58e665fd75f48ef8feac66e3d2a2b009bbe27"
+        }
+      ],
+      "id": "process-summary-not-string"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agentic-process-evidence/cases/reviewers-not-strings/case.json",
+          "sha256": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb"
+        },
+        {
+          "path": "vectors-agentic-process-evidence/cases/reviewers-not-strings/envelope.json",
+          "sha256": "4dd7e3c6aabfe32edd871a49060ca106a865a98346af70270ccf465a7647dd41"
+        }
+      ],
+      "id": "reviewers-not-strings"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agentic-process-evidence.json",
+        "serialization": "bytes",
+        "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agentic-process-evidence.txt",
+        "serialization": "bytes",
+        "sha256": "8cbe917092dcdd9072a2ec9c0852768c3aa5c3c72d154ec00b2ab9416938e89d"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "tampered-payload",
+      "inputs": [
+        "member:tampered-payload",
+        "check:tampered-payload"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "tampered-signature",
+      "inputs": [
+        "member:tampered-signature",
+        "check:tampered-signature"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "wrong-key",
+      "inputs": [
+        "member:wrong-key",
+        "check:wrong-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"untrusted_key\"}}"
+    },
+    {
+      "check": "wrong-key-claims-pinned-keyid",
+      "inputs": [
+        "member:wrong-key-claims-pinned-keyid",
+        "check:wrong-key-claims-pinned-keyid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"contradicted\",\"reason\":\"signature_invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+      },
+      {
+        "process": "run-2",
+        "sha256": "19daabbbdfc2bfb767da30c46f3977bd1f1eb37a8f30ebcd82a19f1fd15ff733"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 52 pinned members of agentic-process-evidence/v0.1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 52,
+    "require": "at-least-one",
+    "selected": [
+      "published-example",
+      "minimal-required-fields",
+      "session-as-subject",
+      "unknown-fields-ignored",
+      "inline-context-artifact",
+      "result-misaligned",
+      "unpinned-cosigner",
+      "jfrog-predicate-type",
+      "tampered-payload",
+      "tampered-signature",
+      "wrong-key",
+      "wrong-key-claims-pinned-keyid",
+      "malformed-not-json",
+      "malformed-signature-not-base64",
+      "wrong-payload-type",
+      "payload-not-object",
+      "statement-type-v01",
+      "predicate-type-pr-example-spelling",
+      "predicate-type-missing",
+      "created-at-missing",
+      "created-at-placeholder",
+      "created-by-empty",
+      "subject-empty",
+      "subject-no-uri",
+      "subject-digest-empty",
+      "subject-git-commit-elided",
+      "predicate-not-object",
+      "process-type-missing",
+      "process-type-empty",
+      "providers-empty",
+      "harness-missing",
+      "harness-version-missing",
+      "agent-name-empty",
+      "language-model-resolved-empty",
+      "result-missing",
+      "result-not-listed",
+      "owner-missing",
+      "start-timestamp-placeholder",
+      "end-timestamp-missing",
+      "trace-id-empty",
+      "session-log-no-digest",
+      "session-log-uri-placeholder",
+      "tool-name-missing",
+      "tool-version-empty",
+      "context-artifact-uri-and-data",
+      "context-artifact-neither",
+      "context-artifact-sha256-short",
+      "context-artifact-tags-string",
+      "custom-not-object",
+      "intents-not-strings",
+      "process-summary-not-string",
+      "reviewers-not-strings"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agentic-process-evidence/v0.1"
+}

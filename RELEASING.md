@@ -133,11 +133,20 @@ scripts/release-sign.sh --with-timestamps
 #    SIGNATURE bytes.
 scripts/release-timestamps.sh stamp
 
-# 4. Commit the four release artifacts together with the version bump. They are
-#    one unit: a digest list without its signature, or a signature without its
-#    stamps, is a half-published release.
+# 3b. Regenerate the intake records against the signed list. A record names a
+#     signed digest list exactly when the list verifies under release/cosign.pub,
+#     and the intake checker then verifies that signature; before step 2 the
+#     list on disk was unsigned and the records said so. CI's
+#     `gen-intake-records.py --check` fails a release commit that skips this.
+uv run --locked --extra generators python scripts/gen-intake-records.py
+
+# 4. Commit the release artifacts together with the version bump. They are one
+#    unit: a digest list without its signature, a signature without its stamps,
+#    or records that still call the signed list unsigned, is a half-published
+#    release.
 git add release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig \
-        release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots
+        release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots \
+        release/intake
 test "$(date -u +%F)" = "$(date -u -d "@$release_epoch" +%F)"
 GIT_AUTHOR_DATE="$release_epoch +0000" GIT_COMMITTER_DATE="$release_epoch +0000" \
   git commit -m "chore(release): cut vX.Y.Z"

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://probityai.github.io/agent-evidence-vectors/schema/observed-effect-invocation-binding/v0.9",
+  "title": "Observed Effect 0.9 optional invocationBinding overlay",
+  "description": "Shape overlay for a decoded statement. Other predicate rules, signatures and consumer call-join policy require the predicate verifier.",
+  "type": "object",
+  "required": [
+    "predicate"
+  ],
+  "properties": {
+    "predicate": {
+      "type": "object",
+      "properties": {
+        "invocationBinding": {
+          "type": "object",
+          "required": [
+            "sha256"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            }
+          }
+        }
+      }
+    }
+  }
+}

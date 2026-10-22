@@ -48,6 +48,14 @@ body:
         - "vectors-receipt-chain-end/"
         - "vectors-identity-binding/"
         - "vectors-authority-at-dispatch/"
+        - "vectors-approval-binding/"
+        - "vectors-chunked-export/"
+        - "vectors-done-contract/"
+        - "vectors-done-receipt/"
+        - "vectors-spoofed-tool-output/"
+        - "vectors-test-tampering/"
+        - "vectors-grader-isolation/"
+        - "vectors-done-probes/"
         - "vectors-trace-anchor/"
         - "vectors-grade-floor/"
         - "vectors-agent-change-admission/"
@@ -56,6 +64,7 @@ body:
         - "vectors-a2a-jcs-v01/"
         - "vectors-mcp-owasp/"
         - "vectors-self-reported-record/"
+        - "vectors-w3c-intake/"
         - "vectors-w3c-report/"
     validations:
       required: true

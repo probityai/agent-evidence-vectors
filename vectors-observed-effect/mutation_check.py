@@ -67,6 +67,7 @@ def _sweep_one(
             cv.BLOBS,
             disabled=name,
             expected_code_digest=entry.get("expectedCodeDigest", ""),
+            expected_invocation_binding=entry.get("expectedInvocationBinding", ""),
         )
         if was_verdict != "valid" and now_verdict == "valid":
             freed.append(f"{entry['slug']} ({was_verdict} -> valid)")
@@ -77,13 +78,23 @@ def _sweep_one(
 
 def _candidate_members() -> list[tuple[dict[str, Any], bytes]]:
     """Load extension controls without changing the released corpus manifest."""
-    directory = os.path.join(HERE, "..", "interop", "observed-code-digest-candidate")
-    with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as fh:
-        candidate = json.load(fh)
     members = []
-    for entry in candidate["vectors"]:
-        with open(os.path.join(directory, entry["file"]), "rb") as fh:
-            members.append(({**entry, "slug": entry["id"]}, fh.read()))
+    for profile in ("observed-code-digest-candidate", "observed-invocation-binding-candidate"):
+        directory = os.path.join(HERE, "..", "interop", profile)
+        with open(os.path.join(directory, "MANIFEST.json"), encoding="utf-8") as fh:
+            candidate = json.load(fh)
+        for entry in candidate["vectors"]:
+            with open(os.path.join(directory, entry["file"]), "rb") as fh:
+                members.append(
+                    (
+                        {
+                            **entry,
+                            "id": f"{profile}/{entry['id']}",
+                            "slug": f"{profile}/{entry['id']}",
+                        },
+                        fh.read(),
+                    )
+                )
     return members
 
 
@@ -106,6 +117,7 @@ def main() -> None:
             observer,
             cv.BLOBS,
             expected_code_digest=entry.get("expectedCodeDigest", ""),
+            expected_invocation_binding=entry.get("expectedInvocationBinding", ""),
         )
 
     inert: list[str] = []

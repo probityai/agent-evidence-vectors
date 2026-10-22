@@ -1,0 +1,6 @@
+suite: source-text-coverage/v1
+members: 6
+  contradicted: 2
+  not_established: 3
+  supported: 1
+verdict: every member behaves as MANIFEST.json declares

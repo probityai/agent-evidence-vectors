@@ -4,7 +4,7 @@
   "counts": {
     "KILLED": 470,
     "SILENT": 36,
-    "DEAD": 404,
+    "DEAD": 417,
     "INCONCLUSIVE": 5
   },
   "annotations": {
@@ -91,14 +91,24 @@
       "snippet": "appendCode(codes, CodeSubstrateRowUnattested)",
       "branch": "taken"
     },
+    "admission.go::admissionCodes::IF_DISJ::39b14ba50cb3": {
+      "class": "DEAD",
+      "snippet": "!sealsVerify(ctx, policy)",
+      "branch": "taken"
+    },
+    "admission.go::admissionCodes::IF_DISJ::d07f6c6619e4": {
+      "class": "DEAD",
+      "snippet": "!tierPolicySatisfied(ctx, tiers)",
+      "branch": "taken"
+    },
     "admission.go::admissionCodes::IF_OFF::326747d41d7b": {
       "class": "DEAD",
       "snippet": "if !policy.AllowPublishedTestKeys { for _, key := range policy.SubstrateObservationKeys { if isPublishedTestKey(key) { codes = appendCode(codes, CodeP...",
       "branch": "taken"
     },
-    "admission.go::admissionCodes::IF_OFF::a28d7c035d45": {
+    "admission.go::admissionCodes::IF_OFF::89e3be27067c": {
       "class": "DEAD",
-      "snippet": "if !tierPolicySatisfied(ctx, tiers) { codes = appendCode(codes, CodeSubstrateRowUnattested) }",
+      "snippet": "if !tierPolicySatisfied(ctx, tiers) || !sealsVerify(ctx, policy) { codes = appendCode(codes, CodeSubstrateRowUnattested) }",
       "branch": "taken"
     },
     "admission.go::admissionCodes::IF_OFF::a338ab8b283b": {
@@ -423,6 +433,61 @@
     "admission.go::scopePolicyCodes::LOOP_FIRST::6914ba681005": {
       "class": "DEAD",
       "snippet": "for _, c := range policy.DemandedClasses { if !assessed[c] { return []Code{CodeDemandedClassUnassessed} } }",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::IF_DISJ::3ae6a3e3c7b6": {
+      "class": "DEAD",
+      "snippet": "len(policy.SubstrateObservationKeys) == 0",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::IF_DISJ::ded23dc7ada6": {
+      "class": "DEAD",
+      "snippet": "policy == nil",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::IF_OFF::420ef9e56b84": {
+      "class": "DEAD",
+      "snippet": "if !recordVerifies(&ctx.states[i], p.Records[i].Signatures, policy.SubstrateObservationKeys) { return false }",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::IF_OFF::5d3214a3be3a": {
+      "class": "DEAD",
+      "snippet": "if policy == nil || len(policy.SubstrateObservationKeys) == 0 { return false }",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::IF_OFF::b8f9040fd3a9": {
+      "class": "DEAD",
+      "snippet": "if kinds[i] != KindSealed { continue }",
+      "branch": "taken"
+    },
+    "admission.go::sealsVerify::IF_OFF::c8d1f4cfa066": {
+      "class": "DEAD",
+      "snippet": "if !hasSubstrateRows(p) { return true }",
+      "branch": "taken"
+    },
+    "admission.go::sealsVerify::LOOP_FIRST::c9c243bb23d6": {
+      "class": "DEAD",
+      "snippet": "for i := range p.Records { if kinds[i] != KindSealed { continue } if !recordVerifies(&ctx.states[i], p.Records[i].Signatures, policy.SubstrateObservat...",
+      "branch": "taken"
+    },
+    "admission.go::sealsVerify::RET_FALSE::7e4fe8351c22": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::sealsVerify::RET_FALSE::7e4fe8351c22#2": {
+      "class": "DEAD",
+      "snippet": "return true",
+      "branch": "taken"
+    },
+    "admission.go::sealsVerify::RET_TRUE::19921ccfad14": {
+      "class": "DEAD",
+      "snippet": "return false",
+      "branch": "never-taken"
+    },
+    "admission.go::sealsVerify::RET_TRUE::19921ccfad14#2": {
+      "class": "DEAD",
+      "snippet": "return false",
       "branch": "never-taken"
     },
     "admission.go::thresholdPolicyCodes::CASE_CONJ::008e1e2920f5": {

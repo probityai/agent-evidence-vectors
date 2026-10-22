@@ -1,0 +1,5 @@
+suite: anchor-stream-conformance
+members: 32
+  accept: 12
+  reject: 20
+verdict: every member behaves as MANIFEST.json declares

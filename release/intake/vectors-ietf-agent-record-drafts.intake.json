@@ -1,0 +1,1135 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 10,
+      "indeterminate": 1,
+      "reject": 20
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 31
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-ietf-agent-record-drafts/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-ietf-agent-record-drafts/digest.py",
+    "routine-file": "vectors-ietf-agent-record-drafts/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "b080bfb0df5a6929d83d5b94cd6654fe4c05945f12df37d8dbe03d9253d39468",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "dc7dd2862805313b864a249bdf04e9ba05b0408ae0d669c06231da707b93bb29",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "2701d9d7f96d63869a441e22c5e237515adbb141b145aa4ae88d2b52210dd53a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "c068af21aff1d0a9262e7c508d0e99507f885684e25db2c5817daa10cd45530a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/README.md",
+      "serialization": "bytes",
+      "sha256": "fb004829d416e7ae4a52b199ceab30d6c2e96df5f72a790b4e2613ad438aeac7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "ede8419d7a8e9eec8169961a5b70cab56d8cb29b9cff646fbe3b54274d0f8e8c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/cbor_det.py",
+      "serialization": "bytes",
+      "sha256": "7d9f120f8043db590b5ac04c9d052e422741ac4c7100508145e0f65ee0eff46d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "16677e4160c54a4c51448ffda6b3e649be713c853cceaa4530cba4592edb4822",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "398a81659a32da488710feaad24204d1f73804b018479534a4f4c693daca2cf8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "38f8d45b2f90d4ee208e6effca613e4e9f39a07d03726ec541ecea7779bf76de",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/digest.py",
+      "serialization": "bytes",
+      "sha256": "5ded25ac607af34f245dcb6970ae4416fbb79740617630d7fdf07be3e5c2f223"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "a90cf8ea48fcf336f9fa82d4530f6718ffed4f9dd8ad223a8271dceee3e8be46",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "aba3bd580153158eb05a91cb329f070c5d526691fdfd4f1cf1a00d44ccb4e65e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "a4f9a3ca0d2f7e031da6a19dfc52910c19845283999cd607889172163d1f7526",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/reference_run.py",
+      "serialization": "bytes",
+      "sha256": "8029187975b6d38f231a918b42978c26fa91d097d97332386ed00d85f3730131"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ietf-agent-record-drafts/MANIFEST.json",
+          "vectors-ietf-agent-record-drafts/gen_vectors.py"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+        },
+        "swapped-in": "811473b622fb980407c8c300ad4e98c640f340a53026d4506654765f452340bd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ietf-agent-record-drafts/upstream/cll-02-vectors.json",
+      "serialization": "bytes",
+      "sha256": "7eec8d865571223ea8cbc3ecdae5d6f2f9ac3582ab7c187d2feca588c4c4ed64"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-ietf-agent-record-drafts"
+  },
+  "byte-identity": {
+    "pins": 31,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-ietf-agent-record-drafts",
+      "aee-verify -json vectors-ietf-agent-record-drafts",
+      "aee-verify vectors-ietf-agent-record-drafts"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v009ee09f1bd85876",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v059494e0bdc24d98",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1ab8391a77ee6b5e",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1c3e1aeefe89445a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v27bcb59c03bb551a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v30fe94ad421269f8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v396893a5747f2d4e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v41c9ac27ed7f9e37",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5d18ac5ccc2f020b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v619036653b6d7369",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7799ec7b1c4bf125",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7e6c2a0f4349a03c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7ed4d3fdd37eef96",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v82b42bf6b7a52249",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8e112d2716472d27",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8eb997c4e82b6312",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v94c5e9a4ad1e0bd0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v955ebd7f6716690b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9af0955e6f118541",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va16f8ecfd7c4bf12",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va96badd9df6ce030",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vab2f9e4fc1ca6b44",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vacb161d3ce78204d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaef5b4a3f78e4f85",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb8b2caa513c47af8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbf1554388dcfa67b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbf32fe6235ed3d69",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd2a07f2769aca84f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd3794ac0671808f2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdc35eea744fd7224",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "veb528a11595d1920",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "1485cabff70c67f063e7343a1377e52c7e54b527d5e3c57f033bc1d71fdd2e3e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v009ee09f1bd85876",
+      "v059494e0bdc24d98",
+      "v1ab8391a77ee6b5e",
+      "v1c3e1aeefe89445a",
+      "v27bcb59c03bb551a",
+      "v30fe94ad421269f8",
+      "v396893a5747f2d4e",
+      "v41c9ac27ed7f9e37",
+      "v5d18ac5ccc2f020b",
+      "v619036653b6d7369",
+      "v7799ec7b1c4bf125",
+      "v7e6c2a0f4349a03c",
+      "v7ed4d3fdd37eef96",
+      "v82b42bf6b7a52249",
+      "v8e112d2716472d27",
+      "v8eb997c4e82b6312",
+      "v94c5e9a4ad1e0bd0",
+      "v955ebd7f6716690b",
+      "v9af0955e6f118541",
+      "va16f8ecfd7c4bf12",
+      "va96badd9df6ce030",
+      "vab2f9e4fc1ca6b44",
+      "vacb161d3ce78204d",
+      "vaef5b4a3f78e4f85",
+      "vb8b2caa513c47af8",
+      "vbf1554388dcfa67b",
+      "vbf32fe6235ed3d69",
+      "vd2a07f2769aca84f",
+      "vd3794ac0671808f2",
+      "vdc35eea744fd7224",
+      "veb528a11595d1920"
+    ],
+    "path": "vectors-ietf-agent-record-drafts/MANIFEST.json",
+    "sha256": "235e78f47c84617b8b31f1d08f1304a0acb8a098ff3943e9bcc694fb2cb0ae0d"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v009ee09f1bd85876.json",
+          "sha256": "009ee09f1bd8587672b9f92b364fc70a5eec75e9e141e053ed70ee811dc3401f"
+        }
+      ],
+      "id": "v009ee09f1bd85876"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v059494e0bdc24d98.json",
+          "sha256": "059494e0bdc24d98ff1be15b2f9c7acc8bb867c6f585df8af91ca569ce0f39a8"
+        }
+      ],
+      "id": "v059494e0bdc24d98"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v1ab8391a77ee6b5e.json",
+          "sha256": "1ab8391a77ee6b5e430ce1627fa40c6645db28da4db99220f30ef2e6a90f4516"
+        }
+      ],
+      "id": "v1ab8391a77ee6b5e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v1c3e1aeefe89445a.json",
+          "sha256": "1c3e1aeefe89445ab050a0e1d10fb93d26ea5340e01d713504025e9f59d80723"
+        }
+      ],
+      "id": "v1c3e1aeefe89445a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v27bcb59c03bb551a.json",
+          "sha256": "27bcb59c03bb551aa325c91b6d2d47f58c83212fc2e7d75212fe85b76ed61b28"
+        }
+      ],
+      "id": "v27bcb59c03bb551a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v30fe94ad421269f8.json",
+          "sha256": "30fe94ad421269f8cbfe371e47bac15ac056c0da736cb19461a2e113048f7612"
+        }
+      ],
+      "id": "v30fe94ad421269f8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v396893a5747f2d4e.json",
+          "sha256": "396893a5747f2d4ecde7f8acb36e8c4ac500a97714a36f27308e1fd85ec091ab"
+        }
+      ],
+      "id": "v396893a5747f2d4e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v41c9ac27ed7f9e37.json",
+          "sha256": "41c9ac27ed7f9e3752e26b700f86223f0ef235e56a0d2ceb5ca2cf3b5b7f8673"
+        }
+      ],
+      "id": "v41c9ac27ed7f9e37"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v5d18ac5ccc2f020b.json",
+          "sha256": "5d18ac5ccc2f020b3fbba5d38ac2ddbdc8a0c72d45a5d561defdf1e8f1832e01"
+        }
+      ],
+      "id": "v5d18ac5ccc2f020b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v619036653b6d7369.json",
+          "sha256": "619036653b6d73697c4e2a4ab13255fd2fd6584d2166b1e80b1b9c142e248fb2"
+        }
+      ],
+      "id": "v619036653b6d7369"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v7799ec7b1c4bf125.json",
+          "sha256": "7799ec7b1c4bf12519cee00aa3d133e62b563dffcc5d00e324e0574a9c6fe56a"
+        }
+      ],
+      "id": "v7799ec7b1c4bf125"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v7e6c2a0f4349a03c.json",
+          "sha256": "7e6c2a0f4349a03cc41c7ba21cc759fb450ba59fa97cd67ebf445c2c539ca692"
+        }
+      ],
+      "id": "v7e6c2a0f4349a03c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v7ed4d3fdd37eef96.json",
+          "sha256": "7ed4d3fdd37eef96ed65ad9fbdcffed1c6f3eab9ec430df3b8ccec7fd309e17b"
+        }
+      ],
+      "id": "v7ed4d3fdd37eef96"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v82b42bf6b7a52249.json",
+          "sha256": "82b42bf6b7a522499927443bc215df83ce2dc71289116da8485f26af0f182809"
+        }
+      ],
+      "id": "v82b42bf6b7a52249"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v8e112d2716472d27.json",
+          "sha256": "8e112d2716472d27b5fdcf3170feb56d6109ad484ee6bfdca0fdb2ff8bf239e0"
+        }
+      ],
+      "id": "v8e112d2716472d27"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v8eb997c4e82b6312.json",
+          "sha256": "8eb997c4e82b6312e6dc6322d3e615cfbbb598de9ccc0012c6352d3ec06c6962"
+        }
+      ],
+      "id": "v8eb997c4e82b6312"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v94c5e9a4ad1e0bd0.json",
+          "sha256": "94c5e9a4ad1e0bd0f53d3c6cff8ce2450a72778192128f11d76a2a448e694f0d"
+        }
+      ],
+      "id": "v94c5e9a4ad1e0bd0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v955ebd7f6716690b.json",
+          "sha256": "955ebd7f6716690b131e57486f8b7b96a3fb5cd45274115ecc7ffc3af2e11774"
+        }
+      ],
+      "id": "v955ebd7f6716690b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/v9af0955e6f118541.json",
+          "sha256": "9af0955e6f118541c281d96a0403a5da8d319f52152d8df268686d8ac2a37a17"
+        }
+      ],
+      "id": "v9af0955e6f118541"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/va16f8ecfd7c4bf12.json",
+          "sha256": "a16f8ecfd7c4bf12d2e6d6bb1b0ca4bef9be51fdbaaeef597c252de4d13542be"
+        }
+      ],
+      "id": "va16f8ecfd7c4bf12"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/va96badd9df6ce030.json",
+          "sha256": "a96badd9df6ce0303e39609adb92d65bc6931beb7c25cd3df9cb85f580b1ca83"
+        }
+      ],
+      "id": "va96badd9df6ce030"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vab2f9e4fc1ca6b44.json",
+          "sha256": "ab2f9e4fc1ca6b443726a12b178b0b07f6fc2af9d459ff97e25a4ffa5d461cc9"
+        }
+      ],
+      "id": "vab2f9e4fc1ca6b44"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vacb161d3ce78204d.json",
+          "sha256": "acb161d3ce78204d6c53574177f9a34d90ba2701f4f1c1cf21d05c5b082f46a6"
+        }
+      ],
+      "id": "vacb161d3ce78204d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vaef5b4a3f78e4f85.json",
+          "sha256": "aef5b4a3f78e4f8544fd250fc76f9b4444fcaac16a9dc81283f7ac6219a2ce75"
+        }
+      ],
+      "id": "vaef5b4a3f78e4f85"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vb8b2caa513c47af8.json",
+          "sha256": "b8b2caa513c47af822f96c1825951b5ed39fb242883381522ceb8a380d134c50"
+        }
+      ],
+      "id": "vb8b2caa513c47af8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vbf1554388dcfa67b.json",
+          "sha256": "bf1554388dcfa67ba0b3fd9dad2176540ab4372f38f634154fe253d0bb149dae"
+        }
+      ],
+      "id": "vbf1554388dcfa67b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vbf32fe6235ed3d69.json",
+          "sha256": "bf32fe6235ed3d69e3685898fafafc9d6645a3f60c57a25dfa6ae14674ccec23"
+        }
+      ],
+      "id": "vbf32fe6235ed3d69"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vd2a07f2769aca84f.json",
+          "sha256": "d2a07f2769aca84fe0fa1990712e1dcd7eb956818c318afc369d921a3edacff6"
+        }
+      ],
+      "id": "vd2a07f2769aca84f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vd3794ac0671808f2.json",
+          "sha256": "d3794ac0671808f232ac4b6539a0a93390892d290fa94baecaf084b93f917769"
+        }
+      ],
+      "id": "vd3794ac0671808f2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/vdc35eea744fd7224.json",
+          "sha256": "dc35eea744fd72241ae21ff9117b4eee772deadb7537ea2f13f0479fbb2347d9"
+        }
+      ],
+      "id": "vdc35eea744fd7224"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ietf-agent-record-drafts/cases/veb528a11595d1920.json",
+          "sha256": "eb528a11595d1920ae3f6d89151c15042c5af794ab11177f02db24da8aa8eb6a"
+        }
+      ],
+      "id": "veb528a11595d1920"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-ietf-agent-record-drafts.json",
+        "serialization": "bytes",
+        "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-ietf-agent-record-drafts.txt",
+        "serialization": "bytes",
+        "sha256": "3947b7bfd9c991381a7b3c16c6cba38199dc645b960d32e09151c0facec8250c"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v009ee09f1bd85876",
+      "inputs": [
+        "member:v009ee09f1bd85876",
+        "check:v009ee09f1bd85876"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v1c3e1aeefe89445a",
+      "inputs": [
+        "member:v1c3e1aeefe89445a",
+        "check:v1c3e1aeefe89445a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"chain-position-equivocation\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v27bcb59c03bb551a",
+      "inputs": [
+        "member:v27bcb59c03bb551a",
+        "check:v27bcb59c03bb551a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"header-payload-disagree\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v30fe94ad421269f8",
+      "inputs": [
+        "member:v30fe94ad421269f8",
+        "check:v30fe94ad421269f8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"registration-late\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v396893a5747f2d4e",
+      "inputs": [
+        "member:v396893a5747f2d4e",
+        "check:v396893a5747f2d4e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"issued-at-regression\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v7799ec7b1c4bf125",
+      "inputs": [
+        "member:v7799ec7b1c4bf125",
+        "check:v7799ec7b1c4bf125"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"history-fork\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v7ed4d3fdd37eef96",
+      "inputs": [
+        "member:v7ed4d3fdd37eef96",
+        "check:v7ed4d3fdd37eef96"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"timestamp-regression\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v82b42bf6b7a52249",
+      "inputs": [
+        "member:v82b42bf6b7a52249",
+        "check:v82b42bf6b7a52249"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"claims-malformed\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v8e112d2716472d27",
+      "inputs": [
+        "member:v8e112d2716472d27",
+        "check:v8e112d2716472d27"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"content-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v94c5e9a4ad1e0bd0",
+      "inputs": [
+        "member:v94c5e9a4ad1e0bd0",
+        "check:v94c5e9a4ad1e0bd0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"not-continuous\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v955ebd7f6716690b",
+      "inputs": [
+        "member:v955ebd7f6716690b",
+        "check:v955ebd7f6716690b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"cose-malformed\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v9af0955e6f118541",
+      "inputs": [
+        "member:v9af0955e6f118541",
+        "check:v9af0955e6f118541"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vab2f9e4fc1ca6b44",
+      "inputs": [
+        "member:vab2f9e4fc1ca6b44",
+        "check:vab2f9e4fc1ca6b44"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"prev-chain-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vacb161d3ce78204d",
+      "inputs": [
+        "member:vacb161d3ce78204d",
+        "check:vacb161d3ce78204d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"cbor-duplicate-key\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vb8b2caa513c47af8",
+      "inputs": [
+        "member:vb8b2caa513c47af8",
+        "check:vb8b2caa513c47af8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"cbor-not-deterministic\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vbf1554388dcfa67b",
+      "inputs": [
+        "member:vbf1554388dcfa67b",
+        "check:vbf1554388dcfa67b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signature-invalid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vbf32fe6235ed3d69",
+      "inputs": [
+        "member:vbf32fe6235ed3d69",
+        "check:vbf32fe6235ed3d69"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"reference-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vd3794ac0671808f2",
+      "inputs": [
+        "member:vd3794ac0671808f2",
+        "check:vd3794ac0671808f2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"chain-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vdc35eea744fd7224",
+      "inputs": [
+        "member:vdc35eea744fd7224",
+        "check:vdc35eea744fd7224"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"sequence-gap\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "veb528a11595d1920",
+      "inputs": [
+        "member:veb528a11595d1920",
+        "check:veb528a11595d1920"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"cose-malformed\"],\"verdict\":\"malformed\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+      },
+      {
+        "process": "run-2",
+        "sha256": "55302eb3ba58868a51d6fe1607667323c9e11085eaec4bc50b198d323905648f"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 31 pinned members of ietf-agent-record-drafts-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 31,
+    "require": "at-least-one",
+    "selected": [
+      "v009ee09f1bd85876",
+      "v059494e0bdc24d98",
+      "v1ab8391a77ee6b5e",
+      "v1c3e1aeefe89445a",
+      "v27bcb59c03bb551a",
+      "v30fe94ad421269f8",
+      "v396893a5747f2d4e",
+      "v41c9ac27ed7f9e37",
+      "v5d18ac5ccc2f020b",
+      "v619036653b6d7369",
+      "v7799ec7b1c4bf125",
+      "v7e6c2a0f4349a03c",
+      "v7ed4d3fdd37eef96",
+      "v82b42bf6b7a52249",
+      "v8e112d2716472d27",
+      "v8eb997c4e82b6312",
+      "v94c5e9a4ad1e0bd0",
+      "v955ebd7f6716690b",
+      "v9af0955e6f118541",
+      "va16f8ecfd7c4bf12",
+      "va96badd9df6ce030",
+      "vab2f9e4fc1ca6b44",
+      "vacb161d3ce78204d",
+      "vaef5b4a3f78e4f85",
+      "vb8b2caa513c47af8",
+      "vbf1554388dcfa67b",
+      "vbf32fe6235ed3d69",
+      "vd2a07f2769aca84f",
+      "vd3794ac0671808f2",
+      "vdc35eea744fd7224",
+      "veb528a11595d1920"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "ietf-agent-record-drafts-conformance"
+}

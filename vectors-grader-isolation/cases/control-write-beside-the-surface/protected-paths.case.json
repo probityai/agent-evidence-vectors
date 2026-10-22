@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 326,
+      "path": "capability.json",
+      "sha256": "b2a28fccdd16acabcd72524b943f5cd332eb1a8609717a4691bc930a50b89144"
+    },
+    "contract": {
+      "length": 914,
+      "path": "contract.json",
+      "sha256": "9adf435b469830e9292b99a628f9ccfc217c0edcd5b253c7769f486fa977d2f7"
+    },
+    "observation": {
+      "length": 1205,
+      "path": "observation.json",
+      "sha256": "3d731f7626fc621cc45977d9bd4b7d5ff2a37fd985329e0845afae3ce4bd9d24"
+    },
+    "tree": {
+      "length": 543,
+      "path": "tree.json",
+      "sha256": "47105fe86c8f2a8ce3df0a3d60e7e4869edcaf39027b7fb21625a0dac6b0cfb8"
+    }
+  },
+  "case_id": "control-write-beside-the-surface",
+  "schema_version": "probity-case/v1"
+}

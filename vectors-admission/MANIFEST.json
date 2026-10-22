@@ -56,10 +56,10 @@
     }
   },
   "contract": "README.md",
-  "corpusDigest": "df985af46115ba5cd9b6453d879fa4cac1181c061b27e7615ce69bcef3bf3ede",
+  "corpusDigest": "17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446",
   "counts": {
     "accept": 5,
-    "reject": 16
+    "reject": 17
   },
   "keyRecipe": "seed(role) = SHA-256(\"in-toto-aee-test-key/<role>/v1\"), role substrate-observation-test, as ../vectors/keys/README.md publishes it",
   "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
@@ -151,6 +151,24 @@
       "id": "v36c2505763687a91",
       "kind": "reject",
       "label": "an artifact-only pass_indirect, default threshold",
+      "policy": "policies/ve1999bcde0c49043.json"
+    },
+    {
+      "conditions": [
+        "adm-c-3",
+        "adm-c-6"
+      ],
+      "expected": {
+        "admitted": false,
+        "policyCodes": [
+          "result-not-accepted",
+          "substrate-row-unattested"
+        ]
+      },
+      "file": "statements/vf1780aaab3d2cdf3.json",
+      "id": "v6f9c595b70251c78",
+      "kind": "reject",
+      "label": "a caught row attested, the run-end seal carries a signature that does not verify",
       "policy": "policies/ve1999bcde0c49043.json"
     },
     {

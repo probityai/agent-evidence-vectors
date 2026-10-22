@@ -1,0 +1,629 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 2,
+      "deny": 10
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 12
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-chunked-export/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-chunked-export/gen_vectors.py",
+    "routine-file": "vectors-chunked-export/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "swapped-in": "77d3e73b137facc71da002d4de54f1073a4f124731c14440f8dc8f2c85446fcf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-chunked-export/README.md",
+      "serialization": "bytes",
+      "sha256": "d73d7070e040082c677dd103cb331a1e51bb86a18f57fd39304e011ee25c6333"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "swapped-in": "38df25826bd473ae5fe8b3d9b3521d6c58a8966e361c4c94c04856a5d2ac3af2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-chunked-export/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "75c22713ebf97ed210feb42db56327aacc5059a4ea2ab338297fc56731a2fcf2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "swapped-in": "438edf2a6fbd57cef82fb2dd830703b668774300f4714755f310e1d3a835b6c4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-chunked-export/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "540e57b65eab1809fd0937e235354226dc2597a78afd1900ad7d8eec7c706353"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+        },
+        "swapped-in": "a8b9e3fa894aacbff7813f8419fb7d9884c1d86753c6268e9e03547ea7ec42c1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-chunked-export/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "0aef688c6f66075c5483d402980719dcc0fc41c6f9888cf7090170004fc5f91d"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-chunked-export"
+  },
+  "byte-identity": {
+    "pins": 40,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-chunked-export",
+      "aee-verify -json vectors-chunked-export",
+      "aee-verify vectors-chunked-export"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "variant-a-below-threshold",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "variant-a-at-crossing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "variant-a-final-chunk",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "variant-a-max-of-labels-seal",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "threshold-committed-after-first-chunk",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sets-three-chunks-no-reconstructing-set",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sets-key-field-chunk-alone",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "count-same-three-chunks",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "sets-key-field-max-of-labels-seal",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "step-class-irreversible",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "35954467c62e57d72f5505818ffac32966bf294037e082e52cd27fc81e32a983"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "variant-a-below-threshold",
+      "variant-a-at-crossing",
+      "variant-a-final-chunk",
+      "variant-a-max-of-labels-seal",
+      "threshold-committed-after-first-chunk",
+      "sets-three-chunks-no-reconstructing-set",
+      "sets-key-field-chunk-alone",
+      "count-same-three-chunks",
+      "sets-key-field-max-of-labels-seal",
+      "step-class-irreversible",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "vectors-chunked-export/MANIFEST.json",
+    "sha256": "72c42c75941a8e5a429221d9b73c58b67106b8cfe46529951d559107a6d83c2b"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/variant-a-below-threshold/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-below-threshold/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-below-threshold/record.json",
+          "sha256": "f280cc36bbe267178e78cdebed94e3b79efbb762f2f36b8ef175011758268a73"
+        }
+      ],
+      "id": "variant-a-below-threshold"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-at-crossing/chunk-2.bin",
+          "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-at-crossing/record.json",
+          "sha256": "a94fe4b48e14474c8418736a0c87c5ef73ef59281e7511559daf2d079c615da7"
+        }
+      ],
+      "id": "variant-a-at-crossing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-2.bin",
+          "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-3.bin",
+          "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/chunk-4.bin",
+          "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-final-chunk/record.json",
+          "sha256": "70b901ff6fa66addd788a3c9621477b3ba81585d38aa8338d33675bea57e94e2"
+        }
+      ],
+      "id": "variant-a-final-chunk"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/chunk-2.bin",
+          "sha256": "ac6f75b475702c64bbd38840e26512ae157426b197b4cdf212ff5bc2e1130aa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/variant-a-max-of-labels-seal/record.json",
+          "sha256": "e87f253f0dce964622082ef2516851b32e508342eebc0d02f6865c42c408e035"
+        }
+      ],
+      "id": "variant-a-max-of-labels-seal"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/threshold-committed-after-first-chunk/record.json",
+          "sha256": "a0eb70681083c83868b8db5ebbcc839c493c825f28b6c5a4bd9b8521e612f95a"
+        }
+      ],
+      "id": "threshold-committed-after-first-chunk"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/chunk-4.bin",
+          "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
+        },
+        {
+          "path": "vectors-chunked-export/cases/sets-three-chunks-no-reconstructing-set/record.json",
+          "sha256": "b955a6cfc0f6f4f7d1df723f31e2cd6427a78341ef07561aae28f61ebf35d718"
+        }
+      ],
+      "id": "sets-three-chunks-no-reconstructing-set"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/sets-key-field-chunk-alone/chunk-3.bin",
+          "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
+        },
+        {
+          "path": "vectors-chunked-export/cases/sets-key-field-chunk-alone/record.json",
+          "sha256": "03569eba1949e93725e339518cc98d5593462a14a3cda99d180b9f5de3367af7"
+        }
+      ],
+      "id": "sets-key-field-chunk-alone"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/count-same-three-chunks/chunk-4.bin",
+          "sha256": "2ff85d4b76fce467be8e8aedfe8b189d32cef58edba7919a40b9e0a6251d9190"
+        },
+        {
+          "path": "vectors-chunked-export/cases/count-same-three-chunks/record.json",
+          "sha256": "5046db6d915dd7c37e0232a4e05d8dee7b6ac216d84ad21fa32958874efabecb"
+        }
+      ],
+      "id": "count-same-three-chunks"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/chunk-3.bin",
+          "sha256": "e581b45b81619197c92ea6a4bb9dd09fbc48ac6449b7b3ff78c86137878bd6c4"
+        },
+        {
+          "path": "vectors-chunked-export/cases/sets-key-field-max-of-labels-seal/record.json",
+          "sha256": "5d731ebf261b6007682419247305e7f52d330ce40ffafd7a094a8e0838db98c7"
+        }
+      ],
+      "id": "sets-key-field-max-of-labels-seal"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/step-class-irreversible/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/step-class-irreversible/record.json",
+          "sha256": "89ebf401105beee5554301d3e55167ed76c660f882b55d03ae2c6df43ed2e978"
+        }
+      ],
+      "id": "step-class-irreversible"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/contract-id-missing/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/contract-id-missing/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/contract-id-missing/record.json",
+          "sha256": "515ec57d420cd8cf1290959f343936041df830c7bdcd0bb30d709e092d86efa5"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-chunked-export/cases/contract-id-unknown/chunk-0.bin",
+          "sha256": "748187fbc2ad20f42a0eeb591451c8e241d9a88232bdbe1c15ec40277f73faa3"
+        },
+        {
+          "path": "vectors-chunked-export/cases/contract-id-unknown/chunk-1.bin",
+          "sha256": "1e48d40e9b903ff2ebc3d5b61300a875eed8afcb90dd8959591d4ef757f291ff"
+        },
+        {
+          "path": "vectors-chunked-export/cases/contract-id-unknown/record.json",
+          "sha256": "64d6a571608bc267ca54b2cabb5b23ab993fcb960212e83061701f27f83da508"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-chunked-export.json",
+        "serialization": "bytes",
+        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-chunked-export.txt",
+        "serialization": "bytes",
+        "sha256": "52c9a85f54c3ff4ee6602ac03fe2632afafc1776893f5952b9c6b1b6108a90a4"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+      },
+      {
+        "process": "run-2",
+        "sha256": "43fd52e90b81afd63eac1934670c2f081fe1e8c828d112954d8d3be24bcc0c74"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 12 pinned members of chunked-export/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 12,
+    "require": "at-least-one",
+    "selected": [
+      "variant-a-below-threshold",
+      "variant-a-at-crossing",
+      "variant-a-final-chunk",
+      "variant-a-max-of-labels-seal",
+      "threshold-committed-after-first-chunk",
+      "sets-three-chunks-no-reconstructing-set",
+      "sets-key-field-chunk-alone",
+      "count-same-three-chunks",
+      "sets-key-field-max-of-labels-seal",
+      "step-class-irreversible",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "chunked-export/v1"
+}

@@ -1,0 +1,934 @@
+{
+  "aggregate": {
+    "counts": {
+      "failed": 4,
+      "not-established": 2,
+      "verified": 2
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 8
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-artifact-binding/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-artifact-binding/digest.py",
+    "routine-file": "vectors-artifact-binding/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "888c4ac3602789fa8b41799ea328790d72abd52a2e845274e4c30c32eb41f01c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "9c070de1ccbf948d2d2c0dd113ab8229faf7dd8caa158a6ec65cfa8e6de195b3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "78a5c6bc83496afc8caa82b9e33832a4b0436819531850b39da3837a20645e46",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "87407aba77cef6c1cadb6d59ca922d329f5f43208300e4335570f7c40b1c5a41"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "4272f492f391698fb5ec01b154dd6b114409e60c094ebf656a0cfcf6e82cfa22",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "905b35da03de06117202f11bc9351aa0bafd05a7166eb2b44daeab932709e33d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "0b0bc3191bf1aea68035253fc621b774e6ff97cc38d33939f407d2b95b782387",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/digest.py",
+      "serialization": "bytes",
+      "sha256": "66413cc57869988b2ed9d2921c152d4ed90db7d8e6494def82a1b009f8f0600e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "2164734fc216795eadb85ed5a6d47b4a735dbfd88f46eee92acdfac9fdc2fb79",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "bdda9cb013047af55cd013cc358b8680dec943e86f5332cdf7d1fa6ec30a7dae"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+        },
+        "swapped-in": "797bef62d376b9baa9ab961ecad584fac7fc0dbb2f5dc1e02b3b79cd9119af5d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-artifact-binding/public.key",
+      "serialization": "bytes",
+      "sha256": "4ebbe859de728e527bf2c053d3d7dabc7745b6c0c95cdf9dd7952317c3000b1f"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-artifact-binding"
+  },
+  "byte-identity": {
+    "pins": 107,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-artifact-binding",
+      "aee-verify -json vectors-artifact-binding",
+      "aee-verify vectors-artifact-binding"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v21fa0d3af33d010d",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v63555b6f69adb453",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7020b1fccb496c3b",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va8f79964b68a610f",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb8a8df5360bc6f37",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd05d2e7059332fd5",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vee1d041fe793404e",
+      "native": {
+        "reasons": [],
+        "verdict": "failed"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfa81facc1464c1d6",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "1b236dab3527ebdb5093d785c6597d651f92d118dfbc2338e14c44ea42d86394"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v21fa0d3af33d010d",
+      "v63555b6f69adb453",
+      "v7020b1fccb496c3b",
+      "va8f79964b68a610f",
+      "vb8a8df5360bc6f37",
+      "vd05d2e7059332fd5",
+      "vee1d041fe793404e",
+      "vfa81facc1464c1d6"
+    ],
+    "path": "vectors-artifact-binding/MANIFEST.json",
+    "sha256": "5ff4a5bf5ebdccb48a0e508a70c48ff3bfd255359be11a3ebf6d56768d5f1a2d"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.json",
+          "sha256": "7f5e8ca5dd19e86e2b496250d31d99af86106c0c755ad93acd2ca9ca774918ef"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/binding/manifest.sig",
+          "sha256": "1318a830f4812aa0add26b0fede910dd74c003f301c90731b866f19ef4e422c1"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/atif-pointer-mismatch/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "v21fa0d3af33d010d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.json",
+          "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/binding/manifest.sig",
+          "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/required-role-absent/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "v63555b6f69adb453"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.json",
+          "sha256": "62da31605edc7e2b383426c196b971c73349f7128382b7e3c1e07eda819145e5"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/binding/manifest.sig",
+          "sha256": "110b094735c359ebf99e21aae045d864c4942ee254b7bac0e47316c630479a8c"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/non-canonical-encoding/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "v7020b1fccb496c3b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.json",
+          "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/binding/manifest.sig",
+          "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/source/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/grading-inputs/test.sh",
+          "sha256": "e5fd6b36184fdf8566a46937bf21d1ec460ac66aebc333c74886b8877ff27cdd"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.json",
+          "sha256": "b5178d5dcda6390d60fb8397132fc53f24b609bec51693034c5d022719c31f5e"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/binding/manifest.sig",
+          "sha256": "86b49cc72c704d8925385c3f5e1df5323f48b2339ad14aa859994d8c1b8e2ed0"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/reward.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/trial/verifier/test-stdout.txt",
+          "sha256": "f8866b8dd9611a6c8fd6590f896366900ec4ce8295f4980077d73bf4684681df"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/verifier-changed/test.sh",
+          "sha256": "e5fd6b36184fdf8566a46937bf21d1ec460ac66aebc333c74886b8877ff27cdd"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/regrade-changed-verifier/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "va8f79964b68a610f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "9dfb9d9309aa4e7e102547add980225ce057893476b97844e687b122149e6b2d"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.json",
+          "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/binding/manifest.sig",
+          "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/covered-byte-changed/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "vb8a8df5360bc6f37"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.json",
+          "sha256": "37ff774ee7479c855f9f444898e331d886b640ac2cee5f88e842413f2890292a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/binding/manifest.sig",
+          "sha256": "781d4ac39931304a9c119c3efd1c84ed79e029c1afdbbca53fed329005ac65f5"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/intact-execute/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "vd05d2e7059332fd5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/agent/trajectory.json",
+          "sha256": "9793ca8848b76110b02953aa29be522bd04fddedd94722054db7b95e4f3d44eb"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.json",
+          "sha256": "b77a8f3203778204319592137ffed918c8d3db3408f5d57033a1963eb2f09d13"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/binding/manifest.sig",
+          "sha256": "79afccf3009e6b80cf1b0098f43e31d8874e819e6e4f243aff5d15059da907ff"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/wrong-signer/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "vee1d041fe793404e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/agent/trajectory.json",
+          "sha256": "d1a5c6a25f6a0f331175b481c0ca279d72e92473593b66f14d015b88c9bd5189"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/logs/artifacts/answer.txt",
+          "sha256": "1e319f074c3b5ed45cad07d9c416d3d07ad3c556878d4b84c94278f9f9e2536a"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/artifacts/manifest.json",
+          "sha256": "410ae7cc2fcb1cf23750970ad33becd2d96986618bb442e48b543503233a8396"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/grading-inputs/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.json",
+          "sha256": "f90ca279a1d91bc166c6fcb5cf960d0560872c8dfdb8feb1c76c6cad0b8d4929"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/binding/manifest.sig",
+          "sha256": "96dfa6c1bbf388d1c2ff05942dcddd4df8fbccb2febca5a1ec4b1c488f99e618"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/lock.json",
+          "sha256": "a3913da3241fac0b3318e26b82018898b2ea8fc820c07826f7b27e2d8d1c4595"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/result.json",
+          "sha256": "71c5942aacc011759c3d23dab1d4cf51b8f02fabb16f68dafb4f227543f102d8"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/trial/verifier/test-stdout.txt",
+          "sha256": "45b466528330af5f62cb298b09dbab7aa6aeed0c80e356539ff1cc08dfcea324"
+        },
+        {
+          "path": "vectors-artifact-binding/cases/dependency-incomplete/verifier/test.sh",
+          "sha256": "44d21d3be0d074c78e93fa5b82aa632d08d40f84bf54d24182c5eb6cb153d1d7"
+        }
+      ],
+      "id": "vfa81facc1464c1d6"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-artifact-binding.json",
+        "serialization": "bytes",
+        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-artifact-binding.txt",
+        "serialization": "bytes",
+        "sha256": "fecd018571021bf1c7d55d3d329bb6400e5e1decc75adc09f3c2f5d483f12ab0"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v21fa0d3af33d010d",
+      "inputs": [
+        "member:v21fa0d3af33d010d",
+        "check:v21fa0d3af33d010d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"atif-document-digest-mismatch\"],\"messagesDigest\":\"966ed208787b453df6b013a6e3f10a01fb36b7ae1687cfdf66a19619b68c0f70\",\"verdict\":\"failed\"}}"
+    },
+    {
+      "check": "v7020b1fccb496c3b",
+      "inputs": [
+        "member:v7020b1fccb496c3b",
+        "check:v7020b1fccb496c3b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"manifest-encoding-not-canonical\"],\"messagesDigest\":\"4ff722a03ad55a80cbc6ec6f910ede42083a23d6598d5a6f937a66788184bfee\",\"verdict\":\"failed\"}}"
+    },
+    {
+      "check": "vb8a8df5360bc6f37",
+      "inputs": [
+        "member:vb8a8df5360bc6f37",
+        "check:vb8a8df5360bc6f37"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"artifact-digest-mismatch\",\"artifact-length-mismatch\"],\"messagesDigest\":\"c43f19461487c3a01fe57d85b973391a92df24bbd3762368bf838610d12e1ce9\",\"verdict\":\"failed\"}}"
+    },
+    {
+      "check": "vee1d041fe793404e",
+      "inputs": [
+        "member:vee1d041fe793404e",
+        "check:vee1d041fe793404e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"signer-key-mismatch\"],\"messagesDigest\":\"0d299d99a61099c603127c21d9157081b90bf1c64b0abd9b9498b23ce0582b54\",\"verdict\":\"failed\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+      },
+      {
+        "process": "run-2",
+        "sha256": "1ddd226d054891cf7082d3614ad055b26265621c69a285c959611e240fcfdd2a"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 8 pinned members of artifact-binding-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 8,
+    "require": "at-least-one",
+    "selected": [
+      "v21fa0d3af33d010d",
+      "v63555b6f69adb453",
+      "v7020b1fccb496c3b",
+      "va8f79964b68a610f",
+      "vb8a8df5360bc6f37",
+      "vd05d2e7059332fd5",
+      "vee1d041fe793404e",
+      "vfa81facc1464c1d6"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "artifact-binding-conformance"
+}

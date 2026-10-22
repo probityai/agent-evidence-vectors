@@ -23,6 +23,7 @@ key can make, which is the point of them.
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import importlib.util
 import json
@@ -169,6 +170,22 @@ def relabelled(source: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
+def seal_unsigned(source: dict[str, Any]) -> dict[str, Any]:
+    """The statement with every sealed record's signature bytes replaced by junk.
+
+    The signature member stays present and well formed, so the statement is still
+    valid at the byte-pure layer. A caught row resolves only its interception
+    record, so no row's tier reads the seal; only a verifier that checks the
+    seal's own signature sees the rewrite.
+    """
+    out: dict[str, Any] = json.loads(json.dumps(source))
+    for record in out["predicate"]["observationRecords"]:
+        payload = json.loads(base64.b64decode(record["payload"]))
+        if payload.get("aeeKind") == "sealed":
+            record["signatures"] = [{"keyid": "", "sig": "bm90LWEtc2lnbmF0dXJl"}]
+    return out
+
+
 def full_policy(statement: dict[str, Any], **changes: Any) -> dict[str, Any]:
     """Every pin a consumer owes, matching this statement, then the changes."""
     env = statement["predicate"]["observationEnvironment"]
@@ -205,6 +222,7 @@ def members() -> list[dict[str, Any]]:
     relabel = relabelled(flagship)
     failed = load_source("vcf20eae7df4f1f1b")  # fail, caught and attested, no arming record
     indirect = load_source("vc2782e6c3cbdb9b7")  # pass_indirect, one reconstructed artifact row
+    seal_forged = seal_unsigned(failed)
     unattested = load_source("v550c91df0d36a218")  # fail, row unattested under the pinned key
     keys_only = {
         "substrateObservationKeys": [{"publicKeyHex": OBSERVATION_KEY_HEX}],
@@ -384,6 +402,14 @@ def members() -> list[dict[str, Any]]:
             "a substrate row unattested under the pinned key",
             unattested,
             full_policy(unattested),
+            False,
+            ["result-not-accepted", "substrate-row-unattested"],
+            ["adm-c-3", "adm-c-6"],
+        ),
+        (
+            "a caught row attested, the run-end seal carries a signature that does not verify",
+            seal_forged,
+            full_policy(seal_forged),
             False,
             ["result-not-accepted", "substrate-row-unattested"],
             ["adm-c-3", "adm-c-6"],

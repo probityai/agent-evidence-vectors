@@ -1333,6 +1333,15 @@ DELEGATED: tuple[Delegated, ...] = (
 
 
 FROZEN: tuple[Frozen, ...] = (
+    # ---- a count from a past audit, recorded in the change history.
+    Frozen(
+        'vectors/CHANGES.md',
+        "the number of loop sites a past audit enumerated in aee/",
+        'it enumerated 53 sites in `aee/`',
+        'A count of source sites an audit enumerated in the reference verifier at the time '
+        'the entry was written. It is history, does not track any corpus, and met the '
+        'observed-effect reject count by coincidence.',
+    ),
     # ---- the output of a published, immutable release, shown as it prints.
     Frozen(
         'README.md',
@@ -2583,6 +2592,83 @@ FROZEN: tuple[Frozen, ...] = (
         "one vector each. It is a property of the RFC's own table rather than of "
         "any corpus here, and the family exists to carry exactly that table.",
     ),
+    Frozen(
+        'packaging/agent_evidence_vectors/w3cintake.py',
+        "the objection window of the group's process, in hours",
+        'the 48-hour objection window that followed it',
+        "A duration in the W3C group's own process, in hours. It counts nothing"
+        ' in this corpus and equals its total only by coincidence.',
+    ),
+    Frozen(
+        'packaging/agent_evidence_vectors/w3cintake.py',
+        'the criterion number the exit-rule field answers',
+        '``exit-rule`` (criterion 4)',
+        "A criterion number in the group's published intake criteria. It names "
+        'a criterion and counts nothing in this corpus.',
+    ),
+    Frozen(
+        'packaging/agent_evidence_vectors/w3cintake.py',
+        'the criterion and delta numbers a docstring cites',
+        'Criterion 4 and delta 5: each refusal',
+        "A criterion number and a delta number from the group's published "
+        'intake criteria. They name text and count nothing in this corpus.',
+    ),
+    Frozen(
+        'scripts/gen-intake-records.py',
+        "the independent reader's verdict count for the receipt-signature corpus",
+        '25/25 verdicts agree',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
+    ),
+    Frozen(
+        'scripts/gen-intake-records.py',
+        "the independent reader's verdict count for the main corpus",
+        '285/285 verdicts agree',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
+    ),
+    Frozen(
+        'scripts/gen-intake-records.py',
+        "the independent reader's verdict count for the W3C report corpus",
+        '235/235 verdicts agree',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
+    ),
+    Frozen(
+        'scripts/gen-intake-records.py',
+        "the independent reader's verdict count for the anchored-chain corpus",
+        '14/14 verdicts agree',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
+    ),
+    Frozen(
+        'scripts/gen-intake-records.py',
+        "the independent reader's structure-level total across twelve corpora",
+        '382/382 across the twelve corpora read at this depth',
+        'A result the independent reader recorded for a past run against the '
+        'release the record names. It records that run as reported and must not'
+        ' track this corpus.',
+    ),
+    Frozen(
+        'vectors-w3c-intake/INDEX.md',
+        "the fixture's own wording of a two-member selection",
+        'so 2 of 2 printed as a clean run',
+        'The description of a rejected fixture: a selection of two members, '
+        'both named in the record. It describes that fixture and does not track'
+        ' the corpus.',
+    ),
+    Frozen(
+        'vectors-w3c-intake/gen_vectors.py',
+        "the fixture's own wording of a two-member selection",
+        'the result never returned it, so 2 of 2',
+        'The description of a rejected fixture: a selection of two members, '
+        'both named in the record. It describes that fixture and does not track'
+        ' the corpus.',
+    ),
 )
 
 
@@ -2701,6 +2787,23 @@ MASKS = tuple(
         # in any corpus. The key has to sit next to the number, so a bare
         # quantity in a workflow is still read and still checked.
         r"\b(?:timeout-minutes|retention-days):\s*\d+",
+        # Five shapes that count nothing, all found the day the observed-effect
+        # corpus reached 80 members and twelve sites were reported against it: a
+        # PERCENTAGE (`an 80% floor`), the VALUE OF A COMMAND-LINE OPTION
+        # (`--threshold 80`, `"--first-screen", "80"`), a RUN OF HEX OCTETS
+        # (`ED A0 80`, the CESU-8 spelling of a surrogate; written before the
+        # requirement-id mask below, which would otherwise take `A0` and leave
+        # the `80`), a PERCENT-ENCODED OCTET (`%80`), and a BYTE SIZE written
+        # with a thousands separator (`80,438 bytes`, whose `438 bytes` the byte
+        # mask already took). A ratio, a setting, an encoding and a size are not
+        # claims about a corpus, and a corpus total walks onto each of them.
+        r"\b\d+(?:\.\d+)?%",
+        r"--[a-z][\w-]*[\"']?,?\s*[\"']?\d+",
+        r"\b[A-F][0-9A-F](?:\s[0-9A-F]{2})+\b",
+        r"%[0-9A-Fa-f]{2}",
+        r"\b\d{1,3}(?:,\d{3})+[\s-]?bytes?\b",
+        # A NETWORK ADDRESS WITH A PORT (`1.2.3.4:80`): the port names a service.
+        r"\b\d{1,3}(?:\.\d{1,3}){3}:\d+\b",
         r"RFC\s*\d+",  # RFC numbers
         # Standards NAMES. A digit inside the name of a standard names the
         # document and counts nothing: IEEE 754 is not 754 of anything, and
@@ -2764,6 +2867,10 @@ MASKS = tuple(
         # collided with the suiteRevision and a reject count while claiming
         # nothing about either.
         r"\b[Rr]ules?\s+\d{1,3}\b",
+        # A line reference, `Lines 417 to 429` or `line 80`, names a place in a
+        # file and counts nothing. A pin of that shape collided with the unforced
+        # count when the forcing baseline moved from 404 to 417 rules.
+        r"\b[Ll]ines?\s+\d+(?:\s*(?:to|-)\s*\d+)?\b",
         r"\b0\d+\b",  # zero-padded: a count is never written 0020
         r"\b\d+\s*(?:<<|>>)\s*\d+\b",  # shift expressions: 20 << 20
         r"\b\d+\s*[KMGT]i?B\b",  # byte sizes: 20 MiB
@@ -2885,6 +2992,9 @@ MASKS = tuple(
         # written as shapes for the reason the rule-id mask above gives: a freeze
         # per site would have to move every time a corpus total walked onto one.
         r"\b\d+\*\*\d+\b",
+        # The same power written with a caret: `2^53`, the I-JSON integer bound,
+        # met the observed-effect reject count when that corpus reached 53.
+        r"\b\d+\^\d+\b",
         r"\bto-the-\d+\b",
         r"\b\d+\s+days?\b",
         # A NUMERIC RANGE. `(90-100 Full Compliance, 70-89 Partial, 50-69 Minimal,
@@ -2975,7 +3085,12 @@ ATTRIBUTION = re.compile(r"(?:suite)?[Rr]evisions?[-\s]+(?:[#>*]+\s*)?(\d+)")
 # keep moving, and each step is one more small integer that prose can use
 # innocently. The check that survives is the one below, which asks whether a count
 # NOUN sits beside the number.
-SMALL_VALUE = 22
+#
+# Raised again from 22 to 23 at suiteRevision 22, when the admission corpus grew
+# to 22 vectors and its total walked into the band: bare 22s in workflow node
+# versions, test fixtures and prose were reported as unaccounted corpus totals,
+# none of them a claim about that corpus. The same argument holds.
+SMALL_VALUE = 23
 SMALL_VALUE_NOUNS = re.compile(
     r"(?i)\b(?:vectors?|suiteRevisions?|revisions?|sites?|rules?|forced|unforced|"
     r"tolerated|unmeasurable|annotations?|KILLED|SILENT|DEAD|INCONCLUSIVE)\b"

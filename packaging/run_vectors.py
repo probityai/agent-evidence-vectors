@@ -131,9 +131,12 @@ from agent_evidence_vectors import (
     admission,
     agenticprocess,
     anchoredchain,
+    approvalbinding,
     auditrecord,
     authoritydispatch,
     changeadmission,
+    chunkedexport,
+    donerun,
     gradefloor,
     identitybinding,
     mcpowasp,
@@ -141,7 +144,9 @@ from agent_evidence_vectors import (
     receiptchainend,
     receiptsignature,
     sourcecoverage,
+    starhint,
     traceanchor,
+    w3cintake,
     w3creport,
 )
 
@@ -3841,6 +3846,7 @@ def _run_non_reference_suite(
         return None
     own_reader = suite in (
         w3creport.SUITE,
+        w3cintake.SUITE,
         observedeffect.SUITE,
         receiptsignature.SUITE,
         auditrecord.SUITE,
@@ -3849,6 +3855,9 @@ def _run_non_reference_suite(
         receiptchainend.SUITE,
         identitybinding.SUITE,
         authoritydispatch.SUITE,
+        approvalbinding.SUITE,
+        chunkedexport.SUITE,
+        *donerun.SUITES,
         traceanchor.SUITE,
         gradefloor.SUITE,
         changeadmission.SUITE,
@@ -3873,6 +3882,9 @@ def _run_non_reference_suite(
         receiptchainend.SUITE: receiptchainend.run,
         identitybinding.SUITE: identitybinding.run,
         authoritydispatch.SUITE: authoritydispatch.run,
+        approvalbinding.SUITE: approvalbinding.run,
+        chunkedexport.SUITE: chunkedexport.run,
+        **{suite: donerun.runner(suite) for suite in donerun.SUITES},
         traceanchor.SUITE: traceanchor.run,
         gradefloor.SUITE: gradefloor.run,
         changeadmission.SUITE: changeadmission.run,
@@ -3914,6 +3926,7 @@ def _run_non_reference_suite(
     reader = {
         receiptsignature.SUITE: receiptsignature,
         w3creport.SUITE: w3creport,
+        w3cintake.SUITE: w3cintake,
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
         admission.SUITE: admission,
@@ -5401,6 +5414,8 @@ def main() -> int:
             )
             return status or 2
         _emit_w3c(args)
+    if status == 0:
+        starhint.maybe_print_hint()
     return status
 
 

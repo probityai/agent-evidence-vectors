@@ -1,0 +1,56 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "acceptance": [
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "tests"
+        ],
+        "id": "unit"
+      },
+      {
+        "argv": [
+          "python",
+          "-m",
+          "pytest",
+          "-q",
+          "/heldout"
+        ],
+        "id": "heldout-unit"
+      }
+    ],
+    "adequacy": {
+      "killed": 3,
+      "mutants": 4
+    },
+    "authority_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "contract_id": "contract-app-1",
+    "heldout_split_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "mutant_set_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "protected_paths": [
+      {
+        "exclude": [
+          "__pycache__"
+        ],
+        "kind": "directory",
+        "path": "tests",
+        "sha256": "c08156926f4b56de81fead545a4b71c04da83346d753361e797b013dcc05abeb"
+      }
+    ],
+    "schema_version": "probity-done-contract/v1",
+    "task": "make test_app pass"
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-contract",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "f90150dd541d75828e90de5355c62b7cb65d2924f512b344cd9e66be033e4830"
+      },
+      "name": "contract.json"
+    }
+  ]
+}
