@@ -31,6 +31,25 @@ implements the primitive is scored on the vectors it owns.
 
 With no verifier named, this module's own canonicalizer answers every vector
 for both targets, which is how the shipped corpus is checked clean.
+
+In-process conformance API. A project that writes or fixes a canonicalizer
+can test it against the corpus this wheel ships instead of copying the
+vectors into its own tree::
+
+    import pytest
+    from agent_evidence_vectors import a2ajcs
+
+    @pytest.mark.parametrize("vector", a2ajcs.params())
+    def test_rfc8785(vector):
+        a2ajcs.assert_conforms(my_canonicalize, vector)
+
+``my_canonicalize`` takes a parsed JSON value and returns bytes, raising any
+exception on input that has no canonical form. ``text=True`` hands it the
+vector's JSON text instead, for a canonicalizer that parses for itself.
+:func:`vectors` yields the vectors a target owns, :func:`check` returns every
+failure over a target as one line each, and :func:`failure` explains one
+vector. Each vector is scored by :func:`outcome`, the scoring the external
+contract uses, so the in-process verdict and the harness verdict cannot differ.
 """
 
 from __future__ import annotations
@@ -42,6 +61,8 @@ import os
 import subprocess
 import sys
 import tempfile
+from collections.abc import Callable, Iterator
+from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -318,6 +339,125 @@ def reference_answer(target: str, text: str) -> tuple[str, bytes | None]:
         return "bytes", FUNCTIONS[target](parse(text))
     except (Refusal, ValueError):
         return "refused", None
+
+
+# ---------------------------------------------------------------------------
+# Testing a canonicalizer in process, against the corpus as this package ships it.
+
+Canonicalizer = Callable[[Any], bytes]
+
+
+@dataclass(frozen=True)
+class Vector:
+    """One vector a target owns.
+
+    ``text`` is the input exactly as the external contract hands it to a
+    verifier, so a number token such as ``-0`` arrives as the file spells it.
+    ``expected`` is the canonical bytes of a MUST-ACCEPT vector and None for a
+    MUST-REJECT one. ``record`` is the vector file as read, which
+    :func:`outcome` scores against.
+    """
+
+    id: str
+    disposition: str
+    clause: str
+    target: str
+    text: str
+    expected: bytes | None
+    rationale: str
+    record: dict[str, Any] = field(repr=False, compare=False)
+
+    @property
+    def value(self) -> Any:
+        """The input parsed by :func:`parse`; raises :class:`Refusal` on a duplicate member."""
+        return parse(self.text)
+
+
+def vectors(target: str = "rfc8785", root: str | Path = ROOT) -> Iterator[Vector]:
+    """Every vector ``target`` owns, in manifest order.
+
+    The corpus is checked against its manifest first, and a corpus that fails
+    it raises ValueError rather than yielding vectors nothing vouches for.
+    """
+    if target not in TARGETS:
+        raise ValueError(f"target {target!r} is not one of {TARGETS}")
+    _, records, findings = load(Path(root))
+    if findings:
+        raise ValueError(f"the corpus at {root} fails its own manifest: {'; '.join(findings)}")
+    for record in records:
+        if not owns(target, record["clause"]):
+            continue
+        hex_bytes = record.get("expected", {}).get("canonical_utf8_hex")
+        yield Vector(
+            id=str(record["id"]),
+            disposition=str(record["disposition"]),
+            clause=str(record["clause"]),
+            target=target,
+            text=input_text(record),
+            expected=bytes.fromhex(str(hex_bytes)) if hex_bytes is not None else None,
+            rationale=str(record.get("rationale", "")),
+            record=record,
+        )
+
+
+def _answer(fn: Canonicalizer, vector: Vector, text: bool) -> tuple[str, bytes | None, str]:
+    """What ``fn`` answered: ``bytes``, ``refused`` or ``errored``, and a note."""
+    try:
+        arg = vector.text if text else vector.value
+    except ValueError as exc:
+        # The parse refused (a duplicate member), so fn never saw the input.
+        return "refused", None, f" (the input does not parse: {exc})"
+    try:
+        out = fn(arg)
+    except Exception as exc:  # any exception is the canonicalizer refusing
+        return "refused", None, f" ({type(exc).__name__}: {exc})"
+    if not isinstance(out, bytes | bytearray):
+        return "errored", None, f" (returned {type(out).__name__}, not bytes)"
+    return "bytes", bytes(out), ""
+
+
+def failure(fn: Canonicalizer, vector: Vector, *, text: bool = False) -> str | None:
+    """Why ``fn`` does not conform on ``vector``, or None when it does."""
+    answer, produced, note = _answer(fn, vector, text)
+    result, detail = outcome(vector.record, answer, produced)
+    return None if result == "pass" else f"{result}: {detail}{note}"
+
+
+def assert_conforms(fn: Canonicalizer, vector: Vector, *, text: bool = False) -> None:
+    """Raise AssertionError naming the vector and its clause when ``fn`` fails it."""
+    reason = failure(fn, vector, text=text)
+    if reason is not None:
+        raise AssertionError(f"{vector.id} ({vector.clause}): {reason}")
+
+
+def check(
+    fn: Canonicalizer,
+    target: str = "rfc8785",
+    *,
+    text: bool = False,
+    root: str | Path = ROOT,
+) -> list[str]:
+    """Every failure of ``fn`` over the vectors ``target`` owns; empty when it conforms."""
+    lines: list[str] = []
+    for vector in vectors(target, root):
+        reason = failure(fn, vector, text=text)
+        if reason is not None:
+            lines.append(f"{vector.id} ({vector.clause}): {reason}")
+    return lines
+
+
+def params(target: str = "rfc8785", root: str | Path = ROOT) -> list[Any]:
+    """The vectors as ``pytest.param`` objects whose ids are the vector ids.
+
+    Without pytest installed the plain vectors are returned, so the call is
+    safe at import time in any test module.
+    """
+    found = list(vectors(target, root))
+    try:
+        import pytest
+    except ImportError:
+        return list(found)
+    return [pytest.param(vector, id=vector.id) for vector in found]
 
 
 # ---------------------------------------------------------------------------

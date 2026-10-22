@@ -1,0 +1,203 @@
+{
+  "corpusDigest": "48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c",
+  "didWbaSource": {
+    "commit": "c6a467b4e690137d237d8068f2c60b48955dbaf6",
+    "file": "03-did-wba-method-design-specification.md",
+    "repository": "https://github.com/agent-network-protocol/AgentNetworkProtocol"
+  },
+  "suite": "agent-did-identity-binding/v1",
+  "vectors": [
+    {
+      "didMethod": "web",
+      "edit": "control: did:web subject, signed by a key its document authorises",
+      "expected": {
+        "decision": "verified",
+        "reason": "subject_bound"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+      },
+      "id": "web-verified",
+      "path": "cases/web-verified",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "wba",
+      "edit": "control: did:wba path DID, signed by the binding key its e1_ segment names",
+      "expected": {
+        "decision": "verified",
+        "reason": "subject_bound"
+      },
+      "files": {
+        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "did-alice.json": "9f5065ef7922589c462ae6e5c38c2bd5781fd92c310016ac4beb5d7d612fca2e",
+        "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
+      },
+      "id": "wba-verified",
+      "path": "cases/wba-verified",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "control: signed in March by a key rotated out in June; the March version decides",
+      "expected": {
+        "decision": "verified",
+        "reason": "subject_bound"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "envelope.json": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+      },
+      "id": "web-signed-before-rotation",
+      "path": "cases/web-signed-before-rotation",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "signed by a key the document lists only under capabilityInvocation",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_not_authorized"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "a855c7c59695f50d1d6b358a6945dd89699b718ae97f658cd42ca70d25ba2c93"
+      },
+      "id": "key-not-in-authentication",
+      "path": "cases/key-not-in-authentication",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "signed by a key the subject's document does not carry, under a keyid it invented",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_not_authorized"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "e5ebf1040cda1c280953819052c41217fa8905c6cfd6de7bdee2592c8d6aecff"
+      },
+      "id": "key-absent-from-document",
+      "path": "cases/key-absent-from-document",
+      "signatureVerifies": false
+    },
+    {
+      "didMethod": "wba",
+      "edit": "no DID document is supplied for the subject",
+      "expected": {
+        "decision": "rejected",
+        "reason": "did_unresolvable"
+      },
+      "files": {
+        "case.json": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb",
+        "envelope.json": "b4d105f8851a95530d7e77be5f1e6a87a7cdd410e0a3c259289667d1c6dbf1b0"
+      },
+      "id": "did-unresolvable",
+      "path": "cases/did-unresolvable",
+      "signatureVerifies": false
+    },
+    {
+      "didMethod": "web",
+      "edit": "signed in July by a key the June version of the document no longer carries",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_rotated_out"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b",
+        "envelope.json": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
+      },
+      "id": "web-key-rotated-out",
+      "path": "cases/web-key-rotated-out",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "wba",
+      "edit": "signed in July by the binding key of a did:wba DID deactivated in June, with successorDid naming the DID of the new key",
+      "expected": {
+        "decision": "rejected",
+        "reason": "key_rotated_out"
+      },
+      "files": {
+        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "did-alice.json": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5",
+        "envelope.json": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
+      },
+      "id": "wba-deactivated-before-signing",
+      "path": "cases/wba-deactivated-before-signing",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "Alice's key signs a record whose subject is Bob; both documents resolve",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signer_not_subject"
+      },
+      "files": {
+        "case.json": "57846833b430b0cf19dbb6a0e5eebec6d1558934bcf382c96e9ddb062945c4b2",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "did-bob.json": "8e989d1f9c74290deed9407603c7c12a989fd2e188055d399e702431c92498d4",
+        "envelope.json": "c2bb5f9a4b5c4576a57fe66d04fceb038f324eea68ccedf2cc80cd4c6e0f8f31"
+      },
+      "id": "subject-swap",
+      "path": "cases/subject-swap",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "wba",
+      "edit": "the subject uses slashes where the did:wba syntax requires colons",
+      "expected": {
+        "decision": "rejected",
+        "reason": "did_malformed"
+      },
+      "files": {
+        "case.json": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb",
+        "envelope.json": "cd2393b47a006b9074a8d8cff1c00c4db24b667b2f03cfa4585037843689b1d1"
+      },
+      "id": "did-malformed",
+      "path": "cases/did-malformed",
+      "signatureVerifies": false
+    },
+    {
+      "didMethod": "wba",
+      "edit": "a document served under Alice's path DID lists another key, which signed",
+      "expected": {
+        "decision": "rejected",
+        "reason": "binding_fingerprint_mismatch"
+      },
+      "files": {
+        "case.json": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae",
+        "did-alice.json": "4c336327832dc99b403ef646675ae07ebb99686cca4dc523cec153200f43bd74",
+        "envelope.json": "358008d0387fb8085a10174529d526530b6cc896a5984f12617e736b8a67c84a"
+      },
+      "id": "wba-fingerprint-mismatch",
+      "path": "cases/wba-fingerprint-mismatch",
+      "signatureVerifies": true
+    },
+    {
+      "didMethod": "web",
+      "edit": "the record's statement was changed after signing",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195",
+        "did-alice.json": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6",
+        "envelope.json": "02073615284bd3029da448b5921e7ae4e2229165d98ef2971f7f77f2f42e8057"
+      },
+      "id": "payload-altered",
+      "path": "cases/payload-altered",
+      "signatureVerifies": false
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 1 rejected"
+}

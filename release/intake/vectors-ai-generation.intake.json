@@ -1,0 +1,1697 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 18,
+      "reject": 20
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 38
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-ai-generation/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-ai-generation/digest.py",
+    "routine-file": "vectors-ai-generation/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "05a932294e8b6d1fae7e2798c89f7a1d9205c75615f3e1b690b88aa94b2c959d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "3bcd7441f937332ff8a7ccbec458a05423712adf953ca407175101e19fed63d5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "a294077884c18f8fb1999f3cbc58a8daefc83c4c68bc8f286f30567e655cffd0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/README.md",
+      "serialization": "bytes",
+      "sha256": "a9d42bdcf6e805dcdf6ebc3c0d427f259e49cc963da1f724fc4a5281169dd757"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "5d670055cf984c33c24182171302e33505830b1815a954017908d98664f263fd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/digest.py",
+      "serialization": "bytes",
+      "sha256": "660616e758b86b030ec57692d0975206a7bdd67da8c3e047903d26d8432bd069"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "ff42298c5894cdf07de5d8ab22b9799aae70f94e61b705b1641b0d42e5719a39",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "2cc40cdc75bc1e5bbec35eaa7c081a1b9f6a97f5098d03de2569831166c558d0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "056f1f959948d082b417bd41e7265786582163804efcb1ecf7278dd193e6a908",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/LICENSE-13fd0a8b",
+      "serialization": "bytes",
+      "sha256": "cfa7f062b75afdeb88f4a8d8540f6536b98fc4440354e9f32e4f9da90f60870b"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "2020c3ad0642d337151d1112e5abfd73eec859025692a95eb904cd01ef1560bb"
+        },
+        "swapped-in": "0ca322995c1482070d340533ac5d4414b47ca5966dbb2ef849e3a0f14e6abbef",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/LICENSE-17b964ee",
+      "serialization": "bytes",
+      "sha256": "cfa7f062b75afdeb88f4a8d8540f6536b98fc4440354e9f32e4f9da90f60870b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "6c5286eb00536eebf7aed4b457fb6a911d37796dfa4e98460acec4a28b7f8fe1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-schema-13fd0a8b.json",
+      "serialization": "bytes",
+      "sha256": "a66870141435585d4e4715c7936ad415b0c882be7d71a18ceab2605c2375169c"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "df24b80488437dbe8927d5fbc3cd3c2ecce3c3facb4165d1189864c573416876"
+        },
+        "swapped-in": "826f8b944440a1d2ec497d4effc55df15165ac9fe8e9b2656249dd37924a56a5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-schema-17b964ee.json",
+      "serialization": "bytes",
+      "sha256": "a66870141435585d4e4715c7936ad415b0c882be7d71a18ceab2605c2375169c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "9ca0d9c0ce74e62b0bce57e491ac9ac933220826169104122344ef2bb7884975",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-v0.1-13fd0a8b.md",
+      "serialization": "bytes",
+      "sha256": "303e6c7c3fe77290941b91e1386c97cae94ecd7dea588855bbc2ddb69c69c240"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "swapped-in": "4523d5e1a494977255d42587edd2a33a23989bb39116fbcf7442f6c2c80c9db5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/spec-vendored/generation-predicate-v0.1-17b964ee.md",
+      "serialization": "bytes",
+      "sha256": "de793f9e4ae47e1ff37ffa9c3649a5ca1f9416aff2cde8e98f30c85e79c8acf5"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7cd8aef5b4269a3fb69f347fc577590e0560febde851271df4e3a66f4c720137"
+        },
+        "swapped-in": "72ceeacd663656455bbdd18875cc7dd0e5d7680e62ebebc31631ea25c01f0e55",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/browser-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "041297f0f0ed52ca0f52ff6015f969f57ad244548b25e414214ae79045107e30"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "0dadb1321fba02ea825a2a00f895f9ebb8f454d2ccacb76cbac16dc6f8d40b26"
+        },
+        "swapped-in": "d2c61637750354aa77aba0eafcde6ed232cb4020f6d6d949111cd32d4184c432",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/browser-signed.json",
+      "serialization": "bytes",
+      "sha256": "e86dfb45f930fa4413f0e6a65c67e829cc866ed0de6d53a31c9f691e13b9d759"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9214e1f370b60587fae6c6ad6728c5a04b3c3bbec53f5dc6fa033c08bb78117b"
+        },
+        "swapped-in": "e605b0a79cad4b77409f8b0a502f021f5206d853166a7eec9cf5204f229bbb2f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/rust-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "85612623f15946486b4b8c021014ecebaf1c1a11b1565a94dca6441a8a9d9a8f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "c72feea3e6ec800235a107b7aac57d96373ceff172332ea2b7c2bee63f781225"
+        },
+        "swapped-in": "94ea63e5337969f0b000706ac487cf7fd0c58b6ad0cc945ff40a0742613c38da",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/13fd0a8b/rust-signed.json",
+      "serialization": "bytes",
+      "sha256": "8ba9dcb28847aac2e87240d9dcba63cf8b12d79223142f64b97bd191f82cbaea"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "7cd8aef5b4269a3fb69f347fc577590e0560febde851271df4e3a66f4c720137"
+        },
+        "swapped-in": "18a19d1c677ae8b23ddac23734c5d9898ed12171d5d4a5b4f25b5c55f54e835a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/browser-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "041297f0f0ed52ca0f52ff6015f969f57ad244548b25e414214ae79045107e30"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "0dadb1321fba02ea825a2a00f895f9ebb8f454d2ccacb76cbac16dc6f8d40b26"
+        },
+        "swapped-in": "859a7f88d54d432c358ebcf7e7d4761a7345fd0f660b85c4a9c232444de1271c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/browser-signed.json",
+      "serialization": "bytes",
+      "sha256": "e86dfb45f930fa4413f0e6a65c67e829cc866ed0de6d53a31c9f691e13b9d759"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "9214e1f370b60587fae6c6ad6728c5a04b3c3bbec53f5dc6fa033c08bb78117b"
+        },
+        "swapped-in": "b2e984a79583efe90d9bf2ee24f9345dd5094c5e53f39dc33a5b786d596ba8cb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/rust-signed-with-signoffs.json",
+      "serialization": "bytes",
+      "sha256": "85612623f15946486b4b8c021014ecebaf1c1a11b1565a94dca6441a8a9d9a8f"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-generation/MANIFEST.json",
+          "vectors-ai-generation/gen_vectors.py"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "c72feea3e6ec800235a107b7aac57d96373ceff172332ea2b7c2bee63f781225"
+        },
+        "swapped-in": "328ec113e078b1f118e6fedcf5a3feb32d1c8d6660d7d02a23dfecafb8f5ca14",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-generation/upstream-vectors/17b964ee/rust-signed.json",
+      "serialization": "bytes",
+      "sha256": "8ba9dcb28847aac2e87240d9dcba63cf8b12d79223142f64b97bd191f82cbaea"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "artifacts",
+        "recursive": false,
+        "suffix": ".txt"
+      },
+      {
+        "dir": "statements",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "trailers",
+        "recursive": false,
+        "suffix": ".txt"
+      }
+    ],
+    "root": "vectors-ai-generation"
+  },
+  "byte-identity": {
+    "pins": 81,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-ai-generation",
+      "aee-verify -json vectors-ai-generation",
+      "aee-verify vectors-ai-generation"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v032d7f6446838c86",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v041297f0f0ed52ca",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0bf84efb855e9983",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v20dc6144915cb64e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v26773fbfe7219804",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v41ffc689ab691f38",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v43c29d9aa9dab8e2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v551d84ac66f33adf",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v57ddc0d49453510f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v67b343a989ac7a32",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6898f23bf0d63e43",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v690a27cba702a6a1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6bc1c5c4275d451d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6e5279605cfa8ad5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7e8378a3cb6f3beb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v802e5eaf42a3c98f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v803b44c6310c58dd",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v80bef8e6efc805c4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v813737ad828668c4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v85612623f1594648",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8ba9dcb28847aac2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v96859833d810730f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va169259bece657d5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va18c8786b0c58d4e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va35bcfb26910a2cb",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va8e599224ef5a13a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb6ce4da91879b6b0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc3f6b78452e8e684",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc9321aca5c878ff9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve290fc80af586834",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve519b6be46ced66e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve654d0e0e28896ad",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve86dfb45f930fa44",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vef2bf7309281aaa1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf1e654cbe3174418",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf7158c5a325fd632",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfddf8453d88a3605",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfe6a26f63e566bac",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "4a89c5ca8bd3f930e08ffa5c5f4c71829aae84c2329667f88d44fdc0864e8715"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v032d7f6446838c86",
+      "v041297f0f0ed52ca",
+      "v0bf84efb855e9983",
+      "v20dc6144915cb64e",
+      "v26773fbfe7219804",
+      "v41ffc689ab691f38",
+      "v43c29d9aa9dab8e2",
+      "v551d84ac66f33adf",
+      "v57ddc0d49453510f",
+      "v67b343a989ac7a32",
+      "v6898f23bf0d63e43",
+      "v690a27cba702a6a1",
+      "v6bc1c5c4275d451d",
+      "v6e5279605cfa8ad5",
+      "v7e8378a3cb6f3beb",
+      "v802e5eaf42a3c98f",
+      "v803b44c6310c58dd",
+      "v80bef8e6efc805c4",
+      "v813737ad828668c4",
+      "v85612623f1594648",
+      "v8ba9dcb28847aac2",
+      "v96859833d810730f",
+      "va169259bece657d5",
+      "va18c8786b0c58d4e",
+      "va35bcfb26910a2cb",
+      "va8e599224ef5a13a",
+      "vb6ce4da91879b6b0",
+      "vc3f6b78452e8e684",
+      "vc9321aca5c878ff9",
+      "ve290fc80af586834",
+      "ve519b6be46ced66e",
+      "ve654d0e0e28896ad",
+      "ve86dfb45f930fa44",
+      "vef2bf7309281aaa1",
+      "vf1e654cbe3174418",
+      "vf7158c5a325fd632",
+      "vfddf8453d88a3605",
+      "vfe6a26f63e566bac"
+    ],
+    "path": "vectors-ai-generation/MANIFEST.json",
+    "sha256": "35076b8cfea02beba726e8a1ac5559daaecb5234d879ada57960df6f0eb073bd"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v032d7f6446838c86.json",
+          "sha256": "032d7f6446838c8610e2f3837cbf8bfd97688eecaf6189442f506d256e2de70d"
+        }
+      ],
+      "id": "v032d7f6446838c86"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/5891b5b522d5df08.txt",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+        },
+        {
+          "path": "vectors-ai-generation/artifacts/9f86d081884c7d65.txt",
+          "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v041297f0f0ed52ca.json",
+          "sha256": "041297f0f0ed52ca0f52ff6015f969f57ad244548b25e414214ae79045107e30"
+        }
+      ],
+      "id": "v041297f0f0ed52ca"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v0bf84efb855e9983.json",
+          "sha256": "0bf84efb855e9983a8b001ded189cbc5378ee344998844887a26fff9ec016f05"
+        }
+      ],
+      "id": "v0bf84efb855e9983"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v20dc6144915cb64e.json",
+          "sha256": "20dc6144915cb64e2e8b4da8f6445ac106c17d0ce93d8d7dcec0e2f04cd151ba"
+        }
+      ],
+      "id": "v20dc6144915cb64e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v26773fbfe7219804.json",
+          "sha256": "26773fbfe72198040d3da2db4b563983c038215006c68973b147b5ac14dc90bc"
+        }
+      ],
+      "id": "v26773fbfe7219804"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v41ffc689ab691f38.json",
+          "sha256": "41ffc689ab691f38fb2d767df68e1d69465f4b5cff0707b4da4c621fa69181d5"
+        }
+      ],
+      "id": "v41ffc689ab691f38"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v43c29d9aa9dab8e2.json",
+          "sha256": "43c29d9aa9dab8e20556e3855038e194b0318678cb6aa996ec6375f9b097785c"
+        }
+      ],
+      "id": "v43c29d9aa9dab8e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v551d84ac66f33adf.json",
+          "sha256": "551d84ac66f33adfc5feedb1dbac2e04eb3cc67fc2c86d1260f0b47746517b2f"
+        }
+      ],
+      "id": "v551d84ac66f33adf"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v57ddc0d49453510f.json",
+          "sha256": "57ddc0d49453510fdb26807c0c71935757ce7fb1a1c8c04c78ce50922097489a"
+        }
+      ],
+      "id": "v57ddc0d49453510f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v67b343a989ac7a32.json",
+          "sha256": "813737ad828668c4e9808b4fbdec25273d43282339daab98e6625fb704008018"
+        },
+        {
+          "path": "vectors-ai-generation/trailers/e0b0c7214c5ebff3.txt",
+          "sha256": "e0b0c7214c5ebff39f5494a363596c8316f3bf8a5cfdac17ffb8f50082386c08"
+        }
+      ],
+      "id": "v67b343a989ac7a32"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v6898f23bf0d63e43.json",
+          "sha256": "6898f23bf0d63e437902e0a8e76ecdc4e44c26529b88371e511ca90311934558"
+        }
+      ],
+      "id": "v6898f23bf0d63e43"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v690a27cba702a6a1.json",
+          "sha256": "690a27cba702a6a13aa7cd3370f4f810253c54bcebd1238dc1981e637d1fd6ff"
+        }
+      ],
+      "id": "v690a27cba702a6a1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v6bc1c5c4275d451d.json",
+          "sha256": "6bc1c5c4275d451d332efa3c1f8dbc661a6ea4a70d7e541dba7eab8a119b5b7e"
+        }
+      ],
+      "id": "v6bc1c5c4275d451d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v6e5279605cfa8ad5.json",
+          "sha256": "6e5279605cfa8ad52ea2dca8e030ee95ff3e94de9c7617c3d8056d1b53d08794"
+        }
+      ],
+      "id": "v6e5279605cfa8ad5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v7e8378a3cb6f3beb.json",
+          "sha256": "7e8378a3cb6f3bebf107bfe906270303015e465097af47db9fcbe5c26237cf86"
+        }
+      ],
+      "id": "v7e8378a3cb6f3beb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v802e5eaf42a3c98f.json",
+          "sha256": "802e5eaf42a3c98f398629e5a26a1d461a2f78fc5438af7efdfac6c5a2144a07"
+        }
+      ],
+      "id": "v802e5eaf42a3c98f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v803b44c6310c58dd.json",
+          "sha256": "803b44c6310c58dd1bce18c655cda34e16b7a413cbadc8f9305e76dff148a646"
+        }
+      ],
+      "id": "v803b44c6310c58dd"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v80bef8e6efc805c4.json",
+          "sha256": "80bef8e6efc805c4a151995b2538097967009f0139062c4817631e314fcf0c66"
+        }
+      ],
+      "id": "v80bef8e6efc805c4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v813737ad828668c4.json",
+          "sha256": "813737ad828668c4e9808b4fbdec25273d43282339daab98e6625fb704008018"
+        }
+      ],
+      "id": "v813737ad828668c4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/5891b5b522d5df08.txt",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+        },
+        {
+          "path": "vectors-ai-generation/artifacts/9f86d081884c7d65.txt",
+          "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v85612623f1594648.json",
+          "sha256": "85612623f15946486b4b8c021014ecebaf1c1a11b1565a94dca6441a8a9d9a8f"
+        }
+      ],
+      "id": "v85612623f1594648"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/5891b5b522d5df08.txt",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+        },
+        {
+          "path": "vectors-ai-generation/artifacts/9f86d081884c7d65.txt",
+          "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v8ba9dcb28847aac2.json",
+          "sha256": "8ba9dcb28847aac2e87240d9dcba63cf8b12d79223142f64b97bd191f82cbaea"
+        }
+      ],
+      "id": "v8ba9dcb28847aac2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/v96859833d810730f.json",
+          "sha256": "96859833d810730fbd16ec55a95297e3a4a0ea4ca31931dd23c12b3ab0de23c8"
+        }
+      ],
+      "id": "v96859833d810730f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/va169259bece657d5.json",
+          "sha256": "a169259bece657d5f44dc6d2bc1224c6d54fea78139b9ad98ae0055eafc16bd3"
+        }
+      ],
+      "id": "va169259bece657d5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/va18c8786b0c58d4e.json",
+          "sha256": "a18c8786b0c58d4e6f796b38725ceb5eedcbe00d8e88fc10d0be8a573fabb22a"
+        }
+      ],
+      "id": "va18c8786b0c58d4e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/va35bcfb26910a2cb.json",
+          "sha256": "a35bcfb26910a2cb41011440e5504f1db716498e8e3592c269fb5487636fe6fb"
+        }
+      ],
+      "id": "va35bcfb26910a2cb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/va8e599224ef5a13a.json",
+          "sha256": "a8e599224ef5a13a3ec08855699280c3537b884a05d2021551d44249e217228c"
+        }
+      ],
+      "id": "va8e599224ef5a13a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vb6ce4da91879b6b0.json",
+          "sha256": "b6ce4da91879b6b0f325272b6fd830a9284a8c75d0f0cb181667370cdccf10a4"
+        }
+      ],
+      "id": "vb6ce4da91879b6b0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/7a1726b35a733cc2.txt",
+          "sha256": "7a1726b35a733cc2ac787bc829e40d4a002349d0f7e9c26fbe13859e5e9568fa"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vc3f6b78452e8e684.json",
+          "sha256": "c3f6b78452e8e6840730a6069166437d650a0c42818be4f50df6b531f3d57767"
+        }
+      ],
+      "id": "vc3f6b78452e8e684"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vc9321aca5c878ff9.json",
+          "sha256": "c9321aca5c878ff9b97af73d0d535bf09d46b103c68a2af0c264c0494109455d"
+        }
+      ],
+      "id": "vc9321aca5c878ff9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/ve290fc80af586834.json",
+          "sha256": "813737ad828668c4e9808b4fbdec25273d43282339daab98e6625fb704008018"
+        },
+        {
+          "path": "vectors-ai-generation/trailers/b6bb2f80db956d0a.txt",
+          "sha256": "b6bb2f80db956d0a52061d21b6b8a37a9bf14a132c5d1e4785ffba6386fe97dc"
+        }
+      ],
+      "id": "ve290fc80af586834"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/ve519b6be46ced66e.json",
+          "sha256": "e519b6be46ced66ebd8970917b15d5ed4d4e39552db104302f4c8def04361867"
+        }
+      ],
+      "id": "ve519b6be46ced66e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/statements/ve654d0e0e28896ad.json",
+          "sha256": "e654d0e0e28896ada667fe1ffdc4765de6449bc8869e074cfcceb40687ac8ee3"
+        }
+      ],
+      "id": "ve654d0e0e28896ad"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/5891b5b522d5df08.txt",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+        },
+        {
+          "path": "vectors-ai-generation/artifacts/9f86d081884c7d65.txt",
+          "sha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+        },
+        {
+          "path": "vectors-ai-generation/statements/ve86dfb45f930fa44.json",
+          "sha256": "e86dfb45f930fa4413f0e6a65c67e829cc866ed0de6d53a31c9f691e13b9d759"
+        }
+      ],
+      "id": "ve86dfb45f930fa44"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vef2bf7309281aaa1.json",
+          "sha256": "ef2bf7309281aaa11660e564ea1425a80e633f6ada0c4f0831c37eaf20a57de1"
+        }
+      ],
+      "id": "vef2bf7309281aaa1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vf1e654cbe3174418.json",
+          "sha256": "f1e654cbe3174418a375bc82d61eba6de66b916f1970fafec6ed04fdde93e69e"
+        }
+      ],
+      "id": "vf1e654cbe3174418"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vf7158c5a325fd632.json",
+          "sha256": "f7158c5a325fd6326158c2cd639fe9bfde7121c7b8fa366115c47aeddafd0f60"
+        }
+      ],
+      "id": "vf7158c5a325fd632"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/7a1726b35a733cc2.txt",
+          "sha256": "7a1726b35a733cc2ac787bc829e40d4a002349d0f7e9c26fbe13859e5e9568fa"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vfddf8453d88a3605.json",
+          "sha256": "fddf8453d88a36058618201f093d4f8d8b9bf8e78cf101338f873df6c3ccd2f8"
+        }
+      ],
+      "id": "vfddf8453d88a3605"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-generation/artifacts/017d2d28f2dac641.txt",
+          "sha256": "017d2d28f2dac6413878d83066fbfc4e71ccf91bf3a936c90fbd70d1e0ea3d73"
+        },
+        {
+          "path": "vectors-ai-generation/statements/vfe6a26f63e566bac.json",
+          "sha256": "fe6a26f63e566bacd7636183b4b950f812bba7f6b7ce964770e6de2d2c3bca38"
+        }
+      ],
+      "id": "vfe6a26f63e566bac"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "786164241118262620eabae41936c62512c32a365bb3c2a94800df1cbf37f037",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-ai-generation.json",
+        "serialization": "bytes",
+        "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-ai-generation.txt",
+        "serialization": "bytes",
+        "sha256": "617a76905c91e1219a08fbb7f23fc64941bcd4e7262d94f5a21eff9f258db16f"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0bf84efb855e9983",
+      "inputs": [
+        "member:v0bf84efb855e9983",
+        "check:v0bf84efb855e9983"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-4\"],\"expected\":{\"code\":\"payload-digest-mismatch\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v20dc6144915cb64e",
+      "inputs": [
+        "member:v20dc6144915cb64e",
+        "check:v20dc6144915cb64e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-11\"],\"expected\":{\"code\":\"signature-invalid\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v26773fbfe7219804",
+      "inputs": [
+        "member:v26773fbfe7219804",
+        "check:v26773fbfe7219804"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-7\"],\"expected\":{\"code\":\"unsafe-integer\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v41ffc689ab691f38",
+      "inputs": [
+        "member:v41ffc689ab691f38",
+        "check:v41ffc689ab691f38"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-10\"],\"expected\":{\"code\":\"payload-digest-mismatch\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v551d84ac66f33adf",
+      "inputs": [
+        "member:v551d84ac66f33adf",
+        "check:v551d84ac66f33adf"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-13\"],\"expected\":{\"code\":\"author-not-in-enum\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v67b343a989ac7a32",
+      "inputs": [
+        "member:v67b343a989ac7a32",
+        "check:v67b343a989ac7a32"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-24\"],\"expected\":{\"code\":\"trailer-disagrees\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v6898f23bf0d63e43",
+      "inputs": [
+        "member:v6898f23bf0d63e43",
+        "check:v6898f23bf0d63e43"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-16\"],\"expected\":{\"code\":\"signoff-signature-invalid\",\"distinctSignoffKeys\":2,\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v690a27cba702a6a1",
+      "inputs": [
+        "member:v690a27cba702a6a1",
+        "check:v690a27cba702a6a1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-21\"],\"expected\":{\"code\":\"duplicate-member\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v6bc1c5c4275d451d",
+      "inputs": [
+        "member:v6bc1c5c4275d451d",
+        "check:v6bc1c5c4275d451d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-17\"],\"expected\":{\"code\":\"signoff-records-and-signatures-disagree\",\"distinctSignoffKeys\":2,\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v6e5279605cfa8ad5",
+      "inputs": [
+        "member:v6e5279605cfa8ad5",
+        "check:v6e5279605cfa8ad5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-6\"],\"expected\":{\"code\":\"floating-point-number\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v802e5eaf42a3c98f",
+      "inputs": [
+        "member:v802e5eaf42a3c98f",
+        "check:v802e5eaf42a3c98f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-5\"],\"expected\":{\"code\":\"payload-digest-mismatch\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v96859833d810730f",
+      "inputs": [
+        "member:v96859833d810730f",
+        "check:v96859833d810730f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-3\"],\"expected\":{\"code\":\"signature-invalid\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "va18c8786b0c58d4e",
+      "inputs": [
+        "member:va18c8786b0c58d4e",
+        "check:va18c8786b0c58d4e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-15\"],\"expected\":{\"code\":\"signoff-signature-invalid\",\"distinctSignoffKeys\":2,\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "va35bcfb26910a2cb",
+      "inputs": [
+        "member:va35bcfb26910a2cb",
+        "check:va35bcfb26910a2cb"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-8\"],\"expected\":{\"code\":\"empty-array-serialized\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "va8e599224ef5a13a",
+      "inputs": [
+        "member:va8e599224ef5a13a",
+        "check:va8e599224ef5a13a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-9\"],\"expected\":{\"code\":\"null-optional-serialized\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb6ce4da91879b6b0",
+      "inputs": [
+        "member:vb6ce4da91879b6b0",
+        "check:vb6ce4da91879b6b0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-20\"],\"expected\":{\"code\":\"payload-digest-mismatch\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vef2bf7309281aaa1",
+      "inputs": [
+        "member:vef2bf7309281aaa1",
+        "check:vef2bf7309281aaa1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-2\"],\"expected\":{\"code\":\"payload-digest-mismatch\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vf1e654cbe3174418",
+      "inputs": [
+        "member:vf1e654cbe3174418",
+        "check:vf1e654cbe3174418"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-18\"],\"expected\":{\"code\":\"signoff-signer-mismatch\",\"distinctSignoffKeys\":2,\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vf7158c5a325fd632",
+      "inputs": [
+        "member:vf7158c5a325fd632",
+        "check:vf7158c5a325fd632"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-12\"],\"expected\":{\"code\":\"keyid-not-ed25519-did-key\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vfddf8453d88a3605",
+      "inputs": [
+        "member:vfddf8453d88a3605",
+        "check:vfddf8453d88a3605"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"ofg-c-23\"],\"expected\":{\"code\":\"attribution-ranges-overlap\",\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+      },
+      {
+        "process": "run-2",
+        "sha256": "173b56c9859dd4b9f9d36594323c4e8a1ef77904581f54874c790aabeb4eebe3"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 38 pinned members of ai-generation-v01-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 38,
+    "require": "at-least-one",
+    "selected": [
+      "v032d7f6446838c86",
+      "v041297f0f0ed52ca",
+      "v0bf84efb855e9983",
+      "v20dc6144915cb64e",
+      "v26773fbfe7219804",
+      "v41ffc689ab691f38",
+      "v43c29d9aa9dab8e2",
+      "v551d84ac66f33adf",
+      "v57ddc0d49453510f",
+      "v67b343a989ac7a32",
+      "v6898f23bf0d63e43",
+      "v690a27cba702a6a1",
+      "v6bc1c5c4275d451d",
+      "v6e5279605cfa8ad5",
+      "v7e8378a3cb6f3beb",
+      "v802e5eaf42a3c98f",
+      "v803b44c6310c58dd",
+      "v80bef8e6efc805c4",
+      "v813737ad828668c4",
+      "v85612623f1594648",
+      "v8ba9dcb28847aac2",
+      "v96859833d810730f",
+      "va169259bece657d5",
+      "va18c8786b0c58d4e",
+      "va35bcfb26910a2cb",
+      "va8e599224ef5a13a",
+      "vb6ce4da91879b6b0",
+      "vc3f6b78452e8e684",
+      "vc9321aca5c878ff9",
+      "ve290fc80af586834",
+      "ve519b6be46ced66e",
+      "ve654d0e0e28896ad",
+      "ve86dfb45f930fa44",
+      "vef2bf7309281aaa1",
+      "vf1e654cbe3174418",
+      "vf7158c5a325fd632",
+      "vfddf8453d88a3605",
+      "vfe6a26f63e566bac"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "ai-generation-v01-conformance"
+}

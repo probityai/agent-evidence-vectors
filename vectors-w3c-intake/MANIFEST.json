@@ -1,0 +1,3077 @@
+{
+  "codeRegistry": {
+    "anchor-kind": [
+      "digest-list-line",
+      "signed-digest-list"
+    ],
+    "anchor-verdict": [
+      "fail",
+      "inconclusive",
+      "not-exercised",
+      "void"
+    ],
+    "carry": [
+      "carried",
+      "referenced",
+      "absent"
+    ],
+    "encoding": [
+      "jcs-sha256"
+    ],
+    "exit-rule": [
+      "zero-iff-every-check-passes",
+      "undeclared"
+    ],
+    "exposure": [
+      "visible",
+      "hidden"
+    ],
+    "isolation-claim": [
+      "isolates",
+      "does-not-isolate"
+    ],
+    "native-claim": [
+      "unchanged",
+      "changed"
+    ],
+    "native-format": [
+      "corpus-result-json-v1"
+    ],
+    "ordering": [
+      "emission-order",
+      "sorted",
+      "hash-order"
+    ],
+    "relationship": [
+      "same-implementation",
+      "reference-derived",
+      "written-from-specification"
+    ],
+    "replay-state": [
+      "stable",
+      "varies",
+      "not-measured"
+    ],
+    "revision-kind": [
+      "git-commit",
+      "source-listing"
+    ],
+    "scope-limit": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "selector-language": [
+      "id-glob"
+    ],
+    "selector-require": [
+      "exactly-one",
+      "at-least-one"
+    ],
+    "serialization": [
+      "bytes",
+      "sha256-listing-v1",
+      "corpus-routine"
+    ],
+    "state": [
+      "pass",
+      "fail",
+      "inconclusive",
+      "not-exercised",
+      "void"
+    ]
+  },
+  "corpusDigest": "08161d39e0de8b8933612e0cbac1c0336fbff031ffcecada579b5588ee1ca3d1",
+  "counts": {
+    "accept": 53,
+    "reject": 84
+  },
+  "families": {
+    "w3c-i-f-001": "rejection ground W3C-I-001, criterion 1",
+    "w3c-i-f-002": "rejection ground W3C-I-002, criterion 1",
+    "w3c-i-f-003": "rejection ground W3C-I-003, criterion 1",
+    "w3c-i-f-004": "rejection ground W3C-I-004, criterion 2",
+    "w3c-i-f-005": "rejection ground W3C-I-005, criterion 2(i)",
+    "w3c-i-f-006": "rejection ground W3C-I-006, criterion 2(ii)",
+    "w3c-i-f-007": "rejection ground W3C-I-007, criterion 2(iii)",
+    "w3c-i-f-008": "rejection ground W3C-I-008, criterion 2(iii)",
+    "w3c-i-f-009": "rejection ground W3C-I-009, criterion 2(iii)",
+    "w3c-i-f-010": "rejection ground W3C-I-010, criterion 3",
+    "w3c-i-f-011": "rejection ground W3C-I-011, criterion 3",
+    "w3c-i-f-012": "rejection ground W3C-I-012, criterion 3",
+    "w3c-i-f-013": "rejection ground W3C-I-013, criterion 4",
+    "w3c-i-f-014": "rejection ground W3C-I-014, criterion 4",
+    "w3c-i-f-015": "rejection ground W3C-I-015, criterion 4",
+    "w3c-i-f-016": "rejection ground W3C-I-016, criterion 4",
+    "w3c-i-f-017": "rejection ground W3C-I-017, criterion 4",
+    "w3c-i-f-018": "rejection ground W3C-I-018, criterion 5",
+    "w3c-i-f-019": "rejection ground W3C-I-019, criterion 5",
+    "w3c-i-f-020": "rejection ground W3C-I-020, criterion 6",
+    "w3c-i-f-021": "rejection ground W3C-I-021, criterion 6",
+    "w3c-i-f-022": "rejection ground W3C-I-022, criterion 7",
+    "w3c-i-f-023": "rejection ground W3C-I-023, criterion 7",
+    "w3c-i-f-024": "rejection ground W3C-I-024, criterion 7",
+    "w3c-i-f-025": "rejection ground W3C-I-025, criterion 8",
+    "w3c-i-f-026": "rejection ground W3C-I-026, criterion 8",
+    "w3c-i-f-027": "rejection ground W3C-I-027, criterion 8",
+    "w3c-i-f-028": "rejection ground W3C-I-028, criterion 8",
+    "w3c-i-f-029": "rejection ground W3C-I-029, criterion 8",
+    "w3c-i-f-030": "rejection ground W3C-I-030, criterion 8",
+    "w3c-i-f-031": "rejection ground W3C-I-031, criterion 8",
+    "w3c-i-f-032": "rejection ground W3C-I-032, criterion 9",
+    "w3c-i-f-033": "rejection ground W3C-I-033, criterion 9",
+    "w3c-i-f-034": "rejection ground W3C-I-034, criterion 10",
+    "w3c-i-f-035": "rejection ground W3C-I-035, criterion 10",
+    "w3c-i-f-036": "rejection ground W3C-I-036, criterion 10",
+    "w3c-i-f-037": "rejection ground W3C-I-037, criterion 10",
+    "w3c-i-f-038": "rejection ground W3C-I-038, criterion 11",
+    "w3c-i-f-039": "rejection ground W3C-I-039, criterion 11",
+    "w3c-i-f-040": "rejection ground W3C-I-040, criterion 11",
+    "w3c-i-f-041": "rejection ground W3C-I-041, criterion 11",
+    "w3c-i-f-042": "rejection ground W3C-I-042, criterion 11",
+    "w3c-i-f-043": "rejection ground W3C-I-043, criterion 11",
+    "w3c-i-f-044": "rejection ground W3C-I-044, criterion 12",
+    "w3c-i-f-045": "rejection ground W3C-I-045, criterion 12",
+    "w3c-i-f-046": "rejection ground W3C-I-046, criterion 6",
+    "w3c-i-f-047": "rejection ground W3C-I-047, criterion 6",
+    "w3c-i-f-048": "rejection ground W3C-I-048, criterion 6"
+  },
+  "identifierPolicy": "A ground identifier is minted by this corpus and bound to the sentence of the list message that fixed it by sha256 over its bytes. The messages carry no identifiers, and a criterion number names a paragraph rather than a ground.",
+  "note": "A member is one intake record, judged with the bytes under its root when it names one. Each reject member is refused under exactly one ground and every ground has a member that must be admitted, so a reader that refuses every record scores zero. Criterion 13 carries no ground: the criteria name no implementation, and these vectors, not any reader, are the shared test.",
+  "recordFormat": "public-agent-conformance/intake-record/v2",
+  "requirements": [
+    {
+      "criterion": "1",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-001",
+      "line": 18,
+      "needsRoot": false,
+      "sentence": "Every member of the admitted population is pinned by a digest over its exact bytes",
+      "sentenceDigest": "3c7d7f7a8b92356a624a49fc3fae25ab57405112ecd87002d13340f2262ff688",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "1",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-002",
+      "line": 18,
+      "needsRoot": false,
+      "sentence": "a corpus digest covers the full tree together with its manifest",
+      "sentenceDigest": "00e06dce2aa622157f9508893891dae6f845c94ea0d3fd897648371c47f9abdb",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "1",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-003",
+      "line": 18,
+      "needsRoot": true,
+      "sentence": "A reader refuses any member whose bytes do not match the pin.",
+      "sentenceDigest": "168f1b6511aa2e8e498f60bbe5f816e1f479c5428e7be488a233cbd2a39106ca",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "2",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-004",
+      "line": 20,
+      "needsRoot": false,
+      "sentence": "The record carries a closed manifest of unique case or report identifiers, checked in both directions.",
+      "sentenceDigest": "d0660a97e4d096b777e187f67481590e8ca59b1a1f2496a3ee9f04547e7124f0",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "2(i)",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-005",
+      "line": 20,
+      "needsRoot": false,
+      "sentence": "(i) missing from the population",
+      "sentenceDigest": "c735a46ed38cc3fcd6d67a713ad499fa66f99718df374823dfc9c51a6b66462c",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "2(ii)",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-006",
+      "line": 20,
+      "needsRoot": false,
+      "sentence": "(ii) duplicated",
+      "sentenceDigest": "1e07b0188cbe71eb5781b101bb9e894dd51763de0083fcfb2523871f5ad5e1fd",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "2(iii)",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-007",
+      "line": 13,
+      "needsRoot": false,
+      "sentence": "returned member outside the declared population is refused",
+      "sentenceDigest": "8ad272e5c641f3396890e353f02a1155aa6ec35f95771cb0c04e80b2d84b7c03",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "2(iii)",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-008",
+      "line": 14,
+      "needsRoot": true,
+      "sentence": "an unexpected member inside a package declared complete",
+      "sentenceDigest": "9fdb4fa5da98852e9eb56a256fe426daadd48130d3378b463302d997c764a84b",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "2(iii)",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-009",
+      "line": 12,
+      "needsRoot": false,
+      "sentence": "The boundary is declared before the check",
+      "sentenceDigest": "a8f7a6c969af162a5eca1c41825daaa597a8f07c7f2663825936413b0aa391aa",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "3",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-010",
+      "line": 22,
+      "needsRoot": false,
+      "sentence": "Alongside the digest the record names which members were selected, by what expression, and how many matched.",
+      "sentenceDigest": "ff3bd8b633fd4eb12648e1feb8b4f263152d50a24a05e1c768e76065c1cf6025",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "3",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-011",
+      "line": 22,
+      "needsRoot": false,
+      "sentence": "A selection resolving to zero reports",
+      "sentenceDigest": "191801e46300060fdb25d85d15d0d799b0578de349df47e430b8ca88fad62a8d",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "3",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-012",
+      "line": 22,
+      "needsRoot": false,
+      "sentence": "or to more than one where exactly one is required, is refused at intake rather than silently bound",
+      "sentenceDigest": "1e3fd03d397d51eda23f2206ae214e92b389dc64ed534e82ebe1087e4d72468c",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "4",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-013",
+      "line": 24,
+      "needsRoot": false,
+      "sentence": "The per-case lines, the aggregate line and the exit code are all carried, so the finding does not rest on one line.",
+      "sentenceDigest": "c967efd657ff5d4d39f3a058eb1cac6cc319dac17894d483be7731f0ca6af2a7",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "4",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-014",
+      "line": 24,
+      "needsRoot": false,
+      "sentence": "The printed total is one more value compared against the recount; any divergence is a refusal with both numbers recorded.",
+      "sentenceDigest": "486e859ecaff721e0c5b8ff32b6dd7cb60aa713ed33b096fbee1f6c4d2c54033",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "4",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-015",
+      "line": 24,
+      "needsRoot": false,
+      "sentence": "The reader recounts outcomes from the per-case records and never takes a printed summary line as the result.",
+      "sentenceDigest": "9aa10057b4343e141db26e99aa1ac8d980290dca1bac0768402d1898f9be70ed",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "4",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-016",
+      "line": 24,
+      "needsRoot": false,
+      "sentence": "For each refusal the record names the decision rule and the exact inputs it was recomputed from",
+      "sentenceDigest": "8de0386b58805d6937d3e3767b8e2cb9cc6e34a1c3e5c2e80c6cc091205feb5d",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "4",
+      "file": "2026Oct-0075",
+      "id": "W3C-I-017",
+      "line": 14,
+      "needsRoot": false,
+      "sentence": "the pinned record\nbytes, including the carried per-case lines, aggregate line and exit code\nnamed in this criterion",
+      "sentenceDigest": "9ba7b393e9acf7267195d3f44db0287409096d709349647ce1eec7412493bd66",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0075-wang-2026-10-13-fifth-delta.txt"
+    },
+    {
+      "criterion": "5",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-018",
+      "line": 26,
+      "needsRoot": false,
+      "sentence": "Native verdicts, reasons and process status are carried unchanged.",
+      "sentenceDigest": "e8f153909265d22289099465786551640113954e486994de4635b244025390f3",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "5",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-019",
+      "line": 26,
+      "needsRoot": true,
+      "sentence": "Native verdicts, reasons and process status are carried unchanged.",
+      "sentenceDigest": "e8f153909265d22289099465786551640113954e486994de4635b244025390f3",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "6",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-020",
+      "line": 28,
+      "needsRoot": false,
+      "sentence": "For each observation the record states one of three states: carried inline, referenced by digest, or absent.",
+      "sentenceDigest": "e45d6a3edacc19efdee54712038f82223c5220b638483e8b97af279f1291b3d4",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "6",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-021",
+      "line": 28,
+      "needsRoot": false,
+      "sentence": "An observation declared inline and not present is a fail-closed refusal.",
+      "sentenceDigest": "ec0fd09830da55a289c8e6ce07345c1663bc7ed2eb48d67d3d18be4949082f60",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "7",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-022",
+      "line": 30,
+      "needsRoot": false,
+      "sentence": "The submitter declares an anchor carrying enough data to distinguish an availability failure (the reference does not resolve) from an integrity failure (it resolves but the digest does not match), and names the verdict for each.",
+      "sentenceDigest": "d38a927cae87b114d754933abb16610ba1f62f39941c4dbdeba7e7faf8d6e372",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "7",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-023",
+      "line": 30,
+      "needsRoot": true,
+      "sentence": "the reference does not resolve",
+      "sentenceDigest": "da719116d6840b05b68a11c68e7907a40a0c5ade1f1d5e39c0f134668cedec2b",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "7",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-024",
+      "line": 30,
+      "needsRoot": true,
+      "sentence": "it resolves but the digest does not match",
+      "sentenceDigest": "973ac136d1e61697f95a8ed5138402b73dd15ac2497c1d6da885bd10b577c314",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-025",
+      "line": 32,
+      "needsRoot": true,
+      "sentence": "The checker is named by an immutable source revision and the exact command run",
+      "sentenceDigest": "8a8fef2a9efee0369656eb7566b59519b9e0bfb92db77dd9a12cfff3c89de3e4",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-026",
+      "line": 32,
+      "needsRoot": true,
+      "sentence": "with runtime and dependencies named rather than inherited from whichever reader ran first",
+      "sentenceDigest": "c475114f1d57ac12790d6b5147dba24d839e0fc7e9d06091423f20a5a4f33753",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-027",
+      "line": 32,
+      "needsRoot": false,
+      "sentence": "Any helper script, fixture fetcher or other artifact acquired at run time is named by both its acquisition URI and a content digest",
+      "sentenceDigest": "35cbef02aae045e663b551af49382f365e041ffd2ef0b7cc5df6d58be6d50121",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-028",
+      "line": 32,
+      "needsRoot": true,
+      "sentence": "an unresolvable helper or a digest mismatch is a refusal, never a silent fallback.",
+      "sentenceDigest": "5a7a50421db1e07bc2b8225012ebe610dae44792f1b6c66344c12d821d7919fd",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-029",
+      "line": 22,
+      "needsRoot": false,
+      "sentence": "The submitter also states the reader's relationship to the reference\n  implementation - the same implementation, reference-derived code, or\n  an implementation written from the specification",
+      "sentenceDigest": "55a61e0e3cbe7c492ff30b1dee80769e16cd77bec1714f3c1e3820bf2c120bd7",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-030",
+      "line": 24,
+      "needsRoot": false,
+      "sentence": "identifies any\n  shared verification code relevant to that distinction",
+      "sentenceDigest": "f3f5945893bc2e321c38bdbe09fd365b236ab8e030d3d524032e7cd5360798a4",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "8",
+      "file": "2026Oct-0073",
+      "id": "W3C-I-031",
+      "line": 16,
+      "needsRoot": false,
+      "sentence": "no reader written from the specification has yet been run against the\nEd25519/JCS corpus, and the v2.1 record will say so as an explicit field.",
+      "sentenceDigest": "00a7f3cb3e42035f6143bf2fff8bbb192884d23167925b1fcecf7ee3d1ae7d50",
+      "status": "v2.1-announced",
+      "vendored": "spec-vendored/2026Oct-0073-wang-2026-10-13-criterion-8-terminology.txt"
+    },
+    {
+      "criterion": "9",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-032",
+      "line": 34,
+      "needsRoot": false,
+      "sentence": "The encoding identifier is drawn from a closed set, and a reader that does not implement the declared encoding rejects the record.",
+      "sentenceDigest": "4fcaddc5d54c04fa9831e8ca8e9da00953f002e63114c69942781a8a983e3dd6",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "9",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-033",
+      "line": 34,
+      "needsRoot": false,
+      "sentence": "Every digest offered as evidence declares its exact input serialization; a digest whose input serialization is undeclared stays outside the record.",
+      "sentenceDigest": "ef2e44eaaff1ee87e903db9f931f126582f8e08c40e0b4486b8304c95a13b00c",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "10",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-034",
+      "line": 36,
+      "needsRoot": false,
+      "sentence": "Byte identity - the same bytes always produce the same digest - and replay stability - the same pinned inputs produce byte-identical output across independent processes - are separate claims and are recorded separately.",
+      "sentenceDigest": "b225869bc50cace3dad215174a14f59b3318a0d19003708a09e3f1dbda598be2",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "10",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-035",
+      "line": 31,
+      "needsRoot": false,
+      "sentence": "the record\n  declares the ordering used and the seed settings where applicable",
+      "sentenceDigest": "0a99aae61a0006655ec8212b445d33ffc0003438f0ae1f02c74933efbf305e4b",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "10",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-036",
+      "line": 35,
+      "needsRoot": false,
+      "sentence": "Where raw outputs differ, that difference\n  is retained even when a separately declared comparison of results\n  agrees.",
+      "sentenceDigest": "e37895e50430ac18d3fb6375771772557c2485b14f331521ac4b401484d7e967",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "10",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-037",
+      "line": 37,
+      "needsRoot": false,
+      "sentence": "Output that varies across processes with no declared cause is\n  a refusal.",
+      "sentenceDigest": "aad7ac33cfebcfdcf2b0507828cf8f2e0e560a8b63123f20a49ae2111a78e403",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-038",
+      "line": 38,
+      "needsRoot": false,
+      "sentence": "The record states whether the expected answers were visible to the implementer before the run.",
+      "sentenceDigest": "b4fc60e8c7cc074d7758442428455e4efbeb22586455b69d7471ad407a295b8d",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-039",
+      "line": 38,
+      "needsRoot": false,
+      "sentence": "Reproducing recorded answers and detecting an injected fault are separate claims kept in separate records, even when one suite produces both",
+      "sentenceDigest": "5d991011fd4f0c1d031d6c207d6d5ed460c2942a4fc62a5dd6255cf54903a6de",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-040",
+      "line": 38,
+      "needsRoot": false,
+      "sentence": "each deliberate fault has its own result, separate from the reproduction result and the exposure declaration.",
+      "sentenceDigest": "06962e773980720a504f3caccd6dd36a4648fe2a851bd478c8cd35745c59e426",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-041",
+      "line": 43,
+      "needsRoot": false,
+      "sentence": "Pair each relaxed-check result with its baseline",
+      "sentenceDigest": "e41a87c888435e104b1ff8d65b2205a5d018ab062855861b1a69f44126f6ae30",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-042",
+      "line": 44,
+      "needsRoot": false,
+      "sentence": "A FAIL that persists\n  with a different refusing ground is not an unchanged native result",
+      "sentenceDigest": "230d31965ce55d0f1923cbb690b94b978b28236ea68ebe2fbb0c24c0ae269e4f",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "11",
+      "file": "2026Oct-0070",
+      "id": "W3C-I-043",
+      "line": 46,
+      "needsRoot": false,
+      "sentence": "where another ground can still reject the object, that control alone\n  does not isolate the relaxed check.",
+      "sentenceDigest": "97435e6de52d37dd247422361ed2703d6bb9392349904af650c9fef23dcd228c",
+      "status": "v2.1-delta",
+      "vendored": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt"
+    },
+    {
+      "criterion": "12",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-044",
+      "line": 40,
+      "needsRoot": false,
+      "sentence": "The record states what the suite establishes and what it leaves open.",
+      "sentenceDigest": "9c3951cae38af04e2c8d23697c702b08682fe9d437c55aecd8201aa37384073d",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "12",
+      "file": "2026Oct-0067",
+      "id": "W3C-I-045",
+      "line": 40,
+      "needsRoot": false,
+      "sentence": "It does not claim coverage of the whole attack surface, does not rank implementations, makes no claim about threats outside the corpus, and does not establish that an action happened or that its actor had authority",
+      "sentenceDigest": "21b98e5e4a92a0d22b76c3324d960669567731027c303fda9afecda90b3ea384",
+      "status": "v2",
+      "vendored": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt"
+    },
+    {
+      "criterion": "6",
+      "file": "2026Oct-0090",
+      "id": "W3C-I-046",
+      "line": 7,
+      "needsRoot": false,
+      "sentence": "for each artifact declared carried inline, the record states whether the checker read it.",
+      "sentenceDigest": "9ee42a25ff84d1fb6ecae837b58612e484dd91b6fa8db68e5b25f4d4b524aa2a",
+      "status": "v2.1-proposed",
+      "vendored": "spec-vendored/2026Oct-0090-kroehl-2026-10-14-consumed-state.txt"
+    },
+    {
+      "criterion": "6",
+      "file": "2026Oct-0090",
+      "id": "W3C-I-047",
+      "line": 7,
+      "needsRoot": false,
+      "sentence": "An artifact that no check consumes gets its own state, distinct from carried.",
+      "sentenceDigest": "3671a4ec432da16b1da5fa53afe89bf542aa9c6e57d66f33bbfc6e983daf5124",
+      "status": "v2.1-proposed",
+      "vendored": "spec-vendored/2026Oct-0090-kroehl-2026-10-14-consumed-state.txt"
+    },
+    {
+      "criterion": "6",
+      "file": "2026Oct-0091",
+      "id": "W3C-I-048",
+      "line": 15,
+      "needsRoot": false,
+      "sentence": "a\nfile no check reads gets its own state, and the record says which\nground refused.",
+      "sentenceDigest": "ef4370828453f5ecb04809d13b0c4c6149a3ad19614ead011fe988d59537298d",
+      "status": "v2.1-proposed",
+      "vendored": "spec-vendored/2026Oct-0091-rocchia-2026-10-14-swap-and-re-pin.txt"
+    }
+  ],
+  "specAmendments": "the five wording deltas accepted in 2026Oct/0070 and 2026Oct/0075, the field announced in 2026Oct/0073, and the criterion-6 consumed state proposed in 2026Oct/0090 and measured in 2026Oct/0091, for the consolidated v2.1",
+  "specName": "W3C public-agent-conformance intake criteria for a submitted conformance result",
+  "specVendored": {
+    "2026Oct-0067": {
+      "author": "Guigui Wang",
+      "path": "spec-vendored/2026Oct-0067-wang-2026-10-13-intake-criteria-v2.txt",
+      "sha256": "fe50c814f6940315d86bda2561008f4a83382d37714de36a1d6eef4d08de92fb",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0067.html"
+    },
+    "2026Oct-0070": {
+      "author": "Guigui Wang",
+      "path": "spec-vendored/2026Oct-0070-wang-2026-10-13-four-deltas.txt",
+      "sha256": "57136554a5fd41c594926bded851a6aed8c11d8b084a3d26c31a530479eee08f",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0070.html"
+    },
+    "2026Oct-0073": {
+      "author": "Guigui Wang",
+      "path": "spec-vendored/2026Oct-0073-wang-2026-10-13-criterion-8-terminology.txt",
+      "sha256": "cabbe9f9082fcbcd7b1e281c274549dd08802aa4232b64794d3cbab1aca5e0d5",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0073.html"
+    },
+    "2026Oct-0075": {
+      "author": "Guigui Wang",
+      "path": "spec-vendored/2026Oct-0075-wang-2026-10-13-fifth-delta.txt",
+      "sha256": "f65bf7f3f98b3940b7b209f366631c98f3a6c0fcc246074b3dbd8dd509cb0bfb",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0075.html"
+    },
+    "2026Oct-0090": {
+      "author": "Lars Kersten Kroehl",
+      "path": "spec-vendored/2026Oct-0090-kroehl-2026-10-14-consumed-state.txt",
+      "sha256": "a3876ad29befea4ecd2f285434a0afd76ec9760a846d0803ea31d67cd5f77446",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0090.html"
+    },
+    "2026Oct-0091": {
+      "author": "Nicolas Rocchia",
+      "path": "spec-vendored/2026Oct-0091-rocchia-2026-10-14-swap-and-re-pin.txt",
+      "sha256": "df9be3d00cc18f67955617ade47e9c3fed528cee8e74e5beee15b356e7a218cb",
+      "source": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0091.html"
+    }
+  },
+  "specVersion": "2",
+  "suite": "w3c-intake-v2-conformance",
+  "vectors": [
+    {
+      "cites": "every manifest id pinned by the bytes of its one file",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-001",
+      "file": "vectors/v4b83c00e34b0f017.json",
+      "id": "v4b83c00e34b0f017",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-001"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "manifest id c3 is in the result and no pin covers its bytes",
+      "expected": {
+        "rejects": [
+          "W3C-I-001"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-001",
+      "file": "vectors/vc502dd813acb40e9.json",
+      "id": "vc502dd813acb40e9",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-001"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a member pin carries a path and no digest",
+      "expected": {
+        "rejects": [
+          "W3C-I-001"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-001",
+      "file": "vectors/vceba377fc0a40689.json",
+      "id": "vceba377fc0a40689",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-001"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the corpus digest is the listing over the members and the manifest",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-002",
+      "file": "vectors/vd195e97000963f8b.json",
+      "id": "vd195e97000963f8b",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-002"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the manifest on disk is not the manifest the corpus digest covers",
+      "expected": {
+        "rejects": [
+          "W3C-I-002"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-002",
+      "file": "vectors/v0654f6ef6601c278.json",
+      "id": "v0654f6ef6601c278",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-002"
+      ],
+      "root": "trees/manifest-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the corpus digest covers the member bytes and leaves the manifest out",
+      "expected": {
+        "rejects": [
+          "W3C-I-002"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-002",
+      "file": "vectors/v98e61743e5cf5af3.json",
+      "id": "v98e61743e5cf5af3",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-002"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README, which no check reads, was edited after the run; the artifact pin is the only ground that refuses it",
+      "expected": {
+        "rejects": [
+          "W3C-I-002"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-002",
+      "file": "vectors/vb7ff59f00191de36.json",
+      "id": "vb7ff59f00191de36",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-002"
+      ],
+      "root": "trees/readme-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "every member's bytes match its pin",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-003",
+      "file": "vectors/v3f9dd8a96d5d8fe5.json",
+      "id": "v3f9dd8a96d5d8fe5",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-003"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "c2 on disk is not the bytes its pin names, and the run reported on it",
+      "expected": {
+        "rejects": [
+          "W3C-I-003"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-003",
+      "file": "vectors/v5e294201e4d78c83.json",
+      "id": "v5e294201e4d78c83",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-003"
+      ],
+      "root": "trees/member-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "a closed manifest of three unique identifiers",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-004",
+      "file": "vectors/v196987dcaee25c28.json",
+      "id": "v196987dcaee25c28",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-004"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a member is pinned that the manifest does not close over",
+      "expected": {
+        "rejects": [
+          "W3C-I-004"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-004",
+      "file": "vectors/v64f993725b2718a5.json",
+      "id": "v64f993725b2718a5",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-004"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the manifest is declared open, so nothing is checked in both directions",
+      "expected": {
+        "rejects": [
+          "W3C-I-004"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-004",
+      "file": "vectors/vc6de450064fef27d.json",
+      "id": "vc6de450064fef27d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-004"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "every selected member is returned",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-005",
+      "file": "vectors/v6f12200b29a3a1ab.json",
+      "id": "v6f12200b29a3a1ab",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-005"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c3 is in the manifest and the result never returned it, so 2 of 2 printed as a clean run",
+      "expected": {
+        "rejects": [
+          "W3C-I-005"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-005",
+      "file": "vectors/v07e63d8effcae2ac.json",
+      "id": "v07e63d8effcae2ac",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-005"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "each identifier is returned once",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-006",
+      "file": "vectors/v6ee3a7de40d1957f.json",
+      "id": "v6ee3a7de40d1957f",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-006"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c1 is returned twice and counted twice",
+      "expected": {
+        "rejects": [
+          "W3C-I-006"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-006",
+      "file": "vectors/v40fd4666f3592403.json",
+      "id": "v40fd4666f3592403",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-006"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the result returns only members of the declared population",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-007",
+      "file": "vectors/v8ad9d48bc6ecf88e.json",
+      "id": "v8ad9d48bc6ecf88e",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-007"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the tooling printed c9, a member outside the manifest, and the record counts it",
+      "expected": {
+        "rejects": [
+          "W3C-I-007"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-007",
+      "file": "vectors/v23c68056f1b47f0c.json",
+      "id": "v23c68056f1b47f0c",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-007"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a file outside the member locations is outside the claim and does not invalidate the report",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-008",
+      "file": "vectors/v32c6316200b07fd6.json",
+      "id": "v32c6316200b07fd6",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-008"
+      ],
+      "root": "trees/outside-package",
+      "specVersion": "2"
+    },
+    {
+      "cites": "c4.json sits among the members of a package declared complete and no pin covers it",
+      "expected": {
+        "rejects": [
+          "W3C-I-008"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-008",
+      "file": "vectors/v604f74c87542dbe5.json",
+      "id": "v604f74c87542dbe5",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-008"
+      ],
+      "root": "trees/unexpected-member",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the boundary is declared: package root, complete, member locations",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-009",
+      "file": "vectors/vd3d85012283a68af.json",
+      "id": "vd3d85012283a68af",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-009"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "no boundary is declared, so an unexpected member cannot be told from a stray file",
+      "expected": {
+        "rejects": [
+          "W3C-I-009"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-009",
+      "file": "vectors/v3e63e15a62cc5c71.json",
+      "id": "v3e63e15a62cc5c71",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-009"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the expression, the three it selects and the count agree",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-010",
+      "file": "vectors/v470bbb15b57a7957.json",
+      "id": "v470bbb15b57a7957",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-010"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record says two matched and lists three",
+      "expected": {
+        "rejects": [
+          "W3C-I-010"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-010",
+      "file": "vectors/v60f54bb64a2a7f5a.json",
+      "id": "v60f54bb64a2a7f5a",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-010"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "no selector: the digest says nothing about which members a result concerns",
+      "expected": {
+        "rejects": [
+          "W3C-I-010"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-010",
+      "file": "vectors/vc818d34dff0f6b80.json",
+      "id": "vc818d34dff0f6b80",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-010"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a selection resolving to members",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-011",
+      "file": "vectors/v63f37f987a48e3c9.json",
+      "id": "v63f37f987a48e3c9",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-011"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the selection resolves to zero members and an empty run reads as clean",
+      "expected": {
+        "rejects": [
+          "W3C-I-011"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-011",
+      "file": "vectors/vd9fa2f1b06b5f28d.json",
+      "id": "vd9fa2f1b06b5f28d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-011"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "exactly one required and exactly one matched",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-012",
+      "file": "vectors/v577e473ca378e169.json",
+      "id": "v577e473ca378e169",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-012"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "exactly one member was requested and c* matches three, which a reader binds to the first",
+      "expected": {
+        "rejects": [
+          "W3C-I-012"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-012",
+      "file": "vectors/v3d96742348b1a1da.json",
+      "id": "v3d96742348b1a1da",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-012"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "per-case lines, aggregate line and exit code all carried",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-013",
+      "file": "vectors/v24cc422e8ea106c7.json",
+      "id": "v24cc422e8ea106c7",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-013"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "only the per-case lines are carried; the aggregate line is gone",
+      "expected": {
+        "rejects": [
+          "W3C-I-013"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-013",
+      "file": "vectors/v8ba50600d1bad66d.json",
+      "id": "v8ba50600d1bad66d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-013"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the exit code is not carried",
+      "expected": {
+        "rejects": [
+          "W3C-I-013"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-013",
+      "file": "vectors/v939434da977cc776.json",
+      "id": "v939434da977cc776",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-013"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the printed total and counts recount from the per-case lines",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-014",
+      "file": "vectors/v41e1b9aaeb1ed42b.json",
+      "id": "v41e1b9aaeb1ed42b",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-014"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a self-proving footer: the aggregate prints 2 and three lines are carried",
+      "expected": {
+        "rejects": [
+          "W3C-I-014"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-014",
+      "file": "vectors/v1c4951ded00976bd.json",
+      "id": "v1c4951ded00976bd",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-014"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "exit code 0 under a zero-iff-every-check-passes rule beside a failing line",
+      "expected": {
+        "rejects": [
+          "W3C-I-014"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-014",
+      "file": "vectors/vf29efbf50bc863d6.json",
+      "id": "vf29efbf50bc863d6",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-014"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the aggregate prints three accepts and the lines carry a reject",
+      "expected": {
+        "rejects": [
+          "W3C-I-014"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-014",
+      "file": "vectors/vf8fbdae5240189f6.json",
+      "id": "vf8fbdae5240189f6",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-014"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a failing line, and the record states fail",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-015",
+      "file": "vectors/ve11675708cde35ce.json",
+      "id": "ve11675708cde35ce",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-015"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record states pass while c2's line fails",
+      "expected": {
+        "rejects": [
+          "W3C-I-015"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-015",
+      "file": "vectors/v0399cd28c63c6dbf.json",
+      "id": "v0399cd28c63c6dbf",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-015"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c1's line states pass while its own native line carries a finding",
+      "expected": {
+        "rejects": [
+          "W3C-I-015"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-015",
+      "file": "vectors/v50df62ce503c48df.json",
+      "id": "v50df62ce503c48df",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-015"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the refusal of c2 names its rule and its inputs",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-016",
+      "file": "vectors/v7b8f37dcf6158376.json",
+      "id": "v7b8f37dcf6158376",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-016"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c2 is refused and the record names neither rule nor inputs",
+      "expected": {
+        "rejects": [
+          "W3C-I-016"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-016",
+      "file": "vectors/v9976931a80e05b88.json",
+      "id": "v9976931a80e05b88",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-016"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c2's refusal names a rule and no inputs",
+      "expected": {
+        "rejects": [
+          "W3C-I-016"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-016",
+      "file": "vectors/vb49a4fa47c8572a4.json",
+      "id": "vb49a4fa47c8572a4",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-016"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "every input is a pinned member, a carried line, the aggregate or the exit code",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-017",
+      "file": "vectors/v13a8c5541daabc35.json",
+      "id": "v13a8c5541daabc35",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-017"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the refusal is recomputed from the original tool's stdout, which the record does not hold",
+      "expected": {
+        "rejects": [
+          "W3C-I-017"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-017",
+      "file": "vectors/v62b417a93ae2a89c.json",
+      "id": "v62b417a93ae2a89c",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-017"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "every line carries the native verdict and reasons; the process status is carried",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-018",
+      "file": "vectors/va6b4ca35ab2f03d1.json",
+      "id": "va6b4ca35ab2f03d1",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-018"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "c1 carries a verdict and no reasons",
+      "expected": {
+        "rejects": [
+          "W3C-I-018"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-018",
+      "file": "vectors/v2b19e4f0d2247dbc.json",
+      "id": "v2b19e4f0d2247dbc",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-018"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the native process status is not carried",
+      "expected": {
+        "rejects": [
+          "W3C-I-018"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-018",
+      "file": "vectors/v635f73ac277b3a0d.json",
+      "id": "v635f73ac277b3a0d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-018"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the carried lines and aggregate are the native output, byte for byte",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-019",
+      "file": "vectors/v24e118bd3c7e6242.json",
+      "id": "v24e118bd3c7e6242",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-019"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the native process exited 1 and the record carries exit code 0",
+      "expected": {
+        "rejects": [
+          "W3C-I-019"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-019",
+      "file": "vectors/v122341542c517218.json",
+      "id": "v122341542c517218",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-019"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the native output names a finding on c1 and the carried line was transcribed clean",
+      "expected": {
+        "rejects": [
+          "W3C-I-019"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-019",
+      "file": "vectors/v7ce54363ea318e15.json",
+      "id": "v7ce54363ea318e15",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-019"
+      ],
+      "root": "trees/native-transcribed",
+      "specVersion": "2"
+    },
+    {
+      "cites": "carried, referenced and absent observations, each stated",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-020",
+      "file": "vectors/v175fe9429cdaf5b3.json",
+      "id": "v175fe9429cdaf5b3",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-020"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an observation states a carry outside the three",
+      "expected": {
+        "rejects": [
+          "W3C-I-020"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-020",
+      "file": "vectors/v0a45c9233d71783b.json",
+      "id": "v0a45c9233d71783b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-020"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an observation is referenced and carries no digest",
+      "expected": {
+        "rejects": [
+          "W3C-I-020"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-020",
+      "file": "vectors/v81d40bfca8e660b0.json",
+      "id": "v81d40bfca8e660b0",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-020"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "stderr declared inline and present",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-021",
+      "file": "vectors/v3ea516fc974f135b.json",
+      "id": "v3ea516fc974f135b",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-021"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "stderr declared inline and not present",
+      "expected": {
+        "rejects": [
+          "W3C-I-021"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-021",
+      "file": "vectors/v9baa4a94e303af05.json",
+      "id": "v9baa4a94e303af05",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-021"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor carries its reference, its digest and a verdict for each failure",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/v217fabb9bf9a3f9c.json",
+      "id": "v217fabb9bf9a3f9c",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a signed digest list naming its signature, its pinned key and the scheme it is verified under",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/ve83e7040319fbe35.json",
+      "id": "ve83e7040319fbe35",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor calls itself a signed digest list and names no signature, so nothing can be verified",
+      "expected": {
+        "rejects": [
+          "W3C-I-022"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/v6eb48c78fb052aa4.json",
+      "id": "v6eb48c78fb052aa4",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor carries a reference and no digest",
+      "expected": {
+        "rejects": [
+          "W3C-I-022"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/vabfd2622f5e13317.json",
+      "id": "vabfd2622f5e13317",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an anchor that does not resolve is named as a pass",
+      "expected": {
+        "rejects": [
+          "W3C-I-022"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-022",
+      "file": "vectors/vd96bd7a5c7cf0bbf.json",
+      "id": "vd96bd7a5c7cf0bbf",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-022"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the signed digest list, its signature and its key all resolve",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-023",
+      "file": "vectors/v1639766c332a12c6.json",
+      "id": "v1639766c332a12c6",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-023"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "an anchor outside the group's registry, declared and reachable",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-023",
+      "file": "vectors/vc6e86cba2fb1ab40.json",
+      "id": "vc6e86cba2fb1ab40",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-023"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor does not resolve: an availability failure",
+      "expected": {
+        "rejects": [
+          "W3C-I-023"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-023",
+      "file": "vectors/v65b38b09cf320169.json",
+      "id": "v65b38b09cf320169",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-023"
+      ],
+      "root": "trees/anchor-gone",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the signature over the digest list does not resolve: an availability failure",
+      "expected": {
+        "rejects": [
+          "W3C-I-023"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-023",
+      "file": "vectors/vbaae5c116d3beea8.json",
+      "id": "vbaae5c116d3beea8",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-023"
+      ],
+      "root": "trees/signature-gone",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the signature over the digest list verifies under the pinned key",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/vbb025aafb97b9047.json",
+      "id": "vbb025aafb97b9047",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor resolves and binds the manifest's own digest",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/ve1a51105e388c4fc.json",
+      "id": "ve1a51105e388c4fc",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor resolves and binds another digest: an integrity failure",
+      "expected": {
+        "rejects": [
+          "W3C-I-024"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/v6322f013ae1f2976.json",
+      "id": "v6322f013ae1f2976",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/anchor-other",
+      "specVersion": "2"
+    },
+    {
+      "cites": "c2 rewritten, its pin, the manifest and the digest-list line re-pinned to match, and the list's signature no longer verifies",
+      "expected": {
+        "rejects": [
+          "W3C-I-024"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/v749fc2d101176654.json",
+      "id": "v749fc2d101176654",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/anchor-repinned",
+      "specVersion": "2"
+    },
+    {
+      "cites": "c3 deleted from the suite, the record, the manifest and the digest list, and the list's signature no longer verifies",
+      "expected": {
+        "rejects": [
+          "W3C-I-024"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/v91e1c07c567654ab.json",
+      "id": "v91e1c07c567654ab",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/member-dropped-repinned",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the list re-signed under another key placed beside it, which is not the key the record pins",
+      "expected": {
+        "rejects": [
+          "W3C-I-024"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-024",
+      "file": "vectors/vd18941600be3b53c.json",
+      "id": "vd18941600be3b53c",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-024"
+      ],
+      "root": "trees/other-signer",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker named by a forty-digit commit and its command",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-025",
+      "file": "vectors/v5422fc815eed1123.json",
+      "id": "v5422fc815eed1123",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-025"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker named by its source listing, which recomputes",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-025",
+      "file": "vectors/ved758d92cc723e54.json",
+      "id": "ved758d92cc723e54",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-025"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker is named by a branch, which moves",
+      "expected": {
+        "rejects": [
+          "W3C-I-025"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-025",
+      "file": "vectors/v1669d7dab601c25b.json",
+      "id": "v1669d7dab601c25b",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-025"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker source on disk is not the source the record names",
+      "expected": {
+        "rejects": [
+          "W3C-I-025"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-025",
+      "file": "vectors/v67b40c39122cff5d.json",
+      "id": "v67b40c39122cff5d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-025"
+      ],
+      "root": "trees/checker-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "runtime and pinned dependencies named",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-026",
+      "file": "vectors/vff145741230bad43.json",
+      "id": "vff145741230bad43",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-026"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the dependency lock on disk is not the one pinned",
+      "expected": {
+        "rejects": [
+          "W3C-I-026"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-026",
+      "file": "vectors/vb1be3be87a101042.json",
+      "id": "vb1be3be87a101042",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-026"
+      ],
+      "root": "trees/lock-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "no runtime named: whichever reader ran first supplies one",
+      "expected": {
+        "rejects": [
+          "W3C-I-026"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-026",
+      "file": "vectors/vc1d6ed33740e9c9f.json",
+      "id": "vc1d6ed33740e9c9f",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-026"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the run-time helper named by URI and digest",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-027",
+      "file": "vectors/va29939ff0b1ced5a.json",
+      "id": "va29939ff0b1ced5a",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-027"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the helper is named by URI only",
+      "expected": {
+        "rejects": [
+          "W3C-I-027"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-027",
+      "file": "vectors/v0c0dc92a002c939d.json",
+      "id": "v0c0dc92a002c939d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-027"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the helper resolves to its digest",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-028",
+      "file": "vectors/v46b78742477108a1.json",
+      "id": "v46b78742477108a1",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-028"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the helper does not resolve and a silent fallback would carry on",
+      "expected": {
+        "rejects": [
+          "W3C-I-028"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-028",
+      "file": "vectors/v738c04d101c5c689.json",
+      "id": "v738c04d101c5c689",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-028"
+      ],
+      "root": "trees/helper-gone",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the helper resolves to other bytes",
+      "expected": {
+        "rejects": [
+          "W3C-I-028"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-028",
+      "file": "vectors/ve8ae46295104698d.json",
+      "id": "ve8ae46295104698d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-028"
+      ],
+      "root": "trees/helper-moved",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the checker is the same implementation; a re-run is reference-derived",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-029",
+      "file": "vectors/vf4cd7b5b3eef423c.json",
+      "id": "vf4cd7b5b3eef423c",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-029"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the relationship is stated as independent, outside the closed set",
+      "expected": {
+        "rejects": [
+          "W3C-I-029"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-029",
+      "file": "vectors/v628d73a979719132.json",
+      "id": "v628d73a979719132",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-029"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a re-run by another operator states no relationship",
+      "expected": {
+        "rejects": [
+          "W3C-I-029"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-029",
+      "file": "vectors/veb9cf5b0aa451c86.json",
+      "id": "veb9cf5b0aa451c86",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-029"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "written from the specification and sharing no verification code",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-030",
+      "file": "vectors/ve47e96cf568239e3.json",
+      "id": "ve47e96cf568239e3",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-030"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "written from the specification while sharing checker/check.sh",
+      "expected": {
+        "rejects": [
+          "W3C-I-030"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-030",
+      "file": "vectors/v4394fc9a6d7eed10.json",
+      "id": "v4394fc9a6d7eed10",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-030"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the same implementation, recorded as sharing nothing",
+      "expected": {
+        "rejects": [
+          "W3C-I-030"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-030",
+      "file": "vectors/vd13dd0fd58e925a4.json",
+      "id": "vd13dd0fd58e925a4",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-030"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a reader written from the specification is named",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-031",
+      "file": "vectors/v79a9ccf2b634b93d.json",
+      "id": "v79a9ccf2b634b93d",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-031"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record leaves unsaid whether any reader written from the specification has run",
+      "expected": {
+        "rejects": [
+          "W3C-I-031"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-031",
+      "file": "vectors/v395079b1adf4edb4.json",
+      "id": "v395079b1adf4edb4",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-031"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "jcs-sha256, which this reader implements",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-032",
+      "file": "vectors/v9e1178909663e352.json",
+      "id": "v9e1178909663e352",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-032"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "no canonicalization declared, so it is inherited",
+      "expected": {
+        "rejects": [
+          "W3C-I-032"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-032",
+      "file": "vectors/v5e8673fc811ef3e5.json",
+      "id": "v5e8673fc811ef3e5",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-032"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an encoding outside the set this reader implements",
+      "expected": {
+        "rejects": [
+          "W3C-I-032"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-032",
+      "file": "vectors/vd0d108b0ef7edc71.json",
+      "id": "vd0d108b0ef7edc71",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-032"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor digest's routine is named by a file that resolves",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/v5f5a73fda7c3ab79.json",
+      "id": "v5f5a73fda7c3ab79",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": "trees/base",
+      "specVersion": "2"
+    },
+    {
+      "cites": "every digest declares the bytes it was taken over",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/ve39b2f4c8ea1d1dd.json",
+      "id": "ve39b2f4c8ea1d1dd",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor digest declares no input serialization",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/v00e080a1b198e6ed.json",
+      "id": "v00e080a1b198e6ed",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a referenced observation's digest declares no input serialization",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/v04069b8758ab69f1.json",
+      "id": "v04069b8758ab69f1",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the corpus digest declares no input serialization",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/v766999c5a51f1f8f.json",
+      "id": "v766999c5a51f1f8f",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor digest's routine names a file that is not here",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/vafc86806ac1ce5be.json",
+      "id": "vafc86806ac1ce5be",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": "trees/routine-gone",
+      "specVersion": "2"
+    },
+    {
+      "cites": "the anchor digest's routine names a file outside the root",
+      "expected": {
+        "rejects": [
+          "W3C-I-033"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-033",
+      "file": "vectors/vb53fea686ca51c8c.json",
+      "id": "vb53fea686ca51c8c",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-033"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "byte identity and replay stability recorded as two claims",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-034",
+      "file": "vectors/vba319c75e16a4d2e.json",
+      "id": "vba319c75e16a4d2e",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-034"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "replay stability is not recorded; byte identity stands in for it",
+      "expected": {
+        "rejects": [
+          "W3C-I-034"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-034",
+      "file": "vectors/v78db7a2671fc5e18.json",
+      "id": "v78db7a2671fc5e18",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-034"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "byte identity is not recorded",
+      "expected": {
+        "rejects": [
+          "W3C-I-034"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-034",
+      "file": "vectors/vd989b5f2bbc3ebd7.json",
+      "id": "vd989b5f2bbc3ebd7",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-034"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "hash order with the seed declared",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-035",
+      "file": "vectors/va731ab8247af278a.json",
+      "id": "va731ab8247af278a",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-035"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a digested stream with no ordering declared",
+      "expected": {
+        "rejects": [
+          "W3C-I-035"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-035",
+      "file": "vectors/v6e3c798cb67617bb.json",
+      "id": "v6e3c798cb67617bb",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-035"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "hash order with no seed",
+      "expected": {
+        "rejects": [
+          "W3C-I-035"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-035",
+      "file": "vectors/ve2fdb89fd5bc4e08.json",
+      "id": "ve2fdb89fd5bc4e08",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-035"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the raw outputs differ, the difference is kept and its cause declared",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-036",
+      "file": "vectors/v0d5f7a30133c1ad9.json",
+      "id": "v0d5f7a30133c1ad9",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-036"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the raw outputs differ and the record says stable because the results compare equal",
+      "expected": {
+        "rejects": [
+          "W3C-I-036"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-036",
+      "file": "vectors/vc816011a0ddeb31d.json",
+      "id": "vc816011a0ddeb31d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-036"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "outputs that vary with a declared cause",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-037",
+      "file": "vectors/v629d3d1abe2fe7ff.json",
+      "id": "v629d3d1abe2fe7ff",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-037"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "outputs that vary across processes with no declared cause",
+      "expected": {
+        "rejects": [
+          "W3C-I-037"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-037",
+      "file": "vectors/v0ada7f2c7c7ed1b8.json",
+      "id": "v0ada7f2c7c7ed1b8",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-037"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the expected answers were visible, and the record says so",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-038",
+      "file": "vectors/va027f60ef395a29c.json",
+      "id": "va027f60ef395a29c",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-038"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record does not say whether the expected answers were visible",
+      "expected": {
+        "rejects": [
+          "W3C-I-038"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-038",
+      "file": "vectors/v74b728792af7adad.json",
+      "id": "v74b728792af7adad",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-038"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "an injected fault kept in its own record",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-039",
+      "file": "vectors/va43d286f6a188eb4.json",
+      "id": "va43d286f6a188eb4",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-039"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "no separate fault record is kept",
+      "expected": {
+        "rejects": [
+          "W3C-I-039"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-039",
+      "file": "vectors/v67c48d1759b30e73.json",
+      "id": "v67c48d1759b30e73",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-039"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the injected fault is counted among the reproduction checks",
+      "expected": {
+        "rejects": [
+          "W3C-I-039"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-039",
+      "file": "vectors/v9db47746ae609760.json",
+      "id": "v9db47746ae609760",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-039"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the fault carries its own result",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-040",
+      "file": "vectors/vd7632273f982647f.json",
+      "id": "vd7632273f982647f",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-040"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the fault carries no result of its own",
+      "expected": {
+        "rejects": [
+          "W3C-I-040"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-040",
+      "file": "vectors/v29dda8489237ed39.json",
+      "id": "v29dda8489237ed39",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-040"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the relaxed result paired with its baseline",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-041",
+      "file": "vectors/ve3b10dfcad449c5b.json",
+      "id": "ve3b10dfcad449c5b",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-041"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a relaxed result with no baseline beside it",
+      "expected": {
+        "rejects": [
+          "W3C-I-041"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-041",
+      "file": "vectors/v2b29945b722cd667.json",
+      "id": "v2b29945b722cd667",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-041"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the FAIL persists with another ground, and the record says changed",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-042",
+      "file": "vectors/v738c5a840f12a1a3.json",
+      "id": "v738c5a840f12a1a3",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-042"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the FAIL persists with another ground and the record calls the native result unchanged because the state did not move",
+      "expected": {
+        "rejects": [
+          "W3C-I-042"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-042",
+      "file": "vectors/v8416326f96fb18ae.json",
+      "id": "v8416326f96fb18ae",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-042"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "relaxing the check admits the object, so the control isolates it",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-043",
+      "file": "vectors/v9d8d5221698f0bef.json",
+      "id": "v9d8d5221698f0bef",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-043"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "another ground still rejects the object and the control is claimed to isolate the relaxed check",
+      "expected": {
+        "rejects": [
+          "W3C-I-043"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-043",
+      "file": "vectors/ve60c2d370edfc450.json",
+      "id": "ve60c2d370edfc450",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-043"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "what the suite establishes and leaves open, both stated",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-044",
+      "file": "vectors/vb60a17e4bcc2c1d2.json",
+      "id": "vb60a17e4bcc2c1d2",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-044"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record says what it leaves open and not what it establishes",
+      "expected": {
+        "rejects": [
+          "W3C-I-044"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-044",
+      "file": "vectors/v77332d7ec6433b51.json",
+      "id": "v77332d7ec6433b51",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-044"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "all four limits kept beside what is established",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-045",
+      "file": "vectors/vf6107cb4aeb21c8b.json",
+      "id": "vf6107cb4aeb21c8b",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-045"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record drops the limit on ranking implementations",
+      "expected": {
+        "rejects": [
+          "W3C-I-045"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-045",
+      "file": "vectors/vde213aa1e40c7a4f.json",
+      "id": "vde213aa1e40c7a4f",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-045"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record claims coverage of the whole attack surface",
+      "expected": {
+        "rejects": [
+          "W3C-I-045"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-045",
+      "file": "vectors/vf069ab4e78fa980d.json",
+      "id": "vf069ab4e78fa980d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-045"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README, the one file beside members and manifest, declared with its consumed state and the swap that decides it",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-046",
+      "file": "vectors/v85a0bc1e581ab6d1.json",
+      "id": "v85a0bc1e581ab6d1",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-046"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README is declared read, which says it was opened, not whether it entered a verdict",
+      "expected": {
+        "rejects": [
+          "W3C-I-046"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-046",
+      "file": "vectors/v2962988bc3a086a5.json",
+      "id": "v2962988bc3a086a5",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-046"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the record says nothing about which files a check consumed",
+      "expected": {
+        "rejects": [
+          "W3C-I-046"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-046",
+      "file": "vectors/va8f590d984b0d3bb.json",
+      "id": "va8f590d984b0d3bb",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-046"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "a file whose swap, with every pin moved, changes the native result, declared consumed",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-047",
+      "file": "vectors/v4b9b26a25da20dea.json",
+      "id": "v4b9b26a25da20dea",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-047"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README declared unconsumed while its swap changes the native result",
+      "expected": {
+        "rejects": [
+          "W3C-I-047"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-047",
+      "file": "vectors/v1db7011ec5b557d6.json",
+      "id": "v1db7011ec5b557d6",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-047"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README declared consumed while its swap with every pin moved leaves the native result byte for byte the baseline",
+      "expected": {
+        "rejects": [
+          "W3C-I-047"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-047",
+      "file": "vectors/v5561407ca5b4acf2.json",
+      "id": "v5561407ca5b4acf2",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-047"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README enters no verdict, and the record names the artifact pin's ground as what refuses its swap",
+      "expected": {
+        "rejects": [],
+        "verdict": "accept"
+      },
+      "family": "w3c-i-f-048",
+      "file": "vectors/v6bec9169fc835e27.json",
+      "id": "v6bec9169fc835e27",
+      "kind": "accept",
+      "requirements": [
+        "W3C-I-048"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README enters no verdict and the record does not say which ground refused its swap",
+      "expected": {
+        "rejects": [
+          "W3C-I-048"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-048",
+      "file": "vectors/v04a501d78fdeb67d.json",
+      "id": "v04a501d78fdeb67d",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-048"
+      ],
+      "root": null,
+      "specVersion": "2"
+    },
+    {
+      "cites": "the README enters no verdict and the record credits a check, not a ground, with refusing its swap",
+      "expected": {
+        "rejects": [
+          "W3C-I-048"
+        ],
+        "verdict": "reject"
+      },
+      "family": "w3c-i-f-048",
+      "file": "vectors/vac1aa4947a1c8098.json",
+      "id": "vac1aa4947a1c8098",
+      "kind": "reject",
+      "requirements": [
+        "W3C-I-048"
+      ],
+      "root": null,
+      "specVersion": "2"
+    }
+  ]
+}

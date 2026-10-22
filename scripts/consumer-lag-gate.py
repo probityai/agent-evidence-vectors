@@ -17,13 +17,14 @@ red build. There was no red build to ignore.
 No build can see two repositories at once, so the check has to live where the
 change that causes the lag happens, which is here. This gate compares the corpus
 each rail is recorded as carrying in ``vectors/CONSUMERS.json`` against the
-corpus the DEFAULT BRANCH publishes, and fails naming any copy that is behind.
-A corpus change therefore reddens this repository from the moment it lands on
-the default branch until every rail has been refreshed, rather than leaving a
-lag that only shows up when someone thinks to count files in another tree.
+corpus the LATEST RELEASE the default branch carries publishes, and fails naming
+any copy that is behind. A release that changes the corpus therefore reddens
+this repository from the moment its tag is on the default branch until every
+rail has been refreshed, rather than leaving a lag that only shows up when
+someone thinks to count files in another tree.
 
-The reference is the default branch and not the checked-out tree, and that
-distinction is the whole of this gate's timing.
+The reference is a published release and not the checked-out tree, nor the
+default branch's tip, and that distinction is the whole of this gate's timing.
 
 A rail vendors what this repository has published. It cannot vendor a branch
 nobody has merged, because there is nothing to fetch: the branch tip is not
@@ -40,24 +41,45 @@ corpus could not be published because the push was refused. A gate that cannot
 be satisfied before the action it gates is unsatisfiable by construction, and
 the only thing an unsatisfiable gate teaches is the bypass flag.
 
-Measured against the default branch the obligation is preserved and arrives
-when it becomes real. While the change is a branch, the default branch still
-publishes the old corpus, the rails carry it, and the gate is green. The
-instant the change lands, the default branch publishes the new corpus, every
-rail is genuinely behind, and the gate is red on the default branch and stays
-red until the rails are refreshed and the ledger records it. Nothing here can
-clear that: the ledger digests are read from the copies, so regenerating the
-corpus, re-deriving a digest or re-running any generator moves the reference
-further from the ledger rather than closer to it.
+The same argument, one step further, is why the reference is a release tag and
+not the default branch's tip. Until 2026-10-16 it was the tip, on the reading
+that a rail vendors whatever the default branch carries. Since 2026-09-30 that
+reading is false: the vendoring script every rail uses (``vendor_aee_corpus.py``
+in the consumer repository, its section "WHY NOT THE DEFAULT BRANCH") vendors
+only from a named release tag, never from a branch or a commit, so that a
+rail's own CI is not a function of this repository's merge queue. So a merge
+that changed the corpus created an obligation no rail could meet: the rails
+could only move to a release, no release carried the merged corpus, and the
+default branch stayed red until someone cut one. That is the deadlock above in
+a new place, and it was reached on 2026-10-16, when two corpus merges reddened
+the default branch and every open pull request with it.
 
-What the default branch publishes is read from that branch's own tree, with the
-same digest function applied to the same files, and not from the ``corpusDigest``
-field it happens to carry. A field is a leftover until something recomputes it,
+Measured against the latest release the obligation is preserved and arrives
+when it becomes real. While the change is a branch, and after it lands but
+before a release carries it, the latest release still publishes the old
+corpus, the rails carry it, and the gate is green. The instant a release tag
+carrying the new corpus is on the default branch, every rail is genuinely
+behind, and the gate is red on the default branch and stays red until the rails
+are refreshed to that release and the ledger records it. Nothing here can clear
+that: the ledger digests are read from the copies, so regenerating the corpus,
+re-deriving a digest or re-running any generator moves the reference further
+from the ledger rather than closer to it.
+
+"Latest release" is exact: the highest ``vMAJOR.MINOR.PATCH`` tag whose commit
+the default branch carries. A tag cut on a branch that has not landed is not
+yet a release the default branch publishes, and a clone that holds such a tag
+locally must not measure against it. A clone with no release tag the default
+branch carries cannot say which corpus a rail could vendor, and reports that
+the check did not run.
+
+What the default branch and the release publish is read from each one's own
+tree, with the same digest function applied to the same files, and not from the
+``corpusDigest`` field it happens to carry. A field is a leftover until something recomputes it,
 and trusting one here would let a default branch whose manifest was never
 regenerated hand this gate a stale reference that every stale copy then agrees
-with. The field is checked against those files instead, so a default branch that
-does not publish the corpus it has fails here, naming the default branch rather
-than the branch being pushed.
+with. The field is checked against those files instead, on the default branch
+and on the release, so a default branch that does not publish the corpus it has
+fails here, naming the default branch rather than the branch being pushed.
 
 The ledger identifies each copy by an opaque id and records nothing else about
 it. Which checkout an id refers to is supplied on the command line at sync time
@@ -70,9 +92,10 @@ The two modes are deliberately asymmetric.
 
 ``--check`` is what CI runs. It reads this repository and nothing else, so it
 needs no sibling checkout, no credential and no network. It does need the
-default branch's ref to be present locally, which is why the workflow that runs
-it checks out with full history; when that ref cannot be resolved the check
-reports that it did not run, and never that the copies are current.
+default branch's ref and its release tags to be present locally, which is why
+the workflow that runs it checks out with full history and tags; when either
+cannot be resolved the check reports that it did not run, and never that the
+copies are current.
 
 ``--sync`` rewrites the ledger, and it does so by reading each rail's own stamp
 rather than by writing down the digest it just computed here. That distinction
@@ -112,12 +135,12 @@ the hole this half was built for: the table named three rails, the ledger carrie
 two, and the missing one was the one no copy of this corpus was ever compared
 against.
 
-What it does not catch: a merge that lands and is never followed by a refresh
-goes red here and stays red, which is the intended outcome, but it goes red on
-the default branch rather than on the change that caused it. The branch that
-bumped the corpus passed, correctly, because at the time it was checked no rail
-was behind anything. Whoever merges owns the refresh, and the only signal that
-they do is a red default branch. Nothing in this repository can make that
+What it does not catch: a release that lands and is never followed by a
+refresh goes red here and stays red, which is the intended outcome, but it goes
+red on the default branch rather than on the change that caused it. The branch
+that bumped the corpus passed, correctly, because at the time it was checked no
+rail was behind anything. Whoever cuts the release owns the refresh, and the
+only signal that they do is a red default branch. Nothing in this repository can make that
 signal arrive earlier without demanding a rail vendor an unpublished commit,
 which is the deadlock above.
 
@@ -175,6 +198,11 @@ REVISION_HEADING = re.compile(r"^## suiteRevision (\d+)\b", re.MULTILINE)
 # the workflow step passes no ref and gets this one.
 DEFAULT_PUBLISHED_REF = "origin/main"
 
+# A release tag, as the vendoring script reads one: three dotted integers after a
+# ``v``, and nothing else. Pre-release or suffixed names are not releases a rail
+# can be pinned to, so they are not candidates for the reference.
+RELEASE_TAG = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
+
 _LEDGER_COMMENT = (
     "How many copies of this corpus are vendored into consumer rails, and the "
     "corpus each one carries, read from that copy's own vendor stamp by "
@@ -226,7 +254,7 @@ def publication_failures(published: str) -> list[str]:
 
 @dataclass(frozen=True)
 class Published:
-    """The corpus the default branch publishes, which is the corpus a rail can get.
+    """The corpus one published ref carries: the default branch, or a release.
 
     Every field is measured from that branch's own files rather than read from a
     number it records about itself, and they are measured from ONE extraction of
@@ -275,7 +303,7 @@ def _revision_in(changes: str, where: str) -> int:
 
 
 def published_corpus(ref: str) -> Published:
-    """Measure the corpus the default branch publishes, from that branch's files.
+    """Measure the corpus a published ref carries, from that ref's own files.
 
     The whole tree under ``vectors/`` is extracted from one commit and the digest
     function this repository already owns is applied to it, so "the same corpus"
@@ -351,6 +379,53 @@ def published_corpus(ref: str) -> Published:
         )
     return Published(
         ref=ref, commit=commit, digest=digest, vectors=vectors, revision=revision
+    )
+
+
+def latest_release(default_ref: str) -> str:
+    """The newest release tag the default branch carries: the corpus a rail can vendor.
+
+    Read from the tags present here, because ``--check`` reads this repository and
+    nothing else. A tag whose commit the default branch does not carry is skipped,
+    not refused: it names a release that has not landed, which no consumer can yet
+    be required to carry. Finding none is a check that did not run, never a pass,
+    because without a release nothing here knows which corpus a rail could have
+    vendored, and a current copy and a stale one look the same.
+    """
+    listed = _git(
+        ["for-each-ref", "--format=%(refname:strip=2)", "refs/tags/"],
+        "choosing the release the consumer rails are measured against",
+    ).decode("utf-8")
+    candidates = sorted(
+        (
+            (tuple(int(part) for part in match.groups()), name)
+            for name in listed.split()
+            if (match := RELEASE_TAG.match(name))
+        ),
+        reverse=True,
+    )
+    for _version, name in candidates:
+        landed = subprocess.run(
+            ["git", "-C", str(REPO_ROOT), "merge-base", "--is-ancestor",
+             f"refs/tags/{name}^{{commit}}", f"{default_ref}^{{commit}}"],
+            capture_output=True,
+            check=False,
+        )
+        if landed.returncode == 0:
+            return f"refs/tags/{name}"
+        if landed.returncode != 1:
+            detail = landed.stderr.decode("utf-8", "replace").strip()
+            raise SystemExit(
+                f"FAIL: this check DID NOT RUN. Asking whether {default_ref} "
+                f"carries release {name} exited {landed.returncode}: {detail}"
+            )
+    raise SystemExit(
+        f"FAIL: this check DID NOT RUN. No release tag (vMAJOR.MINOR.PATCH) whose "
+        f"commit {default_ref} carries is present in this repository, so nothing "
+        "here knows which release the consumer rails could have vendored, and a "
+        "copy that is current and a copy that is behind look identical. Fetch the "
+        "tags (`git fetch --tags origin`, or check out with full history and tags "
+        "in CI) and run this again."
     )
 
 
@@ -441,10 +516,11 @@ def claims(copies: int, pub: Published) -> tuple[Claim, ...]:
 
     Every claim below is a sentence about what the RAILS carry, so every one of
     them is measured against the corpus the rails could have vendored -- the
-    default branch's -- and not against the checked-out tree. A branch that adds
-    vectors does not make these sentences wrong, because the rails still vendor
-    what the default branch publishes; the merge does, and that is the revision
-    at which they have to be rewritten, alongside the refresh they describe.
+    latest release's -- and not against the checked-out tree or the default
+    branch's tip. A branch that adds vectors does not make these sentences wrong,
+    and neither does its merge, because the rails still vendor what the latest
+    release publishes; the release does, and that is the revision at which they
+    have to be rewritten, alongside the refresh they describe.
     """
     vectors = str(pub.vectors)
     revision = str(pub.revision)
@@ -525,7 +601,7 @@ def claim_failures(copies: int, pub: Published) -> list[str]:
     return out
 
 
-def check(published_ref: str) -> int:
+def check(published_ref: str, release_ref: str | None) -> int:
     entries = load_ledger()
     published = corpus_digest(str(VECTORS))
     # First, because everything after it is about copies of a corpus, and this is
@@ -543,16 +619,22 @@ def check(published_ref: str) -> int:
         for failure in unpublished:
             print(f"  {failure}", file=sys.stderr)
         return 1
-    # What the rails could have vendored. Established after the check above and
-    # before anything is said about a copy, because every sentence from here on
-    # is a comparison against it and a comparison against a reference that could
-    # not be read is not a result.
-    pub = published_corpus(published_ref)
+    # The default branch must publish the corpus it has, whatever release the
+    # rails are measured against: its manifest field is what a reader of the
+    # default branch fetches, so a stale one is a defect there now and is the
+    # reference the next release would ship.
+    published_corpus(published_ref)
+    # What the rails could have vendored: the latest release the default branch
+    # carries, because the vendoring script pins rails to release tags only.
+    # Established after the checks above and before anything is said about a
+    # copy, because every sentence from here on is a comparison against it and a
+    # comparison against a reference that could not be read is not a result.
+    pub = published_corpus(release_ref or latest_release(published_ref))
     behind = [e for e in entries if e.get("corpusDigest") != pub.digest]
     if behind:
         print(
             f"FAIL: {len(behind)} vendored cop(ies) do not carry the corpus the "
-            f"default branch publishes ({pub.digest[:16]}..., {pub.ref} at "
+            f"latest release publishes ({pub.digest[:16]}..., {pub.ref} at "
             f"{pub.commit[:12]}):",
             file=sys.stderr,
         )
@@ -589,7 +671,7 @@ def check(published_ref: str) -> int:
         )
         return 1
     print(
-        f"OK: {len(entries)} vendored cop(ies) carry the corpus the default branch "
+        f"OK: {len(entries)} vendored cop(ies) carry the corpus the latest release "
         f"publishes ({pub.digest[:16]}..., {pub.ref} at {pub.commit[:12]}), and the "
         "report says so."
     )
@@ -626,14 +708,24 @@ def main(argv: list[str]) -> int:
         default=DEFAULT_PUBLISHED_REF,
         metavar="REF",
         help=(
-            "the ref whose corpus the consumer rails could have vendored "
+            "the default branch: it must publish the corpus it has, and the "
+            "release the rails are measured against is the newest one it carries "
             f"(default {DEFAULT_PUBLISHED_REF})"
+        ),
+    )
+    ap.add_argument(
+        "--release-ref",
+        default=None,
+        metavar="REF",
+        help=(
+            "measure the rails against this ref instead of the newest release "
+            "tag the default branch carries (for staged tests only)"
         ),
     )
     args = ap.parse_args(argv[1:])
     if args.sync and sync(parse_dirs(args.copy)) != 0:
         return 1
-    return check(args.published_ref)
+    return check(args.published_ref, args.release_ref)
 
 
 if __name__ == "__main__":

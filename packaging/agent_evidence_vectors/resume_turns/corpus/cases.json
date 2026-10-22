@@ -1,0 +1,885 @@
+{
+  "schema": "aev-resumed-task-cases/v1",
+  "cases": [
+    {
+      "id": "intact_resume",
+      "axis": "all",
+      "description": "The worker returns its result to the root, the root answers the user, only the new tool-log part is emitted, and the tool ran once.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "paused_single_turn_agent_answers_user",
+      "axis": "turn_owner",
+      "description": "The paused single_turn worker answers the user itself, and the root's call to it never gets a response.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "CONTRADICTED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "task_mode_worker_returns_to_delegator",
+      "axis": "turn_owner",
+      "description": "The same flow with a task-mode worker.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "task"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "chat_sub_agent_keeps_its_turn",
+      "axis": "turn_owner",
+      "description": "A chat sub-agent keeps sticky routing: answering the user itself is correct.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "chat"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "delegation_mode_unrecorded",
+      "axis": "turn_owner",
+      "description": "The record does not say how the worker was delegated, so ownership is undecidable.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "NOT_ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "earlier_turn_artifacts_replayed",
+      "axis": "artifact_replay",
+      "description": "The resumed response carries the whole task, and the earlier call and its confirmation request are emitted again with the result. The tool still ran once.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "CONTRADICTED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "replaced_artifact_shares_leading_part",
+      "axis": "artifact_replay",
+      "description": "A report replaced under the same id keeps its header; the replacement must be emitted whole, not only the parts after the shared header.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ],
+          "report": [
+            "sha256:4039db32a85f695210bec15f6ccc4b80382d50e5d672ebdb4351ec4112d2172a",
+            "sha256:a211aa790f767c73ccce65fa067106da608f50f8a843df9e1d504bd5c4c9963b"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "report",
+            "op": "replace",
+            "parts": [
+              "sha256:4039db32a85f695210bec15f6ccc4b80382d50e5d672ebdb4351ec4112d2172a",
+              "sha256:89d0a1c2e6a69ce3f9b556427d8c5970202bb2d62901551bf936fdca7b4ea776"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "report": [
+            "sha256:89d0a1c2e6a69ce3f9b556427d8c5970202bb2d62901551bf936fdca7b4ea776"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "CONTRADICTED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "replaced_artifact_emitted_whole",
+      "axis": "artifact_replay",
+      "description": "The same replacement emitted whole.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ],
+          "report": [
+            "sha256:4039db32a85f695210bec15f6ccc4b80382d50e5d672ebdb4351ec4112d2172a",
+            "sha256:a211aa790f767c73ccce65fa067106da608f50f8a843df9e1d504bd5c4c9963b"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "report",
+            "op": "replace",
+            "parts": [
+              "sha256:4039db32a85f695210bec15f6ccc4b80382d50e5d672ebdb4351ec4112d2172a",
+              "sha256:89d0a1c2e6a69ce3f9b556427d8c5970202bb2d62901551bf936fdca7b4ea776"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "report": [
+            "sha256:4039db32a85f695210bec15f6ccc4b80382d50e5d672ebdb4351ec4112d2172a",
+            "sha256:89d0a1c2e6a69ce3f9b556427d8c5970202bb2d62901551bf936fdca7b4ea776"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "appended_part_equal_to_an_earlier_one",
+      "axis": "artifact_replay",
+      "description": "A new part equal in content to an earlier one, at a new position, is new.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "no_earlier_snapshot",
+      "axis": "artifact_replay",
+      "description": "Nothing records what was emitted before the pause, so replay is undecidable.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "NOT_ESTABLISHED",
+        "repeated_effect": "ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "second_effect_hidden_by_deduplicated_display",
+      "axis": "repeated_effect",
+      "description": "Only the new artifact part is shown, but the observer saw the tool write twice: clean display, repeated effect.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          },
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed (second write, reopen_count reset)"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "CONTRADICTED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "replayed_artifacts_and_a_second_effect",
+      "axis": "repeated_effect",
+      "description": "Both faults at once, each reported on its own axis.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed"
+          },
+          {
+            "action_id": "close-OPS-4127",
+            "source": "independent_observer",
+            "observed": "status=closed (second write, reopen_count reset)"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "CONTRADICTED",
+        "repeated_effect": "CONTRADICTED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    },
+    {
+      "id": "effect_reported_only_by_the_tool",
+      "axis": "repeated_effect",
+      "description": "The only effect record is the tool's own report.",
+      "task": {
+        "schema": "aev-resumed-task/v1",
+        "agents": {
+          "root": {
+            "parent": null,
+            "mode": "chat"
+          },
+          "worker": {
+            "parent": "root",
+            "mode": "single_turn"
+          }
+        },
+        "paused_by": "worker",
+        "resumed_turn": [
+          {
+            "author": "worker",
+            "to": "root",
+            "kind": "function_response"
+          },
+          {
+            "author": "root",
+            "to": "user",
+            "kind": "message"
+          }
+        ],
+        "artifact_snapshots": {
+          "tool-log": [
+            "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+            "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835"
+          ]
+        },
+        "resumed_response_artifacts": [
+          {
+            "artifact_id": "tool-log",
+            "op": "append",
+            "parts": [
+              "sha256:acc42fdb7ba663207f0b9ac1ad9bc73277ef175486af2e82cd1e89f90a55418c",
+              "sha256:f9a0722d3206b77e5ff41ad1b0a7a80c2d06390b523ebce50ad02d4fc854e835",
+              "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+            ]
+          }
+        ],
+        "emitted_artifacts": {
+          "tool-log": [
+            "sha256:9659eb8e7f7eb71e863942d986b3a417254a934d68e0ea5562b0ba326453280d"
+          ]
+        },
+        "effects": [
+          {
+            "action_id": "close-OPS-4127",
+            "source": "tool",
+            "observed": "ok"
+          },
+          {
+            "action_id": "close-OPS-4127",
+            "source": "tool",
+            "observed": "ok"
+          }
+        ]
+      },
+      "expected": {
+        "turn_owner": "ESTABLISHED",
+        "artifact_replay": "ESTABLISHED",
+        "repeated_effect": "NOT_ESTABLISHED",
+        "effect_correctness": "NOT_ESTABLISHED",
+        "observation_coverage": "NOT_ESTABLISHED"
+      }
+    }
+  ]
+}

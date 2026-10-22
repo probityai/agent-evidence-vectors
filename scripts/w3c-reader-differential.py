@@ -50,7 +50,7 @@ POOL: list[Any] = [
     "confinement-failed-during-check", "checker rule", "input artifact", "constraint",
     "verdict", "fired-rule list", "error list", "nothing", "shown-by-run", "control-failed",
     "prior-discriminating-run", "flat", "rfc6962", "satisfied", "not-satisfied",
-    "not-claimable", "running", "completed", "x", "", None, True, 0, 1, -1, 2, "cs-2",
+    "not-claimable", "running", "completed", "x", "", None, True, 0, 1, -1, 2, "cs-2", "checker-2",
     "d-other", "e-9", "https://example.invalid/llms-full.txt", "https://other.invalid/llms.txt",
     "/llms.txt", "text/html", "PT5M", "2026-09-18T10:00:00+02:00",
 ]

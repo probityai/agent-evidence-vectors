@@ -1,0 +1,104 @@
+{
+  "cites": "a request signed under the key pull request 272 fixes: HKDF-SHA256, no salt, info the UTF-8 session id, a 32-byte output, applied to the secret the key_id names. The secret and session are the specification's own worked example, so the derived key in the payload is the one the pull request publishes. A verifier that derives the key any other way fails this member rather than the rejecting ones.",
+  "coverage": "effective",
+  "doesNotAssert": "that the secret was distributed securely, that the Observed Agent rather than another holder of the secret computed the MAC, or anything about the request beyond its signature",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-13",
+  "id": "v98c73932834256a4",
+  "kind": "accept",
+  "payload": {
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "to": {
+              "value": "ops@example.org"
+            }
+          },
+          "tool": {
+            "name": "email.send"
+          }
+        },
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "2026-10",
+          "value": "IpKQ7ATTCnGgalf/y1wBDRGZXLTFcSlQ+dHFvsf23s4="
+        },
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "signed_input": "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"steps/toolCallRequest\",\"params\":{\"acs_version\":\"0.1.0\",\"metadata\":{\"agent_id\":\"agent-acs-vectors\",\"session_id\":\"6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36\"},\"payload\":{\"arguments\":{\"to\":{\"value\":\"ops@example.org\"}},\"tool\":{\"name\":\"email.send\"}},\"request_id\":\"56a78506-aa4a-489d-8171-8833ef83f7bd\",\"timestamp\":\"2026-10-15T12:00:00Z\"}}",
+    "signed_input_sha256": "708e5264ae8ec135c6f043607ef84fac2b2993f0ce69955a6ace3d68de9281bf",
+    "signer_derivation": {
+      "derived_key_hex": "80f0dc8c611279bfc2af2d5f374c5cb685888192ce1af5c3e0673d8fa748e8a4",
+      "info_utf8": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+      "kdf": "HKDF-SHA256",
+      "length": 32,
+      "salt_hex": "",
+      "secret_key_id": "2026-10"
+    },
+    "verifier": {
+      "configured_key_ids": [
+        "2026-10"
+      ],
+      "secret_hex": {
+        "2026-10": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-026",
+      "line": 352,
+      "sentence": "For `HMAC-SHA256`, the per-session key is HKDF ([RFC 5869](https://www.rfc-editor.org/rfc/rfc5869)) with SHA-256, no salt (RFC 5869's default, a string of 32 zero bytes, which gives the same key as an empty salt), `info` set to the UTF-8 bytes of `metadata.session_id`, and a 32-byte output, applied to the secret that `key_id` names.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-027",
+      "line": 352,
+      "sentence": "Both parties MUST derive the key with exactly these parameters, so independent implementations holding the same secret derive the same key.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-028",
+      "line": 354,
+      "sentence": "A verifier MUST reject an unknown `key_id` (`SIGNATURE_INVALID`,",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-026",
+    "ACS-R-027",
+    "ACS-R-028"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

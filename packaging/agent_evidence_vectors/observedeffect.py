@@ -52,12 +52,14 @@ import base64
 import datetime
 import hashlib
 import importlib
+import itertools
 import json
 import os
 import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from decimal import Decimal
 from typing import Any
 
 if __package__ in (None, ""):
@@ -101,7 +103,10 @@ IJSON_LIMIT = 2**53
 #: strings, which is sound for exactly one grammar. The regular expression fixes
 #: the shape and the parse below fixes the calendar, because 2026-13-01T00:00:00Z
 #: matches the shape and names no day.
-TIMESTAMP_GRAMMAR = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+#: [0-9] rather than \d: Python's \d matches every script's decimal digits and
+#: strptime reads them as numbers, so 00:00:0\u0665Z parsed here while the Go rail
+#: refused it, and it sorts after every ASCII timestamp.
+TIMESTAMP_GRAMMAR = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 #: The object name of the empty tree per hash algorithm: the terminal case of
@@ -208,6 +213,13 @@ class Policy:
     The caller selects this value from its own capability policy, never from the
     effect record. A successful match is not an independent code measurement.
     """
+    expected_invocation_binding: str = ""
+    """Consumer-pinned call binding for a required invocation join; empty leaves it unrequested.
+
+    The caller computes this value from the request it holds (sha256 over the RFC
+    8785 bytes of the request's method and params) or takes it from a decision
+    record it has already verified, never from the effect record.
+    """
 
 
 @dataclass
@@ -265,6 +277,11 @@ class _State:
 # Shared readings. Each is a rule's predicate, pulled out only where more than
 # one rule states it.
 # --------------------------------------------------------------------------
+
+
+def _no_constant(token: str) -> Any:
+    """NaN, Infinity and -Infinity are not JSON; Python's parser accepts them unless told not to."""
+    raise Malformed("not-parseable")
 
 
 def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -412,23 +429,41 @@ SELF_DERIVABLE: dict[str, Callable[[dict[str, Any]], str]] = {
 # --------------------------------------------------------------------------
 
 
+def _over_bound(number: Decimal) -> bool:
+    """An integer by value at or past the I-JSON bound, whatever its spelling.
+
+    1e21 and 9007199254740993.0 are integers past the bound. The value is exact
+    because the statement is parsed with Decimal, so this rail decides the same
+    way as the Go rails, which use exact rationals (attack A33).
+    """
+    return number == number.to_integral_value() and abs(number) >= IJSON_LIMIT
+
+
+def _number_over_bound(node: Any) -> bool:
+    """True for an integer or an exact decimal that is an integer at or past the bound."""
+    if isinstance(node, bool):
+        return False
+    if isinstance(node, int):
+        return abs(node) >= IJSON_LIMIT
+    return isinstance(node, Decimal) and _over_bound(node)
+
+
 def _rule_ijson_integers(state: _State) -> None:
     """No integer at or above 2**53 anywhere in the statement, at any depth.
 
-    A number carrying a fraction or an exponent is a float and the bound is
-    stated over integers, so a float is exempt. The producer side refuses to
-    encode past the bound and nothing refused it on the way in, so a byteRange of
-    9007199254740993 was accepted and two rails read two different numbers out of
-    one set of bytes.
+    Whether a number is an integer is decided by its value, not its spelling:
+    1e21 and 9007199254740993.0 are integers at or past the bound, and a double
+    reads the second as 2^53, so every number is held to the bound by its value
+    (attack A33; a spelling reading let the attack below back in). The producer
+    side refuses to encode past the bound and nothing refused it on the way in, so
+    a byteRange of 9007199254740993 was accepted and two rails read two different
+    numbers out of one set of bytes.
     """
 
     def walk(node: Any) -> None:
-        if isinstance(node, bool):
-            return
-        if isinstance(node, int):
-            if abs(node) >= IJSON_LIMIT:
-                raise Malformed("integer-not-ijson-safe")
-        elif isinstance(node, dict):
+        if _number_over_bound(node):
+            raise Malformed("integer-not-ijson-safe")
+        if isinstance(node, dict):
             for value in node.values():
                 walk(value)
         elif isinstance(node, list):
@@ -632,6 +667,37 @@ def _rule_code_digest_policy(state: _State) -> None:
         raise Invalid("code-digest-mismatch")
 
 
+def _rule_invocation_binding_shape(state: _State) -> None:
+    """Validate the optional signed call binding without inventing a default.
+
+    The binding names the call this interval answers: sha256 over the RFC 8785
+    bytes of the request's method and params. It is a join key, not evidence that
+    the call was dispatched. See ``_rule_invocation_binding_policy``.
+    """
+    if "invocationBinding" not in state.predicate:
+        return
+    value = state.predicate["invocationBinding"]
+    if not isinstance(value, dict) or set(value) != {"sha256"}:
+        raise Malformed("invocation-binding-shape")
+    digest = value["sha256"]
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        raise Malformed("invocation-binding-value")
+
+
+def _rule_invocation_binding_policy(state: _State) -> None:
+    """Require a match only when the caller pins an expected call binding."""
+    expected = state.policy.expected_invocation_binding
+    if expected == "":
+        return
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        raise Invalid("invocation-binding-policy-invalid")
+    if "invocationBinding" not in state.predicate:
+        raise Invalid("invocation-binding-required")
+    value = state.predicate["invocationBinding"]
+    if not isinstance(value, dict) or value.get("sha256") != expected:
+        raise Invalid("invocation-binding-mismatch")
+
+
 def _rule_subject_binding(state: _State) -> None:
     """The subject is the interval's after-state, and nothing else.
 
@@ -736,14 +802,57 @@ def _rule_empty_tree_holds_no_bytes(state: _State) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
+def _unobserved_spans(coverage: dict[str, Any]) -> list[dict[str, str]]:
+    """The spans in ``unobservedIntervals``, each an object of exactly ``from`` and
+    ``to``, both in the one timestamp grammar; anything else is malformed."""
+    spans = coverage["unobservedIntervals"]
+    if not isinstance(spans, list):
+        raise Malformed("unobserved-interval-malformed")
+    for span in spans:
+        if not isinstance(span, dict) or set(span) != {"from", "to"}:
+            raise Malformed("unobserved-interval-malformed")
+        for bound in ("from", "to"):
+            if not _timestamp_ok(span[bound]):
+                raise Malformed(
+                    f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}"
+                )
+    return spans
+
+
+def _rule_coverage_unobserved_intervals(state: _State) -> None:
+    """The spans an observer was not watching, located in time.
+
+    A monitor that attached after the call began was blind to every path for a
+    span it knows exactly, so neither a path gap nor ``notEstablished`` is true of
+    it. Each span runs from strictly before to, inside the interval, and the list
+    is ordered with each span ending strictly before the next begins.
+    """
+    pred = state.predicate
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = _unobserved_spans(coverage)
+    interval = pred["interval"]
+    for span in spans:
+        if span["from"] >= span["to"]:
+            raise Malformed("unobserved-interval-not-ordered")
+        if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
+            raise Malformed("unobserved-interval-outside-interval")
+    for earlier, later in itertools.pairwise(spans):
+        if earlier["to"] >= later["from"]:
+            raise Malformed("unobserved-intervals-not-disjoint")
+
+
 def _rule_coverage_coherence(state: _State) -> None:
     """A record that declares complete coverage and then names a gap inside the
-    scope it says it covered has said both."""
+    scope it says it covered, or a span it did not watch, has said both."""
     pred = state.predicate
     coverage = pred["observation"]["coverage"]
     _required(coverage, "scopeComplete", "gaps")
     if not coverage["scopeComplete"]:
         return
+    if coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-self-contradictory")
     for gap in coverage["gaps"]:
         if _in_scope(pred, gap):
             raise Malformed("coverage-self-contradictory")
@@ -758,8 +867,31 @@ def _rule_coverage_gaps_named(state: _State) -> None:
     authoritative. The blind spot is where the writes went.
     """
     coverage = state.predicate["observation"]["coverage"]
-    if not coverage["scopeComplete"] and not coverage["gaps"]:
+    if (
+        not coverage["scopeComplete"]
+        and not coverage["gaps"]
+        and not coverage.get("unobservedIntervals")
+        and "notEstablished" not in coverage
+    ):
         raise Malformed("coverage-incomplete-without-gaps")
+
+
+def _rule_coverage_not_established_shape(state: _State) -> None:
+    """A coverage the observer could not determine says why, and says only that.
+
+    ``notEstablished`` is the third coverage shape, beside complete and
+    incomplete-with-located-gaps. An empty reason is the unnamed gap again under
+    another member, and a reason beside a located gap or a claim of completeness
+    is a record that has said two things about one coverage.
+    """
+    coverage = state.predicate["observation"]["coverage"]
+    if "notEstablished" not in coverage:
+        return
+    reason = coverage["notEstablished"]
+    if not isinstance(reason, str) or not reason.strip():
+        raise Malformed("coverage-not-established-without-reason")
+    if coverage["scopeComplete"] or coverage["gaps"] or coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-shape-ambiguous")
 
 
 def _rule_origin_carries_the_vantage(state: _State) -> None:
@@ -966,6 +1098,8 @@ def _rule_tier_recompute(state: _State) -> None:
         "authoritative-empty-path-scope": bool(pred["pathScope"]),
         "authoritative-coverage-incomplete": bool(coverage["scopeComplete"])
         or not any(_in_scope(pred, gap) for gap in coverage["gaps"]),
+        "authoritative-coverage-not-established": "notEstablished" not in coverage,
+        "authoritative-interval-not-observed": not coverage.get("unobservedIntervals"),
     }
     derived = "authoritative" if all(clauses.values()) else "voluntary"
     state.derived_tier = derived
@@ -1015,11 +1149,14 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("write-chain", _rule_write_chain),
     ("subject-binding", _rule_subject_binding),
     ("code-digest-shape", _rule_code_digest_shape),
+    ("invocation-binding-shape", _rule_invocation_binding_shape),
     ("read-bindings", _rule_read_bindings),
     ("range-preimage", _rule_range_preimage),
     ("read-chain", _rule_read_chain),
     ("empty-tree-holds-no-bytes", _rule_empty_tree_holds_no_bytes),
+    ("coverage-unobserved-intervals", _rule_coverage_unobserved_intervals),
     ("coverage-coherence", _rule_coverage_coherence),
+    ("coverage-not-established-shape", _rule_coverage_not_established_shape),
     ("coverage-gaps-named", _rule_coverage_gaps_named),
     ("origin-carries-the-vantage", _rule_origin_carries_the_vantage),
     ("import-origin-platform", _rule_import_origin_platform),
@@ -1036,6 +1173,7 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("tier-recompute", _rule_tier_recompute),
     ("authoritative-carries-rows", _rule_authoritative_carries_rows),
     ("code-digest-policy", _rule_code_digest_policy),
+    ("invocation-binding-policy", _rule_invocation_binding_policy),
 )
 
 
@@ -1072,9 +1210,16 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
     whether that rule is load-bearing. Production verification never passes it.
     """
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=_no_constant
+        )
         payload = base64.b64decode(envelope["payload"], validate=True)
-        statement = json.loads(payload, object_pairs_hook=_no_duplicates)
+        statement = json.loads(
+            payload,
+            object_pairs_hook=_no_duplicates,
+            parse_constant=_no_constant,
+            parse_float=Decimal,
+        )
     except Malformed as exc:
         return Report("malformed", [exc.code])
     except Exception:

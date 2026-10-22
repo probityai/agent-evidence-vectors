@@ -1,0 +1,55 @@
+{
+  "cites": "a response whose policy_references entry carries policy_id as an empty string, accepted by the Observed Agent. Release 0.1.4 gives every policy_references member a minimum length of one, so the response fails schema validation and is a malformed response.",
+  "coverage": "effective",
+  "doesNotAssert": "what the Observed Agent does next; a malformed response is a decision failure under its posture",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-16",
+  "id": "vfacb1e4dabfd1d80",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "observed_agent_validation": "accepted"
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "acs_version": "0.1.0",
+        "decision": "deny",
+        "policy_references": [
+          {
+            "policy_id": "",
+            "rule_id": "egress-domain"
+          }
+        ],
+        "reasoning": "egress denied",
+        "request_id": "728ab26a-e580-4da1-9ffc-ef82a86974a8",
+        "type": "final"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-057",
+      "line": 51,
+      "sentence": "A `\"\"` on the wire could not be told from an absent field, so the response envelope rejects one in a `policy_references` entry, and the Provenance schema rejects an empty `source_id`.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-057"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

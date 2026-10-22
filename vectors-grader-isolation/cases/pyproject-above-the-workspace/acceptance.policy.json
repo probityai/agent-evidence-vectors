@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "pyproject-above-the-workspace": {
+      "claim_type": "acceptance_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "b49df52f26c9fcd952ab03c29ed687cf96c36b711fa57f300fc2aac47b328c2c",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "13d29de1004a7c5619c159a8837047e1b97fc92bd77d9d84a69f24af8e88790a",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

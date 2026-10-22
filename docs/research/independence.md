@@ -60,7 +60,7 @@ The earlier README's revision-6 CI description and missing-digest descriptions f
 
 The historical README retained this scoping sentence:
 
-> It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30 or 31, so this suite publishes no score for it at any of them.
+> It has not been run against suiteRevision 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 26, 27, 29, 30, 31 or 32, so this suite publishes no score for it at any of them.
 
 That sentence uses the suite's historical labels; the linked source index uses its own labels and source pins. Requirements present in a later measured population do not create a run record for each earlier population.
 
@@ -83,7 +83,7 @@ To test another implementation, follow the [external-verifier contract](../refer
 
 ```sh
 GOWORK=off go build -o aee-verify ./cmd/aee-verify
-python3 packaging/run_vectors.py --verifier "$PWD/aee-verify -json"
+python3 packaging/run_vectors.py --verifier "$PWD/aee-verify -validity-only -json"
 ```
 
 The [comparison rules](../reference/verifier-contract.md#comparison-rules) separate normative conformance, reason parity and the run's exit status.

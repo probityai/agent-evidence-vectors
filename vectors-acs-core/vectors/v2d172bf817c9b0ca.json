@@ -1,0 +1,79 @@
+{
+  "cites": "the unresolved reference recorded and the result denied. Whether an unresolvable reference is grounds to deny is the deployment's policy, so a checker that demands allow, or demands deny, fails one of the two accepting members in this family.",
+  "coverage": "observed",
+  "doesNotAssert": "that denying was required",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-14",
+  "id": "v2d172bf817c9b0ca",
+  "kind": "accept",
+  "payload": {
+    "guardian_audit_record": [
+      {
+        "finding": "request_id_ref_unresolved",
+        "request_id_ref": "8d9a5df6-9e77-4ea0-8851-b8ad714ec514",
+        "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+      }
+    ],
+    "guardian_decision": "deny",
+    "guardian_session_records": {
+      "58767e59-92f9-46e5-85b3-ceb8cc02f201": [
+        {
+          "method": "steps/toolCallRequest",
+          "request_id": "bfc09c52-a8a9-4eb2-8f18-fe8b11c7847b"
+        }
+      ],
+      "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36": [
+        {
+          "method": "steps/toolCallRequest",
+          "request_id": "d87f3084-df43-49a6-a8c6-4e5bc090d777"
+        }
+      ]
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallResult",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "execution_id": "exec-1",
+          "exit_status": "success",
+          "outputs": {
+            "sent": true
+          },
+          "request_id_ref": "8d9a5df6-9e77-4ea0-8851-b8ad714ec514"
+        },
+        "request_id": "81cbd809-7f3b-40d6-9c0b-f2f6f027aaa1",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-034",
+      "line": 206,
+      "sentence": "Whether an unresolvable reference is grounds to deny is the deployment's policy.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/hooks-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-034"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

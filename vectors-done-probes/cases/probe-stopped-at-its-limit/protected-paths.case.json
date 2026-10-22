@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 309,
+      "path": "capability.json",
+      "sha256": "129ab052c0b0618e7e39c661c4d32a13c69ef7c9c5c7c18deed151316ca5e66c"
+    },
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "observation": {
+      "length": 943,
+      "path": "observation.json",
+      "sha256": "e30cafaa8718ac73b5557d6536d721b51835631a0803042db82fd9bdfa7b4482"
+    },
+    "tree": {
+      "length": 526,
+      "path": "tree.json",
+      "sha256": "4b035c94f769583743f0c1c61b46f8f9dfcc8edb76ddbc6eb9f6b6abf54802a1"
+    }
+  },
+  "case_id": "probe-timed-out",
+  "schema_version": "probity-case/v1"
+}

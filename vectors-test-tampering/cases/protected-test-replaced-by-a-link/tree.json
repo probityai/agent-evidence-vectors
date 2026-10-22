@@ -1,0 +1,17 @@
+{
+  "claim_id": "protected-test-replaced-by-a-link",
+  "executable": [],
+  "files": {
+    "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v2",
+  "special": {},
+  "symlinks": {
+    "tests/test_app.py": "../src/test_app.py"
+  },
+  "tree_sha256": "511358c9b59ffcae8f51be1020abafa831660d4202abab3e134f93e5c98be319",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

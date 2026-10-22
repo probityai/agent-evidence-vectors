@@ -1,0 +1,44 @@
+{
+  "cites": "the same configuration with the label \"2026-10\", which names the secret and says nothing about it. A checker that refuses any label it cannot explain fails this member.",
+  "coverage": "configured",
+  "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-13",
+  "id": "v2aa5e37455fda245",
+  "kind": "accept",
+  "payload": {
+    "record": {
+      "deployment_key_config": [
+        {
+          "key_id": "2026-10",
+          "secret_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        }
+      ],
+      "derivation_checked": "sha256(secret) hex, first 16 characters"
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-030",
+      "line": 354,
+      "sentence": "`key_id` MUST NOT be derived from the secret.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-030"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

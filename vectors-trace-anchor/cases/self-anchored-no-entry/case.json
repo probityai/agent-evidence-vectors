@@ -1,0 +1,14 @@
+{
+  "claim": {
+    "iat": 1792000200,
+    "signature": "fixture-signature-agent-self-anchored",
+    "subject": "agent-self-anchored",
+    "transparency": "https://registry.example.org/anchors/b-never-anchored"
+  },
+  "receipt": {
+    "audit_path": [],
+    "leaf_count": 1,
+    "leaf_index": 0,
+    "merkle_root": "sha256:fafd9110fecea1da4921ea91c45db0d0110978f0186f085c08e65c9a9184f52f"
+  }
+}

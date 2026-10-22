@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 321,
+      "path": "capability.json",
+      "sha256": "aeff537cf6b0e81dd2a5acee9c5d444f8878a536cb3361cfad8f7b0059c1b8c1"
+    },
+    "claims": {
+      "length": 393,
+      "path": "claims.json",
+      "sha256": "bec92992c1a82933461dfb7985581f7f3bade62ec3d722fe16a02814db490a20"
+    },
+    "contract": {
+      "length": 880,
+      "path": "contract.json",
+      "sha256": "4628c2a47a6e3a3fa30fbdc8cd627feb2d7fb9b7a869078e594ccd86391a2527"
+    },
+    "observation": {
+      "length": 950,
+      "path": "observation.json",
+      "sha256": "8f8712eb499d939a80e600be9084cf5c46895ed962017c3840b2ecaa9e8d01f7"
+    }
+  },
+  "case_id": "sealed-run-other-executable",
+  "schema_version": "probity-case/v1"
+}

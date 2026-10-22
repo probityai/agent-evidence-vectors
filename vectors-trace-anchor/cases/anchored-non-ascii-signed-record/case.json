@@ -1,0 +1,29 @@
+{
+  "claim": {
+    "iat": 1792000100,
+    "policy": {
+      "name": "Z\u00fcrich egress",
+      "\uff61": "bmp key",
+      "\ud83d\ude00": "astral key"
+    },
+    "signature": "eyJhbGciOiJFZERTQSJ9..fixture",
+    "subject": "agent-\u00fc",
+    "transparency": "https://registry.example.org/anchors/b-signed"
+  },
+  "entry": {
+    "batch_id": "b-signed",
+    "leaf_count": 3,
+    "merkle_root": "sha256:1c581923ee212edbfcd00441b437d5b404e6c18e75254d0ba98852ea5862c29b",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:3b82353fcb4dd8c565179411e5cea85037af45eddc708d6a130b451f3add8900",
+      "sha256:f2e64c78240c25a9380fbd957b1b7544f59bf65ea0ef95cd3eb937d01cb8a276"
+    ],
+    "leaf_count": 3,
+    "leaf_index": 0,
+    "merkle_root": "sha256:1c581923ee212edbfcd00441b437d5b404e6c18e75254d0ba98852ea5862c29b"
+  }
+}

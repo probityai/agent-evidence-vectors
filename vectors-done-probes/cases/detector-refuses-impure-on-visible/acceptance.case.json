@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 906,
+      "path": "grade.json",
+      "sha256": "2da99d4d8832d14a485b059cced4bd8869c9991cf7df9e0b638c153615f6751d"
+    },
+    "tree": {
+      "length": 537,
+      "path": "tree.json",
+      "sha256": "7f72442e2c3fcc81dcb18ba8e526c2a8b5d10392a2c2842c23ace0a0ed3b08eb"
+    }
+  },
+  "case_id": "detector-impure-on-visible",
+  "schema_version": "probity-case/v1"
+}

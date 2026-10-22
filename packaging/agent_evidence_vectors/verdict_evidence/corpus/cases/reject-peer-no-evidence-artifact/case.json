@@ -1,0 +1,26 @@
+{
+  "policy": {
+    "as_of": "2026-11-01T00:00:00Z",
+    "payload_type": "application/vnd.in-toto+json",
+    "peer_keys": {
+      "6b32ca4923930cb60d9d670400e55565114506359046aaf1e09e92a0da0b4416": {
+        "public_key": "or9oFil3vKNdSB0W2urD35CSsVIndbvkeAhVIMC4SeE=",
+        "relationship": "peer"
+      },
+      "eeddd04d41d57b98e72d3b61057cb1aad3e8e29487c21608b47146727cee3cb2": {
+        "public_key": "zVq+OnQvDaN10QX0QMCbeEQ56x9kyVWxF/oim5F7KKs=",
+        "relationship": "external"
+      }
+    },
+    "peer_predicate_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/peer-verification",
+    "predicate_type": "https://github.com/GenAI-Security-Project/agent-control-standard/blob/main/docs/predicates/acs-verdict-evidence-v1.md",
+    "trusted_keys": {
+      "18d3b74d84b9392c42d32035cb7d32617193b17e1f03d99ad4765d8bf219071a": "QCrMdxznpvWDEgAngxFA3dAwvERTHSdyCxDxY6ATBJM="
+    }
+  },
+  "record": "record.json",
+  "supplied": {
+    "peer_statement": "peer-statement.json"
+  },
+  "vector": "vector.json"
+}

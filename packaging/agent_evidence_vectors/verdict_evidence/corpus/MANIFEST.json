@@ -1,0 +1,866 @@
+{
+  "cases": [
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_self"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "914466c2dfdae082a30f2e7d72bce1498dbc68f72b28eda6dd33095036554c4c",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-self-no-peer"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_self"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "04a5de79f9bd76d26f4bbf69c0327bdfce26f4fb928b7425b438cbac879d511d",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-self-unpinned-cosignature"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_self"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "dbde903f49da47ace793666312745faea0472332dcb4d93fff25cca1b9c4fb3d",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-self-with-anchor"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_peer"
+      },
+      "files": {
+        "case.json": "023c13cb8e97dc99cc8334ec68b1444bddeb7ffe60de0037d2de0612e6ebcdf1",
+        "peer-statement.json": "76590cf41fe4589b817464f1d7d6992d8f4d3d6ddd32f5188f31986f63695945",
+        "record.json": "de191b1e0d3f1e78c1308f293c3858eb5a556964096bcb0e14b85fb11d45f2ef",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-peer-client-run"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_peer"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "supported",
+        "reason": "verdict_verified_external"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "f46a9e106fdb7c16bd520c688f544bb3fb331c87fcb3c3823cdd27b36ed44df2",
+        "record.json": "47b011e4b08a626d3419179deb9df2f3c3d35358588d167938575bae80b6b401",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "accept-external-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:untrusted_key"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "f1c0504c706978a7efdb24ec2c46d5a1d5cd3e79db8b7e0a50c48a062a5199d8",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-wrong-key",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:untrusted_key"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "bf19bb4ba3602e25034a01a6671902472dac4decadd402a97e118cee4ced1360",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-signed-by-runner",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:wrong_vector"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "fb4581159b5d5d4d16fbab16349b434425a0be9bd082852d5df7f20b020a6415",
+        "record.json": "bb0e813738935de7b8743591b9cffe07ebb0262a3141c7d92dab48e8a07afab2",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-wrong-vector",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:wrong_requirement"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "9268807b321c1a24d43417407ee50b4488186e654639a61c53ca8b17bbcf7418",
+        "record.json": "ebfa537ac2f6f78feb901864c8df21efb1407b1c1f9a1809888bd89eb23961bc",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-wrong-requirement",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "not_established",
+        "reason": "peer_artifact_unverified:not_supplied"
+      },
+      "files": {
+        "case.json": "052fd96e0aa724af089ceffd25715b8e10d6f03b66028d69908a3a8d5fd3f15b",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-artifact-absent",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:digest_mismatch"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "d936de8e383058b31458ad8b098e2adc01041f8ad61dd6f42a7b40747ae361b4",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-artifact-digest-mismatch",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:no_evidence_artifact"
+      },
+      "files": {
+        "case.json": "023c13cb8e97dc99cc8334ec68b1444bddeb7ffe60de0037d2de0612e6ebcdf1",
+        "peer-statement.json": "dee7e32d3545a7103ea807e4cddd2309580ab018a9038de37d0d6c698e66ec95",
+        "record.json": "f4744305d2bc86208af479954ad832a843c5690c4994010ee412bed5e7824eb6",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-no-evidence-artifact",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:wrong_deployment"
+      },
+      "files": {
+        "case.json": "023c13cb8e97dc99cc8334ec68b1444bddeb7ffe60de0037d2de0612e6ebcdf1",
+        "peer-statement.json": "98cdbc9476782c4aae7e8ea087e539d6cefd48e2421a322e778863ecf709a2ba",
+        "record.json": "ed6a4f73409178a53e84340b60b31b8cc6f0b8d8f67efa4019a68cb0716d1e95",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-client-run-other-deployment",
+      "twin": "accept-peer-client-run"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "not_established",
+        "reason": "peer_artifact_unverified:transcript_not_supplied"
+      },
+      "files": {
+        "case.json": "023c13cb8e97dc99cc8334ec68b1444bddeb7ffe60de0037d2de0612e6ebcdf1",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-transcript-absent",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:transcript_digest_mismatch"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "9329b50ebce695978e63fe4d16866a2daca5db340d58fd3349e5dd4b963fd377",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-transcript-digest-mismatch",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_disagrees"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "03e72a36562a64b470d0f45697205579a79552105b8daddb4c664a5dfe64dba7",
+        "record.json": "436419c71515338c5d90d49778478fb974ad00b7f4c03d9ab3c0fd7535ea2245",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-disagrees",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_disagrees"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "6ad907e135aef8a7de3be95cd4aa29586207278ee4e84ec0bd63a7e26a8d30f0",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-reused-for-other-verdict",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "witness_scope_misderived"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "6ff14b53a710d652d8dabe21bd4b4f1f6a0e399d323ebff7a5c75dac1d456fca",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-scope-peer-without-artifact",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "witness_scope_misderived"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "3b8687b3fe3d2fbe850be14712a9966313b1d271e7115d7634ae73480a172591",
+        "record.json": "47b011e4b08a626d3419179deb9df2f3c3d35358588d167938575bae80b6b401",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-scope-external-from-peer-key",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "witness_scope_misderived"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "ed10c93a77b669b43ccf0eed48908e0fe004c9d2ec8f1305939f0caaf97c3b5d",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-operators-unequal-no-peer",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "scope",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:provenance.lift_state"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "94eaca8a867b9789d18af6ec7b16a6b03b2bfea4ce97d7132b8b52712007ae8d",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-runner-written-lift-state",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "payload_digest_mismatch"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "f3208bfec773b17c6d4e19736b84fb37eaef72a74a183f273e76790233c3428e",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-verdict-observed-edited",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "not_established",
+        "reason": "payload_digest_fields_incomplete"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "ea2413a825749102ea8fbeb12e204526aa79e9bd8f36b6947681bf2cb980bd2f",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-digest-fields-omit-witness-scope",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "subject_digest_mismatch"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "1c46a7a36d0d71736dbc84c80238fb981145e773c9c33edcfb6082c0e5bf0fc7",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-subject-other-vector",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "untrusted_key"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "a22158550214bfea2387b68b77e71004b99d84c3b860bbd22276b3b0e759875e",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-verdict-wrong-runner-key",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "supported",
+        "reason": "quarantine_in_force"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "caea88842f0d7ac0ebfdb2049fbe8fcf9505a70f4e930342b8c636f9e2ebfc63",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "quarantine_digest_mismatch"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "f40da30130a6626e376fb69d9eca8ee5faac95c843a77112f750f329558e6ed8",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-review-by-edited",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "1aa3b7405340ae43c86feafc8276d0878d1eb14942bb7a8aedb23e9e5e7dd634",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-owner-edited-resealed",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "not_established",
+        "reason": "quarantine_field_missing:expiry_disposition"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "e950ffd8dd5a441714af8e585f6dd8e859bf068e848ea9ad3e51df8d676c5a82",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-no-expiry-disposition",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "not_established",
+        "reason": "payload_digest_fields_incomplete"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "4c5c46bbcd3594339542271dbaf08dbd2d64ef6efcff3532049e7b4e2176e0f6",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-expiry-outside-digest",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "not_established",
+        "reason": "quarantine_field_missing:quarantine_ref"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "3c4670315b1fbc29757686a112d4db3d5f479d3da67be296583e34152af05180",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-no-ref-or-gap",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "not_established",
+        "reason": "quarantine_overdue"
+      },
+      "files": {
+        "case.json": "7e7e7ce476aa655adc8c497d3b10ab815acb693ea8775ac4913ccf27cebf16a0",
+        "record.json": "caea88842f0d7ac0ebfdb2049fbe8fcf9505a70f4e930342b8c636f9e2ebfc63",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-overdue",
+      "twin": "accept-quarantine-in-force"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_payload_type"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "0ffad96ab30a0b5d406a2e982b56fd909ddbd59a332e85674ea6a1c82223f174",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-payload-type-json",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "not_established",
+        "reason": "payload_not_statement"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "6ad39f5aa28bb72b390a1bd7c8efe536397d81630545ea1ba7144d74ed3c2aae",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-not-a-statement",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "integrity",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_predicate"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "9ef88dc79c5cf90d0460e7a2bba02d44c76fc9283a8c6c8647a677664843a328",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-other-predicate-type",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:vector_id"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "ad6537c45b5a52fe608e699ac401a874149daa220a740d34fdbade80bf114313",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-vector-id",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:profile"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "9ff010b91324ef6e269b654123c465d18fa3f741e5dcc2349e14fe42a94078cc",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-profile",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:anchor"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "100350e00a07f854256ed8179bd51dbb58a7101d0923591db74a9e83ec2e75ad",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-anchor",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:clause"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "8ae9048697fdbecae3a749f1a41aae6fedc50b9e3ee506a83423fa046708113d",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-clause",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:verdict"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "ba0295a6e18deeafe9fe2e52596995ca374866c757cb445f358da805491d0890",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-verdict",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:witness_derivation.runner.id"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "a27737b9e69335a4ea710e78976c25df80317fbca154850662d8c8a46a66e511",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-witness-derivation-runner-id",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:witness_derivation.runner.hosting_operator_id"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "f391d1d27581ae89638fa1432cf49fdde6800a8abd3266e5f3179f0ff1b78f5c",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-witness-derivation-runner-hosting-operator-id",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:witness_derivation.deployment_operator_id"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "00f6effb76405f27d69fbd096688082c0d670838270fc5968b5f3603ffe711d1",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-witness-derivation-deployment-operator-id",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:witness_scope"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "96fa5f1cd2c822097f28e74e3aff4c0bebf42bdbb185e57b65479afb55f52e89",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-witness-scope",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:verification_basis"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "62279ec66d1eec080a2aeb89103893131c088749ecfc64922d95cf39b9fd86fa",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-verification-basis",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:expected"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "18e3daddaa221c85288584250c49722985c3ece4fa3e63b36dc8af00816844e9",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-expected",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:observed"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "662bc2d2f12677f5236cf6a3afa444d8ddcc21634150880ec0a89e80978d04b6",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-observed",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:behavior_snapshot"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "578664679c3c3c5cdd03f212c5d3da142230fa2b6a83651d9cf9bdf1fea8a271",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-behavior-snapshot",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:integrity.payload_digest"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "df3335ac3eba6057c0c2cf3060e94ac830b154477cd6473ebce23623a5cfd571",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-integrity-payload-digest",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:integrity.payload_digest_fields"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "7ddb233dfbfd33b508c5de01a404fe0e9ef95ceaabb5c2bd602acdf548b9249f",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-integrity-payload-digest-fields",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:integrity.does_not_cover"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "1b60c73e3056fde474b15d7683fb7aa3fb4d722b58f303aa15bfa24f0d023c04",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-integrity-does-not-cover",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:integrity.binding"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "87ad0ff7021222e3b154169fbfdb3dc44caf9075b5b41358649d93d3223ece5a",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-integrity-binding",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:provenance.peer_artifact"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "b5c082c9a55af066680c240e0ae26027c6057b9fd1df8d39aefa75252028fcbc",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-provenance-peer-artifact",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "fields",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:provenance.anchor"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "12f4a1c5a2f414372a020a31bf5bd5b7daff6b76af804de79c122a1337cce971",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-field-provenance-anchor",
+      "twin": "accept-self-no-peer"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:signature_invalid"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "2c2be8fdc691bf0a9c8ed5e75efcf931b63fc8f9c278b52fea1f3f2263d97042",
+        "record.json": "eecbafcf040925ff222312d718a56776f7cd372fa2691a8b3d15fa6815310aae",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-signature-invalid",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "peer",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "peer_artifact_unverified:unsupported_predicate"
+      },
+      "files": {
+        "case.json": "527dedf9fafbd99449c908b4e0690cd6116873bdeb4fe2cdab18ba662438c9f8",
+        "peer-statement.json": "179902cd46b5d810115307c68beace327efde50491cb87015a2a11e19b66e516",
+        "record.json": "ea0fe1b27a9d12cfa9703e3a22b06e3fa362aabaa9ec6804971896912f974729",
+        "transcript.json": "e1644b043117360258b29011aa6f67b77d2b3a8797a3a6ce4700df3c04ba8c88",
+        "vector.json": "70cbcb3d7d7aa44cfcb0b319831cf4d5b77e51567dc9b40ecc32261be02bfa2a"
+      },
+      "id": "reject-peer-statement-wrong-type",
+      "twin": "accept-peer-wire-transcript"
+    },
+    {
+      "control": "quarantine",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:expiry_disposition"
+      },
+      "files": {
+        "case.json": "ed67c15aaca8f14183fa2eb6cad608d63a92169956357d016f3638f0ac38a6c4",
+        "record.json": "036dddfec2041d194444262794c5b8831d65ac9299a17c7ecb2807f1be88e662",
+        "vector.json": "01410bfff073d3835775373ec63be2418378de41aae00d5e6a508689079abb5f"
+      },
+      "id": "reject-quarantine-expiry-not-defined",
+      "twin": "accept-quarantine-in-force"
+    }
+  ],
+  "corpusDigest": "93b2e953a08f80838378aa831d51ae085f6da2f102a396f6a7499fdd8388e627",
+  "peerPredicate": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/peer-verification",
+  "suite": "acs-verdict-evidence/v1.0.1-draft",
+  "testKeys": {
+    "external": {
+      "keyid": "eeddd04d41d57b98e72d3b61057cb1aad3e8e29487c21608b47146727cee3cb2",
+      "public_key": "zVq+OnQvDaN10QX0QMCbeEQ56x9kyVWxF/oim5F7KKs=",
+      "seed_label": "aev-verdict-evidence-test-key/external/v1"
+    },
+    "peer": {
+      "keyid": "6b32ca4923930cb60d9d670400e55565114506359046aaf1e09e92a0da0b4416",
+      "public_key": "or9oFil3vKNdSB0W2urD35CSsVIndbvkeAhVIMC4SeE=",
+      "seed_label": "aev-verdict-evidence-test-key/peer/v1"
+    },
+    "runner": {
+      "keyid": "18d3b74d84b9392c42d32035cb7d32617193b17e1f03d99ad4765d8bf219071a",
+      "public_key": "QCrMdxznpvWDEgAngxFA3dAwvERTHSdyCxDxY6ATBJM=",
+      "seed_label": "aev-verdict-evidence-test-key/runner/v1"
+    },
+    "stranger": {
+      "keyid": "ca8f7b529c093592c4e37d1d21a7d701b881ce820afd57d3a128e3db6c2b4fe4",
+      "public_key": "iS+DhIijuTMTHUJXLUC1Sw2F+gCN7zK8Lq7No4qcXx0=",
+      "seed_label": "aev-verdict-evidence-test-key/stranger/v1"
+    }
+  },
+  "verdictPredicate": "https://github.com/GenAI-Security-Project/agent-control-standard/blob/main/docs/predicates/acs-verdict-evidence-v1.md"
+}

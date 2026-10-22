@@ -157,6 +157,30 @@ class Probe:
         rec["_file"] = path.name
         return rec
 
+    def post_raw(self, name: str, body: bytes) -> Json:
+        """POST bytes as given, for inputs the JSON encoder here cannot produce."""
+        self.n += 1
+        rec: Json = {"request_bytes": len(body)}
+        req = request.Request(self.url, data=body, method="POST",
+                              headers={"content-type": "application/json"})
+        text: str | None = None
+        try:
+            with request.urlopen(req, timeout=15) as resp:
+                text, rec["http_status"] = resp.read().decode(), resp.status
+        except error.HTTPError as e:
+            text, rec["http_status"] = e.read().decode(errors="replace"), e.code
+        except OSError as e:
+            rec["transport_error"] = repr(e)
+        if text is not None:
+            try:
+                rec["response"] = json.loads(text)
+            except json.JSONDecodeError:
+                rec["response_text"] = text[:2000]
+        path = self.wire / f"{self.n:03d}-{name}.json"
+        path.write_text(json.dumps(rec, indent=2))
+        rec["_file"] = path.name
+        return rec
+
     def response_signature_ok(self, rec: Json, sid: str) -> bool:
         resp = rec.get("response") or {}
         side = "result" if isinstance(resp.get("result"), dict) else "error"
@@ -338,20 +362,59 @@ def probe_d10(p: Probe) -> None:
             s["decision"] == "deny" and "tool_unregistered" in s["reason_codes"], describe(s))
 
 
+def jsonrpc_answer(rec: Json) -> bool:
+    resp = rec.get("response")
+    return (rec.get("http_status") != 500 and isinstance(resp, dict)
+            and resp.get("jsonrpc") == "2.0" and ("result" in resp or "error" in resp))
+
+
+def answered(rec: Json) -> str:
+    if rec.get("response") is not None:
+        return f"http {rec.get('http_status')} {describe(summary(rec))}"
+    return f"http {rec.get('http_status')} {(rec.get('response_text') or '').strip()[:40]}"
+
+
+NEST_DEPTH = 20000
+
+
+def probe_d11(p: Probe) -> None:
+    """Unauthenticated inputs that reach canonicalization and key derivation before any
+    signature is verified. Each must get a JSON-RPC answer: an HTTP 500 is read by a host
+    as a hook that never fired."""
+    env = p.sign(p.envelope("steps/toolCallRequest", "s" * 1100, BASH_LS))
+    rec = p.post("D11a", env)
+    p.check("D11a", "session_id of 1100 bytes", "MUST", "a JSON-RPC answer, not HTTP 500", rec,
+            jsonrpc_answer(rec), answered(rec))
+    sid = new_sid()
+    env = p.envelope("steps/toolCallRequest", sid, {"tool": {"name": "Bash"}, "arguments": {}})
+    env["params"]["signature"] = {"algorithm": "HMAC-SHA256", "value": "AAAA", "key_id": sid}
+    nested = "[" * NEST_DEPTH + "]" * NEST_DEPTH
+    body = json.dumps(env, separators=(",", ":")).replace(
+        '"arguments":{}', '"arguments":{"x":' + nested + '}').encode()
+    rec = p.post_raw("D11b", body)
+    p.check("D11b", f"payload nested {NEST_DEPTH} levels, signature present but wrong", "MUST",
+            "a JSON-RPC answer, not HTTP 500", rec, jsonrpc_answer(rec), answered(rec))
+
+
 def replay_save(p: Probe, path: Path) -> None:
     sid = new_sid()
-    p.post("D2c-hello", p.hello(sid))
+    hello = p.hello(sid)
+    p.post("D2c-hello", hello)
     env = p.sign(p.envelope("steps/toolCallRequest", sid, BASH_LS))
     rec = p.post("D2c-first", env)
-    path.write_text(json.dumps(env))
+    path.write_text(json.dumps({"hello": hello, "step": env}))
     s = summary(rec)
     p.check("D2c-save", "request accepted before the restart", "control", "decision allow",
             rec, s["decision"] == "allow", describe(s))
 
 
 def replay_send(p: Probe, path: Path) -> None:
-    expect_code(p, "D2c", "same request bytes after a Guardian restart", "MUST", -32005,
-                p.post("D2c-after-restart", json.loads(path.read_text())))
+    # The recorded hello goes first: a Guardian that refuses the step only because a
+    # restart also forgot the handshake (-32003) has not remembered the request.
+    saved = json.loads(path.read_text())
+    p.post("D2c-hello-after-restart", saved["hello"])
+    expect_code(p, "D2c", "same hello and request bytes after a Guardian restart", "MUST",
+                -32005, p.post("D2c-after-restart", saved["step"]))
 
 
 def exit_status(rows: list[Json], expect: Path | None) -> int:
@@ -390,7 +453,7 @@ def main() -> int:
         replay_send(p, a.replay_send)
     elif probe_control(p):
         for fn in (probe_d1, probe_d2, probe_d3, probe_d4, probe_d5, probe_d6, probe_d7,
-                   probe_d8, probe_d10):
+                   probe_d8, probe_d10, probe_d11):
             fn(p)
     name = "results-replay-save" if a.replay_save else (
         "results-replay-send" if a.replay_send else "results")

@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 739,
+      "path": "grade.json",
+      "sha256": "cf37fb1bfcc837ebad0ac58326c6a98dbac9d10ca847b03a51cdaf6ba44ff3c5"
+    },
+    "tree": {
+      "length": 548,
+      "path": "tree.json",
+      "sha256": "f92063ba9326989e7c8042f00a3ececec34bcf2db5463a63e3c65e163f5d2435"
+    }
+  },
+  "case_id": "control-config-in-a-scratch-directory",
+  "schema_version": "probity-case/v1"
+}

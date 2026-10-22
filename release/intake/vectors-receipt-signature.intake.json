@@ -1,0 +1,966 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 12,
+      "gap": 2,
+      "indeterminate": 3,
+      "reject": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 25
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-receipt-signature/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-receipt-signature/digest.py",
+    "routine-file": "vectors-receipt-signature/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "801d1addb7aa2febd1dadadeb4d8f99090edd8187d34955681b70948dec8cafd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "2ba2bc5895387a5b4a8d86398f5fd4311d2f12a1077c5bd60fab1eb535998d99"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "cd51179b538cc5abfa1a59009270ed25f4b19bc3baa82a48428367c3fceed59a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/README.md",
+      "serialization": "bytes",
+      "sha256": "fadc447bf0b924efb7817474b9532db7590500def62ddd526e7342f1e0c15f0c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "ef84bd2fca3f0a5013ea9d411dd7045dc0a3db4ff582922e30a058aeed5277db",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/digest.py",
+      "serialization": "bytes",
+      "sha256": "e25e8e246981898682cd89c6efe095fdbed2469fac99e13decbe40e718fa5d21"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "1c3722e7699385f844f2c4c7feb799ce5ba79760a87dc2f4f2403bcadc0ca9c8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "c4870334ee18bfabb4b97da689c8a1e251f4b0788fbf44b334997740b3cd98f4"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "ea0ac8300426b8ec4384b8a394c7e229d07fae3226e1ad435816a991e0a44626"
+        },
+        "swapped-in": "2cb7c756f774a391401e31af58c4813a97d74473aa17553007661c4db53af5e6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/keys/jwks-no-window.json",
+      "serialization": "bytes",
+      "sha256": "12943aab1abb1f3cc85c058bc2a2caf5245714cf516bbab171ae622fbcce8cd7"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "1c1fb616167a1da6651c268b61ab03ba94ac09307c0970d371f1fe8cabbd5669"
+        },
+        "swapped-in": "298cdfe4d5944b06a8c3a6eab6970e5147ba37c545a31607e5b788473b0b13e6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/keys/jwks.json",
+      "serialization": "bytes",
+      "sha256": "5f48f37dea8f6cc4197b97ccbb2d39e5ac12a789d054d3b6dd8edf4e642de441"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-receipt-signature/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "d0716d3b27a0924727cfaa7a2debad08a964fd11016df6ae875a864f3db4acce"
+        },
+        "swapped-in": "c299cb28f37e7a44b3967dcd8dbbc8f22552e6fc0074c162fe7609b32b17efe3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/spec-vendored/draft-farley-acta-signed-receipts-03.txt",
+      "serialization": "bytes",
+      "sha256": "bcde71799a621305254ea8b442fc829ac6d65fcff039f365e8a2349d8e902f19"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+        },
+        "swapped-in": "376f4a5975a2dfe1b04249c56c4e3e6f2dce4201648e8884f383ce82f7b19b20",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-signature/tools/veritasacta-verify.py",
+      "serialization": "bytes",
+      "sha256": "97160a53bf23ee4ad319ffd3054cc9302138986f7730ec3a25f98a77b1c51c34"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "context",
+        "recursive": false,
+        "suffix": ".json"
+      },
+      {
+        "dir": "receipts",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-receipt-signature"
+  },
+  "byte-identity": {
+    "pins": 31,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-receipt-signature",
+      "aee-verify -json vectors-receipt-signature",
+      "aee-verify vectors-receipt-signature"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v0142580fad54af78",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v03377fbbac6d12f8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0340fed8ef07e072",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1adc0db0267a742b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2c8c0aabb75e8aa0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2e98d2f14251c8d6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2f0a83c1364e52bc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3bb98f09b3068de5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4ec9fa36ae77ce07",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4f9fe96e52a39bfb",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5397adb77c3e6754",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6d872b14889dc9e2",
+      "native": {
+        "reasons": [],
+        "verdict": "gap"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v75158ebfd05a56e5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v814de39bf68212fc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9f2a63a5186a2fa8",
+      "native": {
+        "reasons": [],
+        "verdict": "gap"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaafe541bbd74c320",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vab0c4dde2038340e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vad088133176d7114",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb19450def8dcc5cd",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbc25ef71da0567f9",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc4b43c5739979581",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcc3cdb871ff27027",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve116653dd041dda0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve24bce7210cacee9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vea8370fb85e1b4b1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d3f4c64d85229ccab7a13eaee26342f9555a84c3f003ded63caeb66b6b190705"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v0142580fad54af78",
+      "v03377fbbac6d12f8",
+      "v0340fed8ef07e072",
+      "v1adc0db0267a742b",
+      "v2c8c0aabb75e8aa0",
+      "v2e98d2f14251c8d6",
+      "v2f0a83c1364e52bc",
+      "v3bb98f09b3068de5",
+      "v4ec9fa36ae77ce07",
+      "v4f9fe96e52a39bfb",
+      "v5397adb77c3e6754",
+      "v6d872b14889dc9e2",
+      "v75158ebfd05a56e5",
+      "v814de39bf68212fc",
+      "v9f2a63a5186a2fa8",
+      "vaafe541bbd74c320",
+      "vab0c4dde2038340e",
+      "vad088133176d7114",
+      "vb19450def8dcc5cd",
+      "vbc25ef71da0567f9",
+      "vc4b43c5739979581",
+      "vcc3cdb871ff27027",
+      "ve116653dd041dda0",
+      "ve24bce7210cacee9",
+      "vea8370fb85e1b4b1"
+    ],
+    "path": "vectors-receipt-signature/MANIFEST.json",
+    "sha256": "df880762ac312d4754fa3ac85c21a1356552d4d442503b194324449bfc79c50c"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
+        }
+      ],
+      "id": "v0142580fad54af78"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v03377fbbac6d12f8.json",
+          "sha256": "03377fbbac6d12f86c446b06194dcc0b92b8e5fc2ff3a5976b67c6abcd1feb76"
+        }
+      ],
+      "id": "v03377fbbac6d12f8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v0340fed8ef07e072.json",
+          "sha256": "0340fed8ef07e072f51848c5ee47f241bbca4d43f1f62821fedb9ea043ba7375"
+        }
+      ],
+      "id": "v0340fed8ef07e072"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v1adc0db0267a742b.json",
+          "sha256": "1adc0db0267a742b05ff4cadd613b64b78237dffa3511a88fdc2994aceb1e152"
+        }
+      ],
+      "id": "v1adc0db0267a742b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v2c8c0aabb75e8aa0.json",
+          "sha256": "2c8c0aabb75e8aa05a9be71a864489b748ae0de97fb7b7f6afb09e4505533972"
+        }
+      ],
+      "id": "v2c8c0aabb75e8aa0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v2e98d2f14251c8d6.json",
+          "sha256": "2e98d2f14251c8d650db34990ce3e2c7ff35932ae6f33d98f17f1ab5ac08b255"
+        }
+      ],
+      "id": "v2e98d2f14251c8d6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
+          "sha256": "2f0a83c1364e52bc3e43f56bffa3e2c802855d1f033dff1f3434b0f6a6ac0b37"
+        }
+      ],
+      "id": "v2f0a83c1364e52bc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v3bb98f09b3068de5.json",
+          "sha256": "3bb98f09b3068de56b076c70040d7f0d7283b107f15f62afe03b54e8bff86c95"
+        }
+      ],
+      "id": "v3bb98f09b3068de5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v4ec9fa36ae77ce07.json",
+          "sha256": "4ec9fa36ae77ce072a739608d965f7e68cc963c6a443d6bc586100348dd4df66"
+        }
+      ],
+      "id": "v4ec9fa36ae77ce07"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v4f9fe96e52a39bfb.json",
+          "sha256": "4f9fe96e52a39bfb332e405381beeca347a3283a491cf81aaa51717ab84ec440"
+        }
+      ],
+      "id": "v4f9fe96e52a39bfb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v5397adb77c3e6754.json",
+          "sha256": "5397adb77c3e675409401cf7ec3f3553833f27ffed13f053d326939d3aa63327"
+        }
+      ],
+      "id": "v5397adb77c3e6754"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
+          "sha256": "e0cdbb366659fa7cc657742bca35ee4423308ac46da01d7d1b90bff1292219cd"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+        }
+      ],
+      "id": "v6d872b14889dc9e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/context/ce0cdbb366659fa7c.json",
+          "sha256": "e0cdbb366659fa7cc657742bca35ee4423308ac46da01d7d1b90bff1292219cd"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+        }
+      ],
+      "id": "v75158ebfd05a56e5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+        }
+      ],
+      "id": "v814de39bf68212fc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v9f2a63a5186a2fa8.json",
+          "sha256": "9f2a63a5186a2fa87a36a93c1b0236f605b90e11fd99b60139ae3d04df8be4a7"
+        }
+      ],
+      "id": "v9f2a63a5186a2fa8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vaafe541bbd74c320.json",
+          "sha256": "aafe541bbd74c320be319674f4a82d035dd5f9701d47ca5b52d8329f57f25f6c"
+        }
+      ],
+      "id": "vaafe541bbd74c320"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v0142580fad54af78.json",
+          "sha256": "0142580fad54af78b8aa87581c5db0d56862662e1832f0cb417c812a5a93e3cd"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+        }
+      ],
+      "id": "vab0c4dde2038340e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vad088133176d7114.json",
+          "sha256": "ad088133176d7114b49a30e860bd28570fba5d5931d5a7fb8c8c75d838559a30"
+        }
+      ],
+      "id": "vad088133176d7114"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vb19450def8dcc5cd.json",
+          "sha256": "b19450def8dcc5cddff22635c4e4d887e9842f8aa748475ed4f93408360378c4"
+        }
+      ],
+      "id": "vb19450def8dcc5cd"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vbc25ef71da0567f9.json",
+          "sha256": "bc25ef71da0567f94063ce568e9020dca167c6213d38f7710b7b2f6122f4c478"
+        }
+      ],
+      "id": "vbc25ef71da0567f9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vc4b43c5739979581.json",
+          "sha256": "c4b43c5739979581d7ccac7275c2caf78754f53188ca22ac23ac32d3abaa5508"
+        }
+      ],
+      "id": "vc4b43c5739979581"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vcc3cdb871ff27027.json",
+          "sha256": "cc3cdb871ff270270354e67eceda3a2855ccdd941b151e6fb3919350edb8d7a4"
+        }
+      ],
+      "id": "vcc3cdb871ff27027"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/ve116653dd041dda0.json",
+          "sha256": "e116653dd041dda0d00164fae31d899a27baffc5c8ee8f5d649fbd7d95313c06"
+        }
+      ],
+      "id": "ve116653dd041dda0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/v2f0a83c1364e52bc.json",
+          "sha256": "2f0a83c1364e52bc3e43f56bffa3e2c802855d1f033dff1f3434b0f6a6ac0b37"
+        },
+        {
+          "path": "vectors-receipt-signature/receipts/v814de39bf68212fc.json",
+          "sha256": "814de39bf68212fcac67e73f7a68f1440b429c50e00dd7e8c6580b69dc6260b2"
+        }
+      ],
+      "id": "ve24bce7210cacee9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-signature/receipts/vea8370fb85e1b4b1.json",
+          "sha256": "ea8370fb85e1b4b143d88e349fb38581f30a37a86b1d8bdc7539f2cae77cb1ee"
+        }
+      ],
+      "id": "vea8370fb85e1b4b1"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "cb490284f25c5eebc0a91c7776e6f195ae571c4f7dce029ae437128fce03a6ae",
+      "covers-these-bytes": true,
+      "depth": "full rules",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "25/25 verdicts agree",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-receipt-signature.json",
+        "serialization": "bytes",
+        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-receipt-signature.txt",
+        "serialization": "bytes",
+        "sha256": "d0ca4c39fcf75f50ada5e1ef4fd6c4dd968dbd92b7bc5357848f1cba0ccf78f4"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0340fed8ef07e072",
+      "inputs": [
+        "member:v0340fed8ef07e072",
+        "check:v0340fed8ef07e072"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-4\"],\"expected\":{\"code\":\"signature_invalid\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v1adc0db0267a742b",
+      "inputs": [
+        "member:v1adc0db0267a742b",
+        "check:v1adc0db0267a742b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-5\"],\"expected\":{\"code\":\"signature_invalid\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v2c8c0aabb75e8aa0",
+      "inputs": [
+        "member:v2c8c0aabb75e8aa0",
+        "check:v2c8c0aabb75e8aa0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-6\"],\"expected\":{\"code\":\"signature_in_signing_input\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v2e98d2f14251c8d6",
+      "inputs": [
+        "member:v2e98d2f14251c8d6",
+        "check:v2e98d2f14251c8d6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-6\"],\"expected\":{\"code\":\"signature_in_signing_input\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v3bb98f09b3068de5",
+      "inputs": [
+        "member:v3bb98f09b3068de5",
+        "check:v3bb98f09b3068de5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-6\"],\"expected\":{\"code\":\"signature_in_signing_input\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v5397adb77c3e6754",
+      "inputs": [
+        "member:v5397adb77c3e6754",
+        "check:v5397adb77c3e6754"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-6\"],\"expected\":{\"code\":\"signature_in_signing_input\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "ve116653dd041dda0",
+      "inputs": [
+        "member:ve116653dd041dda0",
+        "check:ve116653dd041dda0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-1\"],\"expected\":{\"code\":\"signature_invalid\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "ve24bce7210cacee9",
+      "inputs": [
+        "member:ve24bce7210cacee9",
+        "check:ve24bce7210cacee9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"rs-c-8\"],\"expected\":{\"code\":\"chain_link_mismatch\",\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+      },
+      {
+        "process": "run-2",
+        "sha256": "1407ff69fb359375e249f9048019fca890f3e466f7e92dccb276188b3c363b39"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 25 pinned members of receipt-signature-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 25,
+    "require": "at-least-one",
+    "selected": [
+      "v0142580fad54af78",
+      "v03377fbbac6d12f8",
+      "v0340fed8ef07e072",
+      "v1adc0db0267a742b",
+      "v2c8c0aabb75e8aa0",
+      "v2e98d2f14251c8d6",
+      "v2f0a83c1364e52bc",
+      "v3bb98f09b3068de5",
+      "v4ec9fa36ae77ce07",
+      "v4f9fe96e52a39bfb",
+      "v5397adb77c3e6754",
+      "v6d872b14889dc9e2",
+      "v75158ebfd05a56e5",
+      "v814de39bf68212fc",
+      "v9f2a63a5186a2fa8",
+      "vaafe541bbd74c320",
+      "vab0c4dde2038340e",
+      "vad088133176d7114",
+      "vb19450def8dcc5cd",
+      "vbc25ef71da0567f9",
+      "vc4b43c5739979581",
+      "vcc3cdb871ff27027",
+      "ve116653dd041dda0",
+      "ve24bce7210cacee9",
+      "vea8370fb85e1b4b1"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "receipt-signature-conformance"
+}

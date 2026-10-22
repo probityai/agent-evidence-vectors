@@ -1,0 +1,44 @@
+{
+  "cites": "a deployment configuration whose label is the first sixteen hex characters of the SHA-256 of the secret it names. Every request then publishes a digest of the secret on the wire, and a rotation that keeps the secret cannot keep the label. The checker holds the secret and the configuration, so it can recompute the derivation this member uses; it cannot detect every derivation, and the member claims only this one.",
+  "coverage": "configured",
+  "doesNotAssert": "anything about a label derived some other way; whether a label was derived from a secret is decidable only for the derivation tried",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-13",
+  "id": "v09451dcf233c2115",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "deployment_key_config": [
+        {
+          "key_id": "630dcd2966c43366",
+          "secret_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        }
+      ],
+      "derivation_checked": "sha256(secret) hex, first 16 characters"
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-030",
+      "line": 354,
+      "sentence": "`key_id` MUST NOT be derived from the secret.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-030"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "SELF"
+}

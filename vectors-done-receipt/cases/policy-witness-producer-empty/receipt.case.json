@@ -1,0 +1,41 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 300,
+      "path": "capability.json",
+      "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+    },
+    "claims": {
+      "length": 372,
+      "path": "claims.json",
+      "sha256": "d77aad0972099027f6f55eb9bdc2a8b75d16b0c3d51cbef451d8495ae7e13967"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 708,
+      "path": "grade.json",
+      "sha256": "cba51bfa89a9b0048883ad3ea179aecd1c65d2e76feb3a27b92be424b55e40a6"
+    },
+    "observation": {
+      "length": 1125,
+      "path": "observation.json",
+      "sha256": "a084cfc982233e513007e27a3fa5246693cad691caa6524c955fe9c07b29388b"
+    },
+    "receipt": {
+      "length": 2712,
+      "path": "receipt.json",
+      "sha256": "e3a6d7c3c61533b1fecb820315917a88446d382fd581b22344cadd096ea89b84"
+    },
+    "tree": {
+      "length": 517,
+      "path": "tree.json",
+      "sha256": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e"
+    }
+  },
+  "case_id": "honest",
+  "schema_version": "probity-case/v1"
+}

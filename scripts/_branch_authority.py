@@ -28,6 +28,45 @@ def repository_origin(origin: str) -> str:
     return match.group(1)
 
 
+PUBLIC_API = "https://api.github.com/repos/"
+
+
+def repository_api_commands(repository: str) -> tuple[list[str], list[str]]:
+    """The two accepted reads of the repository's metadata, in preference order.
+
+    The first is gh, which needs a login. The second reads the same public REST endpoint with
+    no credential, which is all a gate box has: a box holds no GitHub token, and gh refuses
+    every call without one (exit 4), so the mirror could not run there for a public repository
+    whose metadata anyone may read.
+    """
+    return (
+        ["gh", "api", "--method", "GET", "repos/" + repository],
+        [
+            "curl",
+            "--fail",
+            "--silent",
+            "--show-error",
+            "--max-time",
+            "60",
+            "--header",
+            "Accept: application/vnd.github+json",
+            PUBLIC_API + repository,
+        ],
+    )
+
+
+def repository_api_command(repository: str, root: Path) -> list[str]:
+    """Use gh when it holds a login, else the credential-free public read."""
+    gh, public = repository_api_commands(repository)
+    try:
+        status = subprocess.run(
+            ["gh", "auth", "status"], cwd=root, capture_output=True, check=False
+        )
+    except FileNotFoundError:
+        return public
+    return gh if status.returncode == 0 else public
+
+
 def default_branch_authority(
     origin: str,
     api_bytes: bytes,
@@ -280,11 +319,11 @@ def capture_process(directory: Path, name: str, argv: list[str], root: Path) -> 
     return record
 
 
-def primary_bytes(record: object, argv: list[str]) -> bytes:
-    """Check the exact primary command and original streams inside a request."""
+def primary_bytes(record: object, *argvs: list[str]) -> bytes:
+    """Check the exact primary command, one of the accepted ones, and its original streams."""
     if not isinstance(record, dict):
         raise ValueError("branch authority primary record is not an object")
-    if record.get("argv") != argv or type(record.get("returncode")) is not int:
+    if record.get("argv") not in argvs or type(record.get("returncode")) is not int:
         raise ValueError("branch authority primary command differs from its contract")
     if record["returncode"] != 0:
         raise ValueError("branch authority primary command did not succeed")
@@ -313,9 +352,7 @@ def packet_authority(packet: dict[str, Any]) -> dict[str, str]:
     primary = packet.get("primary")
     if not isinstance(primary, dict):
         raise ValueError("branch authority primary captures are not an object")
-    api = primary_bytes(
-        primary.get("repository"), ["gh", "api", "--method", "GET", "repos/" + repository]
-    )
+    api = primary_bytes(primary.get("repository"), *repository_api_commands(repository))
     decoded = decode_json(api)
     if not isinstance(decoded, dict):
         raise ValueError("repository API is not an object")
@@ -350,9 +387,7 @@ def capture_authority(root: Path, directory: Path) -> dict[str, Any]:
     directory.mkdir(parents=True, exist_ok=False)
     origin = git(root, "remote", "get-url", "origin").decode().strip()
     repository = repository_origin(origin)
-    api = capture_process(
-        directory, "repository", ["gh", "api", "--method", "GET", "repos/" + repository], root
-    )
+    api = capture_process(directory, "repository", repository_api_command(repository, root), root)
     decoded = decode_json(base64.b64decode(api["stdout"]["base64"], validate=True))
     if not isinstance(decoded, dict) or not isinstance(decoded.get("default_branch"), str):
         raise ValueError("repository API lacks a default branch")

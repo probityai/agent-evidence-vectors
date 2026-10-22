@@ -36,6 +36,28 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/self-reported-record`
+
+- Document: `spec/self-reported-record/v1.md`
+- Corpus: `vectors-self-reported-record/`, suite `self-reported-record-conformance`
+- Rails: `corpora/selfreported.go` in this repository
+
+The predicate carries an agent's own record of a session, with each field
+declaring whether a substrate observation covers it or the record's own
+attesting key alone, so a consumer can tell the observed fields from the
+self-asserted ones.
+
+### `predicate/v1/peer-verification`
+
+- Document: `spec/predicates/peer-verification.md`
+- Corpus: `packaging/agent_evidence_vectors/verdict_evidence/corpus/`, suite `acs-verdict-evidence/v1.0.1-draft`
+- Rails: `packaging/agent_evidence_vectors/verdict_evidence/reader.py` in this repository
+
+The statement a second party signs when it checked a conformance requirement itself:
+the vector, the requirement, and the client run or retained transcript it used. A
+verdict record names it by digest to lift `witness_scope` above `SELF`; the runner
+cannot write one.
+
 ## Registered here
 
 ### `predicate/v1/kernel-substrate`
@@ -79,7 +101,37 @@ carried bytes instead of accepting an asserted one.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
 
+### `predicate/v1/govops-trace-record`
+
+- Predicate body: one GovOps TRACE record (`eat_profile`
+  `tag:govops,2026:trace-v1`) without its `signature` member, as section 1 of
+  [GovOpsWG/GovOps `govops-trace-profile.md`](https://github.com/GovOpsWG/GovOps/blob/131cb66bc87cd266e224d7df6f7b9401c00f3ef7/govops-trace-profile.md)
+  (commit `131cb66`) defines the record. The record format is published there
+  and is not vendored here.
+- Envelope: an in-toto Statement carried in a DSSE envelope, whose subject
+  digest is the record's content digest, as `interop/govops-trace-profile/README.md`
+  writes the carriage down.
+- Corpus: `interop/govops-trace-profile/`, judged by its `check_vectors.py`.
+- Status: current. The URI will not move, because a carried record holds it
+  inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
 them.
+
+## Types served from another host
+
+Two types defined in this directory have their URIs under
+`https://w3id.org/agent-evidence/predicate/v1/`, a persistent identifier namespace
+that is not served from this repository. The site build here publishes no page for
+them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
+Each document is the authority for its type until the human-readable pages are
+live, and no signed statement carries either URI before then.
+
+- `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
+- `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
+  `vectors-spoofed-tool-output/`, `vectors-test-tampering/`,
+  `vectors-grader-isolation/` and `vectors-done-probes/`.
+
+`spec/predicates/done-records.md` defines the records both read and no type URI.

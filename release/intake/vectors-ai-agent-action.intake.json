@@ -1,0 +1,2530 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 42,
+      "reject": 33
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 75
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-ai-agent-action/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-ai-agent-action/gen_vectors.py",
+    "routine-file": "vectors-ai-agent-action/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "d3b785db0bfcc4432db49a94c5662e93184dba8b83720fe14cad9d36978b9ba9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "d0781ab58318c93c40aa3db28e0eb32f1d9a10b9ddb639ab20f307d911609330"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "4d20bd4493b4e3b4326641a0023c451828fa39f029f269da32c2f90acc916257",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/README.md",
+      "serialization": "bytes",
+      "sha256": "089507b9cd4808074ccdbf845574c68eba9745d899a871b16360977e943c86c9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "3b9e4d39e08e7979e5677a8ccad097e76f560ad778c4b694566dcae243a7c7c1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/SUMMARY.json",
+      "serialization": "bytes",
+      "sha256": "27f2057d1bb45fb6ceb55e3677cfb5be7a9c3f894f371de4dc17b60ab7c85ea1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "62021f98d7240482afa44115c285f358d03b522d58ea0f3d50af42edf9451844",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a1-integer-like-key-order.json",
+      "serialization": "bytes",
+      "sha256": "83c4d04f1454b0e9775f6e5919bbf9e780eb1929cb6957ff785886934a1990f8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "e11d56a2599ce6acd821c78c3f39ff9605d496ddbff4f914f5969db2365f5d23",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a10-signing-field-list-absent.json",
+      "serialization": "bytes",
+      "sha256": "de0592234966734f001a2ac38dc2efbf8e7f63a5d99cfa2841503a6d76818b76"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "ec699519343e32d9d7d547a0c340659606a436925616b214c3d375524f0ef705",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a11-planted-null-priorhead-break.json",
+      "serialization": "bytes",
+      "sha256": "03d1fc486104c8d7c87f148a1af377350f85d2f3ad5b25352ec18d76c15b927a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "f0935820a33468c65e96731357ad595a444b2b4bb79da7f015dec74607487ac7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a2-string-escaping.json",
+      "serialization": "bytes",
+      "sha256": "8864754b73215eeb73d9262587d0bee6fc7762db00781c74a987a2491317f2e4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "df0298f776a2b28daa9c56e423aa028dca95dc7b09e22bf26f07500aac1aed34",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a3-preimage-reading-split.json",
+      "serialization": "bytes",
+      "sha256": "27752d439dfccd1f4e20bb22b8dc67cbd6d160f7085c8183dbfaee12b6cb8978"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "2325f15bd1393c7f47681ec5e0a53810fe9bae7365aac0760cd09ed3f8b79628",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a4-duplicate-member.json",
+      "serialization": "bytes",
+      "sha256": "3bf611e04ff34420bcdcff484999331ea165754d8186b63a9180e7ac16a99247"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "50578f61e277e587e23e43b0ca34ef1f44b4b08b1aa98acef63b43cc53dc9685",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-honest.jsonl",
+      "serialization": "bytes",
+      "sha256": "2684aef4cb1016b0b8f7f9883268f3243b28dd2236d17494323d2bc37ee1fff1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "a46dca12ff3d049075eb5a027656559511ba6516b6eaf0d28a7cebe9d8881e00",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork-presented.jsonl",
+      "serialization": "bytes",
+      "sha256": "63d9f5767c71fa47d195e6f5b39f88a3ce19bbffff0998747af2d74846e3538c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "7544bdc208e544daefd2047fc0020de7f633ddd7007b93e986f1329f34d2a2b2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a5-chain-fork.json",
+      "serialization": "bytes",
+      "sha256": "d150925432ada2ca2b37901c68a70dc2dff71070f5c0b9331a91285c13947c34"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "eba60952c54c7755a1751c3dae0a5abe25801f9f1220d9af0b75b1ff3229be30",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a6-checkpoint-not-on-chain.json",
+      "serialization": "bytes",
+      "sha256": "2a18cbaa8d276912088dce88183c500323d9810147b33c5ca278b63f81a3344d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "61df2692c96aba14f938656382a7315caff430f55806d1c974b1bc3ac8cf2928",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a7-float-rule-contradiction.json",
+      "serialization": "bytes",
+      "sha256": "22644276986ccb8ddd6ee3478da97d8d1c79dccb55f9234fab70c76e296973b4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "48b8a8ff34f98ba55c2032a393d9a3a9d0c3ed56f3c323afc7b2710d08132f2f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a8-error-response-preimage.json",
+      "serialization": "bytes",
+      "sha256": "a09e1e42560c0f2e9b19821c79a0085c8e5542025994a93c56a17a214b95b5c0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "776c36663f20837b49a32c2ddc61131a7e918606115fcc8f6cf0205499b8be40",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/a9-previoushash-unpinned.json",
+      "serialization": "bytes",
+      "sha256": "17d7bc5a3031134fe4a76093bc85f7202ca106855689c26ae57c821134e46762"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "ff9324b305bad254b71f208baa778b9644cbc30d6e3c43aab1febfe6da40705f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f1-strip-chain-object.json",
+      "serialization": "bytes",
+      "sha256": "ed7133116c2b7c23ddac9acd7649df8cb1f47d1355eeac8f90288e5664bf00b4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "c23c60ca253f8df2396bb69f362867a6c90e4def15bc89fedab6f4714614f8d8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f2-unpaired-surrogate.json",
+      "serialization": "bytes",
+      "sha256": "09071bcc80889dda7b63fd5ceae4b95713924dc51635f2e588424aab8b3e5497"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "8451821dcb56532d713cc4718b0c715922fe77ab0db1649b59fb046a4f4db98d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/artifacts/f3-second-genesis.json",
+      "serialization": "bytes",
+      "sha256": "2e4429be0c98df947a74588c300a42cc50f8b229af570e670e8bd7efaf0dd0e5"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "3ddb1e435e3f11e78106fa0d24f6de5551db33280c6636eed5c644b9fe8137e0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/attacks/run_attacks.py",
+      "serialization": "bytes",
+      "sha256": "35609009fdc3543202070f14b39e7a32fb768db50982b2588ce3d736e7a65eba"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "swapped-in": "0e1f2f4525832d2e52d952ae185f610ae2f23b29674367fe1b46fca85313677b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1538b39b691f8a977311bb5e278beb8939d0e45d6b85e4469b42e23d732ffb7c"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-ai-agent-action/MANIFEST.json"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "43d5ac6b4f0c98bdce53fba03f5c03e5f7dd878efec33fa03f432ddd16589703"
+        },
+        "swapped-in": "d903946fdcdcf0f480755894b4ee1cd30b437a12770f5102753f36c193853640",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-ai-agent-action/spec-vendored/ai-agent-action-a5dd509.md",
+      "serialization": "bytes",
+      "sha256": "5c417e9cb61fa61daaaa7ecf18a5c50f83bb4160635dc353920d3f9d3de73d4c"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "records",
+        "recursive": false,
+        "suffix": ".jsonl"
+      },
+      {
+        "dir": "statements",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-ai-agent-action"
+  },
+  "byte-identity": {
+    "pins": 104,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-ai-agent-action",
+      "aee-verify -json vectors-ai-agent-action",
+      "aee-verify vectors-ai-agent-action"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v031c8b3d46725200",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0805461f7a5c9a1f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0f4f2093061d303f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0fbb0059f0813e81",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v16f7e58b18eed9ce",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v19200ece1a40066b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1a09354386e0ed57",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1aa63bb62de9b357",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v26230ff87959bda5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v27af706aa6237b7a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v288bb68e53e8e8b4",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2d317372d8b62a5b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v362600d69975d14c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3e30ec52a2e1f716",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v401b49d063fe0a5e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4163675fb8d766a9",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4c882a9f1bbeb7f0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4d02dbb1731f4972",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5441e430ab64dcbe",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5e1aca8594076334",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v663dae0ae9cfda97",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v679f56481420e45a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6d21ff18cfa69ef8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v726e35aa6179f8d9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7460b093ad19f68d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v791c2a09aa3a06bc",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v79fbd4b605a4d914",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7d0402b3c091526e",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7d78f7f696236714",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7fe454a506f992b2",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v843566cf72cd33c3",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v861f20f3fa63ce2b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v86bb8bc8908fea42",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v886b10508ab8ba51",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v904d162069c03d18",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v925e6daf8ac78ef3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v92de4e2cb2a687c8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v95fcded705b036d0",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v97f5d8777e514257",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9a8b364b8bc121de",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9b57de6db73c1f29",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9bcf0d6fd251418f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9cc43bcbf367a00e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v9e2642dc299801e5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va1ecbadeabba7b77",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaa33c34f7bd1058b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vad17f7bf034c8dde",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaec7f1c565e1a91a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaf1b67f038ffff84",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb0d8a7a7dbeb9f87",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb1262555f2fd8afe",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb177ef3b3a945a72",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb1f091f42efd0715",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb5fff22526265bef",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb7ceb3d8d07bbeab",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb7dd5fb8dcb6e345",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbbea645b85eb9836",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbc437bec9fff72d6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbd5d1d64de299ed7",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc4898200910d84a2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc6a1b1b8e0388411",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc79800639733ed68",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vced2927f55260ad1",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd2659c36ece7eb47",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd473932a82fd8779",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdb3c544d148ad808",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdd8899ebf08f5040",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve49e9dafdd7f4df9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve763abe0a98c932f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve78d80f4d7221cd9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve82a71e39c20e5a7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ve8b9155afcbd8224",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf1492a40d7a7c2c9",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf2f6991c55096b1a",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf89ec86066d8cf9b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "9509ae1ae2ff60806aa0d549cd854dd927db2744b08472ba4157df53de6e72ed"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v031c8b3d46725200",
+      "v0805461f7a5c9a1f",
+      "v0f4f2093061d303f",
+      "v0fbb0059f0813e81",
+      "v16f7e58b18eed9ce",
+      "v19200ece1a40066b",
+      "v1a09354386e0ed57",
+      "v1aa63bb62de9b357",
+      "v26230ff87959bda5",
+      "v27af706aa6237b7a",
+      "v288bb68e53e8e8b4",
+      "v2d317372d8b62a5b",
+      "v362600d69975d14c",
+      "v3e30ec52a2e1f716",
+      "v401b49d063fe0a5e",
+      "v4163675fb8d766a9",
+      "v4c882a9f1bbeb7f0",
+      "v4d02dbb1731f4972",
+      "v5441e430ab64dcbe",
+      "v5e1aca8594076334",
+      "v663dae0ae9cfda97",
+      "v679f56481420e45a",
+      "v6d21ff18cfa69ef8",
+      "v726e35aa6179f8d9",
+      "v7460b093ad19f68d",
+      "v791c2a09aa3a06bc",
+      "v79fbd4b605a4d914",
+      "v7d0402b3c091526e",
+      "v7d78f7f696236714",
+      "v7fe454a506f992b2",
+      "v843566cf72cd33c3",
+      "v861f20f3fa63ce2b",
+      "v86bb8bc8908fea42",
+      "v886b10508ab8ba51",
+      "v904d162069c03d18",
+      "v925e6daf8ac78ef3",
+      "v92de4e2cb2a687c8",
+      "v95fcded705b036d0",
+      "v97f5d8777e514257",
+      "v9a8b364b8bc121de",
+      "v9b57de6db73c1f29",
+      "v9bcf0d6fd251418f",
+      "v9cc43bcbf367a00e",
+      "v9e2642dc299801e5",
+      "va1ecbadeabba7b77",
+      "vaa33c34f7bd1058b",
+      "vad17f7bf034c8dde",
+      "vaec7f1c565e1a91a",
+      "vaf1b67f038ffff84",
+      "vb0d8a7a7dbeb9f87",
+      "vb1262555f2fd8afe",
+      "vb177ef3b3a945a72",
+      "vb1f091f42efd0715",
+      "vb5fff22526265bef",
+      "vb7ceb3d8d07bbeab",
+      "vb7dd5fb8dcb6e345",
+      "vbbea645b85eb9836",
+      "vbc437bec9fff72d6",
+      "vbd5d1d64de299ed7",
+      "vc4898200910d84a2",
+      "vc6a1b1b8e0388411",
+      "vc79800639733ed68",
+      "vced2927f55260ad1",
+      "vd2659c36ece7eb47",
+      "vd473932a82fd8779",
+      "vdb3c544d148ad808",
+      "vdd8899ebf08f5040",
+      "ve49e9dafdd7f4df9",
+      "ve763abe0a98c932f",
+      "ve78d80f4d7221cd9",
+      "ve82a71e39c20e5a7",
+      "ve8b9155afcbd8224",
+      "vf1492a40d7a7c2c9",
+      "vf2f6991c55096b1a",
+      "vf89ec86066d8cf9b"
+    ],
+    "path": "vectors-ai-agent-action/MANIFEST.json",
+    "sha256": "99f7a03de42096350028013b7481bb47335efc97909062ef083fcaaa2134867c"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v031c8b3d46725200.json",
+          "sha256": "031c8b3d467252001efcfbf13808704bee708885c8759fcc97bb6fadf97d25e0"
+        }
+      ],
+      "id": "v031c8b3d46725200"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v0805461f7a5c9a1f.jsonl",
+          "sha256": "2aa843dee9068e22ba883e8e856121b5b2dd0feef6cd13b3c88cb1d43bf86d7a"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v0805461f7a5c9a1f.json",
+          "sha256": "2f1147f84d1eed16972678ede282b06c74dbcbe499d8760267e89e48d8a4722e"
+        }
+      ],
+      "id": "v0805461f7a5c9a1f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v0f4f2093061d303f.jsonl",
+          "sha256": "9d91bad0d5ed10edb29785fc66f6ca406895890f5828d96e1cec0115c8a97cce"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v0f4f2093061d303f.json",
+          "sha256": "9db677a16797cc72701efde716d487da9d016cf1ecb94ef3bc1011ba3839df96"
+        }
+      ],
+      "id": "v0f4f2093061d303f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v0fbb0059f0813e81.json",
+          "sha256": "0fbb0059f0813e81d311fe6e57912918255ddd27d3431defedac254349d16a88"
+        }
+      ],
+      "id": "v0fbb0059f0813e81"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v16f7e58b18eed9ce.json",
+          "sha256": "16f7e58b18eed9ced99a9a1e808388e11418feddb90456d4d9096db4c76564ee"
+        }
+      ],
+      "id": "v16f7e58b18eed9ce"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v19200ece1a40066b.json",
+          "sha256": "19200ece1a40066b2d01724b8ae28225fbf9bdda951ff08ac926e539272a0d21"
+        }
+      ],
+      "id": "v19200ece1a40066b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v1a09354386e0ed57.json",
+          "sha256": "1a09354386e0ed57c9312bd4b237ee34a2a333c64428ec4268332f50a2c9f48e"
+        }
+      ],
+      "id": "v1a09354386e0ed57"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v1aa63bb62de9b357.json",
+          "sha256": "1aa63bb62de9b35794a1111707859d03047d6c7065cc27ab7fb5d7f2d78196d8"
+        }
+      ],
+      "id": "v1aa63bb62de9b357"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v26230ff87959bda5.jsonl",
+          "sha256": "59ecda62209057f6df6c3700082edc1d1fd300297909fb56b1f5607f4f3931dc"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v26230ff87959bda5.json",
+          "sha256": "6a16a6174e56cbd3bc853391d49bbfee2c4a7a99e72eb4deece0c38b84d52599"
+        }
+      ],
+      "id": "v26230ff87959bda5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v27af706aa6237b7a.json",
+          "sha256": "27af706aa6237b7a71dd332617b6e921d8ca92d213d45caad256ecbf4cd37951"
+        }
+      ],
+      "id": "v27af706aa6237b7a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v288bb68e53e8e8b4.json",
+          "sha256": "288bb68e53e8e8b4043a97d504a46b450ad2e15382b8767f02688171bf99ce80"
+        }
+      ],
+      "id": "v288bb68e53e8e8b4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v2d317372d8b62a5b.json",
+          "sha256": "2d317372d8b62a5bc9f6602e759231b71a7f9901d04fad42a0e141b72e488431"
+        }
+      ],
+      "id": "v2d317372d8b62a5b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v362600d69975d14c.json",
+          "sha256": "362600d69975d14c6c54eec27e38aec0bec190646d7aa22fa0ed9b0cd4b6dd07"
+        }
+      ],
+      "id": "v362600d69975d14c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v3e30ec52a2e1f716.json",
+          "sha256": "3e30ec52a2e1f716b8cc2f83feee39980b54a6249f062b059242b7a0f4c590d9"
+        }
+      ],
+      "id": "v3e30ec52a2e1f716"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v401b49d063fe0a5e.json",
+          "sha256": "401b49d063fe0a5e59c1aa61ec638f2a069ed9f677244bd142ef70ce0f6856d3"
+        }
+      ],
+      "id": "v401b49d063fe0a5e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v4163675fb8d766a9.json",
+          "sha256": "4163675fb8d766a928a7203c6371dcbb046e48ece88bfb68386309a8a24067f1"
+        }
+      ],
+      "id": "v4163675fb8d766a9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v4c882a9f1bbeb7f0.json",
+          "sha256": "4c882a9f1bbeb7f00793af007740c7fdf081da5c1db184429ded67fefdeee1e7"
+        }
+      ],
+      "id": "v4c882a9f1bbeb7f0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v4d02dbb1731f4972.json",
+          "sha256": "4d02dbb1731f49720516323eb5854495f1bd1c1cf888f6e47fb221fd5fcbdb1e"
+        }
+      ],
+      "id": "v4d02dbb1731f4972"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v5441e430ab64dcbe.json",
+          "sha256": "5441e430ab64dcbec57cd44e6088a231f80c4abc6f024fb0e614b8ebf0bfa42f"
+        }
+      ],
+      "id": "v5441e430ab64dcbe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v5e1aca8594076334.jsonl",
+          "sha256": "e5ec17eed0cd26ce0c4c2a53d37e75513fd6e7d0035876376ceca4c19b76a425"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v5e1aca8594076334.json",
+          "sha256": "baf6b6c41b7bf0d8bb41ea81136107bb249dd8baea6441120e64a5b24f26da59"
+        }
+      ],
+      "id": "v5e1aca8594076334"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v663dae0ae9cfda97.jsonl",
+          "sha256": "79c24c0038930d17f67dae8174fada2ffe16b1354fee398e61beb38c07d03c8b"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v663dae0ae9cfda97.json",
+          "sha256": "51a86d0ca14834d0cd62eac6502034dd6477b72ff625efbee44af594b52c6c86"
+        }
+      ],
+      "id": "v663dae0ae9cfda97"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v679f56481420e45a.json",
+          "sha256": "679f56481420e45a6196f2be61f29d51cc76b011e04bd8df8d6af6064c53511b"
+        }
+      ],
+      "id": "v679f56481420e45a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v6d21ff18cfa69ef8.json",
+          "sha256": "6d21ff18cfa69ef8dd8693cbf702c382e080459279e82519ebfa818f0692eb0f"
+        }
+      ],
+      "id": "v6d21ff18cfa69ef8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v726e35aa6179f8d9.jsonl",
+          "sha256": "5658575da5722e84ed455c009d2ad11e6dd65f3dda037e69f4f09e1bcfabe23e"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v726e35aa6179f8d9.json",
+          "sha256": "7c1b32960619d5906a3cf473a425f8427a9d7a1f88282308038bae60546eeea6"
+        }
+      ],
+      "id": "v726e35aa6179f8d9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v7460b093ad19f68d.json",
+          "sha256": "7460b093ad19f68d73c1dc46baa2ea3d81a0fa6451838346d1106cfaafb55b5e"
+        }
+      ],
+      "id": "v7460b093ad19f68d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v791c2a09aa3a06bc.json",
+          "sha256": "791c2a09aa3a06bcba21e9f21e22b2ced1a62f48754c3b6a14884490b44e4b31"
+        }
+      ],
+      "id": "v791c2a09aa3a06bc"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v79fbd4b605a4d914.jsonl",
+          "sha256": "1d57fe205b37cc02c3e25fccf911ff77eeb0d1a307dd87037952f9b39b2b1b0b"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v79fbd4b605a4d914.json",
+          "sha256": "c90666c1408e18bea25f30ed435e70eb2a7669e4400643eb3ecf0466e2888bad"
+        }
+      ],
+      "id": "v79fbd4b605a4d914"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v7d0402b3c091526e.json",
+          "sha256": "7d0402b3c091526e7c768408ca3a32db4183419f8b71b99a23a564ad202eb70d"
+        }
+      ],
+      "id": "v7d0402b3c091526e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v7d78f7f696236714.jsonl",
+          "sha256": "43118f02eb7c8e944cf65bc8a46c12308231475ae10ab8962a4e35c843299d1b"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v7d78f7f696236714.json",
+          "sha256": "92464014b9afb02735c6f0ec570fc46fe764d7cc20cf608ab1887beb107a3734"
+        }
+      ],
+      "id": "v7d78f7f696236714"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v7fe454a506f992b2.json",
+          "sha256": "7fe454a506f992b205dcd17f9723e8c0c4424861881694a4586a92929139c536"
+        }
+      ],
+      "id": "v7fe454a506f992b2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v843566cf72cd33c3.json",
+          "sha256": "843566cf72cd33c38da744d63162aacd50e6bb2edea998ef60248a0703c23d03"
+        }
+      ],
+      "id": "v843566cf72cd33c3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v861f20f3fa63ce2b.jsonl",
+          "sha256": "99d5fb4916160e298a39cee2fba1b4e75148882f81141699306858f9179bb504"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v861f20f3fa63ce2b.json",
+          "sha256": "0f42153f27d3203278a1d1a871d500985112ea5ad5ccf655c9bbe022c9c34267"
+        }
+      ],
+      "id": "v861f20f3fa63ce2b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v86bb8bc8908fea42.jsonl",
+          "sha256": "a766966966d7f0e38cdf2c411d97588644baa203f68c771fce58f1a3e81badec"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v86bb8bc8908fea42.json",
+          "sha256": "d38be45e3f51c53d79d4a768439e445f3df9ada32128bb81c260a62c6ed16772"
+        }
+      ],
+      "id": "v86bb8bc8908fea42"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v886b10508ab8ba51.jsonl",
+          "sha256": "1b8e8f9441d21641541485239afa392f5048596448ea03521590f40ec2b3cb9f"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v886b10508ab8ba51.json",
+          "sha256": "f8b220bd60f254038d1702df4353f734f7893e9b2ec2e79975094e1715345a7b"
+        }
+      ],
+      "id": "v886b10508ab8ba51"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v904d162069c03d18.json",
+          "sha256": "904d162069c03d1821e6b4d093655262e020de26fd60ac41d44800b43c76efc5"
+        }
+      ],
+      "id": "v904d162069c03d18"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v925e6daf8ac78ef3.jsonl",
+          "sha256": "c0441ff0fe1e0786d3a356be84ac563519ceff7ccabe8b9d07699158cb4c7211"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v925e6daf8ac78ef3.json",
+          "sha256": "c7ae9cc35e44e846b3cbde88b85b9a352d4c7987496441d35bbe15d3052ff036"
+        }
+      ],
+      "id": "v925e6daf8ac78ef3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v92de4e2cb2a687c8.json",
+          "sha256": "92de4e2cb2a687c8e4439f9e5a869cdecb0317b18efbc87413c7048bb23f38a4"
+        }
+      ],
+      "id": "v92de4e2cb2a687c8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v95fcded705b036d0.jsonl",
+          "sha256": "68756411abc7d8bc7a3210dbb969725bf8ac3f4481b770e81d2e2201dbd6ec7d"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v95fcded705b036d0.json",
+          "sha256": "1c6324046b4a98dae250644b999381c1eb5da2944bb3e4589f84263f12894096"
+        }
+      ],
+      "id": "v95fcded705b036d0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v97f5d8777e514257.jsonl",
+          "sha256": "52251e852eab4dc9eeb26ce0f9ccf13e3852c4ff2bfbb5e1b7380d34c2ef59c0"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v97f5d8777e514257.json",
+          "sha256": "12cb18bfc2e4c133eda60b59718a87b7e01c166bb279fbfb98c98d712dea6791"
+        }
+      ],
+      "id": "v97f5d8777e514257"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v9a8b364b8bc121de.json",
+          "sha256": "9a8b364b8bc121de71e4ac532c7fedb91505f7dcb92e58eed80a6f2e3c24e51f"
+        }
+      ],
+      "id": "v9a8b364b8bc121de"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v9b57de6db73c1f29.jsonl",
+          "sha256": "e5ec17eed0cd26ce0c4c2a53d37e75513fd6e7d0035876376ceca4c19b76a425"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v9b57de6db73c1f29.json",
+          "sha256": "07cfb5ec2f241c04417d974074d7a7861452e3d52b468265068eea0fd4299fd2"
+        }
+      ],
+      "id": "v9b57de6db73c1f29"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v9bcf0d6fd251418f.json",
+          "sha256": "9bcf0d6fd251418f623b31ae3eb0b96e929d299983514a5ea3dc9a372e247bcc"
+        }
+      ],
+      "id": "v9bcf0d6fd251418f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/v9cc43bcbf367a00e.jsonl",
+          "sha256": "6ead8d982ca942f3ed03d4e7d91f78156340bd5a8c8f6cd1a0006a2e00cd602a"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/v9cc43bcbf367a00e.json",
+          "sha256": "4b1a847fdc2e37abaf2fd6e6a0346dc1217eb5b8483d7889b915a52eed01d36c"
+        }
+      ],
+      "id": "v9cc43bcbf367a00e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/v9e2642dc299801e5.json",
+          "sha256": "9e2642dc299801e58e649a8924f5723b58899edbb7c4a97003c695860b9788e4"
+        }
+      ],
+      "id": "v9e2642dc299801e5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/va1ecbadeabba7b77.jsonl",
+          "sha256": "68c00337eee4f88eab62fb5895b5d82252a5f7157ff5e9532fbaa7655a13338d"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/va1ecbadeabba7b77.json",
+          "sha256": "bcd8d3875db17b6221adca45a410df0e8c72de8cd45d9a4d1485b3e2948d3a23"
+        }
+      ],
+      "id": "va1ecbadeabba7b77"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vaa33c34f7bd1058b.json",
+          "sha256": "aa33c34f7bd1058bfd150a38ca5ce0709f64ffc56fbd6e9de60634898f723520"
+        }
+      ],
+      "id": "vaa33c34f7bd1058b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vad17f7bf034c8dde.json",
+          "sha256": "ad17f7bf034c8dde424699412f08dcbc4e68772e9ec5e8c8290e5bdebcdbf1d9"
+        }
+      ],
+      "id": "vad17f7bf034c8dde"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vaec7f1c565e1a91a.jsonl",
+          "sha256": "8e0a695df301914eb04dd7ea455db1a3750204855f04af4348cbc2c26c5e171e"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vaec7f1c565e1a91a.json",
+          "sha256": "3d89e2a64f5e6790bc3133bde0b15bbcc25b4b54d2c045d1c7058b51ba936f89"
+        }
+      ],
+      "id": "vaec7f1c565e1a91a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vaf1b67f038ffff84.json",
+          "sha256": "af1b67f038ffff847c6f6a491d052d027fcef692e0259d078fcd54220b1fd706"
+        }
+      ],
+      "id": "vaf1b67f038ffff84"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vb0d8a7a7dbeb9f87.json",
+          "sha256": "b0d8a7a7dbeb9f872d0e24384fa06a225af6d1eb218979fc6f3b0477da6066fa"
+        }
+      ],
+      "id": "vb0d8a7a7dbeb9f87"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vb1262555f2fd8afe.jsonl",
+          "sha256": "8e0a695df301914eb04dd7ea455db1a3750204855f04af4348cbc2c26c5e171e"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vb1262555f2fd8afe.json",
+          "sha256": "23134c9f116544d3d6ce5c2a3c6e1a6154f7a60375c4f1845af196cfc14cb7c3"
+        }
+      ],
+      "id": "vb1262555f2fd8afe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vb177ef3b3a945a72.json",
+          "sha256": "b177ef3b3a945a7282dcce9ff4837375b5833e84f57edd0a257473cc686bde80"
+        }
+      ],
+      "id": "vb177ef3b3a945a72"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vb1f091f42efd0715.jsonl",
+          "sha256": "38ea354ce2c528a82a743356a2f1953d2c00ee6dc46dd4c2f2e0e6c447ace516"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vb1f091f42efd0715.json",
+          "sha256": "5f874241d83a3b1e137c3ab5f82aaaa247be92de9f4c8a1184fcae0ec2d1ebfb"
+        }
+      ],
+      "id": "vb1f091f42efd0715"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vb5fff22526265bef.json",
+          "sha256": "b5fff22526265befeb0d6cddff2e400958e3578948b8945e3dbf9e82a17f8914"
+        }
+      ],
+      "id": "vb5fff22526265bef"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vb7ceb3d8d07bbeab.json",
+          "sha256": "b7ceb3d8d07bbeab54353d686ef81941d3289220e1e1529052685e3879e113c7"
+        }
+      ],
+      "id": "vb7ceb3d8d07bbeab"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vb7dd5fb8dcb6e345.json",
+          "sha256": "b7dd5fb8dcb6e34549a00ef9a76eb9c1fd4c8de4e1c74b71f14e294517da0b9d"
+        }
+      ],
+      "id": "vb7dd5fb8dcb6e345"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vbbea645b85eb9836.json",
+          "sha256": "bbea645b85eb98369bf1bd711e44a2de06f8706900f3922ad5754854fd286d7a"
+        }
+      ],
+      "id": "vbbea645b85eb9836"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vbc437bec9fff72d6.json",
+          "sha256": "bc437bec9fff72d6328f85f644e14d81d1823e01035b887f79eb8bb43be32c75"
+        }
+      ],
+      "id": "vbc437bec9fff72d6"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vbd5d1d64de299ed7.json",
+          "sha256": "bd5d1d64de299ed76599cff01a972810aafe79c9439d0823c9f8407665c821ea"
+        }
+      ],
+      "id": "vbd5d1d64de299ed7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vc4898200910d84a2.jsonl",
+          "sha256": "8c3c25fc3f788c26b943c22342ecb67eef6102a517338d7223e8939a2ba15fc4"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vc4898200910d84a2.json",
+          "sha256": "61876184148067f6a267f13f335f57907e1f5b89e3cc29be939d8948fd38a5d7"
+        }
+      ],
+      "id": "vc4898200910d84a2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vc6a1b1b8e0388411.jsonl",
+          "sha256": "44dc96ee5a1582f7ad59f42bcd0bbe69782ef4a7ee87d372c5ac13026af83099"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vc6a1b1b8e0388411.json",
+          "sha256": "d43454a14f28556040b9995162644ad66508c03558f413d14aab865c26a42a34"
+        }
+      ],
+      "id": "vc6a1b1b8e0388411"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vc79800639733ed68.jsonl",
+          "sha256": "ce97b06978ae60562a8429bb86ba53723a289169cd7abde56a1bde056567cd94"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vc79800639733ed68.json",
+          "sha256": "d17b909da4eeb8dd04765c9b7117e1b83926ec14690ef3da4152c19d94840734"
+        }
+      ],
+      "id": "vc79800639733ed68"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vced2927f55260ad1.json",
+          "sha256": "ced2927f55260ad16647ab59b6496e3d937e9595fa149d1440bf47ea79349925"
+        }
+      ],
+      "id": "vced2927f55260ad1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vd2659c36ece7eb47.json",
+          "sha256": "d2659c36ece7eb47ab35658c3c3594f488d35dce265044be9b4e2b7fc2d3e404"
+        }
+      ],
+      "id": "vd2659c36ece7eb47"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vd473932a82fd8779.jsonl",
+          "sha256": "d2813f580652bba797841afca188aa0d516d7046c457971f87a6d84631b17934"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vd473932a82fd8779.json",
+          "sha256": "792bfc444d10dc5e0bb90c6610181de94e5621d591393520c347338451001474"
+        }
+      ],
+      "id": "vd473932a82fd8779"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vdb3c544d148ad808.json",
+          "sha256": "db3c544d148ad808b8b79b0c90c2b7e101cda511ea64bed509d0e409576e3b09"
+        }
+      ],
+      "id": "vdb3c544d148ad808"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vdd8899ebf08f5040.jsonl",
+          "sha256": "2aa843dee9068e22ba883e8e856121b5b2dd0feef6cd13b3c88cb1d43bf86d7a"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vdd8899ebf08f5040.json",
+          "sha256": "e78e781633d7138e528a7f05c47c459b96233832848cdc0965ac5b65f8579c1d"
+        }
+      ],
+      "id": "vdd8899ebf08f5040"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/ve49e9dafdd7f4df9.jsonl",
+          "sha256": "44dc96ee5a1582f7ad59f42bcd0bbe69782ef4a7ee87d372c5ac13026af83099"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/ve49e9dafdd7f4df9.json",
+          "sha256": "2d859bd24aa4b808cb2d351af4d5878d6c1f6137fd3500b7df70538d09e1410e"
+        }
+      ],
+      "id": "ve49e9dafdd7f4df9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/ve763abe0a98c932f.jsonl",
+          "sha256": "210b54a9d8a48962fff5d4618948d9de179b919388aa1d7f6ff4e9baf1221d38"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/ve763abe0a98c932f.json",
+          "sha256": "1d17d8223a1e2671ee5a1680b85b1751eac5f500072d49b317840df435a09a31"
+        }
+      ],
+      "id": "ve763abe0a98c932f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/ve78d80f4d7221cd9.json",
+          "sha256": "e78d80f4d7221cd9769345b57162b28377c195b19dc160288ce5f5ba5793d01b"
+        }
+      ],
+      "id": "ve78d80f4d7221cd9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/ve82a71e39c20e5a7.json",
+          "sha256": "e82a71e39c20e5a79297d0205144213e3dde5ac96df929dff22e3b280e169c90"
+        }
+      ],
+      "id": "ve82a71e39c20e5a7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/ve8b9155afcbd8224.jsonl",
+          "sha256": "542d0ea25416dd5fbf627f520b6f5b3ae8228eed2f1fdd498ba78d193cfaf0bd"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/ve8b9155afcbd8224.json",
+          "sha256": "bb2e78a6ed2ea386b63bcd27ccc58093b0b495dc02f1dde5d5e28d11b9891ff7"
+        }
+      ],
+      "id": "ve8b9155afcbd8224"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vf1492a40d7a7c2c9.json",
+          "sha256": "f1492a40d7a7c2c9941356a76df2a292d8a768fcb2638f727e4123e8233f7638"
+        }
+      ],
+      "id": "vf1492a40d7a7c2c9"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/statements/vf2f6991c55096b1a.json",
+          "sha256": "f2f6991c55096b1a878c13485d80db9ff9ae8b65a001ef2610c213722a4a35cd"
+        }
+      ],
+      "id": "vf2f6991c55096b1a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-ai-agent-action/records/vf89ec86066d8cf9b.jsonl",
+          "sha256": "fe6c87483fcfaf29cee4fdf6cf3842d767516c03f28b6620a63a762bce90bbac"
+        },
+        {
+          "path": "vectors-ai-agent-action/statements/vf89ec86066d8cf9b.json",
+          "sha256": "6f5c08acb6552fc8d04a5db42f89be3d269c020472b42026c5ce7eee813bf377"
+        }
+      ],
+      "id": "vf89ec86066d8cf9b"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "36ab3447ae8a037ca30576209591cb0d0223b0539e64513c9c97ee0ed87288b5",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-ai-agent-action.json",
+        "serialization": "bytes",
+        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-ai-agent-action.txt",
+        "serialization": "bytes",
+        "sha256": "ccfb0b71b7aa769d390ae7408d88c6e6ef429c4fd234098c20db874f498e8651"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v031c8b3d46725200",
+      "inputs": [
+        "member:v031c8b3d46725200",
+        "check:v031c8b3d46725200"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"1e-7\",\"carriedNumber\":\"0.0000001\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"3e7ad7f29abcaf48\",\"requestDigest\":\"910750038eb30a40d06da88009b6259aabaf3751b3cb212c616d51abb6b008a4\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v0805461f7a5c9a1f",
+      "inputs": [
+        "member:v0805461f7a5c9a1f",
+        "check:v0805461f7a5c9a1f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-10\"],\"expected\":{\"codes\":[\"content-digest-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v0f4f2093061d303f",
+      "inputs": [
+        "member:v0f4f2093061d303f",
+        "check:v0f4f2093061d303f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-5\"],\"expected\":{\"codes\":[\"duplicate-member\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v16f7e58b18eed9ce",
+      "inputs": [
+        "member:v16f7e58b18eed9ce",
+        "check:v16f7e58b18eed9ce"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"-9007199254740992\",\"carriedNumber\":\"-9007199254740992.0\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"c340000000000000\",\"requestDigest\":\"f90641db2d34a12b1031df0a732b1386073d883ef4340b20541a1c110c0ce386\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v1a09354386e0ed57",
+      "inputs": [
+        "member:v1a09354386e0ed57",
+        "check:v1a09354386e0ed57"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-14\"],\"expected\":{\"carriedLiteral\":\"1234567890123456789\",\"codes\":[\"unsafe-integer\"],\"lossyDoubleCanonical\":\"1234567890123456800\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v26230ff87959bda5",
+      "inputs": [
+        "member:v26230ff87959bda5",
+        "check:v26230ff87959bda5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-1\"],\"expected\":{\"codes\":[\"chain-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v4163675fb8d766a9",
+      "inputs": [
+        "member:v4163675fb8d766a9",
+        "check:v4163675fb8d766a9"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-12\"],\"expected\":{\"codes\":[\"depth-exceeded\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v4d02dbb1731f4972",
+      "inputs": [
+        "member:v4d02dbb1731f4972",
+        "check:v4d02dbb1731f4972"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-11\"],\"expected\":{\"codes\":[\"previoushash-not-canonical\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v5441e430ab64dcbe",
+      "inputs": [
+        "member:v5441e430ab64dcbe",
+        "check:v5441e430ab64dcbe"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"999999999999999900000\",\"carriedNumber\":\"9.999999999999999e+20\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"444b1ae4d6e2ef4f\",\"requestDigest\":\"23dd4ee5341464abe01689237ed41c9ab80ddd78bc418c7d3e4583c3b396d3fa\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v5e1aca8594076334",
+      "inputs": [
+        "member:v5e1aca8594076334",
+        "check:v5e1aca8594076334"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-17\"],\"expected\":{\"chainRoot\":\"6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab\",\"codes\":[\"break-rooted-foreign-identifier\"],\"preBreakIdentifier\":\"4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v679f56481420e45a",
+      "inputs": [
+        "member:v679f56481420e45a",
+        "check:v679f56481420e45a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-14\"],\"expected\":{\"codes\":[\"unsafe-integer\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v79fbd4b605a4d914",
+      "inputs": [
+        "member:v79fbd4b605a4d914",
+        "check:v79fbd4b605a4d914"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-4\"],\"expected\":{\"codes\":[\"noncanonical-bytes\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v861f20f3fa63ce2b",
+      "inputs": [
+        "member:v861f20f3fa63ce2b",
+        "check:v861f20f3fa63ce2b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-6\"],\"expected\":{\"codes\":[\"chain-fork\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v86bb8bc8908fea42",
+      "inputs": [
+        "member:v86bb8bc8908fea42",
+        "check:v86bb8bc8908fea42"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-13\"],\"expected\":{\"codes\":[\"ill-formed-string\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v925e6daf8ac78ef3",
+      "inputs": [
+        "member:v925e6daf8ac78ef3",
+        "check:v925e6daf8ac78ef3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-3\"],\"expected\":{\"codes\":[\"chain-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v92de4e2cb2a687c8",
+      "inputs": [
+        "member:v92de4e2cb2a687c8",
+        "check:v92de4e2cb2a687c8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"9.999999999999997e-7\",\"carriedNumber\":\"9.999999999999997e-07\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"3eb0c6f7a0b5ed8c\",\"requestDigest\":\"f1ad5ca9e0c403a896658b2c5125b3dbfb0336899ab21ca1eb6ce1c875825a3a\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v95fcded705b036d0",
+      "inputs": [
+        "member:v95fcded705b036d0",
+        "check:v95fcded705b036d0"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-18\"],\"expected\":{\"chainRoot\":\"6822af87fd3f04f24f57f9e5692f56f8a152bbf5ef3e2d2ba6a1c16c2f33dfab\",\"codes\":[\"null-priorhead-forbidden\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v97f5d8777e514257",
+      "inputs": [
+        "member:v97f5d8777e514257",
+        "check:v97f5d8777e514257"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-9\"],\"expected\":{\"codes\":[\"non-integer-in-signed-field\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v9bcf0d6fd251418f",
+      "inputs": [
+        "member:v9bcf0d6fd251418f",
+        "check:v9bcf0d6fd251418f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-11\"],\"expected\":{\"codes\":[\"previoushash-not-canonical\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v9cc43bcbf367a00e",
+      "inputs": [
+        "member:v9cc43bcbf367a00e",
+        "check:v9cc43bcbf367a00e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-3\"],\"expected\":{\"codes\":[\"chain-hash-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v9e2642dc299801e5",
+      "inputs": [
+        "member:v9e2642dc299801e5",
+        "check:v9e2642dc299801e5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"0.000001\",\"carriedNumber\":\"1e-06\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"3eb0c6f7a0b5ed8d\",\"requestDigest\":\"bc1c982dd4e677d72ff5821cc67554e045e838a31ddc55fa0fdb1a32d5a1dce9\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb0d8a7a7dbeb9f87",
+      "inputs": [
+        "member:vb0d8a7a7dbeb9f87",
+        "check:vb0d8a7a7dbeb9f87"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"999999999999999700000\",\"carriedNumber\":\"9.999999999999997e+20\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"444b1ae4d6e2ef4e\",\"requestDigest\":\"87b1b35f24fc744edaa61cdc8f99025ee9c540f4579cb1695bc0be3e73abe7be\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb1262555f2fd8afe",
+      "inputs": [
+        "member:vb1262555f2fd8afe",
+        "check:vb1262555f2fd8afe"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-19\"],\"expected\":{\"chainRoot\":\"4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e\",\"codes\":[\"subject-not-chain-root\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb1f091f42efd0715",
+      "inputs": [
+        "member:vb1f091f42efd0715",
+        "check:vb1f091f42efd0715"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-15\"],\"expected\":{\"chainHashCodePoint\":\"d6037ab7134f90983da5db5894790d3228c0386b62f3eabfc8e2488cb66af4eb\",\"chainHashUtf16\":\"e26dfc02e6a3f491a4d597cf5a06c2591f447ebbec28539b7ae723cf20b32b9a\",\"codes\":[\"non-bmp-member-name\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb5fff22526265bef",
+      "inputs": [
+        "member:vb5fff22526265bef",
+        "check:vb5fff22526265bef"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"1e+21\",\"carriedNumber\":\"1000000000000000000000\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"444b1ae4d6e2ef50\",\"requestDigest\":\"776bf0d292f3767fdfca3fdc9683d0ba51886b8e6e79cd228a41bafcfa9a1a6f\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb7ceb3d8d07bbeab",
+      "inputs": [
+        "member:vb7ceb3d8d07bbeab",
+        "check:vb7ceb3d8d07bbeab"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"0\",\"carriedNumber\":\"0.0\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"0000000000000000\",\"requestDigest\":\"23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vbbea645b85eb9836",
+      "inputs": [
+        "member:vbbea645b85eb9836",
+        "check:vbbea645b85eb9836"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"0\",\"carriedNumber\":\"-0.0\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"8000000000000000\",\"requestDigest\":\"23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vbc437bec9fff72d6",
+      "inputs": [
+        "member:vbc437bec9fff72d6",
+        "check:vbc437bec9fff72d6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"-0.0000033333333333333333\",\"carriedNumber\":\"-3.3333333333333333e-06\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"becbf647612f3696\",\"requestDigest\":\"f01e9ea24f5f68778c6f381bbd9d740666a34e6b9d3b9689d666d38feb79e5cc\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vc4898200910d84a2",
+      "inputs": [
+        "member:vc4898200910d84a2",
+        "check:vc4898200910d84a2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-7\"],\"expected\":{\"codes\":[\"duplicate-genesis\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vc6a1b1b8e0388411",
+      "inputs": [
+        "member:vc6a1b1b8e0388411",
+        "check:vc6a1b1b8e0388411"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-17\"],\"expected\":{\"chainRoot\":\"d19dcc45db12f051f71a35d88ee21c23e96a25453f7075d3874f8137d99b352b\",\"codes\":[\"break-rooted-foreign-identifier\"],\"preBreakIdentifier\":\"4e70d92204aee18162dc4db4d6bdc2462b73ec0c45d794ec5912bfec124cea3e\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vdb3c544d148ad808",
+      "inputs": [
+        "member:vdb3c544d148ad808",
+        "check:vdb3c544d148ad808"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"295147905179352830000\",\"carriedNumber\":\"2.9514790517935283e+20\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"4430000000000000\",\"requestDigest\":\"57c82398dfd8be4a4ac903d1d2d01beee4c1d7179c9a5afc574bdf972646783b\",\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "ve763abe0a98c932f",
+      "inputs": [
+        "member:ve763abe0a98c932f",
+        "check:ve763abe0a98c932f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-8\"],\"expected\":{\"codes\":[\"checkpoint-not-linked\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "ve82a71e39c20e5a7",
+      "inputs": [
+        "member:ve82a71e39c20e5a7",
+        "check:ve82a71e39c20e5a7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"aia-c-16\"],\"expected\":{\"canonicalNumber\":\"9007199254740992\",\"carriedNumber\":\"9007199254740992.0\",\"codes\":[\"content-digest-mismatch\"],\"ieee754\":\"4340000000000000\",\"requestDigest\":\"3b0d9a238f369ef1d4cb7182e6ca467e10b5501cbab84e9c80d1d91053253504\",\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+      },
+      {
+        "process": "run-2",
+        "sha256": "4b6f7ef00771d965792cb5f4fffeaa09e6b4993021e89b545b648e4ca76ff8b9"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 75 pinned members of ai-agent-action-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 75,
+    "require": "at-least-one",
+    "selected": [
+      "v031c8b3d46725200",
+      "v0805461f7a5c9a1f",
+      "v0f4f2093061d303f",
+      "v0fbb0059f0813e81",
+      "v16f7e58b18eed9ce",
+      "v19200ece1a40066b",
+      "v1a09354386e0ed57",
+      "v1aa63bb62de9b357",
+      "v26230ff87959bda5",
+      "v27af706aa6237b7a",
+      "v288bb68e53e8e8b4",
+      "v2d317372d8b62a5b",
+      "v362600d69975d14c",
+      "v3e30ec52a2e1f716",
+      "v401b49d063fe0a5e",
+      "v4163675fb8d766a9",
+      "v4c882a9f1bbeb7f0",
+      "v4d02dbb1731f4972",
+      "v5441e430ab64dcbe",
+      "v5e1aca8594076334",
+      "v663dae0ae9cfda97",
+      "v679f56481420e45a",
+      "v6d21ff18cfa69ef8",
+      "v726e35aa6179f8d9",
+      "v7460b093ad19f68d",
+      "v791c2a09aa3a06bc",
+      "v79fbd4b605a4d914",
+      "v7d0402b3c091526e",
+      "v7d78f7f696236714",
+      "v7fe454a506f992b2",
+      "v843566cf72cd33c3",
+      "v861f20f3fa63ce2b",
+      "v86bb8bc8908fea42",
+      "v886b10508ab8ba51",
+      "v904d162069c03d18",
+      "v925e6daf8ac78ef3",
+      "v92de4e2cb2a687c8",
+      "v95fcded705b036d0",
+      "v97f5d8777e514257",
+      "v9a8b364b8bc121de",
+      "v9b57de6db73c1f29",
+      "v9bcf0d6fd251418f",
+      "v9cc43bcbf367a00e",
+      "v9e2642dc299801e5",
+      "va1ecbadeabba7b77",
+      "vaa33c34f7bd1058b",
+      "vad17f7bf034c8dde",
+      "vaec7f1c565e1a91a",
+      "vaf1b67f038ffff84",
+      "vb0d8a7a7dbeb9f87",
+      "vb1262555f2fd8afe",
+      "vb177ef3b3a945a72",
+      "vb1f091f42efd0715",
+      "vb5fff22526265bef",
+      "vb7ceb3d8d07bbeab",
+      "vb7dd5fb8dcb6e345",
+      "vbbea645b85eb9836",
+      "vbc437bec9fff72d6",
+      "vbd5d1d64de299ed7",
+      "vc4898200910d84a2",
+      "vc6a1b1b8e0388411",
+      "vc79800639733ed68",
+      "vced2927f55260ad1",
+      "vd2659c36ece7eb47",
+      "vd473932a82fd8779",
+      "vdb3c544d148ad808",
+      "vdd8899ebf08f5040",
+      "ve49e9dafdd7f4df9",
+      "ve763abe0a98c932f",
+      "ve78d80f4d7221cd9",
+      "ve82a71e39c20e5a7",
+      "ve8b9155afcbd8224",
+      "vf1492a40d7a7c2c9",
+      "vf2f6991c55096b1a",
+      "vf89ec86066d8cf9b"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "ai-agent-action-conformance"
+}

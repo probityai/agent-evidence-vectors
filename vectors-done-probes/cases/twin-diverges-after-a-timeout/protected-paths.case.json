@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 306,
+      "path": "capability.json",
+      "sha256": "ee1acc58df8996fae1c45d37c383c0c506d6b2ba364e8a05f549b3cda8640723"
+    },
+    "contract": {
+      "length": 933,
+      "path": "contract.json",
+      "sha256": "b5e3db6bd46951f530f086374dbc9957a1d01162fd1fef49e19d2878cf12c300"
+    },
+    "observation": {
+      "length": 1292,
+      "path": "observation.json",
+      "sha256": "fdc6dcbed5ffec807758b05f023089f2c0569b2f60307957dcb1f4500e607e1d"
+    },
+    "tree": {
+      "length": 523,
+      "path": "tree.json",
+      "sha256": "83c99965ee2ff99a98bf68788ccc8e6c44214082cff6dc3965b2f733cde7d113"
+    }
+  },
+  "case_id": "twin-timeout",
+  "schema_version": "probity-case/v1"
+}

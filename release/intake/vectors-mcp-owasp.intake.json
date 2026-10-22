@@ -1,0 +1,1322 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 12,
+      "reject": 12
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 24
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-mcp-owasp/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-mcp-owasp/gen_vectors.py",
+    "routine-file": "vectors-mcp-owasp/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "774d37545d7c6b51525fd555ece2e0baa6c94887fe4b52118c44ab2bb6e52a92",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "5188d88fb2acfbc931aef3e189dbcbe0abc435bc23006684a45bddb1b1ad1cf5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "5cd8773cd9c8ce2690354b6cd92c33658227d2bd6a6b04bbc2e7cef36547aed6"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 2,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "swapped-in": "2e0ba36efa5dd64acd7d13bd2fa88f55eae6276574d46376c1f344d92101e0e7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/REGISTRY.json",
+      "serialization": "bytes",
+      "sha256": "53fb9ec27dddaa84c3ec6ecbe68dce2b0d9ab3544273e67776569468b3653325"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "952713971f4908d9b8f7e54a80bbd7ca702e196de8f8688016d57f71ccd5c48b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-1.md",
+      "serialization": "bytes",
+      "sha256": "3eb088695c04aabd92a42f4412b837c78a5b07b647577e36c8f8b23607da3351"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "e2193181ebe04b8c72d9c84bcf799f4d1cf11edaad2b5a0e379e5adbd43ec6d4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-10.md",
+      "serialization": "bytes",
+      "sha256": "617c58b4a3c7868d258ee12d87c1e978073e9cbf082e6e0156321e67d271a8fc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "8dff946a7af1a8cf7c369c73cf155e208818cda1179aa8b83a3ca425d05cfe07",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-2.md",
+      "serialization": "bytes",
+      "sha256": "cfcb62a4e504e25b8908960a3ff44f96395938e0b0010b5e6e7f91c5b8b0c825"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "142a6382977b0dfa6a8b00a700000d015c46fe482678e84e92cbe34af3712738",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-3.md",
+      "serialization": "bytes",
+      "sha256": "fc7b2e1e48d5cef054f31b79254dace9b4100f210f867bd5acd3890f2594e67c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "0d364b9e5a3b5e768bcb0bb209fe4b015e9f9cc56064ea9e5a4ff006b56c9ffa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-4.md",
+      "serialization": "bytes",
+      "sha256": "2e718871601a81dd7c94ba588a395f0bc8d603ce84627adb4986b38c6a1cc9e2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "5ee87ea4e7eb5888101bd7696bdfdf471e73abd92d7601a108029be1d46bbd55",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-5.md",
+      "serialization": "bytes",
+      "sha256": "c4f37739e57a328dc4ad80639c73f8514cec5f68ebb6a1ec34e7e5ec8c376fca"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "366ea4525cdd256736e87978067aac7376d3b3353358ab663cf239cf03a66f2e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-6.md",
+      "serialization": "bytes",
+      "sha256": "efce82090cb8d03e315f39e100ac5f1e25f7d96d2c3a8a7132eb5ce6918053f1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "2909786a8e8419d9e369e80bff7a9a9d342024c91eb05662acf86bbfefe148eb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-7.md",
+      "serialization": "bytes",
+      "sha256": "6b5dd48321d202c43afb2a756cdefcef1a815f2573012ccb0e9982edae3a4344"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "d3a1a70fb9ffdddc48e039a289edfe0e246b14e12cf962ae7ab19f68546fa2e4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-8.md",
+      "serialization": "bytes",
+      "sha256": "9f9512aaa265872242a003ad06a1f0c1b93364c6f46c1367e112e2191936415d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "cec25bcf9faadf5c7733959799322db557d66297a6b1717ef73910693e1d29a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPTM-9.md",
+      "serialization": "bytes",
+      "sha256": "c3c1a7b3504281f1a41f3166ac344fd0883762c13a044000cf5ead64fdc6aa82"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "d6a3ea4b9ca8cf93db8cba7a7a4c7d1777fa4f509cd3b5841694955357661f0c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-1.md",
+      "serialization": "bytes",
+      "sha256": "666168fcd6a809432d0987fafaf72ab85a422f99053fafd68fdb2e4e9d574a56"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "d45b1a888ca5e8ae76884976b1368ddd393bc8d88671ac758e07b20d90c3a971",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-10.md",
+      "serialization": "bytes",
+      "sha256": "5f70300d461c74b61634224b783f76ae187f60bd574f31b79361243e8ba2eda8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "99996d3305e5d2736ce120e41f4f6a6988a28c66819abc3a7d625a3fac7a686d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-11.md",
+      "serialization": "bytes",
+      "sha256": "0e3d85a31ac994805e9635595b03ae6e39ae64289b6f38478a7714eeb1e37389"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "4180a470d81d3aa7823d3747b99a4f5349c80f98fa2e8bada2e259b2319438c8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-12.md",
+      "serialization": "bytes",
+      "sha256": "76f0402c8f980211cda81810f38c67f95c267d7774ea71e0dd42f537d8f1092c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "99b6a3eaedc9b9aedbfe94b9a84dad0b87df33fa5b14a4d005f181cb6a404793",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-2.md",
+      "serialization": "bytes",
+      "sha256": "d37377c9f7ce325c941f826814872535ced587c7e4815d1c4d94d5a66f3c9bb0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "d755210210d94bf6336946f5d56d0a87d30fe6aeda8124542cb0e07c7a11d8e1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-3.md",
+      "serialization": "bytes",
+      "sha256": "50191ca8b18daf1d97ee8e56831e4657648dab1f9acd2fc72e5a97090006365f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "a9182dc4acafd2465243b5a6c5322b0118b0dfd246409b12918d3b3f3c763fad",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-4.md",
+      "serialization": "bytes",
+      "sha256": "4f85bc2ea9d106f5fb0eb96dc8deae2f1ebb6221931cbf22e7e581b85705f2ae"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "a4a32ac364fd9f565587e91cab9eb98262df13a15f4e1601d95ad62469dce3bf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-5.md",
+      "serialization": "bytes",
+      "sha256": "b9d634e4955ea45afe574157c2597da9a3b8efc7620cf19f31b15a768cabe1ba"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "2c478bfa330a260097365acd33f4ee50dc64421ee74aad739d2c2d7ea6d4979d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-6.md",
+      "serialization": "bytes",
+      "sha256": "d5c7b7ab70b3216fd33aadf8d455b6d6a04fc8ec7e28db434b31048d6574e5db"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "1edb5d903cbd4ae22b804437d3f51c34edbae60afbe2d8f45a0ca5fa64f51447",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-7.md",
+      "serialization": "bytes",
+      "sha256": "fc10a46532e42e79b8ebe7cb2fe25bf1f951725c51bdf3631a4d2cb4e3a31f61"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "4c8de2100b5d5c202dc6b78669fa9187ed8bbb0d8b37429534782766181a19bf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-8.md",
+      "serialization": "bytes",
+      "sha256": "04106900d7105bb2d78e7b46b782bd9d237582970fa2386ab8e58b62113f8e4f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "e93ca36408a46c88b136e89dc002fb3bdad685f83910c8478600186af0eb9e80",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/drafts/MCPVS-9.md",
+      "serialization": "bytes",
+      "sha256": "84106a0f520a8dc9a60ded611be6a6ef2c172ad67b835338c8322fdaea5eff87"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+        },
+        "swapped-in": "739dd99940a6448e13d71f649a9a1f74d4365b28234e45fbb7bea5c3ab450a09",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-mcp-owasp/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "a2ac59d723deb272793e9ff16f55ebae3d54215c53a42cfa7ce0cee21418286b"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "records",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-mcp-owasp"
+  },
+  "byte-identity": {
+    "pins": 24,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-mcp-owasp",
+      "aee-verify -json vectors-mcp-owasp",
+      "aee-verify vectors-mcp-owasp"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v0485d4e3a7045da5",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0750d702c6997c76",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0b97895d220dbdff",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v15437a45ff8f20a0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1ec276d80064b4c1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3011201523b79420",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v419a6804dbbe1516",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v59ca88c60d352d00",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v61dfbac4f433a42f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7ca58f31d62f0078",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8b1275f9de9f3277",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8f46708e1d7c1425",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v953b5b4255073fce",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vae1302b80de94a36",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb9f53652f0a483a5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc29b5143f9111082",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc3b1d076622b1896",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc579e08ed0c177c7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vcd379fd2f74f1fa0",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd0ad172254fcddd8",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vd6e9e91c00bb2d3f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vef59b78d5a811466",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf00978eedfd523dd",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfd42ff5ffbca5a6a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "0bebd3912dc9761403eb9f440853e0821884b82d5e1c1a83718806df912a7fd8"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v0485d4e3a7045da5",
+      "v0750d702c6997c76",
+      "v0b97895d220dbdff",
+      "v15437a45ff8f20a0",
+      "v1ec276d80064b4c1",
+      "v3011201523b79420",
+      "v419a6804dbbe1516",
+      "v59ca88c60d352d00",
+      "v61dfbac4f433a42f",
+      "v7ca58f31d62f0078",
+      "v8b1275f9de9f3277",
+      "v8f46708e1d7c1425",
+      "v953b5b4255073fce",
+      "vae1302b80de94a36",
+      "vb9f53652f0a483a5",
+      "vc29b5143f9111082",
+      "vc3b1d076622b1896",
+      "vc579e08ed0c177c7",
+      "vcd379fd2f74f1fa0",
+      "vd0ad172254fcddd8",
+      "vd6e9e91c00bb2d3f",
+      "vef59b78d5a811466",
+      "vf00978eedfd523dd",
+      "vfd42ff5ffbca5a6a"
+    ],
+    "path": "vectors-mcp-owasp/MANIFEST.json",
+    "sha256": "cc6e993e183e7f4f32aaa0c286c437bc14cf8c0b2dbd83359ad569e0a7351ea1"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v0485d4e3a7045da5.json",
+          "sha256": "f31c7c20670cce4fe788d2d5fe6eed606da76fbbb9528739c32d7089526fe89a"
+        }
+      ],
+      "id": "v0485d4e3a7045da5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v0750d702c6997c76.json",
+          "sha256": "dd064d79951ab7fa470b488a272d3a159dcb84821ae6d881c3bd732bc8d3294e"
+        }
+      ],
+      "id": "v0750d702c6997c76"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v0b97895d220dbdff.json",
+          "sha256": "b01009ea6484b145ff3f93f045eb804cb70c0060beeefdef1e41bdeeea47de3a"
+        }
+      ],
+      "id": "v0b97895d220dbdff"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v15437a45ff8f20a0.json",
+          "sha256": "ba637c195fb0773b409fdecd5add1d0b31f6b0dea4d274c81672ed88b4edccde"
+        }
+      ],
+      "id": "v15437a45ff8f20a0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v1ec276d80064b4c1.json",
+          "sha256": "85894a9f04c06d9a7916e0954c181eb06308cfd336e47aa5a574872998a544b0"
+        }
+      ],
+      "id": "v1ec276d80064b4c1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v3011201523b79420.json",
+          "sha256": "7cccec2f28f61f474a83dac87b0bb5182a6cc3cb0e4b89bb289ff4b6de926709"
+        }
+      ],
+      "id": "v3011201523b79420"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v419a6804dbbe1516.json",
+          "sha256": "5df4551e18613a8bf4956b2417ee013c98ae9429551a28e7c2302cc6375b0d2b"
+        }
+      ],
+      "id": "v419a6804dbbe1516"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v59ca88c60d352d00.json",
+          "sha256": "0933ce7c49d3a3a0accc768d1725e4306195f4b9aed5836acdf7e178bd8adb73"
+        }
+      ],
+      "id": "v59ca88c60d352d00"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v61dfbac4f433a42f.json",
+          "sha256": "0225adc906e412d8e7b5fb8983531ce295bc603e426f89c5b91b8f10c38483f3"
+        }
+      ],
+      "id": "v61dfbac4f433a42f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v7ca58f31d62f0078.json",
+          "sha256": "e4a6ce8f327e97bc22bda7e315392fcd7f9deb8ef189fc1e94a2ae2f231d541e"
+        }
+      ],
+      "id": "v7ca58f31d62f0078"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v8b1275f9de9f3277.json",
+          "sha256": "cf95c13893a9dc49d614b0a7d2b28a2c5e9eb2f6e68efcfcb14769264382622c"
+        }
+      ],
+      "id": "v8b1275f9de9f3277"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v8f46708e1d7c1425.json",
+          "sha256": "32711cf5f2f3a8134aae1ce59a558e86ae1a3ffa3a11d641397635cd347b39f3"
+        }
+      ],
+      "id": "v8f46708e1d7c1425"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/v953b5b4255073fce.json",
+          "sha256": "046f98b8be768da2ec0b849eff7a180ebec10b2a07bce3c92a96f6977ec08869"
+        }
+      ],
+      "id": "v953b5b4255073fce"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vae1302b80de94a36.json",
+          "sha256": "33ba14cd37364f14f8166446ad435c08e530b3a74458d20bb5f645d889b2caae"
+        }
+      ],
+      "id": "vae1302b80de94a36"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vb9f53652f0a483a5.json",
+          "sha256": "45a468325ce751f69b32fb32931bc41834eab751b9ed718d74467b0bcc6303a8"
+        }
+      ],
+      "id": "vb9f53652f0a483a5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vc29b5143f9111082.json",
+          "sha256": "ddd95a7c425f491328c5462d575bb2dc3c991134cd97a9668f77f7c7feebd65f"
+        }
+      ],
+      "id": "vc29b5143f9111082"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vc3b1d076622b1896.json",
+          "sha256": "fdd8049f08fc6cd7587cb8a2aef4078103f34f631e8955609eb29b3d2197b273"
+        }
+      ],
+      "id": "vc3b1d076622b1896"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vc579e08ed0c177c7.json",
+          "sha256": "b359f72b83ad00c54c34f0a24ee984a4ff8f9858bbd7868a9dfd2e0e0dd2400c"
+        }
+      ],
+      "id": "vc579e08ed0c177c7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vcd379fd2f74f1fa0.json",
+          "sha256": "903fd77554cecaeca650396893c12ca89aa9f36f6cac6c5c689699b12bfdcf87"
+        }
+      ],
+      "id": "vcd379fd2f74f1fa0"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vd0ad172254fcddd8.json",
+          "sha256": "50e90aeca708db23f4fb3f4ba8eb9aa1e8ce4bc8c7414b4ebc476d91eeaa8322"
+        }
+      ],
+      "id": "vd0ad172254fcddd8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vd6e9e91c00bb2d3f.json",
+          "sha256": "15be058695046b8f2dd45ee476e3fcd2449a1d4e66f961bb69c3da913520353e"
+        }
+      ],
+      "id": "vd6e9e91c00bb2d3f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vef59b78d5a811466.json",
+          "sha256": "1e463382ab4ec070663f42489133755146c56dfd0c4913efea53bbe72de4bb52"
+        }
+      ],
+      "id": "vef59b78d5a811466"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vf00978eedfd523dd.json",
+          "sha256": "c2684292a0b877361b1147007cd857a4a7e741c31296f159bbc65b91c93dcdc9"
+        }
+      ],
+      "id": "vf00978eedfd523dd"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-mcp-owasp/records/vfd42ff5ffbca5a6a.json",
+          "sha256": "a7fe35fe46b4183319774249a292e284e930a7bcf082f6b43f31829de31f4521"
+        }
+      ],
+      "id": "vfd42ff5ffbca5a6a"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-owasp.json",
+        "serialization": "bytes",
+        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-mcp-owasp.txt",
+        "serialization": "bytes",
+        "sha256": "9204f89850d281eab44afbfebbb0e14aa102156548db10f89aa4dfc50b9b19be"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0485d4e3a7045da5",
+      "inputs": [
+        "member:v0485d4e3a7045da5",
+        "check:v0485d4e3a7045da5"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-1\"]}"
+    },
+    {
+      "check": "v0750d702c6997c76",
+      "inputs": [
+        "member:v0750d702c6997c76",
+        "check:v0750d702c6997c76"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-5\"]}"
+    },
+    {
+      "check": "v0b97895d220dbdff",
+      "inputs": [
+        "member:v0b97895d220dbdff",
+        "check:v0b97895d220dbdff"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-7\"]}"
+    },
+    {
+      "check": "v1ec276d80064b4c1",
+      "inputs": [
+        "member:v1ec276d80064b4c1",
+        "check:v1ec276d80064b4c1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-2\"]}"
+    },
+    {
+      "check": "v3011201523b79420",
+      "inputs": [
+        "member:v3011201523b79420",
+        "check:v3011201523b79420"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-3\"]}"
+    },
+    {
+      "check": "v61dfbac4f433a42f",
+      "inputs": [
+        "member:v61dfbac4f433a42f",
+        "check:v61dfbac4f433a42f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-10\"]}"
+    },
+    {
+      "check": "v7ca58f31d62f0078",
+      "inputs": [
+        "member:v7ca58f31d62f0078",
+        "check:v7ca58f31d62f0078"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-6\"]}"
+    },
+    {
+      "check": "v953b5b4255073fce",
+      "inputs": [
+        "member:v953b5b4255073fce",
+        "check:v953b5b4255073fce"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-12\"]}"
+    },
+    {
+      "check": "vc29b5143f9111082",
+      "inputs": [
+        "member:vc29b5143f9111082",
+        "check:vc29b5143f9111082"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-9\"]}"
+    },
+    {
+      "check": "vc579e08ed0c177c7",
+      "inputs": [
+        "member:vc579e08ed0c177c7",
+        "check:vc579e08ed0c177c7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-11\"]}"
+    },
+    {
+      "check": "vef59b78d5a811466",
+      "inputs": [
+        "member:vef59b78d5a811466",
+        "check:vef59b78d5a811466"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-4\"]}"
+    },
+    {
+      "check": "vfd42ff5ffbca5a6a",
+      "inputs": [
+        "member:vfd42ff5ffbca5a6a",
+        "check:vfd42ff5ffbca5a6a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"MCPVS-8\"]}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+      },
+      {
+        "process": "run-2",
+        "sha256": "a25312e239c5eedc51a7c286e2e60d464671bf3328d0fbe636ced6ee558f8e13"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 24 pinned members of owasp-mcp-verification-draft as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 24,
+    "require": "at-least-one",
+    "selected": [
+      "v0485d4e3a7045da5",
+      "v0750d702c6997c76",
+      "v0b97895d220dbdff",
+      "v15437a45ff8f20a0",
+      "v1ec276d80064b4c1",
+      "v3011201523b79420",
+      "v419a6804dbbe1516",
+      "v59ca88c60d352d00",
+      "v61dfbac4f433a42f",
+      "v7ca58f31d62f0078",
+      "v8b1275f9de9f3277",
+      "v8f46708e1d7c1425",
+      "v953b5b4255073fce",
+      "vae1302b80de94a36",
+      "vb9f53652f0a483a5",
+      "vc29b5143f9111082",
+      "vc3b1d076622b1896",
+      "vc579e08ed0c177c7",
+      "vcd379fd2f74f1fa0",
+      "vd0ad172254fcddd8",
+      "vd6e9e91c00bb2d3f",
+      "vef59b78d5a811466",
+      "vf00978eedfd523dd",
+      "vfd42ff5ffbca5a6a"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "owasp-mcp-verification-draft"
+}

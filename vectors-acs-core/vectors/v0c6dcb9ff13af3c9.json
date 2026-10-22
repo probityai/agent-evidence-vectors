@@ -1,4 +1,5 @@
 {
+  "cites": "a shell command that leaves the reasoning context and fires no hook, because the framework's registry does not model it as a tool. The requirement is written against what escapes rather than against what the registry holds.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -20,6 +21,18 @@
     ],
     "hooks_fired": []
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-014",
+      "line": 172,
+      "sentence": "Frameworks MUST fire `toolCallRequest` for every action that escapes the agent's reasoning context",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/hooks.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/hooks-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-014"
   ],
