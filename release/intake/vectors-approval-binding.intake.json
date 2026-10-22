@@ -2,10 +2,10 @@
   "aggregate": {
     "counts": {
       "allow": 6,
-      "deny": 16
+      "deny": 17
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 22
+    "total": 23
   },
   "anchor": {
     "kind": "digest-list-line",
@@ -17,7 +17,7 @@
     "routine": "corpus_digest in vectors-approval-binding/gen_vectors.py",
     "routine-file": "vectors-approval-binding/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "8b4ee697cf9103703aa757ff8a1d5a2ca44e3a0feaf1ba1e2cc73943f5d0d1a1",
+    "sha256": "49f077e5da1227669292e7524c1d3d52eb12c2b7ad58b09c0df27d19d00fb170",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -29,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -38,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "swapped-in": "a8d8561496fb9f726058d23f37d7c4774eb5e8a74696ca383057498ac2334ff7",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-approval-binding/README.md",
       "serialization": "bytes",
-      "sha256": "08f8bdf69d7a8fbe865bf8421676fd6c96ce6079b7f88cfebb49721190c20814"
+      "sha256": "fef3da9040c67252abe30bb73efa791338668817aa5507217a17fe3fc902630f"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -61,7 +61,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "swapped-in": "4fa8893eae25654b03ca4a8407a2520edaccc6ffb21033f2b2d38386a9f047b6",
         "test": "swap-and-re-pin"
@@ -75,7 +75,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -84,21 +84,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "swapped-in": "686696929a891b8fdc916e1ccad4edb384a9c3b65a81a0df011e808770c73aaf",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-approval-binding/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "6316b2fdad74be4264ac4979331654425e088d4ae5e43910394af9a29402732d"
+      "sha256": "a4830a4e67bbc9b6665f10414c5161a14a36cd29ebcdd61c9da922c1beb7a565"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -107,7 +107,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+          "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
         },
         "swapped-in": "625e805d3c4d76702c6fd3cc983d9a84f42d57a6c304ebbc973b2696d63999b4",
         "test": "swap-and-re-pin"
@@ -129,7 +129,7 @@
     "root": "vectors-approval-binding"
   },
   "byte-identity": {
-    "pins": 44,
+    "pins": 46,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -253,6 +253,14 @@
       "state": "pass"
     },
     {
+      "check": "approval-asserted-in-tool-arguments",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
       "check": "same-client-other-user",
       "native": {
         "reasons": [],
@@ -359,7 +367,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e735ac7c4992260a3c8300bd1104f85fd45e1df4651917353a9212fbcbc5e749"
+    "sha256": "0acb8655bac444a262fc08f8d348f605d8111250aabe2335dd9e40cd2aa918d2"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -378,6 +386,7 @@
       "approval-id-reused-different-content",
       "approval-already-consumed",
       "approval-key-not-approvers",
+      "approval-asserted-in-tool-arguments",
       "same-client-other-user",
       "event-differs",
       "phase-differs",
@@ -393,7 +402,7 @@
       "contract-id-unknown"
     ],
     "path": "vectors-approval-binding/MANIFEST.json",
-    "sha256": "88c6fd2054f44381e00cf0b40c3345bb3b7ec6c42433bf896ab8e3c6911276c4"
+    "sha256": "346eef819dfba2fe1d8ba058fd1e0074f964147d804fa5ab301d00a36e1e33e1"
   },
   "members": [
     {
@@ -512,6 +521,19 @@
         }
       ],
       "id": "approval-key-not-approvers"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-approval-binding/cases/approval-asserted-in-tool-arguments/payload.bin",
+          "sha256": "26a4191e4ca2147daba8b7818c64f3b81b09c154b0a09df540a5fd8f30b78bbd"
+        },
+        {
+          "path": "vectors-approval-binding/cases/approval-asserted-in-tool-arguments/record.json",
+          "sha256": "8a020f1c579d2f145192f7fd5a1dbc6f5f64601558e4ceff09740c712f615f50"
+        }
+      ],
+      "id": "approval-asserted-in-tool-arguments"
     },
     {
       "files": [
@@ -699,7 +721,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.json",
         "serialization": "bytes",
-        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
       }
     },
     {
@@ -708,7 +730,7 @@
       "reference": {
         "path": "release/intake/native/vectors-approval-binding.txt",
         "serialization": "bytes",
-        "sha256": "8c8fa51b4824ce2a65e67892e4c584c8de019b72e2d6c72994176459d2716415"
+        "sha256": "be377d726ad362fbed2313bd9abc30eadc8bed0a3effad50ca8ff12a9632fd63"
       }
     },
     {
@@ -733,11 +755,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
       },
       {
         "process": "run-2",
-        "sha256": "73b02207a455087a58111c1ab0b0f2d9cf418e05f9b10da91e7201b81e196074"
+        "sha256": "4cf7a75c64dbfc7a69ebe91936f8847966749ba728fd41c3d9b8f1e476427502"
       }
     ],
     "seed": null,
@@ -751,7 +773,7 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 22 pinned members of approval-binding/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 23 pinned members of approval-binding/v1 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
@@ -762,7 +784,7 @@
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 22,
+    "matched": 23,
     "require": "at-least-one",
     "selected": [
       "allow-bound",
@@ -774,6 +796,7 @@
       "approval-id-reused-different-content",
       "approval-already-consumed",
       "approval-key-not-approvers",
+      "approval-asserted-in-tool-arguments",
       "same-client-other-user",
       "event-differs",
       "phase-differs",

@@ -7,13 +7,16 @@
 [![Licence](https://img.shields.io/github/license/probityai/agent-evidence-vectors)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/probityai/agent-evidence-vectors?style=flat)](https://github.com/probityai/agent-evidence-vectors/stargazers)
 
+[![Verified by Probity](https://raw.githubusercontent.com/probityai/agent-evidence/main/assets/verified-by-probity.svg)](https://github.com/probityai/probity)
+Verified by Probity (github.com/probityai/probity): [latest passing run](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
+
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
 
 ![Four-arm demo: an intact archive verifies, a changed byte fails, a missing artifact is not established, and a changed verifier keeps both outcomes](demo/four-arms.gif)
 
 The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
 
-Add it to a project with `uv add agent-evidence-vectors==0.24.0`, then `pip install agent-evidence-vectors==0.24.0`. Verified by Probity (github.com/probityai/probity); the `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
+Add it to a project with `uv add agent-evidence-vectors==0.24.0`, then `pip install agent-evidence-vectors==0.24.0`. The `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 

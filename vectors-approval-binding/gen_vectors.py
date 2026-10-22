@@ -25,6 +25,18 @@ SUITE = reader.SUITE
 DECISION = "2026-10-21T12:00:00Z"
 APPROVED = b'{"path":"workspace/selection.json","bytes":"{\\"pick\\":7}"}\n'
 MUTATED = b'{"path":"workspace/selection.json","bytes":"{\\"pick\\":7,\\"all\\":true}"}\n'
+# A delete call whose only confirmation is a flag the model set in its own
+# arguments, the pattern in google/adk-python issue 7655.
+ASSERTED = (b'{"confirm_deletion":true,"create_backup":false,'
+            b'"file_paths":["agent/root_agent.yaml"]}\n')
+# The approval a verifier would have to synthesize from that flag: its approver
+# is the calling agent and its key is the argument, so no key in trustedKeys
+# stands behind it. Every other binding matches the use exactly.
+ASSERTED_APPROVAL: dict[str, Any] = {
+    "approver": "agent:builder-assistant", "keyId": "tool-argument:confirm_deletion",
+    "payloadSha256": hashlib.sha256(ASSERTED).hexdigest(), "target": "agent/root_agent.yaml",
+    "tool": "delete_files",
+}
 
 
 def _sha(data: bytes) -> str:
@@ -51,9 +63,10 @@ def approval(**changes: Any) -> dict[str, Any]:
 def record(*, presented: list[dict[str, Any]] | None = None,
            consumed: list[str] | None = None, key: str = "reviewer-1-key-2026-10",
            use: dict[str, Any] | None = None, release: dict[str, Any] | None = None,
-           contract: str | None = reader.CONTRACT_ID) -> dict[str, Any]:
+           contract: str | None = reader.CONTRACT_ID,
+           approved: dict[str, Any] | None = None) -> dict[str, Any]:
     """One record; every argument is a departure from the conformant record."""
-    the_approval = approval()
+    the_approval = approval(**(approved or {}))
     body: dict[str, Any] = {
         "approval": the_approval,
         "consumedApprovalIds": consumed or ["appr-0000"],
@@ -106,6 +119,12 @@ def cases() -> list[Case]:
         ("approval-key-not-approvers", record(key="reviewer-1-key-2026-04"), APPROVED,
          "deny", "key_not_bound",
          "the approval names a key id other than the approver's trusted key"),
+        ("approval-asserted-in-tool-arguments",
+         record(approved=ASSERTED_APPROVAL,
+                use={"tool": "delete_files", "target": "agent/root_agent.yaml"}),
+         ASSERTED, "deny", "key_not_bound",
+         "the only approval is a flag the model set in the tool arguments; its approver "
+         "is the agent, which holds no key in trustedKeys"),
         ("same-client-other-user", record(use={"principal": "user:bob"}), APPROVED,
          "deny", "principal_mismatch",
          "another user reaches the approval through the same OAuth client"),
