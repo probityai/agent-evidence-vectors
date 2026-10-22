@@ -192,10 +192,27 @@ const (
 // Consumer-policy stage codes. These are consumer-relative admission facts,
 // recorded on the report's consumer surface (Report.PolicyCodes) and folded
 // into Admitted; they are NEVER validity codes: the byte-pure verdict and
-// its code list are unchanged by any anchor comparison.
+// its code list are unchanged by any anchor comparison. The conjunction that
+// raises them, and why each exists, is in admission.go.
 const (
-	CodeCorpusAnchorMismatch    Code = "corpus-anchor-mismatch"
-	CodeSubstrateAnchorMismatch Code = "substrate-anchor-mismatch"
+	CodeCorpusAnchorMismatch      Code = "corpus-anchor-mismatch"
+	CodeSubstrateAnchorMismatch   Code = "substrate-anchor-mismatch"
+	CodeSubstrateRowUnattested    Code = "substrate-row-unattested"
+	CodeCorpusAnchorUnpinned      Code = "corpus-anchor-unpinned"
+	CodeSubstrateAnchorUnpinned   Code = "substrate-anchor-unpinned"
+	CodeSubjectAnchorUnpinned     Code = "subject-anchor-unpinned"
+	CodeSubjectAnchorMismatch     Code = "subject-anchor-mismatch"
+	CodeScopeUnpinned             Code = "scope-unpinned"
+	CodeDemandedClassUnassessed   Code = "demanded-class-unassessed"
+	CodeResultNotAccepted         Code = "result-not-accepted"
+	CodeAcceptedResultsMalformed  Code = "accepted-results-malformed"
+	CodeCleanRowUnintercepted     Code = "clean-row-unintercepted"
+	CodeRowGateUndeclared         Code = "row-gate-undeclared"
+	CodeRowGateDeclineUnreachable Code = "row-gate-decline-unreachable"
+	CodeIssuanceLagExceeded       Code = "issuance-lag-exceeded"
+	CodeEvidenceAgeExceeded       Code = "evidence-age-exceeded"
+	CodeObservedInstantAbsent     Code = "observed-instant-absent"
+	CodePublishedTestKey          Code = "observation-key-published"
 )
 
 // appendCode appends c to codes unless it is already present, preserving

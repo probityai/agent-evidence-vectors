@@ -1,6 +1,6 @@
 name: Held-out runner and Python floor
 
-# The package declares requires-python >=3.12. A floor is a claim until a run
+# The package declares requires-python >=3.11. A floor is a claim until a run
 # on the floor proves it, so this builds the wheel once and installs it into a
 # clean interpreter at the floor, at the version every other job uses, and at
 # the newest supported, then runs both entry points from outside the checkout.
@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.12', '3.13', '3.14']
+        python-version: ['3.11', '3.12', '3.13', '3.14']
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:

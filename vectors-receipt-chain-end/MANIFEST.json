@@ -1,0 +1,381 @@
+{
+  "corpusDigest": "73babeef6e8be17cd20cc65de636f1c36a1b92946fe5fe880d2b6a9ff29241bf",
+  "suite": "receipt-chain-end/v1",
+  "vectors": [
+    {
+      "doesNotAssert": "that the recorder saw every action the agent took, or that the signing key was held only by the recorder",
+      "edit": "control: one run-scoped run, opened and closed, nothing removed",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
+      },
+      "id": "control-closed-run",
+      "path": "cases/control-closed-run",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "when the head was retained, or that the retained copy was itself kept out of the writer's reach",
+      "edit": "control: the same run, with the consumer's own copy of the final head",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d",
+        "head.json": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+      },
+      "id": "control-closed-run-retained-head",
+      "path": "cases/control-closed-run-retained-head",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the run will close, or how many receipts follow",
+      "edit": "control: a run still recording, so the chain has no end yet",
+      "expected": {
+        "decision": "prefix",
+        "reason": "end_unproven"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
+      },
+      "id": "control-open-prefix",
+      "path": "cases/control-open-prefix",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "why the run stopped without a close",
+      "edit": "control: a run with no close, whose final head the consumer retained when recording stopped",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_head"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e",
+        "head.json": "fc0303b6b40066f465bda064343d606da99d680e9258ae03728b6775ae4ac459"
+      },
+      "id": "control-open-run-final-head",
+      "path": "cases/control-open-run-final-head",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the retiring key was not already compromised when it signed the endorsement",
+      "edit": "control: the signing key rotates mid-run and the retiring key signs the boundary",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd",
+        "chain.jsonl": "15ae5ca65690094e64953f144ebc9a67b26c5d595cfd76535d9ae062ac5a9a68",
+        "endorsement.json": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
+      },
+      "id": "control-rotation-endorsed",
+      "path": "cases/control-rotation-endorsed",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "the order in which the tied actions happened; the chain fixes the order they were written, not wall-clock order",
+      "edit": "control: three receipts share one timestamp, in written order",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "33824768f0f364817436f787f3bc736da239d4a16d9f9e32462796b74a4b48e2"
+      },
+      "id": "control-timestamp-tie",
+      "path": "cases/control-timestamp-tie",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that anything was deleted: without a retained head an honest open run and a truncated closed run are the same bytes",
+      "edit": "the newest two actions and the close deleted; every remaining link holds, so chain continuity alone passes it",
+      "expected": {
+        "decision": "prefix",
+        "reason": "end_unproven"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
+      },
+      "id": "tail-truncation",
+      "path": "cases/tail-truncation",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "which receipts were removed, only that the retained head is not in the chain",
+      "edit": "the same truncation, checked against the final head the consumer kept outside the chain",
+      "expected": {
+        "decision": "rejected",
+        "reason": "head_missing"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0",
+        "head.json": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+      },
+      "id": "tail-truncation-retained-head",
+      "path": "cases/tail-truncation-retained-head",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "whether later runs existed; a close in a resumable session ends a run, not the chain",
+      "edit": "a legacy shared session closed by its first run and resumed by later runs; the later runs deleted so the chain ends on a genuine close",
+      "expected": {
+        "decision": "prefix",
+        "reason": "end_unproven"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "17d472c9feb87a10ce0693cc9012fefd2e65d29c252e9369beb0a7df5e7ee798"
+      },
+      "id": "prefix-replay-shared-session-close",
+      "path": "cases/prefix-replay-shared-session-close",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the presented run is forged; it is genuine, and only the retained head says it is the wrong one",
+      "edit": "a complete, closed, genuine run presented in place of the run whose final head the consumer retained",
+      "expected": {
+        "decision": "rejected",
+        "reason": "head_missing"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "41da9bdcad854f2022e7b15b356c799a2e931c4dd2eaa95843ebedf5e022ed88",
+        "head.json": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+      },
+      "id": "prefix-replay-other-run",
+      "path": "cases/prefix-replay-other-run",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "which branch the producer acted on",
+      "edit": "the producer signed two receipts at sequence 4; the consumer retained branch X's head and is shown branch Y, which is as long and fully linked",
+      "expected": {
+        "decision": "rejected",
+        "reason": "head_missing"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba",
+        "head.json": "ab1ba9e882f294cbeb548d02bb4d62a4642ccc3b33d6f180c83919298baee094"
+      },
+      "id": "fork-branch-against-retained-head",
+      "path": "cases/fork-branch-against-retained-head",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "the identity of the final receipt; a sequence number binds the length of a chain, not its content",
+      "edit": "the same fork, checked against a retained final sequence number without a hash: both branches end at that number",
+      "expected": {
+        "decision": "prefix",
+        "reason": "end_unproven"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba",
+        "head.json": "efa557c026eb0c030bd6beb32300cdca8f0162fb3052b183fbc69cb523fba395"
+      },
+      "id": "fork-branch-against-retained-seq",
+      "path": "cases/fork-branch-against-retained-seq",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "which branch is the genuine one",
+      "edit": "both branches of the fork written into one file",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "713be7260da5bf17cbf453d64c48bef303b0812b19884abc7d46e5709d8e48c9"
+      },
+      "id": "fork-both-branches",
+      "path": "cases/fork-both-branches",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the incoming key was stolen; it may be the producer's own successor key acting on the history it inherited",
+      "edit": "the holder of the incoming key cuts the retiring key's segment after sequence 2, writes its own rotation marker on that earlier tail, and closes the run; the consumer pins both keys, as it must to read any rotated chain",
+      "expected": {
+        "decision": "rejected",
+        "reason": "rotation_unendorsed"
+      },
+      "files": {
+        "case.json": "e49caefb86c6c6da18298d6bcc8c2b667c2dd37e4fe34c94d2b11bcb7e56a699",
+        "chain.jsonl": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778"
+      },
+      "id": "rotation-resigned-tail-keys-pinned",
+      "path": "cases/rotation-resigned-tail-keys-pinned",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "the contents of the deleted receipts",
+      "edit": "the same re-rooted chain, checked against the retiring key's signed endorsement of the genuine boundary at sequence 5",
+      "expected": {
+        "decision": "rejected",
+        "reason": "rotation_unendorsed"
+      },
+      "files": {
+        "case.json": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd",
+        "chain.jsonl": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778",
+        "endorsement.json": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
+      },
+      "id": "rotation-resigned-tail-endorsement",
+      "path": "cases/rotation-resigned-tail-endorsement",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "anything about receipts after the interim head beyond what the chain links and the close bind",
+      "edit": "no edit: the consumer retained an interim head at sequence 3 and the run kept recording and closed",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d",
+        "head.json": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
+      },
+      "id": "stale-head-honest-extension",
+      "path": "cases/stale-head-honest-extension",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the run ended there; an interim head proves a prefix was written, not that nothing followed it",
+      "edit": "the chain cut exactly at the consumer's interim head; the head matches the last receipt",
+      "expected": {
+        "decision": "prefix",
+        "reason": "end_unproven"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "0aff850fcc321fe106fe67388ef6cf72ce35c812d5ea6808ca885d869e917894",
+        "head.json": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
+      },
+      "id": "stale-head-truncated-to-it",
+      "path": "cases/stale-head-truncated-to-it",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "the contents of the deleted receipts",
+      "edit": "the run rotated keys at sequence 9 and the new segment restarted at sequence 0; the chain is cut at the old segment's sequence 4, which is the number the run's real final receipt carries",
+      "expected": {
+        "decision": "rejected",
+        "reason": "head_position_mismatch"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0",
+        "head.json": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
+      },
+      "id": "seq-reset-hides-gap",
+      "path": "cases/seq-reset-hides-gap",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "which order the actions happened in",
+      "edit": "two receipts whose timestamps tie swapped in the file, so a verifier that orders by timestamp sees no change",
+      "expected": {
+        "decision": "rejected",
+        "reason": "chain_link_broken"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "2c36c4a99fa0a5561302b7e4aba99d222b910fd977b05c36dd17b3bfdae9c6ac"
+      },
+      "id": "reorder-timestamp-tie",
+      "path": "cases/reorder-timestamp-tie",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "what the receipt said before the edit",
+      "edit": "one receipt's target changed in place, its signature kept",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "83f57bce563def2fa88ecbadfa7a89c240e449af18cc44e49a5c9651edfa2a3e"
+      },
+      "id": "signature-tamper",
+      "path": "cases/signature-tamper",
+      "signaturesVerify": false
+    },
+    {
+      "doesNotAssert": "who holds the key that signed it",
+      "edit": "a complete, closed run signed end to end by a key the consumer does not hold as a root",
+      "expected": {
+        "decision": "rejected",
+        "reason": "signer_untrusted"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "6794059ab0875b3db021b1a77fed44ad4a2c213e59d34d2ed8c4e8d29e8de3f0"
+      },
+      "id": "untrusted-genesis-key",
+      "path": "cases/untrusted-genesis-key",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "whether a receipt was lost or the close was miscounted",
+      "edit": "the producer's own close claims one more receipt than the run holds",
+      "expected": {
+        "decision": "rejected",
+        "reason": "close_binding_invalid"
+      },
+      "files": {
+        "case.json": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5",
+        "chain.jsonl": "21487983ee70c85d75f5e24b0b9b69575ec20f50c014f847c090434fa77f3ad3"
+      },
+      "id": "close-count-forged",
+      "path": "cases/close-count-forged",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "whether the receipts after the head were appended by the producer or by someone else holding its key",
+      "edit": "the consumer retained a final head at sequence 4 and the chain it is shown continues past it",
+      "expected": {
+        "decision": "rejected",
+        "reason": "head_not_final"
+      },
+      "files": {
+        "case.json": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9",
+        "chain.jsonl": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e",
+        "head.json": "07d6705b01d46c40263df08d849bf720dd5341a5a8859fc4d31a6a1b5d235158"
+      },
+      "id": "final-head-not-at-end",
+      "path": "cases/final-head-not-at-end",
+      "signaturesVerify": true
+    },
+    {
+      "doesNotAssert": "that the retiring key was not compromised before it signed",
+      "edit": "control: the whole rotated run, checked against the same retained position",
+      "expected": {
+        "decision": "verified",
+        "reason": "end_proven_close"
+      },
+      "files": {
+        "case.json": "8a0fa162db74784cb3d64dc9925eb488d40439fc1020f7d3ed27ab93c5dded05",
+        "chain.jsonl": "773e6ddb63b9eb89e53e946cb04f90e3164c65bd22ee42a95daa7feacb175483",
+        "endorsement.json": "0a9314b22b009b191e16016fbd3e41a366caea81f49ef31d93421cfe8d38b87c",
+        "head.json": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
+      },
+      "id": "seq-reset-control-endorsed",
+      "path": "cases/seq-reset-control-endorsed",
+      "signaturesVerify": true
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 verified, 3 prefix, 1 rejected"
+}

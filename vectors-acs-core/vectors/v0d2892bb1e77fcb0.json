@@ -1,0 +1,77 @@
+{
+  "cites": "a Guardian modify, and on the Observed Agent's step span for the same pair an acs.decision.substituted event carrying the verdict received, modify, and what was applied, deny, with reason modify_composition.",
+  "coverage": "observed",
+  "doesNotAssert": "that the action was blocked; the event is the Observed Agent's own record of what it applied, and issue 264 is an open proposal",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-19",
+  "id": "v0d2892bb1e77fcb0",
+  "kind": "accept",
+  "payload": {
+    "record": {
+      "trace": {
+        "guardian": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify"
+                },
+                "name": "acs.decision"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ],
+        "observed_agent": [
+          {
+            "attributes": {
+              "acs.request_id": "d7025585-7826-40b8-9111-f4159aa3441d",
+              "acs.session.id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+              "gen_ai.tool.name": "http.post"
+            },
+            "events": [
+              {
+                "attributes": {
+                  "acs.decision": "modify",
+                  "acs.substitution.applied": "deny",
+                  "acs.substitution.reason": "modify_composition"
+                },
+                "name": "acs.decision.substituted"
+              }
+            ],
+            "name": "gen_ai.tool.call"
+          }
+        ]
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-068",
+      "line": 25,
+      "sentence": "a span event `acs.decision.substituted` on the Observed Agent's step span, carrying `acs.decision` (the verdict received) and `acs.substitution.applied` (`deny` or `original_kept`).",
+      "upstreamCommit": null,
+      "upstreamPath": "GenAI-Security-Project/agent-control-standard#264 (issue body)",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/issue-264-body.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-068"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

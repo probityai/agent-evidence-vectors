@@ -1,4 +1,5 @@
 {
+  "cites": "a context entry with the request digest absent under a profile that requires it. The chain then commits to step metadata and not to request content, which is the difference between a chain that witnesses what happened and one that witnesses that something did.",
   "coverage": "configured",
   "evidenceBasis": "artifact",
   "expected": {
@@ -17,6 +18,18 @@
     },
     "profile": "ACS-Audit"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-016",
+      "line": 75,
+      "sentence": "A deployment claiming ACS-Audit MUST populate `request_hash`",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/conformance.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/conformance-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-016"
   ],

@@ -1,0 +1,5 @@
+suite: authority-at-dispatch/v1
+members: 14
+  allow: 4
+  deny: 10
+verdict: every member behaves as MANIFEST.json declares

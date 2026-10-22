@@ -1,0 +1,67 @@
+{
+  "cites": "the same span without acs.session.id. request_id is unique only within a session, so the request_id alone does not identify the step.",
+  "coverage": "observed",
+  "doesNotAssert": "anything about the decision on this step; the member is about the span's shape",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-16",
+  "id": "vc0ee2db9cf47e0c1",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "otel_span": {
+        "attributes": {
+          "acs.exit_status": "success",
+          "acs.request_id": "b178918b-121b-478a-ba06-f72c3f833cdc",
+          "acs.request_id_ref": "ce85b0e5-6ec5-4229-8dec-5fc4f1af1a6e",
+          "gen_ai.tool.name": "files.read"
+        },
+        "events": [],
+        "name": "gen_ai.tool.result"
+      }
+    },
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallResult",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "execution_id": "exec-7",
+          "exit_status": "success",
+          "outputs": {},
+          "request_id_ref": "ce85b0e5-6ec5-4229-8dec-5fc4f1af1a6e"
+        },
+        "request_id": "b178918b-121b-478a-ba06-f72c3f833cdc",
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-040",
+      "line": 49,
+      "sentence": "Every step span also carries `acs.request_id` and `acs.session.id`, the step's own `request_id` and `session_id`.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-040"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

@@ -1,0 +1,47 @@
+Lars, all,
+
+Thank you for the independent re-runs and the line-level review over the past day. To anchor the thanks to specifics rather than politeness:
+
+- Sankalp Gilda re-ran the suite unaffiliated with us: 66/66 cases, 1549 receipt checks, exit 0, with a signature-mutation negative control correctly refused.
+- Lars Kroehl reproduced byte-identical output across runs with PYTHONHASHSEED=2, confirming the embedded Ed25519-over-JCS signature is enforced and a forged signature is rejected.
+- Roel Schuurkes gave three wording refinements, explicitly offered as wording rather than as adoption.
+- The other two corpora in the thread (EATF; disensor) likewise received non-author reruns, which is the intake question this thread is actually about.
+
+Two engineering notes Lars raised concern the MIT-licensed reference checker only - a one-directional manifest check, a self-proving footer total, and unordered-set stdout. The production verifier is a separate, closed codebase. Those three notes are precisely what criteria 2, 4 and 10 below refuse at intake; a patched revision of the MIT reference checker will follow in the same CC0 repository, with no change to any corpus bytes.
+
+Using the 0057 text as the base (per Lars), folding in Roel's three wording points and the four reproduction gaps Templeman listed, which 0066 already carried into criteria and rejection grounds, below is a consolidated v2. Changes versus 0057: (a) the admitted population is named up front; (b) the independent recount names the decision rule and inputs a refusal is recomputed from; (c) byte identity and replay stability are separate criteria; (d) checker provenance also pins helpers fetched at run time; (e) rejection grounds are enumerated rather than implied.
+
+Intake criteria for a submitted conformance result, v2
+
+Terminology. "Admitted population" means the set of members a submitted record makes claims about, bounded exactly by the closed manifest in criterion 2. A member present on disk but outside that boundary is not admitted, regardless of what the tooling printed.
+
+1. Byte pinning (fixture bytes). Every member of the admitted population is pinned by a digest over its exact bytes, and a corpus digest covers the full tree together with its manifest. A reader refuses any member whose bytes do not match the pin. A digest covers the bytes that were available; by itself it says nothing about which members a reported result concerns, which criterion 2 settles.
+
+2. Closed manifest (inventory of unique identifiers). The record carries a closed manifest of unique case or report identifiers, checked in both directions. The reader compares the returned population against the manifest and refuses, with the rejection ground named, when a member is (i) missing from the population, (ii) duplicated, or (iii) present on disk but absent from the manifest. No one-directional acceptance.
+
+3. Selector. Alongside the digest the record names which members were selected, by what expression, and how many matched. A selection resolving to zero reports, or to more than one where exactly one is required, is refused at intake rather than silently bound; the requested-member-absent and requested-member-matching-more-than-once cases each carry their own rejection ground.
+
+4. Independent recount, with decision rule. The reader recounts outcomes from the per-case records and never takes a printed summary line as the result. The printed total is one more value compared against the recount; any divergence is a refusal with both numbers recorded. The per-case lines, the aggregate line and the exit code are all carried, so the finding does not rest on one line. For each refusal the record names the decision rule and the exact inputs it was recomputed from, so a party holding only the pinned bytes can recompute the refusal without the original tooling.
+
+5. Native record carried unaltered. Native verdicts, reasons and process status are carried unchanged.
+
+6. Per-observation carry declaration. For each observation the record states one of three states: carried inline, referenced by digest, or absent. An observation declared inline and not present is a fail-closed refusal.
+
+7. Anchor. The submitter declares an anchor carrying enough data to distinguish an availability failure (the reference does not resolve) from an integrity failure (it resolves but the digest does not match), and names the verdict for each. A suite anchored outside this group's registry stays admissible as long as its anchor is declared and reachable.
+
+8. Checker and helper provenance. The checker is named by an immutable source revision and the exact command run, with runtime and dependencies named rather than inherited from whichever reader ran first. Any helper script, fixture fetcher or other artifact acquired at run time is named by both its acquisition URI and a content digest; an unresolvable helper or a digest mismatch is a refusal, never a silent fallback.
+
+9. Canonicalization, numeric profile and digest inputs are declared, not inherited. The encoding identifier is drawn from a closed set, and a reader that does not implement the declared encoding rejects the record. Every digest offered as evidence declares its exact input serialization; a digest whose input serialization is undeclared stays outside the record.
+
+10. Replay stability, distinct from byte identity. Byte identity - the same bytes always produce the same digest - and replay stability - the same pinned inputs produce byte-identical output across independent processes - are separate claims and are recorded separately. Where stdout or another unordered stream is digested, the record declares the hash seed and the ordering used; output that varies across processes with no declared cause is a refusal.
+
+11. Exposure and fault separation. The record states whether the expected answers were visible to the implementer before the run. Reproducing recorded answers and detecting an injected fault are separate claims kept in separate records, even when one suite produces both; each deliberate fault has its own result, separate from the reproduction result and the exposure declaration.
+
+12. Scope. The record states what the suite establishes and what it leaves open. It does not claim coverage of the whole attack surface, does not rank implementations, makes no claim about threats outside the corpus, and does not establish that an action happened or that its actor had authority; these limits sit beside the availability and integrity outcomes the record does establish.
+
+13. The criteria name no implementation. The canonicalization-v1 subset (RFC 8785 JCS) enters as an instance under criterion 9, not as the rule itself. The Ed25519-signed receipt corpus, whose manifest pins every file by SHA-256, is offered as the first suite admitted under the full set.
+
+Line comments welcome; if there are no objections to the structure, the four v2 deltas (terminology, decision-rule recount, identity/stability split, helper pinning) are the only parts that need close reading.
+
+Guigui Wang | Correctover
+wangguigui@correctover.com

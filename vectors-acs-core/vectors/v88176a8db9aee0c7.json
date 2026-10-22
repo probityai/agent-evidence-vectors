@@ -1,0 +1,93 @@
+{
+  "cites": "a request whose key_id is its own session id, the shape one open Guardian port uses. The verifier is configured with \"2026-10\" and the MAC verifies under that secret, so only the label is wrong: it names no configured secret, and the rule forbids recovering one.",
+  "coverage": "effective",
+  "doesNotAssert": "that the MAC is wrong; it verifies under the verifier's one secret, which is exactly why a fallback accepts it",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": "SIGNATURE_INVALID",
+    "codeValue": -32004,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-13",
+  "id": "v88176a8db9aee0c7",
+  "kind": "reject",
+  "payload": {
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "to": {
+              "value": "ops@example.org"
+            }
+          },
+          "tool": {
+            "name": "email.send"
+          }
+        },
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+          "value": "IpKQ7ATTCnGgalf/y1wBDRGZXLTFcSlQ+dHFvsf23s4="
+        },
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "signed_input": "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"steps/toolCallRequest\",\"params\":{\"acs_version\":\"0.1.0\",\"metadata\":{\"agent_id\":\"agent-acs-vectors\",\"session_id\":\"6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36\"},\"payload\":{\"arguments\":{\"to\":{\"value\":\"ops@example.org\"}},\"tool\":{\"name\":\"email.send\"}},\"request_id\":\"56a78506-aa4a-489d-8171-8833ef83f7bd\",\"timestamp\":\"2026-10-15T12:00:00Z\"}}",
+    "signed_input_sha256": "708e5264ae8ec135c6f043607ef84fac2b2993f0ce69955a6ace3d68de9281bf",
+    "signer_derivation": {
+      "derived_key_hex": "80f0dc8c611279bfc2af2d5f374c5cb685888192ce1af5c3e0673d8fa748e8a4",
+      "info_utf8": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+      "kdf": "HKDF-SHA256",
+      "length": 32,
+      "salt_hex": "",
+      "secret_key_id": "2026-10"
+    },
+    "verifier": {
+      "configured_key_ids": [
+        "2026-10"
+      ],
+      "secret_hex": {
+        "2026-10": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-028",
+      "line": 354,
+      "sentence": "A verifier MUST reject an unknown `key_id` (`SIGNATURE_INVALID`,",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-029",
+      "line": 354,
+      "sentence": "and MUST NOT fall back to another secret.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-028",
+    "ACS-R-029"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

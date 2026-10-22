@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 731,
+      "path": "grade.json",
+      "sha256": "b49df52f26c9fcd952ab03c29ed687cf96c36b711fa57f300fc2aac47b328c2c"
+    },
+    "tree": {
+      "length": 540,
+      "path": "tree.json",
+      "sha256": "13d29de1004a7c5619c159a8837047e1b97fc92bd77d9d84a69f24af8e88790a"
+    }
+  },
+  "case_id": "pyproject-above-the-workspace",
+  "schema_version": "probity-case/v1"
+}

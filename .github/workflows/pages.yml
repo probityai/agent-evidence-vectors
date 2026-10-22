@@ -61,3 +61,15 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # The per-push gate proves the build writes a page for every type URI; only
+  # the host can prove it serves one. This runs after the deploy that
+  # publishes a new page, which is the only moment the answer can be 200.
+  resolve:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: every predicate type URI answers 200 from the published host
+        run: python3 scripts/predicate-uri-gate.py --live

@@ -1,4 +1,5 @@
 {
+  "cites": "the same unanswered hello under a startup posture configured to refuse, and a session that started anyway, recorded in the deployment log as an unguarded start. The record is present, so a checker that reads only the log passes it; the configured posture never took effect. No registry code names a refused start with no Guardian to send one, so none is asserted.",
   "coverage": "configured",
   "evidenceBasis": "substrate",
   "expected": {
@@ -51,6 +52,18 @@
     "session_started": true,
     "startup_posture": "refuse"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-025",
+      "line": 75,
+      "sentence": "`proceed` starts the session unguarded, `refuse` does not start it",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-025"
   ],

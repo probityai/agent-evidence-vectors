@@ -1,0 +1,4673 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 1,
+      "indeterminate": 4,
+      "reject": 21
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 26
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-aci/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-aci/gen_vectors.py",
+    "routine-file": "vectors-aci/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e37df2fff90448071a3930b9ee65204f33caee56cc2b980c998605b758b002a0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/FINDINGS.md",
+      "serialization": "bytes",
+      "sha256": "49655795a565cd3bf836f38526b7601edd3fd8b9828cf2a264aa4df3e4cf471a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "69ec55a01e87f387bcd686e5c83e340f19210dc9de84d3544fb788405fc5a006",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/README.md",
+      "serialization": "bytes",
+      "sha256": "fd9d74a331e233d35122d92bac7ad4900831a6c761a0a6494cf5e8cf6133895a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "93db752149348aa6ff37b78042ebdd7c36cc5c2c590e2421325452ea58d2ed45",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f7487ccacab1a4ef36a0b7224899929aec2378f9e1be90ffde663e3eaaa34afa",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "782e261db7337d43dd40087bf70d8c46de72be127968ce535e377c5ea948076f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f5c729e8aa50991ebab99335d6c8e20102e68d187ef73dc04f893a2ad1628377",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8c715364ce84e76e738bc33ac3191ff774dab27f2a2a36b2b3a1cddaa88f6161",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "255a0d176f410564b8a1c644f2a233dc458d78bddc453eb475d902e61c677f7b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "0f49f3ef84a8166d24457425bdf80224643ad50346fbc6c5288ba3a147a8ea5b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/conformant/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4bebca8e6290b38005fcadf74590def8d6c39508d5f0d8f26cd593146a949c1a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-empirelabs/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "8bd0268385321c3a74584882d782a59ca564cf93bed2686a0ef23da0c804bcaa"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d72fe528cb35836df55bab3c5644eb9ea9fa3bd38f27c56eaa0afabb1717c0dd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level1/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "67fd3b400631fd841a5d7de3d84b028910d102184b7e2b7bef019650921e10a8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "cdff302a765b8c18c4cfb199953f4d86b79526a966fc6b0fb467e861ec6d3f41",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level1/identity.json",
+      "serialization": "bytes",
+      "sha256": "9162aab826d98bd6d1b1171eb921546291f4306c73b1cd215547d6a861ffbc1c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7d4877869dff67f73f9a39384758038c80a7d733c24b34d97a9e81fd93d60cb4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level1/llms.txt",
+      "serialization": "bytes",
+      "sha256": "0095de4d809e9734fd3560e1b6e0ef09ffb41ab8725a7b60390a1034b5373f5d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1151a1b264fc1007cd819795387cdb97b18beaf754be1c799eec6a674d9f9f7b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level2/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "563d9b9ded698a8e0c4d4c9c7031debdcfa96507ca15ca4c237efb2827b7908e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "86e88c8700b8562e5ec05e25b1839e631d396e0bfc05597171c91f7bc3d0ff4f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level2/identity.json",
+      "serialization": "bytes",
+      "sha256": "5c43c732120e804ab5b5cb16192ef069d985e2696557f8adb0daf67d1c54827f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "91b5bfac1c91ff93cb1ea52fa019186d140f4a5463b96f8d3a28f372a56c8cc4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level2/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "16d3d3e13dff03efcf601d5b496740cb9824c07d139cd271448f15c72a07a9dc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c4e12b83a5d3dcd1be4741c39567f812f9b21d80370efcd5103de226e7d69d05",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level2/llms.txt",
+      "serialization": "bytes",
+      "sha256": "3d383ffa590110481151e89e75ac4c018f9a64c3fb9480c0e2a5e5329110a863"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "b7a48d3963e0f5bc114c77d196ae18c0a183d623e5756199828fe8854aa3582d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level2/trust.json",
+      "serialization": "bytes",
+      "sha256": "12be0c0662ddd8043955a6e132e7b2a94c9b48020c061c7275f011f1bb15e6ef"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "34050536ee60d440460652f051e9f6c7283cf5b6d1fd40edf492d9d388a0fb1f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/agents.json",
+      "serialization": "bytes",
+      "sha256": "dd9ea5b8071e7b94e78d4425caf2c95dadb88ea1e309acc900322d0ba51dcd45"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ecbb9c62b461787e96866795dd36d253c8240d06d6ed31496c58c1d52c55eda5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "c2d93311b5517f3ff975f951a3d4fac6d8dbe8fb72eaa7b3c31af56575a404b3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "092bfb38fd0eab8491476f9bc43428156393d6c1fc8b6554272af45c2fb5acc9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/identity.json",
+      "serialization": "bytes",
+      "sha256": "61a506d449532d4c836f7cbb36f8a9f15ff7b4f0c73a83bc7165e053b4058939"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "3a278852a5c276b5d7d00b696f4b3d47d0bb2d8d33faac5259c0cf84d884a531",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "a24d9d7187f4d98a26d10f24e9a107a1509c1f539fa7445634ee45b742c1f59a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4da1749a752ff5c47a793ab7b82b83ab4175c7301751168728801293610d15d9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/llms.txt",
+      "serialization": "bytes",
+      "sha256": "ae0d10f719c3d4f00123ed82365a8795541dc423b03917f87b1a282563d23abc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "2abb93755c9b70db9e7064d042bd77f6ecd62b76832924fa89280e3c4bab41c0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level3/trust.json",
+      "serialization": "bytes",
+      "sha256": "22b2ba098912b17833dbbef079562f0460531160e2acca86d8eab7f3bb527074"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f3da2ae1afc2c03e34af4a1fde6b9b0cff8dc5b05787d3c182fd9c924594a9d9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/agents.json",
+      "serialization": "bytes",
+      "sha256": "16f65d3da99b8df3aa684e16e68a39d33b3fb1a64368e78b72e171dfb900aed9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f9333f219f99e10e945edbda587c1efbd04975274c2d2979f64373488cb160f0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "87c9b2b18480951803f2a78422205a7d673bd82c66cbe0b23f30d72aa430a621"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "0233ccec634f6cfa899102ba1e8e4e21b4a27017387f4cf1bf98b540913a0f1d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/identity.json",
+      "serialization": "bytes",
+      "sha256": "de4fd93c4811834fbde89e5ff84d4135afe8908eb2a722fd082c8727b0cd44f2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "675f97b6137641a8fec3b049f6d04cc658d14bf3d849ab7a44e8f6d039be1cc1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "b53af2a9ba522f49dcb310afd0d6b643ba74ba40ea7692d7f2d23d2c2b12f4d9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "b3ac8dcab7734e7302c027d0a8b69174b1f611a408c21ecca6d34a695566fdc7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/llms.txt",
+      "serialization": "bytes",
+      "sha256": "ae0d10f719c3d4f00123ed82365a8795541dc423b03917f87b1a282563d23abc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "15c3e057c36535e2e095705c519a3896ce6420819ce99c665d13ebf196a4a5d2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-level4/trust.json",
+      "serialization": "bytes",
+      "sha256": "827f6a3f0ffb4c19effd09ea10464c9929402cd8b48213f59fc89f35d58e570a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c6c6e3bd03f604c711538dc55947c93f7e3e968684936bd2605c6d94bc4f77c1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-minimal/identity.json",
+      "serialization": "bytes",
+      "sha256": "b0a5fb277b038f2bfd3fcdb0fd10517c6fdda66a079c116d1a75bf4b4e7a7899"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "213bd0a64b4a920e05ebde392f466b5090c3abc27b99c1437cf9610321def74c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/spec-example-minimal/llms.txt",
+      "serialization": "bytes",
+      "sha256": "fbc5551a77e82a77707239cf2d43f25be04e17ee1a32f1059572fc15f2867ad4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "bfa6f38a607108d87960dd2e375acda0ea72d213822b41b856aa3e2a99351d13",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8279e4806bfb4ce5d9f64f3d855c7230309866ceb9fdbb48e920823c6cc7b7fb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "555eefc1ee1370855aca6d8f9a60bd954f274935b9eb6847f39c57cab27fbcd2"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "164c9568ee364149ec3ba8bc62cce45033f7ec5cd7b17d611312d9208d1c3aab",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6fca6ad94ef3cdf0899eee823641f7eeec8620ed3bc9088484749180f5be46d5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "0e91843a27b20e796e59312417c83aaf1d7d2be16ca2d237973add71b371ebfb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "3ceb0198683c3f90962ec89570ea7de21ed00ce3865dcf96604b3cdcccf40710",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "92cd3c2074d751d1f9e1f429c54397ae8ed2c3186d636f79528f73e6f2be7279",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-agt-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "86d11d45de64da7c9425cf3cbf691ed0048ef44f74cdecfce2b1db49d3cb1b55",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4805187e48683e5acbc7c09ebf1656824a63184dd5612dedb36e2a21a350f53c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1d294b91abd4b94deced173b86b6cb90110b9e6234d76837727db6af7c0608e8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8bbec809e5e24e42e10cb740c0392db4537e27e84d746e3844fe6158aeef591b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "55e987930b7b7816397b80b0e7a4ddb5b6acd06e691c2631d5422a3b47470c9d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "cca9e9011a5fc5ff099f0e1a894db4b818be5ed3f38ec5ea4c0b68f119fe7fc8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1e4fdf64c71d06d5ec313cca8a305efeba23a06771405087baf07e09b212d0a0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "77aa4cba79874b285b4ab50bf9bf8c7a31bec9bbf292f366708af807356bcaa4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-blk-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "9923f2edd17ebf1b8bf6856250a43d1934468bf5d17387eb9c5814d6caae995b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ce2c3832e4ab38cba5c19afe8af6533795ea0a61f761ad78e29fc97eb5b5a313",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7cea744ba45923091b5585cad7a71a784eef0efd1acd64d035cc451449af53a9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7f9e90dff911a672c7a0ef2363529c580f7a7c4567eb170d3cda1eab4d28d585",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "89457186fa050628fa79379d70def4faeb6637c3a637dece2904b19e4f230877",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "1efa031bb194f0a03cb89b4cabf360987eb7534d5254bea08de287129c78233a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5981a25c96c4eeb1560d1c41f22300ed04ecca7481d218aa098789dc23504cd0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "558af06af4f151391809ced5470b7b7b6c24f8a848706e249068ad0764802b95",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "a94065e8fa4f1c2b36c52081e4fd1b31b9658c3d54d163bdae09a984c35e6006",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8da7387907cc095443396dbf94af28b5118e241329a2de88116b89ec7d9240ce",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1459a851d7abda185bc8c7ac07e79423db1ebe53adc1ca029dc3d7ad0dff3877",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d05eddabe0f90b934e005ad9db61b982fad7d128a8b8958f75ec8ce307cd9844",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "236f7edee4c8adfc05a1c41ca18e6528ca3b70350335775dfcaae042ff826d7b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d9548f8996d2355293e8caec7f541e51a7781ff8ab86f775b459369a9fdfc406",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "cbd8bbba6dbfb4a4af7b7f2cc8a1ad3679e0d58c187f7fae46dee5e1863ed6db",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-con-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "50c38e0956a86fdecfdd09529dfa633d9a275a74529639c529875ebd6be369c0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "3945e5d59e76849fd70e1ba972ff996a52a0d367ebe65fdb7fdc1c52500a9b18",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "96ec0ac309ddf25df01f37cb65cfab49e7231276e65f6f96954aa192a2f603c6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5ad1302ba65d7762e43c6703b2371bf142005db5da843cbf1dcd3ab6b966a183",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "337047513a98828854e24f614c1e7a19a3525d6053b6771e28c1ebee95b86906",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "34b7a1713fd1d9a558ab4dc99ffbc92ddb9020475e99df7da00327a7e81edf4f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c980b8032a4e9c6a53b811591090dd24c64688e11adb93555405f54704bd7b9f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "33c63dcd81ac9c62a3d1ae66cc657b4a2dc2cb4bff95162ae302acd4ae9be526"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "70ac6fada2dc102415f3f08f14eb7af878a00effe096021cea3c2a18c53e9e0f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "68b4db1df5273397f996f24db6e0d63cd0117b2210807a2b44fa85b070ff32b8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "e1fa964ddcacfab8f9fb86379c311c55f86370312eac2f2fd807b534bc853d48"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4190fd77425d962f786510e33e71d8808c81da171179d048c2b971e3a3db8535",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4f08707f6847a972dbd245f9cc09fb0dd094ec87e8ddd0c120858f3686a88abd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "bbf1fe5dbde5ee75b6d74a5d420ca8d4a90be5fbef4419844908991caa412c1c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5b4f2695568d66fb267a7c22c76f1fde904b59b15e0d8069c39ec782d71b69cd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5fd67c3c3720988d1f6f46b95a80bfd5de8b0f40ea4e592471883c5dd1b2c2a3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "75bc1858bf4aa42432ebad2030cec3137c1935a45a0ab9ec34c236ed3c954f0a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "268de6e26a6712c55edc873fcbcb30141e74bf041221bb5680ae4d5256779391",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "632809b944e948e95c2487c8a9f89018c8ad6f3fd42e51797fca74e3bcc6593d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "10137038f9f1156e813e32e32742a76db06419aa9b66753b0460c13a4539bf91",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6d8a49e6ac6692b7ddca2c6d7963c7f7c58fb3f60967b72707dc4439ab232f2a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "b731ac132fc9ff6dd7f2763255aca663672289e80f101af736e4425c4bc376bf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e413701bf814ddb7a916b92d6a1d4a582dc5a6d47b4e40458ef3702ba942005f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5c3b2c6d1a2e1ec36d5f34375266039fac1f174f1193e724fa2708230cf1c631",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "9bae6c21dc21fb22cd328ca3023e8f5a7ab3376b72deefc040a51d5ba544f060",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-dis-003/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "2ae51d63eca12cc155dc2a12447d6ab7a4d2629985a045fd8c652990d2741595",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "52ecdc26312bae6bd1cf48bf8afce7957fed8c37e872a17c0351f5e6b2f643ed",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1c1de26cd6c41f59c96c7fd9dbad9698f234467682f8c084804d1bb239f1db2d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e41b26544ff9b75ed7d1efc30d29895aca8fcedec37047713373e01269f17465",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "fc1d54d0233c1902663089c05706a0e49b6134ed7243a21854ffb4aa3bf885df",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "20dbb13f87e010ecb63b6cfacfafc74c39aad9e193eddff665d9020821cd6255"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "745851749b4599cb871b58ef7243bfc6d0c1dc86cf3e46caddc71b1b21183265",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "27c74e979ed8ffed2e4f61119a194be797023d9a04bf986268278262f76290e9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4f085a9d02883c98bcb47eaaabe4271c0d80362a99d45ae5b49025ff5ffe43db",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "69c0b10a3f73f0a52838420ea6a9b225829cf15c64148a358ae9420405cb54de",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c487a83df998f3418fb344a247e22896d532a99008f31516d5fd3eb046e5bb2e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e8f980a06364a460bc7779dfb0c27b99bb35a6bf905156c884bc2e78f0d75b53",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "7dfa3b378661fd8fa24d772a738441c4cb33958ce5f3b4083bec4d78b299a0c1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "cf6fd55335651c6b861370ce8d451ff6693af5936e170157a638b99f0e91e7f3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "bf9e97f83f57cc38520669d0275f2857d49a1d76e270dba2d286a75b92bb3a18",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "16ccf8a5c2aaffbb3d43a7d4521f25aa6c5e1be18df01156c225cf365fb042fc",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ext-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "faec21e77e0908a209a2003b4fea11205cf6b8a38b9adb5303c87eab276952dd",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c04524474c3d2d255f4199171f44e12f863d023198e6ed9825675563acdebc38",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c8d65254cda3a8202fc8482d8bedbb38400b53c3764a020eaafc364dac406f13",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "caa765c8726a003e8fe6fb6ba3d10590279e6b50664ff6187024b6e892aebb66",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "b1008fa86ee500bb0f68a3fd26220aa1242dbeb89604c49256dfa5502275eaf3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ab4b91aa9e2b9abef8740d021716bba5b6cec612eeb3a938337597c5accaab62",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "9b4c6b2339bf4e75fba0f40dc59a8c139f8fcea783465ee889a4f59ad7fa94ed",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "687b6c051573352b1554ca20d35da452e632f62e36d1e67f09546ab766442034",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7062c0732e86471636923764dfa7a5b3a235bd52e08817fe61de7343807caba6",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7848d50a07cd7ce97f5250137fadb4937b2b703818d341276b60466c165035e1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "cd2bae43d430a845fb299aedc1d024bd5a9ab8ab8f7ae371f501247a91d93b1a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1311004638605406341e6140a1b5ecfebc50c7cb8ea1adb9de8952d0d1e3a0a1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "f0414594f47e18418ae0a484198cda93ce0cc716bd6e406de8de4967fb2453d0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6ad7d209c35cdfe4dcf704ab57f2fb153a7b01c783e185617932667f0de8c7d2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "a95588e25200e9f4b07db5bbc5b148b09bdabea43629e9870d920104cde5c8e3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "0b240a2dc64a41754a3e8e6cd85859dccde0ceef0e40a1b9c9229bf8357fceb0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "80c733d83db0b50fd92044ae5ba1ee0eb4de36abd4b903db15b501955e72c464",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "a2135a06d75213ac27ace1e7d17ebf5878e72d9c7c2be3a4f4b691c546f6aaeb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e7bee6de9f1e57e80e2c54bdb3e73d01ffa5ec401b91af77edaa95fc44b33fb7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "53e78ac27fcd77d5e4c5f4f38ad931cf1179da083e1e35e9d901537eaf53d760",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/identity.json",
+      "serialization": "bytes",
+      "sha256": "0b6d78d07669f4e244081cf4afe769fed4a437fe203d6aaa56db296a833bb333"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "b803a4540cabcdcfdc0726aef5cfb7b4099a3903497753b7f089e698e1fc12c8",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "2a5dbb50a6d562d0f5fb527f6a7a8362dfe8b96bb1cd991ba383d23d2b69bf4a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4bef6203e11bced491e19d1471b614170789321040e22a61230c2e6355b6ea5d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-idf-003/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "cafdaff29d6ad84d91fb75f2dc1fe9301d066f2ab8342c9aac5c964b169dd1b7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c312b3a0fe4eaf714ab5683f915789210e0720a993d3556897fa39fa6309dc6d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "1538421d74c09984881730f0f6700c626193e7ea032102179e4cb43b9a1c64e9"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "48009e3c01de0a68bb5e35c8fedcf8ccc98dc3305efdc3c07a35cde27f0dbe8a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ba44833f03b3806b07b64fe609282e4d1d91cc2d2d52ae2eaa70a229d42ff33c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "5ef48b5b1de766c435a4339bba1f6c0b1242f148232df699d856706e0cfe67ef",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "352a1cd5927ef33d31e89df2c62a705a31f30925fcd12b515367ac8057c6262f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ca9483e676335bd223767923be8fbfefe36ebad4f47abd325f1385ab91b1b343",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7cef1e739744d20d0a7771abe143daab5e941e169ecee6a3d56894e72d326396",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d420fadc3f6d3f3412d75b30948a45b940b02b35d9da57efa037f601c31976e7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "dc85343d15ed568ca3b15d4cd000dbc530155833d1d42f505f859e15e435e7c4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "befe5bcb928d3b8abe5c4963048ef958b29d7d9e87fa2bcb85da5f9f597d3a2d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "e438e07b4edf94af3430acf4f9965ec5b8e664ca2794f9b3effc79aa2cb4eb36",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d5f836dea8db85cc58bf72e334793b3b12845a2e57fbe0852ce8a0c17b0ebe3d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "89766a0419600a0459cebc1edbababcdea7746d4f0931283d0572be46f6e35b3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "76d4e16bfd7a04fe2ba27618ab97b4394b4d65a947b74a7aba01f80479233719",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lif-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f6fff7f48a7a98d153029a2c560e6dc334db15fbf808d08cacc3aa9cd53a4cb0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1980180b952ed903fe45f690be27ee010d04c1a8b82bd7cf1c814b823db75eec",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f6e4211fbc0b218393901224139bd4ed790c0960fa01ec5488a46f758803f462",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c7471ee90814e04ac8b089b07cd65e9dd448a8884f1ca2879f4fde3f8a09b371",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "2938c59f42d464d25e253a502a884ab7d98b12a7e609beb386a1c0421d00310d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "3a5183e85441d475218f37749e89f1e3b4c64d50a34af58893e03c23b53194a4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c599bfd2e184add338c99cb54809ce3d7b814125c9f5a57b6145435a3611a0f3",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "1a60754c4bec0f389d255692fefa136cc7a5caff9334c3da3225ebc7e179dac4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/agents.json",
+      "serialization": "bytes",
+      "sha256": "122b074827a1b5f15fe63d7a367949e236c9cb952e43d020cd5d7a38f6f4c118"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "60f490e728d1fdbd00d20cf81fc6829811fdbaf160464ce00fbb714299d1807c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "41fb03f7e5fbb71f7c13df29f470eca172917a89a52472ce5ce904519c0ff895",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f9390a4225e2f137b2c05a052a6820ebeb026f524db7f00de8fee7045c3f240a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "eae97a20327a0402846c735d3eac14061a94e48d903406a09154338a1b8f2290",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d755bbb637afbd00a2f2d49d464c5e5c6e8cea2f81a4f6b388f6d125a6476fad",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-lvl-002/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f42f9405f88042457e33a3ebf044ad9c76aead9f8d379f0b639c70a2143e2ed4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "2873c5260f528e5feec67a200e72dc2783c9af7f25dca47e6b699f082a4345df",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7dfc61335245253182f185b6cc67bc50a76d5b1e63a40067661765cf2e13c8b7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "a50530197c99f750e3379c1a511723c1f46a534d9c8b9b949d22bcadc2115b3f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "03ba50fb52f911b5e5d48db48cc72fb4c4c4570326678b6d5f03c560c8cab23c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "f5b52bde93cf8e5ee08e35cb65c7fe009690d671f60ef9d3ab25ef6c7513cf82",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "dbe298368e3cd4c8ddb6706fe5115a1dc8ada6eb3477d9c7565fb06e9bdb5282",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "4d2082a711890a1da51d5c1cb3f0b366a2edf4158b54370b93fc6069fad01249",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-req-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d2d4747188c6a4b3f6f996090dc8303c86f59706b16daea0a2cc4deb05a526b1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8e0d83b404e0c5ea5067c5ded9ac2a4e330793289edcd08f28145bcbbca41f98",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "7b36ae94c0b7e15350cc05481dadd1924029243ea97fc87fb6dbd68a2e964eca",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "933fc9aa8a032acd9c38888a0d8907ab3f46f0b7d918e8fc72638efba32bfca7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "aca0b48ed067785aaa2b001430b99dd69797aad6e0d5f880407e887abfe98d43",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6902ca52a94cd638240c95852ac55450ad6626d46f4cdd76b9d2608d40692a00",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "c72ee0884130ce9ced6514293db2018e05495cff2b1cbd421c8dd9634ba73a8e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "a7255e0f4309de125736a0c07bde361ecceb560787f42a0fce196d589d1fc386",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ser-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "0fb1db0e71e178183d7581080c63c2b80630b1e60c182cae9fd866701a751329"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "a030f02e60104a97bf765e468a79e91483d0473dc3ab9ee6ce281f8481bde5cb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/.well-known/aci",
+      "serialization": "bytes",
+      "sha256": "c03bdc381ed532e162ed60de4ac5f708ca6a577ab43d9107d0aa02c8a3cf7ae1"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6bbaf9e377edbddc4b76070541cd82560ce0ad901273a121f22d2d25e859ad3e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/agents.json",
+      "serialization": "bytes",
+      "sha256": "fa6e3caa5b9fe9fe3442ab62b54c14c200e9e7153d0367a71356263e9a3d634d"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "6cbcd379859816d69dcaff0cf719147eae61cd8d47ab67684c2cf9884f24076d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/capabilities.json",
+      "serialization": "bytes",
+      "sha256": "07ef842ee5745d8ba7d9fcb4a73852ae48150cae7b23242d6d87c4df13cf3da7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "632c5cd780b6fc33a55ebb82445b18b94c34a16f46b75bb4ec3cda7dff90e451",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/identity.json",
+      "serialization": "bytes",
+      "sha256": "6daf51a7dcf0e5a22d8096a1ba76d5494449ee06e0ae29e79cb4ce1b20b38e37"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "33e3965e1630564820d59a6e3d2c76f12301c4de65b38c893d412504b34cdf23",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/knowledge.json",
+      "serialization": "bytes",
+      "sha256": "8c78d008aabb75613322311e27013b83a8350a9a51e4cf1803e82449048b0571"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "8980a20ce6367f877312a2fc66e906ac897553b0438676487488bd7f2b81b103",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/llms.txt",
+      "serialization": "bytes",
+      "sha256": "73ab303d5679e5af60d884c6cb39366f1de49da317cdb3a0ede83faf0f921eff"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "b3afd82bf79be2afdac83ae5e46e390afc0b7c7390725fc70658cb5592054125",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/deployments/violates-aci-ts-001/trust.json",
+      "serialization": "bytes",
+      "sha256": "d0816140cdabfec34b534a1013ca7256df7a6ebd2745500e0127e19bf30c48f0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "d812e8435fdd0e25ec999ea53d7195a9a822eb945351627009397dfd56e7e4b4",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8c1d5f4cfca86fbef45aae091a0554a0bd404416c82ef1cfa3a62b94ce2423b5"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "deployment-members",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-aci"
+  },
+  "byte-identity": {
+    "pins": 26,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-aci",
+      "aee-verify -json vectors-aci",
+      "aee-verify vectors-aci"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v005d7c85b0b603d8",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v01249b6833388b1a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0388b661c5fd357d",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v12e1059ea9a4d94c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1551f14b29a80589",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17045b49c56bc098",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v17a93df6e3afb4bb",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2fb85d5b09a6b31e",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v36c583fbf47a4ba1",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v37a3188d9aeeb957",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3950ba405aa821b7",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v39757e3cf68c9c84",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v502bbfa63ed14f9f",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5440a71178987eaa",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v6d1a8d608febb698",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v74bee945342e8235",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v845fe118f2cee052",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v84fcae34317424b3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v96ef9a38eb678cc3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va3a00e71e58d2739",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vaa59d083a6064129",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbc18a70162a0a3eb",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc0ec0b5e1281c42b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdc3c907ac9951f17",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf220bd496107eb49",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfeae3c4cd6e24c1b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "d0d16e0542ef83697e5f20ddf880e821d925728877a3d3ee56ca1f6876ac05f1"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v005d7c85b0b603d8",
+      "v01249b6833388b1a",
+      "v0388b661c5fd357d",
+      "v12e1059ea9a4d94c",
+      "v1551f14b29a80589",
+      "v17045b49c56bc098",
+      "v17a93df6e3afb4bb",
+      "v2fb85d5b09a6b31e",
+      "v36c583fbf47a4ba1",
+      "v37a3188d9aeeb957",
+      "v3950ba405aa821b7",
+      "v39757e3cf68c9c84",
+      "v502bbfa63ed14f9f",
+      "v5440a71178987eaa",
+      "v6d1a8d608febb698",
+      "v74bee945342e8235",
+      "v845fe118f2cee052",
+      "v84fcae34317424b3",
+      "v96ef9a38eb678cc3",
+      "va3a00e71e58d2739",
+      "vaa59d083a6064129",
+      "vbc18a70162a0a3eb",
+      "vc0ec0b5e1281c42b",
+      "vdc3c907ac9951f17",
+      "vf220bd496107eb49",
+      "vfeae3c4cd6e24c1b"
+    ],
+    "path": "vectors-aci/MANIFEST.json",
+    "sha256": "c100481fff6025c3dbad2ab7cfd5366d0e5ec0f5a009cb2b6594cc9a9c7971d7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v005d7c85b0b603d8.json",
+          "sha256": "005d7c85b0b603d889c1066ca623c4a461e19fd8cfc610ce20504dca065fd32a"
+        }
+      ],
+      "id": "v005d7c85b0b603d8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v01249b6833388b1a.json",
+          "sha256": "01249b6833388b1a93f20cbdc6e83c3fa20bb706720f18e925a4a1dc196357c7"
+        }
+      ],
+      "id": "v01249b6833388b1a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v0388b661c5fd357d.json",
+          "sha256": "0388b661c5fd357d245fff21eb354099a506fbfbb6b72291a6e966c9a3f88c3a"
+        }
+      ],
+      "id": "v0388b661c5fd357d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v12e1059ea9a4d94c.json",
+          "sha256": "12e1059ea9a4d94c21107e9b2aef1cfd8472ced3a18f04862a494439f2b77b4f"
+        }
+      ],
+      "id": "v12e1059ea9a4d94c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v1551f14b29a80589.json",
+          "sha256": "1551f14b29a8058944b3a4c54331ed91b513980273e7ebc4403508c02d0723f6"
+        }
+      ],
+      "id": "v1551f14b29a80589"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v17045b49c56bc098.json",
+          "sha256": "17045b49c56bc09849b0405310f43906281d044a0925f1439000db5cf63ae28f"
+        }
+      ],
+      "id": "v17045b49c56bc098"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v17a93df6e3afb4bb.json",
+          "sha256": "17a93df6e3afb4bb55ed5324ccd7012dbe4a1cb35e45ff8ae8465e2148b31fd5"
+        }
+      ],
+      "id": "v17a93df6e3afb4bb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v2fb85d5b09a6b31e.json",
+          "sha256": "2fb85d5b09a6b31e90187562885ca2593126cbfed110207db5d9b06488af06dd"
+        }
+      ],
+      "id": "v2fb85d5b09a6b31e"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v36c583fbf47a4ba1.json",
+          "sha256": "36c583fbf47a4ba1e43b4b3f32bbcfde9a1a53e9abd6fc87f50d20d81ddf66c8"
+        }
+      ],
+      "id": "v36c583fbf47a4ba1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v37a3188d9aeeb957.json",
+          "sha256": "37a3188d9aeeb957fff79d2c207190897855a62d49441937757d8ce6f4369b68"
+        }
+      ],
+      "id": "v37a3188d9aeeb957"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v3950ba405aa821b7.json",
+          "sha256": "3950ba405aa821b7bd8a195bbcf0681e320691afd9f53ff3a29f5c3378bc4ac9"
+        }
+      ],
+      "id": "v3950ba405aa821b7"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v39757e3cf68c9c84.json",
+          "sha256": "39757e3cf68c9c84aeca7fd1bee61b40cd1adf0fc5fe951f318bb4bbaee5c845"
+        }
+      ],
+      "id": "v39757e3cf68c9c84"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v502bbfa63ed14f9f.json",
+          "sha256": "502bbfa63ed14f9f1ee5ca1c7affe5544caa8ddaf469635dce8b61bf552f769b"
+        }
+      ],
+      "id": "v502bbfa63ed14f9f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v5440a71178987eaa.json",
+          "sha256": "5440a71178987eaa4b461d88fd8d36d46c067861537391cd868058e6a052f0b0"
+        }
+      ],
+      "id": "v5440a71178987eaa"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v6d1a8d608febb698.json",
+          "sha256": "6d1a8d608febb698c4b58164abea554f21ecf3e155a6ef46a5b426fb6f8f7ccc"
+        }
+      ],
+      "id": "v6d1a8d608febb698"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v74bee945342e8235.json",
+          "sha256": "74bee945342e82354172a9415ef3faf573c9869adfdcb9be2d9b074f9f2668bd"
+        }
+      ],
+      "id": "v74bee945342e8235"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v845fe118f2cee052.json",
+          "sha256": "845fe118f2cee0520e79572ece98fa30da2b58f534831653c6b2607b83be57b5"
+        }
+      ],
+      "id": "v845fe118f2cee052"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v84fcae34317424b3.json",
+          "sha256": "84fcae34317424b324c74bbd19519b88694c30d216a8af590f15721a60d9d6ef"
+        }
+      ],
+      "id": "v84fcae34317424b3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/v96ef9a38eb678cc3.json",
+          "sha256": "96ef9a38eb678cc34147ba07d6957f2ebc4fb5723f50322327940f296200ab0f"
+        }
+      ],
+      "id": "v96ef9a38eb678cc3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/va3a00e71e58d2739.json",
+          "sha256": "a3a00e71e58d2739140bc05569f25cf0d3e5650867ec0c7e90a3d004027b1f7f"
+        }
+      ],
+      "id": "va3a00e71e58d2739"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vaa59d083a6064129.json",
+          "sha256": "aa59d083a606412946f646814689d5f677fa7cdd69fe32dbffed6283f4af15bb"
+        }
+      ],
+      "id": "vaa59d083a6064129"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vbc18a70162a0a3eb.json",
+          "sha256": "bc18a70162a0a3eb41baf038fadb9f44042873fd7f2731862423dec6b5aa4b3b"
+        }
+      ],
+      "id": "vbc18a70162a0a3eb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vc0ec0b5e1281c42b.json",
+          "sha256": "c0ec0b5e1281c42b9af068007dac8cfb6c48aa2b67b100a67de5058af6781f83"
+        }
+      ],
+      "id": "vc0ec0b5e1281c42b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vdc3c907ac9951f17.json",
+          "sha256": "dc3c907ac9951f17d9bcffbed08266c3218e00dac1856a5b0592771983e05d60"
+        }
+      ],
+      "id": "vdc3c907ac9951f17"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vf220bd496107eb49.json",
+          "sha256": "f220bd496107eb496aa695a2da5b76f50fe9edcafeaac9751d89903c5c980de4"
+        }
+      ],
+      "id": "vf220bd496107eb49"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-aci/deployment-members/vfeae3c4cd6e24c1b.json",
+          "sha256": "feae3c4cd6e24c1b4faff8a078b6dd8848454ced8859e8cded06107204db3849"
+        }
+      ],
+      "id": "vfeae3c4cd6e24c1b"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-aci.json",
+        "serialization": "bytes",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-aci.txt",
+        "serialization": "bytes",
+        "sha256": "785b56df96760fc10736d2341343e6bfd07e735314d32a2cc7bf13f6ea1011bf"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v005d7c85b0b603d8",
+      "inputs": [
+        "member:v005d7c85b0b603d8",
+        "check:v005d7c85b0b603d8"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\"]}}"
+    },
+    {
+      "check": "v01249b6833388b1a",
+      "inputs": [
+        "member:v01249b6833388b1a",
+        "check:v01249b6833388b1a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v0388b661c5fd357d",
+      "inputs": [
+        "member:v0388b661c5fd357d",
+        "check:v0388b661c5fd357d"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\",\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-LVL-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v12e1059ea9a4d94c",
+      "inputs": [
+        "member:v12e1059ea9a4d94c",
+        "check:v12e1059ea9a4d94c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-EXT-001\"]}}"
+    },
+    {
+      "check": "v2fb85d5b09a6b31e",
+      "inputs": [
+        "member:v2fb85d5b09a6b31e",
+        "check:v2fb85d5b09a6b31e"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v36c583fbf47a4ba1",
+      "inputs": [
+        "member:v36c583fbf47a4ba1",
+        "check:v36c583fbf47a4ba1"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-002\"]}}"
+    },
+    {
+      "check": "v37a3188d9aeeb957",
+      "inputs": [
+        "member:v37a3188d9aeeb957",
+        "check:v37a3188d9aeeb957"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-EXT-002\"]}}"
+    },
+    {
+      "check": "v3950ba405aa821b7",
+      "inputs": [
+        "member:v3950ba405aa821b7",
+        "check:v3950ba405aa821b7"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-003\"]}}"
+    },
+    {
+      "check": "v39757e3cf68c9c84",
+      "inputs": [
+        "member:v39757e3cf68c9c84",
+        "check:v39757e3cf68c9c84"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-CON-001\"]}}"
+    },
+    {
+      "check": "v5440a71178987eaa",
+      "inputs": [
+        "member:v5440a71178987eaa",
+        "check:v5440a71178987eaa"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-IDF-001\"]}}"
+    },
+    {
+      "check": "v6d1a8d608febb698",
+      "inputs": [
+        "member:v6d1a8d608febb698",
+        "check:v6d1a8d608febb698"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\",\"ACI-DIS-002\",\"ACI-LVL-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v74bee945342e8235",
+      "inputs": [
+        "member:v74bee945342e8235",
+        "check:v74bee945342e8235"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "v845fe118f2cee052",
+      "inputs": [
+        "member:v845fe118f2cee052",
+        "check:v845fe118f2cee052"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-SER-001\"]}}"
+    },
+    {
+      "check": "v84fcae34317424b3",
+      "inputs": [
+        "member:v84fcae34317424b3",
+        "check:v84fcae34317424b3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-REQ-001\"]}}"
+    },
+    {
+      "check": "v96ef9a38eb678cc3",
+      "inputs": [
+        "member:v96ef9a38eb678cc3",
+        "check:v96ef9a38eb678cc3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-AGT-001\"]}}"
+    },
+    {
+      "check": "va3a00e71e58d2739",
+      "inputs": [
+        "member:va3a00e71e58d2739",
+        "check:va3a00e71e58d2739"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-CON-002\"]}}"
+    },
+    {
+      "check": "vaa59d083a6064129",
+      "inputs": [
+        "member:vaa59d083a6064129",
+        "check:vaa59d083a6064129"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-LVL-002\"]}}"
+    },
+    {
+      "check": "vc0ec0b5e1281c42b",
+      "inputs": [
+        "member:vc0ec0b5e1281c42b",
+        "check:vc0ec0b5e1281c42b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-BLK-001\",\"ACI-DIS-002\",\"ACI-EXT-001\",\"ACI-TS-001\"]}}"
+    },
+    {
+      "check": "vdc3c907ac9951f17",
+      "inputs": [
+        "member:vdc3c907ac9951f17",
+        "check:vdc3c907ac9951f17"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-001\"]}}"
+    },
+    {
+      "check": "vf220bd496107eb49",
+      "inputs": [
+        "member:vf220bd496107eb49",
+        "check:vf220bd496107eb49"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-DIS-003\"]}}"
+    },
+    {
+      "check": "vfeae3c4cd6e24c1b",
+      "inputs": [
+        "member:vfeae3c4cd6e24c1b",
+        "check:vfeae3c4cd6e24c1b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"ACI-LVL-001\"]}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      },
+      {
+        "process": "run-2",
+        "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 26 pinned members of aci as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 26,
+    "require": "at-least-one",
+    "selected": [
+      "v005d7c85b0b603d8",
+      "v01249b6833388b1a",
+      "v0388b661c5fd357d",
+      "v12e1059ea9a4d94c",
+      "v1551f14b29a80589",
+      "v17045b49c56bc098",
+      "v17a93df6e3afb4bb",
+      "v2fb85d5b09a6b31e",
+      "v36c583fbf47a4ba1",
+      "v37a3188d9aeeb957",
+      "v3950ba405aa821b7",
+      "v39757e3cf68c9c84",
+      "v502bbfa63ed14f9f",
+      "v5440a71178987eaa",
+      "v6d1a8d608febb698",
+      "v74bee945342e8235",
+      "v845fe118f2cee052",
+      "v84fcae34317424b3",
+      "v96ef9a38eb678cc3",
+      "va3a00e71e58d2739",
+      "vaa59d083a6064129",
+      "vbc18a70162a0a3eb",
+      "vc0ec0b5e1281c42b",
+      "vdc3c907ac9951f17",
+      "vf220bd496107eb49",
+      "vfeae3c4cd6e24c1b"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "aci"
+}

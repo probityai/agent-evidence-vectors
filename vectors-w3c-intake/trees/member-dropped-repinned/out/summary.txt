@@ -1,0 +1,5 @@
+suite: fixture-suite
+members: 2
+  accept: 1
+  reject: 1
+verdict: every member behaves as MANIFEST.json declares

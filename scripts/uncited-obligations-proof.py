@@ -355,7 +355,7 @@ def go_verdict(rail: str, statement: dict[str, Any]) -> tuple[int, dict[str, Any
         json.dump(statement, handle)
         path = handle.name
     try:
-        code, output = run([rail, "-json", path])
+        code, output = run([rail, "-validity-only", "-json", path])
     finally:
         os.unlink(path)
     lines = output.strip().splitlines()
@@ -620,7 +620,7 @@ def main() -> int:
         for label, argv in (
             ("reference", [sys.executable, str(HARNESS), "--report", "/dev/null"]),
             ("external ", [sys.executable, str(HARNESS), "--verifier",
-                           f"{go_rail} -json", "--report", "/dev/null"]),
+                           f"{go_rail} -validity-only -json", "--report", "/dev/null"]),
         ):
             code, output = run(argv)
             print(f"CONTROL {label} rail  rc={code}  "

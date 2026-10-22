@@ -1,0 +1,6 @@
+suite: test-tampering/v2
+members: 34
+  contradicted: 21
+  not_established: 5
+  supported: 8
+verdict: every member behaves as MANIFEST.json declares

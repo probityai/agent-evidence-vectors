@@ -1,4 +1,5 @@
 {
+  "cites": "the same request one minute old, inside the window.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -37,6 +38,18 @@
     },
     "skew_window_ms": 300000
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-003",
+      "line": 322,
+      "sentence": "Guardians MUST reject requests whose `timestamp` is more than the negotiated skew window",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-003"
   ],

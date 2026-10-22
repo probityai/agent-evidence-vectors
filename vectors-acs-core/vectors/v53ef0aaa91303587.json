@@ -1,4 +1,5 @@
 {
+  "cites": "the same head signed by the Guardian under the key its key_id resolves to, so a verifier that refuses every asymmetric head scores zero on the family.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -36,6 +37,28 @@
     "signed_by": "guardian",
     "signed_with": "guardian-k1"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-022",
+      "line": 428,
+      "sentence": "A required signature is missing, malformed, or fails verification",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-022",
     "ACS-R-021"

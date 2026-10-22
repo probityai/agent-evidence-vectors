@@ -30,12 +30,14 @@ import base64
 import datetime
 import hashlib
 import inspect
+import itertools
 import json
 import os
 import re
 import sys
 import textwrap
 from collections.abc import Callable
+from decimal import Decimal
 from typing import Any
 
 from cryptography.exceptions import InvalidSignature
@@ -74,11 +76,21 @@ PREDICATE_TYPE = _predicate_type_from_spec()
 #: An Ed25519 signature is 64 bytes, so priorCommitment.sig is 128 hex characters.
 SIGNATURE_BYTES = 64
 CODE_DIGEST_PROFILE = os.path.join(HERE, "..", "interop", "observed-code-digest-candidate")
+INVOCATION_BINDING_PROFILE = os.path.join(
+    HERE, "..", "interop", "observed-invocation-binding-candidate"
+)
 #: RFC 3339, UTC, Z designator, no fractional second. The grammar is fixed so that
 #: a lexical comparison of two timestamps IS a comparison of two instants. While it
 #: was not, a commitment stamped 2026-09-18T20:00:00-05:00 sorted before an interval
 #: that opened at 2026-09-19T00:00:00Z and was made an hour AFTER it.
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
+#: strptime alone is not the grammar: it reads %H, %M and %S from one digit, so
+#: 2026-09-19T00:00:3Z parsed here while the packaged and Go rails refused it, and
+#: an unpadded second sorts after every padded one. issuedAt at 00:00:3Z passed the
+#: issued-before-sealed gate against a seal at 00:00:04Z on this rail alone. The
+#: digits are [0-9] rather than \d, which in Python also matches every other
+#: script's decimal digits, and strptime reads those as numbers too.
+TIMESTAMP_GRAMMAR = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 TIMESTAMP_MEMBERS = ("openedAt", "sealedAt")
 #: Facts a statement can recompute about itself. dualValues is the one member the
 #: predicate offers as catching a lying producer, and it caught nothing while the
@@ -133,6 +145,11 @@ class Invalid(Exception):
         self.code = code
 
 
+def _no_constant(token: str) -> Any:
+    """NaN, Infinity and -Infinity are not JSON; Python's parser accepts them unless told not to."""
+    raise Malformed("not-parseable")
+
+
 def _no_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     seen: set[str] = set()
     for key, _ in pairs:
@@ -182,7 +199,7 @@ def _under(path: str, scope: str) -> bool:
 
 
 def _timestamp(value: Any, code: str) -> datetime.datetime:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or not TIMESTAMP_GRAMMAR.match(value):
         raise Malformed(code)
     try:
         return datetime.datetime.strptime(value, TIMESTAMP_FORMAT)
@@ -202,6 +219,25 @@ def _required(obj: dict[str, Any], *names: str) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _over_bound(number: Decimal) -> bool:
+    """An integer by value at or past the I-JSON bound, whatever its spelling.
+
+    1e21 and 9007199254740993.0 are integers past the bound. The value is exact
+    because the statement is parsed with Decimal, so this rail decides the same
+    way as the Go rails, which use exact rationals (attack A33).
+    """
+    return number == number.to_integral_value() and abs(number) >= IJSON_LIMIT
+
+
+def _number_over_bound(node: Any) -> bool:
+    """True for an integer or an exact decimal that is an integer at or past the bound."""
+    if isinstance(node, bool):
+        return False
+    if isinstance(node, int):
+        return abs(node) >= IJSON_LIMIT
+    return isinstance(node, Decimal) and _over_bound(node)
+
+
 def rule_ijson_integers(statement: dict[str, Any]) -> None:
     """No integer at or above 2**53 anywhere, at any depth.
 
@@ -212,12 +248,8 @@ def rule_ijson_integers(statement: dict[str, Any]) -> None:
     """
 
     def walk(node: Any) -> None:
-        if isinstance(node, bool):
-            return
-        if isinstance(node, int):
-            if abs(node) >= IJSON_LIMIT:
-                raise Malformed("integer-not-ijson-safe")
-            return
+        if _number_over_bound(node):
+            raise Malformed("integer-not-ijson-safe")
         if isinstance(node, dict):
             for value in node.values():
                 walk(value)
@@ -257,6 +289,31 @@ def rule_code_digest_policy(pred: dict[str, Any], expected: str) -> None:
     value = pred["codeDigest"]
     if not isinstance(value, dict) or value.get("sha256") != expected:
         raise Invalid("code-digest-mismatch")
+
+
+def rule_invocation_binding_shape(pred: dict[str, Any]) -> None:
+    """Validate a present call binding without supplying a missing field."""
+    if "invocationBinding" not in pred:
+        return
+    value = pred["invocationBinding"]
+    if not isinstance(value, dict) or set(value) != {"sha256"}:
+        raise Malformed("invocation-binding-shape")
+    sha = value["sha256"]
+    if not isinstance(sha, str) or re.fullmatch(r"[0-9a-f]{64}", sha) is None:
+        raise Malformed("invocation-binding-value")
+
+
+def rule_invocation_binding_policy(pred: dict[str, Any], expected: str) -> None:
+    """Match the producer's signed call binding against a consumer-computed one."""
+    if expected == "":
+        return
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        raise Invalid("invocation-binding-policy-invalid")
+    if "invocationBinding" not in pred:
+        raise Invalid("invocation-binding-required")
+    value = pred["invocationBinding"]
+    if not isinstance(value, dict) or value.get("sha256") != expected:
+        raise Invalid("invocation-binding-mismatch")
 
 
 def rule_subject_binding(statement: dict[str, Any]) -> None:
@@ -476,11 +533,53 @@ def rule_empty_tree_holds_no_bytes(pred: dict[str, Any]) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
+def _unobserved_spans(coverage: dict[str, Any]) -> list[dict[str, str]]:
+    """The spans in unobservedIntervals, each an object of exactly from and to,
+    both in the one timestamp grammar; anything else is malformed."""
+    spans = coverage["unobservedIntervals"]
+    if not isinstance(spans, list):
+        raise Malformed("unobserved-interval-malformed")
+    for span in spans:
+        if not isinstance(span, dict) or set(span) != {"from", "to"}:
+            raise Malformed("unobserved-interval-malformed")
+        for bound in ("from", "to"):
+            code = f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}"
+            _timestamp(span[bound], code)
+    return spans
+
+
+def rule_coverage_unobserved_intervals(pred: dict[str, Any]) -> None:
+    """The sub-intervals an observer was not watching, located in time.
+
+    A monitor that attached after the call began, or stopped and restarted, was
+    blind to every path for a span it knows exactly. gaps locates by path and
+    notEstablished says coverage could not be determined, so neither is true of it.
+    Each span runs from strictly before to, inside the interval, and the list is
+    ordered with each span ending strictly before the next begins, so one blind
+    span has one spelling and every ordering check here is a lexical comparison.
+    """
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = _unobserved_spans(coverage)
+    interval = pred["interval"]
+    for span in spans:
+        if span["from"] >= span["to"]:
+            raise Malformed("unobserved-interval-not-ordered")
+        if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
+            raise Malformed("unobserved-interval-outside-interval")
+    for earlier, later in itertools.pairwise(spans):
+        if earlier["to"] >= later["from"]:
+            raise Malformed("unobserved-intervals-not-disjoint")
+
+
 def rule_coverage_coherence(pred: dict[str, Any]) -> None:
     coverage = pred["observation"]["coverage"]
     _required(coverage, "scopeComplete", "gaps")
     if not coverage["scopeComplete"]:
         return
+    if coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-self-contradictory")
     for gap in coverage["gaps"]:
         if any(_under(gap, scope) for scope in pred["pathScope"]):
             raise Malformed("coverage-self-contradictory")
@@ -495,8 +594,32 @@ def rule_coverage_gaps_named(pred: dict[str, Any]) -> None:
     authoritative. The blind spot is where the writes went.
     """
     coverage = pred["observation"]["coverage"]
-    if not coverage["scopeComplete"] and not coverage["gaps"]:
+    if (
+        not coverage["scopeComplete"]
+        and not coverage["gaps"]
+        and not coverage.get("unobservedIntervals")
+        and "notEstablished" not in coverage
+    ):
         raise Malformed("coverage-incomplete-without-gaps")
+
+
+def rule_coverage_not_established_shape(pred: dict[str, Any]) -> None:
+    """The third coverage shape: the observer could not determine its coverage.
+
+    It carries the reason, and it stands alone. An empty reason is the unnamed gap
+    under another member, and a reason beside a located gap or scopeComplete true
+    says two things about one coverage. Clause 4 of the tier recompute keeps it
+    from grading authoritative, because clause 3 reads an empty gaps list as
+    vacuously outside the scope.
+    """
+    coverage = pred["observation"]["coverage"]
+    if "notEstablished" not in coverage:
+        return
+    reason = coverage["notEstablished"]
+    if not isinstance(reason, str) or not reason.strip():
+        raise Malformed("coverage-not-established-without-reason")
+    if coverage["scopeComplete"] or coverage["gaps"] or coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-shape-ambiguous")
 
 
 def rule_origin_carries_the_vantage(pred: dict[str, Any]) -> None:
@@ -712,6 +835,8 @@ def rule_tier_recompute(pred: dict[str, Any]) -> None:
         or not any(
             _under(gap, scope) for gap in obs["coverage"]["gaps"] for scope in pred["pathScope"]
         ),
+        "authoritative-coverage-not-established": "notEstablished" not in obs["coverage"],
+        "authoritative-interval-not-observed": not obs["coverage"].get("unobservedIntervals"),
     }
     # The prior-commitment clause is gone for the same reason, and it went the same
     # way: rule_prior_commitment_present refuses a below-observed record with no
@@ -774,11 +899,14 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_write_chain", rule_write_chain),
     ("rule_subject_binding", rule_subject_binding),
     ("rule_code_digest_shape", rule_code_digest_shape),
+    ("rule_invocation_binding_shape", rule_invocation_binding_shape),
     ("rule_read_bindings", rule_read_bindings),
     ("rule_range_preimage", rule_range_preimage),
     ("rule_read_chain", rule_read_chain),
     ("rule_empty_tree_holds_no_bytes", rule_empty_tree_holds_no_bytes),
+    ("rule_coverage_unobserved_intervals", rule_coverage_unobserved_intervals),
     ("rule_coverage_coherence", rule_coverage_coherence),
+    ("rule_coverage_not_established_shape", rule_coverage_not_established_shape),
     ("rule_coverage_gaps_named", rule_coverage_gaps_named),
     ("rule_origin_carries_the_vantage", rule_origin_carries_the_vantage),
     ("rule_import_origin_platform", rule_import_origin_platform),
@@ -795,6 +923,7 @@ RULES: list[tuple[str, Callable[..., None]]] = [
     ("rule_tier_recompute", rule_tier_recompute),
     ("rule_authoritative_carries_rows", rule_authoritative_carries_rows),
     ("rule_code_digest_policy", rule_code_digest_policy),
+    ("rule_invocation_binding_policy", rule_invocation_binding_policy),
 ]
 
 
@@ -814,6 +943,7 @@ def verify(
     disabled: str | None = None,
     *,
     expected_code_digest: str = "",
+    expected_invocation_binding: str = "",
 ) -> tuple[str, list[str]]:
     """Return (verdict, codes) for one vector file.
 
@@ -822,15 +952,29 @@ def verify(
     """
     blobs = blobs or {}
     try:
-        envelope = json.loads(raw, object_pairs_hook=_no_duplicates)
+        envelope = json.loads(
+            raw, object_pairs_hook=_no_duplicates, parse_constant=_no_constant
+        )
         payload = base64.b64decode(envelope["payload"], validate=True)
-        statement = json.loads(payload, object_pairs_hook=_no_duplicates)
+        statement = json.loads(
+            payload,
+            object_pairs_hook=_no_duplicates,
+            parse_constant=_no_constant,
+            parse_float=Decimal,
+        )
     except Malformed as exc:
         return "malformed", [exc.code]
     except Exception:
         return "malformed", ["not-parseable"]
 
-    refusal = _apply_rules(statement, blobs, disabled, observer_public_key, expected_code_digest)
+    refusal = _apply_rules(
+        statement,
+        blobs,
+        disabled,
+        observer_public_key,
+        expected_code_digest,
+        expected_invocation_binding,
+    )
     if refusal is not None:
         return refusal
     return _verify_envelope(envelope, payload, observer_public_key)
@@ -843,10 +987,13 @@ def _rule_arguments(
     blobs: dict[str, bytes],
     observer_public_key: str,
     expected_code_digest: str,
+    expected_invocation_binding: str = "",
 ) -> tuple[Any, ...]:
     """Select a rule's explicit evidence or consumer-policy arguments."""
     if name == "rule_code_digest_policy":
         return pred, expected_code_digest
+    if name == "rule_invocation_binding_policy":
+        return pred, expected_invocation_binding
     if name in STATEMENT_SCOPED:
         return (statement,)
     if name in BLOB_SCOPED:
@@ -862,6 +1009,7 @@ def _apply_rules(
     disabled: str | None,
     observer_public_key: str,
     expected_code_digest: str = "",
+    expected_invocation_binding: str = "",
 ) -> tuple[str, list[str]] | None:
     """Run stage one and stage two. Return a refusal, or None where every rule held."""
     try:
@@ -873,7 +1021,13 @@ def _apply_rules(
                 continue
             fn(
                 *_rule_arguments(
-                    name, statement, pred, blobs, observer_public_key, expected_code_digest
+                    name,
+                    statement,
+                    pred,
+                    blobs,
+                    observer_public_key,
+                    expected_code_digest,
+                    expected_invocation_binding,
                 )
             )
     except Malformed as exc:
@@ -1091,6 +1245,16 @@ def check_schema_spellings(manifest: dict[str, Any]) -> None:
         for entry in profile["vectors"]
         if entry["expected"]["verdict"] == "valid"
     ]
+    with open(os.path.join(INVOCATION_BINDING_PROFILE, "MANIFEST.json"), encoding="utf-8") as fh:
+        profile = json.load(fh)
+    accepted += [
+        (
+            f"invocation-binding/{entry['id']}",
+            os.path.join(INVOCATION_BINDING_PROFILE, entry["file"]),
+        )
+        for entry in profile["vectors"]
+        if entry["expected"]["verdict"] == "valid"
+    ]
     seen: set[str] = set()
     for slug, path in accepted:
         with open(path, encoding="utf-8") as fh:
@@ -1130,6 +1294,17 @@ STAGE_TWO_GATES: dict[str, str] = {
     "rule_tier_recompute": "the `tier` recompute",
     "rule_authoritative_carries_rows": "the rows requirement on an authoritative record",
     "rule_code_digest_policy": "the code identity join",
+    "rule_invocation_binding_policy": "the invocation binding join",
+}
+
+#: Stage-one gates the predicate names outright, because a reader could not place
+#: them from the stage-two list alone: the interval order reads as one of the
+#: ordering checks under `observation`, and the range-digest recompute needs bytes
+#: the statement does not carry. A reader of 0.6.1 placed both by elimination (#29).
+STAGE_ONE_NAMED: dict[str, str] = {
+    "rule_interval_order": "the interval order (`openedAt` strictly before `sealedAt`, "
+    "and `issuedAt` not before `sealedAt`)",
+    "rule_range_preimage": "the `rangeDigest` recompute against a blob the consumer holds",
 }
 
 #: The predicate's sentence giving each stage its word. A reader built from the
@@ -1177,6 +1352,13 @@ def _check_stage_lists() -> None:
             FAILURES.append(f"{name}: the stage-two list does not name {phrase!r}")
         if phrase in stage_one:
             FAILURES.append(f"{name}: the stage-one list names {phrase!r} as well")
+    for name, phrase in STAGE_ONE_NAMED.items():
+        if name in STAGE_TWO_GATES:
+            FAILURES.append(f"{name}: named as a stage-one gate and listed as stage two")
+        if phrase not in stage_one:
+            FAILURES.append(f"{name}: the stage-one list does not name {phrase!r}")
+        if phrase in stage_two:
+            FAILURES.append(f"{name}: the stage-two list names {phrase!r} as well")
 
 
 def _check_raised_words(fn: Callable[..., Any]) -> None:
@@ -1210,6 +1392,10 @@ def check_verdict_words() -> None:
     place in the stage-two list is checked here; check_member holds its word.
     """
     _check_stage_lists()
+    implemented = {fn.__name__ for _, fn in RULES}
+    for name in STAGE_ONE_NAMED:
+        if name not in implemented:
+            FAILURES.append(f"{name}: named as a stage-one gate and implements no rule")
     for _, fn in RULES:
         _check_raised_words(fn)
 

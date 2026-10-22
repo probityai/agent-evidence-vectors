@@ -133,8 +133,20 @@ def pae(payload_type: str, payload: bytes) -> bytes:
             str(len(payload)).encode() + b" " + payload)
 
 
+def _lenient_b64decode(s: str) -> bytes:
+    """What a lenient decoder recovers: non-alphabet bytes discarded, padding
+    restored, slack trailing bits ignored. On canonical text it equals unb64."""
+    core = "".join(c for c in s if c in _B64_ALPHABET)
+    return base64.b64decode(core + "=" * (-len(core) % 4))
+
+
 def record_pae(rec: dict[str, Any]) -> bytes:
-    return pae(rec["payloadType"], unb64(rec["payload"]))
+    """The PAE a rail that decodes leniently computes. Identical to the strict
+    one on every canonically spelled record; on the respelled records of the
+    canonical-base64 vectors it is the PAE over the signed bytes, which is what
+    lets the second-fault check confirm the root still matches for such a rail
+    and that the decode rule is the only fault the statement carries."""
+    return pae(rec["payloadType"], _lenient_b64decode(rec["payload"]))
 
 
 def _h(b: bytes) -> bytes:
@@ -946,6 +958,9 @@ INHERENT_EXTRA: dict[str, list[str]] = {
         "bad-742-payload-nesting-empty-container-leaf",
         "bad-744-payload-noncharacter",
         "bad-817-payload-noncanonical-base64",
+        "bad-1020-payload-base64-line-breaks",
+        "bad-1021-payload-base64-unpadded",
+        "bad-1022-payload-base64-whitespace",
     )},
     **{vid: ["interception-record-orphaned"] for vid in (
         "bad-101-refs-empty",
@@ -1053,10 +1068,12 @@ OBSERVED_EXTRA: dict[str, list[str]] = {
     )},
     "bad-206-payload-missing-kind": ["record-kind-unknown-covers-nothing"],
     "bad-806-coverage-attack-omitted": ["interception-record-orphaned"],
-    "bad-817-payload-noncanonical-base64": [
-        "payload-not-canonical",
-        "reconstructed-row-uncovered",
-    ],
+    **{vid: ["payload-not-canonical", "reconstructed-row-uncovered"] for vid in (
+        "bad-817-payload-noncanonical-base64",
+        "bad-1020-payload-base64-line-breaks",
+        "bad-1021-payload-base64-unpadded",
+        "bad-1022-payload-base64-whitespace",
+    )},
 }
 
 
@@ -1730,7 +1747,7 @@ def _b410() -> dict[str, Any]:
 vec("bad-410-duplicate-and-undecodable-record", "ok-002",
     "a byte-identical second copy of the arming record AND a fourth record, of "
     "an unknown kind, whose payload is re-encoded as non-canonical base64 so it "
-    "no longer strict-decodes", [], [29],
+    "no longer strict-decodes", [], [29, 110],
     ["duplicate-record", "record-undecodable"], _b410, compound=True,
     spec="L1751-1752; L1300-1302",
     note="inherently compound, and the pairing is the whole vector: a statement "
@@ -1744,12 +1761,11 @@ vec("bad-410-duplicate-and-undecodable-record", "ok-002",
          "the pair is byte-identical rather than a second undecodable copy, "
          "because two records that do not decode hold the same absent leaf and "
          "reading THAT as a duplicate would be a finding about the scan rather "
-         "than about the statement. It cites one condition and carries two "
-         "anchors, which is not an oversight: the duplicate rule is aee-c-29 and "
-         "the rule a record's payload breaks by not decoding, at L1300-1302, has "
-         "no id in the registry above. bad-817 cites aee-c-19 for it, and "
-         "aee-c-19 is the media-type rule that bad-204 forces, so citing it here "
-         "would be repeating a wrong answer rather than giving one")
+         "than about the statement. It cites two conditions: the duplicate "
+         "rule, aee-c-29, and the rule a record's payload breaks by not "
+         "decoding, aee-c-110 at L1300-1302. That second rule had no id when "
+         "this vector was written, and bad-817 cited aee-c-19, the media-type "
+         "rule bad-204 forces, in its place; both now cite aee-c-110")
 
 # --- (d/e) basis / method / actualLayer ----------------------------------
 
@@ -3369,12 +3385,90 @@ def _b817() -> dict[str, Any]:
 vec("bad-817-payload-noncanonical-base64", "ok-031",
     "covering record payload re-encoded as non-canonical base64 (nonzero "
     "trailing bits); the record no longer strict-decodes",
-    [], [19], ["record-undecodable"], _b817,
+    [], [110], ["record-undecodable"], _b817,
     spec="L1288-1291",
     note="encoding-layer divergence: Go decodes with StdEncoding.Strict() and "
          "the Python rail re-encode-compares, so both reject; a lenient decoder "
          "would accept. The stale signature and batch root are unreachable "
          "because a decode failure short-circuits both checks (validity.go:120)")
+
+
+def _canonical_b64_variant(spell: Callable[[str], str]
+                            ) -> Callable[[], dict[str, Any]]:
+    """The bad-817 statement with its covering record's payload respelled.
+
+    Each respelling keeps the bytes a lenient decoder recovers identical to the
+    signed ones, so the signature, the leaf and the batch root a lenient rail
+    computes all still match. Only the canonical-base64 rule refuses the
+    record, which is what makes each of these a test of that rule and of
+    nothing else."""
+    def b() -> dict[str, Any]:
+        st = P_reconstructed()
+        recs = st["predicate"]["observationRecords"]
+        canonical = recs[0]["payload"]
+        respelled = spell(canonical)
+        assert respelled != canonical, "the respelling left the payload unchanged"
+        assert _lenient_b64decode(respelled) == base64.b64decode(canonical), \
+            "a lenient decoder must recover the signed bytes"
+        recs[0]["payload"] = respelled
+        return st
+    return b
+
+
+def _mime_wrapped(s: str) -> str:
+    """RFC 2045 transfer encoding: CRLF after every 76 characters."""
+    return "\r\n".join(s[i:i + 76] for i in range(0, len(s), 76))
+
+
+def _unpadded(s: str) -> str:
+    stripped = s.rstrip("=")
+    assert stripped != s, "payload must carry padding to drop it"
+    return stripped
+
+
+def _space_between_quanta(s: str) -> str:
+    return s[:4] + " " + s[4:]
+
+
+vec("bad-1020-payload-base64-line-breaks", "ok-031",
+    "covering record payload wrapped MIME-style, CRLF after every 76 "
+    "characters; the bytes it decodes to are the signed ones",
+    [], [110], ["record-undecodable"],
+    _canonical_b64_variant(_mime_wrapped), spec="L1300-1302",
+    note="Expected invariant: a carried payload is the canonical base64 of the "
+         "bytes the substrate signed. Failure condition: the payload text is "
+         "broken into 76-character lines with CRLF, the RFC 2045 transfer "
+         "encoding. Observable: invalid, record-undecodable. This is the "
+         "spelling Go's encoding/base64 accepts in every mode, Strict() "
+         "included, because it skips CR and LF; the Go reference rail accepted "
+         "this statement until it compared the text against the canonical "
+         "re-encoding, and the Python rail refused it all along. A rail that "
+         "decodes leniently reads the signed bytes, verifies the signature and "
+         "recomputes the root, so the decode rule is the only thing that can "
+         "refuse it")
+
+vec("bad-1021-payload-base64-unpadded", "ok-031",
+    "covering record payload with its padding dropped; the bytes it decodes "
+    "to are the signed ones",
+    [], [110], ["record-undecodable"],
+    _canonical_b64_variant(_unpadded), spec="L1300-1302",
+    note="Expected invariant: a carried payload uses minimal padding, which "
+         "for a payload whose length is not a multiple of three is one or two "
+         "'=' characters, never none. Failure condition: the trailing '=' is "
+         "dropped. Observable: invalid, record-undecodable. Decoders that "
+         "accept unpadded input, the base64url habit carried onto the standard "
+         "alphabet, read the signed bytes")
+
+vec("bad-1022-payload-base64-whitespace", "ok-031",
+    "covering record payload with one space between its first and second "
+    "quanta; the bytes it decodes to are the signed ones",
+    [], [110], ["record-undecodable"],
+    _canonical_b64_variant(_space_between_quanta), spec="L1300-1302",
+    note="Expected invariant: a carried payload holds no byte outside the "
+         "base64 alphabet. Failure condition: one space at a quantum boundary. "
+         "Observable: invalid, record-undecodable. A decoder that discards "
+         "non-alphabet bytes, as Python's b64decode does without validate=True, "
+         "reads the signed bytes")
 
 
 def _b808() -> dict[str, Any]:
@@ -5707,6 +5801,15 @@ COND = {
                   "parsing rules, which is what makes the framework's sentence "
                   "binding here; the rule is stated in full, with the in-toto "
                   "and SLSA text it lifts, at spec/v1/statement.md"),
+    110: ("L1300-1302", "a record's payload is the base64 of the exact bytes "
+                        "the substrate signed, spelled the one canonical RFC "
+                        "4648 way: standard alphabet, minimal padding, zero "
+                        "trailing bits, no line break and no other "
+                        "non-alphabet byte. A payload spelled any other way "
+                        "carries no bytes and the record is undecodable. The "
+                        "vendored revision states the base64 member; the "
+                        "registry entry on the pull request branch states "
+                        "the canonical clause"),
 }
 
 

@@ -1112,6 +1112,24 @@
       "opens": "Whether anything was positioned to see is answered by `basis` and",
       "closes": "was attributed, which is the strongest claim a `pass` can rest on, a claim"
     },
+    "vectors/reject/gen_invalid_vectors.py::bad-1020-payload-base64-line-breaks#0": {
+      "anchor": "L1300-1302",
+      "digest": "e0f1c03133309284c9b105cee0d71eb793fac400fbb6acbb7f1816a982e705ff",
+      "opens": "One DSSE envelope per observation: `payload` (base64 of the exact",
+      "closes": "and `signatures`, which MUST carry at least one entry. A consumer verifies"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-1021-payload-base64-unpadded#0": {
+      "anchor": "L1300-1302",
+      "digest": "e0f1c03133309284c9b105cee0d71eb793fac400fbb6acbb7f1816a982e705ff",
+      "opens": "One DSSE envelope per observation: `payload` (base64 of the exact",
+      "closes": "and `signatures`, which MUST carry at least one entry. A consumer verifies"
+    },
+    "vectors/reject/gen_invalid_vectors.py::bad-1022-payload-base64-whitespace#0": {
+      "anchor": "L1300-1302",
+      "digest": "e0f1c03133309284c9b105cee0d71eb793fac400fbb6acbb7f1816a982e705ff",
+      "opens": "One DSSE envelope per observation: `payload` (base64 of the exact",
+      "closes": "and `signatures`, which MUST carry at least one entry. A consumer verifies"
+    },
     "vectors/reject/gen_invalid_vectors.py::bad-808-coverage-absent#0": {
       "anchor": "L905-909",
       "digest": "5a457f13f1323cdd7dc2a0e83eaba5b5a5cbb03345883c303d0ece172972bed2",
@@ -2288,6 +2306,12 @@
       "opens": "The predicate opts in to the framework's standard parsing rules, including the",
       "closes": "The predicate opts in to the framework's standard parsing rules, including the"
     },
+    "vectors/reject/gen_invalid_vectors.py::110#0": {
+      "anchor": "L1300-1302",
+      "digest": "e0f1c03133309284c9b105cee0d71eb793fac400fbb6acbb7f1816a982e705ff",
+      "opens": "One DSSE envelope per observation: `payload` (base64 of the exact",
+      "closes": "and `signatures`, which MUST carry at least one entry. A consumer verifies"
+    },
     "vectors/reject/gen_invalid_vectors.py::write_index#0": {
       "anchor": "L1901-1903",
       "digest": "b0306298aa252f910e3e3ac79c62e73193b85106eaa733b53e18e461324ed5ff",
@@ -2785,6 +2809,12 @@
       "digest": "e6145aaf2d71677274b634b8f9d5a83ab011e63f709a6146ae6e0ea74c606e7f",
       "opens": "- a row declaring `attribution: pinned` resolves at least one",
       "closes": "declares the stronger of the two values with nothing checking it."
+    },
+    "vectors/CHANGES.md::suiteRevision 32 (canonical base64 on the carried payload)#0": {
+      "anchor": "L1300-1302",
+      "digest": "e0f1c03133309284c9b105cee0d71eb793fac400fbb6acbb7f1816a982e705ff",
+      "opens": "One DSSE envelope per observation: `payload` (base64 of the exact",
+      "closes": "and `signatures`, which MUST carry at least one entry. A consumer verifies"
     },
     "vectors/CHANGES.md::suiteRevision 27 (a reject vector IS its parent plus one mutation, and the gate says so)#0": {
       "anchor": "L614-623",

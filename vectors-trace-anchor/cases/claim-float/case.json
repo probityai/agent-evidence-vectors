@@ -1,0 +1,25 @@
+{
+  "claim": {
+    "iat": 1792000300,
+    "score": 0.5,
+    "signature": "fixture-signature-agent-float",
+    "subject": "agent-float",
+    "transparency": "https://registry.example.org/anchors/b-float"
+  },
+  "entry": {
+    "batch_id": "b-float",
+    "leaf_count": 3,
+    "merkle_root": "sha256:11d266846b8dc093ea47257565310fc838f7eb25cee9d20c0182574f761aa210",
+    "producer": "trace-gateway/1.0.0",
+    "ts": "2026-10-15T12:00:00Z"
+  },
+  "receipt": {
+    "audit_path": [
+      "sha256:0ce32d1b509ba3e3a40b75a3793aab75436870fdcd319a936b834ef3ed2ad47d",
+      "sha256:98ee46f59539d2bb46da79befb9f2614da73a6d4f724252701d6a43c5711c6f7"
+    ],
+    "leaf_count": 3,
+    "leaf_index": 0,
+    "merkle_root": "sha256:11d266846b8dc093ea47257565310fc838f7eb25cee9d20c0182574f761aa210"
+  }
+}

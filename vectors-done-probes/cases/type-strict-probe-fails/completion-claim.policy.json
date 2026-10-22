@@ -1,0 +1,44 @@
+{
+  "assessments": {
+    "type-strict-fails": {
+      "capability_witness": "capability",
+      "claim_type": "completion_claim/v1",
+      "claims_witness": "claims",
+      "contract_witness": "contract",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      }
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "0cc785df74e2750b48f9101ac26b77bf6baf47374bc415d0ae2c605304a1015c"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "c77cebb498bc56ce3d7f26d6d7ce4f3625c94683a387e4c7bc447965eaac19fa"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "a7bfd9af1446c286f3929ca9f00bd36868bf4fbde0c1ada787dcba767503c737",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

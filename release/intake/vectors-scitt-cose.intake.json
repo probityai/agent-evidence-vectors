@@ -1,0 +1,971 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 6,
+      "indeterminate": 4,
+      "reject": 17
+    },
+    "line": "OK 6 accept, 17 reject, 4 indeterminate, 18 conditions, corpus 79d651d3e127",
+    "total": 27
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-scitt-cose/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-scitt-cose/digest.py",
+    "routine-file": "vectors-scitt-cose/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "swapped-in": "534d8aae83e4f4b20a648f1bf01604a1717720b9d5ed3b55dbea8d96d4aed332",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-scitt-cose/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "4fbdfa95483c206ee7c2adc6eb66a787ae65e532c42297ad75e5abf0f4f91da4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "swapped-in": "de826b24857fea95c3f65532841fcae790b207fd99c9ed3a21c684444501df38",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-scitt-cose/README.md",
+      "serialization": "bytes",
+      "sha256": "9b7cc4419ed95e5e0ae6cf75f3b7d33b02d236722260dafd5a6afe8803890f4a"
+    },
+    {
+      "consumed": "consumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "swapped-in": "56e6ae92bf87ea8b582b2d411bd321938295aef1f4e2d910c211cea86fe80c5c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-scitt-cose/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "250e08b840b638fcb035fb9c97da58c53432cbaa39fd85ddcf6c4436eebb9487"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "swapped-in": "dd09f76ad70584f6b5a746e34841ac9948a35e28185d0e3a70b22fb174b083db",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-scitt-cose/digest.py",
+      "serialization": "bytes",
+      "sha256": "cadf433459d43919b993bd8939e6f10009d98ed526929a315d4c936c20c423c3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+        },
+        "swapped-in": "d45ffdafe8b6157d204cec59cdb47261049472dd6b078a286d99ce8700e74a30",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-scitt-cose/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "73767058115da67589975bc8c05b45b0bb3e578f5e02cccddc5c394f2484d8d6"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "statements",
+        "recursive": false,
+        "suffix": ".json"
+      }
+    ],
+    "root": "vectors-scitt-cose"
+  },
+  "byte-identity": {
+    "pins": 27,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "uv sync --locked --extra generators",
+      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py --json",
+      "PYTHONHASHSEED=0 python vectors-scitt-cose/check_vectors.py"
+    ],
+    "dependencies": [
+      {
+        "path": "pyproject.toml",
+        "serialization": "bytes",
+        "sha256": "b995ef2ad5ea1ab2befddbda55398946ebe227c3a3212f67153413b09586d5ac"
+      },
+      {
+        "path": "uv.lock",
+        "serialization": "bytes",
+        "sha256": "b7010f77d644a4878ccd549eb11f3849dddcbef42f0146f01bc4b64f3609d74b"
+      }
+    ],
+    "helpers": [],
+    "name": "vectors-scitt-cose/check_vectors.py",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "vectors-scitt-cose/check_vectors.py"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "41b8e872d5242404a3e1f1bec6888b5486c0f59a62ff21c0eef518d0904a1ca7"
+    },
+    "runtime": {
+      "name": "cpython",
+      "version": "3.13"
+    },
+    "shared-verification-code": [
+      "vectors-scitt-cose/check_vectors.py"
+    ]
+  },
+  "checks": [
+    {
+      "check": "v0636cd5206c6a98c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0fa72e24c8012749",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v11816a7dc863a687",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v13df07bd26f63dae",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1c44afeeeec6013c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2c7975eac1701b6c",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v2cade3228c1da11a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v3283077e1d1b5d8c",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v38bad1bbcbdbdf3d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v41d9bfda6adac0af",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v4b65541710f581c3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5d470e62bc419824",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v71d601cc7c6464a1",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v7ee2786688bfdb79",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8819ae608ecb37ff",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8de7afebda214319",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va145ee9bd51df5f8",
+      "native": {
+        "reasons": [],
+        "verdict": "indeterminate"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "va6a19109d269c858",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vacced92411f5ac61",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vad7cde281e84a54b",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vb93d431e43fe61e2",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc1d2e16ca13eaeb3",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc73a5ea351b6a6af",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vc8520277aa73cf0a",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vecb11244fd522443",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vf9463fb9663b49d5",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vfd2e3344cb6eefa6",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "6c9e8e7c099b24bde1b4dcc011324934bdf3313b79dd25967232347dd4dc4e19"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "v0636cd5206c6a98c",
+      "v0fa72e24c8012749",
+      "v11816a7dc863a687",
+      "v13df07bd26f63dae",
+      "v1c44afeeeec6013c",
+      "v2c7975eac1701b6c",
+      "v2cade3228c1da11a",
+      "v3283077e1d1b5d8c",
+      "v38bad1bbcbdbdf3d",
+      "v41d9bfda6adac0af",
+      "v4b65541710f581c3",
+      "v5d470e62bc419824",
+      "v71d601cc7c6464a1",
+      "v7ee2786688bfdb79",
+      "v8819ae608ecb37ff",
+      "v8de7afebda214319",
+      "va145ee9bd51df5f8",
+      "va6a19109d269c858",
+      "vacced92411f5ac61",
+      "vad7cde281e84a54b",
+      "vb93d431e43fe61e2",
+      "vc1d2e16ca13eaeb3",
+      "vc73a5ea351b6a6af",
+      "vc8520277aa73cf0a",
+      "vecb11244fd522443",
+      "vf9463fb9663b49d5",
+      "vfd2e3344cb6eefa6"
+    ],
+    "path": "vectors-scitt-cose/MANIFEST.json",
+    "sha256": "86a22a1118aaf041d01fb0b3c99d4d307827d3b0803dc4d56e0face04bc770bb"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v0636cd5206c6a98c.json",
+          "sha256": "0636cd5206c6a98c8216e64a165cb9dae65fb5d094ae361f6b4bd2c4d4a6ce66"
+        }
+      ],
+      "id": "v0636cd5206c6a98c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v0fa72e24c8012749.json",
+          "sha256": "0fa72e24c801274977798e312839f018824582c5f9ee42e3b0bebb6a52792c53"
+        }
+      ],
+      "id": "v0fa72e24c8012749"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v11816a7dc863a687.json",
+          "sha256": "11816a7dc863a6874c298011fc8513cad9daf3562a30144c039d780a5835e2b5"
+        }
+      ],
+      "id": "v11816a7dc863a687"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v13df07bd26f63dae.json",
+          "sha256": "13df07bd26f63dae80d8d174c1e1f87717552e87eb2a2db9a01c952d96ea3e1c"
+        }
+      ],
+      "id": "v13df07bd26f63dae"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v1c44afeeeec6013c.json",
+          "sha256": "1c44afeeeec6013ca9050026cab0d18b2712382743a58001286c15e477c1d5b7"
+        }
+      ],
+      "id": "v1c44afeeeec6013c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v2c7975eac1701b6c.json",
+          "sha256": "2c7975eac1701b6cdda844d32e97a01008040e8d897f7f4b0918d6e02eb50c14"
+        }
+      ],
+      "id": "v2c7975eac1701b6c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v2cade3228c1da11a.json",
+          "sha256": "2cade3228c1da11a148842c627e72b25f21fc5759f27de575d685f2020db183f"
+        }
+      ],
+      "id": "v2cade3228c1da11a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v3283077e1d1b5d8c.json",
+          "sha256": "3283077e1d1b5d8c77987e13320102f2624794d9b03e053a1b043de4ea7ca880"
+        }
+      ],
+      "id": "v3283077e1d1b5d8c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v38bad1bbcbdbdf3d.json",
+          "sha256": "38bad1bbcbdbdf3d8789b650f8bb78cbe4bf7c50f9ffe63d4a69912c7fe9869a"
+        }
+      ],
+      "id": "v38bad1bbcbdbdf3d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v41d9bfda6adac0af.json",
+          "sha256": "41d9bfda6adac0af5e331c7cd16c7d2461585f9c3af8940fd6deaa069d34e1e6"
+        }
+      ],
+      "id": "v41d9bfda6adac0af"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v4b65541710f581c3.json",
+          "sha256": "4b65541710f581c34a1ef4f05e67aa4af7eb34135607dcbeba4a343bdb54f873"
+        }
+      ],
+      "id": "v4b65541710f581c3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v5d470e62bc419824.json",
+          "sha256": "5d470e62bc4198240e3cbd8ac0cf531090b98097d110521c3fdb88843fd39de4"
+        }
+      ],
+      "id": "v5d470e62bc419824"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v71d601cc7c6464a1.json",
+          "sha256": "71d601cc7c6464a18078292387817d937ab3bfed30a62cc0a6f6c40598993e3a"
+        }
+      ],
+      "id": "v71d601cc7c6464a1"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v7ee2786688bfdb79.json",
+          "sha256": "7ee2786688bfdb79c11245d84f8578fc63bfdb3cddf1b5eba66f9c3318df97a9"
+        }
+      ],
+      "id": "v7ee2786688bfdb79"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v8819ae608ecb37ff.json",
+          "sha256": "8819ae608ecb37ff8f46d55070c4fa95b054309aba3873186303f1814aef25db"
+        }
+      ],
+      "id": "v8819ae608ecb37ff"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/v8de7afebda214319.json",
+          "sha256": "8de7afebda214319eb783a38f083f596021f761e0093d11a630c8eed51e94fe6"
+        }
+      ],
+      "id": "v8de7afebda214319"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/va145ee9bd51df5f8.json",
+          "sha256": "a145ee9bd51df5f8b16d62856b3113a511b0c62b14e5edc5d329b55c2de6ac3f"
+        }
+      ],
+      "id": "va145ee9bd51df5f8"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/va6a19109d269c858.json",
+          "sha256": "a6a19109d269c8584b919e2451980940497fe751822245308b7efeb6bf9b6c93"
+        }
+      ],
+      "id": "va6a19109d269c858"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vacced92411f5ac61.json",
+          "sha256": "acced92411f5ac61be20d03875657db10a43a8945c7987017037655937d9f6d3"
+        }
+      ],
+      "id": "vacced92411f5ac61"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vad7cde281e84a54b.json",
+          "sha256": "ad7cde281e84a54ba61e38edf45e9ad21f20c020fbcd86183f4d45ff7bdfcae7"
+        }
+      ],
+      "id": "vad7cde281e84a54b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vb93d431e43fe61e2.json",
+          "sha256": "b93d431e43fe61e2a0b706d839bec0f9114718ec51efa5b77dc4fbf14e5ed953"
+        }
+      ],
+      "id": "vb93d431e43fe61e2"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vc1d2e16ca13eaeb3.json",
+          "sha256": "c1d2e16ca13eaeb331751de95f8320510600b051f6259954286ea91ef16b5d2b"
+        }
+      ],
+      "id": "vc1d2e16ca13eaeb3"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vc73a5ea351b6a6af.json",
+          "sha256": "c73a5ea351b6a6af6e3658c46b095e5ad3c36669dd0b41848757cdc52a8e03ea"
+        }
+      ],
+      "id": "vc73a5ea351b6a6af"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vc8520277aa73cf0a.json",
+          "sha256": "c8520277aa73cf0a8c1121f9350d2e8c9e8f879f5c8569bee960ef04a5612646"
+        }
+      ],
+      "id": "vc8520277aa73cf0a"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vecb11244fd522443.json",
+          "sha256": "ecb11244fd522443b23c32f0b9d7b571033b5f7187ed78f3d3aaff0773fd3900"
+        }
+      ],
+      "id": "vecb11244fd522443"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vf9463fb9663b49d5.json",
+          "sha256": "f9463fb9663b49d58c79c1e312e560180f01fa1675e70ebf9835a790ba6a71b9"
+        }
+      ],
+      "id": "vf9463fb9663b49d5"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-scitt-cose/statements/vfd2e3344cb6eefa6.json",
+          "sha256": "fd2e3344cb6eefa6d9843931b74ca010d119cb708ded7ab8e07016302ea244a8"
+        }
+      ],
+      "id": "vfd2e3344cb6eefa6"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": null
+  },
+  "non-author-runs": [
+    {
+      "basis": "its README: the reference source is read only to derive the rules, and no reference code is imported, executed or copied",
+      "corpus-digest": "79d651d3e127ce9bb68d4bf782f86b4e79391962ddda37f131fba641ca0c20da",
+      "covers-these-bytes": true,
+      "depth": "structure and binding level, corpus digest recomputed",
+      "list-message": "https://lists.w3.org/Archives/Public/public-agent-conformance/2026Oct/0041.html",
+      "operator": "Guigui Wang, Correctover (not an author of this repository)",
+      "reader": "https://github.com/DSHCorrectover/independent-reader",
+      "relationship": "reference-derived",
+      "release": "0.17.6",
+      "result": "382/382 across the twelve corpora read at this depth; no per-corpus count is published",
+      "revision": {
+        "kind": "git-commit",
+        "value": "e0e172f02457806a791c53481e7ecf76be12dc4d"
+      },
+      "shared-verification-code": []
+    }
+  ],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-scitt-cose.json",
+        "serialization": "bytes",
+        "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-scitt-cose.txt",
+        "serialization": "bytes",
+        "sha256": "d9bd08a4c18ec207888055f5a8f6b76113ad7e365a6b1c31d2837d40509ccc14"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "v0636cd5206c6a98c",
+      "inputs": [
+        "member:v0636cd5206c6a98c",
+        "check:v0636cd5206c6a98c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-2\"],\"expected\":{\"codes\":[\"inclusion-proof-absent\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v1c44afeeeec6013c",
+      "inputs": [
+        "member:v1c44afeeeec6013c",
+        "check:v1c44afeeeec6013c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-8\"],\"expected\":{\"codes\":[\"algorithm-deprecated\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v2c7975eac1701b6c",
+      "inputs": [
+        "member:v2c7975eac1701b6c",
+        "check:v2c7975eac1701b6c"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-14\"],\"expected\":{\"codes\":[\"inclusion-proof-unapplicable\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v2cade3228c1da11a",
+      "inputs": [
+        "member:v2cade3228c1da11a",
+        "check:v2cade3228c1da11a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-12\"],\"expected\":{\"codes\":[\"cwt-claims-absent\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v4b65541710f581c3",
+      "inputs": [
+        "member:v4b65541710f581c3",
+        "check:v4b65541710f581c3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-13\"],\"expected\":{\"codes\":[\"receipt-vds-absent\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v5d470e62bc419824",
+      "inputs": [
+        "member:v5d470e62bc419824",
+        "check:v5d470e62bc419824"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-6\"],\"expected\":{\"codes\":[\"observer-position-not-critical\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v8819ae608ecb37ff",
+      "inputs": [
+        "member:v8819ae608ecb37ff",
+        "check:v8819ae608ecb37ff"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-7\"],\"expected\":{\"codes\":[\"receipt-algorithm-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "v8de7afebda214319",
+      "inputs": [
+        "member:v8de7afebda214319",
+        "check:v8de7afebda214319"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-12\"],\"expected\":{\"codes\":[\"cwt-claims-duplicated\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "va6a19109d269c858",
+      "inputs": [
+        "member:va6a19109d269c858",
+        "check:va6a19109d269c858"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-3\"],\"expected\":{\"codes\":[\"receipt-subject-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vacced92411f5ac61",
+      "inputs": [
+        "member:vacced92411f5ac61",
+        "check:vacced92411f5ac61"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-7\"],\"expected\":{\"codes\":[\"algorithm-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vad7cde281e84a54b",
+      "inputs": [
+        "member:vad7cde281e84a54b",
+        "check:vad7cde281e84a54b"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-1\"],\"expected\":{\"codes\":[\"subject-digest-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vb93d431e43fe61e2",
+      "inputs": [
+        "member:vb93d431e43fe61e2",
+        "check:vb93d431e43fe61e2"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-11\"],\"expected\":{\"codes\":[\"issuer-identity-mismatch\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vc1d2e16ca13eaeb3",
+      "inputs": [
+        "member:vc1d2e16ca13eaeb3",
+        "check:vc1d2e16ca13eaeb3"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-9\"],\"expected\":{\"codes\":[\"statement-expired\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vc73a5ea351b6a6af",
+      "inputs": [
+        "member:vc73a5ea351b6a6af",
+        "check:vc73a5ea351b6a6af"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-13\"],\"expected\":{\"codes\":[\"receipt-vds-unregistered\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vc8520277aa73cf0a",
+      "inputs": [
+        "member:vc8520277aa73cf0a",
+        "check:vc8520277aa73cf0a"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-10\"],\"expected\":{\"codes\":[\"statement-not-yet-valid\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vecb11244fd522443",
+      "inputs": [
+        "member:vecb11244fd522443",
+        "check:vecb11244fd522443"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-4\"],\"expected\":{\"codes\":[\"critical-parameter-unprotected\"],\"verdict\":\"invalid\"}}"
+    },
+    {
+      "check": "vfd2e3344cb6eefa6",
+      "inputs": [
+        "member:vfd2e3344cb6eefa6",
+        "check:vfd2e3344cb6eefa6"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"conditions\":[\"sc-c-5\"],\"expected\":{\"codes\":[\"critical-parameter-unprocessable\"],\"verdict\":\"invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+      },
+      {
+        "process": "run-2",
+        "sha256": "5d4fdbde32d0ab56ed6cb5804961bbced68c7dd849a0df1d366b0e0a31ef28cd"
+      }
+    ],
+    "seed": "PYTHONHASHSEED=0",
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "vectors-scitt-cose/check_vectors.py, at the source listing named here, judges each of the 27 pinned members of scitt-cose-carriage-conformance as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 27,
+    "require": "at-least-one",
+    "selected": [
+      "v0636cd5206c6a98c",
+      "v0fa72e24c8012749",
+      "v11816a7dc863a687",
+      "v13df07bd26f63dae",
+      "v1c44afeeeec6013c",
+      "v2c7975eac1701b6c",
+      "v2cade3228c1da11a",
+      "v3283077e1d1b5d8c",
+      "v38bad1bbcbdbdf3d",
+      "v41d9bfda6adac0af",
+      "v4b65541710f581c3",
+      "v5d470e62bc419824",
+      "v71d601cc7c6464a1",
+      "v7ee2786688bfdb79",
+      "v8819ae608ecb37ff",
+      "v8de7afebda214319",
+      "va145ee9bd51df5f8",
+      "va6a19109d269c858",
+      "vacced92411f5ac61",
+      "vad7cde281e84a54b",
+      "vb93d431e43fe61e2",
+      "vc1d2e16ca13eaeb3",
+      "vc73a5ea351b6a6af",
+      "vc8520277aa73cf0a",
+      "vecb11244fd522443",
+      "vf9463fb9663b49d5",
+      "vfd2e3344cb6eefa6"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "scitt-cose-carriage-conformance"
+}

@@ -1,0 +1,95 @@
+{
+  "cites": "the same verifier mid-rotation, and a request labelled \"2026-09\" whose MAC verifies under the 2026-09 secret. Both labels are configured, so the older one still resolves. A verifier that accepts only its newest label fails this member, and the rejecting member above keeps a verifier that tries every secret from passing the family.",
+  "coverage": "effective",
+  "doesNotAssert": "when the rotation should end, or that the older secret is still safe to hold",
+  "evidenceBasis": "substrate",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "allow"
+  },
+  "family": "acs-f-13",
+  "id": "vabdcee4722b26a44",
+  "kind": "accept",
+  "payload": {
+    "request": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "steps/toolCallRequest",
+      "params": {
+        "acs_version": "0.1.0",
+        "metadata": {
+          "agent_id": "agent-acs-vectors",
+          "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+        },
+        "payload": {
+          "arguments": {
+            "to": {
+              "value": "ops@example.org"
+            }
+          },
+          "tool": {
+            "name": "email.send"
+          }
+        },
+        "request_id": "56a78506-aa4a-489d-8171-8833ef83f7bd",
+        "signature": {
+          "algorithm": "HMAC-SHA256",
+          "key_id": "2026-09",
+          "value": "Z10sCIH8d+Ml7YvhFBRrWx5bWyzmp/2FN6SF3gAEq34="
+        },
+        "timestamp": "2026-10-15T12:00:00Z"
+      }
+    },
+    "signed_input": "{\"id\":1,\"jsonrpc\":\"2.0\",\"method\":\"steps/toolCallRequest\",\"params\":{\"acs_version\":\"0.1.0\",\"metadata\":{\"agent_id\":\"agent-acs-vectors\",\"session_id\":\"6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36\"},\"payload\":{\"arguments\":{\"to\":{\"value\":\"ops@example.org\"}},\"tool\":{\"name\":\"email.send\"}},\"request_id\":\"56a78506-aa4a-489d-8171-8833ef83f7bd\",\"timestamp\":\"2026-10-15T12:00:00Z\"}}",
+    "signed_input_sha256": "708e5264ae8ec135c6f043607ef84fac2b2993f0ce69955a6ace3d68de9281bf",
+    "signer_derivation": {
+      "derived_key_hex": "e0fabdbf949d33e8c377c9e872b44bf823d235dbcd0e51143527f5c4b4a6ca25",
+      "info_utf8": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36",
+      "kdf": "HKDF-SHA256",
+      "length": 32,
+      "salt_hex": "",
+      "secret_key_id": "2026-09"
+    },
+    "verifier": {
+      "configured_key_ids": [
+        "2026-09",
+        "2026-10"
+      ],
+      "secret_hex": {
+        "2026-09": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+        "2026-10": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-032",
+      "line": 354,
+      "sentence": "A deployment rotating its secret configures the new secret under a new label, such as `\"2026-10\"`, so a verifier can hold both secrets while the rotation is in progress.",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    },
+    {
+      "id": "ACS-R-028",
+      "line": 354,
+      "sentence": "A verifier MUST reject an unknown `key_id` (`SIGNATURE_INVALID`,",
+      "upstreamCommit": "f2304bf4fd28a09f86fc68ac7896587c560f7182",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "proposal",
+      "vendored": "spec-vendored/specification-f2304bf.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-032",
+    "ACS-R-028"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "PEER"
+}

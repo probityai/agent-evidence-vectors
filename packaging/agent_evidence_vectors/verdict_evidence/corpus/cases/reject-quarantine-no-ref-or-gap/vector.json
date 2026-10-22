@@ -1,0 +1,1 @@
+{"id":2,"jsonrpc":"2.0","method":"steps/userMessage","params":{"acs_version":"0.1.0","metadata":{"agent_id":"dev-agent","session_id":"sess-1","turn_id":"t1"},"payload":{"content":"PII: card 4111-1111-1111-1111","modify":{"redact":["card"]}},"request_id":"uuid-0002","timestamp":"2026-10-17T00:00:01Z"}}

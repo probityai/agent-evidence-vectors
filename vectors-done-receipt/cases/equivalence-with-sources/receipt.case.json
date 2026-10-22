@@ -1,0 +1,51 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 310,
+      "path": "capability.json",
+      "sha256": "53cd989458d832fd3c1fafa0420e906313e97fb73aaead74bb5e023cdfbd82f2"
+    },
+    "claims": {
+      "length": 382,
+      "path": "claims.json",
+      "sha256": "a633411ccc1417d3671705ee00c6e3c5cf086febd29ba8ae067dd347fe64eac9"
+    },
+    "contract": {
+      "length": 789,
+      "path": "contract.json",
+      "sha256": "3ccaff392ea1278d7305ea5d02a102b3543f9e7b704c06ae62f1ffbde3ee5a7f"
+    },
+    "grade": {
+      "length": 718,
+      "path": "grade.json",
+      "sha256": "b31fd82b7de478e3e7381c27af3942b1fc839e497358942f1dae5c93951871c0"
+    },
+    "observation": {
+      "length": 1135,
+      "path": "observation.json",
+      "sha256": "4188b1340981db778e7b49d1ca8e4bb30eb127f1ab483b0e402d5b61953f3957"
+    },
+    "receipt": {
+      "length": 1604,
+      "path": "receipt.json",
+      "sha256": "22bbbd8a0249aea96142501bc5c56a57634e27131884c9e93a8a6fbcfafff8db"
+    },
+    "source:ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe": {
+      "length": 38,
+      "path": "source-ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe.txt",
+      "sha256": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+    },
+    "source:f7424b627cec9c6d27296587675a6b3f7ff9b2b0807485e6768731a6087b4930": {
+      "length": 58,
+      "path": "source-f7424b627cec9c6d27296587675a6b3f7ff9b2b0807485e6768731a6087b4930.txt",
+      "sha256": "f7424b627cec9c6d27296587675a6b3f7ff9b2b0807485e6768731a6087b4930"
+    },
+    "tree": {
+      "length": 527,
+      "path": "tree.json",
+      "sha256": "67a57cc5932b4f2b72aa8298f4f8d1673ec807addd7ad15266b28d98ac110b1b"
+    }
+  },
+  "case_id": "test-reformatted",
+  "schema_version": "probity-case/v1"
+}

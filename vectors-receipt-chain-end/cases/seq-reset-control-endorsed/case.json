@@ -1,0 +1,17 @@
+{
+  "chain": "chain.jsonl",
+  "head": "head.json",
+  "schema_version": "receipt-chain-end-case/v1",
+  "trust": {
+    "endorsements": [
+      "endorsement.json"
+    ],
+    "pinned_keys": [
+      "b1428ec00aa1a0b9dfa0909a8854c67589795cff93f631a8e1174d03bd87e434"
+    ],
+    "root_keys": [
+      "b1428ec00aa1a0b9dfa0909a8854c67589795cff93f631a8e1174d03bd87e434"
+    ],
+    "session": "agent.run.4e65d3fbe8ad6535681b021b30785b12"
+  }
+}

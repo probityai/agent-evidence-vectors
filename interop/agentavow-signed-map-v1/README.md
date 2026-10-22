@@ -25,7 +25,7 @@ authorization, a runtime result or independent custody.
 The native packet is supplied separately for source-available evaluation. No
 producer source, signed packet or tool definitions are vendored here. New code
 and synthetic tests are original Probity work. The selected native revision,
-raw digest, license blob and shared-reader hashes are in `source-lock.json`;
+raw digest, license blob and shared-reader hashes are in `source-lock.json` (refresh the shared-reader hashes with `python3 lock_sources.py`; CI runs `--check`);
 `selection.json` freezes the public packet key and issuer for this reproduction.
 A production consumer must supply its own key-authority policy and current
 reference time. Key URLs in the producer packet are never fetched by the reader.

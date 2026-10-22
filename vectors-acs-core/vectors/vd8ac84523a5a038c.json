@@ -1,4 +1,5 @@
 {
+  "cites": "a chain head presented as the Guardian's whose ML-DSA-65 signature verifies only under the Observed Agent's own key, while its key_id resolves to the Guardian's. Verification under the resolved key fails, which is the error table's SIGNATURE_INVALID row. A party holding only the Guardian's public key can tell the signer is not the Guardian, so the member is EXTERNAL. A verifier that checks the signature against whichever key makes it verify accepts this.",
   "coverage": "effective",
   "evidenceBasis": "artifact",
   "expected": {
@@ -36,6 +37,28 @@
     "signed_by": "observed_agent",
     "signed_with": "agent-k2"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-022",
+      "line": 428,
+      "sentence": "A required signature is missing, malformed, or fails verification",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-022",
     "ACS-R-021"

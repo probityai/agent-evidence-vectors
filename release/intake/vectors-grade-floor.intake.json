@@ -1,0 +1,647 @@
+{
+  "aggregate": {
+    "counts": {
+      "accepted": 5,
+      "rejected": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 13
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-grade-floor/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-grade-floor/gen_vectors.py",
+    "routine-file": "vectors-grade-floor/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "b19891f16d84810e236f7f5968acdb891c40b7dacbfbec4ec4cb613dc844f1ca",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "ad3daf8417035f9d1ae857247d4c4f555ababf82a57f2972da8b1b3eb40e206d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "78fbb8fcd0ecc4e4d846b9557a2cb6b048196a24e36f673db07197b981e8c698"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "bce66bd182f95f84caf65257e28b0011b2dd169dda975e5c22cb6e7cf3871319",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/README.md",
+      "serialization": "bytes",
+      "sha256": "5e3025a6e8fd1de760716797f0b168640214d638fb65ca8eb0abcbf2c2b8a064"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "1e39478fc2e5fe1ee0c945a970e1c8f021cb66aeccda6615a9cc6be0d6f80fe0",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "eed09b05511b3eb35fdb15522cf4eaa7563f70f89c258e9a73663ea5aa3f4e05"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "8851c12b0f8198cb5c59a7c6c57e10b98cb87db831d773c8a890e9303a6ef119",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "dbd68582108a9a3c82eadf043cfe892d39362ca6ccedc87591ac5eac332ec838"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "efcdbf323746a0c450e9bcb7d0a9e171cb494bd6083531b0b65d5157168472d2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "66ebd77577eeaa7d9d2b9e206a9f9aa0276ee5bb099c8becca8ce76aef840be7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+        },
+        "swapped-in": "eee0ed8980894034cfb9bf9dfd9f36aafcdeb19a61aa6acee15f3d1fc8f2005e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-grade-floor/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "c6d351385e8f04e70b0751d69236aa999e2c0f52ba4c6d2701214623aceae00e"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-grade-floor"
+  },
+  "byte-identity": {
+    "pins": 13,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-grade-floor",
+      "aee-verify -json vectors-grade-floor",
+      "aee-verify vectors-grade-floor"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "e0-declared",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e1-observed",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e2-enforced",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e3-corroborated",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e4-anchored",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e0-self-stamped-e4",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e1-claims-operationally-conformant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e2-no-recorded-denial",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e3-single-self-report-engine",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e3-contradiction-claims-conformant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e4-missing-chain-link",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e4-missing-external-timestamp",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "e4-missing-independent-verification",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "579e3b59456f50d53a6798de03f6ea2aa4542698473937ff8c8b77dab6c7b1bf"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "e0-declared",
+      "e1-observed",
+      "e2-enforced",
+      "e3-corroborated",
+      "e4-anchored",
+      "e0-self-stamped-e4",
+      "e1-claims-operationally-conformant",
+      "e2-no-recorded-denial",
+      "e3-single-self-report-engine",
+      "e3-contradiction-claims-conformant",
+      "e4-missing-chain-link",
+      "e4-missing-external-timestamp",
+      "e4-missing-independent-verification"
+    ],
+    "path": "vectors-grade-floor/MANIFEST.json",
+    "sha256": "e197d5cabfc36793be6f9519807312f3106853c133895968e29b68e519487c16"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e0-declared/case.json",
+          "sha256": "0ffa016179997aada23d9514dcbec17b70d92164ff248772c6442d572ba52cb4"
+        }
+      ],
+      "id": "e0-declared"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e1-observed/case.json",
+          "sha256": "15c13fc4e0bca9c28843023b4bb496736578ccda603d448dc3ff42fca9fa46db"
+        }
+      ],
+      "id": "e1-observed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e2-enforced/case.json",
+          "sha256": "1b8e62037e0ed946842b3a6819d3714ce118fa69b450d51b6f72d3b1fa0edb65"
+        }
+      ],
+      "id": "e2-enforced"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e3-corroborated/case.json",
+          "sha256": "2cdefd7b25be087068077dadc79aa251f8ac746e4bd92863e993da3718c6c101"
+        }
+      ],
+      "id": "e3-corroborated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e4-anchored/case.json",
+          "sha256": "788201668f87e30a1e85715bb358759c4f69275913b2a4ecf56295ff14110e73"
+        }
+      ],
+      "id": "e4-anchored"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e0-self-stamped-e4/case.json",
+          "sha256": "bc82492cea27f4897a8f9f6125d7d34278c5f9eb52e0b1ba8e922fe9c249213e"
+        }
+      ],
+      "id": "e0-self-stamped-e4"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e1-claims-operationally-conformant/case.json",
+          "sha256": "4b7b2031647a1dce1c0ef9178d09549449f338137d9b7f2dbb0ddd0713c88a84"
+        }
+      ],
+      "id": "e1-claims-operationally-conformant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e2-no-recorded-denial/case.json",
+          "sha256": "98fb2ef1c44983ada630be66121222e82dd0aac16c24621a2f1288422cba430e"
+        }
+      ],
+      "id": "e2-no-recorded-denial"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e3-single-self-report-engine/case.json",
+          "sha256": "c263145b58dec6b893b5e1b51acc34008f31e99440698e761348074b2c5c020b"
+        }
+      ],
+      "id": "e3-single-self-report-engine"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e3-contradiction-claims-conformant/case.json",
+          "sha256": "aeffe2fc556faa10e24fe0a91d1451b1ecdbe44b065d9410950e55528d658b62"
+        }
+      ],
+      "id": "e3-contradiction-claims-conformant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e4-missing-chain-link/case.json",
+          "sha256": "ddbc94404cb699d937a57ef2abfc15ad8db202f243468166e1354910b0c204eb"
+        }
+      ],
+      "id": "e4-missing-chain-link"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e4-missing-external-timestamp/case.json",
+          "sha256": "79ff6507c97428a9eed23dd6e580ea76078a3c005b2307f24a37780ea86715e9"
+        }
+      ],
+      "id": "e4-missing-external-timestamp"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-grade-floor/cases/e4-missing-independent-verification/case.json",
+          "sha256": "94a15ac49c78ed6b3f85dfc57f7c5adf7ccba38fe1a82c0e1d083ca9fe23940c"
+        }
+      ],
+      "id": "e4-missing-independent-verification"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-grade-floor.json",
+        "serialization": "bytes",
+        "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-grade-floor.txt",
+        "serialization": "bytes",
+        "sha256": "b18e73775d6c4d910f140aadcc5ec523b52df5aa39510100d0d3dfa3256bbc5e"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "e0-self-stamped-e4",
+      "inputs": [
+        "member:e0-self-stamped-e4",
+        "check:e0-self-stamped-e4"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E0\",\"reason\":\"e1_no_external_observer\"}}"
+    },
+    {
+      "check": "e1-claims-operationally-conformant",
+      "inputs": [
+        "member:e1-claims-operationally-conformant",
+        "check:e1-claims-operationally-conformant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E1\",\"reason\":\"claim_floor_below_e3\"}}"
+    },
+    {
+      "check": "e2-no-recorded-denial",
+      "inputs": [
+        "member:e2-no-recorded-denial",
+        "check:e2-no-recorded-denial"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E1\",\"reason\":\"e2_no_recorded_denial\"}}"
+    },
+    {
+      "check": "e3-single-self-report-engine",
+      "inputs": [
+        "member:e3-single-self-report-engine",
+        "check:e3-single-self-report-engine"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E2\",\"reason\":\"e3_insufficient_independent_engines\"}}"
+    },
+    {
+      "check": "e3-contradiction-claims-conformant",
+      "inputs": [
+        "member:e3-contradiction-claims-conformant",
+        "check:e3-contradiction-claims-conformant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E3\",\"reason\":\"claim_floor_contradiction\"}}"
+    },
+    {
+      "check": "e4-missing-chain-link",
+      "inputs": [
+        "member:e4-missing-chain-link",
+        "check:e4-missing-chain-link"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E3\",\"reason\":\"e4_missing_chain_link\"}}"
+    },
+    {
+      "check": "e4-missing-external-timestamp",
+      "inputs": [
+        "member:e4-missing-external-timestamp",
+        "check:e4-missing-external-timestamp"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E3\",\"reason\":\"e4_missing_external_timestamp\"}}"
+    },
+    {
+      "check": "e4-missing-independent-verification",
+      "inputs": [
+        "member:e4-missing-independent-verification",
+        "check:e4-missing-independent-verification"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"derivedGrade\":\"E3\",\"reason\":\"e4_missing_independent_verification\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+      },
+      {
+        "process": "run-2",
+        "sha256": "ecd73e8f5e358a6297b24ce1b58dcedbd54419888a4ff7f37388b8b381660d86"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 13 pinned members of evidence-grade-floor/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 13,
+    "require": "at-least-one",
+    "selected": [
+      "e0-declared",
+      "e1-observed",
+      "e2-enforced",
+      "e3-corroborated",
+      "e4-anchored",
+      "e0-self-stamped-e4",
+      "e1-claims-operationally-conformant",
+      "e2-no-recorded-denial",
+      "e3-single-self-report-engine",
+      "e3-contradiction-claims-conformant",
+      "e4-missing-chain-link",
+      "e4-missing-external-timestamp",
+      "e4-missing-independent-verification"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "evidence-grade-floor/v1"
+}

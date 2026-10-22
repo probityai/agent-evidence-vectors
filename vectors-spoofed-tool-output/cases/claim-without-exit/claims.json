@@ -1,0 +1,22 @@
+{
+  "claim_id": "claim-without-exit",
+  "claims": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "id": "c1"
+    }
+  ],
+  "completion": {
+    "asserted": true,
+    "basis": "both"
+  },
+  "invocation_id": "call-1",
+  "producer": "transcript-parser",
+  "schema_version": "probity-tool-claims/v2"
+}
