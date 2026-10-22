@@ -8,6 +8,9 @@
     "CONTRADICTED",
     "NOT_ESTABLISHED"
   ],
+  "derived": {
+    "effect_under_authority": "observed effect of this invocation under an allow bound to it; a bound deny or a contradicted effect contradicts it, and a capture that binds no decision leaves it not established"
+  },
   "non_claims": [
     "capture_authenticity",
     "capture_coverage",
@@ -68,6 +71,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -127,6 +131,7 @@
         "package_integrity": "CONTRADICTED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -186,6 +191,7 @@
         "package_integrity": "CONTRADICTED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -244,6 +250,7 @@
         "package_integrity": "CONTRADICTED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -304,6 +311,7 @@
         "package_integrity": "CONTRADICTED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -363,6 +371,7 @@
         "package_integrity": "NOT_ESTABLISHED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -427,6 +436,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -486,6 +496,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -545,6 +556,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "CONTRADICTED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -604,6 +616,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -663,6 +676,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "CONTRADICTED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -722,6 +736,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "CONTRADICTED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -781,6 +796,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "CONTRADICTED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -840,6 +856,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "CONTRADICTED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -894,6 +911,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "NOT_ESTABLISHED",
         "observed_effect": "ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -943,6 +961,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "NOT_ESTABLISHED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1002,6 +1021,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "CONTRADICTED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1061,6 +1081,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "CONTRADICTED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1119,6 +1140,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "CONTRADICTED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1177,6 +1199,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "CONTRADICTED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1236,6 +1259,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "CONTRADICTED",
+        "effect_under_authority": "CONTRADICTED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1288,6 +1312,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "NOT_ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1346,6 +1371,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "NOT_ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1402,6 +1428,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "NOT_ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"
@@ -1436,6 +1463,7 @@
         "package_integrity": "ESTABLISHED",
         "request_decision_correspondence": "ESTABLISHED",
         "observed_effect": "NOT_ESTABLISHED",
+        "effect_under_authority": "NOT_ESTABLISHED",
         "capture_authenticity": "NOT_ESTABLISHED",
         "capture_coverage": "NOT_ESTABLISHED",
         "kernel_to_tool_attribution": "NOT_ESTABLISHED"

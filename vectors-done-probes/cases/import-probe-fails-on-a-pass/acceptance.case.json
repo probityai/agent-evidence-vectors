@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "grade": {
+      "length": 1293,
+      "path": "grade.json",
+      "sha256": "34ea00007e7c807b9d78422adfafd706210a60d769dc61fa0b560c893beb8794"
+    },
+    "tree": {
+      "length": 531,
+      "path": "tree.json",
+      "sha256": "7c468f73e571f89e28016e48537a18f74f9034754573fa5cc19de91454aa4ddd"
+    }
+  },
+  "case_id": "import-fails-on-pass",
+  "schema_version": "probity-case/v1"
+}

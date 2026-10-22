@@ -1,0 +1,45 @@
+# gitleaks configuration for this corpus.
+#
+# The vectors carry public key material and digests by design: SHA-256 digests
+# of keys and tokens, Ed25519 public keys in hex, did:key identifiers and one
+# signed JWT fixture. The default generic-api-key rule reads a field whose name
+# contains "key" or "token" followed by a long value as a leaked secret. Each
+# allowlist entry below names one such field shape, so a value in any other
+# place, or a real token shape (sk-live-, ghp_, AKIA), is still reported.
+# Test signing keys are derived from published constants (recipe in
+# vectors/reject/INDEX.md), so they are public by construction.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "64-hex SHA-256 digests and Ed25519 public keys in key, digest and credential fields"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''(?i)[a-z0-9_-]*(key|digest|token_sha256)[a-z0-9_-]*["'`]?\s*[:=]\s*["'`][0-9a-f]{64}["'`]''',
+]
+
+[[allowlists]]
+description = "HKDF outputs from the ACS specification's published example secret (vectors-acs-core)"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''derived_key_hex"\s*:\s*"[0-9a-f]{128}"''']
+
+[[allowlists]]
+description = "did:key identifiers (multibase public keys)"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''key:z[1-9A-HJ-NP-Za-km-z]{44,}''']
+
+[[allowlists]]
+description = "Type annotation, not a value"
+targetRules = ["generic-api-key"]
+regexTarget = "line"
+regexes = ['''signing_key: Ed25519PrivateKey\b''']
+
+[[allowlists]]
+description = "A public signed JWT fixture, by path"
+paths = [
+  '''^interop/agentid-offline/fixtures/positive\.raw\.json$''',
+]

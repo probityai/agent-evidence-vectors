@@ -1,8 +1,8 @@
-suite: done-receipt/v1
-members: 196
+suite: done-receipt/v2
+members: 227
   contradicted: 5
-  invalid: 38
+  invalid: 9
   not_established: 10
-  refused: 134
-  supported: 9
+  refused: 193
+  supported: 10
 verdict: every member behaves as MANIFEST.json declares

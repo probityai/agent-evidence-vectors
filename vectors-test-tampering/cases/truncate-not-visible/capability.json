@@ -5,9 +5,11 @@
   "schema_version": "probity-capabilities/v1",
   "visible_event_types": [
     "chmod",
+    "connect",
     "create",
     "exec",
     "link",
+    "read",
     "rename",
     "unlink",
     "write"

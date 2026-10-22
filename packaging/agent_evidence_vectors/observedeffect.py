@@ -52,6 +52,7 @@ import base64
 import datetime
 import hashlib
 import importlib
+import itertools
 import json
 import os
 import re
@@ -102,7 +103,10 @@ IJSON_LIMIT = 2**53
 #: strings, which is sound for exactly one grammar. The regular expression fixes
 #: the shape and the parse below fixes the calendar, because 2026-13-01T00:00:00Z
 #: matches the shape and names no day.
-TIMESTAMP_GRAMMAR = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+#: [0-9] rather than \d: Python's \d matches every script's decimal digits and
+#: strptime reads them as numbers, so 00:00:0\u0665Z parsed here while the Go rail
+#: refused it, and it sorts after every ASCII timestamp.
+TIMESTAMP_GRAMMAR = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$")
 TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 #: The object name of the empty tree per hash algorithm: the terminal case of
@@ -798,14 +802,57 @@ def _rule_empty_tree_holds_no_bytes(state: _State) -> None:
             raise Malformed("bytes-read-from-the-empty-tree")
 
 
+def _unobserved_spans(coverage: dict[str, Any]) -> list[dict[str, str]]:
+    """The spans in ``unobservedIntervals``, each an object of exactly ``from`` and
+    ``to``, both in the one timestamp grammar; anything else is malformed."""
+    spans = coverage["unobservedIntervals"]
+    if not isinstance(spans, list):
+        raise Malformed("unobserved-interval-malformed")
+    for span in spans:
+        if not isinstance(span, dict) or set(span) != {"from", "to"}:
+            raise Malformed("unobserved-interval-malformed")
+        for bound in ("from", "to"):
+            if not _timestamp_ok(span[bound]):
+                raise Malformed(
+                    f"timestamp-not-utc-basic:coverage.unobservedIntervals.{bound}"
+                )
+    return spans
+
+
+def _rule_coverage_unobserved_intervals(state: _State) -> None:
+    """The spans an observer was not watching, located in time.
+
+    A monitor that attached after the call began was blind to every path for a
+    span it knows exactly, so neither a path gap nor ``notEstablished`` is true of
+    it. Each span runs from strictly before to, inside the interval, and the list
+    is ordered with each span ending strictly before the next begins.
+    """
+    pred = state.predicate
+    coverage = pred["observation"]["coverage"]
+    if "unobservedIntervals" not in coverage:
+        return
+    spans = _unobserved_spans(coverage)
+    interval = pred["interval"]
+    for span in spans:
+        if span["from"] >= span["to"]:
+            raise Malformed("unobserved-interval-not-ordered")
+        if span["from"] < interval["openedAt"] or span["to"] > interval["sealedAt"]:
+            raise Malformed("unobserved-interval-outside-interval")
+    for earlier, later in itertools.pairwise(spans):
+        if earlier["to"] >= later["from"]:
+            raise Malformed("unobserved-intervals-not-disjoint")
+
+
 def _rule_coverage_coherence(state: _State) -> None:
     """A record that declares complete coverage and then names a gap inside the
-    scope it says it covered has said both."""
+    scope it says it covered, or a span it did not watch, has said both."""
     pred = state.predicate
     coverage = pred["observation"]["coverage"]
     _required(coverage, "scopeComplete", "gaps")
     if not coverage["scopeComplete"]:
         return
+    if coverage.get("unobservedIntervals"):
+        raise Malformed("coverage-self-contradictory")
     for gap in coverage["gaps"]:
         if _in_scope(pred, gap):
             raise Malformed("coverage-self-contradictory")
@@ -823,6 +870,7 @@ def _rule_coverage_gaps_named(state: _State) -> None:
     if (
         not coverage["scopeComplete"]
         and not coverage["gaps"]
+        and not coverage.get("unobservedIntervals")
         and "notEstablished" not in coverage
     ):
         raise Malformed("coverage-incomplete-without-gaps")
@@ -842,7 +890,7 @@ def _rule_coverage_not_established_shape(state: _State) -> None:
     reason = coverage["notEstablished"]
     if not isinstance(reason, str) or not reason.strip():
         raise Malformed("coverage-not-established-without-reason")
-    if coverage["scopeComplete"] or coverage["gaps"]:
+    if coverage["scopeComplete"] or coverage["gaps"] or coverage.get("unobservedIntervals"):
         raise Malformed("coverage-shape-ambiguous")
 
 
@@ -1051,6 +1099,7 @@ def _rule_tier_recompute(state: _State) -> None:
         "authoritative-coverage-incomplete": bool(coverage["scopeComplete"])
         or not any(_in_scope(pred, gap) for gap in coverage["gaps"]),
         "authoritative-coverage-not-established": "notEstablished" not in coverage,
+        "authoritative-interval-not-observed": not coverage.get("unobservedIntervals"),
     }
     derived = "authoritative" if all(clauses.values()) else "voluntary"
     state.derived_tier = derived
@@ -1105,6 +1154,7 @@ RULES: tuple[tuple[str, Rule], ...] = (
     ("range-preimage", _rule_range_preimage),
     ("read-chain", _rule_read_chain),
     ("empty-tree-holds-no-bytes", _rule_empty_tree_holds_no_bytes),
+    ("coverage-unobserved-intervals", _rule_coverage_unobserved_intervals),
     ("coverage-coherence", _rule_coverage_coherence),
     ("coverage-not-established-shape", _rule_coverage_not_established_shape),
     ("coverage-gaps-named", _rule_coverage_gaps_named),

@@ -1,0 +1,34 @@
+{
+  "claim_id": "control-link-name-without-an-alias",
+  "contract_sha256": "9adf435b469830e9292b99a628f9ccfc217c0edcd5b253c7769f486fa977d2f7",
+  "invocation_id": "call-1",
+  "producer": "harness-verifier",
+  "results": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "exit": 0,
+      "id": "unit"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "/heldout"
+      ],
+      "exit": 0,
+      "id": "heldout-unit"
+    }
+  ],
+  "schema_version": "probity-acceptance-grade/v1",
+  "tree_sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

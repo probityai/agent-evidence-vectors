@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 914,
+      "path": "contract.json",
+      "sha256": "9adf435b469830e9292b99a628f9ccfc217c0edcd5b253c7769f486fa977d2f7"
+    },
+    "grade": {
+      "length": 731,
+      "path": "grade.json",
+      "sha256": "335ea673a9743730a4f694f84cef90296c09364dea685885a59131aed6dab3cd"
+    },
+    "tree": {
+      "length": 540,
+      "path": "tree.json",
+      "sha256": "8e9fb4795468b2e1ca8ac7a7da9131646131cd10d1a3fbeb578cff91d4d48062"
+    }
+  },
+  "case_id": "stdlib-module-shadows-the-run",
+  "schema_version": "probity-case/v1"
+}

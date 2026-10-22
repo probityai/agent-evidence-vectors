@@ -1,0 +1,68 @@
+{
+  "assessments": {
+    "honest": {
+      "capability_witness": "capability",
+      "claim_type": "done_receipt/v2",
+      "claims_witness": "claims",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "receipt_witness": "receipt",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      },
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "e28a780d2dbacd4ff582d0310065af6e016418eb3d48c69265e15a316ede1182"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "d77aad0972099027f6f55eb9bdc2a8b75d16b0c3d51cbef451d8495ae7e13967"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "88ddfa5ee6db23833a0f8adc29f3302b5ef758e0ca5fcaa47db3e5db358695ad"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "c12f9fe1ff609d9d5fa21e323b0c394b25d648b019154e3f2d554a4d57f2fba9",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "7e7a80e7b3515598a1e35ee04b418413e1926f67a58092636cec759f6dee4f3e",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "receipt": {
+      "artifact": "receipt",
+      "authority": "synthetic fixture",
+      "sha256": "fafdba76515950862e8b4f6226e77e2c1639efe408ac63a65896c2ae1f869a80"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "4ea98504bc8d69faa6e2878e4bcfe39aa9f525ebd493d07fc458147eca12448e",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

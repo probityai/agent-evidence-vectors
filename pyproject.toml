@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.24.0"
+version = "0.25.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -77,6 +77,16 @@ build-backend = "hatchling.build"
 [tool.uv]
 package = false
 
+# probity-verify is the implementation the done corpora's rules come from. The
+# cross-check (vectors-done-receipt/crosscheck_probity_verify.py) replays every done
+# member through it, pinned to the commit the readers were ported against. A
+# dependency group, so it never reaches the published package's metadata.
+[tool.uv.sources]
+probity-verify = { git = "https://github.com/probityai/probity", rev = "932c1e3ecc8f2142cb878cd43bf9689cbcb5f342", subdirectory = "packages/probity-verify" }
+
+[dependency-groups]
+crosscheck = ["probity-verify"]
+
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
 # path; the wheel moves it under a package named after the distribution rather
@@ -116,12 +126,14 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-approval-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -135,7 +147,7 @@ only-include = [
 # Shipped in the wheel they were dead weight that crashed on import, and nothing
 # in the package loads them, so the wheel carries the data and the packaged
 # readers only. The sdist keeps them, because it is the source.
-exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py", "vectors-done-receipt/recorded/**"]
+exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vectors-*/**/*.py"]
 
 [tool.hatch.build.targets.wheel.sources]
 "packaging/agent_evidence_vectors" = "agent_evidence_vectors"
@@ -165,12 +177,14 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
 "vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
+"vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
 "vectors-spoofed-tool-output" = "agent_evidence_vectors/corpora/vectors-spoofed-tool-output"
 "vectors-test-tampering" = "agent_evidence_vectors/corpora/vectors-test-tampering"
 "vectors-grader-isolation" = "agent_evidence_vectors/corpora/vectors-grader-isolation"
+"vectors-done-probes" = "agent_evidence_vectors/corpora/vectors-done-probes"
 "vectors-receipt-signature" = "agent_evidence_vectors/corpora/vectors-receipt-signature"
 "vectors-scitt-cose" = "agent_evidence_vectors/corpora/vectors-scitt-cose"
 "vectors-self-reported-record" = "agent_evidence_vectors/corpora/vectors-self-reported-record"
@@ -256,12 +270,14 @@ only-include = [
     "vectors-receipt-chain-end",
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
+    "vectors-approval-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-self-reported-record",
@@ -352,9 +368,9 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-chunked-export",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
-           "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
+           "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
@@ -404,6 +420,10 @@ extraPaths = ["vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]
 root = "vectors-grader-isolation"
+extraPaths = ["vectors-done-receipt"]
+
+[[tool.pyright.executionEnvironments]]
+root = "vectors-done-probes"
 extraPaths = ["vectors-done-receipt"]
 
 [[tool.pyright.executionEnvironments]]

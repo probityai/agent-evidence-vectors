@@ -1,12 +1,15 @@
 {
   "claim_id": "untouched",
+  "executable": [],
   "files": {
     "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c",
     "tests/test_app.py": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
   },
   "invocation_id": "call-1",
   "producer": "host-observer",
-  "schema_version": "probity-tree/v1",
+  "schema_version": "probity-tree/v2",
+  "special": {},
+  "symlinks": {},
   "tree_sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66",
   "vantage": "independent",
   "witness_scope": "PEER"

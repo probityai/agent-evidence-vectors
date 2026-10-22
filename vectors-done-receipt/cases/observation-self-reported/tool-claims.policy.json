@@ -4,6 +4,7 @@
       "capability_witness": "capability",
       "claim_type": "tool_claim_match/v1",
       "claims_witness": "claims",
+      "contract_witness": "contract",
       "invocation_id": "call-1",
       "observation_witness": "observation",
       "observed_party": "agent-1",
@@ -19,18 +20,23 @@
     "capability": {
       "artifact": "capability",
       "authority": "synthetic fixture",
-      "sha256": "176001e22b342ff71bb3bed65cdca23787f79c9e47a829272874656e96b11d33"
+      "sha256": "44998f6210a2a8a7c545352aaa7ac55b72911ff414c2e50f56dc12be4294e20a"
     },
     "claims": {
       "artifact": "claims",
       "authority": "synthetic fixture",
-      "sha256": "bf4684af60f7833580fbed3775774617e75ecef0184472730bc2daa3936817df"
+      "sha256": "5571c036da6e7f31069e40a13e13fcaed268e790f4915124a9309c39cd592a34"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
       "artifact": "observation",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "25a9a5daabb1b44d42248562a23b39b7b2ce136ff859ce14b418c8ee4df138ef",
+      "sha256": "9e2c88b6ce3ec9996c61c20b670bcf00813f07374e00dc04be943c0d380b9a15",
       "vantage": "self_reported",
       "witness_scope": "PEER"
     }

@@ -1,5 +1,5 @@
 {
-  "claim_id": "honest",
+  "n": NaN, "claim_id": "honest",
   "claims": [
     {
       "argv": [
@@ -9,11 +9,15 @@
         "-q",
         "tests"
       ],
-      "exit": NaN,
+      "exit": 0,
       "id": "c1"
     }
   ],
+  "completion": {
+    "asserted": true,
+    "basis": "both"
+  },
   "invocation_id": "call-1",
   "producer": "transcript-parser",
-  "schema_version": "probity-tool-claims/v1"
+  "schema_version": "probity-tool-claims/v2"
 }

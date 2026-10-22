@@ -1,7 +1,11 @@
 {
   "claim_id": "honest",
   "claims": {},
+  "completion": {
+    "asserted": true,
+    "basis": "both"
+  },
   "invocation_id": "call-1",
   "producer": "transcript-parser",
-  "schema_version": "probity-tool-claims/v1"
+  "schema_version": "probity-tool-claims/v2"
 }

@@ -46,6 +46,7 @@ RUNS_A_VERIFIER = (
     "vectors-admission",
     "vectors-ai-agent-action",
     "vectors-anchored-chain",
+    "vectors-approval-binding",
     "vectors-authority-at-dispatch",
     "vectors-chunked-export",
     "vectors-grade-floor",
@@ -74,6 +75,7 @@ REFUSES_A_VERIFIER = (
     "vectors-spoofed-tool-output",
     "vectors-test-tampering",
     "vectors-grader-isolation",
+    "vectors-done-probes",
 
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",

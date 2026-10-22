@@ -1,0 +1,35 @@
+{
+  "claim_id": "collection-short",
+  "contract_sha256": "0e22959ade22437298c7f6b7f14b5bf6ff9c7ffa107961598d380bc949be2a11",
+  "invocation_id": "call-1",
+  "producer": "harness-verifier",
+  "results": [
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "tests"
+      ],
+      "collected": 1,
+      "exit": 0,
+      "id": "unit"
+    },
+    {
+      "argv": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "/heldout"
+      ],
+      "exit": 0,
+      "id": "heldout-unit"
+    }
+  ],
+  "schema_version": "probity-acceptance-grade/v1",
+  "tree_sha256": "53ce8c69ad422706abbe0335c6e145ed936b7ed21d64fdc337a033a47de7db66",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

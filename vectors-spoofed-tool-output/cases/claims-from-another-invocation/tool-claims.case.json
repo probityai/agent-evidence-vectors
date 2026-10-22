@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 297,
+      "length": 324,
       "path": "capability.json",
-      "sha256": "3c017384594acf6595b6149c2c99b82fc691cdad138e16cd2c7bf123b468b5f2"
+      "sha256": "8d65a78c23455968fe0904ab1fa21aa8d19d52fcd4137bd4cde065f30176aff6"
     },
     "claims": {
-      "length": 331,
+      "length": 396,
       "path": "claims.json",
-      "sha256": "485345ba97185b64025c97e8c3b267dd917d5a0593abc189091cebc5f4eaa89f"
+      "sha256": "a8c897f340fa5dd1b413100d984b8c935c14e1ff354373419806a8aa2771e86a"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 729,
+      "length": 958,
       "path": "observation.json",
-      "sha256": "4c80a0b68aa12e7e967de142b7afd2aba76f157bcd7e3bd65b724f26b41a52ea"
+      "sha256": "f27737d067aff8582d88cfaccc9bdc4f80694fbf15b8f05ca5ec7b3237c579f6"
     }
   },
   "case_id": "claims-from-another-invocation",

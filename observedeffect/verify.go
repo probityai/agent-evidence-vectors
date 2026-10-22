@@ -181,6 +181,7 @@ func rules() []rule {
 		{"range-preimage", ruleRangePreimage},
 		{"read-chain", ruleReadChain},
 		{"empty-tree-holds-no-bytes", ruleEmptyTreeHoldsNoBytes},
+		{"coverage-unobserved-intervals", ruleCoverageUnobservedIntervals},
 		{"coverage-coherence", ruleCoverageCoherence},
 		{"coverage-not-established-shape", ruleCoverageNotEstablishedShape},
 		{"coverage-gaps-named", ruleCoverageGapsNamed},

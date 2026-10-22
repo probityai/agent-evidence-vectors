@@ -11,7 +11,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from .reader import AXES, NON_CLAIMS, MalformedInput, evaluate, parse_strict, sha256_tag, summary
+from .reader import (
+    AXES,
+    DERIVED,
+    NON_CLAIMS,
+    MalformedInput,
+    evaluate,
+    parse_strict,
+    sha256_tag,
+    summary,
+)
 
 DISTRIBUTION = "agent-evidence-vectors"
 PACKAGED_CORPUS = Path(__file__).parent / "corpus"
@@ -67,6 +76,7 @@ def run_corpus(root: Path) -> dict[str, Any]:
         "invocation_binding": cases["invocation_binding"],
         "input_digests": digests,
         "axes": list(AXES),
+        "derived": list(DERIVED),
         "non_claims": list(NON_CLAIMS),
         "non_claim_note": (
             "Capture authenticity, capture coverage and kernel-to-tool attribution are not "

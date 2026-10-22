@@ -522,8 +522,69 @@ func ruleEmptyTreeHoldsNoBytes(c *ctx) *fault {
 	return nil
 }
 
+// ruleCoverageUnobservedIntervals holds the spans an observer was not watching,
+// located in time. A monitor that attached after the call began was blind to every
+// path for a span it knows exactly, so neither a path gap nor notEstablished is
+// true of it. Each span is an object carrying exactly from and to in the one
+// timestamp grammar, from strictly before to, inside the interval, and the list is
+// ordered with each span ending strictly before the next begins.
+func ruleCoverageUnobservedIntervals(c *ctx) *fault {
+	coverage := c.obj(c.observation(), "coverage")
+	raw, present := coverage["unobservedIntervals"]
+	if !present {
+		return nil
+	}
+	entries, ok := raw.([]any)
+	if !ok {
+		return malformed("unobserved-interval-malformed")
+	}
+	spans := make([][2]string, 0, len(entries))
+	for _, entry := range entries {
+		span, ok := entry.(map[string]any)
+		if !ok || len(span) != 2 {
+			return malformed("unobserved-interval-malformed")
+		}
+		if _, ok := span["from"]; !ok {
+			return malformed("unobserved-interval-malformed")
+		}
+		if _, ok := span["to"]; !ok {
+			return malformed("unobserved-interval-malformed")
+		}
+		for _, bound := range []string{"from", "to"} {
+			if !timestampOK(span[bound]) {
+				return malformed("timestamp-not-utc-basic:coverage.unobservedIntervals." + bound)
+			}
+		}
+		from, _ := span["from"].(string)
+		to, _ := span["to"].(string)
+		spans = append(spans, [2]string{from, to})
+	}
+	interval := c.interval()
+	opened, sealed := c.str(interval, "openedAt"), c.str(interval, "sealedAt")
+	for _, span := range spans {
+		if span[0] >= span[1] {
+			return malformed("unobserved-interval-not-ordered")
+		}
+		if span[0] < opened || span[1] > sealed {
+			return malformed("unobserved-interval-outside-interval")
+		}
+	}
+	for i := 1; i < len(spans); i++ {
+		if spans[i-1][1] >= spans[i][0] {
+			return malformed("unobserved-intervals-not-disjoint")
+		}
+	}
+	return nil
+}
+
+// unobserved reports whether the coverage names at least one span the observer
+// did not watch.
+func (c *ctx) unobserved(coverage map[string]any) bool {
+	return len(c.list(coverage, "unobservedIntervals")) > 0
+}
+
 // ruleCoverageCoherence refuses a record that declares complete coverage and then
-// names a gap inside the scope it says it covered.
+// names a gap inside the scope it says it covered, or a span it did not watch.
 func ruleCoverageCoherence(c *ctx) *fault {
 	coverage := c.obj(c.observation(), "coverage")
 	if f := requireMembers(coverage, "scopeComplete", "gaps"); f != nil {
@@ -532,6 +593,9 @@ func ruleCoverageCoherence(c *ctx) *fault {
 	complete, _ := coverage["scopeComplete"].(bool)
 	if !complete {
 		return nil
+	}
+	if c.unobserved(coverage) {
+		return malformed("coverage-self-contradictory")
 	}
 	for _, entry := range c.list(coverage, "gaps") {
 		gap, _ := entry.(string)
@@ -553,7 +617,7 @@ func ruleCoverageGapsNamed(c *ctx) *fault {
 	coverage := c.obj(c.observation(), "coverage")
 	complete, _ := coverage["scopeComplete"].(bool)
 	_, undetermined := coverage["notEstablished"]
-	if !complete && len(c.list(coverage, "gaps")) == 0 && !undetermined {
+	if !complete && len(c.list(coverage, "gaps")) == 0 && !c.unobserved(coverage) && !undetermined {
 		return malformed("coverage-incomplete-without-gaps")
 	}
 	return nil
@@ -574,7 +638,7 @@ func ruleCoverageNotEstablishedShape(c *ctx) *fault {
 		return malformed("coverage-not-established-without-reason")
 	}
 	complete, _ := coverage["scopeComplete"].(bool)
-	if complete || len(c.list(coverage, "gaps")) > 0 {
+	if complete || len(c.list(coverage, "gaps")) > 0 || c.unobserved(coverage) {
 		return malformed("coverage-shape-ambiguous")
 	}
 	return nil
@@ -877,6 +941,7 @@ func ruleTierRecompute(c *ctx) *fault {
 		{"authoritative-empty-path-scope", len(c.list(c.pred, "pathScope")) > 0},
 		{"authoritative-coverage-incomplete", complete || !gapInsideScope},
 		{"authoritative-coverage-not-established", !undetermined},
+		{"authoritative-interval-not-observed", !c.unobserved(coverage)},
 	}
 	derived := "authoritative"
 	for _, clause := range clauses {

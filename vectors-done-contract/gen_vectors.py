@@ -141,8 +141,12 @@ def members() -> list[lib.Member]:
         bad_record("exclude-on-file", "an exclude list on a file entry",
                    edited(lambda r: r.update(protected_paths=[{**ONE, "exclude": ["x"]}])),
                    "contract_exclude_invalid"),
-        bad_record("exclude-with-separator", "an excluded name that is a path",
-                   edited(lambda r: r["protected_paths"][0].update(exclude=["a/b"])),
+        valid("valid-exclude-path", "control: an exclusion with a separator is a workspace "
+              "path under the entry, left out with everything below it",
+              edited(lambda r: r["protected_paths"][0].update(
+                  exclude=["__pycache__", "tests/helper.py"]))),
+        bad_record("exclude-path-outside-the-entry", "an excluded path that does not lie under "
+                   "the entry", edited(lambda r: r["protected_paths"][0].update(exclude=["a/b"])),
                    "contract_exclude_invalid"),
         bad_record("exclude-empty-list", "an exclude list with no name in it",
                    edited(lambda r: r["protected_paths"][0].update(exclude=[])),
@@ -180,6 +184,7 @@ def members() -> list[lib.Member]:
         bad_record("adequacy-member-unexpected", "a member adequacy does not define",
                    edited(lambda r: r["adequacy"].update(survived=1)),
                    "contract_adequacy_fields"),
+        *sealed_members(),
         bad_bytes("record-duplicate-member", "the record names adequacy twice, so two readers "
                   "could keep different ones",
                   raw.replace(b'"adequacy": {', b'"adequacy": {"mutants": 9, "killed": 9},\n'
@@ -225,6 +230,121 @@ def members() -> list[lib.Member]:
                       "statement_fields", signature="none"),
     ]
     return out
+
+
+SURFACE = ["/usr/lib/python3.12", "/usr/local/bin"]
+PYTHONS = ["/usr/bin/python3", "/usr/local/bin/python"]
+
+
+def command(**fields: Any) -> Callable[[dict[str, Any]], None]:
+    """Seal more of the visible acceptance command."""
+    return lambda r: r["acceptance"][0].update(fields)
+
+
+def sealed_members() -> list[lib.Member]:
+    """The members the contract compiler may seal beyond the command lines, valid and not."""
+    twin = {"id": "unit-in-process", "argv": ["python", "tests/test_app.py"],
+            "in_process_twin_of": "unit"}
+    return [
+        valid("valid-sealed-run", "control: the visible command sealed with the directory, the "
+              "paths that name its executable, the interpreter, its test ids and the paths its "
+              "run writes", edited(command(cwd="/workspace", exe=PYTHONS, interpreter=PYTHONS,
+                                           ids=["tests/test_app.py::test_app"],
+                                           run_writes=["build"]))),
+        valid("valid-execution-surface", "control: a sealed execution surface, the image links "
+              "into it and the module under test",
+              edited(lambda r: r.update(execution_surface=SURFACE,
+                                        surface_aliases={"/lib": "/usr/lib"},
+                                        module_under_test=["src/app.py"]))),
+        valid("valid-probes-and-twin", "control: an oracle-free probe, a generated held-out "
+              "command and an in-process twin of the visible command",
+              edited(lambda r: r["acceptance"].extend([
+                  {"id": "visible_determinism", "argv": ["python", "-m", "pytest", "probes"],
+                   "probe": "determinism"},
+                  {"id": "heldout-generated", "argv": ["python", "-m", "pytest", "/gen"],
+                   "tier": "synthesized"}, twin]))),
+        valid("valid-measured-adequacy", "control: adequacy by mutant class, the kill vector "
+              "digest and the gates the compiler measured, with the strength and the native "
+              "code the commands loaded",
+              edited(lambda r: r.update(
+                  adequacy={"mutants": 4, "killed": 3, "kill_vector_sha256": DIGEST,
+                            "by_class": {"arith": {"mutants": 3, "killed": 3},
+                                         "cond": {"mutants": 1, "killed": 0}},
+                            "gates": {"kill_rate": {"pass": True}}},
+                  strength="gated", native_loaded=[{"path": "src/_app.so", "sha256": DIGEST}]))),
+        valid("valid-file-equivalence", "control: a protected file judged by its Python syntax "
+              "tree", edited(lambda r: r.update(protected_paths=[
+                  {**ONE, "equivalence": "python_ast"}]))),
+        bad_record("equivalence-on-a-directory", "a syntax-tree equivalence on a directory entry",
+                   edited(lambda r: r["protected_paths"][0].update(equivalence="python_ast")),
+                   "contract_equivalence"),
+        bad_record("equivalence-unknown", "an equivalence the specification does not define",
+                   edited(lambda r: r.update(protected_paths=[{**ONE, "equivalence": "bytes"}])),
+                   "contract_equivalence"),
+        bad_record("strength-unknown", "a strength the specification does not define",
+                   edited(lambda r: r.update(strength="strong")), "contract_strength"),
+        bad_record("native-loaded-path-absolute", "native code named by an absolute path",
+                   edited(lambda r: r.update(native_loaded=[{"path": "/lib/x.so",
+                                                             "sha256": DIGEST}])),
+                   "contract_native_loaded"),
+        bad_record("acceptance-member-unexpected", "a command with a member the contract does "
+                   "not define", edited(command(timeout=60)), "contract_acceptance_fields"),
+        bad_record("acceptance-tier-unknown", "a command of a tier that does not exist",
+                   edited(command(tier="gold")), "contract_acceptance_tier"),
+        bad_record("acceptance-probe-unknown", "a probe of a mode that does not exist",
+                   edited(command(probe="fuzz")), "contract_acceptance_probe"),
+        bad_record("acceptance-cwd-without-exe", "a sealed directory without the executable",
+                   edited(command(cwd="/workspace")), "contract_acceptance_seal"),
+        bad_record("acceptance-exe-unsorted", "the paths of the executable out of order",
+                   edited(command(cwd="/workspace", exe=list(reversed(PYTHONS)))),
+                   "contract_acceptance_seal"),
+        bad_record("acceptance-cwd-relative", "a sealed directory that is not absolute",
+                   edited(command(cwd="workspace", exe="/usr/bin/python3")),
+                   "contract_acceptance_seal"),
+        bad_record("acceptance-interpreter-without-exe", "an interpreter with no sealed "
+                   "executable", edited(command(interpreter=PYTHONS)),
+                   "contract_acceptance_interpreter"),
+        bad_record("acceptance-ids-duplicate", "a test id sealed twice",
+                   edited(command(ids=["t::a", "t::a"])), "contract_acceptance_ids"),
+        bad_record("acceptance-run-writes-climb", "a run-writes path that climbs out of the "
+                   "workspace", edited(command(run_writes=["../x"])),
+                   "contract_acceptance_run_writes"),
+        bad_record("twin-of-itself", "an in-process twin of its own id",
+                   edited(command(in_process_twin_of="unit")), "contract_acceptance_twin"),
+        bad_record("twin-of-unknown", "an in-process twin of an id the contract does not have",
+                   edited(lambda r: r["acceptance"].append({**twin, "in_process_twin_of": "x"})),
+                   "contract_acceptance_twin"),
+        bad_record("twin-of-a-probe", "an in-process twin of a probe",
+                   edited(lambda r: r["acceptance"].extend([
+                       {"id": "p", "argv": ["python", "-m", "pytest", "probes"],
+                        "probe": "determinism"}, {**twin, "in_process_twin_of": "p"}])),
+                   "contract_acceptance_twin"),
+        bad_record("surface-unsorted", "execution surface entries out of order",
+                   edited(lambda r: r.update(execution_surface=list(reversed(SURFACE)))),
+                   "contract_execution_surface"),
+        bad_record("surface-shared-root", "/tmp as a whole execution surface entry",
+                   edited(lambda r: r.update(execution_surface=["/tmp"])),
+                   "contract_execution_surface_shared_root"),
+        bad_record("surface-aliases-without-surface", "image links with no execution surface",
+                   edited(lambda r: r.update(surface_aliases={"/lib": "/usr/lib"})),
+                   "contract_surface_aliases"),
+        bad_record("surface-alias-relative", "an image link to a relative path",
+                   edited(lambda r: r.update(execution_surface=SURFACE,
+                                             surface_aliases={"/lib": "usr/lib"})),
+                   "contract_surface_aliases"),
+        bad_record("module-under-test-empty", "a module-under-test list with nothing in it",
+                   edited(lambda r: r.update(module_under_test=[])), "contract_module_under_test"),
+        bad_record("adequacy-gate-not-boolean", "a gate whose pass is not a boolean",
+                   edited(lambda r: r["adequacy"].update(gates={"kill_rate": {"pass": "yes"}})),
+                   "contract_adequacy_gates"),
+        bad_record("adequacy-classes-do-not-sum", "mutant classes that do not sum to the totals",
+                   edited(lambda r: r["adequacy"].update(
+                       by_class={"arith": {"mutants": 1, "killed": 1}})),
+                   "contract_adequacy_by_class"),
+        bad_record("kill-vector-digest-short", "a kill vector digest of 63 characters",
+                   edited(lambda r: r["adequacy"].update(kill_vector_sha256="a" * 63)),
+                   "contract_digest_malformed"),
+    ]
 
 
 def generate(root: Path = ROOT) -> None:

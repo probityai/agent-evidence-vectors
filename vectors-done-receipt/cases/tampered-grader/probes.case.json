@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 717,
+      "path": "grade.json",
+      "sha256": "aedeb31fc4c83d07d08b3a547cf89e8fff1e38681e4e5a2f275f8566a14537ea"
+    },
+    "tree": {
+      "length": 526,
+      "path": "tree.json",
+      "sha256": "8317b5beae090dfb79a932915cceb7fa240d67cc986ee31ea726110cd276a210"
+    }
+  },
+  "case_id": "tampered-grader",
+  "schema_version": "probity-case/v1"
+}

@@ -49,6 +49,21 @@ def test_each_axis_has_accept_and_reject_vectors() -> None:
         assert {"ESTABLISHED", "CONTRADICTED", "NOT_ESTABLISHED"} <= words, axis
 
 
+def test_derived_answer_has_every_result_word() -> None:
+    for name in reader.DERIVED:
+        words = {case["expected"][name] for case in CASES}
+        assert {"ESTABLISHED", "CONTRADICTED", "NOT_ESTABLISHED"} <= words, name
+
+
+@pytest.mark.parametrize(
+    "case_id", ["decision_absent", "decision_bound_to_other_request", "member_missing"]
+)
+def test_observed_effect_stays_separate_from_authority(case_id: str) -> None:
+    got = _judge(case_id)
+    assert got["observed_effect"] == "ESTABLISHED"
+    assert got["effect_under_authority"] == "NOT_ESTABLISHED"
+
+
 def test_reader_never_reads_the_expected_answer() -> None:
     case = copy.deepcopy(BY_ID["intact_pair"])
     del case["expected"]
@@ -63,9 +78,10 @@ def _with_outcome(case_id: str, outcome: Any) -> dict[str, str]:
 
 def test_dispatch_outcomes_follow_remora_vocabulary() -> None:
     assert _with_outcome("intact_pair", "BEGAN_OUTCOME_UNKNOWN")["observed_effect"] == "ESTABLISHED"
-    assert _with_outcome("dispatched_after_deny", "BEGAN_OUTCOME_UNKNOWN")[
-        "observed_effect"
-    ] == "CONTRADICTED"
+    assert (
+        _with_outcome("dispatched_after_deny", "BEGAN_OUTCOME_UNKNOWN")["observed_effect"]
+        == "CONTRADICTED"
+    )
     assert _with_outcome("intact_pair", "REFUSED")["observed_effect"] == "CONTRADICTED"
 
 
@@ -125,6 +141,14 @@ def test_canonical_refuses_floats() -> None:
 
 class TestKills:
     """Disable one rule at a time; a named case must turn."""
+
+    def test_bound_deny_contradicts_authority(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(reader, "_authority", lambda c: NOT_ESTABLISHED)
+        assert _judge("deny_and_not_dispatched")["effect_under_authority"] == "NOT_ESTABLISHED"
+
+    def test_effect_without_bound_allow(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        monkeypatch.setattr(reader, "_authority", lambda c: "ESTABLISHED")
+        assert _judge("decision_absent")["effect_under_authority"] == "ESTABLISHED"
 
     def test_strict_kinds(self, monkeypatch: pytest.MonkeyPatch) -> None:
         monkeypatch.setattr(reader, "_same", lambda a, b: a == b)

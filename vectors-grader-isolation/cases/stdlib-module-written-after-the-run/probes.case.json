@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 914,
+      "path": "contract.json",
+      "sha256": "9adf435b469830e9292b99a628f9ccfc217c0edcd5b253c7769f486fa977d2f7"
+    },
+    "grade": {
+      "length": 737,
+      "path": "grade.json",
+      "sha256": "4451826c22eb62f90ebba1c64e9fc11f5ffaad4fe2952d13a8192a67eddacc03"
+    },
+    "tree": {
+      "length": 546,
+      "path": "tree.json",
+      "sha256": "cab66c9f6fc6c79a5fc0dfe6ac938debbfa30c08bf04b235f2c98e1a03d0a192"
+    }
+  },
+  "case_id": "stdlib-module-written-after-the-run",
+  "schema_version": "probity-case/v1"
+}

@@ -36,6 +36,8 @@ jobs:
           python-version: '3.13'
       - name: Install selected regression dependencies
         run: python -m pip install -r ../a2a-s3-retain-2026-10-01/requirements.txt
+      - name: Shared-source lock is current
+        run: python lock_sources.py --check
       - name: Exercise signed-map and mutation controls
         env:
           PYTHONPATH: .

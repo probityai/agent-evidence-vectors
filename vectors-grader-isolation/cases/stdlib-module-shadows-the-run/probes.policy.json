@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "stdlib-module-shadows-the-run": {
+      "claim_type": "probe_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "9adf435b469830e9292b99a628f9ccfc217c0edcd5b253c7769f486fa977d2f7"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "335ea673a9743730a4f694f84cef90296c09364dea685885a59131aed6dab3cd",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "8e9fb4795468b2e1ca8ac7a7da9131646131cd10d1a3fbeb578cff91d4d48062",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

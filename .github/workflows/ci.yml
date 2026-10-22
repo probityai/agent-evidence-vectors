@@ -354,7 +354,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
+        run: uv run ruff check packaging vectors vectors-approval-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -836,6 +836,8 @@ jobs:
         run: .venv/bin/python -B scripts/pre-push-pool-test.py
       - name: the pre-push hook refuses a pushed commit message the commit-msg hook never saw
         run: bash scripts/prepush-commit-msg-test.sh
+      - name: the pre-push hook runs the pushed commit's own identity scanner and rules
+        run: bash scripts/prepush-own-scanner-test.sh --mutate
       - name: required native providers bind real tools and refuse unsafe archives
         run: .venv/bin/python -B scripts/native-provider-test.py
       - name: setup-go selects the declared workspace file before dependent commands
@@ -959,10 +961,25 @@ jobs:
         run: uv run --extra dev pytest vectors-identity-binding/tests -q
       - name: authority-at-dispatch cases regenerate and force every check
         run: uv run --extra dev pytest vectors-authority-at-dispatch/tests -q
+      - name: approval-binding cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-approval-binding/tests -q
       - name: chunked-export cases regenerate and force every check
         run: uv run --extra dev pytest vectors-chunked-export/tests -q
       - name: done corpora regenerate, are judged clean and force every rule
         run: uv run --extra dev pytest vectors-done-receipt/tests -q
+      # probity-verify is the implementation the done rules come from, pinned in
+      # pyproject.toml's crosscheck group. Every done member goes through it, and so
+      # do its own example runs, fetched at the same commit and read by our reader.
+      - name: the done readers agree with probity-verify on every member
+        run: |
+          rev=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['tool']['uv']['sources']['probity-verify']['rev'])")
+          probity="${RUNNER_TEMP:-$(mktemp -d)}/probity-at-pin"
+          git clone --quiet --filter=blob:none --no-checkout https://github.com/probityai/probity "$probity"
+          git -C "$probity" checkout --quiet "$rev" -- packages/probity-verify/examples/done-receipt
+          uv run --locked --extra dev --group crosscheck python vectors-done-receipt/crosscheck_probity_verify.py \
+            vectors-done-contract vectors-done-receipt vectors-spoofed-tool-output \
+            vectors-test-tampering vectors-grader-isolation vectors-done-probes \
+            --examples "$probity/packages/probity-verify/examples/done-receipt"
       - name: TRACE registry anchor cases regenerate and force every check
         run: uv run --extra dev pytest vectors-trace-anchor/tests -q
       - name: grade-floor cases regenerate, agree and every rule is load-bearing

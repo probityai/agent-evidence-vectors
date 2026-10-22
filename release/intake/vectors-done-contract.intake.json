@@ -1,14 +1,14 @@
 {
   "aggregate": {
     "counts": {
-      "invalid": 40,
-      "valid": 6
+      "invalid": 64,
+      "valid": 12
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 46
+    "total": 76
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-done-contract/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -17,14 +17,7 @@
     "routine": "corpus_digest in vectors-done-contract/gen_vectors.py",
     "routine-file": "vectors-done-contract/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "73c60897b7c03715c688b0dcd84218dadfd2e7ddc4efa598bcc63bbd393433ce",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "d0ada63ea7cccc91033ffe50d3bb49dfd132c239985acace2bd5d22c27e182f8",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -36,7 +29,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -45,21 +38,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "swapped-in": "63ebb07a6fa4281fed2093f19293dc3c1718b3048f8aa36c74f61ad647d98f28",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-contract/README.md",
       "serialization": "bytes",
-      "sha256": "cd8f2c8b625a398a04ed1cae612edf987b8a0ef6c79a351935c00f0d1aadd8cb"
+      "sha256": "1800e0eb8f403f20dfcaafc747fcab579498d14125784996d6e605cc772b6a4b"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -68,21 +61,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "swapped-in": "e4d77df89ce605114d3e3ffe3f74dc8ccbb1868359485367161d303c09938f36",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-contract/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "3bb5415c1debd4692fdd982c4733ba9e878819f6f157037748d118977b03fc8c"
+      "sha256": "7d6b49a70d2772eca2749c5effc856c43b2ee14f508f71af941621ae8e3d12ce"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -91,14 +84,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+          "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
         },
         "swapped-in": "da14eec6bf38658196b688ba896672e2d8705d20bbfe742442e4a2f66e244c72",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-done-contract/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "bc7895742f2c873fd33421e93c05481a4a45c96dd687f8544fb2ded6e333d7ae"
+      "sha256": "f904db73832955d87533e6428b2daa23f5758ff84aa7de3abff6504c5fbaa93c"
     }
   ],
   "boundary": {
@@ -113,7 +106,7 @@
     "root": "vectors-done-contract"
   },
   "byte-identity": {
-    "pins": 92,
+    "pins": 152,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -150,7 +143,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "b2a9602a4e8aec0fd8085a47d8502adeaaa5ccfff81bfbf308c35c3c4deb8142"
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
     },
     "runtime": {
       "name": "go",
@@ -317,7 +310,15 @@
       "state": "pass"
     },
     {
-      "check": "exclude-with-separator",
+      "check": "valid-exclude-path",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exclude-path-outside-the-entry",
       "native": {
         "reasons": [],
         "verdict": "invalid"
@@ -414,6 +415,238 @@
     },
     {
       "check": "adequacy-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-sealed-run",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-execution-surface",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-probes-and-twin",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-measured-adequacy",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "valid-file-equivalence",
+      "native": {
+        "reasons": [],
+        "verdict": "valid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "equivalence-on-a-directory",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "equivalence-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "strength-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "native-loaded-path-absolute",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-tier-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-probe-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-cwd-without-exe",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-exe-unsorted",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-cwd-relative",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-interpreter-without-exe",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-ids-duplicate",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "acceptance-run-writes-climb",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "twin-of-itself",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "twin-of-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "twin-of-a-probe",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "surface-unsorted",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "surface-shared-root",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "surface-aliases-without-surface",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "surface-alias-relative",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "module-under-test-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-gate-not-boolean",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "adequacy-classes-do-not-sum",
+      "native": {
+        "reasons": [],
+        "verdict": "invalid"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "kill-vector-digest-short",
       "native": {
         "reasons": [],
         "verdict": "invalid"
@@ -535,7 +768,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e37df441e2607cfcc408db8fd9767ca244c8aebb871e9ca320c26fce4b07faa5"
+    "sha256": "f0711c8c791ffc004dc17720579d6592b15909d50f05f921da20c569559b4ba1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -564,7 +797,8 @@
       "protected-path-trailing-slash",
       "protected-kind-unknown",
       "exclude-on-file",
-      "exclude-with-separator",
+      "valid-exclude-path",
+      "exclude-path-outside-the-entry",
       "exclude-empty-list",
       "exclude-duplicate-name",
       "protected-path-duplicate",
@@ -577,6 +811,35 @@
       "adequacy-negative",
       "adequacy-boolean",
       "adequacy-member-unexpected",
+      "valid-sealed-run",
+      "valid-execution-surface",
+      "valid-probes-and-twin",
+      "valid-measured-adequacy",
+      "valid-file-equivalence",
+      "equivalence-on-a-directory",
+      "equivalence-unknown",
+      "strength-unknown",
+      "native-loaded-path-absolute",
+      "acceptance-member-unexpected",
+      "acceptance-tier-unknown",
+      "acceptance-probe-unknown",
+      "acceptance-cwd-without-exe",
+      "acceptance-exe-unsorted",
+      "acceptance-cwd-relative",
+      "acceptance-interpreter-without-exe",
+      "acceptance-ids-duplicate",
+      "acceptance-run-writes-climb",
+      "twin-of-itself",
+      "twin-of-unknown",
+      "twin-of-a-probe",
+      "surface-unsorted",
+      "surface-shared-root",
+      "surface-aliases-without-surface",
+      "surface-alias-relative",
+      "module-under-test-empty",
+      "adequacy-gate-not-boolean",
+      "adequacy-classes-do-not-sum",
+      "kill-vector-digest-short",
       "record-duplicate-member",
       "record-not-a-number",
       "record-truncated",
@@ -593,18 +856,18 @@
       "statement-member-unexpected"
     ],
     "path": "vectors-done-contract/MANIFEST.json",
-    "sha256": "b27632b4ebcac3a61c6754a8d13eba73a8b2a408d6b92ebc574da7038932ff59"
+    "sha256": "ac105652033c5a86ff8f6428c9b2921f5f214e66c784149d41e8283041d6ad16"
   },
   "members": [
     {
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-directory-protected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/valid-directory-protected/statement.json",
-          "sha256": "38820d3353719c215dc04e7bf050cdb828d1feef965c1f11b2288adce51245dd"
+          "sha256": "cee0653e6a3d14aafed9c6c316ea39d17b89d50e1cb1f0f790f269f97bcff582"
         }
       ],
       "id": "valid-directory-protected"
@@ -613,11 +876,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-file-protected/contract.json",
-          "sha256": "e06921153420b3058e1dde5768483dc1b6502b2f8c49a4b3cd913f84e55cd1f3"
+          "sha256": "764286e7ac2031237d9d8194bf78b1303e26a657816f68cfe5628f9f98c46b03"
         },
         {
           "path": "vectors-done-contract/cases/valid-file-protected/statement.json",
-          "sha256": "f34879abb2309f561afcc9745543726545b04c381635ef0be465240829ac66fe"
+          "sha256": "9860333e8fe569143c99e36fc0ee6b984774c51aeca8196c79bb92bb4edd0654"
         }
       ],
       "id": "valid-file-protected"
@@ -626,11 +889,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-no-protected-paths/contract.json",
-          "sha256": "a1a99e6cf321b6b4e9259e80e2fee380ccdf68d8e4b84596d4d0de6aafb908bd"
+          "sha256": "51242669c1c96d0377229c33cc2e6db0d85f30f399fd49986283478b65d04d96"
         },
         {
           "path": "vectors-done-contract/cases/valid-no-protected-paths/statement.json",
-          "sha256": "504a63e3d07c45602af62a1b15100afc5592bd7dfce925715f7cd5cacaaecb45"
+          "sha256": "b5b895ce5bf53a321be5396f930826da6f810866e148fd15460d870d643ddc8a"
         }
       ],
       "id": "valid-no-protected-paths"
@@ -639,11 +902,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-two-acceptance-commands/contract.json",
-          "sha256": "2ef9c84e1f6e8b8866bcb9d1058b7712f9fff88506d25be13d9a227767fc0e5b"
+          "sha256": "ea61935ba424868f1d45567a42f94139de8e51e01caa7eb7ba48a53494fc3f55"
         },
         {
           "path": "vectors-done-contract/cases/valid-two-acceptance-commands/statement.json",
-          "sha256": "a722346d8936b0ad70c465623a4e8712b518725080d344efb46e114aa5297c4a"
+          "sha256": "0a29e037f68614fd9725aa7892aff0fc78dae4284f7a982f9a31c624499c1a7b"
         }
       ],
       "id": "valid-two-acceptance-commands"
@@ -652,11 +915,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-bound-digests/contract.json",
-          "sha256": "d9c159eaed3714181edd65226b4aa21a4f40570694f0496e1bca7593af17fddb"
+          "sha256": "f90150dd541d75828e90de5355c62b7cb65d2924f512b344cd9e66be033e4830"
         },
         {
           "path": "vectors-done-contract/cases/valid-bound-digests/statement.json",
-          "sha256": "0990c94db50d6cf36e00777c0dd0972b916e8e85c43e5ec164f0626339e9cce1"
+          "sha256": "180cb78f6bbcac2dba5347e4199bcb09fd2be75eefb386185fb67bc61f2e4ee8"
         }
       ],
       "id": "valid-bound-digests"
@@ -665,11 +928,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/valid-adequacy-zero/contract.json",
-          "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+          "sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a"
         },
         {
           "path": "vectors-done-contract/cases/valid-adequacy-zero/statement.json",
-          "sha256": "c8e9039228abd34e4a55aa2d52cdaed1bceaa9133f17ad0d7a1389202c8a647c"
+          "sha256": "8f231e02716f4e2f61b653b58d19ab0c3cb0317c7f98ba8d7753737ef85f44bf"
         }
       ],
       "id": "valid-adequacy-zero"
@@ -678,11 +941,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/schema-unsupported/contract.json",
-          "sha256": "0f5a934ac3b31e523519124195ecbc2fa5db1bd752b9a55bfec636b0591b4148"
+          "sha256": "f953938dfca72bce4244d3457a88f3ca23c11c7cacb66c08e655e66cb7a3622d"
         },
         {
           "path": "vectors-done-contract/cases/schema-unsupported/statement.json",
-          "sha256": "3b05aea31cf5fc40c786926e9cb153737e00bfd316494c6d09067e4ea4510b41"
+          "sha256": "645351f51f9f9262b31c8b3d16703ab659c3b0474b77877b1714b1d26e2f28bd"
         }
       ],
       "id": "schema-unsupported"
@@ -691,11 +954,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/member-unexpected/contract.json",
-          "sha256": "e05234891c62ee7ec93f6bf69f2c0089d10a6b72a2508ca8539216a69da5563d"
+          "sha256": "0f05f9acec608476534dc52fd7ea5d052048bf9204e24d76769af59ebff442be"
         },
         {
           "path": "vectors-done-contract/cases/member-unexpected/statement.json",
-          "sha256": "97dc50a2dcecbb54cfa016beb8c8e68988dd7d4c2d0c93f76bdb426b39e58d55"
+          "sha256": "523bbb45f0a0a3ca4c01189fe1fce3260eb4f7aa33bead44a9cfa64d05aee3e3"
         }
       ],
       "id": "member-unexpected"
@@ -704,11 +967,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/member-missing/contract.json",
-          "sha256": "75f4e91e0a44e9fbfec4aa36cf9edc525742eb7b053691039979b501fa05fad8"
+          "sha256": "75a2efb2abde222ee2179e476eb22952c6b1c592809ff260f961edbea6b5b7b9"
         },
         {
           "path": "vectors-done-contract/cases/member-missing/statement.json",
-          "sha256": "87a773b4e8e89871f15561d6c469216cd32df0277df34737d6df3ed6c893ce3d"
+          "sha256": "48473d75ef4c1e5cc4949b088a1880385d04a9a8607f3da102affd1c0621ce8a"
         }
       ],
       "id": "member-missing"
@@ -717,11 +980,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/contract-id-empty/contract.json",
-          "sha256": "999f2784f30d2b33b6c8c9e24a42745e0353bf648ba36904e2486fde51b33276"
+          "sha256": "f5263fe849c17e0935b8f4ee3f92c81140eed0a881c95ccf18104c11f0a891dd"
         },
         {
           "path": "vectors-done-contract/cases/contract-id-empty/statement.json",
-          "sha256": "e1dc1fb3838d7169737bb30221bc5b27b2e2ffe97beb3faca24830b411186e24"
+          "sha256": "10c11f572a6ea6d4880672da990a28105487c210ca523d9cf3ecb61382ce4794"
         }
       ],
       "id": "contract-id-empty"
@@ -730,11 +993,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/task-empty/contract.json",
-          "sha256": "cd832fd4c955cb60ab5341d64d6d19dafcd8cd778c09036d6c598609dde28fe8"
+          "sha256": "fe9edc11faf5ebf7430b450ada8e07acff42657c877d84498910e12dbf85b2ba"
         },
         {
           "path": "vectors-done-contract/cases/task-empty/statement.json",
-          "sha256": "9194fdb8744baeccfaeccd99cb832e75372b3d491db9d376eed4439179a78a24"
+          "sha256": "615458b0b5dd6c4b78a22c6d2d503a974a318b6eb9706ecd7e4686ce20ab5b83"
         }
       ],
       "id": "task-empty"
@@ -743,11 +1006,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/bound-digest-uppercase/contract.json",
-          "sha256": "921941de94841dfa9d7704a0c124ecb5384526d0aa6038c1ca0e7077c86c10d6"
+          "sha256": "6f19594591d672b21d79ddea2aa36b6ac889897e1211981cd97accff3f33413a"
         },
         {
           "path": "vectors-done-contract/cases/bound-digest-uppercase/statement.json",
-          "sha256": "ab1d15b59cd51b06d1371e4bd03fa0ea92ed8f96eb66cea22c2440eee61c6709"
+          "sha256": "f9f46946f23c20e5c922fb13f589930714e5e0fca8fa9539c6745f9409b5f1d7"
         }
       ],
       "id": "bound-digest-uppercase"
@@ -756,11 +1019,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-digest-short/contract.json",
-          "sha256": "54d61adf5edaa275eb98d2a7dd31367b3e498a0f0f9d38ae1488d4a8fb82bd11"
+          "sha256": "b3c2b4cd00541050215e32fd3ca7ba53365466e49df25e932f8dcb45af13b570"
         },
         {
           "path": "vectors-done-contract/cases/protected-digest-short/statement.json",
-          "sha256": "afdf0da5f2f70b4c0f4321ba57c0de2bfd27d4578e28068f7751a7061c05b73b"
+          "sha256": "1a307da2430c364f2d74b4b611fbbb8baf13c236f967615342cf661d37c3988e"
         }
       ],
       "id": "protected-digest-short"
@@ -769,11 +1032,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-paths-not-a-list/contract.json",
-          "sha256": "986c7975c70bc14edefa8abaf6507f6767b999dd97e303bddc09cc15c2df1929"
+          "sha256": "9d14c44e7724394ea913bea11d9098126d5ea266906be1273bb2bdd76f471585"
         },
         {
           "path": "vectors-done-contract/cases/protected-paths-not-a-list/statement.json",
-          "sha256": "b9c183f57f9dadbfe75cabcdabbe51380e0e2d1c140c6d299d2a1073b5410745"
+          "sha256": "c317ba881e7896070cfd9d0187c1e15e1f13433942e05752302a876c7ed7b369"
         }
       ],
       "id": "protected-paths-not-a-list"
@@ -782,11 +1045,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-path-dotdot/contract.json",
-          "sha256": "8ca9c170cf2bd9666e52072c5666a53474739560044dc520204e87c6c8ebcbe5"
+          "sha256": "97202e2d6e2a08fd47d67b0801089ef8d7ff63920581439fbd5809f1fd8e6cb8"
         },
         {
           "path": "vectors-done-contract/cases/protected-path-dotdot/statement.json",
-          "sha256": "fef55587c61a4dae6b68c7c0602dbb8c8ee2f9c64c76c4e7e27a69e58eca3221"
+          "sha256": "6bc2e8c03b0605c05902a569447b73ac8914be072c109bc1a0177dd1117b8b78"
         }
       ],
       "id": "protected-path-dotdot"
@@ -795,11 +1058,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-path-absolute/contract.json",
-          "sha256": "72be4963aa0e59d83474684204ceb233bb17df9ed985809fd836a0c694a0fb8e"
+          "sha256": "8cce2f3247bd393cf6430ffae4085ab8954105ac03c0f6280d2a08bc37ce42cb"
         },
         {
           "path": "vectors-done-contract/cases/protected-path-absolute/statement.json",
-          "sha256": "6f3b7fbd0b9953611382ac77fcafe67e97232c9bedb40b3f964cffaf6622a9c2"
+          "sha256": "ba76e23847e74539eb7c3bc05a521f1729a0ed5da0d71f1ef2e2eb52e1f8a4bc"
         }
       ],
       "id": "protected-path-absolute"
@@ -808,11 +1071,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-path-trailing-slash/contract.json",
-          "sha256": "e3ec14a15b4dea1b206e792c55f8015b9bd62b591a8716f0819e05a6274ff8c6"
+          "sha256": "c36e482b7bb4ac3bb5bbe3d3e79c6aa7748ee373f6a21f13082f66ff354b9243"
         },
         {
           "path": "vectors-done-contract/cases/protected-path-trailing-slash/statement.json",
-          "sha256": "4ffe02294eac54015bc30ecde28f84ec5fd1e838e46f5f755b17a1f76f94bd25"
+          "sha256": "7e7672177dfd4c2a9b5bc3e91b8792bbeb5dabde410fc64b3f986e63bf264463"
         }
       ],
       "id": "protected-path-trailing-slash"
@@ -821,11 +1084,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-kind-unknown/contract.json",
-          "sha256": "795563e4465baa7b4caa5333d1157f737790f11b232b831f2e7ed03827263fc9"
+          "sha256": "d179965b4a0865053126826718513b47a9a1539ae3b200ff8a733cbf34801f5e"
         },
         {
           "path": "vectors-done-contract/cases/protected-kind-unknown/statement.json",
-          "sha256": "58015ef5829797b6c31f8cc4552f0d79789ba4bf12ce721132ab24d04f1660f1"
+          "sha256": "b56279a8527b3a141dab0257bf1caef0aa1f2605170a37215aa8e053d277f0c2"
         }
       ],
       "id": "protected-kind-unknown"
@@ -834,11 +1097,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/exclude-on-file/contract.json",
-          "sha256": "c70af9eda66ea01c7845b8edd07916191f93f78daa9a61a227508b5220cf8ea9"
+          "sha256": "818d62b08958cddacb7d2080f56c364457025a187c8899a6c7a5dd29263d5e6f"
         },
         {
           "path": "vectors-done-contract/cases/exclude-on-file/statement.json",
-          "sha256": "a3e32178e836ac76ecb8304b075284d8a43c0efee5c1dbf09039ff4f32d98c7e"
+          "sha256": "0553654d1670444afe691c4c67916581f5ff45cb8c5de689fd128fa3bede4601"
         }
       ],
       "id": "exclude-on-file"
@@ -846,25 +1109,38 @@
     {
       "files": [
         {
-          "path": "vectors-done-contract/cases/exclude-with-separator/contract.json",
-          "sha256": "9c9bc9df2c3876abf953147b6a79fc0cdffafd680b40792d80954cea4757d0e0"
+          "path": "vectors-done-contract/cases/valid-exclude-path/contract.json",
+          "sha256": "c572583391768aabc74471b7126678534b2f7d56620b6ab4ac72caab5ed5f28f"
         },
         {
-          "path": "vectors-done-contract/cases/exclude-with-separator/statement.json",
-          "sha256": "430b660161df711816c1b4413d9871df97d890b56fd8a9806338125f2f251390"
+          "path": "vectors-done-contract/cases/valid-exclude-path/statement.json",
+          "sha256": "d93cb07e0c2dcff4cea6f86bf8ce15b2bd6bbf1427113861e08f1ec78fb7c2d1"
         }
       ],
-      "id": "exclude-with-separator"
+      "id": "valid-exclude-path"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/exclude-path-outside-the-entry/contract.json",
+          "sha256": "7d771d58300b6b90f4fef2a156fe8879efcce65da410d6cbb6175cec452c3728"
+        },
+        {
+          "path": "vectors-done-contract/cases/exclude-path-outside-the-entry/statement.json",
+          "sha256": "9b88966b1b683ec9851294c4554634eef4e8575262cc3d9de7f862928d1a9981"
+        }
+      ],
+      "id": "exclude-path-outside-the-entry"
     },
     {
       "files": [
         {
           "path": "vectors-done-contract/cases/exclude-empty-list/contract.json",
-          "sha256": "03b36ef3bb106908886105c423d53ebe19ca779f2fd96a93c52c886bbbb13c9f"
+          "sha256": "00d541a5a2ff794d22991313eff1cde02fa8d4491d60b6e2dde6b6d67455053c"
         },
         {
           "path": "vectors-done-contract/cases/exclude-empty-list/statement.json",
-          "sha256": "4eb2d2f42d17d62b1ab60b71a459a7609d12d90bfcb2074d10957f1fcf2ea3d5"
+          "sha256": "dab15cf53cb4c833dfb0bcc8e37e65cd78b719a8925bb2c1c44453a59be602e5"
         }
       ],
       "id": "exclude-empty-list"
@@ -873,11 +1149,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/exclude-duplicate-name/contract.json",
-          "sha256": "1d2de3604b25369b294463f2a2947e2fa1d50f94781f351f262324a9a402325e"
+          "sha256": "c66902c95ecdf27754103511742901d7ae114380d2de40857d12d9cd234f1e34"
         },
         {
           "path": "vectors-done-contract/cases/exclude-duplicate-name/statement.json",
-          "sha256": "70278c74fe6778a9697422ada357660f07f6ba2068f308e9fda309026a629718"
+          "sha256": "b3b1a1c48816f04cd1ff668e9698d17facd96f3e98ec3a4370a132403b53b409"
         }
       ],
       "id": "exclude-duplicate-name"
@@ -886,11 +1162,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/protected-path-duplicate/contract.json",
-          "sha256": "997377f8ed834dcc2047dbd7a686768d1eb0d5187e81d7cb378caeb2a5421d60"
+          "sha256": "d7d4329c060187ae54a85080874a8cfa02bf62bc80d2db58d81a7e833ae4ed73"
         },
         {
           "path": "vectors-done-contract/cases/protected-path-duplicate/statement.json",
-          "sha256": "ffa964f07f283529f8f31df76e3d3cd5ff69b72b7fe1b43851074cba34f4bd0b"
+          "sha256": "6a3787051e9b08413513aca52277dcb18ef364aec6523c5a1fa193a2c526c8a8"
         }
       ],
       "id": "protected-path-duplicate"
@@ -899,11 +1175,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/acceptance-empty/contract.json",
-          "sha256": "6e1ef0a343a20e20a2fe733148c5131c6886eee44272cff0d893f35e4ad18145"
+          "sha256": "d96eb783187a2c8313dae6ce19ae12e21f6d8fa04c2274d131f32532d9f88704"
         },
         {
           "path": "vectors-done-contract/cases/acceptance-empty/statement.json",
-          "sha256": "8ce8822603e5b72a4b4428217f5211e4e25fb8e2c005b8402ad754898739bcd3"
+          "sha256": "027518ee648e1fbd948c4cfda6722fe9d5973ebfd7d88e0210e6814cf0f3fd39"
         }
       ],
       "id": "acceptance-empty"
@@ -912,11 +1188,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/acceptance-id-empty/contract.json",
-          "sha256": "428bcc5d5da4a1aa67f42927f248ef3c0be6b65dfa23502105b28e86f2614340"
+          "sha256": "42d0a1fa620bb9d355ba64962f77939c8088e92859109e32634b99655f66f89e"
         },
         {
           "path": "vectors-done-contract/cases/acceptance-id-empty/statement.json",
-          "sha256": "e25fe6ff86d22ab2513dbb479b26038fc4fe6bb734cc5cf810512a296345530e"
+          "sha256": "19fd1dd8c7ef5b3ecd1add201260ee224ba0168aa4d7e826a2ca7efdeec6ace0"
         }
       ],
       "id": "acceptance-id-empty"
@@ -925,11 +1201,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/acceptance-argv-empty/contract.json",
-          "sha256": "9cb1ce63d1e59da5130aa5d95df58536ea204bc58d16fe07fff32e0ad758c9eb"
+          "sha256": "99914bed865a6ab9f4d1711aef7c3ac9d3ba241ddabe713e4f8cb124fc6ccb78"
         },
         {
           "path": "vectors-done-contract/cases/acceptance-argv-empty/statement.json",
-          "sha256": "322058eda767fee4d9c19b48f4f6058a27d038b5c2ae3454362c780ab4f1706b"
+          "sha256": "47f7fc15960a65357d2c0bb314fd5be2acaa697a75499a8bad6c1e30c5d1a8c0"
         }
       ],
       "id": "acceptance-argv-empty"
@@ -938,11 +1214,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/acceptance-argv-not-text/contract.json",
-          "sha256": "16a15e6367f643b6b0ca78d87718d768b78964eba6bdde83562bdf55406fca7a"
+          "sha256": "35075c7499e7394885aa47cc7f26a519c0bcc4d475c0be4eed4a1b0c81ca0851"
         },
         {
           "path": "vectors-done-contract/cases/acceptance-argv-not-text/statement.json",
-          "sha256": "be296c773b87703c1065b6adf8bec8c8924bc68893202e4fcd46c69cc340e915"
+          "sha256": "52406df93897bc806935241469735a69697ecb9880a6dc29f822c00df9ca7c00"
         }
       ],
       "id": "acceptance-argv-not-text"
@@ -951,11 +1227,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/acceptance-id-duplicate/contract.json",
-          "sha256": "3851b24d4135d1154da86d77e2b0598b6515632d39582147e21f157175572fa2"
+          "sha256": "68d5405bc6f27568c0fe3a43b535ec8122e04d6e03380e90a5309d161542455c"
         },
         {
           "path": "vectors-done-contract/cases/acceptance-id-duplicate/statement.json",
-          "sha256": "d050233d4a33333be73a5ee72d7aac98edbc04e0a930555516bce4c0d16a439c"
+          "sha256": "33749a88449981a723493d85e0a6ac74eff37191d68f473a321a97046248e3b1"
         }
       ],
       "id": "acceptance-id-duplicate"
@@ -964,11 +1240,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/adequacy-killed-exceeds-mutants/contract.json",
-          "sha256": "f4ad72757995147ca9913839fe2ab4cedd56102990b9e593d25d77d24efdc8ae"
+          "sha256": "8ca8f05a7c393f3de64d7213dc95fa938d552404eb7ec9174e979a3c445ed178"
         },
         {
           "path": "vectors-done-contract/cases/adequacy-killed-exceeds-mutants/statement.json",
-          "sha256": "535a694c8c2ad738280526b53c21f22a7bc7508f2fd9456ef67f6fa8c8531208"
+          "sha256": "60a1752bb094dd44faee389ed5241a887fb56ff609b0743e98b10f01b3dd496e"
         }
       ],
       "id": "adequacy-killed-exceeds-mutants"
@@ -977,11 +1253,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/adequacy-negative/contract.json",
-          "sha256": "1c7c048d38f73065f300b8b9f8e3bd5e801a324701584cb16e691e9e20f0d01a"
+          "sha256": "c4344275347c575dc784345014edf990a0a4ab8338246c0ff42780321ddd6124"
         },
         {
           "path": "vectors-done-contract/cases/adequacy-negative/statement.json",
-          "sha256": "46ce244c70e7107785e15967b2775551b085ab066f7abe6bdec3603706cf0695"
+          "sha256": "e7e017c39cbae156946a338d8c5379c9d0e55f9237236548c001796362b766b9"
         }
       ],
       "id": "adequacy-negative"
@@ -990,11 +1266,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/adequacy-boolean/contract.json",
-          "sha256": "4e879ea3d124ec4d538af06418dc07f8e32af6c6ea21edf0491f676dd79c563c"
+          "sha256": "a821c5360aa45258a9e68c94bcc2f58bbaacccff72c954f08be9dca612b9bc2d"
         },
         {
           "path": "vectors-done-contract/cases/adequacy-boolean/statement.json",
-          "sha256": "5b8d394ca58d6dc788edafdfcb6ef4a2044b241144b0411f09183c3185b4acd6"
+          "sha256": "deb766b6721572b4ae02ca0449ab5c1309da167f5096bd93d41273ea580bed36"
         }
       ],
       "id": "adequacy-boolean"
@@ -1003,11 +1279,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/adequacy-member-unexpected/contract.json",
-          "sha256": "c1c497a79cb649315768c318334b1160efdc4196f949664cacfd1a310fb9e743"
+          "sha256": "89ac6e19197c400fdbb2a520c0eeb03bf57e5e0aa1fa26d752ad3488bd4e76ab"
         },
         {
           "path": "vectors-done-contract/cases/adequacy-member-unexpected/statement.json",
-          "sha256": "fd96dcf1216021d7f9532612665bc063db9eedea9725f3835effe1a4547f5bd1"
+          "sha256": "b0a1acfc29635e5fc7cbe0799b4e6f4835df4d18938d0d1800e2d00db10b5d36"
         }
       ],
       "id": "adequacy-member-unexpected"
@@ -1015,12 +1291,389 @@
     {
       "files": [
         {
+          "path": "vectors-done-contract/cases/valid-sealed-run/contract.json",
+          "sha256": "964de25f7396df99096d383004689f5b22adaa175e2c297c3a0ebe06ac9fa3e2"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-sealed-run/statement.json",
+          "sha256": "60a83a24476383db5e4e71a864b332b3ce4c3faaca4ba1ca73ed286f9562e96f"
+        }
+      ],
+      "id": "valid-sealed-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-execution-surface/contract.json",
+          "sha256": "926c204182a55fc47b3453d5018f13ddb342947fbac2305d96c337f1d5f68b69"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-execution-surface/statement.json",
+          "sha256": "6df11bf50dcc55520382aecff9201d173dc20fb4eb3c57da4f438e8f482ed389"
+        }
+      ],
+      "id": "valid-execution-surface"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-probes-and-twin/contract.json",
+          "sha256": "84b9b5eae7b91c2a76d23bb08a54523cbf71e4c95a70c17c27d05f03255ce682"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-probes-and-twin/statement.json",
+          "sha256": "b1187d7bc0e7dea17833edcc9efcc2e3936da547739abd2dab0606f859bf160b"
+        }
+      ],
+      "id": "valid-probes-and-twin"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-measured-adequacy/contract.json",
+          "sha256": "e9c1af029502b48f67f49cad35b30361e3dfedf8c85332ad4338d9bf329d3fcb"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-measured-adequacy/statement.json",
+          "sha256": "f45e62bfbb70d28386cc621d8af6b1cdd7edf75a154bb1f64585219d341b86cf"
+        }
+      ],
+      "id": "valid-measured-adequacy"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/valid-file-equivalence/contract.json",
+          "sha256": "3ccaff392ea1278d7305ea5d02a102b3543f9e7b704c06ae62f1ffbde3ee5a7f"
+        },
+        {
+          "path": "vectors-done-contract/cases/valid-file-equivalence/statement.json",
+          "sha256": "eaa90d69417eab9d2666de433930408b8706aed40e4859f6db672a23f506c765"
+        }
+      ],
+      "id": "valid-file-equivalence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/equivalence-on-a-directory/contract.json",
+          "sha256": "d500466ea105d77f7af6b8908553bb7283d7f40a63d838b94ad235a4ae70dade"
+        },
+        {
+          "path": "vectors-done-contract/cases/equivalence-on-a-directory/statement.json",
+          "sha256": "e3cbf65ceeea3671431d59ec1ffae41c33631d8bc2cb8d4f79e0fd5c6324644f"
+        }
+      ],
+      "id": "equivalence-on-a-directory"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/equivalence-unknown/contract.json",
+          "sha256": "f2280b97c9bdf721c11a0474e20831f3d4cfc79f22080e72bd0ea3b7997596a8"
+        },
+        {
+          "path": "vectors-done-contract/cases/equivalence-unknown/statement.json",
+          "sha256": "717d32890a15dd97cd728f033030faedac891f74917452c37c4991cd102be75d"
+        }
+      ],
+      "id": "equivalence-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/strength-unknown/contract.json",
+          "sha256": "2dc169564a19b3dd657f68221494c23a46d81e9f87592458e50d6aa76a3cb5aa"
+        },
+        {
+          "path": "vectors-done-contract/cases/strength-unknown/statement.json",
+          "sha256": "be63674e9c6b567232ff6f88e93b7d8e4ca60f7ad7fcef236273a85351c5e705"
+        }
+      ],
+      "id": "strength-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/native-loaded-path-absolute/contract.json",
+          "sha256": "8d6834876031c16cd16169d07e3cb9c20bf9cda76a3bc3ff68f60c8d0e1b37aa"
+        },
+        {
+          "path": "vectors-done-contract/cases/native-loaded-path-absolute/statement.json",
+          "sha256": "89dbdf9e40647dc1ee10767d67c48f9e8649d84a3c1da3bfc49a97c967f5cfc4"
+        }
+      ],
+      "id": "native-loaded-path-absolute"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-member-unexpected/contract.json",
+          "sha256": "3adc7b8df2ea727cc9d696ed00246450b8a02c72c338076e6425f05c99e788e9"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-member-unexpected/statement.json",
+          "sha256": "8f55e789384e22692b93e5f2421916d75b139c677c42a9033c176450c32b1b79"
+        }
+      ],
+      "id": "acceptance-member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-tier-unknown/contract.json",
+          "sha256": "586ac3599b03f73e1baa967030f24aa946678777ffb7325c0d1b884046d46620"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-tier-unknown/statement.json",
+          "sha256": "3a4530f0fa4bb6c37f1d89f218e19a0586c3b1570b281356655a8acbfad93b6c"
+        }
+      ],
+      "id": "acceptance-tier-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-probe-unknown/contract.json",
+          "sha256": "e03a62e67205b93753702e7e0297cd1f85c07fee0d8069b158f852e994cf9511"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-probe-unknown/statement.json",
+          "sha256": "c4370225328f4a585899f9cded931cf5da58d22994a1ce6f7977192c278e884e"
+        }
+      ],
+      "id": "acceptance-probe-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-cwd-without-exe/contract.json",
+          "sha256": "b450f6e091ce8680f402fcc48d21d0fc385e8953586282d303e613245e29216a"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-cwd-without-exe/statement.json",
+          "sha256": "b3416f9137d380b84166c001665e79a92011ea423e5e4f154719075913ff7426"
+        }
+      ],
+      "id": "acceptance-cwd-without-exe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-exe-unsorted/contract.json",
+          "sha256": "3cbe1ee02011644d42980f018f967fdfc2c75a0666eadf8aebfdb43bef7d8ee4"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-exe-unsorted/statement.json",
+          "sha256": "4f86d1a324b7123fd98f6e7b4300f79d179490d66e0aac702ca3b032bb91d18c"
+        }
+      ],
+      "id": "acceptance-exe-unsorted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-cwd-relative/contract.json",
+          "sha256": "36809d53b81dd7d04b375e4e9dc055bf637577d2d4edcfe0e5a366ed9799b011"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-cwd-relative/statement.json",
+          "sha256": "10f89df901c830ffc94341f266938ef3ba6507a693fe2a93290fd916f3433f68"
+        }
+      ],
+      "id": "acceptance-cwd-relative"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-interpreter-without-exe/contract.json",
+          "sha256": "0cbf8447cc17ff91bac5237fafb3185642393f10abdd271d11ef0cf5040e6b68"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-interpreter-without-exe/statement.json",
+          "sha256": "e4e2e417639ab70a2a364ac69d895533c9872ad06c04c9ef9aafae259dfd45e6"
+        }
+      ],
+      "id": "acceptance-interpreter-without-exe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-ids-duplicate/contract.json",
+          "sha256": "4fe66d7efb3334b5dedffd5dbf397587223053384e7fbb4d38d32395a386f61a"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-ids-duplicate/statement.json",
+          "sha256": "0f3681a483dca73fdadf9e497a09cac3bad668024420690d105edf5d1d086618"
+        }
+      ],
+      "id": "acceptance-ids-duplicate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/acceptance-run-writes-climb/contract.json",
+          "sha256": "abfcdcc178e42b6a1e7b9ddd730cf6c7bb28187b78a9c3daaffa233873d5a0ab"
+        },
+        {
+          "path": "vectors-done-contract/cases/acceptance-run-writes-climb/statement.json",
+          "sha256": "e5b852765e4c3e5dc23992dd5b10f92127685888eb67da03868f6f584faf6d35"
+        }
+      ],
+      "id": "acceptance-run-writes-climb"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/twin-of-itself/contract.json",
+          "sha256": "db3f6dfc2bbf8a9e419493bfcd0dcb8eb30374124fb812859b6301454b06e334"
+        },
+        {
+          "path": "vectors-done-contract/cases/twin-of-itself/statement.json",
+          "sha256": "91423930c0e03ac888e2567efbe50339271409f16eab106151ca7d941f6153d9"
+        }
+      ],
+      "id": "twin-of-itself"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/twin-of-unknown/contract.json",
+          "sha256": "3cf86c6891a3e47f44ebb61eff1d9b2fa9f8f85e8cf4c6c9f600ff60a7f510c5"
+        },
+        {
+          "path": "vectors-done-contract/cases/twin-of-unknown/statement.json",
+          "sha256": "680dcc7e814d866bb87d1fcf50751eaba5aa10c8b2bde4855f853a3af497ffae"
+        }
+      ],
+      "id": "twin-of-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/twin-of-a-probe/contract.json",
+          "sha256": "c9880cf696c6b5da26c0279fe481ff92f82a5bd4e0d251e09166d61ed119c449"
+        },
+        {
+          "path": "vectors-done-contract/cases/twin-of-a-probe/statement.json",
+          "sha256": "d1b2023aa743892491354591de98903eae46b443ea38b14910d14f724f7944af"
+        }
+      ],
+      "id": "twin-of-a-probe"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/surface-unsorted/contract.json",
+          "sha256": "31081e5f63845037e2514f0a86925b9c0f710d936c0e0344729e1398a186db6d"
+        },
+        {
+          "path": "vectors-done-contract/cases/surface-unsorted/statement.json",
+          "sha256": "8e64a33bdeb6d980c4a7849a0378751896d5fafc4e64559bd4792c704d205136"
+        }
+      ],
+      "id": "surface-unsorted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/surface-shared-root/contract.json",
+          "sha256": "8a3d2875eca9cef5ff92f125c2ab04fe1769b2950afef62dab1ea1a9c3e6a670"
+        },
+        {
+          "path": "vectors-done-contract/cases/surface-shared-root/statement.json",
+          "sha256": "894e0fe64bc2bcc099d94a7bd9172926b9a261befd65c443ddc360a81351d18f"
+        }
+      ],
+      "id": "surface-shared-root"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/surface-aliases-without-surface/contract.json",
+          "sha256": "05a6d2fa9bcb81e96dee662d4610025201631dd271d79f0aa8e9337867550d79"
+        },
+        {
+          "path": "vectors-done-contract/cases/surface-aliases-without-surface/statement.json",
+          "sha256": "99e7a02f3a052bee7506178fb385083155292516cc042296ded165a91af0789a"
+        }
+      ],
+      "id": "surface-aliases-without-surface"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/surface-alias-relative/contract.json",
+          "sha256": "05f3de78ca19a95f14a58a211a9e30a0a89bdd0a7706d0c8937714e5a119ce1d"
+        },
+        {
+          "path": "vectors-done-contract/cases/surface-alias-relative/statement.json",
+          "sha256": "f2730d8f519cb6708f1986da77006574b89f1ad154643d7dd97775d30a671609"
+        }
+      ],
+      "id": "surface-alias-relative"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/module-under-test-empty/contract.json",
+          "sha256": "9041f0174a1d58935859376168bf966d3f970caa4f9be17aff4815b1543e59f5"
+        },
+        {
+          "path": "vectors-done-contract/cases/module-under-test-empty/statement.json",
+          "sha256": "5d3afc7daee946f5d0aede9cd18d3cd69343662a373fa87bb7ba3e938afe7ce0"
+        }
+      ],
+      "id": "module-under-test-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-gate-not-boolean/contract.json",
+          "sha256": "3eae8c5cc028393721aedcf7969c07301fb56e01f0075f63475dfb4810c830a7"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-gate-not-boolean/statement.json",
+          "sha256": "8388ad297e84f60455415530af3f9b6909e839d9140e3ef8fd6134f577acf27d"
+        }
+      ],
+      "id": "adequacy-gate-not-boolean"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/adequacy-classes-do-not-sum/contract.json",
+          "sha256": "c09ab482588c88c6eaa2e1323f54862b34cb221b2a86d8de5ffbef591d9fe662"
+        },
+        {
+          "path": "vectors-done-contract/cases/adequacy-classes-do-not-sum/statement.json",
+          "sha256": "ee3fc10659923e2656a28c6528a754ae1f5436ff6d5e77522c48490fb812407b"
+        }
+      ],
+      "id": "adequacy-classes-do-not-sum"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-done-contract/cases/kill-vector-digest-short/contract.json",
+          "sha256": "4ca122b7d4698c4e8ce7c0c43d4bb7829b9267b19b1ccf404e001206ca85aee1"
+        },
+        {
+          "path": "vectors-done-contract/cases/kill-vector-digest-short/statement.json",
+          "sha256": "a772222845100bffa55c0df43e16ff5dd52fa37937f6303704e09be30f47abab"
+        }
+      ],
+      "id": "kill-vector-digest-short"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-done-contract/cases/record-duplicate-member/contract.json",
-          "sha256": "736dbd0d1b122fb40c50fa4a8e1a3bd029c980e500a3d835c407507074b86afd"
+          "sha256": "671cd877c7765f5d81026e633672d5003868f2b56341181a5a9c014bd06bad15"
         },
         {
           "path": "vectors-done-contract/cases/record-duplicate-member/statement.json",
-          "sha256": "18b36dd3e90bc6c2bc6b809faf7bf52e02f8182179c7c26207403c98d653e613"
+          "sha256": "432336e12319425104ac1045d32774b924020bb1b2b032596b3e0fe152c7554d"
         }
       ],
       "id": "record-duplicate-member"
@@ -1029,11 +1682,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/record-not-a-number/contract.json",
-          "sha256": "9503fa6fa447a895aab6d565e942f0faf8815a72c216b6633df2b9c472894ac1"
+          "sha256": "d8480244f5d28f17bd6216d8c873fc9b370156d2c41913a8dea66bbb57684c0e"
         },
         {
           "path": "vectors-done-contract/cases/record-not-a-number/statement.json",
-          "sha256": "1783d1185d13000b638e0992cf56713d1adcf4e6865acdc30cffc4ddfd4e7518"
+          "sha256": "f6be71f36636c8590c9dc1602cc68dc76d42753293250c1c54c9549503b2a4a0"
         }
       ],
       "id": "record-not-a-number"
@@ -1042,11 +1695,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/record-truncated/contract.json",
-          "sha256": "4fd44a2cef0783048965d8dc7eb15b645c6019c731498d42accaf7f56e49e9a5"
+          "sha256": "cee3b4c3af968f670fc18902121d355cd7d59656544fc896f1bceb68a28d1890"
         },
         {
           "path": "vectors-done-contract/cases/record-truncated/statement.json",
-          "sha256": "187403d9b6885ae79a88bbbbf24eca8bd43f177b196b3658fa6e8186a4f54071"
+          "sha256": "8b1ed03bdc517484e3981250f58ea5e37b76327b12ab67c101307a3510529e29"
         }
       ],
       "id": "record-truncated"
@@ -1055,11 +1708,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-type-wrong/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-type-wrong/statement.json",
-          "sha256": "6817d89959f53b44505398b5d2f48097adda5ea6cb30b283bd936e0bce1b5790"
+          "sha256": "4bd27bc29ca721ac87502b0f0f760b3314a40d3960bb9b9ed257975dde4931a3"
         }
       ],
       "id": "statement-type-wrong"
@@ -1068,11 +1721,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-predicate-type-wrong/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-predicate-type-wrong/statement.json",
-          "sha256": "bcb00391d13acc08a4c14f2abeff2e2f5c7b94a81e3cefb2499f6721f1113583"
+          "sha256": "a6d59a001d2b7c1164378938ba82737d9a42a1f8c10cfdc6a775c6cc30528057"
         }
       ],
       "id": "statement-predicate-type-wrong"
@@ -1081,11 +1734,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-predicate-type-moved/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-predicate-type-moved/statement.json",
-          "sha256": "df526ee96ca09dcb7eb93275460c8c8b189ebc180ef78bf5eb6f3af29fbae413"
+          "sha256": "54a01f1b2b744c7c2390ebf39f65f866c9314124fc6d11cb553e965ee893d1d8"
         }
       ],
       "id": "statement-predicate-type-moved"
@@ -1094,11 +1747,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-two-subjects/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-two-subjects/statement.json",
-          "sha256": "fc7c25d0bcf0514d253df7c4ce65bbf28766aec869424041e078c8642711f8b2"
+          "sha256": "7b1ad43b84f6fb6820308fad1b85f22363f23bdffdbf3c09099bc2ccc1bda4f8"
         }
       ],
       "id": "statement-two-subjects"
@@ -1107,11 +1760,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-subject-other-algorithm/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-subject-other-algorithm/statement.json",
-          "sha256": "2a2521dabcc31ec69be05db5fbe81ee7688889190d19856939f179bd1ad55211"
+          "sha256": "39aea75f47ed494a6b7c379c768ebcc967a02dc6fc3330e75a67fe383dab1bd4"
         }
       ],
       "id": "statement-subject-other-algorithm"
@@ -1120,11 +1773,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-subject-unbound/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-subject-unbound/statement.json",
-          "sha256": "c3187a0292ef1fd5aa9ee5263f45414591bf3da4660741ad0d10f5df1d3163a4"
+          "sha256": "cec700ec03d347692a630106a34f1fa6dfedd7cfe5aafc3a9561e5270e6293a9"
         }
       ],
       "id": "statement-subject-unbound"
@@ -1133,11 +1786,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-predicate-differs/contract.json",
-          "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+          "sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a"
         },
         {
           "path": "vectors-done-contract/cases/statement-predicate-differs/statement.json",
-          "sha256": "b1ff097559259619486678c3994aa58bb0630c642912ac9fb348d0a4e52a5376"
+          "sha256": "66def81ebb550703159b9128a567488a393edadb2d678aef1b7cc08854ef1b30"
         }
       ],
       "id": "statement-predicate-differs"
@@ -1146,11 +1799,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-duplicate-member/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-duplicate-member/statement.json",
-          "sha256": "aa6d5f405e5efb89def90e4286ceece21f2a45e8f7a459ea808034b34598e027"
+          "sha256": "682373ca4ce494521e249c191b7137567e6b739622579e8c4eb2661bf6465b48"
         }
       ],
       "id": "statement-duplicate-member"
@@ -1159,11 +1812,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-not-a-number/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-not-a-number/statement.json",
-          "sha256": "04958782ac7b57ee63b5d7aa24091d2d1a7c906e31d3dd806d3f4db46751a9e6"
+          "sha256": "50a03ab89c74673497fa4cecdee3e79435e86267ee8ae0ae6445f35cd40cce62"
         }
       ],
       "id": "statement-not-a-number"
@@ -1172,7 +1825,7 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-truncated/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-truncated/statement.json",
@@ -1185,11 +1838,11 @@
       "files": [
         {
           "path": "vectors-done-contract/cases/statement-member-unexpected/contract.json",
-          "sha256": "d1d580c3acd0a4515716112d0eea610a402cc6a1059bab6086d81bdba4adf571"
+          "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
         },
         {
           "path": "vectors-done-contract/cases/statement-member-unexpected/statement.json",
-          "sha256": "f4dd1c95bf7187ebc6da49b1c0a9e94632c635b6d71b95ede205b991eea5b719"
+          "sha256": "6d3e3ee06895e86fabe713bf851949f27835219274ffe2659e1a25adf87fad55"
         }
       ],
       "id": "statement-member-unexpected"
@@ -1211,7 +1864,7 @@
       "reference": {
         "path": "release/intake/native/vectors-done-contract.json",
         "serialization": "bytes",
-        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
       }
     },
     {
@@ -1220,7 +1873,7 @@
       "reference": {
         "path": "release/intake/native/vectors-done-contract.txt",
         "serialization": "bytes",
-        "sha256": "c955ed2cc11ba458c7e4073fe24614bc4036dba23b1a9899edd187abef020507"
+        "sha256": "75fb991ef0f0ff6393a9ba2f050f8c90a47e34f5778eefbec4773231d17e21ec"
       }
     },
     {
@@ -1245,11 +1898,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
       },
       {
         "process": "run-2",
-        "sha256": "ad34d7e75dee5d73e8841b89e9c3260ee5cb1c2d18a6b01a9efa0a786bf9d782"
+        "sha256": "76d895e45618be7f2e5468432f41699959586c89bf0432700d6aa89373cea733"
       }
     ],
     "seed": null,
@@ -1263,17 +1916,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 46 pinned members of done-contract/v1 as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 76 pinned members of done-contract/v2 as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 46,
+    "matched": 76,
     "require": "at-least-one",
     "selected": [
       "valid-directory-protected",
@@ -1295,7 +1949,8 @@
       "protected-path-trailing-slash",
       "protected-kind-unknown",
       "exclude-on-file",
-      "exclude-with-separator",
+      "valid-exclude-path",
+      "exclude-path-outside-the-entry",
       "exclude-empty-list",
       "exclude-duplicate-name",
       "protected-path-duplicate",
@@ -1308,6 +1963,35 @@
       "adequacy-negative",
       "adequacy-boolean",
       "adequacy-member-unexpected",
+      "valid-sealed-run",
+      "valid-execution-surface",
+      "valid-probes-and-twin",
+      "valid-measured-adequacy",
+      "valid-file-equivalence",
+      "equivalence-on-a-directory",
+      "equivalence-unknown",
+      "strength-unknown",
+      "native-loaded-path-absolute",
+      "acceptance-member-unexpected",
+      "acceptance-tier-unknown",
+      "acceptance-probe-unknown",
+      "acceptance-cwd-without-exe",
+      "acceptance-exe-unsorted",
+      "acceptance-cwd-relative",
+      "acceptance-interpreter-without-exe",
+      "acceptance-ids-duplicate",
+      "acceptance-run-writes-climb",
+      "twin-of-itself",
+      "twin-of-unknown",
+      "twin-of-a-probe",
+      "surface-unsorted",
+      "surface-shared-root",
+      "surface-aliases-without-surface",
+      "surface-alias-relative",
+      "module-under-test-empty",
+      "adequacy-gate-not-boolean",
+      "adequacy-classes-do-not-sum",
+      "kill-vector-digest-short",
       "record-duplicate-member",
       "record-not-a-number",
       "record-truncated",
@@ -1326,5 +2010,5 @@
   },
   "specification-readers": [],
   "state": "pass",
-  "suite": "done-contract/v1"
+  "suite": "done-contract/v2"
 }

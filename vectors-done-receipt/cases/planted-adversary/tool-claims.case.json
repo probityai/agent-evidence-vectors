@@ -1,19 +1,24 @@
 {
   "artifacts": {
     "capability": {
-      "length": 284,
+      "length": 311,
       "path": "capability.json",
-      "sha256": "ad413357368e8a1126f0f7143dea52d8f15d3e40a44bf5df0a6719f3aa66cb1d"
+      "sha256": "8fdc0ad09ced2e25ee151e63492b1626d049df46539a4573acd5270a43830a39"
     },
     "claims": {
-      "length": 318,
+      "length": 383,
       "path": "claims.json",
-      "sha256": "1d15bb31c66a2947ff572cdd575481bbe6f152491716e6e244d1eee8079ccc74"
+      "sha256": "c4a4e8f27b4aec21eb419d88176d0bc74e3bee7f458a3b5d2be894c4da85ac9d"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
     },
     "observation": {
-      "length": 684,
+      "length": 907,
       "path": "observation.json",
-      "sha256": "f8ce68f845a564751db128c034ed42e4accd371cd42c35ea3e1228e888e00315"
+      "sha256": "8a62dde338b64079d396a5788daa327aa054b66452bc6b664f52ac3740f83c41"
     }
   },
   "case_id": "planted-adversary",

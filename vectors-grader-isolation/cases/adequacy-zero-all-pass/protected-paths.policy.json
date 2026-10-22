@@ -1,6 +1,6 @@
 {
   "assessments": {
-    "adequacy-zero": {
+    "adequacy-zero-all-pass": {
       "capability_witness": "capability",
       "claim_type": "protected_paths/v1",
       "contract_witness": "contract",
@@ -20,18 +20,18 @@
     "capability": {
       "artifact": "capability",
       "authority": "synthetic fixture",
-      "sha256": "00ccd113434e6ff5dbff92a0d8fa926ebd9d7bb40752215db8485169fef48477"
+      "sha256": "3efb4e1cfc9ca9901f96545ab10fff4bf8c7805b77c8c5228d487e9ab492451e"
     },
     "contract": {
       "artifact": "contract",
       "authority": "synthetic fixture",
-      "sha256": "ce20865a368efd0239a1f4f1dd5b09c072575c529fd135735d704dff5bd55a48"
+      "sha256": "d043feaf4d82b0d4363ee08a37a9f33fc7e1bf15c95ed2377afe487259d8757a"
     },
     "observation": {
       "artifact": "observation",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "c4484b8c6ad93d51a0d57a6c07e945c9e820fc7e27073ca9cd269a19d35c5d20",
+      "sha256": "4473b5494922e0b8d048822ff2d82c10b380c576578a3ce131208ebb03bc7042",
       "vantage": "independent",
       "witness_scope": "PEER"
     },
@@ -39,7 +39,7 @@
       "artifact": "tree",
       "authority": "synthetic fixture",
       "producer": "host-observer",
-      "sha256": "ffa3476b11e2f6dddccd30a50b6cdd86dd3d5f8c4f0e4e6af4c743ffc146e566",
+      "sha256": "51cff954b5c0e0cf2076448c04ef3195798c0acbe483598beb14f5c1978a6899",
       "vantage": "independent",
       "witness_scope": "PEER"
     }
