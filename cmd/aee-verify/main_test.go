@@ -24,14 +24,226 @@ func writeTemp(t *testing.T, body []byte) string {
 	return p
 }
 
-func TestRunValidStatementExit0(t *testing.T) {
-	path := writeTemp(t, aeetest.Build(aeetest.Options{}))
+// statementPins reads the anchors a built statement carries, so a policy can
+// pin exactly what travels.
+func statementPins(t *testing.T, body []byte) (corpus, substrate, subject string, classes []string) {
+	t.Helper()
+	var stmt struct {
+		Subject []struct {
+			Digest map[string]string `json:"digest"`
+		} `json:"subject"`
+		Predicate struct {
+			Env struct {
+				Corpus struct {
+					Digest map[string]string `json:"digest"`
+				} `json:"corpus"`
+				Substrate struct {
+					Digest map[string]string `json:"digest"`
+				} `json:"substrate"`
+			} `json:"observationEnvironment"`
+			Coverage struct {
+				AssessedClasses []string `json:"assessedClasses"`
+			} `json:"coverage"`
+		} `json:"predicate"`
+	}
+	if err := json.Unmarshal(body, &stmt); err != nil {
+		t.Fatal(err)
+	}
+	return stmt.Predicate.Env.Corpus.Digest["sha256"], stmt.Predicate.Env.Substrate.Digest["sha256"],
+		stmt.Subject[0].Digest["sha256"], stmt.Predicate.Coverage.AssessedClasses
+}
+
+// fullPolicyFile writes a consumer policy pinning every anchor the statement
+// carries, the classes it assessed, and the pinned observation key: the policy
+// under which a clean, attested statement is admitted.
+func fullPolicyFile(t *testing.T, body []byte, extra map[string]any) string {
+	t.Helper()
+	corpus, substrate, subject, classes := statementPins(t, body)
+	pub := aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey)
+	doc := map[string]any{
+		"substrateObservationKeys": []map[string]string{{"publicKeyHex": hex.EncodeToString(pub)}},
+		"expectedCorpusDigest":     corpus,
+		"expectedSubstrateDigest":  substrate,
+		"expectedSubjectDigest":    subject,
+		"demandedClasses":          classes,
+		"allowPublishedTestKeys":   true,
+	}
+	for k, v := range extra {
+		doc[k] = v
+	}
+	raw, err := json.Marshal(doc)
+	if err != nil {
+		t.Fatal(err)
+	}
+	p := filepath.Join(t.TempDir(), "policy.json")
+	if err := os.WriteFile(p, raw, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return p
+}
+
+func TestNoPolicyIsNeverAPass(t *testing.T) {
+	// The defect this command shipped: a valid statement, no policy, exit 0
+	// and "result":"pass" while nothing was attested. It must refuse, and name
+	// every pin that is missing.
+	t.Setenv(EnvSubstrateKeys, "")
+	t.Setenv(EnvConsumerPolicy, "")
+	path := writeTemp(t, aeetest.Build(aeetest.Options{Clean: true}))
 	var out, errb bytes.Buffer
-	if code := run([]string{path}, &out, &errb); code != 0 {
+	if code := run([]string{"-json", path}, &out, &errb); code != 1 {
+		t.Fatalf("no policy: exit %d, want 1, stderr=%q", code, errb.String())
+	}
+	report := harnessRead(t, out.String())
+	if report["admitted"] != false || report["mode"] != "admission" {
+		t.Fatalf("no policy must be an unadmitted admission run, got %v", report)
+	}
+	codes := fmt.Sprint(report["policyCodes"])
+	for _, want := range []string{"corpus-anchor-unpinned", "substrate-anchor-unpinned",
+		"subject-anchor-unpinned", "scope-unpinned", "substrate-row-unattested"} {
+		if !strings.Contains(codes, want) {
+			t.Fatalf("policy codes %s lack %s", codes, want)
+		}
+	}
+}
+
+func TestEveryPinSuppliedIsAdmitted(t *testing.T) {
+	body := aeetest.Build(aeetest.Options{Clean: true})
+	path := writeTemp(t, body)
+	var out, errb bytes.Buffer
+	if code := run([]string{"-policy", fullPolicyFile(t, body, nil), path}, &out, &errb); code != 0 {
+		t.Fatalf("every pin supplied: exit %d, stderr=%q\n%s", code, errb.String(), out.String())
+	}
+	for _, want := range []string{"admitted: true", "observer-signed arming instants: " + aeetest.ArmedAt,
+		"producer-asserted, bound by no observer:", "predicate.issuedAt",
+		"not established by this run: envelope-signature"} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("human report lacks %q:\n%s", want, out.String())
+		}
+	}
+}
+
+func TestValidityOnlyAnswersValidityAndSaysSo(t *testing.T) {
+	path := writeTemp(t, aeetest.Build(aeetest.Options{Clean: true}))
+	var out, errb bytes.Buffer
+	if code := run([]string{"-validity-only", "-json", path}, &out, &errb); code != 0 {
 		t.Fatalf("valid statement: exit %d, stderr=%q", code, errb.String())
 	}
-	if !strings.Contains(out.String(), "verdict: valid") {
-		t.Fatalf("expected valid verdict, got:\n%s", out.String())
+	report := harnessRead(t, out.String())
+	if report["mode"] != "validity-only" || report["admitted"] != false || report["policyCodes"] != nil {
+		t.Fatalf("validity-only report must say so and admit nothing, got %v", report)
+	}
+	if !strings.Contains(fmt.Sprint(report["notEstablished"]), "admission") {
+		t.Fatalf("validity-only must list admission as not established, got %v", report["notEstablished"])
+	}
+	invalid := writeTemp(t, aeetest.Build(aeetest.Options{Result: "pass"}))
+	out.Reset()
+	if code := run([]string{"-validity-only", invalid}, &out, &errb); code != 1 {
+		t.Fatalf("invalid statement: exit %d, want 1", code)
+	}
+	if !strings.Contains(out.String(), "verdict: invalid") {
+		t.Fatalf("expected invalid verdict, got:\n%s", out.String())
+	}
+}
+
+func TestValidityOnlyRefusesAdmissionInputs(t *testing.T) {
+	path := writeTemp(t, aeetest.Build(aeetest.Options{Clean: true}))
+	for _, args := range [][]string{
+		{"-validity-only", "-expected-corpus-digest", strings.Repeat("a", 64), path},
+		{"-validity-only", "-demand-classes", "XA", path},
+		{"-validity-only", "-policy", "p.json", path},
+	} {
+		var out, errb bytes.Buffer
+		if code := run(args, &out, &errb); code != 2 {
+			t.Fatalf("%v: exit %d, want 2", args, code)
+		}
+	}
+	t.Setenv(EnvConsumerPolicy, "p.json")
+	var out, errb bytes.Buffer
+	if code := run([]string{"-validity-only", path}, &out, &errb); code != 2 {
+		t.Fatalf("validity-only under $%s: exit %d, want 2", EnvConsumerPolicy, code)
+	}
+}
+
+func TestRenamedSubjectIsRefusedByTheDigestPin(t *testing.T) {
+	// The producer renames the subject and moves issuedAt after the run; every
+	// record still verifies because neither is a binding input. The consumer
+	// pins the digest of the artifact it deploys, and the name is never read.
+	body := aeetest.Build(aeetest.Options{Clean: true})
+	var doc map[string]any
+	if err := json.Unmarshal(body, &doc); err != nil {
+		t.Fatal(err)
+	}
+	doc["subject"].([]any)[0].(map[string]any)["name"] = "payments-agent-prod"
+	doc["predicate"].(map[string]any)["issuedAt"] = "2026-09-26T00:00:00Z"
+	relabelled, err := json.Marshal(doc)
+	if err != nil {
+		t.Fatal(err)
+	}
+	path := writeTemp(t, relabelled)
+	other := strings.Repeat("c", 64)
+	cases := []struct {
+		name  string
+		extra map[string]any
+		code  int
+		want  string
+	}{
+		{"digest of another artifact", map[string]any{"expectedSubjectDigest": other}, 1, "subject-anchor-mismatch"},
+		{"the digest the observer bound", nil, 0, "admitted: true"},
+		{"a one-day issuance lag", map[string]any{"maxIssuanceLagSeconds": 86400}, 1, "issuance-lag-exceeded"},
+	}
+	for _, tc := range cases {
+		var out, errb bytes.Buffer
+		code := run([]string{"-policy", fullPolicyFile(t, relabelled, tc.extra), path}, &out, &errb)
+		if code != tc.code || !strings.Contains(out.String(), tc.want) {
+			t.Fatalf("%s: exit %d (want %d), report lacks %q:\n%s%s", tc.name, code, tc.code, tc.want, out.String(), errb.String())
+		}
+	}
+}
+
+func TestFlagsAndDocumentMustAgree(t *testing.T) {
+	body := aeetest.Build(aeetest.Options{Clean: true})
+	path := writeTemp(t, body)
+	policy := fullPolicyFile(t, body, nil)
+	corpus, _, subject, _ := statementPins(t, body)
+	var out, errb bytes.Buffer
+	if code := run([]string{"-policy", policy, "-expected-corpus-digest", strings.Repeat("0", 64), path}, &out, &errb); code != 2 {
+		t.Fatalf("conflicting corpus pin: exit %d, want 2", code)
+	}
+	out.Reset()
+	if code := run([]string{"-policy", policy, "-expected-corpus-digest", corpus, "-expected-subject-digest", subject, path}, &out, &errb); code != 0 {
+		t.Fatalf("agreeing pins: exit %d, want 0, stderr=%q", code, errb.String())
+	}
+	keys := keyPolicyFile(t, aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey))
+	if code := run([]string{"-policy", policy, "-keys", keys, path}, &out, &errb); code != 2 {
+		t.Fatalf("two policy documents: exit %d, want 2", code)
+	}
+	for _, args := range [][]string{
+		{"-admit-unintercepted-clean-rows", "yes", path},
+		{"-max-issuance-lag", "-1s", path},
+	} {
+		if code := run(args, &out, &errb); code != 2 {
+			t.Fatalf("%v: exit %d, want 2", args, code)
+		}
+	}
+}
+
+func TestSingleFlagsBuildAnAdmittingPolicy(t *testing.T) {
+	body := aeetest.Build(aeetest.Options{Clean: true})
+	path := writeTemp(t, body)
+	corpus, substrate, subject, classes := statementPins(t, body)
+	keys := keyPolicyFile(t, aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey))
+	var out, errb bytes.Buffer
+	code := run([]string{"-keys", keys, "-expected-corpus-digest", corpus, "-expected-substrate-digest", substrate,
+		"-expected-subject-digest", subject, "-demand-classes", strings.Join(classes, ","),
+		"-accept-results", "pass", "-admit-unintercepted-clean-rows", "false",
+		"-max-issuance-lag", "24h", "-max-evidence-age", "876000h", "-allow-published-test-keys", path}, &out, &errb)
+	if code != 0 {
+		t.Fatalf("every pin by flag: exit %d, stderr=%q\n%s", code, errb.String(), out.String())
+	}
+	out.Reset()
+	code = run([]string{"-keys", keys, "-allow-unpinned-anchors", "-allow-unpinned-scope", "-allow-published-test-keys", path}, &out, &errb)
+	if code != 0 || !strings.Contains(out.String(), "admitted: true") {
+		t.Fatalf("pins declined by name: exit %d\n%s", code, out.String())
 	}
 }
 
@@ -43,8 +255,8 @@ func TestRunInvalidStatementExit1(t *testing.T) {
 	if code != 1 {
 		t.Fatalf("invalid statement: exit %d (want 1), stderr=%q", code, errb.String())
 	}
-	if !strings.Contains(out.String(), "verdict: invalid") {
-		t.Fatalf("expected invalid verdict, got:\n%s", out.String())
+	if !strings.Contains(out.String(), "verdict: invalid") || !strings.Contains(out.String(), "admitted: false") {
+		t.Fatalf("expected an invalid, unadmitted report, got:\n%s", out.String())
 	}
 }
 
@@ -82,7 +294,7 @@ func harnessRead(t *testing.T, stdout string) map[string]any {
 func TestJSONOutputIsOneLineTheHarnessCanRead(t *testing.T) {
 	valid := writeTemp(t, aeetest.Build(aeetest.Options{}))
 	var out, errb bytes.Buffer
-	if code := run([]string{"-json", valid}, &out, &errb); code != 0 {
+	if code := run([]string{"-validity-only", "-json", valid}, &out, &errb); code != 0 {
 		t.Fatalf("exit %d, stderr=%q", code, errb.String())
 	}
 	report := harnessRead(t, out.String())
@@ -102,7 +314,7 @@ func TestJSONOutputIsOneLineTheHarnessCanRead(t *testing.T) {
 	out.Reset()
 	errb.Reset()
 	invalid := writeTemp(t, aeetest.Build(aeetest.Options{Result: "pass"}))
-	if code := run([]string{"-json", invalid}, &out, &errb); code != 1 {
+	if code := run([]string{"-validity-only", "-json", invalid}, &out, &errb); code != 1 {
 		t.Fatalf("exit %d, want 1, stderr=%q", code, errb.String())
 	}
 	report = harnessRead(t, out.String())
@@ -116,19 +328,16 @@ func TestJSONOutputIsOneLineTheHarnessCanRead(t *testing.T) {
 	}
 }
 
-func TestSubstrateKeysEnvSuppliesTheConsumerPolicy(t *testing.T) {
+func TestSubstrateKeysEnvSuppliesTheKeys(t *testing.T) {
 	// The harness fixes argv to `<cmd> <vector-file>` and hands the key policy
 	// over in this variable, running each vector once with it and once without.
-	// Without this fallback the no-pinned-key tier column is the only one an
-	// external rail can ever produce, which is what made ok-024's
-	// tierWithoutKey expectation bind the first-party rails alone.
 	statement := writeTemp(t, aeetest.Build(aeetest.Options{}))
 	right := keyPolicyFile(t, aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey))
 	wrong := keyPolicyFile(t, aeetest.TestKey(aeetest.RoleWrongSigner).Public().(ed25519.PublicKey))
 
 	t.Setenv(EnvSubstrateKeys, right)
 	var out, errb bytes.Buffer
-	if code := run([]string{"-json", statement}, &out, &errb); code != 0 {
+	if code := run([]string{"-validity-only", "-json", statement}, &out, &errb); code != 0 {
 		t.Fatalf("env-supplied covering key: exit %d, stderr=%q", code, errb.String())
 	}
 	if tiers := harnessRead(t, out.String())["tiers"]; !reflect.DeepEqual(tiers, []any{"attested"}) {
@@ -140,23 +349,21 @@ func TestSubstrateKeysEnvSuppliesTheConsumerPolicy(t *testing.T) {
 	t.Setenv(EnvSubstrateKeys, wrong)
 	out.Reset()
 	errb.Reset()
-	if code := run([]string{"-json", "-keys", right, statement}, &out, &errb); code != 0 {
+	if code := run([]string{"-validity-only", "-json", "-keys", right, statement}, &out, &errb); code != 0 {
 		t.Fatalf("-keys over env: exit %d, stderr=%q", code, errb.String())
 	}
 	if tiers := harnessRead(t, out.String())["tiers"]; !reflect.DeepEqual(tiers, []any{"attested"}) {
 		t.Fatalf("-keys must outrank $%s: tiers = %v, want [attested]", EnvSubstrateKeys, tiers)
 	}
 
-	// Unset, the same argv is bare conformance-replay mode: no TOFU, so the
-	// substrate row derives unattested and no admission decision is printed.
+	// Unset, no TOFU: the substrate row derives unattested.
 	t.Setenv(EnvSubstrateKeys, "")
 	out.Reset()
 	errb.Reset()
-	if code := run([]string{"-json", statement}, &out, &errb); code != 0 {
-		t.Fatalf("no policy: exit %d, stderr=%q", code, errb.String())
+	if code := run([]string{"-validity-only", "-json", statement}, &out, &errb); code != 0 {
+		t.Fatalf("no key: exit %d, stderr=%q", code, errb.String())
 	}
-	report := harnessRead(t, out.String())
-	if tiers := report["tiers"]; !reflect.DeepEqual(tiers, []any{"unattested"}) {
+	if tiers := harnessRead(t, out.String())["tiers"]; !reflect.DeepEqual(tiers, []any{"unattested"}) {
 		t.Fatalf("no pinned key must derive unattested (no TOFU): tiers = %v", tiers)
 	}
 }
@@ -198,139 +405,26 @@ func keyPolicyFile(t *testing.T, pub ed25519.PublicKey) string {
 	return p
 }
 
-func TestRunPinnedKeyAttestedAdmitted(t *testing.T) {
-	statement := writeTemp(t, aeetest.Build(aeetest.Options{}))
-	pub := aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey)
-	keys := keyPolicyFile(t, pub)
-	var out, errb bytes.Buffer
-	if code := run([]string{"-keys", keys, statement}, &out, &errb); code != 0 {
-		t.Fatalf("exit %d, stderr=%q", code, errb.String())
-	}
-	if !strings.Contains(out.String(), "attested") {
-		t.Fatalf("pinned covering key should derive attested, got:\n%s", out.String())
-	}
-	if !strings.Contains(out.String(), "admitted: true") {
-		t.Fatalf("expected admitted: true, got:\n%s", out.String())
-	}
-}
-
 func TestRunWrongKeyUnattestedNotAdmitted(t *testing.T) {
-	statement := writeTemp(t, aeetest.Build(aeetest.Options{}))
-	// A different key than the record signer: the covering record cannot
-	// verify, the row derives unattested, and with a policy supplied the
-	// exit status binds to the admission result, not bare validity.
-	pub := aeetest.TestKey(aeetest.RoleWrongSigner).Public().(ed25519.PublicKey)
-	keys := keyPolicyFile(t, pub)
+	body := aeetest.Build(aeetest.Options{Clean: true})
+	statement := writeTemp(t, body)
+	wrong := aeetest.TestKey(aeetest.RoleWrongSigner).Public().(ed25519.PublicKey)
+	policy := fullPolicyFile(t, body, map[string]any{
+		"substrateObservationKeys": []map[string]string{{"publicKeyHex": hex.EncodeToString(wrong)}},
+	})
 	var out, errb bytes.Buffer
-	if code := run([]string{"-keys", keys, statement}, &out, &errb); code != 1 {
+	if code := run([]string{"-policy", policy, statement}, &out, &errb); code != 1 {
 		t.Fatalf("exit %d, want 1 (valid but not admitted), stderr=%q", code, errb.String())
 	}
-	if !strings.Contains(out.String(), "verdict: valid") {
-		t.Fatalf("statement stays byte-pure valid, got:\n%s", out.String())
-	}
-	if !strings.Contains(out.String(), "unattested") {
-		t.Fatalf("wrong key should derive unattested, got:\n%s", out.String())
-	}
-	if !strings.Contains(out.String(), "admitted: false") {
-		t.Fatalf("expected admitted: false, got:\n%s", out.String())
+	for _, want := range []string{"verdict: valid", "unattested", "refused: substrate-row-unattested", "admitted: false"} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("report lacks %q:\n%s", want, out.String())
+		}
 	}
 }
 
-// corpusAndSubstrateDigests reads the carried anchor digests out of a built
-// statement, so the anchor tests compare against exactly what travels.
-func corpusAndSubstrateDigests(t *testing.T, body []byte) (corpus, substrate string) {
-	t.Helper()
-	var stmt struct {
-		Predicate struct {
-			Env struct {
-				Corpus struct {
-					Digest map[string]string `json:"digest"`
-				} `json:"corpus"`
-				Substrate struct {
-					Digest map[string]string `json:"digest"`
-				} `json:"substrate"`
-			} `json:"observationEnvironment"`
-		} `json:"predicate"`
-	}
-	if err := json.Unmarshal(body, &stmt); err != nil {
-		t.Fatal(err)
-	}
-	return stmt.Predicate.Env.Corpus.Digest["sha256"], stmt.Predicate.Env.Substrate.Digest["sha256"]
-}
-
-func TestRunAnchorsBindExitToAdmission(t *testing.T) {
-	body := aeetest.Build(aeetest.Options{})
-	statement := writeTemp(t, body)
-	corpus, substrate := corpusAndSubstrateDigests(t, body)
-	pub := aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey)
-	keys := keyPolicyFile(t, pub)
-
-	// Matching anchors + covering key: admitted, exit 0.
-	var out, errb bytes.Buffer
-	code := run([]string{"-keys", keys,
-		"-expected-corpus-digest", corpus,
-		"-expected-substrate-digest", substrate, statement}, &out, &errb)
-	if code != 0 {
-		t.Fatalf("matching anchors: exit %d, stderr=%q", code, errb.String())
-	}
-	if !strings.Contains(out.String(), "corpus anchor: match") ||
-		!strings.Contains(out.String(), "substrate anchor: match") {
-		t.Fatalf("expected anchor match lines, got:\n%s", out.String())
-	}
-
-	// Mismatched corpus anchor: still valid, not admitted, exit 1.
-	out.Reset()
-	errb.Reset()
-	code = run([]string{"-keys", keys,
-		"-expected-corpus-digest", strings.Repeat("0", 64), statement}, &out, &errb)
-	if code != 1 {
-		t.Fatalf("mismatched anchor: exit %d, want 1, stderr=%q", code, errb.String())
-	}
-	if !strings.Contains(out.String(), "verdict: valid") {
-		t.Fatalf("anchor mismatch must not fail validity, got:\n%s", out.String())
-	}
-	if !strings.Contains(out.String(), "corpus-anchor-mismatch") {
-		t.Fatalf("expected the corpus-anchor-mismatch code surfaced, got:\n%s", out.String())
-	}
-
-	// An anchor flag alone supplies a policy: with no keys the substrate row
-	// derives unattested, so the statement is not admitted even though the
-	// anchor matches.
-	out.Reset()
-	errb.Reset()
-	code = run([]string{"-expected-corpus-digest", corpus, statement}, &out, &errb)
-	if code != 1 {
-		t.Fatalf("anchor-only policy on a substrate statement: exit %d, want 1", code)
-	}
-	if !strings.Contains(out.String(), "tier policy: NOT satisfied") {
-		t.Fatalf("expected the tier-policy fact, got:\n%s", out.String())
-	}
-}
-
-func TestRunBareModeBindsExitToValidity(t *testing.T) {
-	// Bare conformance-replay mode: no policy supplied, so a valid statement
-	// exits 0 even though its substrate row is unattested under no-TOFU.
-	statement := writeTemp(t, aeetest.Build(aeetest.Options{}))
-	var out, errb bytes.Buffer
-	if code := run([]string{statement}, &out, &errb); code != 0 {
-		t.Fatalf("bare mode valid statement: exit %d, stderr=%q", code, errb.String())
-	}
-	if strings.Contains(out.String(), "admitted:") {
-		t.Fatalf("bare mode must not print an admission decision, got:\n%s", out.String())
-	}
-}
-
-func TestLoadPolicy(t *testing.T) {
-	// nothing supplied -> no policy, no error
-	if p, err := loadPolicy("", "", ""); p != nil || err != nil {
-		t.Fatalf("no policy inputs: got (%v,%v), want (nil,nil)", p, err)
-	}
-	// anchors without a key file still form a policy
-	if p, err := loadPolicy("", "aa", "bb"); err != nil || p == nil ||
-		p.ExpectedCorpusDigest != "aa" || p.ExpectedSubstrateDigest != "bb" ||
-		len(p.SubstrateObservationKeys) != 0 {
-		t.Fatalf("anchor-only policy: got (%+v,%v)", p, err)
-	}
+func TestPolicyDocumentErrorsExit2(t *testing.T) {
+	path := writeTemp(t, aeetest.Build(aeetest.Options{Clean: true}))
 	write := func(s string) string {
 		p := filepath.Join(t.TempDir(), "k.json")
 		if err := os.WriteFile(p, []byte(s), 0o600); err != nil {
@@ -338,22 +432,20 @@ func TestLoadPolicy(t *testing.T) {
 		}
 		return p
 	}
-	// malformed JSON
-	if _, err := loadPolicy(write("{"), "", ""); err == nil {
-		t.Fatal("malformed JSON policy should error")
+	for _, doc := range []string{
+		"{",
+		`{"substrateObservationKeys":[{"publicKeyHex":"zz"}]}`,
+		`{"substrateObservationKeys":[{"publicKeyHex":"aabb"}]}`,
+		`{"expectedSubjectDigests":"aa"}`,
+		`{"maxIssuanceLagSeconds":0}`,
+	} {
+		var out, errb bytes.Buffer
+		if code := run([]string{"-policy", write(doc), path}, &out, &errb); code != 2 {
+			t.Fatalf("policy %s: exit %d, want 2", doc, code)
+		}
 	}
-	// non-hex public key
-	if _, err := loadPolicy(write(`{"substrateObservationKeys":[{"publicKeyHex":"zz"}]}`), "", ""); err == nil {
-		t.Fatal("non-hex publicKeyHex should error")
-	}
-	// wrong-length key (valid hex, too short)
-	if _, err := loadPolicy(write(`{"substrateObservationKeys":[{"publicKeyHex":"aabb"}]}`), "", ""); err == nil {
-		t.Fatal("short publicKeyHex should error")
-	}
-	// valid key
-	pub := aeetest.TestKey(aeetest.RoleSubstrateObservation).Public().(ed25519.PublicKey)
-	p, err := loadPolicy(keyPolicyFile(t, pub), "", "")
-	if err != nil || p == nil || len(p.SubstrateObservationKeys) != 1 {
-		t.Fatalf("valid policy: got (%v,%v)", p, err)
+	var out, errb bytes.Buffer
+	if code := run([]string{"-policy", filepath.Join(t.TempDir(), "absent.json"), path}, &out, &errb); code != 2 {
+		t.Fatalf("absent policy file: exit %d, want 2", code)
 	}
 }

@@ -1,4 +1,5 @@
 {
+  "cites": "the same substitution under the HMAC baseline, where the signer cannot be determined rather than determined to be wrong. The member is SELF because no artifact lets any party check who computed the MAC: the only accounts of it are the two key-holders' own. The sealed-session pair in acs-f-6 is PEER under the same profile because the Observed Agent can check a dropped head from heads already published to it; a signer's identity has no such artifact.",
   "coverage": "supported",
   "evidenceBasis": "artifact",
   "expected": {
@@ -37,6 +38,28 @@
     "signed_by": "observed_agent",
     "signed_with": "session-k1"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-022",
+      "line": 428,
+      "sentence": "A required signature is missing, malformed, or fails verification",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    },
+    {
+      "id": "ACS-R-021",
+      "line": 258,
+      "sentence": "Non-repudiation, proving to a third party that a specific Guardian issued a specific head, requires the asymmetric ACS-Crypto profile",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-022",
     "ACS-R-021"

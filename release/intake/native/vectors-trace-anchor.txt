@@ -1,0 +1,5 @@
+suite: trace-registry-anchor/v1
+members: 27
+  anchored: 7
+  refused: 20
+verdict: every member behaves as MANIFEST.json declares

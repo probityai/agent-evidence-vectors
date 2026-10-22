@@ -1,0 +1,17 @@
+{
+  "claim_id": "write-under-an-excluded-path",
+  "executable": [],
+  "files": {
+    "src/app.py": "67f92b57d4f0071e6f87eebfaa011949ce4465664087ede26f3fcd100808a93c",
+    "tests/fixtures/data.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "tests/test_app.py": "ac4d10770af5e2dc12262b8e6293590c48bdc53ade0697d61cdcbbee2531a0fe"
+  },
+  "invocation_id": "call-1",
+  "producer": "host-observer",
+  "schema_version": "probity-tree/v2",
+  "special": {},
+  "symlinks": {},
+  "tree_sha256": "29df11bf9e4fc30840584df73c2d0e8a92006b1e36dcefa3428615ca83d31edf",
+  "vantage": "independent",
+  "witness_scope": "PEER"
+}

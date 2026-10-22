@@ -1,4 +1,5 @@
 {
+  "cites": "a session negotiated at 0.1.0 whose next step carries a 1.x version. The forward-compatibility rule accepts a version only on a matching major, so the step is refused; the registry fixes no code for a mismatch after the handshake, which is why none is asserted here. The same defect as the handshake member, seen from the other side.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -72,6 +73,18 @@
       }
     ]
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-019",
+      "line": 57,
+      "sentence": "Accept `X.Y.Z` matching major version",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/instrument/specification.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/specification-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-019"
   ],

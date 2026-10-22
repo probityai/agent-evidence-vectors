@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 308,
+      "path": "capability.json",
+      "sha256": "c47e1e98620b17a9e5d273307dfb95f7713d14cf36710e2594d5e792951ddcc0"
+    },
+    "contract": {
+      "length": 933,
+      "path": "contract.json",
+      "sha256": "b5e3db6bd46951f530f086374dbc9957a1d01162fd1fef49e19d2878cf12c300"
+    },
+    "observation": {
+      "length": 1294,
+      "path": "observation.json",
+      "sha256": "c07b2edada5469dbeb22685340c27034aa2408f8f04bccf234a672c235cb5d3a"
+    },
+    "tree": {
+      "length": 525,
+      "path": "tree.json",
+      "sha256": "6b7e9d7a97743cea926414a4fcee72e2cfacb2bc640e3c4ae4ec150f22ffa324"
+    }
+  },
+  "case_id": "twin-assertion",
+  "schema_version": "probity-case/v1"
+}

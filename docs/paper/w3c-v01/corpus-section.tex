@@ -1,0 +1,105 @@
+% Corpus and methods section for the v0.1 reporting-format paper.
+% Every number is recounted by recount.py and claim-downgrade/run.sh in this directory.
+% Needs: booktabs, array, url (or hyperref). Self-contained: no bibliography entries.
+
+\section{Corpus and methods}
+\label{sec:corpus}
+
+We report three populations and keep them apart, because each answers a
+different question (Table~\ref{tab:corpus}). The v0.1 text is a draft of the
+public-agent-conformance community group, not a W3C standard.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.15\linewidth}>{\raggedright\arraybackslash}p{0.28\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.22\linewidth}@{}}
+\toprule
+ & A. Emitted report & B. Report corpus & C. Section~10 selection \\
+\midrule
+Release & 0.12.0, commit \texttt{2f3aee4} & 0.17.4, commit \texttt{99b47c5} & as B \\
+Package pin & wheel \texttt{cb346a41} & corpusDigest \texttt{f00d4443} & as B \\
+Output & report \texttt{37288d8d}; conformance report \texttt{ee349e66} & manifest \texttt{de9a261d} & as B \\
+Members & 272 records & 235 & 165 \\
+Statuses & report states: 239 fail, 31 pass, 2 inconclusive; conformance run: 272 of 272 conform & 169 report, 44 run-metrics, 22 context-discovery & 83 reject, 82 accept \\
+Code author & S.~Gilda & S.~Gilda & S.~Gilda \\
+Operators & S.~Gilda (two runs); N.~Rocchia (one rerun, same code) & S.~Gilda & S.~Gilda \\
+\bottomrule
+\end{tabular}
+\caption{The three populations, pinned (SHA-256 prefixes; full digests in the
+packet). They are never added together. The later corpus at 0.18.1 (269 members)
+is a fourth population and is not used.}
+\label{tab:corpus}
+\end{table}
+
+\paragraph{The emitted report.}
+The reference emitter of agent-evidence-vectors 0.12.0 (source commit
+\path{2f3aee40}, wheel sha256 \texttt{cb346a41\ldots}) wrote a v0.1 report from
+the AEE vector corpus with
+\begin{quote}\footnotesize
+\verb|uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json|
+\end{quote}
+\noindent
+The files were first published under tag v0.13.0. The report holds 272 per-check
+records: 239 fail, 31 pass and 2 inconclusive, and its negative-capable field
+reads shown-by-run. These states describe fixtures, not executions. Of the 239,
+209 are reject fixtures, built to be refused, and 30 are accept fixtures whose
+declared result is fail (27) or degraded (3). Every record carries the harness
+annotation PASS, and the conformance report written in the same run counts 272
+vectors, 272 passing and 0 failing, with no external verifier supplied. The same
+272 fixtures therefore carry 239 negative report states and 272 successful
+conformance executions; a fail count given without its outcome type would read as
+239 failures, and it is not.
+
+\paragraph{Reproduction.}
+The author ran the command on 24 and 25 September 2026 with identical output. A
+second operator, N.~Rocchia, ran it on another machine (CPython 3.13.7, empty
+package cache) and obtained byte-identical \path{report.json} and
+\path{conformance-report.json}.\footnote{List archive, public-agent-conformance, September 2026, message 0089: \url{https://lists.w3.org/Archives/Public/public-agent-conformance/2026Sep/0089.html}.} This shows that the
+published bytes are what the pinned release produces. It is the same code run
+by two operators, and it does not show that the reference reader judges the
+format correctly.
+
+\paragraph{The conformance corpus.}
+Section~10 of v0.1 points at the corpus vectors-w3c-report in release 0.17.4
+of agent-evidence-vectors, and the signed digest list of that release names its
+corpusDigest, \texttt{f00d4443\ldots}. Of its 235
+members, 169 are of subjectType report, 44 belong to the run-metrics draft and 22
+to the context-discovery draft. The selection section~10 names, report members
+whose requirements are all agreed, has 165 members: 83 to be rejected under a
+named row and 82 to be accepted. The corpus, its three readers (Python, Go and
+Rust, held to one verdict per member) and the selection have one author.
+
+\paragraph{One-variable claim downgrade.}
+v0.1 prescribes three outcomes when an evidence link behind a claim weakens:
+refusal (rows 11 to 14 and the conditions of 5.4), a reading of unchecked when a
+reference does not resolve (section~3), and an unread binding when either side
+of a control does not declare it (5.4, open item O7). We built three accepted
+base reports, one per claim type: discrimination and other-verdict demonstrated
+by one evidence object over two digest-referenced observations; an all-pass run
+naming a failed control under its checker and constraint set; and an all-pass
+run naming a prior discriminating run. We changed one evidence link at a time,
+22 cases, resealing the roll-up and check-set binding so that the link was the
+only variable. We ran the Python reader of 0.18.1 (wheel sha256
+\texttt{3953c8ab\ldots}) with and without a resolution store, and the Rust reader
+of the same tag, which resolves nothing.
+
+With the store, every refusal the text prescribes fired under a named row: 13 of
+22 cases. Two of the 13, a mismatched observation digest and a resolved body
+whose verdict no longer differs under the cited digest, were refused only by the
+reader holding the store; without it, and in the Rust reader, both were accepted.
+In 5 cases the text prescribes a weaker claim, and each reader's output was
+byte-identical to its output on the verified base: a reference that does not
+resolve (two cases), a control with no binding on one side (two), and a prior run
+whose reference cannot be obtained (one). The format has no field in which a
+reader states that a claim stands unchecked or unbound, so a consumer of the
+reader's output cannot tell these five from a verified claim. A negative control,
+a change of operator that v0.1 does not bind, changed nothing.
+
+\paragraph{Claim ceiling.}
+The report's bytes reproduce across two machines and two operators, and the
+corpus exercises the rejection table with the outcomes above. These results come
+from code with one author, who also built the experiment's base reports; the 22
+cases are constructed, not drawn from producers' reports. They do not show that a
+reader written by someone else agrees, that the format is complete, or anything
+about the safety of an agent. A reader written by someone else, run at the same
+corpusDigest, is the open test.

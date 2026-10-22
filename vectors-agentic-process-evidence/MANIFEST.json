@@ -1,0 +1,729 @@
+{
+  "corpusDigest": "17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9",
+  "issuerKeyid": "339074aca25b900e72f93b829dd4fc402a8202d44a940ed3730c710ff2679b0e",
+  "predicateType": "https://in-toto.io/attestation/agentic-process/v0.1",
+  "suite": "agentic-process-evidence/v0.1",
+  "vectors": [
+    {
+      "description": "the specification's published development-process example, signed as issued",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "3a4b58c5de75387f3860decb7c1c26652b196765da1b3ac22230863e10a9375d"
+      },
+      "id": "published-example",
+      "path": "cases/published-example"
+    },
+    {
+      "description": "only the required predicate fields, and a provider with a harness alone",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "908def413d8880f9868af28c15e8f1861bfc14dd611d687e589dfe27da58c66f"
+      },
+      "id": "minimal-required-fields",
+      "path": "cases/minimal-required-fields"
+    },
+    {
+      "description": "a single-session process whose subject is the session log, sessionsLogs omitted",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "fa819ccab87e671b4db07d4af02de0ecae1aa81f197e47059028a6a06e3d71d6"
+      },
+      "id": "session-as-subject",
+      "path": "cases/session-as-subject"
+    },
+    {
+      "description": "an unknown predicate field, an unknown digest algorithm and a mediaType are ignored",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "0737c60d09aad3c0019dbe341654e213ddd246c7440607058950e93f0110edc8"
+      },
+      "id": "unknown-fields-ignored",
+      "path": "cases/unknown-fields-ignored"
+    },
+    {
+      "description": "a context artifact carried inline as data, with no uri",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "c909dccd9e53042f2b66522589c450d968f609d91cfba7af5c8c6c50e1848ea5"
+      },
+      "id": "inline-context-artifact",
+      "path": "cases/inline-context-artifact"
+    },
+    {
+      "description": "a negative result is still verified evidence",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "4a200d31b74ccfca2fa814b22640a13af1f55789ca2e31ad1b6b0899ea6037d7"
+      },
+      "id": "result-misaligned",
+      "path": "cases/result-misaligned"
+    },
+    {
+      "description": "a first signature by a key no policy pins is ignored; the pinned key's signature verifies",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "4ae10b2e469f567d80d439450f2bd996838b034bc61266d8c2625bc5bb55c9bc"
+      },
+      "id": "unpinned-cosigner",
+      "path": "cases/unpinned-cosigner"
+    },
+    {
+      "description": "the type every jfrog/agentic-process-evidence example carries, under a policy pinning it",
+      "expected": {
+        "decision": "supported",
+        "reason": "process_evidence_verified"
+      },
+      "files": {
+        "case.json": "ce02f0eac87de7f3bc33a0a88c7455445f3c143936996946fa34f547391c073b",
+        "envelope.json": "b6d38080401da447284ba68614291f79e97fe181a858bb25b528ab0d7ceabb88"
+      },
+      "id": "jfrog-predicate-type",
+      "path": "cases/jfrog-predicate-type"
+    },
+    {
+      "description": "the owner changed in the payload after signing",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "bebf98e6f6cbd2e59b9a39b7d35e3c6683ff202e642b4585ee5f41c157a97223"
+      },
+      "id": "tampered-payload",
+      "path": "cases/tampered-payload",
+      "twin": "published-example"
+    },
+    {
+      "description": "one bit of the signature flipped",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "32a303c70bd092ff727f027c01ae81a9e24517b926ddb585b879bdcba8e0ec27"
+      },
+      "id": "tampered-signature",
+      "path": "cases/tampered-signature",
+      "twin": "published-example"
+    },
+    {
+      "description": "signed by a key the policy does not pin, under that key's own keyid",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "untrusted_key"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "a19a7193fe8b1a468828374aef9934008f020f30eb271126acadd36a7ce76cf2"
+      },
+      "id": "wrong-key",
+      "path": "cases/wrong-key",
+      "twin": "published-example"
+    },
+    {
+      "description": "signed by an unpinned key that names the pinned keyid",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "e399fdb3604beab5e0a02c09dd4dae491ce5b885d481f8f58828a3c0cf79dcec"
+      },
+      "id": "wrong-key-claims-pinned-keyid",
+      "path": "cases/wrong-key-claims-pinned-keyid",
+      "twin": "published-example"
+    },
+    {
+      "description": "the envelope bytes are not JSON",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed_envelope"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "6c929b2d8f11bcc71ba080473377db524d77301b51de17e0f4fecdd1c0f8f65f"
+      },
+      "id": "malformed-not-json",
+      "path": "cases/malformed-not-json",
+      "twin": "published-example"
+    },
+    {
+      "description": "a signature is not base64",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed_envelope"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "cf82c1ff246a794a3959e7ab8f48f580bd9910ac47dbd83a2bd04f21c25fe69e"
+      },
+      "id": "malformed-signature-not-base64",
+      "path": "cases/malformed-signature-not-base64",
+      "twin": "published-example"
+    },
+    {
+      "description": "signed under a payload type the policy does not pin",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_payload_type"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "5368c8b3d56dddf047ff9fcdad3edcbc859239bf50ec2e6701cca04a1f7cccdf"
+      },
+      "id": "wrong-payload-type",
+      "path": "cases/wrong-payload-type",
+      "twin": "published-example"
+    },
+    {
+      "description": "the signed payload is a JSON array holding the Statement",
+      "expected": {
+        "decision": "not_established",
+        "reason": "payload_not_json_object"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "e5a018eee969ca4853a776c512dc28cd22fc23eaf6c35c46f7b1d0dc74e7ba20"
+      },
+      "id": "payload-not-object",
+      "path": "cases/payload-not-object",
+      "twin": "published-example"
+    },
+    {
+      "description": "the Statement names a superseded statement type",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_statement_type"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "c2e927d430ef633252b2c5adbd3dbed04f090ed5491c28b79c29d1a4d89a0e78"
+      },
+      "id": "statement-type-v01",
+      "path": "cases/statement-type-v01",
+      "twin": "published-example"
+    },
+    {
+      "description": "the v0.1.0 spelling of the pull request's example, under a policy pinning its v0.1 Type URI",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_predicate"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "d244d3f27672d5079eea71af6331aba86f4b0b6d5a06c92ab686601801ad3999"
+      },
+      "id": "predicate-type-pr-example-spelling",
+      "path": "cases/predicate-type-pr-example-spelling",
+      "twin": "published-example"
+    },
+    {
+      "description": "the Statement names no predicate type",
+      "expected": {
+        "decision": "not_established",
+        "reason": "unsupported_predicate"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "e54cb53e6b4038842ba04dea2b88f3477df28b5a44e64e28bf81469a2d9c7891"
+      },
+      "id": "predicate-type-missing",
+      "path": "cases/predicate-type-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "createdAt is absent",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:createdAt"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "ec8b24432a933628d6188bcb54dc14521f7f162ca99ba48f3e6c67fdbadb93f7"
+      },
+      "id": "created-at-missing",
+      "path": "cases/created-at-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "createdAt is the placeholder text, not a timestamp",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:createdAt"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "573952e27ea7ed23f944ee75f3dc891eac755d9b6e15a1ad856ada9a5d3ff233"
+      },
+      "id": "created-at-placeholder",
+      "path": "cases/created-at-placeholder",
+      "twin": "published-example"
+    },
+    {
+      "description": "createdBy is an empty string",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:createdBy"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "36973c856aa344eb7d0e04bbe36b7259482553349718e9f89117a67f68db56d1"
+      },
+      "id": "created-by-empty",
+      "path": "cases/created-by-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "the Statement names no subject",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:subject"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "3c7526b57836d5268179d66150da3f478923f85dd75c14513cdf1b81aefbe5bb"
+      },
+      "id": "subject-empty",
+      "path": "cases/subject-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "the subject has a digest and no uri",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:subject"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "53fc00e9857ef0b41f1c2631606c53564ac22c1f8f6f6eb77fceababda973a1e"
+      },
+      "id": "subject-no-uri",
+      "path": "cases/subject-no-uri",
+      "twin": "published-example"
+    },
+    {
+      "description": "the subject's digest set names no algorithm",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:subject"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "879e130b6014b756e42972a309d4ee5cab0c67234c81295a81bfdccba80906c3"
+      },
+      "id": "subject-digest-empty",
+      "path": "cases/subject-digest-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "the subject's gitCommit is elided with ..., as in the specification's schema example",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:subject"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "3dab0fb64d143cb02c10f0b82c2192b87fd667a2fbee48714041ef8379ccb1a7"
+      },
+      "id": "subject-git-commit-elided",
+      "path": "cases/subject-git-commit-elided",
+      "twin": "published-example"
+    },
+    {
+      "description": "the predicate is an array",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "a8276e9df53a57d29f53b7ef1490819dd0d7457cd1c4477688947b758ce640ab"
+      },
+      "id": "predicate-not-object",
+      "path": "cases/predicate-not-object",
+      "twin": "published-example"
+    },
+    {
+      "description": "processType is absent",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.processType"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "896c6950a8b945b6b8d9caef2a59591932dcb5c8bb854fce115c27de25ef3c8f"
+      },
+      "id": "process-type-missing",
+      "path": "cases/process-type-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "processType is an empty string",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.processType"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "ce7063b7f853af317d96ea519ff1cdae0eb8f0a6e99001d8afed041b808b1a97"
+      },
+      "id": "process-type-empty",
+      "path": "cases/process-type-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "providers names no provider stack",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.providers"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "69e351c2e94f3b9946a8b6d75b8f3ef12dfe6936c2fd43d5915263c861ffda78"
+      },
+      "id": "providers-empty",
+      "path": "cases/providers-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "a provider has no harness",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.providers[].harness"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "5ad2a61810d585b4b0c6f0f4005648da6fefe5bc7f72283f4f0232e61f8c36c0"
+      },
+      "id": "harness-missing",
+      "path": "cases/harness-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "the harness has a name and no version",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.providers[].harness"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "6c031b12b5861a38d1fb252bfaf939755acc29a95133d75585fc1d98be9a0f17"
+      },
+      "id": "harness-version-missing",
+      "path": "cases/harness-version-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "the agent's name is present and empty",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.providers[].agent"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "a51412ac5a730275a00df4df901c04b4fd30dba126bf89127340871272129ae8"
+      },
+      "id": "agent-name-empty",
+      "path": "cases/agent-name-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "a language model's resolved name is present and empty",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.providers[].languageModels"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "2f0f5c71188c084860571e190c583d80f34bd45b962421303c3cfe53606191c4"
+      },
+      "id": "language-model-resolved-empty",
+      "path": "cases/language-model-resolved-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "result is absent",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.result"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "5757a9d3c3de0a8ba2952385f06791d89fb27f5656df48f1265d550316863d6d"
+      },
+      "id": "result-missing",
+      "path": "cases/result-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "result is not one of the seven process result values",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.result"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "60d51776d97d245b20b8a25156845ab2574aab9ec4c847b66ad6c78418248dec"
+      },
+      "id": "result-not-listed",
+      "path": "cases/result-not-listed",
+      "twin": "published-example"
+    },
+    {
+      "description": "owner is absent: nobody is accountable",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.owner"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "a2bcf1baa78f0900b5719137497ad5802204d237312216f9ba61b871a985e42f"
+      },
+      "id": "owner-missing",
+      "path": "cases/owner-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "startTimestamp is the placeholder text, not a timestamp",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.startTimestamp"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "48e55b014be7c8c47615b0b0ebc0bafb227edaaacb0f4a85f8dcfa77c0b48689"
+      },
+      "id": "start-timestamp-placeholder",
+      "path": "cases/start-timestamp-placeholder",
+      "twin": "published-example"
+    },
+    {
+      "description": "endTimestamp is absent",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.endTimestamp"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "7bff4cc699858c154b17b9a42d70ffe56e226c4b371447bd24423608592ffa00"
+      },
+      "id": "end-timestamp-missing",
+      "path": "cases/end-timestamp-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "traceId is present and empty",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.traceId"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "2591eeb6ce520e48c83630efcdbcd575380d7d93e50cb3b2a51bfe5cf7fd79a3"
+      },
+      "id": "trace-id-empty",
+      "path": "cases/trace-id-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "a session log reference has a uri and no digest",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.sessionsLogs"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "df50a3daf8179f4a5690775d59bfba63d9885967f98658a8e0a50caf58a274fc"
+      },
+      "id": "session-log-no-digest",
+      "path": "cases/session-log-no-digest",
+      "twin": "published-example"
+    },
+    {
+      "description": "a session log uri is the placeholder text, not a URI",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.sessionsLogs"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "6753f41c74c77cca95728f507b37c2e64e51fd08d0c92438a3e86c6b883852fa"
+      },
+      "id": "session-log-uri-placeholder",
+      "path": "cases/session-log-uri-placeholder",
+      "twin": "published-example"
+    },
+    {
+      "description": "a tool has a version and no name",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.tools"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "f4cefcdd347f82c6ccc632221013395c521421f9d368397d6c9ba37737117f78"
+      },
+      "id": "tool-name-missing",
+      "path": "cases/tool-name-missing",
+      "twin": "published-example"
+    },
+    {
+      "description": "a tool's version is present and empty",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.tools"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "6187beb099d2f5f08a64806263c3c3e25743291ea466a44648f3e05e3fbb85ef"
+      },
+      "id": "tool-version-empty",
+      "path": "cases/tool-version-empty",
+      "twin": "published-example"
+    },
+    {
+      "description": "a context artifact carries both uri and data, as in the specification's schema example",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.contextArtifacts"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "9d1b8bb1f6a75a58716682ba358712896b344adda94d98df63a6584909558cab"
+      },
+      "id": "context-artifact-uri-and-data",
+      "path": "cases/context-artifact-uri-and-data",
+      "twin": "published-example"
+    },
+    {
+      "description": "a context artifact carries neither uri nor data",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.contextArtifacts"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "c4b90ff22c7001da68b5d13d879fd66cf56d1e10f72dbd957b4892085fc970bb"
+      },
+      "id": "context-artifact-neither",
+      "path": "cases/context-artifact-neither",
+      "twin": "published-example"
+    },
+    {
+      "description": "a context artifact's sha256 is not 64 hex characters",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.contextArtifacts"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "1624162be77c57f18a3ba55e1106a5034c33bc55dae74585225b92015e7979ea"
+      },
+      "id": "context-artifact-sha256-short",
+      "path": "cases/context-artifact-sha256-short",
+      "twin": "published-example"
+    },
+    {
+      "description": "a context artifact's tags is a string, not a list",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.contextArtifacts"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "5d468c1547ec2ad885d99ab51f79c6574b60319ac270998bf1496e9bca3735a5"
+      },
+      "id": "context-artifact-tags-string",
+      "path": "cases/context-artifact-tags-string",
+      "twin": "published-example"
+    },
+    {
+      "description": "custom is an array",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.custom"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "b35c92e5bda457656f2d850b079e6a5a0b839b75e47f83822d2b1326c919463e"
+      },
+      "id": "custom-not-object",
+      "path": "cases/custom-not-object",
+      "twin": "published-example"
+    },
+    {
+      "description": "an intent is an object, not a string",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.intents"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "0c335b056effee4b1469e648e509bee6383e33bfcd73d3d5325e0cd5bbddbd8f"
+      },
+      "id": "intents-not-strings",
+      "path": "cases/intents-not-strings",
+      "twin": "published-example"
+    },
+    {
+      "description": "processSummary is an array",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.processSummary"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "157d920f7175016c8115a8638ec58e665fd75f48ef8feac66e3d2a2b009bbe27"
+      },
+      "id": "process-summary-not-string",
+      "path": "cases/process-summary-not-string",
+      "twin": "published-example"
+    },
+    {
+      "description": "a reviewer is an object, not a login or email",
+      "expected": {
+        "decision": "not_established",
+        "reason": "field_invalid:predicate.reviewers"
+      },
+      "files": {
+        "case.json": "8e249ce12cae5e5af36e665867092221abe13153616639aacc68829418cb15eb",
+        "envelope.json": "4dd7e3c6aabfe32edd871a49060ca106a865a98346af70270ccf465a7647dd41"
+      },
+      "id": "reviewers-not-strings",
+      "path": "cases/reviewers-not-strings",
+      "twin": "published-example"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}

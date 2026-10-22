@@ -7,7 +7,7 @@ Regenerate byte-identically:
 
 The corpus is Appendix B of the Internet-Draft
 draft-gilda-wimse-agent-audit-record-02, member for member, followed by members
-for rules of Sections 5.4 and 5.5 that Appendix B carries no row for. Each of
+for rules of Sections 5.3, 5.4 and 5.5 that Appendix B carries no row for. Each of
 those names the section it tests in ``draftSection`` and continues the
 identifier series of the rows beside it. Every member is a complete DSSE
 envelope whose payload is an in-toto Statement v1 carrying an agent audit record.
@@ -568,6 +568,29 @@ def _e3(pred: dict[str, Any]) -> None:
     pred["effect"]["interval"]["beforeRoot"] = EMPTY_TREE["sha1"]
 
 
+# Section 5.3 requires the ordered write chain to reproduce the after-state root
+# from the before-state root. That replay is four comparisons: the running root
+# starts at beforeRoot, each write's preStateDigest must equal it and its
+# postStateDigest replaces it, and the root after the last write must be
+# afterRoot. E2 breaks a link between two writes with both ends intact, E4
+# breaks only the start, E5 only the end, and E6 is the case with no write at
+# all. A reader that drops any one of those comparisons accepts exactly one of
+# the four, which scripts/write-chain-replay-test.py checks against weakened
+# copies of both packaged readers.
+
+
+def _e4(pred: dict[str, Any]) -> None:
+    pred["effect"]["writes"][0]["preStateDigest"] = h("root/state-before-the-interval")
+
+
+def _e5(pred: dict[str, Any]) -> None:
+    pred["effect"]["writes"][0]["postStateDigest"] = h("root/state-after-the-write")
+
+
+def _e6(pred: dict[str, Any]) -> None:
+    pred["effect"]["interval"]["afterRoot"] = h("root/after-with-no-write")
+
+
 def _v3(pred: dict[str, Any]) -> None:
     pred["effect"]["writes"][0]["path"] = "/srv/reports/settlements.jsonl"
 
@@ -1099,7 +1122,7 @@ def define() -> None:
         readings=TWO_READINGS_N2,
     )
 
-    # Members for rules of Sections 5.4 and 5.5 that Appendix B carries no row
+    # Members for rules of Sections 5.3, 5.4 and 5.5 that Appendix B carries no row
     # for. They follow every Appendix B row, so the rows keep the table's order,
     # and each names its section in draftSection.
     section_accepts: list[tuple[str, str, str, str, Callable[[], Built]]] = [
@@ -1151,6 +1174,36 @@ def define() -> None:
         member(draft_id, slug, None, row, build, "valid", tier="authoritative", section=section)
 
     section_rejects: list[tuple[str, str, str, str, str, Callable[[], Built], str]] = [
+        (
+            "E4",
+            "e4-first-write-not-from-before-root",
+            "A1",
+            "5.3",
+            "the only write's pre-state is not the before-state root, its post-state is "
+            "the after-state root",
+            mutate("A1", _e4),
+            "write-chain-broken",
+        ),
+        (
+            "E5",
+            "e5-last-write-not-to-after-root",
+            "A1",
+            "5.3",
+            "the only write starts from the before-state root and its post-state is not "
+            "the after-state root",
+            mutate("A1", _e5),
+            "write-chain-broken",
+        ),
+        (
+            "E6",
+            "e6-no-write-and-unequal-roots",
+            "A2",
+            "5.3",
+            "an empty write set beside an after-state root unequal to the before-state "
+            "root, second subject moved to match",
+            mutate("A2", _e6),
+            "write-chain-broken",
+        ),
         (
             "EV5",
             "ev5-not-evaluated-empty-unavailable-input",

@@ -133,11 +133,20 @@ scripts/release-sign.sh --with-timestamps
 #    SIGNATURE bytes.
 scripts/release-timestamps.sh stamp
 
-# 4. Commit the four release artifacts together with the version bump. They are
-#    one unit: a digest list without its signature, or a signature without its
-#    stamps, is a half-published release.
+# 3b. Regenerate the intake records against the signed list. A record names a
+#     signed digest list exactly when the list verifies under release/cosign.pub,
+#     and the intake checker then verifies that signature; before step 2 the
+#     list on disk was unsigned and the records said so. CI's
+#     `gen-intake-records.py --check` fails a release commit that skips this.
+uv run --locked --extra generators python scripts/gen-intake-records.py
+
+# 4. Commit the release artifacts together with the version bump. They are one
+#    unit: a digest list without its signature, a signature without its stamps,
+#    or records that still call the signed list unsigned, is a half-published
+#    release.
 git add release/CORPUS-DIGESTS.txt release/CORPUS-DIGESTS.txt.sig \
-        release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots
+        release/CORPUS-DIGESTS.txt.sig.tsr release/CORPUS-DIGESTS.txt.sig.ots \
+        release/intake
 test "$(date -u +%F)" = "$(date -u -d "@$release_epoch" +%F)"
 GIT_AUTHOR_DATE="$release_epoch +0000" GIT_COMMITTER_DATE="$release_epoch +0000" \
   git commit -m "chore(release): cut vX.Y.Z"
@@ -159,7 +168,12 @@ python3 scripts/verify-release-tag.py vX.Y.Z
 #    This is what step 5's ordering costs and it is the whole payment: the tag
 #    now precedes the remote run, so the evidence that the run will pass has to
 #    come from here instead. Nothing is pushed until this is green.
-python3 scripts/workflow-steps-gate.py
+#    Run it the way the pre-push hook does: from the project's own Python 3.13
+#    environment. The gate builds its controls' environments from the
+#    interpreter that runs it, so a system python3 older than 3.13 fails the
+#    pool controls on a tree the remote accepts.
+uv sync --locked --extra dev --python 3.13
+UV_PROJECT_ENVIRONMENT="$PWD/.venv" .venv/bin/python -B scripts/workflow-steps-gate.py
 
 # 7. Publish the owned feature branch and the new tag atomically. The feature
 #    branch's installation pin and signed tag arrive together. The default
@@ -243,7 +257,8 @@ over the eight other suites and printed that rail's failures as a verdict.
 ## Before you start
 
 - The local gate is the pre-push mirror, and it is the same 89-plus steps CI
-  runs: `python3 scripts/workflow-steps-gate.py`. It takes upwards of ninety
+  runs: `.venv/bin/python -B scripts/workflow-steps-gate.py`, from the
+  environment step 6 syncs. It takes upwards of ninety
   minutes and holds a single-instance lock, so one release at a time.
 - Read the count you publish off the tagged tree, by counting members in the
   manifests. Never quote it from a README: that is the defect that put a wrong

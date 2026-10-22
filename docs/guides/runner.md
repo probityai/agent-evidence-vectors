@@ -4,16 +4,16 @@ Build a verifier, then pass its command to the harness. After the signed release
 
 ```yaml
 - run: GOWORK=off go build -o aee-verify ./cmd/aee-verify
-- uses: probityai/agent-evidence-vectors@v0.18.0
+- uses: probityai/agent-evidence-vectors@v0.24.0
   with:
-    verifier: ./aee-verify --json
+    verifier: ./aee-verify -validity-only --json
 ```
 
 For a shell run before publication, use the [source-wheel recipe](../../README.md#try-it) from a reviewed checkout. After the tag and PyPI wheel are published, install the matching release:
 
 ```sh
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.18.0
-uvx agent-evidence-vectors==0.18.0 --verifier "aee-verify --json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
+uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify --json"
 ```
 
 The command invokes your verifier for each vector using the [external-verifier contract](../reference/verifier-contract.md). Reports keep normative conformance and reason-code agreement separate. Both still affect row status and the command's exit status.
@@ -54,4 +54,4 @@ For an external result, check these fields in the same report:
 
 A zero exit also requires reason parity under the current scoring policy. Use the [comparison reference](../reference/verifier-contract.md#comparison-rules) to interpret that difference.
 
-Run `agent-evidence-vectors --self-test` to check the packaged reference rail. Run `agent-evidence-vectors --jcs-byte-vectors` for the absolute path of the shipped RFC 8785 byte cases (`corpora/jcs-byte-vectors/cases.json`), which an SDK's CI can read after pinning the package. Set `corpus: vectors-a2a-jcs-v01` to score an A2A Agent Card canonicalizer against a2a-tck's corpus under [its contract](../reference/corpus-readers.md#the-a2a-jcs-v01-contract). Released wheels expose their corpus set through `--list-corpora`; additional source corpora need a checkout and matching reader. The [historical substitution defect](../../SECURITY.md) affected releases before 0.12.1.
+Run `agent-evidence-vectors --self-test` to check the packaged reference rail. Run `agent-evidence-vectors --jcs-byte-vectors` for the absolute path of the shipped RFC 8785 byte cases (`corpora/jcs-byte-vectors/cases.json`), which an SDK's CI can read after pinning the package. Set `corpus: vectors-a2a-jcs-v01` to score an A2A Agent Card canonicalizer against a2a-tck's corpus under [its contract](../reference/corpus-readers.md#the-a2a-jcs-v01-contract). To test a canonicalizer in process instead, parametrize a pytest test with `agent_evidence_vectors.a2ajcs.params()` ([the Python API](../reference/corpus-readers.md#test-a-canonicalizer-from-python)). Released wheels expose their corpus set through `--list-corpora`; additional source corpora need a checkout and matching reader. The [historical substitution defect](../../SECURITY.md) affected releases before 0.12.1.

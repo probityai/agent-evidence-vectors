@@ -3,9 +3,10 @@
 Predicate type `https://in-toto.io/attestation/adversarial-execution-evidence/v0.7`.
 
 The registry entry for this predicate belongs in the in-toto attestation
-catalog, at `spec/predicates/adversarial-execution-evidence.md`. It is in review
-as [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570), so
-the catalog path does not resolve yet and the pull request is where to read it.
+catalog, at `spec/predicates/adversarial-execution-evidence.md`. It is proposed
+in [in-toto/attestation#570](https://github.com/in-toto/attestation/pull/570),
+which is not merged, so the catalog path does not resolve yet and the pull
+request is where to read it.
 That page is normative and self-contained: the type URI, the schema, the
 parsing rules, one line per field, the examples, and the changelog. It is
 sized to the registry it sits in.
@@ -34,7 +35,11 @@ document established is lost.
 The registry page decides conformance. Where this material and that page
 differ on a normative rule, the page governs and the difference is a defect
 to report. Nothing here weakens a requirement stated there, and nothing here
-adds one: these files explain and bound rules the page states.
+adds one: these files explain and bound rules the page states. One section is
+ahead of the page and says so at its head: "What a verification surface
+reports", at the end of [`verification.md`](verification.md), is the text
+proposed for the page's next revision, and the admission corpus in
+[`../../../vectors-admission`](../../../vectors-admission) tests it.
 
 The verbatim text carries the single document's own cross-references
 ("above", "below", "under Prerequisites"). Each file opens with a table

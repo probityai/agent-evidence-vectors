@@ -5,10 +5,10 @@ The conformance corpus of the Internet-Draft
 Appendix B, published member for member. Every row of that table is one member
 here, and each [`MANIFEST.json`](MANIFEST.json) entry carries the row's
 identifier in `draftId` (`A1`, `F3b`, `TI4`, ...) and its `from` column in
-`parentDraftId`. After the last row come members for sentences of Sections 5.4
-and 5.5 that Appendix B has no row for; each carries the section it tests in
-`draftSection` and continues the identifier series beside it (`A12`, `EV5`,
-`OV3`, ...). [`INDEX.md`](INDEX.md) lists every member beside its file.
+`parentDraftId`. After the last row come members for sentences of Sections 5.3,
+5.4 and 5.5 that Appendix B has no row for; each carries the section it tests in
+`draftSection` and continues the identifier series beside it (`E4`, `A12`,
+`EV5`, `OV3`, ...). [`INDEX.md`](INDEX.md) lists every member beside its file.
 
 Each member is a DSSE envelope whose payload is an in-toto Statement carrying one
 agent audit record. The bytes are in `statements/`; what a conforming verifier
@@ -51,6 +51,31 @@ conforms = my_verdict in conforming_verdicts(entry)
 `expected.codes` are the reference reader's names for its first refusal. The
 draft does not define codes, so a verifier is scored on the verdict alone; the
 codes are published so two implementations can compare where they stopped.
+
+## Independent runs
+
+The first reader from outside this repository is Mayur Agnihotri's
+[agent-audit-record-reader](https://github.com/Mayur021/agent-audit-record-reader),
+written from the draft, RFC 8785, RFC 7493 and DSSE and sharing no code with the
+reference reader. It agreed on 47 of 47 members of v0.16.0, the revision 01
+corpus. Our rerun of it, pinned by digest, is in
+[`interop/wimse-agent-audit-record-reader-2026-10-01`](../interop/wimse-agent-audit-record-reader-2026-10-01/README.md).
+Members added after v0.16.0 have no outside run yet.
+
+## Replaying the write chain
+
+Section 5.3 requires the ordered writes to reproduce `afterRoot` from
+`beforeRoot`. The replay is four comparisons: a running root starts at
+`beforeRoot`; each write in `effect.writes`, in array order and whatever its
+attribution or `inScope`, carries a `preStateDigest` equal to the running root,
+and its `postStateDigest` becomes the running root; the root after the last
+write equals `afterRoot`; and a record with no write carries equal roots. Each
+comparison has its own reject member: `E4` breaks only the start, `E2` a link
+between two writes, `E5` only the end, and `E6` is the empty case. Appendix B
+has a row for `E2` only, so `E4`, `E5` and `E6` are Section 5.3 members.
+[`scripts/write-chain-replay-test.py`](../scripts/write-chain-replay-test.py)
+drops each comparison from the reference reader in turn and requires the judge
+to catch exactly that member.
 
 ## Could not evaluate, and the human act behind a permit
 

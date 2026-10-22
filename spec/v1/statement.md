@@ -104,3 +104,66 @@ spellings until
 the framework sentence reads the same at in-toto/attestation commit `fd2609c1`
 as at `512e386d`. `scripts/statement-layer-test.py` executes that verdict rather
 than trusting it.
+
+## Subject matching: the digest the observer bound, and nothing else
+
+The framework matches a subject by digest and leaves every other member of the
+descriptor to the producer and the consumer. In
+[`spec/v1/statement.md`](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md)
+lines 43-56 (read at in-toto/attestation commit `fd2609c1`):
+
+> The `name` field may be used as an identifier to distinguish this artifact
+> from others within the `subject`. Similarly, other ResourceDescriptor fields
+> may be used as required by the context. The semantics are up to the producer
+> and consumer and they MAY use them when evaluating policy.
+>
+> IMPORTANT: Subject artifacts are matched purely by digest, regardless of
+> content type.
+
+and the framework's validation model, `docs/validation.md` lines 14-15 and
+37-42 at the same commit, keeps the subjects for which "there exists at least
+one `(alg, value)` in `s.digest`" with `alg` in the consumer's
+`acceptableDigestAlgorithms`, "usually just `sha256`", and rejects the statement
+when none is kept.
+
+For Adversarial Execution Evidence the choice is not open. The observer's
+records bind the run to seven digests, and the subject's is one of them
+(`subject[0].digest.sha256`, the run binding under
+[`../predicates/adversarial-execution-evidence/wire-profile.md`](../predicates/adversarial-execution-evidence/wire-profile.md)).
+Nothing else in the descriptor is an input: not `name`, not `uri`, not an
+annotation, and not a digest under any other algorithm. A producer holding only
+the envelope key can rewrite any of those, re-sign the envelope, and every
+record still verifies. So:
+
+**Rule.** A verifier admitting a statement matches the subject by `subject[0].digest.sha256`
+and by nothing else. For this predicate `acceptableDigestAlgorithms` is exactly
+`sha256`, because that is the one value an observer signs. A consumer that
+selects on a subject's `name`, `uri`, annotations or a digest under another
+algorithm is selecting on bytes the producer chose, and a verification surface
+reports those members as producer-asserted rather than as anything it
+established. A verification surface that admits a statement without comparing
+that digest to one the consumer supplied has not matched a subject at all, and
+it does not admit the statement unless the consumer declined the comparison by
+name.
+
+The same holds for `issuedAt`, which the predicate already says in its own
+words: it is producer-asserted and sits outside every substrate signature. The
+instant an observer signs is the `armedAt` of an arming record, and a bound on
+when a run happened is evaluated against that.
+
+### Why the name is not bound instead
+
+Folding the name into the run binding would change the binding construction,
+which the predicate says "names a new binding version", and it would not make
+the name evidence. The observer executes bytes; it learns the name from
+whoever armed it, which is the producer. A bound name is an observer-signed
+copy of a producer's label, and reading it as more than that is the defect
+this rule exists to prevent.
+
+### Where it is tested
+
+The admission corpus, [`../../vectors-admission/`](../../vectors-admission/),
+under condition `adm-c-4`: a statement whose subject was renamed and redated
+after the run is refused when the consumer pins the digest of the artifact it
+is deploying, and admitted when the consumer pins the digest the observer
+bound, whatever the name says.

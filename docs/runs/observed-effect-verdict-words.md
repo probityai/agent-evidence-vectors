@@ -56,3 +56,11 @@ What the comparison showed, and what changed:
 | `v6a253129f4e98f05` | log-import-wearing-a-vantage | malformed | `origin-cannot-carry-below-observed-vantage` | refused |
 | `vc7460368853137cd` | imported-log-claiming-hardware | malformed | `import-origin-requires-software-only-platform` | refused |
 | `v92a64c2222f342eb` | imported-log-with-no-platform | malformed | `import-origin-requires-software-only-platform` | refused |
+
+## Rerun at efe2dd9: 46 of 46
+
+Rul1an reran the same reader at `efe2dd9da05f4f97435cc19ef5b9e86f343d51cd`, the merge of predicate 0.6.1, whose observed-effect manifest is byte-identical to the one at `e6f1784f` ([#29](https://github.com/probityai/agent-evidence-vectors/issues/29#issuecomment-6147963317)). With the manifest's blob supplied, its test observer key anchored, and one directed reader option that words each refusal by the 0.6.1 rule, the verdict word matches the manifest on all 46 reject members, up from 24. Outcomes did not move: 12 of 12 accepts, 46 of 46 rejects, and the indeterminate member still gets one of its listed readings (`valid`). The 22 words that changed are the 22 marked `refused` in the last column above.
+
+The option keeps a word the reader already gave and maps a `refused` to `invalid` when its gate is in the stage-two list and to `malformed` otherwise. The reader is still the directed, agent-written reader described above, and the option was written after reading this table, so the run shows that the 0.6.1 rule yields a word for every refusal once each gate is placed, not that a reader starting from the text alone lands there.
+
+Two of its stage-one placements were made by elimination: `interval-not-ordered` and `range-digest-over-bytes-alone`. Predicate 0.6.2 names both gates in the stage-one list (the interval order, and the `rangeDigest` recompute against a blob the consumer holds), so a reader no longer has to place them by ruling out stage two. Both remain `malformed`.

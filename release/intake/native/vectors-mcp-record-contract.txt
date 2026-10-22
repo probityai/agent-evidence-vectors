@@ -1,0 +1,5 @@
+suite: cross-run-record-contract
+members: 15
+  accept: 7
+  reject: 8
+verdict: every member behaves as MANIFEST.json declares

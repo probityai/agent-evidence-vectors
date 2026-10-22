@@ -111,6 +111,7 @@ nothing for it to read.
 | negative capability: silence refused, shown-by-run needs a fail, a control must fail over the declared checks (`W3C-R-013`) | 0087 section 5.4 |
 | a prior run binds surviving check identity (`W3C-R-014`) and its set (`W3C-R-015`) | 0087 section 5.4, last two conditions |
 | control bound to the run's checker and constraint set (`W3C-R-029`) | 0087 section 5.4, second condition; appendix on open item O7 |
+| prior run bound to the run's checker and constraint set (`W3C-R-033`) | 0087 section 5.4, third condition and change log entry 12; appendix on open item O7 |
 | coverage block fields (`W3C-R-022`) | message 0001 |
 | `ARM-R-001` to `ARM-R-022` | the run-metrics draft, at the section the appendix lists per row |
 | `LCD-R-001` to `LCD-R-011` | the context-discovery draft, at the section the appendix lists per row |

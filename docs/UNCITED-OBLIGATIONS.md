@@ -242,7 +242,7 @@ addresses only the sentences nothing cites.
 python3 measure_sentence_coverage.py   # a private script in the consuming repo
 python3 scripts/uncited-obligations-proof.py                            # the two vectors, proved
 python3 packaging/run_vectors.py                                        # reference rail
-python3 packaging/run_vectors.py --verifier "./aee-verify -json"        # external rail
+python3 packaging/run_vectors.py --verifier "./aee-verify -validity-only -json"  # external rail
 ```
 
 At the time of writing the measurement reads 55 of 67 obligations and 2 of 7

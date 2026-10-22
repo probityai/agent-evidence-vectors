@@ -1,0 +1,7 @@
+suite: receipt-signature-conformance
+members: 25
+  accept: 12
+  gap: 2
+  indeterminate: 3
+  reject: 8
+verdict: every member behaves as MANIFEST.json declares

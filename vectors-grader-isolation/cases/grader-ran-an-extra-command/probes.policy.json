@@ -1,0 +1,36 @@
+{
+  "assessments": {
+    "grader-ran-an-extra-command": {
+      "claim_type": "probe_observed/v1",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observed_party": "agent-1",
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "68459cbcd4ceb233022d950f0fb0d0189942f5efa8723caad02507646cde5828",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "44ebd89e1b07efae5fff968a9cd6e5d41767fe799f37221f7c48cd97f96d37b9",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

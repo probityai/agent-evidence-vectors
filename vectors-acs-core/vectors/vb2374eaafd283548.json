@@ -1,0 +1,84 @@
+{
+  "cites": "an on-time modify at severity 2 with is_alert true. On an on-time decision is_alert follows severity exactly, and a modify ran in the form the policy required.",
+  "coverage": "observed",
+  "doesNotAssert": "that the action was blocked or allowed; action_id and disposition_id record the Guardian's verdict, never the enforced outcome",
+  "evidenceBasis": "artifact",
+  "expected": {
+    "code": null,
+    "codeValue": null,
+    "unmeasurableBecause": null,
+    "verdict": "deny"
+  },
+  "family": "acs-f-17",
+  "id": "vb2374eaafd283548",
+  "kind": "reject",
+  "payload": {
+    "record": {
+      "ocsf": {
+        "action": "Modified",
+        "action_id": 4,
+        "activity_id": 1,
+        "category_uid": 2,
+        "class_name": "Detection Finding",
+        "class_uid": 2004,
+        "disposition": "modify",
+        "disposition_id": 99,
+        "evidences": [
+          {
+            "actor": {
+              "session": {
+                "uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+              }
+            },
+            "ai_agent": {
+              "uid": "agent-acs-vectors"
+            }
+          }
+        ],
+        "finding_info": {
+          "title": "decision modify",
+          "uid": "c6a9ac7d-689f-4ee8-8c8e-8d4eea64ab5a"
+        },
+        "is_alert": true,
+        "metadata": {
+          "correlation_uid": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36:0934b6f8-ace6-4edc-aec0-59a1d3d3e3bf",
+          "product": {
+            "name": "ACS Guardian",
+            "vendor_name": "ACS"
+          },
+          "profiles": [
+            "security_control"
+          ],
+          "version": "1.9.0"
+        },
+        "severity_id": 2,
+        "type_uid": 200401,
+        "unmapped": {
+          "acs": {
+            "decision": "modify",
+            "request_id": "0934b6f8-ace6-4edc-aec0-59a1d3d3e3bf",
+            "session_id": "6b1f2c9e-4d7a-4e3b-8a51-9c0d2e7f1a36"
+          }
+        }
+      }
+    }
+  },
+  "requirementText": [
+    {
+      "id": "ACS-R-050",
+      "line": 106,
+      "sentence": "On an on-time decision event, `is_alert` is true exactly when `severity_id` is 3 or higher, so the two fields never disagree.",
+      "upstreamCommit": "7efa539883ac8632adaf81d699567be9c96af9d9",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-7efa539.md"
+    }
+  ],
+  "requirements": [
+    "ACS-R-050"
+  ],
+  "specVersion": "0.1.0",
+  "suite": "acs-core-negative-conformance",
+  "witnessScope": "EXTERNAL"
+}

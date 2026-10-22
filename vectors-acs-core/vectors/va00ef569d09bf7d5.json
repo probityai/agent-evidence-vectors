@@ -1,4 +1,5 @@
 {
+  "cites": "an unreachable trace sink changing the disposition the agent receives. Observability that can alter enforcement is a second control point nobody declared.",
   "coverage": "effective",
   "evidenceBasis": "substrate",
   "expected": {
@@ -38,6 +39,18 @@
     },
     "trace_sink": "unreachable"
   },
+  "requirementText": [
+    {
+      "id": "ACS-R-015",
+      "line": 72,
+      "sentence": "Trace events MUST NOT block enforcement",
+      "upstreamCommit": "9d4a9daa996fa2557b9959baeecad106f581fd62",
+      "upstreamPath": "docs/spec/trace/events.md",
+      "upstreamRepo": "GenAI-Security-Project/agent-control-standard",
+      "upstreamStatus": "upstream",
+      "vendored": "spec-vendored/trace-events-9d4a9da.md"
+    }
+  ],
   "requirements": [
     "ACS-R-015"
   ],

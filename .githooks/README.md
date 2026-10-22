@@ -50,6 +50,10 @@ Run the gate's own fixtures, or lint a range of history, without committing:
 .githooks/commit-msg --check-range origin/main..HEAD
 ```
 
+The pre-push hook runs the same `--check-range` over every new commit of
+each pushed branch, so a message committed with `--no-verify`, or in a clone
+without `core.hooksPath`, is refused before it leaves the machine.
+
 The file is stdlib-only and imports nothing from this repository on purpose.
 A hook runs before anything has been installed, so a hook that imports a
 repo-local module cannot be shared with another repository -- and the two
