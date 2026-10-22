@@ -2,7 +2,7 @@
 
 Type URI: https://probityai.github.io/agent-evidence-vectors/predicate/v1/observed-effect
 
-Version: 0.7.0
+Version: 0.10.0
 
 Predicate Name: Observed Effect
 
@@ -190,6 +190,7 @@ Verdicts are out of scope. They belong downstream, computed over this evidence.
     "pathScope": ["/srv/app/"],
     "authorityDigest": "<64-hex JCS digest of the authority document>",
     "codeDigest": { "sha256": "<optional 64-hex code-identity join>" },
+    "invocationBinding": { "sha256": "<optional 64-hex call binding, see Optional invocation binding join>" },
     "observation": {
       "vantage": "below-observed",
       "origin": "first-hand",
@@ -274,7 +275,7 @@ order (`openedAt` strictly before `sealedAt`, and `issuedAt` not before
 `sealedAt`), the predicate type, the subject binding and the path forms; the
 `mutation` coherence recompute; the write chain and the read-binding integrity
 rules, including the `rangeDigest` recompute against a blob the consumer holds;
-the commitment digest
+the coverage shape under [`observation`]; the commitment digest
 recompute and the spelling of every key identifier and of `priorCommitment.sig`;
 and the self-recompute of any `dualValues` fact the statement determines. Stage
 two judges a well-formed statement's claims: the envelope signature, then the
@@ -282,7 +283,8 @@ prior-commitment signature against consumer key policy, then the ordering and
 disjointness checks under [`observation`], then the `inScope` label on every
 `writes` member and the refusal of an out-of-scope write in an authoritative
 record, then the `tier` recompute and the rows requirement on an authoritative
-record, then the rest of consumer policy, including the code identity join.
+record, then the rest of consumer policy, including the code identity join and
+the invocation binding join.
 
 **A refusal in stage one is `malformed` and a refusal in stage two is
 `invalid`.** The one exception is a signature whose bytes cannot be decoded at
@@ -341,6 +343,63 @@ require the join must select a reader implementing this rule rather than infer
 support from the stable predicate URI. Existing statements without this field
 retain their previous verdicts when code joining is not requested.
 
+## Optional invocation binding join
+
+`predicate.invocationBinding` is an OPTIONAL object containing exactly one
+member, `sha256`, whose value MUST be a lowercase 64-character hexadecimal
+SHA-256 digest. The shape rules are the code identity join's, word for word: a
+present null, empty object, non-object, non-string digest, unknown or additional
+algorithm, an algorithm-prefixed spelling such as `sha256:<hex>`, uppercase
+digest, or digest of another length is malformed. Absence is permitted and means
+no call binding is carried; a reader MUST NOT infer one from `intervalId`, a
+path, the authority digest or any other member.
+
+The value names the call this interval answers. It is SHA-256 over the [RFC 8785]
+bytes of the object `{"method": <method>, "params": <params>}` taken from the
+JSON-RPC request that caused the interval. The request's `id` and `jsonrpc`
+members are transport framing and are excluded, so a proxy that sees one id and
+an executor that sees another compute the same value for one call. Member order
+inside `params` is not a change, because canonicalization removes it. Array
+order, scalar kind, the tool name and every argument value are changes. This is
+the binding the `invocation_axes` corpus of this repository pins over an MCP
+`tools/call`, written without its `sha256:` prefix, so one value joins a
+decision capture, an execution bundle and an Observed Effect record about the
+same call.
+
+A consumer requiring this join MUST compute the expected value itself, from the
+request it holds or from a decision record whose signature and policy it has
+already verified, require `invocationBinding`, and reject a mismatch. An empty
+policy setting means the join was not requested, never that it succeeded. The
+reference implementations name these refusals `invocation-binding-required`,
+`invocation-binding-mismatch` and `invocation-binding-policy-invalid`; an invalid
+consumer value is a policy failure, not evidence that the statement's bytes are
+malformed.
+
+This is the join a decision record needs and the interval and authority bindings
+cannot give it. A decision record, such as the agent-decision predicate discussed
+in in-toto/attestation#554, that carries the same value over the same request
+lets a consumer pair one decision with the effect of that one call. Without it, a
+consumer can pair the two records only by interval and authority, and two calls
+made under one authority inside one interval are indistinguishable.
+
+The statement's subject remains exactly one after-state root. The binding is not
+a second subject and MUST NOT replace that root. `invocationBinding` is inside the
+DSSE-signed payload but is not added to the prior-commitment preimage. It is
+therefore the observer's signed declaration that this interval answers that
+call. It is not proof that the call was dispatched, that every path to the tool
+passed a decision point, or that the binding was committed before the interval
+opened. A matching binding alone also does not join two records to the same
+interval or authority; the interval and authority bindings remain required for
+an end-to-end claim.
+
+The JSON Schema overlay for this optional field is
+[`observed-effect-invocation-binding-v0.9.schema.json`](../schemas/observed-effect-invocation-binding-v0.9.schema.json).
+It validates only the extension's shape. Its signed cases live in
+`interop/observed-invocation-binding-candidate/`, built over the released
+baseline member and the pinned request
+`packaging/agent_evidence_vectors/invocation_axes/corpus/invocation.json`,
+without rewriting any released corpus member.
+
 ## Fields
 
 `intervalId` _string, required_
@@ -384,8 +443,10 @@ hold, and is `voluntary` otherwise.
 2.  `pathScope` is non-empty.
 3.  `coverage.scopeComplete` is `true`, or every member of `coverage.gaps`
     names a path outside `pathScope`.
+4.  `coverage.notEstablished` is absent.
+5.  `coverage.unobservedIntervals` is absent or empty.
 
-There are three clauses and five were drafted. Both removals were forced by the
+There are five clauses, and seven were drafted. Both removals were forced by the
 mutation sweep in `vectors-observed-effect/mutation_check.py`, which disables one
 rule at a time and requires some member to stop being refused, and both removed
 clauses were **unreachable**.
@@ -414,7 +475,7 @@ the forgery. The clause is left as written rather than strengthened here for the
 reachability reason above: with the stage-one rule in place, no input reaches this
 clause vacuously.
 
-Separately, and deliberately not as a fourth clause, **a `tier: authoritative`
+Separately, and deliberately not as a further clause, **a `tier: authoritative`
 statement MUST carry at least one `reads` member or one `writes` member.** It is a
 gate rather than a clause so that its refusal names itself: the clauses above
 decide what independence means, and this one asks whether the record observed
@@ -617,7 +678,8 @@ of literal path prefixes the observation did not cover. `scopeComplete: true`
 with a non-empty `gaps` naming a path inside `pathScope` is malformed: the two
 members contradict, and a verifier MUST NOT prefer either.
 
-**`scopeComplete: false` with an empty `gaps` is malformed as well**, and that is
+**`scopeComplete: false` with an empty `gaps` is malformed as well**, unless the
+record says coverage could not be determined (below), and that is
 the direction which was open. An incomplete observation MUST say where it was
 blind. Otherwise a producer admits in one member that it did not cover its own
 scope, declines in the next to say which part, and still grades authoritative
@@ -625,6 +687,66 @@ through clause 3 of the `tier` recompute, which an empty list satisfies vacuousl
 The unnamed gap is where the writes went, and an admission of incompleteness that
 withholds its location is worth less than no admission at all, because it reads as
 candour.
+
+`coverage.notEstablished` _string, optional_ says that the observer could not
+determine its coverage of `pathScope` for the interval, and why: for example a
+kernel audit buffer that overflowed and dropped events without recording which
+paths they touched. A coverage statement therefore takes exactly one of three
+shapes: complete (`scopeComplete: true`, `gaps` naming no path inside
+`pathScope`, no `unobservedIntervals`); incomplete with every gap located
+(`scopeComplete: false`, with the gaps located by path in `gaps`, by sub-interval
+in `unobservedIntervals`, or both); or not established (`scopeComplete: false`,
+`gaps: []`, no `unobservedIntervals`, `notEstablished` carrying the reason). These
+are the three shapes of clause C7 of the CoSAI WS4 Agent Containment paper, which
+locates a gap "by the path, field, resource or sub-interval it did not observe".
+
+Before this member existed an observer in that position had no true value to
+write. `scopeComplete: false` with an empty `gaps` is malformed, so it could only
+invent a gap or claim completeness. A record carrying `notEstablished` follows
+three rules. The reason MUST be a non-empty string, because a coverage the
+observer cannot determine and will not explain is the A25 defect again, and a
+record whose reason is empty or is not a string is malformed. The member MUST NOT
+appear beside `scopeComplete: true` or a non-empty `gaps`, because a record that
+says it could not determine its coverage and also locates its gaps or claims
+completeness has said two things, and that record is malformed. The record also
+fails clause 4 of the `tier` recompute, so it grades voluntary, and an
+authoritative claim over it is invalid. The writes it carries were still seen by
+the observer: clause 4 decides only that the record cannot establish an absence.
+
+`coverage.unobservedIntervals` _array, optional_ locates a gap in time: each
+member is a span of the interval during which the observer observed nothing under
+`pathScope`. The case it exists for is a monitor that started watching after the
+protected call began. Its observer committed to the before-state at admission, so
+`priorCommitment` precedes `openedAt` as required, but its probe attached later, and
+for that span it was blind to every path. A path gap cannot locate that, and
+`notEstablished` would be false, because the observer knows exactly when it was not
+watching. A monitor that stopped and restarted inside the interval writes one span
+per outage. A path that was blind for only part of the interval is still named in
+`gaps`, which is conservative: it claims blindness for the whole interval on that
+path, and claims nothing it did not see.
+
+Each member is an object carrying exactly two members, `from` and `to`, both
+timestamps in the grammar under [Parsing Rules]. A span MUST satisfy three
+ordering rules: `from` is strictly before `to`, because a span of no width
+locates no time; `openedAt` is at or before `from` and `to` is at or before
+`sealedAt`, because a span outside the interval discloses a blind spot in time
+the record does not describe; and the list is ordered, with each span's `to`
+strictly before the next span's `from`, so one blind span has one spelling. Any other
+shape is malformed in stage one, including a span written as an ISO 8601
+interval string. Three coverage rules extend to the member. A non-empty
+`unobservedIntervals` beside `scopeComplete: true` is malformed for the reason a
+gap inside the scope is: complete coverage covers every path for the whole
+interval. Beside `notEstablished` it is malformed as a second coverage statement.
+And it locates the gap that `scopeComplete: false` requires, so a record whose only
+located gap is a span is not refused for naming no gap. Clause 5 of the `tier`
+recompute grades such a record voluntary, and an authoritative claim over it is
+invalid (A35). The writes it carries were seen after the observer attached, and
+they still count as independently observed; clause 5 decides only that the record
+cannot establish an absence over the time it names.
+
+Writes carry no timestamp, so a verifier cannot place a write inside or outside a
+span, and the predicate does not ask it to. What the member changes is the absence
+reading alone.
 
 `observedSigners` is the set of key identifiers the observed party signs its own
 records with, as the observer knows them. It is required and MAY be empty, and
@@ -1034,6 +1156,29 @@ integers by value at any depth and refusing the non-JSON constants at parse.
 The same defect was found first in a canonicalizer outside this repository, which
 kept the digits of integers past the bound.
 
+**A34. Undetermined coverage graded authoritative. CLOSED.**
+`coverage.notEstablished` carrying a reason, with `scopeComplete: false` and
+`gaps: []`, and `tier: authoritative`. The record admits it could not determine
+what it covered. Clause 3 of the recompute asks only whether every member of
+`gaps` lies outside `pathScope`, which an empty list satisfies vacuously, so
+without a further clause the record grades authoritative and establishes an
+absence over a scope it says it cannot speak for. Closed by clause 4. Two
+stage-one rules close the neighbouring shapes: a `notEstablished` with no reason,
+and a `notEstablished` beside a located gap or a claim of completeness.
+
+**A35. A late monitor graded authoritative. CLOSED.**
+`coverage.unobservedIntervals` naming the span before the observer attached, with
+`scopeComplete: false`, `gaps: []`, no `notEstablished`, and `tier:
+authoritative`. That is the claim that the protected call wrote nothing, made by
+a monitor that says it was not watching when the call began. No path gap is named
+and `notEstablished` is absent, so clauses 3 and 4 both hold, and without a further
+clause the record grades authoritative and establishes an absence over time its own
+observer did not see. Closed by clause 5. Stage-one rules close the neighbouring
+shapes: a span beside `scopeComplete: true` or `notEstablished`, a span outside the
+interval or of no width, spans that overlap or meet, a span bound outside the
+timestamp grammar, and a span that is not an object carrying exactly `from` and
+`to`.
+
 **A6. The self-refuting record. CLOSED, and it is the vector shape this
 repository lacked.** A record declares `mutation: none` with `beforeRoot` equal
 to `afterRoot`, and carries a `writes` member whose `postStateDigest` differs
@@ -1069,6 +1214,38 @@ A consumer implementing this predicate MUST, at minimum:
     observed, per the prohibition under [`tier`].
 
 ## Changelog and Migrations
+
+0.10.0 adds `coverage.unobservedIntervals`, which locates a coverage gap in time:
+the spans of the interval during which the observer observed nothing under
+`pathScope`, such as the seconds before a monitor attached to a call that had
+already begun. Clause 5 of the `tier` recompute grades such a record voluntary
+(A35), and stage-one rules fix the member's shape, its ordering inside the interval,
+and its exclusion beside `scopeComplete: true` or `notEstablished`. Every released
+member keeps its bytes and its verdict. What moves is a record with `scopeComplete:
+false`, `gaps: []` and a non-empty `unobservedIntervals`: a reader written to 0.9.0
+ignores the member and refuses the record for naming no gap, and a 0.10-aware reader
+judges it valid and voluntary. A verifier written to 0.9.0 refuses the new accept
+members, so the version moves in its minor position.
+
+0.9.0 adds the optional signed `invocationBinding` field and a consumer-computed
+exact call join, built on the same pattern as `codeDigest` in 0.5.0. The
+one-subject after-state rule and the prior-commitment preimage are unchanged.
+Every released member keeps its bytes and its verdict, and a record without the
+field keeps its verdict when no call join is requested. What moves is a record
+carrying an `invocationBinding` member of a nonconforming shape: a reader written
+to 0.8.0 ignores it, and a 0.9-aware reader refuses it as malformed. That is why
+a consumer that requires the join must pin its reader rather than infer support
+from the stable predicate URI, and why the version moves in its minor position.
+
+0.8.0 adds `coverage.notEstablished`, the third coverage shape: the observer
+could not determine its coverage, and the member says why. Clause 4 of the `tier`
+recompute grades such a record voluntary (A34). Two stage-one rules refuse a
+`notEstablished` with an empty reason and one beside a located gap or
+`scopeComplete: true`. Every existing member keeps its verdict and its bytes. What
+moves is a record with `scopeComplete: false`, `gaps: []` and a non-empty
+`notEstablished`. At 0.7.0 it was malformed for naming no gap, and at 0.8.0 it is
+valid and voluntary. A verifier written to 0.7.0 refuses the new accept member, so
+the version moves in its minor position.
 
 0.7.0 decides the I-JSON integer bound by a number's value rather than its
 spelling, and refuses the non-JSON constants `NaN`, `Infinity` and `-Infinity`

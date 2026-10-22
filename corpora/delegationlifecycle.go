@@ -30,7 +30,10 @@ func init() { register(delegationLifecycle{}) }
 //     key (signature_invalid:grant), links to the grant before it, and the first
 //     is issued by a trusted root (chain_broken);
 //  4. the registry had not retired or revoked the presenter at observed_at
-//     (presenter_inactive);
+//     (presenter_inactive), and, for a sub-agent whose registration names a
+//     parent, had not retired or revoked that parent or any parent above it
+//     (parent_inactive); a parent's recovery or succession does not carry its
+//     sub-agents to the successor;
 //  5. the presenter is the last grant's delegate, or reaches it through links
 //     that are one to one (link_conflict), signed by both identifiers and the
 //     registry (signature_invalid:link), and made while the old identifier was
@@ -39,7 +42,22 @@ func init() { register(delegationLifecycle{}) }
 //     standing, whose effective_at is at or before observed_at
 //     (revocation_incomplete when it states no grounds,
 //     grant_revoked_dispute_open while an affected principal's dispute has no
-//     resolution with standing, grant_revoked otherwise).
+//     resolution with standing, grant_revoked otherwise);
+//  7. every recovery record that names the presenter as its new identifier is
+//     signed by the registry and the Responsible entity
+//     (signature_invalid:recovery), and the registry registered both identifiers
+//     to that entity, or to its predecessor under a recorded responsible
+//     succession, with one software attestation digest (recovery_mismatch);
+//     the registry's own succession records are followed the same way;
+//  8. no retired or revoked agent of the presenter's Responsible entity and
+//     software is left unjoined to the presenter by a succession or recovery
+//     record (succession_unrecorded).
+//
+// Neither a recovery nor a succession record carries a grant. An accepted
+// presenter whose predecessors, or whose parent's predecessors, left adverse
+// records is accepted with authority_valid_with_history, or with
+// authority_valid_with_history_contested when the Responsible entity asserted
+// that the presenter is a new agent.
 //
 // A record whose signature does not verify counts as absent. The README states
 // each rule and which of them are proposals.
@@ -93,15 +111,19 @@ func (r *dlRecord) str(name string) string {
 // dlRequired is every field a record of each type must carry, and which of
 // them are times. A field outside these lists is ignored.
 var dlRequired = map[string]struct{ text, times []string }{
-	"registration":          {[]string{"identifier", "keyid", "public_key"}, []string{"registered_at"}},
-	"retirement":            {[]string{"identifier"}, []string{"retired_at"}},
-	"identifier-revocation": {[]string{"identifier"}, []string{"revoked_at"}},
-	"grant":                 {[]string{"grant_id", "issuer", "delegate"}, []string{"issued_at"}},
-	"revocation":            {[]string{"revocation_id", "grant_id", "initiator"}, []string{"effective_at", "issued_at"}},
-	"dispute":               {[]string{"dispute_id", "revocation_id", "filed_by"}, []string{"filed_at"}},
-	"resolution":            {[]string{"dispute_id", "revocation_id", "decided_by", "outcome"}, []string{"decided_at"}},
-	"link":                  {[]string{"link_id", "old", "new"}, []string{"linked_at"}},
-	"presentation":          {[]string{"presenter"}, []string{"observed_at"}},
+	"registration":           {[]string{"identifier", "keyid", "public_key"}, []string{"registered_at"}},
+	"retirement":             {[]string{"identifier"}, []string{"retired_at"}},
+	"identifier-revocation":  {[]string{"identifier"}, []string{"revoked_at"}},
+	"grant":                  {[]string{"grant_id", "issuer", "delegate"}, []string{"issued_at"}},
+	"revocation":             {[]string{"revocation_id", "grant_id", "initiator"}, []string{"effective_at", "issued_at"}},
+	"dispute":                {[]string{"dispute_id", "revocation_id", "filed_by"}, []string{"filed_at"}},
+	"resolution":             {[]string{"dispute_id", "revocation_id", "decided_by", "outcome"}, []string{"decided_at"}},
+	"link":                   {[]string{"link_id", "old", "new"}, []string{"linked_at"}},
+	"recovery":               {[]string{"recovery_id", "old", "new", "responsible"}, []string{"recovered_at"}},
+	"succession":             {[]string{"succession_id", "old", "new", "responsible"}, []string{"recorded_at"}},
+	"new-agent-assertion":    {[]string{"assertion_id", "identifier", "succession_id", "responsible", "grounds"}, []string{"asserted_at"}},
+	"responsible-succession": {[]string{"record_id", "old_responsible", "new_responsible"}, []string{"succeeded_at"}},
+	"presentation":           {[]string{"presenter"}, []string{"observed_at"}},
 }
 
 // dlRules are the rules the mutation sweep switches off one at a time.
@@ -109,7 +131,9 @@ var dlRules = []string{
 	"signature", "relying_party_attestation", "link_registry_attestation", "chain",
 	"presenter_active", "links", "link_conflict", "link_old_active", "revocation",
 	"revocation_time", "standing", "revocation_complete", "dispute", "resolution",
-	"resolution_standing",
+	"resolution_standing", "recovery_no_authority", "recovery_signature", "recovery_match",
+	"recovery_history", "succession_recorded", "new_agent_assertion", "responsible_succession",
+	"parent_lifespan", "parent_not_carried", "succession_no_authority", "parent_history",
 }
 
 func (delegationLifecycle) Judge(dir string, raw []byte) (*Result, error) {
@@ -271,28 +295,34 @@ func (s *dlState) bindKeys() {
 	}
 }
 
+// dlSelfSigned names, for each record type its own principal signs, the field
+// holding that principal.
+var dlSelfSigned = map[string]string{
+	"grant": "issuer", "revocation": "initiator", "dispute": "filed_by",
+	"resolution": "decided_by", "new-agent-assertion": "responsible",
+}
+
 // verify reports whether a record carries the signatures its type needs: the
 // registry's for what the registry records, the signer's own registered key for
-// everything else, and all three for a link.
+// what a principal asserts, and several for a link, a recovery or a hand-over.
 func (s *dlState) verify(r *dlRecord) bool {
 	if s.off("signature") {
 		return true
 	}
-	registry := s.registryKeys()
+	if field, ok := dlSelfSigned[r.kind]; ok {
+		return s.signedBy(r, s.keys[r.str(field)])
+	}
+	registry := s.signedBy(r, s.registryKeys())
 	switch r.kind {
-	case "registration", "retirement", "identifier-revocation":
-		return s.signedBy(r, registry)
-	case "grant":
-		return s.signedBy(r, s.keys[r.str("issuer")])
-	case "revocation":
-		return s.signedBy(r, s.keys[r.str("initiator")])
-	case "dispute":
-		return s.signedBy(r, s.keys[r.str("filed_by")])
-	case "resolution":
-		return s.signedBy(r, s.keys[r.str("decided_by")])
+	case "registration", "retirement", "identifier-revocation", "succession":
+		return registry
 	case "link":
-		registered := s.off("link_registry_attestation") || s.signedBy(r, registry)
+		registered := s.off("link_registry_attestation") || registry
 		return registered && s.signedBy(r, s.keys[r.str("old")]) && s.signedBy(r, s.keys[r.str("new")])
+	case "recovery":
+		return registry && (s.off("recovery_signature") || s.signedBy(r, s.keys[r.str("responsible")]))
+	case "responsible-succession":
+		return registry && s.signedBy(r, s.keys[r.str("old_responsible")])
 	}
 	return false
 }
@@ -313,6 +343,9 @@ func (s *dlState) decide(p *dlRecord) scDecision {
 	if !s.off("presenter_active") && s.inactive(p.str("presenter"), observed) {
 		return dlReject("presenter_inactive")
 	}
+	if s.parentEnded(p.str("presenter"), observed, map[string]bool{}) {
+		return dlReject("parent_inactive")
+	}
 	viaLink, reason := s.holder(chain[len(chain)-1].str("delegate"), p.str("presenter"))
 	if reason != "" {
 		return dlReject(reason)
@@ -320,10 +353,180 @@ func (s *dlState) decide(p *dlRecord) scDecision {
 	if reason := s.revoked(chain, p.str("presenter"), observed); reason != "" {
 		return dlReject(reason)
 	}
-	if viaLink {
+	history, contested, reason := s.recovered(p.str("presenter"))
+	if reason != "" {
+		return dlReject(reason)
+	}
+	inherited, reason := s.parentHistory(p.str("presenter"))
+	if reason != "" {
+		return dlReject(reason)
+	}
+	history = history || inherited
+	if !s.off("succession_recorded") && s.unjoined(p.str("presenter")) {
+		return dlReject("succession_unrecorded")
+	}
+	switch {
+	case viaLink:
 		return scDecision{Decision: "accept", Reason: "authority_valid_via_link"}
+	case contested:
+		return scDecision{Decision: "accept", Reason: "authority_valid_with_history_contested"}
+	case history:
+		return scDecision{Decision: "accept", Reason: "authority_valid_with_history"}
 	}
 	return scDecision{Decision: "accept", Reason: "authority_valid"}
+}
+
+// recovered follows the recovery and succession records that end at presenter
+// back to every predecessor. It refuses a recovery that does not verify or whose
+// two registrations do not match, ignores a succession record the registry did
+// not sign, and reports whether any predecessor left an adverse record and
+// whether the Responsible entity contested a succession on the path.
+func (s *dlState) recovered(presenter string) (history, contested bool, reason string) {
+	visited := map[string]bool{}
+	for queue := []string{presenter}; len(queue) > 0; queue = queue[1:] {
+		at := queue[0]
+		if visited[at] {
+			continue
+		}
+		visited[at] = true
+		for _, r := range s.records {
+			if !s.joins(r) || r.str("new") != at {
+				continue
+			}
+			if !r.verified {
+				return false, false, "signature_invalid:recovery"
+			}
+			if !s.off("recovery_match") && !s.recoveryMatches(r) {
+				return false, false, "recovery_mismatch"
+			}
+			old := r.str("old")
+			history = history || (!s.off("recovery_history") && s.adverse(old))
+			contested = contested || s.assertedNew(r)
+			queue = append(queue, old)
+		}
+	}
+	return history, contested, ""
+}
+
+// joins reports whether r carries history from an old identifier to a new one:
+// any recovery record, and a succession record only when the registry signed it.
+func (s *dlState) joins(r *dlRecord) bool {
+	return r.kind == "recovery" || (r.kind == "succession" && r.verified)
+}
+
+// assertedNew reports whether the Responsible entity of succession r signed an
+// assertion that r's new identifier is a new agent.
+func (s *dlState) assertedNew(r *dlRecord) bool {
+	if r.kind != "succession" || s.off("new_agent_assertion") {
+		return false
+	}
+	for _, a := range s.records {
+		if a.kind == "new-agent-assertion" && a.verified && a.str("succession_id") == r.str("succession_id") &&
+			a.str("identifier") == r.str("new") && a.str("responsible") == r.str("responsible") {
+			return true
+		}
+	}
+	return false
+}
+
+// unjoined reports whether the registry registered presenter with the
+// Responsible entity and software of an agent it had already retired or revoked,
+// and no succession or recovery record joins that agent to presenter.
+func (s *dlState) unjoined(presenter string) bool {
+	next := s.registration(presenter)
+	if next == nil || next.str("software") == "" {
+		return false
+	}
+	registered := next.times["registered_at"]
+	for _, old := range s.records {
+		if old.kind != "registration" || !old.verified || old.str("identifier") == presenter ||
+			old.str("software") != next.str("software") ||
+			!s.covers(old.str("responsible"), next.str("responsible"), registered) ||
+			!s.ended(old.str("identifier"), registered) {
+			continue
+		}
+		if !s.joined(old.str("identifier"), presenter) {
+			return true
+		}
+	}
+	return false
+}
+
+func (s *dlState) joined(old, next string) bool {
+	for _, r := range s.records {
+		if s.joins(r) && r.verified && r.str("old") == old && r.str("new") == next {
+			return true
+		}
+	}
+	return false
+}
+
+// covers reports whether successor is the Responsible entity from, or took over
+// from's agents through verified responsible-succession records made at or
+// before t.
+func (s *dlState) covers(from, successor string, t time.Time) bool {
+	if from == "" || successor == "" {
+		return false
+	}
+	reached := map[string]bool{from: true}
+	for grew := true; grew && !s.off("responsible_succession"); {
+		grew = false
+		for _, r := range s.records {
+			if r.kind == "responsible-succession" && r.verified && reached[r.str("old_responsible")] &&
+				!reached[r.str("new_responsible")] && !r.times["succeeded_at"].After(t) {
+				reached[r.str("new_responsible")] = true
+				grew = true
+			}
+		}
+	}
+	return reached[successor]
+}
+
+func (s *dlState) registration(identifier string) *dlRecord {
+	for _, r := range s.records {
+		if r.kind == "registration" && r.verified && r.str("identifier") == identifier {
+			return r
+		}
+	}
+	return nil
+}
+
+// recoveryMatches reports whether the registry registered the new identifier to
+// the record's Responsible entity, and the old one to that entity or to a
+// predecessor it took over from before the record, with one software digest.
+func (s *dlState) recoveryMatches(r *dlRecord) bool {
+	old, next := s.registration(r.str("old")), s.registration(r.str("new"))
+	if old == nil || next == nil {
+		return false
+	}
+	responsible := r.str("responsible")
+	return s.covers(old.str("responsible"), responsible, dlLinkedAt(r)) &&
+		next.str("responsible") == responsible &&
+		old.str("software") != "" && old.str("software") == next.str("software")
+}
+
+// adverse reports whether identifier left a record a relying party must see: an
+// identifier revocation, a revocation of a grant made to it, or a dispute it
+// filed.
+func (s *dlState) adverse(identifier string) bool {
+	delegated := map[string]bool{}
+	for _, r := range s.records {
+		if r.kind == "grant" && r.verified && r.str("delegate") == identifier {
+			delegated[r.str("grant_id")] = true
+		}
+	}
+	for _, r := range s.records {
+		if !r.verified {
+			continue
+		}
+		switch {
+		case r.kind == "identifier-revocation" && r.str("identifier") == identifier,
+			r.kind == "revocation" && delegated[r.str("grant_id")],
+			r.kind == "dispute" && r.str("filed_by") == identifier:
+			return true
+		}
+	}
+	return false
 }
 
 func (s *dlState) presentationAttested(p *dlRecord) bool {
@@ -416,6 +619,65 @@ func (s *dlState) inactive(identifier string, t time.Time) bool {
 	return false
 }
 
+// ended reports whether identifier had ended at t: the registry retired or
+// revoked it, or it is a sub-agent whose parent had ended.
+func (s *dlState) ended(identifier string, t time.Time) bool {
+	return s.inactive(identifier, t) || s.parentEnded(identifier, t, map[string]bool{})
+}
+
+// parentEnded reports whether the registry registered identifier as a sub-agent
+// of a parent that had ended at t. A sub-agent's lifespan is bound to the one
+// parent identifier its registration names: a recovery or succession record
+// that joins that parent to a successor carries history, and neither the
+// parent's grants nor its sub-agents.
+func (s *dlState) parentEnded(identifier string, t time.Time, seen map[string]bool) bool {
+	if s.off("parent_lifespan") {
+		return false
+	}
+	reg := s.registration(identifier)
+	if reg == nil {
+		return false
+	}
+	parent := reg.str("parent")
+	if parent == "" || seen[parent] {
+		return false
+	}
+	seen[parent] = true
+	if !s.inactive(parent, t) && !s.parentEnded(parent, t, seen) {
+		return false
+	}
+	if s.off("parent_not_carried") {
+		for _, r := range s.records {
+			if s.joins(r) && r.verified && r.str("old") == parent && !s.ended(r.str("new"), t) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+// parentHistory reports whether a parent of presenter, or a parent above it,
+// carries history from a predecessor that left an adverse record, and refuses
+// when that history cannot be resolved.
+func (s *dlState) parentHistory(presenter string) (bool, string) {
+	if s.off("parent_history") {
+		return false, ""
+	}
+	seen := map[string]bool{presenter: true}
+	for at := presenter; ; {
+		reg := s.registration(at)
+		if reg == nil || reg.str("parent") == "" || seen[reg.str("parent")] {
+			return false, ""
+		}
+		at = reg.str("parent")
+		seen[at] = true
+		history, _, reason := s.recovered(at)
+		if reason != "" || history {
+			return history, reason
+		}
+	}
+}
+
 // holder reports whether presenter holds a grant made to delegate: directly,
 // or through a path of links followed one hop at a time.
 func (s *dlState) holder(delegate, presenter string) (bool, string) {
@@ -450,7 +712,7 @@ func (s *dlState) holder(delegate, presenter string) (bool, string) {
 func (s *dlState) hop(old string) (string, string) {
 	var links []*dlRecord
 	for _, r := range s.records {
-		if r.kind == "link" && r.verified && r.str("old") == old {
+		if s.carries(r) && r.verified && r.str("old") == old {
 			links = append(links, r)
 		}
 	}
@@ -461,10 +723,28 @@ func (s *dlState) hop(old string) (string, string) {
 	if !s.off("link_conflict") && (len(links) > 1 || s.predecessors(link.str("new")) > 1) {
 		return "", "link_conflict"
 	}
-	if !s.off("link_old_active") && s.inactive(old, link.times["linked_at"]) {
+	if !s.off("link_old_active") && s.ended(old, dlLinkedAt(link)) {
 		return "", "link_old_inactive"
 	}
 	return link.str("new"), ""
+}
+
+// carries reports whether r passes a grant on: a link always, a recovery record
+// only when the recovery_no_authority rule is switched off, and a succession
+// record only when the succession_no_authority rule is.
+func (s *dlState) carries(r *dlRecord) bool {
+	return r.kind == "link" || (r.kind == "recovery" && s.off("recovery_no_authority")) ||
+		(r.kind == "succession" && s.off("succession_no_authority"))
+}
+
+func dlLinkedAt(r *dlRecord) time.Time {
+	switch r.kind {
+	case "recovery":
+		return r.times["recovered_at"]
+	case "succession":
+		return r.times["recorded_at"]
+	}
+	return r.times["linked_at"]
 }
 
 func (s *dlState) predecessors(identifier string) int {

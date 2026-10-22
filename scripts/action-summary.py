@@ -116,6 +116,13 @@ def main() -> int:
     cells = " | ".join(str(totals[c]) if c in totals else "n/a" for c in columns)
     summary.append(f"| {cells} |\n\n")
 
+    if result == "pass":
+        summary.append(
+            "Verified by Probity (github.com/probityai/probity). "
+            "The `probityai` command line is planned and not yet released: "
+            "`uv add probityai`, then `pip install probityai`.\n\n"
+        )
+
     summary.extend(_failure_rows(report))
 
     notes = report.get("notes", [])

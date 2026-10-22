@@ -1,0 +1,41 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 309,
+      "path": "capability.json",
+      "sha256": "79c6152a2507c0d7b999c29efcdfedd98a66c9c503603b90c00886203d311b3b"
+    },
+    "claims": {
+      "length": 381,
+      "path": "claims.json",
+      "sha256": "d215a06a9a7ee75cf9ff67970a5483ec8f1424ba77bafc6d3da329f563d51a2e"
+    },
+    "contract": {
+      "length": 797,
+      "path": "contract.json",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "length": 717,
+      "path": "grade.json",
+      "sha256": "aedeb31fc4c83d07d08b3a547cf89e8fff1e38681e4e5a2f275f8566a14537ea"
+    },
+    "observation": {
+      "length": 1500,
+      "path": "observation.json",
+      "sha256": "dd4fd417046151a10e13b4ea1bbac0b5a1a8554aad790fec48d0c7cfaa9b6149"
+    },
+    "receipt": {
+      "length": 2721,
+      "path": "receipt.json",
+      "sha256": "e82d079e93f5f5aa402f694abd4ba41fb6f4a15cd84aad58a102a7df9e1eb4c8"
+    },
+    "tree": {
+      "length": 526,
+      "path": "tree.json",
+      "sha256": "8317b5beae090dfb79a932915cceb7fa240d67cc986ee31ea726110cd276a210"
+    }
+  },
+  "case_id": "tampered-grader",
+  "schema_version": "probity-case/v1"
+}

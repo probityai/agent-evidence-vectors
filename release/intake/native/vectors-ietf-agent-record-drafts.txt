@@ -1,0 +1,6 @@
+suite: ietf-agent-record-drafts-conformance
+members: 31
+  accept: 10
+  indeterminate: 1
+  reject: 20
+verdict: every member behaves as MANIFEST.json declares

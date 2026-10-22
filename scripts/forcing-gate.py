@@ -73,7 +73,7 @@ tree that:
 
   1. every vector's observation from `cmd/mutrun` -- verdict, codes, result, both
      tier columns, and the no-key result -- equals what `run_vectors.observe_external`
-     returns driving the real `cmd/aee-verify -json`; and
+     returns driving the real `cmd/aee-verify -validity-only -json`; and
   2. the per-vector status and per-gate column this file computes equal the ones
      `packaging/run_vectors.py` writes running the real CLI over the real corpus.
 
@@ -459,7 +459,7 @@ def truth_observations(
     out: dict[str, Observation] = {}
     for vid, entry in index.items():
         path = str(VECTORS / entry["file"])
-        out[vid] = rv.observe_external([verify, "-json"], path, keys)
+        out[vid] = rv.observe_external([verify, "-validity-only", "-json"], path, keys)
     return out
 
 
@@ -521,7 +521,7 @@ def ground_truth_gate(
             sys.executable,
             str(REPO_ROOT / "packaging" / "run_vectors.py"),
             "--verifier",
-            f"{ws.verify} -json",
+            f"{ws.verify} -validity-only -json",
             "--report",
             str(report_path),
         ],
@@ -551,7 +551,7 @@ def ground_truth_gate(
         raise SystemExit(2)
     print(
         f"ground truth: {len(fast)} vectors, 0 discrepancies against "
-        f"cmd/aee-verify -json through packaging/run_vectors.py.",
+        f"cmd/aee-verify -validity-only -json through packaging/run_vectors.py.",
         flush=True,
     )
 

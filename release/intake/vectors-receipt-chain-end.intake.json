@@ -1,0 +1,995 @@
+{
+  "aggregate": {
+    "counts": {
+      "prefix": 5,
+      "rejected": 12,
+      "verified": 7
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 24
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-receipt-chain-end/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-receipt-chain-end/gen_vectors.py",
+    "routine-file": "vectors-receipt-chain-end/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "73babeef6e8be17cd20cc65de636f1c36a1b92946fe5fe880d2b6a9ff29241bf",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "swapped-in": "2d7a0c562c60068132cc787ce0934bbd0d06e49aa73a71f7f8ba2b765ae86723",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-chain-end/README.md",
+      "serialization": "bytes",
+      "sha256": "935591ae48a6f5660990b9530b722023838403b67ccc54d12647fd8dbcbe3ec7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "swapped-in": "f4e9234a7c3affbcc538533f514c4b2e6003db3597e818059d5202ef11092b40",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-chain-end/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "ccd348a64110c8db34baf56226491e949cf957de54e62d1f3c9d38f2fb155d1f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "swapped-in": "a0050f721bc0398dfa0b06dc195f0605fc4b364ba0e559396ca9db9e01145dea",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-chain-end/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "63699eebf74ab5324a90cbc2a224704eb9408bfb2194b9d3ab6d4aac09a51bad"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+        },
+        "swapped-in": "85bf37010d78b7712a3ad6ee8fa1ca18e254fed4d8862b1bed0761fbfb8d157b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-receipt-chain-end/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "65c7eac69a305802614efe41f6442f5a06cc64b9c1a6000dab5d925465462ae8"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-receipt-chain-end"
+  },
+  "byte-identity": {
+    "pins": 62,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-receipt-chain-end",
+      "aee-verify -json vectors-receipt-chain-end",
+      "aee-verify vectors-receipt-chain-end"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "control-closed-run",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "control-closed-run-retained-head",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "control-open-prefix",
+      "native": {
+        "reasons": [],
+        "verdict": "prefix"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "control-open-run-final-head",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "control-rotation-endorsed",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "control-timestamp-tie",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tail-truncation",
+      "native": {
+        "reasons": [],
+        "verdict": "prefix"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tail-truncation-retained-head",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "prefix-replay-shared-session-close",
+      "native": {
+        "reasons": [],
+        "verdict": "prefix"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "prefix-replay-other-run",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fork-branch-against-retained-head",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fork-branch-against-retained-seq",
+      "native": {
+        "reasons": [],
+        "verdict": "prefix"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fork-both-branches",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rotation-resigned-tail-keys-pinned",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "rotation-resigned-tail-endorsement",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "stale-head-honest-extension",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "stale-head-truncated-to-it",
+      "native": {
+        "reasons": [],
+        "verdict": "prefix"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "seq-reset-hides-gap",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "reorder-timestamp-tie",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "signature-tamper",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "untrusted-genesis-key",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "close-count-forged",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "final-head-not-at-end",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "seq-reset-control-endorsed",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "812e8df21318d2f1d42732d1a0835fef1c01fdf4b621abf8f06dabf9ceae024e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "control-closed-run",
+      "control-closed-run-retained-head",
+      "control-open-prefix",
+      "control-open-run-final-head",
+      "control-rotation-endorsed",
+      "control-timestamp-tie",
+      "tail-truncation",
+      "tail-truncation-retained-head",
+      "prefix-replay-shared-session-close",
+      "prefix-replay-other-run",
+      "fork-branch-against-retained-head",
+      "fork-branch-against-retained-seq",
+      "fork-both-branches",
+      "rotation-resigned-tail-keys-pinned",
+      "rotation-resigned-tail-endorsement",
+      "stale-head-honest-extension",
+      "stale-head-truncated-to-it",
+      "seq-reset-hides-gap",
+      "reorder-timestamp-tie",
+      "signature-tamper",
+      "untrusted-genesis-key",
+      "close-count-forged",
+      "final-head-not-at-end",
+      "seq-reset-control-endorsed"
+    ],
+    "path": "vectors-receipt-chain-end/MANIFEST.json",
+    "sha256": "6c31e011ed5085a07b6d46636ff08d6583b8302d9f74b47ae82b1c2a2efcf842"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-closed-run/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-closed-run/chain.jsonl",
+          "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
+        }
+      ],
+      "id": "control-closed-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/chain.jsonl",
+          "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-closed-run-retained-head/head.json",
+          "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+        }
+      ],
+      "id": "control-closed-run-retained-head"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-open-prefix/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-open-prefix/chain.jsonl",
+          "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
+        }
+      ],
+      "id": "control-open-prefix"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/chain.jsonl",
+          "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-open-run-final-head/head.json",
+          "sha256": "fc0303b6b40066f465bda064343d606da99d680e9258ae03728b6775ae4ac459"
+        }
+      ],
+      "id": "control-open-run-final-head"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/case.json",
+          "sha256": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/chain.jsonl",
+          "sha256": "15ae5ca65690094e64953f144ebc9a67b26c5d595cfd76535d9ae062ac5a9a68"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-rotation-endorsed/endorsement.json",
+          "sha256": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
+        }
+      ],
+      "id": "control-rotation-endorsed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/control-timestamp-tie/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/control-timestamp-tie/chain.jsonl",
+          "sha256": "33824768f0f364817436f787f3bc736da239d4a16d9f9e32462796b74a4b48e2"
+        }
+      ],
+      "id": "control-timestamp-tie"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/tail-truncation/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/tail-truncation/chain.jsonl",
+          "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
+        }
+      ],
+      "id": "tail-truncation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/chain.jsonl",
+          "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/tail-truncation-retained-head/head.json",
+          "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+        }
+      ],
+      "id": "tail-truncation-retained-head"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/prefix-replay-shared-session-close/chain.jsonl",
+          "sha256": "17d472c9feb87a10ce0693cc9012fefd2e65d29c252e9369beb0a7df5e7ee798"
+        }
+      ],
+      "id": "prefix-replay-shared-session-close"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/chain.jsonl",
+          "sha256": "41da9bdcad854f2022e7b15b356c799a2e931c4dd2eaa95843ebedf5e022ed88"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/prefix-replay-other-run/head.json",
+          "sha256": "50c663a3d7eec0a2f8a9ab72ce1ef4f22b044f934ce5a86423801469a962d2d2"
+        }
+      ],
+      "id": "prefix-replay-other-run"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/chain.jsonl",
+          "sha256": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-head/head.json",
+          "sha256": "ab1ba9e882f294cbeb548d02bb4d62a4642ccc3b33d6f180c83919298baee094"
+        }
+      ],
+      "id": "fork-branch-against-retained-head"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/chain.jsonl",
+          "sha256": "e2e989fb0146feee49fff64a899f3d288996601109664551135e7991615c82ba"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-branch-against-retained-seq/head.json",
+          "sha256": "efa557c026eb0c030bd6beb32300cdca8f0162fb3052b183fbc69cb523fba395"
+        }
+      ],
+      "id": "fork-branch-against-retained-seq"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-both-branches/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/fork-both-branches/chain.jsonl",
+          "sha256": "713be7260da5bf17cbf453d64c48bef303b0812b19884abc7d46e5709d8e48c9"
+        }
+      ],
+      "id": "fork-both-branches"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/case.json",
+          "sha256": "e49caefb86c6c6da18298d6bcc8c2b667c2dd37e4fe34c94d2b11bcb7e56a699"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-keys-pinned/chain.jsonl",
+          "sha256": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778"
+        }
+      ],
+      "id": "rotation-resigned-tail-keys-pinned"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/case.json",
+          "sha256": "0207735838b1a84e6ae777b751d9c4fdf4b53d3989874bbdc882d98beb9b8bcd"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/chain.jsonl",
+          "sha256": "4c2ac23944e07bc8ad90bfc747be4338f1b27417f3725520dcb9b9dbbaeb9778"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/rotation-resigned-tail-endorsement/endorsement.json",
+          "sha256": "69dec0a7ec48563c581a3502c39a3fe32d02d4a890c064776d95ad372979517d"
+        }
+      ],
+      "id": "rotation-resigned-tail-endorsement"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/chain.jsonl",
+          "sha256": "7c757f8c528d5cd33f35430102be79f5de0bdb6920d4a20e04c4398766f88b9d"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-honest-extension/head.json",
+          "sha256": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
+        }
+      ],
+      "id": "stale-head-honest-extension"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/chain.jsonl",
+          "sha256": "0aff850fcc321fe106fe67388ef6cf72ce35c812d5ea6808ca885d869e917894"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/stale-head-truncated-to-it/head.json",
+          "sha256": "bbf1ef6d60b36be68d732f0143afb456f23dfa247ec406506656d74aca51dacf"
+        }
+      ],
+      "id": "stale-head-truncated-to-it"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/chain.jsonl",
+          "sha256": "f22b133b686c89472fd343ffa1b99729eeda559c9f37a54c48725506e30e03d0"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-hides-gap/head.json",
+          "sha256": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
+        }
+      ],
+      "id": "seq-reset-hides-gap"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/reorder-timestamp-tie/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/reorder-timestamp-tie/chain.jsonl",
+          "sha256": "2c36c4a99fa0a5561302b7e4aba99d222b910fd977b05c36dd17b3bfdae9c6ac"
+        }
+      ],
+      "id": "reorder-timestamp-tie"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/signature-tamper/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/signature-tamper/chain.jsonl",
+          "sha256": "83f57bce563def2fa88ecbadfa7a89c240e449af18cc44e49a5c9651edfa2a3e"
+        }
+      ],
+      "id": "signature-tamper"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/untrusted-genesis-key/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/untrusted-genesis-key/chain.jsonl",
+          "sha256": "6794059ab0875b3db021b1a77fed44ad4a2c213e59d34d2ed8c4e8d29e8de3f0"
+        }
+      ],
+      "id": "untrusted-genesis-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/close-count-forged/case.json",
+          "sha256": "8e037dca6a220f5602b42b6d0d7ff68d4a14a45b42ab71f07fa682ecd39665e5"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/close-count-forged/chain.jsonl",
+          "sha256": "21487983ee70c85d75f5e24b0b9b69575ec20f50c014f847c090434fa77f3ad3"
+        }
+      ],
+      "id": "close-count-forged"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/case.json",
+          "sha256": "e227136e30931b3d7b8facfd9651018dec16fa26b938bbe855c4384e02aac6f9"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/chain.jsonl",
+          "sha256": "82c365a1281b6c89e4f72523f14fc5265c33bb5874cf12a95d1691f6e299641e"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/final-head-not-at-end/head.json",
+          "sha256": "07d6705b01d46c40263df08d849bf720dd5341a5a8859fc4d31a6a1b5d235158"
+        }
+      ],
+      "id": "final-head-not-at-end"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/case.json",
+          "sha256": "8a0fa162db74784cb3d64dc9925eb488d40439fc1020f7d3ed27ab93c5dded05"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/chain.jsonl",
+          "sha256": "773e6ddb63b9eb89e53e946cb04f90e3164c65bd22ee42a95daa7feacb175483"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/endorsement.json",
+          "sha256": "0a9314b22b009b191e16016fbd3e41a366caea81f49ef31d93421cfe8d38b87c"
+        },
+        {
+          "path": "vectors-receipt-chain-end/cases/seq-reset-control-endorsed/head.json",
+          "sha256": "c103df91a7d4775f304254ff854795f81068747e6a0cdd223aa2eb18c8578f8c"
+        }
+      ],
+      "id": "seq-reset-control-endorsed"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-receipt-chain-end.json",
+        "serialization": "bytes",
+        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-receipt-chain-end.txt",
+        "serialization": "bytes",
+        "sha256": "8f9658b4eb4645f09e77a7f2b5c26672dcdb79acbd14c96036265ac3d00062eb"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "tail-truncation-retained-head",
+      "inputs": [
+        "member:tail-truncation-retained-head",
+        "check:tail-truncation-retained-head"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"head_missing\"}}"
+    },
+    {
+      "check": "prefix-replay-other-run",
+      "inputs": [
+        "member:prefix-replay-other-run",
+        "check:prefix-replay-other-run"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"head_missing\"}}"
+    },
+    {
+      "check": "fork-branch-against-retained-head",
+      "inputs": [
+        "member:fork-branch-against-retained-head",
+        "check:fork-branch-against-retained-head"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"head_missing\"}}"
+    },
+    {
+      "check": "fork-both-branches",
+      "inputs": [
+        "member:fork-both-branches",
+        "check:fork-both-branches"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"chain_link_broken\"}}"
+    },
+    {
+      "check": "rotation-resigned-tail-keys-pinned",
+      "inputs": [
+        "member:rotation-resigned-tail-keys-pinned",
+        "check:rotation-resigned-tail-keys-pinned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"rotation_unendorsed\"}}"
+    },
+    {
+      "check": "rotation-resigned-tail-endorsement",
+      "inputs": [
+        "member:rotation-resigned-tail-endorsement",
+        "check:rotation-resigned-tail-endorsement"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"rotation_unendorsed\"}}"
+    },
+    {
+      "check": "seq-reset-hides-gap",
+      "inputs": [
+        "member:seq-reset-hides-gap",
+        "check:seq-reset-hides-gap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"head_position_mismatch\"}}"
+    },
+    {
+      "check": "reorder-timestamp-tie",
+      "inputs": [
+        "member:reorder-timestamp-tie",
+        "check:reorder-timestamp-tie"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"chain_link_broken\"}}"
+    },
+    {
+      "check": "signature-tamper",
+      "inputs": [
+        "member:signature-tamper",
+        "check:signature-tamper"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signature_invalid\"}}"
+    },
+    {
+      "check": "untrusted-genesis-key",
+      "inputs": [
+        "member:untrusted-genesis-key",
+        "check:untrusted-genesis-key"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signer_untrusted\"}}"
+    },
+    {
+      "check": "close-count-forged",
+      "inputs": [
+        "member:close-count-forged",
+        "check:close-count-forged"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"close_binding_invalid\"}}"
+    },
+    {
+      "check": "final-head-not-at-end",
+      "inputs": [
+        "member:final-head-not-at-end",
+        "check:final-head-not-at-end"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"head_not_final\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+      },
+      {
+        "process": "run-2",
+        "sha256": "0db810c6cde6f79e6983b0a97447aa79ab2974121ee7c83a8e173a87ef4aa2e3"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 24 pinned members of receipt-chain-end/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 24,
+    "require": "at-least-one",
+    "selected": [
+      "control-closed-run",
+      "control-closed-run-retained-head",
+      "control-open-prefix",
+      "control-open-run-final-head",
+      "control-rotation-endorsed",
+      "control-timestamp-tie",
+      "tail-truncation",
+      "tail-truncation-retained-head",
+      "prefix-replay-shared-session-close",
+      "prefix-replay-other-run",
+      "fork-branch-against-retained-head",
+      "fork-branch-against-retained-seq",
+      "fork-both-branches",
+      "rotation-resigned-tail-keys-pinned",
+      "rotation-resigned-tail-endorsement",
+      "stale-head-honest-extension",
+      "stale-head-truncated-to-it",
+      "seq-reset-hides-gap",
+      "reorder-timestamp-tie",
+      "signature-tamper",
+      "untrusted-genesis-key",
+      "close-count-forged",
+      "final-head-not-at-end",
+      "seq-reset-control-endorsed"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "receipt-chain-end/v1"
+}

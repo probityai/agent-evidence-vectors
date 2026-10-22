@@ -57,7 +57,8 @@ def test_every_refused_case_names_an_accepted_twin_in_its_own_set() -> None:
 
 
 def test_every_case_states_its_situation_and_rule() -> None:
-    prefix = {"delegation-tree": "tree-", "re-registration": "rereg-"}
+    prefix = {"delegation-tree": "tree-", "re-registration": "rereg-", "recovery": "recovery-",
+              "sub-agent": "subagent-"}
     for e in _manifest()["vectors"]:
         assert e["id"].startswith(prefix[e["set"]])
         assert e["description"].endswith("."), e["id"]
@@ -79,6 +80,23 @@ def test_both_sets_cover_the_situations_the_issue_names() -> None:
         "rereg-two-old-one-new": "reject",
         "rereg-link-after-old-revoked": "reject",
         "rereg-chain-old-middle-new": "accept",
+        "recovery-regrant": "accept",
+        "recovery-grant-not-carried": "reject",
+        "recovery-registry-only": "reject",
+        "recovery-after-compromise-no-revival": "reject",
+        "recovery-history-follows": "accept",
+        "recovery-unclaimed-succession": "accept",
+        "recovery-unclaimed-unrecorded": "reject",
+        "recovery-new-agent-asserted": "accept",
+        "recovery-successor-responsible": "accept",
+        "recovery-successor-responsible-unrecorded": "reject",
+        "subagent-parent-active": "accept",
+        "subagent-parent-retired": "reject",
+        "subagent-respawned-after-parent-recovery": "accept",
+        "subagent-not-carried-by-parent-recovery": "reject",
+        "subagent-succession-history-only": "accept",
+        "subagent-succession-grant-not-carried": "reject",
+        "subagent-respawn-unrecorded": "reject",
     }
     assert {i: ids[i]["decision"] for i in named} == named
 
@@ -102,7 +120,8 @@ def test_every_signature_the_generator_wrote_is_a_real_ed25519_signature() -> No
         keys[generator.keyid(k)] = k
     for identifier in (generator.ORG, generator.PLANNER, generator.WORKER, generator.SUB,
                        generator.SIBLING, generator.V1, generator.V2, generator.V3,
-                       generator.V2B, generator.B1):
+                       generator.V2B, generator.B1, generator.OPERATOR,
+                       generator.OPERATOR_2, generator.SA1, generator.SA2):
         k = generator._identity_key(identifier)
         keys[generator.keyid(k)] = k
     public = {kid: Ed25519PublicKey.from_public_bytes(generator.public_raw(k))

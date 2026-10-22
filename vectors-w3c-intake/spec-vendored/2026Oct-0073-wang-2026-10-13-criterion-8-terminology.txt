@@ -1,0 +1,37 @@
+Nicolás, all,
+
+Thanks - both points land, and the first one is a terminology correction,
+not just an application note.
+
+On 8, accepted. In the consolidated v2.1 text the runs already on the record
+will be described at exactly the level the evidence supports: re-runs by
+other operators using the same implementation - reproduced, in O8's sense -
+not independent verification. Sankalp's run is an unaffiliated operator's
+replay of known answers; Lars's run is a same-implementation replay that
+establishes PYTHONHASHSEED byte-identity, which is replay-stability evidence,
+not cross-runtime or independent-implementation evidence. The same label
+applies to Roel's disensor run and to your run of Anton's corpus: the
+author's code, with no wider claim. "Unaffiliated" describes the operator;
+it does not describe implementation independence. To state the gap plainly:
+no reader written from the specification has yet been run against the
+Ed25519/JCS corpus, and the v2.1 record will say so as an explicit field.
+Criterion 8 is what turns that from an implication into a declaration.
+
+On 11, the disensor measurement is the clearest worked example yet of why
+the new sentence compares the complete native result rather than overall
+state. The 10 of 24 schema controls that a rule (R1/R3/R6/R8) would still
+reject hide the second ground at state level and reveal it only when the
+label moves from schema to rule - which never happens on the validator's
+normal path, and shows up only when the rules are called directly
+(rule_errors at dbdb651), outside contract. The 37 rule controls with no
+second ground bound the other side. With your permission, I would like to
+pin this 37/24 (10) case, commit and all, as the illustrative example in
+the consolidated v2.1 text.
+
+No objection to the four deltas is on the record (Roel, Nicholas, and now
+Nicolás). Barring objection within the 48-hour window, I will post the
+consolidated v2.1 base, with the criterion-8 terminology correction folded
+into the body rather than left to a footnote.
+
+Guigui Wang | Correctover
+wangguigui@correctover.com

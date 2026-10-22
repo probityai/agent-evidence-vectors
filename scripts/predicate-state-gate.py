@@ -177,7 +177,9 @@ def go_outcomes(rows: list[dict[str, Any]], binary: str) -> dict[str, tuple[str,
     out: dict[str, tuple[str, tuple[str, ...]]] = {}
     for row in rows:
         path = str(REPO_ROOT / "vectors" / str(row["file"]))
-        parsed = run_vectors.run_external([binary, "-json"], path, None, "predicate-state")
+        parsed = run_vectors.run_external(
+            [binary, "-validity-only", "-json"], path, None, "predicate-state"
+        )
         errors = parsed.get("errors") or []
         verdict = parsed.get("verdict")
         if errors or not verdict:

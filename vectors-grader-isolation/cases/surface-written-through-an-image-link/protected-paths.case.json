@@ -1,0 +1,26 @@
+{
+  "artifacts": {
+    "capability": {
+      "length": 331,
+      "path": "capability.json",
+      "sha256": "4fe5f64033d854c2c8748d6c23952af66fb2b5f99b371b9cc02b583c4ff2fa18"
+    },
+    "contract": {
+      "length": 965,
+      "path": "contract.json",
+      "sha256": "24f1519fc70fdb9ee877e25c23fbc806b6c41fa90d4d2847687bcc7069ef0700"
+    },
+    "observation": {
+      "length": 1182,
+      "path": "observation.json",
+      "sha256": "2249aefd6ec6cd654e9c2161ff348867e7fdc80dcd1e8504d626e8b44bf665af"
+    },
+    "tree": {
+      "length": 548,
+      "path": "tree.json",
+      "sha256": "a54296d878d889e87a64b83fa03bb6d58f24a450ffaf19efe0ecce28f423d8c9"
+    }
+  },
+  "case_id": "surface-written-through-an-image-link",
+  "schema_version": "probity-case/v1"
+}

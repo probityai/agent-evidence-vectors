@@ -1,0 +1,31 @@
+{
+  "policy": {
+    "payload_type": "application/vnd.agent-evidence.delegation-lifecycle.v1+json",
+    "registry_key": {
+      "keyid": "7f6c8321f0eeae36edef6b77c72ab0a49b7700cbaecf5a1ffa3c5ed6d590ac52",
+      "public_key": "LTEGASdp6AYfXqXMYrj/l8+WGTSF6LbuIZqTo54L41o="
+    },
+    "relying_party_key": {
+      "keyid": "d1fd80151b3f6cb5d08587bfa3e1a345bcb37958330760ea9d8592b81ec1b71a",
+      "public_key": "CNOC9JN13Ra5CP8EMGocOHpAp1dqqr/Dpg5G9VpWxpY="
+    },
+    "roots": [
+      "did:example:org"
+    ]
+  },
+  "presentation": "presentation.json",
+  "records": [
+    "01-registration-org.json",
+    "02-registration-operator.json",
+    "03-registration-agent-v1.json",
+    "04-grant-g-agent.json",
+    "05-revocation-r-agent.json",
+    "06-dispute-d-agent.json",
+    "07-resolution-d-agent-outcome.json",
+    "08-retirement-agent-v1.json",
+    "09-registration-operator-successor.json",
+    "10-registration-agent-v2.json",
+    "11-recovery-rc-v1-v2.json",
+    "12-grant-g-agent-2.json"
+  ]
+}

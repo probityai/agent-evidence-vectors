@@ -6,11 +6,19 @@ Every case asks one question a relying party asks about an AI agent: does this
 presenter hold this delegated authority at the time the relying party observed
 the presentation? A case is a set of signed records (identifier registrations,
 grants, revocations, disputes, resolutions, identifier links, retirements) and
-one signed presentation, with the policy that judges them. Two sets:
+one signed presentation, with the policy that judges them. Three sets:
 
 * ``tree-``: revocation across a delegation tree, including a revocation that is
   disputed;
-* ``rereg-``: re-registration, where an old identifier is linked to a new one.
+* ``rereg-``: re-registration, where an old identifier is linked to a new one;
+* ``recovery-``: recovery after the old key is lost or compromised, where a
+  record signed by the registry and the Responsible entity carries the old
+  identifier's history to a new one, and no grant; and the registry's own
+  succession record when an operator re-registers a matching agent without
+  asking for continuity;
+* ``subagent-``: sub-agents whose identifiers the registry bound to a parent
+  agent's lifespan, and what happens to them when the parent retires, is
+  recovered after a lost or compromised key, or is succeeded.
 
 Every record is a DSSE v1 envelope signed with Ed25519 by the published test
 keys below, so every byte in the corpus is a function of this file alone. The
@@ -44,7 +52,8 @@ corpus_digest = _digest_module.corpus_digest
 
 SUITE = "delegation-lifecycle/v1"
 PAYLOAD_TYPE = "application/vnd.agent-evidence.delegation-lifecycle.v1+json"
-TREE, REREG = "delegation-tree", "re-registration"
+TREE, REREG, RECOVERY = "delegation-tree", "re-registration", "recovery"
+SUBAGENT = "sub-agent"
 
 ORG = "did:example:org"
 PLANNER = "did:example:planner"
@@ -56,6 +65,10 @@ V2 = "did:example:agent-v2"
 V3 = "did:example:agent-v3"
 V2B = "did:example:agent-v2b"
 B1 = "did:example:agent-b-v1"
+OPERATOR = "did:example:operator"
+OPERATOR_2 = "did:example:operator-successor"
+SA1 = "did:example:sub-agent-v1"
+SA2 = "did:example:sub-agent-v2"
 
 
 def _sha(data: bytes) -> str:
@@ -140,12 +153,22 @@ class Case:
         name = f"{len(self.records) + 1:02d}-{payload['type']}-{label}.json"
         self.records.append((name, self._sign(payload, signers)))
 
-    def register(self, identifier: str, when: str) -> None:
+    def register(self, identifier: str, when: str, responsible: str | None = None,
+                 software: str | None = None, parent: str | None = None) -> None:
+        """Register an identifier. A recovery case also names the Responsible entity
+        and the software attestation digest the registry matched; a sub-agent names
+        the parent agent whose lifespan bounds its own."""
         k = _identity_key(identifier)
-        self.add(identifier.rsplit(":", 1)[-1],
-                 {"type": "registration", "identifier": identifier, "keyid": keyid(k),
-                  "public_key": _b64(public_raw(k)), "registered_at": when},
-                 [as_self(REGISTRY)])
+        payload: dict[str, Any] = {"type": "registration", "identifier": identifier,
+                                   "keyid": keyid(k), "public_key": _b64(public_raw(k)),
+                                   "registered_at": when}
+        if responsible is not None:
+            payload["responsible"] = responsible
+        if software is not None:
+            payload["software"] = software
+        if parent is not None:
+            payload["parent"] = parent
+        self.add(identifier.rsplit(":", 1)[-1], payload, [as_self(REGISTRY)])
 
     def retire(self, identifier: str, when: str) -> None:
         self.add(identifier.rsplit(":", 1)[-1],
@@ -193,6 +216,35 @@ class Case:
         self.add(link_id, {"type": "link", "link_id": link_id, "old": old, "new": new,
                            "linked_at": when},
                  signers if signers is not None else [of(old), of(new), as_self(REGISTRY)])
+
+    def recover(self, recovery_id: str, old: str, new: str, responsible: str, when: str,
+                signers: list[Signer] | None = None) -> None:
+        self.add(recovery_id, {"type": "recovery", "recovery_id": recovery_id, "old": old,
+                               "new": new, "responsible": responsible, "recovered_at": when},
+                 signers if signers is not None else [as_self(REGISTRY), of(responsible)])
+
+    def succeed(self, succession_id: str, old: str, new: str, responsible: str,
+                when: str) -> None:
+        """The registry records, on its own signature, that a registration matched a
+        retired or revoked agent of the same Responsible entity and software."""
+        self.add(succession_id, {"type": "succession", "succession_id": succession_id,
+                                 "old": old, "new": new, "responsible": responsible,
+                                 "recorded_at": when}, [as_self(REGISTRY)])
+
+    def assert_new(self, assertion_id: str, identifier: str, succession_id: str,
+                   responsible: str, grounds: str, when: str) -> None:
+        """The Responsible entity asserts that a matched agent is new."""
+        self.add(assertion_id, {"type": "new-agent-assertion", "assertion_id": assertion_id,
+                                "identifier": identifier, "succession_id": succession_id,
+                                "responsible": responsible, "grounds": grounds,
+                                "asserted_at": when}, [of(responsible)])
+
+    def hand_over(self, record_id: str, old: str, new: str, when: str) -> None:
+        """One Responsible entity succeeds another, signed by the registry and the
+        predecessor."""
+        self.add(record_id, {"type": "responsible-succession", "record_id": record_id,
+                             "old_responsible": old, "new_responsible": new,
+                             "succeeded_at": when}, [as_self(REGISTRY), of(old)])
 
     def present(self, presenter: str, chain: list[str], when: str,
                 signers: list[Signer] | None = None) -> None:
@@ -482,6 +534,232 @@ def r_unattested_link(c: Case) -> None:
     _v2_presents(c)
 
 
+SOFTWARE = "sha256:" + _sha(b"delegation-lifecycle/v1 test agent build 1")
+OTHER_SOFTWARE = "sha256:" + _sha(b"delegation-lifecycle/v1 test agent build 2")
+LOST = "the agent-v1 key was lost at redeployment"
+COMPROMISED = "the agent-v1 key was reported compromised"
+
+
+def recovery_base(c: Case, compromised: bool = False, history: bool = False,
+                  software: str = SOFTWARE, recovery_signers: list[Signer] | None = None) -> None:
+    """The organisation operates agent-v1 and grants to it. The agent-v1 key is lost,
+    or reported compromised, and the same software is registered again as agent-v2.
+    The registry and the organisation, as Responsible entity, sign a recovery record."""
+    c.register(ORG, at("08:00"))
+    c.register(V1, at("08:00"), responsible=ORG, software=SOFTWARE)
+    c.grant("g-agent", None, ORG, V1, at("09:00"))
+    if history:
+        c.revoke("r-agent", "g-agent", ORG, "the agent acted outside its task", at("09:30"),
+                 at("09:30"))
+        c.dispute("d-agent", "r-agent", V1, "the task log shows the agent acted inside its task",
+                  at("09:45"))
+        c.resolve("d-agent", "r-agent", ORG, "confirmed", at("10:00"))
+    if compromised:
+        c.revoke_identifier(V1, at("10:05"), COMPROMISED)
+    else:
+        c.retire(V1, at("10:05"))
+    c.register(V2, at("10:30"), responsible=ORG, software=software)
+    c.recover("rc-v1-v2", V1, V2, ORG, at("11:00"), signers=recovery_signers)
+
+
+def _regrant(c: Case) -> None:
+    c.grant("g-agent-2", None, ORG, V2, at("11:30"))
+    c.present(V2, ["g-agent-2"], at("13:00"))
+
+
+def rc_regrant(c: Case) -> None:
+    recovery_base(c)
+    _regrant(c)
+
+
+def rc_grant_not_carried(c: Case) -> None:
+    recovery_base(c)
+    _v2_presents(c)
+
+
+def rc_registry_only(c: Case) -> None:
+    recovery_base(c, recovery_signers=[as_self(REGISTRY)])
+    _regrant(c)
+
+
+def rc_software_mismatch(c: Case) -> None:
+    recovery_base(c, software=OTHER_SOFTWARE)
+    _regrant(c)
+
+
+def rc_compromise_no_revival(c: Case) -> None:
+    recovery_base(c, compromised=True)
+    _v2_presents(c)
+
+
+def rc_compromise_regrant(c: Case) -> None:
+    recovery_base(c, compromised=True)
+    _regrant(c)
+
+
+def rc_history_follows(c: Case) -> None:
+    recovery_base(c, history=True)
+    _regrant(c)
+
+
+def _adverse_v1(c: Case, responsible: str) -> None:
+    """agent-v1 is registered to ``responsible``, and its grant is revoked, disputed
+    and the revocation confirmed, so it leaves adverse records."""
+    c.register(ORG, at("08:00"))
+    if responsible != ORG:
+        c.register(responsible, at("08:00"))
+    c.register(V1, at("08:00"), responsible=responsible, software=SOFTWARE)
+    c.grant("g-agent", None, ORG, V1, at("09:00"))
+    c.revoke("r-agent", "g-agent", ORG, "the agent acted outside its task", at("09:30"),
+             at("09:30"))
+    c.dispute("d-agent", "r-agent", V1, "the task log shows the agent acted inside its task",
+              at("09:45"))
+    c.resolve("d-agent", "r-agent", ORG, "confirmed", at("10:00"))
+    c.retire(V1, at("10:05"))
+
+
+def _unclaimed(c: Case, recorded: bool = True) -> None:
+    """The organisation redeploys agent-v1's software as agent-v2 and asks for no
+    continuity. The registry matches the registration and records a succession."""
+    _adverse_v1(c, ORG)
+    c.register(V2, at("10:30"), responsible=ORG, software=SOFTWARE)
+    if recorded:
+        c.succeed("s-v1-v2", V1, V2, ORG, at("10:30"))
+
+
+def rc_unclaimed_succession(c: Case) -> None:
+    _unclaimed(c)
+    _regrant(c)
+
+
+def rc_unclaimed_unrecorded(c: Case) -> None:
+    _unclaimed(c, recorded=False)
+    _regrant(c)
+
+
+def rc_new_agent_asserted(c: Case) -> None:
+    _unclaimed(c)
+    c.assert_new("a-v2-new", V2, "s-v1-v2", ORG,
+                 "agent-v2 is a new deployment with its own task", at("10:45"))
+    _regrant(c)
+
+
+def _successor_responsible(c: Case, handed_over: bool = True) -> None:
+    """The operator runs agent-v1 for the organisation. The operator's business
+    passes to a successor operator, the agent-v1 key is lost, and the successor
+    re-registers the same software as agent-v2 and signs the recovery."""
+    _adverse_v1(c, OPERATOR)
+    c.register(OPERATOR_2, at("10:10"))
+    if handed_over:
+        c.hand_over("h-operator", OPERATOR, OPERATOR_2, at("10:15"))
+    c.register(V2, at("10:30"), responsible=OPERATOR_2, software=SOFTWARE)
+    c.recover("rc-v1-v2", V1, V2, OPERATOR_2, at("11:00"))
+    _regrant(c)
+
+
+def rc_successor_responsible(c: Case) -> None:
+    _successor_responsible(c)
+
+
+def rc_successor_unrecorded(c: Case) -> None:
+    _successor_responsible(c, handed_over=False)
+
+
+SUB_SOFTWARE = "sha256:" + _sha(b"delegation-lifecycle/v1 test sub-agent build 1")
+SUB_GROUNDS = "the sub-agent called a tool outside its task"
+
+
+def subagent_base(c: Case) -> None:
+    """The organisation operates agent-v1 and grants to it; agent-v1 spawns
+    sub-agent-v1, which the registry registers with agent-v1 as its parent, and
+    grants to it under its own grant."""
+    c.register(ORG, at("08:00"))
+    c.register(V1, at("08:00"), responsible=ORG, software=SOFTWARE)
+    c.register(SA1, at("08:10"), responsible=ORG, software=SUB_SOFTWARE, parent=V1)
+    c.grant("g-agent", None, ORG, V1, at("09:00"))
+    c.grant("g-sub", "g-agent", V1, SA1, at("09:10"))
+
+
+def _sa1_presents(c: Case) -> None:
+    c.present(SA1, ["g-agent", "g-sub"], at("13:00"))
+
+
+def _respawn(c: Case, recorded: bool = True) -> None:
+    """agent-v2 spawns sub-agent-v2 from the same sub-agent software, the registry
+    records the succession from sub-agent-v1 unless ``recorded`` is false, and
+    agent-v2 grants to sub-agent-v2 under its own new grant."""
+    c.grant("g-agent-2", None, ORG, V2, at("11:30"))
+    c.register(SA2, at("11:40"), responsible=ORG, software=SUB_SOFTWARE, parent=V2)
+    if recorded:
+        c.succeed("s-sub", SA1, SA2, ORG, at("11:40"))
+    c.grant("g-sub-2", "g-agent-2", V2, SA2, at("11:50"))
+
+
+def _sa2_presents_new(c: Case) -> None:
+    c.present(SA2, ["g-agent-2", "g-sub-2"], at("13:00"))
+
+
+def _parent_recovered(c: Case) -> None:
+    """The agent-v1 key is reported compromised, the registry revokes agent-v1, and
+    the registry and the organisation sign a recovery record to agent-v2."""
+    subagent_base(c)
+    c.revoke_identifier(V1, at("10:05"), COMPROMISED)
+    c.register(V2, at("10:30"), responsible=ORG, software=SOFTWARE)
+    c.recover("rc-v1-v2", V1, V2, ORG, at("11:00"))
+    _respawn(c)
+
+
+def _parent_succeeded(c: Case, recorded: bool = True) -> None:
+    """sub-agent-v1's grant is revoked, sub-agent-v1 disputes it and agent-v1
+    confirms the revocation; agent-v1 is retired at redeployment, the registry
+    records the succession to agent-v2, and agent-v2 spawns sub-agent-v2."""
+    subagent_base(c)
+    c.revoke("r-sub", "g-sub", V1, SUB_GROUNDS, at("09:30"), at("09:30"))
+    c.dispute("d-sub", "r-sub", SA1, "the task log shows the call was inside the task",
+              at("09:45"))
+    c.resolve("d-sub", "r-sub", V1, "confirmed", at("10:00"))
+    c.retire(V1, at("10:05"))
+    c.register(V2, at("10:30"), responsible=ORG, software=SOFTWARE)
+    c.succeed("s-v1-v2", V1, V2, ORG, at("10:30"))
+    _respawn(c, recorded=recorded)
+
+
+def sa_parent_active(c: Case) -> None:
+    subagent_base(c)
+    _sa1_presents(c)
+
+
+def sa_parent_retired(c: Case) -> None:
+    subagent_base(c)
+    c.retire(V1, at("12:00"))
+    _sa1_presents(c)
+
+
+def sa_respawned_after_recovery(c: Case) -> None:
+    _parent_recovered(c)
+    _sa2_presents_new(c)
+
+
+def sa_not_carried_by_recovery(c: Case) -> None:
+    _parent_recovered(c)
+    _sa1_presents(c)
+
+
+def sa_succession_history(c: Case) -> None:
+    _parent_succeeded(c)
+    _sa2_presents_new(c)
+
+
+def sa_succession_grant_not_carried(c: Case) -> None:
+    _parent_succeeded(c)
+    c.present(SA2, ["g-agent", "g-sub"], at("13:00"))
+
+
+def sa_succession_unrecorded(c: Case) -> None:
+    _parent_succeeded(c, recorded=False)
+    _sa2_presents_new(c)
+
+
 ACCEPT, REJECT, NO_VERDICT = "accept", "reject", "no_verdict"
 
 R_TIME = ("A revocation applies to a presentation the relying party observed at or after the "
@@ -551,6 +829,65 @@ R_BEFORE_RETIRE = ("Proposed: an old identifier stays usable until the registry 
                    "link alone does not end it.")
 R_FOLLOWS = ("A link carries a grant as it stands, so a revocation of the grant applies to the "
              "successor as well.")
+R_RECOVERY_REGRANT = ("A new grant to the recovered identifier carries authority from its own "
+                      "issuance.")
+R_RECOVERY_NO_GRANT = ("Proposed: a recovery record carries history, not authority; a grant "
+                       "reaches a new identifier only through a link signed by the old key, or "
+                       "through a new grant.")
+R_RECOVERY_SIGNERS = ("Proposed: a recovery record needs the registry's signature and the "
+                      "Responsible entity's, so the registry alone cannot move an agent's "
+                      "history, and a presenter named by a recovery record that fails is "
+                      "refused because its history cannot be resolved.")
+R_RECOVERY_MATCH = ("Proposed: a recovery counts only when the registry registered the old and "
+                    "the new identifier to the same Responsible entity with the same software "
+                    "attestation digest.")
+R_RECOVERY_NO_REVIVAL = ("Proposed: a recovery never restores authority, including authority the "
+                         "registry removed by revoking the old identifier for compromise.")
+R_RECOVERY_HISTORY = ("Proposed: adverse records of the old identifier (an identifier revocation, "
+                      "a revocation of a grant made to it, its disputes and their resolutions) "
+                      "resolve from the successor through the recovery record, and the "
+                      "acceptance names that history.")
+
+R_SUCCESSION = ("Proposed: when the registry registers an identifier whose Responsible entity and "
+                "software attestation digest match an agent it had retired or revoked, it records "
+                "a succession on its own signature, without a claim from the Responsible entity; "
+                "the succession carries history and no grant, like a recovery.")
+R_SUCCESSION_UNRECORDED = ("Proposed: a presenter whose registration matches a retired or "
+                           "revoked agent of the same Responsible entity and software, with no "
+                           "succession or recovery record joining them, is refused, because "
+                           "its history was dropped at registration.")
+R_NEW_AGENT = ("Proposed: a Responsible entity's assertion that a matched agent is new is recorded "
+               "and does not cut the succession; the predecessor's adverse records still resolve, "
+               "and the acceptance names the history as contested so that a relying party or a "
+               "dispute can take it up.")
+R_SUCCESSOR_RESPONSIBLE = ("Proposed: a recovery may be signed by a successor Responsible entity "
+                           "when a responsible-succession record, signed by the registry and the "
+                           "predecessor, hands the predecessor's agents to it before the "
+                           "recovery.")
+R_SUCCESSOR_UNRECORDED = ("Proposed: a recovery signed by a Responsible entity that the registry "
+                          "did not bind to the old identifier, directly or through a recorded "
+                          "responsible succession, does not match.")
+
+R_SUB_LIFESPAN = ("Proposed: a sub-agent's identifier is bound to the lifespan of the parent its "
+                  "registration names, so a presenter whose parent, or any parent above it, the "
+                  "registry retired or revoked at or before the observation is refused, even "
+                  "when its own grants are unrevoked.")
+R_SUB_ACTIVE = ("A sub-agent whose parent is active holds the grants made to it like any other "
+                "delegate.")
+R_SUB_NOT_CARRIED = ("Proposed: a recovery or succession record that joins a parent to a "
+                     "successor carries history, and neither the parent's grants nor its "
+                     "sub-agents; a sub-agent of the old parent ends with it.")
+R_SUB_RESPAWN = ("Proposed: the successor's sub-agent holds authority only through new grants "
+                 "from the successor, and its acceptance names the history the successor "
+                 "carries from its predecessor.")
+R_SUB_HISTORY = ("Proposed: a sub-agent redeployed under the successor follows its predecessor "
+                 "through the registry's succession record as history only, so the predecessor "
+                 "sub-agent's adverse records resolve from it.")
+R_SUB_NO_GRANT = ("Proposed: a succession record carries no grant, so the successor sub-agent "
+                  "cannot present the grants made to its predecessor.")
+R_SUB_UNRECORDED = ("Proposed: a sub-agent that ended with its parent is a retired agent for the "
+                    "succession rule, so a matching sub-agent registered later with no "
+                    "succession record joining them is refused.")
 
 
 class Spec(NamedTuple):
@@ -567,6 +904,8 @@ class Spec(NamedTuple):
 
 
 TREE_TWIN, REREG_TWIN = "tree-chain-valid", "rereg-linked-successor"
+RECOVERY_TWIN = "recovery-regrant"
+SUBAGENT_HISTORY_TWIN = "subagent-succession-history-only"
 
 CASES: tuple[Spec, ...] = (
     Spec("tree-chain-valid", TREE, t_chain_valid, ACCEPT, "authority_valid",
@@ -685,6 +1024,91 @@ CASES: tuple[Spec, ...] = (
     Spec("rereg-revocation-follows-link", REREG, r_revocation_follows, REJECT, "grant_revoked",
          "The organisation revokes agent-v1's grant and agent-v2 presents it through the link.",
          R_FOLLOWS, REREG_TWIN),
+    Spec("recovery-regrant", RECOVERY, rc_regrant, ACCEPT, "authority_valid",
+         "The agent-v1 key is lost, the registry retires agent-v1, the registry and the "
+         "organisation sign a recovery record to agent-v2, and the organisation grants agent-v2 "
+         "anew, which agent-v2 presents.", R_RECOVERY_REGRANT),
+    Spec("recovery-grant-not-carried", RECOVERY, rc_grant_not_carried, REJECT,
+         "presenter_not_delegate",
+         "After the same recovery, agent-v2 presents agent-v1's grant.", R_RECOVERY_NO_GRANT,
+         RECOVERY_TWIN),
+    Spec("recovery-registry-only", RECOVERY, rc_registry_only, REJECT,
+         "signature_invalid:recovery",
+         "The recovery record carries the registry's signature and not the organisation's, and "
+         "agent-v2 presents its new grant.", R_RECOVERY_SIGNERS, RECOVERY_TWIN),
+    Spec("recovery-software-mismatch", RECOVERY, rc_software_mismatch, REJECT,
+         "recovery_mismatch",
+         "The registry registered agent-v2 with a software attestation digest that differs from "
+         "agent-v1's, and agent-v2 presents its new grant.", R_RECOVERY_MATCH, RECOVERY_TWIN),
+    Spec("recovery-after-compromise-no-revival", RECOVERY, rc_compromise_no_revival, REJECT,
+         "presenter_not_delegate",
+         "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, "
+         "and agent-v2 presents agent-v1's grant.", R_RECOVERY_NO_REVIVAL,
+         "recovery-after-compromise-regrant"),
+    Spec("recovery-after-compromise-regrant", RECOVERY, rc_compromise_regrant, ACCEPT,
+         "authority_valid_with_history",
+         "The registry revokes agent-v1 for key compromise, a recovery record names agent-v2, "
+         "and the organisation grants agent-v2 anew, which agent-v2 presents.",
+         R_RECOVERY_HISTORY),
+    Spec("recovery-history-follows", RECOVERY, rc_history_follows, ACCEPT,
+         "authority_valid_with_history",
+         "agent-v1's grant was revoked, agent-v1 disputed the revocation and the organisation "
+         "confirmed it; after the key is lost and recovered to agent-v2, agent-v2 presents a new "
+         "grant.", R_RECOVERY_HISTORY),
+    Spec("recovery-unclaimed-succession", RECOVERY, rc_unclaimed_succession, ACCEPT,
+         "authority_valid_with_history",
+         "agent-v1 left adverse records and was retired; the organisation registers the same "
+         "software as agent-v2 and asks for no continuity, the registry records the succession, "
+         "and agent-v2 presents a new grant.", R_SUCCESSION),
+    Spec("recovery-unclaimed-unrecorded", RECOVERY, rc_unclaimed_unrecorded, REJECT,
+         "succession_unrecorded",
+         "The same re-registration, and the registry records no succession; agent-v2 presents a "
+         "new grant.", R_SUCCESSION_UNRECORDED, "recovery-unclaimed-succession"),
+    Spec("recovery-new-agent-asserted", RECOVERY, rc_new_agent_asserted, ACCEPT,
+         "authority_valid_with_history_contested",
+         "After the registry records the succession, the organisation asserts that agent-v2 is "
+         "a new agent, and agent-v2 presents a new grant.", R_NEW_AGENT),
+    Spec("recovery-successor-responsible", RECOVERY, rc_successor_responsible, ACCEPT,
+         "authority_valid_with_history",
+         "The operator responsible for agent-v1 hands its agents to a successor operator; the "
+         "agent-v1 key is lost, the successor registers the same software as agent-v2 and signs "
+         "the recovery with the registry, and agent-v2 presents a new grant.",
+         R_SUCCESSOR_RESPONSIBLE),
+    Spec("recovery-successor-responsible-unrecorded", RECOVERY, rc_successor_unrecorded, REJECT,
+         "recovery_mismatch",
+         "The successor operator signs the recovery, and no responsible-succession record hands "
+         "agent-v1 to it.", R_SUCCESSOR_UNRECORDED, "recovery-successor-responsible"),
+    Spec("subagent-parent-active", SUBAGENT, sa_parent_active, ACCEPT, "authority_valid",
+         "agent-v1 spawns sub-agent-v1, the registry registers it with agent-v1 as its parent, "
+         "and sub-agent-v1 presents its grant under agent-v1's while agent-v1 is active.",
+         R_SUB_ACTIVE),
+    Spec("subagent-parent-retired", SUBAGENT, sa_parent_retired, REJECT, "parent_inactive",
+         "The registry retires agent-v1 at 12:00, and sub-agent-v1 presents the same unrevoked "
+         "grants at 13:00.", R_SUB_LIFESPAN, "subagent-parent-active"),
+    Spec("subagent-respawned-after-parent-recovery", SUBAGENT, sa_respawned_after_recovery,
+         ACCEPT, "authority_valid_with_history",
+         "The registry revokes agent-v1 for key compromise and the organisation recovers it to "
+         "agent-v2; agent-v2 spawns sub-agent-v2 from the same sub-agent software, the registry "
+         "records the succession from sub-agent-v1, and sub-agent-v2 presents new grants from "
+         "the organisation and agent-v2.", R_SUB_RESPAWN),
+    Spec("subagent-not-carried-by-parent-recovery", SUBAGENT, sa_not_carried_by_recovery,
+         REJECT, "parent_inactive",
+         "After the same recovery, sub-agent-v1 presents its grant under agent-v1's.",
+         R_SUB_NOT_CARRIED, "subagent-respawned-after-parent-recovery"),
+    Spec("subagent-succession-history-only", SUBAGENT, sa_succession_history, ACCEPT,
+         "authority_valid_with_history",
+         "agent-v1 revoked sub-agent-v1's grant and confirmed the revocation over sub-agent-v1's "
+         "dispute; agent-v1 is retired at redeployment, the registry records the successions to "
+         "agent-v2 and sub-agent-v2, and sub-agent-v2 presents new grants.", R_SUB_HISTORY),
+    Spec("subagent-succession-grant-not-carried", SUBAGENT, sa_succession_grant_not_carried,
+         REJECT, "presenter_not_delegate",
+         "After the same successions, sub-agent-v2 presents the grants made to agent-v1 and "
+         "sub-agent-v1.", R_SUB_NO_GRANT, SUBAGENT_HISTORY_TWIN),
+    Spec("subagent-respawn-unrecorded", SUBAGENT, sa_succession_unrecorded, REJECT,
+         "succession_unrecorded",
+         "The same redeployment, and the registry records no succession from sub-agent-v1 to "
+         "sub-agent-v2; sub-agent-v2 presents new grants.", R_SUB_UNRECORDED,
+         SUBAGENT_HISTORY_TWIN),
 )
 
 
@@ -721,8 +1145,10 @@ def _index(entries: list[dict[str, Any]], digest: str) -> bytes:
         f"Relying party test keyid: `{keyid(RELYING_PARTY)}`", "",
         f"Corpus digest: `{digest}`", "",
     ]
-    titles = {TREE: "Revocation across a delegation tree", REREG: "Re-registration"}
-    for family in (TREE, REREG):
+    titles = {TREE: "Revocation across a delegation tree", REREG: "Re-registration",
+              RECOVERY: "Recovery after a lost or compromised key",
+              SUBAGENT: "Sub-agents bound to the parent's lifespan"}
+    for family in (TREE, REREG, RECOVERY, SUBAGENT):
         lines += [f"## {titles[family]}", "",
                   "| id | outcome | reason | situation | rule |",
                   "| --- | --- | --- | --- | --- |"]

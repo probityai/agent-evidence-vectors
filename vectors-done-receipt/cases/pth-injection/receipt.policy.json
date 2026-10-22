@@ -1,0 +1,68 @@
+{
+  "assessments": {
+    "pth-injection": {
+      "capability_witness": "capability",
+      "claim_type": "done_receipt/v2",
+      "claims_witness": "claims",
+      "contract_witness": "contract",
+      "grade_witness": "grade",
+      "invocation_id": "call-1",
+      "observation_witness": "observation",
+      "observed_party": "agent-1",
+      "receipt_witness": "receipt",
+      "scope": {
+        "end": "2026-10-17T00:10:00Z",
+        "id": "run-1",
+        "start": "2026-10-17T00:00:00Z"
+      },
+      "tree_witness": "tree"
+    }
+  },
+  "schema_version": "probity-policy/v1",
+  "witnesses": {
+    "capability": {
+      "artifact": "capability",
+      "authority": "synthetic fixture",
+      "sha256": "dd56d538b083bc017ccd385f853b1c822ffee9de3511b691085ca6c086e2f733"
+    },
+    "claims": {
+      "artifact": "claims",
+      "authority": "synthetic fixture",
+      "sha256": "8ed32187dc7db216ba19a329d07666053704d09997079780c5b68b658f6928f8"
+    },
+    "contract": {
+      "artifact": "contract",
+      "authority": "synthetic fixture",
+      "sha256": "ab08f5c60b2f24f7bdae21877ff7db72dfa5a1bd3bd6954b4e01e9f015313a48"
+    },
+    "grade": {
+      "artifact": "grade",
+      "authority": "synthetic fixture",
+      "producer": "harness-verifier",
+      "sha256": "04bf97c156e689d80b07b224bd7a0830858c5429aabd3e718661c66a2d798dbb",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "observation": {
+      "artifact": "observation",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "4cd00c2567053089b5aa6ada88df01ed2de3b89acade1673f36319f906ec89e2",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    },
+    "receipt": {
+      "artifact": "receipt",
+      "authority": "synthetic fixture",
+      "sha256": "19cb49d9f799e794b4565976e7da2544034527f0588da88de9a024a5ed8bd94e"
+    },
+    "tree": {
+      "artifact": "tree",
+      "authority": "synthetic fixture",
+      "producer": "host-observer",
+      "sha256": "3379d5ae3366de20dc2e8514195412f7144481ca70b38e1d741e24be48440a56",
+      "vantage": "independent",
+      "witness_scope": "PEER"
+    }
+  }
+}

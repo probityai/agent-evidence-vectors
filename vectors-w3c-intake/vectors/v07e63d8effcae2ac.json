@@ -1,0 +1,284 @@
+{
+  "cites": "c3 is in the manifest and the result never returned it, so 2 of 2 printed as a clean run",
+  "expected": {
+    "rejects": [
+      "W3C-I-005"
+    ],
+    "verdict": "reject"
+  },
+  "family": "w3c-i-f-005",
+  "id": "v07e63d8effcae2ac",
+  "kind": "reject",
+  "record": {
+    "aggregate": {
+      "counts": {
+        "accept": 1,
+        "reject": 1
+      },
+      "line": "verdict: every member behaves as MANIFEST.json declares",
+      "total": 2
+    },
+    "anchor": {
+      "kind": "digest-list-line",
+      "manifest": "suite/MANIFEST.json",
+      "reference": {
+        "path": "anchor/DIGESTS.txt",
+        "uri": "https://example.invalid/fixture/DIGESTS.txt"
+      },
+      "routine": "SHA-256 over the member files concatenated in identifier order",
+      "routine-file": "checker/digest.sh",
+      "serialization": "corpus-routine",
+      "sha256": "b3f683e28cfe4b52c600015380fee5bf128e157beaf5edd3986f36e23a8cd63c",
+      "verdicts": {
+        "availability-failure": "inconclusive",
+        "integrity-failure": "fail"
+      }
+    },
+    "artifacts": [
+      {
+        "consumed": "unconsumed",
+        "evidence": {
+          "baseline": {
+            "exit-code": 0,
+            "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+          },
+          "refused-by": [
+            "W3C-I-002"
+          ],
+          "swapped": {
+            "exit-code": 0,
+            "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+          },
+          "test": "swap-and-re-pin"
+        },
+        "path": "suite/README.md",
+        "serialization": "bytes",
+        "sha256": "34522b36806359d7d7abf4107c97a3766f029500429c47aa6093e587bfee93fd"
+      }
+    ],
+    "boundary": {
+      "complete": true,
+      "member-locations": [
+        {
+          "dir": "cases",
+          "recursive": false,
+          "suffix": ".json"
+        }
+      ],
+      "root": "suite"
+    },
+    "byte-identity": {
+      "pins": 3,
+      "serialization": "bytes"
+    },
+    "canonicalization": {
+      "encoding": "jcs-sha256"
+    },
+    "checker": {
+      "commands": [
+        "sh checker/check.sh suite/cases/<id>.json"
+      ],
+      "dependencies": [
+        {
+          "path": "checker/deps.lock",
+          "serialization": "bytes",
+          "sha256": "0414b01597df561bf271181fb453118f870867e65f182b7012e3e1a7ff3095ba"
+        }
+      ],
+      "helpers": [
+        {
+          "path": "helpers/fetch.sh",
+          "serialization": "bytes",
+          "sha256": "e75c7b6425e04b066901895f249fed6264d63b77b092d4fa370e783d0cd6e9c0",
+          "uri": "https://example.invalid/fixture/fetch.sh"
+        }
+      ],
+      "name": "fixture-check",
+      "relationship": "same-implementation",
+      "revision": {
+        "kind": "source-listing",
+        "paths": [
+          "checker/check.sh"
+        ],
+        "serialization": "sha256-listing-v1",
+        "sha256": "7f75d51b61405014c1d2e2daaeeab0a5ee1752fdc724518fae00f02d8884987b"
+      },
+      "runtime": {
+        "name": "posix-sh",
+        "version": "POSIX.1-2017"
+      },
+      "shared-verification-code": [
+        "checker/check.sh"
+      ]
+    },
+    "checks": [
+      {
+        "check": "c1",
+        "native": {
+          "reasons": [],
+          "verdict": "accept"
+        },
+        "state": "pass"
+      },
+      {
+        "check": "c2",
+        "native": {
+          "reasons": [],
+          "verdict": "reject"
+        },
+        "state": "pass"
+      }
+    ],
+    "corpus-digest": {
+      "serialization": "sha256-listing-v1",
+      "sha256": "cb9d522601dd2c92831715d15619ce544bed75debdf501a4755db19db56286b5"
+    },
+    "exit-code": 0,
+    "exit-rule": "zero-iff-every-check-passes",
+    "exposure": "visible",
+    "faults": [],
+    "format": "public-agent-conformance/intake-record/v2",
+    "manifest": {
+      "closed": true,
+      "ids": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "path": "suite/MANIFEST.json",
+      "sha256": "151843b21783a0c3a18c89f5f2377724f8c120e91c526158d5e98e5c28858d25"
+    },
+    "members": [
+      {
+        "files": [
+          {
+            "path": "suite/cases/c1.json",
+            "sha256": "3b3cd089ecd760f58ffe4b52f04a03e293cbd8e5a7e92dbe9589288b5b9e7af7"
+          }
+        ],
+        "id": "c1"
+      },
+      {
+        "files": [
+          {
+            "path": "suite/cases/c2.json",
+            "sha256": "509ee39cc14305804f14cb7cd90eb3440d6a28ced97754cdab5d1a8b6a29dca1"
+          }
+        ],
+        "id": "c2"
+      },
+      {
+        "files": [
+          {
+            "path": "suite/cases/c3.json",
+            "sha256": "da897f3fbfa76478723fe4e5d56fed0cc7ce8384272c7c27935f149fe3f451bf"
+          }
+        ],
+        "id": "c3"
+      }
+    ],
+    "native": {
+      "cases": "cases-json",
+      "format": "corpus-result-json-v1",
+      "process-status": {
+        "exit-code": 0
+      },
+      "summary": "summary-text"
+    },
+    "non-author-runs": [],
+    "observations": [
+      {
+        "carry": "referenced",
+        "id": "cases-json",
+        "reference": {
+          "path": "out/cases.json",
+          "serialization": "bytes",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        }
+      },
+      {
+        "carry": "referenced",
+        "id": "summary-text",
+        "reference": {
+          "path": "out/summary.txt",
+          "serialization": "bytes",
+          "sha256": "e9b1ad00fb506ad7c01e5382bfbf62515ca850a1462bfe9d761c880f0368cb55"
+        }
+      },
+      {
+        "carried": "",
+        "carry": "carried",
+        "id": "stderr"
+      },
+      {
+        "carry": "absent",
+        "id": "timing"
+      }
+    ],
+    "pin-serialization": "bytes",
+    "refusal-verdicts": [
+      "reject"
+    ],
+    "refusals": [
+      {
+        "check": "c2",
+        "inputs": [
+          "member:c2",
+          "check:c2"
+        ],
+        "rule": "the fixture checker refuses a case whose expectation is reject"
+      }
+    ],
+    "relaxed-controls": [],
+    "replay-stability": {
+      "cause": null,
+      "ordering": "emission-order",
+      "runs": [
+        {
+          "process": "run-1",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        },
+        {
+          "process": "run-2",
+          "sha256": "fbee0f186f2b73c53ccca62b9db28c7f5454bec7b07ef4bf7bc1c016a5af7181"
+        }
+      ],
+      "seed": null,
+      "state": "stable"
+    },
+    "scope": {
+      "does-not-claim": [
+        "whole-attack-surface",
+        "implementation-ranking",
+        "threats-outside-corpus",
+        "action-occurred-or-authority"
+      ],
+      "establishes": [
+        "the fixture checker, at its source listing, judges each pinned member as the fixture manifest declares"
+      ],
+      "leaves-open": [
+        "whether an implementation written from the specification agrees"
+      ]
+    },
+    "selector": {
+      "expression": "*",
+      "language": "id-glob",
+      "matched": 3,
+      "require": "at-least-one",
+      "selected": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "specification-readers": [],
+    "state": "pass",
+    "suite": "fixture-suite"
+  },
+  "requirements": [
+    "W3C-I-005"
+  ],
+  "root": null,
+  "specVersion": "2",
+  "tree": null
+}

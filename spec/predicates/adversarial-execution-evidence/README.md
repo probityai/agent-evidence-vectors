@@ -35,7 +35,11 @@ document established is lost.
 The registry page decides conformance. Where this material and that page
 differ on a normative rule, the page governs and the difference is a defect
 to report. Nothing here weakens a requirement stated there, and nothing here
-adds one: these files explain and bound rules the page states.
+adds one: these files explain and bound rules the page states. One section is
+ahead of the page and says so at its head: "What a verification surface
+reports", at the end of [`verification.md`](verification.md), is the text
+proposed for the page's next revision, and the admission corpus in
+[`../../../vectors-admission`](../../../vectors-admission) tests it.
 
 The verbatim text carries the single document's own cross-references
 ("above", "below", "under Prerequisites"). Each file opens with a table

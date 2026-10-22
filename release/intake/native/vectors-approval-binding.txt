@@ -1,0 +1,5 @@
+suite: approval-binding/v1
+members: 22
+  allow: 6
+  deny: 16
+verdict: every member behaves as MANIFEST.json declares

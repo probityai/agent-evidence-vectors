@@ -1,0 +1,682 @@
+{
+  "aggregate": {
+    "counts": {
+      "rejected": 9,
+      "verified": 3
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 12
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-identity-binding/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-identity-binding/gen_vectors.py",
+    "routine-file": "vectors-identity-binding/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "48ada7df04b9770699ba6e22239f189b35ae6ce096970d2f0688cd08ef7fa90c",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "swapped-in": "a77e4654fb81055880f41528a1cf25814d10caefe3f109065d2f8557f484df4c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-identity-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "88597be31950cf996c178273f52b2d98a312f78c1dca8e4c2f13d0600cf7b4c7"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "swapped-in": "547454809c01bda95a18c0b8f9117fdab0a826ea6daa4e86e348c6a6f09eda85",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-identity-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "9f90c8fca2a0792bea25d98bd80bca8aac4117fc5cf2a378378d4bd6004c4c96"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "swapped-in": "72297020b0d6cc93ab2d7a0123e10e9e09c61dc9213f0b33ee072501fa809d32",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-identity-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "8a365acea74bdac43a514e20f4c90b37ca40ccfa06102bf1f667ba98af3ec8ba"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+        },
+        "swapped-in": "ffeacb6de0b6428c318d830ceb152570d7835feeee94dff4da2a11560f1a2111",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-identity-binding/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "7ab0ba82b097e84f4325de03fe8b56d4172b4d0f61d93f5ab6de946ba14492a8"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-identity-binding"
+  },
+  "byte-identity": {
+    "pins": 35,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-identity-binding",
+      "aee-verify -json vectors-identity-binding",
+      "aee-verify vectors-identity-binding"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "4a378802820b469fb598283ee9c08fa2bcb12776b4fa47d80e361f5abe7386f3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "web-verified",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wba-verified",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "web-signed-before-rotation",
+      "native": {
+        "reasons": [],
+        "verdict": "verified"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-not-in-authentication",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "key-absent-from-document",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "did-unresolvable",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "web-key-rotated-out",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wba-deactivated-before-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-swap",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "did-malformed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "wba-fingerprint-mismatch",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "payload-altered",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "658f1642c5d870d83a40c8626c8b62badce7e7e1624aa1de3443e993cdc77e2b"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "web-verified",
+      "wba-verified",
+      "web-signed-before-rotation",
+      "key-not-in-authentication",
+      "key-absent-from-document",
+      "did-unresolvable",
+      "web-key-rotated-out",
+      "wba-deactivated-before-signing",
+      "subject-swap",
+      "did-malformed",
+      "wba-fingerprint-mismatch",
+      "payload-altered"
+    ],
+    "path": "vectors-identity-binding/MANIFEST.json",
+    "sha256": "6814e6bb6e9782f376ed440456e81bda7c91ef0f3518835f191b5f4512e8e6d3"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/web-verified/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-verified/did-alice.json",
+          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-verified/envelope.json",
+          "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+        }
+      ],
+      "id": "web-verified"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/wba-verified/case.json",
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-verified/did-alice.json",
+          "sha256": "9f5065ef7922589c462ae6e5c38c2bd5781fd92c310016ac4beb5d7d612fca2e"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-verified/envelope.json",
+          "sha256": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
+        }
+      ],
+      "id": "wba-verified"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/web-signed-before-rotation/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-signed-before-rotation/did-alice.json",
+          "sha256": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-signed-before-rotation/envelope.json",
+          "sha256": "a7455e4be92a5ef90d52025a2c3fd9e536a504a6b6b3e717383c1689873df6e7"
+        }
+      ],
+      "id": "web-signed-before-rotation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/key-not-in-authentication/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/key-not-in-authentication/did-alice.json",
+          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
+        },
+        {
+          "path": "vectors-identity-binding/cases/key-not-in-authentication/envelope.json",
+          "sha256": "a855c7c59695f50d1d6b358a6945dd89699b718ae97f658cd42ca70d25ba2c93"
+        }
+      ],
+      "id": "key-not-in-authentication"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/key-absent-from-document/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/key-absent-from-document/did-alice.json",
+          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
+        },
+        {
+          "path": "vectors-identity-binding/cases/key-absent-from-document/envelope.json",
+          "sha256": "e5ebf1040cda1c280953819052c41217fa8905c6cfd6de7bdee2592c8d6aecff"
+        }
+      ],
+      "id": "key-absent-from-document"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/did-unresolvable/case.json",
+          "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
+        },
+        {
+          "path": "vectors-identity-binding/cases/did-unresolvable/envelope.json",
+          "sha256": "b4d105f8851a95530d7e77be5f1e6a87a7cdd410e0a3c259289667d1c6dbf1b0"
+        }
+      ],
+      "id": "did-unresolvable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/web-key-rotated-out/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-key-rotated-out/did-alice.json",
+          "sha256": "138d263eb75a1a8203aa024d592e2309e85207465d6235d7c12d0d25dbc8514b"
+        },
+        {
+          "path": "vectors-identity-binding/cases/web-key-rotated-out/envelope.json",
+          "sha256": "64ac8c874900a6e0c825fc0c7193d7f038939abb531c8589eb40cd64433aaba3"
+        }
+      ],
+      "id": "web-key-rotated-out"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/case.json",
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/did-alice.json",
+          "sha256": "fd95ba8641e445cffeb8da17aef1302651f23a4e7b974ad4e17554e6a80db2e5"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-deactivated-before-signing/envelope.json",
+          "sha256": "587512d4c051e940ee96f53fb0745a0207c2629950e101d925c7a4f996868590"
+        }
+      ],
+      "id": "wba-deactivated-before-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/subject-swap/case.json",
+          "sha256": "57846833b430b0cf19dbb6a0e5eebec6d1558934bcf382c96e9ddb062945c4b2"
+        },
+        {
+          "path": "vectors-identity-binding/cases/subject-swap/did-alice.json",
+          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
+        },
+        {
+          "path": "vectors-identity-binding/cases/subject-swap/did-bob.json",
+          "sha256": "8e989d1f9c74290deed9407603c7c12a989fd2e188055d399e702431c92498d4"
+        },
+        {
+          "path": "vectors-identity-binding/cases/subject-swap/envelope.json",
+          "sha256": "c2bb5f9a4b5c4576a57fe66d04fceb038f324eea68ccedf2cc80cd4c6e0f8f31"
+        }
+      ],
+      "id": "subject-swap"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/did-malformed/case.json",
+          "sha256": "470436ecd8edcbab5296d6d80b8c69b7e459bcdfd9f42f47b349a7c9752a79bb"
+        },
+        {
+          "path": "vectors-identity-binding/cases/did-malformed/envelope.json",
+          "sha256": "cd2393b47a006b9074a8d8cff1c00c4db24b667b2f03cfa4585037843689b1d1"
+        }
+      ],
+      "id": "did-malformed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/case.json",
+          "sha256": "a910b1848ad979b5cef48084bf34a22a56171451b9cf026bb922d8a2ea9a60ae"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/did-alice.json",
+          "sha256": "4c336327832dc99b403ef646675ae07ebb99686cca4dc523cec153200f43bd74"
+        },
+        {
+          "path": "vectors-identity-binding/cases/wba-fingerprint-mismatch/envelope.json",
+          "sha256": "358008d0387fb8085a10174529d526530b6cc896a5984f12617e736b8a67c84a"
+        }
+      ],
+      "id": "wba-fingerprint-mismatch"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-identity-binding/cases/payload-altered/case.json",
+          "sha256": "4bca7d7f89419691fc7c4c9182cadf6aa2bcaabb88621817a28ac4c7d0cb4195"
+        },
+        {
+          "path": "vectors-identity-binding/cases/payload-altered/did-alice.json",
+          "sha256": "649d8c4f26d9138c3d7f5f3a685ae78b3dbf16a9e574221c9daa55bc97078ec6"
+        },
+        {
+          "path": "vectors-identity-binding/cases/payload-altered/envelope.json",
+          "sha256": "02073615284bd3029da448b5921e7ae4e2229165d98ef2971f7f77f2f42e8057"
+        }
+      ],
+      "id": "payload-altered"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-identity-binding.json",
+        "serialization": "bytes",
+        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-identity-binding.txt",
+        "serialization": "bytes",
+        "sha256": "818e2fc49bd130b454e3a7781a890d4a89d7c5d111e6c61dd9c5218bb321af50"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "key-not-in-authentication",
+      "inputs": [
+        "member:key-not-in-authentication",
+        "check:key-not-in-authentication"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_not_authorized\"}}"
+    },
+    {
+      "check": "key-absent-from-document",
+      "inputs": [
+        "member:key-absent-from-document",
+        "check:key-absent-from-document"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_not_authorized\"}}"
+    },
+    {
+      "check": "did-unresolvable",
+      "inputs": [
+        "member:did-unresolvable",
+        "check:did-unresolvable"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"did_unresolvable\"}}"
+    },
+    {
+      "check": "web-key-rotated-out",
+      "inputs": [
+        "member:web-key-rotated-out",
+        "check:web-key-rotated-out"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_rotated_out\"}}"
+    },
+    {
+      "check": "wba-deactivated-before-signing",
+      "inputs": [
+        "member:wba-deactivated-before-signing",
+        "check:wba-deactivated-before-signing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"key_rotated_out\"}}"
+    },
+    {
+      "check": "subject-swap",
+      "inputs": [
+        "member:subject-swap",
+        "check:subject-swap"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signer_not_subject\"}}"
+    },
+    {
+      "check": "did-malformed",
+      "inputs": [
+        "member:did-malformed",
+        "check:did-malformed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"did_malformed\"}}"
+    },
+    {
+      "check": "wba-fingerprint-mismatch",
+      "inputs": [
+        "member:wba-fingerprint-mismatch",
+        "check:wba-fingerprint-mismatch"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"binding_fingerprint_mismatch\"}}"
+    },
+    {
+      "check": "payload-altered",
+      "inputs": [
+        "member:payload-altered",
+        "check:payload-altered"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"signature_invalid\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+      },
+      {
+        "process": "run-2",
+        "sha256": "7afcc0171aa20aed1251b8fe811747775948b59cd61df6037050bfe8359981c7"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 12 pinned members of agent-did-identity-binding/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 12,
+    "require": "at-least-one",
+    "selected": [
+      "web-verified",
+      "wba-verified",
+      "web-signed-before-rotation",
+      "key-not-in-authentication",
+      "key-absent-from-document",
+      "did-unresolvable",
+      "web-key-rotated-out",
+      "wba-deactivated-before-signing",
+      "subject-swap",
+      "did-malformed",
+      "wba-fingerprint-mismatch",
+      "payload-altered"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-did-identity-binding/v1"
+}

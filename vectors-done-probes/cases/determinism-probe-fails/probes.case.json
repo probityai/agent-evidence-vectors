@@ -1,0 +1,21 @@
+{
+  "artifacts": {
+    "contract": {
+      "length": 1380,
+      "path": "contract.json",
+      "sha256": "e8e551712a76df9dd19b22d8ea92c4ae5c924c6024b6fca3e312d73afdb689e1"
+    },
+    "grade": {
+      "length": 1255,
+      "path": "grade.json",
+      "sha256": "d82f77089d27b913887a533278f5f85ee7c88487600a6786b03ee5d8c9dcc248"
+    },
+    "tree": {
+      "length": 528,
+      "path": "tree.json",
+      "sha256": "1138292206cdbd2e61c2a1768b2c4c9324edc44b88294e73c2c29b2d4798756c"
+    }
+  },
+  "case_id": "determinism-fails",
+  "schema_version": "probity-case/v1"
+}

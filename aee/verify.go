@@ -27,19 +27,27 @@ type Report struct {
 	// Tiers is the derived per-row evidence tier column, in attackResults
 	// order; only set when valid.
 	Tiers []Tier `json:"tiers,omitempty"`
-	// PolicyCodes lists consumer-policy findings (the anchor comparison) for
-	// a VALID statement under the supplied policy. They are consumer-relative
-	// admission facts, never validity codes: Verdict, Codes, Result, and
-	// Tiers are byte-pure and unchanged by them.
+	// PolicyCodes lists every consumer-policy condition that refuses a VALID
+	// statement under the supplied policy (admission.go). They are
+	// consumer-relative admission facts, never validity codes: Verdict, Codes,
+	// Result, and Tiers are byte-pure and unchanged by them.
 	PolicyCodes []Code `json:"policyCodes,omitempty"`
 	// Admitted is the single consumer-facing admission result: validity AND
-	// tier-policy satisfaction (every basis: substrate row the consumer
-	// credits derives attested; vacuously satisfied when the statement
-	// carries no substrate rows) AND every supplied anchor matching. A
-	// consumer with no substrate observation keys derives unattested for
-	// every substrate row (no TOFU), so such a statement is never admitted
-	// under that policy.
+	// every consumer-policy condition holding, which is PolicyCodes empty. A
+	// nil or empty policy admits nothing: no key credits a substrate row and
+	// no anchor is pinned.
 	Admitted bool `json:"admitted"`
+	// ArmedAt lists, oldest first, the armedAt of every arming record that
+	// verifies under a pinned key and commits to this run. It is the instant
+	// an observer signed, and the one a reader asking when the run happened
+	// should read; issuedAt is the producer's.
+	ArmedAt []string `json:"armedAt,omitempty"`
+	// ProducerAsserted lists the members of a VALID statement that no
+	// observer signature binds: the subject's name and every descriptor
+	// member but its sha256 digest, issuedAt, and the names and URIs beside
+	// the environment digests. They are the producer's words however many
+	// rows derive attested, and a reader should treat them so.
+	ProducerAsserted []string `json:"producerAsserted,omitempty"`
 }
 
 // The two verdicts a Report can carry.
@@ -118,20 +126,27 @@ func Verify(statementJSON []byte, policy *ConsumerPolicy) *Report {
 		return invalidReport(codes)
 	}
 	tiers := ctx.DeriveTiers(policy)
-	policyCodes := anchorPolicyCodes(ctx, policy)
-	return &Report{
-		Verdict:     VerdictValid,
-		Result:      ctx.result,
-		Tiers:       tiers,
-		PolicyCodes: policyCodes,
-		Admitted:    tierPolicySatisfied(ctx, tiers) && len(policyCodes) == 0,
+	armed := verifiedArmedAt(ctx, policy)
+	policyCodes := admissionCodes(ctx, tiers, policy, armed)
+	report := &Report{
+		Verdict:          VerdictValid,
+		Result:           ctx.result,
+		Tiers:            tiers,
+		PolicyCodes:      policyCodes,
+		Admitted:         len(policyCodes) == 0,
+		ProducerAsserted: producerAsserted(statementJSON),
 	}
+	for _, at := range armed {
+		report.ArmedAt = append(report.ArmedAt, at.UTC().Format(time.RFC3339))
+	}
+	return report
 }
 
 // tierPolicySatisfied reports whether every basis: substrate row derived
-// attested under the consumer's policy. Artifact rows (and rows fail-closed
-// on basis) are declared and never gate admission; a statement with no
-// substrate rows satisfies the tier policy vacuously, under any key set.
+// attested under the consumer's policy. Artifact rows are declared and are
+// governed by the clean-row rule and the result threshold instead; a
+// statement with no substrate rows satisfies this half vacuously, and is not
+// admitted on that account alone.
 func tierPolicySatisfied(ctx *EvalContext, tiers []Tier) bool {
 	rows := ctx.s.Predicate.Rows
 	for i := range rows {
@@ -140,26 +155,6 @@ func tierPolicySatisfied(ctx *EvalContext, tiers []Tier) bool {
 		}
 	}
 	return true
-}
-
-// anchorPolicyCodes compares the supplied expected anchors against the
-// carried observationEnvironment digests. An empty expected digest is
-// unsupplied and compares nothing. The comparison is deliberately not a
-// validity gate: it runs only on a valid statement and its findings live on
-// the consumer surface (Report.PolicyCodes), feeding Admitted alone.
-func anchorPolicyCodes(ctx *EvalContext, policy *ConsumerPolicy) []Code {
-	if policy == nil {
-		return nil
-	}
-	env := ctx.s.Predicate.Env
-	var codes []Code
-	if policy.ExpectedCorpusDigest != "" && policy.ExpectedCorpusDigest != env.Corpus.Sha256() {
-		codes = appendCode(codes, CodeCorpusAnchorMismatch)
-	}
-	if policy.ExpectedSubstrateDigest != "" && policy.ExpectedSubstrateDigest != env.Substrate.Sha256() {
-		codes = appendCode(codes, CodeSubstrateAnchorMismatch)
-	}
-	return codes
 }
 
 // VerifyForEmit is the producer-side seam: GATE 0 + GATE 1 + recompute
