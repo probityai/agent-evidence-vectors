@@ -43,7 +43,7 @@ jobs:
           .build/wheel-venv/bin/python -m pip install .build/dist/*.whl
           cd "$RUNNER_TEMP"
           "$GITHUB_WORKSPACE/.build/wheel-venv/bin/agent-evidence-vectors-remora-e7" \
-            --output "$GITHUB_WORKSPACE/.build/remora-e7-result/wheel" \
+            --output "$(realpath -m --relative-to=. "$GITHUB_WORKSPACE/.build/remora-e7-result/wheel")" \
             --operator EXTERNAL \
             --run-ref https://probityai.github.io/agent-evidence-atlas/lab.html
           grep -q '"implementation_revision": "agent-evidence-vectors==' \

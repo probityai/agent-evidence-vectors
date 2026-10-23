@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import platform
 import re
+import shlex
 import sys
 from pathlib import Path
 
@@ -14,6 +16,7 @@ from .reader import CONTRACT, PACKAGE_DIGEST, REVISION, run_package, sha256
 
 DISTRIBUTION = "agent-evidence-vectors"
 PACKAGED_UPSTREAM = Path(__file__).parent / "upstream"
+ABSOLUTE_HOME = re.compile(r"(?<![A-Za-z0-9])(?:/home/|/Users/|/root/)|[A-Za-z]:[\\/]+Users[\\/]")
 
 
 def _implementation_revision(explicit: str | None) -> str:
@@ -54,7 +57,8 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("reader revision must be a published 40-character Git commit")
     revision = _implementation_revision(args.reader_revision)
     logging.basicConfig(level=logging.INFO, stream=sys.stderr)
-    args.output.mkdir(parents=True, exist_ok=False)
+    if args.output.exists():
+        raise FileExistsError(args.output)
     report = run_package(args.upstream)
     report["reader_files"] = _reader_files()
     report["environment"] = f"Python {platform.python_version()} on {platform.platform()}"
@@ -94,8 +98,15 @@ def main(argv: list[str] | None = None) -> int:
         "Operator is external to REMORA when EXTERNAL is selected. Reader and output are under "
         "Probity control; this proves no independent effect observation or key/store custody."
     )
-    for name, value in (("report.json", report), ("external-run-record-v1.json", record)):
-        (args.output / name).write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+    texts = {
+        name: json.dumps(value, indent=2, sort_keys=True) + "\n"
+        for name, value in (("report.json", report), ("external-run-record-v1.json", record))
+    }
+    for name, text in texts.items():
+        _refuse_absolute_home(name, text)
+    args.output.mkdir(parents=True, exist_ok=False)
+    for name, text in texts.items():
+        (args.output / name).write_text(text)
     print(json.dumps({"cases": len(report["results"]), "failures": report["failures"]}))
     return int(bool(report["failures"]))
 
@@ -110,10 +121,29 @@ def _reader_files() -> list[dict[str, str]]:
 
 
 def _command() -> str:
-    """Render the invocation as an unambiguous shell command."""
-    import shlex
+    """Render the invocation as an unambiguous shell command without local paths.
 
-    return shlex.join([sys.executable, *sys.argv])
+    The environment the reader runs from (a uvx archive, a virtualenv) is named by
+    a placeholder, and paths under the working directory are written relative to it,
+    so a retained record never carries the home directory of whoever ran it.
+    """
+    command = shlex.join([sys.executable, *sys.argv])
+    roots = {sys.prefix, os.path.dirname(os.path.dirname(sys.executable))}
+    for root in sorted(roots, key=len, reverse=True):
+        if root and root != os.sep:
+            command = command.replace(root, "<uv-env>" if "/uv/" in root else "<env>")
+    return command.replace(os.getcwd().rstrip(os.sep) + os.sep, "")
+
+
+def _refuse_absolute_home(name: str, text: str) -> None:
+    """Stop before writing when a retained file would carry an absolute home path."""
+    found = ABSOLUTE_HOME.search(text)
+    if found is not None:
+        context = text[max(0, found.start() - 20) : found.end() + 40]
+        raise SystemExit(
+            f"refusing to write {name}: it contains an absolute home path near {context!r}; "
+            "pass relative paths for --output and --upstream"
+        )
 
 
 if __name__ == "__main__":

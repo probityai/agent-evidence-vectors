@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import copy
 import json
+import os
+import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -194,12 +197,18 @@ class TestWindowsPaths:
 
 
 class TestEntryPoint:
-    def test_packaged_upstream_is_the_default(self, tmp_path: Path) -> None:
+    def test_packaged_upstream_is_the_default(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(sys, "argv", ["agent-evidence-vectors-remora-e7"])
+        monkeypatch.setattr(sys, "prefix", "/opt/env")
+        monkeypatch.setattr(sys, "executable", "/opt/env/bin/python")
         out = tmp_path / "result"
         code = run_main(
             [
                 "--output",
-                str(out),
+                "result",
                 "--reader-revision",
                 "0" * 40,
                 "--operator",
@@ -244,3 +253,90 @@ class TestEntryPoint:
                     "x",
                 ]
             )
+
+
+# Built from parts so this file holds no literal home path for the repository scans.
+HOME = "/" + "home" + "/someone"
+USERS = "/" + "Users" + "/someone"
+ROOT = "/" + "root"
+WINDOWS = "C:" + "\\" + "Users" + "\\" + "someone"
+
+
+class TestNoAbsoluteHomePaths:
+    """A retained record names the environment by placeholder and never by home path."""
+
+    HOME_ENV = HOME + "/.cache/uv/archive-v0/abc123"
+
+    @staticmethod
+    def _args(*extra: str) -> list[str]:
+        return [
+            "--output",
+            "result",
+            "--reader-revision",
+            "0" * 40,
+            "--operator",
+            "EXTERNAL",
+            "--run-ref",
+            "https://example.invalid/run",
+            *extra,
+        ]
+
+    def _run_from_home_env(self, monkeypatch: pytest.MonkeyPatch, workdir: Path) -> Path:
+        monkeypatch.chdir(workdir)
+        monkeypatch.setattr(sys, "prefix", self.HOME_ENV)
+        monkeypatch.setattr(sys, "executable", f"{self.HOME_ENV}/bin/python")
+        monkeypatch.setattr(
+            sys, "argv", [f"{self.HOME_ENV}/bin/agent-evidence-vectors-remora-e7", *self._args()]
+        )
+        assert run_main(self._args()) == 0
+        return workdir / "result"
+
+    def test_environment_prefix_becomes_a_placeholder(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        out = self._run_from_home_env(monkeypatch, tmp_path)
+        tail = shlex.join(self._args())
+        expected = f"<uv-env>/bin/python <uv-env>/bin/agent-evidence-vectors-remora-e7 {tail}"
+        for name in ("report.json", "external-run-record-v1.json"):
+            data = json.loads((out / name).read_text())
+            assert data["command"] == expected
+
+    def test_paths_under_the_working_directory_are_written_relative(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(sys, "prefix", "/opt/env")
+        monkeypatch.setattr(sys, "executable", "/opt/env/bin/python")
+        monkeypatch.setattr(sys, "argv", [str(tmp_path / "pkg" / "run.py"), "--output", "result"])
+        assert run_main(self._args()) == 0
+        command = json.loads((tmp_path / "result" / "report.json").read_text())["command"]
+        tail = shlex.join([os.path.join("pkg", "run.py"), "--output", "result"])
+        assert command == f"<env>/bin/python {tail}"
+
+    def test_no_recorded_field_holds_an_absolute_home_path(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        out = self._run_from_home_env(monkeypatch, tmp_path)
+        for name in ("report.json", "external-run-record-v1.json"):
+            text = (out / name).read_text()
+            assert not re.search(r"/home/|/Users/|/root/", text), name
+
+    def test_a_home_path_argument_is_refused_and_nothing_is_written(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(
+            sys, "argv", ["agent-evidence-vectors-remora-e7", "--note", HOME + "/private"]
+        )
+        with pytest.raises(SystemExit, match="absolute home path"):
+            run_main(self._args())
+        assert not (tmp_path / "result").exists()
+
+    @pytest.mark.parametrize("path", [USERS + "/x", WINDOWS + "\\x", ROOT + "/x"])
+    def test_other_home_path_shapes_are_refused(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, path: str
+    ) -> None:
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(sys, "argv", ["x", path])
+        with pytest.raises(SystemExit, match="absolute home path"):
+            run_main(self._args())
