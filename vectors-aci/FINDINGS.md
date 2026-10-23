@@ -6,6 +6,8 @@ deployments. Every finding below is reproducible from this repository: the examp
 `vectors-aci/`, vendored at that commit, and `aee-verify vectors-aci/` prints the verdict each one
 carries.
 
+ACI (Agent Communication Interface) Draft Specification v0.9, Security Division, Empire Labs Pty Ltd, licensed CC BY 4.0, https://github.com/narko4u/aci-spec. Quoted specification text is used under that licence.
+
 Sixteen findings. Four are ambiguities where two conforming implementations diverge, two are
 defects in the reference validator, and ten are places the specification's own artifacts do not
 satisfy its normative text.
