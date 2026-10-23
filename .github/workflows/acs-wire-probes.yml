@@ -37,6 +37,9 @@ jobs:
           - label: pr229-6e6942d
             ref: 6e6942deb8393e15916976b95e3bd18b97071b62
             expect: agt-pr229-6e6942d.json
+          - label: pr229-f94d393
+            ref: f94d3931fdcee5500ccfad689bae82b352e67faa
+            expect: agt-pr229-f94d393.json
     steps:
       - name: Check out the probes
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
