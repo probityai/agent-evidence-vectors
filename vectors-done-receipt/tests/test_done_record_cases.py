@@ -30,7 +30,7 @@ from agent_evidence_vectors import donerecords as rec  # noqa: E402
 
 FIXTURE = ROOT / "corpora" / "testdata" / "done-records.json"
 CORPORA = ("vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output",
-           "vectors-test-tampering", "vectors-grader-isolation")
+           "vectors-test-tampering", "vectors-grader-isolation", "vectors-done-probes")
 PARSERS: dict[str, Callable[[bytes], Any]] = {
     "contract": rec.contract, "tree": rec.tree, "observation": rec.observation,
     "capability": rec.capability, "grade": rec.grade, "claims": rec.claims}
