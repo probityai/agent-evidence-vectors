@@ -153,6 +153,24 @@ class TestMapReader:
                 == expected
             )
 
+        @pytest.mark.parametrize(
+            "reference,expected",
+            [
+                ("2026-10-02T11:00:00.000Z", True),
+                ("2026-10-02T11:00:00.000196Z", True),
+                ("2026-10-02T11:00:00.000197Z", False),
+            ],
+        )
+        def test_sub_millisecond_expiry_compares_instants(
+            self, reference: str, expected: bool
+        ) -> None:
+            """The producer's boundary-fresh shape: a millisecond clock reading
+            just inside a microsecond expiry is fresh, and a string or
+            millisecond comparison would call it expired."""
+            payload = {**PAYLOAD, "expiresAt": "2026-10-02T11:00:00.000197+00:00"}
+            gate = {**GATE, "evaluation_time": reference}
+            assert evaluate(sign(payload), KEY, ISSUER, gate)["fresh"] is expected
+
         def test_capture_definition_hash_reuses_unchanged_profile(self) -> None:
             assert capture_digest([TOOL], TOOL["name"]) == DIGEST
             assert (
