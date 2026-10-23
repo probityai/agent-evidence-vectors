@@ -27,7 +27,7 @@ Install matching published versions:
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
-uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify --json"
+uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
@@ -35,7 +35,7 @@ Run the same harness from the published release checkout:
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
 cd agent-evidence-vectors && git checkout v0.24.0
-python3 packaging/run_vectors.py --verifier "aee-verify --json"
+python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
 The [runner guide](docs/guides/runner.md) covers the GitHub Action, its inputs and report fields. [Probity Admission](https://github.com/probityai/agent-evidence/tree/main/packages/admission) uses pinned corpora to check policy-engine enforcement.

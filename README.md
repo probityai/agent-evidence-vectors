@@ -37,7 +37,7 @@ Now run the same corpus against a verifier other than the reference. The Go refe
 
 ```bash
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
-uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify --json"
+uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement. `--list-corpora` names the other shipped corpora and `--corpus <name>` selects one.
