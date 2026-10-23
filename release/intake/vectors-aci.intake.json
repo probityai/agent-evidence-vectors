@@ -46,7 +46,30 @@
       },
       "path": "vectors-aci/FINDINGS.md",
       "serialization": "bytes",
-      "sha256": "49655795a565cd3bf836f38526b7601edd3fd8b9828cf2a264aa4df3e4cf471a"
+      "sha256": "b0d4449751cd5d90d9c68d8c6d08d966181b0c7e0eafb94a7e6c30139891ae62"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "8a15d30f8f5f10240f8c544cda2efe5735e0730693536e1c3430de1e9bdcf51a"
+        },
+        "swapped-in": "ceb63dc6469d509989b20e11df07a7518bda9f836b373511e8e4dd1e1e9fcd1b",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-aci/NOTICE",
+      "serialization": "bytes",
+      "sha256": "6bc9ebdcf2234617e09f10b9b4cfa5823d6c743502cec7b232d5ae20d69d6f90"
     },
     {
       "consumed": "unconsumed",
@@ -4095,7 +4118,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "d0d16e0542ef83697e5f20ddf880e821d925728877a3d3ee56ca1f6876ac05f1"
+    "sha256": "c66d9fef540f4018a76c06427404e756e7bb8fd05415905dfdd71cd4d9b8f3f1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
