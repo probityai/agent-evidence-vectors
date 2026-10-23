@@ -21,7 +21,7 @@ from typing import Any
 # Home directories of a hosted CI runner name no person, so a record may carry them.
 CI_HOMES = ("runner",)
 # JSON keys that declare how to reproduce the run; a scratch path may appear there.
-REPRODUCTION_KEYS = ("command", "reproduction")
+REPRODUCTION_KEYS = ("command", "reproduction", "verifier")
 
 _BOUNDARY = r"(?<![A-Za-z0-9_.:~/\\-])"
 _ROOTS = (

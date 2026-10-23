@@ -77,8 +77,11 @@ def test_scratch_is_allowed_only_in_a_declared_reproduction_field() -> None:
     refuse_local_paths("r.json", {"command": f"python run.py --output {SCRATCH}"})
     with pytest.raises(LocalPathError):
         refuse_local_paths("r.json", {"note": SCRATCH})
+    refuse_local_paths("r.json", {"verifier": ["python", SCRATCH + "/verify.py"]})
     with pytest.raises(LocalPathError):
         refuse_local_paths("r.json", {"command": REFUSED[0]})
+    with pytest.raises(LocalPathError):
+        refuse_local_paths("r.json", {"verifier": [REFUSED[0]]})
 
 
 def test_relativize_rewrites_under_the_root_and_refuses_outside(tmp_path: Path) -> None:
