@@ -101,18 +101,23 @@ def relativize(path: str | os.PathLike[str], root: str | os.PathLike[str]) -> st
         raise LocalPathError(f"{path} is outside {root}, so it has no repo-relative form") from None
 
 
-def portable_command() -> str:
-    """Render the invocation as a shell command without local paths.
-
-    The environment the reader runs from (a uvx archive, a virtualenv) is named by a
-    placeholder, and paths under the working directory are written relative to it.
-    """
-    command = shlex.join([sys.executable, *sys.argv])
+def _portable(text: str) -> str:
+    """Name the interpreter environment by a placeholder and drop the working directory."""
     roots = {sys.prefix, os.path.dirname(os.path.dirname(sys.executable))}
     for root in sorted(roots, key=len, reverse=True):
         if root and root != os.sep:
-            command = command.replace(root, "<uv-env>" if "/uv/" in root else "<env>")
-    return command.replace(os.getcwd().rstrip(os.sep) + os.sep, "")
+            text = text.replace(root, "<uv-env>" if "/uv/" in root else "<env>")
+    return text.replace(os.getcwd().rstrip(os.sep) + os.sep, "")
+
+
+def portable_argv(argv: list[str]) -> list[str]:
+    """Rewrite each argument so it carries no environment or working-directory path."""
+    return [_portable(arg) for arg in argv]
+
+
+def portable_command() -> str:
+    """Render the invocation as a shell command without local paths."""
+    return _portable(shlex.join([sys.executable, *sys.argv]))
 
 
 def write_records(output: Path, records: Mapping[str, Any]) -> None:

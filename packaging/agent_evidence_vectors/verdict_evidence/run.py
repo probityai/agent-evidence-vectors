@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ..record_paths import write_records
+from ..record_paths import portable_argv, write_records
 from .reader import EXIT_FOR, SUITE, SUPPORTED, sha256_hex, verify
 
 DISTRIBUTION = "agent-evidence-vectors"
@@ -76,7 +76,9 @@ def _external(command: list[str], case_json: Path) -> tuple[bool, dict[str, Any]
         result = subprocess.run([*command, str(case_json), "--json"], capture_output=True,
                                 text=True, timeout=90, check=False)
     except (OSError, subprocess.TimeoutExpired) as exc:
-        return False, f"verifier did not run: {exc}"
+        # The OS message names the verifier path, which would put a local path in the record.
+        why = exc.strerror if isinstance(exc, OSError) and exc.strerror else type(exc).__name__
+        return False, f"verifier did not run: {why}"
     try:
         answer = json.loads(result.stdout.strip().splitlines()[-1])
         observed = {key: answer[key] for key in ("decision", "reason")}
@@ -108,7 +110,7 @@ def run_corpus(root: Path, verifier: list[str] | None = None,
         "suite": SUITE,
         "corpusDigest": manifest["corpusDigest"],
         "rail": "reference-reader" if verifier is None else "external",
-        "verifier": verifier,
+        "verifier": None if verifier is None else portable_argv(verifier),
         "answered": answered,
         "total": len(manifest["cases"]),
         "non_claims": list(NON_CLAIMS),

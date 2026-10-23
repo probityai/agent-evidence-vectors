@@ -19,6 +19,7 @@ from agent_evidence_vectors import record_paths  # noqa: E402
 from agent_evidence_vectors.record_paths import (  # noqa: E402
     LocalPathError,
     find_local_path,
+    portable_argv,
     portable_command,
     refuse_local_paths,
     relativize,
@@ -158,3 +159,13 @@ def test_every_run_record_writer_goes_through_the_shared_function() -> None:
     ]
     assert not bypass, f"run writers that skip record_paths.write_records: {bypass}"
     assert record_paths.write_records is write_records
+
+
+def test_portable_argv_names_the_environment_and_drops_the_working_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(sys, "prefix", "/opt/env")
+    monkeypatch.setattr(sys, "executable", "/opt/env/bin/python")
+    got = portable_argv(["/opt/env/bin/python3", str(tmp_path / "v" / "check.py")])
+    assert got == ["<env>/bin/python3", "v/check.py"]
