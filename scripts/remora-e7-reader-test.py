@@ -19,6 +19,7 @@ from hypothesis import strategies as st
 PACKAGING = Path(__file__).resolve().parents[1] / "packaging"
 sys.path.insert(0, str(PACKAGING))
 
+from agent_evidence_vectors.record_paths import LocalPathError  # noqa: E402
 from agent_evidence_vectors.remora_e7.reader import (  # noqa: E402
     evaluate_case,
     load_object,
@@ -328,7 +329,7 @@ class TestNoAbsoluteHomePaths:
         monkeypatch.setattr(
             sys, "argv", ["agent-evidence-vectors-remora-e7", "--note", HOME + "/private"]
         )
-        with pytest.raises(SystemExit, match="absolute home path"):
+        with pytest.raises(LocalPathError, match="absolute local path"):
             run_main(self._args())
         assert not (tmp_path / "result").exists()
 
@@ -338,5 +339,5 @@ class TestNoAbsoluteHomePaths:
     ) -> None:
         monkeypatch.chdir(tmp_path)
         monkeypatch.setattr(sys, "argv", ["x", path])
-        with pytest.raises(SystemExit, match="absolute home path"):
+        with pytest.raises(LocalPathError, match="absolute local path"):
             run_main(self._args())

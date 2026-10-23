@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from ..record_paths import write_records
 from .reader import EXIT_FOR, SUITE, SUPPORTED, sha256_hex, verify
 
 DISTRIBUTION = "agent-evidence-vectors"
@@ -161,9 +162,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     report["implementation_revision"] = _revision(args.implementation_revision)
     report["environment"] = f"Python {platform.python_version()} on {platform.platform()}"
-    args.output.mkdir(parents=True, exist_ok=False)
-    (args.output / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n",
-                                             encoding="utf-8")
+    write_records(args.output, {"report.json": report})
     for failure in report["failures"]:
         print(f"FAIL {failure}")
     print(f"{SUITE}: answered {report['answered']} of {report['total']} cases, "
