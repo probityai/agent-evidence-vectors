@@ -591,7 +591,7 @@
       ]
     }
   ],
-  "rosterComment": "Every run of a corpus from this repository, by anyone, one row per implementation and corpus, with exactly one label. author-produced: this repository's maintainer wrote the code that ran. second-party-same-code: someone other than the code's author ran that same code. independent: the code was written by someone other than this repository's maintainer, without the reference code. The label says who wrote and who ran the code, never how blind the run was; the evidence field says that. consent is how the runner agreed to be listed: posted-publicly means the runner posted the result in a public thread named in consentThread, confirmed means the runner confirmed the listing there, not-yet-asked means neither. scripts/independent-runs-gate.py refuses a row without every field or with any other label.",
+  "rosterComment": "Every run of a corpus from this repository, by anyone, one row per implementation and corpus, with exactly one label. author-produced: this repository's maintainer wrote the code that ran. second-party-same-code: someone other than the code's author ran that same code. independent: the code was written by someone other than this repository's maintainer, without the reference code; where part of it was written after reading the reference code, the row's evidence field names that part. The label says who wrote and who ran the code, never how blind the run was; the evidence field says that. consent is how the runner agreed to be listed: posted-publicly means the runner posted the result in a public thread named in consentThread, confirmed means the runner confirmed the listing there, not-yet-asked means neither. scripts/independent-runs-gate.py refuses a row without every field or with any other label.",
   "roster": [
     {
       "runner": "probityai",
@@ -624,7 +624,7 @@
       "implementation": "Rul1an's agent-written Rust reader",
       "corpus": "vectors-observed-effect",
       "label": "independent",
-      "evidence": "directed: written by an AI agent after reading the cases and expected answers; outcome agreement on 12 accepts, 46 rejects and the indeterminate case; the verdict word matched on 46 of the 46 rejects at efe2dd9 with one directed reader option that words each refusal by the predicate 0.6.1 stage rule, and on 24 of the 46 at e6f1784f before that option (docs/runs/observed-effect-verdict-words.md)",
+      "evidence": "directed: written by an AI agent after reading the cases and expected answers; the first-pass reader was written from the spec text by an agent told not to open this repository's verifiers, and the directed options on top of it, about a hundred lines, were written after reading the three verifiers (check_vectors.py, observedeffect.py and observedeffect/rules.go), which issue 29 cites by file and line; outcome agreement on 12 accepts, 46 rejects and the indeterminate case; the verdict word matched on 46 of the 46 rejects at efe2dd9 with one directed reader option that words each refusal by the predicate 0.6.1 stage rule, and on 24 of the 46 at e6f1784f before that option (docs/runs/observed-effect-verdict-words.md)",
       "posting": "https://github.com/probityai/agent-evidence-vectors/issues/29#issuecomment-6147963317",
       "consentThread": "https://github.com/probityai/agent-evidence-vectors/issues/29",
       "consent": "posted-publicly",
