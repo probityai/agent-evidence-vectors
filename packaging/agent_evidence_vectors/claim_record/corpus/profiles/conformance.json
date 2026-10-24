@@ -1,0 +1,30 @@
+{
+  "schema": "aev-claim-profile/v1",
+  "id": "conformance/v1",
+  "description": "A conformance run: an implementation against a pinned case set. No authority is exercised and no side-effecting action is taken, so epoch and settlement may be not applicable under the named reasons and no other.",
+  "coordinates": [
+    "applicability",
+    "population",
+    "vantage",
+    "bytes",
+    "epoch",
+    "settlement"
+  ],
+  "not_applicable": {
+    "epoch": [
+      "no_authority_exercised"
+    ],
+    "settlement": [
+      "no_side_effecting_actions"
+    ]
+  },
+  "immutable_references": [
+    "applicability.case_set",
+    "bytes.implementation",
+    "bytes.case_set",
+    "bytes.verifier"
+  ],
+  "exclusion_reasons": [
+    "optional_feature_not_claimed"
+  ]
+}

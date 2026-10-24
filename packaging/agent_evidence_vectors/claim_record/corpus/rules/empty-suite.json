@@ -1,0 +1,14 @@
+{
+  "schema": "aev-claim-acceptance-rule/v1",
+  "id": "empty-suite-substrate",
+  "profile": {
+    "id": "conformance/v1",
+    "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+  },
+  "case_sets": [
+    "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+  ],
+  "accept_vantage": [
+    "substrate"
+  ]
+}
