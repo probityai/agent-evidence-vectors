@@ -264,7 +264,7 @@ def row_r4(w: Path, log: Path, row: dict[str, Any]) -> tuple[bool, dict[str, Any
     sums = sha256_file(committed / "SHA256SUMS")
     py = venv(w, "r4", p["python"], p["packages"], log)
     out = w / "out"
-    must(run([str(py), "emit.py", "--runner", "appendix rerun (GitHub Actions)",
+    must(run([str(py), "emit.py", "--runner", "w3c-v01-appendix harness",
               "--runner-wrote", "none", "--out", str(out), "--python", str(py),
               "--work", str(w / "pinned")], here, log), "emit.py")
     detail = compare_trees(posted, tree_digests(out), row["may_differ"])
