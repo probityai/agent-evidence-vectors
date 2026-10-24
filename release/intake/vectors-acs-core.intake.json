@@ -379,7 +379,7 @@
       },
       "path": "vectors-acs-core/wire-probes/README.md",
       "serialization": "bytes",
-      "sha256": "da108673b349d40597af289bbfc0c643704dbe1004987d8ed01035916328b3e6"
+      "sha256": "ef1f96630d1c2830f101cea026105fddfc00d5c51a8fe6742fadb422a08ab5a8"
     },
     {
       "consumed": "unconsumed",
@@ -402,7 +402,7 @@
       },
       "path": "vectors-acs-core/wire-probes/acs_wire_probes.py",
       "serialization": "bytes",
-      "sha256": "0ff496cd1f407af0b85cdbdf322a39df4453b460d502c7825a2f282af2e59374"
+      "sha256": "85491c62389b99601531b1c4df8ec154e65f5d03e62bc7f651ed47b1708ba0ab"
     },
     {
       "consumed": "unconsumed",
@@ -466,6 +466,29 @@
           "exit-code": 0,
           "sha256": "94cdec83b08838b5ff4148a74e363c9de9460a464fb3cbfb10e20b161a0dff91"
         },
+        "swapped-in": "1a97deaf272b32464d0e97279aedfd75858568a11b6e76520389e81114270ce7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-acs-core/wire-probes/expected/agt-pr229-f94d393.json",
+      "serialization": "bytes",
+      "sha256": "3fef869c74f60777be93f73ffabab33d9ff7ac279b4b939b43472b6cae0f5b76"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "94cdec83b08838b5ff4148a74e363c9de9460a464fb3cbfb10e20b161a0dff91"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "94cdec83b08838b5ff4148a74e363c9de9460a464fb3cbfb10e20b161a0dff91"
+        },
         "swapped-in": "43ce88157d1a8005357fe0e9717fcec5a6e6eb25d2cb2f70c2fb71f4eb0b6695",
         "test": "swap-and-re-pin"
       },
@@ -494,7 +517,7 @@
       },
       "path": "vectors-acs-core/wire-probes/run_against_agt.sh",
       "serialization": "bytes",
-      "sha256": "929854e76f23e0c82fd9caae78077e4e551e75a8568d930456b99831cf501917"
+      "sha256": "46427cec5916741c080e612bd141d2fd436d65066c46b2939f06fd96cf84842c"
     }
   ],
   "boundary": {
@@ -1683,7 +1706,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "6c1bace18f1a0ea3594deb0922a43516a7f150a28e0acf39ba0a86bfd1ab4f0b"
+    "sha256": "d24d592dd7986154ea608353cb97dc2b62c9aa350b38d12459a85ac62b6f2c63"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
