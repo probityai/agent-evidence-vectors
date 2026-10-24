@@ -1,0 +1,17 @@
+{
+  "schema": "aev-claim-record-manifest/v1",
+  "members": {
+    "case-sets/empty.json": "sha256:2fff375b3a881a3aa6fdd5b6e579169a36b2a733cf4a196bd2555a51fded7b45",
+    "case-sets/sample-r1.json": "sha256:2a1d49fe2f06d19eca63ee09525bf15825b7e67f177cc174ffc602f85c314679",
+    "case-sets/sample-r2.json": "sha256:84342c50c2ea17851ca9ef574a1d7581dcb8715ed48f6b5def0fa65348656b76",
+    "case-sets/sample-reduced.json": "sha256:66d8a4cb26c5738c990ecd262b57a1f514063d491b9020dde7a3c713ded7523f",
+    "cases.json": "sha256:b83ff6a37c5d9f7a3eb4be554fa9621f0c3cb7b5ef33cbe4318e94c3ccaa0506",
+    "profiles/conformance.json": "sha256:5ec2fb34b52972022350cbb8dea4b4d7a0a4d1d57f6e5c017b28bec020df12ab",
+    "profiles/execution.json": "sha256:99a7d13812cd86603b72b534f7337fea5939a0aed8311b48ad86de45364f1058",
+    "rules/conformance-self-report.json": "sha256:6f4e534b265b1424f165519a5ef998aa2b8efd934c762d7dc56899e9a433aec5",
+    "rules/conformance.json": "sha256:6b7b3e7392b838bdb5d1ab2d17d9d7f174fa1aff731fff1c654d7d3402f52d21",
+    "rules/empty-suite.json": "sha256:14ed31df109e5b72faef076026e8bac5dd9e1a5809b85c2ef8b1a6eb86e194f6",
+    "rules/execution.json": "sha256:b13da4dc43be701fced320c998f1055ed601c55cf184bd4413f67dca5f29f807",
+    "rules/unshipped-profile.json": "sha256:a5c3009712bdae77df31ccb03c4a7b851842ef0040542b040bb4b7d4041ce6f8"
+  }
+}

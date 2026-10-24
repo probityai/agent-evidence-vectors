@@ -1,0 +1,14 @@
+{
+  "schema": "aev-claim-acceptance-rule/v1",
+  "id": "sample-conformance-strict",
+  "profile": {
+    "id": "conformance-strict/v1",
+    "digest": "sha256:045fa254c382fd56b30bb7f7a16f5cd82e0d4cfa05d67badd36b0fcd8f52a850"
+  },
+  "case_sets": [
+    "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+  ],
+  "accept_vantage": [
+    "substrate"
+  ]
+}

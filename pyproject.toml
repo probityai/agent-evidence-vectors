@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.25.0"
+version = "0.26.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -65,6 +65,9 @@ agent-evidence-vectors-acs-outage = "agent_evidence_vectors.acs_outage.run:main"
 # The ACS conformance verdict evidence controls: peer-authored scope lifts and
 # bound quarantine records, with an external-verifier contract.
 agent-evidence-vectors-verdict-evidence = "agent_evidence_vectors.verdict_evidence.run:main"
+# The evaluation claim record: every coordinate present, judged under the profile the
+# relying party's acceptance rule pins. Also reachable as `agent-evidence-vectors claim`.
+agent-evidence-vectors-claim = "agent_evidence_vectors.claim_record.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
