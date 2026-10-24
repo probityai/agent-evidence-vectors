@@ -1,0 +1,23 @@
+{
+  "id": "error-is-not-a-result-error",
+  "sequence": [
+    {
+      "from": "agent proxy of the resolving app",
+      "message": {
+        "meta": {
+          "requestUuid": "event-0001",
+          "timestamp": "2026-10-21T12:00:01.000Z"
+        },
+        "payload": {
+          "error": "NoAppsFound",
+          "intentEventUuid": "event-0001",
+          "raiseIntentRequestUuid": "raise-0001"
+        },
+        "type": "intentResultRequest"
+      },
+      "step": 1,
+      "to": "Desktop Agent"
+    }
+  ],
+  "trigger": "the proxy reports an error that is not a ResultError"
+}

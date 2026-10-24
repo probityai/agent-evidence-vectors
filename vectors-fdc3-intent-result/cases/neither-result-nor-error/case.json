@@ -1,0 +1,22 @@
+{
+  "id": "neither-result-nor-error",
+  "sequence": [
+    {
+      "from": "agent proxy of the resolving app",
+      "message": {
+        "meta": {
+          "requestUuid": "event-0001",
+          "timestamp": "2026-10-21T12:00:01.000Z"
+        },
+        "payload": {
+          "intentEventUuid": "event-0001",
+          "raiseIntentRequestUuid": "raise-0001"
+        },
+        "type": "intentResultRequest"
+      },
+      "step": 1,
+      "to": "Desktop Agent"
+    }
+  ],
+  "trigger": "the proxy sends neither a result nor an error"
+}

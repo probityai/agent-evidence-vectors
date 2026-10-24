@@ -1,0 +1,413 @@
+{
+  "corpusDigest": "f9d6f38cb976df401766e7f656f09754732a2974d041f8dc2ecea376cc75e355",
+  "schemaSets": {
+    "fdc3-39505b1": {
+      "commit": "39505b1efa72c8772de762c170bf442fbb1f639b",
+      "files": {
+        "packages/fdc3-context/schemas/context/context.schema.json": {
+          "gitBlob": "c67aadd5d6e43fa5a78ac849b3ef9c8a26a1305a",
+          "sha256": "c078dd4a901aad0da55a2d0d7f6a93472cd0e5e07c6370a871ac89fde4e08271",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-context/schemas/context/context.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/agentResponse.schema.json": {
+          "gitBlob": "9a1e139739e1be34ddd76e4422e1bc4e050e01c0",
+          "sha256": "d8863ea83e7e82fc4dff30227df6da96924102964f98c1899ccc00caf27f11f2",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/agentResponse.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/api.schema.json": {
+          "gitBlob": "f6e014dee728934a0a8d4a5d5809a049ef9e1e40",
+          "sha256": "a29580b2ae4b08d1b4b7dc1c8b2c9dfbeed5ef87821ad529e68ed03630ae1a4d",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/api.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/appRequest.schema.json": {
+          "gitBlob": "09a014c97f41bee403951054bd6be0bb3cb301b0",
+          "sha256": "bdc2c67522e4731aa3a98ed6124c23e9cf6dad05bab635faa0ed61b70f8f2d15",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/appRequest.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/common.schema.json": {
+          "gitBlob": "6c35a4704d9ce463a5c3e46ca05bca6cf1c35e8a",
+          "sha256": "ed4ec472f96eae7ff15895a56f6160717207114096ab0bdc64809857539b514b",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/common.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/intentResultRequest.schema.json": {
+          "gitBlob": "dc75ac894d08982ba5a006ef5a23eeb0816a6553",
+          "sha256": "b2c59e38c618720833dd0c5fcae5ab3b2f40e1f0551a9dbdf7a473f0b60a9a24",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/intentResultRequest.schema.json"
+        },
+        "packages/fdc3-schema/schemas/api/raiseIntentResultResponse.schema.json": {
+          "gitBlob": "7ea77143c44998696ebe9afca3806f966f4a5c27",
+          "sha256": "5baccd3edeab6435f0104ee050b8ff4e21b1657388b36bb6dea644681ad1ed58",
+          "url": "https://raw.githubusercontent.com/finos/FDC3/39505b1efa72c8772de762c170bf442fbb1f639b/packages/fdc3-schema/schemas/api/raiseIntentResultResponse.schema.json"
+        }
+      },
+      "note": "The FDC3 schemas at the commit issue #2271 cites.",
+      "repository": "https://github.com/finos/FDC3",
+      "status": "upstream"
+    },
+    "optional-error": {
+      "derivedFrom": "proposed-oneof",
+      "files": {
+        "packages/fdc3-context/schemas/context/context.schema.json": {
+          "gitBlob": "c67aadd5d6e43fa5a78ac849b3ef9c8a26a1305a",
+          "sha256": "c078dd4a901aad0da55a2d0d7f6a93472cd0e5e07c6370a871ac89fde4e08271"
+        },
+        "packages/fdc3-schema/schemas/api/agentResponse.schema.json": {
+          "gitBlob": "224ff59b02c619a4e238dc3cf1f7dc7e44ef3b2f",
+          "sha256": "a20d47debe22f07ee047fecd6f8d741faee2f31ac86788de5f0f1de2b9255c1c"
+        },
+        "packages/fdc3-schema/schemas/api/api.schema.json": {
+          "gitBlob": "f6e014dee728934a0a8d4a5d5809a049ef9e1e40",
+          "sha256": "a29580b2ae4b08d1b4b7dc1c8b2c9dfbeed5ef87821ad529e68ed03630ae1a4d"
+        },
+        "packages/fdc3-schema/schemas/api/appRequest.schema.json": {
+          "gitBlob": "09a014c97f41bee403951054bd6be0bb3cb301b0",
+          "sha256": "bdc2c67522e4731aa3a98ed6124c23e9cf6dad05bab635faa0ed61b70f8f2d15"
+        },
+        "packages/fdc3-schema/schemas/api/common.schema.json": {
+          "gitBlob": "6c35a4704d9ce463a5c3e46ca05bca6cf1c35e8a",
+          "sha256": "ed4ec472f96eae7ff15895a56f6160717207114096ab0bdc64809857539b514b"
+        },
+        "packages/fdc3-schema/schemas/api/intentResultRequest.schema.json": {
+          "gitBlob": "1ce845b9f7b245f9d8aa703509fff77d4203318f",
+          "sha256": "6e959b0932f807e176e84e19576e457af73d3eaaf18841b401c2b6a6c578221f"
+        },
+        "packages/fdc3-schema/schemas/api/raiseIntentResultResponse.schema.json": {
+          "gitBlob": "7ea77143c44998696ebe9afca3806f966f4a5c27",
+          "sha256": "5baccd3edeab6435f0104ee050b8ff4e21b1657388b36bb6dea644681ad1ed58"
+        }
+      },
+      "note": "proposed-oneof with intentResultRequest's payload reverted to a single object that keeps intentResult required and gains error as an optional property: the first option issue #2271 lists. Nobody proposes it; it shows that a failed handler can then only be reported as a void result plus an error, which is the payload the maintainers ruled out.",
+      "status": "counterfactual"
+    },
+    "proposed-oneof": {
+      "derivedFrom": "fdc3-39505b1",
+      "files": {
+        "packages/fdc3-context/schemas/context/context.schema.json": {
+          "gitBlob": "c67aadd5d6e43fa5a78ac849b3ef9c8a26a1305a",
+          "sha256": "c078dd4a901aad0da55a2d0d7f6a93472cd0e5e07c6370a871ac89fde4e08271"
+        },
+        "packages/fdc3-schema/schemas/api/agentResponse.schema.json": {
+          "gitBlob": "224ff59b02c619a4e238dc3cf1f7dc7e44ef3b2f",
+          "sha256": "a20d47debe22f07ee047fecd6f8d741faee2f31ac86788de5f0f1de2b9255c1c"
+        },
+        "packages/fdc3-schema/schemas/api/api.schema.json": {
+          "gitBlob": "f6e014dee728934a0a8d4a5d5809a049ef9e1e40",
+          "sha256": "a29580b2ae4b08d1b4b7dc1c8b2c9dfbeed5ef87821ad529e68ed03630ae1a4d"
+        },
+        "packages/fdc3-schema/schemas/api/appRequest.schema.json": {
+          "gitBlob": "09a014c97f41bee403951054bd6be0bb3cb301b0",
+          "sha256": "bdc2c67522e4731aa3a98ed6124c23e9cf6dad05bab635faa0ed61b70f8f2d15"
+        },
+        "packages/fdc3-schema/schemas/api/common.schema.json": {
+          "gitBlob": "6c35a4704d9ce463a5c3e46ca05bca6cf1c35e8a",
+          "sha256": "ed4ec472f96eae7ff15895a56f6160717207114096ab0bdc64809857539b514b"
+        },
+        "packages/fdc3-schema/schemas/api/intentResultRequest.schema.json": {
+          "gitBlob": "8f5e9c4e01e6f7dc8df4f898c6d99ab323cf1d1a",
+          "sha256": "cc1cd087103664f3fed30dcdaca81c885a6ff171e369b5e62c5cfc35d6dbd29f"
+        },
+        "packages/fdc3-schema/schemas/api/raiseIntentResultResponse.schema.json": {
+          "gitBlob": "7ea77143c44998696ebe9afca3806f966f4a5c27",
+          "sha256": "5baccd3edeab6435f0104ee050b8ff4e21b1657388b36bb6dea644681ad1ed58"
+        }
+      },
+      "note": "fdc3-39505b1 with two files edited by hand: intentResultRequest's payload is intentResult or error (a ResultError), never both, as the FDC3 maintainers asked; agentResponse's success branch no longer also matches an error payload. The other five files are byte-identical to fdc3-39505b1.",
+      "status": "proposal"
+    }
+  },
+  "specification": {
+    "bytes": "fdc3-39505b1 is upstream's as vendored; proposed-oneof is a proposed edit of it; optional-error is derived here",
+    "document": "DACP intentResultRequest and raiseIntentResultResponse schemas",
+    "issue": "https://github.com/finos/FDC3/issues/2271",
+    "maintainerRequirement": "https://github.com/finos/FDC3/issues/2271#issuecomment-6194982724"
+  },
+  "suite": "fdc3-intent-result-error/v1",
+  "vectors": [
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "optional-error": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "402aceed9f1938ddb61790b4f34d0b0815a652aa2c573d76afe2690f36f67cd1"
+      },
+      "id": "handler-resolves-context",
+      "path": "cases/handler-resolves-context",
+      "rule": "a result travels as intentResult on both legs; no schema set may refuse it"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "optional-error": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "978d2519b0aba66c08da407127981082a34828f788d6113fc96ddb8ae6f82d80"
+      },
+      "id": "handler-resolves-void",
+      "path": "cases/handler-resolves-void",
+      "rule": "a void result is an empty intentResult. At 39505b1 it is also the only thing a proxy can send for a failed handler, and the raising app then reads the failure as success"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1,
+            2
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "1dab0d013d442ee0018e3782f8dd4d2cb1ce7ff97925500bd143e2e6528a3e7a"
+      },
+      "id": "handler-throws",
+      "path": "cases/handler-throws",
+      "rule": "getResult() must reject with IntentHandlerRejected (Types.md, getResult). At 39505b1 neither leg can say so: intentResultRequest refuses error, and an error payload on raiseIntentResultResponse matches both branches of agentResponse's payload oneOf"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1,
+            2
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "f852094d97f7cdfd6ac51789c0475c7a7aa9dbee686a557b82a43fe9ed946dc5"
+      },
+      "id": "handler-returns-rejected-promise",
+      "path": "cases/handler-returns-rejected-promise",
+      "rule": "the same two messages as a synchronous throw: the API gives both the same ResultError, so the wire does not tell them apart"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "68a3b8f408d127b9af7901b3a98bc0739112b8359fd8eb6ec47ee1e3c956f2cc"
+      },
+      "id": "proxy-reports-handler-error",
+      "path": "cases/proxy-reports-handler-error",
+      "rule": "intentResultRequest needs a way to carry the handler's ResultError; at 39505b1 it requires intentResult and sets additionalProperties false"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "proposed-oneof": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        }
+      },
+      "files": {
+        "case.json": "d1d1e1c7c1e28a878e7efc51f4015974f5407bb55a685e06e1d74b27ecbf8b87"
+      },
+      "id": "agent-forwards-result-error",
+      "path": "cases/agent-forwards-result-error",
+      "rule": "raiseIntentResultResponse declares an error alternative, but at 39505b1 agentResponse's payload oneOf has a branch that admits any object, so an error payload matches two branches and draft-07 refuses it"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "accepted",
+          "rejectedSteps": []
+        },
+        "proposed-oneof": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        }
+      },
+      "files": {
+        "case.json": "be6e0797159ca76a3f8aef0c7525e1e110bf049a881c0606b399fe4774cb3598"
+      },
+      "id": "both-result-and-error",
+      "path": "cases/both-result-and-error",
+      "rule": "the error is an alternative to intentResult, one or the other and never both, as the maintainers asked. With error merely optional beside a required intentResult, this is the only way a failed handler can be reported, and the raising app cannot tell it from a void result"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        }
+      },
+      "files": {
+        "case.json": "1adc176bc045722a7c4bbb9e89c660f8af6d79887c576dc49e205b9da3a93458"
+      },
+      "id": "neither-result-nor-error",
+      "path": "cases/neither-result-nor-error",
+      "rule": "a payload must carry exactly one of intentResult and error"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        }
+      },
+      "files": {
+        "case.json": "1e36c22bc299ceffb4f60b256c71fe1a1758bff8ce3b8fd08a716de92f5d4c4f"
+      },
+      "id": "error-with-app-metadata",
+      "path": "cases/error-with-app-metadata",
+      "rule": "metadata accompanies a context result (ContextWithMetadata); a failed handler returned none, so the proposal carries no metadata with an error"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        }
+      },
+      "files": {
+        "case.json": "afd640092b80131b2c99abc863a6438d5a4edada97eea253793714efa5334e49"
+      },
+      "id": "error-is-not-a-result-error",
+      "path": "cases/error-is-not-a-result-error",
+      "rule": "a handler failure is a ResultError; NoAppsFound is a ResolveError, which only the Desktop Agent's resolution can produce"
+    },
+    {
+      "expected": {
+        "fdc3-39505b1": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "optional-error": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        },
+        "proposed-oneof": {
+          "decision": "rejected",
+          "rejectedSteps": [
+            1
+          ]
+        }
+      },
+      "files": {
+        "case.json": "cee69d9f94fc954d57326674173122f7199fc0e3649b48d5fa966a9830bc0b0a"
+      },
+      "id": "agent-sends-result-and-error",
+      "path": "cases/agent-sends-result-and-error",
+      "rule": "raiseIntentResultResponse already makes result and error alternatives; the proposal gives intentResultRequest the same shape"
+    }
+  ]
+}

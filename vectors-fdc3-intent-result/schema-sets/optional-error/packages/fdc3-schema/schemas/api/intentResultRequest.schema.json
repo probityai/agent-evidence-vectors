@@ -1,0 +1,63 @@
+{
+  "$defs": {
+    "IntentResultRequestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "$ref": "api.schema.json#/definitions/ResultError"
+        },
+        "intentEventUuid": {
+          "description": "The eventUuid value of the intentEvent that the result being sent relates to.",
+          "title": "IntentEvent UUID",
+          "type": "string"
+        },
+        "intentResult": {
+          "$ref": "api.schema.json#/definitions/IntentResult"
+        },
+        "metadata": {
+          "$ref": "api.schema.json#/definitions/AppProvidableContextMetadata",
+          "description": "Optional app-provided metadata returned by the intent handler alongside a context result (i.e. when the handler returns a ContextWithMetadata object). The Desktop Agent will merge this with its own generated metadata before delivering to the raising app via raiseIntentResultResponse."
+        },
+        "raiseIntentRequestUuid": {
+          "description": "The requestUuid value of the raiseIntentRequest that the result being sent relates to.",
+          "title": "raiseIntentRequest UUID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "intentEventUuid",
+        "raiseIntentRequestUuid",
+        "intentResult"
+      ],
+      "title": "IntentResult Request Payload",
+      "type": "object"
+    },
+    "IntentResultRequestType": {
+      "const": "intentResultRequest",
+      "title": "IntentResult Request Message Type"
+    }
+  },
+  "$id": "https://fdc3.finos.org/schemas/next/api/intentResultRequest.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "appRequest.schema.json"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "meta": true,
+        "payload": {
+          "$ref": "#/$defs/IntentResultRequestPayload"
+        },
+        "type": {
+          "$ref": "#/$defs/IntentResultRequestType"
+        }
+      },
+      "type": "object"
+    }
+  ],
+  "description": "A request to deliver a result for an intent (which may include a `void` result that just indicates that the handler has run, returning no result). The result is tied to the intentEvent it relates to by quoting the `eventUuid` of the intentEvent in its payload.",
+  "title": "IntentResult Request",
+  "type": "object"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "error-with-app-metadata",
+  "sequence": [
+    {
+      "from": "agent proxy of the resolving app",
+      "message": {
+        "meta": {
+          "requestUuid": "event-0001",
+          "timestamp": "2026-10-21T12:00:01.000Z"
+        },
+        "payload": {
+          "error": "IntentHandlerRejected",
+          "intentEventUuid": "event-0001",
+          "metadata": {
+            "traceId": "trace-0001"
+          },
+          "raiseIntentRequestUuid": "raise-0001"
+        },
+        "type": "intentResultRequest"
+      },
+      "step": 1,
+      "to": "Desktop Agent"
+    }
+  ],
+  "trigger": "the proxy sends app-provided metadata with an error"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "agent-sends-result-and-error",
+  "sequence": [
+    {
+      "from": "Desktop Agent",
+      "message": {
+        "meta": {
+          "requestUuid": "raise-0001",
+          "responseUuid": "response-0002",
+          "timestamp": "2026-10-21T12:00:01.050Z"
+        },
+        "payload": {
+          "error": "IntentHandlerRejected",
+          "intentResult": {},
+          "resultMetadata": {
+            "source": {
+              "appId": "app-b",
+              "instanceId": "app-b-1"
+            },
+            "timestamp": "2026-10-21T12:00:01.050Z",
+            "traceId": "trace-0001"
+          }
+        },
+        "type": "raiseIntentResultResponse"
+      },
+      "step": 1,
+      "to": "agent proxy of the raising app"
+    }
+  ],
+  "trigger": "the Desktop Agent sends a result and an error in one payload"
+}

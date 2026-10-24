@@ -1,0 +1,22 @@
+{
+  "id": "agent-forwards-result-error",
+  "sequence": [
+    {
+      "from": "Desktop Agent",
+      "message": {
+        "meta": {
+          "requestUuid": "raise-0001",
+          "responseUuid": "response-0002",
+          "timestamp": "2026-10-21T12:00:01.050Z"
+        },
+        "payload": {
+          "error": "IntentHandlerRejected"
+        },
+        "type": "raiseIntentResultResponse"
+      },
+      "step": 1,
+      "to": "agent proxy of the raising app"
+    }
+  ],
+  "trigger": "the Desktop Agent forwards the ResultError to the raising app"
+}
