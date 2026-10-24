@@ -63,8 +63,8 @@ carrying the number that makes it real and the command that starts it.
   manifest.** Done for v0.26.0: `A18` to `A20`, `EV11`, `EV12` (both readers now
   refuse an undefined evaluation member), `R1` to `R9` with the dating check in
   both readers, `N1` settled as `valid`, `DRAFT` set to
-  `draft-gilda-audit-agent-audit-record-00`, `draftDocument` dropped. 106
-  members: the 99 Appendix B rows and 7 Section 5.4 members. The id map across
+  `draft-gilda-audit-agent-audit-record-00`, `draftDocument` dropped. The
+  members are the 99 Appendix B rows and 7 Section 5.4 members. The id map across
   v0.18.1, v0.25.0 and v0.26.0 is `vectors-agent-audit-record/ID-MAP.json`.
   Reported by Lars Kersten Kroehl (MolTrust) on the AUDIT list,
   <https://mailarchive.ietf.org/arch/msg/audit/Wdv-fOIodjvF3z9OUFNfXLGP0ts>.

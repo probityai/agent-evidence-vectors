@@ -15,7 +15,7 @@ beside its file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.26.0 and later | `draft-gilda-audit-agent-audit-record-00` | 106: the 99 Appendix B rows and 7 Section 5.4 members |
+| v0.26.0 and later | `draft-gilda-audit-agent-audit-record-00` | the 99 Appendix B rows and 7 Section 5.4 members |
 | v0.17.0 to v0.25.0 | `draft-gilda-wimse-agent-audit-record-02` | 68 at v0.18.1, 71 at v0.25.0 |
 
 A record under revision 02 carries no `evaluation.inputs`, which Section 5.4 of
