@@ -1,0 +1,194 @@
+{
+  "table": "Roel Schuurkes, results-to-inputs table for the v0.1 reporting-format paper",
+  "table_messages": ["2026Oct/0162", "2026Oct/0163"],
+  "archive": "https://lists.w3.org/Archives/Public/public-agent-conformance/",
+  "aev_repository": "probityai/agent-evidence-vectors",
+  "aev_tags": {
+    "v0.12.0": "2f3aee40a454df6de0f571d119f057d7dbb8dd67",
+    "v0.17.4": "99b47c56b5e81760e1eadfc874949d56bca8d522",
+    "v0.18.0": "3492eaa4d46cf1de49d27b43dd2f705b40fa5bdd",
+    "v0.18.1": "33d545104ff2f8c124cff465c96c013eeb809156"
+  },
+  "attachments": {
+    "att-0039/v01-reader-run1.tar.gz": {"sha256": "396dbac84c6b8b3fa6db33cd2f0b415a1f962a9c55ae8cbd03c32dee04032bc3", "text": false},
+    "att-0060/eatf-multiroot-w3c-v01.zip": {"sha256": "9e1dc860050d092ce9763dadff26a1cff04116b2c0c093daead1473a7d251069", "text": false},
+    "att-0063/disensor-w3c-v01-dbdb651.zip": {"sha256": "0db905b416698eb952e939bda769e44e91ac25275c5a21f2c41807f5bfaaf32e", "text": false},
+    "att-0139/w6-selection-ids.txt": {"sha256": "c3776b1e2792dd5d2a068a0eb1785ff4af34c23a607ceebb2b110cf07e2079a0", "text": true},
+    "att-0140/w3c-33-members-per-path.tsv": {"sha256": "a7cefa026a51eaefa1377f2d03951f21d8137337b5e4d5254ececec001717591", "text": true}
+  },
+  "rows": {
+    "R1": {
+      "result": "Reference emitter: the 272-record report of agent-evidence-vectors 0.12.0",
+      "messages": ["2026Sep/0089", "2026Oct/0147"],
+      "kind": "rerun",
+      "command": "uvx agent-evidence-vectors==0.12.0 --emit-w3c-report report.json",
+      "pins": {"package": "agent-evidence-vectors==0.12.0", "commit": "2f3aee40a454df6de0f571d119f057d7dbb8dd67"},
+      "expect": {
+        "report.json": "37288d8dfc01f56cb5ef553232258dc596928bc962e2309e0c7dc09ae588baf2",
+        "conformance-report.json": "ee349e66697a2f4f95dd8223fd261810f99f5f2807e03bde03c9a9f57359529d"
+      }
+    },
+    "R2": {
+      "result": "disensor: three reports (72, 168 and 750 checks) with 61 control fixture records",
+      "messages": ["2026Oct/0063", "2026Oct/0064", "2026Oct/0145"],
+      "kind": "rerun",
+      "command": "python3 -P tools/emitir-55.py --runner \"Nicolás Rocchia\" <out>",
+      "pins": {"repository": "NicolasRocchia/disensor", "commit": "dbdb65183b324c2d80ab8c6845bcb22afa5d257a",
+               "python": "3.14.2", "packages": ["jsonschema==4.26.0"],
+               "reference": "att-0063/disensor-w3c-v01-dbdb651.zip", "reference_root": "disensor-w3c-v01-dbdb651/"},
+      "expect": {"SHA256SUMS": "3714de64980b99d81db80afbb48375668280e1670cd7bbedcf1f293a9c2324ab"},
+      "may_differ": {"summary.json": "records the Python version (0063)", "SHA256SUMS": "lists the file above"}
+    },
+    "R3": {
+      "result": "EATF-MultiRoot: 48 checks over three accepting seeds, 44 of 192 mutants as control records",
+      "messages": ["2026Oct/0060", "2026Oct/0061", "2026Oct/0062"],
+      "kind": "rerun",
+      "command": "python3 emit_w3c_v01.py --artifact papers/dependable-multiroot-agent-evidence/artifact --out <out> --runner \"Anton Sokolov (Tyche Institute)\"",
+      "pins": {"repository": "tyche-institute/eatf-multiroot-softwarex", "commit": "c421dadc1aacf77342f66aca15247994f0d10fb6",
+               "python": "3.11", "node": "22",
+               "reference": "att-0060/eatf-multiroot-w3c-v01.zip", "reference_root": "eatf-multiroot-w3c-v01/records/",
+               "emitter": "eatf-multiroot-w3c-v01/emit_w3c_v01.py"},
+      "expect": {"SHA256SUMS": "8e52d99ab1097ec274a8335623f0bbe70d0883de4507ba66f86745a3beaa1dcb"},
+      "may_differ": {},
+      "outside_record_set": {"evaluation/": "raw per-check traces the run leaves beside the records; SHA256SUMS does not list them (0062)"}
+    },
+    "R4": {
+      "result": "tool-manifest-digest v1: three reports (76, 67 and 16 checks), each with single-change controls",
+      "messages": ["2026Oct/0099", "2026Oct/0101", "2026Oct/0121", "2026Oct/0150"],
+      "kind": "rerun",
+      "command": "python emit.py --runner \"<your name>\" --runner-wrote none --out <out>",
+      "pins": {"repository": "AgentAvow/AgentAvow", "commit": "fbbbd4ac71bcdf5353957629d5a9320c49af204d",
+               "directory": "docs/standards/tool-manifest-digest-vectors-v1/w3c-v01",
+               "python": "3.14", "node": "22", "packages": ["cryptography==50.0.2", "rfc8785==0.1.4"]},
+      "expect": {"SHA256SUMS (as committed)": "c720c68a4dfe0f196ef132c8428649df11152d541403b342db37aad939acd82e"},
+      "may_differ": {"run.json": "carries the runner and the environment (0099)", "SHA256SUMS": "lists run.json"}
+    },
+    "R4-driver": {
+      "result": "R4's map_reader through this repository's own driver, after the lock moved to b7c5cd2 (#236)",
+      "messages": ["2026Oct/0150"],
+      "kind": "rerun",
+      "command": "python fetch_fixture.py --output vectors.json && python run_agentavow.py --fixture vectors.json",
+      "pins": {"repository": "probityai/agent-evidence-vectors", "commit": "82b8bb672648b2dfb44a75f3b2d75aff91344934",
+               "directory": "interop/agentavow-signed-map-v1", "python": "3.13",
+               "producer_commit": "b7c5cd2fee080cfdd387683a9bcb3e0db20f8ee5",
+               "fixture_sha256": "48cf831840fc81db4e242ce5d2230a99fd41c890e5aa8b00dd6edef24098e9d3"},
+      "expect": {"report equals recorded-run.json": "interop/agentavow-signed-map-v1/recorded-run.json"}
+    },
+    "R5": {
+      "result": "PayHELM: 150,006 threshold checks",
+      "messages": ["2026Oct/0080", "2026Oct/0083", "2026Oct/0084", "2026Oct/0108"],
+      "kind": "rerun",
+      "command": "python3 -m paybench.w3c_report.emit --out finality-threshold-report.level1.json --verify",
+      "pins": {"repository": "agentic-paybench/payhelm", "commit": "c221b47883af4add4ce56d96e8a731938bed341f", "python": "3.12"},
+      "expect": {"finality-threshold-report.level1.json": "7eb4e434345ae92f1cd31ba5c4eb662cbb68ee739f7a7ba876d084016e6936a4"}
+    },
+    "R6": {
+      "result": "Assay approval handler: four baseline tests, retained files and mapping",
+      "messages": ["2026Oct/0016", "2026Oct/0018", "2026Oct/0021", "2026Oct/0024", "2026Oct/0027"],
+      "kind": "rerun",
+      "command": "python3 check.py --controls && python3 -m unittest test_claim_boundary",
+      "pins": {"repository": "Rul1an/assay", "commits": ["0e59b404cef6df315aac377b65ae619b4c5e4890", "8a38547143d42f152c3a46d76b2c026b601ae354"],
+               "directory": "docs/experiments/approval-freshness-discrimination-2026-09/w3c-v0.1", "python": "3.11"},
+      "expect": {"exit": "0 for both commands", "stdout": "limited checks: ok", "tests": 6},
+      "limits": "No published output digest. The Rust approval tests are not rerun, as in 0018."
+    },
+    "R7": {
+      "result": "Control-2 packet: 21 selected outcomes over 15 baseline and relaxation pairs",
+      "messages": ["2026Oct/0081", "2026Oct/0085", "2026Oct/0088", "2026Oct/0133"],
+      "kind": "rerun",
+      "command": "PYTHONHASHSEED=0 python3 -B packages/evidence-fabric/tests/test_w3c_control2_packet.py -v",
+      "pins": {"repository": "CSOAI-ORG/councilof-ai", "commit": "d0cbe773e8f2fe130feaf4dc0c11c1e4ccb84c15",
+               "directory": "packages/evidence-fabric", "python": "3.11", "packages": ["cryptography==50.0.2"]},
+      "expect": {"packet MANIFEST.json": "7094c4a9db92da84a09ddfd4261b19846308af147ac57eef048e64405ec37b05",
+                 "portable helper": "752d29eb4567bec31b776b180ecd3fad422a2b8c1f7d1c546c06328a08fef5af",
+                 "tests": 18,
+                 "outcomes": {"pass": 7, "fail": 13, "inconclusive": 1}}
+    },
+    "R8": {
+      "result": "Text-only reader, frozen run at v0.17.4",
+      "messages": ["2026Oct/0039", "2026Oct/0103", "2026Oct/0104", "2026Oct/0105", "2026Oct/0109"],
+      "kind": "rerun",
+      "command": "python3 -B reader/v01reader.py <vectors-w3c-report/vectors at v0.17.4> out/rerun",
+      "pins": {"reader": "att-0039/v01-reader-run1.tar.gz", "corpus_tag": "v0.17.4", "python": "3.13"},
+      "expect": {"verdicts.tsv": "de987220be7f7c84052b5582c274f72c33ce9bbd6096d76ee251061052febc35",
+                 "not-selected.tsv": "cd6962f3f06023cbcc3a05424944a87ef3da8288a7488eaa57a82f84c388985e"},
+      "limits": "Repeats the frozen outputs, not the reviewer's 92-of-96 comparison."
+    },
+    "R9": {
+      "result": "W3C-R-016 at v0.18.0: the section 10 selection from 83 reject and 82 accept to 41 and 124",
+      "messages": ["2026Oct/0039", "2026Oct/0048", "2026Oct/0054", "2026Oct/0079", "2026Oct/0103"],
+      "kind": "comparison",
+      "command": "python rows/r9_corpus_history.py <work>",
+      "pins": {"tags": ["v0.17.4", "v0.18.0", "v0.18.1"]},
+      "expect": {
+        "v0.17.4": {"corpusDigest": "f00d4443f14881b4102693da0b73ecc7524b7410aec25fe9dbef077e7f73f1fe", "selected": {"reject": 83, "accept": 82}},
+        "v0.18.0": {"corpusDigest": "f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc", "selected": {"reject": 41, "accept": 124}},
+        "v0.18.1": {"corpusDigest": "f9e58e62f89b0700c94bfae289f73517439008ebd3b655e3d85057b2ec7668fc", "selected": {"reject": 41, "accept": 124}}
+      },
+      "limits": "Runs the Python reference reader at each release; the Go and Rust readers are not rerun here."
+    },
+    "R10": {
+      "result": "Integer -0: the Python reader writes 0 and the Go reader -0 at v0.17.4; both write 0 from v0.18.0",
+      "messages": ["2026Oct/0026", "2026Oct/0038", "2026Oct/0046", "2026Oct/0079"],
+      "kind": "comparison",
+      "command": "python rows/r10_minus_zero.py <work>",
+      "pins": {"tags": ["v0.17.4", "v0.18.1"], "go": "1.24"},
+      "expect": {
+        "v0.17.4": {"python": "7b2276223a307d", "go": "7b2276223a2d307d", "minus_zero_tokens": 0},
+        "v0.18.1": {"python": "7b2276223a307d", "go": "7b2276223a307d"}
+      }
+    },
+    "R11": {
+      "result": "Text-only reader at v0.18.1 over the 165 section 10 members",
+      "messages": ["2026Oct/0082", "2026Oct/0110", "2026Oct/0139"],
+      "kind": "rerun",
+      "command": "PYTHONHASHSEED=0 python3 -I reader.py <directory with the 165 member files>",
+      "pins": {"repository": "MoltyCel/reporting-format-v01-reader", "commit": "6d8ee54b01d20a819869ceb9fcea096d59251f8c",
+               "tag": "frozen-run-1", "selection": "att-0139/w6-selection-ids.txt", "corpus_tag": "v0.18.1", "python": "3.12"},
+      "expect": {"reader output": "505dfb71a640e7ef0eceb7f2d859e5cf08dac4c81bed80672135e0eb51b92130"}
+    },
+    "R12": {
+      "result": "Proposed JCS digest members (W3C-R-030 to R-032): three scoring paths on 33 members",
+      "messages": ["2026Oct/0137", "2026Oct/0140", "2026Oct/0141", "2026Oct/0142", "2026Oct/0147", "2026Oct/0153"],
+      "kind": "rerun",
+      "command": "python -I score_w3c_jcs.py <moltrust-api checkout> <aev>/vectors-w3c-report <manifest>",
+      "pins": {"repository": "MoltyCel/moltrust-api", "commit": "fbc5e288f19834687f1a3543cffe6341ba13271c",
+               "corpus_tag": "v0.18.1", "old_manifest_tag": "v0.17.4", "python": "3.12",
+               "packages": ["jcs==0.2.1", "cryptography==50.0.2"], "per_member": "att-0140/w3c-33-members-per-path.tsv"},
+      "expect": {"per-member verdicts": "equal to the posted TSV (a7cefa02...) on every member and path"},
+      "limits": "The posted TSV is a reformat of the scorer's JSON, so the comparison is per verdict, not per byte."
+    },
+    "R13": {
+      "result": "Prior-run route: five synthetic cases",
+      "messages": ["2026Oct/0111", "2026Oct/0123", "2026Oct/0143", "2026Oct/0144", "2026Oct/0154"],
+      "kind": "rerun",
+      "command": "python3 experiment.py && python3 -m unittest -v test_experiment.py && sha256sum -c SHA256SUMS",
+      "pins": {"repository": "LaToucheai/prior-run-evidence-v01", "commit": "98366047dd322b9fe0ea3ef822cf0c410283fe9f", "python": "3.13"},
+      "expect": {"files": 15, "tests": 23}
+    },
+    "R14": {
+      "result": "Reader verdicts posted on the list for R1, R2, R4 and R5",
+      "messages": ["2026Sep/0089", "2026Oct/0084", "2026Oct/0101", "2026Oct/0145", "2026Oct/0150"],
+      "kind": "comparison",
+      "command": "python rerun.py R14 (reads the reports the R1, R2, R4 and R5 reruns wrote)",
+      "pins": {"readers": ["0.12.0", "0.13.0", "0.17.4", "0.18.1"]},
+      "expect": {
+        "R1": {"0.12.0": "accept", "0.13.0": "accept"},
+        "R2": {"0.17.4": "accept", "0.18.1": "accept"},
+        "R4": {"0.17.4": "reject", "0.18.1": "accept"},
+        "R5": {"0.17.4": "accept", "0.18.1": "accept"}
+      },
+      "limits": "The text-only readers of 0039 and 0139 are not run on these reports here."
+    },
+    "R15": {
+      "result": "Census: 3 of 592 published artifacts record a control whose observed verdict was negative",
+      "messages": ["2026Sep/0080"],
+      "kind": "no-command",
+      "command": "none posted",
+      "pins": {"url": "https://councilof.ai/interop/instrument-controls-census-2026-09-22.json",
+               "captured_sha256": "ff04a12f32a7dd54366eca9c7b3551adf20f8876007aa101be3029d19c94635b"},
+      "expect": {"tally": {"rows": 592, "DEMONSTRATED": 3}},
+      "limits": "No checker or command was posted. The harness tallies the state field of the served file's own rows; it does not rerun the classifier that set those states."
+    }
+  }
+}
