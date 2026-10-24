@@ -579,7 +579,7 @@ def rerun(row_id: str, work: Path, results: Path) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+    parser = argparse.ArgumentParser(description="Rerun rows of the v0.1 paper's results-to-inputs table from their pins.")
     parser.add_argument("rows", nargs="*", help="row identifiers, for example R1 R8")
     parser.add_argument("--all", action="store_true", help="every row, R14 last")
     parser.add_argument("--work", type=Path, default=Path(".build/w3c-v01-appendix"))
