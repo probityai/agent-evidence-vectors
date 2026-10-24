@@ -65,6 +65,9 @@ agent-evidence-vectors-acs-outage = "agent_evidence_vectors.acs_outage.run:main"
 # The ACS conformance verdict evidence controls: peer-authored scope lifts and
 # bound quarantine records, with an external-verifier contract.
 agent-evidence-vectors-verdict-evidence = "agent_evidence_vectors.verdict_evidence.run:main"
+# Operand provenance: a declared constant grounds an operand only when the
+# executed derivation read it, at the declared value.
+agent-evidence-vectors-operand-provenance = "agent_evidence_vectors.operand_provenance.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
