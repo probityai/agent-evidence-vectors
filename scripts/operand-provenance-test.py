@@ -107,7 +107,8 @@ def test_every_rule_changes_some_answer(rule: str) -> None:
     (lambda c: c["operand"].update(value=4), "malformed_case:operand.value"),
     (lambda c: c["operand"].update(value="NaN"), "malformed_case:operand.value"),
     (lambda c: c["operand"].update(value="four"), "malformed_case:operand.value"),
-    (lambda c: c["operand"]["grounding"].update(kind="guessed"), "malformed_case:operand.grounding"),
+    (lambda c: c["operand"]["grounding"].update(kind="guessed"),
+     "malformed_case:operand.grounding"),
     (lambda c: c["operand"]["grounding"].pop("constant"),
      "malformed_case:operand.grounding.constant"),
     (lambda c: c["derivations"][0]["declared_constants"].append(

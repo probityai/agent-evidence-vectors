@@ -131,27 +131,19 @@ def _operand(case: dict[str, Any]) -> tuple[Decimal, dict[str, Any]]:
     return value, claim
 
 
-def judge(case: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str, str]:
-    """Judge one parsed case; ``skip`` switches named rules off for mutation tests."""
-    try:
-        if case.get("suite") != SUITE:
-            raise MalformedCase("suite")
-        derivations = _derivations(case)
-        value, claim = _operand(case)
-    except MalformedCase as exc:
-        return _answer(NO_VERDICT, f"malformed_case:{exc}")
-    if claim["kind"] == "originated":
-        return _answer(SUPPORTED, "operand_originated")
-    derivation = derivations.get(claim["derivation"])
+def _judge_constant(value: Decimal, claim: dict[str, Any],
+                    derivations: dict[str, dict[str, Any]],
+                    skip: frozenset[str]) -> dict[str, str]:
+    derivation = derivations.get(claim["derivation"], {"declared": {}, "reads": None})
     name = claim["constant"]
-    declared = None if derivation is None else derivation["declared"].get(name)
+    declared = derivation["declared"].get(name)
     if declared is None:
         if "declared" not in skip:
             return _answer(CONTRADICTED, "constant_not_declared")
         declared = value
     if value != declared and "operand_value" not in skip:
         return _answer(CONTRADICTED, "operand_value_differs")
-    reads = None if derivation is None else derivation["reads"]
+    reads = derivation["reads"]
     if reads is None:
         if "observed" not in skip:
             return _answer(NOT_ESTABLISHED, "consumption_unobservable")
@@ -163,6 +155,20 @@ def judge(case: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str,
     if reads[name] != declared and "precision" not in skip:
         return _answer(CONTRADICTED, "constant_value_differs_at_declared_precision")
     return _answer(SUPPORTED, "constant_declared_and_consumed")
+
+
+def judge(case: dict[str, Any], skip: frozenset[str] = frozenset()) -> dict[str, str]:
+    """Judge one parsed case; ``skip`` switches named rules off for mutation tests."""
+    try:
+        if case.get("suite") != SUITE:
+            raise MalformedCase("suite")
+        derivations = _derivations(case)
+        value, claim = _operand(case)
+    except MalformedCase as exc:
+        return _answer(NO_VERDICT, f"malformed_case:{exc}")
+    if claim["kind"] == "originated":
+        return _answer(SUPPORTED, "operand_originated")
+    return _judge_constant(value, claim, derivations, skip)
 
 
 def verify(case_json: Path, skip: frozenset[str] = frozenset()) -> dict[str, str]:
