@@ -36,6 +36,18 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/evaluation-claim`
+
+- Document: `spec/predicates/evaluation-claim.md`
+- Corpus: `packaging/agent_evidence_vectors/claim_record/corpus/`
+- Rails: `packaging/agent_evidence_vectors/claim_record/reader.py`, run as
+  `agent-evidence-vectors claim`
+
+The predicate carries an evaluation claim in which every coordinate is present
+(applicability, population, vantage, bytes, epoch, settlement), each a value or
+not applicable under a reason the profile pinned by the relying party's
+acceptance rule authorises, so that a case nobody ran is never read as a pass.
+
 ### `predicate/v1/self-reported-record`
 
 - Document: `spec/self-reported-record/v1.md`
