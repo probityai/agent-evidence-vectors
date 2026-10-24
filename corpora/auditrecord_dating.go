@@ -130,7 +130,10 @@ func arInclusionProof(proof []byte) (logID []byte, treeSize, leafIndex uint64, p
 	if err != nil {
 		return nil, 0, 0, nil, err
 	}
-	raw, err := r.take(int(pathLen))
+	if pathLen > uint64(len(proof)) {
+		return nil, 0, 0, nil, errProof
+	}
+	raw, err := r.take(int(pathLen)) // #nosec G115 -- bounded by len(proof) above
 	if err != nil || r.at != len(proof) {
 		return nil, 0, 0, nil, errProof
 	}
@@ -140,7 +143,7 @@ func arInclusionProof(proof []byte) (logID []byte, treeSize, leafIndex uint64, p
 		if err != nil || n < 32 {
 			return nil, 0, 0, nil, errProof
 		}
-		node, err := nodes.take(int(n))
+		node, err := nodes.take(int(n)) // #nosec G115 -- n is one octet, at most 255
 		if err != nil {
 			return nil, 0, 0, nil, err
 		}
@@ -307,52 +310,37 @@ func arDatingRules() []arDatingRule {
 	}
 }
 
-// arDate runs the dating check over one envelope object and its entry.
-func arDate(envelope any, entryRaw any, issuedAt string, heads []arTreeHead, disabled string) arDating {
-	entry, ok := entryRaw.(map[string]any)
-	if !ok {
-		return arDating{Entry: "malformed", Codes: []string{"entry-shape-malformed"}}
-	}
-	if err := arRetentionShape(entry); err != nil {
-		return arDating{Entry: "malformed", Codes: []string{err.Error()}}
-	}
-	marshalled, err := json.Marshal(envelope)
-	var canonical []byte
-	if err == nil {
-		canonical, err = aee.Canonicalize(marshalled)
-	}
-	issued, errIssued := arInstant(issuedAt)
-	if err != nil || errIssued != nil {
-		return arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}}
-	}
-	sum := sha256.Sum256(canonical)
-	r := &arRetained{entry: entry, received: entry["received"].(bool), issuedAt: issued,
-		digest: hex.EncodeToString(sum[:])}
-	type moment struct {
-		origin string
-		at     time.Time
-		text   string
-	}
-	var moments []moment
+type arMoment struct {
+	origin string
+	at     time.Time
+	text   string
+}
+
+// arAnchorMoments returns every anchor that validates over digest, earliest
+// first. disabled of anchor-validation dates every anchor at the first held
+// head, which is how the sweep asks whether validation is load-bearing.
+func arAnchorMoments(entry map[string]any, digest []byte, heads []arTreeHead, disabled string) []arMoment {
+	var moments []arMoment
 	for _, item := range entry["anchors"].([]any) {
 		anchor := item.(map[string]any)
-		text := arAnchorTime(anchor, sum[:], heads)
+		text := arAnchorTime(anchor, digest, heads)
 		if disabled == "anchor-validation" && len(heads) > 0 {
 			text = heads[0].timestamp
 		}
-		if text == "" {
-			continue
-		}
-		at, err := arInstant(text)
-		if err == nil {
-			moments = append(moments, moment{anchor["origin"].(string), at, text})
+		if at, err := arInstant(text); text != "" && err == nil {
+			moments = append(moments, arMoment{anchor["origin"].(string), at, text})
 		}
 	}
 	sort.SliceStable(moments, func(i, j int) bool { return moments[i].at.Before(moments[j].at) })
-	dating := arDating{Entry: "well-formed", Codes: []string{}}
+	return moments
+}
+
+// arDatedAt is the time of the earliest validating anchor of either origin;
+// disabled of earliest-anchor reads only retainer anchors when there are any.
+func arDatedAt(moments []arMoment, disabled string) string {
 	chosen := moments
 	if disabled == "earliest-anchor" {
-		var retainerOnly []moment
+		var retainerOnly []arMoment
 		for _, m := range moments {
 			if m.origin == "retainer" {
 				retainerOnly = append(retainerOnly, m)
@@ -362,9 +350,47 @@ func arDate(envelope any, entryRaw any, issuedAt string, heads []arTreeHead, dis
 			chosen = retainerOnly
 		}
 	}
-	if len(chosen) > 0 {
-		dating.DatedAt = chosen[0].text
+	if len(chosen) == 0 {
+		return ""
 	}
+	return chosen[0].text
+}
+
+// arRetainedState reads what the entry checks need from the envelope and entry.
+func arRetainedState(envelope any, entry map[string]any, issuedAt string) (*arRetained, []byte, error) {
+	marshalled, err := json.Marshal(envelope)
+	if err != nil {
+		return nil, nil, err
+	}
+	canonical, err := aee.Canonicalize(marshalled)
+	if err != nil {
+		return nil, nil, err
+	}
+	issued, err := arInstant(issuedAt)
+	if err != nil {
+		return nil, nil, err
+	}
+	sum := sha256.Sum256(canonical)
+	r := &arRetained{entry: entry, received: entry["received"].(bool), issuedAt: issued,
+		digest: hex.EncodeToString(sum[:])}
+	return r, sum[:], nil
+}
+
+// arDate runs the dating check over one envelope object and its entry.
+func arDate(envelope any, entryRaw any, issuedAt string, heads []arTreeHead, disabled string) arDating {
+	entry, ok := entryRaw.(map[string]any)
+	if !ok {
+		return arDating{Entry: "malformed", Codes: []string{"entry-shape-malformed"}}
+	}
+	if err := arRetentionShape(entry); err != nil {
+		return arDating{Entry: "malformed", Codes: []string{err.Error()}}
+	}
+	r, digest, err := arRetainedState(envelope, entry, issuedAt)
+	if err != nil {
+		return arDating{Entry: "malformed", Codes: []string{"entry-record-unreadable"}}
+	}
+	moments := arAnchorMoments(entry, digest, heads, disabled)
+	dating := arDating{Entry: "well-formed", Codes: []string{}, DatedAt: arDatedAt(moments, disabled)}
 	for _, m := range moments {
 		if m.origin == "retainer" {
 			at := m.at
@@ -377,7 +403,7 @@ func arDate(envelope any, entryRaw any, issuedAt string, heads []arTreeHead, dis
 			continue
 		}
 		if err := rule.check(r); err != nil {
-			dating.Entry, dating.Codes, dating.Receipt = "malformed", []string{err.Error()}, ""
+			dating.Entry, dating.Codes = "malformed", []string{err.Error()}
 			return dating
 		}
 	}
