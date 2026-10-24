@@ -1,0 +1,35 @@
+{
+  "derivations": [
+    {
+      "declared_constants": [
+        {
+          "id": "percent",
+          "value": "100"
+        },
+        {
+          "id": "months_per_year",
+          "value": "12"
+        },
+        {
+          "id": "months_per_quarter",
+          "value": "3"
+        },
+        {
+          "id": "quarters_per_year",
+          "value": "4"
+        }
+      ],
+      "id": "quarterly-net-reference"
+    }
+  ],
+  "note": "The derivation declares the constant and its computation reads it.",
+  "operand": {
+    "grounding": {
+      "constant": "quarters_per_year",
+      "derivation": "quarterly-net-reference",
+      "kind": "constant"
+    },
+    "value": "4"
+  },
+  "suite": "operand-provenance/declared-constant-v1"
+}
