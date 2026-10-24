@@ -889,9 +889,47 @@ def claims(src: Sources) -> tuple[Claim, ...]:
     )
 
 
+def scitt_cose_counts() -> dict[str, int]:
+    """The SCITT/COSE corpus counts, tallied from its entries as extra_corpora does.
+
+    That corpus is judged by its own checker and is not in EXTRA_CORPORA, so its
+    size is claimed by hand below; the figures still come from a tally of the
+    manifest's entries, checked against the counts it declares, rather than from
+    the declared field alone.
+    """
+    payload = json.loads(source("vectors-scitt-cose/MANIFEST.json").read_text(encoding="utf-8"))
+    entries = payload["vectors"]
+    tally = {kind: 0 for kind in ("accept", "reject", "indeterminate")}
+    for position, entry in enumerate(entries, start=1):
+        kind = entry.get("kind") if isinstance(entry, dict) else None
+        if not isinstance(kind, str) or kind not in tally:
+            raise SystemExit(
+                f"FAIL: vectors-scitt-cose/MANIFEST.json member {position} has "
+                f"unsupported kind {kind!r}; every member must be accept, reject "
+                "or indeterminate before its count can be claimed."
+            )
+        tally[kind] += 1
+    declared = payload.get("counts", {})
+    if not isinstance(declared, dict) or any(
+        isinstance(declared.get(kind), bool) for kind in tally
+    ):
+        raise SystemExit(
+            "FAIL: vectors-scitt-cose/MANIFEST.json counts must be an object of "
+            "numeric counts; boolean values are not counts."
+        )
+    if any(declared.get(kind) != tally[kind] for kind in tally):
+        raise SystemExit(
+            f"FAIL: vectors-scitt-cose/MANIFEST.json declares {declared} and carries "
+            f"{tally}. The counts this gate claims for that corpus descend from this "
+            "field, so it may not disagree with the entries it counts."
+        )
+    return {"total": len(entries), **tally}
+
+
 def declared_claims(src: Sources) -> tuple[Claim, ...]:
     """The claim sites written out one at a time, each against its own sentence."""
     gemara = json.loads(source("interop/gemara-method-link/MANIFEST.json").read_text())
+    scitt = scitt_cose_counts()
     rev = src.revision
     corpus = (
         f"{src.total} vectors ({src.accept} accept, {src.reject} reject, "
@@ -904,6 +942,44 @@ def declared_claims(src: Sources) -> tuple[Claim, ...]:
             "The ",
             " cases use complete Policy and EvaluationLog",
             str(len(gemara["cases"])),
+        ),
+        # The SCITT/COSE corpus is judged by its own checker and is not in
+        # EXTRA_CORPORA, so its size is claimed here against its manifest: once
+        # in the Go reader's comment and once, with the breakdown, in the profile.
+        Claim(
+            "corpora/scittcose.go",
+            "the SCITT/COSE corpus size the Go reader's comment states",
+            "vectors-scitt-cose/ carries ",
+            " members and a",
+            str(scitt["total"]),
+        ),
+        Claim(
+            "profiles/scitt-cose.md",
+            "the SCITT/COSE corpus size the profile states",
+            "`vectors-scitt-cose/` carries ",
+            " members, ",
+            str(scitt["total"]),
+        ),
+        Claim(
+            "profiles/scitt-cose.md",
+            "the SCITT/COSE accept count the profile states",
+            " members, ",
+            " accept, ",
+            str(scitt["accept"]),
+        ),
+        Claim(
+            "profiles/scitt-cose.md",
+            "the SCITT/COSE reject count the profile states",
+            " accept, ",
+            " reject and ",
+            str(scitt["reject"]),
+        ),
+        Claim(
+            "profiles/scitt-cose.md",
+            "the SCITT/COSE indeterminate count the profile states",
+            " reject and ",
+            " indeterminate, and each one cites",
+            str(scitt["indeterminate"]),
         ),
         Claim(
             "docs/guides/corpora.md",
@@ -1352,6 +1428,22 @@ FROZEN: tuple[Frozen, ...] = (
         'the line must match that wheel and not the corpus on main; the release that moves the '
         'pin re-records it.',
     ),
+    # ---- settings and arithmetic that are not counts of anything in a corpus.
+    Frozen(
+        'interop/govops-capability-id/pyproject.toml',
+        "the ruff line width of the govops-capability-id reader",
+        'line-length = 140',
+        'A formatter setting in an interop reader\'s project file. It is a line width, not a '
+        'count, and met the acs-core corpus total by coincidence when that corpus reached 140.',
+    ),
+    Frozen(
+        'scripts/pre-push-identity-scan-test.py',
+        "the decode budget a nested member costs in the identity scan's test",
+        '70 members need 140',
+        'Arithmetic about the identity scan\'s decode cap: each nested member costs two '
+        'decodes. It is not a corpus count, and met the acs-core corpus total by coincidence '
+        'when that corpus reached 140.',
+    ),
     # ---- an outside implementer's reported results, recorded as posted.
     Frozen(
         'RUNS.md',
@@ -1608,6 +1700,26 @@ FROZEN: tuple[Frozen, ...] = (
         "26 and 27 in the historical account",
         "Two suiteRevision numbers of the main corpus named in a past account. "
         "They are revisions, not ACS-Core members.",
+    ),
+    # ---- two figures that came to collide with the ACS-Core corpus when the
+    # silent-hook member grew it to 44 members and 27 rejects: a cell of the
+    # AVE crosswalk and a test key's last byte. Neither is a size of this
+    # corpus. The SCITT/COSE corpus size, which collided at the same time, is a
+    # live count and is claimed against that corpus's manifest in
+    # declared_claims rather than frozen here.
+    Frozen(
+        "crosswalks/aee-to-ave.md",
+        "the detection-stage table, the static_detection row",
+        "| static_detection | 44 |",
+        "A count of AVE records at one detection stage, read from that project's "
+        "published records on a stated date. It is not a size of this corpus.",
+    ),
+    Frozen(
+        "vectors-agent-audit-record/gen_vectors.py",
+        "the last byte of the agent test key",
+        '"00" * 31 + "44"',
+        "The final byte of a fixed Ed25519 test key in the audit-record "
+        "generator. It is key material, not a count of anything.",
     ),
     # The W3C v0.1 text's own count of the delta-related pairs re-cut against it.
     # It is a figure of that text (section 10, list message 2026Sep/0087), and it

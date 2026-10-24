@@ -38,8 +38,25 @@ def selected_fixture(path: Path) -> tuple[dict, dict, dict]:
     return load_json(raw), lock, load_json((ROOT / "selection.json").read_bytes())
 
 
+def check_population(fixture: dict, lock: dict) -> None:
+    """Refuse a packet whose key pairs, served tools or cases differ in count.
+
+    The counts belong to the selected revision, so they live in
+    source-lock.json beside its digest: a producer revision that adds a case
+    is selected by editing the lock, never by editing this driver.
+    """
+    expected = lock["population"]
+    found = {
+        "key_pairs": len(fixture["key_encoding"]),
+        "definitions": len(fixture["observed_tools"]),
+        "cases": len(fixture["vectors"]),
+    }
+    if found != expected:
+        refuse(f"native population {found} differs from the selected {expected}")
+
+
 def run(path: Path) -> dict:
-    """Recompute the thirteen keys, definition digests and six native cases.
+    """Recompute the key pairs, definition digests and native cases.
 
     The original expected outcomes are compared after evaluating all axes.
     The report retains original packet and implementation selection digests,
@@ -47,19 +64,16 @@ def run(path: Path) -> dict:
     never infers an independent operator or actual tool execution.
     """
     fixture, lock, selection = selected_fixture(path)
+    check_population(fixture, lock)
     jwk, issuer = selection["jwk"], selection["issuer"]
     jws = fixture["attestation"]["jws"]
     payload, _, _ = read_jws(jws, jwk)
     keys = [tool_key(pair["name"]) == pair["key"] for pair in fixture["key_encoding"]]
-    if len(keys) != 13 or len(fixture["vectors"]) != 6:
-        refuse("native population differs from thirteen keys and six cases")
     definitions = [
         capture_digest(fixture["observed_tools"], tool["name"])
         == payload["scan"]["toolDigests"][tool_key(tool["name"])]
         for tool in fixture["observed_tools"]
     ]
-    if len(definitions) != 3:
-        refuse("native definition population differs from three tools")
     results = []
     for case in fixture["vectors"]:
         candidate = jws if case["jws"] == "reference" else case["jws"]

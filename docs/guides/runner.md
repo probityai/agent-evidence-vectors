@@ -13,7 +13,7 @@ For a shell run before publication, use the [source-wheel recipe](../../README.m
 
 ```sh
 go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
-uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify --json"
+uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify -validity-only -json"
 ```
 
 The command invokes your verifier for each vector using the [external-verifier contract](../reference/verifier-contract.md). Reports keep normative conformance and reason-code agreement separate. Both still affect row status and the command's exit status.

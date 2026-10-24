@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 from map_reader import capture_digest, encode_base64url, evaluate, load_json
-from run_agentavow import selected_fixture
+from run_agentavow import check_population, selected_fixture
 from test_map_reader import GATE, ISSUER, KEY, PAYLOAD, TOOL, assert_refusal, sign
 
 
@@ -140,6 +140,27 @@ class TestMalformedInputs:
             assert_refusal(
                 lambda: capture_digest([candidate], TOOL["name"]),
                 "served definition is outside the bounded digest profile",
+                caplog,
+            )
+
+        @pytest.mark.parametrize(
+            "field,count",
+            [("key_encoding", 12), ("observed_tools", 4), ("vectors", 6), ("vectors", 8)],
+        )
+        def test_native_population_differs_from_lock(
+            self, field: str, count: int, caplog: pytest.LogCaptureFixture
+        ) -> None:
+            lock = {"population": {"key_pairs": 13, "definitions": 3, "cases": 7}}
+            sizes = {"key_encoding": 13, "observed_tools": 3, "vectors": 7, field: count}
+            fixture = {name: [{}] * size for name, size in sizes.items()}
+            found = {
+                "key_pairs": sizes["key_encoding"],
+                "definitions": sizes["observed_tools"],
+                "cases": sizes["vectors"],
+            }
+            assert_refusal(
+                lambda: check_population(fixture, lock),
+                f"native population {found} differs from the selected {lock['population']}",
                 caplog,
             )
 

@@ -1,8 +1,8 @@
 {
   "profile": "probity-agentavow-signed-map-extraction-v1-candidate",
   "classification": "Probity-operated reproduction using original native packet",
-  "source_revision": "36426cfd5152bba6a27766febfac8aaef47b6f34",
-  "fixture_sha256": "488496079155830caf83593be0cafcb21367f72cd70ea363c2400f40eda72647",
+  "source_revision": "b7c5cd2fee080cfdd387683a9bcb3e0db20f8ee5",
+  "fixture_sha256": "48cf831840fc81db4e242ce5d2230a99fd41c890e5aa8b00dd6edef24098e9d3",
   "key_pair_matches": [
     true,
     true,
@@ -107,6 +107,20 @@
         "tool_digest_binds": true,
         "fresh": true,
         "rely": false
+      },
+      "matches": true
+    },
+    {
+      "name": "boundary-fresh",
+      "axes": {
+        "signature_valid": true,
+        "canonical_bytes": true,
+        "issuer_binds": true,
+        "subject_binds": true,
+        "tool_binds": true,
+        "tool_digest_binds": true,
+        "fresh": true,
+        "rely": true
       },
       "matches": true
     }

@@ -1,7 +1,7 @@
 # Signed-map extraction for AgentAvow tool pins
 
 This additive Probity candidate reads the producer's
-[version-1 profile at 36426cf](https://github.com/AgentAvow/AgentAvow/tree/36426cfd5152bba6a27766febfac8aaef47b6f34/docs/standards/tool-manifest-digest-vectors-v1).
+[version-1 profile at b7c5cd2](https://github.com/AgentAvow/AgentAvow/tree/b7c5cd2fee080cfdd387683a9bcb3e0db20f8ee5/docs/standards/tool-manifest-digest-vectors-v1).
 It verifies the compact Ed25519 JWS under a separately selected public key,
 checks canonical payload bytes, selected issuer, MCP server, named tool,
 definition digest and the half-open validity window, and emits the pin shape
@@ -15,7 +15,12 @@ of SHA-256 over the complete raw name. The cut can retain `%` or `%C` at its end
 No decoding, Unicode normalization or literal-name fallback occurs.
 
 The native packet reproduction matches all thirteen name/key pairs, the three
-original served-definition digests and the six original case verdicts. Every
+original served-definition digests and all seven case verdicts, including
+`boundary-fresh`, a gate time less than a millisecond inside the signed expiry.
+The window compares instants at the payload's microsecond precision, so that
+case reads fresh. The expected counts of pairs, tools and cases live in
+`source-lock.json` beside the fixture digest, so selecting a later producer
+revision is a lock change. Every
 case retains the six producer axes plus its `rely` decision; selected issuer
 matching is an additional axis. An absent tool leaves its digest axis
 `not_evaluated`. A valid signature on noncanonical payload bytes cannot yield a

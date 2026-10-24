@@ -288,6 +288,55 @@ def create(root: Path, rel: str, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def scitt_unclassified_member(root: Path, kind: object) -> None:
+    """Keep the declared breakdown and prose consistent while hiding one member.
+
+    The gate must reject an unclassified member even when its declared kind
+    counts match the partial tally. Otherwise the total counts a member none
+    of the claimed categories covers.
+    """
+    path = root / "vectors-scitt-cose/MANIFEST.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    entry = next(row for row in manifest["vectors"] if row["kind"] == "reject")
+    if kind is None:
+        del entry["kind"]
+    else:
+        entry["kind"] = kind
+    manifest["counts"]["reject"] -= 1
+    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    reword(
+        root,
+        "profiles/scitt-cose.md",
+        r"\d+ reject and",
+        f"{manifest['counts']['reject']} reject and",
+    )
+
+
+def scitt_float_count(root: Path) -> None:
+    """Change the count's JSON type without changing its numeric value."""
+    path = root / "vectors-scitt-cose/MANIFEST.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest["counts"]["accept"] = float(manifest["counts"]["accept"])
+    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
+def scitt_boolean_count(root: Path) -> None:
+    """Use one real accepting member so True can masquerade as its count."""
+    path = root / "vectors-scitt-cose/MANIFEST.json"
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    accepts = [row for row in manifest["vectors"] if row["kind"] == "accept"]
+    for entry in accepts[1:]:
+        entry["kind"] = "reject"
+    counts = {
+        kind: sum(row["kind"] == kind for row in manifest["vectors"])
+        for kind in ("accept", "reject", "indeterminate")
+    }
+    reword(root, "profiles/scitt-cose.md", r"\d+ accept,", f"{counts['accept']} accept,")
+    reword(root, "profiles/scitt-cose.md", r"\d+ reject and", f"{counts['reject']} reject and")
+    manifest["counts"] = {**counts, "accept": True}
+    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
 def remove_first_statement(root: Path) -> None:
     """Delete the statement file the staged manifest's first entry points at.
 
@@ -722,6 +771,26 @@ CENSUS_CASES: list[Case] = [
 
 SOURCE_CASES: list[Case] = [
     (
+        "a SCITT member has an unknown kind despite a matching partial breakdown",
+        lambda root: scitt_unclassified_member(root, "unclassified"),
+        ("unsupported kind 'unclassified'",),
+    ),
+    (
+        "a SCITT member omits its kind despite a matching partial breakdown",
+        lambda root: scitt_unclassified_member(root, None),
+        ("unsupported kind None",),
+    ),
+    (
+        "a SCITT member has a non-string kind despite a matching partial breakdown",
+        lambda root: scitt_unclassified_member(root, ["reject"]),
+        ("unsupported kind ['reject']",),
+    ),
+    (
+        "a SCITT count uses True for one real accepting member",
+        scitt_boolean_count,
+        ("boolean values are not counts",),
+    ),
+    (
         "the manifest's declared count disagrees with the entries it carries",
         lambda root: retype(root, "vectors/MANIFEST.json", r'"accept": (\d+)'),
         (f"it declares {ACCEPT + 1} accept vector(s) and carries {ACCEPT} accept entr(ies)",),
@@ -1103,6 +1172,11 @@ MEASURE_ACCEPT_CASES: list[Case] = [
 # --------------------------------------------------------------------------
 
 ACCEPT_CASES: list[Case] = [
+    (
+        "an integer-valued SCITT JSON number preserves the existing numeric contract",
+        scitt_float_count,
+        ("are accounted for",),
+    ),
     (
         "the repository as it stands",
         lambda root: None,

@@ -6,12 +6,11 @@ import argparse
 import json
 import platform
 import re
-import shlex
-import sys
 from pathlib import Path
 from typing import Any
 
 from ..invocation_axes.reader import sha256_tag
+from ..record_paths import portable_command, write_records
 from .reader import AXES, NON_CLAIMS, MalformedInput, evaluate, parse_strict, summary
 
 DISTRIBUTION = "agent-evidence-vectors"
@@ -81,12 +80,13 @@ def main(argv: list[str] | None = None) -> int:
         r"[0-9a-f]{40}", args.implementation_revision
     ):
         parser.error("implementation revision must be a 40-character Git commit")
-    args.output.mkdir(parents=True, exist_ok=False)
+    if args.output.exists():
+        raise FileExistsError(args.output)
     report = run_corpus(args.corpus)
     report["implementation_revision"] = _revision(args.implementation_revision)
     report["environment"] = f"Python {platform.python_version()} on {platform.platform()}"
-    report["command"] = shlex.join([sys.executable, *sys.argv])
-    (args.output / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    report["command"] = portable_command()
+    write_records(args.output, {"report.json": report})
     print(json.dumps({"cases": len(report["results"]), "failures": report["failures"]}))
     return int(bool(report["failures"]))
 

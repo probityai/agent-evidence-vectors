@@ -33,8 +33,15 @@ jobs:
       - name: Gate self-test
         run: .githooks/commit-msg --selftest
 
+      # Dependabot writes the pull request title ("bump X from A to B in /dir
+      # (#N)" runs past 72 characters for any deep directory) and no setting
+      # shortens it: commit-message.prefix changes only the first words. Its
+      # pull requests are merged with the subject written by hand
+      # (`gh pr merge --squash --subject ...`), so the generated title never
+      # becomes a commit on the default branch, and the range lint below still
+      # checks every commit that lands. Every other author keeps this check.
       - name: Lint the prospective merge subject
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_NUMBER: ${{ github.event.pull_request.number }}

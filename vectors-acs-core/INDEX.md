@@ -24,8 +24,8 @@ members citing it test a proposal and say so.
 | `spec-vendored/ocsf-mapping-7d9b7ff.json` | `specification/v0.1.0/trace/ocsf-mapping.json` | `7d9b7ff` | proposal | pull request 278 head, open against integration |
 | `spec-vendored/issue-264-body.md` | `GenAI-Security-Project/agent-control-standard#264 (issue body)` | `issue body` | proposal | issue 264 body as last edited at 2026-10-12T13:15:57Z; an issue has no commit, so the sha256 of the vendored bytes is the pin |
 
-This corpus is 139 vectors, of which 51 a conformant verifier must
-not fail closed on and 85 it must reject.
+This corpus is 140 vectors, of which 51 a conformant verifier must
+not fail closed on and 86 it must reject.
 
 **No implementation has been run against this corpus.** There is no reference
 adapter in the specification's repository at the pinned commit, and the two
@@ -229,6 +229,7 @@ what it tests, so each waits for its sentence and is minted from it.
 | `v4f75a079844635af` | accept | acs-f-6 | ACS-R-006, ACS-R-021 | allow | not asserted | artifact | EXTERNAL |
 | `v53ef0aaa91303587` | accept | acs-f-10 | ACS-R-022, ACS-R-021 | allow | not asserted | artifact | EXTERNAL |
 | `v55187b175296fcc8` | reject | acs-f-15 | ACS-R-042 | deny | not asserted | artifact | EXTERNAL |
+| `v564ff5d8d344bea2` | reject | acs-f-5 | ACS-R-014, ACS-R-005 | deny | not asserted | substrate | SELF |
 | `v57106f0a71dd1d62` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
 | `v573876edff0016da` | reject | acs-f-17 | ACS-R-049 | deny | not asserted | artifact | EXTERNAL |
 | `v5855843136b72a87` | reject | acs-f-15 | ACS-R-045 | deny | not asserted | substrate | SELF |
