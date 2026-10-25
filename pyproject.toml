@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.25.0"
+version = "0.26.0"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -68,6 +68,9 @@ agent-evidence-vectors-verdict-evidence = "agent_evidence_vectors.verdict_eviden
 # Operand provenance: a declared constant grounds an operand only when the
 # executed derivation read it, at the declared value.
 agent-evidence-vectors-operand-provenance = "agent_evidence_vectors.operand_provenance.run:main"
+# The evaluation claim record: every coordinate present, judged under the profile the
+# relying party's acceptance rule pins. Also reachable as `agent-evidence-vectors claim`.
+agent-evidence-vectors-claim = "agent_evidence_vectors.claim_record.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]

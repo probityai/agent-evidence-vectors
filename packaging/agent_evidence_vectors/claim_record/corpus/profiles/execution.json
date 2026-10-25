@@ -1,0 +1,24 @@
+{
+  "schema": "aev-claim-profile/v1",
+  "id": "execution/v1",
+  "description": "An evaluation that takes side-effecting actions under delegated authority. Every coordinate carries a value, and every settled action is bound to its evidence by digest.",
+  "coordinates": [
+    "applicability",
+    "population",
+    "vantage",
+    "bytes",
+    "epoch",
+    "settlement"
+  ],
+  "not_applicable": {},
+  "immutable_references": [
+    "applicability.case_set",
+    "bytes.implementation",
+    "bytes.case_set",
+    "bytes.verifier",
+    "settlement.actions[].evidence"
+  ],
+  "exclusion_reasons": [
+    "optional_feature_not_claimed"
+  ]
+}

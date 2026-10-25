@@ -1,0 +1,14 @@
+{
+  "schema": "aev-claim-acceptance-rule/v1",
+  "id": "sample-execution-substrate",
+  "profile": {
+    "id": "execution/v1",
+    "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+  },
+  "case_sets": [
+    "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+  ],
+  "accept_vantage": [
+    "substrate"
+  ]
+}

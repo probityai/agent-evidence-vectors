@@ -5368,6 +5368,17 @@ def jcs_byte_vectors_path() -> str:
 
 
 def main() -> int:
+    if len(sys.argv) > 1 and sys.argv[1] == "claim":
+        # The evaluation claim record: verify, emit or replay. Its verifier lives in
+        # the package beside this rail and is stdlib-only, like the rail.
+        from agent_evidence_vectors.claim_record.run import main as claim_main
+
+        return claim_main(sys.argv[2:])
+    return rail_main()
+
+
+def rail_main() -> int:
+    """Replay a shipped corpus through the reference rail (the command's default mode)."""
     parser = argparse.ArgumentParser(
         prog="agent-evidence-vectors",
         description="AEE v0.7 conformance vector harness (differential when an "

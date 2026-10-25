@@ -1,0 +1,6432 @@
+{
+  "schema": "aev-claim-record-cases/v1",
+  "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+  "bases": {
+    "conformance": {
+      "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+      "profile": {
+        "id": "conformance/v1",
+        "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+      },
+      "verdict": "pass",
+      "coordinates": {
+        "applicability": {
+          "state": "value",
+          "case_set": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          },
+          "applicable": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ],
+          "excluded": []
+        },
+        "population": {
+          "state": "value",
+          "coverage_denominator": 5,
+          "passed": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ],
+          "failed": [],
+          "not_run": []
+        },
+        "vantage": {
+          "state": "value",
+          "observation_vantage": "substrate",
+          "observer": "ci-runner-outside-the-implementation"
+        },
+        "bytes": {
+          "state": "value",
+          "implementation": {
+            "name": "example-implementation",
+            "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+          },
+          "case_set": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          },
+          "verifier": {
+            "name": "example-verifier",
+            "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+          }
+        },
+        "epoch": {
+          "state": "not_applicable",
+          "reason": "no_authority_exercised"
+        },
+        "settlement": {
+          "state": "not_applicable",
+          "reason": "no_side_effecting_actions"
+        }
+      }
+    },
+    "execution": {
+      "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+      "profile": {
+        "id": "execution/v1",
+        "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+      },
+      "verdict": "pass",
+      "coordinates": {
+        "applicability": {
+          "state": "value",
+          "case_set": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          },
+          "applicable": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ],
+          "excluded": []
+        },
+        "population": {
+          "state": "value",
+          "coverage_denominator": 5,
+          "passed": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ],
+          "failed": [],
+          "not_run": []
+        },
+        "vantage": {
+          "state": "value",
+          "observation_vantage": "substrate",
+          "observer": "ci-runner-outside-the-implementation"
+        },
+        "bytes": {
+          "state": "value",
+          "implementation": {
+            "name": "example-implementation",
+            "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+          },
+          "case_set": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          },
+          "verifier": {
+            "name": "example-verifier",
+            "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+          }
+        },
+        "epoch": {
+          "state": "value",
+          "initial": "e1",
+          "transitions": []
+        },
+        "settlement": {
+          "state": "value",
+          "actions": [
+            {
+              "id": "a1",
+              "epoch": "e1",
+              "outcome": "committed",
+              "evidence": {
+                "name": "evidence/a1",
+                "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+              }
+            },
+            {
+              "id": "a2",
+              "epoch": "e1",
+              "outcome": "not_run",
+              "evidence": {
+                "name": "evidence/a2",
+                "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "statement": {
+      "_type": "https://in-toto.io/Statement/v1",
+      "subject": [
+        {
+          "name": "example-implementation",
+          "digest": {
+            "sha256": "16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+          }
+        }
+      ],
+      "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+      "predicate": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      }
+    },
+    "empty-suite": {
+      "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+      "profile": {
+        "id": "conformance/v1",
+        "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+      },
+      "verdict": "incomplete",
+      "coordinates": {
+        "applicability": {
+          "state": "value",
+          "case_set": {
+            "name": "empty-suite@1",
+            "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+          },
+          "applicable": [],
+          "excluded": []
+        },
+        "population": {
+          "state": "value",
+          "coverage_denominator": 0,
+          "passed": [],
+          "failed": [],
+          "not_run": []
+        },
+        "vantage": {
+          "state": "value",
+          "observation_vantage": "substrate",
+          "observer": "ci-runner-outside-the-implementation"
+        },
+        "bytes": {
+          "state": "value",
+          "implementation": {
+            "name": "example-implementation",
+            "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+          },
+          "case_set": {
+            "name": "empty-suite@1",
+            "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+          },
+          "verifier": {
+            "name": "example-verifier",
+            "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+          }
+        },
+        "epoch": {
+          "state": "not_applicable",
+          "reason": "no_authority_exercised"
+        },
+        "settlement": {
+          "state": "not_applicable",
+          "reason": "no_side_effecting_actions"
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "conformance-full-pass",
+      "kind": "positive",
+      "about": "population",
+      "description": "Every applicable case ran and passed.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "execution-settled",
+      "kind": "positive",
+      "about": "settlement",
+      "description": "Every action carries a resolved outcome bound to its evidence, under the live epoch.",
+      "rule": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "statement-wrapped",
+      "kind": "positive",
+      "about": "bytes",
+      "description": "The record rides as the predicate of an in-toto Statement whose subject is the implementation the bytes coordinate binds.",
+      "rule": "conformance",
+      "record": {
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [
+          {
+            "name": "example-implementation",
+            "digest": {
+              "sha256": "16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            }
+          }
+        ],
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "predicate": {
+          "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+          "profile": {
+            "id": "conformance/v1",
+            "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+          },
+          "verdict": "pass",
+          "coordinates": {
+            "applicability": {
+              "state": "value",
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "applicable": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "excluded": []
+            },
+            "population": {
+              "state": "value",
+              "coverage_denominator": 5,
+              "passed": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "failed": [],
+              "not_run": []
+            },
+            "vantage": {
+              "state": "value",
+              "observation_vantage": "substrate",
+              "observer": "ci-runner-outside-the-implementation"
+            },
+            "bytes": {
+              "state": "value",
+              "implementation": {
+                "name": "example-implementation",
+                "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+              },
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "verifier": {
+                "name": "example-verifier",
+                "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+              }
+            },
+            "epoch": {
+              "state": "not_applicable",
+              "reason": "no_authority_exercised"
+            },
+            "settlement": {
+              "state": "not_applicable",
+              "reason": "no_side_effecting_actions"
+            }
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "incomplete-lists-not-run",
+      "kind": "positive",
+      "about": "population",
+      "description": "Two cases did not run; they are listed as not run and the verdict says so.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "incomplete",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3"
+            ],
+            "failed": [],
+            "not_run": [
+              "c4",
+              "c5"
+            ]
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "incomplete",
+        "reasons": []
+      }
+    },
+    {
+      "id": "fail-stated-honestly",
+      "kind": "positive",
+      "about": "population",
+      "description": "One case failed, and the verdict is fail.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "fail",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c4",
+              "c5"
+            ],
+            "failed": [
+              "c3"
+            ],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "fail",
+        "reasons": []
+      }
+    },
+    {
+      "id": "optional-case-excluded",
+      "kind": "positive",
+      "about": "applicability",
+      "description": "The optional case is excluded under the reason the profile authorises.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c5"
+            ],
+            "excluded": [
+              {
+                "id": "c4",
+                "reason": "optional_feature_not_claimed"
+              }
+            ]
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "historical-case-set-revision",
+      "kind": "positive",
+      "about": "bytes",
+      "description": "The record binds revision 1 by digest. Revision 2 supersedes its name, and the rule still accepts the old bytes: a superseded name never voids an immutable revision.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@1",
+              "digest": "sha256:e74a8b2c1e7fd03232822cb6a77023b73084043948a7bd1ba22b9448fc2f9b00"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@1",
+              "digest": "sha256:e74a8b2c1e7fd03232822cb6a77023b73084043948a7bd1ba22b9448fc2f9b00"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "alias-locates-old-bytes",
+      "kind": "positive",
+      "about": "bytes",
+      "description": "The reference carries the alias 'latest', which now names revision 2, and the digest of revision 1. The digest decides; an alias locates bytes and never replaces them.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@latest",
+              "alias": "latest",
+              "digest": "sha256:e74a8b2c1e7fd03232822cb6a77023b73084043948a7bd1ba22b9448fc2f9b00"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@latest",
+              "alias": "latest",
+              "digest": "sha256:e74a8b2c1e7fd03232822cb6a77023b73084043948a7bd1ba22b9448fc2f9b00"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "related-reference-by-tag",
+      "kind": "positive",
+      "about": "bytes",
+      "description": "A reference the profile does not hold to byte identity may be a tag or URL: the referential pin refusal is narrow.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            },
+            "related": [
+              {
+                "name": "run-log",
+                "uri": "https://example.invalid/runs/latest"
+              }
+            ]
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "self-report-accepted-by-rule",
+      "kind": "positive",
+      "about": "vantage",
+      "description": "An artifact-vantage record under a rule that accepts self-report.",
+      "rule": "conformance-self-report",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "artifact",
+            "observer": "the-implementation-itself"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "epoch-valued-where-optional",
+      "kind": "positive",
+      "about": "epoch",
+      "description": "A conformance record may state its epoch even where it could be not applicable.",
+      "rule": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "epoch-revoked-after-settlement",
+      "kind": "positive",
+      "about": "epoch",
+      "description": "A revocation after a1, which settled under e1; a2 then acts under e2.",
+      "rule": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "revocation"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e2",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "epoch-suspended-after-settlement",
+      "kind": "positive",
+      "about": "epoch",
+      "description": "A suspension after a1, which settled under e1; a2 then acts under e2.",
+      "rule": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "suspension"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e2",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "epoch-approval-consumed-then-renewed",
+      "kind": "positive",
+      "about": "epoch",
+      "description": "A consumption after a1, which settled under e1; a2 then acts under e2.",
+      "rule": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "consumption"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e2",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "pass",
+        "reasons": []
+      }
+    },
+    {
+      "id": "empty-suite-incomplete",
+      "kind": "positive",
+      "about": "population",
+      "description": "A case set with no cases: nothing applied, and the verdict is incomplete, never pass.",
+      "rule": "empty-suite",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "incomplete",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "empty-suite@1",
+              "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+            },
+            "applicable": [],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 0,
+            "passed": [],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "empty-suite@1",
+              "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "expected": {
+        "result": "ADMITTED",
+        "verdict": "incomplete",
+        "reasons": []
+      }
+    },
+    {
+      "id": "claim-type-other",
+      "kind": "negative",
+      "about": "envelope",
+      "description": "The record names another claim type.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://example.invalid/other-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "claim_type"
+          ],
+          "value": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MALFORMED_RECORD"
+        ]
+      }
+    },
+    {
+      "id": "coordinate-state-invented",
+      "kind": "negative",
+      "about": "envelope",
+      "description": "A coordinate state outside the defined set.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "assumed",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "vantage",
+            "state"
+          ],
+          "value": "value"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MALFORMED_RECORD"
+        ]
+      }
+    },
+    {
+      "id": "coordinate-key-unknown",
+      "kind": "negative",
+      "about": "envelope",
+      "description": "An undefined coordinate in the envelope.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          },
+          "confidence": {
+            "state": "value"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "del",
+          "path": [
+            "coordinates",
+            "confidence"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MALFORMED_RECORD"
+        ]
+      }
+    },
+    {
+      "id": "statement-predicate-type-other",
+      "kind": "negative",
+      "about": "envelope",
+      "description": "The Statement names another predicate type.",
+      "rule": "conformance",
+      "base": "statement",
+      "record": {
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [
+          {
+            "name": "example-implementation",
+            "digest": {
+              "sha256": "16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            }
+          }
+        ],
+        "predicateType": "https://example.invalid/other-claim",
+        "predicate": {
+          "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+          "profile": {
+            "id": "conformance/v1",
+            "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+          },
+          "verdict": "pass",
+          "coordinates": {
+            "applicability": {
+              "state": "value",
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "applicable": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "excluded": []
+            },
+            "population": {
+              "state": "value",
+              "coverage_denominator": 5,
+              "passed": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "failed": [],
+              "not_run": []
+            },
+            "vantage": {
+              "state": "value",
+              "observation_vantage": "substrate",
+              "observer": "ci-runner-outside-the-implementation"
+            },
+            "bytes": {
+              "state": "value",
+              "implementation": {
+                "name": "example-implementation",
+                "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+              },
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "verifier": {
+                "name": "example-verifier",
+                "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+              }
+            },
+            "epoch": {
+              "state": "not_applicable",
+              "reason": "no_authority_exercised"
+            },
+            "settlement": {
+              "state": "not_applicable",
+              "reason": "no_side_effecting_actions"
+            }
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "predicateType"
+          ],
+          "value": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MALFORMED_RECORD"
+        ]
+      }
+    },
+    {
+      "id": "producer-selects-weaker-profile",
+      "kind": "negative",
+      "about": "profile",
+      "description": "The rule pins the execution profile; the record names the conformance profile.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "profile"
+          ],
+          "value": {
+            "id": "execution/v1",
+            "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "PROFILE_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "missing-applicability",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "The applicability coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability"
+          ],
+          "value": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "missing-population",
+      "kind": "negative",
+      "about": "population",
+      "description": "The population coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population"
+          ],
+          "value": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "missing-vantage",
+      "kind": "negative",
+      "about": "vantage",
+      "description": "The vantage coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "vantage"
+          ],
+          "value": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "missing-bytes",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "The bytes coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes"
+          ],
+          "value": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "missing-epoch",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "The epoch coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch"
+          ],
+          "value": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "missing-settlement",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "The settlement coordinate is absent.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement"
+          ],
+          "value": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "MISSING_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "vantage-unknown",
+      "kind": "negative",
+      "about": "vantage",
+      "description": "Vantage is unknown.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "unknown"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "vantage"
+          ],
+          "value": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNRESOLVED_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "settlement-unresolved-state",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "Settlement as a whole is unresolved.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "unresolved"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement"
+          ],
+          "value": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNRESOLVED_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "bytes-failed",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "Byte binding failed and is carried as failed.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "failed"
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes"
+          ],
+          "value": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNRESOLVED_COORDINATE"
+        ]
+      }
+    },
+    {
+      "id": "execution-settlement-not-applicable",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "A lost-response producer labels settlement not applicable; the execution profile authorises no such reason.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement"
+          ],
+          "value": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNAUTHORISED_NOT_APPLICABLE"
+        ]
+      }
+    },
+    {
+      "id": "epoch-not-applicable-unlisted-reason",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "Epoch is not applicable under a reason the profile does not list.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "not_tracked"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch"
+          ],
+          "value": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNAUTHORISED_NOT_APPLICABLE"
+        ]
+      }
+    },
+    {
+      "id": "population-not-applicable",
+      "kind": "negative",
+      "about": "population",
+      "description": "Population is labelled not applicable; no profile authorises that.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population"
+          ],
+          "value": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNAUTHORISED_NOT_APPLICABLE"
+        ]
+      }
+    },
+    {
+      "id": "epoch-not-applicable-while-acting",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "The record takes actions and says no authority was exercised.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement"
+          ],
+          "value": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNAUTHORISED_NOT_APPLICABLE"
+        ]
+      }
+    },
+    {
+      "id": "implementation-by-tag",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "The implementation is named by a mutable tag, with no digest.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "uri": "oci://example.invalid/impl:latest"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "implementation"
+          ],
+          "value": {
+            "name": "example-implementation",
+            "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "INVALID_REFERENTIAL_PIN"
+        ]
+      }
+    },
+    {
+      "id": "verifier-digest-short",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "The verifier digest is truncated.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "verifier",
+            "digest"
+          ],
+          "value": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "INVALID_REFERENTIAL_PIN"
+        ]
+      }
+    },
+    {
+      "id": "case-set-by-alias-only",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "The case set is located by an alias with no digest.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance",
+              "alias": "latest"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance",
+              "alias": "latest"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "INVALID_REFERENTIAL_PIN"
+        ]
+      }
+    },
+    {
+      "id": "settlement-evidence-by-url",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "Settlement evidence is a URL; the execution profile requires its bytes.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "uri": "https://example.invalid/a1"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            0,
+            "evidence"
+          ],
+          "value": {
+            "name": "evidence/a1",
+            "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "INVALID_REFERENTIAL_PIN"
+        ]
+      }
+    },
+    {
+      "id": "producer-reduced-case-set",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "The producer binds its own reduced case set, which drops a required case.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance-reduced@2",
+              "digest": "sha256:1426732569f918e54820ee7850f1d5d03d1c89fcb81f5a1c07c989e253163104"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c4"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 3,
+            "passed": [
+              "c1",
+              "c2",
+              "c4"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance-reduced@2",
+              "digest": "sha256:1426732569f918e54820ee7850f1d5d03d1c89fcb81f5a1c07c989e253163104"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "applicable"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "CASE_SET_NOT_ACCEPTED"
+        ]
+      }
+    },
+    {
+      "id": "case-set-bytes-not-supplied",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "The rule accepts revision 3, whose bytes were not supplied.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@3",
+              "digest": "sha256:2c24bf4ea6f2eb3fc6afe8a997ada452a0477527e6ad3c570a5d662aaafb3623"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@3",
+              "digest": "sha256:2c24bf4ea6f2eb3fc6afe8a997ada452a0477527e6ad3c570a5d662aaafb3623"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "CASE_SET_UNRESOLVED"
+        ]
+      }
+    },
+    {
+      "id": "required-case-excluded",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "A required case is excluded so its failure never counts.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c4",
+              "c5"
+            ],
+            "excluded": [
+              {
+                "id": "c3",
+                "reason": "optional_feature_not_claimed"
+              }
+            ]
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "excluded"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "applicable"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "APPLICABILITY_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "case-dropped-from-applicability",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "A case of the set is neither applicable nor excluded.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "applicable"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "APPLICABILITY_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "exclusion-reason-unlisted",
+      "kind": "negative",
+      "about": "applicability",
+      "description": "The optional case is excluded under a reason the profile does not list.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c5"
+            ],
+            "excluded": [
+              {
+                "id": "c4",
+                "reason": "flaky"
+              }
+            ]
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 4,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "excluded"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "applicability",
+            "applicable"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "APPLICABILITY_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "case-missing-from-results",
+      "kind": "negative",
+      "about": "population",
+      "description": "One applicable case appears in no result list, and the denominator still counts it.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "POPULATION_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "case-listed-twice",
+      "kind": "negative",
+      "about": "population",
+      "description": "A case is both passed and failed.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [
+              "c3"
+            ],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "failed"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "POPULATION_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "unexpected-case-in-results",
+      "kind": "negative",
+      "about": "population",
+      "description": "The results name a case the case set does not hold.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 6,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5",
+              "c9"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "POPULATION_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "denominator-drops-not-run",
+      "kind": "negative",
+      "about": "population",
+      "description": "The denominator counts only the cases that ran.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "incomplete",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 3,
+            "passed": [
+              "c1",
+              "c2",
+              "c3"
+            ],
+            "failed": [],
+            "not_run": [
+              "c4",
+              "c5"
+            ]
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "verdict"
+          ],
+          "value": "pass"
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "coverage_denominator"
+          ],
+          "value": 5
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "not_run"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "POPULATION_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "not-run-read-as-pass",
+      "kind": "negative",
+      "about": "population",
+      "description": "Two cases did not run and the verdict is pass.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3"
+            ],
+            "failed": [],
+            "not_run": [
+              "c4",
+              "c5"
+            ]
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "not_run"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "ABSENCE_READ_AS_CLEAN"
+        ]
+      }
+    },
+    {
+      "id": "failure-read-as-pass",
+      "kind": "negative",
+      "about": "population",
+      "description": "A case failed and the verdict is pass.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c4",
+              "c5"
+            ],
+            "failed": [
+              "c3"
+            ],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "failed"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "population",
+            "passed"
+          ],
+          "value": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5"
+          ]
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "VERDICT_CONTRADICTED"
+        ]
+      }
+    },
+    {
+      "id": "incomplete-with-nothing-missing",
+      "kind": "negative",
+      "about": "population",
+      "description": "Every case ran and passed, and the verdict says incomplete.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "incomplete",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "verdict"
+          ],
+          "value": "pass"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "VERDICT_CONTRADICTED"
+        ]
+      }
+    },
+    {
+      "id": "self-report-under-substrate-rule",
+      "kind": "negative",
+      "about": "vantage",
+      "description": "The implementation observed itself; the rule accepts only substrate vantage.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "artifact",
+            "observer": "the-implementation-itself"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "vantage",
+            "observer"
+          ],
+          "value": "ci-runner-outside-the-implementation"
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "vantage",
+            "observation_vantage"
+          ],
+          "value": "substrate"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "VANTAGE_NOT_ACCEPTED"
+        ]
+      }
+    },
+    {
+      "id": "bytes-bind-other-case-set",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "Applicability resolves revision 2 and the bytes coordinate binds revision 1.",
+      "rule": "conformance",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@1",
+              "digest": "sha256:e74a8b2c1e7fd03232822cb6a77023b73084043948a7bd1ba22b9448fc2f9b00"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "bytes",
+            "case_set"
+          ],
+          "value": {
+            "name": "sample-conformance@2",
+            "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "BYTES_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "statement-subject-other-implementation",
+      "kind": "negative",
+      "about": "bytes",
+      "description": "The Statement's subject is not the implementation the claim binds.",
+      "rule": "conformance",
+      "base": "statement",
+      "record": {
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [
+          {
+            "name": "example-implementation",
+            "digest": {
+              "sha256": "f3ffa28c8ce6f22508c3fd85ffeca276010707347e0e1416d708c274f71f00df"
+            }
+          }
+        ],
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "predicate": {
+          "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+          "profile": {
+            "id": "conformance/v1",
+            "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+          },
+          "verdict": "pass",
+          "coordinates": {
+            "applicability": {
+              "state": "value",
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "applicable": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "excluded": []
+            },
+            "population": {
+              "state": "value",
+              "coverage_denominator": 5,
+              "passed": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5"
+              ],
+              "failed": [],
+              "not_run": []
+            },
+            "vantage": {
+              "state": "value",
+              "observation_vantage": "substrate",
+              "observer": "ci-runner-outside-the-implementation"
+            },
+            "bytes": {
+              "state": "value",
+              "implementation": {
+                "name": "example-implementation",
+                "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+              },
+              "case_set": {
+                "name": "sample-conformance@2",
+                "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+              },
+              "verifier": {
+                "name": "example-verifier",
+                "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+              }
+            },
+            "epoch": {
+              "state": "not_applicable",
+              "reason": "no_authority_exercised"
+            },
+            "settlement": {
+              "state": "not_applicable",
+              "reason": "no_side_effecting_actions"
+            }
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "subject",
+            0,
+            "digest",
+            "sha256"
+          ],
+          "value": "16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "BYTES_MISMATCH"
+        ]
+      }
+    },
+    {
+      "id": "acts-after-revocation",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "Authority is revoked after a1, and a2 still acts under the revoked epoch.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "revocation"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch",
+            "transitions"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "STALE_EPOCH"
+        ]
+      }
+    },
+    {
+      "id": "consumed-approval-presented-again",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "a1 consumes a single-use approval, and a2 presents the same approval.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "consumption"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch",
+            "transitions"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "STALE_EPOCH"
+        ]
+      }
+    },
+    {
+      "id": "suspended-agent-acts",
+      "kind": "negative",
+      "about": "epoch",
+      "description": "The agent is suspended after a1, and a2 acts under the pre-suspension epoch.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "suspension"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch",
+            "transitions"
+          ],
+          "value": []
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "STALE_EPOCH"
+        ]
+      }
+    },
+    {
+      "id": "lost-reply-unresolved",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "a2's reply was lost and its outcome is unresolved.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed",
+                "evidence": {
+                  "name": "evidence/a1",
+                  "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+                }
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "unresolved"
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            1,
+            "evidence"
+          ],
+          "value": {
+            "name": "evidence/a2",
+            "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            1,
+            "outcome"
+          ],
+          "value": "not_run"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNSETTLED_OUTCOME"
+        ]
+      }
+    },
+    {
+      "id": "committed-without-evidence",
+      "kind": "negative",
+      "about": "settlement",
+      "description": "a1 says committed and binds no evidence.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": []
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "committed"
+              },
+              {
+                "id": "a2",
+                "epoch": "e1",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            0,
+            "evidence"
+          ],
+          "value": {
+            "name": "evidence/a1",
+            "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNSETTLED_OUTCOME"
+        ]
+      }
+    },
+    {
+      "id": "unresolved-across-revocation",
+      "kind": "negative",
+      "about": "epoch+settlement",
+      "description": "a1 is unresolved when authority is revoked after it; a2 acts under the new epoch.",
+      "rule": "execution",
+      "base": "execution",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "execution/v1",
+          "digest": "sha256:39a502efe7d5188996b7a6f75739460a89e718c82358d137ecab782255c73adc"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "value",
+            "initial": "e1",
+            "transitions": [
+              {
+                "after_action": "a1",
+                "from": "e1",
+                "to": "e2",
+                "kind": "revocation"
+              }
+            ]
+          },
+          "settlement": {
+            "state": "value",
+            "actions": [
+              {
+                "id": "a1",
+                "epoch": "e1",
+                "outcome": "unresolved"
+              },
+              {
+                "id": "a2",
+                "epoch": "e2",
+                "outcome": "not_run",
+                "evidence": {
+                  "name": "evidence/a2",
+                  "digest": "sha256:daea1136bc27c2ae1ed2e6ebc4b3dc6d9256fc705d937a679493a1ef7cef76d1"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            1,
+            "epoch"
+          ],
+          "value": "e1"
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "epoch",
+            "transitions"
+          ],
+          "value": []
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            0,
+            "evidence"
+          ],
+          "value": {
+            "name": "evidence/a1",
+            "digest": "sha256:5348caa17f753441c96d7d331bf3e5dbd984163f121b05d28dcecffe0d332017"
+          }
+        },
+        {
+          "op": "set",
+          "path": [
+            "coordinates",
+            "settlement",
+            "actions",
+            0,
+            "outcome"
+          ],
+          "value": "committed"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "UNSETTLED_ACROSS_EPOCH"
+        ]
+      }
+    },
+    {
+      "id": "profile-bytes-not-supplied",
+      "kind": "negative",
+      "about": "profile",
+      "description": "The rule pins a stricter profile whose bytes the verifier was not given; the record cannot be judged, so it is refused, never read as clean.",
+      "rule": "unshipped-profile",
+      "base": "conformance",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance-strict/v1",
+          "digest": "sha256:045fa254c382fd56b30bb7f7a16f5cd82e0d4cfa05d67badd36b0fcd8f52a850"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "applicable": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 5,
+            "passed": [
+              "c1",
+              "c2",
+              "c3",
+              "c4",
+              "c5"
+            ],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "sample-conformance@2",
+              "digest": "sha256:5a4ecbd15c8030294e0f378d665b0e5ce48d4ff5b0e51777a168f9408b57a389"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "profile"
+          ],
+          "value": {
+            "id": "conformance/v1",
+            "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+          }
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "PROFILE_UNRESOLVED"
+        ]
+      },
+      "repair_rule": "conformance"
+    },
+    {
+      "id": "empty-suite-read-as-pass",
+      "kind": "negative",
+      "about": "population",
+      "description": "The case set holds no cases, and the verdict is pass.",
+      "rule": "empty-suite",
+      "base": "empty-suite",
+      "record": {
+        "claim_type": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/evaluation-claim",
+        "profile": {
+          "id": "conformance/v1",
+          "digest": "sha256:663072aae54487b8a376b9f9919665fd073d10e906ec9b95d8a4a22b2bf8c123"
+        },
+        "verdict": "pass",
+        "coordinates": {
+          "applicability": {
+            "state": "value",
+            "case_set": {
+              "name": "empty-suite@1",
+              "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+            },
+            "applicable": [],
+            "excluded": []
+          },
+          "population": {
+            "state": "value",
+            "coverage_denominator": 0,
+            "passed": [],
+            "failed": [],
+            "not_run": []
+          },
+          "vantage": {
+            "state": "value",
+            "observation_vantage": "substrate",
+            "observer": "ci-runner-outside-the-implementation"
+          },
+          "bytes": {
+            "state": "value",
+            "implementation": {
+              "name": "example-implementation",
+              "digest": "sha256:16ab18fcac85f9057e2bfbdf86c512cb26904250e0a072a209cc752f8781e09e"
+            },
+            "case_set": {
+              "name": "empty-suite@1",
+              "digest": "sha256:ff390f23ae9bf92071efb631b168d31f9af3dce18f07bbc9e82da661cac7063f"
+            },
+            "verifier": {
+              "name": "example-verifier",
+              "digest": "sha256:f8f9dcf0c961e74c98534dd695bb3812fce7dbc50442ff9eebd61a93ecd5ed3e"
+            }
+          },
+          "epoch": {
+            "state": "not_applicable",
+            "reason": "no_authority_exercised"
+          },
+          "settlement": {
+            "state": "not_applicable",
+            "reason": "no_side_effecting_actions"
+          }
+        }
+      },
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "verdict"
+          ],
+          "value": "incomplete"
+        }
+      ],
+      "expected": {
+        "result": "REFUSED",
+        "verdict": null,
+        "reasons": [
+          "ABSENCE_READ_AS_CLEAN"
+        ]
+      }
+    }
+  ]
+}

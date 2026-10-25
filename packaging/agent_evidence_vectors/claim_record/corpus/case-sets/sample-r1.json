@@ -1,0 +1,23 @@
+{
+  "schema": "aev-claim-case-set/v1",
+  "name": "sample-conformance",
+  "revision": "1",
+  "cases": [
+    {
+      "id": "c1",
+      "requirement": "required"
+    },
+    {
+      "id": "c2",
+      "requirement": "required"
+    },
+    {
+      "id": "c3",
+      "requirement": "required"
+    },
+    {
+      "id": "c4",
+      "requirement": "optional"
+    }
+  ]
+}
