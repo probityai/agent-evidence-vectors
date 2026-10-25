@@ -5,8 +5,8 @@ Ground truth: `spec-vendored/anchors-verify-44c40ba.md`, the contract text bundl
 `anchors-verify-v0.4` of `aos-standard/catalog` at `44c40ba`, whose sha256
 `MANIFEST.json` pins as `specDigest`.
 
-This corpus is 32 vectors, of which 12 a conformant verifier must
-not fail closed on and 20 it must reject.
+This corpus is 34 vectors, of which 13 a conformant verifier must
+not fail closed on and 21 it must reject.
 
 **What this corpus certifies against, which is not the vendored text alone.**
 Two conditions are required by the contract as vendored, and their reject
@@ -70,8 +70,10 @@ Run a verifier: `python3 run_verifier.py --verifier <path-to-anchors_verify.py>`
 | `v1247b05a03902477` | reject | ans-c-5 | `VERIFY FAILED` | 1 | `witness-unreachable` |
 | `v128381d395659cb6` | reject | ans-c-10 | `VERIFY FAILED` | 1 | `truncation` |
 | `v1b748575d8a7ee95` | accept | ans-c-7 | `VERIFY PARTIAL` | 3 | none |
+| `v25a148d9df730b88` | reject | ans-c-2 | `VERIFY FAILED` | 1 | `digest-mismatch` |
 | `v27ec0ed3abec3bed` | reject | ans-c-1 | `VERIFY FAILED` | 1 | `digest-mismatch` |
 | `v30bb2edf2b9f23ba` | accept | ans-c-7 | `VERIFY PARTIAL` | 3 | none |
+| `v3c142a4f8828f505` | accept | ans-c-2 | `VERIFY PARTIAL` | 3 | none |
 | `v3e2e8c8036db8c91` | accept | ans-c-4 | `VERIFY OK` | 0 | none |
 | `v415ba6da9df54f96` | accept | ans-c-2 | `VERIFY PARTIAL` | 3 | none |
 | `v4598881bb94db9a9` | reject | ans-c-2 | `VERIFY FAILED` | 1 | `digest-mismatch` |
