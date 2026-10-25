@@ -41,13 +41,13 @@ func init() { register(convertedArgs{}) }
 type convertedArgs struct{}
 
 const (
-	caContractID = "https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v1"
-	caSafeBits   = 53
+	cabContractID = "https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v1"
+	cabSafeBits   = 53
 )
 
 func (convertedArgs) Suite() string { return "converted-argument-binding/v1" }
 
-type caVector struct {
+type cabVector struct {
 	ID       string            `json:"id"`
 	Path     string            `json:"path"`
 	Files    map[string]string `json:"files"`
@@ -55,15 +55,15 @@ type caVector struct {
 	Equal    bool              `json:"shownEqualsExecuted"`
 }
 
-type caParam struct {
+type cabParam struct {
 	Type    string            `json:"type"`
 	Enum    []json.RawMessage `json:"enum"`
 	Default json.RawMessage   `json:"default"`
 }
 
-type caRecord struct {
-	ContractID *string            `json:"contractId"`
-	Parameters map[string]caParam `json:"parameters"`
+type cabRecord struct {
+	ContractID *string             `json:"contractId"`
+	Parameters map[string]cabParam `json:"parameters"`
 	Approval   struct {
 		Decision string `json:"decision"`
 		ShownSha string `json:"shownSha256"`
@@ -72,8 +72,8 @@ type caRecord struct {
 	After  string `json:"callCopyAfterSha256"`
 }
 
-// caFiles holds the bytes of each argument file; an absent file is nil.
-type caFiles struct{ raw, shown, rebuilt, executed, modified []byte }
+// cabFiles holds the bytes of each argument file; an absent file is nil.
+type cabFiles struct{ raw, shown, rebuilt, executed, modified []byte }
 
 func (convertedArgs) Judge(dir string, raw []byte) (*Result, error) {
 	var manifest scManifest
@@ -82,13 +82,13 @@ func (convertedArgs) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	result := &Result{}
 	for _, entry := range manifest.Vectors {
-		var v caVector
+		var v cabVector
 		if err := json.Unmarshal(entry, &v); err != nil {
 			result.Findings = append(result.Findings, fmt.Sprintf("a manifest row does not parse: %v", err))
 			continue
 		}
 		member := Member{ID: v.ID, Kind: v.Expected.Decision}
-		member.Findings = caJudgeMember(filepath.Join(dir, v.Path), v)
+		member.Findings = cabJudgeMember(filepath.Join(dir, v.Path), v)
 		result.Members = append(result.Members, member)
 	}
 	if finding := scCorpusDigest(manifest); finding != "" {
@@ -97,24 +97,24 @@ func (convertedArgs) Judge(dir string, raw []byte) (*Result, error) {
 	return result, nil
 }
 
-func caJudgeMember(caseDir string, v caVector) []string {
+func cabJudgeMember(caseDir string, v cabVector) []string {
 	findings := acFileFindings(caseDir, v.Files)
-	var record caRecord
+	var record cabRecord
 	if err := scReadJSON(caseDir, "record.json", &record); err != nil {
 		return append(findings, err.Error())
 	}
-	files := caFiles{
-		raw: caOptional(caseDir, "raw.json"), shown: caOptional(caseDir, "shown.json"),
-		rebuilt: caOptional(caseDir, "rebuilt.json"), executed: caOptional(caseDir, "executed.json"),
-		modified: caOptional(caseDir, "modified.json"),
+	files := cabFiles{
+		raw: cabOptional(caseDir, "raw.json"), shown: cabOptional(caseDir, "shown.json"),
+		rebuilt: cabOptional(caseDir, "rebuilt.json"), executed: cabOptional(caseDir, "executed.json"),
+		modified: cabOptional(caseDir, "modified.json"),
 	}
-	shown := caCanonical(files.shown)
-	equal := shown != nil && bytes.Equal(shown, caCanonical(files.executed))
+	shown := cabCanonical(files.shown)
+	equal := shown != nil && bytes.Equal(shown, cabCanonical(files.executed))
 	if equal != v.Equal {
 		findings = append(findings, fmt.Sprintf(
 			"shown equals executed: %t, the manifest declares %t", equal, v.Equal))
 	}
-	got := caDecide(record, files)
+	got := cabDecide(record, files)
 	if got != v.Expected {
 		findings = append(findings, fmt.Sprintf("derived %s/%s, the manifest declares %s/%s",
 			got.Decision, got.Reason, v.Expected.Decision, v.Expected.Reason))
@@ -122,7 +122,7 @@ func caJudgeMember(caseDir string, v caVector) []string {
 	return findings
 }
 
-func caOptional(caseDir, name string) []byte {
+func cabOptional(caseDir, name string) []byte {
 	body, err := readIn(caseDir, name)
 	if err != nil {
 		return nil
@@ -130,26 +130,26 @@ func caOptional(caseDir, name string) []byte {
 	return body
 }
 
-func caDecide(r caRecord, f caFiles) scDecision {
+func cabDecide(r cabRecord, f cabFiles) scDecision {
 	modifying := r.Approval.Decision == "modify"
 	approvedBytes := f.shown
 	if modifying {
 		approvedBytes = f.modified
 	}
-	approved := caCanonical(approvedBytes)
+	approved := cabCanonical(approvedBytes)
 	checks := []struct {
 		reason string
 		fails  bool
 	}{
 		{"contract_id_missing", r.ContractID == nil},
-		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != caContractID},
+		{"contract_id_unknown", r.ContractID != nil && *r.ContractID != cabContractID},
 		{"approval_not_bound_to_shown", r.Approval.ShownSha != sha(f.shown)},
-		{"shown_not_storable", caStrictError(f.shown) != nil},
-		{"invalid_call_approved", caInvalidCall(r, f.raw)},
-		{"modify_not_full_call", modifying && caNotFullCall(r, f.modified)},
-		{"rebuild_not_identical", approved == nil || !bytes.Equal(caCanonical(f.rebuilt), approved)},
+		{"shown_not_storable", cabStrictError(f.shown) != nil},
+		{"invalid_call_approved", cabInvalidCall(r, f.raw)},
+		{"modify_not_full_call", modifying && cabNotFullCall(r, f.modified)},
+		{"rebuild_not_identical", approved == nil || !bytes.Equal(cabCanonical(f.rebuilt), approved)},
 		{"call_mutated_after_approval", !modifying && r.Before != r.After},
-		{"shown_not_executed", approved == nil || !bytes.Equal(caCanonical(f.executed), approved)},
+		{"shown_not_executed", approved == nil || !bytes.Equal(cabCanonical(f.executed), approved)},
 	}
 	for _, check := range checks {
 		if check.fails {
@@ -159,28 +159,28 @@ func caDecide(r caRecord, f caFiles) scDecision {
 	return scDecision{"allow", "bound"}
 }
 
-// caStrict parses I-JSON bytes: UTF-8, no unpaired surrogate, no duplicate
+// cabStrict parses I-JSON bytes: UTF-8, no unpaired surrogate, no duplicate
 // member, no NaN or Infinity, and no integer of magnitude 2^53 or more.
-func caStrict(data []byte) (any, error) {
+func cabStrict(data []byte) (any, error) {
 	if data == nil || !utf8.Valid(data) || a2aLoneSurrogate(data) {
 		return nil, errors.New("not I-JSON")
 	}
 	dec := json.NewDecoder(bytes.NewReader(data))
 	dec.UseNumber()
-	value, err := caDecode(dec)
+	value, err := cabDecode(dec)
 	if err != nil {
 		return nil, err
 	}
 	if _, extra := dec.Token(); !errors.Is(extra, io.EOF) {
 		return nil, errors.New("trailing data")
 	}
-	if !caSafe(value) {
+	if !cabSafe(value) {
 		return nil, errors.New("integer outside the I-JSON range")
 	}
 	return value, nil
 }
 
-func caDecode(dec *json.Decoder) (any, error) {
+func cabDecode(dec *json.Decoder) (any, error) {
 	token, err := dec.Token()
 	if err != nil {
 		return nil, err
@@ -192,7 +192,7 @@ func caDecode(dec *json.Decoder) (any, error) {
 	if delim == '[' {
 		list := []any{}
 		for dec.More() {
-			item, err := caDecode(dec)
+			item, err := cabDecode(dec)
 			if err != nil {
 				return nil, err
 			}
@@ -211,7 +211,7 @@ func caDecode(dec *json.Decoder) (any, error) {
 		if _, seen := object[name]; seen {
 			return nil, fmt.Errorf("duplicate member %q", name)
 		}
-		item, err := caDecode(dec)
+		item, err := cabDecode(dec)
 		if err != nil {
 			return nil, err
 		}
@@ -221,8 +221,8 @@ func caDecode(dec *json.Decoder) (any, error) {
 	return object, err
 }
 
-// caSafe is false when any integer literal has magnitude 2^53 or more.
-func caSafe(value any) bool {
+// cabSafe is false when any integer literal has magnitude 2^53 or more.
+func cabSafe(value any) bool {
 	switch v := value.(type) {
 	case json.Number:
 		text := string(v)
@@ -230,16 +230,16 @@ func caSafe(value any) bool {
 			return true
 		}
 		n, ok := new(big.Int).SetString(text, 10)
-		return !ok || new(big.Int).Abs(n).BitLen() <= caSafeBits
+		return !ok || new(big.Int).Abs(n).BitLen() <= cabSafeBits
 	case []any:
 		for _, item := range v {
-			if !caSafe(item) {
+			if !cabSafe(item) {
 				return false
 			}
 		}
 	case map[string]any:
 		for _, item := range v {
-			if !caSafe(item) {
+			if !cabSafe(item) {
 				return false
 			}
 		}
@@ -247,15 +247,15 @@ func caSafe(value any) bool {
 	return true
 }
 
-func caStrictError(data []byte) error {
-	_, err := caStrict(data)
+func cabStrictError(data []byte) error {
+	_, err := cabStrict(data)
 	return err
 }
 
-// caCanonical is the RFC 8785 form of I-JSON bytes, or nil when they are absent
+// cabCanonical is the RFC 8785 form of I-JSON bytes, or nil when they are absent
 // or are not I-JSON.
-func caCanonical(data []byte) []byte {
-	value, err := caStrict(data)
+func cabCanonical(data []byte) []byte {
+	value, err := cabStrict(data)
 	if err != nil {
 		return nil
 	}
@@ -266,7 +266,7 @@ func caCanonical(data []byte) []byte {
 	return []byte(buf.String())
 }
 
-func caTypeHolds(kind string, value any) bool {
+func cabTypeHolds(kind string, value any) bool {
 	switch kind {
 	case "boolean":
 		_, ok := value.(bool)
@@ -287,7 +287,7 @@ func caTypeHolds(kind string, value any) bool {
 	return false
 }
 
-func caEnumHolds(param caParam, value any) bool {
+func cabEnumHolds(param cabParam, value any) bool {
 	if param.Enum == nil {
 		return true
 	}
@@ -296,30 +296,30 @@ func caEnumHolds(param caParam, value any) bool {
 		return false
 	}
 	for _, item := range param.Enum {
-		if caCanonical(item) != nil && bytes.Equal(caCanonical(item), []byte(want.String())) {
+		if cabCanonical(item) != nil && bytes.Equal(cabCanonical(item), []byte(want.String())) {
 			return true
 		}
 	}
 	return false
 }
 
-func caInvalidCall(r caRecord, raw []byte) bool {
-	value, err := caStrict(raw)
+func cabInvalidCall(r cabRecord, raw []byte) bool {
+	value, err := cabStrict(raw)
 	arguments, isObject := value.(map[string]any)
 	if err != nil || !isObject {
 		return true
 	}
 	for name, argument := range arguments {
 		param, declared := r.Parameters[name]
-		if !declared || !caTypeHolds(param.Type, argument) || !caEnumHolds(param, argument) {
+		if !declared || !cabTypeHolds(param.Type, argument) || !cabEnumHolds(param, argument) {
 			return true
 		}
 	}
 	return false
 }
 
-func caNotFullCall(r caRecord, modified []byte) bool {
-	value, err := caStrict(modified)
+func cabNotFullCall(r cabRecord, modified []byte) bool {
+	value, err := cabStrict(modified)
 	members, isObject := value.(map[string]any)
 	if err != nil || !isObject {
 		return true

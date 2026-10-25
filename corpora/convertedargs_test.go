@@ -15,29 +15,29 @@ import (
 	"github.com/probityai/agent-evidence-vectors/corpora"
 )
 
-const caDir = "vectors-converted-argument-binding"
+const cabDir = "vectors-converted-argument-binding"
 
-func caStage(t *testing.T, member, name string, body []byte) string {
+func cabStage(t *testing.T, member, name string, body []byte) string {
 	t.Helper()
-	copied := filepath.Join(t.TempDir(), caDir)
-	copyTree(t, corpusPath(caDir), copied)
+	copied := filepath.Join(t.TempDir(), cabDir)
+	copyTree(t, corpusPath(cabDir), copied)
 	if err := os.WriteFile(filepath.Join(copied, "cases", member, name), body, 0o600); err != nil {
 		t.Fatal(err)
 	}
 	return copied
 }
 
-// caStageShown replaces allow-unchanged's shown.json and re-binds the approval
+// cabStageShown replaces allow-unchanged's shown.json and re-binds the approval
 // to the new bytes, so only the storable-bytes check can refuse it.
-func caStageShown(t *testing.T, body []byte) string {
+func cabStageShown(t *testing.T, body []byte) string {
 	t.Helper()
-	dir := caStage(t, "allow-unchanged", "shown.json", body)
+	dir := cabStage(t, "allow-unchanged", "shown.json", body)
 	path := filepath.Join(dir, "cases", "allow-unchanged", "record.json")
 	record, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
 		t.Fatal(err)
 	}
-	old := sha256.Sum256(caRead(t, "allow-unchanged", "shown.json"))
+	old := sha256.Sum256(cabRead(t, "allow-unchanged", "shown.json"))
 	fresh := sha256.Sum256(body)
 	rebound := strings.Replace(string(record), hex.EncodeToString(old[:]), hex.EncodeToString(fresh[:]), 1)
 	if rebound == string(record) {
@@ -49,9 +49,9 @@ func caStageShown(t *testing.T, body []byte) string {
 	return dir
 }
 
-func caRead(t *testing.T, member, name string) []byte {
+func cabRead(t *testing.T, member, name string) []byte {
 	t.Helper()
-	body, err := os.ReadFile(filepath.Join(corpusPath(caDir), "cases", member, name)) // #nosec G304 -- a test reading its own corpus
+	body, err := os.ReadFile(filepath.Join(corpusPath(cabDir), "cases", member, name)) // #nosec G304 -- a test reading its own corpus
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -59,7 +59,7 @@ func caRead(t *testing.T, member, name string) []byte {
 }
 
 func TestConvertedArgsCommittedCorpusIsClean(t *testing.T) {
-	result, err := corpora.Judge(corpusPath(caDir))
+	result, err := corpora.Judge(corpusPath(cabDir))
 	if err != nil {
 		t.Fatalf("judge: %v", err)
 	}
@@ -89,34 +89,34 @@ func TestConvertedArgsEachCheckMovesTheVerdict(t *testing.T) {
 	}
 	for _, sw := range swaps {
 		t.Run("allow-unchanged with "+sw.file+" of "+sw.member, func(t *testing.T) {
-			dir := caStage(t, "allow-unchanged", sw.file, caRead(t, sw.member, sw.file))
-			if got := caDerived(t, dir, "allow-unchanged"); !strings.Contains(got, sw.want) {
+			dir := cabStage(t, "allow-unchanged", sw.file, cabRead(t, sw.member, sw.file))
+			if got := cabDerived(t, dir, "allow-unchanged"); !strings.Contains(got, sw.want) {
 				t.Fatalf("want %q in %q", sw.want, got)
 			}
 		})
 	}
 	t.Run("a denied record with the allowed record", func(t *testing.T) {
-		dir := caStage(t, "approver-edited-in-place", "record.json", caRead(t, "allow-unchanged", "record.json"))
-		if got := caDerived(t, dir, "approver-edited-in-place"); !strings.Contains(got, "derived allow/bound") {
+		dir := cabStage(t, "approver-edited-in-place", "record.json", cabRead(t, "allow-unchanged", "record.json"))
+		if got := cabDerived(t, dir, "approver-edited-in-place"); !strings.Contains(got, "derived allow/bound") {
 			t.Fatalf("want a derived allow, got %q", got)
 		}
 	})
 	t.Run("a replacement that drops the defaulted field", func(t *testing.T) {
-		dir := caStage(t, "allow-modify-full-call", "modified.json", caRead(t, "modify-drops-defaulted-field", "modified.json"))
-		if got := caDerived(t, dir, "allow-modify-full-call"); !strings.Contains(got, "derived deny/modify_not_full_call") {
+		dir := cabStage(t, "allow-modify-full-call", "modified.json", cabRead(t, "modify-drops-defaulted-field", "modified.json"))
+		if got := cabDerived(t, dir, "allow-modify-full-call"); !strings.Contains(got, "derived deny/modify_not_full_call") {
 			t.Fatalf("want modify_not_full_call, got %q", got)
 		}
 	})
 	t.Run("the executed key order alone does not move the verdict", func(t *testing.T) {
-		dir := caStage(t, "allow-unchanged", "executed.json", caRead(t, "executed-key-order-only", "executed.json"))
-		if got := caDerived(t, dir, "allow-unchanged"); strings.Contains(got, "derived") ||
+		dir := cabStage(t, "allow-unchanged", "executed.json", cabRead(t, "executed-key-order-only", "executed.json"))
+		if got := cabDerived(t, dir, "allow-unchanged"); strings.Contains(got, "derived") ||
 			strings.Contains(got, "shown equals executed") {
 			t.Fatalf("a reordered executed file must stay allowed, got %q", got)
 		}
 	})
 }
 
-func caDerived(t *testing.T, dir, id string) string {
+func cabDerived(t *testing.T, dir, id string) string {
 	t.Helper()
 	result, err := corpora.Judge(dir)
 	if err != nil {
@@ -142,14 +142,14 @@ func TestConvertedArgsStorableBytesAreRefused(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := caDerived(t, caStageShown(t, []byte(tc.body)), "allow-unchanged")
+			got := cabDerived(t, cabStageShown(t, []byte(tc.body)), "allow-unchanged")
 			if !strings.Contains(got, "derived deny/shown_not_storable") {
 				t.Fatalf("want shown_not_storable, got %q", got)
 			}
 		})
 	}
 	t.Run("the largest safe integer is storable", func(t *testing.T) {
-		got := caDerived(t, caStageShown(t, []byte(`{"a": 9007199254740991}`)), "allow-unchanged")
+		got := cabDerived(t, cabStageShown(t, []byte(`{"a": 9007199254740991}`)), "allow-unchanged")
 		if strings.Contains(got, "shown_not_storable") {
 			t.Fatalf("got %q", got)
 		}
@@ -157,15 +157,15 @@ func TestConvertedArgsStorableBytesAreRefused(t *testing.T) {
 }
 
 func TestConvertedArgsUnreadableInputsAreFindings(t *testing.T) {
-	dir := caStage(t, "allow-unchanged", "record.json", []byte("{"))
-	if got := caDerived(t, dir, "allow-unchanged"); !strings.Contains(got, "record.json does not parse") {
+	dir := cabStage(t, "allow-unchanged", "record.json", []byte("{"))
+	if got := cabDerived(t, dir, "allow-unchanged"); !strings.Contains(got, "record.json does not parse") {
 		t.Fatalf("got %q", got)
 	}
 }
 
 func TestConvertedArgsDamagedManifestIsAFinding(t *testing.T) {
-	copied := filepath.Join(t.TempDir(), caDir)
-	copyTree(t, corpusPath(caDir), copied)
+	copied := filepath.Join(t.TempDir(), cabDir)
+	copyTree(t, corpusPath(cabDir), copied)
 	path := filepath.Join(copied, corpora.ManifestName)
 	raw, err := os.ReadFile(path) // #nosec G304 -- a test reading its own copy
 	if err != nil {
