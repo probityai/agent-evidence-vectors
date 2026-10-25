@@ -42,7 +42,7 @@ A record that passes every check is `allow` with reason `confirmed`.
 ## Running
 
 ```sh
-pip install agent-evidence-vectors==0.25.1
+pip install agent-evidence-vectors==0.27.0
 agent-evidence-vectors --corpus vectors-completion-confirmation
 ```
 
