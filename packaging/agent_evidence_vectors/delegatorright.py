@@ -215,7 +215,7 @@ def _first_failure(record: dict[str, Any], skip: frozenset[str]) -> str | None:
         try:
             if failures[name]():
                 return name
-        except (KeyError, TypeError, ValueError, IndexError):
+        except (KeyError, TypeError, ValueError, IndexError, AttributeError):
             # A record the structural check would have refused. With that check
             # switched off, the failure is a different one, so the tests see it.
             return "unreadable_record" if "malformed_record" in skip else "malformed_record"
