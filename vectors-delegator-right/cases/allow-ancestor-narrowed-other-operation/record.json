@@ -1,0 +1,51 @@
+{
+  "chain": [
+    {
+      "expiresAt": "2026-10-26T14:00:00Z",
+      "grantId": "grant-1",
+      "grantee": "agent:planner",
+      "grantor": "human:approver-1",
+      "issuedAt": "2026-10-26T10:00:00Z",
+      "narrowings": [
+        {
+          "effectiveAt": "2026-10-26T11:00:00Z",
+          "operation": "ticket.read"
+        }
+      ],
+      "scope": [
+        "ticket.create",
+        "ticket.read"
+      ]
+    },
+    {
+      "expiresAt": "2026-10-26T14:00:00Z",
+      "grantId": "grant-2",
+      "grantee": "agent:dispatcher",
+      "grantor": "agent:planner",
+      "issuedAt": "2026-10-26T10:00:00Z",
+      "narrowings": [],
+      "scope": [
+        "ticket.create"
+      ]
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1",
+  "decisionTime": "2026-10-26T12:00:00Z",
+  "propagationLimitSeconds": 300,
+  "request": {
+    "agent": "agent:dispatcher",
+    "operation": "ticket.create",
+    "resource": "queue/support"
+  },
+  "rights": [
+    {
+      "from": "2026-10-01T00:00:00Z",
+      "operation": "ticket.create",
+      "principal": "agent:planner",
+      "until": null
+    }
+  ],
+  "roots": [
+    "human:approver-1"
+  ]
+}
