@@ -701,36 +701,36 @@
       "v0.26.0": "vb77aea332a4eb3df"
     },
     {
-      "change": "new: a Section 5.4 member, proposed as a row for the next revision",
-      "draftId": "FR14",
+      "change": "new: a Section 5.4 member, proposed as a row for a later revision; numbered FR14 on main before any release, moved so that FR14 and FR15 name the rows revision 01 prints",
+      "draftId": "FR16",
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "v42877a6a363ded00"
     },
     {
-      "change": "new: a Section 5.4 member, proposed as a row for the next revision",
-      "draftId": "FR15a",
+      "change": "new: a Section 5.4 member, proposed as a row for a later revision; numbered FR15a on main before any release, moved so that FR14 and FR15 name the rows revision 01 prints",
+      "draftId": "FR17a",
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "v417e26c919283a75"
     },
     {
-      "change": "new: a Section 5.4 member, proposed as a row for the next revision",
-      "draftId": "FR15b",
+      "change": "new: a Section 5.4 member, proposed as a row for a later revision; numbered FR15b on main before any release, moved so that FR14 and FR15 name the rows revision 01 prints",
+      "draftId": "FR17b",
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "vf0eac30344ab74d2"
     },
     {
-      "change": "new: a Section 5.4 member, proposed as a row for the next revision",
-      "draftId": "FR15c",
+      "change": "new: a Section 5.4 member, proposed as a row for a later revision; numbered FR15c on main before any release, moved so that FR14 and FR15 name the rows revision 01 prints",
+      "draftId": "FR17c",
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "v9403ce70be1f6056"
     },
     {
-      "change": "new: a Section 5.4 member, proposed as a row for the next revision",
-      "draftId": "FR16",
+      "change": "new: a Section 5.4 member, proposed as a row for a later revision; numbered FR16 on main before any release, moved so that FR14 and FR15 name the rows revision 01 prints",
+      "draftId": "FR18",
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "v8685b6576fbd0c04"
@@ -741,8 +741,43 @@
       "v0.18.1": null,
       "v0.25.0": null,
       "v0.26.0": "vc6a2a10ae5ac5b15"
+    },
+    {
+      "change": "new: a row of revision 01 (draft-gilda-audit-agent-audit-record-01), carrying draftRevision",
+      "draftId": "TI6",
+      "v0.18.1": null,
+      "v0.25.0": null,
+      "v0.26.0": "v3ca484096743a01b"
+    },
+    {
+      "change": "new: a row of revision 01 (draft-gilda-audit-agent-audit-record-01), carrying draftRevision",
+      "draftId": "V4",
+      "v0.18.1": null,
+      "v0.25.0": null,
+      "v0.26.0": "v5fb1106ca638aaca"
+    },
+    {
+      "change": "new: a row of revision 01 (draft-gilda-audit-agent-audit-record-01), carrying draftRevision",
+      "draftId": "V5",
+      "v0.18.1": null,
+      "v0.25.0": null,
+      "v0.26.0": "v7eb62c3c7df1a8b7"
+    },
+    {
+      "change": "new: a row of revision 01 (draft-gilda-audit-agent-audit-record-01), carrying draftRevision",
+      "draftId": "FR14",
+      "v0.18.1": null,
+      "v0.25.0": null,
+      "v0.26.0": "vaad17bc9d25a70eb"
+    },
+    {
+      "change": "new: a row of revision 01 (draft-gilda-audit-agent-audit-record-01), carrying draftRevision",
+      "draftId": "FR15",
+      "v0.18.1": null,
+      "v0.25.0": null,
+      "v0.26.0": "v1fe964af5ec88f9a"
     }
   ],
-  "note": "Each member of vectors-agent-audit-record by its Appendix B identifier, with its file identifier at v0.18.1 and v0.25.0, the last releases that tested draft-gilda-wimse-agent-audit-record-02, and at v0.26.0, the first that tests draft-gilda-audit-agent-audit-record-00. A file identifier is a digest of the member bytes, so it moves whenever a member is regenerated; the draftId never moves. null means the member did not exist at that release.",
+  "note": "Each member of vectors-agent-audit-record by its Appendix B identifier, with its file identifier at v0.18.1 and v0.25.0, the last releases that tested draft-gilda-wimse-agent-audit-record-02, and at v0.26.0, the first that tests draft-gilda-audit-agent-audit-record-00. A file identifier is a digest of the member bytes, so it moves whenever a member is regenerated; the draftId never moves once a release carries it. Five rows of draft-gilda-audit-agent-audit-record-01 are new at v0.26.0, and the five Section 5.4 proposals numbered FR14 to FR16 on main before any release moved to FR16 to FR18 so that FR14 and FR15 name the rows revision 01 prints. null means the member did not exist at that release.",
   "removed": []
 }

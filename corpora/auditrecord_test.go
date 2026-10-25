@@ -56,8 +56,8 @@ func TestAuditRecordCorpusBehaves(t *testing.T) {
 			t.Errorf("corpus: %s", f)
 		}
 	}
-	if len(result.Members) != 106 {
-		t.Fatalf("expected the 99 Appendix B rows and 7 Section 5.4 members, read %d",
+	if len(result.Members) != 111 {
+		t.Fatalf("expected the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of revision 01, read %d",
 			len(result.Members))
 	}
 }

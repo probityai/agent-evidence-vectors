@@ -1446,7 +1446,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
         description="judge vectors-agent-audit-record/ with the reference reader for "
-        "draft-gilda-audit-agent-audit-record-00",
+        "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
+        "(TI6, V4, V5, FR14, FR15)",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
     args = parser.parse_args(argv)
