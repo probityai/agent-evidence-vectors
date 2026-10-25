@@ -443,6 +443,7 @@ func arRules(predicateType string) []arRule {
 			}
 			return nil
 		}},
+		{"coverage", arRuleCoverage},
 		{"tier", arRuleTier},
 		{"write-scope", arRuleWriteScope},
 		{"observed", func(s *arState) error {
@@ -860,21 +861,39 @@ func arTierFailures(pred map[string]any) []string {
 	if len(scope) == 0 {
 		failed = append(failed, "tier-overclaim-scope")
 	}
-	gapInside := false
-	for _, gap := range arList(pred, "observation.coverage.gaps") {
-		text, _ := gap.(string)
-		if arInAnyScope(text, scope) {
-			gapInside = true
-		}
-	}
-	complete, _ := arAt(pred, "observation.coverage.scopeComplete")
-	if complete != true && gapInside {
+	// Revision 01: the coverage clause holds exactly when scopeComplete is
+	// true (TI4, TI6). Revision 00's clause also held when every gap lay
+	// outside pathScope, which passed TI6.
+	if complete, _ := arAt(pred, "observation.coverage.scopeComplete"); complete != true {
 		failed = append(failed, "tier-overclaim-coverage")
 	}
 	if arStr(pred, "resource.binding") != "digest-bound" {
 		failed = append(failed, "tier-overclaim-binding")
 	}
 	return failed
+}
+
+// arGapInsideScope reports a coverage gap under a member of pathScope, as
+// inScope is derived for a write (Section 5.7).
+func arGapInsideScope(pred map[string]any) bool {
+	scope := arScope(pred)
+	for _, gap := range arList(pred, "observation.coverage.gaps") {
+		text, _ := gap.(string)
+		if arInAnyScope(text, scope) {
+			return true
+		}
+	}
+	return false
+}
+
+// arRuleCoverage refuses a gap inside pathScope beside scopeComplete of true,
+// whatever tier the record declares (V4, V5; revision 01, Section 5.7).
+func arRuleCoverage(s *arState) error {
+	complete, _ := arAt(s.pred, "observation.coverage.scopeComplete")
+	if complete == true && arGapInsideScope(s.pred) {
+		return arRefuse("coverage-inconsistent")
+	}
+	return nil
 }
 
 func arRuleTier(s *arState) error {
