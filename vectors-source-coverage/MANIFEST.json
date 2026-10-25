@@ -1,5 +1,5 @@
 {
-  "corpusDigest": "1cb4748f8c2e4fd390a0a330d7631fed24023d927a612c32e8ee7b069472f9a3",
+  "corpusDigest": "ca7f06472d102f88983ab14f93e4856b1d62b9a05dad21f9f2fcdbc1b2df28e1",
   "suite": "source-text-coverage/v1",
   "vectors": [
     {
@@ -84,6 +84,34 @@
       },
       "id": "hidden-script-only",
       "path": "cases/hidden-script-only"
+    },
+    {
+      "expected": {
+        "decision": "contradicted",
+        "reason": "selected_span_missing_from_record"
+      },
+      "files": {
+        "case.json": "1af4c5d672f83b3a3597139680929c8c65cecd0b43723f7dae8cd87b3af527cd",
+        "policy.json": "0beca976646c0fd9a55c94dce31df7c518caae2f0f1d14805ad0cd41fcfa957a",
+        "report.txt": "914a8f9fb44a08531745ebca2a5a6abbf4a46c4e9be2323b2302dcd798350120",
+        "source.html": "0aa3f113116cbfdd7ce67ccf5360f35275ebe9d868ddba9132e6a684ba908c97"
+      },
+      "id": "scanner-truncation-reported-clean",
+      "path": "cases/scanner-truncation-reported-clean"
+    },
+    {
+      "expected": {
+        "decision": "supported",
+        "reason": "all_selected_spans_present"
+      },
+      "files": {
+        "case.json": "7fc4dec483fb89d58f882467b2cc6b770a9d2a1bd339759dc2bf26d88ee9cb00",
+        "policy.json": "c949b08ecb508f1fc01288236355e84bdd52809a4f6af0b9088e73eaf983774d",
+        "report.txt": "e14e6d5b686d7b61b4a7c849d88444bdc1be67f75316dfbdd97cb0309db6bd4f",
+        "source.html": "0aa3f113116cbfdd7ce67ccf5360f35275ebe9d868ddba9132e6a684ba908c97"
+      },
+      "id": "scanner-complete-scan",
+      "path": "cases/scanner-complete-scan"
     }
   ],
   "verifierContract": "verifier case.json --policy policy.json --json"
