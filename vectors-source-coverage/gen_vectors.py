@@ -106,7 +106,8 @@ def generate(root: Path = ROOT) -> dict:
         Manifest with expected decisions and byte commitments.
     """
     entries = []
-    for name, record, span, captured_at, start, end, capture_present, decision, reason, *own in CASES:
+    for case in CASES:
+        name, record, span, captured_at, start, end, capture_present, decision, reason, *own = case
         source = own[0] if own else SOURCE
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
