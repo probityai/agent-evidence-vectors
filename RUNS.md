@@ -178,6 +178,38 @@ and he fixed both before posting. He also reported a finding against the draft:
 the write-chain replay that sections 4.4, 4.6 and 5.3 require is not defined in
 the body and had to be recovered from the accept members.
 
+## Runs of this repository's code on another operator's host
+
+The rows above are runs of implementations this repository did not write. The
+rows in this section are not: each is this repository's own reader and tests,
+run by someone else on a machine this repository does not control. That is the
+label `second-party-same-code` in
+[`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json). It says the code
+behaves the same on that host; it says nothing about whether a second reading of
+the specification agrees, and no figure here is added to a figure above.
+
+### mohammedmessaoudene-cmd, `interop/action-tuple-framed-v1` on a Windows host
+
+| | |
+| --- | --- |
+| Reporter | `mohammedmessaoudene-cmd`, who found the Windows path mismatch the reader carried and fixed it in [#111](https://github.com/probityai/agent-evidence-vectors/pull/111) |
+| Code | [`interop/action-tuple-framed-v1`](interop/action-tuple-framed-v1/README.md) at head [`454d01c`](https://github.com/probityai/agent-evidence-vectors/commit/454d01ca115112c533367d01b639d3471b478d58) of that pull request |
+| Posted at | [#111, comment of 2026-10-20](https://github.com/probityai/agent-evidence-vectors/pull/111#issuecomment-6300148972) |
+| Host | Windows NT build 26200 (Windows 11), CPython 3.14.3 and 3.12.5, 64-bit, `core.autocrlf=true` inherited from the system Git config |
+| Manifest | SHA-256 `0a81393d3e9af4e5ef020a7325a0d7c51196506f83292064ec17c6676f1446f1`, all 39 pinned members matching |
+| Tests, each runtime | 20 run: 17 pass, 3 errors, suite exit 1. The three errors are WinError 1314, the privilege to create symlinks, which that host did not grant. The Windows-path, autocrlf checkout and numeric `EEXIST` tests pass |
+| Corpus, each runtime | exit 0, 36/36 declared outcomes matched, expected refusals included |
+| Label, by its author | a project-controlled local portability retest |
+
+In his words, what it does not show:
+
+> It does not turn the symlink cases into passing tests or provide independent
+> host identity attestation.
+
+The hosted Windows and Linux matrix at the same head passed all four cells,
+symlink tests included. This row is the result from a host outside GitHub's
+runners, where the symlink privilege was missing.
+
 ## The ledger this file is not
 
 [`docs/INDEPENDENT-RUNS.json`](docs/INDEPENDENT-RUNS.json) is the gated record
