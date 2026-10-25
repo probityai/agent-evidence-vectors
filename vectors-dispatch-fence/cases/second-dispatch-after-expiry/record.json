@@ -1,0 +1,49 @@
+{
+  "check": {
+    "at": "2026-10-24T11:59:55Z",
+    "readSeq": 5,
+    "verdict": "allow"
+  },
+  "commit": {
+    "at": "2026-10-24T12:05:01Z"
+  },
+  "contextId": "context-1",
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v1",
+  "effect": {
+    "declaredMaxRuntimeSeconds": 300,
+    "endedAt": "2026-10-24T12:05:00Z",
+    "startedAt": "2026-10-24T12:00:01Z"
+  },
+  "fence": {
+    "acquiredAt": "2026-10-24T12:00:00Z",
+    "appendSeq": 5,
+    "expectedSeq": 5,
+    "renewals": [
+      {
+        "at": "2026-10-24T12:01:50Z",
+        "expiresAt": "2026-10-24T12:06:40Z"
+      }
+    ],
+    "ttlSeconds": 120
+  },
+  "otherAttempts": [
+    {
+      "admitted": true,
+      "beganAt": "2026-10-24T12:02:30Z",
+      "proposalId": "proposal-other"
+    }
+  ],
+  "proposalId": "proposal-second-dispatch-after-expiry",
+  "stateEvents": [
+    {
+      "at": "2026-10-24T11:55:00Z",
+      "kind": "label-set",
+      "seq": 4
+    },
+    {
+      "at": "2026-10-24T11:58:00Z",
+      "kind": "comment",
+      "seq": 5
+    }
+  ]
+}

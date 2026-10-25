@@ -1,0 +1,177 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/dispatch-fence/v1",
+  "corpusDigest": "958421c39dcd872edd0f877572a9c60fcf98442b8800e7e3aa7b048b92c794b5",
+  "suite": "dispatch-fence/v1",
+  "vectors": [
+    {
+      "edit": "control: the fence is bound to the state the check read and nothing changed",
+      "expected": {
+        "decision": "allow",
+        "reason": "exclusive"
+      },
+      "files": {
+        "record.json": "796ddc1f74ec9e1c95531a13873150e91683bf1004b1a9c0e25c69c9216a9bfc"
+      },
+      "holdCoversCommit": true,
+      "id": "allow-single-read",
+      "path": "cases/allow-single-read"
+    },
+    {
+      "edit": "control: a label raised after the fence was appended does not reach back",
+      "expected": {
+        "decision": "allow",
+        "reason": "exclusive"
+      },
+      "files": {
+        "record.json": "f8cc987fa6b1528a84146d86f177c567dda671c041aef6b1c65c8249f67af880"
+      },
+      "holdCoversCommit": true,
+      "id": "allow-state-event-after-fence",
+      "path": "cases/allow-state-event-after-fence"
+    },
+    {
+      "edit": "control: a 300-second effect under a 120-second hold renewed to 360 seconds",
+      "expected": {
+        "decision": "allow",
+        "reason": "exclusive"
+      },
+      "files": {
+        "record.json": "3fe57cb420824949df927498d82e2f050f46c723874ff2d33509cc687adc5a5e"
+      },
+      "holdCoversCommit": true,
+      "id": "allow-renewed-hold-covers-effect",
+      "path": "cases/allow-renewed-hold-covers-effect"
+    },
+    {
+      "edit": "control: a second attempt carrying the same proposal identifier is re-entrant",
+      "expected": {
+        "decision": "allow",
+        "reason": "exclusive"
+      },
+      "files": {
+        "record.json": "f8588ca289dfa0a75d469b80921cbd7627ba89850bc30000e8979c2f2e283438"
+      },
+      "holdCoversCommit": true,
+      "id": "allow-same-proposal-second-hop",
+      "path": "cases/allow-same-proposal-second-hop"
+    },
+    {
+      "edit": "control: the effect and the commit land exactly at the hold's expiry",
+      "expected": {
+        "decision": "allow",
+        "reason": "exclusive"
+      },
+      "files": {
+        "record.json": "5e350727a0b2a59db2967e8816b1310d58dfadfbd90c456c8f61ab120c031722"
+      },
+      "holdCoversCommit": true,
+      "id": "allow-effect-ends-at-expiry",
+      "path": "cases/allow-effect-ends-at-expiry"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "79e365faf1fbf7bced6f4f7c05167ed43b94f18add5fce86de366c59fab91ac9"
+      },
+      "holdCoversCommit": true,
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "3eacb9b4a475c87f0e896a376ab4b4365fa77499ff8c8c42b2ae739bf40348c6"
+      },
+      "holdCoversCommit": true,
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    },
+    {
+      "edit": "the fence names no sequence number, so it re-read state itself and nothing shows it acted on the state the check saw; no state changed",
+      "expected": {
+        "decision": "deny",
+        "reason": "fence_not_bound_to_check"
+      },
+      "files": {
+        "record.json": "627e4aaecd8f022cd7bb5d594b463b61b54d957e16a76ecd64ce3892657babed"
+      },
+      "holdCoversCommit": true,
+      "id": "fence-rereads-state",
+      "path": "cases/fence-rereads-state"
+    },
+    {
+      "edit": "a label was raised after the check read sequence 5 and before the fence appended",
+      "expected": {
+        "decision": "deny",
+        "reason": "state_changed_between_check_and_fence"
+      },
+      "files": {
+        "record.json": "4e20dad784c0c73eaba268b233360e4bd9ec833ed549c06f36620778a83f6819"
+      },
+      "holdCoversCommit": true,
+      "id": "label-raised-between-check-and-fence",
+      "path": "cases/label-raised-between-check-and-fence"
+    },
+    {
+      "edit": "the tool declares 600 seconds under a 120-second hold with no renewal",
+      "expected": {
+        "decision": "deny",
+        "reason": "runtime_exceeds_hold"
+      },
+      "files": {
+        "record.json": "d5f14ce9331c17871e998a8f2bce8dacbe9164f99385e636e0703a2edc09392e"
+      },
+      "holdCoversCommit": true,
+      "id": "declared-runtime-exceeds-ttl",
+      "path": "cases/declared-runtime-exceeds-ttl"
+    },
+    {
+      "edit": "the effect ran 121 seconds under a 120-second hold",
+      "expected": {
+        "decision": "deny",
+        "reason": "hold_expired_before_effect_ended"
+      },
+      "files": {
+        "record.json": "07913e9589c719bdcc227e38488623a4b2bd58472f5eeeff6687c762e344c68b"
+      },
+      "holdCoversCommit": false,
+      "id": "tool-outlives-hold",
+      "path": "cases/tool-outlives-hold"
+    },
+    {
+      "edit": "the hold was renewed to cover the effect, and another proposal was admitted 150 seconds in, after the initial hold would have lapsed",
+      "expected": {
+        "decision": "deny",
+        "reason": "concurrent_dispatch_admitted"
+      },
+      "files": {
+        "record.json": "4c05594a3d4115d77797750c157286c295e5e3ecd914116ed1c250d80280709d"
+      },
+      "holdCoversCommit": true,
+      "id": "second-dispatch-after-expiry",
+      "path": "cases/second-dispatch-after-expiry"
+    },
+    {
+      "edit": "the effect ended in time and the commit landed ten seconds after the hold expired",
+      "expected": {
+        "decision": "deny",
+        "reason": "commit_after_hold_expired"
+      },
+      "files": {
+        "record.json": "9dd254e67030009148a372a9c8ccd75345601d4aeabdf9d8aeb5bea5b45043c6"
+      },
+      "holdCoversCommit": false,
+      "id": "commit-after-own-hold-expired",
+      "path": "cases/commit-after-own-hold-expired"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
