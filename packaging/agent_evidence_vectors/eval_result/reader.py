@@ -183,7 +183,9 @@ def _rule_direction_conflict(case: dict[str, Any], out: set[str]) -> None:
 
 def _rule_evaluator_differs(case: dict[str, Any], out: set[str]) -> None:
     pair = _compared(case)
-    keys = {(r["attributes"].get(EVALUATOR_ID), r["attributes"].get(EVALUATOR_VERSION)) for r in pair}
+    keys = {
+        (r["attributes"].get(EVALUATOR_ID), r["attributes"].get(EVALUATOR_VERSION)) for r in pair
+    }
     if len(keys) > 1:
         out.add("evaluator_differs")
 

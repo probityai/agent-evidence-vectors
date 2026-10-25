@@ -66,8 +66,8 @@ def run_corpus(root: Path) -> dict[str, Any]:
         if case["kind"] == "negative":
             twin = cases[case["twin"]]
             repaired = apply_ops(case["input"], case["repair"])
-            entry["repaired_matches_twin"] = repaired == twin["input"] and read(repaired) == (
-                twin["expected"]
+            entry["repaired_matches_twin"] = (
+                repaired == twin["input"] and read(repaired) == (twin["expected"])
             )
             ok = ok and entry["repaired_matches_twin"]
         if not ok:

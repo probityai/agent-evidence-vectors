@@ -100,13 +100,17 @@ def _naive(case: dict[str, Any]) -> dict[str, Any]:
                 reading["any_self_reported"] = False
                 reading["verification"][index] = "independent_party"
     out["reasons"] = []
-    out["ordering"] = None if out["ordering"] is None else {**out["ordering"], "verdict": "first_better"}
+    out["ordering"] = (
+        None if out["ordering"] is None else {**out["ordering"], "verdict": "first_better"}
+    )
     return out
 
 
 @pytest.mark.parametrize("group", GROUPS)
 def test_a_naive_reader_fails_a_negative_in_every_group(group: str) -> None:
-    wrong = [c["id"] for c in NEGATIVES if c["group"] == group and _naive(c["input"]) != c["expected"]]
+    wrong = [
+        c["id"] for c in NEGATIVES if c["group"] == group and _naive(c["input"]) != c["expected"]
+    ]
     assert wrong
 
 
@@ -128,8 +132,10 @@ def test_the_runner_replays_the_whole_corpus() -> None:
         {"results": [{}]},
         {"results": [{"attributes": {}, "evidence": ["x"]}]},
         {"results": [{"attributes": {}}], "compare": [0, 1]},
-        {"results": [{"attributes": {"gen_ai.evaluation.score.direction": "maximize"}}] * 2,
-         "compare": [0, 1]},
+        {
+            "results": [{"attributes": {"gen_ai.evaluation.score.direction": "maximize"}}] * 2,
+            "compare": [0, 1],
+        },
     ],
 )
 def test_unusable_input_is_refused_not_read(bad: Any) -> None:
