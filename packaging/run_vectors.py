@@ -5368,6 +5368,11 @@ def main() -> int:
         from agent_evidence_vectors.claim_record.run import main as claim_main
 
         return claim_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "evalresult":
+        # Evaluation result readings: score direction, evidence origin, held-out status.
+        from agent_evidence_vectors.eval_result.run import main as evalresult_main
+
+        return evalresult_main(sys.argv[2:])
     return rail_main()
 
 

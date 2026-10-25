@@ -71,6 +71,10 @@ agent-evidence-vectors-operand-provenance = "agent_evidence_vectors.operand_prov
 # The evaluation claim record: every coordinate present, judged under the profile the
 # relying party's acceptance rule pins. Also reachable as `agent-evidence-vectors claim`.
 agent-evidence-vectors-claim = "agent_evidence_vectors.claim_record.run:main"
+# Evaluation result readings: score direction declared and never inferred, evidence origin
+# per item apart from verifier identity, and held-out status where absent is unknown.
+# Also reachable as `agent-evidence-vectors evalresult`.
+agent-evidence-vectors-evalresult = "agent_evidence_vectors.eval_result.run:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
