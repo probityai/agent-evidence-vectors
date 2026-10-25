@@ -1,0 +1,320 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/delegator-right/v1",
+  "corpusDigest": "57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa",
+  "suite": "delegator-right/v1",
+  "vectors": [
+    {
+      "edit": "control: the root grants the operation directly",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "3c75bc7dead70b20776b9a000ad2d0048eb6f3233c58c3b6889f58c4aa1bf589"
+      },
+      "id": "allow-root-direct",
+      "path": "cases/allow-root-direct"
+    },
+    {
+      "edit": "control: the delegating agent was entitled to pass the operation on",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e"
+      },
+      "id": "allow-entitled-delegator",
+      "path": "cases/allow-entitled-delegator"
+    },
+    {
+      "edit": "control: the entitlement ended one second inside the propagation limit",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "114ba2278d7b1604288158bca0bb326196fdd50056d31c3db542bbeda2282abb"
+      },
+      "id": "allow-entitlement-ended-within-limit",
+      "path": "cases/allow-entitlement-ended-within-limit"
+    },
+    {
+      "edit": "control: the entitlement ends after the decision",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "3a1c964445b7f99bb43bd2b0dd72367a67b445f29d44d0087bf037855ac5353f"
+      },
+      "id": "allow-entitlement-ends-after-decision",
+      "path": "cases/allow-entitlement-ends-after-decision"
+    },
+    {
+      "edit": "control: the operation was removed from the parent grant one second inside the limit",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "711217bab83dd4814af61cdd5c1ad458a9848ad3cca8beb3141ad1ca7ce8faa6"
+      },
+      "id": "allow-ancestor-narrowed-within-limit",
+      "path": "cases/allow-ancestor-narrowed-within-limit"
+    },
+    {
+      "edit": "control: a different operation was removed from the parent grant; this one remains",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "2ea54cad023ad23b40f491c72eb32352dfc16060393dcb276a2c134001dc48fd"
+      },
+      "id": "allow-ancestor-narrowed-other-operation",
+      "path": "cases/allow-ancestor-narrowed-other-operation"
+    },
+    {
+      "edit": "control: the delegator is entitled to another operation as well",
+      "expected": {
+        "decision": "allow",
+        "reason": "entitled"
+      },
+      "files": {
+        "record.json": "e483d8caf3fd5cb617052ddfc3697f3ba4746a3347aad5bb048034849bd54041"
+      },
+      "id": "allow-entitled-delegator-other-operation-too",
+      "path": "cases/allow-entitled-delegator-other-operation-too"
+    },
+    {
+      "edit": "the delegating agent holds no entitlement to delegate any operation",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegator_not_entitled"
+      },
+      "files": {
+        "record.json": "c1601ee790aadba2cc315e991d3d79b742cc6830e3f3df3172709da3cf32a483"
+      },
+      "id": "delegator-never-entitled",
+      "path": "cases/delegator-never-entitled"
+    },
+    {
+      "edit": "the delegating agent may delegate ticket.read, not the requested operation",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegator_not_entitled"
+      },
+      "files": {
+        "record.json": "90002163e265c84461252e5a3baff8ce53876670b835c3dd6442baeb6b2e13cf"
+      },
+      "id": "delegator-entitled-other-operation-only",
+      "path": "cases/delegator-entitled-other-operation-only"
+    },
+    {
+      "edit": "the entitlement began after the grant was issued",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegator_not_entitled"
+      },
+      "files": {
+        "record.json": "39b12bfc679d5a1bb7051d94545621f5b29434d5e2dae8ec67c214ba2ceb2427"
+      },
+      "id": "delegator-entitlement-began-after-issue",
+      "path": "cases/delegator-entitlement-began-after-issue"
+    },
+    {
+      "edit": "the entitlement had already ended when the grant was issued",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegator_not_entitled"
+      },
+      "files": {
+        "record.json": "e75a3901215af4916a55cd6ecc41c3497e013233b35f803c97318d374c14134c"
+      },
+      "id": "delegator-entitlement-ended-before-issue",
+      "path": "cases/delegator-entitlement-ended-before-issue"
+    },
+    {
+      "edit": "a different agent holds the entitlement",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegator_not_entitled"
+      },
+      "files": {
+        "record.json": "7a2f0d7bd942922c5932554c8296e35f3d33672d93d230445fcd3ab2158b8804"
+      },
+      "id": "entitlement-another-principal",
+      "path": "cases/entitlement-another-principal"
+    },
+    {
+      "edit": "the entitlement ended exactly the propagation limit before the decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegation_right_removed"
+      },
+      "files": {
+        "record.json": "8311c35008eeea7a60c6bee356ddc26f2609bcd27e37d77c8a35fc5cebf7ce36"
+      },
+      "id": "entitlement-removed-at-deadline",
+      "path": "cases/entitlement-removed-at-deadline"
+    },
+    {
+      "edit": "the entitlement ended an hour before the decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegation_right_removed"
+      },
+      "files": {
+        "record.json": "585ffcc6c1013e330b949a28d95a903b85cf1ae3efa2d4ac8ebd66c93f246edf"
+      },
+      "id": "entitlement-removed-long-before",
+      "path": "cases/entitlement-removed-long-before"
+    },
+    {
+      "edit": "the operation was removed from the parent grant exactly the limit before the decision, with the child grant intact",
+      "expected": {
+        "decision": "deny",
+        "reason": "ancestor_scope_removed"
+      },
+      "files": {
+        "record.json": "d8e67c6abd0123a90f46d02c32e7cdeeafacad72fa887483b31b04b2596cb687"
+      },
+      "id": "ancestor-scope-removed-at-deadline",
+      "path": "cases/ancestor-scope-removed-at-deadline"
+    },
+    {
+      "edit": "the operation was removed at the source from the grant the delegate itself holds",
+      "expected": {
+        "decision": "deny",
+        "reason": "ancestor_scope_removed"
+      },
+      "files": {
+        "record.json": "1ac4a0ffba1685b0e4de0bc02e3e2c53a0b3fdc9e9d277f1ef2737b00136e649"
+      },
+      "id": "ancestor-scope-removed-in-last-grant",
+      "path": "cases/ancestor-scope-removed-in-last-grant"
+    },
+    {
+      "edit": "the second grant carries ticket.delete, which the first never held",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegate_exceeds_delegator"
+      },
+      "files": {
+        "record.json": "6448c504154bbf292d0f1741a61a042274a9f7126a57d22ec51eb9e8669484d0"
+      },
+      "id": "delegate-scope-exceeds-delegator",
+      "path": "cases/delegate-scope-exceeds-delegator"
+    },
+    {
+      "edit": "the delegate requests ticket.read, outside the scope of the grant it holds",
+      "expected": {
+        "decision": "deny",
+        "reason": "delegate_exceeds_delegator"
+      },
+      "files": {
+        "record.json": "26778a215c90ea4f344769553fef85f9fdbb5014c6986e55f8085f542b1d807b"
+      },
+      "id": "request-outside-granted-scope",
+      "path": "cases/request-outside-granted-scope"
+    },
+    {
+      "edit": "the record omits the entitlements it is judged against",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "4de708533db8ba3b9d4822abc9381b40b10352286e8cd4bedafcf4cd38184487"
+      },
+      "id": "malformed-rights-field-missing",
+      "path": "cases/malformed-rights-field-missing"
+    },
+    {
+      "edit": "the propagation limit is negative",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "0e4c6bca8d69b084575fda8db21217891862836a948ea1386dcc30dd12689fdf"
+      },
+      "id": "malformed-limit-negative",
+      "path": "cases/malformed-limit-negative"
+    },
+    {
+      "edit": "the propagation limit is text",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "b1d3de6eb5f65f74687cdddf55e228dd946bc2d90bf205ee4f239390984bf78b"
+      },
+      "id": "malformed-limit-not-integer",
+      "path": "cases/malformed-limit-not-integer"
+    },
+    {
+      "edit": "the decision time is not an RFC 3339 instant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "6c7c094523c74bf3313031f0f4dabb4b1f99eb3537b3f5050bd7eb9b01026758"
+      },
+      "id": "malformed-decision-time",
+      "path": "cases/malformed-decision-time"
+    },
+    {
+      "edit": "a grant's scope is text instead of a list",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "4805388ef35e975631e7672cb07ca932a9d533cf9710fadf76f21cef5fa63381"
+      },
+      "id": "malformed-scope-not-list",
+      "path": "cases/malformed-scope-not-list"
+    },
+    {
+      "edit": "the grant chain is empty",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "74eb4846f623cd489de70703542059f6ebee068a0e00c15a434b6ee7b808d334"
+      },
+      "id": "malformed-chain-empty",
+      "path": "cases/malformed-chain-empty"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "bd5f2315b2a8d2ed107ca76cb1a8c011c1db4ad26c3588fcdc2a2bba064a79c8"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "cf7af025492a270db61fa3fc9d2a642d332ab2fbec31819b7a0d3b8f31998ef4"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
