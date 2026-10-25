@@ -49,6 +49,8 @@ RUNS_A_VERIFIER = (
     "vectors-approval-binding",
     "vectors-authority-at-dispatch",
     "vectors-chunked-export",
+    "vectors-converted-argument-binding",
+    "vectors-dispatch-fence",
     "vectors-grade-floor",
     "vectors-identity-binding",
     "vectors-receipt-chain-end",

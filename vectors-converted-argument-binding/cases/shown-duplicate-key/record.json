@@ -1,0 +1,26 @@
+{
+  "approval": {
+    "decision": "approve",
+    "shownSha256": "474c3f03a58342f546fed9e5eb0e347ba5003caabb6aa3688cc3bd63ad679cec"
+  },
+  "callCopyAfterSha256": "2de3ccaff88597450322e6e9b81bb38275bd7cdc0de05d078bc1d52ceddd12cd",
+  "callCopyBeforeSha256": "2de3ccaff88597450322e6e9b81bb38275bd7cdc0de05d078bc1d52ceddd12cd",
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v1",
+  "parameters": {
+    "dry_run": {
+      "default": true,
+      "type": "boolean"
+    },
+    "priority": {
+      "enum": [
+        "low",
+        "normal",
+        "high"
+      ],
+      "type": "string"
+    },
+    "recipient": {
+      "type": "string"
+    }
+  }
+}

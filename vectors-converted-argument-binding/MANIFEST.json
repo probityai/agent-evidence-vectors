@@ -1,0 +1,305 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/converted-argument-binding/v1",
+  "contractSource": {
+    "commit": "a31b3b620254426ce7c037e8036b743a52ba6636",
+    "file": "design/tool-approval-arguments.md",
+    "pullRequest": 5652,
+    "repository": "https://github.com/UKGovernmentBEIS/inspect_ai"
+  },
+  "corpusDigest": "cc90a6895c3a3514cc81a5b201361a0935bdcf39eeb5a65fd35f70d1b060772a",
+  "suite": "converted-argument-binding/v1",
+  "vectors": [
+    {
+      "edit": "control: the arguments are shown, rebuilt and executed unchanged",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "allow-unchanged",
+      "path": "cases/allow-unchanged",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "control: the constructor default dry_run is in what the approver saw and in what ran",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "allow-constructor-default-shown",
+      "path": "cases/allow-constructor-default-shown",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "control: the approver replaces the whole call and the replacement runs",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "modified.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "3e09aea98863156212c8c1310a2a1330bedfef7b9824ccd2c1c95693d2cb0646",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "aa046d36cdc355ba51cd5da74efcf1a7f2cbba0b9c016a50d3d7beb9c6b166bd",
+        "shown.json": "7c49e56b238f433b79f9737671b026ab64e18d443ec76e85c908225625be3b8f"
+      },
+      "id": "allow-modify-full-call",
+      "path": "cases/allow-modify-full-call",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "9e1bcd53d1eebabe1f1d04a9e7c52f10b213810d90a941c3296f78044224f9a8",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "5e6f18e776c517f8652dac8792d7b9fc5517ff3b86265293b127064caad5fcab",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "the approval names the digest of the model's arguments, not of the converted arguments the approver was shown",
+      "expected": {
+        "decision": "deny",
+        "reason": "approval_not_bound_to_shown"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "c1e31159b149c53b7b8c365114a9fbae8d7e03b2f199c83dc0c60262ba9dfd8e",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "approved-digest-not-shown",
+      "path": "cases/approved-digest-not-shown",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "the converted arguments hold NaN, which JSON cannot store",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_storable"
+      },
+      "files": {
+        "executed.json": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03",
+        "raw.json": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03",
+        "rebuilt.json": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03",
+        "record.json": "ac75018bac145cbf69d294c02687d3f506cda3c4553d280f2ba41a5904a999cd",
+        "shown.json": "b0b60ddb42c52beccfbdbcb52714f38b4639dfef231b6a9489a7ade6fdf9094d"
+      },
+      "id": "shown-holds-nan",
+      "path": "cases/shown-holds-nan",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the converted arguments carry the recipient member twice",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_storable"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "f6f40f251f27c503edb3ea755794c9d730885c63d6c35f09226ae609206df378",
+        "shown.json": "474c3f03a58342f546fed9e5eb0e347ba5003caabb6aa3688cc3bd63ad679cec"
+      },
+      "id": "shown-duplicate-key",
+      "path": "cases/shown-duplicate-key",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the model gave a priority outside the declared enum and the call was approved",
+      "expected": {
+        "decision": "deny",
+        "reason": "invalid_call_approved"
+      },
+      "files": {
+        "executed.json": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd",
+        "raw.json": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd",
+        "rebuilt.json": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd",
+        "record.json": "baa9819dd242c99ee818d19cdfd60353f9a5babb247acab5d01dab63c84523ee",
+        "shown.json": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd"
+      },
+      "id": "invalid-enum-approved",
+      "path": "cases/invalid-enum-approved",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "the approver's replacement omits dry_run, which has a default",
+      "expected": {
+        "decision": "deny",
+        "reason": "modify_not_full_call"
+      },
+      "files": {
+        "executed.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "modified.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "raw.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "rebuilt.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "record.json": "f7a0041d86eaf27f195bfe50e2c17e24d9c6efab76064b5ac16e13c7d0b7edd3",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "modify-drops-defaulted-field",
+      "path": "cases/modify-drops-defaulted-field",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "a requested_at default is evaluated again at rebuild, three seconds after it was shown",
+      "expected": {
+        "decision": "deny",
+        "reason": "rebuild_not_identical"
+      },
+      "files": {
+        "executed.json": "004473bfd324b2efb6af0c7f449cb6a377126c8244d40bdfbddee84042b6664c",
+        "raw.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "rebuilt.json": "004473bfd324b2efb6af0c7f449cb6a377126c8244d40bdfbddee84042b6664c",
+        "record.json": "0c0b4ff49d724078072c8ba81422dc6af95e9ce81e9ae4ff3bb214e02e85a3df",
+        "shown.json": "01a13804ccc29c87bc739d9f1b8dc586e07346a789f6c50e74b50557be518e7e"
+      },
+      "id": "clock-default-rebuilds-differently",
+      "path": "cases/clock-default-rebuilds-differently",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the call's digest after the approval chain differs from its digest before, although the arguments that ran are the shown ones",
+      "expected": {
+        "decision": "deny",
+        "reason": "call_mutated_after_approval"
+      },
+      "files": {
+        "executed.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "1b5c8be9cb36e2b0c3e41984ac7addb24ae042cf004a551832c1c5a18d85654e",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "approver-edited-in-place",
+      "path": "cases/approver-edited-in-place",
+      "shownEqualsExecuted": true
+    },
+    {
+      "edit": "the approver saw the string \"false\" and the tool ran with the boolean true",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_executed"
+      },
+      "files": {
+        "executed.json": "73c919708cfa1455ec1d681421070bc2f9ce69523c4619fabeb76850ed7ff31e",
+        "raw.json": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63",
+        "rebuilt.json": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63",
+        "record.json": "9b78318333ca5803c9c1bc5a67efb548d19664fde3aa53439866d7583c175e16",
+        "shown.json": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63"
+      },
+      "id": "bool-string-coerced",
+      "path": "cases/bool-string-coerced",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the approver saw 1.5 and the tool ran with 1",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_executed"
+      },
+      "files": {
+        "executed.json": "fbd992e7aa23a36dce1823c16eccc4359275644ba1df614bec6dd10323395ee5",
+        "raw.json": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78",
+        "rebuilt.json": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78",
+        "record.json": "c10ebb382706c1259974c637ce331fad71e382bc144cd93c0c21068de0b36fb1",
+        "shown.json": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78"
+      },
+      "id": "float-truncated-to-int",
+      "path": "cases/float-truncated-to-int",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the approver saw an object and the tool ran with its Python repr as a string",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_executed"
+      },
+      "files": {
+        "executed.json": "859e9f1c6924905b84dd646a7a64b879e1d589f3ce1f1ae3eb9a2c6e042a40ed",
+        "raw.json": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2",
+        "rebuilt.json": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2",
+        "record.json": "1d9a3b5b0a670ff06a21329eff4f2d628b459f8ec42e412921add6ec08beae79",
+        "shown.json": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2"
+      },
+      "id": "dict-repr-to-string",
+      "path": "cases/dict-repr-to-string",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "the executed arguments add dry_run false, which the approver was never shown",
+      "expected": {
+        "decision": "deny",
+        "reason": "shown_not_executed"
+      },
+      "files": {
+        "executed.json": "c1dcf492e3399f14c3af52fbc1ff00ce87a1550c5bc860ab090fb8c56ea6a6ad",
+        "raw.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "rebuilt.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e",
+        "record.json": "7960cf93610c1ab053361fdd9396e74a2e6bce0f0e2d22570e0f5c7e89082921",
+        "shown.json": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+      },
+      "id": "constructor-default-hidden",
+      "path": "cases/constructor-default-hidden",
+      "shownEqualsExecuted": false
+    },
+    {
+      "edit": "control: the executed file has the same members in another order, which RFC 8785 makes equal",
+      "expected": {
+        "decision": "allow",
+        "reason": "bound"
+      },
+      "files": {
+        "executed.json": "ab934e9f3c4e2ea62438276807370ace232467394d81086d25e930d540f00e1f",
+        "raw.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "rebuilt.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2",
+        "record.json": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c",
+        "shown.json": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+      },
+      "id": "executed-key-order-only",
+      "path": "cases/executed-key-order-only",
+      "shownEqualsExecuted": true
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

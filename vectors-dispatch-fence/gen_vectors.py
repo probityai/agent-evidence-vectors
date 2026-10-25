@@ -13,7 +13,7 @@ import copy
 import hashlib
 import json
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT.parent / "packaging"))
 from agent_evidence_vectors import dispatchfence as reader  # noqa: E402
 
 SUITE = reader.SUITE
-T0 = datetime(2026, 10, 24, 12, 0, 0, tzinfo=timezone.utc)
+T0 = datetime(2026, 10, 24, 12, 0, 0, tzinfo=UTC)
 
 
 def _sha(data: bytes) -> str:
