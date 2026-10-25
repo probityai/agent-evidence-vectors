@@ -1,0 +1,30 @@
+{
+  "eat_profile": "https://advancedaisociety.org/poc/v0.1",
+  "iat": 1754400000,
+  "iss": "https://verifier.example/poc",
+  "nonce": "n-00000001",
+  "poc_claims": {
+    "agbom_digest": "sha-256:8ccf1344a2087a19f5bd874fa3ae8486dce9ddfed60f17856d9a0cfe6540e868",
+    "agent_id": "did:web:example.org:agents:ref-1",
+    "alg": "EdDSA",
+    "canonical_snapshot_hash": "sha-256:4f8cafe37c9f8e20e3bb1a29b6b4b4d20776fdc928411298b04037187401d81a",
+    "chain_head": "sha-256:b0d029a3fccee46bbc8e4c827c86d861ab33fb4580bf6d3d0d0186680e0b85b6",
+    "initiating_user": "user:alice",
+    "interception_point": "PRE_CALL_TOOL_INVOCATION",
+    "merkle_root": "sha-256:be6b5c267c322529e3df902c4cc43bfbea0de6ed017c2667113a82327009bf9e",
+    "path_summary_hash": "sha-256:05029682c9bfd6e0897b15dc6356885c31db9fb537017ccd9480fcaf789ab82c",
+    "policy_bundle_hash": "sha-256:0ec0b48a1641c2fc90febb60cc988021b7c947b00a17a7ffb8f61cdcad162bd4",
+    "reason": "within grant",
+    "step_index": 0,
+    "target_resource": "customers",
+    "tree_size": 1,
+    "verdict": "MODIFY"
+  },
+  "signature": "68a51b59ade64429bd51d4b9c47c5ff4a6526822626c7b8df3064500f18087fb3665f412b1e4eeef5687000cd74ae637a111c4b8d6ac69cd980a7a98e2867f0d",
+  "submods": {
+    "attestation": {
+      "measurement": "sha-256:a1d0bdcf12b227dbe4347ce7a24a9a385a92369cd671fc1deaf9d2f7bb35cb81",
+      "platform": "SOFTWARE"
+    }
+  }
+}

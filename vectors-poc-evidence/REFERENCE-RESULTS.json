@@ -1,0 +1,201 @@
+{
+  "cases_run": 171,
+  "divergences": [
+    {
+      "class": "platform-fact",
+      "expect": {
+        "code": [
+          "semantic",
+          "schema"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-amd-sev-snp-measurement-sha256",
+      "kind": "token",
+      "note": "AMD_SEV_SNP attestation carrying a 32-byte measurement; this platform measures with SHA-384, and the specification's own generator records that a 32-byte value in an INTEL_TDX vector was a defect",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.2.4",
+        "6.2.2"
+      ]
+    },
+    {
+      "class": "interop",
+      "expect": {
+        "code": [
+          "schema",
+          "canonical",
+          "semantic"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-integer-beyond-2-53",
+      "kind": "token",
+      "note": "tree_size 2^53 + 1: no ECMAScript implementation can read this integer back exactly, so two implementations canonicalize it differently",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.7.2"
+      ]
+    },
+    {
+      "class": "platform-fact",
+      "expect": {
+        "code": [
+          "semantic",
+          "schema"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-intel-tdx-measurement-sha256",
+      "kind": "token",
+      "note": "INTEL_TDX attestation carrying a 32-byte measurement; this platform measures with SHA-384, and the specification's own generator records that a 32-byte value in an INTEL_TDX vector was a defect",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.2.4",
+        "6.2.2"
+      ]
+    },
+    {
+      "class": "finding",
+      "expect": {
+        "code": [
+          "modify-unbound",
+          "schema",
+          "semantic"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-modify-same-as-proposed",
+      "kind": "token",
+      "note": "MODIFY whose dispatched digest equals the proposed digest: the schema defines MODIFY as 'the dispatched action differs from the proposed one'",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.1.4"
+      ]
+    },
+    {
+      "class": "finding",
+      "expect": {
+        "code": [
+          "schema",
+          "semantic"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-reason-empty-string",
+      "kind": "token",
+      "note": "reason present as the empty string: canonicalization rule 7 says an optional claim that does not apply is omitted, never present empty",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.7.2"
+      ]
+    },
+    {
+      "class": "finding",
+      "expect": {
+        "code": [
+          "schema",
+          "semantic"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-reference-values-uri-empty",
+      "kind": "token",
+      "note": "reference_values_uri present as the empty string",
+      "reference": {
+        "result": "accept"
+      },
+      "requirements": [
+        "7.7.2"
+      ]
+    },
+    {
+      "class": "robustness",
+      "expect": {
+        "code": [
+          "parse"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-F-trailing-garbage",
+      "kind": "token",
+      "note": "a complete token followed by a second JSON value",
+      "reference": {
+        "code": "crash:JSONDecodeError",
+        "result": "reject"
+      },
+      "requirements": [
+        "7.7.5"
+      ]
+    },
+    {
+      "class": "robustness",
+      "expect": {
+        "code": [
+          "parse"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-N-parse-bom",
+      "kind": "token",
+      "note": "a UTF-8 byte order mark before the token (rule 1)",
+      "reference": {
+        "code": "crash:JSONDecodeError",
+        "result": "reject"
+      },
+      "requirements": [
+        "7.7.2"
+      ]
+    },
+    {
+      "class": "robustness",
+      "expect": {
+        "code": [
+          "parse",
+          "schema"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-N-parse-lone-surrogate",
+      "kind": "token",
+      "note": "a string holding an unpaired surrogate (\\ud800): not UTF-8 encodable, so no canonical bytes exist for it",
+      "reference": {
+        "code": "crash:UnicodeEncodeError",
+        "result": "reject"
+      },
+      "requirements": [
+        "7.7.2"
+      ]
+    },
+    {
+      "class": "robustness",
+      "expect": {
+        "code": [
+          "parse"
+        ],
+        "result": "reject"
+      },
+      "id": "TOK-N-parse-trailing-comma",
+      "kind": "token",
+      "note": "a trailing comma",
+      "reference": {
+        "code": "crash:JSONDecodeError",
+        "result": "reject"
+      },
+      "requirements": [
+        "7.7.5"
+      ]
+    }
+  ],
+  "spec_commit": "93d0e282fc177d5df741de4cdd6a0d0dacf1955a"
+}

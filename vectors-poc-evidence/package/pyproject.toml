@@ -1,0 +1,28 @@
+# poc-evidence-vectors: conformance vectors for the Proof-of-Control evidence
+# artifacts. The runner and the twin verifier are standard library only; the
+# builder (vectors-poc-evidence/build) is the only part that needs
+# the cryptography library, and it is not shipped.
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poc-evidence-vectors"
+version = "0.1.0"
+description = "Conformance vectors and an independent twin verifier for Proof-of-Control evidence tokens, Merkle proofs, chains and canonical form"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+readme = "README.md"
+authors = [{ name = "Sankalp Gilda", email = "sankalp.gilda@gmail.com" }]
+keywords = ["proof-of-control", "conformance", "test-vectors", "rfc6962", "rfc8785"]
+dependencies = []
+
+[project.scripts]
+poc-evidence-vectors = "poc_evidence_vectors.run_vectors:main"
+
+[tool.setuptools]
+packages = ["poc_evidence_vectors"]
+
+[tool.setuptools.package-data]
+poc_evidence_vectors = ["corpus/**/*.json", "CORPUS-MANIFEST.json"]

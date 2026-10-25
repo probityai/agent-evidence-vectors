@@ -1,0 +1,117 @@
+; Proof-of-Control Evidence Token -- CDDL definition
+;
+; This is the normative shape of the claim set defined in the specification
+; (chapter C7, "canonical evidence schema"). An Evidence token is an Entity
+; Attestation Token [RFC 9711] carrying the Proof-of-Control claim set.
+;
+; Two renderings are defined and MUST be structurally equivalent:
+;   * CWT / CBOR  -- this file, for constrained and high-volume deployments
+;   * JWT / JSON  -- schema/poc-evidence.schema.json
+;
+; CLAIM KEY ALLOCATION. Standard CWT and EAT claims use their registered keys.
+; Proof-of-Control claims are shown here in the CBOR private-use range as a
+; PROVISIONAL allocation; final keys are subject to IANA registration through
+; the Internet-Draft described in the specification roadmap. Implementations
+; MUST NOT treat these values as stable until registration completes.
+
+poc-evidence = {
+  ; ---- standard CWT claims [RFC 8392]
+  1  => tstr,                 ; iss  -- verifier or issuing service
+  6  => int,                  ; iat  -- issuance time, epoch seconds
+
+  ; ---- standard EAT claims [RFC 9711]
+  10 => bstr .size (8..64),   ; eat_nonce -- relying-party challenge
+  265 => tstr,                ; eat_profile -- profile URI, see below
+
+  ; ---- Proof-of-Control claim set (provisional keys)
+  -70001 => agent-id,
+  -70002 => principal-id,
+  -70003 => digest,           ; agbom_digest
+  -70004 => interception-point,
+  -70005 => uint,             ; step_index, monotonic per agent, from 0
+  -70006 => digest,           ; chain_head
+  -70007 => digest,           ; policy_bundle_hash
+  -70008 => tstr,             ; target_resource
+  -70009 => digest,           ; canonical_snapshot_hash
+  -70010 => digest,           ; path_summary_hash
+  -70011 => verdict,
+  -70012 => tstr,             ; reason, free text, not security-relevant
+  -70013 => alg-id,           ; signature algorithm identifier (C6.3.4)
+  -70014 => digest,           ; merkle_root, RFC 6962 tree head (C7.3.4)
+  -70015 => uint .ge 1,       ; tree_size, leaves the merkle_root covers
+  ? -70016 => digest,         ; dispatched_snapshot_hash, required when verdict is modify
+
+  ; ---- attestation submodule [RFC 9711]
+  266 => { "attestation" => attestation-submod },
+
+  * tstr => any               ; extension points, ignored by verifiers that
+                              ; do not understand them
+}
+
+; A digest is tagged with its algorithm so that a migration does not require
+; a new claim: [ algorithm, value ]
+digest = [ hash-alg, bstr ]
+hash-alg = &( sha-256: 1, sha-384: 2, sha-512: 3, sha3-256: 4 )
+
+; Decentralized identifier or equivalent stable identifier for the agent
+; instance (C5.1.1) and the principal on whose authority it acts (C5.1.2).
+agent-id     = tstr .regexp "^did:[a-z0-9]+:.+$" / tstr
+principal-id = tstr
+
+; The eight lifecycle hooks of C7.1
+interception-point = &(
+  task-init:            1,
+  context-assembly:     2,
+  plan-generation:      3,
+  pre-call-tool:        4,
+  post-call-tool:       5,
+  memory-write:         6,
+  subagent-delegation:  7,
+  task-completion:      8,
+)
+
+; The four binding decisions of the policy function
+verdict = &( allow: 1, deny: 2, modify: 3, escalate: 4 )
+
+; Signature algorithm, so a verifier knows what to check and an operator can
+; migrate without orphaning published evidence (C6.3.4). COSE algorithm
+; identifiers; ML-DSA values per FIPS 204 registration.
+alg-id = &( eddsa: -8, es256: -7, ml-dsa-44: -48, ml-dsa-65: -49,
+            hybrid-eddsa-mldsa44: -1000 )   ; provisional
+
+attestation-submod = {
+  "platform"    => tstr,      ; e.g. "INTEL_TDX", "AMD_SEV_SNP", "SOFTWARE"
+  "measurement" => digest,    ; compared against a published reference value
+  ? "reference_values_uri" => tstr,
+  * tstr => any
+}
+
+; ---------------------------------------------------------------- capability
+;
+; The action-bound capability of C7.1.4 option (b), which the relying party
+; checks before performing any effect. It commits to the snapshot digest and
+; the target so that the request actually executed cannot differ from the
+; request that was evaluated (Theorem 1).
+
+poc-capability = {
+  "snapshot_hash" => digest,
+  "resource"      => tstr,
+  "nonce"         => bstr .size (8..64),
+  "measurement"   => digest,
+  "alg"           => alg-id,
+  ? "expiry"      => int,
+}
+
+; ---------------------------------------------------------------- anchor
+;
+; A published chain root (C7.6.6). Anchors are what bound the window in which
+; head truncation is undetectable, and what two verifiers compare to detect
+; equivocation (C7.3.3).
+
+poc-anchor = {
+  "agent_id" => agent-id,
+  "index"    => uint,          ; number of steps covered
+  "root"     => digest,
+  "iat"      => int,
+  "alg"      => alg-id,
+}

@@ -1,0 +1,30 @@
+{
+  "eat_profile": "https://advancedaisociety.org/poc/v0.1",
+  "iat": 1754400000,
+  "iss": "https://verifier.example/poc",
+  "nonce": "n-00000002",
+  "poc_claims": {
+    "agbom_digest": "sha-256:8ccf1344a2087a19f5bd874fa3ae8486dce9ddfed60f17856d9a0cfe6540e868",
+    "agent_id": "did:web:example.org:agents:ref-1",
+    "alg": "EdDSA",
+    "canonical_snapshot_hash": "sha-256:e279a7c452ac292dc62780537baf7bcf9e46e62ff606e412879180f90e5d2a4b",
+    "chain_head": "sha-256:ccb4c0a41d04b3074403ef78ece2047e8a5990f1635d6f3ad46ef21106340113",
+    "initiating_user": "user:alice",
+    "interception_point": "PRE_CALL_TOOL_INVOCATION",
+    "merkle_root": "sha-256:6a5058a8495a1cadbf573c180ef5199cac28d11081a6751dc88983f0175144e0",
+    "path_summary_hash": "sha-256:a297c1081fbd4d2d791e65ff90a41d88832e3498110010c0e0a243d1153115b1",
+    "policy_bundle_hash": "sha-256:0ec0b48a1641c2fc90febb60cc988021b7c947b00a17a7ffb8f61cdcad162bd4",
+    "reason": "egress after reading confidential data exceeds permitted egress class",
+    "step_index": 1,
+    "target_resource": "api.partner.com",
+    "tree_size": 2,
+    "verdict": "DENY"
+  },
+  "signature": "da78c0ea174311ee2124d0a0f773b57aa9869e217f12c89323696d4418bd94701a275df4617e01e2451199121f54de6b1f05de34e9a3e899c2cdd397ef29ae01",
+  "submods": {
+    "attestation": {
+      "measurement": "sha-256:a1d0bdcf12b227dbe4347ce7a24a9a385a92369cd671fc1deaf9d2f7bb35cb81",
+      "platform": "SOFTWARE"
+    }
+  }
+}

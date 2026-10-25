@@ -1,0 +1,94 @@
+{
+  "canonical": [
+    {
+      "canonical_sha256": "851d4d8738b68b43f20b8c7a67004ef8a2389e124fa05852c76c0fa41cc783c3",
+      "description": "escaping, Unicode, empty containers",
+      "file": "canonical/tricky-strings.json"
+    },
+    {
+      "canonical_sha256": "86a4511ac5ccd746e317f8c66bd4efbf2b6051c76674271f6b75075f06498c05",
+      "description": "UTF-16 vs code-point key order (RFC 8785 section 3.2.3)",
+      "file": "canonical/nonbmp-key-ordering.json"
+    }
+  ],
+  "frozen_iat": 1754400000,
+  "negative": [
+    {
+      "expect_code": "schema",
+      "file": "negative/missing-policy-bundle-hash.json",
+      "why": "a verdict that cannot be re-derived is not evidence"
+    },
+    {
+      "expect_code": "schema",
+      "file": "negative/untagged-digest.json",
+      "why": "the hash algorithm must never be guessed"
+    },
+    {
+      "expect_code": "schema",
+      "file": "negative/digest-alg-width-mismatch.json",
+      "why": "a digest cannot be what its tag says at that width"
+    },
+    {
+      "expect_code": "schema",
+      "file": "negative/wrong-profile.json",
+      "why": "claims must not be interpreted under an unknown profile"
+    },
+    {
+      "expect_code": "schema",
+      "file": "negative/bad-interception-point.json",
+      "why": "an unrecognised hook makes coverage unassessable"
+    },
+    {
+      "expect_code": "tree-size",
+      "file": "negative/tree-size-too-small.json",
+      "why": "a record must be a leaf of the tree it names"
+    },
+    {
+      "expect_code": "modify-unbound",
+      "file": "negative/modify-unbound.json",
+      "why": "MODIFY must commit to the action that actually runs"
+    },
+    {
+      "expect_code": "hex-case",
+      "file": "negative/uppercase-hex-extension.json",
+      "why": "extension claims are open, so canonicalization is the only defence against two digests for one value"
+    },
+    {
+      "expect_code": "float-in-claims",
+      "file": "negative/float-timestamp.json",
+      "why": "number formatting is the hardest part of canonicalization; the claim set avoids it by forbidding floats"
+    },
+    {
+      "expect_code": "signature",
+      "file": "negative/bad-signature.json",
+      "why": "a claim altered after signing"
+    },
+    {
+      "expect_code": "duplicate-key",
+      "file": "negative/duplicate-key.json",
+      "why": "one file that means ALLOW to one parser and DENY to another"
+    }
+  ],
+  "note": "Test vectors for the Proof-of-Control Evidence claim set. The signing key below is PUBLISHED and must never be used for anything but these vectors.",
+  "positive": [
+    {
+      "description": "permitted read, software attestation",
+      "file": "positive/allow-read.json"
+    },
+    {
+      "description": "DENY: egress after a confidential read",
+      "file": "positive/deny-path-composition.json"
+    },
+    {
+      "description": "same claims, Intel TDX attestation",
+      "file": "positive/hardware-attested.json"
+    },
+    {
+      "description": "MODIFY that commits to what was dispatched",
+      "file": "positive/modify-bound.json"
+    }
+  ],
+  "private_key_seed": "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+  "profile": "https://advancedaisociety.org/poc/v0.1",
+  "public_key": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a"
+}

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://advancedaisociety.org/poc/v0.1/poc-evidence.schema.json",
+  "title": "Proof-of-Control Evidence Token (JWT/JSON rendering)",
+  "description": "The claim set of a Proof-of-Control Evidence token, rendered as JSON for a JWT-based deployment. Structurally equivalent to the CWT/CBOR rendering in poc-evidence.cddl. Digests are OCI-style tagged strings 'alg:hex' so that a hash-algorithm migration does not require new claims.",
+  "type": "object",
+  "required": ["iss", "iat", "nonce", "eat_profile", "poc_claims", "submods"],
+  "additionalProperties": true,
+  "properties": {
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issuer: the attesting environment or issuing service."
+    },
+    "iat": {
+      "type": "number",
+      "description": "Issuance time, seconds since the Unix epoch."
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Relying-party challenge. Binds the token to one request and defeats replay (C7.1.4)."
+    },
+    "eat_profile": {
+      "const": "https://advancedaisociety.org/poc/v0.1",
+      "description": "EAT profile identifier. A verifier that does not recognise this value MUST NOT interpret the poc_claims object."
+    },
+    "poc_claims": { "$ref": "#/$defs/pocClaims" },
+    "submods": {
+      "type": "object",
+      "required": ["attestation"],
+      "properties": {
+        "attestation": { "$ref": "#/$defs/attestation" }
+      }
+    },
+    "signature": {
+      "$ref": "#/$defs/hex",
+      "description": "Detached signature over the canonical form of this object with the 'signature' member removed. See canonicalization.md."
+    }
+  },
+
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]+$",
+      "description": "Lowercase hexadecimal. Uppercase is a canonicalization error, not a stylistic one."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^(sha-256:[0-9a-f]{64}|sha-384:[0-9a-f]{96}|sha-512:[0-9a-f]{128}|sha3-256:[0-9a-f]{64})$",
+      "description": "Algorithm-tagged digest, e.g. 'sha-256:9f86d0...'. The tag is mandatory so that evidence produced before a hash migration remains interpretable after it (C6.3.4). Each algorithm carries its own length: an earlier pattern accepted any tag with any length in 64-128 hex, so 'sha-384:' followed by a 32-byte digest validated. A digest whose declared algorithm does not match its width is not a stylistic error -- it is a value that cannot be what it says it is."
+    },
+
+    "pocClaims": {
+      "type": "object",
+      "required": [
+        "agent_id", "initiating_user", "agbom_digest", "interception_point",
+        "step_index", "chain_head", "merkle_root", "tree_size",
+        "policy_bundle_hash", "target_resource", "canonical_snapshot_hash",
+        "path_summary_hash", "verdict", "alg"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable identifier for the agent instance (C5.1.1). A DID is RECOMMENDED."
+        },
+        "initiating_user": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The principal on whose authority the agent acts (C5.1.2). Delegation chains are represented by a chain of tokens, not by a list here."
+        },
+        "agbom_digest": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest of the agent bill of materials in force for this step (C1.2)."
+        },
+        "interception_point": {
+          "enum": [
+            "TASK_INITIALIZATION", "CONTEXT_ASSEMBLY", "PLAN_GENERATION",
+            "PRE_CALL_TOOL_INVOCATION", "POST_CALL_TOOL_RESULT",
+            "MEMORY_WRITE", "SUBAGENT_DELEGATION", "TASK_COMPLETION"
+          ],
+          "description": "Which of the eight lifecycle hooks of C7.1 produced this record."
+        },
+        "step_index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Monotonic per agent, starting at 0, with no gaps. A gap is an omission (C7.3.1)."
+        },
+        "chain_head": {
+          "$ref": "#/$defs/digest",
+          "description": "H(previous_head || canonical_snapshot_hash || verdict). Sequential integrity for a verifier replaying the whole history."
+        },
+        "merkle_root": {
+          "$ref": "#/$defs/digest",
+          "description": "RFC 6962 tree head over all leaves through this step. This is what an inclusion proof reconstructs (C7.3.4)."
+        },
+        "tree_size": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of leaves the merkle_root covers. An inclusion proof is meaningless without it."
+        },
+        "policy_bundle_hash": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest of the exact policy that produced the verdict (C4.2). Without it a verdict cannot be re-derived."
+        },
+        "target_resource": {
+          "type": "string",
+          "description": "The resource the action addresses."
+        },
+        "canonical_snapshot_hash": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest of the canonical snapshot the policy actually evaluated. The relying party recomputes this from the request it is asked to perform; a mismatch means the executed action is not the evidenced one (Theorem 1)."
+        },
+        "path_summary_hash": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest of the bounded path summary at evaluation time (C4.1.7)."
+        },
+        "dispatched_snapshot_hash": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest of the action actually dispatched when verdict is MODIFY. Required in that case: validate.py rejects a MODIFY token without it (modify-unbound)."
+        },
+        "verdict": {
+          "enum": ["ALLOW", "DENY", "MODIFY", "ESCALATE"],
+          "description": "The binding decision. MODIFY means the dispatched action differs from the proposed one and MUST itself be evidenced."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Human-readable rationale. Advisory: a verifier MUST NOT rely on it for any security decision."
+        },
+        "alg": {
+          "enum": ["EdDSA", "ES256", "ML-DSA-44", "ML-DSA-65",
+                   "Ed25519+ML-DSA-44"],
+          "description": "Signature algorithm, named in every record so that a migration does not orphan published evidence (C6.3.4)."
+        }
+      }
+    },
+
+    "attestation": {
+      "type": "object",
+      "required": ["platform", "measurement"],
+      "properties": {
+        "platform": {
+          "enum": ["INTEL_TDX", "AMD_SEV_SNP", "ARM_CCA", "AWS_NITRO",
+                   "SOFTWARE"],
+          "description": "SOFTWARE means no hardware isolation. Such evidence cannot support a Tier 3 or Tier 4 claim, and a verifier MUST refuse to treat it as if it could."
+        },
+        "measurement": {
+          "$ref": "#/$defs/digest",
+          "description": "Measurement of the evaluated code identity, compared against a published reference value (C8.1.7)."
+        },
+        "reference_values_uri": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}

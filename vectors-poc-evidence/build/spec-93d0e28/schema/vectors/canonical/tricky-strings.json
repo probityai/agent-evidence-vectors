@@ -1,0 +1,20 @@
+{
+  "ascii": "plain",
+  "astral": "\ud83d\udddd key",
+  "backslash": "a\\b",
+  "controls": "tab\there\nnewline",
+  "empty_arr": [],
+  "empty_obj": {},
+  "ints": [
+    0,
+    -1,
+    1000000
+  ],
+  "nested": {
+    "a": 1,
+    "b": 2,
+    "\u00e9": 3
+  },
+  "quote": "he said \"no\"",
+  "unicode": "caf\u00e9 \u00fcber na\u00efve"
+}
