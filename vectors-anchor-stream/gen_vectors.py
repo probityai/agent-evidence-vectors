@@ -456,7 +456,12 @@ def build() -> list[dict]:
             "the witness covers the first 18 lines only. Contributed by "
             "Tetsurohhori from aos-standard/catalog at anchors-verify-v0.12."
         ),
-        properties={"endsWithNewline": True, "streamLines": 73, "external": True},
+        properties={
+            "endsWithNewline": True,
+            "streamLines": 73,
+            "external": True,
+            "baselineStream": EXTERNAL_TERMINATED,
+        },
     )
     add(
         kind="reject",

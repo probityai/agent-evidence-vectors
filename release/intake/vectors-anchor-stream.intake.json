@@ -116,6 +116,54 @@
       "sha256": "4b19ce1f95f4a5e019af9c31da1e6dab3b4f60d4fb742307455dfd4ceff94ee1"
     },
     {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 1,
+          "sha256": "f8032358933d52a57bd9bb3c6934102d4b5bdbf430bd78a88510047bdc8fd580"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "f8032358933d52a57bd9bb3c6934102d4b5bdbf430bd78a88510047bdc8fd580"
+        },
+        "swapped-in": "d9f0f26caa0a9955885d2faaa0e2237667b1f30aa67d413ddc717b5020032662",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md",
+      "serialization": "bytes",
+      "sha256": "26b8bcdb90f9cdec1a6bfa9e9be02288ba028e1c41c5d84b2e637b7639fb9b8e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 1,
+          "sha256": "f8032358933d52a57bd9bb3c6934102d4b5bdbf430bd78a88510047bdc8fd580"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [
+          "vectors-anchor-stream/baseline/external-unterminated-final-line/PROVENANCE.md"
+        ],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 1,
+          "sha256": "f8032358933d52a57bd9bb3c6934102d4b5bdbf430bd78a88510047bdc8fd580"
+        },
+        "swapped-in": "52f97290c1d7090b66e7cfa7dc0623ffa45cd81cd6cd27bf6d06503f12870362",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/sidecar.json",
+      "serialization": "bytes",
+      "sha256": "7c6a3023efe4271a91aecf0bbfffddadddab2688ea27e26d407c8d480ccaa165"
+    },
+    {
       "consumed": "consumed",
       "evidence": {
         "baseline": {
@@ -150,12 +198,15 @@
         "pins-moved": [
           "vectors-anchor-stream/MANIFEST.json",
           "vectors-anchor-stream/baseline/ANCHORS.jsonl",
+          "vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
           "vectors-anchor-stream/streams/v0e6e29013cfcb97c.jsonl",
           "vectors-anchor-stream/streams/v0e89189941e44d8e.jsonl",
           "vectors-anchor-stream/streams/v0ef2243ce9ba64f6.jsonl",
           "vectors-anchor-stream/streams/v1247b05a03902477.jsonl",
           "vectors-anchor-stream/streams/v1b748575d8a7ee95.jsonl",
+          "vectors-anchor-stream/streams/v25a148d9df730b88.jsonl",
           "vectors-anchor-stream/streams/v27ec0ed3abec3bed.jsonl",
+          "vectors-anchor-stream/streams/v3c142a4f8828f505.jsonl",
           "vectors-anchor-stream/streams/v3e2e8c8036db8c91.jsonl",
           "vectors-anchor-stream/streams/v415ba6da9df54f96.jsonl",
           "vectors-anchor-stream/streams/v4598881bb94db9a9.jsonl",
@@ -179,7 +230,7 @@
         ],
         "swapped": {
           "exit-code": 1,
-          "sha256": "069e3cbea6e49b0d55ec6f72e6edc4fc51531cee2f08394c6d4427dcb9ae1171"
+          "sha256": "fe28f6bf91244318043f6795ed068b325322c75a6796f6a2d755bb905ed0a8b5"
         },
         "swapped-in": "a22f86b08c2b444eb84a1940386d31cbc845618ef0c2d2602d2ee3f2ca0805c7",
         "test": "swap-and-re-pin"
@@ -209,7 +260,7 @@
       },
       "path": "vectors-anchor-stream/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "8ef0679f479d41e0cc50aaaa074c3ed7448add48672e2de8bfd663bc31426656"
+      "sha256": "eca51df610d660b59159dbbe83e8be6e6a6e46b1caf43534db474c3f639b31cd"
     },
     {
       "consumed": "unconsumed",
@@ -310,6 +361,11 @@
     "complete": true,
     "member-locations": [
       {
+        "dir": "baseline/external-unterminated-final-line",
+        "recursive": false,
+        "suffix": ".jsonl"
+      },
+      {
         "dir": "sidecars",
         "recursive": false,
         "suffix": ".json"
@@ -328,7 +384,7 @@
     "root": "vectors-anchor-stream"
   },
   "byte-identity": {
-    "pins": 102,
+    "pins": 103,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -365,7 +421,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "0e70136e0bd0676e05b6cd54132e1aa5716b8870e4634915be1a2817ac01c187"
+      "sha256": "9526f71734e82650c9250c8174ca74d20ece32eb415a84d9b80ef4db0d0209c7"
     },
     "runtime": {
       "name": "go",
@@ -656,7 +712,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "e4db59aaabb69f90bf11360d6f7e78704795dcd8a7a3e17e7e7c5c367f74d5b9"
+    "sha256": "c80387c688f70f22436dd397a0aa7b8f40c547e0d6966b9562b119bfd389df3b"
   },
   "exit-code": 1,
   "exit-rule": "zero-iff-every-check-passes",
@@ -702,7 +758,7 @@
       "vffcb99f9cab7c8a9"
     ],
     "path": "vectors-anchor-stream/MANIFEST.json",
-    "sha256": "e21c512fa39db5b3d3cb563b818dcd673792f610a46114f882415e3a8ca7d70a"
+    "sha256": "9cb1e07e6e89757b95b8a4d6b7e240e1bcc0098bb34b51c20efb1c025f4b3d43"
   },
   "members": [
     {
@@ -860,6 +916,10 @@
     },
     {
       "files": [
+        {
+          "path": "vectors-anchor-stream/baseline/external-unterminated-final-line/terminated.jsonl",
+          "sha256": "7817d72fe446dacc3659ddaca29ce79877aca5ccf497cfc3e0b2c406467f9723"
+        },
         {
           "path": "vectors-anchor-stream/sidecars/v3c142a4f8828f505.json",
           "sha256": "7c6a3023efe4271a91aecf0bbfffddadddab2688ea27e26d407c8d480ccaa165"
