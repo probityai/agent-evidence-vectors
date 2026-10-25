@@ -85,25 +85,37 @@ the row identifier -01 prints, and rerun the three commands of the row above.
   Source: the -00 text, Section 4.7
   (<https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-00.txt>),
   and the WIMSE thread on the trust anchor the delegation chain rests on.
-- [ ] **Two individually fresh values of one input (Mikhail Sergeev).** A deny
-  that judged two delegation paths, both values of one input fresh at
-  `reportedAt`: age 30 under `maxAge` 60, and age 3600 under `maxAge` 7200. -00's
-  rule (the oldest `lastResult` and the smallest `maxAge`) yields age 3600 under
-  60, so the record derives the input unavailable though neither value was.
-  -01 takes `lastResult` and `maxAge` from the same value; the member is valid
-  under -01 and refused under -00's reading, so the section sweep should catch
-  the old rule on exactly this member. Source: Mikhail Sergeev, technical
-  comments on -00, 20 October 2026, point 1 (he offered to file it as an issue
-  here).
+- [x] **Two individually fresh values of one input (Mikhail Sergeev).** Done for
+  v0.26.0 as `FR14` (valid) and `FR15` (malformed), the identifiers -01 prints.
+  `FR14` is `A2` judging two delegation paths, both values of `standing-source`
+  fresh at `reportedAt` (age 30 under `maxAge` 60, age 3600 under 7200); the
+  entry carries the first value's pair, the one that expires first. A verifier
+  holding only the record cannot recover the two values, so the manifest entry
+  carries them under `aggregation` and the judge requires `aggregate_values` in
+  `packaging/agent_evidence_vectors/auditrecord.py` to yield the entry the
+  record carries. `FR15` is the pair -00 wrote, refused. The section sweep shows
+  -00's rule fails exactly `FR14`. The corpus-only proposals that held `FR14` to
+  `FR16` on main are now `FR16`, `FR17a` to `FR17c` and `FR18`, mapped in
+  `ID-MAP.json`. Source: Mikhail Sergeev, technical comments on -00, 20 October
+  2026, point 1; issue #249. Quoted -01 sentences are pinned by hash in
+  `vectors-agent-audit-record/REVISION-01-PIN.json`.
+- [x] **Coverage clause: `scopeComplete` of true beside a gap inside `pathScope`
+  (Mikhail Sergeev).** Done for v0.26.0 as `TI6` (authoritative, `false`, gaps
+  only outside the scope: malformed under -01, accepted by -00), `V4` and `V5`
+  (`true` beside a gap inside the scope, authoritative and voluntary: malformed
+  at any tier), with a `coverage` rule in the Python and Go readers. The section
+  sweep shows -00's clause fails exactly `TI6`, `V4` and `V5`. Source: the same
+  message, point 4; issue #250.
 - [ ] **A denied decision followed by a write (Mikhail Sergeev).** -01 moves the
   equal-roots condition from the decision to the observed interval: a denied
   request whose own write was observed keeps the write and derives
   `agreement` of `disagree`. `A3` already carries deny beside occurred; the new
   member pins the -01 sentence on a record shaped from `A2` (deny, empty write
-  set) gaining its own attributed write, roots and chain moved to match. His
-  point 4, an authoritative record declaring `scopeComplete` of `true` beside a
-  gap inside `pathScope`, which -01 makes malformed, is the companion reject
-  member for `TI4`. Source: the same message, points 2 and 4.
+  set) gaining its own attributed write, roots and chain moved to match. Source:
+  the same message, point 2. Residual of the two rows above: author this member
+  from the -01 Section 4.2 sentence, add its `gen_vectors.py` entry with the
+  row identifier -01 prints, then rerun `gen_vectors.py`, `check_vectors.py` and
+  `go test ./corpora -run AuditRecord`.
 - [ ] **OpenTimestamps anchors (Toshikatsu Oga).** No member carries an
   `opentimestamps` anchor, and neither reader dates from one. -01 defines the
   anchor's time as the Bitcoin header time with a 7200-second tolerance in place

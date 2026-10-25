@@ -7,15 +7,17 @@ that table is one member here, and each [`MANIFEST.json`](MANIFEST.json) entry
 carries the row's identifier in `draftId` (`A1`, `F3b`, `R4`, ...) and its
 `from` column in `parentDraftId`. After the last row come seven members for
 sentences of Section 5.4 that Appendix B has no row for; each carries
-`draftSection` and continues the identifier series beside it (`FR13b`, `FR14`,
-`FR15a` to `FR15c`, `FR16`, `EV14`). [`INDEX.md`](INDEX.md) lists every member
-beside its file.
+`draftSection` and continues the identifier series beside it (`FR13b`, `FR16`,
+`FR17a` to `FR17c`, `FR18`, `EV14`). The last five members are rows of revision
+01 of the draft (`TI6`, `V4`, `V5`, `FR14`, `FR15`); each carries
+`draftRevision` and the identifier -01 prints. [`INDEX.md`](INDEX.md) lists
+every member beside its file.
 
 ## Which revision this tests
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.26.0 and later | `draft-gilda-audit-agent-audit-record-00` | the 99 Appendix B rows and 7 Section 5.4 members |
+| v0.26.0 and later | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
 | v0.17.0 to v0.25.0 | `draft-gilda-wimse-agent-audit-record-02` | 68 at v0.18.1, 71 at v0.25.0 |
 
 A record under revision 02 carries no `evaluation.inputs`, which Section 5.4 of
@@ -179,21 +181,60 @@ carries entries that agree with it, so a record shaped for revision 02, with no
   `EV14` is an all-fresh record marked `not-evaluated` with an empty
   `unavailableInput`, which matches the empty derived set and is refused only
   because `not-evaluated` names at least one input.
-- `FR14` refuses a record with no `decision.reportedAt`, the time every age is
-  measured to. `FR16` puts a `lastResult` exactly the skew tolerance after
+- `FR16` refuses a record with no `decision.reportedAt`, the time every age is
+  measured to. `FR18` puts a `lastResult` exactly the skew tolerance after
   `reportedAt` and is accepted, so a verifier allowing no skew is caught.
-- `FR15a` to `FR15c` are one forwarded value judged at two hops. The first hop
+- `FR17a` to `FR17c` are one forwarded value judged at two hops. The first hop
   reads standing at 10:00:00 under its own `maxAge` of 7200 and evaluates. The
   second copies the source's `lastResult` unchanged, applies its own `maxAge` of
   3600, finds the value 3842 seconds old, and must record `not-evaluated`
-  (`FR15b`); recording `evaluated`, the first hop's verdict, is malformed
-  (`FR15c`). A verifier sees only each record's own entries, so each hop's
+  (`FR17b`); recording `evaluated`, the first hop's verdict, is malformed
+  (`FR17c`). A verifier sees only each record's own entries, so each hop's
   verdict follows from its own `maxAge` and `reportedAt`.
 
 A verifier cannot tell from the bytes which entry was forwarded: `FR1`, `FR3`
 and `FR4` fix that the age runs from the carried `lastResult`, which is all a
-forwarded entry can be held to. `FR14` to `FR16`, `FR13b` and `EV14` are
-proposed rows for the next revision of the draft.
+forwarded entry can be held to. `FR16` to `FR18`, `FR13b` and `EV14` are
+proposed rows for a later revision of the draft. PR #248 first numbered them
+`FR14`, `FR15a` to `FR15c` and `FR16`, before any release carried them; they
+moved so that `FR14` and `FR15` name the rows revision 01 prints (below), and
+[`ID-MAP.json`](ID-MAP.json) records each move.
+
+## Rows of revision 01
+
+Revision 01 of the draft changes two rules, and five members test the change.
+Each carries `draftRevision` of `draft-gilda-audit-agent-audit-record-01` and
+the identifier -01 prints in its Appendix B, so a reader that conforms only to
+-00 fails exactly these members. The -01 sentences each member tests are pinned
+by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
+
+- Section 5.4: where a decision depended on several values of one input, the
+  entry takes `lastResult` and `maxAge` from one value, the one whose
+  `lastResult` plus `maxAge` is earliest. `FR14` is `A2` judging two delegation
+  paths whose two values of `standing-source` are both fresh: 30 seconds old
+  under 60, and 3600 under 7200. The entry carries the first value's pair, and
+  the record is valid. `FR15` carries the pair -00 wrote, the oldest
+  `lastResult` beside the smallest `maxAge` (age 3600 under 60), still recorded
+  as `evaluated`, and is malformed. A verifier holding only the record cannot
+  recover the two values, so `FR14`'s manifest entry lists them under
+  `aggregation`, and the judge requires
+  `agent_evidence_vectors.auditrecord.aggregate_values` over them to yield the
+  entry the record carries. A producer tests its own aggregation the same way:
+  feed it the listed values and compare. Reported by Mikhail Sergeev,
+  [#249](https://github.com/probityai/agent-evidence-vectors/issues/249).
+- Section 5.7: a gap inside `pathScope` beside `scopeComplete` of `true` is
+  malformed at any tier (`V4` on `A1`, authoritative; `V5` on `A5`, voluntary),
+  and the tier's coverage clause is `scopeComplete` of `true`. -00's clause,
+  "complete, or every gap outside `pathScope`", passed `TI6`: authoritative
+  with `scopeComplete` of `false` and gaps naming only paths outside the
+  scope. `TI4` (`false` beside a gap inside the scope) is refused under both
+  revisions, and `A1` (authoritative, `true`, no gaps) is the valid control.
+  Reported by Mikhail Sergeev,
+  [#250](https://github.com/probityai/agent-evidence-vectors/issues/250).
+
+`check_vectors.py` proves both changes are load-bearing: restoring the -00
+coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
+minima in `aggregate_values` fails `FR14`'s aggregation check.
 
 ## Retained records and the dating check: Section 4.7
 

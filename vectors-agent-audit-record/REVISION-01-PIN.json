@@ -1,0 +1,141 @@
+{
+  "draft": "draft-gilda-audit-agent-audit-record-01",
+  "draftDate": "2026-10-23",
+  "source": {
+    "file": "draft-gilda-audit-agent-audit-record-01.txt",
+    "sha256": "4d899f512bac7b77e9913c12421d0a1f53668507fa0df3bd1d1d3ff3b1a2ffcf",
+    "size": 178663,
+    "builtFrom": "probity commit 5014f473b616600a20e5370af73fe33b4a624155",
+    "published": "not yet at ietf.org/archive/id (HTTP 404 on 2026-10-25); this file pins the text the five rows were written against"
+  },
+  "normalization": "Lines are taken from the .txt rendering between the given line numbers, page header and footer lines dropped, each line stripped, joined with one space (no space after a line ending in a hyphen), then cut at the first and last words of the passage. Appendix B rows are the cells of the table row joined the same way, in the order id | from | description | verdict | release. sha256 is over the UTF-8 text.",
+  "members": {
+    "FR14": [
+      "5.4-aggregation",
+      "B-FR14",
+      "changes-aggregation"
+    ],
+    "FR15": [
+      "5.4-aggregation",
+      "B-FR15",
+      "changes-aggregation"
+    ],
+    "TI6": [
+      "5.7-tier-clause",
+      "B-TI6",
+      "changes-coverage"
+    ],
+    "V4": [
+      "5.7-gap-inside-scope",
+      "B-V4",
+      "changes-coverage"
+    ],
+    "V5": [
+      "5.7-gap-inside-scope",
+      "B-V5",
+      "changes-coverage"
+    ]
+  },
+  "passages": [
+    {
+      "id": "5.4-aggregation",
+      "what": "Section 5.4: one value governs the entry (FR14, FR15)",
+      "lines": [
+        1304,
+        1319
+      ],
+      "sha256": "223972b640f9aa204fe9e588580950f6ef9b219e8784c18c82cda9df7c9cf473",
+      "text": "Where the decision depended on more than one value of one input, as when several delegation paths are judged, the entry's lastResult and maxAge MUST be taken from the same value.  If any of those values was never held, lastResult is none and maxAge is the smallest bound among the values never held.  Otherwise the entry carries the pair whose lastResult plus maxAge is earliest, and of two such pairs the one with the earlier lastResult (vector FR14).  At one reference time every held value is fresh exactly when that time is at most the smallest lastResult plus maxAge among them, so the entry is fresh exactly when every value is, and an age equal to maxAge stays fresh as vector FR2 requires.  Taking the oldest lastResult from one value and the smallest maxAge from another can report two fresh values as one stale input (vector FR15).  The entry summarizes the freshness of the values and does not enumerate them."
+    },
+    {
+      "id": "5.7-gap-inside-scope",
+      "what": "Section 5.7: a gap inside pathScope contradicts scopeComplete of true (V4, V5)",
+      "lines": [
+        1532,
+        1538
+      ],
+      "sha256": "44d77544bc84e6c5be6c311df7dc40f2cfba5dc879ff5a8b6750dce800c19481",
+      "text": "A gap is inside pathScope when it lies under a member of pathScope, as inScope is derived for a write.  A gap inside pathScope contradicts a scopeComplete of true, and a record carrying both is malformed whatever tier it declares (vectors V4 and V5)."
+    },
+    {
+      "id": "5.7-tier-clause",
+      "what": "Section 5.7: the tier's coverage clause (TI4, TI6)",
+      "lines": [
+        1583,
+        1589
+      ],
+      "sha256": "f7ee4e572fc53a9d1e8788a877ef2df7e04491ef0189cbd0dd1c0a52fa0da22b",
+      "text": "A record is authoritative if and only if all five of these hold, and voluntary otherwise: vantage is below-observed (vector TI1); priorCommitment is present and complete (vector TI2); pathScope is non-empty (vector TI3); coverage.scopeComplete is true, which by the rule above leaves no gap inside pathScope (vectors TI4 and TI6); and resource.binding is digest-bound (vector TI5)."
+    },
+    {
+      "id": "B-TI6",
+      "what": "Appendix B row TI6",
+      "lines": [
+        2647,
+        2660
+      ],
+      "sha256": "cbfb497983916b466a8c10c4cf75824b765b2ddb0fd470e2b342fdfbdb7e99de",
+      "text": "TI6 | A1 | authoritative declared with scopeComplete of false and gaps naming only paths outside pathScope, which draft-gilda-audit-agent-audit-record-00 accepted | malformed | next"
+    },
+    {
+      "id": "B-V4",
+      "what": "Appendix B row V4",
+      "lines": [
+        2707,
+        2720
+      ],
+      "sha256": "b87059551191157e90c6050943bfc1859fbcacc4b47b10d4ee0cd7f99fbfb441",
+      "text": "V4 | A1 | scopeComplete of true beside a gap inside pathScope, all other tier clauses met | malformed | next"
+    },
+    {
+      "id": "B-V5",
+      "what": "Appendix B row V5",
+      "lines": [
+        2712,
+        2725
+      ],
+      "sha256": "577edeef4ecbb52a75771e058e3e87d82a088c9e81d7781ee5d0616390a4729f",
+      "text": "V5 | A5 | scopeComplete of true beside a gap inside pathScope, tier of voluntary | malformed | next"
+    },
+    {
+      "id": "B-FR14",
+      "what": "Appendix B row FR14",
+      "lines": [
+        2787,
+        2800
+      ],
+      "sha256": "6ce8b5a45caaa4cc7ac74aec6bc350957ca9e5651c45c1fbae013be2f304561f",
+      "text": "FR14 | root | A2 judging two delegation paths, two values of standing-source each fresh at decision.reportedAt (ages 30 and 3600 seconds under a maxAge of 60 and of 7200), the entry carrying the first value's pair | valid, agreement of agree | next"
+    },
+    {
+      "id": "B-FR15",
+      "what": "Appendix B row FR15",
+      "lines": [
+        2796,
+        2810
+      ],
+      "sha256": "6d3dbfe5158c2ab9020989c85098d38d215271d65887d12de685a16d3d778a55",
+      "text": "FR15 | FR14 | the entry carrying the second value's lastResult beside the first value's maxAge, under evaluated | malformed | next"
+    },
+    {
+      "id": "changes-aggregation",
+      "what": "Changes since -00: aggregation (FR14, FR15)",
+      "lines": [
+        3275,
+        3280
+      ],
+      "sha256": "4ce3603be476563762a1ab9a36b5239f5681c0fb723d1c7bdfe6b72944ab7076",
+      "text": "Where a decision depended on several values of one input, an entry's lastResult and maxAge are taken from the same value, the one whose lastResult plus maxAge is earliest.  Under -00 the entry took the oldest lastResult and the smallest maxAge from different values, which could report two fresh values as one stale input. Vectors FR14 and FR15."
+    },
+    {
+      "id": "changes-coverage",
+      "what": "Changes since -00: coverage clause (TI6, V4, V5)",
+      "lines": [
+        3298,
+        3312
+      ],
+      "sha256": "0cf94483a0305a0b1bfb00c3a1c7dab86964bafd02d1a76eb5318e9670b73de2",
+      "text": "Section 5.7 defines coverage.scopeComplete and coverage.gaps.  A gap inside pathScope beside a scopeComplete of true is malformed at any tier, and the coverage clause of the tier recompute is scopeComplete of true.  Under -00 the clause was a disjunction that passed a record declaring complete coverage beside a listed gap inside its own scope, and one declaring incomplete coverage while naming no gap inside it.  Vectors TI6, V4 and V5."
+    }
+  ]
+}

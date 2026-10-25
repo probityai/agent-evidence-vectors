@@ -56,9 +56,21 @@ func TestAuditRecordCorpusBehaves(t *testing.T) {
 			t.Errorf("corpus: %s", f)
 		}
 	}
-	if len(result.Members) != 106 {
-		t.Fatalf("expected the 99 Appendix B rows and 7 Section 5.4 members, read %d",
-			len(result.Members))
+	// The judge must reach every member the manifest lists, once each; the
+	// expected count is the manifest's own, never a number typed here.
+	manifest, _ := arLoad(t)
+	judged := map[string]int{}
+	for _, m := range result.Members {
+		judged[m.ID]++
+	}
+	for _, v := range manifest.Vectors {
+		if judged[v.ID] != 1 {
+			t.Errorf("%s: judged %d times, want once", v.ID, judged[v.ID])
+		}
+	}
+	if len(result.Members) != len(manifest.Vectors) || len(judged) != len(manifest.Vectors) {
+		t.Fatalf("manifest lists %d members, the judge read %d (%d distinct)",
+			len(manifest.Vectors), len(result.Members), len(judged))
 	}
 }
 
