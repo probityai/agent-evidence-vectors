@@ -83,7 +83,8 @@ class TestCompletionConfirmationCorpus:
         def test_every_denial_reason_is_a_check(self) -> None:
             reasons = {e["expected"]["reason"] for e in _manifest()["vectors"]
                        if e["expected"]["decision"] == "deny"}
-            assert reasons == set(completionconfirmation.CHECKS)
+            # no_completion_claimed is the one check that ends in an allow.
+            assert reasons == set(completionconfirmation.CHECKS) - {"no_completion_claimed"}
 
     class TestFailingCases:
         def test_claim_trusting_verifier_is_refused_on_every_confirmation_case(
@@ -141,9 +142,11 @@ class TestCompletionConfirmationCorpus:
             script.write_text('import json, sys\nprint(json.dumps({"decision": "allow", '
                               '"reason": "confirmed"}))\nsys.exit(0)\n', encoding="ascii")
             _, errors = corpus.check(f"{sys.executable} {script}")
-            denied = {e["id"] for e in _manifest()["vectors"]
-                      if e["expected"]["decision"] == "deny"}
-            assert _failed(errors) == denied
+            # The stub answers allow/confirmed, so it also disagrees with the allow
+            # cases whose reason is a different one (no completion was claimed).
+            refused = {e["id"] for e in _manifest()["vectors"]
+                       if e["expected"] != {"decision": "allow", "reason": "confirmed"}}
+            assert _failed(errors) == refused
 
         def test_missing_verifier_does_not_count_as_answered(self, tmp_path: Path) -> None:
             answered, errors = corpus.check(str(tmp_path / "no-such-verifier"))
