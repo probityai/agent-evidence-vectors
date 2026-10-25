@@ -3242,6 +3242,13 @@ EXEMPT_PREFIXES: dict[str, str] = {
         "vendored upstream bytes; scripts/spec-drift-gate.py owns them and an edit "
         "here is a re-vendor, not a count"
     ),
+    "vectors-poc-evidence/": (
+        "a standalone corpus whose counts are owned by its CORPUS-MANIFEST.json: "
+        "vectors-poc-evidence/tests assert case_count and the per-kind counts against the "
+        "files on disk, and the builder's --check refuses a corpus that differs; the "
+        "integers in its prose and builder notes are requirement ids, tree sizes and "
+        "record indexes of the Proof-of-Control draft, not counts of this repository"
+    ),
     "vectors-ai-agent-action/spec-vendored/": (
         "vendored upstream bytes; the manifest's specDigest owns them, "
         "aee-verify refuses a copy whose bytes moved, "

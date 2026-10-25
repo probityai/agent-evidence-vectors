@@ -394,7 +394,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
-           "vectors-w3c-intake", "vectors-w3c-report"]
+           "vectors-w3c-intake", "vectors-w3c-report", "vectors-poc-evidence"]
 
 # The reference rail is imported by the gates that drive it, and it lives in
 # packaging/ rather than on the default path, so the checker needs the same
@@ -426,6 +426,10 @@ pythonVersion = "3.13"
 # own directory. The self-reported-record corpus therefore gets its own
 # execution root, so its `from canonical import jcs` resolves to the module
 # beside it -- the one Python itself imports when the script runs.
+[[tool.pyright.executionEnvironments]]
+root = "vectors-poc-evidence"
+extraPaths = ["vectors-poc-evidence/package", "vectors-poc-evidence/build/spec-93d0e28/impl", "vectors-poc-evidence/build/spec-93d0e28/schema"]
+
 [[tool.pyright.executionEnvironments]]
 root = "vectors-done-receipt"
 
