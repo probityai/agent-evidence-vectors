@@ -1134,6 +1134,15 @@ DELEGATED: tuple[Delegated, ...] = (
         r"reject and \d+ to accept",
         "vectors-w3c-report/gen_vectors.py",
     ),
+    # The same index's count of members excluded under a proposed rule, rendered
+    # from that manifest by the same generator. It was reported only when the
+    # audit record corpus's accept count, at -00 regeneration, walked onto it.
+    Delegated(
+        "vectors-w3c-report/INDEX.md",
+        "the members counted apart as excluded under a proposed rule",
+        r"excluded-under-proposed-rule, \d+ members",
+        "vectors-w3c-report/gen_vectors.py",
+    ),
     # The AAE v1.4.0 binding package. Its integers are vector identifiers
     # (aae-enforce-vector-25 and its file prefixes), the size of the pinned
     # upstream set, the run's printed tallies, and the draft's resource bounds.

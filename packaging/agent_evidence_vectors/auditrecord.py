@@ -1,20 +1,22 @@
 """The agent audit record, and the corpus that holds its conformance set.
 
 The record format is defined by the Internet-Draft
+``draft-gilda-audit-agent-audit-record-00``, which replaces
 ``draft-gilda-wimse-agent-audit-record-02``: one in-toto Statement in a DSSE
 envelope, seventeen required predicate members and one optional one carrying the
 seven minimum audit fields of Section 11 of ``draft-ietf-wimse-aims``, and the
 recomputes that make those fields checkable. Appendix B of the draft lists the
 conformance corpus, and ``vectors-agent-audit-record/`` publishes it member for
 member: each manifest entry carries the Appendix B identifier in ``draftId``.
-The members after the last row test sentences of Sections 5.3, 5.4 and 5.5
-that Appendix B has no row for, and name the section in ``draftSection``.
+The members after the last row test sentences of Section 5.4 that Appendix B
+has no row for, and name the section in ``draftSection``.
 
-Section 5.4 is read as its successor, ``draft-gilda-audit-agent-audit-record-00``,
-states it: ``evaluation.inputs`` is required under both statuses, each entry's
-age runs from its ``lastResult`` to ``decision.reportedAt``, and the
-unavailable inputs are derived from the entries. The members only that draft
-defines name it in ``draftDocument``.
+``evaluation.inputs`` is required under both statuses, each entry's age runs
+from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
+are derived from the entries, so a record shaped for revision 02 is malformed.
+Rows R1 to R9 are retained records: the envelope beside the retention entry of
+Section 4.7, judged twice, once for the record's verdict and once by the dating
+check of Section 4.7.1, whose result is reported beside the verdict.
 
 Two things live here, both stdlib-only for the reason the whole rail is: a
 relying party runs it with nothing installed.
@@ -129,6 +131,8 @@ ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
 NEVER_HELD = "none"
 #: The tolerance for every comparison between times two parties wrote.
 SKEW_TOLERANCE = datetime.timedelta(seconds=300)
+#: The only members an evaluation object may carry (EV12).
+EVALUATION_MEMBERS = frozenset({"status", "inputs", "unavailableInput"})
 #: The only members an oversight object may carry.
 OVERSIGHT_MEMBERS = frozenset({"act", "recordDigest"})
 
@@ -575,9 +579,12 @@ def derive_unavailable(pred: dict[str, Any]) -> list[str]:
 
 
 def _rule_evaluation(state: _State) -> None:
-    """The entries derive the unavailable inputs. Evaluated derives none and
-    names none; not-evaluated names the derived set, once each and no other."""
+    """No member beside status, inputs and unavailableInput (EV12). The entries
+    derive the unavailable inputs. Evaluated derives none and names none;
+    not-evaluated names the derived set, once each and no other."""
     evaluation = state.predicate["evaluation"]
+    if set(evaluation) - EVALUATION_MEMBERS:
+        raise Malformed("evaluation-malformed")
     derived = derive_unavailable(state.predicate)
     if evaluation["status"] == "evaluated":
         if "unavailableInput" in evaluation or derived:
@@ -863,6 +870,301 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
 
 
 # --------------------------------------------------------------------------
+# Retained records and the dating check (Section 4.7).
+# --------------------------------------------------------------------------
+
+ANCHOR_KINDS = frozenset({"rfc3161", "transparency-log", "opentimestamps"})
+ANCHOR_ORIGINS = frozenset({"retainer", "received"})
+INCLUSION_PROOF_V2 = 0x0106
+
+
+@dataclass(frozen=True)
+class TreeHead:
+    """A transparency-log tree head a verifier holds by a means other than its
+    signature, such as a checkpoint it already witnessed (Section 4.7.2)."""
+
+    log_id: bytes
+    tree_size: int
+    root_hash: bytes
+    timestamp: str
+
+
+@dataclass
+class Dating:
+    """The dating check's result, reported beside the record's verdict."""
+
+    entry: str
+    codes: list[str]
+    dated_at: str | None = None
+    receipt: str | None = None
+
+
+class _Reader:
+    """A cursor over TLS presentation-language bytes (RFC 8446 Section 3)."""
+
+    def __init__(self, data: bytes) -> None:
+        self.data = data
+        self.at = 0
+
+    def take(self, n: int) -> bytes:
+        if self.at + n > len(self.data):
+            raise ValueError("truncated")
+        out = self.data[self.at : self.at + n]
+        self.at += n
+        return out
+
+    def uint(self, n: int) -> int:
+        return int.from_bytes(self.take(n), "big")
+
+
+def _inclusion_proof(proof: bytes) -> tuple[bytes, int, int, list[bytes]]:
+    """Decode an RFC 9162 TransItem of type inclusion_proof_v2 (Section 4.12)."""
+    reader = _Reader(proof)
+    if reader.uint(2) != INCLUSION_PROOF_V2:
+        raise ValueError("not an inclusion_proof_v2")
+    log_id = reader.take(reader.uint(1))
+    if not 2 <= len(log_id) <= 127:
+        raise ValueError("log_id length")
+    tree_size, leaf_index = reader.uint(8), reader.uint(8)
+    nodes = _Reader(reader.take(reader.uint(2)))
+    path: list[bytes] = []
+    while nodes.at < len(nodes.data):
+        node = nodes.take(nodes.uint(1))
+        if len(node) < 32:
+            raise ValueError("node hash length")
+        path.append(node)
+    if reader.at != len(proof):
+        raise ValueError("trailing bytes")
+    return log_id, tree_size, leaf_index, path
+
+
+def inclusion_root(
+    leaf: bytes, leaf_index: int, tree_size: int, path: list[bytes]
+) -> bytes | None:
+    """RFC 9162 Section 2.1.3.2, returning the root the path recomputes to."""
+    if leaf_index >= tree_size:
+        return None
+    fn, sn = leaf_index, tree_size - 1
+    r = hashlib.sha256(b"\x00" + leaf).digest()
+    for p in path:
+        if sn == 0:
+            return None
+        if fn & 1 or fn == sn:
+            r = hashlib.sha256(b"\x01" + p + r).digest()
+            if not fn & 1:
+                while fn and not fn & 1:
+                    fn >>= 1
+                    sn >>= 1
+        else:
+            r = hashlib.sha256(b"\x01" + r + p).digest()
+        fn >>= 1
+        sn >>= 1
+    return r if sn == 0 else None
+
+
+def anchor_time(
+    anchor: dict[str, Any], envelope_digest: bytes, heads: list[TreeHead]
+) -> str | None:
+    """The time an anchor establishes over ``envelope_digest``, or None when it
+    does not validate. Only a transparency-log anchor that recomputes to a held
+    tree head validates here; this reader holds no time-stamping authority path
+    and no OpenTimestamps commitment, so an anchor of either kind dates nothing."""
+    if anchor.get("kind") != "transparency-log":
+        return None
+    try:
+        proof = base64.b64decode(anchor["proof"], validate=True)
+        log_id, tree_size, leaf_index, path = _inclusion_proof(proof)
+    except (KeyError, TypeError, ValueError):
+        return None
+    root = inclusion_root(envelope_digest, leaf_index, tree_size, path)
+    for head in heads:
+        if (head.log_id, head.tree_size, head.root_hash) == (log_id, tree_size, root):
+            return head.timestamp
+    return None
+
+
+def _retention_shape(entry: Any) -> None:
+    if not isinstance(entry, dict):
+        raise Malformed("entry-shape-malformed")
+    if not isinstance(entry.get("envelopeDigest"), str) or not isinstance(
+        entry.get("received"), bool
+    ):
+        raise Malformed("entry-shape-malformed")
+    within = entry.get("anchorWithin")
+    if isinstance(within, bool) or not isinstance(within, int) or within < 0:
+        raise Malformed("entry-shape-malformed")
+    anchors = entry.get("anchors")
+    if not isinstance(anchors, list):
+        raise Malformed("entry-shape-malformed")
+    for anchor in anchors:
+        if (
+            not isinstance(anchor, dict)
+            or anchor.get("kind") not in ANCHOR_KINDS
+            or anchor.get("origin") not in ANCHOR_ORIGINS
+            or not isinstance(anchor.get("proof"), str)
+        ):
+            raise Malformed("entry-shape-malformed")
+
+
+@dataclass
+class _Retained:
+    entry: dict[str, Any]
+    issued_at: datetime.datetime
+    computed_digest: str
+    heads: list[TreeHead]
+    received_at: datetime.datetime | None = None
+    retention_time: datetime.datetime | None = None
+
+
+def _dating_received_at(r: _Retained) -> None:
+    """receivedAt is present if and only if received is true (R9)."""
+    if r.entry["received"] != ("receivedAt" in r.entry):
+        raise Malformed("entry-received-at-inconsistent")
+    if r.entry["received"]:
+        r.received_at = _instant(r.entry["receivedAt"])
+
+
+def _dating_envelope_digest(r: _Retained) -> None:
+    """The entry names the envelope it sits beside."""
+    if r.entry["envelopeDigest"] != r.computed_digest:
+        raise Malformed("entry-envelope-digest-mismatch")
+
+
+def _dating_retainer_anchor(r: _Retained) -> None:
+    """A received record carries an anchor of origin retainer (R4)."""
+    if r.entry["received"] and not any(a["origin"] == "retainer" for a in r.entry["anchors"]):
+        raise Malformed("entry-retainer-anchor-missing")
+
+
+def _dating_received_before_issued(r: _Retained) -> None:
+    """receivedAt no earlier than issuedAt by more than the skew tolerance (R6)."""
+    if r.received_at is not None and r.received_at < r.issued_at - SKEW_TOLERANCE:
+        raise Malformed("entry-received-before-issued")
+
+
+def _dating_received_after_anchor(r: _Retained) -> None:
+    """receivedAt no later than the retention time by more than the skew tolerance (R3)."""
+    if r.received_at is None or r.retention_time is None:
+        return
+    if r.received_at > r.retention_time + SKEW_TOLERANCE:
+        raise Malformed("entry-received-after-anchor")
+
+
+def _dating_anchor_late(r: _Retained) -> None:
+    """The retention time within anchorWithin plus the skew tolerance of receipt,
+    or of issuance for a record the retaining party produced (R7)."""
+    if r.retention_time is None:
+        return
+    start = r.received_at if r.received_at is not None else r.issued_at
+    limit = datetime.timedelta(seconds=r.entry["anchorWithin"]) + SKEW_TOLERANCE
+    if r.retention_time > start + limit:
+        raise Malformed("entry-anchor-late")
+
+
+DATING_RULES: list[tuple[str, Callable[[_Retained], None]]] = [
+    ("entry-received-at", _dating_received_at),
+    ("entry-envelope-digest", _dating_envelope_digest),
+    ("entry-retainer-anchor", _dating_retainer_anchor),
+    ("entry-received-before-issued", _dating_received_before_issued),
+    ("entry-received-after-anchor", _dating_received_after_anchor),
+    ("entry-anchor-late", _dating_anchor_late),
+]
+#: Dating rules no Appendix B row reaches: no member carries an entry naming
+#: another envelope.
+DATING_UNREACHED = frozenset({"entry-envelope-digest"})
+
+
+def _anchor_times(
+    entry: dict[str, Any], digest_bytes: bytes, heads: list[TreeHead], *, disabled: str | None
+) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
+    for anchor in entry["anchors"]:
+        if disabled == "anchor-validation":
+            moment = heads[0].timestamp if heads else None
+        else:
+            moment = anchor_time(anchor, digest_bytes, heads)
+        if moment is not None:
+            out.append((anchor["origin"], moment))
+    return out
+
+
+def date_retained(
+    envelope: dict[str, Any],
+    entry: Any,
+    issued_at: str,
+    heads: list[TreeHead],
+    *,
+    disabled: str | None = None,
+) -> Dating:
+    """The dating check of Section 4.7.1 over one envelope and its retention entry.
+
+    The record is dated by the earliest anchor of either origin that validates
+    over the envelope digest this reader derives; an anchor that does not
+    validate dates nothing and makes nothing malformed (R8). A well-formed entry
+    for a received record reports receivedAt as asserted and consistent with the
+    anchors, never as established (R5)."""
+    try:
+        _retention_shape(entry)
+        digest = hashlib.sha256(canonical_bytes(envelope)).hexdigest()
+        retained = _Retained(entry, _instant(issued_at), digest, heads)
+    except Malformed as exc:
+        return Dating("malformed", [exc.code])
+    times = _anchor_times(entry, bytes.fromhex(digest), heads, disabled=disabled)
+    moments = sorted(times, key=lambda t: _instant(t[1]))
+    if disabled == "earliest-anchor":
+        moments = [t for t in moments if t[0] == "retainer"] or moments
+    dated_at = moments[0][1] if moments else None
+    retainer = [_instant(m) for origin, m in times if origin == "retainer"]
+    retained.retention_time = min(retainer) if retainer else None
+    try:
+        for name, rule in DATING_RULES:
+            if name != disabled:
+                rule(retained)
+    except Malformed as exc:
+        return Dating("malformed", [exc.code], dated_at)
+    receipt = None
+    if entry["received"]:
+        receipt = "asserted-consistent" if retained.retention_time else "asserted-unchecked"
+    return Dating("well-formed", [], dated_at, receipt)
+
+
+def tree_heads(manifest: dict[str, Any]) -> list[TreeHead]:
+    heads = (manifest.get("anchorTrust") or {}).get("treeHeads") or []
+    return [
+        TreeHead(
+            bytes.fromhex(h["logId"]),
+            int(h["treeSize"]),
+            bytes.fromhex(h["rootHash"]),
+            h["timestamp"],
+        )
+        for h in heads
+    ]
+
+
+def verify_retained(
+    raw: bytes, policy: Policy, heads: list[TreeHead], *, disabled: str | None = None
+) -> tuple[Report, Dating]:
+    """Judge a retained record: the envelope's verdict, and the dating result."""
+    try:
+        bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
+        envelope, entry = bundle["envelope"], bundle["retention"]
+    except (Malformed, ValueError, KeyError, TypeError):
+        unreadable = ["retained-unreadable"]
+        return Report("malformed", unreadable), Dating("malformed", unreadable)
+    report = verify(json.dumps(envelope).encode(), policy, disabled=disabled)
+    try:
+        _, payload = _envelope_payload(json.dumps(envelope).encode())
+        issued_at = parse_statement(payload)["predicate"]["issuedAt"]
+    except (Malformed, KeyError, TypeError):
+        return report, Dating("malformed", ["entry-record-unreadable"])
+    return report, date_retained(envelope, entry, issued_at, heads, disabled=disabled)
+
+
+def dating_rule_names() -> list[str]:
+    return ["anchor-validation", "earliest-anchor", *(n for n, _ in DATING_RULES)]
+
+
+# --------------------------------------------------------------------------
 # The corpus judge.
 # --------------------------------------------------------------------------
 
@@ -933,8 +1235,27 @@ def _indeterminate_findings(entry: dict[str, Any], report: Report) -> list[str]:
     return []
 
 
+def dating_dict(dated: Dating) -> dict[str, Any]:
+    """A dating result in the manifest's expected.dating shape."""
+    out: dict[str, Any] = {"entry": dated.entry, "codes": dated.codes}
+    if dated.dated_at is not None:
+        out["datedAt"] = dated.dated_at
+    if dated.receipt is not None:
+        out["receipt"] = dated.receipt
+    return out
+
+
+def _dating_findings(entry: dict[str, Any], dated: Dating) -> list[str]:
+    declared = (entry.get("expected") or {}).get("dating")
+    got = dating_dict(dated)
+    if got != declared:
+        label = f"{entry.get('draftId')} {entry.get('slug')}"
+        return [f"{label}: expected dating {declared}, got {got}"]
+    return []
+
+
 def _judge_member(
-    directory: str, entry: dict[str, Any], policy: Policy
+    directory: str, entry: dict[str, Any], policy: Policy, heads: list[TreeHead]
 ) -> tuple[str, str, list[str]]:
     identifier, kind = str(entry.get("id", "")), str(entry.get("kind", ""))
     try:
@@ -948,6 +1269,12 @@ def _judge_member(
         findings.append(
             f"file bytes hash to {recomputed} and the manifest calls this member {identifier}"
         )
+    expected = entry.get("expected") or {}
+    if "dating" in expected:
+        report, dated = verify_retained(raw, policy, heads)
+        findings.extend(_declared_findings(entry, report))
+        findings.extend(_dating_findings(entry, dated))
+        return identifier, kind, findings
     report = verify(raw, policy)
     if kind in ("accept", "reject"):
         findings.extend(_declared_findings(entry, report))
@@ -1003,8 +1330,9 @@ def judge(directory: str) -> Judged:
         judged.findings.append("the manifest carries no vectors, so this run measured nothing")
         return judged
     policy = policy_for(manifest)
+    heads = tree_heads(manifest)
     for entry in entries:
-        judged.members.append(_judge_member(directory, entry, policy))
+        judged.members.append(_judge_member(directory, entry, policy, heads))
     judged.findings.extend(_corpus_findings(directory, manifest))
     return judged
 
@@ -1035,7 +1363,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
         description="judge vectors-agent-audit-record/ with the reference reader for "
-        "draft-gilda-wimse-agent-audit-record",
+        "draft-gilda-audit-agent-audit-record-00",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
     args = parser.parse_args(argv)

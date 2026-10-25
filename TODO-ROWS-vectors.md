@@ -59,20 +59,60 @@ carrying the number that makes it real and the command that starts it.
 
 ## Move the audit record corpus wholly onto draft-gilda-audit-agent-audit-record-00
 
-- [ ] **Publish the rest of the successor draft's Appendix B and retarget the
-  manifest.** The corpus now holds Section 5.4 to the successor draft (entries,
-  freshness, `EV13`, `FR1` to `FR16`), but its manifest still names
-  `draft-gilda-wimse-agent-audit-record-02`, because the successor's other new
-  rows are not published here: `A18` to `A20` (policy-source unavailable and the
-  fallback's `decision.policyDigest`), `EV11` (a status outside the closed set),
-  `EV12` (an evaluation member the draft does not define, which neither reader
-  refuses yet), `R1` to `R9` (the Section 4.7 retention entry and the dating
-  check), and `N1`, which the successor gives a single conforming verdict. When
-  those land, set `DRAFT` in `gen_vectors.py` to the successor, drop
-  `draftDocument`, and rerun:
+- [x] **Publish the rest of the successor draft's Appendix B and retarget the
+  manifest.** Done for v0.26.0: `A18` to `A20`, `EV11`, `EV12` (both readers now
+  refuse an undefined evaluation member), `R1` to `R9` with the dating check in
+  both readers, `N1` settled as `valid`, `DRAFT` set to
+  `draft-gilda-audit-agent-audit-record-00`, `draftDocument` dropped. The
+  members are the 99 Appendix B rows and 7 Section 5.4 members. The id map across
+  v0.18.1, v0.25.0 and v0.26.0 is `vectors-agent-audit-record/ID-MAP.json`.
+  Reported by Lars Kersten Kroehl (MolTrust) on the AUDIT list,
+  <https://mailarchive.ietf.org/arch/msg/audit/Wdv-fOIodjvF3z9OUFNfXLGP0ts>.
 
-  ```sh
-  uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
-  uv run --extra generators python vectors-agent-audit-record/check_vectors.py
-  heavy-queue heavy-run --name go-test --timeout 3600 -- go test ./corpora/ -run AuditRecord
-  ```
+## Audit record members waiting on revision 01 of the draft
+
+Each needs normative text that revision 01 of
+draft-gilda-audit-agent-audit-record is adding. Do not author a member before
+-01 defines its rule; when -01 is posted, add each to `gen_vectors.py`, give it
+the row identifier -01 prints, and rerun the three commands of the row above.
+
+- [ ] **Root key in `validationData`, two members.** -00 Section 4.7 carries the
+  certification path of the record's own signing key and of each anchor, and
+  nothing for the root of the delegation the record was decided under. -01 adds
+  a `validationData` element for that root. Two retained members: one entry
+  that carries the delegation root's path, and one that omits it, which a
+  verifier must report as not established for the delegation, never as a pass.
+  Source: the -00 text, Section 4.7
+  (<https://www.ietf.org/archive/id/draft-gilda-audit-agent-audit-record-00.txt>),
+  and the WIMSE thread on the trust anchor the delegation chain rests on.
+- [ ] **Two individually fresh values of one input (Mikhail Sergeev).** A deny
+  that judged two delegation paths, both values of one input fresh at
+  `reportedAt`: age 30 under `maxAge` 60, and age 3600 under `maxAge` 7200. -00's
+  rule (the oldest `lastResult` and the smallest `maxAge`) yields age 3600 under
+  60, so the record derives the input unavailable though neither value was.
+  -01 takes `lastResult` and `maxAge` from the same value; the member is valid
+  under -01 and refused under -00's reading, so the section sweep should catch
+  the old rule on exactly this member. Source: Mikhail Sergeev, technical
+  comments on -00, 20 October 2026, point 1 (he offered to file it as an issue
+  here).
+- [ ] **A denied decision followed by a write (Mikhail Sergeev).** -01 moves the
+  equal-roots condition from the decision to the observed interval: a denied
+  request whose own write was observed keeps the write and derives
+  `agreement` of `disagree`. `A3` already carries deny beside occurred; the new
+  member pins the -01 sentence on a record shaped from `A2` (deny, empty write
+  set) gaining its own attributed write, roots and chain moved to match. His
+  point 4, an authoritative record declaring `scopeComplete` of `true` beside a
+  gap inside `pathScope`, which -01 makes malformed, is the companion reject
+  member for `TI4`. Source: the same message, points 2 and 4.
+- [ ] **OpenTimestamps anchors (Toshikatsu Oga).** No member carries an
+  `opentimestamps` anchor, and neither reader dates from one. -01 defines the
+  anchor's time as the Bitcoin header time with a 7200-second tolerance in place
+  of the 300-second skew, says `anchorWithin` for an OpenTimestamps-only
+  retainer covers confirmation latency, and appends an upgraded proof beside
+  the pending one. Members: `R1` and `R2` shapes over real OpenTimestamps
+  proofs from his #51 pilot (he offered the bytes), an honest retainer whose
+  header time is ten minutes before `receivedAt` (refused as `R3` under -00,
+  well formed under -01), and a pending proof beside its upgrade, where the
+  pending one dates nothing. Both readers then need an offline OpenTimestamps
+  path from the proof to a block header the verifier holds. Source: Toshikatsu
+  Oga, comments on -00 Section 4.7, 20 October 2026.

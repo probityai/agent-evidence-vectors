@@ -3,13 +3,60 @@
     "digest": "sha256",
     "envelope": "ed25519"
   },
-  "corpusDigest": "50aed17eb80a408b32aadf4d5d9f1840397381d7e103c18017c55f294620a73b",
-  "counts": {
-    "accept": 24,
-    "indeterminate": 2,
-    "reject": 66
+  "anchorTrust": {
+    "note": "The tree heads of the test transparency log every R member's anchors are in, as a verifier holds them by a means other than a signature: a checkpoint it already witnessed. A transparency-log anchor validates as a hash commitment when its proof, an RFC 9162 TransItem of type inclusion_proof_v2 over the leaf SHA-256(0x00 || envelopeDigest), recomputes to one of these for its logId and treeSize; its time is that head's timestamp.",
+    "treeHeads": [
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "7f15dba8eff40a49719e8d02e34f3c1474bfe43cca148f6b9d4b4ec0ed5321db",
+        "timestamp": "2026-09-19T11:05:00Z",
+        "treeSize": 3
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "e0bf037eff168f9e866b2cfa9be1e4f90bd49e15287a16a244b5d40be7942746",
+        "timestamp": "2026-09-19T11:04:20Z",
+        "treeSize": 5
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "beb5385bde107aef181dafdc841e609220359d643175c688cca1cbe604065b45",
+        "timestamp": "2026-09-19T11:04:40Z",
+        "treeSize": 6
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "874870c4234e98ff632fc818fcf1ebd622618636ecd3c6252bec607413f9a8cb",
+        "timestamp": "2026-09-19T11:04:20Z",
+        "treeSize": 7
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "0818b877572b1e1c889aba09c5641c1bee85f6ff0bb94a3fcb7318873e783ecb",
+        "timestamp": "2026-09-19T11:04:26Z",
+        "treeSize": 8
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "7f5b304f71337c99cb06ce169d4536d1f287782bcb26446c1e976fa45365eba9",
+        "timestamp": "2026-09-19T11:14:12Z",
+        "treeSize": 4
+      },
+      {
+        "logId": "2b0601040181fd590101",
+        "rootHash": "9af2afb766b1290cc1bbdbe2d9bc9791c6d1cbe64b9b4e4f03d172e2af028ab2",
+        "timestamp": "2026-09-19T11:05:00Z",
+        "treeSize": 3
+      }
+    ]
   },
-  "draft": "draft-gilda-wimse-agent-audit-record-02",
+  "corpusDigest": "0b027733a9941687ac5665af8213a98450f545a1f40e269ed2699ee329d72055",
+  "counts": {
+    "accept": 37,
+    "indeterminate": 1,
+    "reject": 68
+  },
+  "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
     "sha1": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
     "sha256": "6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"
@@ -25,10 +72,11 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
-  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/",
+  "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
+  "skewTolerance": 300,
   "suite": "agent-audit-record-conformance",
   "vectors": [
     {
@@ -173,6 +221,123 @@
       "kind": "accept",
       "row": "A1 plus oversight with act of check and the overseer's record digest",
       "slug": "a11-oversight-check-with-record-digest"
+    },
+    {
+      "draftId": "A12",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v0ad0ce6a140c9726.json",
+      "id": "v0ad0ce6a140c9726",
+      "kind": "accept",
+      "row": "A10 with unavailableInput of key-source",
+      "slug": "a12-not-evaluated-key-source"
+    },
+    {
+      "draftId": "A13",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v77f0dab1cd010414.json",
+      "id": "v77f0dab1cd010414",
+      "kind": "accept",
+      "row": "A10 with unavailableInput of consumption-state",
+      "slug": "a13-not-evaluated-consumption-state"
+    },
+    {
+      "draftId": "A14",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v6b8430de68c17a47.json",
+      "id": "v6b8430de68c17a47",
+      "kind": "accept",
+      "row": "A10 with unavailableInput naming all three inputs, each once, in neither the draft's order nor sorted order",
+      "slug": "a14-not-evaluated-all-three-inputs"
+    },
+    {
+      "draftId": "A15",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vcbd5d67e0cc2d143.json",
+      "id": "vcbd5d67e0cc2d143",
+      "kind": "accept",
+      "row": "A11 with oversight act of observation",
+      "slug": "a15-oversight-observation"
+    },
+    {
+      "draftId": "A16",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vae3cdcf39aa2bde6.json",
+      "id": "vae3cdcf39aa2bde6",
+      "kind": "accept",
+      "row": "A11 with oversight act of decision and recordDigest absent, which is optional",
+      "slug": "a16-oversight-decision-without-record-digest"
+    },
+    {
+      "draftId": "A17",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vffdc36339ac2278b.json",
+      "id": "vffdc36339ac2278b",
+      "kind": "accept",
+      "row": "A11 with oversight act of release",
+      "slug": "a17-oversight-release"
+    },
+    {
+      "draftId": "A18",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vf7dac5c39835423a.json",
+      "id": "vf7dac5c39835423a",
+      "kind": "accept",
+      "row": "A1 with evaluation.status of not-evaluated, policy-source never established, unavailableInput of policy-source and the allow-all fallback's decision.policyDigest",
+      "slug": "a18-permit-not-evaluated-policy-source-allow-all-fallback"
+    },
+    {
+      "draftId": "A19",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v5d77b1af50960b15.json",
+      "id": "v5d77b1af50960b15",
+      "kind": "accept",
+      "row": "A3 with evaluation.status of not-evaluated, key-source and consumption-state stale, and unavailableInput naming both",
+      "slug": "a19-leaked-deny-not-evaluated-two-stale-inputs"
+    },
+    {
+      "draftId": "A20",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v9845b8ed23c39e36.json",
+      "id": "v9845b8ed23c39e36",
+      "kind": "accept",
+      "row": "A2 with evaluation.status of not-evaluated, a profile the request names not held, unavailableInput of policy-source and the deny-all fallback's decision.policyDigest",
+      "slug": "a20-deny-profile-not-held-deny-all-fallback"
     },
     {
       "draftId": "F1",
@@ -671,6 +836,54 @@
       "slug": "e3-empty-tree-carries-sha1-constant"
     },
     {
+      "draftId": "E4",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v904a604687aaba39.json",
+      "id": "v904a604687aaba39",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the only write's pre-state is not the before-state root, its post-state is the after-state root",
+      "slug": "e4-first-write-not-from-before-root"
+    },
+    {
+      "draftId": "E5",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3ee5dcd7391243c8.json",
+      "id": "v3ee5dcd7391243c8",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "the only write starts from the before-state root and its post-state is not the after-state root",
+      "slug": "e5-last-write-not-to-after-root"
+    },
+    {
+      "draftId": "E6",
+      "expected": {
+        "codes": [
+          "write-chain-broken"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7b494b5a9ee1bed7.json",
+      "id": "v7b494b5a9ee1bed7",
+      "kind": "reject",
+      "parent": "v1b93fc88a4955cd7",
+      "parentDraftId": "A2",
+      "row": "an empty write set beside an after-state root unequal to the before-state root, second subject moved to match",
+      "slug": "e6-no-write-and-unequal-roots"
+    },
+    {
       "draftId": "V1",
       "expected": {
         "codes": [
@@ -751,6 +964,202 @@
       "slug": "fe2-substrate-covered-beside-self"
     },
     {
+      "draftId": "FR1",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vc500431013be1967.json",
+      "id": "vc500431013be1967",
+      "kind": "accept",
+      "row": "A1 written by the second of two hops: each input fresh at decision.reportedAt, standing-source carried from the first hop with the source's lastResult unchanged",
+      "slug": "fr1-second-hop-every-input-fresh"
+    },
+    {
+      "draftId": "FR2",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb2d65dfff88bebcf.json",
+      "id": "vb2d65dfff88bebcf",
+      "kind": "accept",
+      "row": "FR1 with standing-source's age at decision.reportedAt exactly equal to its maxAge, 3600 seconds, so the input is fresh",
+      "slug": "fr2-age-equal-to-max-age-is-fresh"
+    },
+    {
+      "draftId": "FR3",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v861d88b6e00bcbb3.json",
+      "id": "v861d88b6e00bcbb3",
+      "kind": "accept",
+      "row": "A10 written by the second of two hops, the forwarded standing-source one second older than its maxAge",
+      "slug": "fr3-forwarded-standing-one-second-stale"
+    },
+    {
+      "draftId": "FR4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vb471b6ff0c0bb34f.json",
+      "id": "vb471b6ff0c0bb34f",
+      "kind": "accept",
+      "row": "A10 written by the second of two hops, which received standing-source as never established, lastResult of none",
+      "slug": "fr4-forwarded-standing-never-established"
+    },
+    {
+      "draftId": "FR5",
+      "expected": {
+        "codes": [
+          "member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb58784bb5ae72b86.json",
+      "id": "vb58784bb5ae72b86",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry with lastResult removed",
+      "slug": "fr5-entry-without-last-result"
+    },
+    {
+      "draftId": "FR6",
+      "expected": {
+        "codes": [
+          "member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v82736958b79163b7.json",
+      "id": "v82736958b79163b7",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry with maxAge removed",
+      "slug": "fr6-entry-without-max-age"
+    },
+    {
+      "draftId": "FR7",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v985ab080181b5588.json",
+      "id": "v985ab080181b5588",
+      "kind": "reject",
+      "parent": "v861d88b6e00bcbb3",
+      "parentDraftId": "FR3",
+      "row": "unavailableInput naming key-source, whose entry is fresh, in place of standing-source",
+      "slug": "fr7-unavailable-input-names-a-fresh-entry"
+    },
+    {
+      "draftId": "FR8",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vf8ec82bba69a76fe.json",
+      "id": "vf8ec82bba69a76fe",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "evaluated beside an entry one second older than its maxAge",
+      "slug": "fr8-evaluated-beside-a-stale-entry"
+    },
+    {
+      "draftId": "FR9",
+      "expected": {
+        "codes": [
+          "evaluation-result-after-decision"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v8ebedab048c39e59.json",
+      "id": "v8ebedab048c39e59",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more than the skew tolerance",
+      "slug": "fr9-last-result-after-the-decision"
+    },
+    {
+      "draftId": "FR10",
+      "expected": {
+        "codes": [
+          "evaluation-input-repeated"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vf2a45daf3287037a.json",
+      "id": "vf2a45daf3287037a",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "one input named in two entries",
+      "slug": "fr10-one-input-in-two-entries"
+    },
+    {
+      "draftId": "FR11",
+      "expected": {
+        "codes": [
+          "evaluation-entry-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3834d059d3fbf8a6.json",
+      "id": "v3834d059d3fbf8a6",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry carrying a fourth member, source, this document does not define",
+      "slug": "fr11-entry-with-a-fourth-member"
+    },
+    {
+      "draftId": "FR12",
+      "expected": {
+        "codes": [
+          "value-outside-vocabulary"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vab6e4f378ed26cd2.json",
+      "id": "vab6e4f378ed26cd2",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry whose input is network, outside the closed set",
+      "slug": "fr12-entry-input-outside-closed-set"
+    },
+    {
+      "draftId": "FR13",
+      "expected": {
+        "codes": [
+          "evaluation-entry-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v853fd2a80653b56e.json",
+      "id": "v853fd2a80653b56e",
+      "kind": "reject",
+      "parent": "vc500431013be1967",
+      "parentDraftId": "FR1",
+      "row": "an entry with a negative maxAge",
+      "slug": "fr13-entry-with-negative-max-age"
+    },
+    {
       "draftId": "EV1",
       "expected": {
         "codes": [
@@ -815,6 +1224,150 @@
       "slug": "ev4-unavailable-input-outside-closed-set"
     },
     {
+      "draftId": "EV5",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3e1b86494a46f7e5.json",
+      "id": "v3e1b86494a46f7e5",
+      "kind": "reject",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with unavailableInput of the empty array",
+      "slug": "ev5-not-evaluated-empty-unavailable-input"
+    },
+    {
+      "draftId": "EV6",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v845809fa534f80a4.json",
+      "id": "v845809fa534f80a4",
+      "kind": "reject",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with standing-source named twice",
+      "slug": "ev6-unavailable-input-named-twice"
+    },
+    {
+      "draftId": "EV7",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v174d7cef3162e7bc.json",
+      "id": "v174d7cef3162e7bc",
+      "kind": "reject",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "row": "not-evaluated with unavailableInput of the string standing-source, not an array",
+      "slug": "ev7-unavailable-input-not-an-array"
+    },
+    {
+      "draftId": "EV8",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v4ed66671d952168b.json",
+      "id": "v4ed66671d952168b",
+      "kind": "reject",
+      "parent": "v1b93fc88a4955cd7",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of null",
+      "slug": "ev8-evaluated-unavailable-input-null"
+    },
+    {
+      "draftId": "EV9",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v812dbcfb4234eeae.json",
+      "id": "v812dbcfb4234eeae",
+      "kind": "reject",
+      "parent": "v1b93fc88a4955cd7",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of the empty array",
+      "slug": "ev9-evaluated-unavailable-input-empty-array"
+    },
+    {
+      "draftId": "EV10",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3f52fef29328df30.json",
+      "id": "v3f52fef29328df30",
+      "kind": "reject",
+      "parent": "v1b93fc88a4955cd7",
+      "parentDraftId": "A2",
+      "row": "evaluated carrying unavailableInput of the empty string",
+      "slug": "ev10-evaluated-unavailable-input-empty-string"
+    },
+    {
+      "draftId": "EV11",
+      "expected": {
+        "codes": [
+          "value-outside-vocabulary"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7b22d3b2bddb9995.json",
+      "id": "v7b22d3b2bddb9995",
+      "kind": "reject",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "row": "evaluation.status of partially-evaluated, outside the closed set",
+      "slug": "ev11-status-outside-closed-set"
+    },
+    {
+      "draftId": "EV12",
+      "expected": {
+        "codes": [
+          "evaluation-malformed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9f8391827088b3b9.json",
+      "id": "v9f8391827088b3b9",
+      "kind": "reject",
+      "parent": "v446171dd39c66656",
+      "parentDraftId": "A10",
+      "row": "evaluation carrying a free-text reason member this document does not define",
+      "slug": "ev12-evaluation-carrying-a-reason"
+    },
+    {
+      "draftId": "EV13",
+      "expected": {
+        "codes": [
+          "member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v0d65a70ec5288821.json",
+      "id": "v0d65a70ec5288821",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "evaluation.inputs removed, the shape of a record under draft-gilda-wimse-agent-audit-record-02",
+      "slug": "ev13-evaluation-inputs-removed"
+    },
+    {
       "draftId": "OV1",
       "expected": {
         "codes": [
@@ -847,27 +1400,35 @@
       "slug": "ov2-oversight-carrying-an-undefined-member"
     },
     {
+      "draftId": "OV3",
+      "expected": {
+        "codes": [
+          "member-missing"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vb05bbf53ae375bf4.json",
+      "id": "vb05bbf53ae375bf4",
+      "kind": "reject",
+      "parent": "vd54ac5784ae22f50",
+      "parentDraftId": "A11",
+      "row": "oversight with act removed, recordDigest kept",
+      "slug": "ov3-oversight-without-act"
+    },
+    {
       "draftId": "N1",
       "expected": {
-        "codes": []
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
       },
       "file": "statements/vc29dbb6d741e7b8f.json",
       "id": "vc29dbb6d741e7b8f",
-      "kind": "indeterminate",
+      "kind": "accept",
       "parent": "v22ea7615379eecca",
       "parentDraftId": "A1",
-      "readings": [
-        {
-          "rationale": "the draft defines no offline validation rule for an anchor token, so a verifier that carries the digest without reading it is conforming",
-          "verdict": "valid"
-        },
-        {
-          "rationale": "the anchor cannot be resolved from the carried bytes, and a verifier that declines to rule on it is conforming",
-          "verdict": "indeterminate"
-        }
-      ],
-      "row": "an anchor token digest carried with no offline validation rule defined",
-      "slug": "n1-anchor-token-with-no-offline-rule"
+      "row": "an anchor token digest carried in correlation.externalAnchor, the proof not held: the verifier reads beacon-anchored as the producer's statement, accepts the record and does not date it from the anchor",
+      "slug": "n1-anchor-digest-proof-not-held"
     },
     {
       "draftId": "N2",
@@ -893,471 +1454,193 @@
       "slug": "n2-enforced-forty-days-after-signal"
     },
     {
-      "draftId": "A12",
-      "draftSection": "5.4",
+      "draftId": "R1",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "entry": "well-formed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/v0ad0ce6a140c9726.json",
-      "id": "v0ad0ce6a140c9726",
+      "file": "retained/vcca72e0d016c5db3.json",
+      "id": "vcca72e0d016c5db3",
       "kind": "accept",
-      "row": "A10 with unavailableInput of key-source",
-      "slug": "a12-not-evaluated-key-source"
+      "row": "A1 retained by its producer: received of false and one anchor of origin retainer inside anchorWithin of issuedAt",
+      "slug": "r1-producer-retains-one-anchor"
     },
     {
-      "draftId": "A13",
-      "draftSection": "5.4",
+      "draftId": "R2",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/v77f0dab1cd010414.json",
-      "id": "v77f0dab1cd010414",
+      "file": "retained/v90581da25d334bc5.json",
+      "id": "v90581da25d334bc5",
       "kind": "accept",
-      "row": "A10 with unavailableInput of consumption-state",
-      "slug": "a13-not-evaluated-consumption-state"
+      "row": "A1 received from another party, receivedAt between issuedAt and the retaining party's anchor obtained on delivery; the sender's own anchor, earlier, dates it",
+      "slug": "r2-received-inside-the-bracket"
     },
     {
-      "draftId": "A14",
-      "draftSection": "5.4",
+      "draftId": "R3",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [
+            "entry-received-after-anchor"
+          ],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "entry": "malformed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/v6b8430de68c17a47.json",
-      "id": "v6b8430de68c17a47",
+      "file": "retained/v63c3424f10553015.json",
+      "id": "v63c3424f10553015",
       "kind": "accept",
-      "row": "A10 with unavailableInput naming all three inputs, each once, in neither the draft's order nor sorted order",
-      "slug": "a14-not-evaluated-all-three-inputs"
+      "parent": "v90581da25d334bc5",
+      "parentDraftId": "R2",
+      "row": "receivedAt later than the retaining party's earliest anchor by 301 seconds, more than the skew tolerance",
+      "slug": "r3-received-after-the-retainer-anchor"
     },
     {
-      "draftId": "A15",
-      "draftSection": "5.5",
+      "draftId": "R4",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [
+            "entry-retainer-anchor-missing"
+          ],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "entry": "malformed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/vcbd5d67e0cc2d143.json",
-      "id": "vcbd5d67e0cc2d143",
+      "file": "retained/v87c7ddc3f1d1682c.json",
+      "id": "v87c7ddc3f1d1682c",
       "kind": "accept",
-      "row": "A11 with oversight act of observation",
-      "slug": "a15-oversight-observation"
+      "parent": "v90581da25d334bc5",
+      "parentDraftId": "R2",
+      "row": "received of true and no anchor of origin retainer: the retaining party's anchor relabelled received",
+      "slug": "r4-received-without-a-retainer-anchor"
     },
     {
-      "draftId": "A16",
-      "draftSection": "5.5",
+      "draftId": "R5",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "entry": "well-formed",
+          "receipt": "asserted-consistent"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/vae3cdcf39aa2bde6.json",
-      "id": "vae3cdcf39aa2bde6",
+      "file": "retained/vd879ae9157235091.json",
+      "id": "vd879ae9157235091",
       "kind": "accept",
-      "row": "A11 with oversight act of decision and recordDigest absent, which is optional",
-      "slug": "a16-oversight-decision-without-record-digest"
+      "row": "R2 with the retaining party's anchor obtained before delivery and receivedAt inside the bracket: consistent, asserted, never established",
+      "slug": "r5-anchored-before-delivery"
     },
     {
-      "draftId": "A17",
-      "draftSection": "5.5",
+      "draftId": "R6",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [
+            "entry-received-before-issued"
+          ],
+          "datedAt": "2026-09-19T11:04:20Z",
+          "entry": "malformed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/vffdc36339ac2278b.json",
-      "id": "vffdc36339ac2278b",
+      "file": "retained/vc656fb9dfeb30b7a.json",
+      "id": "vc656fb9dfeb30b7a",
       "kind": "accept",
-      "row": "A11 with oversight act of release",
-      "slug": "a17-oversight-release"
+      "parent": "v90581da25d334bc5",
+      "parentDraftId": "R2",
+      "row": "receivedAt earlier than issuedAt by 301 seconds, more than the skew tolerance",
+      "slug": "r6-received-before-issued"
     },
     {
-      "draftId": "E4",
-      "draftSection": "5.3",
-      "expected": {
-        "codes": [
-          "write-chain-broken"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v904a604687aaba39.json",
-      "id": "v904a604687aaba39",
-      "kind": "reject",
-      "parent": "v22ea7615379eecca",
-      "parentDraftId": "A1",
-      "row": "the only write's pre-state is not the before-state root, its post-state is the after-state root",
-      "slug": "e4-first-write-not-from-before-root"
-    },
-    {
-      "draftId": "E5",
-      "draftSection": "5.3",
-      "expected": {
-        "codes": [
-          "write-chain-broken"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v3ee5dcd7391243c8.json",
-      "id": "v3ee5dcd7391243c8",
-      "kind": "reject",
-      "parent": "v22ea7615379eecca",
-      "parentDraftId": "A1",
-      "row": "the only write starts from the before-state root and its post-state is not the after-state root",
-      "slug": "e5-last-write-not-to-after-root"
-    },
-    {
-      "draftId": "E6",
-      "draftSection": "5.3",
-      "expected": {
-        "codes": [
-          "write-chain-broken"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v7b494b5a9ee1bed7.json",
-      "id": "v7b494b5a9ee1bed7",
-      "kind": "reject",
-      "parent": "v1b93fc88a4955cd7",
-      "parentDraftId": "A2",
-      "row": "an empty write set beside an after-state root unequal to the before-state root, second subject moved to match",
-      "slug": "e6-no-write-and-unequal-roots"
-    },
-    {
-      "draftId": "EV5",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v3e1b86494a46f7e5.json",
-      "id": "v3e1b86494a46f7e5",
-      "kind": "reject",
-      "parent": "v446171dd39c66656",
-      "parentDraftId": "A10",
-      "row": "not-evaluated with unavailableInput of the empty array",
-      "slug": "ev5-not-evaluated-empty-unavailable-input"
-    },
-    {
-      "draftId": "EV6",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v845809fa534f80a4.json",
-      "id": "v845809fa534f80a4",
-      "kind": "reject",
-      "parent": "v446171dd39c66656",
-      "parentDraftId": "A10",
-      "row": "not-evaluated with standing-source named twice",
-      "slug": "ev6-unavailable-input-named-twice"
-    },
-    {
-      "draftId": "EV7",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v174d7cef3162e7bc.json",
-      "id": "v174d7cef3162e7bc",
-      "kind": "reject",
-      "parent": "v446171dd39c66656",
-      "parentDraftId": "A10",
-      "row": "not-evaluated with unavailableInput of the string standing-source, not an array",
-      "slug": "ev7-unavailable-input-not-an-array"
-    },
-    {
-      "draftId": "EV8",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v4ed66671d952168b.json",
-      "id": "v4ed66671d952168b",
-      "kind": "reject",
-      "parent": "v1b93fc88a4955cd7",
-      "parentDraftId": "A2",
-      "row": "evaluated carrying unavailableInput of null",
-      "slug": "ev8-evaluated-unavailable-input-null"
-    },
-    {
-      "draftId": "EV9",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v812dbcfb4234eeae.json",
-      "id": "v812dbcfb4234eeae",
-      "kind": "reject",
-      "parent": "v1b93fc88a4955cd7",
-      "parentDraftId": "A2",
-      "row": "evaluated carrying unavailableInput of the empty array",
-      "slug": "ev9-evaluated-unavailable-input-empty-array"
-    },
-    {
-      "draftId": "EV10",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v3f52fef29328df30.json",
-      "id": "v3f52fef29328df30",
-      "kind": "reject",
-      "parent": "v1b93fc88a4955cd7",
-      "parentDraftId": "A2",
-      "row": "evaluated carrying unavailableInput of the empty string",
-      "slug": "ev10-evaluated-unavailable-input-empty-string"
-    },
-    {
-      "draftId": "OV3",
-      "draftSection": "5.5",
-      "expected": {
-        "codes": [
-          "member-missing"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vb05bbf53ae375bf4.json",
-      "id": "vb05bbf53ae375bf4",
-      "kind": "reject",
-      "parent": "vd54ac5784ae22f50",
-      "parentDraftId": "A11",
-      "row": "oversight with act removed, recordDigest kept",
-      "slug": "ov3-oversight-without-act"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR1",
+      "draftId": "R7",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [
+            "entry-anchor-late"
+          ],
+          "datedAt": "2026-09-19T11:14:12Z",
+          "entry": "malformed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/vc500431013be1967.json",
-      "id": "vc500431013be1967",
+      "file": "retained/v50de83809c452784.json",
+      "id": "v50de83809c452784",
       "kind": "accept",
-      "row": "A1 written by the second of two hops: each input fresh at decision.reportedAt, standing-source carried from the first hop with the source's lastResult unchanged",
-      "slug": "fr1-second-hop-every-input-fresh"
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "the retaining party's first anchor 601 seconds after issuedAt, later than anchorWithin plus the skew tolerance",
+      "slug": "r7-retainer-anchor-late"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR2",
+      "draftId": "R8",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [],
+          "entry": "well-formed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/vb2d65dfff88bebcf.json",
-      "id": "vb2d65dfff88bebcf",
+      "file": "retained/v107686579d652300.json",
+      "id": "v107686579d652300",
       "kind": "accept",
-      "row": "FR1 with standing-source's age at decision.reportedAt exactly equal to its maxAge, 3600 seconds, so the input is fresh",
-      "slug": "fr2-age-equal-to-max-age-is-fresh"
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "the only anchor's proof is over a different envelope digest: it validates for nothing here, dates nothing and makes nothing malformed",
+      "slug": "r8-anchor-over-another-envelope"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR3",
+      "draftId": "R9",
       "expected": {
         "codes": [],
+        "dating": {
+          "codes": [
+            "entry-received-at-inconsistent"
+          ],
+          "datedAt": "2026-09-19T11:05:00Z",
+          "entry": "malformed"
+        },
         "derivedTier": "authoritative",
         "verdict": "valid"
       },
-      "file": "statements/v861d88b6e00bcbb3.json",
-      "id": "v861d88b6e00bcbb3",
+      "file": "retained/v19a03d92c4cbec3c.json",
+      "id": "v19a03d92c4cbec3c",
       "kind": "accept",
-      "row": "A10 written by the second of two hops, the forwarded standing-source one second older than its maxAge",
-      "slug": "fr3-forwarded-standing-one-second-stale"
+      "parent": "vcca72e0d016c5db3",
+      "parentDraftId": "R1",
+      "row": "receivedAt carried beside received of false",
+      "slug": "r9-received-at-beside-received-false"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR4",
-      "expected": {
-        "codes": [],
-        "derivedTier": "authoritative",
-        "verdict": "valid"
-      },
-      "file": "statements/vb471b6ff0c0bb34f.json",
-      "id": "vb471b6ff0c0bb34f",
-      "kind": "accept",
-      "row": "A10 written by the second of two hops, which received standing-source as never established, lastResult of none",
-      "slug": "fr4-forwarded-standing-never-established"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR5",
-      "expected": {
-        "codes": [
-          "member-missing"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vb58784bb5ae72b86.json",
-      "id": "vb58784bb5ae72b86",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry with lastResult removed",
-      "slug": "fr5-entry-without-last-result"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR6",
-      "expected": {
-        "codes": [
-          "member-missing"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v82736958b79163b7.json",
-      "id": "v82736958b79163b7",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry with maxAge removed",
-      "slug": "fr6-entry-without-max-age"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR7",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v985ab080181b5588.json",
-      "id": "v985ab080181b5588",
-      "kind": "reject",
-      "parent": "v861d88b6e00bcbb3",
-      "parentDraftId": "FR3",
-      "row": "unavailableInput naming key-source, whose entry is fresh, in place of standing-source",
-      "slug": "fr7-unavailable-input-names-a-fresh-entry"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR8",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vf8ec82bba69a76fe.json",
-      "id": "vf8ec82bba69a76fe",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "evaluated beside an entry one second older than its maxAge",
-      "slug": "fr8-evaluated-beside-a-stale-entry"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR9",
-      "expected": {
-        "codes": [
-          "evaluation-result-after-decision"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v8ebedab048c39e59.json",
-      "id": "v8ebedab048c39e59",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry whose lastResult is later than decision.reportedAt by 301 seconds, more than the skew tolerance",
-      "slug": "fr9-last-result-after-the-decision"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR10",
-      "expected": {
-        "codes": [
-          "evaluation-input-repeated"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vf2a45daf3287037a.json",
-      "id": "vf2a45daf3287037a",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "one input named in two entries",
-      "slug": "fr10-one-input-in-two-entries"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR11",
-      "expected": {
-        "codes": [
-          "evaluation-entry-malformed"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v3834d059d3fbf8a6.json",
-      "id": "v3834d059d3fbf8a6",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry carrying a fourth member, source, this document does not define",
-      "slug": "fr11-entry-with-a-fourth-member"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR12",
-      "expected": {
-        "codes": [
-          "value-outside-vocabulary"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vab6e4f378ed26cd2.json",
-      "id": "vab6e4f378ed26cd2",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry whose input is network, outside the closed set",
-      "slug": "fr12-entry-input-outside-closed-set"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR13",
-      "expected": {
-        "codes": [
-          "evaluation-entry-malformed"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v853fd2a80653b56e.json",
-      "id": "v853fd2a80653b56e",
-      "kind": "reject",
-      "parent": "vc500431013be1967",
-      "parentDraftId": "FR1",
-      "row": "an entry with a negative maxAge",
-      "slug": "fr13-entry-with-negative-max-age"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
       "draftId": "FR13b",
+      "draftSection": "5.4",
       "expected": {
         "codes": [
           "evaluation-entry-malformed"
@@ -1373,41 +1656,6 @@
       "slug": "fr13b-negative-max-age-named-unavailable"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "EV13",
-      "expected": {
-        "codes": [
-          "member-missing"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/v0d65a70ec5288821.json",
-      "id": "v0d65a70ec5288821",
-      "kind": "reject",
-      "parent": "v22ea7615379eecca",
-      "parentDraftId": "A1",
-      "row": "evaluation.inputs removed, the shape of a record under draft-gilda-wimse-agent-audit-record-02",
-      "slug": "ev13-evaluation-inputs-removed"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "EV14",
-      "expected": {
-        "codes": [
-          "evaluation-inconsistent"
-        ],
-        "verdict": "malformed"
-      },
-      "file": "statements/vc6a2a10ae5ac5b15.json",
-      "id": "vc6a2a10ae5ac5b15",
-      "kind": "reject",
-      "parent": "v1b93fc88a4955cd7",
-      "parentDraftId": "A2",
-      "row": "A2 recorded as not-evaluated with every entry fresh and unavailableInput of the empty array: it matches the empty derived set, so only the rule that not-evaluated names at least one input refuses it",
-      "slug": "ev14-not-evaluated-all-fresh-empty-unavailable-input"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
       "draftId": "FR14",
       "draftSection": "5.4",
       "expected": {
@@ -1425,22 +1673,6 @@
       "slug": "fr14-no-decision-reported-at"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
-      "draftId": "FR16",
-      "draftSection": "5.4",
-      "expected": {
-        "codes": [],
-        "derivedTier": "authoritative",
-        "verdict": "valid"
-      },
-      "file": "statements/v8685b6576fbd0c04.json",
-      "id": "v8685b6576fbd0c04",
-      "kind": "accept",
-      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
-      "slug": "fr16-last-result-inside-skew-tolerance"
-    },
-    {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
       "draftId": "FR15a",
       "draftSection": "5.4",
       "expected": {
@@ -1455,7 +1687,6 @@
       "slug": "fr15a-first-hop-two-hour-max-age-fresh"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
       "draftId": "FR15b",
       "draftSection": "5.4",
       "expected": {
@@ -1470,7 +1701,6 @@
       "slug": "fr15b-second-hop-one-hour-max-age-stale"
     },
     {
-      "draftDocument": "draft-gilda-audit-agent-audit-record-00",
       "draftId": "FR15c",
       "draftSection": "5.4",
       "expected": {
@@ -1486,6 +1716,37 @@
       "parentDraftId": "FR15b",
       "row": "FR15b recorded as evaluated, the first hop's verdict carried over in place of this hop's own maxAge",
       "slug": "fr15c-second-hop-carries-first-hops-verdict"
+    },
+    {
+      "draftId": "FR16",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/v8685b6576fbd0c04.json",
+      "id": "v8685b6576fbd0c04",
+      "kind": "accept",
+      "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
+      "slug": "fr16-last-result-inside-skew-tolerance"
+    },
+    {
+      "draftId": "EV14",
+      "draftSection": "5.4",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/vc6a2a10ae5ac5b15.json",
+      "id": "vc6a2a10ae5ac5b15",
+      "kind": "reject",
+      "parent": "v1b93fc88a4955cd7",
+      "parentDraftId": "A2",
+      "row": "A2 recorded as not-evaluated with every entry fresh and unavailableInput of the empty array: it matches the empty derived set, so only the rule that not-evaluated names at least one input refuses it",
+      "slug": "ev14-not-evaluated-all-fresh-empty-unavailable-input"
     }
   ]
 }

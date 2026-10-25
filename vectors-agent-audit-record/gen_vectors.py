@@ -6,11 +6,13 @@ Regenerate byte-identically:
     uv run --extra generators python vectors-agent-audit-record/gen_vectors.py
 
 The corpus is Appendix B of the Internet-Draft
-draft-gilda-wimse-agent-audit-record-02, member for member, followed by members
-for rules of Sections 5.3, 5.4 and 5.5 that Appendix B carries no row for. Each of
-those names the section it tests in ``draftSection`` and continues the
-identifier series of the rows beside it. Every member is a complete DSSE
-envelope whose payload is an in-toto Statement v1 carrying an agent audit record.
+draft-gilda-audit-agent-audit-record-00, member for member and in the table's
+order, followed by members for rules of Section 5.4 that Appendix B carries no
+row for. Each of those names the section it tests in ``draftSection`` and
+continues the identifier series of the rows beside it. Every member is a
+complete DSSE envelope whose payload is an in-toto Statement v1 carrying an
+agent audit record, except R1 to R9: each of those is a retained record, the
+envelope beside the retention entry of Section 4.7, and its file carries both.
 The vector file carries the bytes and nothing else; the verdict a verifier must
 reach, and the identifier the member answers to, live in MANIFEST.json.
 
@@ -22,7 +24,8 @@ is what "roots and chain moved to match" means in the rows that say it.
 
 Ed25519 signatures are deterministic (RFC 8032) and every key below comes from a
 fixed seed, so the corpus is byte-identical on every machine. The keys are
-PUBLISHED TEST KEYS.
+PUBLISHED TEST KEYS, and the transparency log the retained records are anchored
+in is a test log whose tree heads the manifest publishes.
 """
 
 from __future__ import annotations
@@ -50,11 +53,11 @@ SUITE = "agent-audit-record-conformance"
 PREDICATE_TYPE = (
     "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record"
 )
-PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/02/"
-DRAFT = "draft-gilda-wimse-agent-audit-record-02"
-#: The draft that replaces DRAFT. Its Section 5.4 is the one the corpus holds
-#: every member to, and the members only it defines carry it in draftDocument.
-SUCCESSOR = "draft-gilda-audit-agent-audit-record-00"
+PREDICATE_DOCUMENT = "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/"
+DRAFT = "draft-gilda-audit-agent-audit-record-00"
+#: The revision every earlier release of this corpus tested. Its records carry
+#: no evaluation.inputs, so each is malformed under DRAFT (EV13).
+PREVIOUS_DRAFT = "draft-gilda-wimse-agent-audit-record-02"
 STATEMENT_TYPE = "https://in-toto.io/Statement/v1"
 PAYLOAD_TYPE = "application/vnd.in-toto+json"
 ID_HEX = 16
@@ -338,7 +341,7 @@ def member(
     tier: str | None = None,
     readings: list[dict[str, str]] | None = None,
     section: str | None = None,
-    document: str | None = None,
+    dating: dict[str, Any] | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -362,7 +365,7 @@ def member(
             "tier": tier,
             "readings": readings,
             "section": section,
-            "document": document,
+            "dating": dating,
         }
     )
 
@@ -519,6 +522,61 @@ def _unavailable(name: str, inputs: list[str]) -> Callable[[], Built]:
         return accept(name, pred)
 
     return build
+
+
+# --- the fallback a decision point enforced (Section 5.4, rows A18 to A20) ----
+#
+# Under not-evaluated, decision.reported is the outcome the decision point fell
+# back to, and where the policy itself was the input it could not obtain,
+# decision.policyDigest names the fallback it enforced: an allow-all document
+# for a decision point failing open (A18), a deny-all one for a decision point
+# that does not hold the profile a request names (A20).
+
+
+def build_a18() -> Built:
+    pred = baseline()
+    pred["decision"]["policyDigest"] = h("policy/fallback-allow-all")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", NEVER_HELD, DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+        ],
+        "unavailableInput": ["policy-source"],
+    }
+    return accept("A18", pred)
+
+
+def build_a19() -> Built:
+    """A3, the deny that leaked, recorded by a decision point whose key source and
+    consumption state were both stale: the agreement table is unchanged by
+    evaluation, so the record still derives disagree."""
+    pred = from_pred("A3")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", "2026-09-19T10:00:00Z", DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+            entry("key-source", STALE, HOUR),
+            entry("consumption-state", STALE, HOUR),
+        ],
+        "unavailableInput": ["key-source", "consumption-state"],
+    }
+    return accept("A19", pred)
+
+
+def build_a20() -> Built:
+    pred = from_pred("A2")
+    pred["decision"]["policyDigest"] = h("policy/fallback-deny-all")
+    pred["evaluation"] = {
+        "status": "not-evaluated",
+        "inputs": [
+            entry("policy-source", NEVER_HELD, DAY),
+            entry("standing-source", "2026-09-19T11:00:00Z", HOUR),
+        ],
+        "unavailableInput": ["policy-source"],
+    }
+    return accept("A20", pred)
 
 
 # --- freshness members (Section 5.4, rows FR1 to FR15) -----------------------
@@ -767,18 +825,6 @@ def build_s2() -> Built:
     return {"payload": canonical_bytes(stmt)}
 
 
-TWO_READINGS_N1 = [
-    {
-        "verdict": "valid",
-        "rationale": "the draft defines no offline validation rule for an anchor token, "
-        "so a verifier that carries the digest without reading it is conforming",
-    },
-    {
-        "verdict": "indeterminate",
-        "rationale": "the anchor cannot be resolved from the carried bytes, and a "
-        "verifier that declines to rule on it is conforming",
-    },
-]
 TWO_READINGS_N2 = [
     {
         "verdict": "valid",
@@ -891,6 +937,37 @@ def define() -> None:
         None,
         "A1 plus oversight with act of check and the overseer's record digest",
         build_a11,
+        "valid",
+        tier="authoritative",
+    )
+
+    member(
+        "A18",
+        "a18-permit-not-evaluated-policy-source-allow-all-fallback",
+        None,
+        "A1 with evaluation.status of not-evaluated, policy-source never established, "
+        "unavailableInput of policy-source and the allow-all fallback's decision.policyDigest",
+        build_a18,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A19",
+        "a19-leaked-deny-not-evaluated-two-stale-inputs",
+        None,
+        "A3 with evaluation.status of not-evaluated, key-source and consumption-state stale, "
+        "and unavailableInput naming both",
+        build_a19,
+        "valid",
+        tier="authoritative",
+    )
+    member(
+        "A20",
+        "a20-deny-profile-not-held-deny-all-fallback",
+        None,
+        "A2 with evaluation.status of not-evaluated, a profile the request names not held, "
+        "unavailableInput of policy-source and the deny-all fallback's decision.policyDigest",
+        build_a20,
         "valid",
         tier="authoritative",
     )
@@ -1217,6 +1294,22 @@ def define() -> None:
             "value-outside-vocabulary",
         ),
         (
+            "EV11",
+            "ev11-status-outside-closed-set",
+            "A10",
+            "evaluation.status of partially-evaluated, outside the closed set",
+            mutate("A10", _set("evaluation.status", "partially-evaluated")),
+            "value-outside-vocabulary",
+        ),
+        (
+            "EV12",
+            "ev12-evaluation-carrying-a-reason",
+            "A10",
+            "evaluation carrying a free-text reason member this document does not define",
+            mutate("A10", _set("evaluation.reason", "status list endpoint timed out")),
+            "evaluation-malformed",
+        ),
+        (
             "OV1",
             "ov1-oversight-act-outside-closed-set",
             "A11",
@@ -1238,12 +1331,14 @@ def define() -> None:
 
     member(
         "N1",
-        "n1-anchor-token-with-no-offline-rule",
+        "n1-anchor-digest-proof-not-held",
         "A1",
-        "an anchor token digest carried with no offline validation rule defined",
+        "an anchor token digest carried in correlation.externalAnchor, the proof not held: "
+        "the verifier reads beacon-anchored as the producer's statement, accepts the record "
+        "and does not date it from the anchor",
         mutate("A1", _n1),
-        None,
-        readings=TWO_READINGS_N1,
+        "valid",
+        tier="authoritative",
     )
     member(
         "N2",
@@ -1255,9 +1350,10 @@ def define() -> None:
         readings=TWO_READINGS_N2,
     )
 
-    # Members for rules of Sections 5.3, 5.4 and 5.5 that Appendix B carries no row
-    # for. They follow every Appendix B row, so the rows keep the table's order,
-    # and each names its section in draftSection.
+    # Rows revision 02's Appendix B had no row for and draft-gilda-audit-agent-
+    # audit-record-00 adds, each first published here as a section member. The
+    # tuples keep the section each was written against; the manifest no longer
+    # carries it, because each is now a row.
     section_accepts: list[tuple[str, str, str, str, Callable[[], Built]]] = [
         (
             "A12",
@@ -1303,8 +1399,8 @@ def define() -> None:
             _oversight("A17", "release"),
         ),
     ]
-    for draft_id, slug, section, row, build in section_accepts:
-        member(draft_id, slug, None, row, build, "valid", tier="authoritative", section=section)
+    for draft_id, slug, _section, row, build in section_accepts:
+        member(draft_id, slug, None, row, build, "valid", tier="authoritative")
 
     section_rejects: list[tuple[str, str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -1401,10 +1497,16 @@ def define() -> None:
             "member-missing",
         ),
     ]
-    for draft_id, slug, parent, section, row, build, code in section_rejects:
-        member(draft_id, slug, parent, row, build, "malformed", [code], section=section)
+    for draft_id, slug, parent, _section, row, build, code in section_rejects:
+        member(draft_id, slug, parent, row, build, "malformed", [code])
 
     define_freshness()
+    define_retained()
+    rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
+    missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
+    if missing or len(rank) != len(MEMBERS):
+        raise SystemExit(f"ORDER and the defined members differ: {missing}")
+    MEMBERS.sort(key=lambda m: rank[m["draftId"]])
 
 
 def define_freshness() -> None:
@@ -1448,7 +1550,7 @@ def define_freshness() -> None:
         ),
     ]
     for draft_id, slug, row, build in accepts:
-        member(draft_id, slug, None, row, build, "valid", tier="authoritative", document=SUCCESSOR)
+        member(draft_id, slug, None, row, build, "valid", tier="authoritative")
 
     rejects: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -1572,8 +1674,11 @@ def define_freshness() -> None:
             "evaluation-inconsistent",
         ),
     ]
+    #: Members that test a sentence of Section 5.4 no Appendix B row isolates.
+    proposed = {"FR13b", "EV14"}
     for draft_id, slug, parent, row, build, code in rejects:
-        member(draft_id, slug, parent, row, build, "malformed", [code], document=SUCCESSOR)
+        section = "5.4" if draft_id in proposed else None
+        member(draft_id, slug, parent, row, build, "malformed", [code], section=section)
 
     member(
         "FR14",
@@ -1584,7 +1689,6 @@ def define_freshness() -> None:
         "malformed",
         ["member-missing"],
         section="5.4",
-        document=SUCCESSOR,
     )
     member(
         "FR16",
@@ -1604,7 +1708,6 @@ def define_freshness() -> None:
         "valid",
         tier="authoritative",
         section="5.4",
-        document=SUCCESSOR,
     )
     member(
         "FR15a",
@@ -1617,7 +1720,6 @@ def define_freshness() -> None:
         "valid",
         tier="authoritative",
         section="5.4",
-        document=SUCCESSOR,
     )
     member(
         "FR15b",
@@ -1630,7 +1732,6 @@ def define_freshness() -> None:
         "valid",
         tier="authoritative",
         section="5.4",
-        document=SUCCESSOR,
     )
     member(
         "FR15c",
@@ -1642,8 +1743,366 @@ def define_freshness() -> None:
         "malformed",
         ["evaluation-inconsistent"],
         section="5.4",
-        document=SUCCESSOR,
     )
+
+
+# ---------------------------------------------------------------------------
+# Retained records (Section 4.7, rows R1 to R9).
+#
+# A retained record is A1's envelope beside the retention entry a retaining
+# party keeps for it. Every anchor in these members is a transparency-log
+# inclusion proof, the one anchor kind a verifier can validate offline as a
+# hash commitment with nothing but a hash function: the proof is the base64 of
+# an RFC 9162 TransItem of type inclusion_proof_v2 (Section 4.12), the logged
+# entry is the 32 bytes of envelopeDigest, so the leaf hash is
+# SHA-256(0x00 || envelopeDigest), and the path recomputes to a tree head by
+# RFC 9162 Section 2.1.3.2. The tree heads are published in the manifest under
+# anchorTrust: they are the checkpoints a verifier already holds by a means
+# other than a signature, which is what makes a transparency-log anchor a hash
+# commitment under Section 4.7.2, and each one's timestamp is the time of every
+# anchor that recomputes to it.
+# ---------------------------------------------------------------------------
+
+#: RFC 5612 reserves enterprise number 32473 for documentation. The test log's
+#: identifier is OID 1.3.6.1.4.1.32473.1.1, carried as RFC 9162 Section 4.4 says:
+#: the DER contents octets, without tag or length.
+LOG_OID = (1, 3, 6, 1, 4, 1, 32473, 1, 1)
+INCLUSION_PROOF_V2 = 0x0106
+TREE_HEADS: list[dict[str, Any]] = []
+
+
+def oid_contents(arcs: tuple[int, ...]) -> bytes:
+    out = bytearray([40 * arcs[0] + arcs[1]])
+    for arc in arcs[2:]:
+        chunk = [arc & 0x7F]
+        arc >>= 7
+        while arc:
+            chunk.append(0x80 | (arc & 0x7F))
+            arc >>= 7
+        out.extend(reversed(chunk))
+    return bytes(out)
+
+
+LOG_ID = oid_contents(LOG_OID)
+
+
+def leaf_hash(entry_bytes: bytes) -> bytes:
+    return hashlib.sha256(b"\x00" + entry_bytes).digest()
+
+
+def node_hash(left: bytes, right: bytes) -> bytes:
+    return hashlib.sha256(b"\x01" + left + right).digest()
+
+
+def _split(n: int) -> int:
+    """The largest power of two smaller than n (RFC 9162 Section 2.1.1)."""
+    k = 1
+    while k * 2 < n:
+        k *= 2
+    return k
+
+
+def tree_hash(entries: list[bytes]) -> bytes:
+    if len(entries) == 1:
+        return leaf_hash(entries[0])
+    k = _split(len(entries))
+    return node_hash(tree_hash(entries[:k]), tree_hash(entries[k:]))
+
+
+def audit_path(index: int, entries: list[bytes]) -> list[bytes]:
+    """PATH(m, D[n]) of RFC 9162 Section 2.1.3.1."""
+    if len(entries) == 1:
+        return []
+    k = _split(len(entries))
+    if index < k:
+        return audit_path(index, entries[:k]) + [tree_hash(entries[k:])]
+    return audit_path(index - k, entries[k:]) + [tree_hash(entries[:k])]
+
+
+def inclusion_trans_item(tree_size: int, index: int, path: list[bytes]) -> bytes:
+    nodes = b"".join(bytes([len(p)]) + p for p in path)
+    return (
+        INCLUSION_PROOF_V2.to_bytes(2, "big")
+        + bytes([len(LOG_ID)])
+        + LOG_ID
+        + tree_size.to_bytes(8, "big")
+        + index.to_bytes(8, "big")
+        + len(nodes).to_bytes(2, "big")
+        + nodes
+    )
+
+
+def log_anchor(
+    label: str, origin: str, timestamp: str, tree_size: int, index: int, logged: bytes
+) -> dict[str, Any]:
+    """An anchor whose proof places ``logged`` at ``index`` of a test log of
+    ``tree_size`` entries, and the tree head that log published at ``timestamp``.
+    Every other entry is a literal filler a reader can recompute."""
+    entries = [
+        bytes.fromhex(h(f"log/{label}/entry-{i}")) if i != index else logged
+        for i in range(tree_size)
+    ]
+    TREE_HEADS.append(
+        {
+            "logId": LOG_ID.hex(),
+            "treeSize": tree_size,
+            "rootHash": tree_hash(entries).hex(),
+            "timestamp": timestamp,
+        }
+    )
+    proof = inclusion_trans_item(tree_size, index, audit_path(index, entries))
+    return {
+        "kind": "transparency-log",
+        "origin": origin,
+        "proof": base64.b64encode(proof).decode(),
+    }
+
+
+def _jwk_set(public: bytes) -> bytes:
+    key = {
+        "crv": "Ed25519",
+        "kid": OBSERVER_KEYID,
+        "kty": "OKP",
+        "x": base64.urlsafe_b64encode(public).rstrip(b"=").decode(),
+    }
+    return canonical_bytes({"keys": [key]})
+
+
+def a1_envelope() -> dict[str, Any]:
+    return envelope(signed(from_pred("A1"))["payload"])
+
+
+def envelope_digest(env: dict[str, Any]) -> str:
+    """Section 4.7: the digest of the RFC 8785 bytes of the DSSE envelope object."""
+    return digest(env)
+
+
+def retention_entry(env: dict[str, Any], *, received: bool) -> dict[str, Any]:
+    entry_: dict[str, Any] = {
+        "envelopeDigest": envelope_digest(env),
+        "received": received,
+        "anchorWithin": 300,
+        "anchors": [],
+        "validationData": [
+            {
+                "for": "envelope",
+                "mediaType": "application/jwk-set+json",
+                "value": base64.b64encode(_jwk_set(raw_public(OBSERVER_KEY))).decode(),
+            }
+        ],
+    }
+    return entry_
+
+
+RETENTIONS: dict[str, dict[str, Any]] = {}
+
+
+def retained(
+    name: str, change: Callable[[dict[str, Any], bytes], None], parent: str | None = None
+) -> Callable[[], Built]:
+    """Build R<n>: A1's envelope beside a retention entry. A root member starts
+    from an empty entry; a member with a parent starts from that parent's."""
+
+    def build() -> Built:
+        env = a1_envelope()
+        logged = bytes.fromhex(envelope_digest(env))
+        if parent is None:
+            entry_ = retention_entry(env, received=False)
+        else:
+            entry_ = copy.deepcopy(RETENTIONS[parent])
+        change(entry_, logged)
+        RETENTIONS[name] = copy.deepcopy(entry_)
+        return {"retained": {"envelope": env, "retention": entry_}}
+
+    return build
+
+
+def _r1(entry_: dict[str, Any], logged: bytes) -> None:
+    entry_["anchors"] = [log_anchor("r1", "retainer", "2026-09-19T11:05:00Z", 3, 1, logged)]
+
+
+def _r2(entry_: dict[str, Any], logged: bytes) -> None:
+    entry_["received"] = True
+    entry_["receivedAt"] = "2026-09-19T11:04:30Z"
+    entry_["anchors"] = [
+        log_anchor("r2-sender", "received", "2026-09-19T11:04:20Z", 5, 4, logged),
+        log_anchor("r2", "retainer", "2026-09-19T11:04:40Z", 6, 2, logged),
+    ]
+
+
+def _r5(entry_: dict[str, Any], logged: bytes) -> None:
+    entry_["received"] = True
+    entry_["receivedAt"] = "2026-09-19T11:04:30Z"
+    entry_["anchors"] = [
+        log_anchor("r5-sender", "received", "2026-09-19T11:04:20Z", 7, 0, logged),
+        log_anchor("r5", "retainer", "2026-09-19T11:04:26Z", 8, 7, logged),
+    ]
+
+
+def _r7(entry_: dict[str, Any], logged: bytes) -> None:
+    entry_["anchors"] = [log_anchor("r7", "retainer", "2026-09-19T11:14:12Z", 4, 3, logged)]
+
+
+def _r8(entry_: dict[str, Any], logged: bytes) -> None:
+    other = bytes.fromhex(h("envelope/another-record"))
+    entry_["anchors"] = [log_anchor("r8", "retainer", "2026-09-19T11:05:00Z", 3, 1, other)]
+
+
+def _set_entry(name: str, value: Any) -> Callable[[dict[str, Any], bytes], None]:
+    def change(entry_: dict[str, Any], _logged: bytes) -> None:
+        entry_[name] = value
+
+    return change
+
+
+def _r4(entry_: dict[str, Any], _logged: bytes) -> None:
+    entry_["anchors"][1]["origin"] = "received"
+
+
+def dating(
+    *,
+    dated_at: str | None,
+    entry_: str = "well-formed",
+    code: str | None = None,
+    receipt: str | None = None,
+) -> dict[str, Any]:
+    out: dict[str, Any] = {"entry": entry_, "codes": [code] if code else []}
+    if dated_at is not None:
+        out["datedAt"] = dated_at
+    if receipt is not None:
+        out["receipt"] = receipt
+    return out
+
+
+def define_retained() -> None:
+    """Rows R1 to R9: an envelope with its retention entry. The record is A1 and
+    valid in every one; what each row tests is the dating check, whose result
+    the manifest carries beside the verdict in expected.dating."""
+    rows: list[tuple[str, str, str | None, str, Callable[[], Built], dict[str, Any]]] = [
+        (
+            "R1",
+            "r1-producer-retains-one-anchor",
+            None,
+            "A1 retained by its producer: received of false and one anchor of origin retainer "
+            "inside anchorWithin of issuedAt",
+            retained("R1", _r1),
+            dating(dated_at="2026-09-19T11:05:00Z"),
+        ),
+        (
+            "R2",
+            "r2-received-inside-the-bracket",
+            None,
+            "A1 received from another party, receivedAt between issuedAt and the retaining "
+            "party's anchor obtained on delivery; the sender's own anchor, earlier, dates it",
+            retained("R2", _r2),
+            dating(dated_at="2026-09-19T11:04:20Z", receipt="asserted-consistent"),
+        ),
+        (
+            "R3",
+            "r3-received-after-the-retainer-anchor",
+            "R2",
+            "receivedAt later than the retaining party's earliest anchor by 301 seconds, more "
+            "than the skew tolerance",
+            retained("R3", _set_entry("receivedAt", "2026-09-19T11:09:41Z"), "R2"),
+            dating(
+                dated_at="2026-09-19T11:04:20Z",
+                entry_="malformed",
+                code="entry-received-after-anchor",
+            ),
+        ),
+        (
+            "R4",
+            "r4-received-without-a-retainer-anchor",
+            "R2",
+            "received of true and no anchor of origin retainer: the retaining party's anchor "
+            "relabelled received",
+            retained("R4", _r4, "R2"),
+            dating(
+                dated_at="2026-09-19T11:04:20Z",
+                entry_="malformed",
+                code="entry-retainer-anchor-missing",
+            ),
+        ),
+        (
+            "R5",
+            "r5-anchored-before-delivery",
+            None,
+            "R2 with the retaining party's anchor obtained before delivery and receivedAt "
+            "inside the bracket: consistent, asserted, never established",
+            retained("R5", _r5),
+            dating(dated_at="2026-09-19T11:04:20Z", receipt="asserted-consistent"),
+        ),
+        (
+            "R6",
+            "r6-received-before-issued",
+            "R2",
+            "receivedAt earlier than issuedAt by 301 seconds, more than the skew tolerance",
+            retained("R6", _set_entry("receivedAt", "2026-09-19T10:59:10Z"), "R2"),
+            dating(
+                dated_at="2026-09-19T11:04:20Z",
+                entry_="malformed",
+                code="entry-received-before-issued",
+            ),
+        ),
+        (
+            "R7",
+            "r7-retainer-anchor-late",
+            "R1",
+            "the retaining party's first anchor 601 seconds after issuedAt, later than "
+            "anchorWithin plus the skew tolerance",
+            retained("R7", _r7, "R1"),
+            dating(
+                dated_at="2026-09-19T11:14:12Z",
+                entry_="malformed",
+                code="entry-anchor-late",
+            ),
+        ),
+        (
+            "R8",
+            "r8-anchor-over-another-envelope",
+            "R1",
+            "the only anchor's proof is over a different envelope digest: it validates for "
+            "nothing here, dates nothing and makes nothing malformed",
+            retained("R8", _r8, "R1"),
+            dating(dated_at=None),
+        ),
+        (
+            "R9",
+            "r9-received-at-beside-received-false",
+            "R1",
+            "receivedAt carried beside received of false",
+            retained("R9", _set_entry("receivedAt", "2026-09-19T11:04:30Z"), "R1"),
+            dating(
+                dated_at="2026-09-19T11:05:00Z",
+                entry_="malformed",
+                code="entry-received-at-inconsistent",
+            ),
+        ),
+    ]
+    for draft_id, slug, parent, row, build, expected_dating in rows:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            "valid",
+            tier="authoritative",
+            dating=expected_dating,
+        )
+
+
+#: Appendix B's order, then the members for rules it carries no row for. A
+#: member is built after every member it is built from, which this order keeps.
+ORDER = (
+    "A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 A13 A14 A15 A16 A17 A18 A19 A20 "
+    "F1 F2 F3 F3b F3c F4 F5 F6 F7 T1 T2 T3 T4 T5 D1 D2 D3 S1 S2 I1r "
+    "TI1 TI2 TI3 TI4 TI5 C1 C2 C3 E1 E2 E3 E4 E5 E6 V1 V2 V3 FE1 FE2 "
+    "FR1 FR2 FR3 FR4 FR5 FR6 FR7 FR8 FR9 FR10 FR11 FR12 FR13 "
+    "EV1 EV2 EV3 EV4 EV5 EV6 EV7 EV8 EV9 EV10 EV11 EV12 EV13 OV1 OV2 OV3 N1 N2 "
+    "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
+    "FR13b FR14 FR15a FR15b FR15c FR16 EV14"
+).split()
 
 
 def expected_of(entry: Member) -> dict[str, Any]:
@@ -1653,6 +2112,8 @@ def expected_of(entry: Member) -> dict[str, Any]:
         expected["verdict"] = entry["verdict"]
     if entry["tier"] is not None:
         expected["derivedTier"] = entry["tier"]
+    if entry["dating"] is not None:
+        expected["dating"] = entry["dating"]
     return expected
 
 
@@ -1670,8 +2131,6 @@ def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
         out["readings"] = entry["readings"]
     if entry["section"] is not None:
         out["draftSection"] = entry["section"]
-    if entry["document"] is not None:
-        out["draftDocument"] = entry["document"]
     return out
 
 
@@ -1682,21 +2141,25 @@ def emit() -> None:
     built: list[tuple[Member, bytes, str]] = []
     ids: dict[str, str] = {}
     for entry in MEMBERS:
-        body = json.dumps(envelope(entry["build"]()["payload"]), indent=2, sort_keys=True)
-        raw = body.encode() + b"\n"
+        made = entry["build"]()
+        bundle = made["retained"] if "retained" in made else envelope(made["payload"])
+        raw = json.dumps(bundle, indent=2, sort_keys=True).encode() + b"\n"
         ident = vector_id(raw)
         if ident in ids.values():
             raise SystemExit(f"identifier collision on {entry['draftId']}")
         ids[entry["draftId"]] = ident
         built.append((entry, raw, ident))
 
+    retained_dir = os.path.join(HERE, "retained")
+    os.makedirs(retained_dir, exist_ok=True)
     vectors: list[dict[str, Any]] = []
     keep: set[str] = set()
     for entry, raw, ident in built:
-        rel = f"statements/{ident}.json"
+        folder = "retained" if entry["dating"] is not None else "statements"
+        rel = f"{folder}/{ident}.json"
         with open(os.path.join(HERE, rel), "wb") as fh:
             fh.write(raw)
-        keep.add(f"{ident}.json")
+        keep.add(rel)
         out: dict[str, Any] = {
             "id": ident,
             "draftId": entry["draftId"],
@@ -1709,9 +2172,10 @@ def emit() -> None:
         out.update(optional_fields(entry, ids))
         vectors.append(out)
 
-    for stale in sorted(os.listdir(statements_dir)):
-        if stale.endswith(".json") and stale not in keep:
-            os.remove(os.path.join(statements_dir, stale))
+    for folder in ("statements", "retained"):
+        for stale in sorted(os.listdir(os.path.join(HERE, folder))):
+            if stale.endswith(".json") and f"{folder}/{stale}" not in keep:
+                os.remove(os.path.join(HERE, folder, stale))
 
     counts: dict[str, int] = {}
     for v in vectors:
@@ -1734,13 +2198,29 @@ def emit() -> None:
             "has something to be disjoint from."
         ),
         "emptyTree": EMPTY_TREE,
+        "skewTolerance": 300,
+        "anchorTrust": {
+            "note": (
+                "The tree heads of the test transparency log every R member's anchors are "
+                "in, as a verifier holds them by a means other than a signature: a "
+                "checkpoint it already witnessed. A transparency-log anchor validates as a "
+                "hash commitment when its proof, an RFC 9162 TransItem of type "
+                "inclusion_proof_v2 over the leaf SHA-256(0x00 || envelopeDigest), "
+                "recomputes to one of these for its logId and treeSize; its time is that "
+                "head's timestamp."
+            ),
+            "treeHeads": TREE_HEADS,
+        },
         "counts": counts,
         "note": (
             "One member per row of Appendix B of the draft, in the row's order; "
             "draftId is the row's identifier and parentDraftId its from column. The "
             "members after the last row carry draftSection: each tests a rule of that "
             "section that Appendix B carries no row for, and continues the identifier "
-            "series of the rows beside it. An "
+            "series of the rows beside it. R1 to R9 are retained records: the file "
+            "carries the envelope beside its retention entry, expected.verdict is the "
+            "envelope's verdict, and expected.dating is the result of the dating check "
+            "of Section 4.7.1, reported beside it and never folded into it. An "
             "accept or reject member is scored on expected.verdict. An indeterminate "
             "member is a row the draft leaves open: it carries no expected.verdict, "
             "and a verifier conforms on it by reaching any verdict its readings list. "
@@ -1755,6 +2235,17 @@ def emit() -> None:
         json.dump(manifest, fh, indent=2, sort_keys=True)
         fh.write("\n")
     write_index(manifest)
+
+
+def _dating_label(result: dict[str, Any]) -> str:
+    dated = f"dated {result['datedAt']}" if "datedAt" in result else "not dated"
+    entry_ = "entry " + result["entry"]
+    if result["codes"]:
+        entry_ += f" ({result['codes'][0]})"
+    parts = [dated, entry_]
+    if "receipt" in result:
+        parts.append("receipt " + result["receipt"])
+    return "; ".join(parts)
 
 
 def write_index(manifest: dict[str, Any]) -> None:
@@ -1773,7 +2264,9 @@ def write_index(manifest: dict[str, Any]) -> None:
         "",
         f"This corpus is {len(vectors)} vectors, of which {counts['accept']} a "
         f"conformant verifier must not fail closed on and {counts['reject']} it "
-        "must reject.",
+        "must reject. Releases up to and including v0.25.0 tested "
+        f"`{PREVIOUS_DRAFT}`; its records carry no `evaluation.inputs`, and each is "
+        "malformed under this draft (`EV13`).",
         "",
         "| id | source | from | verdict | file | row |",
         "| --- | --- | --- | --- | --- | --- |",
@@ -1784,9 +2277,9 @@ def write_index(manifest: dict[str, Any]) -> None:
             verdict = " or ".join(r["verdict"] for r in v["readings"])
         else:
             verdict = v["expected"]["verdict"]
+        if "dating" in v["expected"]:
+            verdict += ", " + _dating_label(v["expected"]["dating"])
         source = f"Section {v['draftSection']}" if "draftSection" in v else "Appendix B"
-        if "draftDocument" in v:
-            source = f"{v['draftDocument']} {source}"
         lines.append(
             f"| `{v['draftId']}` | {source} | {parent} | {verdict} | "
             f"[`{v['id']}`]({v['file']}) | {v['row']} |"

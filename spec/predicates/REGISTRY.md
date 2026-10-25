@@ -83,21 +83,25 @@ cannot write one.
 
 ### `predicate/v1/agent-audit-record`
 
-- Document: the Internet-Draft `draft-gilda-wimse-agent-audit-record`,
-  <https://datatracker.ietf.org/doc/draft-gilda-wimse-agent-audit-record/>,
-  which fixes this URI in revision 00 and defines the format. It is not
-  vendored here.
+- Document: the Internet-Draft `draft-gilda-audit-agent-audit-record`,
+  <https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/>,
+  which replaces `draft-gilda-wimse-agent-audit-record`, the draft that fixed
+  this URI in its revision 00. It is not vendored here.
 - Envelope: an in-toto Statement carried in a DSSE envelope.
 - Predicate body: seventeen required members and one optional member, defined
   in Section 5 of the draft. Each required member is required unless a rule in
   that section makes it conditional, and no member has a default. Revision 02
-  added the required `evaluation` member and the optional `oversight` member,
-  so a revision 01 record is malformed under revision 02.
+  of the earlier draft added the required `evaluation` member and the optional
+  `oversight` member, so a revision 01 record is malformed under revision 02;
+  revision 00 of the replacing draft requires `evaluation.inputs`, so a revision
+  02 record is malformed under it.
 - Corpus: `vectors-agent-audit-record/`, suite `agent-audit-record-conformance`,
-  one member per row of Appendix B of revision 02, each carrying its Appendix B
-  identifier, then members for sentences of Sections 5.4 and 5.5 that Appendix B
-  has no row for, each naming its section in `draftSection`. Judged by
-  `packaging/agent_evidence_vectors/auditrecord.py`.
+  one member per row of Appendix B of draft-gilda-audit-agent-audit-record-00,
+  each carrying its Appendix B identifier, then members for sentences of
+  Section 5.4 that Appendix B has no row for, each naming its section in
+  `draftSection`. Rows R1 to R9 are retained records judged by the dating check
+  of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
+  Releases up to v0.25.0 test revision 02 of the earlier draft.
 - Status: current. The URI will not move, because a record carries it inside
   the bytes its producer signed.
 

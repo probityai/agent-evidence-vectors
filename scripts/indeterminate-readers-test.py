@@ -19,7 +19,8 @@ to the rule, on a staged copy of each tracked corpus:
   member carrying a rule is not indeterminate;
 - `auditrecord.conforming_verdicts` returns every listed reading for an
   indeterminate member and the one expected verdict for any other, so a second
-  implementation that answers either reading of N1 is scored as conforming.
+  implementation that answers either reading of N2 is scored as conforming, and
+  N1, which draft-gilda-audit-agent-audit-record-00 settles, is scored on `valid`.
 
 Usage: uv run --extra generators python scripts/indeterminate-readers-test.py
 Exit 0 when every case holds; 1 with a summary of the failures.
@@ -122,7 +123,8 @@ def reader_failures(corpus: str, reader: ModuleType) -> list[str]:
 
 
 def scoring_failures() -> list[str]:
-    """conforming_verdicts scores a second reader on N1 and N2 by their readings."""
+    """conforming_verdicts scores a second reader on N2 by its readings, and on
+    N1, which -00 settles, by its one verdict."""
     manifest = json.loads(
         (REPO_ROOT / "vectors-agent-audit-record" / "MANIFEST.json").read_text(encoding="utf-8")
     )
@@ -135,10 +137,10 @@ def scoring_failures() -> list[str]:
             want = {entry["expected"]["verdict"]}
         if allowed != want:
             out.append(f"{entry['draftId']}: conforming_verdicts {allowed}, wanted {want}")
-    for draft_id in ("N1", "N2"):
+    for draft_id, wanted in (("N1", {"valid"}), ("N2", {"valid", "indeterminate"})):
         entry = next(e for e in manifest["vectors"] if e["draftId"] == draft_id)
         allowed = auditrecord.conforming_verdicts(entry)
-        if allowed != {"valid", "indeterminate"}:
+        if allowed != wanted:
             out.append(f"{draft_id}: a second reader is scored against {allowed}")
     return out
 
