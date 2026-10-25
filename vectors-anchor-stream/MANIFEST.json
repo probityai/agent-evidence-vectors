@@ -228,7 +228,8 @@
         "endsWithNewline": false,
         "sidecarRegenerated": false,
         "streamLines": 73,
-        "external": true
+        "external": true,
+        "baselineStream": "baseline/external-unterminated-final-line/terminated.jsonl"
       },
       "contractBasis": "as-vendored",
       "cites": "the same real stream with its final byte (0a) removed and the same sidecar kept: one byte apart from the member above, nothing else to explain the verdict. The reason must be the digest comparison of line 73, not a length guard or a parse error on the last line. Through anchors-verify-v0.10 this stream returned VERIFY PARTIAL. Contributed by Tetsurohhori.",

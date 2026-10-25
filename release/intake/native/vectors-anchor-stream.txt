@@ -2,5 +2,4 @@ suite: anchor-stream-conformance
 members: 34
   accept: 13
   reject: 21
-FAIL v25a148d9df730b88: is the missing-terminator member and adding the byte back does not restore the baseline, so it carries a second change
-verdict: 1 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares

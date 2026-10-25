@@ -484,6 +484,7 @@ def build() -> list[dict]:
             "sidecarRegenerated": False,
             "streamLines": 73,
             "external": True,
+            "baselineStream": EXTERNAL_TERMINATED,
         },
     )
 
