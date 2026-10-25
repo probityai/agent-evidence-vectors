@@ -131,6 +131,66 @@ cannot write one.
 - Status: current. The URI will not move, because a carried record holds it
   inside the bytes its producer signed.
 
+### `predicate/v1/evidence-scope-disclosure`
+
+- Predicate body: A signed statement about a published piece of evidence: which detection-stack layers it covers, its tier, whether it is a real capture or a representative fixture, and what it deliberately does not show. It carries no verdict.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/launch-chain`
+
+- Predicate body: The rest of a boot pre-image -- an initrd digest, a kernel command line, and dm-verity root hashes -- bound to the kernel it belongs to. Minted before `predicate/v2/launch-chain`; both are live.
+- Status: addresses bundles already minted under it. Not withdrawn. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/ml-bom`
+
+- Predicate body: An execution-grounded bill of the model weights a frozen microVM mapped into memory, each region resolved to a full-file identity by a host-side source.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/quotation-fidelity`
+
+- Predicate body: A signed assertion that a quoted span appears verbatim at a stated position in a committed source, checkable against a 32-byte root by a reader who holds none of that source, with how the source was obtained.
+- Status: draft. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/scorecard-verdict`
+
+- Predicate body: A multi-layer assessment record about one system under test: a tri-state outcome (`pass`, `degraded`, `fail`), the per-layer results it was folded from, and a coverage statement naming what was not assessed. Two disjoint producer profiles share the type behind a normative discriminator.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/security-verdict`
+
+- Predicate body: A statement that a named artifact was run in isolation against a pinned attack corpus and given a pass or fail verdict with per-attack evidence, so an admission controller can decide without re-running the scan.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/signed-evidence`
+
+- Predicate body: One signed statement carrying the guest-memory Merkle commitment, the value binding that ties it to a signed session and a verdict subject, and the cross-host differential-snapshot fold pins. It is not a type for evidence-scope disclosures.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/static-scan-verdict`
+
+- Predicate body: The outcome of a static scan of an MCP server or A2A agent over its declared surface, without booting a microVM and without executing its tools.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/substrate-integrity`
+
+- Predicate body: A statement about the isolation substrate that scans run on, emitted once per substrate release and referenced by digest from each security verdict.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v1/sut-provenance`
+
+- Predicate body: A statement that a scanned system-under-test image was built from a known base image and a fully integrity-pinned dependency closure, bound to the image by OCI digest.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v2/a2a-mesh-scorecard`
+
+- Predicate body: A composition-safety verdict about a mesh of agent-to-agent microVMs: whether authority attenuated correctly across the delegation graph the mesh produced. The subject is the mesh manifest, an aggregate of its member microVMs.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
+### `predicate/v2/mesh-quiescence`
+
+- Predicate body: A statement about freeze atomicity of an isolation substrate: that co-resident microVMs were brought to a hypervisor-enforced quiescent state with bounded, measured timing, and no in-flight inter-VM segment escaped the freeze.
+- Status: current. The URI will not move, because a record carries it inside the bytes its producer signed.
+
 The entries in this section are registrations, not specifications. Their field
 definitions are normative where they are published, which is not here, and no
 count, field list or wire form on this page may be read as authoritative for
