@@ -14,13 +14,13 @@ GenAI-Security-Project/agent-control-standard issue 184.
 Standard library only. It imports nothing from any Guardian implementation;
 envelopes are built from specification/v0.1.0/*.json.
 
-Key derivation: section 10 says the per-session HMAC key is HKDF-derived from
-deployment input keying material "together with the session_id" and does not
-fix the HKDF salt or info. The defaults (empty salt, info = session_id,
-key_id = session_id) match the AGT reference Guardian; --hkdf-salt and
---key-id-mode cover other readings.
+Key derivation: section 10 fixes HKDF-SHA256 with no salt, info = the
+request's session_id, and a 32-byte key, and makes key_id an opaque label
+that names one configured secret. The defaults (empty salt, --key-id-mode
+label, --key-id conformance-k1) follow that text; --key-id-mode session_id
+reproduces the earlier AGT reading, where key_id carried the session_id.
 
-  ACS_HMAC_SECRET=<base64 key material> bun run guardian &
+  ACS_HMAC_SECRET=<base64 key material> ACS_HMAC_KEY_ID=conformance-k1 bun run guardian &
   python3 acs_wire_probes.py --guardian http://127.0.0.1:8787/acs \\
       --ikm-b64 "$ACS_HMAC_SECRET" --out run
 
@@ -86,11 +86,13 @@ def new_sid() -> str:
 
 
 class Probe:
-    def __init__(self, guardian: str, ikm: bytes, salt: bytes, key_id_mode: str, out: Path):
+    def __init__(self, guardian: str, ikm: bytes, salt: bytes, key_id_mode: str, out: Path,
+                 key_id: str = "conformance-k1"):
         self.url = guardian
         self.ikm = ikm
         self.salt = salt
         self.key_id_mode = key_id_mode
+        self.key_id = key_id
         self.wire = out / "wire"
         self.wire.mkdir(parents=True, exist_ok=True)
         self.n = len(list(self.wire.iterdir()))
@@ -121,7 +123,7 @@ class Probe:
         mac = hmac.new(self.key(sid), jcs(view), hashlib.sha256).digest()
         if corrupt:
             mac = bytes(b ^ 0xFF for b in mac)
-        kid = sid if self.key_id_mode == "session_id" else "k1"
+        kid = sid if self.key_id_mode == "session_id" else self.key_id
         env["params"]["signature"] = {"algorithm": "HMAC-SHA256",
                                       "value": base64.b64encode(mac).decode(), "key_id": kid}
         return env
@@ -437,7 +439,11 @@ def main() -> int:
     ap.add_argument("--guardian", required=True, help="e.g. http://127.0.0.1:8787/acs")
     ap.add_argument("--ikm-b64", required=True, help="deployment HMAC keying material, base64")
     ap.add_argument("--hkdf-salt", default="", help="HKDF salt as text (default: empty)")
-    ap.add_argument("--key-id-mode", choices=["session_id", "static"], default="session_id")
+    ap.add_argument("--key-id-mode", choices=["label", "session_id"], default="label",
+                    help="label: key_id names the configured secret (section 10); "
+                         "session_id: the earlier AGT reading")
+    ap.add_argument("--key-id", default="conformance-k1",
+                    help="the label the Guardian's ACS_HMAC_KEY_ID names (default: conformance-k1)")
     ap.add_argument("--out", required=True, type=Path)
     ap.add_argument("--expect", type=Path, help="JSON {status: {probe id: PASS|FAIL}}")
     mode = ap.add_mutually_exclusive_group()
@@ -446,7 +452,7 @@ def main() -> int:
     a = ap.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
     p = Probe(a.guardian, base64.b64decode(a.ikm_b64), a.hkdf_salt.encode(), a.key_id_mode,
-              a.out)
+              a.out, a.key_id)
     if a.replay_save:
         replay_save(p, a.replay_save)
     elif a.replay_send:

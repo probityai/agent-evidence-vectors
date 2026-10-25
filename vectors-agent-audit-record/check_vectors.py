@@ -20,14 +20,18 @@ Three checks, each able to fail on its own.
    a refusal, and must never move an indeterminate member to a verdict none of
    its readings lists. A rule whose removal changes no verdict measures nothing.
 
-4. The section sweep: each weakened reading of Sections 5.4 and 5.5 below (a
+4. The dating sweep: disabling any one rule of the dating check of Section
+   4.7.1 must move at least one retained member (R1 to R9) off its declared
+   dating result, and must never move its record verdict.
+
+5. The section sweep: each weakened reading of Sections 5.4 and 5.5 below (a
    closed set cut to the one value Appendix B's accept rows carry, an optional
    member made required, a sub-check dropped) must fail the corpus on exactly
    the members that test that sentence. The rule sweep in 3 turns off a whole
    rule; this one turns off one sentence of a rule, which the rule sweep cannot
    see.
 
-An indeterminate member (N1, N2) is scored on its readings: any verdict it lists
+An indeterminate member (N2) is scored on its readings: any verdict it lists
 conforms, and it carries no expected.verdict. scripts/indeterminate-readers-test.py
 deletes each listed reading in turn and requires the judge to refuse the result.
 """
@@ -68,6 +72,28 @@ def _raw(entry: dict[str, object]) -> bytes:
         return fh.read()
 
 
+def _retained(entry: dict[str, object]) -> bool:
+    expected = entry.get("expected")
+    return isinstance(expected, dict) and "dating" in expected
+
+
+def _envelope_bytes(entry: dict[str, object]) -> bytes:
+    """The envelope a member carries: the whole file, or a retained member's
+    envelope beside its retention entry."""
+    raw = _raw(entry)
+    if _retained(entry):
+        return json.dumps(json.loads(raw)["envelope"]).encode()
+    return raw
+
+
+def _verify(
+    entry: dict[str, object],
+    policy: auditrecord.Policy,
+    disabled: str | None = None,
+) -> auditrecord.Report:
+    return auditrecord.verify(_envelope_bytes(entry), policy, disabled=disabled)
+
+
 def _second_signature_path(manifest: dict[str, object]) -> list[str]:
     keys = manifest["keys"]
     assert isinstance(keys, dict)
@@ -79,7 +105,7 @@ def _second_signature_path(manifest: dict[str, object]) -> list[str]:
         must_hold = entry["kind"] != "reject" or entry["draftId"] == "T2"
         if not must_hold:
             continue
-        envelope = json.loads(_raw(entry))
+        envelope = json.loads(_envelope_bytes(entry))
         payload = base64.b64decode(envelope["payload"])
         canonical = canonical_bytes(json.loads(payload))
         message = auditrecord.pae(auditrecord.PAYLOAD_TYPE, canonical)
@@ -107,7 +133,7 @@ def _mutation_sweep(manifest: dict[str, object]) -> tuple[list[str], list[str]]:
     policy = auditrecord.policy_for(manifest)
     entries = manifest["vectors"]
     assert isinstance(entries, list)
-    bodies = [(entry, _raw(entry), auditrecord.verify(_raw(entry), policy)) for entry in entries]
+    bodies = [(entry, _envelope_bytes(entry), _verify(entry, policy)) for entry in entries]
     findings: list[str] = []
     notes: list[str] = []
     swept = [n for n in auditrecord.rule_names() if n not in auditrecord.UNREACHED_BY_CORPUS]
@@ -193,12 +219,15 @@ def _evaluation_reading(
     evaluated_by_truth: bool = False,
     evaluated_by_entries: bool = True,
     match_entries: bool = True,
+    closed: bool = True,
     derive: Callable[[dict[str, Any]], list[str]] | None = None,
 ) -> Rule:
     """Section 5.4 as a reader might take it, one sentence at a time."""
 
     def rule(state: Any) -> None:
         evaluation = state.predicate["evaluation"]
+        if closed and set(evaluation) - auditrecord.EVALUATION_MEMBERS:
+            raise auditrecord.Malformed("evaluation-malformed")
         derived = (derive or auditrecord.derive_unavailable)(state.predicate)
         if evaluation["status"] == "evaluated":
             carried = (
@@ -212,17 +241,24 @@ def _evaluation_reading(
         inputs = evaluation.get("unavailableInput")
         if wrap_string and isinstance(inputs, str):
             inputs = [inputs]
-        if not isinstance(inputs, list) or (refuse_empty and not inputs):
-            raise auditrecord.Malformed("evaluation-inconsistent")
-        for value in inputs:
-            if value not in auditrecord.UNAVAILABLE_INPUTS:
-                raise auditrecord.Malformed("value-outside-vocabulary")
-        if refuse_repeat and len(set(inputs)) != len(inputs):
-            raise auditrecord.Malformed("evaluation-inconsistent")
-        if match_entries and set(inputs) != set(derived):
-            raise auditrecord.Malformed("evaluation-inconsistent")
+        _not_evaluated(inputs, derived, refuse_empty, refuse_repeat, match_entries)
 
     return rule
+
+
+def _not_evaluated(
+    inputs: Any, derived: list[str], refuse_empty: bool, refuse_repeat: bool, match: bool
+) -> None:
+    """The not-evaluated half of Section 5.4 under the readings above."""
+    if not isinstance(inputs, list) or (refuse_empty and not inputs):
+        raise auditrecord.Malformed("evaluation-inconsistent")
+    for value in inputs:
+        if value not in auditrecord.UNAVAILABLE_INPUTS:
+            raise auditrecord.Malformed("value-outside-vocabulary")
+    if refuse_repeat and len(set(inputs)) != len(inputs):
+        raise auditrecord.Malformed("evaluation-inconsistent")
+    if match and set(inputs) != set(derived):
+        raise auditrecord.Malformed("evaluation-inconsistent")
 
 
 def _freshness(**knobs: Any) -> contextlib.AbstractContextManager[None]:
@@ -282,7 +318,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "unavailableInput known only as standing-source",
         lambda: _narrowed_inputs(frozenset({"standing-source"})),
-        "A12,A13,A14",
+        "A12,A13,A14,A18,A19,A20",
     ),
     (
         "oversight.act known only as check",
@@ -332,7 +368,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "a lastResult of none read as fresh",
         lambda: _freshness(never_held_unavailable=False),
-        "FR4",
+        "A18,A20,FR4",
     ),
     (
         "a negative maxAge accepted",
@@ -360,6 +396,18 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "FR8,FR15c",
     ),
     (
+        "an evaluation member the draft does not define accepted",
+        lambda: _swapped_rule("evaluation", _evaluation_reading(closed=False)),
+        "EV12",
+    ),
+    (
+        "unavailableInput without policy-source",
+        lambda: _narrowed_inputs(
+            frozenset({"standing-source", "key-source", "consumption-state"})
+        ),
+        "A18,A20",
+    ),
+    (
         "oversight without act accepted",
         lambda: _swapped_rule("oversight", _oversight_reading(act_required=False)),
         "OV3",
@@ -372,13 +420,36 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
 ]
 
 
+def _dating_sweep(manifest: dict[str, object]) -> list[str]:
+    """Disabling one dating rule must move some retained member's dating result
+    and no retained member's record verdict."""
+    policy = auditrecord.policy_for(manifest)
+    heads = auditrecord.tree_heads(manifest)
+    entries = [e for e in manifest["vectors"] if _retained(e)]  # type: ignore[union-attr]
+    if not entries:
+        return ["the corpus carries no retained member, so the dating check is untested"]
+    findings: list[str] = []
+    swept = [n for n in auditrecord.dating_rule_names() if n not in auditrecord.DATING_UNREACHED]
+    for name in swept:
+        moved = []
+        for entry in entries:
+            report, dated = auditrecord.verify_retained(_raw(entry), policy, heads, disabled=name)
+            if report.verdict != entry["expected"]["verdict"]:
+                findings.append(f"disabling dating rule {name} moves {entry['draftId']}'s verdict")
+            if auditrecord.dating_dict(dated) != entry["expected"]["dating"]:
+                moved.append(str(entry["draftId"]))
+        if not moved:
+            findings.append(f"dating rule {name} is inert: disabling it moves no retained member")
+    return findings
+
+
 def _failing(manifest: dict[str, object]) -> str:
     policy = auditrecord.policy_for(manifest)
     entries = manifest["vectors"]
     assert isinstance(entries, list)
     failing = []
     for entry in entries:
-        verdict = auditrecord.verify(_raw(entry), policy).verdict
+        verdict = _verify(entry, policy).verdict
         if verdict not in auditrecord.conforming_verdicts(entry):
             failing.append(str(entry["draftId"]))
     return ",".join(failing)
@@ -401,14 +472,20 @@ def main() -> int:
     sys.stdout.write(auditrecord.render(judged, auditrecord.SUITE))
     manifest = _manifest()
     swept, notes = _mutation_sweep(manifest)
-    findings = _second_signature_path(manifest) + swept + _section_sweep(manifest)
+    findings = (
+        _second_signature_path(manifest)
+        + swept
+        + _dating_sweep(manifest)
+        + _section_sweep(manifest)
+    )
     for note in notes:
         print(f"note: {note}")
     for finding in findings:
         print(f"FAIL check: {finding}")
     if judged.ok() and not findings:
         print(
-            "check: a second Ed25519 library agrees, every rule is load-bearing, and "
+            "check: a second Ed25519 library agrees, every rule and dating rule is "
+            "load-bearing, and "
             f"each of {len(SECTION_READINGS)} weakened section readings fails its own members"
         )
         return 0

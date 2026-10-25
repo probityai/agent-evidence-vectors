@@ -44,14 +44,17 @@ python3 acs_wire_probes.py --guardian http://127.0.0.1:8787/acs \
 Every request and response is written to `out/wire/`, and `out/results.json`
 holds the scored rows.
 
-## Key derivation is a reading, and it is a flag
+## Key derivation follows section 10
 
-Section 10 says the per-session key is HKDF-derived from the deployment's
-keying material "together with the `session_id`" and fixes neither the salt nor
-the info string. The default here (empty salt, info = `session_id`,
-`key_id` = `session_id`) matches the AGT Guardian. `--hkdf-salt` and
-`--key-id-mode` cover other readings, and two conformant Guardians that read it
-differently will not verify each other's signatures.
+Section 10 at `integration` fixes the derivation: HKDF-SHA256 with no salt,
+`info` set to the request's `session_id` exactly as sent, and a 32-byte key,
+applied to the secret that `key_id` names. `key_id` is an opaque label chosen by
+the deployment, and a verifier must refuse an unknown one. The probes follow
+that text by default (`--key-id-mode label --key-id conformance-k1`), and
+`run_against_agt.sh` starts the Guardian with `ACS_HMAC_KEY_ID` set to the same
+label. `--key-id-mode session_id` reproduces the earlier AGT reading, where
+`key_id` carried the `session_id`; set `ACS_PROBE_KEY_ID_MODE=session_id` to run
+the script that way.
 
 ## Recorded runs
 
@@ -64,6 +67,7 @@ change here:
 | `770f1e0` | `integration` before pull request 229 | every D1 to D10 probe fails (`expected/agt-integration-770f1e0.json`) |
 | `beee5b5` | head of pull request 229 when these probes were written | `expected/agt-pr229.json` |
 | `6e6942d` | head of pull request 229 after its handshake, replay-capacity and signing-block fixes | `expected/agt-pr229-6e6942d.json` |
+| `f94d393` | head of pull request 229 on 2026-10-23, whose Guardian requires `ACS_HMAC_KEY_ID` | `expected/agt-pr229-f94d393.json` |
 
 At `beee5b5` the open MUST rows are D2c (replay memory does not survive a
 restart), D6c (a method outside `methods_implemented` is answered) and D6d (a

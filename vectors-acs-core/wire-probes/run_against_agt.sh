@@ -13,12 +13,16 @@ EXPECT=${3:-}
 HERE=$(cd "$(dirname "$0")" && pwd)
 PORT=${ACS_PROBE_PORT:-18797}
 SECRET=$(head -c 32 /dev/urandom | base64)
+# Section 10: key_id is a label naming the configured secret. Guardians from
+# pull request 229's later heads refuse to start without ACS_HMAC_KEY_ID.
+KEY_ID=${ACS_PROBE_KEY_ID:-conformance-k1}
+KEY_ID_MODE=${ACS_PROBE_KEY_ID_MODE:-label}
 URL="http://127.0.0.1:${PORT}/acs"
 PID=""
 
 start() {
   (cd "$ACS/reference-implementations/agt" && \
-    ACS_HMAC_SECRET="$SECRET" ACS_GUARDIAN_PORT="$PORT" \
+    ACS_HMAC_SECRET="$SECRET" ACS_HMAC_KEY_ID="$KEY_ID" ACS_GUARDIAN_PORT="$PORT" \
     ACS_ENVELOPE_LOG="$OUT/guardian-envelopes-$1.jsonl" \
     ACS_SESSION_CONTEXT_LOG="$OUT/guardian-context-$1.jsonl" \
     exec bun run packages/guardian/src/main.ts) > "$OUT/guardian-$1.log" 2>&1 &
@@ -34,6 +38,7 @@ stop() { kill "$PID" 2>/dev/null || true; wait "$PID" 2>/dev/null || true; }
 trap stop EXIT
 
 probe() { python3 -I "$HERE/acs_wire_probes.py" --guardian "$URL" --ikm-b64 "$SECRET" \
+  --key-id-mode "$KEY_ID_MODE" --key-id "$KEY_ID" \
   --out "$OUT" "$@"; }
 
 start a

@@ -3737,8 +3737,39 @@ def _eval_reject_stages(
     for code in exp_codes:
         st = CODE_STAGE.get(code, "gate0")
         stage_hit[st] = stage_hit.get(st, False) or (code in obs_codes)
+    reached = _furthest_stage_reached(obs_codes)
     for st, seen in stage_hit.items():
-        gates[st] = "PASS" if seen else "FAIL"
+        if seen:
+            gates[st] = "PASS"
+        elif hit and STAGE_ORDER.index(st) > reached:
+            # The rail refused for a reason this vector names, at an EARLIER
+            # stage, and a verifier that stops at its first refusal never
+            # evaluates the later one. Printing FAIL there put a FAIL beside a
+            # PASS status on a correct rail, and a reader of the table could
+            # not tell it from a rule the rail had stopped enforcing.
+            gates[st] = STAGE_NOT_REACHED
+        else:
+            gates[st] = "FAIL"
+
+
+#: The order in which a verifier evaluates the reject stages. A refusal at one
+#: stage means every later stage was never reached.
+STAGE_ORDER = ("gate0", "gate1", "recompute")
+
+#: The stage-column token for a stage the rail never evaluated because it had
+#: already refused the record, for a reason the vector names, at an earlier one.
+STAGE_NOT_REACHED = "unreached"
+
+
+def _furthest_stage_reached(obs_codes: set[Any]) -> int:
+    """Index in ``STAGE_ORDER`` of the latest stage any observed code belongs to.
+
+    -1 when the rail reported no code, so no stage counts as reached.
+    """
+    return max(
+        (STAGE_ORDER.index(CODE_STAGE.get(code, "gate0")) for code in obs_codes),
+        default=-1,
+    )
 
 
 def write_pinned_key_policy(keys: dict[str, dict[str, Any]], directory: str) -> str:

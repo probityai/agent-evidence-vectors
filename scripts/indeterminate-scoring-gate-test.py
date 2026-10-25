@@ -14,7 +14,8 @@ Every case but one works on a STAGED COPY of the tracked manifests, breaks it in
 exactly one way, and asks the gate. Three of them are worth naming.
 
 `a verdict pinned on an open member is refused` is the original defect, put back
-on N1 exactly as it shipped.
+on N2 as it shipped on N1. N1 has one conforming verdict since
+draft-gilda-audit-agent-audit-record-00 settled it, so N2 is the open member left.
 
 `a gate that reads no readings refuses` strips every declared reading. A gate
 that finds nothing to check must say so rather than pass, because a gate
@@ -95,11 +96,11 @@ def member(manifest: dict[str, Any], match: Callable[[dict[str, Any]], bool]) ->
     raise SystemExit("test setup: no member matches, so this case asserts nothing")
 
 
-def pin_n1(root: Path) -> None:
+def pin_n2(root: Path) -> None:
     edit(
         root,
         "vectors-agent-audit-record",
-        lambda m: member(m, lambda e: e.get("draftId") == "N1")["expected"].update(
+        lambda m: member(m, lambda e: e.get("draftId") == "N2")["expected"].update(
             verdict="indeterminate"
         ),
     )
@@ -174,9 +175,9 @@ CASES: list[Case] = [
     ("the tracked manifests pass", untouched, 0, ()),
     (
         "a verdict pinned on an open member is refused",
-        pin_n1,
+        pin_n2,
         1,
-        ("vectors-agent-audit-record", "vc29dbb6d741e7b8f", "['indeterminate', 'valid']"),
+        ("vectors-agent-audit-record", "v51909a1c98df19b0", "['indeterminate', 'valid']"),
     ),
     (
         "pinning the reference reader's own reading is refused too",

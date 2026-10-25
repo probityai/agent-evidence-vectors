@@ -1,0 +1,158 @@
+{
+  "cases": [
+    {
+      "control": "consumed",
+      "expected": {
+        "decision": "supported",
+        "reason": "constant_declared_and_consumed"
+      },
+      "files": {
+        "case.json": "d3265a10ef89958fac23cadd11b1494172c75f600c0e6aca8e2f495547d6711b"
+      },
+      "id": "accept-constant-declared-and-consumed"
+    },
+    {
+      "control": "consumed",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "constant_declared_not_consumed"
+      },
+      "files": {
+        "case.json": "f414f3da167d9403c18c00ade25bf279f5b4c6fccbc88da43a0d8016740877f3"
+      },
+      "id": "reject-constant-declared-not-consumed",
+      "twin": "accept-constant-declared-and-consumed"
+    },
+    {
+      "control": "declared",
+      "expected": {
+        "decision": "supported",
+        "reason": "operand_originated"
+      },
+      "files": {
+        "case.json": "2ce0216f8d02c7e86de6e5473477c3f6a0e8a1026ad073da5078f4ceaef6f8b8"
+      },
+      "id": "accept-operand-originated"
+    },
+    {
+      "control": "declared",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "constant_not_declared"
+      },
+      "files": {
+        "case.json": "7d8f58b013787555bc8262494290c6dfd40ab3fa46ebd5e3475cea92a999d744"
+      },
+      "id": "reject-constant-not-declared",
+      "twin": "accept-operand-originated"
+    },
+    {
+      "control": "precision",
+      "expected": {
+        "decision": "supported",
+        "reason": "constant_declared_and_consumed"
+      },
+      "files": {
+        "case.json": "3adc5920b8cded3edfdcba0970170b337140423718561eb5a596e5e505db2039"
+      },
+      "id": "accept-constant-read-at-declared-value"
+    },
+    {
+      "control": "precision",
+      "expected": {
+        "decision": "supported",
+        "reason": "constant_declared_and_consumed"
+      },
+      "files": {
+        "case.json": "e88220c75084bbe0f7053bf2289834a8ff94e3d2e891b127ec249ce390780390"
+      },
+      "id": "accept-constant-read-with-trailing-zero"
+    },
+    {
+      "control": "precision",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "constant_value_differs_at_declared_precision"
+      },
+      "files": {
+        "case.json": "1e9a2d79d92c6a3945a515a12c50dc58d27517d045891b59f72aeda30f9aa64e"
+      },
+      "id": "reject-constant-read-rounded",
+      "twin": "accept-constant-read-at-declared-value"
+    },
+    {
+      "control": "precision",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "constant_value_differs_at_declared_precision"
+      },
+      "files": {
+        "case.json": "58856887d7af746e80107b69359ce54e3fe28ead81b68c0c1bcb632ba264ceb8"
+      },
+      "id": "reject-constant-read-extended",
+      "twin": "accept-constant-read-at-declared-value"
+    },
+    {
+      "control": "operand",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "operand_value_differs"
+      },
+      "files": {
+        "case.json": "91120a40d069c4329443caa9e4633ed84631006ada72790bedc300b9db9c6012"
+      },
+      "id": "reject-operand-value-differs",
+      "twin": "accept-constant-declared-and-consumed"
+    },
+    {
+      "control": "observed",
+      "expected": {
+        "decision": "not_established",
+        "reason": "consumption_unobservable"
+      },
+      "files": {
+        "case.json": "aaa74021ad591bc59b9e07a0e68193ff571a713493c6583eb20d8b762d1bfe1b"
+      },
+      "id": "reject-consumption-unobservable",
+      "twin": "accept-constant-declared-and-consumed"
+    },
+    {
+      "control": "form",
+      "expected": {
+        "decision": "no_verdict",
+        "reason": "malformed_case:derivations.executed_reads"
+      },
+      "files": {
+        "case.json": "5832b41621fbcfffedc22ee68d149f29e4451f148d007434e27b099d833e818e"
+      },
+      "id": "reject-executed-reads-absent",
+      "twin": "accept-constant-declared-and-consumed"
+    },
+    {
+      "control": "route",
+      "expected": {
+        "decision": "supported",
+        "reason": "constant_declared_and_consumed"
+      },
+      "files": {
+        "case.json": "2eb8b862810876bbc397339f8b3dd4f1edfc79f70e2645c7a4b2a9421a0200ad"
+      },
+      "id": "accept-second-route-reads-constant"
+    },
+    {
+      "control": "route",
+      "expected": {
+        "decision": "contradicted",
+        "reason": "constant_declared_not_consumed"
+      },
+      "files": {
+        "case.json": "521fb877ad8d3b65e1f55f18b81a71c93397f3f9eee6814e9337bf08ebb79d8f"
+      },
+      "id": "reject-claim-names-route-that-did-not-read",
+      "twin": "accept-second-route-reads-constant"
+    }
+  ],
+  "corpusDigest": "915ac5a86365747a5ef001dbc98ce41343941376538ed74c50efc3f2d1949d1d",
+  "derived_from": "zorrzai/ap1-run FINDINGS_ERRATA.md erratum E3 at 650084da6927b3b97e81d3b160b0c6da646ea25a",
+  "suite": "operand-provenance/declared-constant-v1"
+}

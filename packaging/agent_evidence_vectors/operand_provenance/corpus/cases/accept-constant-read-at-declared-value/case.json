@@ -1,0 +1,53 @@
+{
+  "derivations": [
+    {
+      "declared_constants": [
+        {
+          "id": "percent",
+          "value": "100"
+        },
+        {
+          "id": "months_per_year",
+          "value": "12"
+        },
+        {
+          "id": "months_per_quarter",
+          "value": "3"
+        },
+        {
+          "id": "monthly_rate",
+          "value": "0.0065"
+        }
+      ],
+      "executed_reads": [
+        {
+          "id": "percent",
+          "value": "100"
+        },
+        {
+          "id": "months_per_year",
+          "value": "12"
+        },
+        {
+          "id": "months_per_quarter",
+          "value": "3"
+        },
+        {
+          "id": "monthly_rate",
+          "value": "0.0065"
+        }
+      ],
+      "id": "quarterly-net-reference"
+    }
+  ],
+  "note": "The constant is declared as 0.0065; the computation read 0.0065.",
+  "operand": {
+    "grounding": {
+      "constant": "monthly_rate",
+      "derivation": "quarterly-net-reference",
+      "kind": "constant"
+    },
+    "value": "0.0065"
+  },
+  "suite": "operand-provenance/declared-constant-v1"
+}

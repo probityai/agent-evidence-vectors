@@ -30,13 +30,20 @@ jobs:
         include:
           - label: integration-770f1e0
             ref: 770f1e06b0a037518e910255109be4e6f2e0ca0c
+            key_id_mode: label
             expect: agt-integration-770f1e0.json
           - label: pr229
             ref: beee5b54d1292c30137d66ab660c2639929a5284
+            key_id_mode: session_id
             expect: agt-pr229.json
           - label: pr229-6e6942d
             ref: 6e6942deb8393e15916976b95e3bd18b97071b62
+            key_id_mode: session_id
             expect: agt-pr229-6e6942d.json
+          - label: pr229-f94d393
+            ref: f94d3931fdcee5500ccfad689bae82b352e67faa
+            key_id_mode: label
+            expect: agt-pr229-f94d393.json
     steps:
       - name: Check out the probes
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
@@ -61,6 +68,9 @@ jobs:
         run: bun install --frozen-lockfile --ignore-scripts
 
       - name: Run the probes against the recorded expectation
+        env:
+          # Heads before section 10 fixed key_id as a label read it as the session_id.
+          ACS_PROBE_KEY_ID_MODE: ${{ matrix.key_id_mode }}
         run: >-
           bash vectors-acs-core/wire-probes/run_against_agt.sh source/acs out
           vectors-acs-core/wire-probes/expected/${{ matrix.expect }}
