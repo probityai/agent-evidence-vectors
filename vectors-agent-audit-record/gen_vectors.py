@@ -142,7 +142,7 @@ def seal_commitment(pred: dict[str, Any]) -> None:
 # Evaluation inputs (Section 5.4 of draft-gilda-audit-agent-audit-record-00).
 # Every entry carries input, lastResult and maxAge, and every age is measured
 # from lastResult to decision.reportedAt, 2026-09-19T11:04:02Z in every member
-# except FR15a; the skew tolerance is 300 seconds. The accept members carry the
+# except FR17a; the skew tolerance is 300 seconds. The accept members carry the
 # inputs the draft's own example prints: a policy read at 10:00:00 under a
 # day's maximum and a standing value read at 11:00:00 under an hour's.
 # ---------------------------------------------------------------------------
@@ -342,6 +342,8 @@ def member(
     readings: list[dict[str, str]] | None = None,
     section: str | None = None,
     dating: dict[str, Any] | None = None,
+    revision: str | None = None,
+    aggregation: dict[str, Any] | None = None,
 ) -> None:
     if (verdict is None) == (readings is None):
         raise SystemExit(
@@ -366,6 +368,8 @@ def member(
             "readings": readings,
             "section": section,
             "dating": dating,
+            "revision": revision,
+            "aggregation": aggregation,
         }
     )
 
@@ -579,7 +583,7 @@ def build_a20() -> Built:
     return accept("A20", pred)
 
 
-# --- freshness members (Section 5.4, rows FR1 to FR15) -----------------------
+# --- freshness members (Section 5.4, rows FR1 to FR18) -----------------------
 
 
 def _with_inputs(parent: str, name: str, entries: list[dict[str, Any]]) -> Callable[[], Built]:
@@ -604,7 +608,7 @@ def _entry_change(
 KEY_ENTRY, STANDING_ENTRY = 1, 2
 
 
-def build_fr15a() -> Built:
+def build_fr17a() -> Built:
     """The first hop: it reads standing from its source at 10:00:00 and applies
     a two-hour maximum, so at its reportedAt of 11:04:00 the value is 3840
     seconds old and fresh."""
@@ -615,10 +619,10 @@ def build_fr15a() -> Built:
         entry("policy-source", "2026-09-19T10:00:00Z", DAY),
         entry("standing-source", "2026-09-19T10:00:00Z", 2 * HOUR),
     ]
-    return accept("FR15a", pred)
+    return accept("FR17a", pred)
 
 
-def build_fr15b() -> Built:
+def build_fr17b() -> Built:
     """The second hop: it copies the source's lastResult of 10:00:00 unchanged
     and applies its own one-hour maximum, so at its reportedAt of 11:04:02 the
     same value is 3842 seconds old and stale. It could not evaluate, and it
@@ -628,7 +632,7 @@ def build_fr15b() -> Built:
         entry("policy-source", "2026-09-19T10:00:00Z", DAY),
         entry("standing-source", "2026-09-19T10:00:00Z", HOUR),
     ]
-    return accept("FR15b", pred)
+    return accept("FR17b", pred)
 
 
 def _fr13b(pred: dict[str, Any]) -> None:
@@ -641,7 +645,7 @@ def _ev14(pred: dict[str, Any]) -> None:
     pred["evaluation"]["unavailableInput"] = []
 
 
-def _fr15c(pred: dict[str, Any]) -> None:
+def _fr17c(pred: dict[str, Any]) -> None:
     pred["evaluation"]["status"] = "evaluated"
     del pred["evaluation"]["unavailableInput"]
 
@@ -1502,6 +1506,7 @@ def define() -> None:
 
     define_freshness()
     define_retained()
+    define_revision_01()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
     if missing or len(rank) != len(MEMBERS):
@@ -1513,11 +1518,13 @@ def define_freshness() -> None:
     """Section 5.4 as draft-gilda-audit-agent-audit-record-00 states it: every
     entry of evaluation.inputs, its age from lastResult to decision.reportedAt,
     and the unavailable inputs a verifier derives from the entries. FR1 to FR13
-    and EV13 are rows of that draft's Appendix B. FR14 and FR15a to FR15c are
-    for its next revision: FR14 refuses a record with no reportedAt, the time
-    every age is measured to, FR15 is one forwarded value judged at two hops
-    that each apply their own maxAge, and FR16 holds the skew tolerance FR9
-    refuses past, so a verifier allowing no skew at all is caught."""
+    and EV13 are rows of that draft's Appendix B. FR16 to FR18 are proposed for
+    a later revision, numbered past the FR14 and FR15 rows revision 01 prints:
+    FR16 refuses a record with no reportedAt, the time every age is measured
+    to, FR17a to FR17c are one forwarded value judged at two hops that each
+    apply their own maxAge, and FR18 holds the skew tolerance FR9 refuses past,
+    so a verifier allowing no skew at all is caught. FR14 and FR15 are rows of
+    revision 01 (define_revision_01)."""
     fresh = second_hop_inputs("2026-09-19T10:30:00Z")
     accepts: list[tuple[str, str, str, Callable[[], Built]]] = [
         (
@@ -1681,8 +1688,8 @@ def define_freshness() -> None:
         member(draft_id, slug, parent, row, build, "malformed", [code], section=section)
 
     member(
-        "FR14",
-        "fr14-no-decision-reported-at",
+        "FR16",
+        "fr16-no-decision-reported-at",
         "FR1",
         "FR1 with decision.reportedAt removed: no reference time to measure any input's age to",
         mutate("FR1", _drop("decision.reportedAt")),
@@ -1691,14 +1698,14 @@ def define_freshness() -> None:
         section="5.4",
     )
     member(
-        "FR16",
-        "fr16-last-result-inside-skew-tolerance",
+        "FR18",
+        "fr18-last-result-inside-skew-tolerance",
         None,
         "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the "
         "skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
         _with_inputs(
             "A1",
-            "FR16",
+            "FR18",
             [
                 entry("policy-source", "2026-09-19T10:00:00Z", DAY),
                 entry("key-source", "2026-09-19T11:09:02Z", HOUR),
@@ -1710,39 +1717,170 @@ def define_freshness() -> None:
         section="5.4",
     )
     member(
-        "FR15a",
-        "fr15a-first-hop-two-hour-max-age-fresh",
+        "FR17a",
+        "fr17a-first-hop-two-hour-max-age-fresh",
         None,
         "the first of two hops: standing-source read from its source at 10:00:00 under the "
         "hop's own maxAge of 7200, 3840 seconds old at its reportedAt of 11:04:00, fresh, "
         "evaluated",
-        build_fr15a,
+        build_fr17a,
         "valid",
         tier="authoritative",
         section="5.4",
     )
     member(
-        "FR15b",
-        "fr15b-second-hop-one-hour-max-age-stale",
+        "FR17b",
+        "fr17b-second-hop-one-hour-max-age-stale",
         None,
-        "the second hop, receiving FR15a's standing-source: the source's lastResult of "
+        "the second hop, receiving FR17a's standing-source: the source's lastResult of "
         "10:00:00 copied unchanged under this hop's own maxAge of 3600, 3842 seconds old at "
         "11:04:02, stale, not-evaluated naming standing-source, deny beside none",
-        build_fr15b,
+        build_fr17b,
         "valid",
         tier="authoritative",
         section="5.4",
     )
     member(
-        "FR15c",
-        "fr15c-second-hop-carries-first-hops-verdict",
-        "FR15b",
-        "FR15b recorded as evaluated, the first hop's verdict carried over in place of this "
+        "FR17c",
+        "fr17c-second-hop-carries-first-hops-verdict",
+        "FR17b",
+        "FR17b recorded as evaluated, the first hop's verdict carried over in place of this "
         "hop's own maxAge",
-        mutate("FR15b", _fr15c),
+        mutate("FR17b", _fr17c),
         "malformed",
         ["evaluation-inconsistent"],
         section="5.4",
+    )
+
+
+# ---------------------------------------------------------------------------
+# Rows of revision 01 (draft-gilda-audit-agent-audit-record-01, Appendix B).
+#
+# Each member here carries draftRevision and the row identifier revision 01
+# prints. The corpus otherwise tests -00, so a reader conforming only to -00
+# fails TI6, V4 and V5, and that is the change revision 01 makes:
+#
+# * Section 5.4: where a decision depended on several values of one input, the
+#   entry takes lastResult and maxAge from ONE value, the one whose lastResult
+#   plus maxAge is earliest. -00 took the oldest lastResult and the smallest
+#   maxAge from different values. FR14 carries the two source values in the
+#   manifest's aggregation block, so a producer's aggregation is tested on its
+#   input and not only on a prebuilt record; FR15 is the record the -00 rule
+#   writes, refused because it reports two fresh values as one stale input.
+#   Mikhail Sergeev, review of -00, 20 October 2026 point 1, and
+#   probityai/agent-evidence-vectors#249.
+# * Section 5.7: a gap inside pathScope beside scopeComplete of true is
+#   malformed at any tier (V4, V5), and the tier's coverage clause is
+#   scopeComplete of true (TI6). -00's clause was "scopeComplete is true or
+#   every gap is outside pathScope", which passed both. Mikhail Sergeev, the
+#   same review, point 4, and probityai/agent-evidence-vectors#250.
+# ---------------------------------------------------------------------------
+
+REVISION_01 = "draft-gilda-audit-agent-audit-record-01"
+
+#: The two values of standing-source a deny judging two delegation paths
+#: depended on, as the producer held them, and decision.reportedAt of A2.
+#: Value A is 30 seconds old under 60 and expires at 11:04:32; value B is 3600
+#: seconds old under 7200 and expires at 12:04:02. Both are fresh.
+FR14_REPORTED_AT = "2026-09-19T11:04:02Z"
+FR14_VALUES = [
+    {"lastResult": "2026-09-19T11:03:32Z", "maxAge": 60},
+    {"lastResult": "2026-09-19T10:04:02Z", "maxAge": 2 * HOUR},
+]
+#: Index of standing-source in baseline_inputs().
+BASELINE_STANDING = 1
+
+
+def build_fr14() -> Built:
+    """A2 with standing-source carrying value A's pair, the earliest expiry."""
+    pred = from_pred("A2")
+    first = FR14_VALUES[0]
+    pred["evaluation"]["inputs"][BASELINE_STANDING] = entry(
+        "standing-source", first["lastResult"], first["maxAge"]
+    )
+    return accept("FR14", pred)
+
+
+def _fr15(pred: dict[str, Any]) -> None:
+    """The -00 aggregation: the oldest lastResult (B's) beside the smallest
+    maxAge (A's), from different values, still recorded as evaluated."""
+    held = pred["evaluation"]["inputs"][BASELINE_STANDING]
+    held["lastResult"] = min(v["lastResult"] for v in FR14_VALUES)
+    held["maxAge"] = min(v["maxAge"] for v in FR14_VALUES)
+
+
+def _coverage(scope_complete: bool, gaps: list[str]) -> Callable[[dict[str, Any]], None]:
+    def change(pred: dict[str, Any]) -> None:
+        pred["observation"]["coverage"] = {"scopeComplete": scope_complete, "gaps": gaps}
+
+    return change
+
+
+#: A path under A1's pathScope of /srv/ledger/, and one outside it.
+GAP_INSIDE = "/srv/ledger/archive/"
+GAP_OUTSIDE = "/srv/reports/"
+
+
+def define_revision_01() -> None:
+    member(
+        "TI6",
+        "ti6-authoritative-incomplete-gaps-outside-scope",
+        "A1",
+        "authoritative declared with scopeComplete of false and gaps naming only paths "
+        "outside pathScope, which draft-gilda-audit-agent-audit-record-00 accepted",
+        mutate("A1", _coverage(False, [GAP_OUTSIDE])),
+        "malformed",
+        ["tier-overclaim-coverage"],
+        revision=REVISION_01,
+    )
+    member(
+        "V4",
+        "v4-scope-complete-beside-gap-inside-scope",
+        "A1",
+        "scopeComplete of true beside a gap inside pathScope, all other tier clauses met: "
+        "TI4 with only scopeComplete changed from false to true",
+        mutate("A1", _coverage(True, [GAP_INSIDE])),
+        "malformed",
+        ["coverage-inconsistent"],
+        revision=REVISION_01,
+    )
+    member(
+        "V5",
+        "v5-scope-complete-beside-gap-inside-scope-voluntary",
+        "A5",
+        "scopeComplete of true beside a gap inside pathScope, tier of voluntary",
+        mutate("A5", _coverage(True, [GAP_INSIDE])),
+        "malformed",
+        ["coverage-inconsistent"],
+        revision=REVISION_01,
+    )
+    member(
+        "FR14",
+        "fr14-two-fresh-values-earliest-expiry-pair",
+        None,
+        "A2 judging two delegation paths, two values of standing-source each fresh at "
+        "decision.reportedAt (ages 30 and 3600 seconds under a maxAge of 60 and of 7200), "
+        "the entry carrying the first value's pair, the one that expires first",
+        build_fr14,
+        "valid",
+        tier="authoritative",
+        revision=REVISION_01,
+        aggregation={
+            "input": "standing-source",
+            "reportedAt": FR14_REPORTED_AT,
+            "values": FR14_VALUES,
+        },
+    )
+    member(
+        "FR15",
+        "fr15-oldest-last-result-beside-smallest-max-age",
+        "FR14",
+        "the entry carrying the second value's lastResult beside the first value's maxAge, "
+        "under evaluated: the pair the -00 rule writes, age 3600 under 60",
+        mutate("FR14", _fr15),
+        "malformed",
+        ["evaluation-inconsistent"],
+        revision=REVISION_01,
     )
 
 
@@ -2101,7 +2239,8 @@ ORDER = (
     "FR1 FR2 FR3 FR4 FR5 FR6 FR7 FR8 FR9 FR10 FR11 FR12 FR13 "
     "EV1 EV2 EV3 EV4 EV5 EV6 EV7 EV8 EV9 EV10 EV11 EV12 EV13 OV1 OV2 OV3 N1 N2 "
     "R1 R2 R3 R4 R5 R6 R7 R8 R9 "
-    "FR13b FR14 FR15a FR15b FR15c FR16 EV14"
+    "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
+    "TI6 V4 V5 FR14 FR15"
 ).split()
 
 
@@ -2131,6 +2270,10 @@ def optional_fields(entry: Member, ids: dict[str, str]) -> dict[str, Any]:
         out["readings"] = entry["readings"]
     if entry["section"] is not None:
         out["draftSection"] = entry["section"]
+    if entry["revision"] is not None:
+        out["draftRevision"] = entry["revision"]
+    if entry["aggregation"] is not None:
+        out["aggregation"] = entry["aggregation"]
     return out
 
 
@@ -2217,7 +2360,13 @@ def emit() -> None:
             "draftId is the row's identifier and parentDraftId its from column. The "
             "members after the last row carry draftSection: each tests a rule of that "
             "section that Appendix B carries no row for, and continues the identifier "
-            "series of the rows beside it. R1 to R9 are retained records: the file "
+            "series of the rows beside it. A member carrying draftRevision is a row of "
+            "that later revision's Appendix B, under the identifier it prints, and tests a "
+            "rule that revision changes, so a reader conforming only to the draft named "
+            "above may fail it. A member carrying aggregation lists the values of one "
+            "input the decision depended on, as the producer held them: a producer's "
+            "aggregation over those values must yield the entry the record carries. "
+            "R1 to R9 are retained records: the file "
             "carries the envelope beside its retention entry, expected.verdict is the "
             "envelope's verdict, and expected.dating is the result of the dating check "
             "of Section 4.7.1, reported beside it and never folded into it. An "
