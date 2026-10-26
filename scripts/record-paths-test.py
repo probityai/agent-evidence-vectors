@@ -169,3 +169,50 @@ def test_portable_argv_names_the_environment_and_drops_the_working_directory(
     monkeypatch.setattr(sys, "executable", "/opt/env/bin/python")
     got = portable_argv(["/opt/env/bin/python3", str(tmp_path / "v" / "check.py")])
     assert got == ["<env>/bin/python3", "v/check.py"]
+
+
+def test_a_temp_dir_under_a_home_is_scratch_not_a_person(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # A box keeps each job's temporary directory under the account's home, so pytest's
+    # tmp_path looks like a home path. It is scratch exactly as the shared temp dir is.
+    scratch_root = S + "home" + S + "gate" + S + "work" + S + ".t" + S + "job"
+    monkeypatch.setenv("TMPDIR", scratch_root)
+    monkeypatch.setattr(record_paths.tempfile, "gettempdir", lambda: scratch_root)
+    inside = scratch_root + S + "pytest-of-gate" + S + "pytest-0" + S + "absent"
+    refuse_local_paths("r.json", {"verifier": inside})
+    refuse_local_paths("r.json", {"command": f"run --verifier {inside}"})
+    assert find_local_path(inside, allow_scratch=True) is None
+
+
+def test_a_temp_dir_path_outside_a_reproduction_field_is_still_refused(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    scratch_root = S + "home" + S + "gate" + S + "work" + S + ".t" + S + "job"
+    monkeypatch.setenv("TMPDIR", scratch_root)
+    monkeypatch.setattr(record_paths.tempfile, "gettempdir", lambda: scratch_root)
+    with pytest.raises(LocalPathError):
+        refuse_local_paths("r.json", {"note": scratch_root + S + "x"})
+
+
+def test_only_the_temp_dir_is_scratch_not_the_rest_of_the_home(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    scratch_root = S + "home" + S + "gate" + S + "work" + S + ".t" + S + "job"
+    monkeypatch.setenv("TMPDIR", scratch_root)
+    monkeypatch.setattr(record_paths.tempfile, "gettempdir", lambda: scratch_root)
+    other = S + "home" + S + "gate" + S + "work" + S + "repo" + S + "file"
+    assert find_local_path(other, allow_scratch=True) is not None
+    with pytest.raises(LocalPathError):
+        refuse_local_paths("r.json", {"command": other})
+    # A sibling whose name only starts like the temp dir is not inside it.
+    assert find_local_path(scratch_root + "-more" + S + "x", allow_scratch=True) is not None
+
+
+@pytest.mark.parametrize("home", [S + "home" + S + "someone", S + "Users" + S + "someone"])
+def test_a_temp_dir_that_is_a_home_directory_makes_nothing_scratch(
+    home: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("TMPDIR", home)
+    monkeypatch.setattr(record_paths.tempfile, "gettempdir", lambda: home)
+    assert find_local_path(home + S + "Documents" + S + "x", allow_scratch=True) is not None
