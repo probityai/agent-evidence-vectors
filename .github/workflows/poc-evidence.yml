@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: '3.13.15'
       - name: Install pinned control dependencies
-        run: python -m pip install cryptography==45.0.7 build==1.3.0
+        run: python -m pip install cryptography==45.0.7 build==1.3.0 jsonschema==4.25.1
       - name: The committed corpus is what the builder writes
         run: python vectors-poc-evidence/build/proof-of-control-build.py --check
       - name: Every case ties to the specification text and fools only its wrong verifier
