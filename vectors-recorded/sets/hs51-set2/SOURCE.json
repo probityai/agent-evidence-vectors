@@ -1,0 +1,41 @@
+{
+  "bindings": [
+    {
+      "proof": "log/checkpoint.stamp.ots",
+      "subject": "log/checkpoint.json",
+      "type": "opentimestamps-file-digest"
+    }
+  ],
+  "commit": "b85029de8d22c5246886f4f50ede03da0f54dfcf",
+  "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+  "licence": "MIT, copyright notice in LICENSE beside bytes/",
+  "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/set2",
+  "pointers": [
+    {
+      "at": "https://github.com/babyblueviper1/preaction-governance-conformance/tree/235aaab/examples/hs51-acceptance-set",
+      "owner": "babyblueviper1",
+      "what": "acceptance records issued by the invinoveritas checker"
+    },
+    {
+      "at": "https://github.com/ogasurfproject-jpg/horizon-shield/issues/51#issuecomment-6330218168",
+      "owner": "aeoess",
+      "what": "the APS side of the same calls"
+    },
+    {
+      "at": "https://github.com/Poke-nushi/Verifiable-Agent-Trust-Envelope/tree/d78e9507/docs/interop/horizon51-set2-replay",
+      "owner": "Poke-nushi",
+      "what": "a replay of the settlement"
+    }
+  ],
+  "publishedDigests": {
+    "bundle.json": "c4ecb8830a69f4a8e8c31f5c8d4c32460651d1cf63cabf77db08a7a4a62a3668",
+    "log/checkpoint.json": "afd5d289c7a289083be56849a73b9f9bef51877c9d6122cf507a6a1ca6115e31",
+    "log/checkpoint.stamp.ots": "77e0b7aee9ff39224fa0c2963e540d1ddaa7e3e04f2c95f5f0ac9c08a64aa9b7",
+    "log/entries.jsonl": "a65b44a4d5c252aa1c0578737866b91e14cecf3503d3f31f4fe6d2f3af358406",
+    "settlement.json": "565acd9cec6772c0c44bbff3cad1c71ed1c3c106c1448cbe37ae3c641b947d19"
+  },
+  "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247",
+  "repository": "https://github.com/ogasurfproject-jpg/horizon-shield",
+  "scope": "The check says the retained bytes match the digests their publisher listed and that the timestamp proof header names the checkpoint bytes. It says nothing about whether the payments, the budget or the settlement outcome were right.",
+  "sumsSha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd"
+}

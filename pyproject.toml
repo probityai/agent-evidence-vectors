@@ -8,7 +8,7 @@
 
 [project]
 name = "agent-evidence-vectors"
-version = "0.26.0"
+version = "0.26.2"
 description = "Conformance corpora and reference verifiers for agent evidence records"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -75,6 +75,9 @@ agent-evidence-vectors-claim = "agent_evidence_vectors.claim_record.run:main"
 # per item apart from verifier identity, and held-out status where absent is unknown.
 # Also reachable as `agent-evidence-vectors evalresult`.
 agent-evidence-vectors-evalresult = "agent_evidence_vectors.eval_result.run:main"
+# Recorded sets: retained bytes from a live run against the digest list their
+# publisher wrote. Also reachable as `agent-evidence-vectors recorded`.
+agent-evidence-vectors-recorded = "agent_evidence_vectors.recorded:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
@@ -119,6 +122,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
@@ -137,6 +141,8 @@ only-include = [
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
     "vectors-approval-binding",
+    "vectors-dispatch-fence",
+    "vectors-converted-argument-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
@@ -170,6 +176,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
@@ -188,6 +195,8 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-identity-binding" = "agent_evidence_vectors/corpora/vectors-identity-binding"
 "vectors-authority-at-dispatch" = "agent_evidence_vectors/corpora/vectors-authority-at-dispatch"
 "vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
+"vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
+"vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
 "vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
 "vectors-done-receipt" = "agent_evidence_vectors/corpora/vectors-done-receipt"
@@ -261,6 +270,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-recorded",
     "vectors-agent-decision",
     "vectors-mcp-owasp",
     "spec/predicates/adversarial-execution-evidence.md",
@@ -281,6 +291,8 @@ only-include = [
     "vectors-identity-binding",
     "vectors-authority-at-dispatch",
     "vectors-approval-binding",
+    "vectors-dispatch-fence",
+    "vectors-converted-argument-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
     "vectors-done-receipt",
@@ -374,11 +386,12 @@ files = ["packaging", "vectors", "tools"]
 # to pass if a Python file exists outside them.
 include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-chunked-export",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-dispatch-fence",
+           "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
            "vectors-w3c-intake", "vectors-w3c-report"]

@@ -1,0 +1,287 @@
+{
+  "codes": [
+    "sums-missing",
+    "sums-malformed",
+    "path-unsafe",
+    "file-missing",
+    "digest-mismatch",
+    "file-unlisted",
+    "sums-unpinned",
+    "binding-malformed",
+    "binding-mismatch"
+  ],
+  "contract": "vectors-recorded/README.md",
+  "corpusDigest": "07d57f56f50a6ea9cf3f3bfd444c07d2bd37d7f0b8594d5e2a1c14947e5529a9",
+  "suite": "recorded-set-conformance/v1",
+  "vectors": [
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "dir": "sets/hs51-set2/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "sets/hs51-set2/bytes/SHA256SUMS",
+      "id": "vf2da54b4b4840bb9",
+      "kind": "recorded",
+      "licenceFile": "sets/hs51-set2/LICENSE",
+      "name": "hs51-set2",
+      "source": {
+        "commit": "b85029de8d22c5246886f4f50ede03da0f54dfcf",
+        "contributor": "ogasurfproject-jpg (HORIZON SHIELD, The HORIZONs Co., Ltd.)",
+        "licence": "MIT, copyright notice in LICENSE beside bytes/",
+        "path": "workers/hs-ledger/nenrin/musubi-v0/ca2a-companion-v0/pilot51/set2",
+        "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247",
+        "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
+      },
+      "sourceFile": "sets/hs51-set2/SOURCE.json",
+      "sumsSha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "nothing: the twin every other case is one mutation from",
+      "dir": "cases/v9dd74945e2f9f24a/bytes",
+      "expected": {
+        "codes": [],
+        "verdict": "verified"
+      },
+      "file": "cases/v9dd74945e2f9f24a/bytes/SHA256SUMS",
+      "id": "v9dd74945e2f9f24a",
+      "kind": "synthetic",
+      "name": "intact",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "one listed file edited, its list left alone",
+      "dir": "cases/v62fa5f3c27299bf0/bytes",
+      "expected": {
+        "codes": [
+          "digest-mismatch"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v62fa5f3c27299bf0/bytes/SHA256SUMS",
+      "id": "v62fa5f3c27299bf0",
+      "kind": "synthetic",
+      "name": "digest-mismatch",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "one listed file removed",
+      "dir": "cases/vfa8b96c40cf6ca58/bytes",
+      "expected": {
+        "codes": [
+          "file-missing"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vfa8b96c40cf6ca58/bytes/SHA256SUMS",
+      "id": "vfa8b96c40cf6ca58",
+      "kind": "synthetic",
+      "name": "file-missing",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "one file added that the list does not name",
+      "dir": "cases/v96b23d1c449a087f/bytes",
+      "expected": {
+        "codes": [
+          "file-unlisted"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v96b23d1c449a087f/bytes/SHA256SUMS",
+      "id": "v96b23d1c449a087f",
+      "kind": "synthetic",
+      "name": "file-unlisted",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "a file edited and its list rewritten to match",
+      "dir": "cases/vea68e9e10d73e270/bytes",
+      "expected": {
+        "codes": [
+          "sums-unpinned"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vea68e9e10d73e270/bytes/SHA256SUMS",
+      "id": "vea68e9e10d73e270",
+      "kind": "synthetic",
+      "name": "sums-unpinned",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "the list removed",
+      "dir": "cases/v9439fd4d5f831d98/bytes",
+      "expected": {
+        "codes": [
+          "sums-missing"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v9439fd4d5f831d98/bytes/log/checkpoint.json",
+      "id": "v9439fd4d5f831d98",
+      "kind": "synthetic",
+      "name": "sums-missing",
+      "sumsSha256": "564326c00eef8ba013c348d24712477dc507f438c425ee0a79c0b0a5e7563838"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "one line with a single space and no mode character",
+      "dir": "cases/vbc9b27e313de84c4/bytes",
+      "expected": {
+        "codes": [
+          "sums-malformed"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vbc9b27e313de84c4/bytes/SHA256SUMS",
+      "id": "vbc9b27e313de84c4",
+      "kind": "synthetic",
+      "name": "sums-malformed",
+      "sumsSha256": "f40975456e1b62694925079a9c43276f7674bebe58eecae6a47f4dd44c516cc9"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "the last line without its newline",
+      "dir": "cases/v18bbf6f20f1bc72b/bytes",
+      "expected": {
+        "codes": [
+          "sums-malformed"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v18bbf6f20f1bc72b/bytes/SHA256SUMS",
+      "id": "v18bbf6f20f1bc72b",
+      "kind": "synthetic",
+      "name": "sums-unterminated",
+      "sumsSha256": "26f68251f489a02899af8ecabcbca579b492415a42965614f43881945128ca11"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "a line naming a path outside the set",
+      "dir": "cases/v95a5721ca95ea724/bytes",
+      "expected": {
+        "codes": [
+          "path-unsafe"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v95a5721ca95ea724/bytes/SHA256SUMS",
+      "id": "v95a5721ca95ea724",
+      "kind": "synthetic",
+      "name": "path-unsafe",
+      "sumsSha256": "6281082f29ff04347d53546c20c1dc994817d43cb4eec4f823ba731159f711de"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "the timestamp proof commits to other bytes",
+      "dir": "cases/v9587a7ace6988f18/bytes",
+      "expected": {
+        "codes": [
+          "binding-mismatch"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/v9587a7ace6988f18/bytes/SHA256SUMS",
+      "id": "v9587a7ace6988f18",
+      "kind": "synthetic",
+      "name": "binding-mismatch",
+      "sumsSha256": "26ad6b4d4e37dfd19dff70af00ad528830e66e2d744093b40a18646e9ad99480"
+    },
+    {
+      "bindings": [
+        {
+          "proof": "log/checkpoint.stamp.ots",
+          "subject": "log/checkpoint.json",
+          "type": "opentimestamps-file-digest"
+        }
+      ],
+      "breaks": "the timestamp proof header does not parse",
+      "dir": "cases/vc545828080a9aa95/bytes",
+      "expected": {
+        "codes": [
+          "binding-malformed"
+        ],
+        "verdict": "failed"
+      },
+      "file": "cases/vc545828080a9aa95/bytes/SHA256SUMS",
+      "id": "vc545828080a9aa95",
+      "kind": "synthetic",
+      "name": "binding-malformed",
+      "sumsSha256": "ae37644c0e0d043975c26114b48b11ef5efa6d78bdeddd522158d227700cbfe2"
+    }
+  ]
+}

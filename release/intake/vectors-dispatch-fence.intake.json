@@ -1,0 +1,542 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 5,
+      "deny": 8
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 13
+  },
+  "anchor": {
+    "kind": "signed-digest-list",
+    "manifest": "vectors-dispatch-fence/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-dispatch-fence/gen_vectors.py",
+    "routine-file": "vectors-dispatch-fence/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "958421c39dcd872edd0f877572a9c60fcf98442b8800e7e3aa7b048b92c794b5",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "swapped-in": "2f3f03a6ab49b29085005ba331b5aa197bc1cca43fdb19c1236365e9d054b1ea",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dispatch-fence/README.md",
+      "serialization": "bytes",
+      "sha256": "22003ca476aaddf7aa740002b1ed84abc415dc0f5bb93e2ee5be623bb60d4114"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "swapped-in": "277ebfc9bd46edec295b6c8850095fdc1dd1cf531fa6a240de42e86ce151fde9",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dispatch-fence/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "e97df83d3123e547bf1b8119d2557aaf84d1f4a8244d95ee0ff20cb5fead35d3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "swapped-in": "32be6bbed1ddda4a32370984c123303a41c167b85b6be7359a7dec9abe424449",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dispatch-fence/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "6f0ace6b9fd4f2bfbd754e29c1b4048d0927ff1f89989a7f6f352e1b04425200"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+        },
+        "swapped-in": "ec4c72c55594d52a8ca6e03331296e6c572b8f0492447d7b7035f3dda565b053",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-dispatch-fence/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "58f81f2207e6d58cee8799196cbb5988ab8b1944ed1e48f56dde61d1ed5c6e0b"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-dispatch-fence"
+  },
+  "byte-identity": {
+    "pins": 13,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-dispatch-fence",
+      "aee-verify -json vectors-dispatch-fence",
+      "aee-verify vectors-dispatch-fence"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "1fc34484d62d2024222d84fdaa8bb8746bb03db397b0fac2a5f8145a562b7e29"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-single-read",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-state-event-after-fence",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-renewed-hold-covers-effect",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-same-proposal-second-hop",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-effect-ends-at-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "fence-rereads-state",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "label-raised-between-check-and-fence",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "declared-runtime-exceeds-ttl",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "tool-outlives-hold",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "second-dispatch-after-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "commit-after-own-hold-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "cfd276011364cf1d70a9d292ffe2c119d57d097a2866e04a51c211c3ef8ca401"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-single-read",
+      "allow-state-event-after-fence",
+      "allow-renewed-hold-covers-effect",
+      "allow-same-proposal-second-hop",
+      "allow-effect-ends-at-expiry",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "fence-rereads-state",
+      "label-raised-between-check-and-fence",
+      "declared-runtime-exceeds-ttl",
+      "tool-outlives-hold",
+      "second-dispatch-after-expiry",
+      "commit-after-own-hold-expired"
+    ],
+    "path": "vectors-dispatch-fence/MANIFEST.json",
+    "sha256": "405c76a4acf9d77bea7618733c706041974d14816d358227c51ec3b42e803be7"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/allow-single-read/record.json",
+          "sha256": "796ddc1f74ec9e1c95531a13873150e91683bf1004b1a9c0e25c69c9216a9bfc"
+        }
+      ],
+      "id": "allow-single-read"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/allow-state-event-after-fence/record.json",
+          "sha256": "f8cc987fa6b1528a84146d86f177c567dda671c041aef6b1c65c8249f67af880"
+        }
+      ],
+      "id": "allow-state-event-after-fence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/allow-renewed-hold-covers-effect/record.json",
+          "sha256": "3fe57cb420824949df927498d82e2f050f46c723874ff2d33509cc687adc5a5e"
+        }
+      ],
+      "id": "allow-renewed-hold-covers-effect"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/allow-same-proposal-second-hop/record.json",
+          "sha256": "f8588ca289dfa0a75d469b80921cbd7627ba89850bc30000e8979c2f2e283438"
+        }
+      ],
+      "id": "allow-same-proposal-second-hop"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/allow-effect-ends-at-expiry/record.json",
+          "sha256": "5e350727a0b2a59db2967e8816b1310d58dfadfbd90c456c8f61ab120c031722"
+        }
+      ],
+      "id": "allow-effect-ends-at-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/contract-id-missing/record.json",
+          "sha256": "79e365faf1fbf7bced6f4f7c05167ed43b94f18add5fce86de366c59fab91ac9"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/contract-id-unknown/record.json",
+          "sha256": "3eacb9b4a475c87f0e896a376ab4b4365fa77499ff8c8c42b2ae739bf40348c6"
+        }
+      ],
+      "id": "contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/fence-rereads-state/record.json",
+          "sha256": "627e4aaecd8f022cd7bb5d594b463b61b54d957e16a76ecd64ce3892657babed"
+        }
+      ],
+      "id": "fence-rereads-state"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/label-raised-between-check-and-fence/record.json",
+          "sha256": "4e20dad784c0c73eaba268b233360e4bd9ec833ed549c06f36620778a83f6819"
+        }
+      ],
+      "id": "label-raised-between-check-and-fence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/declared-runtime-exceeds-ttl/record.json",
+          "sha256": "d5f14ce9331c17871e998a8f2bce8dacbe9164f99385e636e0703a2edc09392e"
+        }
+      ],
+      "id": "declared-runtime-exceeds-ttl"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/tool-outlives-hold/record.json",
+          "sha256": "07913e9589c719bdcc227e38488623a4b2bd58472f5eeeff6687c762e344c68b"
+        }
+      ],
+      "id": "tool-outlives-hold"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/second-dispatch-after-expiry/record.json",
+          "sha256": "4c05594a3d4115d77797750c157286c295e5e3ecd914116ed1c250d80280709d"
+        }
+      ],
+      "id": "second-dispatch-after-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-dispatch-fence/cases/commit-after-own-hold-expired/record.json",
+          "sha256": "9dd254e67030009148a372a9c8ccd75345601d4aeabdf9d8aeb5bea5b45043c6"
+        }
+      ],
+      "id": "commit-after-own-hold-expired"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-dispatch-fence.json",
+        "serialization": "bytes",
+        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-dispatch-fence.txt",
+        "serialization": "bytes",
+        "sha256": "b83ba378689225f85b84351e1a464d120d151435804f95d023f62fcad718648b"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+      },
+      {
+        "process": "run-2",
+        "sha256": "16f2b5da8cf06a7e3180b80f40e2cefaf0a0fba826119082e85668118bfdb3a5"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 13 pinned members of dispatch-fence/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 13,
+    "require": "at-least-one",
+    "selected": [
+      "allow-single-read",
+      "allow-state-event-after-fence",
+      "allow-renewed-hold-covers-effect",
+      "allow-same-proposal-second-hop",
+      "allow-effect-ends-at-expiry",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "fence-rereads-state",
+      "label-raised-between-check-and-fence",
+      "declared-runtime-exceeds-ttl",
+      "tool-outlives-hold",
+      "second-dispatch-after-expiry",
+      "commit-after-own-hold-expired"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "dispatch-fence/v1"
+}

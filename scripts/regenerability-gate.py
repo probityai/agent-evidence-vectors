@@ -141,6 +141,8 @@ GENERATORS = (
     "vectors-identity-binding/gen_vectors.py",
     "vectors-authority-at-dispatch/gen_vectors.py",
     "vectors-approval-binding/gen_vectors.py",
+    "vectors-dispatch-fence/gen_vectors.py",
+    "vectors-converted-argument-binding/gen_vectors.py",
     "vectors-chunked-export/gen_vectors.py",
     "vectors-done-contract/gen_vectors.py",
     "vectors-done-receipt/gen_vectors.py",
@@ -153,6 +155,11 @@ GENERATORS = (
     "vectors-agent-change-admission/gen_vectors.py",
     "vectors-agentic-process-evidence/gen_vectors.py",
     "vectors-delegation-lifecycle/gen_vectors.py",
+    # The recorded-set corpus. Its recorded members are a publisher's bytes and
+    # are never generated, so only its synthetic cases, manifest and index are
+    # owned below; the generator refuses to run when a recorded member no
+    # longer matches the digest list its SOURCE.json pins.
+    "vectors-recorded/gen_vectors.py",
     "vectors-mcp-owasp/gen_vectors.py",
     # The MCP receipt examples import the observed-effect generator's helpers,
     # so they run after it and regenerate with it.
@@ -270,6 +277,10 @@ OWNED = (
     ("vectors-delegation-lifecycle", "MANIFEST.json"),
     ("vectors-delegation-lifecycle", "INDEX.md"),
     ("vectors-delegation-lifecycle/cases", "**/*.json"),
+    ("vectors-recorded", "MANIFEST.json"),
+    ("vectors-recorded", "INDEX.md"),
+    ("vectors-recorded/cases", "**/*.*"),
+    ("vectors-recorded/cases", "**/SHA256SUMS"),
     ("vectors-mcp-owasp", "MANIFEST.json"),
     ("vectors-mcp-owasp", "INDEX.md"),
     ("vectors-mcp-owasp/records", "v*.json"),
@@ -292,6 +303,15 @@ OWNED = (
     ("vectors-approval-binding", "MANIFEST.json"),
     ("vectors-approval-binding/cases", "**/record.json"),
     ("vectors-approval-binding/cases", "**/payload.bin"),
+    ("vectors-dispatch-fence", "MANIFEST.json"),
+    ("vectors-dispatch-fence/cases", "**/record.json"),
+    ("vectors-converted-argument-binding", "MANIFEST.json"),
+    ("vectors-converted-argument-binding/cases", "**/record.json"),
+    ("vectors-converted-argument-binding/cases", "**/raw.json"),
+    ("vectors-converted-argument-binding/cases", "**/shown.json"),
+    ("vectors-converted-argument-binding/cases", "**/rebuilt.json"),
+    ("vectors-converted-argument-binding/cases", "**/executed.json"),
+    ("vectors-converted-argument-binding/cases", "**/modified.json"),
     ("vectors-chunked-export", "MANIFEST.json"),
     ("vectors-chunked-export/cases", "**/record.json"),
     ("vectors-chunked-export/cases", "**/chunk-*.bin"),

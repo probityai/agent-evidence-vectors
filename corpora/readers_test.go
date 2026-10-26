@@ -72,6 +72,9 @@ var corpusCases = []corpusCase{
 	// A member of the admission corpus is a statement and a consumer policy;
 	// the policy is the half no other member shares, so its bytes are flipped.
 	{dir: "vectors-admission", memberFileKey: "policy"},
+	// A member of the recorded-set corpus is a directory of a publisher's
+	// bytes; its digest list is the file whose flipped byte must be named.
+	{dir: "vectors-recorded", memberFileKey: "file"},
 }
 
 func corpusPath(dir string) string { return filepath.Join("..", dir) }
