@@ -168,6 +168,11 @@ def _synthetic_entries() -> list[dict[str, Any]]:
     return entries
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """The digest the manifest states, recomputed from its vector rows."""
+    return _sha(reader.compact(manifest["vectors"]))
+
+
 def _index(entries: list[dict[str, Any]], digest: str) -> str:
     rows = [f"| `{e['id']}` | {e['kind']} | {e['name']} | {e['expected']['verdict']} | "
             f"{', '.join(f'`{c}`' for c in e['expected']['codes']) or '-'} |" for e in entries]

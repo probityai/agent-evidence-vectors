@@ -249,6 +249,20 @@ func (recordedSets) Judge(dir string, manifest []byte) (*Result, error) {
 	if sha(encoded) != head.CorpusDigest {
 		result.Findings = append(result.Findings, "corpusDigest does not recompute over the vectors")
 	}
+	result.Findings = append(result.Findings, recordedStrays(dir, entries)...)
+	for _, e := range entries {
+		m, err := recordedMember(dir, e)
+		if err != nil {
+			return nil, err
+		}
+		result.Members = append(result.Members, m)
+	}
+	return result, nil
+}
+
+// recordedStrays names every set directory on disk that no manifest row declares.
+func recordedStrays(dir string, entries []recordedEntry) []string {
+	var found []string
 	declared := map[string]bool{}
 	for _, e := range entries {
 		declared[e.Dir] = true
@@ -258,37 +272,39 @@ func (recordedSets) Judge(dir string, manifest []byte) (*Result, error) {
 	for _, path := range stray {
 		rel, err := filepath.Rel(dir, path)
 		if err == nil && !declared[filepath.ToSlash(rel)] {
-			result.Findings = append(result.Findings, rel+" holds a set no manifest row names")
+			found = append(found, rel+" holds a set no manifest row names")
 		}
 	}
-	for _, e := range entries {
-		m := Member{ID: e.ID, Kind: e.Kind}
-		memberDir := filepath.Join(dir, filepath.FromSlash(e.Dir))
-		id, err := recordedTreeID(memberDir)
-		switch {
-		case err != nil:
-			m.Findings = append(m.Findings, fmt.Sprintf("%s cannot be read: %v", e.Dir, err))
-		case id != e.ID:
-			m.Findings = append(m.Findings, "identifier does not recompute over the member's bytes")
-		default:
-			codes, err := recordedCheck(memberDir, e.SumsSHA256, e.Bindings)
-			if err != nil {
-				return nil, err
-			}
-			verdict := "verified"
-			if len(codes) > 0 {
-				verdict = "failed"
-			}
-			want := e.Expected.Codes
-			if want == nil {
-				want = []string{}
-			}
-			if verdict != e.Expected.Verdict || strings.Join(codes, ",") != strings.Join(want, ",") {
-				m.Findings = append(m.Findings, fmt.Sprintf("expected %s %v, got %s %v",
-					e.Expected.Verdict, want, verdict, codes))
-			}
+	return found
+}
+
+// recordedMember judges one manifest row against the bytes of its set.
+func recordedMember(dir string, e recordedEntry) (Member, error) {
+	m := Member{ID: e.ID, Kind: e.Kind}
+	memberDir := filepath.Join(dir, filepath.FromSlash(e.Dir))
+	id, err := recordedTreeID(memberDir)
+	switch {
+	case err != nil:
+		m.Findings = append(m.Findings, fmt.Sprintf("%s cannot be read: %v", e.Dir, err))
+	case id != e.ID:
+		m.Findings = append(m.Findings, "identifier does not recompute over the member's bytes")
+	default:
+		codes, err := recordedCheck(memberDir, e.SumsSHA256, e.Bindings)
+		if err != nil {
+			return m, err
 		}
-		result.Members = append(result.Members, m)
+		verdict := "verified"
+		if len(codes) > 0 {
+			verdict = "failed"
+		}
+		want := e.Expected.Codes
+		if want == nil {
+			want = []string{}
+		}
+		if verdict != e.Expected.Verdict || strings.Join(codes, ",") != strings.Join(want, ",") {
+			m.Findings = append(m.Findings, fmt.Sprintf("expected %s %v, got %s %v",
+				e.Expected.Verdict, want, verdict, codes))
+		}
 	}
-	return result, nil
+	return m, nil
 }
