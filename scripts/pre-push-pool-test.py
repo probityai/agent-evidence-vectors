@@ -144,8 +144,10 @@ class Controls(unittest.TestCase):
             "_go_selector.py",
             "_lockfile.py",
             "_native_provider.py",
+            "secret-scan.sh",
         ):
             shutil.copyfile(HERE / name, self.root / "scripts" / name)
+        shutil.copyfile(HERE.parent / ".gitleaks.toml", self.root / ".gitleaks.toml")
         (self.root / ".gitignore").write_text(".build/\n.venv/\n")
         self.commit()
         self.call("tag", "v0.1.0")
@@ -1281,7 +1283,17 @@ with (out/'large-native.bin').open('wb') as stream:
         self.assertEqual(clean.returncode, 0, clean.stderr)
         self.assertIn("push-hygiene: no blob", clean.stdout)
         self.assertIn("Remote CI is the proof", clean.stdout)
+        self.assertIn("secret", clean.stdout)
         self.assertFalse((self.root / ".build/fixture").exists())
+        # A token-shaped value in the pushed range is refused by the same
+        # gitleaks command the secret-scan workflow runs.
+        token = "Zq8vT3nW9x" + "Lp2Rk7Bf4Ys6Hd1Mc5Ja0E"
+        (self.root / "settings.py").write_text("api_" + 'key = "' + token + '"\n')
+        self.commit()
+        leaked = push(self.call("rev-parse", "HEAD"))
+        self.assertEqual(leaked.returncode, 1, leaked.stderr)
+        self.assertIn("gitleaks reports findings", leaked.stderr)
+        self.call("reset", "--hard", "-q", first)
         (self.root / "conflict.txt").write_text("<<<<<<< unresolved\n")
         self.commit()
         conflict = push(self.call("rev-parse", "HEAD"))
