@@ -45,7 +45,8 @@ def _sums(files: dict[str, bytes]) -> bytes:
 def _ots(subject: bytes) -> bytes:
     """A proof file whose header commits to ``subject``; its tail is filler."""
     tail = bytes.fromhex(_sha(b"synthetic ots tail"))[:16]
-    return (reader.OTS_MAGIC + bytes([reader.OTS_VERSION, reader.OTS_SHA256])
+    magic: bytes = reader.OTS_MAGIC
+    return (magic + bytes([reader.OTS_VERSION, reader.OTS_SHA256])
             + bytes.fromhex(_sha(subject)) + b"\xf0\x10" + tail + b"\x00")
 
 
