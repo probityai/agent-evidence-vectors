@@ -492,8 +492,32 @@ if [ "$venue" = leak ]; then
 			exit 1
 			;;
 		esac
+		# The secret scan the secret-scan workflow runs: same script, same
+		# pinned gitleaks, and the pushed revision's own .gitleaks.toml, over the
+		# commits this push adds. Added 2026-10-25 after CI found four findings
+		# that no local step had looked for.
+		scan_dir="$guard_base/secret-scan-$local_sha"
+		mkdir -p "$scan_dir"
+		if ! git -C "$src_root" show "$local_sha:scripts/secret-scan.sh" > "$scan_dir/secret-scan.sh" 2>/dev/null \
+			|| ! git -C "$src_root" show "$local_sha:.gitleaks.toml" > "$scan_dir/gitleaks.toml" 2>/dev/null; then
+			echo "pre-push: ABORT -- scripts/secret-scan.sh or .gitleaks.toml is missing from $local_sha; refusing to pass a push whose secret scan is absent." >&2
+			exit 1
+		fi
+		bash "$scan_dir/secret-scan.sh" --repo "$src_root" --config "$scan_dir/gitleaks.toml" \
+			--range "$base..$local_sha" && secret_status=0 || secret_status=$?
+		case "$secret_status" in
+		0) ;;
+		1)
+			echo "pre-push: REFUSED -- gitleaks reports findings in $base..$local_sha (see above)." >&2
+			exit 1
+			;;
+		*)
+			echo "pre-push: ABORT -- the secret scan could not run (exit $secret_status); nothing was verified." >&2
+			exit 1
+			;;
+		esac
 	done <<< "$push_lines"
-	echo "pre-push: leak, size and runner-label checks passed. Remote CI is the proof for"
+	echo "pre-push: leak, size, secret and runner-label checks passed. Remote CI is the proof for"
 	echo "pre-push: everything else: watch the run for the pushed commit to its conclusion."
 	echo "pre-push:     gh run list --commit <sha>"
 	exit 0
