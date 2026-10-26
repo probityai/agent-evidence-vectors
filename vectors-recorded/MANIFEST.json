@@ -11,7 +11,7 @@
     "binding-mismatch"
   ],
   "contract": "vectors-recorded/README.md",
-  "corpusDigest": "255d7276999811886a19b4bdbe6be6892fde6ff771d416b8917b3da656a5b402",
+  "corpusDigest": "07d57f56f50a6ea9cf3f3bfd444c07d2bd37d7f0b8594d5e2a1c14947e5529a9",
   "suite": "recorded-set-conformance/v1",
   "vectors": [
     {
@@ -30,6 +30,7 @@
       "file": "sets/hs51-set2/bytes/SHA256SUMS",
       "id": "vf2da54b4b4840bb9",
       "kind": "recorded",
+      "licenceFile": "sets/hs51-set2/LICENSE",
       "name": "hs51-set2",
       "source": {
         "commit": "b85029de8d22c5246886f4f50ede03da0f54dfcf",
@@ -39,6 +40,7 @@
         "publishedIn": "https://github.com/probityai/agent-evidence-vectors/issues/247",
         "repository": "https://github.com/ogasurfproject-jpg/horizon-shield"
       },
+      "sourceFile": "sets/hs51-set2/SOURCE.json",
       "sumsSha256": "53b4ddb5b6a9c9908ef02e9d0d47717d7bc779171bb2611b664bc21ac1b93fdd"
     },
     {

@@ -136,6 +136,8 @@ def _recorded_entries() -> list[dict[str, Any]]:
         entries.append({
             "id": "v" + reader.tree_digest(directory)[:16], "name": source_path.parent.name,
             "kind": "recorded", "dir": rel, "file": f"{rel}/{reader.SUMS}",
+            "sourceFile": source_path.relative_to(ROOT).as_posix(),
+            "licenceFile": (source_path.parent / "LICENSE").relative_to(ROOT).as_posix(),
             "sumsSha256": source["sumsSha256"], "bindings": source["bindings"],
             "expected": {"verdict": reader.VERIFIED, "codes": []},
             "source": {k: source[k] for k in ("repository", "commit", "path", "publishedIn",
