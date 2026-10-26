@@ -14,6 +14,7 @@ import os
 import re
 import shlex
 import sys
+import tempfile
 from collections.abc import Iterator, Mapping
 from pathlib import Path
 from typing import Any
@@ -39,12 +40,45 @@ class LocalPathError(ValueError):
     """A record would carry an absolute local path."""
 
 
+def _temp_roots() -> tuple[str, ...]:
+    """The directories this process uses for scratch files, beyond a bare home directory.
+
+    A box that keeps a job's temporary directory under the account's home (so a
+    forgotten ``mkdtemp`` is removed with the job) writes scratch paths that look
+    like ``/home/<user>/...``. They are scratch exactly as ``/tmp`` is, so they are
+    allowed where ``/tmp`` is. A temporary directory that is itself a home directory
+    is no scratch directory and is ignored.
+    """
+    candidates = [
+        tempfile.gettempdir(),
+        *(os.environ.get(k, "") for k in ("TMPDIR", "TEMP", "TMP")),
+    ]
+    roots = {c.rstrip("/\\") for c in candidates if c}
+    return tuple(
+        sorted((r for r in roots if r and _LOCAL.fullmatch(r + "/") is None), key=len, reverse=True)
+    )
+
+
+def _in_temp_root(text: str, start: int, roots: tuple[str, ...]) -> bool:
+    return any(
+        text.startswith(root + os.sep, start) or text.startswith(root + "/", start)
+        for root in roots
+    )
+
+
 def find_local_path(
     text: str, *, allow_scratch: bool = False, ci_homes: tuple[str, ...] = CI_HOMES
 ) -> str | None:
-    """Return the first absolute local path in ``text`` with a little context, or None."""
+    """Return the first absolute local path in ``text`` with a little context, or None.
+
+    A path under this process's temporary directory is scratch: it is allowed
+    exactly where ``/tmp`` is (``allow_scratch``) and refused elsewhere.
+    """
+    roots = _temp_roots()
     for found in _LOCAL.finditer(text):
         if found.groupdict().get("user") in ci_homes:
+            continue
+        if allow_scratch and _in_temp_root(text, found.start(), roots):
             continue
         return _context(text, found)
     if not allow_scratch:
@@ -81,9 +115,7 @@ def refuse_local_paths(
     A scratch path is allowed only inside a field named in ``reproduction_keys``.
     """
     for key, text in _strings(value):
-        found = find_local_path(
-            text, allow_scratch=key in reproduction_keys, ci_homes=ci_homes
-        )
+        found = find_local_path(text, allow_scratch=key in reproduction_keys, ci_homes=ci_homes)
         if found is not None:
             raise LocalPathError(
                 f"refusing to write {name}: it contains an absolute local path near "
