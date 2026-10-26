@@ -47,6 +47,8 @@ BASELINE_STREAM = "baseline/ANCHORS.jsonl"
 BASELINE_SIDECAR = "baseline/ANCHORS.jsonl.digests.json"
 BASELINE_WITNESS_ATTESTED = "baseline/witness-e000814.jsonl"
 BASELINE_WITNESS_ACTIVE = "baseline/witness-0eb69bf.jsonl"
+EXTERNAL_TERMINATED = "baseline/external-unterminated-final-line/terminated.jsonl"
+EXTERNAL_SIDECAR = "baseline/external-unterminated-final-line/sidecar.json"
 
 
 def sha(data: bytes) -> str:
@@ -430,6 +432,60 @@ def build() -> list[dict]:
             "is caused by the missing byte and not by the length change."
         ),
         properties={"endsWithNewline": True},
+    )
+
+    # ans-c-2, the real stream ---------------------------------------------
+    # Tetsurohhori's pair from aos-standard/catalog at anchors-verify-v0.12:
+    # the real 73-line stream and the sidecar computed over its terminated form,
+    # one byte apart. The stop reason is the assertion: a verifier can reach
+    # FAILED here through a length guard or a parse error on the last line, and
+    # the verdict column would not show it.
+    real = read(EXTERNAL_TERMINATED)
+    real_sidecar = read(EXTERNAL_SIDECAR)
+    add(
+        kind="accept",
+        condition="ans-c-2",
+        stream=real,
+        sidecar=real_sidecar,
+        outcome="VERIFY PARTIAL",
+        exit_code=3,
+        stop_reason=None,
+        cites=(
+            "the real 73-line stream with its final newline, and the sidecar "
+            "computed over it. PARTIAL is the correct answer, not a soft pass: "
+            "the witness covers the first 18 lines only. Contributed by "
+            "Tetsurohhori from aos-standard/catalog at anchors-verify-v0.12."
+        ),
+        properties={
+            "endsWithNewline": True,
+            "streamLines": 73,
+            "external": True,
+            "baselineStream": EXTERNAL_TERMINATED,
+        },
+    )
+    add(
+        kind="reject",
+        condition="ans-c-2",
+        stream=real[:-1],
+        sidecar=real_sidecar,
+        outcome="VERIFY FAILED",
+        exit_code=1,
+        stop_reason="digest-mismatch",
+        cites=(
+            "the same real stream with its final byte (0a) removed and the same "
+            "sidecar kept: one byte apart from the member above, nothing else to "
+            "explain the verdict. The reason must be the digest comparison of "
+            "line 73, not a length guard or a parse error on the last line. "
+            "Through anchors-verify-v0.10 this stream returned VERIFY PARTIAL. "
+            "Contributed by Tetsurohhori."
+        ),
+        properties={
+            "endsWithNewline": False,
+            "sidecarRegenerated": False,
+            "streamLines": 73,
+            "external": True,
+            "baselineStream": EXTERNAL_TERMINATED,
+        },
     )
 
     # ans-c-3 -------------------------------------------------------------

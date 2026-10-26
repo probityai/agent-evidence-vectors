@@ -16,6 +16,21 @@ SOURCE = ("<!doctype html><html><head><script>" +
           "</article></body></html>\n").encode()
 FULL = f"{FIRST}\n{SECOND}\n{THIRD}\n".encode()
 
+# A scanner that reached its fetch cap, printed the truncation, and reported a
+# clean account anyway (sushant-me/reputation@95717bd, case2_truncation_exit_code.py,
+# the defect arm: exit 0 over 40 unopened repositories). The source is the report a
+# complete scan of the twelve repositories produces; the selected passage is the
+# last repository's line.
+REPOS = [f"repo-{n:02d} scanned: no credential-shaped value" for n in range(1, 13)]
+SCAN_SOURCE = ("<!doctype html><html><head><title>scan</title></head><body><article>" +
+               "".join(f"<p>{line}</p>" for line in REPOS) +
+               "</article></body></html>\n").encode()
+LAST_REPO = REPOS[-1]
+TRUNCATED_SCAN = ("\n".join(REPOS[:7]) + "\ntruncated: 5 repo(s) not opened\n"
+                  "no credential-shaped values found in public repositories\n").encode()
+COMPLETE_SCAN = ("\n".join(REPOS) + "\n"
+                 "no credential-shaped values found in public repositories\n").encode()
+
 # The record bytes and their case digests change together. The consumer policy
 # stays separate, so a producer cannot narrow the required source passage.
 CASES = (
@@ -41,6 +56,14 @@ CASES = (
      "2019-06-26T12:00:00Z", "2019-06-26T00:00:00Z",
      "2019-06-26T23:59:59Z", True,
      "not_established", "selected_span_not_in_witness"),
+    ("scanner-truncation-reported-clean", TRUNCATED_SCAN, LAST_REPO,
+     "2019-06-26T12:00:00Z", "2019-06-26T00:00:00Z",
+     "2019-06-26T23:59:59Z", True,
+     "contradicted", "selected_span_missing_from_record", SCAN_SOURCE),
+    ("scanner-complete-scan", COMPLETE_SCAN, LAST_REPO,
+     "2019-06-26T12:00:00Z", "2019-06-26T00:00:00Z",
+     "2019-06-26T23:59:59Z", True,
+     "supported", "all_selected_spans_present", SCAN_SOURCE),
 )
 
 
@@ -83,16 +106,17 @@ def generate(root: Path = ROOT) -> dict:
         Manifest with expected decisions and byte commitments.
     """
     entries = []
-    for (name, record, span, captured_at, start, end, capture_present,
-         decision, reason) in CASES:
+    for case in CASES:
+        name, record, span, captured_at, start, end, capture_present, decision, reason, *own = case
+        source = own[0] if own else SOURCE
         directory = root / "cases" / name
         directory.mkdir(parents=True, exist_ok=True)
         case_id = f"source-coverage-{name}"
         case = {
             "schema_version": "source-coverage-case/v1", "case_id": case_id,
             "artifacts": {
-                "source": {"path": "source.html", "sha256": _digest(SOURCE),
-                           "length": len(SOURCE)},
+                "source": {"path": "source.html", "sha256": _digest(source),
+                           "length": len(source)},
                 "record": {"path": "report.txt", "sha256": _digest(record),
                            "length": len(record)},
             },
@@ -100,7 +124,7 @@ def generate(root: Path = ROOT) -> dict:
         policy = {
             "schema_version": "source-coverage-policy/v1",
             "witnesses": {"capture": {
-                "artifact": "source", "sha256": _digest(SOURCE),
+                "artifact": "source", "sha256": _digest(source),
                 "captured_at": captured_at,
                 "source_url": "https://example.org/synthetic-source",
                 "authority": "Synthetic fixture; no public archive claim",
@@ -117,7 +141,7 @@ def generate(root: Path = ROOT) -> dict:
         files = {"case.json": _json(case), "policy.json": _json(policy),
                  "report.txt": record}
         if capture_present:
-            files["source.html"] = SOURCE
+            files["source.html"] = source
         else:
             (directory / "source.html").unlink(missing_ok=True)
         for filename, data in files.items():

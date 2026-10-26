@@ -1,0 +1,1229 @@
+{
+  "cases": [
+    {
+      "about": "Two results of one evaluator declare minimize, so the lower score is the better one.",
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "first_better"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "lower",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "lower",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": []
+      },
+      "group": "score-direction",
+      "id": "direction-minimize-orders-lower-first",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.direction": "minimize",
+              "gen_ai.evaluation.score.value": 0.2
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.direction": "minimize",
+              "gen_ai.evaluation.score.value": 0.7
+            }
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "Two results of one evaluator declare maximize, so the higher score is the better one.",
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "second_better"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "higher",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "higher",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": []
+      },
+      "group": "score-direction",
+      "id": "direction-maximize-orders-higher-first",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "2",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "maximize",
+              "gen_ai.evaluation.score.value": 0.6
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "2",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "maximize",
+              "gen_ai.evaluation.score.value": 0.9
+            }
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "A result resting on tests the evaluator ran and a reward file the agent wrote lists both origins.",
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": true,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [
+              "evaluator_obtained",
+              "self_reported"
+            ],
+            "verification": [
+              "none",
+              "none"
+            ]
+          }
+        ],
+        "reasons": []
+      },
+      "group": "evidence-origin",
+      "id": "origins-mixed-listed-per-item",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.input.origin": [
+                "evaluator_obtained",
+                "self_reported"
+              ],
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "evaluator_obtained",
+                "produced_by": "evaluator-1",
+                "ref": "junit-report-1"
+              },
+              {
+                "origin": "self_reported",
+                "produced_by": "agent-7",
+                "ref": "reward-file"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "An auditor checked the agent's reward file. The origin stays self_reported and the verifier is a separate field.",
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": true,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [
+              "self_reported"
+            ],
+            "verification": [
+              "independent_party"
+            ]
+          }
+        ],
+        "reasons": []
+      },
+      "group": "producer-and-verifier",
+      "id": "verifier-distinct-origin-unchanged",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "self_reported",
+                "produced_by": "agent-7",
+                "ref": "reward-file",
+                "verified_by": "auditor-1"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "The relying party requires a held-out item set and the result declares true.",
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "held_out",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": []
+      },
+      "group": "held-out",
+      "id": "held-out-true-required",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.items.held_out": true,
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ],
+        "rule": {
+          "require_held_out": true
+        }
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "No requirement and no declaration: the status is unknown, which is not a refusal and not false.",
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": []
+      },
+      "group": "held-out",
+      "id": "held-out-absent-without-requirement",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "An explicit false is a status of its own: the item set was not held out.",
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "not_held_out",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": []
+      },
+      "group": "held-out",
+      "id": "held-out-false-without-requirement",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.items.held_out": false,
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ]
+      },
+      "kind": "positive"
+    },
+    {
+      "about": "Neither result declares a direction. A toxicity score looks lower-is-better, and a reader still does not infer it.",
+      "defect": [
+        {
+          "op": "del",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ]
+        },
+        {
+          "op": "del",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ]
+        }
+      ],
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "not_comparable"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "direction_undeclared"
+        ]
+      },
+      "group": "score-direction",
+      "id": "direction-undeclared-not-inferred-from-name",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.value": 0.2
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.value": 0.7
+            }
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "minimize"
+        },
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "minimize"
+        }
+      ],
+      "twin": "direction-minimize-orders-lower-first"
+    },
+    {
+      "about": "A direction other than maximize or minimize is refused, not guessed.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "lower_is_better"
+        }
+      ],
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "not_comparable"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "lower",
+            "held_out": "unknown",
+            "name": "toxicity",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "direction_invalid"
+        ]
+      },
+      "group": "score-direction",
+      "id": "direction-value-not-registered",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.direction": "lower_is_better",
+              "gen_ai.evaluation.score.value": 0.2
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "tox-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "toxicity",
+              "gen_ai.evaluation.score.direction": "minimize",
+              "gen_ai.evaluation.score.value": 0.7
+            }
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "minimize"
+        }
+      ],
+      "twin": "direction-minimize-orders-lower-first"
+    },
+    {
+      "about": "Two results of one evaluator id and version declare opposite directions, so neither order can be trusted.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "minimize"
+        }
+      ],
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "not_comparable"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "higher",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "lower",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "direction_conflict"
+        ]
+      },
+      "group": "score-direction",
+      "id": "direction-snapshots-disagree",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "2",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "maximize",
+              "gen_ai.evaluation.score.value": 0.6
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "2",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "minimize",
+              "gen_ai.evaluation.score.value": 0.9
+            }
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.score.direction"
+          ],
+          "value": "maximize"
+        }
+      ],
+      "twin": "direction-maximize-orders-higher-first"
+    },
+    {
+      "about": "The two results come from different evaluator versions, so their scores are not on one footing.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.evaluator.version"
+          ],
+          "value": "3"
+        }
+      ],
+      "expected": {
+        "ordering": {
+          "compared": [
+            0,
+            1
+          ],
+          "verdict": "not_comparable"
+        },
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "higher",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          },
+          {
+            "any_self_reported": false,
+            "better": "higher",
+            "held_out": "unknown",
+            "name": "correctness",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "evaluator_differs"
+        ]
+      },
+      "group": "score-direction",
+      "id": "compare-across-evaluator-versions",
+      "input": {
+        "agent_id": "agent-7",
+        "compare": [
+          0,
+          1
+        ],
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "2",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "maximize",
+              "gen_ai.evaluation.score.value": 0.6
+            }
+          },
+          {
+            "attributes": {
+              "gen_ai.evaluation.evaluator.id": "corr-judge",
+              "gen_ai.evaluation.evaluator.version": "3",
+              "gen_ai.evaluation.name": "correctness",
+              "gen_ai.evaluation.score.direction": "maximize",
+              "gen_ai.evaluation.score.value": 0.9
+            }
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            1,
+            "attributes",
+            "gen_ai.evaluation.evaluator.version"
+          ],
+          "value": "2"
+        }
+      ],
+      "twin": "direction-maximize-orders-higher-first"
+    },
+    {
+      "about": "The result declares one origin while its items rest on two. A mixed result lists every origin.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.input.origin"
+          ],
+          "value": "evaluator_obtained"
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": true,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [
+              "evaluator_obtained",
+              "self_reported"
+            ],
+            "verification": [
+              "none",
+              "none"
+            ]
+          }
+        ],
+        "reasons": [
+          "origin_mismatch"
+        ]
+      },
+      "group": "evidence-origin",
+      "id": "origin-collapsed-to-one-value",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.input.origin": "evaluator_obtained",
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "evaluator_obtained",
+                "produced_by": "evaluator-1",
+                "ref": "junit-report-1"
+              },
+              {
+                "origin": "self_reported",
+                "produced_by": "agent-7",
+                "ref": "reward-file"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.input.origin"
+          ],
+          "value": [
+            "evaluator_obtained",
+            "self_reported"
+          ]
+        }
+      ],
+      "twin": "origins-mixed-listed-per-item"
+    },
+    {
+      "about": "An evidence item with no origin is not read as independent.",
+      "defect": [
+        {
+          "op": "del",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ]
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [],
+            "verification": [
+              "independent_party"
+            ]
+          }
+        ],
+        "reasons": [
+          "origin_missing"
+        ]
+      },
+      "group": "evidence-origin",
+      "id": "origin-missing-on-item",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "produced_by": "agent-7",
+                "ref": "reward-file",
+                "verified_by": "auditor-1"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ],
+          "value": "self_reported"
+        }
+      ],
+      "twin": "verifier-distinct-origin-unchanged"
+    },
+    {
+      "about": "An origin outside the four registered values is refused.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ],
+          "value": "trusted"
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [],
+            "verification": [
+              "independent_party"
+            ]
+          }
+        ],
+        "reasons": [
+          "origin_invalid"
+        ]
+      },
+      "group": "evidence-origin",
+      "id": "origin-value-not-registered",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "trusted",
+                "produced_by": "agent-7",
+                "ref": "reward-file",
+                "verified_by": "auditor-1"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ],
+          "value": "self_reported"
+        }
+      ],
+      "twin": "verifier-distinct-origin-unchanged"
+    },
+    {
+      "about": "The agent that wrote the reward file also names itself as the verifier. That is not a second party.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "verified_by"
+          ],
+          "value": "agent-7"
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": true,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [
+              "self_reported"
+            ],
+            "verification": [
+              "not_independent"
+            ]
+          }
+        ],
+        "reasons": [
+          "self_verified"
+        ]
+      },
+      "group": "producer-and-verifier",
+      "id": "verifier-same-as-producer",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "self_reported",
+                "produced_by": "agent-7",
+                "ref": "reward-file",
+                "verified_by": "agent-7"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "verified_by"
+          ],
+          "value": "auditor-1"
+        }
+      ],
+      "twin": "verifier-distinct-origin-unchanged"
+    },
+    {
+      "about": "The item is relabelled external because an auditor checked it. The agent still produced it.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ],
+          "value": "external"
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "task_completion",
+            "origins": [
+              "external"
+            ],
+            "verification": [
+              "independent_party"
+            ]
+          }
+        ],
+        "reasons": [
+          "origin_contradicts_producer"
+        ]
+      },
+      "group": "producer-and-verifier",
+      "id": "verifier-identity-upgrades-origin",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "task_completion",
+              "gen_ai.evaluation.score.label": "pass"
+            },
+            "evidence": [
+              {
+                "origin": "external",
+                "produced_by": "agent-7",
+                "ref": "reward-file",
+                "verified_by": "auditor-1"
+              }
+            ]
+          }
+        ]
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "evidence",
+            0,
+            "origin"
+          ],
+          "value": "self_reported"
+        }
+      ],
+      "twin": "verifier-distinct-origin-unchanged"
+    },
+    {
+      "about": "The relying party requires a held-out set and the result is silent. Silence is unknown, and unknown fails the requirement.",
+      "defect": [
+        {
+          "op": "del",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ]
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "unknown",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "held_out_unknown"
+        ]
+      },
+      "group": "held-out",
+      "id": "held-out-absent-is-unknown-not-false",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ],
+        "rule": {
+          "require_held_out": true
+        }
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ],
+          "value": true
+        }
+      ],
+      "twin": "held-out-true-required"
+    },
+    {
+      "about": "An explicit false is a different refusal from silence.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ],
+          "value": false
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "not_held_out",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "not_held_out"
+        ]
+      },
+      "group": "held-out",
+      "id": "held-out-false-fails-the-requirement",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.items.held_out": false,
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ],
+        "rule": {
+          "require_held_out": true
+        }
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ],
+          "value": true
+        }
+      ],
+      "twin": "held-out-true-required"
+    },
+    {
+      "about": "The string \"false\" is not coerced either way.",
+      "defect": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ],
+          "value": "false"
+        }
+      ],
+      "expected": {
+        "ordering": null,
+        "readings": [
+          {
+            "any_self_reported": false,
+            "better": "unknown",
+            "held_out": "invalid",
+            "name": "accuracy",
+            "origins": [],
+            "verification": []
+          }
+        ],
+        "reasons": [
+          "held_out_invalid"
+        ]
+      },
+      "group": "held-out",
+      "id": "held-out-string-is-not-a-boolean",
+      "input": {
+        "agent_id": "agent-7",
+        "results": [
+          {
+            "attributes": {
+              "gen_ai.evaluation.items.held_out": "false",
+              "gen_ai.evaluation.name": "accuracy"
+            }
+          }
+        ],
+        "rule": {
+          "require_held_out": true
+        }
+      },
+      "kind": "negative",
+      "repair": [
+        {
+          "op": "set",
+          "path": [
+            "results",
+            0,
+            "attributes",
+            "gen_ai.evaluation.items.held_out"
+          ],
+          "value": true
+        }
+      ],
+      "twin": "held-out-true-required"
+    }
+  ],
+  "schema": "aev-evaluation-result-cases/v1"
+}

@@ -9,7 +9,12 @@ recomputes that make those fields checkable. Appendix B of the draft lists the
 conformance corpus, and ``vectors-agent-audit-record/`` publishes it member for
 member: each manifest entry carries the Appendix B identifier in ``draftId``.
 The members after the last row test sentences of Section 5.4 that Appendix B
-has no row for, and name the section in ``draftSection``.
+has no row for, and name the section in ``draftSection``. Members carrying
+``draftRevision`` are rows of revision 01, whose rules this reader applies where
+they differ: an entry for an input with several values takes its pair from one
+value (``aggregate_values``), and the coverage clause of Section 5.7 is
+``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
+at any tier.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
 from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
@@ -443,6 +448,22 @@ def _commitment_complete(pred: dict[str, Any]) -> bool:
     return commitment is not None and all(m in commitment for m in COMMITMENT_MEMBERS)
 
 
+def gaps_inside_scope(pred: dict[str, Any]) -> bool:
+    """A gap is inside pathScope when it lies under a member of it, as inScope is
+    derived for a write (Section 5.7)."""
+    scope = pred["effect"]["pathScope"]
+    gaps = pred["observation"]["coverage"]["gaps"]
+    return any(any(_under(g, s) for s in scope) for g in gaps)
+
+
+def coverage_clause_fails(pred: dict[str, Any]) -> bool:
+    """The coverage clause of the tier recompute under revision 01: it holds
+    exactly when scopeComplete is true (TI4, TI6). Revision 00's clause, true
+    when every gap lay outside pathScope, passed a record declaring incomplete
+    coverage while naming no gap inside it (TI6)."""
+    return pred["observation"]["coverage"]["scopeComplete"] is not True
+
+
 def tier_failures(pred: dict[str, Any]) -> list[str]:
     """The tier clauses a record fails, in the draft's order."""
     failed: list[str] = []
@@ -453,9 +474,7 @@ def tier_failures(pred: dict[str, Any]) -> list[str]:
     scope = pred["effect"]["pathScope"]
     if not scope:
         failed.append("tier-overclaim-scope")
-    coverage = pred["observation"]["coverage"]
-    gaps_inside = any(any(_under(g, s) for s in scope) for g in coverage["gaps"])
-    if coverage["scopeComplete"] is not True and gaps_inside:
+    if coverage_clause_fails(pred):
         failed.append("tier-overclaim-coverage")
     if pred["resource"]["binding"] != "digest-bound":
         failed.append("tier-overclaim-binding")
@@ -557,6 +576,37 @@ def _entry_shape(entry: Any) -> None:
     max_age = entry["maxAge"]
     if isinstance(max_age, bool) or not isinstance(max_age, int) or max_age < 0:
         raise Malformed("evaluation-entry-malformed")
+
+
+def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
+    """The lastResult and maxAge one evaluation entry carries for an input the
+    decision depended on several values of (Section 5.4, revision 01).
+
+    Both come from the same value. If any value was never held, lastResult is
+    ``none`` and maxAge the smallest bound among the values never held.
+    Otherwise the pair is the one whose lastResult plus maxAge is earliest, and
+    of two such pairs the one with the earlier lastResult. At one reference time
+    every held value is fresh exactly when that time is at most the earliest
+    expiry, so the entry is fresh exactly when every value is. Taking the oldest
+    lastResult from one value and the smallest maxAge from another, as revision
+    00 did, can report two fresh values as one stale input (FR15).
+
+    This is the producer's side: a verifier holding only the record cannot
+    recover the values, so the corpus carries them in FR14's ``aggregation``
+    block and the judge checks this function against the entry FR14 carries.
+    """
+    if not values:
+        raise ValueError("an entry summarizes at least one value")
+    never = [v for v in values if v["lastResult"] == NEVER_HELD]
+    if never:
+        return {"lastResult": NEVER_HELD, "maxAge": min(v["maxAge"] for v in never)}
+
+    def expiry(v: dict[str, Any]) -> tuple[datetime.datetime, datetime.datetime]:
+        produced = _instant(v["lastResult"])
+        return produced + datetime.timedelta(seconds=v["maxAge"]), produced
+
+    chosen = min(values, key=expiry)
+    return {"lastResult": chosen["lastResult"], "maxAge": chosen["maxAge"]}
 
 
 def derive_unavailable(pred: dict[str, Any]) -> list[str]:
@@ -714,6 +764,14 @@ def _rule_path_scope_literal(state: _State) -> None:
             raise Malformed("path-scope-glob")
 
 
+def _rule_coverage(state: _State) -> None:
+    """A gap inside pathScope contradicts scopeComplete of true, and the record
+    is malformed whatever tier it declares (V4, V5)."""
+    pred = state.predicate
+    if pred["observation"]["coverage"]["scopeComplete"] is True and gaps_inside_scope(pred):
+        raise Malformed("coverage-inconsistent")
+
+
 def _rule_tier(state: _State) -> None:
     """The tier is recomputed; a declared authoritative that fails a clause is
     malformed and is never downgraded (TI1 to TI5)."""
@@ -786,6 +844,7 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("commitment", _rule_commitment),
     ("write-chain", _rule_write_chain),
     ("path-scope-literal", _rule_path_scope_literal),
+    ("coverage", _rule_coverage),
     ("tier", _rule_tier),
     ("write-scope", _rule_write_scope),
     ("observed", _rule_observed),
@@ -1254,6 +1313,29 @@ def _dating_findings(entry: dict[str, Any], dated: Dating) -> list[str]:
     return []
 
 
+def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
+    """A member carrying ``aggregation`` lists the values of one input as the
+    producer held them; aggregate_values over them must yield the entry the
+    record carries, measured to the same decision.reportedAt (FR14)."""
+    block = entry.get("aggregation")
+    if block is None:
+        return []
+    label = f"{entry.get('draftId')} {entry.get('slug')}"
+    try:
+        _, payload = _envelope_payload(raw)
+        pred = json.loads(payload)["predicate"]
+        want = aggregate_values(block["values"])
+    except (Malformed, KeyError, TypeError, ValueError) as exc:
+        return [f"{label}: the aggregation block cannot be checked: {exc}"]
+    if pred["decision"]["reportedAt"] != block["reportedAt"]:
+        return [f"{label}: the aggregation is measured to a reportedAt the record does not carry"]
+    held = [e for e in pred["evaluation"]["inputs"] if e.get("input") == block["input"]]
+    got = [{"lastResult": e.get("lastResult"), "maxAge": e.get("maxAge")} for e in held]
+    if got != [want]:
+        return [f"{label}: aggregating the listed values gives {want}, the record carries {got}"]
+    return []
+
+
 def _judge_member(
     directory: str, entry: dict[str, Any], policy: Policy, heads: list[TreeHead]
 ) -> tuple[str, str, list[str]]:
@@ -1276,6 +1358,7 @@ def _judge_member(
         findings.extend(_dating_findings(entry, dated))
         return identifier, kind, findings
     report = verify(raw, policy)
+    findings.extend(aggregation_findings(entry, raw))
     if kind in ("accept", "reject"):
         findings.extend(_declared_findings(entry, report))
     elif kind == "indeterminate":
@@ -1363,7 +1446,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="auditrecord",
         description="judge vectors-agent-audit-record/ with the reference reader for "
-        "draft-gilda-audit-agent-audit-record-00",
+        "draft-gilda-audit-agent-audit-record-00 and the five rows of revision 01 "
+        "(TI6, V4, V5, FR14, FR15)",
     )
     parser.add_argument("directory", help="a corpus directory carrying MANIFEST.json")
     args = parser.parse_args(argv)

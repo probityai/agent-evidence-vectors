@@ -43,6 +43,17 @@ than derived. `run_verifier.py` replaces the module's fetchers with a function
 that raises, so a verifier that reaches for a socket fails the run instead of
 returning a number nobody else can reproduce.
 
+## One member pair comes from a real stream
+
+Tetsurohhori (aos-standard/catalog) published a 73-line stream and its sidecar whose
+last line carries no trailing newline in the unterminated form. `baseline/external-unterminated-final-line/`
+holds the terminated stream and sidecar with their provenance. The pair built from it
+checks one thing: a verifier that drops the final line when it is unterminated must be
+caught, because the sidecar digest then no longer matches. The accept member is the
+stream as published (`VERIFY PARTIAL`, exit 3). The reject member is the same stream
+with its last byte removed, presented with the same sidecar (`VERIFY FAILED`, stop
+reason `digest-mismatch`). Thanks to Tetsurohhori for the stream and the pair.
+
 ## Identifiers name the bytes, not the answer
 
 Each identifier is a digest of the member's own three files. There is no
@@ -60,7 +71,7 @@ edit that does not regenerate leaves a name describing bytes that are gone.
 
 | path | what it is |
 |---|---|
-| `baseline/` | the stream, sidecar and witness snapshots the tag published, unmodified |
+| `baseline/` | the stream, sidecar and witness snapshots the tag published, unmodified, plus `baseline/external-unterminated-final-line/`, a real stream and sidecar contributed from outside |
 | `streams/` | the presented stream of each member |
 | `sidecars/` | the digest sidecar presented with it |
 | `witness/` | the platform bytes a run reads, and per commit whether it is reachable |

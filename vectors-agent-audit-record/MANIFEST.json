@@ -50,11 +50,11 @@
       }
     ]
   },
-  "corpusDigest": "0b027733a9941687ac5665af8213a98450f545a1f40e269ed2699ee329d72055",
+  "corpusDigest": "4a4d5329232ed7404ff53a48155ee4d774a518564d8af5b9b3e1716ca8858a06",
   "counts": {
-    "accept": 37,
+    "accept": 38,
     "indeterminate": 1,
-    "reject": 68
+    "reject": 72
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -72,7 +72,7 @@
       "publicKey": "60b9ca613738a46a9350086999c93389e65c342482bbf65c6589d43116de5e7a"
     }
   },
-  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
+  "note": "One member per row of Appendix B of the draft, in the row's order; draftId is the row's identifier and parentDraftId its from column. The members after the last row carry draftSection: each tests a rule of that section that Appendix B carries no row for, and continues the identifier series of the rows beside it. A member carrying draftRevision is a row of that later revision's Appendix B, under the identifier it prints, and tests a rule that revision changes, so a reader conforming only to the draft named above may fail it. A member carrying aggregation lists the values of one input the decision depended on, as the producer held them: a producer's aggregation over those values must yield the entry the record carries. R1 to R9 are retained records: the file carries the envelope beside its retention entry, expected.verdict is the envelope's verdict, and expected.dating is the result of the dating check of Section 4.7.1, reported beside it and never folded into it. An accept or reject member is scored on expected.verdict. An indeterminate member is a row the draft leaves open: it carries no expected.verdict, and a verifier conforms on it by reaching any verdict its readings list. expected.codes are the reference reader's names for its first refusal, published so two implementations can compare where they stopped; the draft does not define them.",
   "payloadType": "application/vnd.in-toto+json",
   "predicateDocument": "https://datatracker.ietf.org/doc/draft-gilda-audit-agent-audit-record/00/",
   "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/agent-audit-record",
@@ -1656,7 +1656,7 @@
       "slug": "fr13b-negative-max-age-named-unavailable"
     },
     {
-      "draftId": "FR14",
+      "draftId": "FR16",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -1670,10 +1670,10 @@
       "parent": "vc500431013be1967",
       "parentDraftId": "FR1",
       "row": "FR1 with decision.reportedAt removed: no reference time to measure any input's age to",
-      "slug": "fr14-no-decision-reported-at"
+      "slug": "fr16-no-decision-reported-at"
     },
     {
-      "draftId": "FR15a",
+      "draftId": "FR17a",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1684,10 +1684,10 @@
       "id": "v417e26c919283a75",
       "kind": "accept",
       "row": "the first of two hops: standing-source read from its source at 10:00:00 under the hop's own maxAge of 7200, 3840 seconds old at its reportedAt of 11:04:00, fresh, evaluated",
-      "slug": "fr15a-first-hop-two-hour-max-age-fresh"
+      "slug": "fr17a-first-hop-two-hour-max-age-fresh"
     },
     {
-      "draftId": "FR15b",
+      "draftId": "FR17b",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1697,11 +1697,11 @@
       "file": "statements/vf0eac30344ab74d2.json",
       "id": "vf0eac30344ab74d2",
       "kind": "accept",
-      "row": "the second hop, receiving FR15a's standing-source: the source's lastResult of 10:00:00 copied unchanged under this hop's own maxAge of 3600, 3842 seconds old at 11:04:02, stale, not-evaluated naming standing-source, deny beside none",
-      "slug": "fr15b-second-hop-one-hour-max-age-stale"
+      "row": "the second hop, receiving FR17a's standing-source: the source's lastResult of 10:00:00 copied unchanged under this hop's own maxAge of 3600, 3842 seconds old at 11:04:02, stale, not-evaluated naming standing-source, deny beside none",
+      "slug": "fr17b-second-hop-one-hour-max-age-stale"
     },
     {
-      "draftId": "FR15c",
+      "draftId": "FR17c",
       "draftSection": "5.4",
       "expected": {
         "codes": [
@@ -1713,12 +1713,12 @@
       "id": "v9403ce70be1f6056",
       "kind": "reject",
       "parent": "vf0eac30344ab74d2",
-      "parentDraftId": "FR15b",
-      "row": "FR15b recorded as evaluated, the first hop's verdict carried over in place of this hop's own maxAge",
-      "slug": "fr15c-second-hop-carries-first-hops-verdict"
+      "parentDraftId": "FR17b",
+      "row": "FR17b recorded as evaluated, the first hop's verdict carried over in place of this hop's own maxAge",
+      "slug": "fr17c-second-hop-carries-first-hops-verdict"
     },
     {
-      "draftId": "FR16",
+      "draftId": "FR18",
       "draftSection": "5.4",
       "expected": {
         "codes": [],
@@ -1729,7 +1729,7 @@
       "id": "v8685b6576fbd0c04",
       "kind": "accept",
       "row": "FR1 with key-source's lastResult 300 seconds after decision.reportedAt, exactly the skew tolerance: not malformed, and an age below zero is at most maxAge, so fresh",
-      "slug": "fr16-last-result-inside-skew-tolerance"
+      "slug": "fr18-last-result-inside-skew-tolerance"
     },
     {
       "draftId": "EV14",
@@ -1747,6 +1747,102 @@
       "parentDraftId": "A2",
       "row": "A2 recorded as not-evaluated with every entry fresh and unavailableInput of the empty array: it matches the empty derived set, so only the rule that not-evaluated names at least one input refuses it",
       "slug": "ev14-not-evaluated-all-fresh-empty-unavailable-input"
+    },
+    {
+      "draftId": "TI6",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "tier-overclaim-coverage"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v3ca484096743a01b.json",
+      "id": "v3ca484096743a01b",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "authoritative declared with scopeComplete of false and gaps naming only paths outside pathScope, which draft-gilda-audit-agent-audit-record-00 accepted",
+      "slug": "ti6-authoritative-incomplete-gaps-outside-scope"
+    },
+    {
+      "draftId": "V4",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "coverage-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v5fb1106ca638aaca.json",
+      "id": "v5fb1106ca638aaca",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "scopeComplete of true beside a gap inside pathScope, all other tier clauses met: TI4 with only scopeComplete changed from false to true",
+      "slug": "v4-scope-complete-beside-gap-inside-scope"
+    },
+    {
+      "draftId": "V5",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "coverage-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v7eb62c3c7df1a8b7.json",
+      "id": "v7eb62c3c7df1a8b7",
+      "kind": "reject",
+      "parent": "v257a2e36bcabff14",
+      "parentDraftId": "A5",
+      "row": "scopeComplete of true beside a gap inside pathScope, tier of voluntary",
+      "slug": "v5-scope-complete-beside-gap-inside-scope-voluntary"
+    },
+    {
+      "aggregation": {
+        "input": "standing-source",
+        "reportedAt": "2026-09-19T11:04:02Z",
+        "values": [
+          {
+            "lastResult": "2026-09-19T11:03:32Z",
+            "maxAge": 60
+          },
+          {
+            "lastResult": "2026-09-19T10:04:02Z",
+            "maxAge": 7200
+          }
+        ]
+      },
+      "draftId": "FR14",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "verdict": "valid"
+      },
+      "file": "statements/vaad17bc9d25a70eb.json",
+      "id": "vaad17bc9d25a70eb",
+      "kind": "accept",
+      "row": "A2 judging two delegation paths, two values of standing-source each fresh at decision.reportedAt (ages 30 and 3600 seconds under a maxAge of 60 and of 7200), the entry carrying the first value's pair, the one that expires first",
+      "slug": "fr14-two-fresh-values-earliest-expiry-pair"
+    },
+    {
+      "draftId": "FR15",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "evaluation-inconsistent"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v1fe964af5ec88f9a.json",
+      "id": "v1fe964af5ec88f9a",
+      "kind": "reject",
+      "parent": "vaad17bc9d25a70eb",
+      "parentDraftId": "FR14",
+      "row": "the entry carrying the second value's lastResult beside the first value's maxAge, under evaluated: the pair the -00 rule writes, age 3600 under 60",
+      "slug": "fr15-oldest-last-result-beside-smallest-max-age"
     }
   ]
 }

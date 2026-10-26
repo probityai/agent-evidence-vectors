@@ -67,10 +67,10 @@
     }
   },
   "counts": {
-    "accept": 12,
-    "reject": 20
+    "accept": 13,
+    "reject": 21
   },
-  "corpusDigest": "6bc10ebd3b65776e96e78797101f85687437bcff89963864067795de2f2948be",
+  "corpusDigest": "b63cd1c26fc05365276fe950b6e6a3dbd0b48db8dc10337b56bb446c759110b5",
   "note": "Two of the ten conditions are required by the contract text vendored here and their reject members are rejectable under it as written. The other eight are corrections this corpus proposes, and each member carries the field contractBasis saying which. Each accept member is the conformant twin of a reject member sharing its condition, so a verifier that fails everything scores zero rather than full marks.",
   "vectors": [
     {
@@ -211,6 +211,31 @@
       "streamSha256": "0862f9857a3bc26002de7a93df3a32163c8e5d46d5abb344f8fdca47d0bfb2c3"
     },
     {
+      "id": "v25a148d9df730b88",
+      "kind": "reject",
+      "stream": "streams/v25a148d9df730b88.jsonl",
+      "sidecar": "sidecars/v25a148d9df730b88.json",
+      "witness": "witness/v25a148d9df730b88.json",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expected": {
+        "outcome": "VERIFY FAILED",
+        "exit": 1,
+        "stopReason": "digest-mismatch"
+      },
+      "properties": {
+        "endsWithNewline": false,
+        "sidecarRegenerated": false,
+        "streamLines": 73,
+        "external": true,
+        "baselineStream": "baseline/external-unterminated-final-line/terminated.jsonl"
+      },
+      "contractBasis": "as-vendored",
+      "cites": "the same real stream with its final byte (0a) removed and the same sidecar kept: one byte apart from the member above, nothing else to explain the verdict. The reason must be the digest comparison of line 73, not a length guard or a parse error on the last line. Through anchors-verify-v0.10 this stream returned VERIFY PARTIAL. Contributed by Tetsurohhori.",
+      "streamSha256": "433d51d6f76086fa4d420fb94725851763a8c6b4da9d13db1149f2fdf730f82b"
+    },
+    {
       "id": "v27ec0ed3abec3bed",
       "kind": "reject",
       "stream": "streams/v27ec0ed3abec3bed.jsonl",
@@ -257,6 +282,30 @@
       "contractBasis": "proposed",
       "cites": "the same stream with the rule set the format defines. It is what shows the rejection above is caused by the unrecognised name and not by the shape of the stream around it.",
       "streamSha256": "4a98ec954cb713be849fde61fa5f04c2f676ad70d85cdd16028a326afe6e7384"
+    },
+    {
+      "id": "v3c142a4f8828f505",
+      "kind": "accept",
+      "stream": "streams/v3c142a4f8828f505.jsonl",
+      "sidecar": "sidecars/v3c142a4f8828f505.json",
+      "witness": "witness/v3c142a4f8828f505.json",
+      "conditions": [
+        "ans-c-2"
+      ],
+      "expected": {
+        "outcome": "VERIFY PARTIAL",
+        "exit": 3,
+        "stopReason": null
+      },
+      "properties": {
+        "endsWithNewline": true,
+        "streamLines": 73,
+        "external": true,
+        "baselineStream": "baseline/external-unterminated-final-line/terminated.jsonl"
+      },
+      "contractBasis": "as-vendored",
+      "cites": "the real 73-line stream with its final newline, and the sidecar computed over it. PARTIAL is the correct answer, not a soft pass: the witness covers the first 18 lines only. Contributed by Tetsurohhori from aos-standard/catalog at anchors-verify-v0.12.",
+      "streamSha256": "7817d72fe446dacc3659ddaca29ce79877aca5ccf497cfc3e0b2c406467f9723"
     },
     {
       "id": "v3e2e8c8036db8c91",

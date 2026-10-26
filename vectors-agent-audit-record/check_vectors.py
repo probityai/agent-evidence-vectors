@@ -24,6 +24,10 @@ Three checks, each able to fail on its own.
    4.7.1 must move at least one retained member (R1 to R9) off its declared
    dating result, and must never move its record verdict.
 
+6. The aggregation check: FR14 lists the two values of one input a decision
+   depended on. The reference aggregation must reproduce FR14's entry, and the
+   revision 00 aggregation must instead write FR15's, which the reader refuses.
+
 5. The section sweep: each weakened reading of Sections 5.4 and 5.5 below (a
    closed set cut to the one value Appendix B's accept rows carry, an optional
    member made required, a sub-check dropped) must fail the corpus on exactly
@@ -283,6 +287,83 @@ def _oversight_reading(*, act_required: bool = True, digest_required: bool = Fal
 
 
 @contextlib.contextmanager
+def _coverage_reading(*, clause: str, refuse_contradiction: bool | str) -> Iterator[None]:
+    """Section 5.7 as a reader might take it: the tier's coverage clause as
+    revision 00 or 01 states it, and the refusal of a gap inside pathScope
+    beside scopeComplete of true kept, dropped, or applied only at one tier."""
+
+    def coverage(state: Any) -> None:
+        pred = state.predicate
+        if refuse_contradiction is False:
+            return
+        if isinstance(refuse_contradiction, str) and pred["tier"] != refuse_contradiction:
+            return
+        if pred["observation"]["coverage"]["scopeComplete"] is True and (
+            auditrecord.gaps_inside_scope(pred)
+        ):
+            raise auditrecord.Malformed("coverage-inconsistent")
+
+    def clause_fails(pred: dict[str, Any]) -> bool:
+        complete = pred["observation"]["coverage"]["scopeComplete"] is True
+        if clause == "00":
+            return not complete and auditrecord.gaps_inside_scope(pred)
+        return not complete
+
+    original = auditrecord.coverage_clause_fails
+    auditrecord.coverage_clause_fails = clause_fails
+    try:
+        with _swapped_rule("coverage", coverage):
+            yield
+    finally:
+        auditrecord.coverage_clause_fails = original
+
+
+def _aggregation_check(manifest: dict[str, object]) -> list[str]:
+    """Section 5.4 of revision 01 on the producer's side. FR14 lists two values
+    of one input; the reference aggregation must reproduce its entry, and the
+    revision 00 aggregation (the oldest lastResult beside the smallest maxAge,
+    from different values) must not, and must write FR15's entry instead, which
+    the reader refuses. A verifier holding only a record cannot tell the two
+    aggregations apart, so without this check FR14 would test nothing about how
+    the entry was made."""
+    entries = manifest["vectors"]
+    assert isinstance(entries, list)
+    by_draft = {str(e["draftId"]): e for e in entries}
+    carrying = [e for e in entries if "aggregation" in e]
+    if not carrying:
+        return ["no member carries an aggregation block, so Section 5.4's pairing is untested"]
+    findings = []
+    for entry in carrying:
+        findings.extend(auditrecord.aggregation_findings(entry, _raw(entry)))
+
+    def independent_minima(values: list[dict[str, Any]]) -> dict[str, Any]:
+        return {
+            "lastResult": min(v["lastResult"] for v in values),
+            "maxAge": min(v["maxAge"] for v in values),
+        }
+
+    original = auditrecord.aggregate_values
+    auditrecord.aggregate_values = independent_minima
+    try:
+        for entry in carrying:
+            if not auditrecord.aggregation_findings(entry, _raw(entry)):
+                findings.append(
+                    f"{entry['draftId']}: the revision 00 aggregation reproduces its entry, "
+                    "so the member does not distinguish the two rules"
+                )
+        fr15 = by_draft.get("FR15")
+        if fr15 is None:
+            findings.append("FR15, the record the revision 00 aggregation writes, is missing")
+        else:
+            moved = dict(fr15, aggregation=by_draft["FR14"]["aggregation"])
+            if auditrecord.aggregation_findings(moved, _raw(fr15)):
+                findings.append("FR15 does not carry the entry the revision 00 aggregation writes")
+    finally:
+        auditrecord.aggregate_values = original
+    return findings
+
+
+@contextlib.contextmanager
 def _swapped_rule(name: str, replacement: Rule) -> Iterator[None]:
     index = auditrecord.rule_names().index(name)
     original = auditrecord.RULES[index]
@@ -363,7 +444,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "a lastResult after decision.reportedAt refused with no skew tolerance",
         lambda: _freshness(skew=datetime.timedelta(0)),
-        "FR16",
+        "FR18",
     ),
     (
         "a lastResult of none read as fresh",
@@ -393,7 +474,7 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
     (
         "evaluated not checked against the entries",
         lambda: _swapped_rule("evaluation", _evaluation_reading(evaluated_by_entries=False)),
-        "FR8,FR15c",
+        "FR8,FR17c,FR15",
     ),
     (
         "an evaluation member the draft does not define accepted",
@@ -406,6 +487,23 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
             frozenset({"standing-source", "key-source", "consumption-state"})
         ),
         "A18,A20",
+    ),
+    (
+        "revision 00's coverage clause: scopeComplete of true or every gap outside "
+        "pathScope, and no refusal of a gap inside pathScope beside scopeComplete of true",
+        lambda: _coverage_reading(clause="00", refuse_contradiction=False),
+        "TI6,V4,V5",
+    ),
+    (
+        "revision 00's coverage clause alone, the contradiction still refused",
+        lambda: _coverage_reading(clause="00", refuse_contradiction=True),
+        "TI6",
+    ),
+    (
+        "a gap inside pathScope beside scopeComplete of true refused only when the "
+        "record declares authoritative",
+        lambda: _coverage_reading(clause="01", refuse_contradiction="authoritative"),
+        "V5",
     ),
     (
         "oversight without act accepted",
@@ -477,6 +575,7 @@ def main() -> int:
         + swept
         + _dating_sweep(manifest)
         + _section_sweep(manifest)
+        + _aggregation_check(manifest)
     )
     for note in notes:
         print(f"note: {note}")

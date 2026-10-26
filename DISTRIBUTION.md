@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.24.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.25.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.24.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.24.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.25.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.25.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.24.0
-uvx agent-evidence-vectors==0.24.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.25.0
+uvx agent-evidence-vectors==0.25.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.24.0
+cd agent-evidence-vectors && git checkout v0.25.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.24.0
+git checkout v0.25.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check

@@ -1,0 +1,32 @@
+{
+  "assessments": {
+    "source-coverage-scanner-complete-scan": {
+      "claim_type": "source_text_coverage/v1",
+      "record_artifact": "record",
+      "record_sha256": "e14e6d5b686d7b61b4a7c849d88444bdc1be67f75316dfbdd97cb0309db6bd4f",
+      "record_version": "synthetic-v1",
+      "required_spans": [
+        {
+          "id": "selected",
+          "text": "repo-12 scanned: no credential-shaped value"
+        }
+      ],
+      "source_window": {
+        "end": "2019-06-26T23:59:59Z",
+        "start": "2019-06-26T00:00:00Z"
+      },
+      "source_witness": "capture"
+    }
+  },
+  "schema_version": "source-coverage-policy/v1",
+  "witnesses": {
+    "capture": {
+      "artifact": "source",
+      "authority": "Synthetic fixture; no public archive claim",
+      "captured_at": "2019-06-26T12:00:00Z",
+      "sha256": "0aa3f113116cbfdd7ce67ccf5360f35275ebe9d868ddba9132e6a684ba908c97",
+      "source_format": "html_article_text/v1",
+      "source_url": "https://example.org/synthetic-source"
+    }
+  }
+}

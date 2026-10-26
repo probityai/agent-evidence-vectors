@@ -355,7 +355,11 @@ func checkTerminator(dir string, v anchorVector, stream []byte, out *Member) {
 	if v.Kind != "reject" {
 		return
 	}
-	baseline, err := readIn(dir, path.Join("baseline", "ANCHORS.jsonl"))
+	baselinePath := path.Join("baseline", "ANCHORS.jsonl")
+	if own, ok := v.Properties["baselineStream"].(string); ok && own != "" {
+		baselinePath = own
+	}
+	baseline, err := readIn(dir, baselinePath)
 	if err != nil {
 		out.Findings = append(out.Findings, "the baseline stream is unreadable: "+err.Error())
 		return
