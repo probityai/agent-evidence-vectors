@@ -2,8 +2,8 @@
 
 The checkout fetches every branch and gitleaks scans all of them by default, so one
 open branch holding a finding failed the job on main and on every other branch. These
-tests run scripts/secret-scan.sh, the command the workflow and the pre-push hook share, against a scratch repository in
-which only a side branch holds a credential shape.
+tests run scripts/secret-scan.sh, the command the workflow and the pre-push hook share,
+against a scratch repository in which only a side branch holds a credential shape.
 """
 
 from __future__ import annotations
@@ -33,7 +33,8 @@ SCAN = ROOT / "scripts" / "secret-scan.sh"
 
 
 def _scan_argv(repo: Path, *extra: str) -> list[str]:
-    return ["bash", str(SCAN), "--repo", str(repo), "--config", str(repo / ".gitleaks.toml"), *extra]
+    config = str(repo / ".gitleaks.toml")
+    return ["bash", str(SCAN), "--repo", str(repo), "--config", config, *extra]
 
 
 @pytest.fixture
