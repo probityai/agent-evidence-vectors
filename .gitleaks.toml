@@ -43,3 +43,15 @@ description = "A public signed JWT fixture, by path"
 paths = [
   '''^interop/agentid-offline/fixtures/positive\.raw\.json$''',
 ]
+
+[[allowlists]]
+description = "SHA-256 file digests in a corpus manifest, keyed by a case file name"
+# CORPUS-MANIFEST.json maps each case file to the SHA-256 of its bytes. Case
+# names such as CAN-P-nested-key-order.json contain "key", so the generic rule
+# reads the digest beside them as a secret. AND: the entry applies only inside
+# a manifest and only to the "<name>.json": "<64 hex>" shape.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)CORPUS-MANIFEST\.json$''']
+regexTarget = "match"
+regexes = ['''[A-Za-z0-9_./-]+\.json"\s*:\s*"[0-9a-f]{64}"''']
