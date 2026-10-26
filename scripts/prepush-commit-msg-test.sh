@@ -40,6 +40,10 @@ for stub in pre-push-identity-scan.py push-hygiene.py; do
 	printf 'import sys\nsys.stdin.read() if not sys.stdin.isatty() else None\nsys.exit(0)\n' \
 		>"$repo/scripts/$stub"
 done
+# The secret-scan step of the hook needs the real scanner and its config.
+cp "$here/scripts/secret-scan.sh" "$repo/scripts/secret-scan.sh"
+cp "$here/.gitleaks.toml" "$repo/.gitleaks.toml"
+chmod +x "$repo/scripts/secret-scan.sh"
 # The venv bootstrap is the hook's own business; give it one so the test does
 # not depend on network access.
 uv venv -q --python 3.13 "$repo/.venv"
