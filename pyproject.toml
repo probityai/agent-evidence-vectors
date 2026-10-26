@@ -75,6 +75,9 @@ agent-evidence-vectors-claim = "agent_evidence_vectors.claim_record.run:main"
 # per item apart from verifier identity, and held-out status where absent is unknown.
 # Also reachable as `agent-evidence-vectors evalresult`.
 agent-evidence-vectors-evalresult = "agent_evidence_vectors.eval_result.run:main"
+# Recorded sets: retained bytes from a live run against the digest list their
+# publisher wrote. Also reachable as `agent-evidence-vectors recorded`.
+agent-evidence-vectors-recorded = "agent_evidence_vectors.recorded:main"
 
 [build-system]
 requires = ["hatchling>=1.27"]
@@ -119,6 +122,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-recorded",
     "vectors-agent-decision",
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
@@ -170,6 +174,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
+"vectors-recorded" = "agent_evidence_vectors/corpora/vectors-recorded"
 "vectors-agent-decision" = "agent_evidence_vectors/corpora/vectors-agent-decision"
 "vectors-ietf-agent-record-drafts" = "agent_evidence_vectors/corpora/vectors-ietf-agent-record-drafts"
 "vectors-mcp-owasp" = "agent_evidence_vectors/corpora/vectors-mcp-owasp"
@@ -261,6 +266,7 @@ only-include = [
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
+    "vectors-recorded",
     "vectors-agent-decision",
     "vectors-mcp-owasp",
     "spec/predicates/adversarial-execution-evidence.md",
@@ -374,7 +380,7 @@ files = ["packaging", "vectors", "tools"]
 # to pass if a Python file exists outside them.
 include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",

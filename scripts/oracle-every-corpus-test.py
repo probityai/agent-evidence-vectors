@@ -69,6 +69,7 @@ REFUSES_A_VERIFIER = (
     "vectors-anchor-stream",
     "vectors-artifact-binding",
     "vectors-delegation-lifecycle",
+    "vectors-recorded",
     "vectors-dependency-selection",
     "vectors-done-contract",
     "vectors-done-receipt",
