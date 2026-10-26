@@ -1,0 +1,898 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 4,
+      "deny": 13
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 17
+  },
+  "anchor": {
+    "kind": "signed-digest-list",
+    "manifest": "vectors-converted-argument-binding/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-converted-argument-binding/gen_vectors.py",
+    "routine-file": "vectors-converted-argument-binding/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "cc90a6895c3a3514cc81a5b201361a0935bdcf39eeb5a65fd35f70d1b060772a",
+    "signature": {
+      "key": "release/cosign.pub",
+      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
+      "path": "release/CORPUS-DIGESTS.txt.sig",
+      "scheme": "ed25519",
+      "serialization": "bytes"
+    },
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "swapped-in": "3315bbe62d1922f1724f5ae20fd654b9d3fc1df7b585ecd18d0012c3221a64c7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-converted-argument-binding/README.md",
+      "serialization": "bytes",
+      "sha256": "45d5c7672eb7d4ad29c9f2eff3f658ff9df3df1bb707b545be011350b6080bbd"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "swapped-in": "0eea8f66a2457cc076cd156d754294430b8595ec61895727b5fec67a15803f98",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-converted-argument-binding/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "493b71e2fb4ecb09ed8a73e04fb4962dd04d75095bc27599b3955fd247add42c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "swapped-in": "ec7c47a5a119eee3ed08347ac702f96afb3cfa1affedd3191f3859a34af8b8e5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-converted-argument-binding/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "1bf7ba1da5807f908a623d8f217ec2ed26673cb0f7a4b2e57dc835aef2b5ff7f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+        },
+        "swapped-in": "3f790919c482c97375e818af018c45fdbb775e8bae2d8e647e70144a786bb429",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-converted-argument-binding/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "62fbd65b798eff7a267d7f8a53a0f45c2fa738510d4ba457fb09d131f46ab043"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-converted-argument-binding"
+  },
+  "byte-identity": {
+    "pins": 87,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-converted-argument-binding",
+      "aee-verify -json vectors-converted-argument-binding",
+      "aee-verify vectors-converted-argument-binding"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "1fc34484d62d2024222d84fdaa8bb8746bb03db397b0fac2a5f8145a562b7e29"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-unchanged",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-constructor-default-shown",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-modify-full-call",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approved-digest-not-shown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "shown-holds-nan",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "shown-duplicate-key",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "invalid-enum-approved",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "modify-drops-defaulted-field",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "clock-default-rebuilds-differently",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "approver-edited-in-place",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "bool-string-coerced",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "float-truncated-to-int",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "dict-repr-to-string",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "constructor-default-hidden",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "executed-key-order-only",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "ef2054e46b58eaf2f2d0b34b2da532859fe10ec12421c463635387de7b59ca9e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-unchanged",
+      "allow-constructor-default-shown",
+      "allow-modify-full-call",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "approved-digest-not-shown",
+      "shown-holds-nan",
+      "shown-duplicate-key",
+      "invalid-enum-approved",
+      "modify-drops-defaulted-field",
+      "clock-default-rebuilds-differently",
+      "approver-edited-in-place",
+      "bool-string-coerced",
+      "float-truncated-to-int",
+      "dict-repr-to-string",
+      "constructor-default-hidden",
+      "executed-key-order-only"
+    ],
+    "path": "vectors-converted-argument-binding/MANIFEST.json",
+    "sha256": "5faf4e257af4247e0a410298c29c45aade9420784148b7b0ce9465fa356a2dfb"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-unchanged/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-unchanged/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-unchanged/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-unchanged/record.json",
+          "sha256": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-unchanged/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "allow-unchanged"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-constructor-default-shown/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-constructor-default-shown/raw.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-constructor-default-shown/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-constructor-default-shown/record.json",
+          "sha256": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-constructor-default-shown/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "allow-constructor-default-shown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/modified.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/raw.json",
+          "sha256": "3e09aea98863156212c8c1310a2a1330bedfef7b9824ccd2c1c95693d2cb0646"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/record.json",
+          "sha256": "aa046d36cdc355ba51cd5da74efcf1a7f2cbba0b9c016a50d3d7beb9c6b166bd"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/allow-modify-full-call/shown.json",
+          "sha256": "7c49e56b238f433b79f9737671b026ab64e18d443ec76e85c908225625be3b8f"
+        }
+      ],
+      "id": "allow-modify-full-call"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-missing/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-missing/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-missing/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-missing/record.json",
+          "sha256": "9e1bcd53d1eebabe1f1d04a9e7c52f10b213810d90a941c3296f78044224f9a8"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-missing/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-unknown/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-unknown/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-unknown/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-unknown/record.json",
+          "sha256": "5e6f18e776c517f8652dac8792d7b9fc5517ff3b86265293b127064caad5fcab"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/contract-id-unknown/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "contract-id-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/approved-digest-not-shown/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approved-digest-not-shown/raw.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approved-digest-not-shown/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approved-digest-not-shown/record.json",
+          "sha256": "c1e31159b149c53b7b8c365114a9fbae8d7e03b2f199c83dc0c60262ba9dfd8e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approved-digest-not-shown/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "approved-digest-not-shown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-holds-nan/executed.json",
+          "sha256": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-holds-nan/raw.json",
+          "sha256": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-holds-nan/rebuilt.json",
+          "sha256": "8dc85c84bc44b43ecfeb6eb4f6e573b82ce7d0516e3aef848200e4434d283c03"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-holds-nan/record.json",
+          "sha256": "ac75018bac145cbf69d294c02687d3f506cda3c4553d280f2ba41a5904a999cd"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-holds-nan/shown.json",
+          "sha256": "b0b60ddb42c52beccfbdbcb52714f38b4639dfef231b6a9489a7ade6fdf9094d"
+        }
+      ],
+      "id": "shown-holds-nan"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-duplicate-key/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-duplicate-key/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-duplicate-key/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-duplicate-key/record.json",
+          "sha256": "f6f40f251f27c503edb3ea755794c9d730885c63d6c35f09226ae609206df378"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/shown-duplicate-key/shown.json",
+          "sha256": "474c3f03a58342f546fed9e5eb0e347ba5003caabb6aa3688cc3bd63ad679cec"
+        }
+      ],
+      "id": "shown-duplicate-key"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/invalid-enum-approved/executed.json",
+          "sha256": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/invalid-enum-approved/raw.json",
+          "sha256": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/invalid-enum-approved/rebuilt.json",
+          "sha256": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/invalid-enum-approved/record.json",
+          "sha256": "baa9819dd242c99ee818d19cdfd60353f9a5babb247acab5d01dab63c84523ee"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/invalid-enum-approved/shown.json",
+          "sha256": "a5c3ca1c29b6f0587854af675deef1556b4db6756be44ad69db26ba3e4594ffd"
+        }
+      ],
+      "id": "invalid-enum-approved"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/executed.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/modified.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/raw.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/rebuilt.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/record.json",
+          "sha256": "f7a0041d86eaf27f195bfe50e2c17e24d9c6efab76064b5ac16e13c7d0b7edd3"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/modify-drops-defaulted-field/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "modify-drops-defaulted-field"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/clock-default-rebuilds-differently/executed.json",
+          "sha256": "004473bfd324b2efb6af0c7f449cb6a377126c8244d40bdfbddee84042b6664c"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/clock-default-rebuilds-differently/raw.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/clock-default-rebuilds-differently/rebuilt.json",
+          "sha256": "004473bfd324b2efb6af0c7f449cb6a377126c8244d40bdfbddee84042b6664c"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/clock-default-rebuilds-differently/record.json",
+          "sha256": "0c0b4ff49d724078072c8ba81422dc6af95e9ce81e9ae4ff3bb214e02e85a3df"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/clock-default-rebuilds-differently/shown.json",
+          "sha256": "01a13804ccc29c87bc739d9f1b8dc586e07346a789f6c50e74b50557be518e7e"
+        }
+      ],
+      "id": "clock-default-rebuilds-differently"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/approver-edited-in-place/executed.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approver-edited-in-place/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approver-edited-in-place/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approver-edited-in-place/record.json",
+          "sha256": "1b5c8be9cb36e2b0c3e41984ac7addb24ae042cf004a551832c1c5a18d85654e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/approver-edited-in-place/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "approver-edited-in-place"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/bool-string-coerced/executed.json",
+          "sha256": "73c919708cfa1455ec1d681421070bc2f9ce69523c4619fabeb76850ed7ff31e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/bool-string-coerced/raw.json",
+          "sha256": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/bool-string-coerced/rebuilt.json",
+          "sha256": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/bool-string-coerced/record.json",
+          "sha256": "9b78318333ca5803c9c1bc5a67efb548d19664fde3aa53439866d7583c175e16"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/bool-string-coerced/shown.json",
+          "sha256": "d66549f9c6a7407f65a8c87ff94a586d4682ba1fbad52e10779ba3f2e59f2b63"
+        }
+      ],
+      "id": "bool-string-coerced"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/float-truncated-to-int/executed.json",
+          "sha256": "fbd992e7aa23a36dce1823c16eccc4359275644ba1df614bec6dd10323395ee5"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/float-truncated-to-int/raw.json",
+          "sha256": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/float-truncated-to-int/rebuilt.json",
+          "sha256": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/float-truncated-to-int/record.json",
+          "sha256": "c10ebb382706c1259974c637ce331fad71e382bc144cd93c0c21068de0b36fb1"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/float-truncated-to-int/shown.json",
+          "sha256": "8831e636e1ceb1388590333e2d27e5fb3238138e378c1eac8ee1f69f2516ca78"
+        }
+      ],
+      "id": "float-truncated-to-int"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/dict-repr-to-string/executed.json",
+          "sha256": "859e9f1c6924905b84dd646a7a64b879e1d589f3ce1f1ae3eb9a2c6e042a40ed"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/dict-repr-to-string/raw.json",
+          "sha256": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/dict-repr-to-string/rebuilt.json",
+          "sha256": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/dict-repr-to-string/record.json",
+          "sha256": "1d9a3b5b0a670ff06a21329eff4f2d628b459f8ec42e412921add6ec08beae79"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/dict-repr-to-string/shown.json",
+          "sha256": "6c11fbb81d2036f36fb5a5a089573b25f6efd62450e91fe1882aa2876d82f6a2"
+        }
+      ],
+      "id": "dict-repr-to-string"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/constructor-default-hidden/executed.json",
+          "sha256": "c1dcf492e3399f14c3af52fbc1ff00ce87a1550c5bc860ab090fb8c56ea6a6ad"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/constructor-default-hidden/raw.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/constructor-default-hidden/rebuilt.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/constructor-default-hidden/record.json",
+          "sha256": "7960cf93610c1ab053361fdd9396e74a2e6bce0f0e2d22570e0f5c7e89082921"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/constructor-default-hidden/shown.json",
+          "sha256": "684da6871dffee8dd78de599ac7f0c4d1f9bca6c5355218d7b71ea976438e35e"
+        }
+      ],
+      "id": "constructor-default-hidden"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-converted-argument-binding/cases/executed-key-order-only/executed.json",
+          "sha256": "ab934e9f3c4e2ea62438276807370ace232467394d81086d25e930d540f00e1f"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/executed-key-order-only/raw.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/executed-key-order-only/rebuilt.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/executed-key-order-only/record.json",
+          "sha256": "3d96cf2ea00f203626b894ee958f624e2057d4fed373d9313dae9c43c1a1430c"
+        },
+        {
+          "path": "vectors-converted-argument-binding/cases/executed-key-order-only/shown.json",
+          "sha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+        }
+      ],
+      "id": "executed-key-order-only"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-converted-argument-binding.json",
+        "serialization": "bytes",
+        "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-converted-argument-binding.txt",
+        "serialization": "bytes",
+        "sha256": "cc9dec8f08b3d2b1b100598346593bf85b2cb69fc6b8d554e0ffec2f90e80c05"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+      },
+      {
+        "process": "run-2",
+        "sha256": "3ac564feb001a1471da4455316defe11e428abee04e41c08a1a52080713743d2"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 17 pinned members of converted-argument-binding/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 17,
+    "require": "at-least-one",
+    "selected": [
+      "allow-unchanged",
+      "allow-constructor-default-shown",
+      "allow-modify-full-call",
+      "contract-id-missing",
+      "contract-id-unknown",
+      "approved-digest-not-shown",
+      "shown-holds-nan",
+      "shown-duplicate-key",
+      "invalid-enum-approved",
+      "modify-drops-defaulted-field",
+      "clock-default-rebuilds-differently",
+      "approver-edited-in-place",
+      "bool-string-coerced",
+      "float-truncated-to-int",
+      "dict-repr-to-string",
+      "constructor-default-hidden",
+      "executed-key-order-only"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "converted-argument-binding/v1"
+}

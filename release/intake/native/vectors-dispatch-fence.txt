@@ -1,0 +1,5 @@
+suite: dispatch-fence/v1
+members: 13
+  allow: 5
+  deny: 8
+verdict: every member behaves as MANIFEST.json declares

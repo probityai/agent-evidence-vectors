@@ -1,0 +1,25 @@
+{
+  "approval": {
+    "decision": "approve",
+    "shownSha256": "bae4865d3508d90c0a0a91c4cc92aa9c9569977301c83f944e5cb097543a31e2"
+  },
+  "callCopyAfterSha256": "6e4b9eb069788e84515b71a4b3b401f14c0c91d5ae654f0963e7d0e806b0fed0",
+  "callCopyBeforeSha256": "6e4b9eb069788e84515b71a4b3b401f14c0c91d5ae654f0963e7d0e806b0fed0",
+  "parameters": {
+    "dry_run": {
+      "default": true,
+      "type": "boolean"
+    },
+    "priority": {
+      "enum": [
+        "low",
+        "normal",
+        "high"
+      ],
+      "type": "string"
+    },
+    "recipient": {
+      "type": "string"
+    }
+  }
+}
