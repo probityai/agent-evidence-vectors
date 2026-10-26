@@ -97,7 +97,7 @@ func recordedParse(data []byte) (map[string]string, map[string]bool) {
 func recordedPresent(dir string) (map[string]bool, bool, error) {
 	present := map[string]bool{}
 	linked := false
-	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error { // #nosec G703 -- the directory the caller named for judging
 		if err != nil {
 			return err
 		}
@@ -200,7 +200,7 @@ func recordedCheck(dir string, pin *string, bindings []recordedBinding) ([]strin
 // the compact sorted JSON map from each file's path to its SHA-256.
 func recordedTreeID(dir string) (string, error) {
 	listing := map[string]any{}
-	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error { // #nosec G703 -- the directory the caller named for judging
 		if err != nil || !d.Type().IsRegular() {
 			return err
 		}
@@ -208,7 +208,7 @@ func recordedTreeID(dir string) (string, error) {
 		if err != nil {
 			return err
 		}
-		body, err := os.ReadFile(path) // #nosec G304 -- a path inside the corpus being judged
+		body, err := os.ReadFile(path) // #nosec G304,G122 -- a path inside the corpus being judged
 		if err != nil {
 			return err
 		}

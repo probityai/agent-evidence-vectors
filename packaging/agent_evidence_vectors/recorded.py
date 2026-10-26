@@ -244,7 +244,7 @@ def judge(root: Path = ROOT) -> tuple[int, list[str]]:
 def run(root: str, verifier: list[str] | None, report_path: str, rail_note: str) -> int:
     """Judge the corpus and write the report the package's other suites write."""
     if verifier is not None:
-        print(f"the verifier {shlex.join(verifier)!r} was not run: {SUITE!r} is judged only by "
+        print(f"the verifier {shlex.join(verifier)!r} did NOT run: {SUITE!r} is judged only by "
               "this package's own reader and has no external-verifier contract")
         return 2
     directory = Path(root)
