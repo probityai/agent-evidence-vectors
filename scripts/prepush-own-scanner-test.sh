@@ -59,6 +59,9 @@ run_cases() {
 	cp "$here/.githooks/commit-msg" "$repo/.githooks/commit-msg"
 	chmod +x "$repo/.githooks/pre-push" "$repo/.githooks/commit-msg"
 	printf 'import sys\nsys.exit(0)\n' >"$repo/scripts/push-hygiene.py"
+	cp "$here/scripts/secret-scan.sh" "$repo/scripts/secret-scan.sh"
+	cp "$here/.gitleaks.toml" "$repo/.gitleaks.toml"
+	chmod +x "$repo/scripts/secret-scan.sh"
 
 	# A stand-in scanner: it prints which copy of the code ran and what the rules
 	# file beside it says, and refuses unless the rules say ALLOW. It finds the
