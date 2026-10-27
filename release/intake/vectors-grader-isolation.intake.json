@@ -9,7 +9,7 @@
     "total": 50
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-grader-isolation/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -19,13 +19,6 @@
     "routine-file": "vectors-grader-isolation/gen_vectors.py",
     "serialization": "corpus-routine",
     "sha256": "1d291415876035e872208aba3c7670baad104c14af60c7a3b56271da81d50ead",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -151,7 +144,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "5933d371ae4aeca15e1c35cc011cb9beb96a91301b53a03d6ea74230e0643e06"
+      "sha256": "f2c1cf159df58f7c57fa9f43f53456ddc7cd6a93435b3f720ec13ad1a89c39d2"
     },
     "runtime": {
       "name": "go",
@@ -4337,6 +4330,7 @@
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
