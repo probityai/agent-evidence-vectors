@@ -5,8 +5,10 @@ The pre-push hook reads 1 as "a label nothing serves" and refuses the push, and
 reads 2 as "the account could not be read" and lets the push through with a
 warning. An unread account used to exit 1, because `SystemExit(message)` with a
 string exits 1, so a missing token or a rate limit refused the push by naming a
-finding the gate never made. Each case runs the gate against this repository's
-workflows with a stand-in `gh` first on PATH.
+finding the gate never made. Each case runs the gate against a
+fixture workflow that asks for a third-party label, with a stand-in `gh` first on PATH.
+The repository workflows cannot be the fixture: they may all run on GitHub-hosted
+labels, and then the gate has no installation to look up.
 """
 
 from __future__ import annotations
@@ -25,9 +27,14 @@ def run_with_gh(script: str) -> subprocess.CompletedProcess[str]:
         gh = Path(scratch) / "gh"
         gh.write_text("#!/bin/sh\n" + script, encoding="utf-8")
         gh.chmod(0o755)
+        workflows = Path(scratch) / "workflows"
+        workflows.mkdir()
+        (workflows / "ci.yml").write_text(
+            "jobs:\n  build:\n    runs-on: ubicloud-standard-2\n", encoding="utf-8"
+        )
         env = {**os.environ, "PATH": f"{scratch}{os.pathsep}{os.environ.get('PATH', '')}"}
         return subprocess.run(
-            [sys.executable, str(GATE), "--owner", "example-org"],
+            [sys.executable, str(GATE), "--owner", "example-org", "--workflows", str(workflows)],
             capture_output=True,
             text=True,
             env=env,
