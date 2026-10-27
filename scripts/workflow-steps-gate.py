@@ -2050,13 +2050,44 @@ def event_excludes(condition: str) -> str:
             "carries no inputs, so it is null and false"
         )
     match = EVENT_TEST.match(condition)
-    if not match:
+    if match:
+        operator, event = match.groups()
+        holds = (LOCAL_EVENT == event) if operator == "==" else (LOCAL_EVENT != event)
+        if holds:
+            return ""
+        return f"its condition `{condition.strip()}` is false for a {LOCAL_EVENT}"
+    return compound_event_excludes(condition)
+
+
+# A reference into the pull_request payload. A push carries none of it.
+PULL_REQUEST_PAYLOAD = re.compile(r"github\.event\.pull_request\.")
+
+
+def compound_event_excludes(condition: str) -> str:
+    """Decide an `if:` built from several terms against the declared local push.
+
+    The expression is evaluated with the same evaluator the env bindings use, so
+    `github.event_name == 'pull_request' && github.event.pull_request.user.login
+    != 'x'` is false for a push by short-circuit. An expression that is true, or
+    true only because a pull_request payload field reads as empty, still names
+    event context a push does not have: running its step would hand it empty
+    inputs and report a verdict on an input it never received, so it is NOT RUN
+    too. An expression this gate cannot evaluate is left to run as before.
+    """
+    body = re.sub(r"^\s*\$\{\{(.*)\}\}\s*$", r"\1", condition, flags=re.DOTALL).strip()
+    if not body:
         return ""
-    operator, event = match.groups()
-    holds = (LOCAL_EVENT == event) if operator == "==" else (LOCAL_EVENT != event)
-    if holds:
+    value, undecided = evaluate(body, {}, None, {"github.event_name": LOCAL_EVENT})
+    if undecided:
         return ""
-    return f"its condition `{condition.strip()}` is false for a {LOCAL_EVENT}"
+    if not value:
+        return f"its condition `{condition.strip()}` is false for a {LOCAL_EVENT}"
+    if PULL_REQUEST_PAYLOAD.search(body):
+        return (
+            f"its condition `{condition.strip()}` reads the pull_request event payload, "
+            f"which a {LOCAL_EVENT} does not carry, so its inputs would be empty"
+        )
+    return ""
 
 
 def resolve(step: Step) -> tuple[str | None, str, bool]:

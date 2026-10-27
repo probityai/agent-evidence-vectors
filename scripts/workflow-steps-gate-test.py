@@ -735,6 +735,36 @@ def a_step_guarded_to_another_event_is_not_run() -> None:
     assert rc != 0
 
 
+def a_compound_event_guard_is_decided_against_the_local_event() -> None:
+    """An `if:` joining the event name to other terms is decided, not run empty.
+
+    commit-message-lint guards its merge-subject step with
+    `github.event_name == 'pull_request' && github.event.pull_request.user.login
+    != 'dependabot[bot]'`. Only a bare comparison was decided, so the compound
+    form ran on a push with an empty title and number and failed the release
+    gate on an input the step never received.
+    """
+    guard = (
+        "github.event_name == 'pull_request' && "
+        "github.event.pull_request.user.login != 'dependabot[bot]'"
+    )
+    for condition in (guard, "${{ " + guard + " }}", "github.event_name != 'push' && true"):
+        reason = GATE.event_excludes(condition)  # type: ignore[attr-defined]
+        assert reason and "false for a push" in reason, (condition, reason)
+    payload = GATE.event_excludes(  # type: ignore[attr-defined]
+        "github.event.pull_request.user.login != 'dependabot[bot]'"
+    )
+    assert "pull_request event payload" in payload, payload
+    assert GATE.event_excludes("github.event_name == 'push' && true") == ""  # type: ignore[attr-defined]
+    rc, log = _execute(
+        "jobs:\n  j:\n    steps:\n"
+        f"      - name: guarded\n        if: {guard}\n"
+        "        env:\n          T: ${{ github.event.pull_request.title }}\n"
+        '        run: test -n "$T"\n'
+    )
+    assert rc == 0 and "NOT RUN  j[0] guarded" in log, f"the guarded step ran empty:\n{log}"
+
+
 def an_ambient_virtual_env_does_not_reach_the_steps() -> None:
     """`uv pip install` in a step must land in the project environment.
 
@@ -1989,6 +2019,10 @@ def main() -> int:
     check("an unprovidable Python stops its job", an_unprovidable_python_stops_its_job)
     check("a failed foreign fetch stops only its job", a_failed_fetch_stops_its_job)
     check("a step guarded to another event is not run", a_step_guarded_to_another_event_is_not_run)
+    check(
+        "a compound event guard is decided against the local event",
+        a_compound_event_guard_is_decided_against_the_local_event,
+    )
     check(
         "a step guarded by an input is not run without inputs",
         a_step_guarded_by_an_input_is_not_run_without_inputs,
