@@ -8,12 +8,12 @@ cannot pass on the pull request and fail on main again.
 """
 from __future__ import annotations
 
-from importlib.machinery import SourceFileLoader
-from importlib.util import module_from_spec, spec_from_loader
-from pathlib import Path
 import subprocess
 import sys
 import unittest
+from importlib.machinery import SourceFileLoader
+from importlib.util import module_from_spec, spec_from_loader
+from pathlib import Path
 
 HOOK = Path(__file__).resolve().parents[1] / ".githooks" / "commit-msg"
 
