@@ -668,6 +668,8 @@ under suiteRevision 17.
   first column is a sentence identifier on the measurement's axis rather than an anchor and
   pinning the two axes alike would confuse them.
   Files: `scripts/spec-anchor-gate.py`, `scripts/vendor-spec.py`.
+- [ ] **A tag-only push aborts at the pre-push hook with "nothing arrived on stdin"** -- observed 2026-10-27 while pushing the v0.29.0 tag by itself with `git push origin refs/tags/v0.29.0:refs/tags/v0.29.0`. `.githooks/pre-push` lines 432 to 445 treat an empty stdin as "not a push" and exit 1. Fed a real tag line by hand (`printf 'refs/tags/v0.29.0 <sha> refs/tags/v0.29.0 <zeros>\n' | .githooks/pre-push origin <url>`), the same hook passes and says the tag names an ancestor of HEAD, so the hook logic is sound and the empty stdin comes from whatever invoked it. `~/.claude/scripts/git-push-tmux.sh` `write_hook_stdin` always writes a `refs/heads/` line first and adds the tag line only when a branch is pushed with it, so a tag-only refspec reaches the hook with no line (read from the script, not yet reproduced end to end). Fix: in `write_hook_stdin`, write no branch line when the push is tag-only and write the tag line alone; add a case to the router test that pushes a tag-only refspec and asserts the hook's stdin holds exactly one `refs/tags/` line. Owner: claude-config (the router), not this repository; this row is the pointer. Workaround: push the tag together with its release branch, as the v0.29.0 release did.
+
 
 ## Recently landed
 
