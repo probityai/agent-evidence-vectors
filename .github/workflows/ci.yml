@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   release-integrity:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     env:
       UV_LINK_MODE: copy
     steps:
@@ -52,7 +52,7 @@ jobs:
     # The publish job's wheel replay, run before a tag can exist. Until v0.17.8
     # it ran only in release.yml, so a wheel that dropped a corpus's vendored
     # specification passed every pull request and failed at publication.
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
@@ -70,7 +70,7 @@ jobs:
         run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-installed"
 
   go:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -302,7 +302,7 @@ jobs:
           working-directory: witnessattestor
 
   python:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       # Full history and tags, because the consumer-lag gate measures the
       # vendored copies against the newest release tag the DEFAULT BRANCH
@@ -1229,7 +1229,7 @@ jobs:
   # operator was added, and are not re-measured here: restating a figure for a machine
   # this change never ran on would be inventing a measurement rather than taking one.
   forcing:
-    runs-on: ubicloud-standard-8
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -1284,7 +1284,7 @@ jobs:
   # look. The verifier is built into the workspace first because the action
   # resolves a relative first token from there.
   action:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
