@@ -20,17 +20,11 @@ ledger never establishes what the booking system holds.
 | `release_backed` | The ledger released capacity, and either one confirmed cancel with exactly one event stands behind it, or a counted record of the reconciliation close shows the booking absent. | That the limit copy is right. Capacity still held is not established. A release at a timeout, at a search miss, after an unconfirmed cancel or after duplicate compensation is contradicted. |
 | `one_live_booking_per_quote` | A counted booking-system statement shows the booking (a duplicate rejection counts) and no counted statement shows a second live booking of the quote under another reference. | That the booking is correct. A second live reference is contradicted. |
 | `limit_copy_matches` | The agent's copy of the limit used equals the counted booking-system usage, which includes every live or unresolved deal. | That the limit is sufficient. No counted usage is not established. |
-| `resolved` | The booking is in the state the trade intends: no timeout, the record shows booked and the liquidity provider filled it; or a counted record of the reconciliation close shows it absent; or it was booked and compensated exactly once. | That the client was told the right thing. A ledger claiming a cancel the record does not show, or compensation more than once, is contradicted. Anything else stays open for operations. |
+| `resolved` | The booking is in the state the trade intends, in one of three ways: no timeout, a counted record shows it booked, and a counted liquidity provider result says it filled; or a counted record of the reconciliation close shows it absent; or it was booked and compensated exactly once. | That a booked record with no timeout is enough: when the liquidity provider rejected the trade, or says nothing, that way does not apply, so a rejected trade whose cancel failed stays open for operations. A ledger claiming a cancel the record does not show, or compensation more than once, is contradicted. |
 
 The lost-reply rule above applies to `booking_committed`, `release_backed` and `resolved`
 together: a timeout, a lost acknowledgement or a search by reference that finds nothing
-settles none of them. The agent's `client_told_failed` and `cancel_sent_count` are recorded
-in the ledger and read by no axis.
-
-The reader departs from a bare reading of the `resolved` rule in one place. A booking
-that shows booked with no timeout is resolved only when a counted liquidity provider result
-says the trade filled. When the provider rejected it, or says nothing, the booking is not
-the end state the trade intends, so a rejected trade whose cancel failed stays open.
+settles none of them.
 
 ## Statement kinds
 
@@ -49,7 +43,7 @@ count except that its signature fails makes the axis it feeds contradicted.
 | `limit_usage` | booking system | client, used, limit | `limit_copy_matches` |
 | `other_quote_records` | booking system | quote id, reference and status of each other booking of the quote | `one_live_booking_per_quote` |
 | `lp_result` | liquidity provider | binding, outcome (rejected or filled) | `resolved` |
-| `ledger` | agent system | binding, timed out, client told failed, capacity released, cancel sent count, claims cancel confirmed, limit copy used | `release_backed` |
+| `ledger` | agent system | binding, timed out, capacity released, claims cancel confirmed, limit copy used | `release_backed` |
 
 The latest counted record by observed time is the current record. Cancel events are counted
 once by event id across every counted record and cancel reply.

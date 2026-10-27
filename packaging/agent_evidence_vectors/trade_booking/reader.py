@@ -215,9 +215,7 @@ KINDS: dict[str, Kind] = {
         {
             "binding": _is_tag,
             "timed_out": _is_flag,
-            "client_told_failed": _is_flag,
             "capacity_released": _is_flag,
-            "cancel_sent_count": _is_count,
             "claims_cancel_confirmed": _is_flag,
             "limit_copy_used": _is_count,
         },

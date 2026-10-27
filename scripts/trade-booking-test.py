@@ -122,7 +122,7 @@ def test_binding_covers_reference_system_client_and_quote_but_not_pair_or_notion
 
 
 def test_a_ledger_alone_never_establishes_the_booking() -> None:
-    ledger = B.ledger(timed_out=False, told_failed=False, released=True, copy_used=B.LIVE)
+    ledger = B.ledger(timed_out=False, released=True, copy_used=B.LIVE)
     got = _judge([B.ag(ledger)])
     assert got["booking_committed"] == N and got["one_live_booking_per_quote"] == N
     assert got["release_backed"] == C and got["resolved"] == N
@@ -223,7 +223,7 @@ def test_the_latest_record_decides_whether_a_cancel_claim_is_backed() -> None:
     booked_after = [
         B.bs(B.record("cancelled", events=(("EV-1", "agent_system"),), minute=2)),
         B.bs(B.record("booked", minute=4)),
-        B.ag(B.ledger(timed_out=True, released=True, copy_used=B.GONE, sent=1, claims=True)),
+        B.ag(B.ledger(timed_out=True, released=True, copy_used=B.GONE, claims=True)),
     ]
     assert _judge(booked_after)["cancel_confirmed"] == C
 
