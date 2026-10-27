@@ -21,6 +21,7 @@ HOOK = Path(__file__).resolve().parents[1] / ".githooks" / "commit-msg"
 def load_hook():
     loader = SourceFileLoader("commit_msg_hook", str(HOOK))
     spec = spec_from_loader(loader.name, loader)
+    assert spec is not None
     module = module_from_spec(spec)
     loader.exec_module(module)
     return module
