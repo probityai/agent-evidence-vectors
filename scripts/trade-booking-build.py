@@ -284,6 +284,22 @@ def _cases() -> list[dict[str, Any]]:
             _expect(E, E, E, E, E, E, E),
         ),
         (
+            "v1_search_absent_reconciliation_closes_never_booked",
+            V1,
+            "resolved",
+            "The reply is lost and the agent times out. The search by reference finds nothing, so"
+            " the agent holds capacity. The reconciliation close then also shows no booking, and"
+            " only after that does the agent release capacity. No statement shows the deal"
+            " booked, so it ends as never booked. The copy of the limit matches.",
+            [
+                bs(record("absent", minute=1)),
+                bs(record("absent", "reconciliation_close", minute=5)),
+                bs(usage(GONE)),
+                ag(ledger(timed_out=True, released=True, copy_used=GONE)),
+            ],
+            _expect(N, N, N, E, N, E, E),
+        ),
+        (
             "v1_late_booking_released_at_search_not_found",
             V1,
             "release_backed",

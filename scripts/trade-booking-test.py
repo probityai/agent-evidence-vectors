@@ -71,7 +71,7 @@ def test_every_case_matches_its_expected_answer(case: dict[str, Any]) -> None:
 
 def test_case_ids_are_unique_and_variants_are_the_three_failures_and_two_controls() -> None:
     ids = [case["id"] for case in CASES]
-    assert len(ids) == len(set(ids)) == 19
+    assert len(ids) == len(set(ids)) == 20
     assert {case["variant"] for case in CASES} == {
         B.CONTROL,
         B.V1,
@@ -132,12 +132,6 @@ def test_a_ledger_alone_never_establishes_the_booking() -> None:
 
 class TestClosingAbsence:
     """A reconciliation_close absent record settles a lost reply; a search miss does not."""
-
-    def test_settles_a_lost_reply_without_a_booking(self) -> None:
-        released = B.ledger(timed_out=True, released=True, copy_used=B.GONE)
-        got = _judge([B.bs(_closing_absence()), B.ag(released)])
-        assert got["booking_committed"] == N
-        assert got["release_backed"] == E and got["resolved"] == E
 
     def test_a_search_by_reference_miss_settles_nothing(self) -> None:
         released = B.ledger(timed_out=True, released=True, copy_used=B.GONE)
@@ -356,11 +350,20 @@ class TestKills:
         monkeypatch.setattr(reader, "judge_limit", lambda facts: reader._result(E, "lax", used=0))
         assert _by_id("v1_unresolved_deal_dropped_from_limit_copy")["limit_copy_matches"] == E
 
-    def test_closing_absence_needs_the_record_scope(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_closing_absence_settles_a_never_booked_deal(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         monkeypatch.setattr(reader.Facts, "recon_absent", property(lambda self: False))
-        released = B.ledger(timed_out=True, released=True, copy_used=B.GONE)
-        got = _judge([B.bs(_closing_absence()), B.ag(released)])
+        got = _by_id("v1_search_absent_reconciliation_closes_never_booked")
         assert got["release_backed"] == C and got["resolved"] == N
+
+    def test_an_absent_record_is_not_a_booking(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        def counts_absent(self: reader.Facts) -> bool:
+            return bool(self.acks or self.records)
+
+        monkeypatch.setattr(reader.Facts, "committed", property(counts_absent))
+        got = _by_id("v1_search_absent_reconciliation_closes_never_booked")
+        assert got["booking_committed"] == C
 
 
 def test_tampered_corpus_is_refused(tmp_path: Path) -> None:

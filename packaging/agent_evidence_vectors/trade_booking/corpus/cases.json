@@ -246,6 +246,71 @@
       }
     },
     {
+      "id": "v1_search_absent_reconciliation_closes_never_booked",
+      "variant": "variant_1_lost_reply",
+      "axis": "resolved",
+      "description": "The reply is lost and the agent times out. The search by reference finds nothing, so the agent holds capacity. The reconciliation close then also shows no booking, and only after that does the agent release capacity. No statement shows the deal booked, so it ends as never booked. The copy of the limit matches.",
+      "statements": [
+        {
+          "statement": {
+            "schema": "aev-booking-record/v1",
+            "binding": "sha256:e6c378408de0c41e3461c30d84eea8378ad4fd9109e72a39460d42514b5280e3",
+            "status": "absent",
+            "scope": "search_by_ref",
+            "cancel_events": [],
+            "observed_at": "2026-02-10T14:01:00Z"
+          },
+          "keyid": "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50",
+          "signature_hex": "a9c7570f72591735800354cd0e2117a3d8c43daaabb0380c326d5d7a49784afdf9167ee14237997853e8fea46152f1be22c9f04949efbc86ef6f7e4a81052e05"
+        },
+        {
+          "statement": {
+            "schema": "aev-booking-record/v1",
+            "binding": "sha256:e6c378408de0c41e3461c30d84eea8378ad4fd9109e72a39460d42514b5280e3",
+            "status": "absent",
+            "scope": "reconciliation_close",
+            "cancel_events": [],
+            "observed_at": "2026-02-10T14:05:00Z"
+          },
+          "keyid": "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50",
+          "signature_hex": "96acd7c5967a25c75346953f614927da8d426ed7f929e05de36902cf685e5ea409a18e3a57af7dc7f008639bd1a5cdb2c16163df1efecf287a51635a9e80f607"
+        },
+        {
+          "statement": {
+            "schema": "aev-limit-usage/v1",
+            "client": "CLIENT-A",
+            "used": 3000000,
+            "limit": 5000000
+          },
+          "keyid": "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50",
+          "signature_hex": "1f212be6debc195cea2c0ab939d610a838c74fdce76e9a34be0fe2fe998200561ba41ec4d0b0a83054e1f5032ba3307ed37ed1541f487b21e58a3c9eeab3b308"
+        },
+        {
+          "statement": {
+            "schema": "aev-agent-ledger/v1",
+            "binding": "sha256:e6c378408de0c41e3461c30d84eea8378ad4fd9109e72a39460d42514b5280e3",
+            "timed_out": true,
+            "client_told_failed": true,
+            "capacity_released": true,
+            "cancel_sent_count": 0,
+            "claims_cancel_confirmed": false,
+            "limit_copy_used": 3000000
+          },
+          "keyid": "sha256:368362d74b2338da5dd561c9e4ebad3eb57e822bc9661630fab79f1897f672f2",
+          "signature_hex": "5ef63b7ec0cf25b7b8b75c9d44d872a93153f6a2307fbb4ef7f20355b63a023010d5c3c6c598ce7179316af130c186de11a37c752845c0c4d2c30ce3cbafd503"
+        }
+      ],
+      "expected": {
+        "booking_committed": "NOT_ESTABLISHED",
+        "cancel_confirmed": "NOT_ESTABLISHED",
+        "single_compensation": "NOT_ESTABLISHED",
+        "release_backed": "ESTABLISHED",
+        "one_live_booking_per_quote": "NOT_ESTABLISHED",
+        "limit_copy_matches": "ESTABLISHED",
+        "resolved": "ESTABLISHED"
+      }
+    },
+    {
       "id": "v1_late_booking_released_at_search_not_found",
       "variant": "variant_1_lost_reply",
       "axis": "release_backed",

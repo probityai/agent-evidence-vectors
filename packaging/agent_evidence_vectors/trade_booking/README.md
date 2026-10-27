@@ -98,6 +98,7 @@ corpus and the closing-absence tests in `scripts/trade-booking-test.py`.
 - Control: `control_normal_success`.
 - Variant 1, the booking reply is lost: `v1_lost_ack_found_by_search_cancelled_once`,
   `v1_late_booking_held_until_reconciliation_cancelled_once`,
+  `v1_search_absent_reconciliation_closes_never_booked`,
   `v1_late_booking_released_at_search_not_found`,
   `v1_lost_ack_released_on_timeout_no_evidence`, `v1_resend_same_reference_rejected`,
   `v1_resend_new_reference_duplicate_booking`,
