@@ -92,8 +92,8 @@ differs. From a checkout, run `python -m agent_evidence_vectors.trade_booking.ru
 ## Cases
 
 Built by `scripts/trade-booking-build.py`; CI checks that the committed files are what it
-writes. Every axis has `ESTABLISHED`, `CONTRADICTED` and `NOT_ESTABLISHED` answers across the
-corpus and the closing-absence tests in `scripts/trade-booking-test.py`.
+writes. Every axis has `ESTABLISHED`, `CONTRADICTED` and `NOT_ESTABLISHED` answers in the
+corpus.
 
 - Control: `control_normal_success`.
 - Variant 1, the booking reply is lost: `v1_lost_ack_found_by_search_cancelled_once`,
@@ -110,6 +110,8 @@ corpus and the closing-absence tests in `scripts/trade-booking-test.py`.
 - Variant 3, operations reverse the booking: `v3_ops_reversed_first_agent_skips_cancel`,
   `v3_ops_reversed_then_agent_cancel_accepted_two_events` and
   `v3_agent_cancel_rejected_already_cancelled`.
+- Reconciliation break, the agent system holds a deal the booking system lacks:
+  `break_agent_booked_booking_system_absent`.
 - Trust controls: `booking_record_signed_by_agent`, `booking_record_names_other_reference`
   and `cancel_reply_signature_broken`.
 

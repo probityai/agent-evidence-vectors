@@ -58,6 +58,7 @@ CONTROL = "control"
 V1 = "variant_1_lost_reply"
 V2 = "variant_2_liquidity_provider_rejects"
 V3 = "variant_3_operations_reverses"
+BREAK = "reconciliation_break"
 TRUST_CONTROL = "trust_control"
 
 
@@ -516,6 +517,20 @@ def _cases() -> list[dict[str, Any]]:
                 ag(ledger(timed_out=False, released=True, copy_used=GONE, sent=1, claims=True)),
             ],
             _expect(E, E, E, E, E, E, E),
+        ),
+        (
+            "break_agent_booked_booking_system_absent",
+            BREAK,
+            "booking_committed",
+            "The agent's ledger shows the deal as booked: no timeout, capacity held and nothing"
+            " released. The booking system's record at the reconciliation close shows no booking"
+            " under the reference. The agent system holds a deal the booking system lacks, which"
+            " is a break for operations. The booking is not established and is not resolved.",
+            [
+                bs(record("absent", "reconciliation_close", minute=9)),
+                ag(ledger(timed_out=False, told_failed=False, released=False, copy_used=LIVE)),
+            ],
+            _expect(C, N, N, N, N, N, C),
         ),
         (
             "booking_record_signed_by_agent",

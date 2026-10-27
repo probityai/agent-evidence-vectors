@@ -69,24 +69,22 @@ def test_every_case_matches_its_expected_answer(case: dict[str, Any]) -> None:
     assert summary(evaluate(OCCURRENCE, TRUST, case)) == case["expected"]
 
 
-def test_case_ids_are_unique_and_variants_are_the_three_failures_and_two_controls() -> None:
+def test_case_ids_are_unique_and_every_variant_is_present() -> None:
     ids = [case["id"] for case in CASES]
-    assert len(ids) == len(set(ids)) == 20
+    assert len(ids) == len(set(ids)) == 21
     assert {case["variant"] for case in CASES} == {
         B.CONTROL,
         B.V1,
         B.V2,
         B.V3,
+        B.BREAK,
         B.TRUST_CONTROL,
     }
 
 
-def test_each_axis_has_every_answer_in_the_corpus_or_the_closing_absence_cases() -> None:
-    seen = {axis: {case["expected"][axis] for case in CASES} for axis in AXES}
-    contradicted_by_closing_absence = _judge([B.bs(B.ack()), B.bs(_closing_absence())])
-    seen["booking_committed"].add(contradicted_by_closing_absence["booking_committed"])
+def test_each_axis_has_every_answer_in_the_corpus() -> None:
     for axis in AXES:
-        assert {E, C, N} <= seen[axis], axis
+        assert {E, C, N} <= {case["expected"][axis] for case in CASES}, axis
 
 
 def _closing_absence() -> dict[str, Any]:
@@ -356,6 +354,13 @@ class TestKills:
         monkeypatch.setattr(reader.Facts, "recon_absent", property(lambda self: False))
         got = _by_id("v1_search_absent_reconciliation_closes_never_booked")
         assert got["release_backed"] == C and got["resolved"] == N
+
+    def test_a_ledger_without_a_timeout_says_the_deal_is_booked(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setattr(reader.Facts, "says_booked", property(lambda self: self.committed))
+        got = _by_id("break_agent_booked_booking_system_absent")
+        assert got["booking_committed"] == N and got["resolved"] == E
 
     def test_an_absent_record_is_not_a_booking(self, monkeypatch: pytest.MonkeyPatch) -> None:
         def counts_absent(self: reader.Facts) -> bool:

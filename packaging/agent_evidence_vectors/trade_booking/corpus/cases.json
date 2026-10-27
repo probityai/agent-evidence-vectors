@@ -1280,6 +1280,49 @@
       }
     },
     {
+      "id": "break_agent_booked_booking_system_absent",
+      "variant": "reconciliation_break",
+      "axis": "booking_committed",
+      "description": "The agent's ledger shows the deal as booked: no timeout, capacity held and nothing released. The booking system's record at the reconciliation close shows no booking under the reference. The agent system holds a deal the booking system lacks, which is a break for operations. The booking is not established and is not resolved.",
+      "statements": [
+        {
+          "statement": {
+            "schema": "aev-booking-record/v1",
+            "binding": "sha256:e6c378408de0c41e3461c30d84eea8378ad4fd9109e72a39460d42514b5280e3",
+            "status": "absent",
+            "scope": "reconciliation_close",
+            "cancel_events": [],
+            "observed_at": "2026-02-10T14:09:00Z"
+          },
+          "keyid": "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50",
+          "signature_hex": "43b9f03564eb08fc5c8dd8fc9cb0b831c8adc056097939a2e1d04fafcad218f56f10febf21d690608f2580e5ab7f1460dd6b91174cadea73cab2df0636a5ff09"
+        },
+        {
+          "statement": {
+            "schema": "aev-agent-ledger/v1",
+            "binding": "sha256:e6c378408de0c41e3461c30d84eea8378ad4fd9109e72a39460d42514b5280e3",
+            "timed_out": false,
+            "client_told_failed": false,
+            "capacity_released": false,
+            "cancel_sent_count": 0,
+            "claims_cancel_confirmed": false,
+            "limit_copy_used": 4000000
+          },
+          "keyid": "sha256:368362d74b2338da5dd561c9e4ebad3eb57e822bc9661630fab79f1897f672f2",
+          "signature_hex": "192491a1fdd6c84d4f4c3ad37cd68df95dbbb3d3e0f1e9b0320535d946c6bf5e3ed7e581e86e6c7484bfc0a9148ba9106209d24537c9ec0b08d38701a460dd02"
+        }
+      ],
+      "expected": {
+        "booking_committed": "CONTRADICTED",
+        "cancel_confirmed": "NOT_ESTABLISHED",
+        "single_compensation": "NOT_ESTABLISHED",
+        "release_backed": "NOT_ESTABLISHED",
+        "one_live_booking_per_quote": "NOT_ESTABLISHED",
+        "limit_copy_matches": "NOT_ESTABLISHED",
+        "resolved": "CONTRADICTED"
+      }
+    },
+    {
       "id": "booking_record_signed_by_agent",
       "variant": "trust_control",
       "axis": "booking_committed",
