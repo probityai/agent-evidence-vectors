@@ -120,7 +120,7 @@ def _unknown_released(record: dict[str, Any]) -> bool:
 
 
 def _overspend(record: dict[str, Any]) -> bool:
-    return charged_units(record) > record["budget"]["remainingBefore"]
+    return bool(charged_units(record) > record["budget"]["remainingBefore"])
 
 
 def _fitting_refused(record: dict[str, Any]) -> bool:
