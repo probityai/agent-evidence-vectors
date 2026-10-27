@@ -45,6 +45,7 @@ permissions:
 
 jobs:
   sweep:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-8
     steps:
       # Full history, which the per-push jobs deliberately do not fetch. The

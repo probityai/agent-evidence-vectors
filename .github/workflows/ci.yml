@@ -20,6 +20,7 @@ permissions:
 
 jobs:
   release-integrity:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-2
     env:
       UV_LINK_MODE: copy
@@ -49,6 +50,7 @@ jobs:
           .venv/bin/python -B scripts/release-gate-test.py
 
   installed-wheel:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     # The publish job's wheel replay, run before a tag can exist. Until v0.17.8
     # it ran only in release.yml, so a wheel that dropped a corpus's vendored
     # specification passed every pull request and failed at publication.
@@ -70,6 +72,7 @@ jobs:
         run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-installed"
 
   go:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-2
     steps:
       - uses: actions/checkout@v4
@@ -302,6 +305,7 @@ jobs:
           working-directory: witnessattestor
 
   python:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-2
     steps:
       # Full history and tags, because the consumer-lag gate measures the
@@ -1229,6 +1233,7 @@ jobs:
   # operator was added, and are not re-measured here: restating a figure for a machine
   # this change never ran on would be inventing a measurement rather than taking one.
   forcing:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-8
     steps:
       - uses: actions/checkout@v4
@@ -1284,6 +1289,7 @@ jobs:
   # look. The verifier is built into the workspace first because the action
   # resolves a relative first token from there.
   action:
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     runs-on: ubicloud-standard-2
     steps:
       - uses: actions/checkout@v4

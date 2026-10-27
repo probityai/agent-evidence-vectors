@@ -1,0 +1,33 @@
+name: ubicloud-budget-guard
+
+# The fail-fast half of the paid-CI budget guard (measured/billing/ubicloud-ci.toml). The hourly
+# timer scripts/billing/ubicloud_spend_check.py sets the repo variable UBICLOUD_CI_STATE to `ok`
+# or `over`. While it is `over`, every paid job is skipped by its own `if` (see
+# scripts/billing/budget_guard_workflows.py) and THIS job runs and fails, so a pull request or a
+# queue candidate is red with the reason instead of green with its checks skipped.
+#
+# While the state is `ok` this job is skipped, which costs nothing and passes. It runs on a
+# GitHub-hosted runner on purpose: the paid runners are exactly what is switched off.
+on:
+  pull_request:
+  push:
+    branches: [main, "mq/**"]
+  workflow_dispatch:
+    inputs:
+      force_state:
+        description: "Test the guard: pretend the state variable holds this value (ok or over)"
+        required: false
+        default: ""
+
+permissions: {}
+
+jobs:
+  budget-guard:
+    if: ${{ (github.event.inputs.force_state || vars.UBICLOUD_CI_STATE) == 'over' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Refuse paid CI while the budget is spent
+        run: |
+          echo "::error title=Paid CI budget spent::The Ubicloud budget in measured/billing/ubicloud-ci.toml is spent for this period, so paid jobs are skipped. The guard clears itself when the period rolls over; the operator can raise the budget in that file."
+          exit 1

@@ -55,7 +55,7 @@ jobs:
   check-local:
     # Not on the schedule: this half is about the commit being pushed, and
     # re-running it weekly against an unchanged tree proves nothing new.
-    if: github.event_name != 'schedule'
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' && (github.event_name != 'schedule') }}
     runs-on: ubicloud-standard-2
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
         run: python3 scripts/crosswalk-gen.py --check-local
 
   crosswalk-upstream:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    if: ${{ vars.UBICLOUD_CI_STATE != 'over' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubicloud-standard-2
     permissions:
       contents: read
