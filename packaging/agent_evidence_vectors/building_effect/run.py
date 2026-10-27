@@ -9,8 +9,9 @@ import re
 from pathlib import Path
 from typing import Any
 
+from ..invocation_axes.reader import MalformedInput, parse_strict, sha256_tag
 from ..record_paths import portable_command, write_records
-from .reader import AXES, DERIVED, NON_CLAIMS, MalformedInput, evaluate, parse_strict, sha256_tag
+from .reader import AXES, DERIVED, NON_CLAIMS, evaluate
 
 DISTRIBUTION = "agent-evidence-vectors"
 PACKAGED_CORPUS = Path(__file__).parent / "corpus"
