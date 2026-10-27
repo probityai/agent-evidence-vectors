@@ -1,0 +1,50 @@
+{
+  "asOf": "2026-10-27T12:10:00Z",
+  "budget": {
+    "id": "budget-1",
+    "limit": 10,
+    "remainingBefore": 10,
+    "unit": "units"
+  },
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/aggregate-accounting/v1",
+  "decisions": [
+    {
+      "action": "pay-invoice",
+      "agent": "agent-r1",
+      "budget": "budget-1",
+      "charged": true,
+      "decision": "admitted",
+      "latencyMs": 20,
+      "outcome": "unknown",
+      "principal": "principal-1",
+      "requestId": "r1",
+      "reservationExpiresAt": "2026-10-27T12:05:00Z",
+      "subtree": "subtree-a",
+      "units": 5
+    },
+    {
+      "action": "pay-invoice",
+      "agent": "agent-r2",
+      "budget": "budget-1",
+      "charged": false,
+      "decision": "refused",
+      "latencyMs": 20,
+      "outcome": "none",
+      "principal": "principal-1",
+      "reason": "budget",
+      "requestId": "r2",
+      "subtree": "subtree-a",
+      "units": 6
+    }
+  ],
+  "effectCounts": {
+    "admitted": 1,
+    "chargedUnits": 5,
+    "held": 0,
+    "refused": 1,
+    "remainingUnits": 5
+  },
+  "latencyBoundMs": 200,
+  "principal": "principal-1",
+  "recordId": "record-allow-unknown-outcome-stays-charged"
+}

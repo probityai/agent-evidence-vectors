@@ -1,0 +1,564 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-observer/contract/aggregate-accounting/v1",
+  "corpusDigest": "856596834a5cd59aa4629802d27aecd9087ba7b20718bdffdf2ead85f82ff23b",
+  "suite": "aggregate-accounting/v1",
+  "vectors": [
+    {
+      "edit": "control: 10 units left, two concurrent requests for 4 are both admitted",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "f4e844cff2100bb2bf6c3bba7c6d382deb84fbd8eb908641ef3e801f4346c35a"
+      },
+      "id": "allow-concurrent-both-fit",
+      "path": "cases/allow-concurrent-both-fit",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: 10 units left, two racing requests for 6, one admitted and one refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "4763b7d1e958ab3a3fb71113591caa7b6c078b71b3253d6f39ee8c4bf0b0b2b8"
+      },
+      "id": "allow-race-one-admitted",
+      "path": "cases/allow-race-one-admitted",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 6,
+          "held": 0,
+          "refused": 1,
+          "remainingUnits": 4
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: two requests for 5 spend the 10 units exactly",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "c09232de4f6efb54ed71b4c6a9dbd156dbd668fbbbd29783c333bd4b8c8042bc"
+      },
+      "id": "allow-exact-fit-both-admitted",
+      "path": "cases/allow-exact-fit-both-admitted",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 10,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 0
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: an unknown-outcome reservation of 5 stays charged past its expiry, so a request for 6 is refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "a1c30b1ece054c40a3e286551f47811460b4aaef613d0686f7daa1e026174c5f"
+      },
+      "id": "allow-unknown-outcome-stays-charged",
+      "path": "cases/allow-unknown-outcome-stays-charged",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 5,
+          "held": 0,
+          "refused": 1,
+          "remainingUnits": 5
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: a released reservation returns its units, so a second request for 6 fits",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "c2e2b233383af6fbbb303545cad4b00944a96a2e1967cb0cc2097d5cd183e744"
+      },
+      "id": "allow-released-reservation-returns-units",
+      "path": "cases/allow-released-reservation-returns-units",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 6,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 4
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: the authority answered in 450 ms against a 200 ms bound and refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "11f46be81ba2f846896d0afebafae028199d3cc8ba7974544b1744a0ec09228b"
+      },
+      "id": "allow-past-latency-bound-refused",
+      "path": "cases/allow-past-latency-bound-refused",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 0,
+          "chargedUnits": 0,
+          "held": 0,
+          "refused": 1,
+          "remainingUnits": 10
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: the authority answered in 450 ms against a 200 ms bound and held",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "8a52016e76502e3572048590537fb62f5c408f374ee6983346ea4fa11a5de305"
+      },
+      "id": "allow-past-latency-bound-held",
+      "path": "cases/allow-past-latency-bound-held",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 0,
+          "chargedUnits": 0,
+          "held": 1,
+          "refused": 0,
+          "remainingUnits": 10
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: an answer in exactly 200 ms is inside the bound",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "9196e2c7136f46602cb08a9363dbc3e15d7a94eaf7b24aba1817acfdbed10947"
+      },
+      "id": "allow-latency-at-bound-admitted",
+      "path": "cases/allow-latency-at-bound-admitted",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 4,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 6
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "control: two subtrees of one principal spend eight units of the budget and the third request is refused",
+      "expected": {
+        "decision": "allow",
+        "reason": "aggregate_held"
+      },
+      "files": {
+        "record.json": "38a0b19ec59d8466dd5d7dbda2e4bf248b05aa1169e2a675e3cadf3442c6c5b4"
+      },
+      "id": "allow-two-subtrees-one-principal",
+      "path": "cases/allow-two-subtrees-one-principal",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 1,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a",
+          "subtree-b"
+        ]
+      }
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "afe5083750e66b15a2f7f01791fb7e2a431916c1901b28d0a7107057bdf96ff8"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "ceffef10397fb2894226c621cd2f85bc78631458f17815a9a58edb010ff57f51"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "the second decision does not name its subtree",
+      "expected": {
+        "decision": "deny",
+        "reason": "accounting_identity_missing"
+      },
+      "files": {
+        "record.json": "c3825929f98fda3b9ae7f8f9acdd39c83ce1e4f7fc318616695148aaad39426c"
+      },
+      "id": "identity-missing-subtree",
+      "path": "cases/identity-missing-subtree",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "",
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "the first decision carries an empty action",
+      "expected": {
+        "decision": "deny",
+        "reason": "accounting_identity_missing"
+      },
+      "files": {
+        "record.json": "86667ab2e862c583112ab08e6e332d7160687a8fc94b75e5475bb14eefb671db"
+      },
+      "id": "identity-missing-action",
+      "path": "cases/identity-missing-action",
+      "retained": {
+        "actions": [
+          "",
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "the authority answered in 450 ms against a 200 ms bound and the request was admitted",
+      "expected": {
+        "decision": "deny",
+        "reason": "latency_bound_admitted"
+      },
+      "files": {
+        "record.json": "56c7b633e7b3a50a095a8442622ee5980ab90f4ac4d944480be332ed7f80a8ea"
+      },
+      "id": "latency-bound-admitted",
+      "path": "cases/latency-bound-admitted",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 4,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 6
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "a reservation of 5 with an unknown outcome stopped being charged once it expired",
+      "expected": {
+        "decision": "deny",
+        "reason": "unknown_outcome_not_charged"
+      },
+      "files": {
+        "record.json": "ae0580b8c21c043b1b92be93a3d740d0062fe320633564219dd2cf201b9b271d"
+      },
+      "id": "unknown-outcome-released-after-expiry",
+      "path": "cases/unknown-outcome-released-after-expiry",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 5,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 5
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "two racing requests for 6 against 10 units were both admitted",
+      "expected": {
+        "decision": "deny",
+        "reason": "aggregate_overspend"
+      },
+      "files": {
+        "record.json": "dcb09de4c665ee60892d86db2007da0de3554eaf566c1138fcd36083d2adcb65"
+      },
+      "id": "race-both-admitted",
+      "path": "cases/race-both-admitted",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 12,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": -2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "three subtrees each spent 4 under a per-agent limit of 5 and together spent twelve against a budget of ten",
+      "expected": {
+        "decision": "deny",
+        "reason": "aggregate_overspend"
+      },
+      "files": {
+        "record.json": "aa032e61b0ef1d83a948275ab265359c1a9835f6ac6e9803144f3d3fa8f90d7c"
+      },
+      "id": "per-agent-limits-hold-aggregate-fails",
+      "path": "cases/per-agent-limits-hold-aggregate-fails",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 3,
+          "chargedUnits": 12,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": -2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a",
+          "subtree-b",
+          "subtree-c"
+        ]
+      }
+    },
+    {
+      "edit": "the second request for 4 fitted beside the first and was refused for budget",
+      "expected": {
+        "decision": "deny",
+        "reason": "fitting_request_refused"
+      },
+      "files": {
+        "record.json": "e4fc1f0fc96a54d44a000a388f7737543292b354a588399bfb373b167f4fd737"
+      },
+      "id": "fitting-request-refused",
+      "path": "cases/fitting-request-refused",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 1,
+          "chargedUnits": 4,
+          "held": 0,
+          "refused": 1,
+          "remainingUnits": 6
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    },
+    {
+      "edit": "the producer retained one admitted request where the decisions give two",
+      "expected": {
+        "decision": "deny",
+        "reason": "effect_counts_disagree"
+      },
+      "files": {
+        "record.json": "4ad0f7fb611a63756bb193a176b7fad90416ad91babcd6ca820689b78c938995"
+      },
+      "id": "effect-counts-disagree",
+      "path": "cases/effect-counts-disagree",
+      "retained": {
+        "actions": [
+          "pay-invoice"
+        ],
+        "budget": "budget-1",
+        "counts": {
+          "admitted": 2,
+          "chargedUnits": 8,
+          "held": 0,
+          "refused": 0,
+          "remainingUnits": 2
+        },
+        "principal": "principal-1",
+        "subtrees": [
+          "subtree-a"
+        ]
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

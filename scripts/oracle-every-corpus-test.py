@@ -48,6 +48,7 @@ RUNS_A_VERIFIER = (
     "vectors-anchored-chain",
     "vectors-approval-binding",
     "vectors-authority-at-dispatch",
+    "vectors-aggregate-accounting",
     "vectors-chunked-export",
     "vectors-converted-argument-binding",
     "vectors-dispatch-fence",
