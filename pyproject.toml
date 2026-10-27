@@ -54,6 +54,10 @@ agent-evidence-vectors-remora-e7 = "agent_evidence_vectors.remora_e7.run:main"
 # request and decision correspondence, observed effect), with its frozen corpus.
 agent-evidence-vectors-invocation-axes = "agent_evidence_vectors.invocation_axes.run:main"
 
+# Building-automation write trails judged on six axes: retried dispatch, approval after a pause,
+# stale or cached reads, missing observation and reader vantage.
+agent-evidence-vectors-building-effect = "agent_evidence_vectors.building_effect.run:main"
+
 # One resumed agent task: turn ownership, artifact replay and repeated effects judged apart.
 agent-evidence-vectors-resume-turns = "agent_evidence_vectors.resume_turns.run:main"
 # One paid request occurrence: issuer budget, payment and execution receipts each
