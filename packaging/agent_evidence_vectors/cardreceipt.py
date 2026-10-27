@@ -329,6 +329,7 @@ def release_predicate(predicate: Any) -> None:
     _require(predicate["minResult"] in PASSING, "minResult")
     _members(predicate["revocationList"], {"digest"})
     _sha_digest(predicate["revocationList"]["digest"])
+    _credential(predicate["credential"])
     _members(predicate["broker"], {"id"})
     _https(predicate["broker"]["id"])
     _sha_digest(predicate["registryDigest"])

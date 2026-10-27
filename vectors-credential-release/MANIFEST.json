@@ -1,0 +1,457 @@
+{
+  "corpusDigest": "585eb6e3fabced309e7d27e1240f49574e4c2cdeb42bb5d05f2fb6e1f83a6ef2",
+  "suite": "credential-release/v1",
+  "vectors": [
+    {
+      "edit": "control: a fifteen-minute token released to the card a current passing receipt names, after a current list named nothing",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "4c321201245ab8845df35e2dd477b20212609e9f5c9b735a80f6ba36f191989a"
+      },
+      "id": "accept-release-on-passing-receipt",
+      "path": "cases/accept-release-on-passing-receipt"
+    },
+    {
+      "edit": "control: the broker's minimum is pass_indirect and the receipt's result is pass_indirect",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "ee4328a2671d305bc4ad00ac983c951593bf5f7f3ac2f8d5aa5cb9ca50880cfb",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "e98fd1f98b07e4d33d28c44e9825507eb46080287de1257f3233101ba736c0c3"
+      },
+      "id": "accept-pass-indirect-minimum",
+      "path": "cases/accept-pass-indirect-minimum"
+    },
+    {
+      "edit": "control: the credential expires exactly when the receipt does",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "78443b8c14727334e031a5cbba0acd0c3f4117a96b32bce503390c087cabf447",
+        "statement.json": "782108fe78570d3cede5fbf780c285db3555f48f2425747bf3cbca46c06e83fe"
+      },
+      "id": "accept-ttl-ends-at-receipt-expiry",
+      "path": "cases/accept-ttl-ends-at-receipt-expiry"
+    },
+    {
+      "edit": "control: the credential was released at the second the receipt was issued",
+      "expected": {
+        "decision": "accept",
+        "reason": "release_bound"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "655f781d1a8bde0ffa93db49d5485a2c82769fb69343955bb1eee93a8caf4733",
+        "statement.json": "e627fbc6b2c814d0340aeb1a22d5b2bbd20f4014c4dea17f7ca90d023b054e84"
+      },
+      "id": "accept-released-at-receipt-issued-at",
+      "path": "cases/accept-released-at-receipt-issued-at"
+    },
+    {
+      "edit": "the statement is not JSON",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "4a9809c747f525a5f4b846972359d6f22702f0d6eb81460a08dab6b7b1a0a2a2"
+      },
+      "id": "statement-not-json",
+      "path": "cases/statement-not-json"
+    },
+    {
+      "edit": "_type names in-toto Statement v0.1",
+      "expected": {
+        "decision": "reject",
+        "reason": "statement_type_wrong"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "3d51e2d3849ef4cdb10e4890c4ab891898ede1ea84756ae5595d4cb6ee2f4493"
+      },
+      "id": "statement-type-wrong",
+      "path": "cases/statement-type-wrong"
+    },
+    {
+      "edit": "predicateType names the agent-card-receipt predicate",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_type_wrong"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "6b551e6ae3116d5adf5948d05e803e248b5fc2722ddb2fe6e00ed2bf84286663"
+      },
+      "id": "predicate-type-wrong",
+      "path": "cases/predicate-type-wrong"
+    },
+    {
+      "edit": "the subject digest is uppercase hexadecimal",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "d2b5771bdd42c9ea7c1bff70851891543804962b5b391221104712d59c324f31"
+      },
+      "id": "subject-digest-uppercase",
+      "path": "cases/subject-digest-uppercase"
+    },
+    {
+      "edit": "the credential object carries the token itself",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_fields"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "deecd792acb915cf52e720a2a7936d20bbcacb048934b5a9fce90e6ce313b3ad"
+      },
+      "id": "credential-carries-secret",
+      "path": "cases/credential-carries-secret"
+    },
+    {
+      "edit": "the credential object carries a SHA-256 of the token, which identifies it and, for a short secret, reveals it",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_fields"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "be00278bc086acd4d93cd2095cfec593a0e6e4cdc66d141a330f91fe683b6768"
+      },
+      "id": "credential-carries-token-hash",
+      "path": "cases/credential-carries-token-hash"
+    },
+    {
+      "edit": "the broker's minimum is degraded, which is not a passing result",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "2b95adf08fb3d512d28160a4889a83afe1482abdf12e9c544598d74a6458bc32"
+      },
+      "id": "predicate-min-result-degraded",
+      "path": "cases/predicate-min-result-degraded"
+    },
+    {
+      "edit": "ttlSeconds is zero",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "d747242564f9854710877464a7de230c4b3cf89f05531ce3d99f15756bd8e20f"
+      },
+      "id": "predicate-ttl-zero",
+      "path": "cases/predicate-ttl-zero"
+    },
+    {
+      "edit": "ttlSeconds is true",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "13c4a2f11a31055d69001a61ff12985bbd3c4a3c4957907ea5c4ebe6a1b33cb5"
+      },
+      "id": "predicate-ttl-boolean",
+      "path": "cases/predicate-ttl-boolean"
+    },
+    {
+      "edit": "the credential scope is not sorted",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "e8309e789b5dbe04a1f224be8c9bacda6cefd9bb6cbd830311d059e3569f632d"
+      },
+      "id": "predicate-scope-unsorted",
+      "path": "cases/predicate-scope-unsorted"
+    },
+    {
+      "edit": "the credential scope is empty",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "ae1b2d9e8c3ddf24a64bad8ee3c152bea016cc29e11d3a83e148110f6fabc49e"
+      },
+      "id": "predicate-scope-empty",
+      "path": "cases/predicate-scope-empty"
+    },
+    {
+      "edit": "the release names a done-receipt as its basis",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "8913129e843b63a51d6919d9f984adf7d1fd0521e50ee48af86729061910e955"
+      },
+      "id": "predicate-receipt-type-other",
+      "path": "cases/predicate-receipt-type-other"
+    },
+    {
+      "edit": "the release names no broker",
+      "expected": {
+        "decision": "reject",
+        "reason": "predicate_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "9e848d937ddb441d1e05ec4695f060c5896c60f1571c4ad47ecb72b9cbf6ef5f"
+      },
+      "id": "predicate-broker-missing",
+      "path": "cases/predicate-broker-missing"
+    },
+    {
+      "edit": "the receipt file is not the receipt the release names",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_digest_mismatch"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "abaf95d1d7fbae398465e47126475914fb810b8cd3daadf0611c87fb50927ba6"
+      },
+      "id": "receipt-digest-mismatch",
+      "path": "cases/receipt-digest-mismatch"
+    },
+    {
+      "edit": "the named receipt has no revocation list URL",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "9e3999f998a2c383fee7d26f12f298cf3e30358a75c434f997807bdc52fa086b",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "10533f5b05a19f3faa8fe79d8bf97c50d557676c04d1fc0f2f571c044fff07d0"
+      },
+      "id": "receipt-malformed",
+      "path": "cases/receipt-malformed"
+    },
+    {
+      "edit": "the release copied pass where the receipt says degraded",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_fields_differ"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "25bc4604a45270bb12a89c8ba73ab9693e1bf8e76af14a366b571a88da68ad52",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "45e59553111448cc08a6e09ba9d03e461bde0edb2ae334b3a59cba76a79d2e7f"
+      },
+      "id": "receipt-fields-differ",
+      "path": "cases/receipt-fields-differ"
+    },
+    {
+      "edit": "the credential went to a digest the receipt does not name",
+      "expected": {
+        "decision": "reject",
+        "reason": "subject_not_receipted"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "04aa54a5b64c3c529abc6a8170188121590ae117f3ba5c198bac26b82afe1290"
+      },
+      "id": "subject-not-receipted",
+      "path": "cases/subject-not-receipted"
+    },
+    {
+      "edit": "the receipt's result is degraded and the minimum is pass",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_not_passing"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "25bc4604a45270bb12a89c8ba73ab9693e1bf8e76af14a366b571a88da68ad52",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "abaf95d1d7fbae398465e47126475914fb810b8cd3daadf0611c87fb50927ba6"
+      },
+      "id": "receipt-not-passing",
+      "path": "cases/receipt-not-passing"
+    },
+    {
+      "edit": "the credential was released after the receipt expired",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_not_current"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "4775288fb641f803850e76895270b770e8f553c42e75cbbe1f2c17fcb67cd6fa",
+        "statement.json": "ee4f05039decb7856d54261e665a8e05a87b6a97bcd0544cfd6d8b690632ecce"
+      },
+      "id": "receipt-not-current",
+      "path": "cases/receipt-not-current"
+    },
+    {
+      "edit": "the credential was released at the receipt's validUntil; the window is half open",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_not_current"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "4775288fb641f803850e76895270b770e8f553c42e75cbbe1f2c17fcb67cd6fa",
+        "statement.json": "63319d03fd6b97266688ff25bc032f1956fdb089e38fa12fda308141f3842fd9"
+      },
+      "id": "receipt-not-current-at-valid-until",
+      "path": "cases/receipt-not-current-at-valid-until"
+    },
+    {
+      "edit": "the credential expires a second after the receipt",
+      "expected": {
+        "decision": "reject",
+        "reason": "credential_outlives_receipt"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "78443b8c14727334e031a5cbba0acd0c3f4117a96b32bce503390c087cabf447",
+        "statement.json": "9c8842bfd97cfa06ae12e65b55c9f157ecf0b0e54b19975f6a57b55f98707b83"
+      },
+      "id": "credential-outlives-receipt",
+      "path": "cases/credential-outlives-receipt"
+    },
+    {
+      "edit": "the list file is not the list the release names",
+      "expected": {
+        "decision": "reject",
+        "reason": "revocation_list_digest_mismatch"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446",
+        "statement.json": "277154939600153fcc12767a92f6400b140464000c4ca3ddfc8c6e2d5bd35bad"
+      },
+      "id": "revocation-list-digest-mismatch",
+      "path": "cases/revocation-list-digest-mismatch"
+    },
+    {
+      "edit": "the consulted list's revoked digests are unsorted",
+      "expected": {
+        "decision": "reject",
+        "reason": "revocation_list_malformed"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "c5e09b4134766e4c657312c242f3e02976bf38f18da0e77bbef6cd4266d112cb",
+        "statement.json": "c03f91eb40d77f9cf82475d3ff2f96480e31967a8906fa291198c4c8bec57656"
+      },
+      "id": "revocation-list-malformed",
+      "path": "cases/revocation-list-malformed"
+    },
+    {
+      "edit": "the consulted list was signed by another key",
+      "expected": {
+        "decision": "reject",
+        "reason": "revocation_list_signature"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "f94804780895208fa0ecd3fcc5b7c9c88efb7636967f2a8eeff5ddea5dd66dbf",
+        "statement.json": "d3d18b7beb8fa7e79cb686260013eee3e2728095adb34a44e3af3b4943b68ccb"
+      },
+      "id": "revocation-list-other-signer",
+      "path": "cases/revocation-list-other-signer"
+    },
+    {
+      "edit": "the list's nextUpdate is the release time",
+      "expected": {
+        "decision": "reject",
+        "reason": "revocation_list_stale"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "5508063806d00d218ae378ad1bd3f744a5de08b6d80874684661acec58508bbf",
+        "statement.json": "503b74dead0e93d50c085b2224ad738e3957acf0912706f4be6702b6c694db84"
+      },
+      "id": "revocation-list-stale",
+      "path": "cases/revocation-list-stale"
+    },
+    {
+      "edit": "the consulted list names the receipt",
+      "expected": {
+        "decision": "reject",
+        "reason": "receipt_revoked"
+      },
+      "files": {
+        "context.json": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c",
+        "receipt.json": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258",
+        "revocations.json": "135380f6d4caa83b21c16e8dbc8adbd8223319211d5bab1fd9c4e38ee9ebd8d4",
+        "statement.json": "112ba975f1c6ed4afadafe697e57fae80a0609a9b00ad6436a19ccbac405a65e"
+      },
+      "id": "receipt-revoked",
+      "path": "cases/receipt-revoked"
+    }
+  ],
+  "verifierContract": "verifier <suite> <case-dir> --json; exit 0 accept, 1 reject"
+}
