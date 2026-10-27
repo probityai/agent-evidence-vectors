@@ -1,0 +1,17 @@
+{
+  "schema": "aev-trade-booking-occurrence/v1",
+  "booking": {
+    "booking_system": "service:booking-system",
+    "client": "CLIENT-A",
+    "pair": "EUR/USD",
+    "notional": 1000000,
+    "quote_id": "Q-1",
+    "booking_ref": "R1"
+  },
+  "limit": {
+    "limit": 5000000,
+    "used_before": 3000000
+  },
+  "trust_inputs": "trust.json",
+  "verifier_command": "agent-evidence-vectors-trade-booking --output <new directory>"
+}

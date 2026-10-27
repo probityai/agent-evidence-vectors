@@ -1,0 +1,29 @@
+{
+  "schema": "aev-trade-booking-trust/v1",
+  "key_recipe": "seed = sha256('aev-trade-booking-test-key/<role>/v1'); TEST keys only",
+  "keys": {
+    "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50": {
+      "role_label": "booking_system",
+      "public_hex": "7bada4c2a2fd17cf34cda32ee568dfafdd4a47215dd1c22cdf760bb0d8a258f5"
+    },
+    "sha256:71253448d146fc326015b1e50c15720422c3f72bc41d9dce8da963ddf48bb5d3": {
+      "role_label": "liquidity_provider",
+      "public_hex": "e31bdbf9c13be00f30d56448e81ba87e78c0ac4dd0915804eb079b2c711c2ca3"
+    },
+    "sha256:368362d74b2338da5dd561c9e4ebad3eb57e822bc9661630fab79f1897f672f2": {
+      "role_label": "agent_system",
+      "public_hex": "43f8be2fc9f72d20671429850aecd1ab8c9d357d625e1f92757e6e7407b82814"
+    }
+  },
+  "roles": {
+    "booking_system": [
+      "sha256:fbcedf7d10070246d250cde47689b5d44a773098f597ec48e08a24f717272a50"
+    ],
+    "liquidity_provider": [
+      "sha256:71253448d146fc326015b1e50c15720422c3f72bc41d9dce8da963ddf48bb5d3"
+    ],
+    "agent_system": [
+      "sha256:368362d74b2338da5dd561c9e4ebad3eb57e822bc9661630fab79f1897f672f2"
+    ]
+  }
+}
