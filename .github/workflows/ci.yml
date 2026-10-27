@@ -1038,6 +1038,10 @@ jobs:
       # second Ed25519 library, and sweeps every rule for load-bearing effect.
       - name: the agent-audit-record corpus behaves as its manifest claims
         run: uv run --extra generators python vectors-agent-audit-record/check_vectors.py
+      - name: producer aggregation preserves source pairs at representable boundaries
+        run: |
+          uv run mypy --strict scripts/auditrecord-aggregation-test.py
+          uv run python scripts/auditrecord-aggregation-test.py
       # The agent-decision corpus pins the args_hash rule proposed on
       # in-toto/attestation#554. Its checker judges every member, recomputes each
       # canonical argument form with a second number writer, and disables each

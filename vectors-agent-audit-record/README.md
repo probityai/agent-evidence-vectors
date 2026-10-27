@@ -212,8 +212,11 @@ moved so that `FR14` and `FR15` name the rows revision 01 prints (below), and
 
 Revision 01 of the draft changes two rules, and five members test the change.
 Each carries `draftRevision` of `draft-gilda-audit-agent-audit-record-01` and
-the identifier -01 prints in its Appendix B, so a reader that conforms only to
--00 fails exactly these members. The -01 sentences each member tests are pinned
+the identifier -01 prints in its Appendix B. Restoring the -00 coverage rules
+fails `TI6`, `V4` and `V5`; restoring the -00 producer aggregation fails
+`FR14`'s aggregation check. The record-only outcomes of `FR14` and `FR15` do
+not distinguish the revisions: the former is valid and the latter malformed
+under both. The -01 sentences each member tests are pinned
 by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 
 - Section 5.4: where a decision depended on several values of one input, the

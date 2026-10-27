@@ -14,12 +14,7 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS17 are rows of the same revision: a
-``consumption-state`` entry may carry the ``consumption`` member, and
-``decision.operationKey`` is the agent's identifier for one intended operation
-and the identity of a retry (``consumption_findings``, ``within_limit``,
-``verify_set``). A set member (CS7, CS8, CS17) is a file of several records
-judged one by one and then as a set under one ``limitDigest``.
+at any tier.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
 from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
@@ -51,16 +46,14 @@ from __future__ import annotations
 
 import argparse
 import base64
-import dataclasses
 import datetime
-import functools
 import hashlib
 import importlib
 import json
 import os
 import sys
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 if __package__ in (None, ""):
@@ -88,7 +81,7 @@ VOCABULARIES: dict[str, frozenset[str]] = {
     "tier": frozenset({"voluntary", "authoritative"}),
     "hashAlgorithm": frozenset({"sha256"}),
     "agent.authentication": frozenset(
-        {"wimse-wpt", "http-message-signature", "mtls", "oauth-access-token", "api-key", "none"}
+        {"wimse-wpt", "http-message-signature", "mtls", "oauth-access-token", "none"}
     ),
     "delegation.subjectKind": frozenset({"user", "system", "none"}),
     "resource.kind": frozenset({"path", "uri", "tool"}),
@@ -139,43 +132,6 @@ EVALUATION_INPUTS = frozenset(
 UNAVAILABLE_INPUTS = EVALUATION_INPUTS
 #: The three members an evaluation entry carries, each required, and no other.
 ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
-#: The one member an entry may carry beside them, and only on a consumption-state
-#: entry (Section 5.4 of revision 01): the cumulative-limit state the decision
-#: point read.
-ENTRY_OPTIONAL = frozenset({"consumption"})
-CONSUMPTION_INPUT = "consumption-state"
-#: The members of ``consumption``, each required, and no other.
-CONSUMPTION_MEMBERS = (
-    "limitDigest",
-    "unit",
-    "limit",
-    "consumed",
-    "reserved",
-    "requested",
-    "held",
-    "stateRevision",
-)
-#: The non-negative integers among them (smallest subunit of ``unit``).
-CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
-#: The members of one ``held`` entry, an earlier permit that has not settled.
-HELD_MEMBERS = ("operationKey", "requestDigest", "amount")
-PERMITS = frozenset({"permit", "permit-with-conditions"})
-#: The sentences of the consumption rule, by name, so a sweep can weaken one at a
-#: time (check_vectors.py): where the member sits, that ``reserved`` is the held
-#: sum, that held keys are distinct, that the call carries its operation key,
-#: that counts are non-negative integers, that stateRevision is required, and
-#: that one key is one request.
-CONSUMPTION_CHECKS = frozenset(
-    {
-        "misplaced",
-        "reserved",
-        "distinct-keys",
-        "operation-key",
-        "counts",
-        "state-revision",
-        "key-reuse",
-    }
-)
 #: The lastResult of an input the decision point never held a value of.
 NEVER_HELD = "none"
 #: The tolerance for every comparison between times two parties wrote.
@@ -613,7 +569,7 @@ def _entry_shape(entry: Any) -> None:
         raise Malformed("evaluation-entry-malformed")
     if not ENTRY_MEMBERS <= set(entry):
         raise Malformed("member-missing")
-    if set(entry) - ENTRY_MEMBERS - ENTRY_OPTIONAL:
+    if set(entry) - ENTRY_MEMBERS:
         raise Malformed("evaluation-entry-malformed")
     if entry["input"] not in EVALUATION_INPUTS:
         raise Malformed("value-outside-vocabulary")
@@ -645,9 +601,15 @@ def aggregate_values(values: list[dict[str, Any]]) -> dict[str, Any]:
     if never:
         return {"lastResult": NEVER_HELD, "maxAge": min(v["maxAge"] for v in never)}
 
-    def expiry(v: dict[str, Any]) -> tuple[datetime.datetime, datetime.datetime]:
-        produced = _instant(v["lastResult"])
-        return produced + datetime.timedelta(seconds=v["maxAge"]), produced
+    epoch = datetime.datetime(1970, 1, 1, tzinfo=datetime.UTC)
+
+    def expiry(v: dict[str, Any]) -> tuple[int, int]:
+        # A valid maxAge may put expiry beyond datetime's calendar range.
+        # Subtract aware instants instead of normalizing to a UTC datetime;
+        # an offset at the calendar boundary can put that date out of range too.
+        elapsed = _instant(v["lastResult"]) - epoch
+        produced = (elapsed.days * 86400 + elapsed.seconds) * 1_000_000 + elapsed.microseconds
+        return produced + v["maxAge"] * 1_000_000, produced
 
     chosen = min(values, key=expiry)
     return {"lastResult": chosen["lastResult"], "maxAge": chosen["maxAge"]}
@@ -712,155 +674,6 @@ def _rule_oversight(state: _State) -> None:
         raise Malformed("oversight-malformed")
     if "recordDigest" in oversight and not _is_digest(oversight["recordDigest"]):
         raise Malformed("oversight-malformed")
-
-
-# --------------------------------------------------------------------------
-# Consumption binding (Section 5.4, revision 01): the operation key.
-# --------------------------------------------------------------------------
-
-
-#: The only members a sequence object carries, both required.
-SEQUENCE_MEMBERS = frozenset({"boundary", "seq"})
-
-
-def _rule_sequence(state: _State) -> None:
-    """The optional sequence member: exactly boundary, a string, and seq, a
-    positive integer (SQ1). Any other member (SQ2) or a seq below 1 (SQ3) is
-    refused."""
-    if "sequence" not in state.predicate:
-        return
-    sequence = state.predicate["sequence"]
-    if not isinstance(sequence, dict) or set(sequence) != SEQUENCE_MEMBERS:
-        raise Malformed("sequence-malformed")
-    seq = sequence["seq"]
-    if not isinstance(sequence["boundary"], str) or not sequence["boundary"]:
-        raise Malformed("sequence-malformed")
-    if isinstance(seq, bool) or not isinstance(seq, int) or seq < 1:
-        raise Malformed("sequence-malformed")
-
-
-def _is_count(value: Any) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
-
-
-def consumption_of(pred: dict[str, Any]) -> dict[str, Any] | None:
-    """The ``consumption`` member of the consumption-state entry, if one carries it."""
-    for entry in pred["evaluation"]["inputs"]:
-        if isinstance(entry, dict) and entry.get("input") == CONSUMPTION_INPUT:
-            found = entry.get("consumption")
-            return found if isinstance(found, dict) else None
-    return None
-
-
-def held_for(consumption: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any] | None:
-    """The held entry this call is a retry of: the one whose operationKey is the
-    call's own. Retry identity is the agent's operation key and nothing else; a
-    request digest is a content digest, so two intended payments with the same
-    action, arguments and resource share one (CS11, CS12)."""
-    for held in consumption["held"]:
-        if held["operationKey"] == decision.get("operationKey"):
-            return held if isinstance(held, dict) else None
-    return None
-
-
-def within_limit(pred: dict[str, Any]) -> bool | None:
-    """The value a verifier derives for a record that carries consumption: the
-    amount already consumed, plus the amount held for earlier permits, plus this
-    call's amount unless it is a retry of a held permit, is at most the limit.
-    None for a record that carries no consumption."""
-    consumption = consumption_of(pred)
-    if consumption is None:
-        return None
-    counted = consumption["consumed"] + consumption["reserved"]
-    if held_for(consumption, pred["decision"]) is None:
-        counted += consumption["requested"]
-    return bool(counted <= consumption["limit"])
-
-
-def _held_shape(item: Any) -> None:
-    """One held entry: exactly operationKey, requestDigest and amount."""
-    if not isinstance(item, dict):
-        raise Malformed("consumption-malformed")
-    if any(name not in item for name in HELD_MEMBERS):
-        raise Malformed("member-missing")
-    if set(item) - set(HELD_MEMBERS):
-        raise Malformed("consumption-malformed")
-    key = item["operationKey"]
-    if not isinstance(key, str) or not key or not _is_digest(item["requestDigest"]):
-        raise Malformed("consumption-value-invalid")
-    if not _is_count(item["amount"]):
-        raise Malformed("consumption-value-invalid")
-
-
-def _consumption_shape(consumption: Any) -> dict[str, Any]:
-    if not isinstance(consumption, dict):
-        raise Malformed("consumption-malformed")
-    required = [
-        name
-        for name in CONSUMPTION_MEMBERS
-        if name != "stateRevision" or "state-revision" in CONSUMPTION_CHECKS
-    ]
-    if any(name not in consumption for name in required):
-        raise Malformed("member-missing")
-    if set(consumption) - set(CONSUMPTION_MEMBERS):
-        raise Malformed("consumption-malformed")
-    unit = consumption["unit"]
-    if not _is_digest(consumption["limitDigest"]) or not isinstance(unit, str) or not unit:
-        raise Malformed("consumption-value-invalid")
-    counted = [name for name in CONSUMPTION_COUNTS if name in consumption]
-    if "counts" in CONSUMPTION_CHECKS and not all(_is_count(consumption[n]) for n in counted):
-        raise Malformed("consumption-value-invalid")
-    held = consumption["held"]
-    if not isinstance(held, list):
-        raise Malformed("consumption-malformed")
-    for item in held:
-        _held_shape(item)
-    return consumption
-
-
-def _rule_consumption(state: _State) -> None:
-    """The consumption member and the operation key (CS3 to CS6, CS9 to CS14).
-
-    ``consumption`` sits only on a consumption-state entry. ``reserved`` is the
-    sum of the held amounts and the held operation keys are distinct. A record
-    that carries consumption carries ``decision.operationKey``. A call whose key
-    is held is a retry: its request digest and amount are the held entry's
-    (CS10), and it is not counted twice (CS4); a call whose key is not held is a
-    new operation even when its request digest is a held entry's (CS11, CS12)."""
-    pred = state.predicate
-    for entry in pred["evaluation"]["inputs"]:
-        if (
-            "misplaced" in CONSUMPTION_CHECKS
-            and "consumption" in entry
-            and entry["input"] != CONSUMPTION_INPUT
-        ):
-            raise Malformed("consumption-misplaced")
-    decision = pred["decision"]
-    key = decision.get("operationKey")
-    if "operationKey" in decision and (not isinstance(key, str) or not key):
-        raise Malformed("operation-key-invalid")
-    consumption = consumption_of(pred)
-    if consumption is None:
-        return
-    _consumption_shape(consumption)
-    keys = [held["operationKey"] for held in consumption["held"]]
-    if "distinct-keys" in CONSUMPTION_CHECKS and len(set(keys)) != len(keys):
-        raise Malformed("consumption-held-key-repeated")
-    held_sum = sum(held["amount"] for held in consumption["held"])
-    if "reserved" in CONSUMPTION_CHECKS and held_sum != consumption["reserved"]:
-        raise Malformed("consumption-reserved-mismatch")
-    if "operation-key" in CONSUMPTION_CHECKS and "operationKey" not in decision:
-        raise Malformed("member-missing")
-    retried = held_for(consumption, decision)
-    if (
-        "key-reuse" in CONSUMPTION_CHECKS
-        and retried is not None
-        and (
-            retried["requestDigest"] != decision["requestDigest"]
-            or retried["amount"] != consumption["requested"]
-        )
-    ):
-        raise Malformed("consumption-key-reused")
 
 
 def _rule_delegation(state: _State) -> None:
@@ -1027,8 +840,6 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("closed-vocabularies", _rule_closed_vocabularies),
     ("evaluation", _rule_evaluation),
     ("oversight", _rule_oversight),
-    ("sequence", _rule_sequence),
-    ("consumption", _rule_consumption),
     ("delegation", _rule_delegation),
     ("binding", _rule_binding),
     ("request-digest", _rule_request_digest),
@@ -1128,23 +939,6 @@ def verify(raw: bytes, policy: Policy, *, disabled: str | None = None) -> Report
 # --------------------------------------------------------------------------
 
 ANCHOR_KINDS = frozenset({"rfc3161", "transparency-log", "opentimestamps"})
-#: A comparison using the time of an opentimestamps anchor allows this in place
-#: of the skew tolerance: the consensus bound on a header time (R10, R11).
-OTS_TOLERANCE = datetime.timedelta(seconds=7200)
-OTS_MAGIC = bytes.fromhex("004f70656e54696d657374616d7073000050726f6f6600bf89e2e884e89294")
-OTS_BITCOIN = bytes.fromhex("0588960d73d71901")
-OTS_PENDING = bytes.fromhex("83dfe30d2ef90c8e")
-OTS_SHA256, OTS_APPEND, OTS_PREPEND = 0x08, 0xF0, 0xF1
-OTS_MAX_BYTES = 4096
-OTS_MAX_DEPTH = 256
-#: The algorithm a delegation root's key set names, read off its JWK members.
-JWK_ALGORITHMS = {
-    ("OKP", "Ed25519"): "Ed25519",
-    ("OKP", "Ed448"): "Ed448",
-    ("EC", "P-256"): "P-256",
-    ("EC", "P-384"): "P-384",
-    ("EC", "P-521"): "P-521",
-}
 ANCHOR_ORIGINS = frozenset({"retainer", "received"})
 INCLUSION_PROOF_V2 = 0x0106
 
@@ -1160,33 +954,14 @@ class TreeHead:
     timestamp: str
 
 
-@dataclass(frozen=True)
-class BlockHeader:
-    """A Bitcoin block header a verifier holds independently, as a block of the
-    chain with the most work (Section 4.7.2): its height, the Merkle root it
-    carries in internal byte order, and its timestamp."""
-
-    height: int
-    merkle_root: bytes
-    timestamp: str
-
-
-#: What a verifier holds to validate anchors offline: tree heads and block headers.
-AnchorTrust = list[TreeHead | BlockHeader]
-
-NOT_ESTABLISHED: dict[str, Any] = {"result": "not-established"}
-
-
 @dataclass
 class Dating:
-    """The dating check's result, reported beside the record's verdict. The
-    delegation root's result sits beside both and changes neither (R13 to R15)."""
+    """The dating check's result, reported beside the record's verdict."""
 
     entry: str
     codes: list[str]
     dated_at: str | None = None
     receipt: str | None = None
-    delegation_root: dict[str, Any] = field(default_factory=lambda: dict(NOT_ESTABLISHED))
 
 
 class _Reader:
@@ -1205,24 +980,6 @@ class _Reader:
 
     def uint(self, n: int) -> int:
         return int.from_bytes(self.take(n), "big")
-
-    def varuint(self) -> int:
-        """An OpenTimestamps unsigned LEB128 integer, at most 9 bytes."""
-        value, shift = 0, 0
-        while True:
-            byte = self.take(1)[0]
-            value |= (byte & 0x7F) << shift
-            if not byte & 0x80:
-                return value
-            shift += 7
-            if shift > 56:
-                raise ValueError("varuint too long")
-
-    def varbytes(self, limit: int = OTS_MAX_BYTES) -> bytes:
-        n = self.varuint()
-        if n > limit:
-            raise ValueError("varbytes too long")
-        return self.take(n)
 
 
 def _inclusion_proof(proof: bytes) -> tuple[bytes, int, int, list[bytes]]:
@@ -1246,7 +1003,9 @@ def _inclusion_proof(proof: bytes) -> tuple[bytes, int, int, list[bytes]]:
     return log_id, tree_size, leaf_index, path
 
 
-def inclusion_root(leaf: bytes, leaf_index: int, tree_size: int, path: list[bytes]) -> bytes | None:
+def inclusion_root(
+    leaf: bytes, leaf_index: int, tree_size: int, path: list[bytes]
+) -> bytes | None:
     """RFC 9162 Section 2.1.3.2, returning the root the path recomputes to."""
     if leaf_index >= tree_size:
         return None
@@ -1268,106 +1027,24 @@ def inclusion_root(leaf: bytes, leaf_index: int, tree_size: int, path: list[byte
     return r if sn == 0 else None
 
 
-def _ots_timestamp(
-    reader: _Reader, message: bytes, out: list[tuple[bytes, bytes, bytes]], depth: int
-) -> None:
-    """One OpenTimestamps timestamp: items, each but the last preceded by 0xff."""
-    if depth > OTS_MAX_DEPTH:
-        raise ValueError("timestamp too deep")
-    while True:
-        tag = reader.take(1)[0]
-        more = tag == 0xFF
-        if more:
-            tag = reader.take(1)[0]
-        _ots_item(reader, tag, message, out, depth)
-        if not more:
-            return
-
-
-def _ots_item(
-    reader: _Reader, tag: int, message: bytes, out: list[tuple[bytes, bytes, bytes]], depth: int
-) -> None:
-    """An attestation (0x00, an 8-byte tag and its payload), or a commitment
-    operation applied to ``message`` followed by the timestamp of its result."""
-    if tag == 0x00:
-        kind = reader.take(8)
-        out.append((message, kind, reader.varbytes()))
-        return
-    if tag == OTS_SHA256:
-        result = hashlib.sha256(message).digest()
-    elif tag in (OTS_APPEND, OTS_PREPEND):
-        argument = reader.varbytes()
-        result = message + argument if tag == OTS_APPEND else argument + message
-    else:
-        raise ValueError("operation this reader does not define")
-    if len(result) > OTS_MAX_BYTES:
-        raise ValueError("message too long")
-    _ots_timestamp(reader, result, out, depth + 1)
-
-
-def ots_attestations(proof: bytes, envelope_digest: bytes) -> list[tuple[bytes, bytes, bytes]]:
-    """Decode a DetachedTimestampFile over ``envelope_digest``: every attestation
-    as (the message it attests, its tag, its payload)."""
-    reader = _Reader(proof)
-    if reader.take(len(OTS_MAGIC)) != OTS_MAGIC or reader.varuint() != 1:
-        raise ValueError("not an OpenTimestamps proof")
-    if reader.take(1)[0] != OTS_SHA256 or reader.take(32) != envelope_digest:
-        raise ValueError("the proof is over another digest")
-    out: list[tuple[bytes, bytes, bytes]] = []
-    _ots_timestamp(reader, envelope_digest, out, 0)
-    if reader.at != len(proof):
-        raise ValueError("trailing bytes")
-    return out
-
-
-def _ots_moment(proof: bytes, envelope_digest: bytes, trust: AnchorTrust) -> tuple[str, int] | None:
-    """The lowest held block a Bitcoin attestation's message is the Merkle root
-    of. A pending attestation validates nothing (R12)."""
-    found: list[tuple[int, str]] = []
-    for message, kind, payload in ots_attestations(proof, envelope_digest):
-        if kind != OTS_BITCOIN:
-            continue
-        payload_reader = _Reader(payload)
-        height = payload_reader.varuint()
-        if payload_reader.at != len(payload):
-            raise ValueError("trailing bytes in a Bitcoin attestation")
-        for held in trust:
-            if isinstance(held, BlockHeader) and held.height == height:
-                if held.merkle_root == message:
-                    found.append((height, held.timestamp))
-    if not found:
-        return None
-    height, timestamp = min(found)
-    return timestamp, height
-
-
 def anchor_time(
-    anchor: dict[str, Any], envelope_digest: bytes, trust: AnchorTrust
-) -> tuple[str, int | None] | None:
-    """The time an anchor establishes over ``envelope_digest`` and, for an
-    opentimestamps anchor, the height of its block; None when it does not
-    validate. A transparency-log anchor validates when it recomputes to a held
-    tree head, an opentimestamps anchor when it recomputes to the Merkle root of
-    a held block header. This reader holds no time-stamping authority path, so
-    an rfc3161 anchor dates nothing."""
-    kind = anchor.get("kind")
+    anchor: dict[str, Any], envelope_digest: bytes, heads: list[TreeHead]
+) -> str | None:
+    """The time an anchor establishes over ``envelope_digest``, or None when it
+    does not validate. Only a transparency-log anchor that recomputes to a held
+    tree head validates here; this reader holds no time-stamping authority path
+    and no OpenTimestamps commitment, so an anchor of either kind dates nothing."""
+    if anchor.get("kind") != "transparency-log":
+        return None
     try:
         proof = base64.b64decode(anchor["proof"], validate=True)
-        if kind == "opentimestamps":
-            return _ots_moment(proof, envelope_digest, trust)
-        if kind != "transparency-log":
-            return None
         log_id, tree_size, leaf_index, path = _inclusion_proof(proof)
     except (KeyError, TypeError, ValueError):
         return None
     root = inclusion_root(envelope_digest, leaf_index, tree_size, path)
-    for head in trust:
-        if isinstance(head, TreeHead) and (head.log_id, head.tree_size, head.root_hash) == (
-            log_id,
-            tree_size,
-            root,
-        ):
-            return head.timestamp, None
+    for head in heads:
+        if (head.log_id, head.tree_size, head.root_hash) == (log_id, tree_size, root):
+            return head.timestamp
     return None
 
 
@@ -1399,16 +1076,9 @@ class _Retained:
     entry: dict[str, Any]
     issued_at: datetime.datetime
     computed_digest: str
-    heads: AnchorTrust
+    heads: list[TreeHead]
     received_at: datetime.datetime | None = None
     retention_time: datetime.datetime | None = None
-    retention_ots: bool = False
-    root_digest: str | None = None
-    delegation_root: dict[str, Any] = field(default_factory=lambda: dict(NOT_ESTABLISHED))
-
-    def tolerance(self) -> datetime.timedelta:
-        """The tolerance a comparison with the retention time allows."""
-        return OTS_TOLERANCE if self.retention_ots else SKEW_TOLERANCE
 
 
 def _dating_received_at(r: _Retained) -> None:
@@ -1441,7 +1111,7 @@ def _dating_received_after_anchor(r: _Retained) -> None:
     """receivedAt no later than the retention time by more than the skew tolerance (R3)."""
     if r.received_at is None or r.retention_time is None:
         return
-    if r.received_at > r.retention_time + r.tolerance():
+    if r.received_at > r.retention_time + SKEW_TOLERANCE:
         raise Malformed("entry-received-after-anchor")
 
 
@@ -1451,43 +1121,9 @@ def _dating_anchor_late(r: _Retained) -> None:
     if r.retention_time is None:
         return
     start = r.received_at if r.received_at is not None else r.issued_at
-    limit = datetime.timedelta(seconds=r.entry["anchorWithin"]) + r.tolerance()
+    limit = datetime.timedelta(seconds=r.entry["anchorWithin"]) + SKEW_TOLERANCE
     if r.retention_time > start + limit:
         raise Malformed("entry-anchor-late")
-
-
-def _jwk_algorithm(material: bytes) -> str:
-    keys = json.loads(material, object_pairs_hook=_no_duplicates)["keys"]
-    algorithms = {JWK_ALGORITHMS.get((k.get("kty"), k.get("crv"))) for k in keys}
-    if len(algorithms) != 1 or None in algorithms:
-        raise ValueError("no single algorithm")
-    return str(algorithms.pop())
-
-
-def _dating_delegation_root(r: _Retained) -> None:
-    """A delegation-root element whose digest equals delegation.rootDigest
-    establishes the root and names its algorithm (R13); none leaves it not
-    established, never a pass (R14); an unequal digest is malformed (R15)."""
-    elements = [
-        v
-        for v in r.entry.get("validationData") or []
-        if isinstance(v, dict) and v.get("for") == "delegation-root"
-    ]
-    if len(elements) > 1 or (elements and r.root_digest is None):
-        raise Malformed("entry-delegation-root-unexpected")
-    if not elements:
-        return
-    try:
-        material = base64.b64decode(elements[0]["value"], validate=True)
-    except (KeyError, TypeError, ValueError) as exc:
-        raise Malformed("entry-delegation-root-unreadable") from exc
-    if hashlib.sha256(material).hexdigest() != r.root_digest:
-        raise Malformed("entry-delegation-root-mismatch")
-    try:
-        algorithm = _jwk_algorithm(material)
-    except (Malformed, KeyError, TypeError, ValueError, AttributeError) as exc:
-        raise Malformed("entry-delegation-root-unreadable") from exc
-    r.delegation_root = {"result": "established", "algorithm": algorithm}
 
 
 DATING_RULES: list[tuple[str, Callable[[_Retained], None]]] = [
@@ -1497,52 +1133,33 @@ DATING_RULES: list[tuple[str, Callable[[_Retained], None]]] = [
     ("entry-received-before-issued", _dating_received_before_issued),
     ("entry-received-after-anchor", _dating_received_after_anchor),
     ("entry-anchor-late", _dating_anchor_late),
-    ("entry-delegation-root", _dating_delegation_root),
 ]
 #: Dating rules no Appendix B row reaches: no member carries an entry naming
 #: another envelope.
 DATING_UNREACHED = frozenset({"entry-envelope-digest"})
 
 
-@dataclass(frozen=True)
-class _Moment:
-    origin: str
-    time: str
-    height: int | None
-
-
-def _earlier(a: _Moment, b: _Moment) -> int:
-    """Two opentimestamps anchors compare by block height, any other pair by time."""
-    if a.height is not None and b.height is not None and a.height != b.height:
-        return -1 if a.height < b.height else 1
-    ta, tb = _instant(a.time), _instant(b.time)
-    return (ta > tb) - (ta < tb)
-
-
 def _anchor_times(
-    entry: dict[str, Any], digest_bytes: bytes, heads: AnchorTrust, *, disabled: str | None
-) -> list[_Moment]:
-    """Every anchor that validates, earliest first."""
-    out: list[_Moment] = []
+    entry: dict[str, Any], digest_bytes: bytes, heads: list[TreeHead], *, disabled: str | None
+) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
     for anchor in entry["anchors"]:
-        moment: tuple[str, int | None] | None
         if disabled == "anchor-validation":
-            moment = (heads[0].timestamp, None) if heads else None
+            moment = heads[0].timestamp if heads else None
         else:
             moment = anchor_time(anchor, digest_bytes, heads)
         if moment is not None:
-            out.append(_Moment(anchor["origin"], moment[0], moment[1]))
-    return sorted(out, key=functools.cmp_to_key(_earlier))
+            out.append((anchor["origin"], moment))
+    return out
 
 
 def date_retained(
     envelope: dict[str, Any],
     entry: Any,
     issued_at: str,
-    heads: AnchorTrust,
+    heads: list[TreeHead],
     *,
     disabled: str | None = None,
-    root_digest: str | None = None,
 ) -> Dating:
     """The dating check of Section 4.7.1 over one envelope and its retention entry.
 
@@ -1554,20 +1171,16 @@ def date_retained(
     try:
         _retention_shape(entry)
         digest = hashlib.sha256(canonical_bytes(envelope)).hexdigest()
-        retained = _Retained(entry, _instant(issued_at), digest, heads, root_digest=root_digest)
+        retained = _Retained(entry, _instant(issued_at), digest, heads)
     except Malformed as exc:
         return Dating("malformed", [exc.code])
     times = _anchor_times(entry, bytes.fromhex(digest), heads, disabled=disabled)
-    moments = times
+    moments = sorted(times, key=lambda t: _instant(t[1]))
     if disabled == "earliest-anchor":
-        moments = [t for t in moments if t.origin == "retainer"] or moments
-    dated_at = moments[0].time if moments else None
-    retainer = [m for m in times if m.origin == "retainer"]
-    if retainer:
-        retained.retention_time = _instant(retainer[0].time)
-        retained.retention_ots = (
-            retainer[0].height is not None and disabled != "opentimestamps-tolerance"
-        )
+        moments = [t for t in moments if t[0] == "retainer"] or moments
+    dated_at = moments[0][1] if moments else None
+    retainer = [_instant(m) for origin, m in times if origin == "retainer"]
+    retained.retention_time = min(retainer) if retainer else None
     try:
         for name, rule in DATING_RULES:
             if name != disabled:
@@ -1577,40 +1190,24 @@ def date_retained(
     receipt = None
     if entry["received"]:
         receipt = "asserted-consistent" if retained.retention_time else "asserted-unchecked"
-    return Dating("well-formed", [], dated_at, receipt, retained.delegation_root)
+    return Dating("well-formed", [], dated_at, receipt)
 
 
-def tree_heads(manifest: dict[str, Any]) -> AnchorTrust:
-    """The tree heads, then the block headers, the manifest's anchorTrust holds."""
-    trust = manifest.get("anchorTrust") or {}
-    held: AnchorTrust = [
+def tree_heads(manifest: dict[str, Any]) -> list[TreeHead]:
+    heads = (manifest.get("anchorTrust") or {}).get("treeHeads") or []
+    return [
         TreeHead(
             bytes.fromhex(h["logId"]),
             int(h["treeSize"]),
             bytes.fromhex(h["rootHash"]),
             h["timestamp"],
         )
-        for h in trust.get("treeHeads") or []
+        for h in heads
     ]
-    held += [
-        block_header(int(b["height"]), bytes.fromhex(b["header"]))
-        for b in trust.get("blockHeaders") or []
-    ]
-    return held
-
-
-def block_header(height: int, header: bytes) -> BlockHeader:
-    """Read the Merkle root field, in internal byte order, and the time field,
-    little-endian Unix seconds, off the bytes of a Bitcoin block header."""
-    if len(header) != 80:
-        raise ValueError("a block header is 80 bytes")
-    seconds = int.from_bytes(header[68:72], "little")
-    moment = datetime.datetime.fromtimestamp(seconds, datetime.UTC)
-    return BlockHeader(height, header[36:68], moment.strftime("%Y-%m-%dT%H:%M:%SZ"))
 
 
 def verify_retained(
-    raw: bytes, policy: Policy, heads: AnchorTrust, *, disabled: str | None = None
+    raw: bytes, policy: Policy, heads: list[TreeHead], *, disabled: str | None = None
 ) -> tuple[Report, Dating]:
     """Judge a retained record: the envelope's verdict, and the dating result."""
     try:
@@ -1622,169 +1219,14 @@ def verify_retained(
     report = verify(json.dumps(envelope).encode(), policy, disabled=disabled)
     try:
         _, payload = _envelope_payload(json.dumps(envelope).encode())
-        pred = parse_statement(payload)["predicate"]
-        issued_at = pred["issuedAt"]
-        root_digest = (pred.get("delegation") or {}).get("rootDigest")
-    except (Malformed, KeyError, TypeError, AttributeError):
+        issued_at = parse_statement(payload)["predicate"]["issuedAt"]
+    except (Malformed, KeyError, TypeError):
         return report, Dating("malformed", ["entry-record-unreadable"])
-    return report, date_retained(
-        envelope, entry, issued_at, heads, disabled=disabled, root_digest=root_digest
-    )
+    return report, date_retained(envelope, entry, issued_at, heads, disabled=disabled)
 
 
 def dating_rule_names() -> list[str]:
-    return [
-        "anchor-validation",
-        "earliest-anchor",
-        "opentimestamps-tolerance",
-        *(n for n, _ in DATING_RULES),
-    ]
-
-
-# --------------------------------------------------------------------------
-# Records retained together (Section 5.4, revision 01): the set checks.
-# --------------------------------------------------------------------------
-
-
-@dataclass
-class SetReport:
-    """A set of records judged together under one limitDigest."""
-
-    verdict: str
-    codes: list[str]
-    missing: list[dict[str, Any]] = dataclasses.field(default_factory=list)
-
-
-def _held_keys(pred: dict[str, Any]) -> set[str]:
-    consumption = consumption_of(pred)
-    assert consumption is not None
-    return {held["operationKey"] for held in consumption["held"]}
-
-
-def _revision(pred: dict[str, Any]) -> int:
-    consumption = consumption_of(pred)
-    assert consumption is not None
-    return int(consumption["stateRevision"])
-
-
-def _set_stale_revision(group: list[dict[str, Any]]) -> bool:
-    """A permit that read a stateRevision older than a record already holding an
-    unsettled permit, and omits that permit's operationKey from held, read a
-    state that had not counted it: one limit spent twice (CS7, CS17). The key is
-    the operation key; a request digest cannot tell two identical intended
-    payments apart (CS17)."""
-    for later in group:
-        for earlier in group:
-            if later is earlier or _revision(later) >= _revision(earlier):
-                continue
-            if later["decision"]["reported"] not in PERMITS:
-                continue
-            consumption = consumption_of(earlier)
-            assert consumption is not None
-            seen = _held_keys(later) | {later["decision"].get("operationKey")}
-            if any(held["operationKey"] not in seen for held in consumption["held"]):
-                return True
-    return False
-
-
-def _set_release_unshown(group: list[dict[str, Any]]) -> bool:
-    """A held permit absent from a record that read a later state must be
-    explained by the record of that operation: showing none (released) or
-    occurred (moved to consumed). A lost response leaves it held (CS8)."""
-    shown = {p["decision"].get("operationKey"): p["effect"]["observed"] for p in group}
-    for later in group:
-        for earlier in group:
-            if later is earlier or _revision(later) <= _revision(earlier):
-                continue
-            consumption = consumption_of(earlier)
-            assert consumption is not None
-            gone = _held_keys(earlier) - _held_keys(later)
-            if any(shown.get(key) not in ("none", "occurred") for key in gone):
-                return True
-    return False
-
-
-SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
-    ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
-    ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
-]
-
-
-def consumption_set_findings(
-    predicates: list[dict[str, Any]], *, disabled: str | None = None
-) -> SetReport:
-    """Judge records that carry consumption, grouped by limitDigest. A set is
-    malformed on the first check, in SET_RULES order, that any group fails."""
-    groups: dict[str, list[dict[str, Any]]] = {}
-    for pred in predicates:
-        consumption = consumption_of(pred)
-        if consumption is not None:
-            groups.setdefault(consumption["limitDigest"], []).append(pred)
-    for name, code, check in SET_RULES:
-        if name != disabled and any(check(group) for group in groups.values()):
-            return SetReport("malformed", [code])
-    return SetReport("valid", [])
-
-
-#: The two checks across the records of one sequence series; a test drops one.
-SEQUENCE_SET_CHECKS = {"duplicate": True, "gap": True}
-
-
-def sequence_set_findings(predicates: list[dict[str, Any]], payloads: list[bytes]) -> SetReport:
-    """Judge the records that carry sequence. Every record of a set verified
-    under the one observer key, so a series is the records with one boundary.
-    Two records at one seq with different payload digests fail the set
-    (SQ5); a seq below the highest held, which no record holds, is named as
-    issued and not received (SQ4)."""
-    series: dict[str, dict[int, set[str]]] = {}
-    for pred, payload in zip(predicates, payloads, strict=True):
-        sequence = pred.get("sequence")
-        if sequence is None:
-            continue
-        digest = hashlib.sha256(payload).hexdigest()
-        series.setdefault(sequence["boundary"], {}).setdefault(sequence["seq"], set()).add(digest)
-    if SEQUENCE_SET_CHECKS["duplicate"] and any(
-        len(digests) > 1 for held in series.values() for digests in held.values()
-    ):
-        return SetReport("malformed", ["sequence-duplicate"])
-    missing = []
-    if SEQUENCE_SET_CHECKS["gap"]:
-        for boundary in sorted(series):
-            held = series[boundary]
-            missing += [
-                {"boundary": boundary, "seq": n} for n in range(1, max(held)) if n not in held
-            ]
-    return SetReport("valid", [], missing)
-
-
-def set_records(raw: bytes) -> list[bytes]:
-    """The envelopes a set member carries, each as bytes a verifier is handed."""
-    bundle = json.loads(raw, object_pairs_hook=_no_duplicates)
-    return [json.dumps(env).encode() for env in bundle["records"]]
-
-
-def verify_set(
-    raw: bytes, policy: Policy, *, disabled: str | None = None
-) -> tuple[list[Report], SetReport]:
-    """Judge a set member: every record on its own, then the records together.
-    A record that is itself malformed leaves the set unjudged (malformed)."""
-    try:
-        envelopes = set_records(raw)
-    except (Malformed, ValueError, KeyError, TypeError):
-        return [], SetReport("malformed", ["set-unreadable"])
-    reports = [verify(env, policy, disabled=disabled) for env in envelopes]
-    if any(r.verdict != "valid" for r in reports):
-        return reports, SetReport("malformed", ["set-record-malformed"])
-    payloads = [_envelope_payload(env)[1] for env in envelopes]
-    predicates = [parse_statement(payload)["predicate"] for payload in payloads]
-    joint = consumption_set_findings(predicates, disabled=disabled)
-    if joint.verdict != "valid":
-        return reports, joint
-    return reports, sequence_set_findings(predicates, payloads)
-
-
-def set_rule_names() -> list[str]:
-    return [name for name, _, _ in SET_RULES]
+    return ["anchor-validation", "earliest-anchor", *(n for n, _ in DATING_RULES)]
 
 
 # --------------------------------------------------------------------------
@@ -1829,51 +1271,6 @@ def _declared_findings(entry: dict[str, Any], report: Report) -> list[str]:
     return []
 
 
-def _limit_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
-    """A member whose record carries consumption declares the withinLimit a
-    verifier derives; a member that carries none declares none."""
-    label = f"{entry.get('draftId')} {entry.get('slug')}"
-    expected = entry.get("expected") or {}
-    try:
-        pred = json.loads(_envelope_payload(raw)[1])["predicate"]
-        got = within_limit(pred)
-    except (Malformed, KeyError, TypeError, ValueError):
-        return [] if "withinLimit" not in expected else [f"{label}: withinLimit cannot be derived"]
-    if got != expected.get("withinLimit"):
-        return [f"{label}: expected withinLimit {expected.get('withinLimit')}, got {got}"]
-    return []
-
-
-def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str]:
-    """A set member: each record reaches the member's verdict, tier and
-    withinLimit, and the records together reach expected.set."""
-    label = f"{entry.get('draftId')} {entry.get('slug')}"
-    expected = entry["expected"]
-    declared = expected["set"]
-    reports, joint = verify_set(raw, policy)
-    findings: list[str] = []
-    for index, report in enumerate(reports):
-        for found in _declared_findings(entry, report):
-            findings.append(f"record {index + 1}: {found}")
-    limits = []
-    for env in set_records(raw):
-        limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
-    if limits != declared.get("withinLimit", [None] * len(limits)):
-        findings.append(
-            f"{label}: expected withinLimit {declared.get('withinLimit')}, got {limits}"
-        )
-    if joint.missing != declared.get("missing", []):
-        findings.append(
-            f"{label}: expected missing {declared.get('missing', [])}, got {joint.missing}"
-        )
-    if (joint.verdict, joint.codes) != (declared["verdict"], declared["codes"]):
-        findings.append(
-            f"{label}: expected set {declared['verdict']} {declared['codes']}, "
-            f"got {joint.verdict} {joint.codes}"
-        )
-    return findings
-
-
 def conforming_verdicts(entry: dict[str, Any]) -> set[str]:
     """Every verdict a conforming verifier may reach on one manifest entry.
 
@@ -1910,7 +1307,6 @@ def dating_dict(dated: Dating) -> dict[str, Any]:
         out["datedAt"] = dated.dated_at
     if dated.receipt is not None:
         out["receipt"] = dated.receipt
-    out["delegationRoot"] = dated.delegation_root
     return out
 
 
@@ -1947,7 +1343,7 @@ def aggregation_findings(entry: dict[str, Any], raw: bytes) -> list[str]:
 
 
 def _judge_member(
-    directory: str, entry: dict[str, Any], policy: Policy, heads: AnchorTrust
+    directory: str, entry: dict[str, Any], policy: Policy, heads: list[TreeHead]
 ) -> tuple[str, str, list[str]]:
     identifier, kind = str(entry.get("id", "")), str(entry.get("kind", ""))
     try:
@@ -1967,13 +1363,8 @@ def _judge_member(
         findings.extend(_declared_findings(entry, report))
         findings.extend(_dating_findings(entry, dated))
         return identifier, kind, findings
-    if "set" in expected:
-        findings.extend(_set_findings(entry, raw, policy))
-        return identifier, kind, findings
     report = verify(raw, policy)
     findings.extend(aggregation_findings(entry, raw))
-    if kind == "accept":
-        findings.extend(_limit_findings(entry, raw))
     if kind in ("accept", "reject"):
         findings.extend(_declared_findings(entry, report))
     elif kind == "indeterminate":
