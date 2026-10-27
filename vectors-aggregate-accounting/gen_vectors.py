@@ -137,7 +137,8 @@ def cases() -> list[Case]:
          "control: an answer in exactly 200 ms is inside the bound"),
         ("allow-two-subtrees-one-principal",
          named("allow-two-subtrees-one-principal", shared), "allow", ok,
-         "control: two subtrees of one principal spend eight units of the budget and the third request is refused"),
+         "control: two subtrees of one principal spend eight units of the budget "
+         "and the third request is refused"),
         ("contract-id-missing", named("contract-id-missing", two_fit, contractId=None), "deny",
          "contract_id_missing", "the record names no contract"),
         ("contract-id-unknown", named("contract-id-unknown", two_fit, contractId=unknown_cid),
@@ -162,7 +163,8 @@ def cases() -> list[Case]:
          named("per-agent-limits-hold-aggregate-fails", three_over, perAgentLimitUnits=5),
          "deny",
          "aggregate_overspend",
-         "three subtrees each spent 4 under a per-agent limit of 5 and together spent twelve against a budget of ten"),
+         "three subtrees each spent 4 under a per-agent limit of 5 and together "
+         "spent twelve against a budget of ten"),
         ("fitting-request-refused",
          named("fitting-request-refused",
                [request("r1", 4, "admitted"), request("r2", 4, "refused", reason="budget")]),
