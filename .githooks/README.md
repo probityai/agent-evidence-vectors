@@ -48,7 +48,11 @@ Run the gate's own fixtures, or lint a range of history, without committing:
 ```bash
 .githooks/commit-msg --selftest
 .githooks/commit-msg --check-range origin/main..HEAD
+.githooks/commit-msg --check-title "<pull request title>" <number>
 ```
+
+`--check-title` lints the subject a squash merge will write: the pull request
+title plus ` (#<number>)`.
 
 The pre-push hook runs the same `--check-range` over every new commit of
 each pushed branch, so a message committed with `--no-verify`, or in a clone

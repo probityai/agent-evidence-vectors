@@ -32,6 +32,9 @@ Modes:
     commit-msg <path>              lint one message file (git's hook contract)
     commit-msg --selftest          run the embedded rule fixtures
     commit-msg --check-range A..B  lint every commit message in a range
+    commit-msg --check-title TITLE NUMBER
+                                   lint a pull request title as the squash
+                                   merge will write it (TITLE + " (#NUMBER)")
 
 `--check-range` exists so CI can enforce the same rules from the same file.
 A hook is advisory -- `git commit --no-verify` bypasses it and a clone that
@@ -617,6 +620,47 @@ def lint(
     return errors
 
 
+def squash_subject(title: str, number: int) -> str:
+    """The subject a squash merge writes: the title plus GitHub's ` (#N)` suffix.
+
+    The repository sets `squash_merge_commit_title` to `COMMIT_OR_PR_TITLE`, so
+    a pull request that holds more than one commit gets its title used, with
+    the pull request number appended. A title of exactly 72 characters passes
+    on the pull request and produces a 78-character subject on `main`.
+    """
+    return f"{title.strip()} (#{number})"
+
+
+def lint_pr_title(
+    title: str,
+    number: int,
+    extra: list[tuple[re.Pattern[str], str]] | None = None,
+    forbidden: tuple[str, list[int], list[int], dict[str, str]] | None = None,
+    permits: list[re.Pattern[str]] | None = None,
+) -> list[str]:
+    """Violations in the subject a squash merge of this pull request will write.
+
+    The length error names the title length, the suffix and the total, so the
+    author sees the arithmetic and not only the verdict. Every other rule runs
+    on the final subject too, because that text lands in history.
+    """
+    subject = squash_subject(title, number)
+    suffix = subject[len(title.strip()) :]
+    errors = lint(subject, extra, forbidden, permits)
+    if len(subject) > SUBJECT_MAX_LEN and not subject.startswith(
+        LENGTH_EXEMPT_PREFIXES
+    ):
+        # Replace the generic length error with the one that shows the suffix.
+        errors = [e for e in errors if not e.startswith("subject line is ")]
+        errors.insert(
+            0,
+            f"pull request title is {len(title.strip())} chars and the squash "
+            f"merge appends {suffix!r} ({len(suffix)} chars), giving "
+            f"{len(subject)}; max is {SUBJECT_MAX_LEN}",
+        )
+    return errors
+
+
 def read_message(path: Path) -> str:
     """Read a message file without letting invalid UTF-8 crash the hook.
 
@@ -927,6 +971,21 @@ def selftest() -> int:
                 f"expected {expected!r}: {label!r} -> {errors}",
             )
 
+    # Squash-merge title: 72 alone, over 72 once ` (#12)` is appended.
+    title_72 = "feat(trace): " + "x" * 59
+    check(len(title_72) == 72, "pr-title: fixture is not 72 chars")
+    check(
+        any(
+            "pull request title is 72 chars" in e and "' (#12)'" in e
+            for e in lint_pr_title(title_72, 12)
+        ),
+        "pr-title: 72-char title with suffix was not refused",
+    )
+    check(
+        not lint_pr_title("feat(trace): " + "x" * 53, 12),
+        "pr-title: title that fits with the suffix was refused",
+    )
+
     if failures:
         print(f"commit-msg selftest: {failures}/{checks} checks FAILED", file=sys.stderr)
         return 1
@@ -981,6 +1040,33 @@ def check_range(rev_range: str) -> int:
     return 1 if bad else 0
 
 
+def check_title(title: str, number_text: str) -> int:
+    """Lint a pull request title as it will read after a squash merge (CI)."""
+    try:
+        number = int(number_text)
+    except ValueError:
+        print(
+            f"commit-msg: pull request number {number_text!r} is not an integer",
+            file=sys.stderr,
+        )
+        return 2
+    errors = lint_pr_title(
+        title,
+        number,
+        load_extra_patterns(),
+        load_forbidden_words(),
+        load_permitted_paths(),
+    )
+    if errors:
+        report(errors, f"the title of pull request #{number}")
+        return 1
+    print(
+        f"commit-msg: pull request #{number} title gives a squash subject of "
+        f"{len(squash_subject(title, number))} chars; max is {SUBJECT_MAX_LEN}"
+    )
+    return 0
+
+
 def main(argv: list[str]) -> int:
     if len(argv) < 2:
         print("commit-msg: missing message-file path", file=sys.stderr)
@@ -992,6 +1078,14 @@ def main(argv: list[str]) -> int:
             print("commit-msg: --check-range needs a revision range", file=sys.stderr)
             return 2
         return check_range(argv[2])
+    if argv[1] == "--check-title":
+        if len(argv) < 4:
+            print(
+                "commit-msg: --check-title needs a title and a number",
+                file=sys.stderr,
+            )
+            return 2
+        return check_title(argv[2], argv[3])
 
     path = Path(argv[1])
     try:
