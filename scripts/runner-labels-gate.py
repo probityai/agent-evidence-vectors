@@ -113,7 +113,9 @@ def owner_of_origin() -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--owner", help="account that owns the repository; default reads origin")
-    parser.add_argument("--workflows", type=Path, default=WORKFLOWS, help="workflow directory to scan")
+    parser.add_argument(
+        "--workflows", type=Path, default=WORKFLOWS, help="workflow directory to scan"
+    )
     args = parser.parse_args()
 
     owner = args.owner or owner_of_origin()
