@@ -56,7 +56,7 @@ jobs:
     # Not on the schedule: this half is about the commit being pushed, and
     # re-running it weekly against an unchanged tree proves nothing new.
     if: github.event_name != 'schedule'
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: the crosswalk publishes this corpus as it stands
@@ -64,7 +64,7 @@ jobs:
 
   crosswalk-upstream:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
