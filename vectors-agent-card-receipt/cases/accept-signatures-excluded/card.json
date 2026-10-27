@@ -1,0 +1,42 @@
+{
+  "capabilities": {
+    "streaming": true
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "description": "Books flights and hotels within a traveller's approved budget.",
+  "name": "Travel Agent",
+  "provider": {
+    "organization": "Example Travel",
+    "url": "https://travel.example.com"
+  },
+  "signatures": [
+    {
+      "protected": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImtleS0xIn0",
+      "signature": "QFdkNLNszlGj3z3u0YQGt_T9LixY3qtdQpZmsTdDHDe3fX"
+    }
+  ],
+  "skills": [
+    {
+      "description": "Find and hold a flight that fits the itinerary.",
+      "id": "book-flight",
+      "name": "Book flight",
+      "tags": [
+        "travel",
+        "flight"
+      ]
+    }
+  ],
+  "supportedInterfaces": [
+    {
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0",
+      "url": "https://travel-agent.example.com/a2a/v1"
+    }
+  ],
+  "version": "1.4.0"
+}
