@@ -86,6 +86,29 @@
           "exit-code": 0,
           "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
         },
+        "swapped-in": "6b33d34f1c97f8665b5191027b249b1c2cec8c71491758674991e2ccbf7041b5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/digest.py",
+      "serialization": "bytes",
+      "sha256": "c2c4377cad6701cdc9d936aa6dcbeaf276d45f79626a40af1a12a2de91380362"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
         "swapped-in": "be53c9f7eca35f8aaedae16d2f1b510415b3969d7c3a69f4cf92f0c5b2766395",
         "test": "swap-and-re-pin"
       },
@@ -535,7 +558,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "3fe309dc2a3f5dd4f29076b7b30c6d1b2b9789885019aae5d2a386b1d82183f1"
+    "sha256": "ff78ba1cde31182bcdcf5bd391e8d20e55252e3067a30abc08e59f81b547dc22"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
