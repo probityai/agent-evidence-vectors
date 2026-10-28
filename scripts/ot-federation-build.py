@@ -18,8 +18,9 @@ import copy
 import hashlib
 import json
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 PACKAGING = Path(__file__).resolve().parents[1] / "packaging"
 sys.path.insert(0, str(PACKAGING))
@@ -41,8 +42,11 @@ E, C, N = ESTABLISHED, CONTRADICTED, NOT_ESTABLISHED
 
 def _evidence(pid: str = PID, tenant: str = "corpus-site") -> dict[str, Any]:
     return {
-        "effect_verification": {"status": "EFFECT_VERIFIED", "vantage": "same_deployment",
-                                "verifier_identity": "corpus-observer/v1"},
+        "effect_verification": {
+            "status": "EFFECT_VERIFIED",
+            "vantage": "same_deployment",
+            "verifier_identity": "corpus-observer/v1",
+        },
         "lifecycle": {"events": ["assessed", "execution_authorized", "execution_result"]},
         "proposal": {"proposal_id": pid, "tenant": tenant},
     }
@@ -56,17 +60,34 @@ def base(decision: str = "verify") -> dict[str, Any]:
         "case_id": "",
         "kind": "positive",
         "fault": None,
-        "claim": {"proposal_id": PID, "tool": "set_zone_setpoint", "zone_id": "ZONE-03",
-                  "setpoint_c": 21.5, "claimed_effect": "EFFECT_VERIFIED"},
-        "decision": {"decision": decision, "approved": True, "reasons": [],
-                     "reviewer": {"approved": True, "model": "corpus-reviewer"}},
+        "claim": {
+            "proposal_id": PID,
+            "tool": "set_zone_setpoint",
+            "zone_id": "ZONE-03",
+            "setpoint_c": 21.5,
+            "claimed_effect": "EFFECT_VERIFIED",
+        },
+        "decision": {
+            "decision": decision,
+            "approved": True,
+            "reasons": [],
+            "reviewer": {"approved": True, "model": "corpus-reviewer"},
+        },
         "execution": {"executed": True, "executions": 1, "dispatched_at_sim_s": 7200},
-        "twin_operation": {"operation_id": PID, "zone_id": "ZONE-03", "status": "APPLIED",
-                           "requested_setpoint_c": 21.5, "new_setpoint_c": 21.5,
-                           "previous_setpoint_c": 20.0, "sim_time_s": 7200},
+        "twin_operation": {
+            "operation_id": PID,
+            "zone_id": "ZONE-03",
+            "status": "APPLIED",
+            "requested_setpoint_c": 21.5,
+            "new_setpoint_c": 21.5,
+            "previous_setpoint_c": 20.0,
+            "sim_time_s": 7200,
+        },
         "observation": {"observed_setpoint_c": 21.5, "observed_at_sim_s": 7260},
-        "remora_envelope": {"request": {"request_id": PID, "proposed_action": "set_zone_setpoint"},
-                            "effect": {"ledger_entry": {"effect_vantage": "same_deployment"}}},
+        "remora_envelope": {
+            "request": {"request_id": PID, "proposed_action": "set_zone_setpoint"},
+            "effect": {"ledger_entry": {"effect_vantage": "same_deployment"}},
+        },
         "remora_evidence": evidence,
         "evidence_sha256": canonical_sha256(evidence),
     }
@@ -91,6 +112,7 @@ def _set(path: str, value: Any) -> Callable[[dict[str, Any]], None]:
         for p in parents:
             node = node[p]
         node[last] = value
+
     return edit
 
 
@@ -101,6 +123,7 @@ def _drop(path: str) -> Callable[[dict[str, Any]], None]:
         for p in parents:
             node = node[p]
         del node[last]
+
     return edit
 
 
@@ -108,6 +131,7 @@ def _all(*edits: Callable[[dict[str, Any]], None]) -> Callable[[dict[str, Any]],
     def edit(c: dict[str, Any]) -> None:
         for e in edits:
             e(c)
+
     return edit
 
 
@@ -133,7 +157,9 @@ def _keys_unsorted(c: dict[str, Any]) -> None:
 
 def _ascii_escaped_digest(c: dict[str, Any]) -> None:
     c["remora_evidence"]["proposal"]["tenant"] = "Zürich Süd, 21,5 °C"
-    text = json.dumps(c["remora_evidence"], sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    text = json.dumps(
+        c["remora_evidence"], sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    )
     c["evidence_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
@@ -157,89 +183,354 @@ MALFORMED = None  # expected claims for a case the reader must refuse as malform
 
 # id, fault shape, edit, expected verdict, expected claims overrides (others ESTABLISHED), note
 CASES: list[tuple[str, str, Any, str, Any, str]] = [
-    ("clean_verify", "none", None, E, {}, "An approved VERIFY with an approving reviewer, applied once and observed."),
-    ("clean_accept", "none", _all(_set("decision.decision", "accept"), _set("decision.reviewer", None)), E, {},
-     "An approved ACCEPT needs no reviewer."),
-    ("clean_escalate", "none", _set("decision.decision", "escalate"), E, {}, "An approved ESCALATE with an approving reviewer."),
-    ("clean_observed_at_dispatch", "boundary", _set("observation.observed_at_sim_s", 7200), E, {},
-     "An observation at the dispatch second is at or after it."),
-    ("clean_envelope_only_binding", "boundary", _all(_drop("remora_evidence.proposal"), _redigest), E, {},
-     "One binding source is enough: the envelope names the proposal and the evidence is silent."),
-    ("clean_evidence_only_binding", "boundary", _set("remora_envelope", None), E, {},
-     "One binding source is enough: the evidence names the proposal and there is no envelope."),
-    ("evidence_non_ascii", "digest_rule", _non_ascii, E, {},
-     "Evidence with non-ASCII text, digested with ensure_ascii=False as the contract says. A reader that escapes refuses it."),
-    ("evidence_keys_unsorted", "digest_rule", _keys_unsorted, E, {},
-     "Evidence whose members are in reverse order on disk. A reader that hashes without sort_keys refuses it."),
-    ("decision_not_approved", "executed_without_approval", _set("decision.approved", False), C,
-     {"decision_correspondence": C}, "Executed while decision.approved is false."),
-    ("accept_not_approved", "executed_without_approval",
-     _all(_set("decision.decision", "accept"), _set("decision.reviewer", None), _set("decision.approved", False)), C,
-     {"decision_correspondence": C}, "An ACCEPT is not an approval by its name alone: approved is false."),
-    ("reviewer_rejected", "reviewer_overridden", _set("decision.reviewer.approved", False), C,
-     {"decision_correspondence": C}, "decision.approved is true, but the VERIFY's reviewer did not approve."),
-    ("reviewer_absent", "reviewer_missing", _set("decision.reviewer", None), N,
-     {"decision_correspondence": N}, "A VERIFY with no reviewer record: the review is not shown."),
-    ("decision_unknown", "executed_on_other_decision", _set("decision.decision", "deny"), C,
-     {"decision_correspondence": C}, "Executed on a DENY whose approved flag is true."),
-    ("envelope_other_proposal", "decision_bound_elsewhere", _set("remora_envelope.request.request_id", OTHER), C,
-     {"decision_correspondence": C}, "The envelope's request_id names another proposal."),
-    ("evidence_other_proposal", "decision_bound_elsewhere", _evidence_other_proposal, C,
-     {"decision_correspondence": C}, "The evidence's proposal_id names another proposal; the digest matches the altered evidence."),
-    ("decision_unbound", "decision_binding_missing", _no_binding, N,
-     {"decision_correspondence": N}, "Neither the envelope nor the evidence names the proposal."),
-    ("denied_but_applied", "denied_but_applied", _set("execution.executed", False), C,
-     {"decision_correspondence": C, "single_dispatch": N},
-     "Nothing executed, yet the twin recorded APPLIED."),
-    ("not_executed_but_observed", "denied_but_observed", _not_executed_but_observed, C,
-     {"decision_correspondence": C, "single_dispatch": N, "call_binding": N, "declared_effect_observed": N},
-     "Nothing executed and no twin record, yet an effect was observed."),
-    ("replayed_execution", "replayed_execution", _set("execution.executions", 2), C,
-     {"single_dispatch": C}, "Executed twice."),
-    ("execution_count_missing", "execution_count_missing", _drop("execution.executions"), N,
-     {"single_dispatch": N}, "No execution count: never assumed to be one."),
-    ("twin_record_missing", "twin_record_missing", _set("twin_operation", None), N,
-     {"call_binding": N, "declared_effect_observed": N}, "No twin operation record."),
-    ("twin_other_operation", "proposal_swapped", _set("twin_operation.operation_id", OTHER), C,
-     {"call_binding": C}, "The twin's record is for another proposal."),
-    ("twin_requested_other_value", "request_swapped", _set("twin_operation.requested_setpoint_c", 23.0), C,
-     {"call_binding": C}, "The twin was asked for another value than the claim."),
-    ("twin_not_applied", "twin_status", _set("twin_operation.status", "REJECTED"), C,
-     {"declared_effect_observed": C}, "The twin did not apply the change; the observation still shows the value."),
-    ("twin_other_zone", "twin_zone", _set("twin_operation.zone_id", "ZONE-07"), C,
-     {"declared_effect_observed": C}, "The twin applied the change to another zone."),
-    ("twin_value_differs_observation_matches", "effect_value_split", _set("twin_operation.new_setpoint_c", 23.0), C,
-     {"declared_effect_observed": C}, "The twin applied another value while the observation shows the claimed one."),
-    ("observation_differs_twin_matches", "effect_value_split", _set("observation.observed_setpoint_c", 23.0), C,
-     {"declared_effect_observed": C}, "The twin applied the claimed value while the observation shows another."),
-    ("twin_value_missing", "effect_value_missing", _drop("twin_operation.new_setpoint_c"), N,
-     {"declared_effect_observed": N}, "The twin record has no applied value."),
-    ("observation_null", "effect_not_observed", _set("observation", None), N,
-     {"declared_effect_observed": N, "observation_after_dispatch": N}, "No observation at all."),
-    ("observed_value_missing", "effect_value_missing", _drop("observation.observed_setpoint_c"), N,
-     {"declared_effect_observed": N}, "The observation carries no value."),
-    ("dispatch_time_missing", "dispatch_time_missing", _drop("execution.dispatched_at_sim_s"), N,
-     {"observation_after_dispatch": N}, "No dispatch time."),
-    ("observation_time_missing", "observation_time_missing", _drop("observation.observed_at_sim_s"), N,
-     {"observation_after_dispatch": N}, "No observation time: never assumed equal to the dispatch time."),
-    ("observed_before_dispatch", "observed_before_dispatch", _set("observation.observed_at_sim_s", 7199), C,
-     {"observation_after_dispatch": C}, "Observed one second before the dispatch."),
-    ("evidence_digest_mismatch", "evidence_digest_mismatch", _set("remora_evidence.proposal.tenant", "corpus-site-2"), C,
-     {"evidence_digest_integrity": C}, "The evidence changed after it was digested."),
-    ("evidence_digest_escaped", "digest_rule", _ascii_escaped_digest, C,
-     {"evidence_digest_integrity": C}, "The digest was taken with ensure_ascii=True, which the contract does not allow."),
-    ("evidence_digest_unsorted", "digest_rule", _unsorted_digest, C,
-     {"evidence_digest_integrity": C}, "The digest was taken without sorting keys."),
-    ("evidence_digest_spaced", "digest_rule", _spaced_digest, C,
-     {"evidence_digest_integrity": C}, "The digest was taken with the default separators."),
-    ("evidence_digest_not_hex", "digest_form", _set("evidence_sha256", "sha256:" + "0" * 64), N,
-     {"evidence_digest_integrity": N}, "The digest is not 64 lowercase hex."),
-    ("malformed_setpoint_string", "malformed", _set("claim.setpoint_c", "21.5"), N, MALFORMED,
-     "The claimed setpoint is a string."),
-    ("malformed_execution_missing", "malformed", _drop("execution"), N, MALFORMED, "The execution member is missing."),
-    ("malformed_schema", "malformed", _set("schema", "ot-federation-case/v0"), N, MALFORMED, "Another schema."),
-    ("malformed_executions_bool", "malformed", _set("execution.executions", True), N, MALFORMED,
-     "A boolean execution count."),
+    (
+        "clean_verify",
+        "none",
+        None,
+        E,
+        {},
+        "An approved VERIFY with an approving reviewer, applied once and observed.",
+    ),
+    (
+        "clean_accept",
+        "none",
+        _all(_set("decision.decision", "accept"), _set("decision.reviewer", None)),
+        E,
+        {},
+        "An approved ACCEPT needs no reviewer.",
+    ),
+    (
+        "clean_escalate",
+        "none",
+        _set("decision.decision", "escalate"),
+        E,
+        {},
+        "An approved ESCALATE with an approving reviewer.",
+    ),
+    (
+        "clean_observed_at_dispatch",
+        "boundary",
+        _set("observation.observed_at_sim_s", 7200),
+        E,
+        {},
+        "An observation at the dispatch second is at or after it.",
+    ),
+    (
+        "clean_envelope_only_binding",
+        "boundary",
+        _all(_drop("remora_evidence.proposal"), _redigest),
+        E,
+        {},
+        "One binding source is enough: the envelope names the proposal and the evidence is silent.",
+    ),
+    (
+        "clean_evidence_only_binding",
+        "boundary",
+        _set("remora_envelope", None),
+        E,
+        {},
+        "One binding source is enough: the evidence names the proposal and there is no envelope.",
+    ),
+    (
+        "evidence_non_ascii",
+        "digest_rule",
+        _non_ascii,
+        E,
+        {},
+        "Evidence with non-ASCII text, digested with ensure_ascii=False as the contract says. "
+        "A reader that escapes refuses it.",
+    ),
+    (
+        "evidence_keys_unsorted",
+        "digest_rule",
+        _keys_unsorted,
+        E,
+        {},
+        "Evidence whose members are in reverse order on disk. "
+        "A reader that hashes without sort_keys refuses it.",
+    ),
+    (
+        "decision_not_approved",
+        "executed_without_approval",
+        _set("decision.approved", False),
+        C,
+        {"decision_correspondence": C},
+        "Executed while decision.approved is false.",
+    ),
+    (
+        "accept_not_approved",
+        "executed_without_approval",
+        _all(
+            _set("decision.decision", "accept"),
+            _set("decision.reviewer", None),
+            _set("decision.approved", False),
+        ),
+        C,
+        {"decision_correspondence": C},
+        "An ACCEPT is not an approval by its name alone: approved is false.",
+    ),
+    (
+        "reviewer_rejected",
+        "reviewer_overridden",
+        _set("decision.reviewer.approved", False),
+        C,
+        {"decision_correspondence": C},
+        "decision.approved is true, but the VERIFY's reviewer did not approve.",
+    ),
+    (
+        "reviewer_absent",
+        "reviewer_missing",
+        _set("decision.reviewer", None),
+        N,
+        {"decision_correspondence": N},
+        "A VERIFY with no reviewer record: the review is not shown.",
+    ),
+    (
+        "decision_unknown",
+        "executed_on_other_decision",
+        _set("decision.decision", "deny"),
+        C,
+        {"decision_correspondence": C},
+        "Executed on a DENY whose approved flag is true.",
+    ),
+    (
+        "envelope_other_proposal",
+        "decision_bound_elsewhere",
+        _set("remora_envelope.request.request_id", OTHER),
+        C,
+        {"decision_correspondence": C},
+        "The envelope's request_id names another proposal.",
+    ),
+    (
+        "evidence_other_proposal",
+        "decision_bound_elsewhere",
+        _evidence_other_proposal,
+        C,
+        {"decision_correspondence": C},
+        "The evidence's proposal_id names another proposal; "
+        "the digest matches the altered evidence.",
+    ),
+    (
+        "decision_unbound",
+        "decision_binding_missing",
+        _no_binding,
+        N,
+        {"decision_correspondence": N},
+        "Neither the envelope nor the evidence names the proposal.",
+    ),
+    (
+        "denied_but_applied",
+        "denied_but_applied",
+        _set("execution.executed", False),
+        C,
+        {"decision_correspondence": C, "single_dispatch": N},
+        "Nothing executed, yet the twin recorded APPLIED.",
+    ),
+    (
+        "not_executed_but_observed",
+        "denied_but_observed",
+        _not_executed_but_observed,
+        C,
+        {
+            "decision_correspondence": C,
+            "single_dispatch": N,
+            "call_binding": N,
+            "declared_effect_observed": N,
+        },
+        "Nothing executed and no twin record, yet an effect was observed.",
+    ),
+    (
+        "replayed_execution",
+        "replayed_execution",
+        _set("execution.executions", 2),
+        C,
+        {"single_dispatch": C},
+        "Executed twice.",
+    ),
+    (
+        "execution_count_missing",
+        "execution_count_missing",
+        _drop("execution.executions"),
+        N,
+        {"single_dispatch": N},
+        "No execution count: never assumed to be one.",
+    ),
+    (
+        "twin_record_missing",
+        "twin_record_missing",
+        _set("twin_operation", None),
+        N,
+        {"call_binding": N, "declared_effect_observed": N},
+        "No twin operation record.",
+    ),
+    (
+        "twin_other_operation",
+        "proposal_swapped",
+        _set("twin_operation.operation_id", OTHER),
+        C,
+        {"call_binding": C},
+        "The twin's record is for another proposal.",
+    ),
+    (
+        "twin_requested_other_value",
+        "request_swapped",
+        _set("twin_operation.requested_setpoint_c", 23.0),
+        C,
+        {"call_binding": C},
+        "The twin was asked for another value than the claim.",
+    ),
+    (
+        "twin_not_applied",
+        "twin_status",
+        _set("twin_operation.status", "REJECTED"),
+        C,
+        {"declared_effect_observed": C},
+        "The twin did not apply the change; the observation still shows the value.",
+    ),
+    (
+        "twin_other_zone",
+        "twin_zone",
+        _set("twin_operation.zone_id", "ZONE-07"),
+        C,
+        {"declared_effect_observed": C},
+        "The twin applied the change to another zone.",
+    ),
+    (
+        "twin_value_differs_observation_matches",
+        "effect_value_split",
+        _set("twin_operation.new_setpoint_c", 23.0),
+        C,
+        {"declared_effect_observed": C},
+        "The twin applied another value while the observation shows the claimed one.",
+    ),
+    (
+        "observation_differs_twin_matches",
+        "effect_value_split",
+        _set("observation.observed_setpoint_c", 23.0),
+        C,
+        {"declared_effect_observed": C},
+        "The twin applied the claimed value while the observation shows another.",
+    ),
+    (
+        "twin_value_missing",
+        "effect_value_missing",
+        _drop("twin_operation.new_setpoint_c"),
+        N,
+        {"declared_effect_observed": N},
+        "The twin record has no applied value.",
+    ),
+    (
+        "observation_null",
+        "effect_not_observed",
+        _set("observation", None),
+        N,
+        {"declared_effect_observed": N, "observation_after_dispatch": N},
+        "No observation at all.",
+    ),
+    (
+        "observed_value_missing",
+        "effect_value_missing",
+        _drop("observation.observed_setpoint_c"),
+        N,
+        {"declared_effect_observed": N},
+        "The observation carries no value.",
+    ),
+    (
+        "dispatch_time_missing",
+        "dispatch_time_missing",
+        _drop("execution.dispatched_at_sim_s"),
+        N,
+        {"observation_after_dispatch": N},
+        "No dispatch time.",
+    ),
+    (
+        "observation_time_missing",
+        "observation_time_missing",
+        _drop("observation.observed_at_sim_s"),
+        N,
+        {"observation_after_dispatch": N},
+        "No observation time: never assumed equal to the dispatch time.",
+    ),
+    (
+        "observed_before_dispatch",
+        "observed_before_dispatch",
+        _set("observation.observed_at_sim_s", 7199),
+        C,
+        {"observation_after_dispatch": C},
+        "Observed one second before the dispatch.",
+    ),
+    (
+        "evidence_digest_mismatch",
+        "evidence_digest_mismatch",
+        _set("remora_evidence.proposal.tenant", "corpus-site-2"),
+        C,
+        {"evidence_digest_integrity": C},
+        "The evidence changed after it was digested.",
+    ),
+    (
+        "evidence_digest_escaped",
+        "digest_rule",
+        _ascii_escaped_digest,
+        C,
+        {"evidence_digest_integrity": C},
+        "The digest was taken with ensure_ascii=True, which the contract does not allow.",
+    ),
+    (
+        "evidence_digest_unsorted",
+        "digest_rule",
+        _unsorted_digest,
+        C,
+        {"evidence_digest_integrity": C},
+        "The digest was taken without sorting keys.",
+    ),
+    (
+        "evidence_digest_spaced",
+        "digest_rule",
+        _spaced_digest,
+        C,
+        {"evidence_digest_integrity": C},
+        "The digest was taken with the default separators.",
+    ),
+    (
+        "evidence_digest_not_hex",
+        "digest_form",
+        _set("evidence_sha256", "sha256:" + "0" * 64),
+        N,
+        {"evidence_digest_integrity": N},
+        "The digest is not 64 lowercase hex.",
+    ),
+    (
+        "malformed_setpoint_string",
+        "malformed",
+        _set("claim.setpoint_c", "21.5"),
+        N,
+        MALFORMED,
+        "The claimed setpoint is a string.",
+    ),
+    (
+        "malformed_execution_missing",
+        "malformed",
+        _drop("execution"),
+        N,
+        MALFORMED,
+        "The execution member is missing.",
+    ),
+    (
+        "malformed_schema",
+        "malformed",
+        _set("schema", "ot-federation-case/v0"),
+        N,
+        MALFORMED,
+        "Another schema.",
+    ),
+    (
+        "malformed_executions_bool",
+        "malformed",
+        _set("execution.executions", True),
+        N,
+        MALFORMED,
+        "A boolean execution count.",
+    ),
 ]
 
 
@@ -272,8 +563,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args(argv)
     cases = serialise(build())
-    manifest = serialise({"schema": "aev-ot-federation-corpus/v1", "members": {
-        "cases.json": "sha256:" + hashlib.sha256(cases).hexdigest()}})
+    manifest = serialise(
+        {
+            "schema": "aev-ot-federation-corpus/v1",
+            "members": {"cases.json": "sha256:" + hashlib.sha256(cases).hexdigest()},
+        }
+    )
     files = {CORPUS / "cases.json": cases, CORPUS / "manifest.json": manifest}
     if args.check:
         stale = [str(p) for p, b in files.items() if not p.exists() or p.read_bytes() != b]

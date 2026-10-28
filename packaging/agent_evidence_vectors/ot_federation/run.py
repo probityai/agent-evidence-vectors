@@ -66,11 +66,23 @@ def run_corpus(root: Path) -> dict[str, Any]:
         actual = {"verdict": got["verdict"], "claims": got["claims"]}
         if actual != case["expected"]:
             failures.append(case["id"])
-        results.append({"case_id": case["id"], "fault_shape": case["fault_shape"],
-                        "actual": actual, "expected": case["expected"], "reason": got["reason"]})
-    return {"schema": "aev-ot-federation-report/v1", "input_digests": digests,
-            "claims": list(CLAIMS), "non_claims": list(NON_CLAIMS),
-            "results": results, "failures": failures}
+        results.append(
+            {
+                "case_id": case["id"],
+                "fault_shape": case["fault_shape"],
+                "actual": actual,
+                "expected": case["expected"],
+                "reason": got["reason"],
+            }
+        )
+    return {
+        "schema": "aev-ot-federation-report/v1",
+        "input_digests": digests,
+        "claims": list(CLAIMS),
+        "non_claims": list(NON_CLAIMS),
+        "results": results,
+        "failures": failures,
+    }
 
 
 def emit_fixtures(root: Path, out: Path) -> dict[str, Any]:
@@ -86,11 +98,21 @@ def emit_fixtures(root: Path, out: Path) -> dict[str, Any]:
         (out / path).write_bytes(body)
         files.append({"path": path, "sha256": hashlib.sha256(body).hexdigest()})
         expected = case["expected"]
-        first = next((c for w in ("CONTRADICTED", "NOT_ESTABLISHED") for c in CLAIMS
-                      if expected["claims"] and expected["claims"][c] == w), None)
-        entry = {"case_id": case["id"],
-                 "kind": "positive" if expected["verdict"] == "ESTABLISHED" else "negative",
-                 "expected_verdict": expected["verdict"], "fault": case["fault_shape"]}
+        first = next(
+            (
+                c
+                for w in ("CONTRADICTED", "NOT_ESTABLISHED")
+                for c in CLAIMS
+                if expected["claims"] and expected["claims"][c] == w
+            ),
+            None,
+        )
+        entry = {
+            "case_id": case["id"],
+            "kind": "positive" if expected["verdict"] == "ESTABLISHED" else "negative",
+            "expected_verdict": expected["verdict"],
+            "fault": case["fault_shape"],
+        }
         if first is not None:
             entry["claim_id"] = first
         entries.append(entry)
@@ -98,11 +120,15 @@ def emit_fixtures(root: Path, out: Path) -> dict[str, Any]:
     manifest = {
         "schema": "ot-federation-fixtures/v1",
         "fixture_set": "aev-ot-federation",
-        "scope": "Synthetic trails written for verifier adequacy; not recorded from any deployment.",
-        "digest_rules": {"evidence_sha256": "SHA-256 over the UTF-8 bytes of json.dumps(remora_evidence, "
-                                            "sort_keys=True, separators=(',', ':'), ensure_ascii=False)"},
+        "scope": (
+            "Synthetic trails written for verifier adequacy; not recorded from any deployment."
+        ),
+        "digest_rules": {
+            "evidence_sha256": "SHA-256 over the UTF-8 bytes of json.dumps(remora_evidence, "
+            "sort_keys=True, separators=(',', ':'), ensure_ascii=False)"
+        },
         "package_digest_rule": "sha256 over the UTF-8 text formed by one line per files entry, "
-                               "'<path> <sha256>\\n', sorted by path.",
+        "'<path> <sha256>\\n', sorted by path.",
         "package_digest": "sha256:" + hashlib.sha256(lines.encode("utf-8")).hexdigest(),
         "files": files,
         "cases": entries,
@@ -126,7 +152,11 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("implementation revision must be a 40-character Git commit")
     if args.emit_fixtures is not None:
         manifest = emit_fixtures(args.corpus, args.emit_fixtures)
-        print(json.dumps({"cases": len(manifest["cases"]), "package_digest": manifest["package_digest"]}))
+        print(
+            json.dumps(
+                {"cases": len(manifest["cases"]), "package_digest": manifest["package_digest"]}
+            )
+        )
         return 0
     if args.output.exists():
         raise FileExistsError(args.output)

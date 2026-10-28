@@ -119,23 +119,42 @@ def _obj_or_null(value: Any) -> bool:
 def _check_shape(case: Any) -> None:
     if not isinstance(case, dict) or case.get("schema") != SCHEMA:
         raise MalformedCase(f"not an {SCHEMA} object")
-    for key in ("case_id", "kind", "claim", "decision", "execution", "twin_operation",
-                "observation", "remora_evidence", "evidence_sha256"):
+    for key in (
+        "case_id",
+        "kind",
+        "claim",
+        "decision",
+        "execution",
+        "twin_operation",
+        "observation",
+        "remora_evidence",
+        "evidence_sha256",
+    ):
         if key not in case:
             raise MalformedCase(f"case lacks {key!r}")
     claim, decision, execution = case["claim"], case["decision"], case["execution"]
     if not (isinstance(claim, dict) and isinstance(decision, dict) and isinstance(execution, dict)):
         raise MalformedCase("claim, decision and execution must be objects")
-    if not (isinstance(claim.get("proposal_id"), str) and isinstance(claim.get("zone_id"), str)
-            and isinstance(claim.get("tool"), str) and _is_num(claim.get("setpoint_c"))):
-        raise MalformedCase("claim needs string proposal_id, tool and zone_id and a numeric setpoint_c")
-    if not (isinstance(decision.get("decision"), str) and isinstance(decision.get("approved"), bool)):
+    if not (
+        isinstance(claim.get("proposal_id"), str)
+        and isinstance(claim.get("zone_id"), str)
+        and isinstance(claim.get("tool"), str)
+        and _is_num(claim.get("setpoint_c"))
+    ):
+        raise MalformedCase(
+            "claim needs string proposal_id, tool and zone_id and a numeric setpoint_c"
+        )
+    if not (
+        isinstance(decision.get("decision"), str) and isinstance(decision.get("approved"), bool)
+    ):
         raise MalformedCase("decision needs a string decision and a boolean approved")
     if not _obj_or_null(decision.get("reviewer")):
         raise MalformedCase("decision.reviewer must be an object or null")
     if not isinstance(execution.get("executed"), bool):
         raise MalformedCase("execution.executed must be a boolean")
-    if execution.get("dispatched_at_sim_s") is not None and not _is_int(execution["dispatched_at_sim_s"]):
+    if execution.get("dispatched_at_sim_s") is not None and not _is_int(
+        execution["dispatched_at_sim_s"]
+    ):
         raise MalformedCase("execution.dispatched_at_sim_s must be an integer or null")
     if "executions" in execution and not _is_int(execution["executions"]):
         raise MalformedCase("execution.executions must be an integer")
@@ -168,7 +187,10 @@ def _decision(case: dict[str, Any]) -> tuple[str, str]:
     twin, obs = case["twin_operation"], case["observation"]
     if not execution["executed"]:
         if (isinstance(twin, dict) and twin.get("status") == "APPLIED") or obs is not None:
-            return CONTRADICTED, "nothing executed, yet the twin recorded APPLIED or an effect was observed"
+            return (
+                CONTRADICTED,
+                "nothing executed, yet the twin recorded APPLIED or an effect was observed",
+            )
         return NOT_ESTABLISHED, "nothing executed, so no dispatch to attest"
     kind = decision["decision"]
     if decision["approved"] is not True:
@@ -233,7 +255,10 @@ def _effect(case: dict[str, Any], strict_vantage: bool) -> tuple[str, str]:
     if obs["observed_setpoint_c"] != claim["setpoint_c"]:
         return CONTRADICTED, "the observation shows another value"
     if strict_vantage and _vantage(case) != "separate_deployment":
-        return NOT_ESTABLISHED, f"observation vantage is {_vantage(case)}, not a separate deployment"
+        return (
+            NOT_ESTABLISHED,
+            f"observation vantage is {_vantage(case)}, not a separate deployment",
+        )
     return ESTABLISHED, "the twin applied and the observation shows the claimed value"
 
 
@@ -283,13 +308,25 @@ def evaluate(case: Any, *, strict_vantage: bool = False) -> dict[str, Any]:
             "evidence_digest_integrity": _digest(case),
         }
     except (MalformedCase, KeyError, TypeError, AttributeError) as exc:
-        return {"verdict": NOT_ESTABLISHED, "claim_id": None,
-                "reason": f"malformed: {exc}", "claims": None}
+        return {
+            "verdict": NOT_ESTABLISHED,
+            "claim_id": None,
+            "reason": f"malformed: {exc}",
+            "claims": None,
+        }
     claims = {name: judged[name][0] for name in CLAIMS}
     for word in (CONTRADICTED, NOT_ESTABLISHED):
         for name in CLAIMS:
             if claims[name] == word:
-                return {"verdict": word, "claim_id": name,
-                        "reason": f"{name}: {judged[name][1]}", "claims": claims}
-    return {"verdict": ESTABLISHED, "claim_id": None,
-            "reason": "six claims established", "claims": claims}
+                return {
+                    "verdict": word,
+                    "claim_id": name,
+                    "reason": f"{name}: {judged[name][1]}",
+                    "claims": claims,
+                }
+    return {
+        "verdict": ESTABLISHED,
+        "claim_id": None,
+        "reason": "six claims established",
+        "claims": claims,
+    }
