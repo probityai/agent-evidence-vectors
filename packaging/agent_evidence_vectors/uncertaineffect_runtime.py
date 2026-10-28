@@ -15,7 +15,8 @@ The runtime contract, for an adapter in any language:
   ``idempotencyKey``, ``args`` and, when the scenario names a lease,
   ``fencingToken``;
 - it may ask the owner ``GET {owner}/effects/{idempotencyKey}``, which answers
-  ``{"result": "present" | "absent", "final": bool}``, and, in a lease
+  ``{"result": "present" | "absent", "final": bool}`` (or 503 while the owner
+  cannot answer), and, in a lease
   scenario, ``GET {owner}/lease``, which answers ``{"token": n}``;
 - it prints, as the last line of its standard output, one JSON object whose
   ``outcome`` is ``committed``, ``not_run`` or ``unknown``, and exits 0.
@@ -150,6 +151,29 @@ def _land_late(state: OwnerState) -> None:
     state.pending_late.clear()
 
 
+def _post_reply(state: OwnerState, path: str, raw: bytes) -> tuple[int, dict[str, Any] | None]:
+    """The owner's answer to one POST; None means it closes without answering."""
+    if path != "/effects":
+        return 404, {"error": "not found"}
+    try:
+        body = json.loads(raw or b"{}")
+    except ValueError:
+        return 400, {"error": "body is not JSON"}
+    return _call(state, body if isinstance(body, dict) else {})
+
+
+def _get_reply(state: OwnerState, path: str) -> tuple[int, dict[str, Any]]:
+    """The owner's answer to one GET: the lease, a lookup, or not found."""
+    if path == "/lease":
+        return 200, {"token": state.lease_token}
+    if not path.startswith("/effects/"):
+        return 404, {"error": "not found"}
+    answer = _lookup(state, path.removeprefix("/effects/"))
+    if answer is None:
+        return 503, {"error": "the owner cannot answer lookups now"}
+    return 200, answer
+
+
 def _handler(state: OwnerState) -> type[BaseHTTPRequestHandler]:
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
@@ -164,33 +188,17 @@ def _handler(state: OwnerState) -> type[BaseHTTPRequestHandler]:
             self.wfile.write(data)
 
         def do_POST(self) -> None:  # noqa: N802
-            if self.path != "/effects":
-                self._send(404, {"error": "not found"})
-                return
             length = int(self.headers.get("Content-Length") or 0)
-            try:
-                body = json.loads(self.rfile.read(length) or b"{}")
-            except ValueError:
-                self._send(400, {"error": "body is not JSON"})
-                return
-            status, reply = _call(state, body if isinstance(body, dict) else {})
+            status, reply = _post_reply(state, self.path, self.rfile.read(length))
             if reply is None:
+                # The lost reply: the owner has acted, or not, and says nothing.
                 self.close_connection = True
                 self.request.shutdown(socket.SHUT_RDWR)
                 return
             self._send(status, reply)
 
         def do_GET(self) -> None:  # noqa: N802
-            if self.path == "/lease":
-                self._send(200, {"token": state.lease_token})
-            elif self.path.startswith("/effects/"):
-                answer = _lookup(state, self.path.removeprefix("/effects/"))
-                if answer is None:
-                    self._send(503, {"error": "the owner cannot answer lookups now"})
-                else:
-                    self._send(200, answer)
-            else:
-                self._send(404, {"error": "not found"})
+            self._send(*_get_reply(state, self.path))
 
     return Handler
 
@@ -265,7 +273,9 @@ def check_runtime(runtime: str | list[str], root: Path = reader.ROOT) -> dict[st
     command = shlex.split(runtime) if isinstance(runtime, str) else runtime
     if not command:
         raise ValueError("runtime command is empty")
-    rows, failures, executed = [], [], 0
+    rows: list[dict[str, Any]] = []
+    failures: list[str] = []
+    executed = 0
     for scenario in reader.scenarios(manifest["vectors"]):
         ran, problems, counts = drive(command, scenario)
         executed += int(ran)
