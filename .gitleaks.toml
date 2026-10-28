@@ -17,7 +17,7 @@ description = "64-hex SHA-256 digests and Ed25519 public keys in key, digest and
 targetRules = ["generic-api-key"]
 regexTarget = "match"
 regexes = [
-  '''(?i)[a-z0-9_-]*(key|digest|token_sha256)[a-z0-9_-]*["'`]?\s*[:=]\s*["'`][0-9a-f]{64}["'`]''',
+  '''(?i)[a-z0-9_-]*(key|digest|token_?sha256)[a-z0-9_-]*["'`]?\s*[:=]\s*["'`][0-9a-f]{64}["'`]''',
 ]
 
 [[allowlists]]
@@ -55,3 +55,28 @@ condition = "AND"
 paths = ['''(^|/)CORPUS-MANIFEST\.json$''']
 regexTarget = "match"
 regexes = ['''[A-Za-z0-9_./-]+\.json"\s*:\s*"[0-9a-f]{64}"''']
+
+[[allowlists]]
+description = "Base64 Ed25519 public key in a case's context.json (issuerKey)"
+# The agent-card-receipt and credential-release suites hand the reader the
+# issuer's public key as base64. The signing seed is the SHA-256 of a public
+# label (gen_vectors.py), so the key is public by construction. AND: only the
+# issuerKey member of a case context file, and only the one published test
+# issuer key. A base64 shape cannot tell a public key from a secret, so the
+# value is pinned: any other issuerKey value is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)vectors-[a-z-]+/cases/[^/]+/context\.json$''']
+regexTarget = "match"
+regexes = ['''issuerKey"\s*:\s*"Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="''']
+
+[[allowlists]]
+description = "The unsigned empty JWT used as the credential placeholder in the credential-release suite"
+# The value is the three-part JWT with header {"alg":"none"}, payload {} and an
+# empty signature. It grants nothing. The pattern names that exact string, so a
+# JWT with any other header, payload or signature is still reported.
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^vectors-credential-release/(gen_vectors\.py|cases/[^/]+/statement\.json)$''']
+regexTarget = "match"
+regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
