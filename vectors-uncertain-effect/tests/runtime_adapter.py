@@ -95,7 +95,8 @@ def main() -> int:
     operation = scenario["operation"]
     lease = scenario["owner"].get("lease")
     token = lease["token"] if lease else None
-    body: dict[str, Any] = {"args": operation["args"], "idempotencyKey": operation["idempotencyKey"]}
+    body: dict[str, Any] = {"args": operation["args"],
+                            "idempotencyKey": operation["idempotencyKey"]}
     if token is not None:
         body["fencingToken"] = token
     outcome = reconcile(body, token) if args.policy == "reconcile" else blind(body)
