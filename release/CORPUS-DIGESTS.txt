@@ -6,6 +6,7 @@ aa8deffa934df48d43f228e48e299be2a136aef32ff5a55d18a2ef99e0286740  vectors-aci/MA
 b9151ff03291101b4074258cef91ee31206fbc4cf6e61c16e4038348d2b221bb  vectors-acs-core/MANIFEST.json  acs-core-negative-conformance  vectors=140  no-suiteRevision
 17caeb3817557d779266de29ba9a65ebf553f7503925de7e7b5a01126ede5446  vectors-admission/MANIFEST.json  adversarial-execution-evidence-admission  vectors=22  no-suiteRevision
 6034a4d1aaf3db40daa944660881c7c75097d276f6a10ccfa3f35d78ccc70a66  vectors-agent-audit-record/MANIFEST.json  agent-audit-record-conformance  vectors=141  no-suiteRevision
+99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e  vectors-agent-card-receipt/MANIFEST.json  agent-card-receipt/v1  vectors=44  no-suiteRevision
 27623d6a4a10f4cd0aedc1145182c276456e619c3ae771ec646746ef823f5ec4  vectors-agent-change-admission/MANIFEST.json  agent-change-admission/v1  vectors=35  no-suiteRevision
 a2674abfcf5b0edfaa8fe0f68be393066d962aee95c24362e00ea45ddbed1efc  vectors-agent-decision/MANIFEST.json  agent-decision-conformance  vectors=41  no-suiteRevision
 17bb6d15a07170b85caf4d06e70f4b3571590c4c1083e5834b9158a5cd621ff9  vectors-agentic-process-evidence/MANIFEST.json  agentic-process-evidence/v0.1  vectors=52  no-suiteRevision
@@ -19,6 +20,7 @@ e26e5a50267f4f09052f3349388f703d0a332a41cf325a4d248e21414070cbef  vectors-artifa
 6ca7ba7ec5a425f4b9e4c4b4a03be5fcfb4354760339e9f0b37be53b3b6f2dff  vectors-authority-at-dispatch/MANIFEST.json  authority-at-dispatch/v1  vectors=14  no-suiteRevision
 8d9e15ebf4e6a6b76960491fff189ccdad8521479fff71de1da8ddc43f22b12a  vectors-chunked-export/MANIFEST.json  chunked-export/v1  vectors=12  no-suiteRevision
 cc90a6895c3a3514cc81a5b201361a0935bdcf39eeb5a65fd35f70d1b060772a  vectors-converted-argument-binding/MANIFEST.json  converted-argument-binding/v1  vectors=17  no-suiteRevision
+585eb6e3fabced309e7d27e1240f49574e4c2cdeb42bb5d05f2fb6e1f83a6ef2  vectors-credential-release/MANIFEST.json  credential-release/v1  vectors=30  no-suiteRevision
 84ba70d6a54bfc1badf80a54655814c089bd220e9d81637d2262ac84e2a63442  vectors-delegation-lifecycle/MANIFEST.json  delegation-lifecycle/v1  vectors=54  no-suiteRevision
 211da5f3010d6e38a9b119cd02250865cdd4196ec56816bc0edf78d7d96eac06  vectors-dependency-selection/MANIFEST.json  artifact-binding-conformance  vectors=6  no-suiteRevision
 958421c39dcd872edd0f877572a9c60fcf98442b8800e7e3aa7b048b92c794b5  vectors-dispatch-fence/MANIFEST.json  dispatch-fence/v1  vectors=13  no-suiteRevision
