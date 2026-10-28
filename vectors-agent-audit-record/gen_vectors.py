@@ -1893,7 +1893,7 @@ def define_revision_01() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS24.
+# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS25.
 #
 # A decision under a cumulative limit carries decision.operationKey, the
 # agent's identifier for one intended operation, and its consumption-state
@@ -1903,16 +1903,18 @@ def define_revision_01() -> None:
 # The worked numbers are a limit of 50000 pence with 30000 consumed and a
 # request of 12000 (probityai/agent-evidence-vectors#213).
 #
-# CS18 to CS24 cover a limit document that is replaced while a permit is held.
+# CS18 to CS25 cover a limit document that is replaced while a permit is held.
 # consumption.supersedes names the limit document a record's limitDigest
 # replaced, the set checks group records by the ledger that link draws, and a
-# retry is still the operation key, never the limit.
+# retry is still the operation key, never the limit. CS25 is the control: two
+# limit documents no supersedes links stay two ledgers.
 # ---------------------------------------------------------------------------
 
 CS_LIMIT_DOCUMENT = h("limit/spend-limit-document")
 CS_OTHER_LIMIT_DOCUMENT = h("limit/limit-document-named-by-the-authority")
 CS_RAISED_LIMIT_DOCUMENT = h("limit/spend-limit-document-raised")
 CS_CUT_LIMIT_DOCUMENT = h("limit/spend-limit-document-cut")
+CS_SEPARATE_LIMIT_DOCUMENT = h("limit/spend-limit-document-of-another-ledger")
 CS_HELD_REQUEST = h("request/the-first-call-as-the-held-entry-recorded-it")
 OP_R1, OP_R2, OP_R3 = "urn:example:op:r1", "urn:example:op:r2", "urn:example:op:r3"
 CONSUMPTION_ENTRY = 2
@@ -2166,6 +2168,25 @@ def _stale_pair() -> list[dict[str, Any]]:
     return [
         _held_under_first_limit("cs21-first"),
         _new_operation_after_cut("cs21-second", 41, 30000),
+    ]
+
+
+def _separate_ledger_set() -> list[dict[str, Any]]:
+    """CS20's shape with the link removed: the second record is a new operation
+    under a different limit document that names no supersedes, and omits the
+    held call. Two limit documents nothing links are two ledgers."""
+    return [
+        _held_under_first_limit("cs25-first"),
+        _second_operation(
+            key=OP_R3,
+            revision=43,
+            same_request=False,
+            consumed=35000,
+            requested=5000,
+            record="cs25-second",
+            limit_digest=CS_SEPARATE_LIMIT_DOCUMENT,
+            limit=45000,
+        ),
     ]
 
 
@@ -2485,8 +2506,20 @@ def define_consumption() -> None:
             None,
             [True, True, False],
         ),
+        (
+            "CS25",
+            "cs25-set-separate-ledger-no-supersedes",
+            "CS20 without the link: a call is held under the first limit document, and the next "
+            "record is a new operation under a different limit document that names no "
+            "supersedes and omits the held call: each record valid, the two limit documents are "
+            "two ledgers, the set valid",
+            _separate_ledger_set,
+            "valid",
+            None,
+            [True, True],
+        ),
     ]
-    for draft_id, slug, row, records, verdict, code, limits in replaced:
+    for draft_id, slug, row, records, verdict, joint_code, limits in replaced:
         member(
             draft_id,
             slug,
@@ -2498,7 +2531,7 @@ def define_consumption() -> None:
             revision=REVISION_01,
             joint={
                 "verdict": verdict,
-                "codes": [code] if code else [],
+                "codes": [joint_code] if joint_code else [],
                 "withinLimit": limits,
             },
         )
@@ -3270,7 +3303,7 @@ ORDER = (
     "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
     "TI6 V4 V5 FR14 FR15 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
-    "CS18 CS19 CS20 CS21 CS22 CS23 CS24 "
+    "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16"
 ).split()

@@ -9,7 +9,7 @@ carries the row's identifier in `draftId` (`A1`, `F3b`, `R4`, ...) and its
 sentences of Section 5.4 that Appendix B has no row for; each carries
 `draftSection` and continues the identifier series beside it (`FR13b`, `FR16`,
 `FR17a` to `FR17c`, `FR18`, `EV14`). The last members are rows of revision 01
-of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS24`, which
+of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS25`, which
 bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
@@ -247,7 +247,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS24`
+## Consumption state and the operation key: `CS1` to `CS25`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -277,7 +277,7 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   `delegation.authorityDigest` when the limit sits in another document (`CS15`)
   and equals it when the authority states the limit (`CS16`).
 - `CS7`, `CS8` and `CS17` are files in `sets/` of several records under one
-  `limitDigest` (`CS18` to `CS22` are such files across a replacement, below). Each record is judged on its own, then the records together
+  `limitDigest` (`CS18` to `CS22` and `CS25` are such files across a replacement or a boundary, below). Each record is judged on its own, then the records together
   under `expected.set`: a permit that read an older `stateRevision` and omits a
   held operation key spent one limit twice (`CS7`), and a held permit released
   with no record of that operation showing `none` is unexplained (`CS8`).
@@ -285,7 +285,7 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   distinct keys, so a check keyed on the request digest passes where the
   operation key fails.
 
-- A limit document can be replaced while a permit is held (`CS18` to `CS24`).
+- A limit document can be replaced while a permit is held (`CS18` to `CS25`).
   `consumption.supersedes` is optional: the digest of the limit document that
   this record's `limitDigest` replaced. It must be a digest
   (`consumption-value-invalid`, `CS24`) and must differ from `limitDigest`
@@ -306,7 +306,10 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   (`CS21`, `consumption-set-stale-revision`). Records whose `limitDigest` values
   no `supersedes` links are separate ledgers: a verifier cannot tell a limit
   document that replaced another from an unrelated one without the link, so the
-  corpus carries no member that judges across that boundary.
+  corpus carries no member that judges across that boundary beyond the control
+  `CS25`: a held permit under one limit document and a later record under another
+  that no `supersedes` links, omitting the held call, is two valid records and a
+  valid set.
 
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed

@@ -404,6 +404,17 @@ def _without_chain_join() -> Iterator[None]:
 
 
 @contextlib.contextmanager
+def _group_every_record() -> Iterator[None]:
+    """The set checks over one ledger of every record, whatever its limitDigest
+    and whether or not a supersedes links it."""
+    auditrecord.SET_GROUPING["all"] = True
+    try:
+        yield
+    finally:
+        auditrecord.SET_GROUPING["all"] = False
+
+
+@contextlib.contextmanager
 def _retry_by_request_digest() -> Iterator[None]:
     """A retry identified by the request digest rather than the operation key."""
 
@@ -726,6 +737,11 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "the set checks read per limitDigest, a replacement not joining the limits it links",
         _without_chain_join,
         "CS20,CS21",
+    ),
+    (
+        "every record of a set grouped into one ledger whatever its limitDigest",
+        _group_every_record,
+        "CS25",
     ),
     (
         "the stale-state check keyed on the request digest rather than the operation key",

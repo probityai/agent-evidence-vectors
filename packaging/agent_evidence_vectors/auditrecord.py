@@ -14,12 +14,12 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS24 are rows of the same revision: a
+at any tier. Members CS1 to CS25 are rows of the same revision: a
 ``consumption-state`` entry may carry the ``consumption`` member, and
 ``decision.operationKey`` is the agent's identifier for one intended operation
 and the identity of a retry (``consumption_findings``, ``within_limit``,
 ``verify_set``). ``consumption.supersedes`` names the limit document a record's
-``limitDigest`` replaced. A set member (CS7, CS8, CS17, CS18 to CS22) is a file
+``limitDigest`` replaced. A set member (CS7, CS8, CS17, CS18 to CS22, CS25) is a file
 of several records judged one by one and then as a set, under one ledger: the
 ``limitDigest`` values that ``supersedes`` links, so a permit held under a
 limit that was then replaced is still seen.
@@ -1739,8 +1739,9 @@ SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
 
 
 #: The one way records are grouped: a replacement links two limit documents into
-#: one ledger. A test drops it to read the groups as one limitDigest each.
-SET_GROUPING = {"chain": True}
+#: one ledger. A test drops it to read the groups as one limitDigest each, or sets
+#: ``all`` to read every record as one ledger whatever its limit (CS25).
+SET_GROUPING = {"chain": True, "all": False}
 
 
 def consumption_groups(predicates: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
@@ -1749,7 +1750,7 @@ def consumption_groups(predicates: list[dict[str, Any]]) -> list[list[dict[str, 
     transitively (CS18 to CS22): a permit held under a limit that was then
     replaced is still held under the replacement, so its retry is the same
     operation and its release has to be shown. Records whose limitDigest values
-    no ``supersedes`` links stay in separate groups. A retry is identified by its
+    no ``supersedes`` links stay in separate groups (CS25). A retry is identified by its
     operation key and never by the limit, and ``stateRevision`` orders the whole
     ledger, so a replacement does not restart it."""
     parent: dict[str, str] = {}
@@ -1772,7 +1773,7 @@ def consumption_groups(predicates: list[dict[str, Any]]) -> list[list[dict[str, 
         carrying.append((digest, pred))
     groups: dict[str, list[dict[str, Any]]] = {}
     for digest, pred in carrying:
-        groups.setdefault(find(digest), []).append(pred)
+        groups.setdefault("" if SET_GROUPING["all"] else find(digest), []).append(pred)
     return list(groups.values())
 
 

@@ -138,6 +138,19 @@ func TestAuditRecordSetChainJoinIsLoadBearing(t *testing.T) {
 	}
 }
 
+// TestAuditRecordSetLedgerBoundaryIsLoadBearing: reading every record as one
+// ledger whatever its limit document fails CS25 and nothing else, the control
+// that a verifier does not join limit documents no supersedes links.
+func TestAuditRecordSetLedgerBoundaryIsLoadBearing(t *testing.T) {
+	joinAll := func() func() {
+		arSetJoinAll = true
+		return func() { arSetJoinAll = false }
+	}
+	if got := arWeakened(t, joinAll); got != "CS25" {
+		t.Errorf("grouping every record into one ledger: failing %q, want CS25", got)
+	}
+}
+
 // arMutated re-encodes the CS1 record with its predicate changed and judges it
 // with the signature rule off, so the refusal is the consumption rule's own.
 func arMutated(t *testing.T, change func(pred map[string]any)) arReport {

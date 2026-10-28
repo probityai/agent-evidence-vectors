@@ -75,9 +75,9 @@
       }
     ]
   },
-  "corpusDigest": "bb2c4b07a9150d1318af58448a10ce4da7bf3b7767da37203de0aa227fd32046",
+  "corpusDigest": "c4b910caf88a731f5658e3e476ae5a34c2e926ef19bea10172a22738b5fa033d",
   "counts": {
-    "accept": 64,
+    "accept": 65,
     "indeterminate": 1,
     "reject": 83
   },
@@ -2356,6 +2356,28 @@
       "parentDraftId": "CS1",
       "row": "CS1 with supersedes a string that is not a digest",
       "slug": "cs24-supersedes-is-not-a-digest"
+    },
+    {
+      "draftId": "CS25",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vb4f981221d5baa57.json",
+      "id": "vb4f981221d5baa57",
+      "kind": "accept",
+      "row": "CS20 without the link: a call is held under the first limit document, and the next record is a new operation under a different limit document that names no supersedes and omits the held call: each record valid, the two limit documents are two ledgers, the set valid",
+      "slug": "cs25-set-separate-ledger-no-supersedes"
     },
     {
       "draftId": "A21",
