@@ -171,7 +171,7 @@ func ccParse(record map[string]any) (ccParsed, bool) {
 	observers, ok4 := record["trustedObservers"].(map[string]any)
 	consumed, ok5 := record["consumedConfirmationIds"].([]any)
 	_, ok6 := record["confirmation"]
-	if !(ok1 && ok2 && ok3 && ok4 && ok5 && ok6) || !slices.Contains([]string{"complete", "unresolved", "failed"}, claim["status"]) {
+	if !ok1 || !ok2 || !ok3 || !ok4 || !ok5 || !ok6 || !slices.Contains([]string{"complete", "unresolved", "failed"}, claim["status"]) {
 		return p, false
 	}
 	p.taskID, p.operation, p.resource, p.args = task["taskId"], task["operation"], task["resource"], task["argsSha256"]
