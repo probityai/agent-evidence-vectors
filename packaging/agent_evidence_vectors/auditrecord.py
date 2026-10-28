@@ -14,12 +14,15 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS17 are rows of the same revision: a
+at any tier. Members CS1 to CS24 are rows of the same revision: a
 ``consumption-state`` entry may carry the ``consumption`` member, and
 ``decision.operationKey`` is the agent's identifier for one intended operation
 and the identity of a retry (``consumption_findings``, ``within_limit``,
-``verify_set``). A set member (CS7, CS8, CS17) is a file of several records
-judged one by one and then as a set under one ``limitDigest``.
+``verify_set``). ``consumption.supersedes`` names the limit document a record's
+``limitDigest`` replaced. A set member (CS7, CS8, CS17, CS18 to CS22) is a file
+of several records judged one by one and then as a set, under one ledger: the
+``limitDigest`` values that ``supersedes`` links, so a permit held under a
+limit that was then replaced is still seen.
 
 ``evaluation.inputs`` is required under both statuses, each entry's age runs
 from its ``lastResult`` to ``decision.reportedAt``, and the unavailable inputs
@@ -144,7 +147,7 @@ ENTRY_MEMBERS = frozenset({"input", "lastResult", "maxAge"})
 #: point read.
 ENTRY_OPTIONAL = frozenset({"consumption"})
 CONSUMPTION_INPUT = "consumption-state"
-#: The members of ``consumption``, each required, and no other.
+#: The members of ``consumption``, each required, and the optional ones below.
 CONSUMPTION_MEMBERS = (
     "limitDigest",
     "unit",
@@ -155,6 +158,9 @@ CONSUMPTION_MEMBERS = (
     "held",
     "stateRevision",
 )
+#: The one member ``consumption`` may carry beside them: the digest of the limit
+#: document this record's ``limitDigest`` replaced (a raise or a cut).
+CONSUMPTION_OPTIONAL = ("supersedes",)
 #: The non-negative integers among them (smallest subunit of ``unit``).
 CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
 #: The members of one ``held`` entry, an earlier permit that has not settled.
@@ -164,7 +170,8 @@ PERMITS = frozenset({"permit", "permit-with-conditions"})
 #: time (check_vectors.py): where the member sits, that ``reserved`` is the held
 #: sum, that held keys are distinct, that the call carries its operation key,
 #: that counts are non-negative integers, that stateRevision is required, and
-#: that one key is one request.
+#: that one key is one request, that ``supersedes`` is a digest, and that it
+#: names another limit document than the record's own.
 CONSUMPTION_CHECKS = frozenset(
     {
         "misplaced",
@@ -174,6 +181,8 @@ CONSUMPTION_CHECKS = frozenset(
         "counts",
         "state-revision",
         "key-reuse",
+        "supersedes-digest",
+        "supersedes-self",
     }
 )
 #: The lastResult of an input the decision point never held a value of.
@@ -798,6 +807,18 @@ def _held_shape(item: Any) -> None:
         raise Malformed("consumption-value-invalid")
 
 
+def _supersedes_shape(consumption: dict[str, Any]) -> None:
+    """The optional supersedes: a digest (CS24) that is not the record's own
+    limitDigest (CS23)."""
+    if "supersedes" not in consumption:
+        return
+    replaced = consumption["supersedes"]
+    if "supersedes-digest" in CONSUMPTION_CHECKS and not _is_digest(replaced):
+        raise Malformed("consumption-value-invalid")
+    if "supersedes-self" in CONSUMPTION_CHECKS and replaced == consumption["limitDigest"]:
+        raise Malformed("consumption-supersedes-self")
+
+
 def _consumption_shape(consumption: Any) -> dict[str, Any]:
     if not isinstance(consumption, dict):
         raise Malformed("consumption-malformed")
@@ -808,11 +829,12 @@ def _consumption_shape(consumption: Any) -> dict[str, Any]:
     ]
     if any(name not in consumption for name in required):
         raise Malformed("member-missing")
-    if set(consumption) - set(CONSUMPTION_MEMBERS):
+    if set(consumption) - set(CONSUMPTION_MEMBERS) - set(CONSUMPTION_OPTIONAL):
         raise Malformed("consumption-malformed")
     unit = consumption["unit"]
     if not _is_digest(consumption["limitDigest"]) or not isinstance(unit, str) or not unit:
         raise Malformed("consumption-value-invalid")
+    _supersedes_shape(consumption)
     counted = [name for name in CONSUMPTION_COUNTS if name in consumption]
     if "counts" in CONSUMPTION_CHECKS and not all(_is_count(consumption[n]) for n in counted):
         raise Malformed("consumption-value-invalid")
@@ -1654,7 +1676,7 @@ def dating_rule_names() -> list[str]:
 
 @dataclass
 class SetReport:
-    """A set of records judged together under one limitDigest."""
+    """A set of records judged together under one ledger."""
 
     verdict: str
     codes: list[str]
@@ -1716,18 +1738,53 @@ SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
 ]
 
 
+#: The one way records are grouped: a replacement links two limit documents into
+#: one ledger. A test drops it to read the groups as one limitDigest each.
+SET_GROUPING = {"chain": True}
+
+
+def consumption_groups(predicates: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
+    """Group the records that carry consumption by ledger. Two limitDigest values
+    belong to one ledger when any record names one as the other's ``supersedes``,
+    transitively (CS18 to CS22): a permit held under a limit that was then
+    replaced is still held under the replacement, so its retry is the same
+    operation and its release has to be shown. Records whose limitDigest values
+    no ``supersedes`` links stay in separate groups. A retry is identified by its
+    operation key and never by the limit, and ``stateRevision`` orders the whole
+    ledger, so a replacement does not restart it."""
+    parent: dict[str, str] = {}
+
+    def find(digest: str) -> str:
+        parent.setdefault(digest, digest)
+        while parent[digest] != digest:
+            parent[digest] = parent[parent[digest]]
+            digest = parent[digest]
+        return digest
+
+    carrying: list[tuple[str, dict[str, Any]]] = []
+    for pred in predicates:
+        consumption = consumption_of(pred)
+        if consumption is None:
+            continue
+        digest = consumption["limitDigest"]
+        if SET_GROUPING["chain"] and "supersedes" in consumption:
+            parent[find(consumption["supersedes"])] = find(digest)
+        carrying.append((digest, pred))
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for digest, pred in carrying:
+        groups.setdefault(find(digest), []).append(pred)
+    return list(groups.values())
+
+
 def consumption_set_findings(
     predicates: list[dict[str, Any]], *, disabled: str | None = None
 ) -> SetReport:
-    """Judge records that carry consumption, grouped by limitDigest. A set is
-    malformed on the first check, in SET_RULES order, that any group fails."""
-    groups: dict[str, list[dict[str, Any]]] = {}
-    for pred in predicates:
-        consumption = consumption_of(pred)
-        if consumption is not None:
-            groups.setdefault(consumption["limitDigest"], []).append(pred)
+    """Judge records that carry consumption, grouped by ledger
+    (``consumption_groups``). A set is malformed on the first check, in
+    SET_RULES order, that any group fails."""
+    groups = consumption_groups(predicates)
     for name, code, check in SET_RULES:
-        if name != disabled and any(check(group) for group in groups.values()):
+        if name != disabled and any(check(group) for group in groups):
             return SetReport("malformed", [code])
     return SetReport("valid", [])
 

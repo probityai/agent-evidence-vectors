@@ -1893,7 +1893,7 @@ def define_revision_01() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS17.
+# Consumption binding (Section 5.4 of revision 01): rows CS1 to CS24.
 #
 # A decision under a cumulative limit carries decision.operationKey, the
 # agent's identifier for one intended operation, and its consumption-state
@@ -1902,10 +1902,17 @@ def define_revision_01() -> None:
 # identical intended payments share one and the second must still be counted.
 # The worked numbers are a limit of 50000 pence with 30000 consumed and a
 # request of 12000 (probityai/agent-evidence-vectors#213).
+#
+# CS18 to CS24 cover a limit document that is replaced while a permit is held.
+# consumption.supersedes names the limit document a record's limitDigest
+# replaced, the set checks group records by the ledger that link draws, and a
+# retry is still the operation key, never the limit.
 # ---------------------------------------------------------------------------
 
 CS_LIMIT_DOCUMENT = h("limit/spend-limit-document")
 CS_OTHER_LIMIT_DOCUMENT = h("limit/limit-document-named-by-the-authority")
+CS_RAISED_LIMIT_DOCUMENT = h("limit/spend-limit-document-raised")
+CS_CUT_LIMIT_DOCUMENT = h("limit/spend-limit-document-cut")
 CS_HELD_REQUEST = h("request/the-first-call-as-the-held-entry-recorded-it")
 OP_R1, OP_R2, OP_R3 = "urn:example:op:r1", "urn:example:op:r2", "urn:example:op:r3"
 CONSUMPTION_ENTRY = 2
@@ -1923,6 +1930,8 @@ def consumption_pred(
     held: list[dict[str, Any]] | None = None,
     revision: int = 41,
     limit_digest: str = CS_LIMIT_DOCUMENT,
+    limit: int = 50000,
+    supersedes: str | None = None,
 ) -> dict[str, Any]:
     """The baseline decision under a 50000 GBP pence limit, carrying its operation
     key and the consumption it read."""
@@ -1933,13 +1942,15 @@ def consumption_pred(
     state["consumption"] = {
         "limitDigest": limit_digest,
         "unit": "GBP",
-        "limit": 50000,
+        "limit": limit,
         "consumed": consumed,
         "reserved": sum(item["amount"] for item in held),
         "requested": requested,
         "held": held,
         "stateRevision": revision,
     }
+    if supersedes is not None:
+        state["consumption"]["supersedes"] = supersedes
     pred["evaluation"]["inputs"] = baseline_inputs() + [state]
     return pred
 
@@ -2008,9 +2019,19 @@ def _second_operation(
     consumed: int = 30000,
     requested: int = 12000,
     record: str,
+    limit_digest: str = CS_LIMIT_DOCUMENT,
+    limit: int = 50000,
+    supersedes: str | None = None,
 ) -> dict[str, Any]:
     pred = consumption_pred(
-        key=key, revision=revision, held=held, consumed=consumed, requested=requested
+        key=key,
+        revision=revision,
+        held=held,
+        consumed=consumed,
+        requested=requested,
+        limit_digest=limit_digest,
+        limit=limit,
+        supersedes=supersedes,
     )
     pred["recordId"] = f"urn:example:record:{record}"
     if not same_request:
@@ -2071,6 +2092,101 @@ def _release_pair(name: str) -> Callable[[], Built]:
         return {"set": [signed(a)["payload"], signed(b)["payload"]]}
 
     return build
+
+
+def _ledger_set(name: str, records: Callable[[], list[dict[str, Any]]]) -> Callable[[], Built]:
+    """A set member whose records are one ledger across a limit replacement."""
+
+    def build() -> Built:
+        built = records()
+        PREDICATES[name] = copy.deepcopy(built[-1])
+        return {"set": [signed(pred)["payload"] for pred in built]}
+
+    return build
+
+
+def _held_under_first_limit(record: str) -> dict[str, Any]:
+    """The record every replacement set starts from: a new operation, under the
+    first limit document, that reads revision 42 with the first call held (CS4's
+    call, the entry carrying its own request digest and amount)."""
+    held = [held_entry(OP_R1, PREDICATES["CS4"]["decision"]["requestDigest"], 12000)]
+    return _second_operation(
+        key=OP_R2, revision=42, same_request=False, held=held, requested=5000, record=record
+    )
+
+
+def _retry_after_replacement(limit: int, limit_digest: str) -> dict[str, Any]:
+    """CS4's retry of the held call, read at revision 43 under a limit document
+    that replaces the first one."""
+    pred = from_pred("CS4")
+    _consumption(pred).update(
+        limitDigest=limit_digest, limit=limit, stateRevision=43, supersedes=CS_LIMIT_DOCUMENT
+    )
+    return pred
+
+
+def _raise_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs18-first"),
+        _retry_after_replacement(80000, CS_RAISED_LIMIT_DOCUMENT),
+    ]
+
+
+def _cut_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs19-first"),
+        _retry_after_replacement(40000, CS_CUT_LIMIT_DOCUMENT),
+    ]
+
+
+def _new_operation_after_cut(record: str, revision: int, consumed: int) -> dict[str, Any]:
+    """A new operation, third in the series, under the cut limit document that
+    replaces the first and does not carry the held call."""
+    return _second_operation(
+        key=OP_R3,
+        revision=revision,
+        same_request=False,
+        consumed=consumed,
+        requested=5000,
+        record=record,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT,
+        limit=45000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+
+
+def _dropped_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs20-first"),
+        _new_operation_after_cut("cs20-second", 43, 35000),
+    ]
+
+
+def _stale_pair() -> list[dict[str, Any]]:
+    return [
+        _held_under_first_limit("cs21-first"),
+        _new_operation_after_cut("cs21-second", 41, 30000),
+    ]
+
+
+def _settled_set() -> list[dict[str, Any]]:
+    """CS20's pair and the record of the held call's own operation, a retry
+    denied under the cut limit with effect none, which releases it."""
+    denied = consumption_pred(
+        key=OP_R1,
+        revision=44,
+        consumed=35000,
+        requested=12000,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT,
+        limit=45000,
+    )
+    denied["recordId"] = "urn:example:record:cs22-third"
+    denied["decision"]["reported"] = "deny"
+    denied["effect"]["observed"] = "none"
+    denied["effect"]["writes"] = []
+    denied["effect"]["interval"]["afterRoot"] = BEFORE
+    seal_commitment(denied)
+    return [*_dropped_pair(), denied]
 
 
 def define_consumption() -> None:
@@ -2229,6 +2345,27 @@ def define_consumption() -> None:
             [],
             True,
         ),
+        (
+            "CS23",
+            "cs23-supersedes-names-its-own-limit-document",
+            "CS1",
+            "CS1 with supersedes the record's own limitDigest: a limit document cannot replace "
+            "itself",
+            mutate("CS1", lambda p: _consumption(p).update(supersedes=CS_LIMIT_DOCUMENT)),
+            "malformed",
+            ["consumption-supersedes-self"],
+            None,
+        ),
+        (
+            "CS24",
+            "cs24-supersedes-is-not-a-digest",
+            "CS1",
+            "CS1 with supersedes a string that is not a digest",
+            mutate("CS1", lambda p: _consumption(p).update(supersedes="limit-document-v1")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
     ]
     for draft_id, slug, parent, row, build, verdict, codes, within in rows:
         member(
@@ -2292,6 +2429,79 @@ def define_consumption() -> None:
             "withinLimit": [True, True],
         },
     )
+    replaced = [
+        (
+            "CS18",
+            "cs18-set-limit-raised-while-held",
+            "a call is held under the first limit document; the limit is raised, and the retry "
+            "of the held call is read under the new document, which names the first as "
+            "supersedes and carries the held entry unchanged: each record valid, the set valid",
+            _raise_pair,
+            "valid",
+            None,
+            [True, True],
+        ),
+        (
+            "CS19",
+            "cs19-set-limit-cut-while-held",
+            "CS18 where the new document cuts the limit below what is consumed and held: the "
+            "retry is not counted twice and is beyond the cut limit, so its withinLimit is "
+            "false. Each record valid, the set valid, and the over-limit permit is findable",
+            _cut_pair,
+            "valid",
+            None,
+            [True, False],
+        ),
+        (
+            "CS20",
+            "cs20-set-held-permit-dropped-on-replacement",
+            "a call is held under the first limit document; the limit is cut, and the next "
+            "record, under the new document that names the first as supersedes, is a new "
+            "operation that omits the held call, with no record of that call showing none or "
+            "occurred: each record valid, the held permit left unseen, the set is malformed",
+            _dropped_pair,
+            "malformed",
+            "consumption-set-release-unshown",
+            [True, True],
+        ),
+        (
+            "CS21",
+            "cs21-set-stale-revision-across-replacement",
+            "CS20 where the record under the new document read a stateRevision older than the "
+            "record holding the permit and omits it: each record valid, the set malformed "
+            "across the replacement",
+            _stale_pair,
+            "malformed",
+            "consumption-set-stale-revision",
+            [True, True],
+        ),
+        (
+            "CS22",
+            "cs22-set-held-permit-settled-across-replacement",
+            "CS20 where the set also holds the record of the held call's own operation, "
+            "denied under the cut limit with effect none: the release is shown, the set valid",
+            _settled_set,
+            "valid",
+            None,
+            [True, True, False],
+        ),
+    ]
+    for draft_id, slug, row, records, verdict, code, limits in replaced:
+        member(
+            draft_id,
+            slug,
+            None,
+            row,
+            _ledger_set(draft_id, records),
+            "valid",
+            tier="authoritative",
+            revision=REVISION_01,
+            joint={
+                "verdict": verdict,
+                "codes": [code] if code else [],
+                "withinLimit": limits,
+            },
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -3060,6 +3270,7 @@ ORDER = (
     "FR13b FR16 FR17a FR17b FR17c FR18 EV14 "
     "TI6 V4 V5 FR14 FR15 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
+    "CS18 CS19 CS20 CS21 CS22 CS23 CS24 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16"
 ).split()

@@ -82,6 +82,9 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 		"counts":         "CS5",
 		"state-revision": "CS9",
 		"key-reuse":      "CS10",
+
+		"supersedes-digest": "CS24",
+		"supersedes-self":   "CS23",
 	} {
 		if got := arWeakened(t, arDropCheck(name)); got != want {
 			t.Errorf("without the %s sentence: failing %q, want %q", name, got, want)
@@ -104,9 +107,9 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 // fails CS17, the control that proves the check keys on the operation key.
 func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	for _, c := range []struct{ drop, want string }{
-		{"", "CS7,CS8,CS17"},
-		{"stale-revision", "CS7,CS17"},
-		{"release-unshown", "CS8"},
+		{"", "CS7,CS8,CS17,CS20,CS21"},
+		{"stale-revision", "CS7,CS17,CS21"},
+		{"release-unshown", "CS8,CS20"},
 	} {
 		if got := arWeakened(t, arDropSetRule(c.drop)); got != c.want {
 			t.Errorf("dropping set check %q: failing %q, want %q", c.drop, got, c.want)
@@ -119,6 +122,19 @@ func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	}
 	if got := arWeakened(t, byDigest); got != "CS17" {
 		t.Errorf("stale-state check keyed on the request digest: failing %q, want CS17", got)
+	}
+}
+
+// TestAuditRecordSetChainJoinIsLoadBearing: reading the set checks per
+// limitDigest, a replacement not joining the limit documents it links, fails
+// CS20 and CS21 and nothing else.
+func TestAuditRecordSetChainJoinIsLoadBearing(t *testing.T) {
+	dropJoin := func() func() {
+		arSetChainJoin = false
+		return func() { arSetChainJoin = true }
+	}
+	if got := arWeakened(t, dropJoin); got != "CS20,CS21" {
+		t.Errorf("without the chain join: failing %q, want CS20,CS21", got)
 	}
 }
 
