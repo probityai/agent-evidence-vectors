@@ -1,0 +1,55 @@
+{
+  "asOf": "2026-10-28T12:05:00Z",
+  "attempts": [
+    {
+      "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+      "attempt": 1,
+      "dispatchedAt": "2026-10-28T12:00:01Z",
+      "fencingToken": 1,
+      "idempotencyKey": "order-7f3a",
+      "reply": "timeout",
+      "worker": "worker-a"
+    },
+    {
+      "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+      "attempt": 2,
+      "dispatchedAt": "2026-10-28T12:00:40Z",
+      "fencingToken": 1,
+      "idempotencyKey": "order-7f3a",
+      "reply": "confirmed",
+      "worker": "worker-a"
+    }
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
+  "effectOwner": {
+    "deduplicatesByKey": true,
+    "id": "orders-service",
+    "keyRetentionSeconds": 86400
+  },
+  "leases": [
+    {
+      "acquiredAt": "2026-10-28T12:00:00Z",
+      "expiresAt": "2026-10-28T12:01:00Z",
+      "fencingToken": 1,
+      "worker": "worker-a"
+    },
+    {
+      "acquiredAt": "2026-10-28T12:00:35Z",
+      "expiresAt": "2026-10-28T12:01:35Z",
+      "fencingToken": 2,
+      "worker": "worker-b"
+    }
+  ],
+  "operation": {
+    "action": "create-order",
+    "argsDigest": "sha256:4387e2ee160bf3fcff4b791dca54265b771444b164553613a33c151f177cf16c",
+    "id": "op-1",
+    "idempotencyKey": "order-7f3a"
+  },
+  "ownerEffects": 1,
+  "reconciliations": [],
+  "recordId": "record-dispatch-with-superseded-token",
+  "reported": {
+    "outcome": "committed"
+  }
+}
