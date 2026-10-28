@@ -21,6 +21,7 @@ from __future__ import annotations
 import base64
 import copy
 import hashlib
+import importlib.util
 import json
 import sys
 from collections.abc import Callable
@@ -50,13 +51,12 @@ ISSUED, NOW, UNTIL = "2026-10-20T00:00:00Z", "2026-10-27T12:00:00Z", "2026-11-19
 LIST_ISSUED, LIST_NEXT = "2026-10-27T00:00:00Z", "2026-10-28T00:00:00Z"
 
 
-def sha(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
-
-
-def enc(value: object) -> bytes:
-    """The committed form of every JSON file in a case."""
-    return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode()
+_DIGEST_SPEC = importlib.util.spec_from_file_location(
+    "agent_card_receipt_digest", ROOT / "digest.py")
+assert _DIGEST_SPEC and _DIGEST_SPEC.loader
+_digest = importlib.util.module_from_spec(_DIGEST_SPEC)
+_DIGEST_SPEC.loader.exec_module(_digest)
+sha, enc, corpus_digest = _digest.sha, _digest.enc, _digest.corpus_digest
 
 
 def _b64(data: bytes) -> str:
@@ -405,22 +405,6 @@ def cases() -> list[Case]:
     """Every case: id, what it shows, files, expected decision and reason."""
     return [*accepted(), *_statement_cases(), *_predicate_cases(), *_card_cases(),
             *_time_cases(), *_list_cases()]
-
-
-def corpus_digest(manifest: dict[str, Any], root: str) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
-    base_dir = Path(root)
-    entries = []
-    for entry in manifest["vectors"]:
-        directory = base_dir / entry["path"]
-        declared = entry["files"]
-        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
-            raise ValueError(f"{entry['id']}: file set changed")
-        files = {name: sha((directory / name).read_bytes()) for name in declared}
-        if files != declared:
-            raise ValueError(f"{entry['id']}: file digest mismatch")
-        entries.append({**entry, "files": files})
-    return sha(enc(entries))
 
 
 def generate(root: Path = ROOT, build: Callable[[], list[Case]] = cases,

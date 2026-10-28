@@ -34,7 +34,11 @@ receipts = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(receipts)
 
 SUITE = reader.RELEASE_SUITE
-enc, sha = receipts.enc, receipts.sha
+_DIGEST_SPEC = importlib.util.spec_from_file_location("credential_release_digest", ROOT / "digest.py")
+assert _DIGEST_SPEC and _DIGEST_SPEC.loader
+_digest = importlib.util.module_from_spec(_DIGEST_SPEC)
+_DIGEST_SPEC.loader.exec_module(_digest)
+enc, sha, corpus_digest = _digest.enc, _digest.sha, _digest.corpus_digest
 RELEASED = "2026-10-27T12:00:00Z"
 BROKER = "https://broker.example.org/credential-broker"
 AUDIENCE = "https://api.travel-bookings.example.com"
@@ -229,11 +233,6 @@ def _list_cases() -> list[Case]:
 def cases() -> list[Case]:
     """Every case: id, what it shows, files, expected decision and reason."""
     return [*accepted(), *_shape_cases(), *_receipt_cases(), *_list_cases()]
-
-
-def corpus_digest(manifest: dict[str, Any], root: str) -> str:
-    """Recompute the digest from the committed files, not their declared hashes."""
-    return str(receipts.corpus_digest(manifest, root))
 
 
 def generate(root: Path = ROOT) -> dict[str, Any]:
