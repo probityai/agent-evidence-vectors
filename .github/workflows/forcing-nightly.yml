@@ -45,7 +45,7 @@ permissions:
 
 jobs:
   sweep:
-    runs-on: ubicloud-standard-8
+    runs-on: ubuntu-latest
     steps:
       # Full history, which the per-push jobs deliberately do not fetch. The
       # earlier forcing figure is pinned to two git objects and re-derived from

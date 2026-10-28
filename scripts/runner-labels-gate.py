@@ -58,7 +58,7 @@ HOSTED_PREFIXES = ("ubuntu-", "windows-", "macos-", "self-hosted")
 RUNS_ON = re.compile(r"^\s*runs-on:\s*(?P<label>[A-Za-z0-9_.-]+)\s*$")
 
 
-def declared_labels() -> dict[str, list[str]]:
+def declared_labels(workflows: Path = WORKFLOWS) -> dict[str, list[str]]:
     """Every `runs-on` label in this repository's workflows, by label.
 
     Only the plain scalar form is read. A matrix or an expression is reported
@@ -66,7 +66,7 @@ def declared_labels() -> dict[str, list[str]]:
     label this cannot vouch for.
     """
     found: dict[str, list[str]] = {}
-    for path in sorted(WORKFLOWS.glob("*.yml")) + sorted(WORKFLOWS.glob("*.yaml")):
+    for path in sorted(workflows.glob("*.yml")) + sorted(workflows.glob("*.yaml")):
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             match = RUNS_ON.match(line)
             if match:
@@ -113,13 +113,16 @@ def owner_of_origin() -> str:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--owner", help="account that owns the repository; default reads origin")
+    parser.add_argument(
+        "--workflows", type=Path, default=WORKFLOWS, help="workflow directory to scan"
+    )
     args = parser.parse_args()
 
     owner = args.owner or owner_of_origin()
-    labels = declared_labels()
+    labels = declared_labels(args.workflows)
     if not labels:
         raise SystemExit(
-            f"no runs-on label was read from {WORKFLOWS}. A scan that found nothing "
+            f"no runs-on label was read from {args.workflows}. A scan that found nothing "
             "has verified nothing."
         )
 
