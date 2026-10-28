@@ -58,6 +58,10 @@ agent-evidence-vectors-invocation-axes = "agent_evidence_vectors.invocation_axes
 # stale or cached reads, missing observation and reader vantage.
 agent-evidence-vectors-building-effect = "agent_evidence_vectors.building_effect.run:main"
 
+# Building-control decision trails (ot-federation-case/v1) judged on six claims, with a corpus
+# that catches each check a verifier could drop; also writes the cases as a sealed fixture set.
+agent-evidence-vectors-ot-federation = "agent_evidence_vectors.ot_federation.run:main"
+
 # One resumed agent task: turn ownership, artifact replay and repeated effects judged apart.
 agent-evidence-vectors-resume-turns = "agent_evidence_vectors.resume_turns.run:main"
 # One paid request occurrence: issuer budget, payment and execution receipts each
