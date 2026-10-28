@@ -16,9 +16,10 @@ are true of the wheel, and this test builds one and checks each:
 4. Every corpus in the repository (``vectors`` or ``vectors-*`` with a
    MANIFEST.json) is in the wheel, with every one of its ``cases/*.json``
    files, and listed by the installed ``--list-corpora``. The wheel is built
-   the way the release builds it (sdist first, wheel from the sdist). The self-reported-record corpus shipped in no wheel
-   through 0.17.7 because it was missing from the pyproject lists, and nothing
-   compared those lists with the tree.
+   the way the release builds it (sdist first, wheel from the sdist). The
+   self-reported-record corpus shipped in no wheel through 0.17.7 because it
+   was missing from the pyproject lists, and nothing compared those lists with
+   the tree.
 5. ``agent_evidence_vectors.a2ajcs.params()`` works under pytest collection
    from the installed wheel: a test module parametrized with it collects one
    test per vector, reads the corpus inside the installed package, passes the
@@ -164,7 +165,7 @@ def check_corpora(wheel: Path, scratch: Path) -> list[str]:
             failures.append(f"{name} is a corpus in the repository and is not in the wheel")
         for case in sorted((ROOT / name / "cases").glob("*.json")):
             if f"agent_evidence_vectors/corpora/{name}/cases/{case.name}" not in names:
-                failures.append(f"{name}/cases/{case.name} is in the repository and not in the wheel")
+                failures.append(f"{name}/cases/{case.name} is in the repository, not the wheel")
         if name not in listed:
             failures.append(f"{name} is not listed by the installed --list-corpora")
     return failures
