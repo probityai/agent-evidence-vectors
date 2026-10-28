@@ -445,44 +445,66 @@ func crParseList(envelope []byte) (crList, []byte, [][]byte, bool) {
 		return none, nil, nil, false
 	}
 	payload, ok := crB64(env["payload"])
-	items, isList := env["signatures"].([]any)
-	if !ok || !isList || len(items) == 0 {
+	if !ok {
 		return none, nil, nil, false
+	}
+	sigs, ok := crParseSignatures(env["signatures"])
+	if !ok {
+		return none, nil, nil, false
+	}
+	out, ok := crParseListing(payload)
+	if !ok {
+		return none, nil, nil, false
+	}
+	return out, payload, sigs, true
+}
+
+// crParseSignatures decodes the envelope's non-empty signature array.
+func crParseSignatures(value any) ([][]byte, bool) {
+	items, isList := value.([]any)
+	if !isList || len(items) == 0 {
+		return nil, false
 	}
 	var sigs [][]byte
 	for _, item := range items {
 		entry, ok := crMembers(item, []string{"sig"}, "keyid")
 		if !ok {
-			return none, nil, nil, false
+			return nil, false
 		}
 		sig, ok := crB64(entry["sig"])
 		if !ok {
-			return none, nil, nil, false
+			return nil, false
 		}
 		sigs = append(sigs, sig)
 	}
+	return sigs, true
+}
+
+// crParseListing decodes the signed revocation listing payload.
+func crParseListing(payload []byte) (crList, bool) {
+	var none crList
 	listing, ok := crObject(payload)
 	if !ok {
-		return none, nil, nil, false
+		return none, false
 	}
 	if _, ok := crMembers(listing, []string{"issuedAt", "nextUpdate", "revoked"}); !ok {
-		return none, nil, nil, false
+		return none, false
 	}
 	issued, okA := crTime(listing["issuedAt"])
 	next, okB := crTime(listing["nextUpdate"])
 	revoked, okC := listing["revoked"].([]any)
 	if !okA || !okB || !okC || !issued.Before(next) || !crSortedUnique(revoked) {
-		return none, nil, nil, false
+		return none, false
 	}
 	out := crList{issued: issued, next: next, revoked: map[string]bool{}}
 	for _, item := range revoked {
 		text := item.(string)
 		if !crHex.MatchString(text) {
-			return none, nil, nil, false
+			return none, false
 		}
 		out.revoked[text] = true
 	}
-	return out, payload, sigs, true
+	return out, true
 }
 
 func crSignedBy(key, payload []byte, sigs [][]byte) bool {
