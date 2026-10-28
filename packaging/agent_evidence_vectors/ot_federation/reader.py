@@ -116,7 +116,7 @@ def _obj_or_null(value: Any) -> bool:
     return value is None or isinstance(value, dict)
 
 
-def _check_shape(case: Any) -> None:
+def _check_shape(case: Any) -> None:  # noqa: C901
     if not isinstance(case, dict) or case.get("schema") != SCHEMA:
         raise MalformedCase(f"not an {SCHEMA} object")
     for key in (
@@ -182,7 +182,7 @@ def _bound_ids(case: dict[str, Any]) -> tuple[Any, Any]:
     return env_id, ev_id
 
 
-def _decision(case: dict[str, Any]) -> tuple[str, str]:
+def _decision(case: dict[str, Any]) -> tuple[str, str]:  # noqa: C901
     decision, execution = case["decision"], case["execution"]
     twin, obs = case["twin_operation"], case["observation"]
     if not execution["executed"]:

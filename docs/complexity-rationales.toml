@@ -133,3 +133,25 @@ number. The number is recorded here instead, where the gate holds it: if this
 function is ever edited and its complexity moves, the build fails until someone
 reads this entry.
 """
+
+["packaging/agent_evidence_vectors/ot_federation/reader.py::_check_shape"]
+complexity = 17
+rationale = """
+_check_shape validates the whole wire shape of a case before any claim is
+judged: the schema string, each required top-level key, and the type of each
+field of the claim, decision, execution, twin operation and observation. Each
+field contributes one guarded refusal with its own message, so the branch count
+is the number of fields the format has, not tangled control flow. Splitting it
+would only move the same independent checks into helpers whose order matters.
+"""
+
+["packaging/agent_evidence_vectors/ot_federation/reader.py::_decision"]
+complexity = 11
+rationale = """
+_decision walks the decision-correspondence rule top to bottom: nothing
+executed, approval flag, decision kind, reviewer record for the kinds that need
+one, then the binding of the decision to the proposal. Each step ends in its own
+verdict and reason, and the order is the rule. The function is a decision list
+with one branch per clause of the claim, so decomposing it would scatter a
+single ordered rule across helpers.
+"""
