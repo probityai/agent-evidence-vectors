@@ -1164,6 +1164,15 @@ jobs:
       # and not from this checkout.
       - name: the wheel ships the JCS byte cases at the path the package names
         run: python3 scripts/wheel-jcs-bytes-test.py
+      # Every corpus the signed digest list names is in the wheel and the sdist, byte
+      # for byte. The gate refuses a release build that dropped one, and its test
+      # drops a corpus from both artifacts and requires the gate to name it.
+      - name: the wheel and the sdist carry every corpus the signed list names
+        run: |
+          python3 scripts/wheel-corpora-gate-test.py
+          rm -rf "$RUNNER_TEMP/corpora-dist"
+          uv build --out-dir "$RUNNER_TEMP/corpora-dist"
+          python3 scripts/wheel-corpora-gate.py "$RUNNER_TEMP/corpora-dist"/agent_evidence_vectors-*.whl "$RUNNER_TEMP/corpora-dist"/agent_evidence_vectors-*.tar.gz
       # A report names the corpus release and digest it ran, matched against
       # the signed digest list. The test ends by deleting the block in a copy of
       # the harness and requiring itself to go red.

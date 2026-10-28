@@ -172,6 +172,12 @@ jobs:
       # that for eight corpora until it learned to refuse them. The refused
       # suites also run through the Go directory readers against the installed
       # wheel data below. SCITT-COSE explicitly needs a CBOR reader.
+      # The replay below sees only what the wheel carries, so a corpus the wheel
+      # lacks is invisible to it. This compares both artifacts with the corpora the
+      # signed digest list names.
+      - name: the wheel and the sdist carry every corpus the signed list names
+        run: python3 scripts/wheel-corpora-gate.py "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$(ls "$PWD"/dist/agent_evidence_vectors-*.tar.gz)"
+
       - name: the wheel runs from outside the checkout and replays every corpus
         run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-release"
 
