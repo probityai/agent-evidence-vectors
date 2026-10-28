@@ -14,9 +14,9 @@ import (
 // the Go rail, mirroring packaging/agent_evidence_vectors/auditrecord.py. A
 // consumption-state entry of evaluation.inputs may carry a consumption member,
 // and decision.operationKey is the agent's identifier for one intended
-// operation and the identity of a retry. Members CS1 to CS24 exercise it, and
+// operation and the identity of a retry. Members CS1 to CS25 exercise it, and
 // consumption.supersedes names the limit document a record's limitDigest
-// replaced. CS7, CS8, CS17 and CS18 to CS22 are files of several records judged
+// replaced. CS7, CS8, CS17, CS18 to CS22 and CS25 are files of several records judged
 // one by one and then as a set, under one ledger: the limitDigest values that
 // supersedes links.
 
@@ -324,15 +324,19 @@ func arSetReleaseUnshown(group []map[string]any) bool {
 
 // arSetChainJoin is the one way records are grouped: a replacement links two
 // limit documents into one ledger. A test drops it to read the groups as one
-// limitDigest each.
-var arSetChainJoin = true
+// limitDigest each. arSetJoinAll reads every record as one ledger whatever its
+// limit (CS25).
+var (
+	arSetChainJoin = true
+	arSetJoinAll   = false
+)
 
 // arConsumptionGroups groups the records that carry consumption by ledger. Two
 // limitDigest values belong to one ledger when any record names one as the
 // other's supersedes, transitively (CS18 to CS22): a permit held under a limit
 // that was then replaced is still held under the replacement, so its retry is
 // the same operation and its release has to be shown. Records whose limitDigest
-// values no supersedes links stay in separate groups. A retry is identified by
+// values no supersedes links stay in separate groups (CS25). A retry is identified by
 // its operation key and never by the limit, and stateRevision orders the whole
 // ledger, so a replacement does not restart it.
 func arConsumptionGroups(predicates []map[string]any) [][]map[string]any {
@@ -367,6 +371,9 @@ func arConsumptionGroups(predicates []map[string]any) [][]map[string]any {
 	var order []string
 	for _, item := range carrying {
 		root := find(item.digest)
+		if arSetJoinAll {
+			root = ""
+		}
 		if _, seen := grouped[root]; !seen {
 			order = append(order, root)
 		}
