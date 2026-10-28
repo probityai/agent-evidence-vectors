@@ -326,7 +326,8 @@ def _card_cases() -> list[Case]:
     dup = enc(base_card()).replace(b'"name"', b'"name": "Other",\n  "name"', 1)
     big = card_with(lambda c: c["capabilities"].update(extensions=[
         {"params": {"limit": 2**53}, "uri": "https://example.com/ext/limit/v1"}]))
-    defaults, signed, edges = card_with(_defaults), card_with(_signatures), card_with(_rfc8785_edges)
+    defaults, signed = card_with(_defaults), card_with(_signatures)
+    edges = card_with(_rfc8785_edges)
     added = card_with(lambda c: c["skills"].append(
         {"description": "Pay for a held booking.", "id": "pay", "name": "Pay",
          "tags": ["payment"]}))

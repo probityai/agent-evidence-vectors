@@ -150,6 +150,8 @@ only-include = [
     "vectors-approval-binding",
     "vectors-dispatch-fence",
     "vectors-aggregate-accounting",
+    "vectors-agent-card-receipt",
+    "vectors-credential-release",
     "vectors-converted-argument-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
@@ -205,6 +207,8 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-approval-binding" = "agent_evidence_vectors/corpora/vectors-approval-binding"
 "vectors-dispatch-fence" = "agent_evidence_vectors/corpora/vectors-dispatch-fence"
 "vectors-aggregate-accounting" = "agent_evidence_vectors/corpora/vectors-aggregate-accounting"
+"vectors-agent-card-receipt" = "agent_evidence_vectors/corpora/vectors-agent-card-receipt"
+"vectors-credential-release" = "agent_evidence_vectors/corpora/vectors-credential-release"
 "vectors-converted-argument-binding" = "agent_evidence_vectors/corpora/vectors-converted-argument-binding"
 "vectors-chunked-export" = "agent_evidence_vectors/corpora/vectors-chunked-export"
 "vectors-done-contract" = "agent_evidence_vectors/corpora/vectors-done-contract"
@@ -302,6 +306,8 @@ only-include = [
     "vectors-approval-binding",
     "vectors-dispatch-fence",
     "vectors-aggregate-accounting",
+    "vectors-agent-card-receipt",
+    "vectors-credential-release",
     "vectors-converted-argument-binding",
     "vectors-chunked-export",
     "vectors-done-contract",
@@ -400,7 +406,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
-           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-dispatch-fence", "vectors-aggregate-accounting",
+           "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-dispatch-fence", "vectors-aggregate-accounting", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
            "vectors-done-contract", "vectors-done-receipt", "vectors-spoofed-tool-output", "vectors-test-tampering", "vectors-grader-isolation",
            "vectors-done-probes", "vectors-scitt-cose", "vectors-source-coverage", "vectors-self-reported-record",
