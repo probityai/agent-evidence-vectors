@@ -106,7 +106,7 @@ def check(root: Path, wheel: Path, sdist: Path) -> list[str]:
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(description="Check a wheel and sdist against the corpus list")
     parser.add_argument("wheel", type=Path)
     parser.add_argument("sdist", type=Path)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
