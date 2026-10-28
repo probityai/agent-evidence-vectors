@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "6034a4d1aaf3db40daa944660881c7c75097d276f6a10ccfa3f35d78ccc70a66",
+  "corpusDigest": "bb2c4b07a9150d1318af58448a10ce4da7bf3b7767da37203de0aa227fd32046",
   "counts": {
-    "accept": 59,
+    "accept": 64,
     "indeterminate": 1,
-    "reject": 81
+    "reject": 83
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2207,6 +2207,155 @@
       "parentDraftId": "CS4",
       "row": "CS7 where the second operation is the same intended payment, an identical requestDigest under another operationKey: the set still fails, so the check keys on the operation key and not on the request digest",
       "slug": "cs17-set-stale-revision-identical-request"
+    },
+    {
+      "draftId": "CS18",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v9e5e5b109c1df383.json",
+      "id": "v9e5e5b109c1df383",
+      "kind": "accept",
+      "row": "a call is held under the first limit document; the limit is raised, and the retry of the held call is read under the new document, which names the first as supersedes and carries the held entry unchanged: each record valid, the set valid",
+      "slug": "cs18-set-limit-raised-while-held"
+    },
+    {
+      "draftId": "CS19",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            false
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v3bbdd9a943178d70.json",
+      "id": "v3bbdd9a943178d70",
+      "kind": "accept",
+      "row": "CS18 where the new document cuts the limit below what is consumed and held: the retry is not counted twice and is beyond the cut limit, so its withinLimit is false. Each record valid, the set valid, and the over-limit permit is findable",
+      "slug": "cs19-set-limit-cut-while-held"
+    },
+    {
+      "draftId": "CS20",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-release-unshown"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v725bbaa885960ac8.json",
+      "id": "v725bbaa885960ac8",
+      "kind": "accept",
+      "row": "a call is held under the first limit document; the limit is cut, and the next record, under the new document that names the first as supersedes, is a new operation that omits the held call, with no record of that call showing none or occurred: each record valid, the held permit left unseen, the set is malformed",
+      "slug": "cs20-set-held-permit-dropped-on-replacement"
+    },
+    {
+      "draftId": "CS21",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [
+            "consumption-set-stale-revision"
+          ],
+          "verdict": "malformed",
+          "withinLimit": [
+            true,
+            true
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/vb3571235ae17709f.json",
+      "id": "vb3571235ae17709f",
+      "kind": "accept",
+      "row": "CS20 where the record under the new document read a stateRevision older than the record holding the permit and omits it: each record valid, the set malformed across the replacement",
+      "slug": "cs21-set-stale-revision-across-replacement"
+    },
+    {
+      "draftId": "CS22",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [],
+        "derivedTier": "authoritative",
+        "set": {
+          "codes": [],
+          "verdict": "valid",
+          "withinLimit": [
+            true,
+            true,
+            false
+          ]
+        },
+        "verdict": "valid"
+      },
+      "file": "sets/v808afcc67df1b53a.json",
+      "id": "v808afcc67df1b53a",
+      "kind": "accept",
+      "row": "CS20 where the set also holds the record of the held call's own operation, denied under the cut limit with effect none: the release is shown, the set valid",
+      "slug": "cs22-set-held-permit-settled-across-replacement"
+    },
+    {
+      "draftId": "CS23",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "consumption-supersedes-self"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v9412d4c36ebf693f.json",
+      "id": "v9412d4c36ebf693f",
+      "kind": "reject",
+      "parent": "vd831202c1ad2f50c",
+      "parentDraftId": "CS1",
+      "row": "CS1 with supersedes the record's own limitDigest: a limit document cannot replace itself",
+      "slug": "cs23-supersedes-names-its-own-limit-document"
+    },
+    {
+      "draftId": "CS24",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-01",
+      "expected": {
+        "codes": [
+          "consumption-value-invalid"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v690cf565d5d3ab58.json",
+      "id": "v690cf565d5d3ab58",
+      "kind": "reject",
+      "parent": "vd831202c1ad2f50c",
+      "parentDraftId": "CS1",
+      "row": "CS1 with supersedes a string that is not a digest",
+      "slug": "cs24-supersedes-is-not-a-digest"
     },
     {
       "draftId": "A21",

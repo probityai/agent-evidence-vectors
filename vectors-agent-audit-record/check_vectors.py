@@ -393,6 +393,17 @@ def _without_check(name: str) -> Iterator[None]:
 
 
 @contextlib.contextmanager
+def _without_chain_join() -> Iterator[None]:
+    """The set checks over one limitDigest each, a replacement no longer joining
+    the limit documents it links into one ledger."""
+    auditrecord.SET_GROUPING["chain"] = False
+    try:
+        yield
+    finally:
+        auditrecord.SET_GROUPING["chain"] = True
+
+
+@contextlib.contextmanager
 def _retry_by_request_digest() -> Iterator[None]:
     """A retry identified by the request digest rather than the operation key."""
 
@@ -687,19 +698,34 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "CS10",
     ),
     (
+        "a supersedes that is not a digest accepted",
+        lambda: _without_check("supersedes-digest"),
+        "CS24",
+    ),
+    (
+        "a supersedes that names the record's own limitDigest accepted",
+        lambda: _without_check("supersedes-self"),
+        "CS23",
+    ),
+    (
         "no check across the records of a set",
         lambda: _set_checks(),
-        "CS7,CS8,CS17",
+        "CS7,CS8,CS17,CS20,CS21",
     ),
     (
         "a record that read an older state and omits a held permit accepted",
         lambda: _set_checks("stale-revision"),
-        "CS7,CS17",
+        "CS7,CS17,CS21",
     ),
     (
         "a held permit released with no record of the operation accepted",
         lambda: _set_checks("release-unshown"),
-        "CS8",
+        "CS8,CS20",
+    ),
+    (
+        "the set checks read per limitDigest, a replacement not joining the limits it links",
+        _without_chain_join,
+        "CS20,CS21",
     ),
     (
         "the stale-state check keyed on the request digest rather than the operation key",
