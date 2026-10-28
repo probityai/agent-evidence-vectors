@@ -1,0 +1,5 @@
+suite: uncertain-effect/v1
+members: 27
+  allow: 10
+  deny: 17
+verdict: every member behaves as MANIFEST.json declares
