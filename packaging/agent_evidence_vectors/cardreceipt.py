@@ -450,7 +450,7 @@ def _receipt_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     failure, statement = _receipt_failure(statement_bytes)
     context, key = _context(directory)
     now = parse_time(context["now"])
-    predicate = statement.get("predicate")
+    predicate: Any = statement.get("predicate")
     start, until = _time_or_none(predicate, "issuedAt"), _time_or_none(predicate, "validUntil")
     digest = _card_digest_or_none(_read(directory, "card.json"))
     revocation = revocation_failure(_read(directory, "revocations.json"), key, now,
@@ -517,7 +517,7 @@ def _release_checks(directory: Path) -> list[tuple[str, Callable[[], bool]]]:
     receipt_bytes = _read(directory, "receipt.json") or b""
     receipt_failure, receipt = _receipt_failure(receipt_bytes)
     _, key = _context(directory)
-    predicate = statement.get("predicate")
+    predicate: Any = statement.get("predicate")
     at, expiry = _time_or_none(predicate, "releasedAt"), _expiry(predicate)
     held = receipt.get("predicate")
     start, until = _time_or_none(held, "issuedAt"), _time_or_none(held, "validUntil")
