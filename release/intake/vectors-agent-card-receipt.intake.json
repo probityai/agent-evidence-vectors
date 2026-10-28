@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-agent-card-receipt/gen_vectors.py",
-    "routine-file": "vectors-agent-card-receipt/gen_vectors.py",
+    "routine": "corpus_digest in vectors-agent-card-receipt/digest.py",
+    "routine-file": "vectors-agent-card-receipt/digest.py",
     "serialization": "corpus-routine",
     "sha256": "99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e",
     "verdicts": {
@@ -91,7 +91,7 @@
       },
       "path": "vectors-agent-card-receipt/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "e4d2415160ac8a8b72f53fa6cc2315b2995262dd0ad1790131dd9fb68187895f"
+      "sha256": "56e3456933aafde57b02538a37bde596eb7b152c989db2875a4bb5d9e443286c"
     },
     {
       "consumed": "unconsumed",
@@ -535,7 +535,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "7d280a9d5a0b6b924a73d51367a84070575a919f2d58b5b2846795ced77a516a"
+    "sha256": "3fe309dc2a3f5dd4f29076b7b30c6d1b2b9789885019aae5d2a386b1d82183f1"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
