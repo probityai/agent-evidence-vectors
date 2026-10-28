@@ -34,7 +34,8 @@ receipts = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(receipts)
 
 SUITE = reader.RELEASE_SUITE
-_DIGEST_SPEC = importlib.util.spec_from_file_location("credential_release_digest", ROOT / "digest.py")
+_DIGEST_SPEC = importlib.util.spec_from_file_location(
+    "credential_release_digest", ROOT / "digest.py")
 assert _DIGEST_SPEC and _DIGEST_SPEC.loader
 _digest = importlib.util.module_from_spec(_DIGEST_SPEC)
 _DIGEST_SPEC.loader.exec_module(_digest)
