@@ -231,6 +231,11 @@ def cases() -> list[Case]:
     return [*accepted(), *_shape_cases(), *_receipt_cases(), *_list_cases()]
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    return str(receipts.corpus_digest(manifest, root))
+
+
 def generate(root: Path = ROOT) -> dict[str, Any]:
     """Write every case and the manifest, and return the manifest."""
     return dict(receipts.generate(root, cases, SUITE))

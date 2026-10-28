@@ -406,6 +406,22 @@ def cases() -> list[Case]:
             *_time_cases(), *_list_cases()]
 
 
+def corpus_digest(manifest: dict[str, Any], root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    base_dir = Path(root)
+    entries = []
+    for entry in manifest["vectors"]:
+        directory = base_dir / entry["path"]
+        declared = entry["files"]
+        if {p.name for p in directory.iterdir() if p.is_file()} != set(declared):
+            raise ValueError(f"{entry['id']}: file set changed")
+        files = {name: sha((directory / name).read_bytes()) for name in declared}
+        if files != declared:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+        entries.append({**entry, "files": files})
+    return sha(enc(entries))
+
+
 def generate(root: Path = ROOT, build: Callable[[], list[Case]] = cases,
              suite: str = SUITE) -> dict[str, Any]:
     """Write every case and the manifest, and return the manifest."""
