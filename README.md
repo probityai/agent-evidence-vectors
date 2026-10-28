@@ -16,7 +16,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
 
-Add it to a project with `uv add agent-evidence-vectors==0.26.0`, then `pip install agent-evidence-vectors==0.26.0`. The `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
+Add it to a project with `uv add agent-evidence-vectors==0.29.2`, then `pip install agent-evidence-vectors==0.29.2`. The `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 
@@ -25,7 +25,7 @@ Add it to a project with `uv add agent-evidence-vectors==0.26.0`, then `pip inst
 Run every vector in the default corpus through the bundled reference verifier. You need Python 3.11+ and [uv](https://docs.astral.sh/uv/); there is nothing to clone or build, and a cold run takes about six seconds:
 
 ```bash
-uvx agent-evidence-vectors==0.26.0
+uvx agent-evidence-vectors==0.29.2
 ```
 
 At v0.26.0 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
@@ -36,8 +36,8 @@ totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go 1.26+ and Go's executable directory on your `PATH`; put your own command in its place:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.26.0
-uvx agent-evidence-vectors==0.26.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.29.2
+uvx agent-evidence-vectors==0.29.2 --verifier "aee-verify -validity-only -json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement. `--list-corpora` names the other shipped corpora and `--corpus <name>` selects one.
@@ -59,7 +59,7 @@ The harness calls your executable with a vector-file path. Return a verdict thro
 Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.22.0
+- uses: probityai/agent-evidence-vectors@v0.29.2
   with:
     verifier: VERIFIER_COMMAND --json
 ```
