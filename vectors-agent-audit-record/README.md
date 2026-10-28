@@ -9,7 +9,7 @@ carries the row's identifier in `draftId` (`A1`, `F3b`, `R4`, ...) and its
 sentences of Section 5.4 that Appendix B has no row for; each carries
 `draftSection` and continues the identifier series beside it (`FR13b`, `FR16`,
 `FR17a` to `FR17c`, `FR18`, `EV14`). The last members are rows of revision 01
-of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS17`, which
+of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS24`, which
 bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
@@ -247,7 +247,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS17`
+## Consumption state and the operation key: `CS1` to `CS24`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -277,7 +277,7 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   `delegation.authorityDigest` when the limit sits in another document (`CS15`)
   and equals it when the authority states the limit (`CS16`).
 - `CS7`, `CS8` and `CS17` are files in `sets/` of several records under one
-  `limitDigest`. Each record is judged on its own, then the records together
+  `limitDigest` (`CS18` to `CS22` are such files across a replacement, below). Each record is judged on its own, then the records together
   under `expected.set`: a permit that read an older `stateRevision` and omits a
   held operation key spent one limit twice (`CS7`), and a held permit released
   with no record of that operation showing `none` is unexplained (`CS8`).
@@ -285,10 +285,35 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   distinct keys, so a check keyed on the request digest passes where the
   operation key fails.
 
+- A limit document can be replaced while a permit is held (`CS18` to `CS24`).
+  `consumption.supersedes` is optional: the digest of the limit document that
+  this record's `limitDigest` replaced. It must be a digest
+  (`consumption-value-invalid`, `CS24`) and must differ from `limitDigest`
+  (`consumption-supersedes-self`, `CS23`). A retry is still the operation key and
+  never the limit: a call whose key is in `held` is a retry of that entry under
+  the replacement too, its `requestDigest` and amount the held entry's, not
+  counted twice, and `withinLimit` is derived as before, so a cut can make a
+  retry's record `withinLimit` false, valid and findable (`CS18` raise, `CS19`
+  cut). The set checks group records into ledgers, not single `limitDigest`
+  values: two `limitDigest` values are one ledger when any record in the set
+  names one as the other's `supersedes`, transitively, and `stateRevision` orders
+  the whole ledger. A held permit therefore has to appear in `held` of every later
+  record of the ledger until a record of its operation shows `none` or
+  `occurred` (`CS20` omits it and is malformed with
+  `consumption-set-release-unshown`, `CS22` adds the record that releases it and
+  is valid), and a record that read an older `stateRevision` than a record
+  holding an unsettled permit and omits it is stale across the replacement
+  (`CS21`, `consumption-set-stale-revision`). Records whose `limitDigest` values
+  no `supersedes` links are separate ledgers: a verifier cannot tell a limit
+  document that replaced another from an unrelated one without the link, so the
+  corpus carries no member that judges across that boundary.
+
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
-on the request digest fails `CS10` and `CS12`, and dropping the set check fails
-`CS7`, `CS8` and `CS17`. The Go rail in `corpora/` runs the same sweep.
+on the request digest fails `CS10` and `CS12`, dropping the set checks fails
+`CS7`, `CS8`, `CS17`, `CS20` and `CS21`, and reading the set checks per
+`limitDigest` fails `CS20` and `CS21` alone. The Go rail in `corpora/` runs the
+same sweep.
 
 ## Retained records and the dating check: Section 4.7
 
