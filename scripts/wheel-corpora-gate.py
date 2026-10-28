@@ -93,7 +93,7 @@ def check(root: Path, wheel: Path, sdist: Path) -> list[str]:
     for corpus in listed_corpora(root):
         files = tracked_files(root, corpus)
         if not files:
-            failures.append(f"{corpus} is listed in {DIGESTS} and has no tracked file in the checkout")
+            failures.append(f"{corpus} is listed in {DIGESTS} but has no tracked file")
         for rel in files:
             want = hashlib.sha256((root / rel).read_bytes()).hexdigest()
             for label, shipped in (("wheel", in_wheel), ("sdist", in_sdist)):

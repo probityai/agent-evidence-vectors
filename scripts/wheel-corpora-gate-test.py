@@ -39,7 +39,9 @@ FILES = {
     "vectors-ietf-demo/cases/c1.json": b'{"case":2}',
     "vectors-ietf-demo/upstream/u.json": b'{"u":1}',
 }
-DIGEST_LINES = "".join(f"{'0' * 64}  {c}/MANIFEST.json  suite  vectors=1  no-suiteRevision\n" for c in CORPORA)
+DIGEST_LINES = "".join(
+    f"{'0' * 64}  {c}/MANIFEST.json  suite  vectors=1  no-suiteRevision\n" for c in CORPORA
+)
 
 
 def stage(root: Path) -> None:
@@ -49,7 +51,8 @@ def stage(root: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
     fixture_git(root, "add", "-A")
-    fixture_git(root, "-c", "user.name=t", "-c", "user.email=t@example.invalid", "commit", "-q", "-m", "s")
+    identity = ("-c", "user.name=t", "-c", "user.email=t@example.invalid")
+    fixture_git(root, *identity, "commit", "-q", "-m", "s")
 
 
 def artifacts(root: Path, shipped: dict[str, bytes]) -> tuple[Path, Path]:
