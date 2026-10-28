@@ -1,0 +1,821 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 6,
+      "deny": 22
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 28
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-completion-confirmation/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-completion-confirmation/gen_vectors.py",
+    "routine-file": "vectors-completion-confirmation/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "96b6a79576ee8d4ffcdbb88bbddd00d4a91b2a471744064843e6e934cca445bb",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "swapped-in": "9b52200dc919c007de2780eb63360ea4c2351bf94224316f042bd54886cc8594",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-completion-confirmation/README.md",
+      "serialization": "bytes",
+      "sha256": "70124aa264e6c785dfddb81a47d0388582a893a17c5573b7857557e137786a9e"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "swapped-in": "7a9613dafc16792d5562fb8a5bd2eadf3c953d5004616de85f7d3549dd62421d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-completion-confirmation/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "22c54bebbd2e44e4f0d4f776655b4407f3ef259d29e0658db10c586abd8e3dd4"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "swapped-in": "652eb2f3409fb9113ab2fcc4e735e0a5a081d3d7da406c1cd6a1a14878cd2f69",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-completion-confirmation/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "d45f2aa647b86b70a9240b5d3f3eba8d41f54b305cac30b42dfb9d58999701ab"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+        },
+        "swapped-in": "e8c39c9944a72f45af2ca5bd8f9b8e021f5891a32a53723c2605b2a41ef978c7",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-completion-confirmation/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "b851e311213cacfb20312e9e8c009bc22a41cda28eb7e508739dcbbc45a1bcf7"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-completion-confirmation"
+  },
+  "byte-identity": {
+    "pins": 28,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-completion-confirmation",
+      "aee-verify -json vectors-completion-confirmation",
+      "aee-verify vectors-completion-confirmation"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "06cf3da44aa49253baeab8d9a5751254a00b3f925fc517fc8d40ac5eaa04ccd4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-confirmed",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-confirmed-at-authorization-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-confirmed-at-decision-instant",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-other-confirmation-consumed",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-unresolved-reported-as-unresolved",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-failed-without-confirmation",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "completion-claimed-without-confirmation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-for-another-task",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-for-another-authorization",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-for-another-resource",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-for-another-operation",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-for-other-arguments",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-written-by-the-acting-agent",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-observer-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-key-not-observers",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-already-consumed",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-before-authorization",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "confirmation-after-decision",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "outcome-unresolved-claimed-complete",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "outcome-absent-claimed-complete",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-confirmation-field-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-outcome-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-claim-status-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-claim-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-time-unparseable",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-observers-not-a-map",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "80709011abdcff7b918f926bb8b1777203d7006f2cb7dab0a60ee3733740568e"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-confirmed",
+      "allow-confirmed-at-authorization-instant",
+      "allow-confirmed-at-decision-instant",
+      "allow-other-confirmation-consumed",
+      "allow-unresolved-reported-as-unresolved",
+      "allow-failed-without-confirmation",
+      "completion-claimed-without-confirmation",
+      "confirmation-for-another-task",
+      "confirmation-for-another-authorization",
+      "confirmation-for-another-resource",
+      "confirmation-for-another-operation",
+      "confirmation-for-other-arguments",
+      "confirmation-written-by-the-acting-agent",
+      "confirmation-observer-unknown",
+      "confirmation-key-not-observers",
+      "confirmation-already-consumed",
+      "confirmation-before-authorization",
+      "confirmation-after-decision",
+      "outcome-unresolved-claimed-complete",
+      "outcome-absent-claimed-complete",
+      "malformed-confirmation-field-missing",
+      "malformed-outcome-unknown",
+      "malformed-claim-status-unknown",
+      "malformed-claim-missing",
+      "malformed-time-unparseable",
+      "malformed-observers-not-a-map",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "vectors-completion-confirmation/MANIFEST.json",
+    "sha256": "6e7d6e847a625b1df90aed45ea94bd35ff271a505ac1eb375a758796c55d6e92"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-confirmed/record.json",
+          "sha256": "a067c4ed25b11f87d67307f203091988a8e4164fa1b4a2f9e5b33a73a6595009"
+        }
+      ],
+      "id": "allow-confirmed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-confirmed-at-authorization-instant/record.json",
+          "sha256": "2a621a45e852d97179bd8ffa9e84bfccde794f24b3a13424c0e133b0379919d3"
+        }
+      ],
+      "id": "allow-confirmed-at-authorization-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-confirmed-at-decision-instant/record.json",
+          "sha256": "19b059b258f6e168e83a6e007dea6a430480b5ee53948fd6475a629d99510298"
+        }
+      ],
+      "id": "allow-confirmed-at-decision-instant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-other-confirmation-consumed/record.json",
+          "sha256": "15fc494e45654696d73e51ee117338dd7516e4701045868fb28a7cc65f15c385"
+        }
+      ],
+      "id": "allow-other-confirmation-consumed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-unresolved-reported-as-unresolved/record.json",
+          "sha256": "2c0035a54cc4de0e92008e2a667633dbd7a3f8cd4b9cecb06576030a4ba8c8b1"
+        }
+      ],
+      "id": "allow-unresolved-reported-as-unresolved"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/allow-failed-without-confirmation/record.json",
+          "sha256": "106f8e79c0643254dbe6d0d58af9e9b11a70d5abf12d51816f6dc137e126a212"
+        }
+      ],
+      "id": "allow-failed-without-confirmation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/completion-claimed-without-confirmation/record.json",
+          "sha256": "b231ecd6528ab9044610a33285ea1cef772ef27cd51a0f3b1bd5a13ec0f68159"
+        }
+      ],
+      "id": "completion-claimed-without-confirmation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-for-another-task/record.json",
+          "sha256": "c73248a6f249852327852f1cf66fc477c4158e5ec37cc61b951d2bbc19c1d6f8"
+        }
+      ],
+      "id": "confirmation-for-another-task"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-for-another-authorization/record.json",
+          "sha256": "9c064fe023649d3a69c388458dc8485b71ff0f6e4b456b02a0e35c53f61791d4"
+        }
+      ],
+      "id": "confirmation-for-another-authorization"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-for-another-resource/record.json",
+          "sha256": "8cff436ddb04de7d62d97a4f7fdfd8531970728732a8ac5903c83a1fe2007b7b"
+        }
+      ],
+      "id": "confirmation-for-another-resource"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-for-another-operation/record.json",
+          "sha256": "c88089df1cbc3fb03a0467d27d11e35937a276669b77a52ecfba4103ff0a0ff7"
+        }
+      ],
+      "id": "confirmation-for-another-operation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-for-other-arguments/record.json",
+          "sha256": "e2b91f662d299a97674173198d071b4307903748a3752286988c92990dfd6e68"
+        }
+      ],
+      "id": "confirmation-for-other-arguments"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-written-by-the-acting-agent/record.json",
+          "sha256": "f0ad0dbc40f52fff121212fe07da2fade5698f8d55685797e5070f1d1d2e993b"
+        }
+      ],
+      "id": "confirmation-written-by-the-acting-agent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-observer-unknown/record.json",
+          "sha256": "251e74bc400f1181adc9b326672fee224d798e1f4e0bc080a1a5641b5bbc9dad"
+        }
+      ],
+      "id": "confirmation-observer-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-key-not-observers/record.json",
+          "sha256": "af6c4c9cdcff68efb96ea7c869a04b7b56938807c5fd3e18d0dbb80c954d5ce4"
+        }
+      ],
+      "id": "confirmation-key-not-observers"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-already-consumed/record.json",
+          "sha256": "bab0251761c7de9aaacf90f0b83f2fc7482bc8b4cd111821555273bd1ac2c94a"
+        }
+      ],
+      "id": "confirmation-already-consumed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-before-authorization/record.json",
+          "sha256": "e65326b0578f2d1b6bfe08b41f816476dbf8de2b3567c04bf15aadae049fb8a5"
+        }
+      ],
+      "id": "confirmation-before-authorization"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/confirmation-after-decision/record.json",
+          "sha256": "34de44228a5dde6479b3bcb6bb414c80636a7b0562a1854a91506918c2db25ef"
+        }
+      ],
+      "id": "confirmation-after-decision"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/outcome-unresolved-claimed-complete/record.json",
+          "sha256": "c4400f8032d720cfad0b0be88af369faa8553e7c4593c1a1c39a6cc679637e7b"
+        }
+      ],
+      "id": "outcome-unresolved-claimed-complete"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/outcome-absent-claimed-complete/record.json",
+          "sha256": "f60d93fc0e6443caaad74cdc4d09d8569859e6f52bd807c3fd9e907ab398aefc"
+        }
+      ],
+      "id": "outcome-absent-claimed-complete"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-confirmation-field-missing/record.json",
+          "sha256": "a1ccaffe1643d49d4f56ed52f22a92bc6da67669783a240a7ea9a114958a97a7"
+        }
+      ],
+      "id": "malformed-confirmation-field-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-outcome-unknown/record.json",
+          "sha256": "d0cc2c13b14c5e5cc2b049f4510ca729556bd4d716d54978c2c961ac31f65b1b"
+        }
+      ],
+      "id": "malformed-outcome-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-claim-status-unknown/record.json",
+          "sha256": "d3fcebebcefe1f06def5d7193b569550828841e10c98dcb0c02faa62fc055e12"
+        }
+      ],
+      "id": "malformed-claim-status-unknown"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-claim-missing/record.json",
+          "sha256": "122449020bba9c8ab3566248a54722bd8a5d523f6bc0c78135b6a69ed984c6aa"
+        }
+      ],
+      "id": "malformed-claim-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-time-unparseable/record.json",
+          "sha256": "658b6b9647aa9ffaeadaf58c14b984d09f3034dfd48a967287fd4e30e68be4fd"
+        }
+      ],
+      "id": "malformed-time-unparseable"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/malformed-observers-not-a-map/record.json",
+          "sha256": "54a424fb031b42a8f823a8d541fdca13ff1875f87bd5bf8ad5f87e37c7d2e0f9"
+        }
+      ],
+      "id": "malformed-observers-not-a-map"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/contract-id-missing/record.json",
+          "sha256": "0c9d4db54a491bd60e1acb7015ea2b318e36bd8b7cc6b583f2899e5904fbdde3"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-completion-confirmation/cases/contract-id-unknown/record.json",
+          "sha256": "df5c11fd43207f02a54d68dffaed77470891f8b46c13e37d5600ea92cf1a1848"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-completion-confirmation.json",
+        "serialization": "bytes",
+        "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-completion-confirmation.txt",
+        "serialization": "bytes",
+        "sha256": "e9097927a53a8af2641ca841ab840b7f907c6e230325995d17ab363f16508988"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+      },
+      {
+        "process": "run-2",
+        "sha256": "5cf68e66a904cdf1aadf0c6b65240fdddb48503ff83d7adcc43dc27a72eb8887"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 28 pinned members of completion-confirmation/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 28,
+    "require": "at-least-one",
+    "selected": [
+      "allow-confirmed",
+      "allow-confirmed-at-authorization-instant",
+      "allow-confirmed-at-decision-instant",
+      "allow-other-confirmation-consumed",
+      "allow-unresolved-reported-as-unresolved",
+      "allow-failed-without-confirmation",
+      "completion-claimed-without-confirmation",
+      "confirmation-for-another-task",
+      "confirmation-for-another-authorization",
+      "confirmation-for-another-resource",
+      "confirmation-for-another-operation",
+      "confirmation-for-other-arguments",
+      "confirmation-written-by-the-acting-agent",
+      "confirmation-observer-unknown",
+      "confirmation-key-not-observers",
+      "confirmation-already-consumed",
+      "confirmation-before-authorization",
+      "confirmation-after-decision",
+      "outcome-unresolved-claimed-complete",
+      "outcome-absent-claimed-complete",
+      "malformed-confirmation-field-missing",
+      "malformed-outcome-unknown",
+      "malformed-claim-status-unknown",
+      "malformed-claim-missing",
+      "malformed-time-unparseable",
+      "malformed-observers-not-a-map",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "completion-confirmation/v1"
+}

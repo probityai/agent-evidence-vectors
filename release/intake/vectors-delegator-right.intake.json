@@ -1,0 +1,783 @@
+{
+  "aggregate": {
+    "counts": {
+      "allow": 7,
+      "deny": 19
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 26
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-delegator-right/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-delegator-right/gen_vectors.py",
+    "routine-file": "vectors-delegator-right/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "57dbef274d278c7ffafb4214ff10079dd0ef4467e1135d22cd69b540045c76aa",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "swapped-in": "b76a6826390e19ef6469eb90347fc2469d98590b7ebdba9c7c7b82ce41d39233",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-delegator-right/README.md",
+      "serialization": "bytes",
+      "sha256": "9c37949da76c57d7cb9a56151fa051d3add888cd1db8f2a1373da66f192504c6"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "swapped-in": "ae4488fbda1b664785017baab3330c1a9e1f2a682b45d20159150c756586c65d",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-delegator-right/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "a1797d9ddae2af133266dd413ebc68388bb3d4fef5938ddbbd914fb12e7adfbe"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "swapped-in": "2ddde9e4af9da83508acf5eb7ef7345fca0178b547927cc366c44c81d3f06942",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-delegator-right/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "506a18472410154dec09237f8b5187d220360c4841b42e0f791043c2b46483c8"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+        },
+        "swapped-in": "1eeb37ab227b94c13a1548fa83c93afafcdb5ccae41f26b850d23fd8b39f182c",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-delegator-right/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "d0b860dcbae17cec2a781d4d2195f2dce0ace120fcc8b1026619ad39626f4058"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-delegator-right"
+  },
+  "byte-identity": {
+    "pins": 26,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-delegator-right",
+      "aee-verify -json vectors-delegator-right",
+      "aee-verify vectors-delegator-right"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "06cf3da44aa49253baeab8d9a5751254a00b3f925fc517fc8d40ac5eaa04ccd4"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "allow-root-direct",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-entitled-delegator",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-entitlement-ended-within-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-entitlement-ends-after-decision",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-ancestor-narrowed-within-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-ancestor-narrowed-other-operation",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "allow-entitled-delegator-other-operation-too",
+      "native": {
+        "reasons": [],
+        "verdict": "allow"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delegator-never-entitled",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delegator-entitled-other-operation-only",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delegator-entitlement-began-after-issue",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delegator-entitlement-ended-before-issue",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "entitlement-another-principal",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "entitlement-removed-at-deadline",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "entitlement-removed-long-before",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ancestor-scope-removed-at-deadline",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "ancestor-scope-removed-in-last-grant",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "delegate-scope-exceeds-delegator",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "request-outside-granted-scope",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-rights-field-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-limit-negative",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-limit-not-integer",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-decision-time",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-scope-not-list",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "malformed-chain-empty",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "contract-id-unknown",
+      "native": {
+        "reasons": [],
+        "verdict": "deny"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "7b51365a8018906549e1be8ba60fd397f7c582e9aaac6db3bef23d10abf37342"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "allow-root-direct",
+      "allow-entitled-delegator",
+      "allow-entitlement-ended-within-limit",
+      "allow-entitlement-ends-after-decision",
+      "allow-ancestor-narrowed-within-limit",
+      "allow-ancestor-narrowed-other-operation",
+      "allow-entitled-delegator-other-operation-too",
+      "delegator-never-entitled",
+      "delegator-entitled-other-operation-only",
+      "delegator-entitlement-began-after-issue",
+      "delegator-entitlement-ended-before-issue",
+      "entitlement-another-principal",
+      "entitlement-removed-at-deadline",
+      "entitlement-removed-long-before",
+      "ancestor-scope-removed-at-deadline",
+      "ancestor-scope-removed-in-last-grant",
+      "delegate-scope-exceeds-delegator",
+      "request-outside-granted-scope",
+      "malformed-rights-field-missing",
+      "malformed-limit-negative",
+      "malformed-limit-not-integer",
+      "malformed-decision-time",
+      "malformed-scope-not-list",
+      "malformed-chain-empty",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ],
+    "path": "vectors-delegator-right/MANIFEST.json",
+    "sha256": "0f4e1e7a99bd092cda4553675fc865efb63ce6eb7cfa28a3b60a3d3b1df23ccf"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-root-direct/record.json",
+          "sha256": "3c75bc7dead70b20776b9a000ad2d0048eb6f3233c58c3b6889f58c4aa1bf589"
+        }
+      ],
+      "id": "allow-root-direct"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-entitled-delegator/record.json",
+          "sha256": "6449442dd62599283430cac82998692746264f235437278a81182639c80eef6e"
+        }
+      ],
+      "id": "allow-entitled-delegator"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-entitlement-ended-within-limit/record.json",
+          "sha256": "114ba2278d7b1604288158bca0bb326196fdd50056d31c3db542bbeda2282abb"
+        }
+      ],
+      "id": "allow-entitlement-ended-within-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-entitlement-ends-after-decision/record.json",
+          "sha256": "3a1c964445b7f99bb43bd2b0dd72367a67b445f29d44d0087bf037855ac5353f"
+        }
+      ],
+      "id": "allow-entitlement-ends-after-decision"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-ancestor-narrowed-within-limit/record.json",
+          "sha256": "711217bab83dd4814af61cdd5c1ad458a9848ad3cca8beb3141ad1ca7ce8faa6"
+        }
+      ],
+      "id": "allow-ancestor-narrowed-within-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-ancestor-narrowed-other-operation/record.json",
+          "sha256": "2ea54cad023ad23b40f491c72eb32352dfc16060393dcb276a2c134001dc48fd"
+        }
+      ],
+      "id": "allow-ancestor-narrowed-other-operation"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/allow-entitled-delegator-other-operation-too/record.json",
+          "sha256": "e483d8caf3fd5cb617052ddfc3697f3ba4746a3347aad5bb048034849bd54041"
+        }
+      ],
+      "id": "allow-entitled-delegator-other-operation-too"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/delegator-never-entitled/record.json",
+          "sha256": "c1601ee790aadba2cc315e991d3d79b742cc6830e3f3df3172709da3cf32a483"
+        }
+      ],
+      "id": "delegator-never-entitled"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/delegator-entitled-other-operation-only/record.json",
+          "sha256": "90002163e265c84461252e5a3baff8ce53876670b835c3dd6442baeb6b2e13cf"
+        }
+      ],
+      "id": "delegator-entitled-other-operation-only"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/delegator-entitlement-began-after-issue/record.json",
+          "sha256": "39b12bfc679d5a1bb7051d94545621f5b29434d5e2dae8ec67c214ba2ceb2427"
+        }
+      ],
+      "id": "delegator-entitlement-began-after-issue"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/delegator-entitlement-ended-before-issue/record.json",
+          "sha256": "e75a3901215af4916a55cd6ecc41c3497e013233b35f803c97318d374c14134c"
+        }
+      ],
+      "id": "delegator-entitlement-ended-before-issue"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/entitlement-another-principal/record.json",
+          "sha256": "7a2f0d7bd942922c5932554c8296e35f3d33672d93d230445fcd3ab2158b8804"
+        }
+      ],
+      "id": "entitlement-another-principal"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/entitlement-removed-at-deadline/record.json",
+          "sha256": "8311c35008eeea7a60c6bee356ddc26f2609bcd27e37d77c8a35fc5cebf7ce36"
+        }
+      ],
+      "id": "entitlement-removed-at-deadline"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/entitlement-removed-long-before/record.json",
+          "sha256": "585ffcc6c1013e330b949a28d95a903b85cf1ae3efa2d4ac8ebd66c93f246edf"
+        }
+      ],
+      "id": "entitlement-removed-long-before"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/ancestor-scope-removed-at-deadline/record.json",
+          "sha256": "d8e67c6abd0123a90f46d02c32e7cdeeafacad72fa887483b31b04b2596cb687"
+        }
+      ],
+      "id": "ancestor-scope-removed-at-deadline"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/ancestor-scope-removed-in-last-grant/record.json",
+          "sha256": "1ac4a0ffba1685b0e4de0bc02e3e2c53a0b3fdc9e9d277f1ef2737b00136e649"
+        }
+      ],
+      "id": "ancestor-scope-removed-in-last-grant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/delegate-scope-exceeds-delegator/record.json",
+          "sha256": "6448c504154bbf292d0f1741a61a042274a9f7126a57d22ec51eb9e8669484d0"
+        }
+      ],
+      "id": "delegate-scope-exceeds-delegator"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/request-outside-granted-scope/record.json",
+          "sha256": "26778a215c90ea4f344769553fef85f9fdbb5014c6986e55f8085f542b1d807b"
+        }
+      ],
+      "id": "request-outside-granted-scope"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-rights-field-missing/record.json",
+          "sha256": "4de708533db8ba3b9d4822abc9381b40b10352286e8cd4bedafcf4cd38184487"
+        }
+      ],
+      "id": "malformed-rights-field-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-limit-negative/record.json",
+          "sha256": "0e4c6bca8d69b084575fda8db21217891862836a948ea1386dcc30dd12689fdf"
+        }
+      ],
+      "id": "malformed-limit-negative"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-limit-not-integer/record.json",
+          "sha256": "b1d3de6eb5f65f74687cdddf55e228dd946bc2d90bf205ee4f239390984bf78b"
+        }
+      ],
+      "id": "malformed-limit-not-integer"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-decision-time/record.json",
+          "sha256": "6c7c094523c74bf3313031f0f4dabb4b1f99eb3537b3f5050bd7eb9b01026758"
+        }
+      ],
+      "id": "malformed-decision-time"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-scope-not-list/record.json",
+          "sha256": "4805388ef35e975631e7672cb07ca932a9d533cf9710fadf76f21cef5fa63381"
+        }
+      ],
+      "id": "malformed-scope-not-list"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/malformed-chain-empty/record.json",
+          "sha256": "74eb4846f623cd489de70703542059f6ebee068a0e00c15a434b6ee7b808d334"
+        }
+      ],
+      "id": "malformed-chain-empty"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/contract-id-missing/record.json",
+          "sha256": "bd5f2315b2a8d2ed107ca76cb1a8c011c1db4ad26c3588fcdc2a2bba064a79c8"
+        }
+      ],
+      "id": "contract-id-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-delegator-right/cases/contract-id-unknown/record.json",
+          "sha256": "cf7af025492a270db61fa3fc9d2a642d332ab2fbec31819b7a0d3b8f31998ef4"
+        }
+      ],
+      "id": "contract-id-unknown"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-delegator-right.json",
+        "serialization": "bytes",
+        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-delegator-right.txt",
+        "serialization": "bytes",
+        "sha256": "34a1686e101bbf980119f36d27e91c1cb84acfaf861142fecfae24caa0b052e2"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f0bac7178177253f2e48ce76e5f7422e237e32c403dcc517eedb1a9a77ca9866"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 26 pinned members of delegator-right/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 26,
+    "require": "at-least-one",
+    "selected": [
+      "allow-root-direct",
+      "allow-entitled-delegator",
+      "allow-entitlement-ended-within-limit",
+      "allow-entitlement-ends-after-decision",
+      "allow-ancestor-narrowed-within-limit",
+      "allow-ancestor-narrowed-other-operation",
+      "allow-entitled-delegator-other-operation-too",
+      "delegator-never-entitled",
+      "delegator-entitled-other-operation-only",
+      "delegator-entitlement-began-after-issue",
+      "delegator-entitlement-ended-before-issue",
+      "entitlement-another-principal",
+      "entitlement-removed-at-deadline",
+      "entitlement-removed-long-before",
+      "ancestor-scope-removed-at-deadline",
+      "ancestor-scope-removed-in-last-grant",
+      "delegate-scope-exceeds-delegator",
+      "request-outside-granted-scope",
+      "malformed-rights-field-missing",
+      "malformed-limit-negative",
+      "malformed-limit-not-integer",
+      "malformed-decision-time",
+      "malformed-scope-not-list",
+      "malformed-chain-empty",
+      "contract-id-missing",
+      "contract-id-unknown"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "delegator-right/v1"
+}

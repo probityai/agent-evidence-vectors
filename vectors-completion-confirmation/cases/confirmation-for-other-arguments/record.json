@@ -1,0 +1,38 @@
+{
+  "authorization": {
+    "authorizationId": "auth-0042",
+    "decidedAt": "2026-10-26T11:58:00Z",
+    "taskId": "task-0042"
+  },
+  "claim": {
+    "claimedAt": "2026-10-26T11:59:00Z",
+    "claimedBy": "agent:dispatcher",
+    "status": "complete"
+  },
+  "confirmation": {
+    "argsSha256": "222c430659356c80537e07479ccd69bf44ba6b84c83cc70eeab2b4e3e8a70ea3",
+    "authorizationId": "auth-0042",
+    "confirmationId": "conf-0042",
+    "keyId": "gateway-key-2026-10",
+    "observedAt": "2026-10-26T11:59:30Z",
+    "observedBy": "system:resource-gateway",
+    "operation": "ticket.create",
+    "outcome": "committed",
+    "resource": "queue/support",
+    "taskId": "task-0042"
+  },
+  "consumedConfirmationIds": [
+    "conf-0041"
+  ],
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/completion-confirmation/v1",
+  "decisionTime": "2026-10-26T12:00:00Z",
+  "task": {
+    "argsSha256": "72fb8f6485daa329646cb9ffe34107e8a0dcc22fa4d0cf54d349eccbc0234fa1",
+    "operation": "ticket.create",
+    "resource": "queue/support",
+    "taskId": "task-0042"
+  },
+  "trustedObservers": {
+    "system:resource-gateway": "gateway-key-2026-10"
+  }
+}

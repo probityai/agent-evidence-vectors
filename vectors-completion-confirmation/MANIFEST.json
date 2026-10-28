@@ -1,0 +1,344 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/completion-confirmation/v1",
+  "corpusDigest": "96b6a79576ee8d4ffcdbb88bbddd00d4a91b2a471744064843e6e934cca445bb",
+  "suite": "completion-confirmation/v1",
+  "vectors": [
+    {
+      "edit": "control: the resource gateway confirmed the committed effect for this task",
+      "expected": {
+        "decision": "allow",
+        "reason": "confirmed"
+      },
+      "files": {
+        "record.json": "a067c4ed25b11f87d67307f203091988a8e4164fa1b4a2f9e5b33a73a6595009"
+      },
+      "id": "allow-confirmed",
+      "path": "cases/allow-confirmed"
+    },
+    {
+      "edit": "control: observed at the instant of the authorization decision",
+      "expected": {
+        "decision": "allow",
+        "reason": "confirmed"
+      },
+      "files": {
+        "record.json": "2a621a45e852d97179bd8ffa9e84bfccde794f24b3a13424c0e133b0379919d3"
+      },
+      "id": "allow-confirmed-at-authorization-instant",
+      "path": "cases/allow-confirmed-at-authorization-instant"
+    },
+    {
+      "edit": "control: observed at the instant of the decision",
+      "expected": {
+        "decision": "allow",
+        "reason": "confirmed"
+      },
+      "files": {
+        "record.json": "19b059b258f6e168e83a6e007dea6a430480b5ee53948fd6475a629d99510298"
+      },
+      "id": "allow-confirmed-at-decision-instant",
+      "path": "cases/allow-confirmed-at-decision-instant"
+    },
+    {
+      "edit": "control: other confirmation identifiers were consumed for other tasks",
+      "expected": {
+        "decision": "allow",
+        "reason": "confirmed"
+      },
+      "files": {
+        "record.json": "15fc494e45654696d73e51ee117338dd7516e4701045868fb28a7cc65f15c385"
+      },
+      "id": "allow-other-confirmation-consumed",
+      "path": "cases/allow-other-confirmation-consumed"
+    },
+    {
+      "edit": "control: the outcome is reported as unresolved, so no completion is claimed",
+      "expected": {
+        "decision": "allow",
+        "reason": "no_completion_claimed"
+      },
+      "files": {
+        "record.json": "2c0035a54cc4de0e92008e2a667633dbd7a3f8cd4b9cecb06576030a4ba8c8b1"
+      },
+      "id": "allow-unresolved-reported-as-unresolved",
+      "path": "cases/allow-unresolved-reported-as-unresolved"
+    },
+    {
+      "edit": "control: the task is reported failed and there is nothing to confirm",
+      "expected": {
+        "decision": "allow",
+        "reason": "no_completion_claimed"
+      },
+      "files": {
+        "record.json": "106f8e79c0643254dbe6d0d58af9e9b11a70d5abf12d51816f6dc137e126a212"
+      },
+      "id": "allow-failed-without-confirmation",
+      "path": "cases/allow-failed-without-confirmation"
+    },
+    {
+      "edit": "the task is reported complete and no confirmation record exists",
+      "expected": {
+        "decision": "deny",
+        "reason": "completion_unconfirmed"
+      },
+      "files": {
+        "record.json": "b231ecd6528ab9044610a33285ea1cef772ef27cd51a0f3b1bd5a13ec0f68159"
+      },
+      "id": "completion-claimed-without-confirmation",
+      "path": "cases/completion-claimed-without-confirmation"
+    },
+    {
+      "edit": "the confirmation names another task",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_not_bound"
+      },
+      "files": {
+        "record.json": "c73248a6f249852327852f1cf66fc477c4158e5ec37cc61b951d2bbc19c1d6f8"
+      },
+      "id": "confirmation-for-another-task",
+      "path": "cases/confirmation-for-another-task"
+    },
+    {
+      "edit": "the confirmation names another authorization decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_not_bound"
+      },
+      "files": {
+        "record.json": "9c064fe023649d3a69c388458dc8485b71ff0f6e4b456b02a0e35c53f61791d4"
+      },
+      "id": "confirmation-for-another-authorization",
+      "path": "cases/confirmation-for-another-authorization"
+    },
+    {
+      "edit": "the confirmation covers a different protected resource",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_not_bound"
+      },
+      "files": {
+        "record.json": "8cff436ddb04de7d62d97a4f7fdfd8531970728732a8ac5903c83a1fe2007b7b"
+      },
+      "id": "confirmation-for-another-resource",
+      "path": "cases/confirmation-for-another-resource"
+    },
+    {
+      "edit": "the confirmation covers a different operation",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_not_bound"
+      },
+      "files": {
+        "record.json": "c88089df1cbc3fb03a0467d27d11e35937a276669b77a52ecfba4103ff0a0ff7"
+      },
+      "id": "confirmation-for-another-operation",
+      "path": "cases/confirmation-for-another-operation"
+    },
+    {
+      "edit": "the confirmation covers different consequential parameters",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_not_bound"
+      },
+      "files": {
+        "record.json": "e2b91f662d299a97674173198d071b4307903748a3752286988c92990dfd6e68"
+      },
+      "id": "confirmation-for-other-arguments",
+      "path": "cases/confirmation-for-other-arguments"
+    },
+    {
+      "edit": "the acting agent confirmed its own work, under a key it holds",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_self_reported"
+      },
+      "files": {
+        "record.json": "f0ad0dbc40f52fff121212fe07da2fade5698f8d55685797e5070f1d1d2e993b"
+      },
+      "id": "confirmation-written-by-the-acting-agent",
+      "path": "cases/confirmation-written-by-the-acting-agent"
+    },
+    {
+      "edit": "the observer is not among the trusted observers",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_self_reported"
+      },
+      "files": {
+        "record.json": "251e74bc400f1181adc9b326672fee224d798e1f4e0bc080a1a5641b5bbc9dad"
+      },
+      "id": "confirmation-observer-unknown",
+      "path": "cases/confirmation-observer-unknown"
+    },
+    {
+      "edit": "the confirmation names a key other than the observer's trusted key",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_self_reported"
+      },
+      "files": {
+        "record.json": "af6c4c9cdcff68efb96ea7c869a04b7b56938807c5fd3e18d0dbb80c954d5ce4"
+      },
+      "id": "confirmation-key-not-observers",
+      "path": "cases/confirmation-key-not-observers"
+    },
+    {
+      "edit": "the confirmation identifier was already used for another task",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_reused"
+      },
+      "files": {
+        "record.json": "bab0251761c7de9aaacf90f0b83f2fc7482bc8b4cd111821555273bd1ac2c94a"
+      },
+      "id": "confirmation-already-consumed",
+      "path": "cases/confirmation-already-consumed"
+    },
+    {
+      "edit": "the confirmation was observed one second before the operation was authorized",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_outside_window"
+      },
+      "files": {
+        "record.json": "e65326b0578f2d1b6bfe08b41f816476dbf8de2b3567c04bf15aadae049fb8a5"
+      },
+      "id": "confirmation-before-authorization",
+      "path": "cases/confirmation-before-authorization"
+    },
+    {
+      "edit": "the confirmation is dated after the decision",
+      "expected": {
+        "decision": "deny",
+        "reason": "confirmation_outside_window"
+      },
+      "files": {
+        "record.json": "34de44228a5dde6479b3bcb6bb414c80636a7b0562a1854a91506918c2db25ef"
+      },
+      "id": "confirmation-after-decision",
+      "path": "cases/confirmation-after-decision"
+    },
+    {
+      "edit": "the confirmation records the outcome as unresolved while the agent claims completion",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_unresolved"
+      },
+      "files": {
+        "record.json": "c4400f8032d720cfad0b0be88af369faa8553e7c4593c1a1c39a6cc679637e7b"
+      },
+      "id": "outcome-unresolved-claimed-complete",
+      "path": "cases/outcome-unresolved-claimed-complete"
+    },
+    {
+      "edit": "the resource reports the effect absent while the agent claims completion",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_contradicts_claim"
+      },
+      "files": {
+        "record.json": "f60d93fc0e6443caaad74cdc4d09d8569859e6f52bd807c3fd9e907ab398aefc"
+      },
+      "id": "outcome-absent-claimed-complete",
+      "path": "cases/outcome-absent-claimed-complete"
+    },
+    {
+      "edit": "the record omits the confirmation field instead of stating none",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "a1ccaffe1643d49d4f56ed52f22a92bc6da67669783a240a7ea9a114958a97a7"
+      },
+      "id": "malformed-confirmation-field-missing",
+      "path": "cases/malformed-confirmation-field-missing"
+    },
+    {
+      "edit": "the confirmed outcome is not one the contract names",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "d0cc2c13b14c5e5cc2b049f4510ca729556bd4d716d54978c2c961ac31f65b1b"
+      },
+      "id": "malformed-outcome-unknown",
+      "path": "cases/malformed-outcome-unknown"
+    },
+    {
+      "edit": "the claim status is not one the contract names, so it cannot read as no claim",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "d3fcebebcefe1f06def5d7193b569550828841e10c98dcb0c02faa62fc055e12"
+      },
+      "id": "malformed-claim-status-unknown",
+      "path": "cases/malformed-claim-status-unknown"
+    },
+    {
+      "edit": "the record carries no claim",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "122449020bba9c8ab3566248a54722bd8a5d523f6bc0c78135b6a69ed984c6aa"
+      },
+      "id": "malformed-claim-missing",
+      "path": "cases/malformed-claim-missing"
+    },
+    {
+      "edit": "the authorization time is not an RFC 3339 instant",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "658b6b9647aa9ffaeadaf58c14b984d09f3034dfd48a967287fd4e30e68be4fd"
+      },
+      "id": "malformed-time-unparseable",
+      "path": "cases/malformed-time-unparseable"
+    },
+    {
+      "edit": "the trusted observers are a list instead of a map",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_record"
+      },
+      "files": {
+        "record.json": "54a424fb031b42a8f823a8d541fdca13ff1875f87bd5bf8ad5f87e37c7d2e0f9"
+      },
+      "id": "malformed-observers-not-a-map",
+      "path": "cases/malformed-observers-not-a-map"
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "0c9d4db54a491bd60e1acb7015ea2b318e36bd8b7cc6b583f2899e5904fbdde3"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "df5c11fd43207f02a54d68dffaed77470891f8b46c13e37d5600ea92cf1a1848"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}
