@@ -26,14 +26,14 @@ GIT_ENV = {
 }
 PUBLIC_KEY = "Ob6mHCtjckbIra26o4A/wgoaPfjBID6naeJBKAYZc5E="
 EMPTY_JWT = "eyJhbGciOiJub25lIn0.e30."
-# 32 high-entropy bytes that are not a published test key (a stand-in for a real secret).
-REAL_B64 = base64.b64encode(bytes((i * 37 + 11) % 256 for i in range(32))).decode()
+# A high-entropy 256-bit value that is not a published test key (a stand-in for a real secret).
+REAL_B64 = base64.b64encode(bytes((i * 37 + 11) % 256 for i in range(2 * 16))).decode()
 # Built here so no secret-shaped literal sits in the file.
 REAL_JWT = ".".join(
     [
         base64.urlsafe_b64encode(b'{"alg":"HS256"}').rstrip(b"=").decode(),
         base64.urlsafe_b64encode(b'{"sub":"user-42","role":"admin"}').rstrip(b"=").decode(),
-        base64.urlsafe_b64encode(bytes((i * 29 + 5) % 256 for i in range(32)))
+        base64.urlsafe_b64encode(bytes((i * 29 + 5) % 256 for i in range(2 * 16)))
         .rstrip(b"=")
         .decode(),
     ]
