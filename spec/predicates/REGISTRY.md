@@ -200,16 +200,20 @@ them.
 
 ## Types served from another host
 
-Two types defined in this directory have their URIs under
-`https://w3id.org/agent-evidence/predicate/v1/`, a persistent identifier namespace
-that is not served from this repository. The site build here publishes no page for
+Types defined in this directory with a URI under
+`https://w3id.org/agent-evidence/predicate/v1/` are served from a persistent identifier
+namespace that is not this repository. The site build here publishes no page for
 them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
 Each document is the authority for its type until the human-readable pages are
-live, and no signed statement carries either URI before then.
+live, and no signed statement carries any of these URIs before then.
 
 - `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
 - `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
   `vectors-spoofed-tool-output/`, `vectors-test-tampering/`,
   `vectors-grader-isolation/` and `vectors-done-probes/`.
+- `agent-card-receipt`: `spec/predicates/agent-card-receipt.md`, corpus
+  `vectors-agent-card-receipt/`.
+- `credential-release`: `spec/predicates/credential-release.md`, corpus
+  `vectors-credential-release/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.
