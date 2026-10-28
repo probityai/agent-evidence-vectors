@@ -16,8 +16,22 @@ inputs:
       Command line of the verifier under test, for example `./aee-verify -validity-only -json`.
       The first token must be on PATH or a path relative to the workspace. This
       verifier is always the program that runs: the job fails when it cannot be
-      started or when it answered fewer vectors than the corpus holds.
-    required: true
+      started or when it answered fewer vectors than the corpus holds. Name
+      either this or `runtime`.
+    required: false
+    default: ""
+  runtime:
+    description: >-
+      Command line of a runtime adapter, for a corpus that defines a runtime
+      contract (today `vectors-uncertain-effect`). The adapter is run as
+      `<runtime> <scenario.json>` against a counting effect owner whose URL is in
+      `AEV_EFFECT_OWNER`, performs the scenario's operation through the runtime's
+      own execution and retry path, and prints its outcome; the job fails when
+      the owner ends up holding an effect count, or the runtime reports an
+      outcome, that the scenario does not accept. The contract is in the corpus
+      README. When it is set, `verifier` is not used.
+    required: false
+    default: ""
   corpus:
     description: >-
       Name of the shipped corpus to replay. `vectors` is the Adversarial
@@ -138,6 +152,7 @@ runs:
       shell: bash
       env:
         VERIFIER: ${{ inputs.verifier }}
+        RUNTIME: ${{ inputs.runtime }}
         CORPUS: ${{ inputs.corpus }}
         VECTORS: ${{ inputs.vectors }}
         REPORT: ${{ inputs.report-path }}
@@ -150,7 +165,14 @@ runs:
           source_args=(--vectors "$VECTORS")
         fi
         status=0
-        agent-evidence-vectors "${source_args[@]}" --verifier "$VERIFIER" --report "$REPORT" || status=$?
+        if [ -n "$RUNTIME" ]; then
+          agent-evidence-vectors runtime "${source_args[@]}" --runtime "$RUNTIME" --report "$REPORT" || status=$?
+        elif [ -n "$VERIFIER" ]; then
+          agent-evidence-vectors "${source_args[@]}" --verifier "$VERIFIER" --report "$REPORT" || status=$?
+        else
+          echo "::error::name a verifier or a runtime; nothing was run."
+          status=2
+        fi
         echo "report=$REPORT" >> "$GITHUB_OUTPUT"
         echo "status=$status" >> "$GITHUB_OUTPUT"
 

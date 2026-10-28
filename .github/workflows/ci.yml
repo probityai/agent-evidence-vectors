@@ -354,7 +354,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-aggregate-accounting vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
+        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-aggregate-accounting vectors-uncertain-effect vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -967,6 +967,8 @@ jobs:
         run: uv run --extra dev pytest vectors-dispatch-fence/tests -q
       - name: aggregate-accounting cases regenerate and force every check
         run: uv run --extra dev pytest vectors-aggregate-accounting/tests -q
+      - name: uncertain-effect cases regenerate, force every check and fail a blind retry
+        run: uv run --extra dev pytest vectors-uncertain-effect/tests -q
       - name: agent-card-receipt cases regenerate and force every check
         run: uv run --extra dev pytest vectors-agent-card-receipt/tests -q
       - name: credential-release cases regenerate and force every check
@@ -1391,6 +1393,44 @@ jobs:
           test "$RESULT" = fail
           test "$VECTORS" -gt 0
           test "$EXECUTED" = "$VECTORS"
+      # A runtime, not a verifier, through the runtime input: the reference
+      # adapter reconciles before it resends and must pass every scenario, and
+      # the blind-retry adapter must fail the job on the write it duplicates.
+      - name: the action drives a runtime through the uncertain-effect scenarios
+        id: runtime
+        uses: ./
+        with:
+          corpus: vectors-uncertain-effect
+          runtime: python3 vectors-uncertain-effect/tests/runtime_adapter.py
+          artifact-name: agent-evidence-vectors-results-runtime
+          report-path: runtime-report.json
+      - name: every scenario ran and passed
+        env:
+          RESULT: ${{ steps.runtime.outputs.result }}
+          VECTORS: ${{ steps.runtime.outputs.vectors }}
+          EXECUTED: ${{ steps.runtime.outputs.executed }}
+        run: |
+          echo "result=$RESULT scenarios=$VECTORS executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a runtime that resends after a lost reply
+        id: runtimebad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-uncertain-effect
+          runtime: python3 vectors-uncertain-effect/tests/runtime_adapter.py --policy blind
+          artifact-name: agent-evidence-vectors-results-runtime-bad
+          report-path: runtime-bad-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.runtimebad.outcome }}
+          RESULT: ${{ steps.runtimebad.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
       # The same corpus from a directory in the workspace, through the vectors
       # input, which is how a consumer that pins a corpus by commit replays its
       # own checkout rather than the copy this release carries. The clean copy

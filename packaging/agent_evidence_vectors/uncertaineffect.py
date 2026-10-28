@@ -263,6 +263,12 @@ def scenarios(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return list(seen.values())
 
 
+def shipped_scenarios(root: Path = ROOT) -> list[dict[str, Any]]:
+    """The runtime scenarios of the corpus this package carries."""
+    manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+    return scenarios(manifest["vectors"])
+
+
 def _validated_entries(root: Path) -> tuple[list[dict[str, Any]], str | None]:
     manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
     entries = manifest["vectors"]

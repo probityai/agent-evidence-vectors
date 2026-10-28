@@ -51,6 +51,7 @@ RUNS_A_VERIFIER = (
     "vectors-completion-confirmation",
     "vectors-authority-at-dispatch",
     "vectors-aggregate-accounting",
+    "vectors-uncertain-effect",
     "vectors-agent-card-receipt",
     "vectors-credential-release",
     "vectors-chunked-export",

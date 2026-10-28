@@ -153,6 +153,7 @@ from agent_evidence_vectors import (
     sourcecoverage,
     starhint,
     traceanchor,
+    uncertaineffect,
     w3cintake,
     w3creport,
 )
@@ -3896,6 +3897,7 @@ def _run_non_reference_suite(
         approvalbinding.SUITE,
         dispatchfence.SUITE,
         aggregateaccounting.SUITE,
+        uncertaineffect.SUITE,
         *cardreceipt.SUITES,
         convertedargs.SUITE,
         delegatorright.SUITE,
@@ -3930,6 +3932,7 @@ def _run_non_reference_suite(
         approvalbinding.SUITE: approvalbinding.run,
         dispatchfence.SUITE: dispatchfence.run,
         aggregateaccounting.SUITE: aggregateaccounting.run,
+        uncertaineffect.SUITE: uncertaineffect.run,
         **{suite: cardreceipt.runner(suite) for suite in cardreceipt.SUITES},
         convertedargs.SUITE: convertedargs.run,
         delegatorright.SUITE: delegatorright.run,
@@ -5394,10 +5397,52 @@ def main() -> int:
         from agent_evidence_vectors.eval_result.run import main as evalresult_main
 
         return evalresult_main(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] == "runtime":
+        # Drive a runtime, rather than a verifier, through a corpus that defines
+        # a runtime contract: today the uncertain-effect scenarios.
+        return runtime_main(sys.argv[2:])
     if len(sys.argv) > 1 and sys.argv[1] == "recorded":
         # Recorded sets: retained bytes against their publisher's digest list.
         return recorded.main(sys.argv[2:])
     return rail_main()
+
+
+def runtime_main(argv: list[str]) -> int:
+    """Run a runtime adapter through the scenarios of a corpus with a runtime contract."""
+    from pathlib import Path
+
+    from agent_evidence_vectors import uncertaineffect_runtime
+
+    parser = argparse.ArgumentParser(
+        prog="agent-evidence-vectors runtime",
+        description="drive a runtime adapter, run as <runtime> <scenario.json>, through a "
+        "corpus's runtime scenarios against a counting effect owner",
+    )
+    parser.add_argument("--corpus", default="vectors-uncertain-effect")
+    parser.add_argument("--vectors", default=None, help="corpus directory (overrides --corpus)")
+    parser.add_argument("--runtime", required=True, help="adapter command line")
+    parser.add_argument("--report", default="conformance-report.json")
+    args = parser.parse_args(argv)
+    root = args.vectors or os.path.join(corpora_root(), args.corpus)
+    manifest = _read_manifest_suite(root)
+    if manifest != uncertaineffect.SUITE:
+        print(
+            f"the runtime {args.runtime!r} {DID_NOT_RUN}: the corpus at {root} "
+            f"({manifest!r}) defines no runtime contract; only "
+            f"{uncertaineffect.SUITE!r} does",
+            file=sys.stderr,
+        )
+        return 2
+    return uncertaineffect_runtime.run_runtime(args.runtime, args.report, Path(root))
+
+
+def _read_manifest_suite(root: str) -> str | None:
+    try:
+        with open(os.path.join(root, "MANIFEST.json"), encoding="utf-8") as handle:
+            suite = json.load(handle).get("suite")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return suite if isinstance(suite, str) else None
 
 
 def rail_main() -> int:
