@@ -89,6 +89,14 @@ def shaped(case: object) -> dict:
         raise InvalidInput
     if case["contract"] != "request-effect-join-fixture/v1":
         raise InvalidInput
+    source = case["source"]
+    if not isinstance(source, dict) or set(source) != {"producer_vector", "frequency_row", "note"}:
+        raise InvalidInput
+    if not isinstance(source["note"], str):
+        raise InvalidInput
+    for name in ("producer_vector", "frequency_row"):
+        if source[name] is not None and not isinstance(source[name], str):
+            raise InvalidInput
     for name in CHAINED:
         node = case[name]
         if node is None:
@@ -100,8 +108,16 @@ def shaped(case: object) -> dict:
         if not isinstance(node["preimage"], dict) or not isinstance(node["ref"], str):
             raise InvalidInput
     later = case["later_observation"]
-    if later is not None and not isinstance(later, dict):
-        raise InvalidInput
+    if later is not None:
+        if not isinstance(later, dict) or set(later) != {
+            "target_scope", "content_sha256", "observed_at_ms", "observer_id",
+        }:
+            raise InvalidInput
+        if any(not isinstance(later[name], str)
+               for name in ("target_scope", "content_sha256", "observer_id")):
+            raise InvalidInput
+        if later["observed_at_ms"] is not None and type(later["observed_at_ms"]) is not int:
+            raise InvalidInput
     if (case["attempt"] is None) != (case["result"] is None):
         raise InvalidInput
     return case
@@ -161,6 +177,8 @@ def classify(case: dict) -> dict:
     elif record["decision"]["preimage"].get("outcome") != "permit":
         return outcome(record, "refused", ["covering_decision_not_permit"])
 
+    if record["decision"]["preimage"].get("action_ref") != approved["ref"]:
+        return outcome(record, "refused", ["join_chain_broken"])
     if attempt["preimage"].get("action_ref") != effective["ref"]:
         return outcome(record, "refused", ["join_chain_broken"])
     if result["preimage"].get("attempt_id") != attempt["ref"]:

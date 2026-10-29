@@ -116,6 +116,71 @@ class ContractTest(unittest.TestCase):
         self.assertEqual(line["classification"], "refused")
         self.assertEqual(line["findings"], ["effective_call_not_covered"])
 
+    def test_decision_must_name_approved_action(self) -> None:
+        for case_id in ("S-00", "S-02"):
+            with self.subTest(case=case_id):
+                case = case_by_id(case_id)
+                case["decision"]["preimage"]["action_ref"] = "sha256:" + "0" * 64
+                case["decision"]["ref"] = run_contract.computed_ref(case["decision"]["preimage"])
+                self.assertTrue(run_contract.digests_agree(case))
+                line = run_contract.report_for(case)
+                self.assertEqual(line["classification"], "refused")
+                self.assertEqual(line["findings"], ["join_chain_broken"])
+
+    def test_source_wrong_type_is_invalid_input(self) -> None:
+        case = case_by_id("S-00")
+        case["source"] = 123
+        self.assertEqual(run_contract.report_for(case), {
+            "case_id": "S-00", "classification": "invalid_input", "findings": [],
+        })
+
+    def test_source_requires_exact_keys(self) -> None:
+        for key in ("producer_vector", "frequency_row", "note", "extra"):
+            with self.subTest(key=key):
+                case = case_by_id("S-00")
+                if key == "extra":
+                    case["source"][key] = "unexpected"
+                else:
+                    del case["source"][key]
+                self.assertEqual(run_contract.report_for(case)["classification"], "invalid_input")
+
+    def test_source_field_types_are_checked(self) -> None:
+        for key in ("producer_vector", "frequency_row", "note"):
+            with self.subTest(key=key):
+                case = case_by_id("S-00")
+                case["source"][key] = 123
+                self.assertEqual(run_contract.report_for(case)["classification"], "invalid_input")
+
+    def test_later_observation_missing_keys_is_invalid_input(self) -> None:
+        for key in ("target_scope", "content_sha256", "observed_at_ms", "observer_id"):
+            with self.subTest(key=key):
+                case = case_by_id("S-04")
+                del case["later_observation"][key]
+                self.assertEqual(run_contract.report_for(case), {
+                    "case_id": "S-04", "classification": "invalid_input", "findings": [],
+                })
+
+    def test_later_observation_extra_key_is_invalid_input(self) -> None:
+        case = case_by_id("S-04")
+        case["later_observation"]["extra"] = "unexpected"
+        self.assertEqual(run_contract.report_for(case), {
+            "case_id": "S-04", "classification": "invalid_input", "findings": [],
+        })
+
+    def test_later_observation_field_types_are_checked(self) -> None:
+        for key, value in (("target_scope", 123), ("content_sha256", 123),
+                           ("observer_id", 123), ("observed_at_ms", "123"),
+                           ("observed_at_ms", True)):
+            with self.subTest(key=key, value=value):
+                case = case_by_id("S-04")
+                case["later_observation"][key] = value
+                self.assertEqual(run_contract.report_for(case)["classification"], "invalid_input")
+
+    def test_later_observation_unknown_time_is_allowed(self) -> None:
+        case = case_by_id("S-04")
+        case["later_observation"]["observed_at_ms"] = None
+        self.assertEqual(run_contract.report_for(case), run_contract.report_for(case_by_id("S-04")))
+
     def test_manifest_pins_both_data_files(self) -> None:
         manifest = json.loads((ROOT / "fixtures" / "MANIFEST.json").read_text())
         self.assertEqual(sorted(manifest["sha256"]), ["cases.json", "expected.json"])
