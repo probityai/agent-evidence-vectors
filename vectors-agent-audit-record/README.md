@@ -9,13 +9,15 @@ carries the row's identifier in `draftId` (`A1`, `F3b`, `R4`, ...) and its
 sentences of Section 5.4 that Appendix B has no row for; each carries
 `draftSection` and continues the identifier series beside it (`FR13b`, `FR16`,
 `FR17a` to `FR17c`, `FR18`, `EV14`). The last members are rows of revision 01
-of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS25`, which
+of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS40`, which
 bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
 anchors and the delegation root). Each carries `draftRevision` and the
 identifier the draft prints. [`INDEX.md`](INDEX.md) lists every member beside its
 file.
+
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
 ## Which revision this tests
 
@@ -247,7 +249,7 @@ by SHA-256 in [`REVISION-01-PIN.json`](REVISION-01-PIN.json).
 coverage clause fails exactly `TI6`, `V4` and `V5`, and restoring independent
 minima in `aggregate_values` fails `FR14`'s aggregation check.
 
-## Consumption state and the operation key: `CS1` to `CS25`
+## Consumption state and the operation key: `CS1` to `CS40`
 
 A cumulative limit, such as a delegated spending limit, makes a permit correct
 only if what is already consumed, plus what is held for earlier permits that
@@ -306,17 +308,49 @@ in [#213](https://github.com/probityai/agent-evidence-vectors/issues/213).
   (`CS21`, `consumption-set-stale-revision`). Records whose `limitDigest` values
   no `supersedes` links are separate ledgers: a verifier cannot tell a limit
   document that replaced another from an unrelated one without the link, so the
-  corpus carries no member that judges across that boundary beyond the control
-  `CS25`: a held permit under one limit document and a later record under another
-  that no `supersedes` links, omitting the held call, is two valid records and a
-  valid set.
+  ledger checks do not judge across that boundary: a held permit under one limit
+  document and a later record under another that no `supersedes` links, omitting
+  the held call, is two valid records and a valid set (`CS25`).
+
+- A held claim is not a ledger's: it is keyed by the principal
+  (`delegation.subject`), the agent key (`agent.signers`) and the operation key,
+  never by the limit document (`CS26` to `CS33`, from the enforcement answer on
+  modelcontextprotocol/financial-services-interest-group#17). A call refused
+  before its tool ran, or whose tool reported nothing sent, leaves no claim, so
+  its retry is new under the limit then in force: a raise admits it (`CS26`), a
+  cut refuses it (`CS27`), and a record of the operation showing `none` ends a
+  claim that was held (`CS28`). Any other call keeps its claim across a
+  replacement: an unknown outcome is carried over (`CS29`) and cannot be dropped
+  (`CS30`, `consumption-set-release-unshown`). A permit whose operation key a
+  record of the same scope holds, and which does not hold that key itself,
+  presents a retry as a new operation and the set is malformed with
+  `consumption-set-retry-as-new`, whether the new limit document names the old one
+  in `supersedes` (`CS31`) or not (`CS32`); the original call, at a lower
+  `stateRevision` of the same ledger, is not. The same operation key under another
+  principal and agent key is another claim (`CS33`).
+
+- `consumption.asset` names the exact asset when no ISO 4217 code does (`CS34` to
+  `CS40`, from the same thread): an object of exactly `id`, a
+  [CAIP-19](https://chainagnostic.org/CAIPs/caip-19) asset id that names the
+  chain and the token contract, and `decimals`, the count of decimal places of
+  the smallest subunit every amount is in, at most 255. A record carries `unit`
+  or `asset`, never both (`consumption-unit-ambiguous`, `CS37`); a ticker that is
+  not a CAIP-19 id (`CS35`) or decimals out of range (`CS36`) is
+  `consumption-value-invalid`. `CS34` counts in USDC on Base, and every record
+  carrying only an ISO 4217 `unit` (`CS1` and the rest) is unchanged. One ledger
+  counts one denomination: USDC on Base and USDC on Solana under one limit
+  (`CS38`) and one asset id at two decimals values (`CS39`) are malformed with
+  `consumption-set-asset-mismatch`, and two assets under two unlinked limit
+  documents are two ledgers (`CS40`).
 
 `check_vectors.py` drops each sentence of the rule and each set check in turn and
 requires the corpus to fail on exactly the members that test it; a retry keyed
 on the request digest fails `CS10` and `CS12`, dropping the set checks fails
-`CS7`, `CS8`, `CS17`, `CS20` and `CS21`, and reading the set checks per
-`limitDigest` fails `CS20` and `CS21` alone. The Go rail in `corpora/` runs the
-same sweep.
+`CS7`, `CS8`, `CS17`, `CS20`, `CS21`, `CS30` to `CS32`, `CS38` and `CS39`,
+reading the set checks per `limitDigest` fails `CS20`, `CS21` and `CS30`, keying
+the claim by the limit document fails `CS32` alone, reading it without its scope
+fails `CS33`, letting `none` not end a claim fails `CS28`, and matching an asset
+by its id alone fails `CS39`. The Go rail in `corpora/` runs the same sweep.
 
 ## Retained records and the dating check: Section 4.7
 

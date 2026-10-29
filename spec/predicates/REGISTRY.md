@@ -124,8 +124,8 @@ cannot write one.
   one member per row of Appendix B of draft-gilda-audit-agent-audit-record-00,
   each carrying its Appendix B identifier, then members for sentences of
   Section 5.4 that Appendix B has no row for, each naming its section in
-  `draftSection`, then rows of revision 01 (`CS1` to `CS25`) that bind
-  consumption state to the agent's operation key; `CS7`, `CS8`, `CS17` and `CS18` to `CS22` and `CS25` are
+  `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
+  consumption state to the agent's operation key; `CS7`, `CS8`, `CS17`, `CS18` to `CS22` and `CS25` to `CS33` and `CS38` to `CS40` are
   files of several records judged as a set. Rows R1 to R9 are retained records
   judged by the dating check of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.

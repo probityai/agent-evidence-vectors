@@ -92,8 +92,8 @@ jobs:
           (cd witnessattestor && go vet ./...)
       - name: test (race)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
-          (cd witnessattestor && go test ./... -race -count=1)
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1 -timeout 30m
+          (cd witnessattestor && go test ./... -race -count=1 -timeout 30m)
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -825,6 +825,11 @@ jobs:
         run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
       - name: an unreadable account is inconclusive, not a refused runner label
         run: .venv/bin/python -B scripts/runner-labels-gate-test.py
+      # The release procedure runs the leak tier locally and leaves the proof to
+      # this workflow. A procedure that asks for the full local mirror of these
+      # jobs ran about 15 hours on one box and held v0.30.0 back.
+      - name: the release procedure runs only the leak tier locally
+        run: .venv/bin/python -B scripts/release-procedure-test.py
       # The README is the first screen and nothing more: what the suite is, who it
       # is for, the pinned install line, an example, the status and the links.
       # Detail lives in docs/, and this keeps it there.
@@ -832,6 +837,12 @@ jobs:
         run: |
           .venv/bin/python -B scripts/readme-lint.py README.md
           .venv/bin/python -B scripts/readme-lint-test.py
+      - name: the install pins on the inbound pages match the published release
+        run: |
+          python3 scripts/sync-install-pins.py --check
+          python3 scripts/sync-install-pins-test.py
+      - name: the Action summary and every spec README carry the Probity bridge line
+        run: python3 scripts/probity-bridge-test.py
       - name: the pool venue retains source-bound native results and refuses incomplete runs
         run: .venv/bin/python -B scripts/pre-push-pool-test.py
       - name: the pre-push hook refuses a pushed commit message the commit-msg hook never saw

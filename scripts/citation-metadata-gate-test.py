@@ -62,6 +62,38 @@ QUIESCENT = {
 }
 
 
+def advance_candidate(destination: Path) -> None:
+    """Make the staged source a candidate one patch past its published citation.
+
+    Every case here describes a source that is ahead of the release it cites. On
+    a tagged release commit the two versions are equal, so without this step the
+    fixture would tag the version it has already tagged.
+    """
+    cff = destination / CFF
+    text = cff.read_text(encoding="utf-8")
+    cited = yaml.safe_load(text)["preferred-citation"]["version"]
+    major, minor, patch = (int(part) for part in str(cited).split("."))
+    candidate = f"{major}.{minor}.{patch + 1}"
+    text = re.sub(r"^version: \S+$", "version: " + candidate, text, count=1, flags=re.MULTILINE)
+    text = re.sub(r"^date-released: .*\n", "", text, count=1, flags=re.MULTILINE)
+    cff.write_text(text, encoding="utf-8")
+    lock = destination / "uv.lock"
+    lock_text = lock.read_text(encoding="utf-8")
+    lock_text = re.sub(
+        r'(name = "agent-evidence-vectors"\nversion = )"[^"]+"',
+        lambda match: match.group(1) + '"' + candidate + '"',
+        lock_text,
+        count=1,
+    )
+    lock.write_text(lock_text, encoding="utf-8")
+    pyproject = destination / "pyproject.toml"
+    body = pyproject.read_text(encoding="utf-8")
+    body = re.sub(
+        r'^version = "[^"]+"$', 'version = "' + candidate + '"', body, count=1, flags=re.MULTILINE
+    )
+    pyproject.write_text(body, encoding="utf-8")
+
+
 def stage(destination: Path, dated: bool = True) -> None:
     """Copy the tracked tree into a fresh git checkout.
 
@@ -82,6 +114,7 @@ def stage(destination: Path, dated: bool = True) -> None:
         target = destination / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
+    advance_candidate(destination)
     for command in (
         ["git", "init", "-q"],
         *[["git", "config", key, value] for key, value in QUIESCENT.items()],

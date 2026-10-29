@@ -7,8 +7,7 @@
 [![Licence](https://img.shields.io/github/license/probityai/agent-evidence-vectors)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/probityai/agent-evidence-vectors?style=flat)](https://github.com/probityai/agent-evidence-vectors/stargazers)
 
-[![Verified by Probity](https://raw.githubusercontent.com/probityai/agent-evidence/main/assets/verified-by-probity.svg)](https://github.com/probityai/probity)
-Verified by Probity (github.com/probityai/probity): [latest passing run](https://github.com/probityai/agent-evidence-vectors/actions/workflows/ci.yml)
+[![Checked with Probity](https://img.shields.io/badge/checked-with_Probity-0969da?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAkFBMVEX8%2B%2Bzr5NPgyrfKyLnSq5Wzo4tWltqRkZI2kPU1kvk1j%2FMwkPgzjfI2jO80jO40jO3MdWOZc1SLblN1aFxxXFJzVDY2i%2B40i%2B00i%2Bw0i%2Bs0ius1iOZAapwugNYtdbUqaq0qV4tkRzJXOB47Oz43JRkjNEYiHBwlFxIfFxMcEg0XEQ0WEAwXDAUWCAEOCQcJAgCa503RAAAB3klEQVR42rWT2ZacIBCGceHYoN240SK2Crig4vL%2BbxfszJyZTmaSm6S4rI9a%2FwK3vxj41wDj5E9AwS%2Foxjn7DmARqgVHCBHyJcBxJeZtEG2Nv4hAGEPXYVumddvWAbFfgJJECDfDukxa63ldmw%2FiCTCEK%2BteFzNbQI%2BbQPwzwKJGjNO2LMacxNqK1wgcNfO2mqfbHMs8NEkeXT8AjurRTKfbMlqOa5vFyc8cZclu4PSvWptlPlOMeb4PsQu78MoYQWFIwKUet0nPZl%2FMki1H3x%2FKd1PVhhdkS2tDgM7m9bR3XX8EXtYde59SSVVXNx2NMwuIbbGl74HUu%2BcFXrArSpXqlVSpGz8sUG%2FjoCej1RHA6ZAgl1SmUvVUQjduEGDIdt0MxuwjCHYNAZSwT1IbhaZ%2BFt7BrUAXbguxnx3gZ9AJVJLal0hKaYv4OShGbu249Z4F4jhQ1PcpTUYLDBF5WxZB9dBB14O%2Bm6eu48QQpjBXIizf113iS9sF0LYxZMD1PODbVvtznu96sGOrWyFEiwQEwHNcC8gaF58UxfG1qiqMqzx2AACJ0i0qXyRXEIwjwnD1SBOYdKJ%2B7vxF1eRUaxGF9ePRVgiX3xxOccdhiK5v6v%2Fysgp2Z%2BR%2F3ebv9gP5RU8tSdZhDwAAAABJRU5ErkJggg%3D%3D)](https://github.com/probityai/probity)
 
 Test an agent-evidence verifier against saved records with known outcomes. The corpora cover valid records, altered bytes, missing evidence and open specification interpretations.
 
@@ -16,7 +15,7 @@ Test an agent-evidence verifier against saved records with known outcomes. The c
 
 The recording is `demo/four-arms.sh` from a fresh clone; `vhs demo/four-arms.tape` re-records it.
 
-Add it to a project with `uv add agent-evidence-vectors==0.26.0`, then `pip install agent-evidence-vectors==0.26.0`. The `probityai` command line is planned, not yet released: `uv add probityai`, then `pip install probityai`.
+Add it to a project with `uv add agent-evidence-vectors==0.30.0`, then `pip install agent-evidence-vectors==0.30.0`. The `probityai` command checks a claim about an agent run offline against evidence you pinned: `pip install probityai==0.1.0`.
 
 <a name="run-the-suite-against-your-verifier"></a>
 
@@ -25,10 +24,10 @@ Add it to a project with `uv add agent-evidence-vectors==0.26.0`, then `pip inst
 Run every vector in the default corpus through the bundled reference verifier. You need Python 3.11+ and [uv](https://docs.astral.sh/uv/); there is nothing to clone or build, and a cold run takes about six seconds:
 
 ```bash
-uvx agent-evidence-vectors==0.26.0
+uvx agent-evidence-vectors==0.30.0
 ```
 
-At v0.26.0 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
+At v0.30.0 the default corpus is suiteRevision 32, and the run prints one row per vector and ends with:
 ```text
 totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 ```
@@ -36,13 +35,13 @@ totals: 288 vectors, 288 pass, 0 fail; report written to conformance-report.json
 Now run the same corpus against a verifier other than the reference. The Go reference verifier installs with Go 1.26+ and Go's executable directory on your `PATH`; put your own command in its place:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.26.0
-uvx agent-evidence-vectors==0.26.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.30.0
+uvx agent-evidence-vectors==0.30.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Open `conformance-report.json` for the per-vector results. A complete external run has `rail: external`, `verifier.vectorsExecuted` equal to `totals.vectors`, and zero `totals.suiteRefusals`. The report separates conformance from reason-code agreement. `--list-corpora` names the other shipped corpora and `--corpus <name>` selects one.
 
-The release is `v0.26.0` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.26.0/). To run from a reviewed source checkout instead, follow the [source build](docs/guides/source-build.md). [Installation routes and release identity](DISTRIBUTION.md) covers package availability and signature checks.
+The release is `v0.30.0` on [GitHub](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.30.0) and [PyPI](https://pypi.org/project/agent-evidence-vectors/0.30.0/). To run from a reviewed source checkout instead, follow the [source build](docs/guides/source-build.md). [Installation routes and release identity](DISTRIBUTION.md) covers package availability and signature checks.
 
 <a name="what-a-conformance-claim-must-show"></a>
 <a name="the-verification-pipeline"></a>
@@ -85,8 +84,9 @@ agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this reposi
 | --- | --- |
 | Start a project with this Action already in CI | [evidence-starter template](https://github.com/new?template_name=evidence-starter&template_owner=probityai) |
 | Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
+| Check an AI Act log after the fact | [Log checking guide](docs/guides/cra-ai-act-logs.md) |
 | Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
-| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.26.0/docs/research/corpus-measurements.md) |
+| Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.30.0/docs/research/corpus-measurements.md) |
 | Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
 | Report a run or disagreement | [Run reporting](docs/guides/report-run.md) |
 | Check a W3C intake record | [W3C intake checker](docs/reference/w3c-intake.md) |
@@ -105,7 +105,7 @@ Each corpus manifest records its source revision, digest and expected outcomes. 
 <a name="on-independence"></a>
 <a name="verify-a-release-without-trusting-us"></a>
 
-For fixture coverage, see [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.26.0/docs/research/corpus-measurements.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
+For fixture coverage, see [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.30.0/docs/research/corpus-measurements.md). To check signed release bytes, use [Release verification](docs/reference/release-verification.md).
 
 <a name="layout"></a>
 <a name="the-go-witness-attestor-witnessattestor"></a>
