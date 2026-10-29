@@ -58,7 +58,7 @@ Run `agent-evidence-vectors --self-test` to check the packaged reference rail. R
 
 ## Reference stage
 
-After your verifier runs, the action always runs a second stage that no input switches off. It installs a pinned release of the reference verifier (`probity-verify` 0.2.3) by version and hash into a venv of its own, replays the corpus's members through it with the same comparison [the done-corpus cross-check](../reference/corpus-readers.md) uses, and prints one line:
+After your verifier runs, the action always runs a second stage that no input switches off. It installs a pinned release of the reference verifier (`probity-verify` 0.2.4) by version and hash into a venv of its own, replays the corpus's members through it with the same comparison [the done-corpus cross-check](../reference/corpus-readers.md) uses, and prints one line:
 
 ```text
 reference-checked conformance N of M

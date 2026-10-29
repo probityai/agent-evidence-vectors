@@ -3,9 +3,9 @@
 # --only-binary into a venv of their own, so nothing here reaches the interpreter
 # the candidate verifier uses, and the package's own metadata names none of it.
 #
-# probity-verify 0.2.3 is the release whose wheel sha256 is
-# 785d6ed37d9cabe57cfa0c35a79af7f6a9532b60779f2ef09aebcbdd8c6c4286 and whose
-# sdist sha256 is 58571ebee72025f33fdc34d4c895ae1419117decd0944a94d40b1fbe9c9b6c7f.
+# probity-verify 0.2.4 is the release whose wheel sha256 is
+# 77bd7eaeebeef2d3bb881627a41e62991a416370930aa46f4d1d10612779e93b and whose
+# sdist sha256 is dc3d988886d4b1565e96560184c2f6679a729f4b77404d5987f92371841f514b.
 # scripts/action-reference-stage-test.py checks both. To move the lock, change the
 # version in the input and regenerate:
 #
@@ -179,9 +179,9 @@ cryptography==50.0.2 \
     --hash=sha256:fa8f5efb344d6908a1ce62f4a24e2e5780f825d6f53f5f50ec5ffacac72936cb \
     --hash=sha256:fdd28f912fccfec1846a94e2e1e8f9b0012f557f0c46fe4f3eb0d7a87afcf90b
     # via probity-verify
-probity-verify==0.2.3 \
-    --hash=sha256:58571ebee72025f33fdc34d4c895ae1419117decd0944a94d40b1fbe9c9b6c7f \
-    --hash=sha256:785d6ed37d9cabe57cfa0c35a79af7f6a9532b60779f2ef09aebcbdd8c6c4286
+probity-verify==0.2.4 \
+    --hash=sha256:77bd7eaeebeef2d3bb881627a41e62991a416370930aa46f4d1d10612779e93b \
+    --hash=sha256:dc3d988886d4b1565e96560184c2f6679a729f4b77404d5987f92371841f514b
     # via -r in.txt
 pycparser==3.12 ; implementation_name != 'PyPy' and platform_python_implementation != 'PyPy' \
     --hash=sha256:a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e \

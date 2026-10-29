@@ -45,9 +45,9 @@ LOCK = REPO_ROOT / "action-reference-requirements.txt"
 STAGE = REPO_ROOT / "scripts" / "action-reference-stage.py"
 INSTALL_STEP = "Install the reference verifier"
 CHECK_STEP = "Check against the reference verifier"
-RELEASE = "0.2.3"
-WHEEL_SHA = "785d6ed37d9cabe57cfa0c35a79af7f6a9532b60779f2ef09aebcbdd8c6c4286"
-SDIST_SHA = "58571ebee72025f33fdc34d4c895ae1419117decd0944a94d40b1fbe9c9b6c7f"
+RELEASE = "0.2.4"
+WHEEL_SHA = "77bd7eaeebeef2d3bb881627a41e62991a416370930aa46f4d1d10612779e93b"
+SDIST_SHA = "dc3d988886d4b1565e96560184c2f6679a729f4b77404d5987f92371841f514b"
 FORBIDDEN_HOST = ".".join(["get" + "prob" + "ity", "dev"])
 
 
