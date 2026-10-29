@@ -48,6 +48,7 @@ RUNS_A_VERIFIER = (
     "vectors-anchored-chain",
     "vectors-approval-binding",
     "vectors-delegator-right",
+    "vectors-oasf-record",
     "vectors-completion-confirmation",
     "vectors-authority-at-dispatch",
     "vectors-aggregate-accounting",
