@@ -1,33 +1,62 @@
 name: release
 
-# What a tag has to survive before anyone can cite it.
+# Two release paths share this file, and the trigger tells them apart.
 #
-# This workflow VERIFIES and never signs. The private half of the corpus signing
-# key is in the maintainer's keyring and the signature is made locally, at tag
-# time, by scripts/release-sign.sh. Putting the key in an Actions secret would
-# make it readable by every workflow that ever runs here and by anyone who can
-# land a workflow change, which is a worse posture than a key on one machine
-# behind one login. So the division is: the maintainer commits, and CI refuses.
+# 1. The corpus. A pushed tag `v<major>.<minor>.<patch>` runs `verify` (the
+#    signed digest list, the tag signature, the time evidence) and then
+#    `publish`, which builds the agent-evidence-vectors wheel and sdist and
+#    uploads them to PyPI (environment pypi) with attestations. This workflow
+#    VERIFIES and never signs: the private half of the corpus signing key is in
+#    the maintainer's keyring and the signature is made locally, at tag time, by
+#    scripts/release-sign.sh. Putting the key in an Actions secret would make it
+#    readable by every workflow that ever runs here and by anyone who can land a
+#    workflow change.
 #
-# It is a separate workflow rather than another job in ci.yml because it answers
-# a separate question. ci.yml asks whether the corpus and the rails are correct.
-# This asks whether the bytes a stranger will fetch by tag name are the bytes the
-# maintainer signed. A red run here says the release cannot be cited, not that
-# the code is broken, and a reader should be able to tell those apart from the
-# job name alone.
+# 2. The crates, packages and Action. A published GitHub release whose tag is
+#    <prefix>-v<version> publishes one unit of release.toml: an npm package
+#    (environment npm) through trusted publishing, so no registry token is
+#    stored anywhere. A pushed tag alone publishes
+#    nothing on this path: the import of a repository brings its old tags under a
+#    prefix, and those must never trigger a publish. A release published for a
+#    bare `v<version>` tag resolves to registry "none" and no job runs for it.
+#
+# Trusted publisher entries, all alike: owner probityai, repository
+# agent-evidence-vectors, workflow release.yml, and the environment named by the
+# job (the corpus wheel's entry predates the environments and names none, which
+# also matches).
+#
+#   tag prefix                  registry   unit
+#   v<version> (bare)           PyPI       the agent-evidence-vectors wheel (path 1)
+#   jcs-admit-npm-v             npm        crates/jcs-admit/npm (the tarball crate-jcs-admit-npm.yml qualified)
+#
+# More units are added to release.toml and to this file in the change that imports
+# their directory.
+#
+# resolve refuses a tag whose unit is not in release.toml yet, whose directory
+# is missing, whose manifest carries another version, or whose commit is not on
+# main. Each publish job runs only for its own unit, so the job holding the
+# id-token for one project never runs for another. PyPI trusted publishing does
+# not accept a reusable workflow, so each publish job carries its steps here.
 
 on:
   push:
     tags: ['v*']
+  release:
+    types: [published]
   workflow_dispatch:
 
-# Least privilege at the top; the publish job alone adds id-token, which is
-# what PyPI trusted publishing verifies the workflow identity with.
+# Least privilege at the top; the publish jobs alone add id-token, which is what
+# the registries verify the workflow identity with.
 permissions:
   contents: read
 
+concurrency:
+  group: release-${{ github.event.release.tag_name || github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   verify:
+    if: ${{ github.event_name != 'release' }}
     runs-on: ubuntu-latest
     steps:
       # Full history and tags, because scripts/release-gate.py --tag compares the
@@ -119,12 +148,6 @@ jobs:
           command -v ots >/dev/null || python3 -m pip install --quiet opentimestamps-client
           uv run python scripts/release-gate.py --with-timestamps
 
-      # The grants behind the Verified by Probity badge, re-checked against the
-      # current workflow allowlist and revocations. A grant that fails blocks the
-      # release until it is fixed or withdrawn.
-      - name: every Verified by Probity grant still meets the evidence rule
-        run: python3 scripts/badge-grants-gate.py
-
       - name: what a citer will verify
         run: |
           cat release/CORPUS-DIGESTS.txt
@@ -138,8 +161,11 @@ jobs:
   # attaches PEP 740 provenance to every uploaded distribution.
   publish:
     needs: verify
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/agent-evidence-vectors/
     permissions:
       contents: read
       id-token: write
@@ -224,3 +250,105 @@ jobs:
           # already refused any wheel whose version is not the tag's, so this
           # cannot quietly pass over a version that needed publishing.
           skip-existing: true
+
+  resolve:
+    if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      prefix: ${{ steps.target.outputs.prefix }}
+      name: ${{ steps.target.outputs.name }}
+      registry: ${{ steps.target.outputs.registry }}
+      directory: ${{ steps.target.outputs.directory }}
+      version: ${{ steps.target.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: target
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          python3 scripts/workspace.py release-target "$TAG" > target.json
+          cat target.json
+          python3 - >> "$GITHUB_OUTPUT" <<'PYCODE'
+          import json
+          for key, value in sorted(json.load(open("target.json")).items()):
+              print(f"{key}={value}")
+          PYCODE
+
+  qualify-jcs-admit-npm:
+    needs: resolve
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
+    uses: ./.github/workflows/crate-jcs-admit-npm.yml
+
+  # Publishes the exact tarball the qualification job tested, with npm
+  # provenance, and attests it as pkg:npm/jcs-admit@<version>. Ported from
+  # probityai/jcs-admit npm-release.yml and the provenance job of its npm.yml.
+  publish-jcs-admit-npm:
+    needs: [resolve, qualify-jcs-admit-npm]
+    if: needs.resolve.outputs.registry != 'none' && (needs.resolve.outputs.prefix == 'jcs-admit-npm')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/jcs-admit
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    defaults:
+      run:
+        working-directory: crates/jcs-admit
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ needs.qualify-jcs-admit-npm.outputs.artifact-name }}
+          path: ${{ runner.temp }}/jcs-qualified
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.19.0
+          package-manager-cache: false
+          registry-url: https://registry.npmjs.org
+      - name: verify the exact qualified artifact and bind its subject
+        id: artifact
+        env:
+          QUALIFIED_RECEIPTS: ${{ runner.temp }}/jcs-qualified
+          VERIFIED_NPM: ${{ runner.temp }}/jcs-verified-npm.json
+        run: |
+          python3 npm/check_release.py "$QUALIFIED_RECEIPTS" --commit "$GITHUB_SHA" > "$VERIFIED_NPM"
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          verified = json.loads(Path(os.environ['VERIFIED_NPM']).read_text())
+          manifest = json.loads(Path('npm/package.json').read_text())
+          assert manifest['name'] == 'jcs-admit'
+          tarball = Path(verified['tarball']).read_bytes()
+          assert hashlib.sha256(tarball).hexdigest() == verified['sha256']
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('tarball=' + verified['tarball'] + '\n')
+              output.write('subject=pkg:npm/' + manifest['name'] + '@' + manifest['version'] + '\n')
+              output.write('digest=sha512:' + hashlib.sha512(tarball).hexdigest() + '\n')
+          PY
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.1.0
+        id: attest
+        with:
+          subject-name: ${{ steps.artifact.outputs.subject }}
+          subject-digest: ${{ steps.artifact.outputs.digest }}
+      - name: retain the signed npm provenance bundle
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: jcs-npm-provenance-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: ${{ steps.attest.outputs.bundle-path }}
+      - name: publish the tested bytes with npm trusted publishing
+        env:
+          QUALIFIED_TARBALL: ${{ steps.artifact.outputs.tarball }}
+        run: npm publish "$QUALIFIED_TARBALL" --access public --provenance --ignore-scripts

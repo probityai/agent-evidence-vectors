@@ -1,0 +1,16 @@
+# Every unit .github/workflows/release.yml can publish. A GitHub release whose
+# tag is <prefix>-v<version> publishes the unit with that prefix, from the
+# directory named here, after scripts/workspace.py checks that the directory
+# exists, that its manifest carries that version, and that the tagged commit is
+# on main. A unit is added in the change that imports its directory.
+#
+# registry "crates.io" reads the version from <directory>/Cargo.toml;
+# registry "pypi" reads it from <directory>/pyproject.toml;
+# registry "npm" reads it from <directory>/package.json;
+# registry "github-actions" reads it from <directory>/VERSION.
+
+[[unit]]
+prefix = "jcs-admit-npm"
+name = "jcs-admit"
+registry = "npm"
+directory = "crates/jcs-admit/npm"

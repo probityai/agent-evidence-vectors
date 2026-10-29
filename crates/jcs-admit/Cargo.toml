@@ -1,0 +1,64 @@
+[package]
+name = "jcs-admit"
+version = "0.1.4"
+edition = "2021"
+rust-version = "1.74"
+description = "Admission control for JSON about to be signed: refuses duplicate object members, nesting past a depth cap, non-scalar strings and unsafe integers on the raw bytes, then delegates RFC 8785 canonicalization to serde_json_canonicalizer"
+documentation = "https://docs.rs/jcs-admit"
+homepage = "https://github.com/probityai/agent-evidence-vectors/tree/main/crates/jcs-admit#readme"
+readme = "README.md"
+keywords = ["jcs", "rfc8785", "canonicalization", "attestation", "in-toto"]
+categories = ["encoding", "cryptography", "parser-implementations"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/probityai/agent-evidence-vectors"
+# The README cites docs/INCUMBENT-MEASUREMENT.md and docs/MUTATION-SWEEP.md as
+# the evidence behind its table. Excluding them would publish a README whose two
+# strongest citations do not resolve inside the artifact that carries it.
+# /tools/humanizer_config holds the writing-gate Layer 3 for this crate's own prose: a
+# destination descriptor plus a gitignored capture of other crates' READMEs. It calibrates the
+# documentation and is not part of the library, so it does not ship.
+exclude = ["/scripts", "/tools/humanizer_config", "/interop", "/npm"]
+
+[features]
+default = []
+# Serialization adds a representation of the existing enum, not new refusals.
+serde = ["serde/derive"]
+
+# Each floor below is the lowest version this crate builds and passes its tests
+# with at the MSRV, which the `floors` job in .github/workflows/crate-jcs-admit.yml (repository root) proves on
+# every push. A floor above that forces every dependent's lockfile to move: 0.1.0
+# asked for serde 1.0.229, which pulled syn 3 into a host that was on 1.0.228.
+# tests/dependency_floor.rs fails if a floor here changes without that proof.
+[dependencies]
+# 1.0.100: serde_json 1.0.87 needs it, and 1.0.87 is the lowest serde_json that
+# serde_json_canonicalizer compiles against (it calls Formatter::write_i128
+# while declaring serde_json "1.0"); true of 0.3.2 and still true of 0.4.1.
+serde = { version = "1.0.100", default-features = false, features = ["std"] }
+serde_json_canonicalizer = "0.4.1"
+
+[dev-dependencies]
+# The differential test needs to reach the delegate's own entry points and to
+# build a value its parser never saw, so it needs both crates directly. The
+# floor is the delegate's real one, so the floors job can test serde at 1.0.100.
+serde_json = "1.0.87"
+
+[[example]]
+name = "wasm_oracle"
+required-features = ["serde"]
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+unreachable_pub = "deny"
+rust_2018_idioms = { level = "deny", priority = -1 }
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+undocumented_unsafe_blocks = "deny"
+await_holding_lock = "deny"

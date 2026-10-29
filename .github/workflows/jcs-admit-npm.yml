@@ -1,0 +1,45 @@
+name: jcs-admit-npm
+
+# Runs, before a release, the same qualification release.yml runs for a
+# jcs-admit-npm-v<version> tag (crate-jcs-admit-npm.yml: the WASM build, the
+# Node and browser consumers, the tarball and its exact source identity), and
+# checks that the version in crates/jcs-admit/npm/package.json resolves to the
+# jcs-admit-npm unit of release.toml.
+
+on:
+  pull_request:
+    paths:
+      - 'crates/jcs-admit/**'
+      - '.github/workflows/crate-jcs-admit-npm.yml'
+      - '.github/workflows/jcs-admit-npm.yml'
+      - '.github/workflows/release.yml'
+      - 'release.toml'
+      - 'scripts/workspace.py'
+  push:
+    branches: [main]
+    paths:
+      - 'crates/jcs-admit/**'
+      - '.github/workflows/crate-jcs-admit-npm.yml'
+      - '.github/workflows/jcs-admit-npm.yml'
+      - '.github/workflows/release.yml'
+      - 'release.toml'
+      - 'scripts/workspace.py'
+
+permissions:
+  contents: read
+
+jobs:
+  release-target:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: the package version resolves to the jcs-admit-npm unit
+        run: |
+          version=$(python3 -c "import json; print(json.load(open('crates/jcs-admit/npm/package.json'))['version'])")
+          python3 scripts/workspace.py release-target "jcs-admit-npm-v${version}"
+
+  qualify:
+    uses: ./.github/workflows/crate-jcs-admit-npm.yml

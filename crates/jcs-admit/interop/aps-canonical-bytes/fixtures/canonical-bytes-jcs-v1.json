@@ -1,0 +1,100 @@
+{
+  "version": "v1",
+  "spec": "RFC 8785 JSON Canonicalization Scheme (JCS): canonical bytes and SHA-256 of the canonical form",
+  "spec_ref": "RFC 8785; agent-passport-system canonicalizeJCS (src/core/canonical-jcs.ts)",
+  "generated_at": "2026-07-10",
+  "provenance": "Generated from the agent-passport-system canonicalizeJCS reference (npm 3.3.1) and verified by the suite runner's vendored RFC 8785 canonicalizer, proving byte-parity between the reference and the standalone runner.",
+  "vectors": [
+    {
+      "name": "float-tenth",
+      "description": "0.1 has no exact binary representation; ECMAScript Number::toString (RFC 8785) emits the shortest round-trip decimal.",
+      "input": {
+        "value": 0.1
+      },
+      "canonical": "{\"value\":0.1}",
+      "canonical_bytes_hex": "7b2276616c7565223a302e317d",
+      "canonical_sha256": "097a678e9d1339735cc744964f1c2b1271b2e650d7c59c72d2ff1c93064ceb6e"
+    },
+    {
+      "name": "float-1e21-boundary",
+      "description": "1e21 is the ECMAScript threshold at which Number::toString switches to exponential notation (\"1e+21\").",
+      "input": {
+        "value": 1e+21
+      },
+      "canonical": "{\"value\":1e+21}",
+      "canonical_bytes_hex": "7b2276616c7565223a31652b32317d",
+      "canonical_sha256": "776bf0d292f3767fdfca3fdc9683d0ba51886b8e6e79cd228a41bafcfa9a1a6f"
+    },
+    {
+      "name": "negative-zero",
+      "description": "JSON cannot carry a distinct -0 (it parses to 0); JCS renders both as \"0\". This pins that both map to the same bytes.",
+      "input": {
+        "value": 0
+      },
+      "canonical": "{\"value\":0}",
+      "canonical_bytes_hex": "7b2276616c7565223a307d",
+      "canonical_sha256": "23d7b286bd429460b92a2a1c21b6afc34110446c5034c17363fda363aa0a7c5d"
+    },
+    {
+      "name": "integer-above-2pow53",
+      "description": "9007199254740994 (2^53 + 2) is exactly representable as an IEEE 754 double and serializes as a plain integer, not exponential.",
+      "input": {
+        "value": 9007199254740994
+      },
+      "canonical": "{\"value\":9007199254740994}",
+      "canonical_bytes_hex": "7b2276616c7565223a393030373139393235343734303939347d",
+      "canonical_sha256": "ab21889a153140e1e3f9d33a98584898dad088dd462faa45c36b5686cf76aee3"
+    },
+    {
+      "name": "small-exponent-vs-decimal",
+      "description": "Per ECMAScript, 1e-7 stays exponential (\"1e-7\") while 1e-6 becomes decimal (\"0.000001\"). Object keys are also sorted (dec before exp).",
+      "input": {
+        "exp": 1e-7,
+        "dec": 0.000001
+      },
+      "canonical": "{\"dec\":0.000001,\"exp\":1e-7}",
+      "canonical_bytes_hex": "7b22646563223a302e3030303030312c22657870223a31652d377d",
+      "canonical_sha256": "4ecf258561293513519a28337ef76c2ebb21c28cbcb13cf2def91616edab7de1"
+    },
+    {
+      "name": "astral-key-ordering",
+      "description": "Keys sort by UTF-16 code unit, not code point: the astral-plane key U+1D306 (surrogate lead unit 0xD834) sorts BEFORE the BMP key U+FF61 (0xFF61), because 0xD834 < 0xFF61.",
+      "input": {
+        "𝌆": 2,
+        "｡": 1
+      },
+      "canonical": "{\"𝌆\":2,\"｡\":1}",
+      "canonical_bytes_hex": "7b22f09d8c86223a322c22efbda1223a317d",
+      "canonical_sha256": "0ed25e94bd02f7ca63a6019a9671e12af3ce4b0ed0233c786ea424c9dd322047"
+    },
+    {
+      "name": "nfd-key-used-as-given",
+      "description": "JCS sorts and emits object keys exactly as given and does NOT Unicode-normalize keys. This key is NFD (e + U+0301 combining acute) and is preserved as NFD, distinct from its NFC form.",
+      "input": {
+        "café": 1,
+        "plain": 2
+      },
+      "canonical": "{\"café\":1,\"plain\":2}",
+      "canonical_bytes_hex": "7b2263616665cc81223a312c22706c61696e223a327d",
+      "canonical_sha256": "05ba6cbd8fd6ef6e0b64b4cb3d907bb9521369d0f50cb31d55e002460eef77df"
+    },
+    {
+      "name": "nested-object-and-array",
+      "description": "Nested object keys sort recursively; array element order is always preserved (arrays are never reordered).",
+      "input": {
+        "outer": {
+          "b": 2,
+          "a": 1
+        },
+        "arr": [
+          3,
+          1,
+          2
+        ]
+      },
+      "canonical": "{\"arr\":[3,1,2],\"outer\":{\"a\":1,\"b\":2}}",
+      "canonical_bytes_hex": "7b22617272223a5b332c312c325d2c226f75746572223a7b2261223a312c2262223a327d7d",
+      "canonical_sha256": "be6fc370ca7efc25ae4b5ee7736507cbbac8fbc8278cb3371d1b8020a2bd0ca3"
+    }
+  ]
+}
