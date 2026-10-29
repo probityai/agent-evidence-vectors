@@ -35,6 +35,10 @@ ots verify -d "$(base64 -d release/CORPUS-DIGESTS.txt.sig | sha256sum | cut -d' 
 
 The signature was not submitted to a transparency log; `--insecure-ignore-tlog` selects offline signature verification. A verified timestamp dates the signature's commitment to the corpus. A key stored beside the corpus must still be selected through the consumer's own trust process.
 
+## Verify inside an air-gapped enclave
+
+[The enclave brief](../guides/airgap-enclave.md) builds one offline bundle that carries the wheel, the corpora and this signed digest list, and installs it with no network.
+
 ## Timestamp status
 
 An OpenTimestamps proof can remain pending until Bitcoin confirmation. The weekly [ots-upgrade workflow](../../.github/workflows/ots-upgrade.yml) fetches updated calendar proofs. A successful upgrade does not establish Bitcoin chain verification.
