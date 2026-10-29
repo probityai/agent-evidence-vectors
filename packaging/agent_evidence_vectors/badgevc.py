@@ -171,6 +171,22 @@ def _text(value: Any) -> bool:
     return isinstance(value, str) and bool(value)
 
 
+def _issuers_malformed(issuers: dict[str, Any]) -> bool:
+    for entry in issuers.values():
+        keys = entry.get("keys") if isinstance(entry, dict) else None
+        if not isinstance(keys, dict):
+            return True
+        for fragment, key in keys.items():
+            if not (_text(fragment) and isinstance(key, str)):
+                return True
+            try:
+                if len(b64url_decode(key)) != 32:
+                    return True
+            except Malformed:
+                return True
+    return False
+
+
 def _case_malformed(case: dict[str, Any]) -> bool:
     if not (_text(case.get("credential")) and isinstance(case.get("issuers"), dict)):
         return True
@@ -185,19 +201,7 @@ def _case_malformed(case: dict[str, Any]) -> bool:
     if not (isinstance(status, dict) and isinstance(status.get("revoked"), list)
             and all(_text(r) for r in status["revoked"])):
         return True
-    for entry in case["issuers"].values():
-        keys = entry.get("keys") if isinstance(entry, dict) else None
-        if not isinstance(keys, dict):
-            return True
-        for fragment, key in keys.items():
-            if not (_text(fragment) and isinstance(key, str)):
-                return True
-            try:
-                if len(b64url_decode(key)) != 32:
-                    return True
-            except Malformed:
-                return True
-    return False
+    return _issuers_malformed(case["issuers"])
 
 
 def split_token(token: str) -> tuple[str, str, str]:

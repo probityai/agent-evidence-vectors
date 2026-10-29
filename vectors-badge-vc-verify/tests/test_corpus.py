@@ -119,7 +119,8 @@ class TestBadgeVcCorpus:
                     continue
                 answer = badgevc.verify(ROOT / entry["path"] / "case.json", frozenset({reason}))
                 if entry["id"] in NO_KEY:
-                    assert answer == {"decision": "deny", "reason": "signature_invalid"}, entry["id"]
+                    assert answer == {"decision": "deny",
+                                      "reason": "signature_invalid"}, entry["id"]
                 else:
                     assert answer == {"decision": "allow", "reason": "verified"}, entry["id"]
 
