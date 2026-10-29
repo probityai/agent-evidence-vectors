@@ -84,6 +84,7 @@ agmi, Rul1an/aee-checker and MoltyCel/moltrust-api run a corpus from this reposi
 | --- | --- |
 | Start a project with this Action already in CI | [evidence-starter template](https://github.com/new?template_name=evidence-starter&template_owner=probityai) |
 | Pick a format and corpus | [Corpus guide](docs/guides/corpora.md) |
+| Check an AI Act log after the fact | [Log checking guide](docs/guides/cra-ai-act-logs.md) |
 | Implement the verifier interface | [Verifier contract](docs/reference/verifier-contract.md) |
 | Understand what the fixtures test | [Corpus measurements](https://github.com/probityai/agent-evidence-vectors/blob/v0.30.0/docs/research/corpus-measurements.md) |
 | Check release bytes and signatures | [Release verification](docs/reference/release-verification.md) |
