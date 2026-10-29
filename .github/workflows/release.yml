@@ -1,42 +1,29 @@
 name: release
 
-# Two release paths share this file, and the trigger tells them apart.
+# What a tag has to survive before anyone can cite it.
 #
-# 1. The corpus. A pushed tag `v<major>.<minor>.<patch>` runs `verify` (the
-#    signed digest list, the tag signature, the time evidence) and then
-#    `publish`, which builds the agent-evidence-vectors wheel and sdist and
-#    uploads them to PyPI (environment pypi) with attestations. This workflow
-#    VERIFIES and never signs: the private half of the corpus signing key is in
-#    the maintainer's keyring and the signature is made locally, at tag time, by
-#    scripts/release-sign.sh. Putting the key in an Actions secret would make it
-#    readable by every workflow that ever runs here and by anyone who can land a
-#    workflow change.
+# This workflow VERIFIES and never signs. The private half of the corpus signing
+# key is in the maintainer's keyring and the signature is made locally, at tag
+# time, by scripts/release-sign.sh. Putting the key in an Actions secret would
+# make it readable by every workflow that ever runs here and by anyone who can
+# land a workflow change, which is a worse posture than a key on one machine
+# behind one login. So the division is: the maintainer commits, and CI refuses.
 #
-# 2. The crates, packages and Action. A published GitHub release whose tag is
-#    <prefix>-v<version> publishes one unit of release.toml: an npm package
-#    (environment npm) through trusted publishing, so no registry token is
-#    stored anywhere. A pushed tag alone publishes
-#    nothing on this path: the import of a repository brings its old tags under a
-#    prefix, and those must never trigger a publish. A release published for a
-#    bare `v<version>` tag resolves to registry "none" and no job runs for it.
-#
-# Trusted publisher entries, all alike: owner probityai, repository
-# agent-evidence-vectors, workflow release.yml, and the environment named by the
-# job (the corpus wheel's entry predates the environments and names none, which
-# also matches).
-#
-#   tag prefix                  registry   unit
-#   v<version> (bare)           PyPI       the agent-evidence-vectors wheel (path 1)
-#   jcs-admit-npm-v             npm        crates/jcs-admit/npm (the tarball crate-jcs-admit-npm.yml qualified)
-#
-# More units are added to release.toml and to this file in the change that imports
-# their directory.
-#
-# resolve refuses a tag whose unit is not in release.toml yet, whose directory
-# is missing, whose manifest carries another version, or whose commit is not on
-# main. Each publish job runs only for its own unit, so the job holding the
-# id-token for one project never runs for another. PyPI trusted publishing does
-# not accept a reusable workflow, so each publish job carries its steps here.
+# It is a separate workflow rather than another job in ci.yml because it answers
+# a separate question. ci.yml asks whether the corpus and the rails are correct.
+# This asks whether the bytes a stranger will fetch by tag name are the bytes the
+# maintainer signed. A red run here says the release cannot be cited, not that
+# the code is broken, and a reader should be able to tell those apart from the
+# job name alone.
+
+# A second path shares this file. A published GitHub release whose tag is
+# <prefix>-v<version> publishes one unit of release.toml through trusted
+# publishing: today the jcs-admit npm package (tag jcs-admit-npm-v<version>,
+# environment npm). The two paths cannot meet: the corpus jobs run on a pushed
+# tag matching v*, and never on a release event; the unit jobs run on a release
+# event only, and resolve refuses a tag whose unit is not in release.toml, whose
+# version differs from the manifest, or whose commit is not on main. A bare
+# v<version> release resolves to registry "none" and no unit job runs for it.
 
 on:
   push:
@@ -45,8 +32,8 @@ on:
     types: [published]
   workflow_dispatch:
 
-# Least privilege at the top; the publish jobs alone add id-token, which is what
-# the registries verify the workflow identity with.
+# Least privilege at the top; the publish job alone adds id-token, which is
+# what PyPI trusted publishing verifies the workflow identity with.
 permissions:
   contents: read
 
@@ -148,6 +135,12 @@ jobs:
           command -v ots >/dev/null || python3 -m pip install --quiet opentimestamps-client
           uv run python scripts/release-gate.py --with-timestamps
 
+      # The grants behind the Verified by Probity badge, re-checked against the
+      # current workflow allowlist and revocations. A grant that fails blocks the
+      # release until it is fixed or withdrawn.
+      - name: every Verified by Probity grant still meets the evidence rule
+        run: python3 scripts/badge-grants-gate.py
+
       - name: what a citer will verify
         run: |
           cat release/CORPUS-DIGESTS.txt
@@ -163,9 +156,6 @@ jobs:
     needs: verify
     if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/project/agent-evidence-vectors/
     permissions:
       contents: read
       id-token: write
