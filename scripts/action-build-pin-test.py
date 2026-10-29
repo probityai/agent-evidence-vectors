@@ -152,7 +152,8 @@ def case_floating_python_goes_red(work: Path) -> None:
 def case_unhashed_backend_goes_red(work: Path) -> None:
     """With hash checking dropped from the backend install, this file must fail."""
     anchor = (
-        '--require-hashes --only-binary :all: \\\n          -r "$ACTION_PATH/action-build-requirements.txt"'
+        "--require-hashes --only-binary :all: \\\n"
+        '          -r "$ACTION_PATH/action-build-requirements.txt"'
     )
     _mutation_goes_red(work, anchor, anchor.replace("--require-hashes ", ""), "--require-hashes")
 
