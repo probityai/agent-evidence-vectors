@@ -14,7 +14,7 @@ has no row for, and name the section in ``draftSection``. Members carrying
 they differ: an entry for an input with several values takes its pair from one
 value (``aggregate_values``), and the coverage clause of Section 5.7 is
 ``scopeComplete`` of true, a gap inside ``pathScope`` beside it being malformed
-at any tier. Members CS1 to CS25 are rows of the same revision: a
+at any tier. Members CS1 to CS40 are rows of the same revision: a
 ``consumption-state`` entry may carry the ``consumption`` member, and
 ``decision.operationKey`` is the agent's identifier for one intended operation
 and the identity of a retry (``consumption_findings``, ``within_limit``,
@@ -61,6 +61,7 @@ import hashlib
 import importlib
 import json
 import os
+import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -160,7 +161,19 @@ CONSUMPTION_MEMBERS = (
 )
 #: The one member ``consumption`` may carry beside them: the digest of the limit
 #: document this record's ``limitDigest`` replaced (a raise or a cut).
-CONSUMPTION_OPTIONAL = ("supersedes",)
+CONSUMPTION_OPTIONAL = ("supersedes", "asset")
+#: The members of ``asset``, the optional exact asset a consumption counts in
+#: when no ISO 4217 code names it (a token on one chain): a CAIP-19 asset id and
+#: the decimals of its smallest subunit. A record carries ``unit`` or ``asset``,
+#: never both (CS34 to CS40).
+ASSET_MEMBERS = ("id", "decimals")
+#: The largest decimals an asset may declare (an ERC-20 decimals is a uint8).
+ASSET_DECIMALS_MAX = 255
+#: CAIP-19: chain_id "/" asset_namespace ":" asset_reference, optional token id.
+CAIP19 = re.compile(
+    r"[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}"
+    r"(/[-.%a-zA-Z0-9]{1,78})?"
+)
 #: The non-negative integers among them (smallest subunit of ``unit``).
 CONSUMPTION_COUNTS = ("limit", "consumed", "reserved", "requested", "stateRevision")
 #: The members of one ``held`` entry, an earlier permit that has not settled.
@@ -183,6 +196,9 @@ CONSUMPTION_CHECKS = frozenset(
         "key-reuse",
         "supersedes-digest",
         "supersedes-self",
+        "asset-id",
+        "asset-decimals",
+        "asset-exclusive",
     }
 )
 #: The lastResult of an input the decision point never held a value of.
@@ -819,21 +835,47 @@ def _supersedes_shape(consumption: dict[str, Any]) -> None:
         raise Malformed("consumption-supersedes-self")
 
 
+def _asset_shape(asset: Any) -> None:
+    """The optional asset: exactly id and decimals, the id a CAIP-19 asset id
+    (CS35) and decimals a count no larger than ASSET_DECIMALS_MAX (CS36)."""
+    if not isinstance(asset, dict):
+        raise Malformed("consumption-malformed")
+    if any(name not in asset for name in ASSET_MEMBERS):
+        raise Malformed("member-missing")
+    if set(asset) - set(ASSET_MEMBERS):
+        raise Malformed("consumption-malformed")
+    asset_id = asset["id"]
+    if "asset-id" in CONSUMPTION_CHECKS and not (
+        isinstance(asset_id, str) and CAIP19.fullmatch(asset_id)
+    ):
+        raise Malformed("consumption-value-invalid")
+    decimals = asset["decimals"]
+    if "asset-decimals" in CONSUMPTION_CHECKS and not (
+        _is_count(decimals) and decimals <= ASSET_DECIMALS_MAX
+    ):
+        raise Malformed("consumption-value-invalid")
+
+
 def _consumption_shape(consumption: Any) -> dict[str, Any]:
     if not isinstance(consumption, dict):
         raise Malformed("consumption-malformed")
     required = [
         name
         for name in CONSUMPTION_MEMBERS
-        if name != "stateRevision" or "state-revision" in CONSUMPTION_CHECKS
+        if (name != "stateRevision" or "state-revision" in CONSUMPTION_CHECKS)
+        and (name != "unit" or "asset" not in consumption)
     ]
     if any(name not in consumption for name in required):
         raise Malformed("member-missing")
     if set(consumption) - set(CONSUMPTION_MEMBERS) - set(CONSUMPTION_OPTIONAL):
         raise Malformed("consumption-malformed")
-    unit = consumption["unit"]
+    if "asset-exclusive" in CONSUMPTION_CHECKS and "asset" in consumption and "unit" in consumption:
+        raise Malformed("consumption-unit-ambiguous")
+    unit = consumption.get("unit", "-")
     if not _is_digest(consumption["limitDigest"]) or not isinstance(unit, str) or not unit:
         raise Malformed("consumption-value-invalid")
+    if "asset" in consumption:
+        _asset_shape(consumption["asset"])
     _supersedes_shape(consumption)
     counted = [name for name in CONSUMPTION_COUNTS if name in consumption]
     if "counts" in CONSUMPTION_CHECKS and not all(_is_count(consumption[n]) for n in counted):
@@ -1732,10 +1774,84 @@ def _set_release_unshown(group: list[dict[str, Any]]) -> bool:
     return False
 
 
+#: What one ledger counts in: a ledger counts one unit or one asset, and an asset
+#: is its CAIP-19 id with its decimals. A test drops the decimals (CS39).
+ASSET_MATCH = {"decimals": True}
+
+
+def _denomination(pred: dict[str, Any]) -> tuple[Any, ...]:
+    consumption = consumption_of(pred)
+    assert consumption is not None
+    asset = consumption.get("asset")
+    if asset is None:
+        return ("unit", consumption["unit"])
+    return ("asset", asset["id"], asset["decimals"] if ASSET_MATCH["decimals"] else None)
+
+
+def _set_asset_mismatch(group: list[dict[str, Any]]) -> bool:
+    """One ledger counts one denomination: every record names the same ISO 4217
+    unit, or the same CAIP-19 asset with the same decimals. USDC on Base and
+    USDC on Solana are two assets (CS38), and one asset id under two decimals
+    values counts one amount at two scales (CS39)."""
+    return len({_denomination(pred) for pred in group}) > 1
+
+
 SET_RULES: list[tuple[str, str, Callable[[list[dict[str, Any]]], bool]]] = [
     ("stale-revision", "consumption-set-stale-revision", _set_stale_revision),
     ("release-unshown", "consumption-set-release-unshown", _set_release_unshown),
+    ("asset-mismatch", "consumption-set-asset-mismatch", _set_asset_mismatch),
 ]
+
+
+#: How the claim check reads a set: ``ledger`` confines it to the records of one
+#: ledger, so the claim would be keyed by the limit document (CS32); ``scope``
+#: reads the claim under the principal and the agent key (CS33); ``release``
+#: lets a record of the operation showing none end its claim (CS28).
+CLAIM_READING = {"check": True, "ledger": False, "scope": True, "release": True}
+
+
+def _claim_scope(pred: dict[str, Any]) -> tuple[Any, ...]:
+    """The scope of a claim: the principal (delegation.subject) and the agent
+    key (agent.signers). A rotated agent key is a new scope."""
+    if not CLAIM_READING["scope"]:
+        return ()
+    return (pred["delegation"].get("subject"), tuple(pred["agent"].get("signers") or []))
+
+
+def _set_retry_as_new(predicates: list[dict[str, Any]], ledger_of: dict[int, int]) -> bool:
+    """A held claim is keyed by the principal, the agent key and the operation
+    key, never by the limit document. A permit whose operation key a record of
+    the same scope holds, which does not itself hold that key, presents a retry
+    as a new operation (CS31, CS32), unless it is the original call (a lower
+    stateRevision of the same ledger) or a record of that operation shows none,
+    which leaves no claim (CS28). Replacing the limit neither drops the claim nor
+    makes its retry new, whether or not the new limit document names the old one
+    as supersedes (CS32)."""
+    carrying = [p for p in predicates if consumption_of(p) is not None]
+    for perm in carrying:
+        key = perm["decision"].get("operationKey")
+        if perm["decision"]["reported"] not in PERMITS or key in _held_keys(perm):
+            continue
+        for hold in carrying:
+            if hold is perm or _claim_scope(hold) != _claim_scope(perm):
+                continue
+            if key not in _held_keys(hold):
+                continue
+            same_ledger = ledger_of[id(hold)] == ledger_of[id(perm)]
+            if CLAIM_READING["ledger"] and not same_ledger:
+                continue
+            if same_ledger and _revision(perm) < _revision(hold):
+                continue
+            released = CLAIM_READING["release"] and any(
+                other is not perm
+                and other["decision"].get("operationKey") == key
+                and _claim_scope(other) == _claim_scope(perm)
+                and other["effect"]["observed"] == "none"
+                for other in carrying
+            )
+            if not released:
+                return True
+    return False
 
 
 #: The one way records are grouped: a replacement links two limit documents into
@@ -1787,6 +1903,10 @@ def consumption_set_findings(
     for name, code, check in SET_RULES:
         if name != disabled and any(check(group) for group in groups):
             return SetReport("malformed", [code])
+    ledger_of = {id(pred): index for index, group in enumerate(groups) for pred in group}
+    claim_on = CLAIM_READING["check"] and disabled != "retry-as-new"
+    if claim_on and _set_retry_as_new(predicates, ledger_of):
+        return SetReport("malformed", ["consumption-set-retry-as-new"])
     return SetReport("valid", [])
 
 
@@ -1848,7 +1968,7 @@ def verify_set(
 
 
 def set_rule_names() -> list[str]:
-    return [name for name, _, _ in SET_RULES]
+    return [name for name, _, _ in SET_RULES] + ["retry-as-new"]
 
 
 # --------------------------------------------------------------------------

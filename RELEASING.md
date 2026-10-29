@@ -76,6 +76,10 @@ installation pins and both copies of the verification recipe.
 | `docs/reference/release-verification.md` | the checkout pin in the verification recipe |
 | `uv.lock` | the `version` of the one `[[package]]` whose source is `virtual = "."` |
 
+After bumping `CITATION.cff`, run `python3 scripts/sync-install-pins.py` to move every pin on
+`README.md`, `DISTRIBUTION.md` and `docs/guides/runner.md` to the published release; CI runs it with
+`--check`.
+
 `scripts/distribution-gate.py` holds the inbound page and `CITATION.cff` to each
 other and refuses any version token on the page that is not the released one.
 `scripts/citation-metadata-gate.py` holds the deposit metadata. The wheel is held

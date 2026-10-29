@@ -39,6 +39,18 @@ from typing import Any
 # uploaded whole, and the count below says how many were elided.
 MAX_ROWS = 50
 
+# The line that points a reader at the offline verifier. A failing run carries
+# OFFLINE alone, because a maintainer reading a red run is who wants the tool;
+# a passing run, and every corpus README, carry BRIDGE, which adds the "Checked with
+# Probity" statement a failing run cannot make. scripts/probity-bridge-test.py holds
+# every copy to these constants, so a release of probityai changes the pin here
+# and the test names every README still on the old one.
+OFFLINE = "Check evidence offline with probity-verify: `pip install probityai==0.1.0`."
+BRIDGE = (
+    "Checked with Probity ([github.com/probityai/probity](https://github.com/probityai/probity)). "
+    + OFFLINE
+)
+
 
 def required(name: str) -> str:
     value = os.environ.get(name)
@@ -63,7 +75,8 @@ def main() -> int:
         summary.append(
             f"## agent-evidence-vectors: no report\n\n"
             f"The harness exited {status} before writing `{report_path}`. "
-            "Read the step log for the refusal.\n"
+            "Read the step log for the refusal.\n\n"
+            f"{OFFLINE}\n"
         )
         outputs.append("vectors=0\nconform=0\nresult=fail\n")
         _write(summary_path, summary, output_path, outputs)
@@ -116,12 +129,7 @@ def main() -> int:
     cells = " | ".join(str(totals[c]) if c in totals else "n/a" for c in columns)
     summary.append(f"| {cells} |\n\n")
 
-    if result == "pass":
-        summary.append(
-            "Verified by Probity (github.com/probityai/probity). "
-            "The `probityai` command line is planned and not yet released: "
-            "`uv add probityai`, then `pip install probityai`.\n\n"
-        )
+    summary.append(f"{BRIDGE if result == 'pass' else OFFLINE}\n\n")
 
     summary.extend(_failure_rows(report))
 

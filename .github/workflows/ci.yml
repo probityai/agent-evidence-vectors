@@ -837,6 +837,12 @@ jobs:
         run: |
           .venv/bin/python -B scripts/readme-lint.py README.md
           .venv/bin/python -B scripts/readme-lint-test.py
+      - name: the install pins on the inbound pages match the published release
+        run: |
+          python3 scripts/sync-install-pins.py --check
+          python3 scripts/sync-install-pins-test.py
+      - name: the Action summary and every spec README carry the Probity bridge line
+        run: python3 scripts/probity-bridge-test.py
       - name: the pool venue retains source-bound native results and refuses incomplete runs
         run: .venv/bin/python -B scripts/pre-push-pool-test.py
       - name: the pre-push hook refuses a pushed commit message the commit-msg hook never saw

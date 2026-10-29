@@ -1640,6 +1640,20 @@ FROZEN: tuple[Frozen, ...] = (
         'incident and must not track the corpus.',
     ),
     Frozen(
+        'docs/proposals/catalog-1-body.md',
+        'a witness prefix byte length in a quoted verifier error',
+        'witness prefix byte length 164 does not equal',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length in a verifier error message quoted verbatim.',
+    ),
+    Frozen(
+        'docs/proposals/packets/catalog-1.md',
+        'a witness prefix byte length in a quoted verifier error',
+        'witness prefix byte length 164 does not equal',
+        'An integer that counts something other than this corpus and equals one of its figures by'
+        ' coincidence: a byte length in a verifier error message quoted verbatim.',
+    ),
+    Frozen(
         'vectors-receipt-signature/gen_vectors.py',
         'the zero-byte length of the upstream key-seed recipe',
         "suite's recipe: 31 zero bytes and",
