@@ -1053,6 +1053,11 @@ jobs:
           uv run --extra dev pytest vectors-agent-payment-mandate/tests -q
           uv run python vectors-agent-payment-mandate/check_vectors.py
           uv run python vectors-agent-payment-mandate/mutation_check.py
+      - name: the request/effect fixture contract and its reader agree
+        working-directory: site/examples/request-effect-join
+        run: |
+          python3 run_contract.py --check
+          python3 -m unittest discover -s tests -v
       - name: vectors-connector-scope cases regenerate, agree and every rule is load-bearing
         run: |
           set -euo pipefail
