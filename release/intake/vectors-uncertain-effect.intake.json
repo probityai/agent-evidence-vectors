@@ -17,7 +17,7 @@
     "routine": "corpus_digest in vectors-uncertain-effect/gen_vectors.py",
     "routine-file": "vectors-uncertain-effect/gen_vectors.py",
     "serialization": "corpus-routine",
-    "sha256": "daac643182ad55a62634ed4408e8d3221e8d5d719d81aee15c1a5c9c16de576e",
+    "sha256": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -91,7 +91,7 @@
       },
       "path": "vectors-uncertain-effect/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "909fba6e3f18ef914653db966691bf6d149b9e59044ef3ce233acb90f9e1e60b"
+      "sha256": "e93ae71c66cb9d77d58e3e482b01d358a039eb0c9434b7f4700c892248ec06ae"
     },
     {
       "consumed": "unconsumed",
@@ -422,7 +422,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "f81adafa548c3deff76a009f485464e45626731316c64db843164d03e94d1209"
+    "sha256": "a6821dbf91443ccf092b40ab3a63448d7ee2ee538f6151cd2e4bf694a7a0038e"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -461,7 +461,7 @@
       "reconciled-present-still-unknown"
     ],
     "path": "vectors-uncertain-effect/MANIFEST.json",
-    "sha256": "3b9396357fc1f170489cd75223a0482e3c38ca3df53a0947a0068e042748b2a4"
+    "sha256": "158630b49b5ae47c92f65506bfbf25c5ad9952eaef72269f5f23a047854af1e2"
   },
   "members": [
     {
@@ -567,7 +567,7 @@
       "files": [
         {
           "path": "vectors-uncertain-effect/cases/contract-id-unknown/record.json",
-          "sha256": "6978c884b7a9adabaeea53c37929154ddbf8d5fe352a46b3a3c6e0774c3f99c0"
+          "sha256": "b078882b6c690ed40119e23b4a440d9f1694cf1e562267b04bb4606e96d7963f"
         }
       ],
       "id": "contract-id-unknown"
