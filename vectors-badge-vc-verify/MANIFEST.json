@@ -1,0 +1,488 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1",
+  "corpusDigest": "36769345adc7bf884b57f86f1d54ed35f74df07bf26fd8bc835d38b82a66ce7b",
+  "suite": "badge-vc-verify/v1",
+  "vectors": [
+    {
+      "edit": "control: a conformant credential",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "46e579dea9470a8f8beabd38c35d7705b1bd04490a5f8c5625e01fb12391e308"
+      },
+      "id": "allow-plain",
+      "path": "cases/allow-plain"
+    },
+    {
+      "edit": "control: an expirationDate a year after the verification time",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "baa22672138b2a173ee3df0c9cacb12b022dbd89b703dcdf413ca926411a93ac"
+      },
+      "id": "allow-expiration-in-future",
+      "path": "cases/allow-expiration-in-future"
+    },
+    {
+      "edit": "control: the issuer's second key signs, named by its own fragment",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "b56c6533e0dfc840a4e8f001027cd28646f3f2af3b3aa7be7f169ce5cf236336"
+      },
+      "id": "allow-second-key-of-issuer",
+      "path": "cases/allow-second-key-of-issuer"
+    },
+    {
+      "edit": "control: the revocation store lists a different credential",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "61be58128c7bc7db6b9eadcbd97bc2885dec1bb8acb2519c51a89b2b2375314b"
+      },
+      "id": "allow-revoked-list-names-another",
+      "path": "cases/allow-revoked-list-names-another"
+    },
+    {
+      "edit": "control: expiration one second after the verification time",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "a675949017ab870bf66c91f80a70ffa59ce4be0c614b17cf07f855e16b6dcab6"
+      },
+      "id": "allow-expiration-one-second-after",
+      "path": "cases/allow-expiration-one-second-after"
+    },
+    {
+      "edit": "control: issuance at the verification time is not in the future",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "b2c3012e0736b1c19b42b29d8da042d4c80acd69f2342042178fed2c29140764"
+      },
+      "id": "allow-issuance-equals-verification-time",
+      "path": "cases/allow-issuance-equals-verification-time"
+    },
+    {
+      "edit": "control: offsets denote the same instants as 11:30Z and 13:00Z",
+      "expected": {
+        "decision": "allow",
+        "reason": "verified"
+      },
+      "files": {
+        "case.json": "59e9afcf0bbc5e220bfa59b60b693e7ed587305724392ad904be90dcbae2bdc3"
+      },
+      "id": "allow-offset-timestamps",
+      "path": "cases/allow-offset-timestamps"
+    },
+    {
+      "edit": "the issuer's store lists the credential; the presented token carries no revocation",
+      "expected": {
+        "decision": "deny",
+        "reason": "revoked"
+      },
+      "files": {
+        "case.json": "c60818657e481b21729fed23482bfcac456cc28c78b25769fb862fc01f45a979"
+      },
+      "id": "revoked-in-issuer-store",
+      "path": "cases/revoked-in-issuer-store"
+    },
+    {
+      "edit": "expirationDate is in 2020",
+      "expected": {
+        "decision": "deny",
+        "reason": "expired"
+      },
+      "files": {
+        "case.json": "86a3067b5a480d846fd3542727e0d4760c77a13e59dd85c5bd5c8e0eb5e8a7ec"
+      },
+      "id": "expired-years-ago",
+      "path": "cases/expired-years-ago"
+    },
+    {
+      "edit": "expirationDate is the verification time, which is not after it",
+      "expected": {
+        "decision": "deny",
+        "reason": "expired"
+      },
+      "files": {
+        "case.json": "6355a3567ffc1caa67fb3ec46cd9db1b7b56bc4adfe6cab2be5aa61085fb3450"
+      },
+      "id": "expiration-equals-verification-time",
+      "path": "cases/expiration-equals-verification-time"
+    },
+    {
+      "edit": "an offset date-time that is 11:30Z, before the verification time",
+      "expected": {
+        "decision": "deny",
+        "reason": "expired"
+      },
+      "files": {
+        "case.json": "34bbb2c2b6b3fd5752259368da9aa9616253f541c9733e3166e2cad9ec97befb"
+      },
+      "id": "expired-by-offset",
+      "path": "cases/expired-by-offset"
+    },
+    {
+      "edit": "issuanceDate is in 2027",
+      "expected": {
+        "decision": "deny",
+        "reason": "not_yet_valid"
+      },
+      "files": {
+        "case.json": "c3a604c5353666769a45bf3b59bd127db9902a182eadf5ea0dd0a044b4ed4528"
+      },
+      "id": "not-yet-valid",
+      "path": "cases/not-yet-valid"
+    },
+    {
+      "edit": "issuanceDate is one second after the verification time",
+      "expected": {
+        "decision": "deny",
+        "reason": "not_yet_valid"
+      },
+      "files": {
+        "case.json": "9b3acb423fa3f4b82ed5b93b96e3c51f8d2afad271f7c995aa7096a2ed8a48f9"
+      },
+      "id": "not-yet-valid-by-one-second",
+      "path": "cases/not-yet-valid-by-one-second"
+    },
+    {
+      "edit": "the credential names the issuer, the key id names the agent's own DID, and the agent's key signed it",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_key_binding"
+      },
+      "files": {
+        "case.json": "d54059379d5ee12dd0ab60ef98aab94f378ade56a73c2ead7dfd9b7452ecc359"
+      },
+      "id": "issuer-claim-differs-from-kid",
+      "path": "cases/issuer-claim-differs-from-kid"
+    },
+    {
+      "edit": "the issuer holds key-1 and key-2, and the key id says key-3",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_key_binding"
+      },
+      "files": {
+        "case.json": "3c1d0fdae1132f270070ea1e9c10b13e590d7528340e360c5eb3568fb18de323"
+      },
+      "id": "kid-fragment-not-an-issuer-key",
+      "path": "cases/kid-fragment-not-an-issuer-key"
+    },
+    {
+      "edit": "the key id names a DID the verifier resolved no keys for",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_key_binding"
+      },
+      "files": {
+        "case.json": "2e7107abc8bd40288ff4f8112d8a7c6066f95c868b372094215011a44ebeaf40"
+      },
+      "id": "kid-did-unknown-to-verifier",
+      "path": "cases/kid-did-unknown-to-verifier"
+    },
+    {
+      "edit": "the key id is right and a different key signed",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "0d3ff507769bf2e6baf4dd89ad19c830fa78be796716c603fee54ce7a0b8c627"
+      },
+      "id": "signed-by-stranger-key",
+      "path": "cases/signed-by-stranger-key"
+    },
+    {
+      "edit": "the badge level changed after the issuer signed",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "ac9a1d1a8c5e39fcd7d5df8e23b6e2cd51cf79af5251cba464021d072818ace4"
+      },
+      "id": "payload-altered-after-signing",
+      "path": "cases/payload-altered-after-signing"
+    },
+    {
+      "edit": "the signature segment is 32 bytes, not 64",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "7805251986b804d86095a7f0baaa2a3632aee8be7ae664f43a7bc1ea28f77ba8"
+      },
+      "id": "signature-truncated",
+      "path": "cases/signature-truncated"
+    },
+    {
+      "edit": "the key id names key-2 and key-1 signed",
+      "expected": {
+        "decision": "deny",
+        "reason": "signature_invalid"
+      },
+      "files": {
+        "case.json": "77bb1e60cc230c4a5218cac9eafcf004b61ea3679fce6c078c33587bf3859004"
+      },
+      "id": "kid-names-other-issuer-key",
+      "path": "cases/kid-names-other-issuer-key"
+    },
+    {
+      "edit": "the verifier trusts a different issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_trusted"
+      },
+      "files": {
+        "case.json": "456facc82b754d47de9c73dd22d59174edd2a093bd6157c449445ef74b3f776b"
+      },
+      "id": "issuer-untrusted",
+      "path": "cases/issuer-untrusted"
+    },
+    {
+      "edit": "the verifier trusts no issuer",
+      "expected": {
+        "decision": "deny",
+        "reason": "issuer_not_trusted"
+      },
+      "files": {
+        "case.json": "9f774708ffa9f03e6eb3efa36c86a0dc3c9c137ac12111551606d8d231c05497"
+      },
+      "id": "trusted-issuers-empty",
+      "path": "cases/trusted-issuers-empty"
+    },
+    {
+      "edit": "alg is none and the signature segment is empty",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "b4d7dec075ac65089777092a0d162bf01330e7513bdd00418c7610fdbfa2d985"
+      },
+      "id": "jws-alg-none",
+      "path": "cases/jws-alg-none"
+    },
+    {
+      "edit": "alg is HS256",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "68a516c04071634d61847a33d04d5e04e7d9bb8c09638c95b82092817bc1bf86"
+      },
+      "id": "jws-alg-hs256",
+      "path": "cases/jws-alg-hs256"
+    },
+    {
+      "edit": "the token has two parts",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "3a4525e90ecb7ab7036d6e087ed3a8cff51526f85d6bec2918bccd298be6d805"
+      },
+      "id": "jws-two-parts",
+      "path": "cases/jws-two-parts"
+    },
+    {
+      "edit": "the token has four parts",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "694960d5a4db3533c6f8e12683eab4d93ee09fb6063782b0b40dd26a28dfaab9"
+      },
+      "id": "jws-four-parts",
+      "path": "cases/jws-four-parts"
+    },
+    {
+      "edit": "the header decodes to text that is not JSON",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "12c16bd9e6d62c5b45cbc8f1056ea212aa274f933d29823b5c46f2d29061e33d"
+      },
+      "id": "jws-header-not-json",
+      "path": "cases/jws-header-not-json"
+    },
+    {
+      "edit": "the key id has no #fragment",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "55670a58397e91dceeeb5881bece8c8fd2aa9d1456d20bce3cabdcecaf2e06c4"
+      },
+      "id": "jws-kid-without-fragment",
+      "path": "cases/jws-kid-without-fragment"
+    },
+    {
+      "edit": "the header has no kid",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "d3c53fbcb32027c0acaaa18a06b285bfd200ba30adcd1f3e35b4fd2ed3a16b32"
+      },
+      "id": "jws-kid-missing",
+      "path": "cases/jws-kid-missing"
+    },
+    {
+      "edit": "a segment carries base64 padding, which a compact JWS does not",
+      "expected": {
+        "decision": "deny",
+        "reason": "jws_malformed"
+      },
+      "files": {
+        "case.json": "22f6b88c4889ffc69a81d3072b6b2207a04fdc1270ff4375b23b037e25074f71"
+      },
+      "id": "jws-padded-base64",
+      "path": "cases/jws-padded-base64"
+    },
+    {
+      "edit": "type omits VerifiableCredential",
+      "expected": {
+        "decision": "deny",
+        "reason": "credential_malformed"
+      },
+      "files": {
+        "case.json": "d60d87874f8b7129fbf0a23172eea8937fba500b626c74d55437dbaf23003460"
+      },
+      "id": "credential-type-lacks-verifiable-credential",
+      "path": "cases/credential-type-lacks-verifiable-credential"
+    },
+    {
+      "edit": "credentialSubject has no id",
+      "expected": {
+        "decision": "deny",
+        "reason": "credential_malformed"
+      },
+      "files": {
+        "case.json": "f6ec5edc89eaabf16d82d53d8e2675c43fc000644a2190ec7b2876d61996cc72"
+      },
+      "id": "credential-subject-id-missing",
+      "path": "cases/credential-subject-id-missing"
+    },
+    {
+      "edit": "issuanceDate is not an RFC 3339 date-time",
+      "expected": {
+        "decision": "deny",
+        "reason": "credential_malformed"
+      },
+      "files": {
+        "case.json": "7bc3b18d5d41cbef33f7273f9120013a8db0e5f2ce4a2dd92dee4664847e5a6a"
+      },
+      "id": "credential-issuance-unparseable",
+      "path": "cases/credential-issuance-unparseable"
+    },
+    {
+      "edit": "expirationDate is not an RFC 3339 date-time",
+      "expected": {
+        "decision": "deny",
+        "reason": "credential_malformed"
+      },
+      "files": {
+        "case.json": "97d6d4d51c108fa9a02e45ff1fbfc0793962915238773980edaea9a6ac7d9ee5"
+      },
+      "id": "credential-expiration-unparseable",
+      "path": "cases/credential-expiration-unparseable"
+    },
+    {
+      "edit": "the case carries no status store",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "a7c8c3a78a9ffb6609546ba649075a3f7ae6603e96702cf36d8068f7f490afa4"
+      },
+      "id": "case-status-missing",
+      "path": "cases/case-status-missing"
+    },
+    {
+      "edit": "revoked is text, not a list",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "46eded52ee1027573ec028da80bcf4438b73c7c979e5f9ba0ec5ea3a022f7e79"
+      },
+      "id": "case-revoked-not-a-list",
+      "path": "cases/case-revoked-not-a-list"
+    },
+    {
+      "edit": "an issuer's key decodes to 5 bytes",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "43ab6ad84bc1b94cd322879c953fcc06b08abb6f7870cad5ea2999775771ac33"
+      },
+      "id": "case-issuer-key-not-32-bytes",
+      "path": "cases/case-issuer-key-not-32-bytes"
+    },
+    {
+      "edit": "verificationTime is not an RFC 3339 date-time",
+      "expected": {
+        "decision": "deny",
+        "reason": "malformed_case"
+      },
+      "files": {
+        "case.json": "1240cbc1dfd110ba363f3f0c32a8155f66a0da84e8bfdff8a0e990d59ea1aa29"
+      },
+      "id": "case-verification-time-unparseable",
+      "path": "cases/case-verification-time-unparseable"
+    },
+    {
+      "edit": "the case names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "case.json": "2b2d9b0f0b8091b1bc4952cbd6530e84298a1f4bc50983576ac7c0d4cabe8d0e"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing"
+    },
+    {
+      "edit": "the case names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "case.json": "7ab30f4899be782cddd44e59ab5a52e5010a873b962b57f605ecce4181dd2950"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown"
+    }
+  ],
+  "verifierContract": "verifier case.json --json; exit 0 allow, 1 deny"
+}
