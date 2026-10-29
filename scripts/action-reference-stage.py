@@ -136,6 +136,24 @@ def aee_problems(entry: dict[str, Any], found: dict[str, Any], pinned: bool) -> 
     return problems
 
 
+def aee_family_notes(
+    entries: list[dict[str, Any]], agreed: set[str], primary: dict[str, str]
+) -> list[str]:
+    """Drop from `agreed` every indeterminate family no single declared reading explains."""
+    families: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        if entry.get("kind") == "indeterminate" and entry["id"] in agreed:
+            families.setdefault(entry["expected"].get("family", ""), []).append(entry)
+    notes = []
+    for family, members in families.items():
+        readings = members[0]["expected"].get("readings", {})
+        if not any(all(m["expected"]["readings"].get(r) == primary[m["id"]] for m in members)
+                   for r in readings):
+            notes.append(f"family {family}: no declared reading explains every member")
+            agreed -= {m["id"] for m in members}
+    return notes
+
+
 def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list[str]]:
     """N, M and the disagreements over an AEE corpus, each member judged on its own."""
     keys = [aee_test_key()]
@@ -158,17 +176,7 @@ def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list
         notes.extend(problems)
         if not problems:
             agreed.add(entry["id"])
-    # An indeterminate family counts only when one declared reading explains every member.
-    families: dict[str, list[dict[str, Any]]] = {}
-    for entry in entries:
-        if entry.get("kind") == "indeterminate" and entry["id"] in agreed:
-            families.setdefault(entry["expected"].get("family", ""), []).append(entry)
-    for family, members in families.items():
-        readings = members[0]["expected"].get("readings", {})
-        if not any(all(m["expected"]["readings"].get(r) == primary[m["id"]] for m in members)
-                   for r in readings):
-            notes.append(f"family {family}: no declared reading explains every member")
-            agreed -= {m["id"] for m in members}
+    notes.extend(aee_family_notes(entries, agreed, primary))
     return len(agreed), len(entries), notes
 
 

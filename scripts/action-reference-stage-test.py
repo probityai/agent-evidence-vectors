@@ -291,7 +291,7 @@ def case_dropping_a_member_kind_lowers_n(work: Path) -> None:
 
 
 def case_the_expectation_comes_from_the_corpus(work: Path) -> None:
-    """A member whose declared verdict is flipped stops counting: N reads the corpus, not the verifier."""
+    """A member whose declared verdict is flipped stops counting: N reads the corpus."""
     stage = load_stage()
     entries, _ = _default_corpus()
     member = json.loads(json.dumps(next(e for e in entries if e["kind"] == "accept")))
