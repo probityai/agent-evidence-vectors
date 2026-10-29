@@ -14,8 +14,8 @@
       "path": "release/CORPUS-DIGESTS.txt",
       "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
     },
-    "routine": "corpus_digest in vectors-badge-vc-verify/gen_vectors.py",
-    "routine-file": "vectors-badge-vc-verify/gen_vectors.py",
+    "routine": "corpus_digest in vectors-badge-vc-verify/digest.py",
+    "routine-file": "vectors-badge-vc-verify/digest.py",
     "serialization": "corpus-routine",
     "sha256": "36769345adc7bf884b57f86f1d54ed35f74df07bf26fd8bc835d38b82a66ce7b",
     "verdicts": {
@@ -69,6 +69,29 @@
       "path": "vectors-badge-vc-verify/check_vectors.py",
       "serialization": "bytes",
       "sha256": "3b7130ca9806b5b82b7837e7fdf52257fb9734f5c6885bb5ddfd05ebc8364c48"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "265dbc94d0570d211c9703a7a5d3d01d4f841dd0286cfab86088733865d96892"
+        },
+        "swapped-in": "daedac1d3ff50cc4da3c45c0f43ac1b0fd036c74624e5a7603b6da7f7126bfeb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-badge-vc-verify/digest.py",
+      "serialization": "bytes",
+      "sha256": "687b2b603799d9eaf40930b16ceedaa7e12e73b4349a054e3ff3f6f55505e6de"
     },
     {
       "consumed": "unconsumed",
@@ -503,7 +526,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "5fc1c9849e25e8067948c6c5a7914800243aa307b65da36cb227ed9f7f315de8"
+    "sha256": "92ab1df3c650a2d85fc0947ab44c341ed17541a29b13ae8471a783f00e8ca465"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
