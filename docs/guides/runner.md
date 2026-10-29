@@ -64,7 +64,7 @@ After your verifier runs, the action always runs a second stage that no input sw
 reference-checked conformance N of M
 ```
 
-N is the number of members whose every declared verdict the reference verifier reached too. M is every member of the corpus. Every member kind of the default `vectors` corpus has a route through the reference verifier's `adversarial_execution_evidence/v1` claim type, judged under the corpus's published substrate test key and under no key, so a conformant run reads `288 of 288`. A corpus the reference verifier has no route into reads `0 of M`. `FULL-RELEASE` is printed only when M is above zero and N equals M.
+N is the number of members whose every declared verdict the reference verifier reached too. M is every member of the corpus. Every member kind of the default `vectors` corpus has a route through the reference verifier's `adversarial_execution_evidence/v1` claim type, judged under the corpus's published substrate test key and under no key, so a conformant run reports N equal to M for the whole corpus. A corpus the reference verifier has no route into reads `0 of M`. `FULL-RELEASE` is printed only when M is above zero and N equals M.
 
 The stage records `reference.verifier.id`, `reference.checked`, `reference.total` and `reference.fullRelease` in the uploaded report, and exposes them as outputs. It does not change `result`: your verifier's verdict and the reference count are reported separately. The pin and its hashes are in `action-reference-requirements.txt`. The `agent-evidence-vectors` package takes no dependency on the reference verifier; only the action installs it.
 

@@ -93,7 +93,7 @@ def case_all_members_agree_is_a_full_release(work: Path) -> None:
         [routed("a"), routed("b")], Path("."), fake_crosscheck({"a": (2, []), "b": (1, [])})
     )
     assert (checked, total, notes) == (2, 2, [])
-    assert stage.line(checked, total) == "reference-checked conformance 2 of 2"
+    assert stage.line(checked, total) == f"reference-checked conformance {checked} of {total}"
     assert stage.full_release(checked, total) is True
 
 
@@ -105,7 +105,7 @@ def case_one_disagreement_is_not_a_full_release(work: Path) -> None:
     checked, total, notes = stage.tally([routed("a"), routed("b")], Path("."), cross)
     assert (checked, total) == (1, 2)
     assert notes == ["b: declared x, got y"]
-    assert stage.line(checked, total) == "reference-checked conformance 1 of 2"
+    assert stage.line(checked, total) == f"reference-checked conformance {checked} of {total}"
     assert stage.full_release(checked, total) is False
 
 
