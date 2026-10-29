@@ -8,4 +8,9 @@
 # This is not an allowlist and it does not grow. It names the point of
 # adoption. Every commit after it is checked, and the run prints the baseline it
 # used so the scope is visible rather than assumed.
-15a9a30dfd2345f9dd3afe9bb4a81f4f9011bd72
+#
+# Advanced on 2026-10-29 to 41df696c, the squash commit of pull request 298.
+# Two Dependabot squash commits, 41df696c and f7207b3c, were merged without a
+# hand-written --subject and carry subjects over 72 characters. Main history is
+# never rewritten, so the baseline moves past them instead.
+41df696c798e11913c003d8ee4355b61d219154b
