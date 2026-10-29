@@ -84,7 +84,9 @@ def release_target(tag: str, root: Path = ROOT) -> dict[str, str]:
         raise SystemExit(f"unit {unit['prefix']!r} directory {unit['directory']} does not exist")
     version = _version(unit, root)
     if version != match["version"]:
-        raise SystemExit(f"release tag {tag!r} does not match {unit['directory']} version {version}")
+        raise SystemExit(
+            f"release tag {tag!r} does not match {unit['directory']} version {version}"
+        )
     return {**unit, "version": version}
 
 
