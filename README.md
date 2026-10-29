@@ -58,7 +58,7 @@ The harness calls your executable with a vector-file path. Return a verdict thro
 Use the [GitHub Action](action.yml) to run the same check in your build and retain its report. The [CI guide](docs/guides/runner.md) gives a workflow step and the available inputs.
 
 ```yaml
-- uses: probityai/agent-evidence-vectors@v0.22.0
+- uses: probityai/agent-evidence-vectors@v0.30.0
   with:
     verifier: VERIFIER_COMMAND --json
 ```
