@@ -162,30 +162,45 @@ func bvCase(c map[string]any) (time.Time, map[string]map[string][]byte, bool) {
 	if !ok {
 		return at, nil, false
 	}
+	keys, ok := bvKeys(issuers)
+	return at, keys, ok
+}
+
+// bvKeys reads each issuer's declared keys; one malformed entry refuses the case.
+func bvKeys(issuers map[string]any) (map[string]map[string][]byte, bool) {
 	keys := map[string]map[string][]byte{}
 	for did, entry := range issuers {
 		holder, ok := entry.(map[string]any)
 		if !ok {
-			return at, nil, false
+			return nil, false
 		}
 		declared, ok := holder["keys"].(map[string]any)
 		if !ok {
-			return at, nil, false
+			return nil, false
 		}
-		keys[did] = map[string][]byte{}
-		for fragment, value := range declared {
-			text, ok := value.(string)
-			if !ok || fragment == "" {
-				return at, nil, false
-			}
-			raw, err := base64.RawURLEncoding.Strict().DecodeString(text)
-			if err != nil || len(raw) != ed25519.PublicKeySize {
-				return at, nil, false
-			}
-			keys[did][fragment] = raw
+		held, ok := bvHeld(declared)
+		if !ok {
+			return nil, false
 		}
+		keys[did] = held
 	}
-	return at, keys, true
+	return keys, true
+}
+
+func bvHeld(declared map[string]any) (map[string][]byte, bool) {
+	held := map[string][]byte{}
+	for fragment, value := range declared {
+		text, ok := value.(string)
+		if !ok || fragment == "" {
+			return nil, false
+		}
+		raw, err := base64.RawURLEncoding.Strict().DecodeString(text)
+		if err != nil || len(raw) != ed25519.PublicKeySize {
+			return nil, false
+		}
+		held[fragment] = raw
+	}
+	return held, true
 }
 
 func bvAllText(list []any) bool {
