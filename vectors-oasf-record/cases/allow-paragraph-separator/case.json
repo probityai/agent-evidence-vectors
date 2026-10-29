@@ -1,0 +1,12 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/oasf-record/v1",
+  "policy": {
+    "issuer": "https://accounts.example.com",
+    "subject": "alice@example.com"
+  },
+  "recordDigest": "sha256:33e42200512fd0ae67c986d538fa92adfcc6e1f08aca702f240978a0fe1ec73a",
+  "signer": {
+    "issuer": "https://accounts.example.com",
+    "subject": "alice@example.com"
+  }
+}
