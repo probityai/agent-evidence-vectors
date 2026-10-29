@@ -229,6 +229,11 @@ other half, refusing a tag whose artifacts do not verify.
 The **verify** job re-checks the published evidence as a stranger would: that the
 signed digest list verifies and that the tag holds those bytes, that the time
 evidence covers that signature, and that what a citer will verify actually does.
+It also re-checks every Verified by Probity grant in `docs/badge-grants.json`
+against the current workflow allowlist and revocations
+(`scripts/badge-grants-gate.py`), so a grant that no longer meets the evidence
+rule in `docs/VERIFIED-BADGE.md` blocks the release until it is fixed or
+withdrawn.
 
 The **publish** job builds the wheel and the sdist, runs the wheel from outside
 the checkout and replays every corpus it carries, asserts the wheel's version is

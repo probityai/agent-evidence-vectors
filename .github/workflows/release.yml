@@ -119,6 +119,12 @@ jobs:
           command -v ots >/dev/null || python3 -m pip install --quiet opentimestamps-client
           uv run python scripts/release-gate.py --with-timestamps
 
+      # The grants behind the Verified by Probity badge, re-checked against the
+      # current workflow allowlist and revocations. A grant that fails blocks the
+      # release until it is fixed or withdrawn.
+      - name: every Verified by Probity grant still meets the evidence rule
+        run: python3 scripts/badge-grants-gate.py
+
       - name: what a citer will verify
         run: |
           cat release/CORPUS-DIGESTS.txt
