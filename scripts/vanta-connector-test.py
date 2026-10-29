@@ -19,8 +19,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "packaging"))
 
+from agent_evidence_vectors.vanta_connector import cli as runner  # noqa: E402
 from agent_evidence_vectors.vanta_connector import client, payloads  # noqa: E402
-from agent_evidence_vectors.vanta_connector import run as runner  # noqa: E402
 
 STAMP = "2026-10-29T00:00:00Z"
 SECRET = "s3cret-value-never-printed"
@@ -95,7 +95,7 @@ class Fake:
 
             do_POST = do_PUT = do_GET = _handle
 
-            def log_message(self, *args: object) -> None:
+            def log_message(self, format: str, *args: object) -> None:
                 return
 
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)

@@ -93,14 +93,20 @@ def put_resources(
     The PUT is idempotent on uniqueId, so a retry cannot duplicate a record.
     """
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+    last: VantaError | None = None
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            reply = _send("PUT", api_base + RESOURCE_PATH, headers, body)
-            break
+            return _counts(_send("PUT", api_base + RESOURCE_PATH, headers, body), body)
         except _Status as error:
-            if error.status not in RETRY_STATUSES and error.status != 0 or attempt == MAX_ATTEMPTS:
+            if error.status not in RETRY_STATUSES and error.status != 0:
                 raise
-            sleep(2.0**attempt)
+            last = error
+            if attempt < MAX_ATTEMPTS:
+                sleep(2.0**attempt)
+    raise last or VantaError("the push was never attempted")
+
+
+def _counts(reply: dict[str, Any], body: dict[str, Any]) -> dict[str, int]:
     results = reply.get("results")
     if not isinstance(results, dict):
         raise VantaError("resource reply carries no results object")
