@@ -89,6 +89,7 @@ REFUSES_A_VERIFIER = (
     "vectors-ietf-agent-record-drafts",
     "vectors-mcp-owasp",
     "vectors-mcp-record-contract",
+    "vectors-mcp-server-profile",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
     "vectors-self-reported-record",

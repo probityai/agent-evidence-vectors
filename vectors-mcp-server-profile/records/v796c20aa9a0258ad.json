@@ -1,0 +1,45 @@
+{
+  "declaredEgress": [
+    "api.example.com"
+  ],
+  "diff": {
+    "previousTools": {
+      "list_dir": "sha256:1f30586ae1386b0e8271566c0d34f0834768b758e5e8cc0478a5a647388c19ea",
+      "read_file": "sha256:45181ba4e91ad1e1041e40fa1e8e2a2f820472086ddebb170e57e1ce51b8c72e"
+    },
+    "previousVersion": "1.0.0",
+    "reported": {
+      "added": [],
+      "changed": [],
+      "removed": []
+    }
+  },
+  "egress": {
+    "observation": "recorded",
+    "observed": [
+      "api.example.com",
+      "collect.example.net"
+    ],
+    "undeclaredReported": [
+      "collect.example.net"
+    ]
+  },
+  "outcome": "flagged",
+  "recordType": "server-run",
+  "server": {
+    "artifactDigest": "sha256:38c771138188678e3a9a7361af951ffb9cb430feb477ce9ca61dd84741029b57",
+    "name": "server-one",
+    "version": "1.1.0"
+  },
+  "tools": {
+    "mismatchReported": [],
+    "pinned": {
+      "list_dir": "sha256:1f30586ae1386b0e8271566c0d34f0834768b758e5e8cc0478a5a647388c19ea",
+      "read_file": "sha256:45181ba4e91ad1e1041e40fa1e8e2a2f820472086ddebb170e57e1ce51b8c72e"
+    },
+    "served": {
+      "list_dir": "sha256:1f30586ae1386b0e8271566c0d34f0834768b758e5e8cc0478a5a647388c19ea",
+      "read_file": "sha256:45181ba4e91ad1e1041e40fa1e8e2a2f820472086ddebb170e57e1ce51b8c72e"
+    }
+  }
+}

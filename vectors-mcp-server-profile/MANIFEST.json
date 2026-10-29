@@ -1,0 +1,292 @@
+{
+  "suite": "mcp-server-profile",
+  "subject": "an MCP server run record",
+  "tracksUpstream": "modelcontextprotocol/registry",
+  "checker": "check_server_record.py",
+  "conditions": {
+    "msp-c-1": {
+      "requires": "The record lists every served tool whose definition digest differs from its approved pin, and every served tool that has no pin.",
+      "why": "a tool-description change after approval is the rug pull, and a record that omits it reads as a clean run"
+    },
+    "msp-c-2": {
+      "requires": "The record's version diff lists exactly the tools changed, added and removed against the previous version's digests.",
+      "why": "a reviewer approving an update reads the diff, so an omitted tool is a change nobody was shown"
+    },
+    "msp-c-3": {
+      "requires": "Every host the server contacted that its declared egress does not name is listed as undeclared.",
+      "why": "the egress record is the only part of the run that shows where data left, and an unlisted host is the one that mattered"
+    },
+    "msp-c-4": {
+      "requires": "A run whose egress was not recorded ends as couldnt-run, never as clean or flagged.",
+      "why": "a missing observation read as an empty one is how a server that crashed on start gets a clean badge"
+    },
+    "msp-c-5": {
+      "requires": "A clean outcome requires no pin mismatch and no undeclared host once both are recomputed from the observed fields.",
+      "why": "the outcome is the field a registry ingests, so it must follow from the observations beside it"
+    },
+    "msp-c-6": {
+      "requires": "The record binds the artifact it ran by a sha256 digest, not by a version string.",
+      "why": "a version string is a name its owner can re-point, so a record naming one describes whatever the name resolves to later"
+    },
+    "msp-c-7": {
+      "requires": "A run set's results add up to the servers attempted, and its headline denominator is the servers attempted.",
+      "why": "a server that crashed is still a server the registry asked about, and a headline over the survivors turns a failure rate into a pass rate"
+    }
+  },
+  "counts": {
+    "accept": 9,
+    "reject": 10
+  },
+  "corpusDigest": "8ff6a6913388c912fd83d59ae6f2523c3a97f34662cb5e312061dc34344c9b74",
+  "note": "Every member is synthetic. A reject member violates one declared condition and differs from an accepting twin in one field, so a checker that refuses everything scores zero rather than full marks.",
+  "vectors": [
+    {
+      "id": "v008e1b9151983d15",
+      "kind": "accept",
+      "record": "records/v008e1b9151983d15.json",
+      "conditions": [
+        "msp-c-5"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "no mismatch and no undeclared host, so clean follows"
+    },
+    {
+      "id": "v07128aefbe8fc27f",
+      "kind": "reject",
+      "record": "records/v07128aefbe8fc27f.json",
+      "conditions": [
+        "msp-c-1"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-1"
+        ]
+      },
+      "cites": "a served tool with no pin, absent from the mismatch list"
+    },
+    {
+      "id": "v134e643936d01386",
+      "kind": "reject",
+      "record": "records/v134e643936d01386.json",
+      "conditions": [
+        "msp-c-1"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-1"
+        ]
+      },
+      "cites": "the same changed tool, absent from the mismatch list although the outcome is flagged"
+    },
+    {
+      "id": "v17b25e5379c4d174",
+      "kind": "accept",
+      "record": "records/v17b25e5379c4d174.json",
+      "conditions": [
+        "msp-c-1"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "a served tool whose description changed after approval is listed and the run is flagged"
+    },
+    {
+      "id": "v1fcad08d1c44eceb",
+      "kind": "reject",
+      "record": "records/v1fcad08d1c44eceb.json",
+      "conditions": [
+        "msp-c-3"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-3"
+        ]
+      },
+      "cites": "the same contact, absent from the undeclared list"
+    },
+    {
+      "id": "v3db5193cc1d684ab",
+      "kind": "accept",
+      "record": "records/v3db5193cc1d684ab.json",
+      "conditions": [
+        "msp-c-1"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "a served tool that was never approved is listed as a mismatch"
+    },
+    {
+      "id": "v4714d7db4e51b9ee",
+      "kind": "reject",
+      "record": "records/v4714d7db4e51b9ee.json",
+      "conditions": [
+        "msp-c-6"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-6"
+        ]
+      },
+      "cites": "the artifact is named by a version string"
+    },
+    {
+      "id": "v590165bf3f0bb010",
+      "kind": "accept",
+      "record": "records/v590165bf3f0bb010.json",
+      "conditions": [
+        "msp-c-7"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "twenty attempted, five that could not run counted, denominator twenty"
+    },
+    {
+      "id": "v65e1ad3185ee13a4",
+      "kind": "reject",
+      "record": "records/v65e1ad3185ee13a4.json",
+      "conditions": [
+        "msp-c-7"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-7"
+        ]
+      },
+      "cites": "the results add up to nineteen of twenty attempted: one server dropped"
+    },
+    {
+      "id": "v796c20aa9a0258ad",
+      "kind": "accept",
+      "record": "records/v796c20aa9a0258ad.json",
+      "conditions": [
+        "msp-c-3"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "the server contacted a host its declaration does not name and the record lists it"
+    },
+    {
+      "id": "v7edd682bd96524f3",
+      "kind": "accept",
+      "record": "records/v7edd682bd96524f3.json",
+      "conditions": [
+        "msp-c-2"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "the update changed one tool and the diff lists it; the pins were refreshed so the run is clean"
+    },
+    {
+      "id": "v8649f4d39185bfec",
+      "kind": "reject",
+      "record": "records/v8649f4d39185bfec.json",
+      "conditions": [
+        "msp-c-4"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-4"
+        ]
+      },
+      "cites": "the same crashed run recorded as clean"
+    },
+    {
+      "id": "v8c9bee6b148cc91f",
+      "kind": "accept",
+      "record": "records/v8c9bee6b148cc91f.json",
+      "conditions": [
+        "msp-c-2"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "the update added a tool and the diff lists it as added"
+    },
+    {
+      "id": "v997b8b4e4ac22707",
+      "kind": "reject",
+      "record": "records/v997b8b4e4ac22707.json",
+      "conditions": [
+        "msp-c-5"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-5"
+        ]
+      },
+      "cites": "a pin mismatch correctly listed, and an outcome of clean beside it"
+    },
+    {
+      "id": "v9d78b607a7174892",
+      "kind": "accept",
+      "record": "records/v9d78b607a7174892.json",
+      "conditions": [
+        "msp-c-4"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "the server crashed on start, nothing was observed, and the outcome says so"
+    },
+    {
+      "id": "vb5e69eeb01696f43",
+      "kind": "reject",
+      "record": "records/vb5e69eeb01696f43.json",
+      "conditions": [
+        "msp-c-2"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-2"
+        ]
+      },
+      "cites": "the update changed a tool and the diff reports no change"
+    },
+    {
+      "id": "vba853866ea639814",
+      "kind": "accept",
+      "record": "records/vba853866ea639814.json",
+      "conditions": [
+        "msp-c-6"
+      ],
+      "expected": {
+        "violates": []
+      },
+      "cites": "the artifact is bound by its sha256 digest"
+    },
+    {
+      "id": "vc82e812a80909c3a",
+      "kind": "reject",
+      "record": "records/vc82e812a80909c3a.json",
+      "conditions": [
+        "msp-c-7"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-7"
+        ]
+      },
+      "cites": "the headline denominator is fifteen: the servers that could not run were left out"
+    },
+    {
+      "id": "ve8c625cb2ce52929",
+      "kind": "reject",
+      "record": "records/ve8c625cb2ce52929.json",
+      "conditions": [
+        "msp-c-2"
+      ],
+      "expected": {
+        "violates": [
+          "msp-c-2"
+        ]
+      },
+      "cites": "the update added a tool and the diff does not list it"
+    }
+  ]
+}

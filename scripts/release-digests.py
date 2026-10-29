@@ -158,6 +158,7 @@ RECOMPUTERS: dict[str, Callable[[Path, dict[str, Any]], str]] = {
     "vectors-artifact-binding": _recompute_from_generator,
     "vectors-dependency-selection": _recompute_from_generator,
     "vectors-mcp-record-contract": _recompute_from_generator,
+    "vectors-mcp-server-profile": _recompute_from_generator,
     "vectors-mcp-response-phase": _recompute_from_generator,
     "vectors-observed-effect": _recompute_from_generator,
     "vectors-receipt-signature": _recompute_from_generator,

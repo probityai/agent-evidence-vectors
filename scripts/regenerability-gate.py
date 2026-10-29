@@ -167,6 +167,7 @@ GENERATORS = (
     # longer matches the digest list its SOURCE.json pins.
     "vectors-recorded/gen_vectors.py",
     "vectors-mcp-owasp/gen_vectors.py",
+    "vectors-mcp-server-profile/gen_vectors.py",
     # The MCP receipt examples import the observed-effect generator's helpers,
     # so they run after it and regenerate with it.
     "examples/mcp-receipts/gen_examples.py",
@@ -287,6 +288,9 @@ OWNED = (
     ("vectors-recorded", "INDEX.md"),
     ("vectors-recorded/cases", "**/*.*"),
     ("vectors-recorded/cases", "**/SHA256SUMS"),
+    ("vectors-mcp-server-profile", "MANIFEST.json"),
+    ("vectors-mcp-server-profile", "INDEX.md"),
+    ("vectors-mcp-server-profile/records", "v*.json"),
     ("vectors-mcp-owasp", "MANIFEST.json"),
     ("vectors-mcp-owasp", "INDEX.md"),
     ("vectors-mcp-owasp/records", "v*.json"),

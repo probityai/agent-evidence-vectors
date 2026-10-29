@@ -146,6 +146,7 @@ only-include = [
     "vectors-artifact-binding",
     "vectors-dependency-selection",
     "vectors-mcp-record-contract",
+    "vectors-mcp-server-profile",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
     "vectors-receipt-chain-end",
@@ -206,6 +207,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-artifact-binding" = "agent_evidence_vectors/corpora/vectors-artifact-binding"
 "vectors-dependency-selection" = "agent_evidence_vectors/corpora/vectors-dependency-selection"
 "vectors-mcp-record-contract" = "agent_evidence_vectors/corpora/vectors-mcp-record-contract"
+"vectors-mcp-server-profile" = "agent_evidence_vectors/corpora/vectors-mcp-server-profile"
 "vectors-mcp-response-phase" = "agent_evidence_vectors/corpora/vectors-mcp-response-phase"
 "vectors-observed-effect" = "agent_evidence_vectors/corpora/vectors-observed-effect"
 "vectors-receipt-chain-end" = "agent_evidence_vectors/corpora/vectors-receipt-chain-end"
@@ -309,6 +311,7 @@ only-include = [
     "vectors-artifact-binding",
     "vectors-dependency-selection",
     "vectors-mcp-record-contract",
+    "vectors-mcp-server-profile",
     "vectors-mcp-response-phase",
     "vectors-observed-effect",
     "vectors-receipt-chain-end",
@@ -418,7 +421,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
            "vectors-admission",
            "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
-           "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
+           "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-server-profile", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",
            "vectors-identity-binding", "vectors-authority-at-dispatch", "vectors-approval-binding", "vectors-delegator-right", "vectors-completion-confirmation", "vectors-dispatch-fence", "vectors-aggregate-accounting", "vectors-uncertain-effect", "vectors-agent-card-receipt", "vectors-credential-release",
            "vectors-converted-argument-binding", "vectors-chunked-export",
