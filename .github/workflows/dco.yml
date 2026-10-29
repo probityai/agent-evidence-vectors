@@ -6,8 +6,8 @@ name: dco
 #
 # It runs on pull_request_target so that the script judging a pull request
 # comes from the base branch; on pull_request, the pull request could edit the
-# script that judges it. Nothing from the pull request is checked out or run:
-# the script reads the pull request through the API. The verdict is posted as
+# script that judges it. Nothing from the pull request is run: the script fetches
+# its commits and reads them with git and the API. The verdict is posted as
 # the `dco/sign-off` commit status on the pull request's head commit, which is
 # the name to require in a branch ruleset.
 
@@ -17,16 +17,19 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
-  statuses: write
 
 jobs:
   dco:
+    permissions:
+      contents: read
+      pull-requests: read
+      statuses: write
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Self-test the sign-off rule
