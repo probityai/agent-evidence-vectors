@@ -2,7 +2,7 @@
 
 Cases for `oasf-record/v1`: is an [OASF](https://github.com/agntcy/oasf) record named by a digest a second implementation can recompute, and is the signature over that digest accepted only from the signer the consumer's policy names? Each case is two files: `record.json`, the record's bytes as the producer wrote them, and `case.json`, the digest the producer claims, the certificate identity whose signature over that digest verified, and the identity the policy names.
 
-A record store that hashes the output of a general-purpose JSON encoder, rather than the RFC 8785 bytes, gives a record two names: its own and the one every RFC 8785 implementation computes. The two differ whenever a value or a key holds `<`, `>`, `&`, U+2028 or U+2029, whenever keys sort differently by UTF-8 bytes than by UTF-16 code units, and for negative zero. A verifier that compares a signer with its policy as a pattern or a substring accepts `malice@example.com` for `alice@example.com`. Every denied case here is allowed by one of those two verifiers.
+A record digest is SHA-256 over the RFC 8785 bytes of the record, and a signer must equal the policy exactly, subject and issuer both. Every denied case here departs from a conformant case in one of those rules.
 
 ## The checks, in the order a verifier applies them
 

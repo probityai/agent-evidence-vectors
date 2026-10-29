@@ -1,23 +1,13 @@
 """Judge an OASF record's identity digest and the signer bound to it.
 
-A directory that stores OASF records names each record by a digest of its
-bytes, and a consumer accepts a signature over that digest only from the signer
-its own policy names. Three things go wrong in practice, and each one passes a
-verifier that checks less than this reader does:
+An OASF record is named by a digest, and a consumer accepts a signature over
+that digest only from the signer its own policy names. The rules are:
 
-1. The digest is computed over the output of a general-purpose JSON serializer
-   instead of the RFC 8785 canonical form. Such serializers escape ``<``, ``>``
-   and ``&``, escape U+2028 and U+2029, order keys by UTF-8 bytes rather than
-   UTF-16 code units, or print negative zero as ``-0``. A second
-   implementation that follows RFC 8785 then computes a different digest for
-   the same record, and refuses a good record or names a different one.
-2. Two different records share one digest because an integer outside the
-   exact range of an IEEE 754 double is read as the nearest double. RFC 7493
-   section 2.2 keeps integers inside that range; this reader refuses the rest.
-3. The signer's certificate identity is compared with the policy's identity as
-   a pattern or a substring, so ``malice@example.com`` satisfies a policy for
-   ``alice@example.com``. This reader compares both the subject and the issuer
-   for exact equality.
+1. The digest is SHA-256 over the RFC 8785 canonical bytes of the record.
+2. Every integer in the record is inside the exact range of an IEEE 754
+   double (RFC 7493 section 2.2); this reader refuses the rest.
+3. The signer's certificate subject and issuer equal the policy's exactly,
+   never as a pattern or a substring.
 
 Each case holds ``record.json``, the record's bytes as the producer wrote them,
 and ``case.json``, which carries the digest the producer claims for the record

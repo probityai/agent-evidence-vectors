@@ -5,9 +5,8 @@ producer wrote them, and ``case.json``, the digest the producer claims for the
 record, the identity of the certificate that signed that digest, and the
 identity the consumer's policy names. Each denied case departs from a
 conformant case in one place. The digests of the ``digest-over-*`` cases are
-computed over the output of an HTML-escaping serializer that orders keys by
-UTF-8 bytes, which is how several general-purpose JSON encoders write a map;
-the conformant digest is over the RFC 8785 bytes.
+computed over the output of a non-canonical serializer; the conformant digest
+is over the RFC 8785 bytes.
 """
 
 from __future__ import annotations
@@ -38,10 +37,8 @@ def _json(value: object) -> bytes:
 
 
 # ---------------------------------------------------------------------------
-# A general-purpose serializer, written out so the departure is visible: keys
-# in UTF-8 byte order, "<", ">" and "&" escaped, U+2028 and U+2029 escaped, and
-# negative zero printed with its sign. It is used only to compute the wrong
-# digest a denied case claims.
+# A non-canonical serializer, written out so the departure is visible. It is
+# used only to compute the wrong digest a denied case claims.
 
 _ESCAPED = {'"': '\\"', "\\": "\\\\", "\n": "\\n", "\r": "\\r", "\t": "\\t",
             "<": "\\u003c", ">": "\\u003e", "&": "\\u0026",
