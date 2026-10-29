@@ -201,6 +201,28 @@ def case_no_public_file_names_the_company_site(work: Path) -> None:
         assert FORBIDDEN_HOST not in path.read_text(encoding="utf-8"), f"{path} names the site"
 
 
+_REFERENCE_PYTHON: list[str] = []
+
+
+def reference_python() -> str:
+    """A python with the locked reference verifier, installed as the Action installs it.
+
+    The `crosscheck` group pins another probity-verify commit for the done-corpus
+    readers, so the stage runs from a venv of its own built from the hashed lock.
+    """
+    if not _REFERENCE_PYTHON:
+        venv = Path(tempfile.mkdtemp(prefix="aev-reference-venv-")) / "venv"
+        subprocess.run(["uv", "venv", "--quiet", str(venv)], check=True)
+        python = venv / "bin" / "python"
+        subprocess.run(
+            ["uv", "pip", "install", "--quiet", "--python", str(python), "--require-hashes",
+             "--only-binary", ":all:", "-r", str(LOCK)],
+            check=True,
+        )
+        _REFERENCE_PYTHON.append(str(python))
+    return _REFERENCE_PYTHON[0]
+
+
 def _run_stage(
     work: Path, corpus: str, total: int
 ) -> tuple[subprocess.CompletedProcess[str], dict[str, Any]]:
@@ -214,7 +236,7 @@ def _run_stage(
         "GITHUB_OUTPUT": str(work / "output.txt"),
     }
     proc = subprocess.run(
-        [sys.executable, str(STAGE)], env=env, capture_output=True, text=True, check=False
+        [reference_python(), str(STAGE)], env=env, capture_output=True, text=True, check=False
     )
     return proc, json.loads(report.read_text(encoding="utf-8"))
 
@@ -350,4 +372,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if os.environ.get("AEV_REFERENCE_REEXEC") != "1":
+        # Run every case, in-process ones included, under the locked reference verifier.
+        python = reference_python()
+        os.execve(python, [python, __file__], {**os.environ, "AEV_REFERENCE_REEXEC": "1"})
     raise SystemExit(main())
