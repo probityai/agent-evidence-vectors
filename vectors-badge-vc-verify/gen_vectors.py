@@ -199,8 +199,8 @@ def _binding_denials() -> list[Case]:
     claimed = sign(header_for(f"{AGENT}#key-1"), payload_for(name), "agent")
     return [
         (name, case(claimed), "deny", "issuer_key_binding",
-         "the credential names the issuer, the key id names the agent's own DID, and the "
-         "agent's key signed it"),
+         "the key id names a DID other than the credential's issuer, and a key of that DID "
+         "signed it"),
         ("kid-fragment-not-an-issuer-key",
          case(sign(header_for(f"{ISSUER}#key-3"), payload_for("kid-fragment-not-an-issuer-key"))),
          "deny", "issuer_key_binding",

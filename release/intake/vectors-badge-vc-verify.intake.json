@@ -17,7 +17,7 @@
     "routine": "corpus_digest in vectors-badge-vc-verify/digest.py",
     "routine-file": "vectors-badge-vc-verify/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "36769345adc7bf884b57f86f1d54ed35f74df07bf26fd8bc835d38b82a66ce7b",
+    "sha256": "e089c0eab6732d3e87dedacdfb1862f27b080425b8cd433c6549145efbacf92e",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -45,7 +45,7 @@
       },
       "path": "vectors-badge-vc-verify/README.md",
       "serialization": "bytes",
-      "sha256": "0f6f6c4d03791257037d6b2e8513e7f83e8b6edce3ca28dfc1bb671609e17a22"
+      "sha256": "aa0465d98a116635a34d98b270f71cd3c418fa5d33a8a685ab73160e851e927a"
     },
     {
       "consumed": "unconsumed",
@@ -114,7 +114,7 @@
       },
       "path": "vectors-badge-vc-verify/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "b2b24a4aa56a87c62e1140e161c7d5e39aad4be6da7c196fcefb82c3bf5c854f"
+      "sha256": "6cfcf2a523452b724d63ec4c1eacfd3ebfc00b7d2a0879c74f206d11df189625"
     },
     {
       "consumed": "unconsumed",
@@ -526,7 +526,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "92ab1df3c650a2d85fc0947ab44c341ed17541a29b13ae8471a783f00e8ca465"
+    "sha256": "f4df6e19cee3ff02b173842dfcba1d35c0f925f486727bdb320ae8908c423d8a"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -578,7 +578,7 @@
       "contract-id-unknown"
     ],
     "path": "vectors-badge-vc-verify/MANIFEST.json",
-    "sha256": "9480fef9a34edc864bc56786e798a6304a7967dc51903636616d248c38cf502b"
+    "sha256": "9a14a94e964988d504ebbeccea7eaa586e8f44fc2696a2fe2ff172ed5988b733"
   },
   "members": [
     {

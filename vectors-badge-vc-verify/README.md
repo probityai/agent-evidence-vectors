@@ -2,7 +2,7 @@
 
 Cases for `badge-vc-verify/v1`: does your verifier accept an agent badge issued as a W3C Verifiable Credential in a compact JWS (EdDSA) only when the issuer is trusted, the signing key belongs to that issuer, the signature covers the exact bytes sent, the credential is inside its validity window, and the issuer's own status store does not list it as revoked? Each case is one `case.json`: the token, the verification time, the key material resolved for each issuer DID, the trusted issuers, and the issuer's revocation store.
 
-A verifier that checks the signature and the key identifier but not the rest accepts an expired badge, a badge not yet valid, and a badge its issuer has revoked, because the token carries no sign of the revocation: the issuer's store is the authority, not the copy the holder presents. A verifier that checks the signature against the key the token names, without asking whether that key belongs to the issuer the credential claims, accepts a credential signed by its own subject. Every denied case here is allowed by one of those two verifiers.
+Each denied case departs from a conformant case in one place and is allowed by a verifier that skips the check it names. The revocation case, for example, is allowed by a verifier that reads only the token, because the issuer's status store is the authority and the token carries no sign of revocation.
 
 ## The checks, in the order a verifier applies them
 

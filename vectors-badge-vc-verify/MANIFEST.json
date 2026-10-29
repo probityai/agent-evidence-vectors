@@ -1,6 +1,6 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/contract/badge-vc-verify/v1",
-  "corpusDigest": "36769345adc7bf884b57f86f1d54ed35f74df07bf26fd8bc835d38b82a66ce7b",
+  "corpusDigest": "e089c0eab6732d3e87dedacdfb1862f27b080425b8cd433c6549145efbacf92e",
   "suite": "badge-vc-verify/v1",
   "vectors": [
     {
@@ -160,7 +160,7 @@
       "path": "cases/not-yet-valid-by-one-second"
     },
     {
-      "edit": "the credential names the issuer, the key id names the agent's own DID, and the agent's key signed it",
+      "edit": "the key id names a DID other than the credential's issuer, and a key of that DID signed it",
       "expected": {
         "decision": "deny",
         "reason": "issuer_key_binding"
