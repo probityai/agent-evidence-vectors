@@ -233,7 +233,7 @@ def _identity_cases() -> list[Case]:
     del no_key["operation"]["idempotencyKey"]
     no_digest = build("identity-missing-args-digest", base, "committed", 1)
     del no_digest["attempts"][0]["argsDigest"]
-    unknown_cid = reader.CONTRACT_ID.replace("/v1/", "/v0/")
+    unknown_cid = reader.CONTRACT_ID.replace("/predicate/v1/", "/contract/v0/")
     return [
         ("contract-id-missing", build("contract-id-missing", base, "committed", 1,
                                       contractId=None),
