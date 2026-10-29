@@ -1,0 +1,199 @@
+{
+  "corpusDigest": "ed7da273f2629a6a3ae08bd0227ab3201c1d481e37f66c63998bca766982eb5d",
+  "suite": "open-weight-art53/v1",
+  "vectors": [
+    {
+      "expected": {
+        "decision": "exempt",
+        "reason": "all_conditions_evidenced"
+      },
+      "files": {
+        "case.json": "af1f2c628411264c112078c7df1a5d9cf825cd9819a961273c3010c7f1ec09e8",
+        "release.json": "4ea82a512fb42284889482879e75e942579c7832c401644146d5fba5564f2a32"
+      },
+      "id": "exempt-open-release",
+      "path": "cases/exempt-open-release"
+    },
+    {
+      "expected": {
+        "decision": "exempt",
+        "reason": "all_conditions_evidenced"
+      },
+      "files": {
+        "case.json": "c7c9d472aa3ac8ebb19a413c418b89f83d4f603f22ce8cd0422f0300d0a3ae7b",
+        "release.json": "3ff0011c3ad2476ff4fac521713063bf80b1eb45e486bebcfaf363de003c41a5"
+      },
+      "id": "exempt-attribution-licence",
+      "path": "cases/exempt-attribution-licence"
+    },
+    {
+      "expected": {
+        "decision": "exempt",
+        "reason": "all_conditions_evidenced"
+      },
+      "files": {
+        "case.json": "11a489b70a1c4167f46d1988f1d51a8ab5955cd56c9b766ce04835b45449bfde",
+        "release.json": "6e1d1adbd83e0b430d4fd69cc2cbbd931cebc5d43a834cb5ad5b88d8b009691f"
+      },
+      "id": "exempt-without-copyright-policy",
+      "path": "cases/exempt-without-copyright-policy"
+    },
+    {
+      "expected": {
+        "decision": "exempt",
+        "reason": "all_conditions_evidenced"
+      },
+      "files": {
+        "case.json": "a543b2a19fabebe1b2467e956f5cc20296b17accc6ec1e1f7fe01ca8d44c038c",
+        "release.json": "c9ed47459d3b229808fba7e46605c357078f467a760972f67a39e6812c9bb17f"
+      },
+      "id": "exempt-systemic-presumption-rebutted",
+      "path": "cases/exempt-systemic-presumption-rebutted"
+    },
+    {
+      "expected": {
+        "decision": "not-exempt",
+        "reason": "licence_restricts_use"
+      },
+      "files": {
+        "case.json": "2d9ed3bbfbccf9015e348e073ecd7bcf059e626546b3fd13feaa5c6512a7b79f",
+        "release.json": "bd7dc334f4b34b2c888f348a3cf2700610cd8c371cb505d85508862f1317b2a2"
+      },
+      "id": "noncommercial-licence",
+      "path": "cases/noncommercial-licence"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "licence_not_recognised"
+      },
+      "files": {
+        "case.json": "46b6cf9edd702c728fc3137a96f856ab444b277be5eab0557dfee33f960c37d5",
+        "release.json": "240324ab1bf112582c45d27c2a6f1de054f9fa688eb8751013f77d26497a2542"
+      },
+      "id": "licence-not-recognised",
+      "path": "cases/licence-not-recognised"
+    },
+    {
+      "expected": {
+        "decision": "not-exempt",
+        "reason": "weights_not_public"
+      },
+      "files": {
+        "case.json": "bedc2993b406fb01a0a924fe8ca5a81d8b17f01e2ebed7e716b7f5db08f69acf",
+        "release.json": "53890c657268a24302ae55e06542cbcdfd36838b54d7ee2728861f74f3ccb43f"
+      },
+      "id": "weights-private",
+      "path": "cases/weights-private"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "weights_access_gated"
+      },
+      "files": {
+        "case.json": "edc0c64d70bc9f9e3913b4d45b4aef4c8461627e0579bf9d09348809a22a6b4e",
+        "release.json": "eb7cb850d6a27bad7f5b6bafcf9fa42005cf302426ef66020bcb2f758a5b7ec2"
+      },
+      "id": "weights-gated",
+      "path": "cases/weights-gated"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "weights_not_digest_bound"
+      },
+      "files": {
+        "case.json": "55a94f680d2bed9ac75d35f4c2922d61cc35f69b3be6c9fb4c9de91927c1d583",
+        "release.json": "0a64fb5a42d9ac2368c55d19cf4415fd032a6125acd21fd4cb1f369b0c7c81cc"
+      },
+      "id": "weights-without-digest",
+      "path": "cases/weights-without-digest"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "architecture_not_evidenced"
+      },
+      "files": {
+        "case.json": "00088f430ef2645401cda9c7c08602a6c750cb8ea0be0129f55ca447f2b3f5cb",
+        "release.json": "e6d3b0e2adc63b330145e528fbd36e9f28f86050261ffbf44e49874a2b354490"
+      },
+      "id": "architecture-missing",
+      "path": "cases/architecture-missing"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "usage_information_not_evidenced"
+      },
+      "files": {
+        "case.json": "d5f2792252dd391dec6dfaff228e212fc8935877d10a7ebdcf21eabd2fe38e88",
+        "release.json": "ffc0309965a387ee550dc375ebeb43be24564703ef60dd84e3ad64cc0b09bb57"
+      },
+      "id": "usage-information-missing",
+      "path": "cases/usage-information-missing"
+    },
+    {
+      "expected": {
+        "decision": "not-exempt",
+        "reason": "monetised_release"
+      },
+      "files": {
+        "case.json": "39aa6ffc3e3fea5100f860f47dce3d86ac01a6e12ac3024951b2aab97fb0de9b",
+        "release.json": "995b1656584cba5e68801530e3c46406343970acccea18f7cf338aeaaa172567"
+      },
+      "id": "monetised-by-personal-data",
+      "path": "cases/monetised-by-personal-data"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "monetisation_not_stated"
+      },
+      "files": {
+        "case.json": "2e9a6e9286fbbbcb7330e89dcdd008cebb36c2259007ff945f9de9b5707e6317",
+        "release.json": "f297f0810b20367f0b1bd477696ab08e42d54ef675bf77c59fd4b5f5119d3e95"
+      },
+      "id": "monetisation-not-stated",
+      "path": "cases/monetisation-not-stated"
+    },
+    {
+      "expected": {
+        "decision": "not-exempt",
+        "reason": "systemic_risk_presumed"
+      },
+      "files": {
+        "case.json": "a4e773fe0132073e75e863e79975da24af2613aec1e9f5585342b6faa2875f8a",
+        "release.json": "0125d9d7ae44f002d82bd8e9e9a9568faf419549e32a0d41d2ba636d533de521"
+      },
+      "id": "systemic-risk-presumed",
+      "path": "cases/systemic-risk-presumed"
+    },
+    {
+      "expected": {
+        "decision": "not-exempt",
+        "reason": "systemic_risk_designated"
+      },
+      "files": {
+        "case.json": "35f269345f33c168a1445dadc31321364de05a92b3cd8a2afa78e271360faa9d",
+        "release.json": "756b7331b5843a5634773abdbb8e740d989000775866bdade6c8acabc784d4ee"
+      },
+      "id": "systemic-risk-designated",
+      "path": "cases/systemic-risk-designated"
+    },
+    {
+      "expected": {
+        "decision": "not-established",
+        "reason": "training_compute_not_stated"
+      },
+      "files": {
+        "case.json": "a68e04fff7fd900d9866762e6ad07f6c201728d0a7b96539d38a2693cc4ef1af",
+        "release.json": "bd4c2c5661de75c514796c70101f687e1cfb26aec4cd1321bf5d0616e2e9b5fc"
+      },
+      "id": "training-compute-not-stated",
+      "path": "cases/training-compute-not-stated"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}
