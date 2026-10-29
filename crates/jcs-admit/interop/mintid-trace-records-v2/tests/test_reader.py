@@ -283,7 +283,7 @@ class ReaderControls(unittest.TestCase):
         events = self.events(); events[-1]["results"][0]["carrying_root"] = False
         self.save_events(events); self.refuse("RootShape")
         for value in (False, 0, []):
-            with self.assertRaises(Refused): root(value)
+            with self.assertRaises(Refused): root(value)  # pyright: ignore[reportArgumentType]  # deliberate wrong type
         self.assertIsNone(root(None))
 
     def test_MTRV2_043_boolean_bound_chain_height(self):

@@ -16,7 +16,7 @@ import stat
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import IO, Any, cast
 
 MAX_BYTES = 20 << 20  # Existing jcs-admit/Go adapter default; never widened.
 MAX_DEPTH = 128
@@ -31,12 +31,12 @@ PATHS = ("issuer", "kill_switch", "cascade", "emergency", "unreachable")
 class Refused(ValueError):
     """A specific input, binding or record refusal."""
 
-    def __init__(self, code: str, detail: str):
+    def __init__(self, code: str, detail: object):
         super().__init__(detail)
         self.code = code
 
 
-def require(condition: bool, code: str, detail: str) -> None:
+def require(condition: bool, code: str, detail: object) -> None:
     if not condition:
         raise Refused(code, detail)
 
@@ -77,7 +77,8 @@ class Limits:
     def from_file(cls, path: Path) -> Limits:
         values = strict_json(read_member(path.parent, path.name, 4096))
         require(type(values) is dict and set(values) == set(cls.__dataclass_fields__), "ResourcePolicy", "exact limit fields required")
-        return cls(**values)
+        fields: dict[str, Any] = {str(key): value for key, value in values.items()}
+        return cls(**fields)
 
 
 def bounded_read(stream, limit: int) -> bytes:
@@ -176,13 +177,14 @@ class Admission:
                 complete = False
             with selectors.DefaultSelector() as selection:
                 for pipe, target in (() if child is None else ((child.stdout, output), (child.stderr, errors))):
+                    assert pipe is not None  # both pipes were requested as PIPE
                     os.set_blocking(pipe.fileno(), False)
                     selection.register(pipe, selectors.EVENT_READ, target)
                 while selection.get_map():
                     for key, _ in selection.select():
                         block = os.read(key.fd, min(CHUNK_BYTES, allowance + 1))
                         if not block:
-                            selection.unregister(key.fileobj); key.fileobj.close(); continue
+                            selection.unregister(key.fileobj); cast(IO[bytes], key.fileobj).close(); continue
                         retained = block[:allowance]
                         key.data.write(retained)
                         allowance -= len(retained)
@@ -190,10 +192,11 @@ class Admission:
                             complete = False
                             # This process group was created by this invocation.
                             # Stop only it; no timeout or foreign-job cancellation.
+                            assert child is not None  # the selector only holds this child's pipes
                             try: os.killpg(child.pid, signal.SIGKILL)
                             except ProcessLookupError: pass
                             for registered in list(selection.get_map().values()):
-                                selection.unregister(registered.fileobj); registered.fileobj.close()
+                                selection.unregister(registered.fileobj); cast(IO[bytes], registered.fileobj).close()
                             break
             native_exit = child.wait() if child is not None else None
         sizes = {name: (call / name).stat().st_size for name in ("stdout.bin", "stderr.bin")}
@@ -277,6 +280,7 @@ def inspect_events(events: list[dict[str, Any]]) -> tuple[dict[str, dict[str, An
             continue
         session = event.get("session_id")
         require(type(session) is str and bool(session), "EventShape", "session identity")
+        assert isinstance(session, str)  # require() has just proved it
         if event["kind"] == "decision":
             require(session not in decisions, "AmbiguousDecision", session)
             require(type(event.get("accepted")) is bool and type(event.get("reason_code")) is str, "DecisionShape", session)
@@ -288,6 +292,7 @@ def inspect_events(events: list[dict[str, Any]]) -> tuple[dict[str, dict[str, An
         else:
             line = event.get("line")
             require(type(line) is dict and session not in logs, "AmbiguousDecisionLog", session)
+            assert isinstance(line, dict)  # require() has just proved it
             require(line.get("session_id") == session and type(line.get("accepted")) is bool, "DecisionLogShape", session)
             for key in ("condition", "root_epoch", "root_height", "root_age_seconds"):
                 require(line.get(key) is None or type(line[key]) is int, "DecisionLogShape", key)
@@ -323,7 +328,7 @@ def refresh(events: list[dict[str, Any]], path: str, agent: str | None, origin: 
     other = [event for event in selected if event.get("outcome") == ("refreshed" if control else "not_refused_within_budget")]
     hit = (refused or other or [None])[0]
     observation = "refused" if refused else hit["outcome"] if hit else "not_recorded"
-    return {"observation": observation, "outcome": hit["outcome"] if refused else None, "utc": utc(hit.get("utc")) if hit else None, "seconds_after_t0": delta(hit.get("unix"), origin) if hit else None}
+    return {"observation": observation, "outcome": hit["outcome"] if refused and hit else None, "utc": utc(hit.get("utc")) if hit else None, "seconds_after_t0": delta(hit.get("unix"), origin) if hit else None}
 
 
 def paths(summary: dict[str, Any], events: list[dict[str, Any]], logs: dict[str, dict[str, Any]], decisions: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
@@ -373,8 +378,9 @@ def paths(summary: dict[str, Any], events: list[dict[str, Any]], logs: dict[str,
             attribution = {"revoked": {"agent": label, "refresh": refresh(events, path, label, origin, False)}, "control": None}
             if path == "issuer" and result.get("control") is not None:
                 require(type(result["control"]) is list, "PathShape", "issuer control")
-                controls = [decide(event, agent="sibling_control") for event in result["control"]]
-                require(all(event is not None for event in controls), "DecisionShape", "issuer control")
+                decided = [decide(event, agent="sibling_control") for event in result["control"]]
+                controls = [event for event in decided if event is not None]
+                require(len(controls) == len(decided), "DecisionShape", "issuer control")
                 yes = [event for event in controls if event.get("accepted") is True]
                 no_control = next((event for event in controls if event.get("accepted") is False), None)
                 # The published trace names the refreshed decision separately.
@@ -399,6 +405,7 @@ def derive(stem: str, events: list[dict[str, Any]], stated: Any, files: dict[str
     parameters = stripped(one(events, "parameters"))
     summary = one(events, "summary")
     require(summary is not None and type(summary.get("results")) is list, "MissingSummary", stem)
+    assert summary is not None  # require() has just proved it
     require(stated is None or type(stated) is dict and set(stated) <= {"source_revision", "services_revision"} and all(type(value) is str and bool(value) for value in stated.values()), "StatedShape", stem)
     deployment = {"target": stem.split("-")[2], "chain_id": stack.get("chain_id"), "issuer_id": stack.get("issuer_id"), "verifier_id": stack.get("verifier_id"), "kyc_provider": stack.get("kyc_provider"), "endpoints": {key: stack.get(key) for key in ("issuer_url", "verifier_url", "rpc", "relay")}, "build": stripped(build), "parameters": parameters, **{key: (before or {}).get(key) for key in ("max_root_age_seconds", "heartbeat_seconds", "max_height_lag")}}
     if build and type(build.get("issuer")) is dict:
