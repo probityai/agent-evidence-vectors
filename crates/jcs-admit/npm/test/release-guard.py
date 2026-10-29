@@ -13,6 +13,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+from typing import Any
 
 NPM = Path(__file__).resolve().parents[1]
 ROOT = NPM.parent
@@ -59,10 +60,13 @@ def main():
     assert len(raw_tar) == actual['tarball']['bytes']
     assert 'sha512-'+base64.b64encode(hashlib.sha512(raw_tar).digest()).decode() == actual['tarball']['integrity']
     with tarfile.open(actual_tar) as archive:
-        actual_build = json.loads(archive.extractfile('package/BUILD.json').read())
-        actual_manifest = json.loads(archive.extractfile('package/package.json').read())
+        build_stream = archive.extractfile('package/BUILD.json')
+        manifest_stream = archive.extractfile('package/package.json')
+        assert build_stream is not None and manifest_stream is not None
+        actual_build = json.loads(build_stream.read())
+        actual_manifest = json.loads(manifest_stream.read())
     expected = expected_evidence()
-    rows = [('real-report-positive', None, None)]
+    rows: list[tuple[str, Any, Any]] = [('real-report-positive', None, None)]
 
     def add(label, path, value, message, delete=False):
         rows.append((label, change(path, value, delete), message))

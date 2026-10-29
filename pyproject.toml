@@ -414,7 +414,7 @@ files = ["packaging", "vectors", "tools"]
 # Directories cannot forget. A file added to any of these is checked because it
 # is there, not because it was announced, and scripts/typecheck-gate.py refuses
 # to pass if a Python file exists outside them.
-include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
+include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
            "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
@@ -438,7 +438,7 @@ include = ["docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts",
 # import that resolves fine when it runs.
 extraPaths = ["packaging", "vectors", "tools/artifact-binding",
               "vectors-artifact-binding", "vectors-observed-effect",
-              "interop/a2a-s3-retain-2026-10-01"]
+              "interop/a2a-s3-retain-2026-10-01", "crates/jcs-admit/python/pysrc"]
 
 # "standard" rather than "strict", chosen rather than defaulted into. Standard
 # carries every rule that describes a script CRASHING -- an undefined name, a

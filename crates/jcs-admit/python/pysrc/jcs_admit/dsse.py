@@ -17,7 +17,8 @@ Rust variant name and fields, unchanged.
 b'{"a":1}'
 """
 
-from jcs_admit._native import (
+# _native is the compiled extension; the checker reads its .pyi stub and has no source for it
+from jcs_admit._native import (  # pyright: ignore[reportMissingModuleSource]
     DSSE_VERSION,
     MAX_SIGNATURES,
     DsseError,

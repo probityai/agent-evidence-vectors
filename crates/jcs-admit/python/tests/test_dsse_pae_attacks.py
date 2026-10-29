@@ -82,9 +82,9 @@ def test_payload_type_is_case_sensitive():
 
 def test_payload_type_must_be_str_and_payload_bytes():
     with pytest.raises(TypeError):
-        dsse.pae(b"t", b"x")
+        dsse.pae(b"t", b"x")  # pyright: ignore[reportArgumentType]  # deliberate wrong type
     with pytest.raises(TypeError):
-        dsse.pae("t", "x")
+        dsse.pae("t", "x")  # pyright: ignore[reportArgumentType]  # deliberate wrong type
 
 
 # ---- the same boundaries, end to end ----------------------------------------
@@ -103,7 +103,9 @@ SHIFTED = [
 
 
 @pytest.mark.parametrize(("signed", "presented"), SHIFTED)
-def test_a_signature_never_verifies_with_the_boundary_moved(signed, presented):
+def test_a_signature_never_verifies_with_the_boundary_moved(
+    signed: tuple[str, bytes], presented: tuple[str, bytes]
+) -> None:
     import base64
     import json
 

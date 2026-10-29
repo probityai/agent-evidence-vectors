@@ -19,7 +19,8 @@ b'{"a":[1,1e+30],"b":1}'
 from importlib.metadata import version as _version
 
 from jcs_admit import dsse
-from jcs_admit._native import (
+# _native is the compiled extension; the checker reads its .pyi stub and has no source for it
+from jcs_admit._native import (  # pyright: ignore[reportMissingModuleSource]
     DEFAULT_MAX_BYTES,
     DEFAULT_MAX_DEPTH,
     JCS_ADMIT_VERSION,

@@ -41,7 +41,9 @@ def load_implementation(source: Path, manifest: dict[str, Any]) -> Any:
     verify_files(source, manifest["python_source"]["files"])
     sys.path.insert(0, str(source / "src"))
     implementation = importlib.import_module("rfc8785")
-    if Path(implementation.__file__).resolve() != (source / "src/rfc8785/__init__.py").resolve():
+    implementation_file = implementation.__file__
+    expected_file = (source / "src/rfc8785/__init__.py").resolve()
+    if implementation_file is None or Path(implementation_file).resolve() != expected_file:
         raise ValueError("rfc8785 was imported from a different source")
     if implementation.__version__ != manifest["python_source"]["version"]:
         raise ValueError("Python implementation version differs")

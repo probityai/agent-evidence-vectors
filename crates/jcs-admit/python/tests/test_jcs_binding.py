@@ -8,7 +8,8 @@ import pytest
 
 from conftest import bound_crate
 import jcs_admit as jcs
-from jcs_admit import _native
+# _native is the compiled extension; the checker reads its .pyi stub and has no source for it
+from jcs_admit import _native  # pyright: ignore[reportMissingModuleSource]
 
 
 def refusal(fn, data, **kw) -> jcs.JcsError:

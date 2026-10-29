@@ -76,7 +76,10 @@ def attack() -> list[tuple[str, bytes, bytes | None]]:
 
 
 def number_ties() -> list[tuple[str, str]]:
-    out = [tuple(line.split("\t")[:2]) for line in data_lines(VECTORS / "es-number-ties.tsv")]
+    out: list[tuple[str, str]] = []
+    for line in data_lines(VECTORS / "es-number-ties.tsv"):
+        left, right = line.split("\t")[:2]
+        out.append((left, right))
     assert len(out) == 850
     return out
 

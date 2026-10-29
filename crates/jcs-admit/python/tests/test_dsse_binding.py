@@ -8,7 +8,8 @@ import json
 import pytest
 
 from conftest import bound_crate
-from jcs_admit import _native, dsse
+# _native is the compiled extension; the checker reads its .pyi stub and has no source for it
+from jcs_admit import _native, dsse  # pyright: ignore[reportMissingModuleSource]
 
 PT = "application/vnd.in-toto+json"
 
@@ -170,9 +171,9 @@ def test_envelopes_are_bytes(bad):
 
 def test_signers_and_keys_are_typed():
     with pytest.raises(TypeError):
-        dsse.sign(PT, b"x", "not a signer")
+        dsse.sign(PT, b"x", "not a signer")  # pyright: ignore[reportArgumentType]  # deliberate wrong type
     with pytest.raises(TypeError):
-        dsse.verify_threshold(dsse.sign(PT, b"x", signer(1, "a")), [b"\x00" * 32], 1)
+        dsse.verify_threshold(dsse.sign(PT, b"x", signer(1, "a")), [b"\x00" * 32], 1)  # pyright: ignore[reportArgumentType]  # deliberate wrong type
 
 
 def test_the_reported_version_is_the_version_cargo_linked():

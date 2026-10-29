@@ -59,6 +59,7 @@ def validate_consumer_report(report, build, manifest, expected):
          and all(isinstance(stage, dict) and isinstance(stage.get('label'), str) for stage in stages)
          and {stage.get('label') for stage in stages} == required,
          'Consumer stage population differs.')
+    assert isinstance(stages, list)  # narrowed for the checker; need() has just proved it
     need(all(zero(stage.get('nativeExit')) and 'signal' in stage and stage['signal'] is None
              for stage in stages), 'A consumer stage did not finish with integer exit zero and no signal.')
     calls = report.get('profileCallsPerRuntime')
@@ -80,6 +81,7 @@ def validate_consumer_report(report, build, manifest, expected):
          and all(isinstance(node, dict) and isinstance(node.get('runtime'), str) for node in nodes)
          and {node.get('runtime') for node in nodes} == expected['nodeRuntimes'],
          'Consumer Node runtime population differs.')
+    assert isinstance(nodes, list)  # narrowed for the checker; need() has just proved it
     common = counts(nodes[0].get('counts'))
     for node in nodes:
         location = node.get('installedPackage')
@@ -97,6 +99,7 @@ def validate_consumer_report(report, build, manifest, expected):
          and re.fullmatch(r'\d+\.\d+\.\d+\.\d+', browser['version']) is not None
          and all(browser.get(key) is True for key in ['inputContract', 'crossRealm', 'actualPackageModule', 'headless']),
          'Installed browser byte-input, realm or module proof is missing.')
+    assert isinstance(browser, dict)  # narrowed for the checker; need() has just proved it
     need(counts(browser.get('counts')) == common, 'Browser and Node consumer results disagree.')
     package = report.get('package')
     fields = {'name', 'version', 'sourceSha256', 'sourceCommit', 'sourceDirty', 'filesVerified'}
@@ -131,7 +134,10 @@ def validate_artifact(receipts, package, commit, root=ROOT):
                 raise SystemExit(str(error)) from error
             if name in files:
                 raise SystemExit('Duplicate packed member.')
-            files[name] = archive.extractfile(member).read()
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise SystemExit('Unreadable packed member.')
+            files[name] = stream.read()
     build = json.loads(files['BUILD.json'])
     if build['source_commit'] != commit or build['source_dirty'] is not False:
         raise SystemExit('Release source identity is not a clean exact commit.')
