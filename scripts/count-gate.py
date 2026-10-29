@@ -2544,7 +2544,7 @@ FROZEN: tuple[Frozen, ...] = (
     Frozen(
         "scripts/consumer-lag-gate.py",
         "the two remembered lags",
-        "two rails sat at 140 vectors while this repository",
+        "two rails sat at 140 vectors while this repository published 149",
         "The lag as it was measured. Both figures are sizes this corpus has had, and "
         "moving either would erase the event that made this gate necessary.",
     ),

@@ -105,6 +105,35 @@ func arHeldShape(item any) error {
 }
 
 func arConsumptionShape(consumption map[string]any) error {
+	if err := arConsumptionMembership(consumption); err != nil {
+		return err
+	}
+	digest, _ := consumption["limitDigest"].(string)
+	unit, isText := consumption["unit"].(string)
+	if !arIsDigest(digest) || !isText || unit == "" {
+		return arRefuse("consumption-value-invalid")
+	}
+	if err := arConsumptionSupersedes(consumption, digest); err != nil {
+		return err
+	}
+	if err := arConsumptionCountValues(consumption); err != nil {
+		return err
+	}
+	held, ok := consumption["held"].([]any)
+	if !ok {
+		return arRefuse("consumption-malformed")
+	}
+	for _, item := range held {
+		if err := arHeldShape(item); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// arConsumptionMembership: every required member is present and no member is
+// outside the required and optional sets.
+func arConsumptionMembership(consumption map[string]any) error {
 	for _, name := range arConsumptionMembers {
 		if name == "stateRevision" && !arConsumptionChecks["state-revision"] {
 			continue
@@ -118,34 +147,34 @@ func arConsumptionShape(consumption map[string]any) error {
 			return arRefuse("consumption-malformed")
 		}
 	}
-	digest, _ := consumption["limitDigest"].(string)
-	unit, isText := consumption["unit"].(string)
-	if !arIsDigest(digest) || !isText || unit == "" {
+	return nil
+}
+
+// arConsumptionSupersedes: a supersedes member is a digest and names a limit
+// other than the one this set is held under.
+func arConsumptionSupersedes(consumption map[string]any, digest string) error {
+	raw, present := consumption["supersedes"]
+	if !present {
+		return nil
+	}
+	replaced, isDigest := raw.(string)
+	if arConsumptionChecks["supersedes-digest"] && (!isDigest || !arIsDigest(replaced)) {
 		return arRefuse("consumption-value-invalid")
 	}
-	if raw, present := consumption["supersedes"]; present {
-		replaced, isDigest := raw.(string)
-		if arConsumptionChecks["supersedes-digest"] && (!isDigest || !arIsDigest(replaced)) {
+	if arConsumptionChecks["supersedes-self"] && replaced == digest {
+		return arRefuse("consumption-supersedes-self")
+	}
+	return nil
+}
+
+// arConsumptionCountValues: each declared count member is a count.
+func arConsumptionCountValues(consumption map[string]any) error {
+	if !arConsumptionChecks["counts"] {
+		return nil
+	}
+	for _, name := range arConsumptionCounts {
+		if value, ok := consumption[name]; ok && !arIsCount(value) {
 			return arRefuse("consumption-value-invalid")
-		}
-		if arConsumptionChecks["supersedes-self"] && replaced == digest {
-			return arRefuse("consumption-supersedes-self")
-		}
-	}
-	if arConsumptionChecks["counts"] {
-		for _, name := range arConsumptionCounts {
-			if value, ok := consumption[name]; ok && !arIsCount(value) {
-				return arRefuse("consumption-value-invalid")
-			}
-		}
-	}
-	held, ok := consumption["held"].([]any)
-	if !ok {
-		return arRefuse("consumption-malformed")
-	}
-	for _, item := range held {
-		if err := arHeldShape(item); err != nil {
-			return err
 		}
 	}
 	return nil
