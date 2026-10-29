@@ -14,10 +14,12 @@ are true of the wheel, and this test builds one and checks each:
 3. ``agent-evidence-vectors --jcs-byte-vectors`` prints the same path, for a
    consumer whose CI step is a shell line rather than Python.
 4. Every corpus in the repository (``vectors`` or ``vectors-*`` with a
-   MANIFEST.json) is in the wheel and listed by the installed
-   ``--list-corpora``. The self-reported-record corpus shipped in no wheel
-   through 0.17.7 because it was missing from the pyproject lists, and nothing
-   compared those lists with the tree.
+   MANIFEST.json) is in the wheel, with every one of its ``cases/*.json``
+   files, and listed by the installed ``--list-corpora``. The wheel is built
+   the way the release builds it (sdist first, wheel from the sdist). The
+   self-reported-record corpus shipped in no wheel through 0.17.7 because it
+   was missing from the pyproject lists, and nothing compared those lists with
+   the tree.
 5. ``agent_evidence_vectors.a2ajcs.params()`` works under pytest collection
    from the installed wheel: a test module parametrized with it collects one
    test per vector, reads the corpus inside the installed package, passes the
@@ -65,14 +67,21 @@ def build_wheel(out: Path) -> Path:
     uv = shutil.which("uv")
     if uv is None:
         sys.exit("FAIL: uv is not on PATH, so no wheel could be built and nothing was checked")
+    # Build exactly as release.yml does: a bare `uv build` makes the sdist and then
+    # builds the wheel FROM that sdist, so a corpus listed for the wheel but not for
+    # the sdist is absent from the published wheel. `--wheel` builds from the tree
+    # and cannot see that (the 0.29.0 wheel shipped without the IETF corpus).
     subprocess.run(
-        [uv, "build", "--wheel", "--out-dir", str(out), str(ROOT)],
+        [uv, "build", "--out-dir", str(out), str(ROOT)],
         check=True,
         capture_output=True,
     )
     wheels = sorted(out.glob("agent_evidence_vectors-*.whl"))
     if len(wheels) != 1:
         sys.exit(f"FAIL: expected one wheel in {out}, found {[w.name for w in wheels]}")
+    sdists = sorted(out.glob("agent_evidence_vectors-*.tar.gz"))
+    if len(sdists) != 1:
+        sys.exit(f"FAIL: expected one sdist in {out}, found {[s.name for s in sdists]}")
     return wheels[0]
 
 
@@ -154,6 +163,9 @@ def check_corpora(wheel: Path, scratch: Path) -> list[str]:
     for name in repository_corpora():
         if f"agent_evidence_vectors/corpora/{name}/MANIFEST.json" not in names:
             failures.append(f"{name} is a corpus in the repository and is not in the wheel")
+        for case in sorted((ROOT / name / "cases").glob("*.json")):
+            if f"agent_evidence_vectors/corpora/{name}/cases/{case.name}" not in names:
+                failures.append(f"{name}/cases/{case.name} is in the repository, not the wheel")
         if name not in listed:
             failures.append(f"{name} is not listed by the installed --list-corpora")
     return failures

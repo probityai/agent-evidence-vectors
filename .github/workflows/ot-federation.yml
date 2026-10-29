@@ -1,0 +1,66 @@
+name: OT federation reader
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packaging/agent_evidence_vectors/ot_federation/**'
+      - 'scripts/ot-federation-build.py'
+      - 'scripts/ot-federation-test.py'
+      - '.github/workflows/ot-federation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packaging/agent_evidence_vectors/ot_federation/**'
+      - 'scripts/ot-federation-build.py'
+      - 'scripts/ot-federation-test.py'
+      - '.github/workflows/ot-federation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  judge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13.15'
+      - name: Install pinned control dependencies
+        run: python -m pip install pytest==8.4.2
+      - name: The committed corpus is what the builder writes
+        run: python scripts/ot-federation-build.py --check
+      - name: Test every expected answer, refusal and seeded fault
+        run: python -m pytest -q scripts/ot-federation-test.py
+      - name: Retain the checkout run
+        working-directory: packaging
+        run: >-
+          python -m agent_evidence_vectors.ot_federation.run
+          --output ../.build/ot-federation/checkout
+          --implementation-revision "${{ github.event.pull_request.head.sha || github.sha }}"
+      - name: Run the installed entry point from the built wheel alone
+        run: |
+          python -m pip install build==1.3.0
+          python -m build --wheel --outdir .build/dist
+          python -m venv .build/wheel-venv
+          .build/wheel-venv/bin/python -m pip install .build/dist/*.whl
+          cd "$RUNNER_TEMP"
+          "$GITHUB_WORKSPACE/.build/wheel-venv/bin/agent-evidence-vectors-ot-federation" \
+            --output "$GITHUB_WORKSPACE/.build/ot-federation/wheel"
+          "$GITHUB_WORKSPACE/.build/wheel-venv/bin/agent-evidence-vectors-ot-federation" \
+            --emit-fixtures "$GITHUB_WORKSPACE/.build/ot-federation/fixtures"
+          grep -q '"implementation_revision": "agent-evidence-vectors==' \
+            "$GITHUB_WORKSPACE/.build/ot-federation/wheel/report.json"
+      - name: Retain the reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ot-federation
+          path: .build/ot-federation
+          if-no-files-found: error
+          retention-days: 90

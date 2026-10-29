@@ -1,0 +1,27 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "issuedAt": "2026-10-20T00:00:00.000Z",
+    "registryDigest": {
+      "sha256": "76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4"
+    },
+    "result": "pass",
+    "revocationList": "https://receipts.example.org/agent-card-receipt/revocations.dsse.json",
+    "run": {
+      "digest": {
+        "sha256": "030eec0b308922926318c46c237b676ef83e1967118c24daac23bed4cdc3eb29"
+      },
+      "predicateType": "https://w3id.org/agent-evidence/predicate/v1/done-receipt"
+    },
+    "validUntil": "2026-11-19T00:00:00Z"
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "f353b822d0f740ceee2b533b4824f0451e9339be5c991af9d4191ac8912fabb3"
+      },
+      "name": "https://travel-agent.example.com/.well-known/agent-card.json"
+    }
+  ]
+}

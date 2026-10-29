@@ -1,0 +1,1937 @@
+{
+  "aggregate": {
+    "counts": {
+      "accept": 11,
+      "reject": 33
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 44
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-card-receipt/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-agent-card-receipt/digest.py",
+    "routine-file": "vectors-agent-card-receipt/digest.py",
+    "serialization": "corpus-routine",
+    "sha256": "99c46fa19029691a1bdfb9f78f80c457639d9df985bf05e9609255006f07dd6e",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "swapped-in": "3efa23e62c03b4ac057108556560b15e71ab6d1c9814ce08c4bc69b6c6e1fd4a",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/README.md",
+      "serialization": "bytes",
+      "sha256": "904b88b59ff1e87b6d5f877fba5c555fdf8e50cb9998fb967fa488e5ed36caa0"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "swapped-in": "2e27d956f7b987bc5145ce7855fc219e082cbec608520d63c8bf4c6e5688c0ff",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "01d344f1dfd5392da4b66eba4a449a5b04ef369481f2fb8021adf5491952ac5a"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "swapped-in": "6b33d34f1c97f8665b5191027b249b1c2cec8c71491758674991e2ccbf7041b5",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/digest.py",
+      "serialization": "bytes",
+      "sha256": "c2c4377cad6701cdc9d936aa6dcbeaf276d45f79626a40af1a12a2de91380362"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "swapped-in": "be53c9f7eca35f8aaedae16d2f1b510415b3969d7c3a69f4cf92f0c5b2766395",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "56e3456933aafde57b02538a37bde596eb7b152c989db2875a4bb5d9e443286c"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+        },
+        "swapped-in": "9d35b5b7a9fd36b0a2b5c746a7b489386118b60f91ecbc220587bff82154a142",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-card-receipt/tests/test_agent_card_receipt.py",
+      "serialization": "bytes",
+      "sha256": "9949662bb24c2eb8ec738908d4b35b8c403eb82c8e95aed90a554056d68988b2"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-agent-card-receipt"
+  },
+  "byte-identity": {
+    "pins": 175,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-agent-card-receipt",
+      "aee-verify -json vectors-agent-card-receipt",
+      "aee-verify vectors-agent-card-receipt"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "c6c9bc27becf07bf899fbd618d4b5cef205dce4974fa9ddc959e659fd03edcc6"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "accept-card-without-signatures",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-signatures-excluded",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-default-members-kept",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-rfc8785-edges",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-receipt-extension-declared",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-unknown-member-kept",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-agent-key-thumbprints",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-result-degraded",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-other-receipt-revoked",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-at-issued-at",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "accept-list-at-issued-at",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-duplicate-member",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "statement-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-two-members",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "subject-digest-uppercase",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-result-unregistered",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-member-unexpected",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-registry-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-time-fraction",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-time-offset",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-revocation-list-http",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-thumbprints-unsorted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "predicate-run-digest-short",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "validity-window-inverted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "card-duplicate-member",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "card-not-an-object",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "card-integer-outside-i-json",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-defaults-pruned",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-signatures-included",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "digest-not-rfc8785",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "card-changed-after-receipt",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-not-yet-valid",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-expired",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-expired-at-valid-until",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-absent",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-payload-type-wrong",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-unsorted",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-other-signer",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-edited-after-signing",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-stale",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "revocation-list-not-yet-issued",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-revoked",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "53384ec118e8b97835531ee8bd1eef9e1632b17df0fa848804e469362aadfa8f"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "accept-card-without-signatures",
+      "accept-signatures-excluded",
+      "accept-default-members-kept",
+      "accept-rfc8785-edges",
+      "accept-receipt-extension-declared",
+      "accept-unknown-member-kept",
+      "accept-agent-key-thumbprints",
+      "accept-result-degraded",
+      "accept-other-receipt-revoked",
+      "accept-at-issued-at",
+      "accept-list-at-issued-at",
+      "statement-duplicate-member",
+      "statement-member-unexpected",
+      "statement-type-wrong",
+      "predicate-type-wrong",
+      "subject-two-members",
+      "subject-digest-uppercase",
+      "predicate-result-unregistered",
+      "predicate-member-unexpected",
+      "predicate-registry-missing",
+      "predicate-time-fraction",
+      "predicate-time-offset",
+      "predicate-revocation-list-http",
+      "predicate-thumbprints-unsorted",
+      "predicate-run-digest-short",
+      "validity-window-inverted",
+      "card-duplicate-member",
+      "card-not-an-object",
+      "card-integer-outside-i-json",
+      "digest-defaults-pruned",
+      "digest-signatures-included",
+      "digest-not-rfc8785",
+      "card-changed-after-receipt",
+      "receipt-not-yet-valid",
+      "receipt-expired",
+      "receipt-expired-at-valid-until",
+      "revocation-list-absent",
+      "revocation-list-payload-type-wrong",
+      "revocation-list-unsorted",
+      "revocation-list-other-signer",
+      "revocation-list-edited-after-signing",
+      "revocation-list-stale",
+      "revocation-list-not-yet-issued",
+      "receipt-revoked"
+    ],
+    "path": "vectors-agent-card-receipt/MANIFEST.json",
+    "sha256": "32c75e5c660b44fcfe7de69928fbece0b238cc13e41696a5da2dbc5f8214838c"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-card-without-signatures/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-card-without-signatures/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-card-without-signatures/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-card-without-signatures/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "accept-card-without-signatures"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-signatures-excluded/card.json",
+          "sha256": "4a9d61246dd06706becb9f7502126501ad3ccf1c45e7a8f0bc7ff8b24ed2b639"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-signatures-excluded/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-signatures-excluded/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-signatures-excluded/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "accept-signatures-excluded"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-default-members-kept/card.json",
+          "sha256": "1ef5bfd17ad00ea6eb64aa0dfc524c06a9a64a3ed17bbbd8f764121a21598abf"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-default-members-kept/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-default-members-kept/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-default-members-kept/statement.json",
+          "sha256": "98b3006e5748272d60e0597415fcc81b46c67b17aa205c290141e2081503a9ab"
+        }
+      ],
+      "id": "accept-default-members-kept"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-rfc8785-edges/card.json",
+          "sha256": "6985626269cc92b14a652717880d6531d793243a8ba33f5ec8983e6b3f2f4cc5"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-rfc8785-edges/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-rfc8785-edges/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-rfc8785-edges/statement.json",
+          "sha256": "0021cbe4383c4219678a8f79f61d39db6951566260584f03a2ff3eb7b9b64415"
+        }
+      ],
+      "id": "accept-rfc8785-edges"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-receipt-extension-declared/card.json",
+          "sha256": "879d28ff93863651d23839d860eda244884d6af63b2b70358fca12d3dc10de70"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-receipt-extension-declared/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-receipt-extension-declared/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-receipt-extension-declared/statement.json",
+          "sha256": "b3103de43d160e874082661b3d9e9f8424508bfbae7b74f60e80d1d00a133616"
+        }
+      ],
+      "id": "accept-receipt-extension-declared"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-unknown-member-kept/card.json",
+          "sha256": "670269e9c8bfe28eb874f0820f6000d23271e2b6f7ff672d3ba5d27e8dc4644b"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-unknown-member-kept/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-unknown-member-kept/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-unknown-member-kept/statement.json",
+          "sha256": "0d54a6ef5bda91c86d44abd684c06b3d9689761124e218fbcd043c97c432e4de"
+        }
+      ],
+      "id": "accept-unknown-member-kept"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-agent-key-thumbprints/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-agent-key-thumbprints/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-agent-key-thumbprints/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-agent-key-thumbprints/statement.json",
+          "sha256": "0ecfae0e57ca43dbd6740b4ccead1da85d168d75a8015683fb8cd5e7937e027c"
+        }
+      ],
+      "id": "accept-agent-key-thumbprints"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-result-degraded/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-result-degraded/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-result-degraded/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-result-degraded/statement.json",
+          "sha256": "25bc4604a45270bb12a89c8ba73ab9693e1bf8e76af14a366b571a88da68ad52"
+        }
+      ],
+      "id": "accept-result-degraded"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-other-receipt-revoked/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-other-receipt-revoked/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-other-receipt-revoked/revocations.json",
+          "sha256": "993101f08248ade214db2774ac6252c18c16beb215da1ccdc967ee43cd65a0bd"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-other-receipt-revoked/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "accept-other-receipt-revoked"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-at-issued-at/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-at-issued-at/context.json",
+          "sha256": "3dd1352ef049912671d1bcd61ef2bb3a603c3287448575a40713efd9111c9a3d"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-at-issued-at/revocations.json",
+          "sha256": "655f781d1a8bde0ffa93db49d5485a2c82769fb69343955bb1eee93a8caf4733"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-at-issued-at/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "accept-at-issued-at"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-list-at-issued-at/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-list-at-issued-at/context.json",
+          "sha256": "ce08a466597950c4b39ba13fa5ce63666a02fdfb8c99a2a06207d08df888d8e6"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-list-at-issued-at/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/accept-list-at-issued-at/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "accept-list-at-issued-at"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-duplicate-member/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-duplicate-member/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-duplicate-member/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-duplicate-member/statement.json",
+          "sha256": "b5733688b20b820b91015a8590f3387b02b12644616b201f1b1301e55685489c"
+        }
+      ],
+      "id": "statement-duplicate-member"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-member-unexpected/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-member-unexpected/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-member-unexpected/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-member-unexpected/statement.json",
+          "sha256": "a48cd5f445c02a736fd0771681ad30bbbf7ff7701548b25dad6018f6319b40d1"
+        }
+      ],
+      "id": "statement-member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-type-wrong/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-type-wrong/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-type-wrong/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/statement-type-wrong/statement.json",
+          "sha256": "42576b25ccf11ad91537a9aa7ebfeb2026bf3443955e36393390f264edc7a6a2"
+        }
+      ],
+      "id": "statement-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-type-wrong/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-type-wrong/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-type-wrong/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-type-wrong/statement.json",
+          "sha256": "29eb5acae87ed12a6e2ef5131fb4f4ba6dc32827a5ac065df229dcef49bd345d"
+        }
+      ],
+      "id": "predicate-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-two-members/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-two-members/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-two-members/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-two-members/statement.json",
+          "sha256": "a58417b41b9f0703f17610129e447fe6f1ef30ea8e323f1f93d02d785624eddf"
+        }
+      ],
+      "id": "subject-two-members"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-digest-uppercase/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-digest-uppercase/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-digest-uppercase/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/subject-digest-uppercase/statement.json",
+          "sha256": "f6ebc7d8797a2fe834009571805e9ac2d6c7b2f85493faab55125144e3327d88"
+        }
+      ],
+      "id": "subject-digest-uppercase"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-result-unregistered/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-result-unregistered/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-result-unregistered/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-result-unregistered/statement.json",
+          "sha256": "b527465e73632cf9a930f961bed834f3666a0c11821f3ee0be9d60feb8d17b77"
+        }
+      ],
+      "id": "predicate-result-unregistered"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-member-unexpected/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-member-unexpected/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-member-unexpected/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-member-unexpected/statement.json",
+          "sha256": "41a4e961c1391df2cbb4699eeb5f8b4effe6df0fa41f71d2ae903804f2b449f7"
+        }
+      ],
+      "id": "predicate-member-unexpected"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-registry-missing/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-registry-missing/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-registry-missing/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-registry-missing/statement.json",
+          "sha256": "f0a3999236f9d1cd8bc3787de6733e0cbc138082409dcac58838448d2c70ec41"
+        }
+      ],
+      "id": "predicate-registry-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-fraction/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-fraction/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-fraction/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-fraction/statement.json",
+          "sha256": "7f9b2ed1f420536b85c26c17a491bed01904ed8712de32c7c6a98cbdf1cde9c0"
+        }
+      ],
+      "id": "predicate-time-fraction"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-offset/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-offset/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-offset/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-time-offset/statement.json",
+          "sha256": "5c8de9481bee82f04087a5e0482f9f15b600cf61ccd00deabb2fcf79108a8163"
+        }
+      ],
+      "id": "predicate-time-offset"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-revocation-list-http/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-revocation-list-http/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-revocation-list-http/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-revocation-list-http/statement.json",
+          "sha256": "4eeb04cf3aab04dcfb0656a0a2907d81b4c07afcb80a00c819c9f927f22c55c8"
+        }
+      ],
+      "id": "predicate-revocation-list-http"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-thumbprints-unsorted/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-thumbprints-unsorted/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-thumbprints-unsorted/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-thumbprints-unsorted/statement.json",
+          "sha256": "e361277bd5b39902cf8729e83317d93ff80f6426ce9513e35f8ce54f9403f9c7"
+        }
+      ],
+      "id": "predicate-thumbprints-unsorted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-run-digest-short/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-run-digest-short/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-run-digest-short/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/predicate-run-digest-short/statement.json",
+          "sha256": "1f069463c5765b56dcffca8cc50cd8e1259151d9d7744ee1e3d408b0f32ce1a2"
+        }
+      ],
+      "id": "predicate-run-digest-short"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/validity-window-inverted/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/validity-window-inverted/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/validity-window-inverted/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/validity-window-inverted/statement.json",
+          "sha256": "31f41ee545b065a5cbcb3ea7a5f54c3950e2d46a04bb3ca9a3216d4cd4654c13"
+        }
+      ],
+      "id": "validity-window-inverted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/card-duplicate-member/card.json",
+          "sha256": "90c528d5a6fe67cd87962302c1c886118d398592600368a25c528c721b9327f1"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-duplicate-member/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-duplicate-member/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-duplicate-member/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "card-duplicate-member"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/card-not-an-object/card.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-not-an-object/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-not-an-object/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-not-an-object/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "card-not-an-object"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/card-integer-outside-i-json/card.json",
+          "sha256": "61086238f5a5c0072ed78f1e5d0c8a4a9abd67f9b4d592f85c3466f4fbb1eec9"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-integer-outside-i-json/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-integer-outside-i-json/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-integer-outside-i-json/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "card-integer-outside-i-json"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-defaults-pruned/card.json",
+          "sha256": "1ef5bfd17ad00ea6eb64aa0dfc524c06a9a64a3ed17bbbd8f764121a21598abf"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-defaults-pruned/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-defaults-pruned/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-defaults-pruned/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "digest-defaults-pruned"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-signatures-included/card.json",
+          "sha256": "4a9d61246dd06706becb9f7502126501ad3ccf1c45e7a8f0bc7ff8b24ed2b639"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-signatures-included/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-signatures-included/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-signatures-included/statement.json",
+          "sha256": "1ebb8810dfa49cee3543b9ce59f29eed20ea79f53c824cef7b09892cd05cf329"
+        }
+      ],
+      "id": "digest-signatures-included"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-not-rfc8785/card.json",
+          "sha256": "6985626269cc92b14a652717880d6531d793243a8ba33f5ec8983e6b3f2f4cc5"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-not-rfc8785/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-not-rfc8785/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/digest-not-rfc8785/statement.json",
+          "sha256": "76c1268f352961585e9af4b4d3e2176a99813d3b54347b769cd10a09e4efe713"
+        }
+      ],
+      "id": "digest-not-rfc8785"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/card-changed-after-receipt/card.json",
+          "sha256": "c6ffb095066d725c3a7009b205b2509dec8cf131ec59ef5aa1b696867cab6009"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-changed-after-receipt/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-changed-after-receipt/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/card-changed-after-receipt/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "card-changed-after-receipt"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-not-yet-valid/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-not-yet-valid/context.json",
+          "sha256": "39ceef810a5ac171fe2a930da888000f2a09ad672a435388e25b06a9ffaae5f5"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-not-yet-valid/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-not-yet-valid/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "receipt-not-yet-valid"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired/context.json",
+          "sha256": "c4e55d7bf76b95abb5c20f8fe939397f0a3c7de61dcc0b8d315fab019af0d8fc"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "receipt-expired"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired-at-valid-until/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired-at-valid-until/context.json",
+          "sha256": "1c48e8afa88bbcc14d5cb21f74bce30aea311a889b11c6bbc20d3bc8935e31eb"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired-at-valid-until/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-expired-at-valid-until/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "receipt-expired-at-valid-until"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-absent/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-absent/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-absent/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-absent"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-payload-type-wrong/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-payload-type-wrong/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-payload-type-wrong/revocations.json",
+          "sha256": "4e4256f1aa10a160d0a3d60dee5ab5888c06f096874b6f3e2fe0307feb65542e"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-payload-type-wrong/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-payload-type-wrong"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-unsorted/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-unsorted/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-unsorted/revocations.json",
+          "sha256": "eaa891556a453a18bbfe9ee21f2c5d8f6c46065a0f0cd2d47d80a035b90d5bfb"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-unsorted/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-unsorted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-other-signer/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-other-signer/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-other-signer/revocations.json",
+          "sha256": "f94804780895208fa0ecd3fcc5b7c9c88efb7636967f2a8eeff5ddea5dd66dbf"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-other-signer/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-other-signer"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-edited-after-signing/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-edited-after-signing/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-edited-after-signing/revocations.json",
+          "sha256": "28ea623606627362e9c4c3f95ab4e9257f9f746ea07d56ae3ac41e8cc882aeb2"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-edited-after-signing/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-edited-after-signing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-stale/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-stale/context.json",
+          "sha256": "e770a3c65d512d9ef5eb0b49c478f24bb317fc79160816377b6a5687a53dcab2"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-stale/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-stale/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-stale"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-not-yet-issued/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-not-yet-issued/context.json",
+          "sha256": "8950f68cbd8e51cbe1af8a814097f9cd64fc5a21c1e2bff4ab08a9bd4d6334f6"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-not-yet-issued/revocations.json",
+          "sha256": "fd7ee8682d7e8bc827ce604a05e7ee84d1388a041bf884cc1aa291fddd022446"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/revocation-list-not-yet-issued/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "revocation-list-not-yet-issued"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-revoked/card.json",
+          "sha256": "4e3816c20e91fad84d2167eb1d6e2da42e2fb864b473fed6cc413db0cfeb9647"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-revoked/context.json",
+          "sha256": "d78977902b24db601b2e0c3f62891ad8bf9fd72fb6e2abac121c1ea7d708026c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-revoked/revocations.json",
+          "sha256": "1956049c9fc4213eeb4894898158824d20dcacb1cbe1b49bfb7d698a0b22960c"
+        },
+        {
+          "path": "vectors-agent-card-receipt/cases/receipt-revoked/statement.json",
+          "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+        }
+      ],
+      "id": "receipt-revoked"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-card-receipt.json",
+        "serialization": "bytes",
+        "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-card-receipt.txt",
+        "serialization": "bytes",
+        "sha256": "4e5c560f70080a24f633d51188776f4104774d349c41a1650624be5f2dd616a7"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "statement-duplicate-member",
+      "inputs": [
+        "member:statement-duplicate-member",
+        "check:statement-duplicate-member"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"statement_malformed\"}}"
+    },
+    {
+      "check": "statement-member-unexpected",
+      "inputs": [
+        "member:statement-member-unexpected",
+        "check:statement-member-unexpected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"statement_malformed\"}}"
+    },
+    {
+      "check": "statement-type-wrong",
+      "inputs": [
+        "member:statement-type-wrong",
+        "check:statement-type-wrong"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"statement_type_wrong\"}}"
+    },
+    {
+      "check": "predicate-type-wrong",
+      "inputs": [
+        "member:predicate-type-wrong",
+        "check:predicate-type-wrong"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_type_wrong\"}}"
+    },
+    {
+      "check": "subject-two-members",
+      "inputs": [
+        "member:subject-two-members",
+        "check:subject-two-members"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_malformed\"}}"
+    },
+    {
+      "check": "subject-digest-uppercase",
+      "inputs": [
+        "member:subject-digest-uppercase",
+        "check:subject-digest-uppercase"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"subject_malformed\"}}"
+    },
+    {
+      "check": "predicate-result-unregistered",
+      "inputs": [
+        "member:predicate-result-unregistered",
+        "check:predicate-result-unregistered"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-member-unexpected",
+      "inputs": [
+        "member:predicate-member-unexpected",
+        "check:predicate-member-unexpected"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-registry-missing",
+      "inputs": [
+        "member:predicate-registry-missing",
+        "check:predicate-registry-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-time-fraction",
+      "inputs": [
+        "member:predicate-time-fraction",
+        "check:predicate-time-fraction"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-time-offset",
+      "inputs": [
+        "member:predicate-time-offset",
+        "check:predicate-time-offset"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-revocation-list-http",
+      "inputs": [
+        "member:predicate-revocation-list-http",
+        "check:predicate-revocation-list-http"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-thumbprints-unsorted",
+      "inputs": [
+        "member:predicate-thumbprints-unsorted",
+        "check:predicate-thumbprints-unsorted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "predicate-run-digest-short",
+      "inputs": [
+        "member:predicate-run-digest-short",
+        "check:predicate-run-digest-short"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"predicate_malformed\"}}"
+    },
+    {
+      "check": "validity-window-inverted",
+      "inputs": [
+        "member:validity-window-inverted",
+        "check:validity-window-inverted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"validity_window_inverted\"}}"
+    },
+    {
+      "check": "card-duplicate-member",
+      "inputs": [
+        "member:card-duplicate-member",
+        "check:card-duplicate-member"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_malformed\"}}"
+    },
+    {
+      "check": "card-not-an-object",
+      "inputs": [
+        "member:card-not-an-object",
+        "check:card-not-an-object"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_malformed\"}}"
+    },
+    {
+      "check": "card-integer-outside-i-json",
+      "inputs": [
+        "member:card-integer-outside-i-json",
+        "check:card-integer-outside-i-json"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_malformed\"}}"
+    },
+    {
+      "check": "digest-defaults-pruned",
+      "inputs": [
+        "member:digest-defaults-pruned",
+        "check:digest-defaults-pruned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
+      "check": "digest-signatures-included",
+      "inputs": [
+        "member:digest-signatures-included",
+        "check:digest-signatures-included"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
+      "check": "digest-not-rfc8785",
+      "inputs": [
+        "member:digest-not-rfc8785",
+        "check:digest-not-rfc8785"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
+      "check": "card-changed-after-receipt",
+      "inputs": [
+        "member:card-changed-after-receipt",
+        "check:card-changed-after-receipt"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"card_digest_mismatch\"}}"
+    },
+    {
+      "check": "receipt-not-yet-valid",
+      "inputs": [
+        "member:receipt-not-yet-valid",
+        "check:receipt-not-yet-valid"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"receipt_not_yet_valid\"}}"
+    },
+    {
+      "check": "receipt-expired",
+      "inputs": [
+        "member:receipt-expired",
+        "check:receipt-expired"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"receipt_expired\"}}"
+    },
+    {
+      "check": "receipt-expired-at-valid-until",
+      "inputs": [
+        "member:receipt-expired-at-valid-until",
+        "check:receipt-expired-at-valid-until"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"receipt_expired\"}}"
+    },
+    {
+      "check": "revocation-list-absent",
+      "inputs": [
+        "member:revocation-list-absent",
+        "check:revocation-list-absent"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_absent\"}}"
+    },
+    {
+      "check": "revocation-list-payload-type-wrong",
+      "inputs": [
+        "member:revocation-list-payload-type-wrong",
+        "check:revocation-list-payload-type-wrong"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_malformed\"}}"
+    },
+    {
+      "check": "revocation-list-unsorted",
+      "inputs": [
+        "member:revocation-list-unsorted",
+        "check:revocation-list-unsorted"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_malformed\"}}"
+    },
+    {
+      "check": "revocation-list-other-signer",
+      "inputs": [
+        "member:revocation-list-other-signer",
+        "check:revocation-list-other-signer"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_signature\"}}"
+    },
+    {
+      "check": "revocation-list-edited-after-signing",
+      "inputs": [
+        "member:revocation-list-edited-after-signing",
+        "check:revocation-list-edited-after-signing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_signature\"}}"
+    },
+    {
+      "check": "revocation-list-stale",
+      "inputs": [
+        "member:revocation-list-stale",
+        "check:revocation-list-stale"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_stale\"}}"
+    },
+    {
+      "check": "revocation-list-not-yet-issued",
+      "inputs": [
+        "member:revocation-list-not-yet-issued",
+        "check:revocation-list-not-yet-issued"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"revocation_list_stale\"}}"
+    },
+    {
+      "check": "receipt-revoked",
+      "inputs": [
+        "member:receipt-revoked",
+        "check:receipt-revoked"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"reject\",\"reason\":\"receipt_revoked\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+      },
+      {
+        "process": "run-2",
+        "sha256": "f1bcbef537aaa59368787046ecc348b041d2532b08d842829bfddae18fae89b5"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 44 pinned members of agent-card-receipt/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 44,
+    "require": "at-least-one",
+    "selected": [
+      "accept-card-without-signatures",
+      "accept-signatures-excluded",
+      "accept-default-members-kept",
+      "accept-rfc8785-edges",
+      "accept-receipt-extension-declared",
+      "accept-unknown-member-kept",
+      "accept-agent-key-thumbprints",
+      "accept-result-degraded",
+      "accept-other-receipt-revoked",
+      "accept-at-issued-at",
+      "accept-list-at-issued-at",
+      "statement-duplicate-member",
+      "statement-member-unexpected",
+      "statement-type-wrong",
+      "predicate-type-wrong",
+      "subject-two-members",
+      "subject-digest-uppercase",
+      "predicate-result-unregistered",
+      "predicate-member-unexpected",
+      "predicate-registry-missing",
+      "predicate-time-fraction",
+      "predicate-time-offset",
+      "predicate-revocation-list-http",
+      "predicate-thumbprints-unsorted",
+      "predicate-run-digest-short",
+      "validity-window-inverted",
+      "card-duplicate-member",
+      "card-not-an-object",
+      "card-integer-outside-i-json",
+      "digest-defaults-pruned",
+      "digest-signatures-included",
+      "digest-not-rfc8785",
+      "card-changed-after-receipt",
+      "receipt-not-yet-valid",
+      "receipt-expired",
+      "receipt-expired-at-valid-until",
+      "revocation-list-absent",
+      "revocation-list-payload-type-wrong",
+      "revocation-list-unsorted",
+      "revocation-list-other-signer",
+      "revocation-list-edited-after-signing",
+      "revocation-list-stale",
+      "revocation-list-not-yet-issued",
+      "receipt-revoked"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-card-receipt/v1"
+}

@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -107,23 +108,42 @@ var arEntryOptional = []string{"consumption"}
 const arConsumptionInput = "consumption-state"
 
 // arConsumptionMembers are the members of consumption, each required, and no
-// other. arConsumptionCounts are the non-negative integers among them, in the
-// smallest subunit of unit.
+// other than arConsumptionOptional. arConsumptionCounts are the non-negative
+// integers among them, in the smallest subunit of unit. arConsumptionOptional is
+// the one member consumption may carry beside the required ones: the digest of
+// the limit document this record's limitDigest replaced.
 var (
 	arConsumptionMembers = []string{"limitDigest", "unit", "limit", "consumed", "reserved",
 		"requested", "held", "stateRevision"}
-	arConsumptionCounts = []string{"limit", "consumed", "reserved", "requested", "stateRevision"}
-	arHeldMembers       = []string{"operationKey", "requestDigest", "amount"}
+	arConsumptionCounts   = []string{"limit", "consumed", "reserved", "requested", "stateRevision"}
+	arHeldMembers         = []string{"operationKey", "requestDigest", "amount"}
+	arConsumptionOptional = []string{"supersedes", "asset"}
+	// arAssetMembers are the members of asset, the exact asset a consumption
+	// counts in when no ISO 4217 code names it: a CAIP-19 asset id and the
+	// decimals of its smallest subunit. A record carries unit or asset, never both
+	// (CS34 to CS40).
+	arAssetMembers = []string{"id", "decimals"}
 )
+
+// arAssetDecimalsMax is the largest decimals an asset may declare (an ERC-20
+// decimals is a uint8).
+const arAssetDecimalsMax = 255
+
+// arCAIP19 is a CAIP-19 asset id: chain_id "/" asset_namespace ":"
+// asset_reference, with an optional token id.
+var arCAIP19 = regexp.MustCompile(`^[-a-z0-9]{3,8}:[-_a-zA-Z0-9]{1,32}/[-a-z0-9]{3,8}:[-.%a-zA-Z0-9]{1,128}(/[-.%a-zA-Z0-9]{1,78})?$`)
 
 // arConsumptionChecks names the sentences of the consumption rule so a test can
 // weaken one at a time: where the member sits, that reserved is the held sum,
 // that held keys are distinct, that the call carries its operation key, that
-// counts are non-negative integers, that stateRevision is required, and that
-// one key is one request.
+// counts are non-negative integers, that stateRevision is required, that one
+// key is one request, that supersedes is a digest, and that it names another
+// limit document than the record's own.
 var arConsumptionChecks = map[string]bool{
 	"misplaced": true, "reserved": true, "distinct-keys": true, "operation-key": true,
 	"counts": true, "state-revision": true, "key-reuse": true,
+	"supersedes-digest": true, "supersedes-self": true,
+	"asset-id": true, "asset-decimals": true, "asset-exclusive": true,
 }
 
 // arRetryOf says whether a held entry is the one this call retries. Retry

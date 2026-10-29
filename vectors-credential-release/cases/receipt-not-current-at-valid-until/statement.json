@@ -1,0 +1,45 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "broker": {
+      "id": "https://broker.example.org/credential-broker"
+    },
+    "credential": {
+      "audience": "https://api.travel-bookings.example.com",
+      "kind": "oauth2-access-token",
+      "scope": [
+        "bookings:hold",
+        "bookings:read"
+      ]
+    },
+    "minResult": "pass",
+    "receipt": {
+      "digest": {
+        "sha256": "094c78e4622639a35cdcf57613ccf3dfc6f85b0d287bd10dd262446355932258"
+      },
+      "predicateType": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt",
+      "result": "pass",
+      "validUntil": "2026-11-19T00:00:00Z"
+    },
+    "registryDigest": {
+      "sha256": "76233ba8924cebdf053f0449ce023186805156aedca4121b9b156bd747a411b4"
+    },
+    "releaseId": "release-0001",
+    "releasedAt": "2026-11-19T00:00:00Z",
+    "revocationList": {
+      "digest": {
+        "sha256": "4775288fb641f803850e76895270b770e8f553c42e75cbbe1f2c17fcb67cd6fa"
+      }
+    },
+    "ttlSeconds": 900
+  },
+  "predicateType": "https://w3id.org/agent-evidence/predicate/v1/credential-release",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "f353b822d0f740ceee2b533b4824f0451e9339be5c991af9d4191ac8912fabb3"
+      },
+      "name": "https://travel-agent.example.com/.well-known/agent-card.json"
+    }
+  ]
+}

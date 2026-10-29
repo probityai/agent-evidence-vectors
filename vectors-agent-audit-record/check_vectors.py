@@ -393,6 +393,28 @@ def _without_check(name: str) -> Iterator[None]:
 
 
 @contextlib.contextmanager
+def _without_chain_join() -> Iterator[None]:
+    """The set checks over one limitDigest each, a replacement no longer joining
+    the limit documents it links into one ledger."""
+    auditrecord.SET_GROUPING["chain"] = False
+    try:
+        yield
+    finally:
+        auditrecord.SET_GROUPING["chain"] = True
+
+
+@contextlib.contextmanager
+def _group_every_record() -> Iterator[None]:
+    """The set checks over one ledger of every record, whatever its limitDigest
+    and whether or not a supersedes links it."""
+    auditrecord.SET_GROUPING["all"] = True
+    try:
+        yield
+    finally:
+        auditrecord.SET_GROUPING["all"] = False
+
+
+@contextlib.contextmanager
 def _retry_by_request_digest() -> Iterator[None]:
     """A retry identified by the request digest rather than the operation key."""
 
@@ -446,10 +468,25 @@ def _set_checks(drop: str | None = None, by_request_digest: bool = False) -> Ite
             )
         )
     auditrecord.SET_RULES[:] = kept
+    claim = auditrecord.CLAIM_READING["check"]
+    if drop is None and not by_request_digest:
+        auditrecord.CLAIM_READING["check"] = False
     try:
         yield
     finally:
         auditrecord.SET_RULES[:] = original
+        auditrecord.CLAIM_READING["check"] = claim
+
+
+@contextlib.contextmanager
+def _reading(table: dict[str, bool], name: str, value: bool) -> Iterator[None]:
+    """One knob of a set reading (CLAIM_READING, ASSET_MATCH) set to value."""
+    original = table[name]
+    table[name] = value
+    try:
+        yield
+    finally:
+        table[name] = original
 
 
 @contextlib.contextmanager
@@ -687,19 +724,84 @@ SECTION_READINGS: list[tuple[str, Callable[[], contextlib.AbstractContextManager
         "CS10",
     ),
     (
+        "a supersedes that is not a digest accepted",
+        lambda: _without_check("supersedes-digest"),
+        "CS24",
+    ),
+    (
+        "a supersedes that names the record's own limitDigest accepted",
+        lambda: _without_check("supersedes-self"),
+        "CS23",
+    ),
+    (
         "no check across the records of a set",
         lambda: _set_checks(),
-        "CS7,CS8,CS17",
+        "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39",
     ),
     (
         "a record that read an older state and omits a held permit accepted",
         lambda: _set_checks("stale-revision"),
-        "CS7,CS17",
+        "CS7,CS17,CS21",
     ),
     (
         "a held permit released with no record of the operation accepted",
         lambda: _set_checks("release-unshown"),
-        "CS8",
+        "CS8,CS20,CS30",
+    ),
+    (
+        "the set checks read per limitDigest, a replacement not joining the limits it links",
+        _without_chain_join,
+        "CS20,CS21,CS30",
+    ),
+    (
+        "a retry presented as a new operation accepted",
+        lambda: _reading(auditrecord.CLAIM_READING, "check", False),
+        "CS31,CS32",
+    ),
+    (
+        "a held claim keyed by the limit document, so an unlinked limit drops it",
+        lambda: _reading(auditrecord.CLAIM_READING, "ledger", True),
+        "CS32",
+    ),
+    (
+        "a held claim read without its principal and agent key",
+        lambda: _reading(auditrecord.CLAIM_READING, "scope", False),
+        "CS33",
+    ),
+    (
+        "a record of the operation showing none not ending its claim",
+        lambda: _reading(auditrecord.CLAIM_READING, "release", False),
+        "CS28",
+    ),
+    (
+        "an asset id that is not CAIP-19 accepted",
+        lambda: _without_check("asset-id"),
+        "CS35",
+    ),
+    (
+        "an asset decimals beyond a count accepted",
+        lambda: _without_check("asset-decimals"),
+        "CS36",
+    ),
+    (
+        "a record carrying both unit and asset accepted",
+        lambda: _without_check("asset-exclusive"),
+        "CS37",
+    ),
+    (
+        "one ledger counting two denominations accepted",
+        lambda: _set_checks("asset-mismatch"),
+        "CS38,CS39",
+    ),
+    (
+        "an asset matched by its id alone, its decimals ignored",
+        lambda: _reading(auditrecord.ASSET_MATCH, "decimals", False),
+        "CS39",
+    ),
+    (
+        "every record of a set grouped into one ledger whatever its limitDigest",
+        _group_every_record,
+        "CS25,CS40",
     ),
     (
         "the stale-state check keyed on the request digest rather than the operation key",

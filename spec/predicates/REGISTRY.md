@@ -36,6 +36,19 @@ The predicate carries an observed effect of an execution, separately from the
 claim an executor makes about it, so that a consumer recomputes the effect from
 carried bytes instead of accepting an asserted one.
 
+### `predicate/v1/uncertain-effect`
+
+- Document: `vectors-uncertain-effect/README.md`
+- Corpus: `vectors-uncertain-effect/`, suite `uncertain-effect/v1`
+- Rails: `corpora/uncertaineffect.go`, `packaging/agent_evidence_vectors/uncertaineffect.py`
+  and the runtime contract in `packaging/agent_evidence_vectors/uncertaineffect_runtime.py`
+
+The predicate carries one runtime's trail for an operation whose reply may have been
+lost: its attempts and their replies, the leases they were sent under, the effect
+owner's reconciliation answers and ledger count, the reservation held for it and the
+outcome the runtime reported, so a consumer can tell a settled effect from an
+unknown one and a safe resend from a duplicate.
+
 ### `predicate/v1/evaluation-claim`
 
 - Document: `spec/predicates/evaluation-claim.md`
@@ -111,8 +124,8 @@ cannot write one.
   one member per row of Appendix B of draft-gilda-audit-agent-audit-record-00,
   each carrying its Appendix B identifier, then members for sentences of
   Section 5.4 that Appendix B has no row for, each naming its section in
-  `draftSection`, then rows of revision 01 (`CS1` to `CS17`) that bind
-  consumption state to the agent's operation key; `CS7`, `CS8` and `CS17` are
+  `draftSection`, then rows of revision 01 (`CS1` to `CS40`) that bind
+  consumption state to the agent's operation key; `CS7`, `CS8`, `CS17`, `CS18` to `CS22` and `CS25` to `CS33` and `CS38` to `CS40` are
   files of several records judged as a set. Rows R1 to R9 are retained records
   judged by the dating check of Section 4.7. Judged by `packaging/agent_evidence_vectors/auditrecord.py`.
   Releases up to v0.25.0 test revision 02 of the earlier draft.
@@ -200,16 +213,20 @@ them.
 
 ## Types served from another host
 
-Two types defined in this directory have their URIs under
-`https://w3id.org/agent-evidence/predicate/v1/`, a persistent identifier namespace
-that is not served from this repository. The site build here publishes no page for
+Types defined in this directory with a URI under
+`https://w3id.org/agent-evidence/predicate/v1/` are served from a persistent identifier
+namespace that is not this repository. The site build here publishes no page for
 them, and the scan in `scripts/predicate-uri-gate.py` does not cover that host.
 Each document is the authority for its type until the human-readable pages are
-live, and no signed statement carries either URI before then.
+live, and no signed statement carries any of these URIs before then.
 
 - `done-contract`: `spec/predicates/done-contract.md`, corpus `vectors-done-contract/`.
 - `done-receipt`: `spec/predicates/done-receipt.md`, corpora `vectors-done-receipt/`,
   `vectors-spoofed-tool-output/`, `vectors-test-tampering/`,
   `vectors-grader-isolation/` and `vectors-done-probes/`.
+- `agent-card-receipt`: `spec/predicates/agent-card-receipt.md`, corpus
+  `vectors-agent-card-receipt/`.
+- `credential-release`: `spec/predicates/credential-release.md`, corpus
+  `vectors-credential-release/`.
 
 `spec/predicates/done-records.md` defines the records both read and no type URI.

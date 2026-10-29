@@ -4,7 +4,7 @@ Use this page to choose an installation route or identify the corpus you ran. Fo
 
 ## The tag to cite
 
-`v0.26.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
+`v0.30.0`, the published version named by the preferred citation in [CITATION.cff](CITATION.cff). Cite its signed tag or full source commit and corpus digest when reporting a result.
 
 The installation examples are pinned to the version above. The corpus table
 describes this checkout; a release tag or installed wheel identifies its own
@@ -12,8 +12,8 @@ population.
 
 This checkout prepares an unreleased source version with package metadata and
 criterion-document repairs. Those changes are not part of the published release.
-For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.26.0) and
-[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.26.0/).
+For a release run, select the matching [GitHub release](https://github.com/probityai/agent-evidence-vectors/releases/tag/v0.30.0) and
+[PyPI wheel and source archive](https://pypi.org/project/agent-evidence-vectors/0.30.0/).
 Use the installation route below or build from a reviewed source checkout.
 The [source-wheel recipe](README.md#try-it) builds the verifier and harness
 from a reviewed checkout, then runs the installed harness outside it. Record
@@ -26,15 +26,15 @@ unchanged as historical evidence.
 Install matching published versions:
 
 ```bash
-go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.26.0
-uvx agent-evidence-vectors==0.26.0 --verifier "aee-verify -validity-only -json"
+go install github.com/probityai/agent-evidence-vectors/cmd/aee-verify@v0.30.0
+uvx agent-evidence-vectors==0.30.0 --verifier "aee-verify -validity-only -json"
 ```
 
 Run the same harness from the published release checkout:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors
-cd agent-evidence-vectors && git checkout v0.26.0
+cd agent-evidence-vectors && git checkout v0.30.0
 python3 packaging/run_vectors.py --verifier "aee-verify -validity-only -json"
 ```
 
@@ -48,7 +48,7 @@ Recompute the corpus digests, then check the signature and timestamp proofs:
 
 ```bash
 git clone https://github.com/probityai/agent-evidence-vectors && cd agent-evidence-vectors
-git checkout v0.26.0
+git checkout v0.30.0
 
 # 1. the digest list is what the vector files on disk hash to, recomputed
 python3 scripts/release-digests.py --check
@@ -107,8 +107,13 @@ Choose a corpus for the format your verifier supports. Each has its own manifest
 | `vectors-authority-at-dispatch/` | `authority-at-dispatch/v1` | delegated authority judged at the moment of dispatch: revocation, expiry, stale evidence and scope amplification across hops, including denied records that dispatch exactly the approved bytes |
 | `vectors-approval-binding/` | `approval-binding/v1` | an approval presented for a use, refused when it is not bound to that use: a reused approval identifier, a consumed approval, a key that is not the approver's, another user behind the same OAuth client, a different event or phase, a payload changed after approval, a use outside the validity window, a failed policy lookup, and a policy release not served at the decision time |
 | `vectors-dispatch-fence/` | `dispatch-fence/v1` | one exclusive dispatch judged from its own record: the fence bound to the sequence number the policy check read, no state change between the two, and a hold with its renewals that covers the effect and the commit with no other proposal admitted meanwhile |
+| `vectors-uncertain-effect/` | `uncertain-effect/v1` | one operation whose reply may have been lost: a retry after an unknown outcome, an idempotency key reused with changed arguments, a dispatch beyond the worker's lease, an unknown released at reservation expiry and an outcome reported without the effect owner's answer, each paired with a runtime scenario a counting effect owner plays |
 | `vectors-aggregate-accounting/` | `aggregate-accounting/v1` | the decisions an accounting authority took against one budget shared by a principal and its delegation subtrees: concurrent requests admitted inside the budget, racing requests that cannot both be admitted, an unknown-outcome reservation that stays charged past its expiry, a request past the latency bound refused or held, and the principal, subtree, budget, action and counts retained |
+| `vectors-agent-card-receipt/` | `agent-card-receipt/v1` | a receipt for an A2A Agent Card judged from the card, the receipt statement, the issuer's signed revocation list and the time of the check: the card digest over RFC 8785 without its signatures, the validity window, a list that is absent, malformed, signed by another key, stale or naming the receipt |
+| `vectors-credential-release/` | `credential-release/v1` | a broker's record of a credential released against an agent-card receipt: the receipt's digest, copied fields, subject, result and currency at release, a credential that must not outlive the receipt, a closed credential object with no field for a secret, and the revocation list consulted |
 | `vectors-converted-argument-binding/` | `converted-argument-binding/v1` | an approved tool call whose shown, approved, rebuilt and executed arguments must agree under RFC 8785, with the approval naming the shown bytes and the call unchanged after approval; the rule inspect_ai adopted in UKGovernmentBEIS/inspect_ai#5652 |
+| `vectors-delegator-right/` | `delegator-right/v1` | a delegated request refused when the delegating principal did not hold the right to pass the operation on: never entitled, entitlement removed at the source, an ancestor grant narrowed, or a scope wider than the delegator's, with a stated propagation limit |
+| `vectors-completion-confirmation/` | `completion-confirmation/v1` | a completion claim refused when no confirmation record is bound to the task: none, another task or arguments, the acting agent's own, a reused one, one outside the authorization window, or an unresolved or absent outcome |
 | `vectors-chunked-export/` | `chunked-export/v1` | an export gate's decision on each chunk of a chunked export whose every step is reversible on its own: a count or a set-of-chunks reconstruction rule committed before the first chunk, and a seal that must state the composed class rather than the maximum of the per-step labels |
 | `vectors-identity-binding/` | `agent-did-identity-binding/v1` | DSSE-signed agent records whose subject is a did:web or did:wba DID, bound to the signing key through resolved DID documents, including rejected records whose signature verifies |
 | `vectors-done-contract/` | `done-contract/v2` | sealed contracts for a coding agent's task, valid and invalid, each invalid one under the code of the rule it breaks |

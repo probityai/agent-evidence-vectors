@@ -1,0 +1,1399 @@
+{
+  "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
+  "corpusDigest": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+  "runtimeContract": "runtime scenario.json, AEV_EFFECT_OWNER; see uncertaineffect_runtime",
+  "suite": "uncertain-effect/v1",
+  "vectors": [
+    {
+      "edit": "control: the first attempt is confirmed and the owner holds one effect",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "8ff4e87d4a8555b45904fcb604babb6d9ddb7350578b44bf8c6e3e2faa716617"
+      },
+      "id": "allow-confirmed-first-attempt",
+      "path": "cases/allow-confirmed-first-attempt",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "control: the reply is lost, a lookup finds the effect, the runtime closes the unknown as committed and sends nothing again",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "29cf64027fe24e088d508cb80f4bba853a0170b659f387728ce085c3e821ffdc"
+      },
+      "id": "allow-commit-timeout-reconciled-present",
+      "path": "cases/allow-commit-timeout-reconciled-present",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    },
+    {
+      "edit": "control: the reply is lost, no lookup answers, and the runtime reports unknown with the reservation charged",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "b5d76c160285101e6ee88bd4e174b46f17b3be6dc23c12dead4bfce1f6551a77"
+      },
+      "id": "allow-commit-timeout-held-unknown",
+      "path": "cases/allow-commit-timeout-held-unknown",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "control: the reservation expired at 120 seconds and the unknown stays charged at 300",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "5ad238aae73e2984a1030b45b1cc1c5dd935f99a9b4230292fde95a5d4273fb9"
+      },
+      "id": "allow-unknown-charged-past-expiry",
+      "path": "cases/allow-unknown-charged-past-expiry",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "control: a final lookup finds the effect absent, the runtime reports not run and releases the reservation",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "58685455dbb7bc7abcaa34c1838d8a3277abc849a9da66574e1b68346f75ac3c"
+      },
+      "id": "allow-timeout-reconciled-absent-not-run",
+      "path": "cases/allow-timeout-reconciled-absent-not-run",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "not_run",
+        "ownerEffects": 0,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 0,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 0,
+              "outcome": "not_run"
+            },
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "lost-before-commit",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call is lost before it commits; a final lookup says absent, after which a resend is safe and so is reporting not run"
+        }
+      }
+    },
+    {
+      "edit": "control: a final lookup finds the effect absent before the resend, which is confirmed",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "244c4ee23644f04815db126ce5781be5e196960d1eaa288afcf41d44a45368a3"
+      },
+      "id": "allow-retry-after-final-absent",
+      "path": "cases/allow-retry-after-final-absent",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 0,
+              "outcome": "not_run"
+            },
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "lost-before-commit",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call is lost before it commits; a final lookup says absent, after which a resend is safe and so is reporting not run"
+        }
+      }
+    },
+    {
+      "edit": "control: the owner deduplicates by key, the resend carries the same key and arguments inside the retention window, and the owner holds one effect",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "6a721294aeb25400fb42aa0f5e598c841e30afa5e4c23a2d995e129d113911a2"
+      },
+      "id": "allow-retry-same-key-owner-deduplicates",
+      "path": "cases/allow-retry-same-key-owner-deduplicates",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply-deduplicating",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "control: the first attempt got a definite no-effect answer, so the resend is safe",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "5a67a3bbf669639b330a404a4961625ac91295967f2650488cdc2c6ba56f6e67"
+      },
+      "id": "allow-definite-no-effect-then-retry",
+      "path": "cases/allow-definite-no-effect-then-retry",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 0,
+              "outcome": "not_run"
+            },
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "definite-no-effect",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "no_effect"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call is refused with a definite no-effect answer; a resend is safe"
+        }
+      }
+    },
+    {
+      "edit": "control: worker-a's reply is lost, its lease passes to worker-b, and worker-b finds the effect instead of sending it again",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "1cf9b043795827959b2a1f65e9a82aee788cbbfb528d854c3f9df09e7a443533"
+      },
+      "id": "allow-lease-taken-over-reconciled",
+      "path": "cases/allow-lease-taken-over-reconciled",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "lease-lost-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lease": {
+              "lostAfterCall": 1,
+              "token": 1
+            },
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the worker's first call commits and its reply is lost, and its lease passes to another worker; it must not dispatch again under the old fencing token"
+        }
+      }
+    },
+    {
+      "edit": "control: a lookup that is not final misses the effect, the runtime waits, and the next lookup finds it",
+      "expected": {
+        "decision": "allow",
+        "reason": "effect_held"
+      },
+      "files": {
+        "record.json": "60db3ebfe73fd52a84e624da53b16ab8f3ce5c8447d682846112f1d3f8a8f685"
+      },
+      "id": "allow-late-commit-awaited",
+      "path": "cases/allow-late-commit-awaited",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "the record names no contract",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_missing"
+      },
+      "files": {
+        "record.json": "d9e257a16a3e8123fe93e19fe0cdf2e5fa53fef50513cd7343b2823156cef8fa"
+      },
+      "id": "contract-id-missing",
+      "path": "cases/contract-id-missing",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "the record names a contract version that does not exist",
+      "expected": {
+        "decision": "deny",
+        "reason": "contract_id_unknown"
+      },
+      "files": {
+        "record.json": "b078882b6c690ed40119e23b4a440d9f1694cf1e562267b04bb4606e96d7963f"
+      },
+      "id": "contract-id-unknown",
+      "path": "cases/contract-id-unknown",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "the operation carries no idempotency key",
+      "expected": {
+        "decision": "deny",
+        "reason": "operation_identity_missing"
+      },
+      "files": {
+        "record.json": "8cd6862783774886557e8ce75ddf130e420306b1d810ab7ab8dc588e3e19fbc9"
+      },
+      "id": "identity-missing-key",
+      "path": "cases/identity-missing-key",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "the attempt carries no arguments digest",
+      "expected": {
+        "decision": "deny",
+        "reason": "operation_identity_missing"
+      },
+      "files": {
+        "record.json": "2a8b696901f541dab0812a0617b77bbbd552b3f57bf0a43add8368c06053fa30"
+      },
+      "id": "identity-missing-args-digest",
+      "path": "cases/identity-missing-args-digest",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 0
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "confirmed",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply arrives"
+        }
+      }
+    },
+    {
+      "edit": "the resend carries the operation's key with quantity 2 where the operation said 1",
+      "expected": {
+        "decision": "deny",
+        "reason": "idempotency_key_args_changed"
+      },
+      "files": {
+        "record.json": "b2065b6b4d1702c578718f9e43eece89bcb4ae0c74cc833d3c0c7ca8b67687e3"
+      },
+      "id": "key-reused-args-changed",
+      "path": "cases/key-reused-args-changed",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply-deduplicating",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "worker-a resends at 40 seconds under a lease that expired at 30",
+      "expected": {
+        "decision": "deny",
+        "reason": "dispatch_beyond_lease"
+      },
+      "files": {
+        "record.json": "ce8a2a4f6c2a0ee5d2d10a4f1e149db0a3fb3bed09a158fb6cc3eb7b411b0049"
+      },
+      "id": "dispatch-after-lease-expired",
+      "path": "cases/dispatch-after-lease-expired",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "lease-lost-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lease": {
+              "lostAfterCall": 1,
+              "token": 1
+            },
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the worker's first call commits and its reply is lost, and its lease passes to another worker; it must not dispatch again under the old fencing token"
+        }
+      }
+    },
+    {
+      "edit": "worker-a resends at 40 seconds inside its own window, after worker-b was granted fencing token 2 at 35",
+      "expected": {
+        "decision": "deny",
+        "reason": "dispatch_beyond_lease"
+      },
+      "files": {
+        "record.json": "5657d1e85d5a7ae808f4191a6220dff51bef3fa1ffd0845d01e274f8aa2dcf82"
+      },
+      "id": "dispatch-with-superseded-token",
+      "path": "cases/dispatch-with-superseded-token",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            },
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "lease-lost-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lease": {
+              "lostAfterCall": 1,
+              "token": 1
+            },
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the worker's first call commits and its reply is lost, and its lease passes to another worker; it must not dispatch again under the old fencing token"
+        }
+      }
+    },
+    {
+      "edit": "the reply is lost after the commit and the runtime resends at once to an owner that does not deduplicate, which holds two effects",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "8367be054c8a8bab881cf8efef7770807efcdcd63bb7e27be599a0d59fa14090"
+      },
+      "id": "retry-after-commit-timeout",
+      "path": "cases/retry-after-commit-timeout",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    },
+    {
+      "edit": "the runtime resends after a lookup that was not final missed a late commit",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "41355ba28b7d5862f3199c280f5755da15609ec1d0cd3e09efbd7c0160f46ffa"
+      },
+      "id": "retry-after-lookup-not-final",
+      "path": "cases/retry-after-lookup-not-final",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "late-commit-after-missed-lookup",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "late_commit"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "non_final"
+            ]
+          },
+          "summary": "the first call's reply is lost and it commits late: the first lookup misses it and is not final, the next one finds it"
+        }
+      }
+    },
+    {
+      "edit": "the owner deduplicates by key and the resend carries a new key, so both commit",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "a9d0e5d74795eed00a7fc7c7ad18b129336062c3363bb6adbf999a20405270cb"
+      },
+      "id": "retry-under-new-key",
+      "path": "cases/retry-under-new-key",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply-deduplicating",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "the resend carries the same key 25 hours later, after the owner's 24-hour key retention, so the owner applied it again",
+      "expected": {
+        "decision": "deny",
+        "reason": "retry_after_unknown"
+      },
+      "files": {
+        "record.json": "a21669031855eb32a669b0ba1605289a46be04c7966d2267bb5fce6306f17a1c"
+      },
+      "id": "retry-after-key-retention-expired",
+      "path": "cases/retry-after-key-retention-expired",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply-deduplicating",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "the owner declares deduplication by key and its own ledger holds two effects",
+      "expected": {
+        "decision": "deny",
+        "reason": "duplicate_effect"
+      },
+      "files": {
+        "record.json": "c14d9456c88b9faa3e4c16b3e57c9864b9f14d16e583aeefc0fb25a45bc0a81e"
+      },
+      "id": "duplicate-effect-despite-deduplication",
+      "path": "cases/duplicate-effect-despite-deduplication",
+      "retained": {
+        "attempts": 2,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 2,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 2,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply-deduplicating",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": true,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner deduplicates by key, so a resend under the same key and arguments is safe"
+        }
+      }
+    },
+    {
+      "edit": "the reservation stopped being charged when it expired while the outcome is unknown",
+      "expected": {
+        "decision": "deny",
+        "reason": "unknown_released"
+      },
+      "files": {
+        "record.json": "aa8a7bc40a6c1fd6e345e3ba9454538f0d5e69abaceafe875e6275a2a6aa0395"
+      },
+      "id": "unknown-released-at-expiry",
+      "path": "cases/unknown-released-at-expiry",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "the reply is lost and no lookup answered, and the runtime reports not run; the owner holds the effect",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_settled_without_authority"
+      },
+      "files": {
+        "record.json": "3705a272f996b7600d7aacc7d21b7254c30d649bdbfe467f05b407805f7a0375"
+      },
+      "id": "timeout-reported-not-run",
+      "path": "cases/timeout-reported-not-run",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "the reply is lost and no lookup answered, and the runtime reports committed; the owner holds nothing",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_settled_without_authority"
+      },
+      "files": {
+        "record.json": "7c41caf4133fd10e7a8f82f9ef2232682289ed6e4b71689b29684f0d1f2eb6f5"
+      },
+      "id": "timeout-reported-committed",
+      "path": "cases/timeout-reported-committed",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "unknown",
+        "ownerEffects": 0,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 0,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "unknown"
+            }
+          ],
+          "id": "owner-unreachable-after-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "unavailable"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost, and the owner cannot answer lookups; the outcome stays unknown and nothing is sent again"
+        }
+      }
+    },
+    {
+      "edit": "a final lookup finds the effect absent and the runtime still reports committed",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_disagrees_with_authority"
+      },
+      "files": {
+        "record.json": "729859118456b6b6758f42edcce38a90f383e139869cc3b30dd800d83697fc68"
+      },
+      "id": "reconciled-absent-reported-committed",
+      "path": "cases/reconciled-absent-reported-committed",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "not_run",
+        "ownerEffects": 0,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 0,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 0,
+              "outcome": "not_run"
+            },
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "lost-before-commit",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call is lost before it commits; a final lookup says absent, after which a resend is safe and so is reporting not run"
+        }
+      }
+    },
+    {
+      "edit": "a lookup finds the effect and the runtime never closes the unknown",
+      "expected": {
+        "decision": "deny",
+        "reason": "outcome_disagrees_with_authority"
+      },
+      "files": {
+        "record.json": "023d0e73f784681173c5b0d5a3e85a013ee5a37ad8e5c2522d2d4a4b1a290229"
+      },
+      "id": "reconciled-present-still-unknown",
+      "path": "cases/reconciled-present-still-unknown",
+      "retained": {
+        "attempts": 1,
+        "idempotencyKey": "order-7f3a",
+        "operation": "op-1",
+        "outcome": "committed",
+        "ownerEffects": 1,
+        "unknownAttempts": 1
+      },
+      "runtime": {
+        "recordedEffects": 1,
+        "scenario": {
+          "accepted": [
+            {
+              "effects": 1,
+              "outcome": "committed"
+            }
+          ],
+          "id": "commit-then-lost-reply",
+          "operation": {
+            "action": "create-order",
+            "args": {
+              "quantity": 1,
+              "sku": "A-1"
+            },
+            "idempotencyKey": "order-7f3a"
+          },
+          "owner": {
+            "calls": [
+              "commit_drop"
+            ],
+            "deduplicatesByKey": false,
+            "lookups": [
+              "final"
+            ]
+          },
+          "summary": "the first call commits and its reply is lost; the owner does not deduplicate, and its lookups are final, so the runtime must ask before it sends again"
+        }
+      }
+    }
+  ],
+  "verifierContract": "verifier record.json --json; exit 0 allow, 1 deny"
+}

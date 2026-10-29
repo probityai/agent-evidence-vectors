@@ -36,7 +36,11 @@ func arDropSetRule(drop string) func() func() {
 			}
 		}
 		arSetRules = kept
-		return func() { arSetRules = saved }
+		claim := arClaimReading["check"]
+		if drop == "" {
+			arClaimReading["check"] = false
+		}
+		return func() { arSetRules = saved; arClaimReading["check"] = claim }
 	}
 }
 
@@ -82,6 +86,13 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 		"counts":         "CS5",
 		"state-revision": "CS9",
 		"key-reuse":      "CS10",
+
+		"supersedes-digest": "CS24",
+		"supersedes-self":   "CS23",
+
+		"asset-id":        "CS35",
+		"asset-decimals":  "CS36",
+		"asset-exclusive": "CS37",
 	} {
 		if got := arWeakened(t, arDropCheck(name)); got != want {
 			t.Errorf("without the %s sentence: failing %q, want %q", name, got, want)
@@ -104,9 +115,10 @@ func TestAuditRecordConsumptionSentencesAreLoadBearing(t *testing.T) {
 // fails CS17, the control that proves the check keys on the operation key.
 func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	for _, c := range []struct{ drop, want string }{
-		{"", "CS7,CS8,CS17"},
-		{"stale-revision", "CS7,CS17"},
-		{"release-unshown", "CS8"},
+		{"", "CS7,CS8,CS17,CS20,CS21,CS30,CS31,CS32,CS38,CS39"},
+		{"stale-revision", "CS7,CS17,CS21"},
+		{"release-unshown", "CS8,CS20,CS30"},
+		{"asset-mismatch", "CS38,CS39"},
 	} {
 		if got := arWeakened(t, arDropSetRule(c.drop)); got != c.want {
 			t.Errorf("dropping set check %q: failing %q, want %q", c.drop, got, c.want)
@@ -114,11 +126,77 @@ func TestAuditRecordSetRulesAreLoadBearing(t *testing.T) {
 	}
 	byDigest := func() func() {
 		saved := arSetRules
-		arSetRules = []arSetRule{{"stale-revision", "consumption-set-stale-revision", arStaleByDigest}, saved[1]}
+		arSetRules = append([]arSetRule{{"stale-revision", "consumption-set-stale-revision", arStaleByDigest}}, saved[1:]...)
 		return func() { arSetRules = saved }
 	}
 	if got := arWeakened(t, byDigest); got != "CS17" {
 		t.Errorf("stale-state check keyed on the request digest: failing %q, want CS17", got)
+	}
+}
+
+// TestAuditRecordSetChainJoinIsLoadBearing: reading the set checks per
+// limitDigest, a replacement not joining the limit documents it links, fails
+// CS20 and CS21 and nothing else.
+func TestAuditRecordSetChainJoinIsLoadBearing(t *testing.T) {
+	dropJoin := func() func() {
+		arSetChainJoin = false
+		return func() { arSetChainJoin = true }
+	}
+	if got := arWeakened(t, dropJoin); got != "CS20,CS21,CS30" {
+		t.Errorf("without the chain join: failing %q, want CS20,CS21,CS30", got)
+	}
+}
+
+// TestAuditRecordSetLedgerBoundaryIsLoadBearing: reading every record as one
+// ledger whatever its limit document fails CS25 and nothing else, the control
+// that a verifier does not join limit documents no supersedes links.
+func TestAuditRecordSetLedgerBoundaryIsLoadBearing(t *testing.T) {
+	joinAll := func() func() {
+		arSetJoinAll = true
+		return func() { arSetJoinAll = false }
+	}
+	if got := arWeakened(t, joinAll); got != "CS25,CS40" {
+		t.Errorf("grouping every record into one ledger: failing %q, want CS25,CS40", got)
+	}
+}
+
+// TestAuditRecordClaimReadingIsLoadBearing: each reading of the claim check
+// fails exactly the members that test it. Without the check a retry presented
+// as new passes (CS31, CS32); keyed by the limit document an unlinked limit
+// drops the claim (CS32); without the principal and agent key another scope's
+// key reads as the same claim (CS33); and a record showing none that does not
+// end a claim refuses a legitimate new operation (CS28).
+func TestAuditRecordClaimReadingIsLoadBearing(t *testing.T) {
+	for _, c := range []struct {
+		name  string
+		value bool
+		want  string
+	}{
+		{"check", false, "CS31,CS32"},
+		{"ledger", true, "CS32"},
+		{"scope", false, "CS33"},
+		{"release", false, "CS28"},
+	} {
+		set := func() func() {
+			saved := arClaimReading[c.name]
+			arClaimReading[c.name] = c.value
+			return func() { arClaimReading[c.name] = saved }
+		}
+		if got := arWeakened(t, set); got != c.want {
+			t.Errorf("claim reading %s=%v: failing %q, want %q", c.name, c.value, got, c.want)
+		}
+	}
+}
+
+// TestAuditRecordAssetDecimalsAreLoadBearing: matching an asset by its id alone
+// fails CS39 and nothing else.
+func TestAuditRecordAssetDecimalsAreLoadBearing(t *testing.T) {
+	drop := func() func() {
+		arAssetMatchDecimals = false
+		return func() { arAssetMatchDecimals = true }
+	}
+	if got := arWeakened(t, drop); got != "CS39" {
+		t.Errorf("an asset matched by its id alone: failing %q, want CS39", got)
 	}
 }
 

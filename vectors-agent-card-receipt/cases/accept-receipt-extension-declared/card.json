@@ -1,0 +1,45 @@
+{
+  "capabilities": {
+    "extensions": [
+      {
+        "description": "Receipts for evaluated runs of this card.",
+        "params": {
+          "receipts": "https://receipts.example.org/travel-agent/index.json"
+        },
+        "uri": "https://w3id.org/agent-evidence/predicate/v1/agent-card-receipt"
+      }
+    ],
+    "streaming": true
+  },
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json"
+  ],
+  "description": "Books flights and hotels within a traveller's approved budget.",
+  "name": "Travel Agent",
+  "provider": {
+    "organization": "Example Travel",
+    "url": "https://travel.example.com"
+  },
+  "skills": [
+    {
+      "description": "Find and hold a flight that fits the itinerary.",
+      "id": "book-flight",
+      "name": "Book flight",
+      "tags": [
+        "travel",
+        "flight"
+      ]
+    }
+  ],
+  "supportedInterfaces": [
+    {
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0",
+      "url": "https://travel-agent.example.com/a2a/v1"
+    }
+  ],
+  "version": "1.4.0"
+}

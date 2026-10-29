@@ -178,6 +178,25 @@ def case_directory(case_path: str) -> int:
     raise SystemExit(f"no MANIFEST row names {stem}")
 
 
+def suite_case_directory(suite: str, case_dir: str) -> int:
+    """``<verifier> <suite> <case-dir> --json``: exit 0 accept, 1 reject.
+
+    The card-receipt and credential-release corpora hand the verifier the
+    suite name and the whole case directory, and compare the printed object
+    with the member's ``expected``.
+    """
+    _, manifest = find_manifest(os.path.join(case_dir, "case.json"))
+    if manifest.get("suite") != suite:
+        raise SystemExit(f"{case_dir} belongs to {manifest.get('suite')!r}, not {suite!r}")
+    stem = os.path.basename(os.path.abspath(case_dir))
+    for entry in manifest.get("vectors") or []:
+        if entry.get("id") == stem:
+            expected = dict(entry.get("expected") or {})
+            print(json.dumps(expected))
+            return {"accept": 0, "reject": 1}.get(str(expected.get("decision")), 2)
+    raise SystemExit(f"no MANIFEST row names {stem}")
+
+
 def a2a_reader() -> Any:
     sys.path.insert(0, os.path.join(ROOT, "packaging"))
     from agent_evidence_vectors import a2ajcs
@@ -256,6 +275,8 @@ def contract_member_file(path: str) -> str | None:
 
 def main(argv: list[str]) -> int:
     args = argv[1:]
+    if len(args) == 3 and args[2] == "--json" and os.path.isdir(args[1]):
+        return suite_case_directory(args[0], args[1])
     if "--json" in args and args and os.path.basename(args[0]) == contract_member_file(args[0]):
         return case_directory(args[0])
     if len(args) == 2 and not args[0].endswith(".json"):

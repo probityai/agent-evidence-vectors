@@ -20,8 +20,7 @@ permissions:
 
 jobs:
   release-integrity:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     env:
       UV_LINK_MODE: copy
     steps:
@@ -50,11 +49,10 @@ jobs:
           .venv/bin/python -B scripts/release-gate-test.py
 
   installed-wheel:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
     # The publish job's wheel replay, run before a tag can exist. Until v0.17.8
     # it ran only in release.yml, so a wheel that dropped a corpus's vendored
     # specification passed every pull request and failed at publication.
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
@@ -72,8 +70,7 @@ jobs:
         run: scripts/installed-wheel-replay.sh "$(ls "$PWD"/dist/agent_evidence_vectors-*.whl)" "$RUNNER_TEMP/aee-verify-installed"
 
   go:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -95,8 +92,8 @@ jobs:
           (cd witnessattestor && go vet ./...)
       - name: test (race)
         run: |
-          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1
-          (cd witnessattestor && go test ./... -race -count=1)
+          go test ./aee/... ./cmd/... ./corpora/... ./observedeffect/... -race -count=1 -timeout 30m
+          (cd witnessattestor && go test ./... -race -count=1 -timeout 30m)
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -305,8 +302,7 @@ jobs:
           working-directory: witnessattestor
 
   python:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       # Full history and tags, because the consumer-lag gate measures the
       # vendored copies against the newest release tag the DEFAULT BRANCH
@@ -358,7 +354,7 @@ jobs:
       - name: type-check every python file
         run: uv run python scripts/typecheck-gate.py
       - name: ruff
-        run: uv run ruff check packaging vectors vectors-approval-binding vectors-dispatch-fence vectors-aggregate-accounting vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
+        run: uv run ruff check packaging vectors vectors-approval-binding vectors-delegator-right vectors-completion-confirmation vectors-dispatch-fence vectors-aggregate-accounting vectors-uncertain-effect vectors-agent-card-receipt vectors-credential-release vectors-converted-argument-binding vectors-done-receipt vectors-done-contract vectors-spoofed-tool-output vectors-test-tampering vectors-grader-isolation vectors-done-probes vectors-admission vectors-acs-core/wire-probes vectors-observed-effect vectors-agent-audit-record vectors-ai-generation vectors-receipt-signature vectors-source-coverage vectors-anchored-chain vectors-receipt-chain-end vectors-identity-binding vectors-authority-at-dispatch vectors-chunked-export vectors-trace-anchor vectors-a2a-jcs-v01 vectors-mcp-owasp vectors-grade-floor vectors-agent-change-admission vectors-agentic-process-evidence vectors-delegation-lifecycle vectors-recorded vectors-self-reported-record vectors-agent-decision vectors-ietf-agent-record-drafts scripts interop/gemara-method-link interop/ws4-prior-witness-candidate interop/agentavow-live-mcp interop/agentavow-signed-map-v1 interop/a2a-s3-retain-2026-10-01 interop/a2a-s4-dual-name-2026-10-02 interop/action-tuple-framed-v1 vectors-w3c-intake
       - name: timestamp candidate custody and refusal controls
         run: python3 scripts/retain-timestamp-candidate-test.py
       - name: E2 compatibility tests in the shared development environment
@@ -829,6 +825,11 @@ jobs:
         run: .venv/bin/python -B scripts/workflow-steps-gate-test.py
       - name: an unreadable account is inconclusive, not a refused runner label
         run: .venv/bin/python -B scripts/runner-labels-gate-test.py
+      # The release procedure runs the leak tier locally and leaves the proof to
+      # this workflow. A procedure that asks for the full local mirror of these
+      # jobs ran about 15 hours on one box and held v0.30.0 back.
+      - name: the release procedure runs only the leak tier locally
+        run: .venv/bin/python -B scripts/release-procedure-test.py
       # The README is the first screen and nothing more: what the suite is, who it
       # is for, the pinned install line, an example, the status and the links.
       # Detail lives in docs/, and this keeps it there.
@@ -836,6 +837,12 @@ jobs:
         run: |
           .venv/bin/python -B scripts/readme-lint.py README.md
           .venv/bin/python -B scripts/readme-lint-test.py
+      - name: the install pins on the inbound pages match the published release
+        run: |
+          python3 scripts/sync-install-pins.py --check
+          python3 scripts/sync-install-pins-test.py
+      - name: the Action summary and every spec README carry the Probity bridge line
+        run: python3 scripts/probity-bridge-test.py
       - name: the pool venue retains source-bound native results and refuses incomplete runs
         run: .venv/bin/python -B scripts/pre-push-pool-test.py
       - name: the pre-push hook refuses a pushed commit message the commit-msg hook never saw
@@ -971,8 +978,18 @@ jobs:
         run: uv run --extra dev pytest vectors-dispatch-fence/tests -q
       - name: aggregate-accounting cases regenerate and force every check
         run: uv run --extra dev pytest vectors-aggregate-accounting/tests -q
+      - name: uncertain-effect cases regenerate, force every check and fail a blind retry
+        run: uv run --extra dev pytest vectors-uncertain-effect/tests -q
+      - name: agent-card-receipt cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-agent-card-receipt/tests -q
+      - name: credential-release cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-credential-release/tests -q
       - name: converted-argument-binding cases regenerate and force every check
         run: uv run --extra dev pytest vectors-converted-argument-binding/tests -q
+      - name: delegator-right cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-delegator-right/tests -q
+      - name: completion-confirmation cases regenerate and force every check
+        run: uv run --extra dev pytest vectors-completion-confirmation/tests -q
       - name: chunked-export cases regenerate and force every check
         run: uv run --extra dev pytest vectors-chunked-export/tests -q
       - name: done corpora regenerate, are judged clean and force every rule
@@ -1160,6 +1177,15 @@ jobs:
       # and not from this checkout.
       - name: the wheel ships the JCS byte cases at the path the package names
         run: python3 scripts/wheel-jcs-bytes-test.py
+      # Every corpus the signed digest list names is in the wheel and the sdist, byte
+      # for byte. The gate refuses a release build that dropped one, and its test
+      # drops a corpus from both artifacts and requires the gate to name it.
+      - name: the wheel and the sdist carry every corpus the signed list names
+        run: |
+          python3 scripts/wheel-corpora-gate-test.py
+          rm -rf "$RUNNER_TEMP/corpora-dist"
+          uv build --out-dir "$RUNNER_TEMP/corpora-dist"
+          python3 scripts/wheel-corpora-gate.py "$RUNNER_TEMP/corpora-dist"/agent_evidence_vectors-*.whl "$RUNNER_TEMP/corpora-dist"/agent_evidence_vectors-*.tar.gz
       # A report names the corpus release and digest it ran, matched against
       # the signed digest list. The test ends by deleting the block in a copy of
       # the harness and requiring itself to go red.
@@ -1233,8 +1259,7 @@ jobs:
   # operator was added, and are not re-measured here: restating a figure for a machine
   # this change never ran on would be inventing a measurement rather than taking one.
   forcing:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
-    runs-on: ubicloud-standard-8
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -1289,8 +1314,7 @@ jobs:
   # look. The verifier is built into the workspace first because the action
   # resolves a relative first token from there.
   action:
-    if: ${{ vars.UBICLOUD_CI_STATE != 'over' }}
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -1380,6 +1404,44 @@ jobs:
           test "$RESULT" = fail
           test "$VECTORS" -gt 0
           test "$EXECUTED" = "$VECTORS"
+      # A runtime, not a verifier, through the runtime input: the reference
+      # adapter reconciles before it resends and must pass every scenario, and
+      # the blind-retry adapter must fail the job on the write it duplicates.
+      - name: the action drives a runtime through the uncertain-effect scenarios
+        id: runtime
+        uses: ./
+        with:
+          corpus: vectors-uncertain-effect
+          runtime: python3 vectors-uncertain-effect/tests/runtime_adapter.py
+          artifact-name: agent-evidence-vectors-results-runtime
+          report-path: runtime-report.json
+      - name: every scenario ran and passed
+        env:
+          RESULT: ${{ steps.runtime.outputs.result }}
+          VECTORS: ${{ steps.runtime.outputs.vectors }}
+          EXECUTED: ${{ steps.runtime.outputs.executed }}
+        run: |
+          echo "result=$RESULT scenarios=$VECTORS executed=$EXECUTED"
+          test "$RESULT" = pass
+          test "$VECTORS" -gt 0
+          test "$EXECUTED" = "$VECTORS"
+      - name: the action fails a runtime that resends after a lost reply
+        id: runtimebad
+        continue-on-error: true
+        uses: ./
+        with:
+          corpus: vectors-uncertain-effect
+          runtime: python3 vectors-uncertain-effect/tests/runtime_adapter.py --policy blind
+          artifact-name: agent-evidence-vectors-results-runtime-bad
+          report-path: runtime-bad-report.json
+      - name: and that job would have failed
+        env:
+          OUTCOME: ${{ steps.runtimebad.outcome }}
+          RESULT: ${{ steps.runtimebad.outputs.result }}
+        run: |
+          echo "outcome=$OUTCOME result=$RESULT"
+          test "$OUTCOME" = failure
+          test "$RESULT" = fail
       # The same corpus from a directory in the workspace, through the vectors
       # input, which is how a consumer that pins a corpus by commit replays its
       # own checkout rather than the copy this release carries. The clean copy
