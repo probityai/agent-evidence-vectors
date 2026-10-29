@@ -6,7 +6,9 @@ This is the body of the "Check against the reference verifier" step of
 switched off. It reads the corpus the report names, hands every member that the
 reference verifier (probity-verify) can judge to the same comparison the
 repository's cross-check uses (`vectors-done-receipt/crosscheck_probity_verify.py`),
-and prints one line:
+or, for the Adversarial Execution Evidence corpus (`vectors`, the default), to the
+reference verifier's `adversarial_execution_evidence/v1` claim type, and prints
+one line:
 
     reference-checked conformance N of M
 
@@ -31,6 +33,7 @@ Variables, all required but the last two:
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import os
@@ -66,7 +69,7 @@ def load_crosscheck() -> Any:
 
 
 def member_check(crosscheck: Any, entry: dict[str, Any]) -> Check | None:
-    """The comparison the reference verifier has for this member, or none."""
+    """The comparison the reference verifier has for this done-corpus member, or none."""
     expected = entry.get("expected", {})
     if "contract" in expected:
         return crosscheck.compare_contract  # type: ignore[no-any-return]
@@ -75,10 +78,104 @@ def member_check(crosscheck: Any, entry: dict[str, Any]) -> Check | None:
     return None
 
 
+# The Adversarial Execution Evidence corpus (`vectors`, the default). Every member
+# kind it declares has a route through the reference verifier's
+# adversarial_execution_evidence/v1 claim type; a kind left out of AEE_KINDS is
+# counted in M and never in N.
+AEE_PREDICATE = "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+AEE_CLAIM = "adversarial_execution_evidence/v1"
+AEE_KINDS = ("accept", "reject", "indeterminate")
+
+
+def aee_test_key(role: str = "substrate-observation-test") -> str:
+    """A key of the corpus's published recipe (vectors/keys/README.md), as hex.
+
+    seed = SHA-256("in-toto-aee-test-key/<role>/v1"); the key is that seed's
+    Ed25519 public key. The recipe is corpus data, published for every rail.
+    """
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+    seed = hashlib.sha256(f"in-toto-aee-test-key/{role}/v1".encode()).digest()
+    public = Ed25519PrivateKey.from_private_bytes(seed).public_key()
+    return public.public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+
+
+def aee_decide(entry: dict[str, Any], root: Path, keys: list[str]) -> dict[str, Any]:
+    """The reference verifier's own judgment of one member, read from its bytes only."""
+    from probity_verify import adjudicate  # pyright: ignore[reportMissingImports]
+
+    data = (root / entry["file"]).read_bytes()
+    case = {"schema_version": "probity-case/v1", "case_id": entry["id"],
+            "artifacts": {"statement": {"path": entry["file"], "length": len(data),
+                                        "sha256": hashlib.sha256(data).hexdigest()}}}
+    policy = {"schema_version": "probity-policy/v1",
+              "assessments": {entry["id"]: {"claim_type": AEE_CLAIM, "statement": "statement",
+                                            "substrate_observation_keys": keys}}}
+    return dict(adjudicate(case, policy, root)["checks"][0])
+
+
+def aee_problems(entry: dict[str, Any], found: dict[str, Any], pinned: bool) -> list[str]:
+    """How the reference verifier departs from what the corpus declares for a member."""
+    expected = entry["expected"]
+    label = f"{entry['id']} ({'pinned key' if pinned else 'no key'})"
+    if found["verdict"] != expected["verdict"]:
+        return [f"{label}: verdict {found['verdict']}, the corpus declares {expected['verdict']}"]
+    problems = []
+    if entry["kind"] == "accept":
+        if found.get("result") != expected.get("result"):
+            problems.append(f"{label}: result {found.get('result')}")
+        tiers = expected.get("tierWithPinnedKey" if pinned else "tierWithoutKey")
+        if tiers and found.get("tiers") != tiers:
+            problems.append(f"{label}: tiers {found.get('tiers')}")
+    elif entry["kind"] == "reject":
+        if found["primary_code"] not in expected.get("codes", []):
+            problems.append(f"{label}: primary code {found['primary_code']}")
+    elif found["primary_code"] not in expected.get("readings", {}).values():
+        problems.append(f"{label}: primary code {found['primary_code']} is no declared reading")
+    return problems
+
+
+def aee_tally(entries: list[dict[str, Any]], root: Path) -> tuple[int, int, list[str]]:
+    """N, M and the disagreements over an AEE corpus, each member judged on its own."""
+    keys = [aee_test_key()]
+    agreed: set[str] = set()
+    notes: list[str] = []
+    primary: dict[str, str] = {}
+    for entry in entries:
+        if entry.get("kind") not in AEE_KINDS:
+            continue
+        try:
+            problems = []
+            for pinned in (True, False):
+                found = aee_decide(entry, root, keys if pinned else [])
+                problems += aee_problems(entry, found, pinned)
+                if pinned:
+                    primary[entry["id"]] = str(found.get("primary_code"))
+        except Exception as exc:  # noqa: BLE001 -- one member's failure must not hide the rest
+            notes.append(f"{entry.get('id')}: the reference verifier could not run: {exc!r}")
+            continue
+        notes.extend(problems)
+        if not problems:
+            agreed.add(entry["id"])
+    # An indeterminate family counts only when one declared reading explains every member.
+    families: dict[str, list[dict[str, Any]]] = {}
+    for entry in entries:
+        if entry.get("kind") == "indeterminate" and entry["id"] in agreed:
+            families.setdefault(entry["expected"].get("family", ""), []).append(entry)
+    for family, members in families.items():
+        readings = members[0]["expected"].get("readings", {})
+        if not any(all(m["expected"]["readings"].get(r) == primary[m["id"]] for m in members)
+                   for r in readings):
+            notes.append(f"family {family}: no declared reading explains every member")
+            agreed -= {m["id"] for m in members}
+    return len(agreed), len(entries), notes
+
+
 def tally(
     entries: list[dict[str, Any]], root: Path, crosscheck: Any
 ) -> tuple[int, int, list[str]]:
-    """N, M and the disagreements, over every member of the manifest."""
+    """N, M and the disagreements, over every member of a done-corpus manifest."""
     checked, notes = 0, []
     for entry in entries:
         check = member_check(crosscheck, entry)
@@ -120,8 +217,12 @@ def main() -> int:
     notes: list[str] = []
     manifest = corpus_dir / "MANIFEST.json"
     if manifest.is_file():
-        entries = json.loads(manifest.read_text(encoding="utf-8")).get("vectors", [])
-        checked, total, notes = tally(entries, corpus_dir, load_crosscheck())
+        document = json.loads(manifest.read_text(encoding="utf-8"))
+        entries = document.get("vectors", [])
+        if document.get("predicateType") == AEE_PREDICATE:
+            checked, total, notes = aee_tally(entries, corpus_dir)
+        else:
+            checked, total, notes = tally(entries, corpus_dir, load_crosscheck())
     else:
         # No manifest to walk: the corpus is judged by a reader this stage has no
         # route into. The member count still comes from the report, and N is zero.

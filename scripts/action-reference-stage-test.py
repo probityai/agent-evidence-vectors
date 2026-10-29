@@ -13,8 +13,8 @@ names no dependency on it, and no public file names the company site.
 
 The count cases run the stage's own functions with a stand-in cross-check. The
 end-to-end cases run the script as the Action does, over the packaged done corpus
-(a route the reference verifier covers) and over the default corpus (a route it
-does not cover), against the real reference verifier, so they need the
+and over the default corpus, both routes the reference verifier covers, against
+the real reference verifier, so they need the
 `crosscheck` dependency group:
 
     uv run --group crosscheck python scripts/action-reference-stage-test.py
@@ -236,12 +236,46 @@ def case_a_covered_corpus_is_reference_checked(work: Path) -> None:
     assert f"reference-checked={checked}" in (work / "output.txt").read_text()
 
 
-def case_an_uncovered_corpus_reads_zero_and_never_full(work: Path) -> None:
-    proc, report = _run_stage(work, "vectors", 186)
+def case_the_default_corpus_is_reference_checked_in_full(work: Path) -> None:
+    manifest = json.loads((REPO_ROOT / "vectors" / "MANIFEST.json").read_text())
+    total = len(manifest["vectors"])
+    proc, report = _run_stage(work, "vectors", total)
     assert proc.returncode == 0, proc.stdout + proc.stderr
-    assert proc.stdout.splitlines()[0].startswith("reference-checked conformance 0 of ")
-    assert "FULL-RELEASE" not in proc.stdout
-    assert report["reference"]["fullRelease"] is False
+    lines = proc.stdout.splitlines()
+    assert lines[0] == f"reference-checked conformance {total} of {total}", lines[:5]
+    assert "FULL-RELEASE" in lines
+    assert report["reference"]["fullRelease"] is True
+
+
+def _default_corpus() -> tuple[list[dict[str, Any]], dict[str, int]]:
+    manifest = json.loads((REPO_ROOT / "vectors" / "MANIFEST.json").read_text())
+    return manifest["vectors"], manifest["counts"]
+
+
+def case_dropping_a_member_kind_lowers_n(work: Path) -> None:
+    """Each kind's route is load-bearing: without it, exactly that kind leaves N."""
+    stage = load_stage()
+    entries, counts = _default_corpus()
+    full, total, _ = stage.aee_tally(entries, REPO_ROOT / "vectors")
+    assert full == total
+    every = stage.AEE_KINDS
+    try:
+        for kind in every:
+            stage.AEE_KINDS = tuple(k for k in every if k != kind)
+            checked, counted, _ = stage.aee_tally(entries, REPO_ROOT / "vectors")
+            assert counted == total and checked == full - counts[kind], (kind, checked)
+    finally:
+        stage.AEE_KINDS = every
+
+
+def case_the_expectation_comes_from_the_corpus(work: Path) -> None:
+    """A member whose declared verdict is flipped stops counting: N reads the corpus, not the verifier."""
+    stage = load_stage()
+    entries, _ = _default_corpus()
+    member = json.loads(json.dumps(next(e for e in entries if e["kind"] == "accept")))
+    member["expected"]["verdict"] = "invalid"
+    checked, total, notes = stage.aee_tally([member], REPO_ROOT / "vectors")
+    assert (checked, total) == (0, 1) and notes, notes
 
 
 def _mutation_goes_red(work: Path, anchor: str, replacement: str, reason: str) -> None:
@@ -293,7 +327,9 @@ CASES: list[Callable[[Path], None]] = [
     case_package_metadata_takes_no_dependency_on_the_product,
     case_no_public_file_names_the_company_site,
     case_a_covered_corpus_is_reference_checked,
-    case_an_uncovered_corpus_reads_zero_and_never_full,
+    case_the_default_corpus_is_reference_checked_in_full,
+    case_dropping_a_member_kind_lowers_n,
+    case_the_expectation_comes_from_the_corpus,
     case_a_skippable_stage_goes_red,
     case_an_unhashed_reference_goes_red,
 ]
