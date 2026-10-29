@@ -123,21 +123,11 @@ func arConsumptionShape(consumption map[string]any) error {
 	if !arIsDigest(digest) || !isText || unit == "" {
 		return arRefuse("consumption-value-invalid")
 	}
-	if raw, present := consumption["supersedes"]; present {
-		replaced, isDigest := raw.(string)
-		if arConsumptionChecks["supersedes-digest"] && (!isDigest || !arIsDigest(replaced)) {
-			return arRefuse("consumption-value-invalid")
-		}
-		if arConsumptionChecks["supersedes-self"] && replaced == digest {
-			return arRefuse("consumption-supersedes-self")
-		}
+	if err := arSupersedesShape(consumption, digest); err != nil {
+		return err
 	}
-	if arConsumptionChecks["counts"] {
-		for _, name := range arConsumptionCounts {
-			if value, ok := consumption[name]; ok && !arIsCount(value) {
-				return arRefuse("consumption-value-invalid")
-			}
-		}
+	if err := arCountsShape(consumption); err != nil {
+		return err
 	}
 	held, ok := consumption["held"].([]any)
 	if !ok {
@@ -146,6 +136,36 @@ func arConsumptionShape(consumption map[string]any) error {
 	for _, item := range held {
 		if err := arHeldShape(item); err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+// arSupersedesShape: a supersedes member is a digest that differs from the
+// record's own limitDigest, each under its own switch.
+func arSupersedesShape(consumption map[string]any, digest string) error {
+	raw, present := consumption["supersedes"]
+	if !present {
+		return nil
+	}
+	replaced, isDigest := raw.(string)
+	if arConsumptionChecks["supersedes-digest"] && (!isDigest || !arIsDigest(replaced)) {
+		return arRefuse("consumption-value-invalid")
+	}
+	if arConsumptionChecks["supersedes-self"] && replaced == digest {
+		return arRefuse("consumption-supersedes-self")
+	}
+	return nil
+}
+
+// arCountsShape: every count member that is present is a count.
+func arCountsShape(consumption map[string]any) error {
+	if !arConsumptionChecks["counts"] {
+		return nil
+	}
+	for _, name := range arConsumptionCounts {
+		if value, ok := consumption[name]; ok && !arIsCount(value) {
+			return arRefuse("consumption-value-invalid")
 		}
 	}
 	return nil
