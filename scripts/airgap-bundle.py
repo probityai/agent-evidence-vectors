@@ -9,8 +9,9 @@
 ``lock`` writes a hash-pinned requirements file from the digests PyPI publishes for one
 release and refuses a release that has runtime dependencies (use ``uv pip compile
 --generate-hashes`` for those). ``build`` downloads every pinned wheel with
-``--require-hashes``, unpacks the shipped corpora beside them, copies the signed digest list from ``--release-dir``, writes ``SHA256SUMS`` over
-every file, and adds the install script. ``verify`` re-checks ``SHA256SUMS``. Carry the
+``--require-hashes``, unpacks the shipped corpora beside them, copies the signed digest list
+from ``--release-dir``, writes ``SHA256SUMS`` over every file, and adds the install script.
+``verify`` re-checks ``SHA256SUMS``. Carry the
 directory (or its tarball) into the enclave and run ``install.sh`` there: it verifies the sums,
 then installs with ``--no-index --find-links --require-hashes`` and replays one corpus.
 
@@ -157,7 +158,7 @@ def copy_release(release_dir: Path, target: Path) -> None:
 
 
 def write_sums(root: Path) -> int:
-    files = sorted(p for p in root.rglob("*") if p.is_file() and p.name != SUMS_NAME)
+    files = sorted(p for p in root.rglob("*") if p.is_file() and p != root / SUMS_NAME)
     lines = [f"{sha256_file(p)}  {p.relative_to(root).as_posix()}" for p in files]
     (root / SUMS_NAME).write_text("\n".join(lines) + "\n", encoding="utf-8")
     return len(lines)

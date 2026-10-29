@@ -39,7 +39,7 @@ def main():
         return 0
     if "--report" in args:
         open(args[args.index("--report") + 1], "w").write("{}")
-    print("totals: 3 vectors, 3 pass, 0 fail")
+    print("demo run complete")
     return 0
 """
 
@@ -50,6 +50,7 @@ def make_wheel(directory: Path) -> Path:
         "agent_evidence_vectors/run_vectors.py": RAIL,
         "agent_evidence_vectors/corpora/vectors/MANIFEST.json": '{"suite": "demo"}\n',
         "agent_evidence_vectors/corpora/vectors/accept/a.json": '{"id": "a"}\n',
+        "agent_evidence_vectors/corpora/vectors/bytes/SHA256SUMS": "a corpus's own list\n",
         f"agent_evidence_vectors-{VERSION}.dist-info/METADATA": (
             f"Metadata-Version: 2.1\nName: agent-evidence-vectors\nVersion: {VERSION}\n"
         ),
@@ -114,6 +115,7 @@ def test_build_lays_out_wheels_corpora_sums_and_installer(bundle: Path):
     sums = (bundle / "SHA256SUMS").read_text()
     assert f"  wheels/{WHEEL}" in sums and "  corpora/vectors/MANIFEST.json" in sums
     assert "  SHA256SUMS" not in sums
+    assert "  corpora/vectors/bytes/SHA256SUMS" in sums
     assert airgap.verify(bundle) == []
 
 
@@ -218,7 +220,7 @@ def test_install_into_a_fresh_venv_with_every_network_route_dead(bundle: Path, t
     target = tmp_path / "venv"
     done = install(bundle, target)
     assert done.returncode == 0, done.stderr + done.stdout
-    assert "totals: 3 vectors, 3 pass, 0 fail" in done.stdout
+    assert "demo run complete" in done.stdout
     listed = subprocess.run(
         [str(target / "bin/agent-evidence-vectors"), "--list-corpora"],
         capture_output=True, text=True, check=True,
