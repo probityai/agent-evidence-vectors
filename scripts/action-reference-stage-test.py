@@ -101,7 +101,8 @@ def case_one_disagreement_is_not_a_full_release(work: Path) -> None:
     del work
     stage = load_stage()
     table = {"a": (2, []), "b": (1, ["b: declared x, got y"])}
-    checked, total, notes = stage.tally([routed("a"), routed("b")], Path("."), fake_crosscheck(table))
+    cross = fake_crosscheck(table)
+    checked, total, notes = stage.tally([routed("a"), routed("b")], Path("."), cross)
     assert (checked, total) == (1, 2)
     assert notes == ["b: declared x, got y"]
     assert stage.line(checked, total) == "reference-checked conformance 1 of 2"
@@ -128,7 +129,8 @@ def case_a_crash_is_one_unchecked_member_not_a_hidden_run(work: Path) -> None:
     del work
     stage = load_stage()
     table = {"a": RuntimeError("boom"), "b": (1, [])}
-    checked, total, notes = stage.tally([routed("a"), routed("b")], Path("."), fake_crosscheck(table))
+    cross = fake_crosscheck(table)
+    checked, total, notes = stage.tally([routed("a"), routed("b")], Path("."), cross)
     assert (checked, total) == (1, 2)
     assert len(notes) == 1 and "could not run" in notes[0]
 
