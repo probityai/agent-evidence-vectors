@@ -1,15 +1,15 @@
 {
   "aggregate": {
     "counts": {
-      "accept": 65,
+      "accept": 77,
       "indeterminate": 1,
-      "reject": 83
+      "reject": 86
     },
     "line": "verdict: every member behaves as MANIFEST.json declares",
-    "total": 149
+    "total": 164
   },
   "anchor": {
-    "kind": "signed-digest-list",
+    "kind": "digest-list-line",
     "manifest": "vectors-agent-audit-record/MANIFEST.json",
     "reference": {
       "path": "release/CORPUS-DIGESTS.txt",
@@ -18,14 +18,7 @@
     "routine": "corpus_digest in vectors-agent-audit-record/digest.py",
     "routine-file": "vectors-agent-audit-record/digest.py",
     "serialization": "corpus-routine",
-    "sha256": "c4b910caf88a731f5658e3e476ae5a34c2e926ef19bea10172a22738b5fa033d",
-    "signature": {
-      "key": "release/cosign.pub",
-      "key-sha256": "15fccb1635dd1d9333146cb389f26fa3c3b9213aeed1da945ea1f51a2dc1be84",
-      "path": "release/CORPUS-DIGESTS.txt.sig",
-      "scheme": "ed25519",
-      "serialization": "bytes"
-    },
+    "sha256": "e928dbbc13c3a97fd56ac5af046f925d28a55d6c018b9ea7f157480c3a37a400",
     "verdicts": {
       "availability-failure": "inconclusive",
       "integrity-failure": "fail"
@@ -37,7 +30,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -46,7 +39,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "e181468e58c476bb852efaba2bde153221e343add128e6944109e35629f6fcb5",
         "test": "swap-and-re-pin"
@@ -60,7 +53,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -69,21 +62,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "aee9d55b9208e1cf0d560d69bd3dcaf321726bcb4010969e18b0c4d7afbaa662",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-agent-audit-record/INDEX.md",
       "serialization": "bytes",
-      "sha256": "d288a543f848d1f58730f0765411674d54d9b4e7a4a03478dba2863ae88a1041"
+      "sha256": "3c5dc1c6bbd2ebbf3503c2c1e9efe005925e53b7e3602e5d6146bd823ae449d4"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -92,21 +85,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "1915903e144dfd1168af76de9051968b279e3f86154f533601629f2f45731b29",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-agent-audit-record/README.md",
       "serialization": "bytes",
-      "sha256": "6cc970f9466c9e2940d54954d79df8d2f5974d20f415c4bc8c5ffc1571b139b6"
+      "sha256": "a97d2e31dc14c5efba1cfe6fbbcd9f8625ceadbae9c619530c2ea21db8f3e91a"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -115,7 +108,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "350cdcaec91088c237505787b31b76b76cc7c220c154a54ea5861dbed2ce26d8",
         "test": "swap-and-re-pin"
@@ -129,7 +122,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -138,7 +131,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "e6da084403727e9725a7604f8408b9d0edd791c65fa3433a055dc7da80c630a1",
         "test": "swap-and-re-pin"
@@ -152,7 +145,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -161,21 +154,21 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "37d3fcfeddf1f147b10772b7ed00bde86f47c944072c6b59edff7970fe6ea084",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-agent-audit-record/check_vectors.py",
       "serialization": "bytes",
-      "sha256": "8e261b23520991f36b21fd12fda494beb923cafd8e38908def8ef1551ad0fc1b"
+      "sha256": "5519d340bc94ce2c91f05f4ca7fdb5dff48508617aa0fbba24826314f618cf9e"
     },
     {
       "consumed": "unconsumed",
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -184,7 +177,7 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "7d17c40a0f187625ff834a866855ca66ce804716b7a3d2feae29dc82a9ca1653",
         "test": "swap-and-re-pin"
@@ -198,7 +191,7 @@
       "evidence": {
         "baseline": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "corpus-digest": "unchanged",
         "pins-moved": [],
@@ -207,14 +200,14 @@
         ],
         "swapped": {
           "exit-code": 0,
-          "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+          "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
         },
         "swapped-in": "d6d40cfa13520acea032084246ebf002ab831747a88b3d3739bf0f45a4309972",
         "test": "swap-and-re-pin"
       },
       "path": "vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "281778b2d5c0f05a50c569379dffbed449dcd8beee01971f47ce51fd468120c8"
+      "sha256": "dbd4a61eff210d383e27f05030c6fc909394d39cbd861f912062c4f2450f0c25"
     }
   ],
   "boundary": {
@@ -239,7 +232,7 @@
     "root": "vectors-agent-audit-record"
   },
   "byte-identity": {
-    "pins": 149,
+    "pins": 164,
     "serialization": "bytes"
   },
   "canonicalization": {
@@ -276,7 +269,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "eda8bc115cc19e8df0e173d4cc5080be70d270be8d562d3dc0350383b0801555"
+      "sha256": "c6c9bc27becf07bf899fbd618d4b5cef205dce4974fa9ddc959e659fd03edcc6"
     },
     "runtime": {
       "name": "go",
@@ -1379,6 +1372,126 @@
       "state": "pass"
     },
     {
+      "check": "vcd25bd185157ec57",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v0940ca40dc4db85c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbb73d1139d98888d",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1436cb1bd7305b8b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vac6a83d3eb89cedd",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v792d3e64b071293b",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v852d5f9a104bb585",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v209f3b5dc6bae152",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v8fa7a7183c96762f",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v5f0ad7836909a477",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vbb79dddb4241fe3f",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1714ffa1d3efa663",
+      "native": {
+        "reasons": [],
+        "verdict": "reject"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "vdb9556d48947ef84",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v38c2a8727af3b997",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "v1135206646a3a25c",
+      "native": {
+        "reasons": [],
+        "verdict": "accept"
+      },
+      "state": "pass"
+    },
+    {
       "check": "v9dfdb5fec24b90ee",
       "native": {
         "reasons": [],
@@ -1485,7 +1598,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "6f5a4bcee7cc8d96a4e78bbf0b94b405a043422a42c860eca8d8af97533d0fc5"
+    "sha256": "7ab7965e1934a2c6252878e3be23bd44a246b525319ba72c606da27bc866c0ea"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
@@ -1631,6 +1744,21 @@
       "v9412d4c36ebf693f",
       "v690cf565d5d3ab58",
       "vb4f981221d5baa57",
+      "vcd25bd185157ec57",
+      "v0940ca40dc4db85c",
+      "vbb73d1139d98888d",
+      "v1436cb1bd7305b8b",
+      "vac6a83d3eb89cedd",
+      "v792d3e64b071293b",
+      "v852d5f9a104bb585",
+      "v209f3b5dc6bae152",
+      "v8fa7a7183c96762f",
+      "v5f0ad7836909a477",
+      "vbb79dddb4241fe3f",
+      "v1714ffa1d3efa663",
+      "vdb9556d48947ef84",
+      "v38c2a8727af3b997",
+      "v1135206646a3a25c",
       "v9dfdb5fec24b90ee",
       "v7afe1f39e8670c18",
       "vca142e8033b749a4",
@@ -1646,7 +1774,7 @@
       "va737fb3f9f927f4b"
     ],
     "path": "vectors-agent-audit-record/MANIFEST.json",
-    "sha256": "10e6f69b4c1f2b0498882e190a831220c373f52b6ea2b00b23cf1c2994bd2c32"
+    "sha256": "ba89acdf90d835501da9c7a20662c1454feaf6041b73fa5d49cbb5fa50d66446"
   },
   "members": [
     {
@@ -2876,6 +3004,141 @@
     {
       "files": [
         {
+          "path": "vectors-agent-audit-record/sets/vcd25bd185157ec57.json",
+          "sha256": "cd25bd185157ec57f1cc868d0a4122c203dd8767751e4f6cc78e58ebfe5207e8"
+        }
+      ],
+      "id": "vcd25bd185157ec57"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v0940ca40dc4db85c.json",
+          "sha256": "0940ca40dc4db85cbd97b011faf2fc3590ab0bf8470351b40b71e4e98e59e1b0"
+        }
+      ],
+      "id": "v0940ca40dc4db85c"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/vbb73d1139d98888d.json",
+          "sha256": "bb73d1139d98888d93ca33aeb38ea64881f562979a14fd593ca36aae836134d6"
+        }
+      ],
+      "id": "vbb73d1139d98888d"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v1436cb1bd7305b8b.json",
+          "sha256": "1436cb1bd7305b8b1548716c9eb54c9f5139e17f37c5bb0b110bd0630b50f83d"
+        }
+      ],
+      "id": "v1436cb1bd7305b8b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/vac6a83d3eb89cedd.json",
+          "sha256": "ac6a83d3eb89cedd6b2b37eae7a47710e31d2181ee4a4f4b8d29cb21649b247c"
+        }
+      ],
+      "id": "vac6a83d3eb89cedd"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v792d3e64b071293b.json",
+          "sha256": "792d3e64b071293b4add79f4b65c06f8d88d5028a3cbb4b9448931df6da5ec84"
+        }
+      ],
+      "id": "v792d3e64b071293b"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v852d5f9a104bb585.json",
+          "sha256": "852d5f9a104bb58556273d2c02be860b48feff1beb5ebb641774b5fb9fd91dfb"
+        }
+      ],
+      "id": "v852d5f9a104bb585"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v209f3b5dc6bae152.json",
+          "sha256": "209f3b5dc6bae152646c1993d40074effa65a6b59cca5ab2c702d72e72c16175"
+        }
+      ],
+      "id": "v209f3b5dc6bae152"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/statements/v8fa7a7183c96762f.json",
+          "sha256": "8fa7a7183c96762fa601b8b9ac807bcd77d0114545b7c7f64750dcc4863128cf"
+        }
+      ],
+      "id": "v8fa7a7183c96762f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/statements/v5f0ad7836909a477.json",
+          "sha256": "5f0ad7836909a477cb60d96bbeea4a8cd28c239210e6acbd491d067f5e104dc7"
+        }
+      ],
+      "id": "v5f0ad7836909a477"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/statements/vbb79dddb4241fe3f.json",
+          "sha256": "bb79dddb4241fe3f8073e4c556c8013cc742f0bff020104ec07018a05bb01e8d"
+        }
+      ],
+      "id": "vbb79dddb4241fe3f"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/statements/v1714ffa1d3efa663.json",
+          "sha256": "1714ffa1d3efa663ac40867dfdb2b39f2c3d6171c4fd8df455f673c13ec12fd7"
+        }
+      ],
+      "id": "v1714ffa1d3efa663"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/vdb9556d48947ef84.json",
+          "sha256": "db9556d48947ef840b5aca35bbe691bd80bf4208ad9d9232ccf69f618981124a"
+        }
+      ],
+      "id": "vdb9556d48947ef84"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v38c2a8727af3b997.json",
+          "sha256": "38c2a8727af3b997760c145a3e4d08cb4155daa2b8cf13f2006a015b4fdb93c6"
+        }
+      ],
+      "id": "v38c2a8727af3b997"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-audit-record/sets/v1135206646a3a25c.json",
+          "sha256": "1135206646a3a25cc771cbf8afc75b5885573c797862796f4ef30ec7d30fb4b9"
+        }
+      ],
+      "id": "v1135206646a3a25c"
+    },
+    {
+      "files": [
+        {
           "path": "vectors-agent-audit-record/statements/v9dfdb5fec24b90ee.json",
           "sha256": "9dfdb5fec24b90ee3c4e5f124d1a8c88116c0626e65ae3c8f1f918e7a702b1b4"
         }
@@ -3025,7 +3288,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.json",
         "serialization": "bytes",
-        "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+        "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
       }
     },
     {
@@ -3034,7 +3297,7 @@
       "reference": {
         "path": "release/intake/native/vectors-agent-audit-record.txt",
         "serialization": "bytes",
-        "sha256": "611995fd33390ba78f001dc00b4df71060c149a81cc59883988c851d5a6f867f"
+        "sha256": "e7f43f7e35dc1af2b9a979cbde57680ee3b382fdb438728563cc6bb191a9b1e1"
       }
     },
     {
@@ -3701,6 +3964,30 @@
       "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"consumption-value-invalid\"],\"verdict\":\"malformed\"}}"
     },
     {
+      "check": "v5f0ad7836909a477",
+      "inputs": [
+        "member:v5f0ad7836909a477",
+        "check:v5f0ad7836909a477"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"consumption-value-invalid\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "vbb79dddb4241fe3f",
+      "inputs": [
+        "member:vbb79dddb4241fe3f",
+        "check:vbb79dddb4241fe3f"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"consumption-value-invalid\"],\"verdict\":\"malformed\"}}"
+    },
+    {
+      "check": "v1714ffa1d3efa663",
+      "inputs": [
+        "member:v1714ffa1d3efa663",
+        "check:v1714ffa1d3efa663"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"codes\":[\"consumption-unit-ambiguous\"],\"verdict\":\"malformed\"}}"
+    },
+    {
       "check": "vca142e8033b749a4",
       "inputs": [
         "member:vca142e8033b749a4",
@@ -3724,11 +4011,11 @@
     "runs": [
       {
         "process": "run-1",
-        "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+        "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
       },
       {
         "process": "run-2",
-        "sha256": "10a339c7195c867de291662f9f85a2f3582a16c0d0f465cea6af631d8b03e900"
+        "sha256": "21d965d6930ec5b1d062b5c41391a0815e515b0057de534f04c9f52043d4ea25"
       }
     ],
     "seed": null,
@@ -3742,17 +4029,18 @@
       "action-occurred-or-authority"
     ],
     "establishes": [
-      "aee-verify, at the source listing named here, judges each of the 149 pinned members of agent-audit-record-conformance as its manifest declares"
+      "aee-verify, at the source listing named here, judges each of the 164 pinned members of agent-audit-record-conformance as its manifest declares"
     ],
     "leaves-open": [
       "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
       "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
     ]
   },
   "selector": {
     "expression": "*",
     "language": "id-glob",
-    "matched": 149,
+    "matched": 164,
     "require": "at-least-one",
     "selected": [
       "v22ea7615379eecca",
@@ -3891,6 +4179,21 @@
       "v9412d4c36ebf693f",
       "v690cf565d5d3ab58",
       "vb4f981221d5baa57",
+      "vcd25bd185157ec57",
+      "v0940ca40dc4db85c",
+      "vbb73d1139d98888d",
+      "v1436cb1bd7305b8b",
+      "vac6a83d3eb89cedd",
+      "v792d3e64b071293b",
+      "v852d5f9a104bb585",
+      "v209f3b5dc6bae152",
+      "v8fa7a7183c96762f",
+      "v5f0ad7836909a477",
+      "vbb79dddb4241fe3f",
+      "v1714ffa1d3efa663",
+      "vdb9556d48947ef84",
+      "v38c2a8727af3b997",
+      "v1135206646a3a25c",
       "v9dfdb5fec24b90ee",
       "v7afe1f39e8670c18",
       "vca142e8033b749a4",

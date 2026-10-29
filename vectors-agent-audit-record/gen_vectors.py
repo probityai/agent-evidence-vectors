@@ -1514,6 +1514,7 @@ def define() -> None:
     define_retained()
     define_revision_01()
     define_consumption()
+    define_consumption_carryover()
     define_audit_next()
     rank = {draft_id: i for i, draft_id in enumerate(ORDER)}
     missing = [m["draftId"] for m in MEMBERS if m["draftId"] not in rank]
@@ -2538,6 +2539,388 @@ def define_consumption() -> None:
 
 
 # ---------------------------------------------------------------------------
+# CS26 to CS33: what a limit replacement does to a claim, from the enforcement
+# answer on modelcontextprotocol/financial-services-interest-group#17. A call
+# refused before the tool ran, or whose tool reported nothing sent, leaves no
+# claim, so its retry is new under the limit then in force: a raise admits it
+# (CS26), a cut refuses it (CS27), and a record of the operation showing none
+# ends a claim that was held (CS28). Any other call keeps its claim, keyed by
+# the principal, the agent key and the operation key, never by the limit
+# document: an unknown outcome is carried over (CS29) and cannot be dropped
+# (CS30), and a permit that presents the held key as a new operation under a
+# new limit document is caught whether or not that document names the old one
+# (CS31, CS32). CS33 is the control: the same operation key under another
+# principal and agent key is another claim.
+#
+# CS34 to CS40: the exact asset. consumption may carry asset, a CAIP-19 asset
+# id with the decimals of its smallest subunit, in place of the ISO 4217 unit
+# (vendrell46 on the same thread). One ledger counts one denomination.
+# ---------------------------------------------------------------------------
+
+USDC_BASE = "eip155:8453/erc20:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+USDC_SOLANA = (
+    "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+)
+OTHER_PRINCIPAL = "user:bob@example.org"
+OTHER_AGENT_KEYID = hashlib.sha256(b"another agent key").hexdigest()[:32]
+
+
+def _named(pred: dict[str, Any], record: str) -> dict[str, Any]:
+    pred["recordId"] = f"urn:example:record:{record}"
+    seal_commitment(pred)
+    return pred
+
+
+def _refused_before_run(pred: dict[str, Any]) -> None:
+    """A deny: the tool never ran, so the effect is none and nothing is claimed."""
+    pred["decision"]["reported"] = "deny"
+    _effect_none(pred)
+    pred["agreement"] = "agree"
+
+
+def _effect_none(pred: dict[str, Any]) -> None:
+    pred["effect"]["observed"] = "none"
+    pred["effect"]["writes"] = []
+    pred["effect"]["interval"]["afterRoot"] = BEFORE
+    pred["agreement"] = "not-exercised"
+
+
+def _effect_unknown(pred: dict[str, Any]) -> None:
+    after = h("root/after-unattributed-write-of-the-held-call")
+    pred["effect"]["writes"] = [write(LEDGER_PATH, BEFORE, after, "unattributed")]
+    pred["effect"]["interval"]["afterRoot"] = after
+    pred["effect"]["observed"] = "unknown"
+    pred["agreement"] = "indeterminate"
+
+
+def _refused_then_retried(cut: bool) -> list[dict[str, Any]]:
+    """CS26 and CS27: the first call is refused before its tool ran, under the
+    first limit document; its retry, the same operation key and request, is read
+    under the replacement with nothing held. Under the raise (80000) a request of
+    25000 the first limit could not admit is within; under the cut (40000) a
+    request of 12000 the first limit could admit is not, and is refused."""
+    requested = 12000 if cut else 25000
+    first = consumption_pred(key=OP_R1, revision=41, requested=requested)
+    _refused_before_run(first)
+    retry = consumption_pred(
+        key=OP_R1,
+        revision=42,
+        requested=requested,
+        limit_digest=CS_CUT_LIMIT_DOCUMENT if cut else CS_RAISED_LIMIT_DOCUMENT,
+        limit=40000 if cut else 80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    if cut:
+        _refused_before_run(retry)
+    return [
+        _named(first, f"cs{27 if cut else 26}-first"),
+        _named(retry, f"cs{27 if cut else 26}-retry"),
+    ]
+
+
+def _held_retry_record(
+    record: str, revision: int, effect: Callable[[dict[str, Any]], None]
+) -> dict[str, Any]:
+    """The held call's own retry record under the first limit document, holding
+    its own key (CS4's shape), with the effect its tool reported."""
+    pred = from_pred("CS4")
+    _consumption(pred)["stateRevision"] = revision
+    effect(pred)
+    return _named(pred, record)
+
+
+def _nothing_sent_then_new() -> list[dict[str, Any]]:
+    """CS28: a call is held; its tool reports nothing sent (effect none), which
+    ends the claim; under the raised limit the same key is a new operation."""
+    new = consumption_pred(
+        key=OP_R1,
+        revision=44,
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    return [
+        _held_under_first_limit("cs28-first"),
+        _held_retry_record("cs28-nothing-sent", 43, _effect_none),
+        _named(new, "cs28-new"),
+    ]
+
+
+def _unknown_carried(dropped: bool) -> list[dict[str, Any]]:
+    """CS29 and CS30: a call is held and its retry's outcome is unknown; the limit
+    is raised, and a new operation under the new document carries the held
+    entry (CS29) or omits it (CS30)."""
+    held = (
+        []
+        if dropped
+        else [held_entry(OP_R1, PREDICATES["CS4"]["decision"]["requestDigest"], 12000)]
+    )
+    name = "cs30" if dropped else "cs29"
+    later = _second_operation(
+        key=OP_R3,
+        revision=44,
+        same_request=False,
+        held=held,
+        consumed=30000,
+        requested=5000,
+        record=f"{name}-new",
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT,
+    )
+    return [
+        _held_under_first_limit(f"{name}-first"),
+        _held_retry_record(f"{name}-unknown", 43, _effect_unknown),
+        later,
+    ]
+
+
+def _forged_new(linked: bool, other_scope: bool = False) -> list[dict[str, Any]]:
+    """CS31 to CS33: a call is held under the first limit document; a permit for
+    the same operation key, under a raised limit document, holds nothing and
+    counts the request again as a new operation."""
+    forged = consumption_pred(
+        key=OP_R1,
+        revision=43,
+        limit_digest=CS_RAISED_LIMIT_DOCUMENT,
+        limit=80000,
+        supersedes=CS_LIMIT_DOCUMENT if linked else None,
+    )
+    if other_scope:
+        forged["delegation"]["subject"] = OTHER_PRINCIPAL
+        forged["agent"]["signers"] = [OTHER_AGENT_KEYID]
+    name = "cs33" if other_scope else ("cs31" if linked else "cs32")
+    return [_held_under_first_limit(f"{name}-first"), _named(forged, f"{name}-forged")]
+
+
+def _in_asset(pred: dict[str, Any], asset_id: str, decimals: int = 6) -> None:
+    """Count the consumption in a token: no ISO 4217 unit, the CAIP-19 asset and
+    its decimals, amounts in micro-USDC (50 USDC, 30 consumed, 12 requested)."""
+    state = _consumption(pred)
+    del state["unit"]
+    state["asset"] = {"id": asset_id, "decimals": decimals}
+    state["limit"], state["consumed"], state["requested"] = 50_000_000, 30_000_000, 12_000_000
+
+
+def _asset_pair(second_asset: str, decimals: int, unlinked: bool = False) -> list[dict[str, Any]]:
+    """CS38 to CS40: two new operations under one limit document, the first
+    counted in USDC on Base, the second in second_asset at decimals."""
+    first = consumption_pred(key=OP_R2, revision=41)
+    _in_asset(first, USDC_BASE)
+    second = consumption_pred(
+        key=OP_R3,
+        revision=42,
+        limit_digest=CS_SEPARATE_LIMIT_DOCUMENT if unlinked else CS_LIMIT_DOCUMENT,
+    )
+    _in_asset(second, second_asset, decimals)
+    second["resource"]["argumentsDigest"] = h("arguments/settlements-append-second")
+    rebind_request(second)
+    return [_named(first, "asset-first"), _named(second, "asset-second")]
+
+
+def define_consumption_carryover() -> None:
+    sets: list[
+        tuple[str, str, str, Callable[[], list[dict[str, Any]]], str, str | None, list[bool]]
+    ] = [
+        (
+            "CS26",
+            "cs26-set-refused-before-run-retried-under-raise",
+            "a call refused before its tool ran under the first limit document (25000 on 30000 "
+            "consumed of 50000) leaves no claim; its retry, the same operation key and request, "
+            "is read under a raised limit document that names the first as supersedes, holds "
+            "nothing and is counted as new: within the raise, permitted, the set valid",
+            lambda: _refused_then_retried(False),
+            "valid",
+            None,
+            [False, True],
+        ),
+        (
+            "CS27",
+            "cs27-set-refused-before-run-retried-under-cut",
+            "CS26 under a cut: a call of 12000 refused before its tool ran leaves no claim, "
+            "and its retry is checked as new under the cut limit of 40000, where it is over "
+            "the limit and refused: the set valid",
+            lambda: _refused_then_retried(True),
+            "valid",
+            None,
+            [True, False],
+        ),
+        (
+            "CS28",
+            "cs28-set-nothing-sent-ends-claim-across-replacement",
+            "a call is held; the record of its retry shows the tool sent nothing (effect none), "
+            "which ends the claim; under a raised limit document the same operation key is then "
+            "a new operation, holds nothing and is counted: the set valid",
+            _nothing_sent_then_new,
+            "valid",
+            None,
+            [True, True, True],
+        ),
+        (
+            "CS29",
+            "cs29-set-unknown-outcome-carried-over-replacement",
+            "a call is held and the record of its retry shows an unknown outcome; the limit is "
+            "raised, and a new operation under the new document carries the held entry "
+            "unchanged: the claim survives the replacement, the set valid",
+            lambda: _unknown_carried(False),
+            "valid",
+            None,
+            [True, True, True],
+        ),
+        (
+            "CS30",
+            "cs30-set-unknown-outcome-dropped-on-replacement",
+            "CS29 where the new operation under the new document omits the held entry: an "
+            "unknown outcome does not release a claim, so the release is unexplained",
+            lambda: _unknown_carried(True),
+            "malformed",
+            "consumption-set-release-unshown",
+            [True, True, True],
+        ),
+        (
+            "CS31",
+            "cs31-set-held-retry-forged-as-new-under-replacement",
+            "a call is held under the first limit document; a permit for the same operation key, "
+            "under a raised document that names the first as supersedes, holds nothing and counts "
+            "the request again as a new operation: each record valid, the retry presented as new",
+            lambda: _forged_new(True),
+            "malformed",
+            "consumption-set-retry-as-new",
+            [True, True],
+        ),
+        (
+            "CS32",
+            "cs32-set-held-retry-forged-as-new-under-unlinked-limit",
+            "CS31 where the new limit document names no supersedes: the claim is keyed by the "
+            "principal, the agent key and the operation key, never by the limit document, so "
+            "leaving out the link does not make the retry new",
+            lambda: _forged_new(False),
+            "malformed",
+            "consumption-set-retry-as-new",
+            [True, True],
+        ),
+        (
+            "CS33",
+            "cs33-set-same-key-other-principal-and-agent-key",
+            "CS32 where the second permit is under another principal and another agent key: the "
+            "same operation key in another scope is another claim, the set valid",
+            lambda: _forged_new(False, other_scope=True),
+            "valid",
+            None,
+            [True, True],
+        ),
+        (
+            "CS38",
+            "cs38-set-usdc-base-and-usdc-solana-one-limit",
+            "two operations under one limit document, the first counted in USDC on Base "
+            f"({USDC_BASE}), the second in USDC on Solana ({USDC_SOLANA}): two assets in one "
+            "ledger, the set malformed",
+            lambda: _asset_pair(USDC_SOLANA, 6),
+            "malformed",
+            "consumption-set-asset-mismatch",
+            [True, True],
+        ),
+        (
+            "CS39",
+            "cs39-set-asset-decimals-mismatch",
+            "CS38 where both operations name USDC on Base and the second declares decimals 18: "
+            "one amount read at two scales, the set malformed",
+            lambda: _asset_pair(USDC_BASE, 18),
+            "malformed",
+            "consumption-set-asset-mismatch",
+            [True, True],
+        ),
+        (
+            "CS40",
+            "cs40-set-two-assets-two-ledgers",
+            "CS38 where the second operation is under another limit document that names no "
+            "supersedes: two ledgers, each counting one asset, the set valid",
+            lambda: _asset_pair(USDC_SOLANA, 6, unlinked=True),
+            "valid",
+            None,
+            [True, True],
+        ),
+    ]
+    singles: list[ConsumptionRow] = [
+        (
+            "CS34",
+            "cs34-asset-usdc-on-base",
+            "CS1",
+            "CS1 counted in USDC on Base: no unit, asset carrying the CAIP-19 id "
+            f"{USDC_BASE} and decimals 6, amounts in its smallest subunit",
+            cs_from("CS1", "CS34", lambda p: _in_asset(p, USDC_BASE)),
+            "valid",
+            [],
+            True,
+        ),
+        (
+            "CS35",
+            "cs35-asset-id-not-caip19",
+            "CS34",
+            "CS34 with asset.id USDC, a ticker that names no chain or contract",
+            mutate("CS34", lambda p: _consumption(p)["asset"].update(id="USDC")),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS36",
+            "cs36-asset-decimals-out-of-range",
+            "CS34",
+            "CS34 with asset.decimals 256, beyond any token's decimals",
+            mutate("CS34", lambda p: _consumption(p)["asset"].update(decimals=256)),
+            "malformed",
+            ["consumption-value-invalid"],
+            None,
+        ),
+        (
+            "CS37",
+            "cs37-asset-and-unit-both",
+            "CS34",
+            "CS34 that also carries unit USD: the amounts would be read in two subunits",
+            mutate("CS34", lambda p: _consumption(p).update(unit="USD")),
+            "malformed",
+            ["consumption-unit-ambiguous"],
+            None,
+        ),
+    ]
+
+    def add_sets(chosen: list[Any]) -> None:
+        for draft_id, slug, row, records, verdict, joint_code, limits in chosen:
+            member(
+                draft_id,
+                slug,
+                None,
+                row,
+                _ledger_set(draft_id, records),
+                "valid",
+                tier="authoritative",
+                revision=REVISION_01,
+                joint={
+                    "verdict": verdict,
+                    "codes": [joint_code] if joint_code else [],
+                    "withinLimit": limits,
+                },
+            )
+
+    add_sets(sets[:8])
+    for draft_id, slug, parent, row, build, verdict, codes, within in singles:
+        member(
+            draft_id,
+            slug,
+            parent,
+            row,
+            build,
+            verdict,
+            codes,
+            tier="authoritative" if verdict == "valid" else None,
+            revision=REVISION_01,
+            within=within,
+        )
+    add_sets(sets[8:])
+
+
+# ---------------------------------------------------------------------------
 # Rows of revision 01 that follow the consumption rows: A21 (Section 5.2,
 # agent.authentication of api-key) and SQ1 to SQ5 (the sequence member).
 # ---------------------------------------------------------------------------
@@ -3304,6 +3687,7 @@ ORDER = (
     "TI6 V4 V5 FR14 FR15 "
     "CS1 CS2 CS3 CS4 CS5 CS6 CS7 CS8 CS9 CS10 CS11 CS12 CS13 CS14 CS15 CS16 CS17 "
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
+    "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
     "R10 R11 R12 R13 R14 R15 R16"
 ).split()
