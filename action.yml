@@ -100,6 +100,21 @@ outputs:
       and the suite raised no refusal; else `fail`.
     value: ${{ steps.summary.outputs.result }}
 
+  reference-checked:
+    description: "How many corpus members the reference verifier judged the way the corpus declares."
+    value: ${{ steps.reference.outputs.reference-checked }}
+  reference-total:
+    description: "How many members the corpus holds, the M of `reference-checked conformance N of M`."
+    value: ${{ steps.reference.outputs.reference-total }}
+  full-release:
+    description: >-
+      `true` only when the corpus holds members and the reference verifier
+      judged every one of them as declared; else `false`.
+    value: ${{ steps.reference.outputs.full-release }}
+  reference-verifier-id:
+    description: "The identifier of the reference verifier, also recorded in the report as reference.verifier.id."
+    value: ${{ steps.reference.outputs.reference-verifier-id }}
+
 runs:
   using: "composite"
   steps:
@@ -189,6 +204,51 @@ runs:
       # same code and produce the same outputs. A mirror that reimplemented
       # this arithmetic would agree on the day it was written and drift after.
       run: python3 "$GITHUB_ACTION_PATH/scripts/action-summary.py"
+
+    # The second stage. No input names it and none switches it off: a candidate
+    # verifier is always also checked against the reference verifier, pinned by
+    # version and hash in action-reference-requirements.txt. Installing it into a
+    # venv of its own keeps it out of the interpreter the candidate runs on, and
+    # the package's own metadata names none of it.
+    - name: Install the reference verifier
+      id: reference-install
+      if: ${{ !cancelled() }}
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        echo "::group::Install the reference verifier"
+        ref="$RUNNER_TEMP/agent-evidence-vectors-reference"
+        rm -rf "$ref"
+        python -m venv "$ref/venv"
+        ref_python="$ref/venv/bin/python"
+        [ -x "$ref_python" ] || ref_python="$ref/venv/Scripts/python.exe"
+        "$ref_python" -m pip install --quiet --disable-pip-version-check \
+          --require-hashes --only-binary :all: \
+          -r "$ACTION_PATH/action-reference-requirements.txt"
+        "$ref_python" -m pip install --quiet --disable-pip-version-check \
+          --no-index --no-deps "$RUNNER_TEMP"/agent-evidence-vectors-build/dist/agent_evidence_vectors-*.whl
+        echo "python=$ref_python" >> "$GITHUB_OUTPUT"
+        echo "::endgroup::"
+
+    - name: Check against the reference verifier
+      id: reference
+      if: ${{ !cancelled() }}
+      shell: bash
+      env:
+        REPORT: ${{ steps.replay.outputs.report }}
+        VECTORS: ${{ inputs.vectors }}
+        CORPUS: ${{ inputs.corpus }}
+        REF_PYTHON: ${{ steps.reference-install.outputs.python }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        if [ -n "$VECTORS" ]; then
+          CORPUS_DIR="$VECTORS"
+        else
+          CORPUS_DIR="$("$REF_PYTHON" -c "import agent_evidence_vectors, pathlib, sys; print(pathlib.Path(agent_evidence_vectors.__file__).parent / 'corpora' / sys.argv[1])" "$CORPUS")"
+        fi
+        export CORPUS_DIR
+        "$REF_PYTHON" "$ACTION_PATH/scripts/action-reference-stage.py"
 
     - name: Upload the report
       if: ${{ !cancelled() }}

@@ -1195,6 +1195,12 @@ jobs:
       # unhashed install in copies of the action and requires itself to go red.
       - name: the action builds on a pinned interpreter and a locked backend
         run: uv run python scripts/action-build-pin-test.py
+      # The action's default-on second stage: reference-checked conformance N of
+      # M, FULL-RELEASE only when N equals M, installed by hash, not switchable.
+      # The test deletes the guards in copies of the action and requires itself
+      # to go red.
+      - name: the action's reference stage counts, prints and cannot be switched off
+        run: uv run --group crosscheck python scripts/action-reference-stage-test.py
       # The release tag check accepts only a tag signed by the pinned key. The
       # test builds throwaway keys and ends by deleting the fingerprint pin in
       # a copy of the script and requiring itself to go red.
