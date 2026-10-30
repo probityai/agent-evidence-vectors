@@ -1245,7 +1245,7 @@ ACCEPT_CASES: list[Case] = [
         lambda root: append(
             root,
             "BUILD-NOTES.md",
-            f"\nSee NIST SP 800-{TOTAL}, NIST SP 800-{TOTAL}r1, ISO/IEC 27001:{TOTAL}, "
+            f"\nSee NIST SP 800-{TOTAL}, SP 800-{TOTAL}A, NIST SP 800-{TOTAL}r1, ISO/IEC 27001:{TOTAL}, "
             f"ISO 8601-{TOTAL}, FIPS 186-{TOTAL}, RFC {TOTAL}, BCP {TOTAL}, CVE-2026-{TOTAL:04d}, "
             f"CWE-{TOTAL} and draft-ietf-example-name-{TOTAL % 100:02d} for the background.\n",
         ),
