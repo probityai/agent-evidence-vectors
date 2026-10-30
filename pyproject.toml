@@ -130,6 +130,7 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
@@ -190,6 +191,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc", "vectors/**/*.py", "vector
 "vectors-anchored-chain" = "agent_evidence_vectors/corpora/vectors-anchored-chain"
 "vectors-trace-anchor" = "agent_evidence_vectors/corpora/vectors-trace-anchor"
 "vectors-grade-floor" = "agent_evidence_vectors/corpora/vectors-grade-floor"
+"vectors-agent-payment-mandate" = "agent_evidence_vectors/corpora/vectors-agent-payment-mandate"
 "vectors-agent-change-admission" = "agent_evidence_vectors/corpora/vectors-agent-change-admission"
 "vectors-agentic-process-evidence" = "agent_evidence_vectors/corpora/vectors-agentic-process-evidence"
 "vectors-delegation-lifecycle" = "agent_evidence_vectors/corpora/vectors-delegation-lifecycle"
@@ -290,6 +292,7 @@ only-include = [
     "vectors-anchored-chain",
     "vectors-trace-anchor",
     "vectors-grade-floor",
+    "vectors-agent-payment-mandate",
     "vectors-agent-change-admission",
     "vectors-agentic-process-evidence",
     "vectors-delegation-lifecycle",
@@ -416,7 +419,7 @@ files = ["packaging", "vectors", "tools"]
 # to pass if a Python file exists outside them.
 include = ["crates/jcs-admit", "docs/paper", "docs/proposals", "docs/site", "examples/mcp-receipts", "interop", "packaging", "scripts", "tools", "vectors",
            "vectors-admission",
-           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
+           "vectors-a2a-jcs-v01", "vectors-agent-audit-record", "vectors-agent-decision", "vectors-ietf-agent-record-drafts", "vectors-anchored-chain", "vectors-trace-anchor", "vectors-grade-floor", "vectors-agent-payment-mandate", "vectors-agent-change-admission", "vectors-agentic-process-evidence", "vectors-delegation-lifecycle", "vectors-recorded", "vectors-aci", "vectors-acs-core", "vectors-ai-agent-action", "vectors-ai-generation",
            "vectors-anchor-stream", "vectors-artifact-binding", "vectors-dependency-selection",
            "vectors-mcp-owasp", "vectors-mcp-record-contract", "vectors-mcp-response-phase",
            "vectors-observed-effect", "vectors-receipt-chain-end", "vectors-receipt-signature",

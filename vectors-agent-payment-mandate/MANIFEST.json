@@ -1,0 +1,208 @@
+{
+  "corpusDigest": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
+  "schema": "agent-payment-mandate-record/v1",
+  "specification": {
+    "schemes": [
+      "ap2-cart-mandate",
+      "mastercard-verifiable-intent-credential",
+      "stripe-shared-payment-token"
+    ],
+    "scope": "Receipt-side fields only. Each source scheme is named by concept; no upstream field name is asserted, and none of the three schemes' texts is vendored.",
+    "status": "proposal of this repository, not a vendored upstream text"
+  },
+  "suite": "agent-payment-mandate/v1",
+  "vectors": [
+    {
+      "description": "cart mandate, bound credential, in-limit charge, fulfilment recorded",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "20581823a510475871a9418cf0d71767f03da4dee4e16fed94500f90847c7482"
+      },
+      "id": "authorized-ap2-cart",
+      "path": "cases/authorized-ap2-cart"
+    },
+    {
+      "description": "verifiable-intent credential bound to its intent, charge inside the ceiling",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "3fe2fd5cc47f3b816f8715b075810892a107800e31a5a71cbea37d4ac1117d51"
+      },
+      "id": "authorized-vi-credential",
+      "path": "cases/authorized-vi-credential"
+    },
+    {
+      "description": "seller-bound shared token used once at its seller inside its bounds",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "6949200739b32a37c09d1a4e1c789119b2571514acc704646092006aefe87f1c"
+      },
+      "id": "authorized-spt-seller-bound",
+      "path": "cases/authorized-spt-seller-bound"
+    },
+    {
+      "description": "charge equal to the ceiling is inside the mandate",
+      "expected": {
+        "decision": "accepted",
+        "reason": "mandate_chain_holds"
+      },
+      "files": {
+        "case.json": "588a61d0828ac4f9f3fa3cf81a94ddb49ce5886f0a80580ca4a4d4cf8454522a"
+      },
+      "id": "authorized-at-exact-limit",
+      "path": "cases/authorized-at-exact-limit"
+    },
+    {
+      "description": "the mandate carries no issuer signature",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_unsigned"
+      },
+      "files": {
+        "case.json": "59135887a56743b6d4339af1945e0faff56302319f90c99cc1bd6aa69db9ca9a"
+      },
+      "id": "mandate-unsigned",
+      "path": "cases/mandate-unsigned",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "terms raised after the digest was taken",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_digest_mismatch"
+      },
+      "files": {
+        "case.json": "1aa1e864dcd8ad9f19b6bacca3d7f55f6853756a7612b1bf6f30d2d152094537"
+      },
+      "id": "mandate-terms-edited",
+      "path": "cases/mandate-terms-edited",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "the credential names a different mandate digest",
+      "expected": {
+        "decision": "rejected",
+        "reason": "credential_not_bound_to_mandate"
+      },
+      "files": {
+        "case.json": "b2254bdd4721f4b173e97583ee3d49155c9621e2d8ac6358f545ade9d13b0280"
+      },
+      "id": "credential-bound-to-another-mandate",
+      "path": "cases/credential-bound-to-another-mandate",
+      "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "executed after the mandate expired",
+      "expected": {
+        "decision": "rejected",
+        "reason": "mandate_expired"
+      },
+      "files": {
+        "case.json": "42b849e2d9ee89043c33f329ec9b8bd93a339a9f68cda2f236d3df540e483964"
+      },
+      "id": "charge-after-expiry",
+      "path": "cases/charge-after-expiry",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "one minor unit over the authorised ceiling",
+      "expected": {
+        "decision": "rejected",
+        "reason": "amount_over_limit"
+      },
+      "files": {
+        "case.json": "6780c6f6273cd2705901a436d9f95cc40cf5a38edd6c5b08f8117151e3773c62"
+      },
+      "id": "charge-over-limit",
+      "path": "cases/charge-over-limit",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "authorised in EUR, charged in GBP",
+      "expected": {
+        "decision": "rejected",
+        "reason": "currency_mismatch"
+      },
+      "files": {
+        "case.json": "3c41f4bf6fdda75d07f2f391c33a91a8b9b389372d91651085a5dcc2d04f03d2"
+      },
+      "id": "charge-in-other-currency",
+      "path": "cases/charge-in-other-currency",
+      "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "token scoped to one seller, used at another",
+      "expected": {
+        "decision": "rejected",
+        "reason": "merchant_mismatch"
+      },
+      "files": {
+        "case.json": "ff63061410771b6371199f22ae51af8025edabee9d6a7911dd8b78ffdef92a09"
+      },
+      "id": "charge-at-other-merchant",
+      "path": "cases/charge-at-other-merchant",
+      "twin": "authorized-spt-seller-bound"
+    },
+    {
+      "description": "the charge ran under a token the credential does not hold",
+      "expected": {
+        "decision": "rejected",
+        "reason": "token_not_the_executed_token"
+      },
+      "files": {
+        "case.json": "bdb8f4c586829b6ffcc889a893a9561f397db658382e74f7c6c5b176575017b6"
+      },
+      "id": "executed-token-differs",
+      "path": "cases/executed-token-differs",
+      "twin": "authorized-spt-seller-bound"
+    },
+    {
+      "description": "a single-use token already consumed is used again",
+      "expected": {
+        "decision": "rejected",
+        "reason": "single_use_token_replayed"
+      },
+      "files": {
+        "case.json": "fb046300ad875e11f259feaa94ec6852ffeab2a360358ed22514a0d9c421f15e"
+      },
+      "id": "single-use-token-replayed",
+      "path": "cases/single-use-token-replayed",
+      "twin": "authorized-ap2-cart"
+    },
+    {
+      "description": "execution changed after the receipt digest was taken",
+      "expected": {
+        "decision": "rejected",
+        "reason": "receipt_not_bound_to_execution"
+      },
+      "files": {
+        "case.json": "4cd399fab6988c65964575c7e35e6b68f66a32a8b868c2e2433634ee69965aff"
+      },
+      "id": "receipt-not-over-execution",
+      "path": "cases/receipt-not-over-execution",
+      "twin": "authorized-vi-credential"
+    },
+    {
+      "description": "capture recorded, the fulfilment action is missing",
+      "expected": {
+        "decision": "rejected",
+        "reason": "post_checkout_action_missing"
+      },
+      "files": {
+        "case.json": "10a1a31d3ce284323f36b0c69e0c964196494edefc64f936c2126ed0d886226d"
+      },
+      "id": "post-checkout-fulfilment-missing",
+      "path": "cases/post-checkout-fulfilment-missing",
+      "twin": "authorized-ap2-cart"
+    }
+  ],
+  "verifierContract": "verifier case.json --json"
+}

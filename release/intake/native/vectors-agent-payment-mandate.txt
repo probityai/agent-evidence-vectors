@@ -1,0 +1,5 @@
+suite: agent-payment-mandate/v1
+members: 15
+  accepted: 4
+  rejected: 11
+verdict: every member behaves as MANIFEST.json declares

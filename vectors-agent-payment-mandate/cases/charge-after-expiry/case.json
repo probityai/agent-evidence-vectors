@@ -1,0 +1,49 @@
+{
+  "case_id": "vectors-agent-payment-mandate-charge-after-expiry",
+  "credential": {
+    "consumed_token_ids": [],
+    "mandate_digest": "338c07ee00681bed41534de51909cc1fd32d6437189ef8c5bd6a63438e8a296e",
+    "single_use": true,
+    "token_id": "tok-0001"
+  },
+  "execution": {
+    "amount_minor": 12500,
+    "currency": "USD",
+    "executed_at": "2026-12-01T00:00:01Z",
+    "merchant": "merchant-a.example",
+    "token_id": "tok-0001"
+  },
+  "mandate": {
+    "digest": "338c07ee00681bed41534de51909cc1fd32d6437189ef8c5bd6a63438e8a296e",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value_sha256": "0e668def144e4112c961ee9de7b12531084f673d15cf5d5f1df764d4300545e0"
+    },
+    "terms": {
+      "currency": "USD",
+      "expires_at": "2026-11-30T00:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "cart",
+      "max_amount_minor": 12900,
+      "merchant": "merchant-a.example"
+    }
+  },
+  "post_checkout": {
+    "recorded": [
+      "capture",
+      "fulfilment"
+    ],
+    "required": [
+      "capture",
+      "fulfilment"
+    ]
+  },
+  "receipt": {
+    "execution_digest": "1e321ff501e3da19c8bb2760f9a3a43a82beab57213c27c809a61a2b03116764",
+    "mandate_digest": "338c07ee00681bed41534de51909cc1fd32d6437189ef8c5bd6a63438e8a296e",
+    "receipt_id": "rcpt-0001"
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "ap2-cart-mandate"
+}

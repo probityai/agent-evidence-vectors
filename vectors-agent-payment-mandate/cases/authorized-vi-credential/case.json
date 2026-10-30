@@ -1,0 +1,49 @@
+{
+  "case_id": "vectors-agent-payment-mandate-authorized-vi-credential",
+  "credential": {
+    "consumed_token_ids": [],
+    "mandate_digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
+    "single_use": true,
+    "token_id": "tok-0001"
+  },
+  "execution": {
+    "amount_minor": 4100,
+    "currency": "EUR",
+    "executed_at": "2026-11-02T10:15:00Z",
+    "merchant": "merchant-b.example",
+    "token_id": "tok-0001"
+  },
+  "mandate": {
+    "digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
+    "signature": {
+      "alg": "ed25519",
+      "key_id": "issuer-key-1",
+      "value_sha256": "1a339e793445d5a0572a705eb9fd3372daac3e97938227d2723bf4a6ab45a5f5"
+    },
+    "terms": {
+      "currency": "EUR",
+      "expires_at": "2026-11-30T00:00:00Z",
+      "issuer": "did:example:issuer-1",
+      "kind": "intent",
+      "max_amount_minor": 4500,
+      "merchant": "merchant-b.example"
+    }
+  },
+  "post_checkout": {
+    "recorded": [
+      "capture",
+      "fulfilment"
+    ],
+    "required": [
+      "capture",
+      "fulfilment"
+    ]
+  },
+  "receipt": {
+    "execution_digest": "8197c6d8834d7025a66e5c3fddd09106b808b01830b800ce917b1517ab8810b1",
+    "mandate_digest": "a32a498c0e180da17237f4ae35055050ba48e13f6476aac81c3d0e10c385376b",
+    "receipt_id": "rcpt-0001"
+  },
+  "schema": "agent-payment-mandate-record/v1",
+  "scheme": "mastercard-verifiable-intent-credential"
+}

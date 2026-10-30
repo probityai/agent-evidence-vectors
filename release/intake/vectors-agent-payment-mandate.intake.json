@@ -1,0 +1,732 @@
+{
+  "aggregate": {
+    "counts": {
+      "accepted": 4,
+      "rejected": 11
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 15
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-agent-payment-mandate/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-agent-payment-mandate/gen_vectors.py",
+    "routine-file": "vectors-agent-payment-mandate/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "535cf77805d4720714fbe5f39a65a64f72ef6f69edfbf118a39fa8c8fdff77db",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "575ac6a2d97678a33ebb77695bb5202ca5e1d9b36ac4542b6f6f03778e2bf8ff",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/INDEX.md",
+      "serialization": "bytes",
+      "sha256": "40e76a3b418c8afa9fcc401d233089c4915ad776062ead8c2f77b5c631fc939f"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "2f58ff4ee5cb9dfb7898134cbebc018ead8c2c085de5e86a0a4d2b06728c3d1f",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/README.md",
+      "serialization": "bytes",
+      "sha256": "25d6d5cea3b7d8730266d71f9d6d1d27daac1331e7222c340d24726cabeeaecb"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "8f785c79c21e914a808ecb94101e8da9b4cca041b15c2ca0ac60096bbbdfc9bb",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "3254366d96da1bd68ea5cd3152bfeb4044fac836e38637ce7759930b46012c11"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "87ba297f4eb13209523a133d06d5b2f055cbc5831455d7a6570cb674f49a8e54",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "88d336503beb9fe39a30d9a61c1a5fd173b98d73f8c5ab3569af19317b5a3641"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "f09b0886294d9a3f8eb53166000cc3c17f5c99ca574cd6937fb5c6310a4411ac",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/mutation_check.py",
+      "serialization": "bytes",
+      "sha256": "0ec8dc8aaee445dcd8f4a6c273e44baaf17745eb96a331d6980cf6b3de33fd93"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "83e9f5ad0d7d934fc62e04c855452a50263f1d8b5e5c51bf2f14a612227078bf",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/profile.json",
+      "serialization": "bytes",
+      "sha256": "0ae146e3aa0ac9878722ed6cffeea614f1abf9ce54eb4a3b994b83e3d11fd9a3"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+        },
+        "swapped-in": "60a997c6b735c06bde5fc173c5826ed4fda0baeb17ecdfc1f42dc3580dcb62d2",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-agent-payment-mandate/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "e64d3f656677c52f6e5329dae466037d37e0b855702e48d099089fee44f65f92"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-agent-payment-mandate"
+  },
+  "byte-identity": {
+    "pins": 15,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-agent-payment-mandate",
+      "aee-verify -json vectors-agent-payment-mandate",
+      "aee-verify vectors-agent-payment-mandate"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "9cde63716787d21996eb418f9281bc3f67bd71ba773a3c5b35b2b6040289aec3"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "authorized-ap2-cart",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "authorized-vi-credential",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "authorized-spt-seller-bound",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "authorized-at-exact-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "accepted"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mandate-unsigned",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "mandate-terms-edited",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "credential-bound-to-another-mandate",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-after-expiry",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-over-limit",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-in-other-currency",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "charge-at-other-merchant",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "executed-token-differs",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "single-use-token-replayed",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "receipt-not-over-execution",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "post-checkout-fulfilment-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "rejected"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "509482b3b0e92f563fc0412eb9ddb498c5a449db287eb6391fdfd27392918ec5"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "authorized-ap2-cart",
+      "authorized-vi-credential",
+      "authorized-spt-seller-bound",
+      "authorized-at-exact-limit",
+      "mandate-unsigned",
+      "mandate-terms-edited",
+      "credential-bound-to-another-mandate",
+      "charge-after-expiry",
+      "charge-over-limit",
+      "charge-in-other-currency",
+      "charge-at-other-merchant",
+      "executed-token-differs",
+      "single-use-token-replayed",
+      "receipt-not-over-execution",
+      "post-checkout-fulfilment-missing"
+    ],
+    "path": "vectors-agent-payment-mandate/MANIFEST.json",
+    "sha256": "f989d16f24c2193254c4f2bdf8a0f93198f4593cd7cdb1bcad69b1386575f437"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/authorized-ap2-cart/case.json",
+          "sha256": "20581823a510475871a9418cf0d71767f03da4dee4e16fed94500f90847c7482"
+        }
+      ],
+      "id": "authorized-ap2-cart"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/authorized-vi-credential/case.json",
+          "sha256": "3fe2fd5cc47f3b816f8715b075810892a107800e31a5a71cbea37d4ac1117d51"
+        }
+      ],
+      "id": "authorized-vi-credential"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/authorized-spt-seller-bound/case.json",
+          "sha256": "6949200739b32a37c09d1a4e1c789119b2571514acc704646092006aefe87f1c"
+        }
+      ],
+      "id": "authorized-spt-seller-bound"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/authorized-at-exact-limit/case.json",
+          "sha256": "588a61d0828ac4f9f3fa3cf81a94ddb49ce5886f0a80580ca4a4d4cf8454522a"
+        }
+      ],
+      "id": "authorized-at-exact-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/mandate-unsigned/case.json",
+          "sha256": "59135887a56743b6d4339af1945e0faff56302319f90c99cc1bd6aa69db9ca9a"
+        }
+      ],
+      "id": "mandate-unsigned"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/mandate-terms-edited/case.json",
+          "sha256": "1aa1e864dcd8ad9f19b6bacca3d7f55f6853756a7612b1bf6f30d2d152094537"
+        }
+      ],
+      "id": "mandate-terms-edited"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/credential-bound-to-another-mandate/case.json",
+          "sha256": "b2254bdd4721f4b173e97583ee3d49155c9621e2d8ac6358f545ade9d13b0280"
+        }
+      ],
+      "id": "credential-bound-to-another-mandate"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/charge-after-expiry/case.json",
+          "sha256": "42b849e2d9ee89043c33f329ec9b8bd93a339a9f68cda2f236d3df540e483964"
+        }
+      ],
+      "id": "charge-after-expiry"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/charge-over-limit/case.json",
+          "sha256": "6780c6f6273cd2705901a436d9f95cc40cf5a38edd6c5b08f8117151e3773c62"
+        }
+      ],
+      "id": "charge-over-limit"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/charge-in-other-currency/case.json",
+          "sha256": "3c41f4bf6fdda75d07f2f391c33a91a8b9b389372d91651085a5dcc2d04f03d2"
+        }
+      ],
+      "id": "charge-in-other-currency"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/charge-at-other-merchant/case.json",
+          "sha256": "ff63061410771b6371199f22ae51af8025edabee9d6a7911dd8b78ffdef92a09"
+        }
+      ],
+      "id": "charge-at-other-merchant"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/executed-token-differs/case.json",
+          "sha256": "bdb8f4c586829b6ffcc889a893a9561f397db658382e74f7c6c5b176575017b6"
+        }
+      ],
+      "id": "executed-token-differs"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/single-use-token-replayed/case.json",
+          "sha256": "fb046300ad875e11f259feaa94ec6852ffeab2a360358ed22514a0d9c421f15e"
+        }
+      ],
+      "id": "single-use-token-replayed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/receipt-not-over-execution/case.json",
+          "sha256": "4cd399fab6988c65964575c7e35e6b68f66a32a8b868c2e2433634ee69965aff"
+        }
+      ],
+      "id": "receipt-not-over-execution"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-agent-payment-mandate/cases/post-checkout-fulfilment-missing/case.json",
+          "sha256": "10a1a31d3ce284323f36b0c69e0c964196494edefc64f936c2126ed0d886226d"
+        }
+      ],
+      "id": "post-checkout-fulfilment-missing"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-payment-mandate.json",
+        "serialization": "bytes",
+        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-agent-payment-mandate.txt",
+        "serialization": "bytes",
+        "sha256": "1de3e38467d36f989d7950965003b67dd0485d774359b2a66f359028faa9f688"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [
+    {
+      "check": "mandate-unsigned",
+      "inputs": [
+        "member:mandate-unsigned",
+        "check:mandate-unsigned"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_unsigned\"}}"
+    },
+    {
+      "check": "mandate-terms-edited",
+      "inputs": [
+        "member:mandate-terms-edited",
+        "check:mandate-terms-edited"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_digest_mismatch\"}}"
+    },
+    {
+      "check": "credential-bound-to-another-mandate",
+      "inputs": [
+        "member:credential-bound-to-another-mandate",
+        "check:credential-bound-to-another-mandate"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"credential_not_bound_to_mandate\"}}"
+    },
+    {
+      "check": "charge-after-expiry",
+      "inputs": [
+        "member:charge-after-expiry",
+        "check:charge-after-expiry"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"mandate_expired\"}}"
+    },
+    {
+      "check": "charge-over-limit",
+      "inputs": [
+        "member:charge-over-limit",
+        "check:charge-over-limit"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"amount_over_limit\"}}"
+    },
+    {
+      "check": "charge-in-other-currency",
+      "inputs": [
+        "member:charge-in-other-currency",
+        "check:charge-in-other-currency"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"currency_mismatch\"}}"
+    },
+    {
+      "check": "charge-at-other-merchant",
+      "inputs": [
+        "member:charge-at-other-merchant",
+        "check:charge-at-other-merchant"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"merchant_mismatch\"}}"
+    },
+    {
+      "check": "executed-token-differs",
+      "inputs": [
+        "member:executed-token-differs",
+        "check:executed-token-differs"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"token_not_the_executed_token\"}}"
+    },
+    {
+      "check": "single-use-token-replayed",
+      "inputs": [
+        "member:single-use-token-replayed",
+        "check:single-use-token-replayed"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"single_use_token_replayed\"}}"
+    },
+    {
+      "check": "receipt-not-over-execution",
+      "inputs": [
+        "member:receipt-not-over-execution",
+        "check:receipt-not-over-execution"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"receipt_not_bound_to_execution\"}}"
+    },
+    {
+      "check": "post-checkout-fulfilment-missing",
+      "inputs": [
+        "member:post-checkout-fulfilment-missing",
+        "check:post-checkout-fulfilment-missing"
+      ],
+      "rule": "the corpus reader's rule for this member, as its manifest entry states it: {\"expected\":{\"decision\":\"rejected\",\"reason\":\"post_checkout_action_missing\"}}"
+    }
+  ],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+      },
+      {
+        "process": "run-2",
+        "sha256": "396aa22e53f4f3175cf71c342759f35e122c62fcb2524b7d263ad8d1e2bb343b"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 15 pinned members of agent-payment-mandate/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 15,
+    "require": "at-least-one",
+    "selected": [
+      "authorized-ap2-cart",
+      "authorized-vi-credential",
+      "authorized-spt-seller-bound",
+      "authorized-at-exact-limit",
+      "mandate-unsigned",
+      "mandate-terms-edited",
+      "credential-bound-to-another-mandate",
+      "charge-after-expiry",
+      "charge-over-limit",
+      "charge-in-other-currency",
+      "charge-at-other-merchant",
+      "executed-token-differs",
+      "single-use-token-replayed",
+      "receipt-not-over-execution",
+      "post-checkout-fulfilment-missing"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "agent-payment-mandate/v1"
+}
