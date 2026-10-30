@@ -167,7 +167,7 @@ def test_duplicate_member_is_statement_malformed() -> None:
 
 def test_cli_exit_codes(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     control = ROOT / BY_ID["re-enable-decision-control"]["path"] / "statement.json"
-    reject = ROOT / BY_ID["bundle-b6-predecessor-issued-later"]["path"]
+    reject = ROOT / BY_ID["bundle-predecessor-issued-later"]["path"]
     assert checker.main(["--record", str(control)]) == 0
     assert checker.main(["--bundle", str(reject)]) == 1
     assert checker.main(["--bundle", str(tmp_path)]) == 2

@@ -1,5 +1,5 @@
 {
-  "_type": "https://in-toto.io/Statement/v1",
+  "_type": "https://in-toto.io/Statement/v0.1",
   "predicate": {
     "coverage": {
       "claim": "partial"
@@ -83,7 +83,7 @@
       }
     ]
   },
-  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-sweep",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
   "subject": [
     {
       "digest": {

@@ -307,11 +307,10 @@ def mutate_bundle(records: dict[str, dict[str, Any]], change: dict[str, Any], *,
 def _r1_members() -> list[dict[str, Any]]:
     base = r1_control()
     p = ["predicate"]
-    unknown_type = TYPE[R1].replace("/predicate/v1/", "/predicate/v0/")
     return _record_set(R1, base, "control: an authorisation committed before a pause it bounds",
                        [
-        ("1", ["predicateType"], unknown_type, "the statement names a predicate type that is not "
-         "defined"),
+        ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
+         "the statement is not an in-toto Statement v1"),
         ("2", [*p, "note"], "an extra member", "the predicate carries a member the document "
          "does not define"),
         ("3", [*p, "action", "functions"], ["pause", "quarantine"],
@@ -344,8 +343,8 @@ def _r2_members(r1_digest: str) -> list[dict[str, Any]]:
     p = ["predicate"]
     creds = base["predicate"]["population"]["credentials"]
     return _record_set(R2, base, "control: a partial sweep whose claim matches its partition", [
-        ("1", ["predicateType"], TYPE[R2].replace("/predicate/v1/", "/predicate/v0/"),
-         "the statement names a predicate type that is not defined"),
+        ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
+         "the statement is not an in-toto Statement v1"),
         ("2", [*p, "population", "credentials"], [creds[1], creds[0], creds[2]],
          "the population list is not sorted"),
         ("3", [*p, "revocations", 0, "relyingParties", 0, "state"], "acknowledged",
@@ -375,8 +374,8 @@ def _r3_members(r1_digest: str, r2_digest: str) -> list[dict[str, Any]]:
     p = ["predicate"]
     return _record_set(R3, base, "control: a staged resumption citing some slots and declaring "
                        "the rest not addressed", [
-        ("1", ["predicateType"], TYPE[R3].replace("/predicate/v1/", "/predicate/v0/"),
-         "the statement names a predicate type that is not defined"),
+        ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
+         "the statement is not an in-toto Statement v1"),
         ("2", [*p, "approvers", 0, "roles"], ["approver"],
          "an approver role the document does not define"),
         ("3", [*p, "setSufficiency"], "adequate",
@@ -404,8 +403,8 @@ def _r4_members() -> list[dict[str, Any]]:
     p = ["predicate"]
     parties = base["predicate"]["parties"]
     return _record_set(R4, base, "control: two organisations, each acting on its own assets", [
-        ("1", ["predicateType"], TYPE[R4].replace("/predicate/v1/", "/predicate/v0/"),
-         "the statement names a predicate type that is not defined"),
+        ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
+         "the statement is not an in-toto Statement v1"),
         ("2", [*p, "parties"], [parties[0]], "only one party"),
         ("4", [*p, "parties", 1, "authorityBasis"], _ABSENT,
          "a party carries no authority basis"),
@@ -420,8 +419,8 @@ def _rb_members() -> list[dict[str, Any]]:
     base = rb_control()
     p = ["predicate"]
     return _record_set(RB, base, "control: no post-revocation commit seen from the sink side", [
-        ("1", ["predicateType"], TYPE[RB].replace("/predicate/v1/", "/predicate/v0/"),
-         "the statement names a predicate type that is not defined"),
+        ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
+         "the statement is not an in-toto Statement v1"),
         ("2", [*p, "counts", "attempts"], -1, "a negative count"),
         ("4", [*p, "revocation", "effectiveAt"], "2026-01-10T13:30:00Z",
          "the revocation takes effect after the window ends"),
@@ -462,7 +461,7 @@ def _record_set(name: str, base: dict[str, Any], control_text: str,
                         "description": f"control: {text}.", "statement": statement})
     for rule, path, new, text in rejects:
         change = mutation(path, base, new)
-        members.append({"id": f"{name}-rule-{rule}-{codes[rule]}", "shape": "record",
+        members.append({"id": f"{name}-{codes[rule]}", "shape": "record",
                         "kind": "reject", "predicate": name, "document": checker.DOCUMENT[name],
                         "rule": rule, "expected": {"verdict": "reject", "reason": codes[rule]},
                         "description": f"{text}.", "base": control_id, "mutation": change,
@@ -506,7 +505,7 @@ def _bundle_members() -> list[dict[str, Any]]:
     ]
     for rule, reason, record, path, new, text in rejects:
         change = {"record": record, **mutation(path, base[record], new)}
-        members.append({"id": f"bundle-{rule.lower()}-{codes[rule] if rule != 'B1' else reason}",
+        members.append({"id": f"bundle-{codes[rule] if rule != 'B1' else 'record-' + reason}",
                         "shape": "bundle", "kind": "reject", "predicate": None,
                         "document": checker.PROFILE, "rule": rule,
                         "expected": {"verdict": "reject", "reason": reason},
