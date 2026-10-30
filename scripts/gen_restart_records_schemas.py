@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write the JSON Schemas for the restoration evidence profile's predicates.
 
-    python3 spec/schemas/gen_restart_records_schemas.py [--check]
+    python3 scripts/gen_restart_records_schemas.py [--check]
 
 Each schema checks the shape and the closed values of one decoded in-toto
 Statement. The cross-member rules in each predicate document (a claim wider
@@ -15,7 +15,7 @@ import json
 import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
+HERE = Path(__file__).resolve().parents[1] / "spec" / "schemas"
 HOST = "https://probityai.github.io/agent-evidence-vectors"
 STATEMENT = "https://in-toto.io/Statement/v1"
 
