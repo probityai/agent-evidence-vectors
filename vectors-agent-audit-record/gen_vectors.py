@@ -1786,6 +1786,7 @@ def define_freshness() -> None:
 # ---------------------------------------------------------------------------
 
 REVISION_01 = "draft-gilda-audit-agent-audit-record-01"
+REVISION_03 = "draft-gilda-audit-agent-audit-record-03"
 
 #: The two values of standing-source a deny judging two delegation paths
 #: depended on, as the producer held them, and decision.reportedAt of A2.
@@ -3029,6 +3030,27 @@ def define_audit_next() -> None:
         revision=REVISION_01,
         joint={"verdict": "malformed", "codes": ["sequence-duplicate"]},
     )
+    member(
+        "IS1",
+        "is1-issued-one-second-before-sealed",
+        "A1",
+        "issuedAt one second earlier than effect.interval.sealedAt",
+        mutate("A1", _set("issuedAt", "2026-09-19T11:04:05Z")),
+        "malformed",
+        ["issued-before-sealed"],
+        revision=REVISION_03,
+    )
+    member(
+        "IS2",
+        "is2-issued-one-day-before-sealed",
+        "A1",
+        "issuedAt one day earlier than effect.interval.sealedAt, on a day before the "
+        "interval opened",
+        mutate("A1", _set("issuedAt", "2026-09-18T11:04:06Z")),
+        "malformed",
+        ["issued-before-sealed"],
+        revision=REVISION_03,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -3689,7 +3711,8 @@ ORDER = (
     "CS18 CS19 CS20 CS21 CS22 CS23 CS24 CS25 "
     "CS26 CS27 CS28 CS29 CS30 CS31 CS32 CS33 CS34 CS35 CS36 CS37 CS38 CS39 CS40 "
     "A21 SQ1 SQ2 SQ3 SQ4 SQ5 "
-    "R10 R11 R12 R13 R14 R15 R16"
+    "R10 R11 R12 R13 R14 R15 R16 "
+    "IS1 IS2"
 ).split()
 
 

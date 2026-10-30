@@ -75,11 +75,11 @@
       }
     ]
   },
-  "corpusDigest": "e928dbbc13c3a97fd56ac5af046f925d28a55d6c018b9ea7f157480c3a37a400",
+  "corpusDigest": "733405708033dc7802f0c72e8f732db1f97b87a54eb3ef52b7fb24a11ad49194",
   "counts": {
     "accept": 77,
     "indeterminate": 1,
-    "reject": 86
+    "reject": 88
   },
   "draft": "draft-gilda-audit-agent-audit-record-00",
   "emptyTree": {
@@ -2987,6 +2987,40 @@
       "parentDraftId": "R1",
       "row": "the only anchor an opentimestamps proof whose path runs from envelopeDigest through a Merkle tree the retaining party built and a Bitcoin transaction carrying its root to the block header",
       "slug": "r16-opentimestamps-through-own-tree"
+    },
+    {
+      "draftId": "IS1",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/v17091ccb23254ec6.json",
+      "id": "v17091ccb23254ec6",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt one second earlier than effect.interval.sealedAt",
+      "slug": "is1-issued-one-second-before-sealed"
+    },
+    {
+      "draftId": "IS2",
+      "draftRevision": "draft-gilda-audit-agent-audit-record-03",
+      "expected": {
+        "codes": [
+          "issued-before-sealed"
+        ],
+        "verdict": "malformed"
+      },
+      "file": "statements/ve2802a038120dd2c.json",
+      "id": "ve2802a038120dd2c",
+      "kind": "reject",
+      "parent": "v22ea7615379eecca",
+      "parentDraftId": "A1",
+      "row": "issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened",
+      "slug": "is2-issued-one-day-before-sealed"
     }
   ]
 }
