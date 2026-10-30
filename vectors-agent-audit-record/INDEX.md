@@ -178,11 +178,11 @@ This corpus is 184 vectors, of which 81 a conformant verifier must not fail clos
 | `R16` | Appendix B | R1 | valid, dated 2026-09-19T11:30:00Z; entry well-formed | [`va737fb3f9f927f4b`](retained/va737fb3f9f927f4b.json) | the only anchor an opentimestamps proof whose path runs from envelopeDigest through a Merkle tree the retaining party built and a Bitcoin transaction carrying its root to the block header |
 | `IS1` | Appendix B | A1 | malformed | [`v17091ccb23254ec6`](statements/v17091ccb23254ec6.json) | issuedAt one second earlier than effect.interval.sealedAt |
 | `IS2` | Appendix B | A1 | malformed | [`ve2802a038120dd2c`](statements/ve2802a038120dd2c.json) | issuedAt one day earlier than effect.interval.sealedAt, on a day before the interval opened |
-| `X1` | Appendix B | A1 | malformed | [`vb3a1cd46d33b8b3c`](statements/vb3a1cd46d33b8b3c.json) | a number with a fraction in the Statement |
+| `X1` | Section 4.1.1 | A1 | malformed | [`vb3a1cd46d33b8b3c`](statements/vb3a1cd46d33b8b3c.json) | a number with a fraction in the Statement |
 | `X2` | Section 4.6 | A1 | malformed | [`va43a28488a94e4c8`](statements/va43a28488a94e4c8.json) | a payload that is not JSON |
 | `X3` | Section 4.3 | A1 | malformed | [`v8e7e0c83386e4498`](statements/v8e7e0c83386e4498.json) | issuedAt carrying no UTC offset |
-| `X4` | Section 4 | A1 | malformed | [`ve84f8df9e1887b14`](statements/ve84f8df9e1887b14.json) | _type naming another Statement type |
-| `X5` | Section 4 | A1 | malformed | [`v0260a7415403fee4`](statements/v0260a7415403fee4.json) | predicateType naming another predicate |
+| `X4` | Section 4.8 | A1 | malformed | [`ve84f8df9e1887b14`](statements/ve84f8df9e1887b14.json) | _type naming another Statement type |
+| `X5` | Section 4.8 | A1 | malformed | [`v0260a7415403fee4`](statements/v0260a7415403fee4.json) | predicateType naming another predicate |
 | `X6` | Section 5.9 | CS4 | malformed | [`v460418d6fe1a5ba2`](statements/v460418d6fe1a5ba2.json) | a held entry with a member beyond the three |
 | `X7` | Section 5.9 | CS4 | malformed | [`v348a99dd78f563d9`](statements/v348a99dd78f563d9.json) | decision.operationKey the empty string |
 | `X8` | Section 4.2 | A1 | malformed | [`v219ae2dc9d96d2c0`](statements/v219ae2dc9d96d2c0.json) | the first subject's digest another value |
@@ -194,5 +194,5 @@ This corpus is 184 vectors, of which 81 a conformant verifier must not fail clos
 | `X14` | Section 4.7 | R13 | valid, dated 2026-09-19T11:05:00Z; entry malformed (entry-delegation-root-unreadable) | [`vfb3f83b35b6cadd4`](retained/vfb3f83b35b6cadd4.json) | the delegation-root element's value not base64 |
 | `X15` | Section 4.6 | R1 | malformed, not dated; entry malformed (entry-record-unreadable) | [`v45d4d20fab787f9b`](retained/v45d4d20fab787f9b.json) | the retained record's payload not JSON: the record malformed and the dating unreadable |
 | `X16` | Section 4.7 | R1 | malformed, not dated; entry malformed (retained-unreadable) | [`v52d0e34839045b02`](retained/v52d0e34839045b02.json) | a retained member with no retention entry |
-| `X17` | Appendix B | SQ4 | malformed, the set malformed (set-unreadable) | [`v932e921118b63a4b`](sets/v932e921118b63a4b.json) | a set member whose records member is named otherwise |
-| `X18` | Appendix B | A1 | malformed, the set malformed (set-record-malformed) | [`v425531073d0c4bd6`](sets/v425531073d0c4bd6.json) | a set whose two records are each malformed under IS1 and IS2 |
+| `X17` | Section 4.9 | SQ4 | malformed, the set malformed (set-unreadable) | [`v932e921118b63a4b`](sets/v932e921118b63a4b.json) | a set member whose records member is named otherwise |
+| `X18` | Section 4.9 | A1 | malformed, the set malformed (set-record-malformed) | [`v425531073d0c4bd6`](sets/v425531073d0c4bd6.json) | a set whose two records are each malformed under IS1 and IS2 |
