@@ -224,6 +224,48 @@ func TestAuditRecordHelpers(t *testing.T) {
 	}
 }
 
+// TestAuditRecordIssuedAtRule: issuedAt must parse as an instant and must not
+// be earlier than effect.interval.sealedAt, however far earlier (IS1, IS2).
+func TestAuditRecordIssuedAtRule(t *testing.T) {
+	for _, c := range []struct {
+		issued any
+		want   string
+	}{
+		{"2026-09-19T11:04:06Z", ""},
+		{"2026-09-19T11:04:11Z", ""},
+		{"2026-09-19T13:04:06+02:00", ""},
+		{"2026-09-19T11:04:05Z", "issued-before-sealed"},
+		{"2026-09-18T11:04:06Z", "issued-before-sealed"},
+		{"2026-09-19T12:04:05+02:00", "issued-before-sealed"},
+		{"yesterday", "timestamp-malformed"},
+		{"2026-09-19", "timestamp-malformed"},
+		{"2026-09-19T11:04:11", "timestamp-malformed"},
+		{"", "timestamp-malformed"},
+		{20260919, "timestamp-malformed"},
+		{nil, "timestamp-malformed"},
+	} {
+		state := &arState{pred: map[string]any{
+			"issuedAt": c.issued,
+			"effect":   map[string]any{"interval": map[string]any{"sealedAt": "2026-09-19T11:04:06Z"}},
+		}}
+		err := arRuleIssuedAfterSealed(state)
+		got := ""
+		if err != nil {
+			got = err.Error()
+		}
+		if !strings.Contains(got, c.want) || (c.want == "" && got != "") {
+			t.Errorf("issuedAt %v: got %q, want %q", c.issued, got, c.want)
+		}
+	}
+	state := &arState{pred: map[string]any{
+		"issuedAt": "2026-09-19T11:04:11Z",
+		"effect":   map[string]any{"interval": map[string]any{"sealedAt": "later"}},
+	}}
+	if arRuleIssuedAfterSealed(state) == nil {
+		t.Error("an unparsable sealedAt leaves the two times uncomparable and must refuse")
+	}
+}
+
 // arFailingDraftIDs judges the corpus and returns the identifier of every
 // member with a finding, in manifest order.
 func arFailingDraftIDs(t *testing.T) []string {

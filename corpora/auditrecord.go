@@ -482,6 +482,7 @@ func arRules(predicateType string) []arRule {
 			return nil
 		}},
 		{"remediation-order", arRuleRemediationOrder},
+		{"issued-after-sealed", arRuleIssuedAfterSealed},
 		{"empty-tree", func(s *arState) error {
 			if arStr(s.pred, "effect.interval.baseResolution") != "empty-tree" {
 				return nil
@@ -834,6 +835,23 @@ func arRuleRemediationOrder(s *arState) error {
 		if enforced.Before(signal) {
 			return arRefuse("remediation-order")
 		}
+	}
+	return nil
+}
+
+// arRuleIssuedAfterSealed: issuedAt parses as an instant and is not earlier
+// than effect.interval.sealedAt (IS1, IS2).
+func arRuleIssuedAfterSealed(s *arState) error {
+	issued, err := arInstant(fmt.Sprint(s.pred["issuedAt"]))
+	if err != nil {
+		return err
+	}
+	sealed, err := arInstant(arStr(s.pred, "effect.interval.sealedAt"))
+	if err != nil {
+		return err
+	}
+	if issued.Before(sealed) {
+		return arRefuse("issued-before-sealed")
 	}
 	return nil
 }
