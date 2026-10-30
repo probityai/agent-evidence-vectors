@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
-	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -181,7 +180,7 @@ func agProposedTextFindings(dir string, m *agManifest, ids []string) []string {
 	if m.ProposedText == "" {
 		return []string{"the manifest names no proposedText, so the proposed members cite no rule"}
 	}
-	text, err := readIn(filepath.Dir(dir), m.ProposedText)
+	text, err := readIn(corpusParent(dir), m.ProposedText)
 	if err != nil {
 		return []string{"proposedText " + m.ProposedText + " is missing or unreadable"}
 	}
