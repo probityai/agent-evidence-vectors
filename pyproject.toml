@@ -114,7 +114,7 @@ crosscheck = ["probity-verify"]
 # tests under tests/). The packages under packages/ are standalone projects built
 # by directory (`uv build packages/<name>`); none of them has a runtime dependency. Their ruff run
 # reads ruff-parts.toml, not the rules below, which the corpora and the rail keep.
-dev = ["packaging==26.3", "pytest==9.1.1", "ruff==0.17.1"]
+dev = ["packaging==26.3", "pytest==9.1.1", "ruff==0.17.3"]
 
 # What the wheel carries, and where. The rail is a single stdlib-only module
 # kept at packaging/run_vectors.py, where every gate in scripts/ imports it by
@@ -368,7 +368,7 @@ exclude = ["**/__pycache__", "**/.build", "**/*.pyc"]
 # cbor2 6.0.0 returns a tuple, which surfaces as "Bytes cannot be decoded as
 # COSE message" on every well-formed vector. That message reads like a corrupt
 # corpus and is a library incompatibility, so the pin carries the reason.
-generators = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6"]
+generators = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<7"]
 # The artifact-binding tool under tools/artifact-binding/ and its corpus. Its
 # verifier is OFFLINE but not stdlib-only: it signs and verifies Ed25519 with
 # the same library the generators already use. The reference verification RAIL
@@ -395,11 +395,11 @@ artifact-binding = ["cryptography>=43"]
 # free of runtime dependencies.
 # pymupdf is pinned exactly because interop/nist-ai-300-1 binds digests to the text
 # it extracts from the NIST AI 300-1 PDF; another release may extract other text.
-dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<6", "markdown>=3.9",
-       "packaging>=25", "hypothesis==6.168.3", "pycryptodome==3.23.0", "jsonschema==4.25.1", "rfc8785==0.1.4",
+dev = ["cryptography>=43", "pycose>=1.1,<2", "cbor2>=5.6,<7", "markdown>=3.9",
+       "packaging>=25", "hypothesis==6.170.12", "pycryptodome==4.2.0", "jsonschema==4.26.0", "rfc8785==0.1.4",
        "mypy>=1.11", "pyright>=1.1.400", "pytest>=8", "pytest-cov>=5",
        "pyyaml>=6", "ruff>=0.6", "types-Markdown>=3.9", "types-PyYAML>=6",
-       "numpy>=2.1", "mcp==2.3.0", "pymupdf==1.26.7", "types-jsonschema==4.25.1.20251009"]
+       "numpy>=2.1", "mcp==2.3.0", "pymupdf==2.0", "types-jsonschema==4.26.0.20261006"]
 
 [tool.mypy]
 # scripts/code-contract-gate.py imports the reference rail to drive its own
