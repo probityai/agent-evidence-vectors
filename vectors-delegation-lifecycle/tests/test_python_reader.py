@@ -182,3 +182,17 @@ def test_the_rule_list_matches_the_go_reader() -> None:
     names = tuple(part.strip().strip('",') for part in block.split("{", 1)[1].split("}")[0]
                   .replace("\n", " ").split(",") if part.strip())
     assert names == reader.RULES
+
+
+def test_a_non_canonical_r_is_refused_as_the_go_reader_refuses_it() -> None:
+    """The stdlib check decodes R where Go compares its encoding. A point has one
+    canonical encoding, so a signature whose R decodes only non-canonically must
+    fail here as it fails in Go (the same bytes are pinned in the Go tests)."""
+    fixture = json.loads((ROOT / "tests" / "noncanonical-r.json").read_text())
+    key, message = bytes.fromhex(fixture["public_key"]), bytes.fromhex(fixture["message"])
+    verdicts = {
+        s["id"]: (run_vectors.ed25519_verify(key, message, bytes.fromhex(s["signature"])), s["valid"])
+        for s in fixture["signatures"]
+    }
+    assert verdicts and any(valid for _, valid in verdicts.values())
+    assert {k: got for k, (got, _) in verdicts.items()} == {k: v for k, (_, v) in verdicts.items()}

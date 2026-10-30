@@ -1,0 +1,22 @@
+{
+  "public_key": "8b1546a87aa3f1343d3f6a3d7df30b939c92489cfbd7bdd0f24a1bf4d1eafe91",
+  "message": "6e6f6e2d63616e6f6e6963616c205220656e636f64696e6773",
+  "note": "R is the identity point; S = k*a, so each signature satisfies the verification equation. Only the canonical encoding of R is a signature. Go compares the encoded R it computes with the signature's R; the Python rail refuses any R that does not decode canonically.",
+  "signatures": [
+    {
+      "id": "canonical-identity-r",
+      "signature": "01000000000000000000000000000000000000000000000000000000000000003ab49101e4b26756c10da068c7c825cb66991e5454b2dd8eeefe85a273c05108",
+      "valid": true
+    },
+    {
+      "id": "identity-r-with-y-plus-p",
+      "signature": "eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f32303ec98d0a23c4d6517f86ab63fa4e14ada01eeaa26b36ad3547d08b2bb605",
+      "valid": false
+    },
+    {
+      "id": "identity-r-with-sign-bit",
+      "signature": "0100000000000000000000000000000000000000000000000000000000000080a0c4610cddc943ed21a3283636a08801b6208b5125d637f66e9438e1dd7b2d0f",
+      "valid": false
+    }
+  ]
+}
