@@ -808,6 +808,10 @@ jobs:
           python3 scripts/count-gate.py
           python3 scripts/count-gate-test.py
           python3 scripts/countcensus-sparse-test.py
+      - name: every corpus manifest carries counts that match its entries
+        run: |
+          python3 scripts/manifest-counts-gate.py
+          python3 scripts/manifest-counts-gate-test.py
       # Keep the release recipe, corpus list and form aligned with their sources.
       - name: check distribution metadata and release recipe
         run: |
