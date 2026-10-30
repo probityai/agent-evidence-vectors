@@ -7,7 +7,7 @@
         "independenceBasis": "independent_sources",
         "roles": [
           "accountable",
-          "authorised"
+          "authorized"
         ]
       }
     ],
@@ -90,13 +90,13 @@
     "predecessors": [
       {
         "digest": {
-          "sha256": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238"
+          "sha256": "9319b6c60acc1e282f81d6824fb5bdb1d43c6d21a2105c6258459257ea312636"
         },
         "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization"
       },
       {
         "digest": {
-          "sha256": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b"
+          "sha256": "c864e1b41caf7a10e19cbfc08940e164c117fef8833660c76e7b864a80e4b834"
         },
         "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep"
       }
