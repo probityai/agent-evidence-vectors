@@ -17,7 +17,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       gha:
         patterns: ["*"]
@@ -27,7 +26,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       uv:
         patterns: ["*"]
@@ -37,7 +35,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       dsse:
         patterns: ["*"]
@@ -47,7 +44,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       jcs:
         patterns: ["*"]
@@ -67,7 +63,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       vocab:
         patterns: ["*"]

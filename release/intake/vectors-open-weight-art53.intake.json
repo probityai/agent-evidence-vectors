@@ -1,0 +1,658 @@
+{
+  "aggregate": {
+    "counts": {
+      "exempt": 4,
+      "not-established": 7,
+      "not-exempt": 5
+    },
+    "line": "verdict: every member behaves as MANIFEST.json declares",
+    "total": 16
+  },
+  "anchor": {
+    "kind": "digest-list-line",
+    "manifest": "vectors-open-weight-art53/MANIFEST.json",
+    "reference": {
+      "path": "release/CORPUS-DIGESTS.txt",
+      "uri": "https://github.com/probityai/agent-evidence-vectors/blob/main/release/CORPUS-DIGESTS.txt"
+    },
+    "routine": "corpus_digest in vectors-open-weight-art53/gen_vectors.py",
+    "routine-file": "vectors-open-weight-art53/gen_vectors.py",
+    "serialization": "corpus-routine",
+    "sha256": "ed7da273f2629a6a3ae08bd0227ab3201c1d481e37f66c63998bca766982eb5d",
+    "verdicts": {
+      "availability-failure": "inconclusive",
+      "integrity-failure": "fail"
+    }
+  },
+  "artifacts": [
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "swapped-in": "f021b77a58d7b741c0a170508b7f32316afdc3b6627ab485c01620ba525d2423",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-open-weight-art53/README.md",
+      "serialization": "bytes",
+      "sha256": "b7ca9872ce73f4ff491d8d5fb7d5f28e1b79d6f3c3ca81d05ec948c3fd112a8b"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "swapped-in": "ac71457c1df3a8150c8ca13873799639a4632f9bce77834afe312a2e1cc987f1",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-open-weight-art53/check_vectors.py",
+      "serialization": "bytes",
+      "sha256": "fb320ede0a59ccb932236da5881508a2cbdaed37b834c53ae8e5793acf435bac"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "swapped-in": "3c335044333956813a9a2e6d8bcb0cd9f4333b231740c3ed8cb595fd7025610e",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-open-weight-art53/gen_vectors.py",
+      "serialization": "bytes",
+      "sha256": "928b2899e70db977944451e4afecd680d53f32c376fdc2f56d19e7fb6d9f92dc"
+    },
+    {
+      "consumed": "unconsumed",
+      "evidence": {
+        "baseline": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "corpus-digest": "unchanged",
+        "pins-moved": [],
+        "refused-by": [
+          "W3C-I-002"
+        ],
+        "swapped": {
+          "exit-code": 0,
+          "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+        },
+        "swapped-in": "3971011271614165714c1a07e375c83bb52bb2a8c241426d1853eb351b904868",
+        "test": "swap-and-re-pin"
+      },
+      "path": "vectors-open-weight-art53/tests/test_corpus.py",
+      "serialization": "bytes",
+      "sha256": "14c391bf27eddbcd459eccf9b76a9d16f6df8a2bc557f72683ebe7ae0695c5bd"
+    }
+  ],
+  "boundary": {
+    "complete": true,
+    "member-locations": [
+      {
+        "dir": "cases",
+        "recursive": true,
+        "suffix": ""
+      }
+    ],
+    "root": "vectors-open-weight-art53"
+  },
+  "byte-identity": {
+    "pins": 32,
+    "serialization": "bytes"
+  },
+  "canonicalization": {
+    "encoding": "jcs-sha256"
+  },
+  "checker": {
+    "commands": [
+      "go build -o aee-verify ./cmd/aee-verify",
+      "aee-verify -json vectors-open-weight-art53",
+      "aee-verify -json vectors-open-weight-art53",
+      "aee-verify vectors-open-weight-art53"
+    ],
+    "dependencies": [
+      {
+        "path": "go.mod",
+        "serialization": "bytes",
+        "sha256": "c9f5a67159789ead4e2879e86805505c6ba22150b04bef360e6b3333125fb1c2"
+      },
+      {
+        "path": "go.work",
+        "serialization": "bytes",
+        "sha256": "61a9b151174d1aca21dd4b851b7d9a88784c4e6674ba4550a01a36a22f165e47"
+      }
+    ],
+    "helpers": [],
+    "name": "aee-verify",
+    "relationship": "same-implementation",
+    "revision": {
+      "kind": "source-listing",
+      "paths": [
+        "aee",
+        "cmd/aee-verify",
+        "corpora",
+        "go.mod"
+      ],
+      "serialization": "sha256-listing-v1",
+      "sha256": "779fdeae73e0263e56d73754034cd397bdd3d238239b22a544baecd65c6285a8"
+    },
+    "runtime": {
+      "name": "go",
+      "version": "1.26"
+    },
+    "shared-verification-code": [
+      "aee",
+      "cmd/aee-verify",
+      "corpora",
+      "go.mod"
+    ]
+  },
+  "checks": [
+    {
+      "check": "exempt-open-release",
+      "native": {
+        "reasons": [],
+        "verdict": "exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exempt-attribution-licence",
+      "native": {
+        "reasons": [],
+        "verdict": "exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exempt-without-copyright-policy",
+      "native": {
+        "reasons": [],
+        "verdict": "exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "exempt-systemic-presumption-rebutted",
+      "native": {
+        "reasons": [],
+        "verdict": "exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "noncommercial-licence",
+      "native": {
+        "reasons": [],
+        "verdict": "not-exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "licence-not-recognised",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "weights-private",
+      "native": {
+        "reasons": [],
+        "verdict": "not-exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "weights-gated",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "weights-without-digest",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "architecture-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "usage-information-missing",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "monetised-by-personal-data",
+      "native": {
+        "reasons": [],
+        "verdict": "not-exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "monetisation-not-stated",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "systemic-risk-presumed",
+      "native": {
+        "reasons": [],
+        "verdict": "not-exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "systemic-risk-designated",
+      "native": {
+        "reasons": [],
+        "verdict": "not-exempt"
+      },
+      "state": "pass"
+    },
+    {
+      "check": "training-compute-not-stated",
+      "native": {
+        "reasons": [],
+        "verdict": "not-established"
+      },
+      "state": "pass"
+    }
+  ],
+  "corpus-digest": {
+    "serialization": "sha256-listing-v1",
+    "sha256": "87253bdc5a4701428c8ded7725f9fcb9a7a7f31d60d04bfb83625e7e4df7688a"
+  },
+  "exit-code": 0,
+  "exit-rule": "zero-iff-every-check-passes",
+  "exposure": "visible",
+  "faults": [],
+  "format": "public-agent-conformance/intake-record/v2",
+  "manifest": {
+    "closed": true,
+    "ids": [
+      "exempt-open-release",
+      "exempt-attribution-licence",
+      "exempt-without-copyright-policy",
+      "exempt-systemic-presumption-rebutted",
+      "noncommercial-licence",
+      "licence-not-recognised",
+      "weights-private",
+      "weights-gated",
+      "weights-without-digest",
+      "architecture-missing",
+      "usage-information-missing",
+      "monetised-by-personal-data",
+      "monetisation-not-stated",
+      "systemic-risk-presumed",
+      "systemic-risk-designated",
+      "training-compute-not-stated"
+    ],
+    "path": "vectors-open-weight-art53/MANIFEST.json",
+    "sha256": "4b7fddc465b0a143cf8f337c117a1d3485fb0b938cfc1b940a2afe13268e7987"
+  },
+  "members": [
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-open-release/case.json",
+          "sha256": "af1f2c628411264c112078c7df1a5d9cf825cd9819a961273c3010c7f1ec09e8"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-open-release/release.json",
+          "sha256": "4ea82a512fb42284889482879e75e942579c7832c401644146d5fba5564f2a32"
+        }
+      ],
+      "id": "exempt-open-release"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-attribution-licence/case.json",
+          "sha256": "c7c9d472aa3ac8ebb19a413c418b89f83d4f603f22ce8cd0422f0300d0a3ae7b"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-attribution-licence/release.json",
+          "sha256": "3ff0011c3ad2476ff4fac521713063bf80b1eb45e486bebcfaf363de003c41a5"
+        }
+      ],
+      "id": "exempt-attribution-licence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-without-copyright-policy/case.json",
+          "sha256": "11a489b70a1c4167f46d1988f1d51a8ab5955cd56c9b766ce04835b45449bfde"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-without-copyright-policy/release.json",
+          "sha256": "6e1d1adbd83e0b430d4fd69cc2cbbd931cebc5d43a834cb5ad5b88d8b009691f"
+        }
+      ],
+      "id": "exempt-without-copyright-policy"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-systemic-presumption-rebutted/case.json",
+          "sha256": "a543b2a19fabebe1b2467e956f5cc20296b17accc6ec1e1f7fe01ca8d44c038c"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/exempt-systemic-presumption-rebutted/release.json",
+          "sha256": "c9ed47459d3b229808fba7e46605c357078f467a760972f67a39e6812c9bb17f"
+        }
+      ],
+      "id": "exempt-systemic-presumption-rebutted"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/noncommercial-licence/case.json",
+          "sha256": "2d9ed3bbfbccf9015e348e073ecd7bcf059e626546b3fd13feaa5c6512a7b79f"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/noncommercial-licence/release.json",
+          "sha256": "bd7dc334f4b34b2c888f348a3cf2700610cd8c371cb505d85508862f1317b2a2"
+        }
+      ],
+      "id": "noncommercial-licence"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/licence-not-recognised/case.json",
+          "sha256": "46b6cf9edd702c728fc3137a96f856ab444b277be5eab0557dfee33f960c37d5"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/licence-not-recognised/release.json",
+          "sha256": "240324ab1bf112582c45d27c2a6f1de054f9fa688eb8751013f77d26497a2542"
+        }
+      ],
+      "id": "licence-not-recognised"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/weights-private/case.json",
+          "sha256": "bedc2993b406fb01a0a924fe8ca5a81d8b17f01e2ebed7e716b7f5db08f69acf"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/weights-private/release.json",
+          "sha256": "53890c657268a24302ae55e06542cbcdfd36838b54d7ee2728861f74f3ccb43f"
+        }
+      ],
+      "id": "weights-private"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/weights-gated/case.json",
+          "sha256": "edc0c64d70bc9f9e3913b4d45b4aef4c8461627e0579bf9d09348809a22a6b4e"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/weights-gated/release.json",
+          "sha256": "eb7cb850d6a27bad7f5b6bafcf9fa42005cf302426ef66020bcb2f758a5b7ec2"
+        }
+      ],
+      "id": "weights-gated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/weights-without-digest/case.json",
+          "sha256": "55a94f680d2bed9ac75d35f4c2922d61cc35f69b3be6c9fb4c9de91927c1d583"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/weights-without-digest/release.json",
+          "sha256": "0a64fb5a42d9ac2368c55d19cf4415fd032a6125acd21fd4cb1f369b0c7c81cc"
+        }
+      ],
+      "id": "weights-without-digest"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/architecture-missing/case.json",
+          "sha256": "00088f430ef2645401cda9c7c08602a6c750cb8ea0be0129f55ca447f2b3f5cb"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/architecture-missing/release.json",
+          "sha256": "e6d3b0e2adc63b330145e528fbd36e9f28f86050261ffbf44e49874a2b354490"
+        }
+      ],
+      "id": "architecture-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/usage-information-missing/case.json",
+          "sha256": "d5f2792252dd391dec6dfaff228e212fc8935877d10a7ebdcf21eabd2fe38e88"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/usage-information-missing/release.json",
+          "sha256": "ffc0309965a387ee550dc375ebeb43be24564703ef60dd84e3ad64cc0b09bb57"
+        }
+      ],
+      "id": "usage-information-missing"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/monetised-by-personal-data/case.json",
+          "sha256": "39aa6ffc3e3fea5100f860f47dce3d86ac01a6e12ac3024951b2aab97fb0de9b"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/monetised-by-personal-data/release.json",
+          "sha256": "995b1656584cba5e68801530e3c46406343970acccea18f7cf338aeaaa172567"
+        }
+      ],
+      "id": "monetised-by-personal-data"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/monetisation-not-stated/case.json",
+          "sha256": "2e9a6e9286fbbbcb7330e89dcdd008cebb36c2259007ff945f9de9b5707e6317"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/monetisation-not-stated/release.json",
+          "sha256": "f297f0810b20367f0b1bd477696ab08e42d54ef675bf77c59fd4b5f5119d3e95"
+        }
+      ],
+      "id": "monetisation-not-stated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/systemic-risk-presumed/case.json",
+          "sha256": "a4e773fe0132073e75e863e79975da24af2613aec1e9f5585342b6faa2875f8a"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/systemic-risk-presumed/release.json",
+          "sha256": "0125d9d7ae44f002d82bd8e9e9a9568faf419549e32a0d41d2ba636d533de521"
+        }
+      ],
+      "id": "systemic-risk-presumed"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/systemic-risk-designated/case.json",
+          "sha256": "35f269345f33c168a1445dadc31321364de05a92b3cd8a2afa78e271360faa9d"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/systemic-risk-designated/release.json",
+          "sha256": "756b7331b5843a5634773abdbb8e740d989000775866bdade6c8acabc784d4ee"
+        }
+      ],
+      "id": "systemic-risk-designated"
+    },
+    {
+      "files": [
+        {
+          "path": "vectors-open-weight-art53/cases/training-compute-not-stated/case.json",
+          "sha256": "a68e04fff7fd900d9866762e6ad07f6c201728d0a7b96539d38a2693cc4ef1af"
+        },
+        {
+          "path": "vectors-open-weight-art53/cases/training-compute-not-stated/release.json",
+          "sha256": "bd4c2c5661de75c514796c70101f687e1cfb26aec4cd1321bf5d0616e2e9b5fc"
+        }
+      ],
+      "id": "training-compute-not-stated"
+    }
+  ],
+  "native": {
+    "cases": "native-json",
+    "format": "corpus-result-json-v1",
+    "process-status": {
+      "exit-code": 0
+    },
+    "summary": "native-text"
+  },
+  "non-author-runs": [],
+  "observations": [
+    {
+      "carry": "referenced",
+      "id": "native-json",
+      "reference": {
+        "path": "release/intake/native/vectors-open-weight-art53.json",
+        "serialization": "bytes",
+        "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+      }
+    },
+    {
+      "carry": "referenced",
+      "id": "native-text",
+      "reference": {
+        "path": "release/intake/native/vectors-open-weight-art53.txt",
+        "serialization": "bytes",
+        "sha256": "43d335cd57ef7433d1b8c8de2134ebf84b941a5d9603eeec4247f389b61d3fac"
+      }
+    },
+    {
+      "carried": "",
+      "carry": "carried",
+      "id": "stderr"
+    }
+  ],
+  "pin-serialization": "bytes",
+  "refusal-verdicts": [
+    "contradicted",
+    "failed",
+    "must-reject",
+    "reject",
+    "rejected"
+  ],
+  "refusals": [],
+  "relaxed-controls": [],
+  "replay-stability": {
+    "cause": null,
+    "ordering": "emission-order",
+    "runs": [
+      {
+        "process": "run-1",
+        "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+      },
+      {
+        "process": "run-2",
+        "sha256": "5050d03aa0fae885ae5992f2bf1b94ec41e1b6ff966eb4f6688948fb602b3024"
+      }
+    ],
+    "seed": null,
+    "state": "stable"
+  },
+  "scope": {
+    "does-not-claim": [
+      "whole-attack-surface",
+      "implementation-ranking",
+      "threats-outside-corpus",
+      "action-occurred-or-authority"
+    ],
+    "establishes": [
+      "aee-verify, at the source listing named here, judges each of the 16 pinned members of open-weight-art53/v1 as its manifest declares"
+    ],
+    "leaves-open": [
+      "whether an implementation written from the specification, run by someone other than an author, reaches the same verdicts",
+      "whether release/CORPUS-DIGESTS.txt is a list a release signed: the signature beside it does not verify over these bytes, so the anchor is a located line, not a verified one",
+      "whether a re-run by someone other than an author on these exact bytes agrees; none is on the record for them"
+    ]
+  },
+  "selector": {
+    "expression": "*",
+    "language": "id-glob",
+    "matched": 16,
+    "require": "at-least-one",
+    "selected": [
+      "exempt-open-release",
+      "exempt-attribution-licence",
+      "exempt-without-copyright-policy",
+      "exempt-systemic-presumption-rebutted",
+      "noncommercial-licence",
+      "licence-not-recognised",
+      "weights-private",
+      "weights-gated",
+      "weights-without-digest",
+      "architecture-missing",
+      "usage-information-missing",
+      "monetised-by-personal-data",
+      "monetisation-not-stated",
+      "systemic-risk-presumed",
+      "systemic-risk-designated",
+      "training-compute-not-stated"
+    ]
+  },
+  "specification-readers": [],
+  "state": "pass",
+  "suite": "open-weight-art53/v1"
+}

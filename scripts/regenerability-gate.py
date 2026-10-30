@@ -136,6 +136,7 @@ GENERATORS = (
     # bytes come from.
     "vectors-receipt-signature/gen_vectors.py",
     "vectors-source-coverage/gen_vectors.py",
+    "vectors-open-weight-art53/gen_vectors.py",
     "vectors-anchored-chain/gen_vectors.py",
     "vectors-receipt-chain-end/gen_vectors.py",
     "vectors-identity-binding/gen_vectors.py",
@@ -363,6 +364,9 @@ OWNED = (
     ("vectors-source-coverage/cases", "**/policy.json"),
     ("vectors-source-coverage/cases", "**/report.txt"),
     ("vectors-source-coverage/cases", "**/source.html"),
+    ("vectors-open-weight-art53", "MANIFEST.json"),
+    ("vectors-open-weight-art53/cases", "**/case.json"),
+    ("vectors-open-weight-art53/cases", "**/release.json"),
     ("vectors-admission/statements", "v*.json"),
     ("vectors-admission/policies", "v*.json"),
     ("vectors-admission", "MANIFEST.json"),

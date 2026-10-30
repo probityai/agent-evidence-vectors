@@ -207,7 +207,7 @@
       },
       "path": "vectors-agent-audit-record/gen_vectors.py",
       "serialization": "bytes",
-      "sha256": "e4fce613bbb1eba20db64f548659ef43641cde1a449dcc9d2b29e5e0c37219f9"
+      "sha256": "c0ba01202d3ad9b1d99bb67caf5216623a3ab088458a8a182d5cb2b4313f4efa"
     }
   ],
   "boundary": {
@@ -269,7 +269,7 @@
         "go.mod"
       ],
       "serialization": "sha256-listing-v1",
-      "sha256": "3023360aedb4d9bf7356ddc40f9d283ae62c0cb4b9751e6df01b1b05d8d09565"
+      "sha256": "779fdeae73e0263e56d73754034cd397bdd3d238239b22a544baecd65c6285a8"
     },
     "runtime": {
       "name": "go",
@@ -1758,7 +1758,7 @@
   ],
   "corpus-digest": {
     "serialization": "sha256-listing-v1",
-    "sha256": "b7171a5935fe33ddd39a49789c058ce07b269b9d29d4efa3224a5447ba14ed4e"
+    "sha256": "aace08441dc93b2af8c26ec3bf01405bfd8c7be6f1ad970b861eabfd76a4629f"
   },
   "exit-code": 0,
   "exit-rule": "zero-iff-every-check-passes",
