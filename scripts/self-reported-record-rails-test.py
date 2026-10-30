@@ -760,6 +760,108 @@ def judged_negative_failures(work: Path) -> list[str]:
     return failures
 
 
+MALFORMED = "this rail answers malformed with codes [record-malformed]"
+
+
+def acceptance_cases() -> list[tuple[str, bytes, str]]:
+    """Members a reader must refuse: (label, bytes, text each rail's output must carry).
+
+    A container of the wrong JSON type, a signature spelled with a carriage return
+    or a line feed, and bytes that are not exactly one JSON document in UTF-8 were
+    each judged valid by both rails, because both read a wrong-typed container as
+    empty, both skipped line breaks inside base64, and both stopped at the end of
+    the first JSON value.
+    """
+    rich = load_statement(RICH)
+    cases: list[tuple[str, bytes, str]] = []
+    wrong_types: list[tuple[str, Any]] = [
+        ("selfSigners", "x"),
+        ("selfSigners", 3),
+        ("turns", None),
+        ("turns", {}),
+        ("memoryReads", "x"),
+        ("fields", None),
+        ("ledgers", "x"),
+        ("ledgers", {}),
+    ]
+    for name, value in wrong_types:
+        stmt = copy.deepcopy(rich)
+        stmt["predicate"][name] = value
+        cases.append((f"{name} is {json.dumps(value)}", dump(stmt), MALFORMED))
+    turn_sig = rich["predicate"]["turns"][0]["attestedBy"]["sig"]
+    for label, gap in (("a line feed", "\n"), ("a carriage return and line feed", "\r\n"), ("a carriage return", "\r")):
+        stmt = copy.deepcopy(rich)
+        stmt["predicate"]["turns"][0]["attestedBy"]["sig"] = turn_sig[:20] + gap + turn_sig[20:]
+        cases.append((f"turn signature with {label}", dump(stmt), MALFORMED))
+    covered = next(i for i, f in enumerate(rich["predicate"]["fields"]) if "coveredBy" in f)
+    field_sig = rich["predicate"]["fields"][covered]["coveredBy"]["sig"]
+    stmt = copy.deepcopy(rich)
+    stmt["predicate"]["fields"][covered]["coveredBy"]["sig"] = field_sig[:20] + "\n" + field_sig[20:]
+    cases.append(("field signature with a line feed", dump(stmt), MALFORMED))
+    text = dump(rich)
+    cases += [
+        ("text after the statement", text + b" x", UNPARSED),
+        ("a 0xff byte after the statement", text + b"\xff", UNPARSED),
+        ("a second statement after the first", text + b"\n" + text, UNPARSED),
+        (
+            "invalid UTF-8 inside a string",
+            text.replace(b"record-", b"record-\xff", 1),
+            UNPARSED,
+        ),
+    ]
+    return cases
+
+
+def acceptance_failures(work: Path, binary: str | None) -> list[str]:
+    """Each acceptance case, declared valid, must be refused by the Python rail and the Go rail."""
+    failures = []
+    for label, body, needle in acceptance_cases():
+        corpus = write_corpus(
+            work / hashlib.sha256(label.encode()).hexdigest()[:10],
+            [{"kind": "accept", "body": body, "verdict": "valid"}],
+        )
+        outputs = {"python": py_run(corpus)[1]}
+        if binary is not None:
+            outputs["go"] = go_run(binary, corpus)[1]
+        failures += [
+            f"{label}: the {rail} rail does not say {needle!r}"
+            for rail, out in outputs.items()
+            if needle not in out
+        ]
+    return failures
+
+
+def lenient_decode(raw: bytes) -> Any:
+    """The reader's earlier decode: the first JSON value, whatever follows it."""
+    text = raw.decode("utf-8", errors="replace").lstrip(" \t\n\r")
+    decoder = json.JSONDecoder(
+        parse_int=srr._int_token, parse_float=srr._float_token, parse_constant=srr._reject_constant
+    )
+    value, _ = decoder.raw_decode(text)
+    return srr._scrub(value)
+
+
+def acceptance_stub_failures(work: Path) -> list[str]:
+    """Put each acceptance hole back in the Python rail; this test must notice every one."""
+    problems = []
+    original = (srr.decode_member, srr._containers_ok, srr._signature_spelled)
+    try:
+        srr.decode_member = lenient_decode
+        if not acceptance_failures(work / "lenient", None):
+            problems.append("the test did not notice a reader that ignores bytes after the statement")
+        srr.decode_member = original[0]
+        srr._containers_ok = lambda predicate: True
+        if not acceptance_failures(work / "containers", None):
+            problems.append("the test did not notice a reader that accepts wrong-typed containers")
+        srr._containers_ok = original[1]
+        srr._signature_spelled = lambda signature: True
+        if not acceptance_failures(work / "spelling", None):
+            problems.append("the test did not notice a reader that accepts a line break in a signature")
+    finally:
+        srr.decode_member, srr._containers_ok, srr._signature_spelled = original
+    return problems
+
+
 def exercise(work: Path) -> list[str]:
     return committed_failures() + negative_failures() + judged_negative_failures(work)
 
@@ -860,10 +962,17 @@ def main() -> int:
         failures += [f"negative control: {f}" for f in judged_negative_failures(work / "judged")]
         print(f"negative controls: {len(negative_controls())} mutated members checked")
 
-        problems = stub_failures(work / "stubs") + differential_stub_failures(binary, work / "off")
+        failures += [f"acceptance: {f}" for f in acceptance_failures(work / "acceptance", binary)]
+        print(f"acceptance: {len(acceptance_cases())} members both rails must refuse")
+
+        problems = (
+            stub_failures(work / "stubs")
+            + differential_stub_failures(binary, work / "off")
+            + acceptance_stub_failures(work / "acceptance-stubs")
+        )
         failures += problems
         print(
-            f"mutation check of this test: {len(srr.RULES) + 4} stub readers, "
+            f"mutation check of this test: {len(srr.RULES) + 7} stub readers, "
             f"{len(problems)} unnoticed"
         )
     for failure in failures:
