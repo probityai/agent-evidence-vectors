@@ -13,7 +13,8 @@ of the draft: `TI6`, `V4`, `V5`, `FR14` and `FR15`, then `CS1` to `CS40`, which
 bind consumption state with an operation key, then the rows written for
 revision 02: `A21` (an `api-key` agent authentication), `SQ1` to `SQ5` (the
 `sequence` member and record identity) and `R10` to `R16` (OpenTimestamps
-anchors and the delegation root). Each carries `draftRevision` and the
+anchors and the delegation root), then the rows written for revision 03:
+`IS1` and `IS2`, a record issued before its interval was sealed. Each carries `draftRevision` and the
 identifier the draft prints. [`INDEX.md`](INDEX.md) lists every member beside its
 file.
 
@@ -23,7 +24,8 @@ file.
 
 | Release | Draft revision the corpus tests | Members |
 | --- | --- | --- |
-| v0.28.0 and later | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
+| The release after v0.28.0 | `draft-gilda-audit-agent-audit-record-03` | every member the v0.28.0 row lists, and rows `IS1` and `IS2` of -03 |
+| v0.28.0 | `draft-gilda-audit-agent-audit-record-02` | the 99 Appendix B rows of -00, 7 Section 5.4 members, 22 rows of -01 and 13 rows of -02 |
 | v0.27.0 | `draft-gilda-audit-agent-audit-record-00`, and 22 rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 22 rows of -01 |
 | v0.26.0 to v0.26.2 | `draft-gilda-audit-agent-audit-record-00`, and five rows of `-01` | the 99 Appendix B rows, 7 Section 5.4 members and 5 rows of -01 |
 | v0.17.0 to v0.25.0 | `draft-gilda-wimse-agent-audit-record-02` | 68 at v0.18.1, 71 at v0.25.0 |
