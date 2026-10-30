@@ -1,5 +1,5 @@
 {
-  "_type": "https://in-toto.io/Statement/v1",
+  "_type": "https://in-toto.io/Statement/v0.1",
   "predicate": {
     "counts": {
       "attempts": 40,
@@ -48,7 +48,7 @@
       "start": "2026-01-10T11:00:00Z"
     }
   },
-  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-boundary",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary",
   "subject": [
     {
       "digest": {

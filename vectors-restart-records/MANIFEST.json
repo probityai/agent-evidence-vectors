@@ -1,6 +1,6 @@
 {
   "checker": "check_vectors.py",
-  "corpusDigest": "3b5c253ca0d98b112342832e36009292b672f2c2497f38b9177b796f2258b9a5",
+  "corpusDigest": "491b615917cceca88453af717d09cc4ed64b622e9f8fa225981d7c2a58a49cef",
   "counts": {
     "accept": 15,
     "reject": 42
@@ -100,25 +100,25 @@
     },
     {
       "base": "incident-action-authorization-control",
-      "description": "the statement names a predicate type that is not defined.",
+      "description": "the statement is not an in-toto Statement v1.",
       "document": "spec/predicates/incident-action-authorization.md",
       "expected": {
         "reason": "statement-malformed",
         "verdict": "reject"
       },
       "files": {
-        "statement.json": "803482bafb031c0f498e41142ffab63adb5ea8c635287e63fb165328f1ea4807"
+        "statement.json": "fc3f77121c385896d2fdf076c513f166b4cea44188a228abfbc622dcfd987f75"
       },
-      "id": "incident-action-authorization-rule-1-statement-malformed",
+      "id": "incident-action-authorization-statement-malformed",
       "kind": "reject",
       "mutation": {
-        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization",
+        "from": "https://in-toto.io/Statement/v1",
         "path": [
-          "predicateType"
+          "_type"
         ],
-        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/incident-action-authorization"
+        "to": "https://in-toto.io/Statement/v0.1"
       },
-      "path": "cases/incident-action-authorization-rule-1-statement-malformed",
+      "path": "cases/incident-action-authorization-statement-malformed",
       "predicate": "incident-action-authorization",
       "rule": "1",
       "shape": "record"
@@ -134,7 +134,7 @@
       "files": {
         "statement.json": "2b889b212ac726ec9cd53f9b3eab9513e1ebe5498675b9b80323f5e9c57518b3"
       },
-      "id": "incident-action-authorization-rule-2-predicate-malformed",
+      "id": "incident-action-authorization-predicate-malformed",
       "kind": "reject",
       "mutation": {
         "path": [
@@ -143,7 +143,7 @@
         ],
         "to": "an extra member"
       },
-      "path": "cases/incident-action-authorization-rule-2-predicate-malformed",
+      "path": "cases/incident-action-authorization-predicate-malformed",
       "predicate": "incident-action-authorization",
       "rule": "2",
       "shape": "record"
@@ -159,7 +159,7 @@
       "files": {
         "statement.json": "26dcd353cd50ad7c949a62d55ca743e3885212d8df78456569a049cf4fc9e2ab"
       },
-      "id": "incident-action-authorization-rule-3-closed-vocabulary-violation",
+      "id": "incident-action-authorization-closed-vocabulary-violation",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -176,7 +176,7 @@
           "quarantine"
         ]
       },
-      "path": "cases/incident-action-authorization-rule-3-closed-vocabulary-violation",
+      "path": "cases/incident-action-authorization-closed-vocabulary-violation",
       "predicate": "incident-action-authorization",
       "rule": "3",
       "shape": "record"
@@ -192,7 +192,7 @@
       "files": {
         "statement.json": "78dd1082ec6ae9edfd1117d4255947d46bb02264ab736f0c067771b800b7220b"
       },
-      "id": "incident-action-authorization-rule-4-no-authoriser",
+      "id": "incident-action-authorization-no-authoriser",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -208,7 +208,7 @@
           "advised"
         ]
       },
-      "path": "cases/incident-action-authorization-rule-4-no-authoriser",
+      "path": "cases/incident-action-authorization-no-authoriser",
       "predicate": "incident-action-authorization",
       "rule": "4",
       "shape": "record"
@@ -224,7 +224,7 @@
       "files": {
         "statement.json": "86848fb55186945f03dcd2fe639a951e153daa22ff753741433c612e5a6339a4"
       },
-      "id": "incident-action-authorization-rule-5-no-accountable-party",
+      "id": "incident-action-authorization-no-accountable-party",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -241,7 +241,7 @@
           "executed"
         ]
       },
-      "path": "cases/incident-action-authorization-rule-5-no-accountable-party",
+      "path": "cases/incident-action-authorization-no-accountable-party",
       "predicate": "incident-action-authorization",
       "rule": "5",
       "shape": "record"
@@ -257,7 +257,7 @@
       "files": {
         "statement.json": "65bed2972afd48543ddbaf6763d7878b442b9b0610ec23a6087cc43461a188b2"
       },
-      "id": "incident-action-authorization-rule-6-authority-basis-missing",
+      "id": "incident-action-authorization-authority-basis-missing",
       "kind": "reject",
       "mutation": {
         "from": "role_grant",
@@ -268,7 +268,7 @@
           "authorityBasis"
         ]
       },
-      "path": "cases/incident-action-authorization-rule-6-authority-basis-missing",
+      "path": "cases/incident-action-authorization-authority-basis-missing",
       "predicate": "incident-action-authorization",
       "rule": "6",
       "shape": "record"
@@ -284,7 +284,7 @@
       "files": {
         "statement.json": "241bcb15915f55c6bf49a0920d296a77657ad844ec30e2ccc52b720ee5215b5c"
       },
-      "id": "incident-action-authorization-rule-7-authorization-window-inverted",
+      "id": "incident-action-authorization-authorization-window-inverted",
       "kind": "reject",
       "mutation": {
         "from": "2026-01-10T18:00:00Z",
@@ -294,7 +294,7 @@
         ],
         "to": "2026-01-10T09:00:00Z"
       },
-      "path": "cases/incident-action-authorization-rule-7-authorization-window-inverted",
+      "path": "cases/incident-action-authorization-authorization-window-inverted",
       "predicate": "incident-action-authorization",
       "rule": "7",
       "shape": "record"
@@ -310,7 +310,7 @@
       "files": {
         "statement.json": "9a6987240b09dfa4ff9be257fe4bfb6ad3519d411419c849a6ab45435ca58307"
       },
-      "id": "incident-action-authorization-rule-8-intent-not-committed-before",
+      "id": "incident-action-authorization-intent-not-committed-before",
       "kind": "reject",
       "mutation": {
         "from": "2026-01-10T10:05:00Z",
@@ -320,7 +320,7 @@
         ],
         "to": "2026-01-10T09:55:00Z"
       },
-      "path": "cases/incident-action-authorization-rule-8-intent-not-committed-before",
+      "path": "cases/incident-action-authorization-intent-not-committed-before",
       "predicate": "incident-action-authorization",
       "rule": "8",
       "shape": "record"
@@ -336,7 +336,7 @@
       "files": {
         "statement.json": "ab096de5931258f1b7f10087281b9b625548d04129a7e4b2c56ae01e5663f1be"
       },
-      "id": "incident-action-authorization-rule-9-authorization-expired",
+      "id": "incident-action-authorization-authorization-expired",
       "kind": "reject",
       "mutation": {
         "from": "2026-01-10T10:05:00Z",
@@ -346,7 +346,7 @@
         ],
         "to": "2026-01-10T18:00:01Z"
       },
-      "path": "cases/incident-action-authorization-rule-9-authorization-expired",
+      "path": "cases/incident-action-authorization-authorization-expired",
       "predicate": "incident-action-authorization",
       "rule": "9",
       "shape": "record"
@@ -362,7 +362,7 @@
       "files": {
         "statement.json": "6cc48dfd4c69fb9d331df706e1c665e8e3a95acc82aecb13c702772ce901d040"
       },
-      "id": "incident-action-authorization-rule-10-induced-effects-unobserved",
+      "id": "incident-action-authorization-induced-effects-unobserved",
       "kind": "reject",
       "mutation": {
         "from": {
@@ -375,7 +375,7 @@
           "observation"
         ]
       },
-      "path": "cases/incident-action-authorization-rule-10-induced-effects-unobserved",
+      "path": "cases/incident-action-authorization-induced-effects-unobserved",
       "predicate": "incident-action-authorization",
       "rule": "10",
       "shape": "record"
@@ -433,25 +433,25 @@
     },
     {
       "base": "revocation-sweep-control",
-      "description": "the statement names a predicate type that is not defined.",
+      "description": "the statement is not an in-toto Statement v1.",
       "document": "spec/predicates/revocation-sweep.md",
       "expected": {
         "reason": "statement-malformed",
         "verdict": "reject"
       },
       "files": {
-        "statement.json": "bf39701978c3554a200ced2e1b54c7400d92b6d39bb99fcf871b02a9e9d741b5"
+        "statement.json": "2b10d7e8ff000fba2382f0b79011a0fe1b25e27606f06ed921a003fd8801ef3f"
       },
-      "id": "revocation-sweep-rule-1-statement-malformed",
+      "id": "revocation-sweep-statement-malformed",
       "kind": "reject",
       "mutation": {
-        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
+        "from": "https://in-toto.io/Statement/v1",
         "path": [
-          "predicateType"
+          "_type"
         ],
-        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-sweep"
+        "to": "https://in-toto.io/Statement/v0.1"
       },
-      "path": "cases/revocation-sweep-rule-1-statement-malformed",
+      "path": "cases/revocation-sweep-statement-malformed",
       "predicate": "revocation-sweep",
       "rule": "1",
       "shape": "record"
@@ -467,7 +467,7 @@
       "files": {
         "statement.json": "15a7e7157e862edb986df4d9211cf684f06a1d107c2fe18d42dce6acb6446ea9"
       },
-      "id": "revocation-sweep-rule-2-predicate-malformed",
+      "id": "revocation-sweep-predicate-malformed",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -486,7 +486,7 @@
           "https://idp.example.org/credentials/c-03"
         ]
       },
-      "path": "cases/revocation-sweep-rule-2-predicate-malformed",
+      "path": "cases/revocation-sweep-predicate-malformed",
       "predicate": "revocation-sweep",
       "rule": "2",
       "shape": "record"
@@ -502,7 +502,7 @@
       "files": {
         "statement.json": "33a7041f0349f4681870f39308edcac3518a9348447f28ef34ef20a2b69f6d09"
       },
-      "id": "revocation-sweep-rule-3-closed-vocabulary-violation",
+      "id": "revocation-sweep-closed-vocabulary-violation",
       "kind": "reject",
       "mutation": {
         "from": "enforced_observed",
@@ -516,7 +516,7 @@
         ],
         "to": "acknowledged"
       },
-      "path": "cases/revocation-sweep-rule-3-closed-vocabulary-violation",
+      "path": "cases/revocation-sweep-closed-vocabulary-violation",
       "predicate": "revocation-sweep",
       "rule": "3",
       "shape": "record"
@@ -532,7 +532,7 @@
       "files": {
         "statement.json": "12f8839f4a489380b3e5b39302454c97b8732a16987085ad0f55aa5cf13070b2"
       },
-      "id": "revocation-sweep-rule-4-denominator-union-mismatch",
+      "id": "revocation-sweep-denominator-union-mismatch",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -548,7 +548,7 @@
           "https://idp.example.org/credentials/c-04"
         ]
       },
-      "path": "cases/revocation-sweep-rule-4-denominator-union-mismatch",
+      "path": "cases/revocation-sweep-denominator-union-mismatch",
       "predicate": "revocation-sweep",
       "rule": "4",
       "shape": "record"
@@ -564,7 +564,7 @@
       "files": {
         "statement.json": "d503f623622e880c4433c465fd8ba95c388a4f5db094db2d3a9536a8debf8164"
       },
-      "id": "revocation-sweep-rule-5-revocation-entries-mismatch",
+      "id": "revocation-sweep-revocation-entries-mismatch",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -624,7 +624,7 @@
           }
         ]
       },
-      "path": "cases/revocation-sweep-rule-5-revocation-entries-mismatch",
+      "path": "cases/revocation-sweep-revocation-entries-mismatch",
       "predicate": "revocation-sweep",
       "rule": "5",
       "shape": "record"
@@ -640,7 +640,7 @@
       "files": {
         "statement.json": "8592e20fb2edb704fefae42a5ab1d820f433cc3eda033def121114fabc52c59b"
       },
-      "id": "revocation-sweep-rule-6-coverage-claim-exceeds-proof",
+      "id": "revocation-sweep-coverage-claim-exceeds-proof",
       "kind": "reject",
       "mutation": {
         "from": "partial",
@@ -651,7 +651,7 @@
         ],
         "to": "complete_verified"
       },
-      "path": "cases/revocation-sweep-rule-6-coverage-claim-exceeds-proof",
+      "path": "cases/revocation-sweep-coverage-claim-exceeds-proof",
       "predicate": "revocation-sweep",
       "rule": "6",
       "shape": "record"
@@ -667,7 +667,7 @@
       "files": {
         "statement.json": "fc26a0155573993926e99ca64d0185b012c9b4ea6781f752c710ad68a9c982d9"
       },
-      "id": "revocation-sweep-rule-7-coverage-claim-incomplete",
+      "id": "revocation-sweep-coverage-claim-incomplete",
       "kind": "reject",
       "mutation": {
         "from": "partial",
@@ -678,7 +678,7 @@
         ],
         "to": "issued_after_only"
       },
-      "path": "cases/revocation-sweep-rule-7-coverage-claim-incomplete",
+      "path": "cases/revocation-sweep-coverage-claim-incomplete",
       "predicate": "revocation-sweep",
       "rule": "7",
       "shape": "record"
@@ -736,25 +736,25 @@
     },
     {
       "base": "re-enable-decision-control",
-      "description": "the statement names a predicate type that is not defined.",
+      "description": "the statement is not an in-toto Statement v1.",
       "document": "spec/predicates/re-enable-decision.md",
       "expected": {
         "reason": "statement-malformed",
         "verdict": "reject"
       },
       "files": {
-        "statement.json": "d298f0a831b1706685cfd84caf09125beec3c9c1d0c7d86a2407e5f954560b31"
+        "statement.json": "7e19e44374437fabb8bac6b6b92c75f0b5ec2e512c074d5f1bcf79004da59f18"
       },
-      "id": "re-enable-decision-rule-1-statement-malformed",
+      "id": "re-enable-decision-statement-malformed",
       "kind": "reject",
       "mutation": {
-        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision",
+        "from": "https://in-toto.io/Statement/v1",
         "path": [
-          "predicateType"
+          "_type"
         ],
-        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/re-enable-decision"
+        "to": "https://in-toto.io/Statement/v0.1"
       },
-      "path": "cases/re-enable-decision-rule-1-statement-malformed",
+      "path": "cases/re-enable-decision-statement-malformed",
       "predicate": "re-enable-decision",
       "rule": "1",
       "shape": "record"
@@ -770,7 +770,7 @@
       "files": {
         "statement.json": "c78564d35ed8db30774b6f7da017748d3d136aaceb7b904588d509becc39a073"
       },
-      "id": "re-enable-decision-rule-2-predicate-malformed",
+      "id": "re-enable-decision-predicate-malformed",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -787,7 +787,7 @@
           "approver"
         ]
       },
-      "path": "cases/re-enable-decision-rule-2-predicate-malformed",
+      "path": "cases/re-enable-decision-predicate-malformed",
       "predicate": "re-enable-decision",
       "rule": "2",
       "shape": "record"
@@ -803,7 +803,7 @@
       "files": {
         "statement.json": "75a4d6a3c9f5b0d0dd723f5c87d6a80d99b730c47b52df02f962b361228de1f7"
       },
-      "id": "re-enable-decision-rule-3-closed-vocabulary-violation",
+      "id": "re-enable-decision-closed-vocabulary-violation",
       "kind": "reject",
       "mutation": {
         "from": "not_assessed",
@@ -813,7 +813,7 @@
         ],
         "to": "adequate"
       },
-      "path": "cases/re-enable-decision-rule-3-closed-vocabulary-violation",
+      "path": "cases/re-enable-decision-closed-vocabulary-violation",
       "predicate": "re-enable-decision",
       "rule": "3",
       "shape": "record"
@@ -829,7 +829,7 @@
       "files": {
         "statement.json": "dadf5e1c8c1a7fd44d936028c7d006c0dd0b0c2b6e06834def8a94a68e34af59"
       },
-      "id": "re-enable-decision-rule-4-evidence-slot-missing",
+      "id": "re-enable-decision-evidence-slot-missing",
       "kind": "reject",
       "mutation": {
         "from": {
@@ -843,7 +843,7 @@
           "restoreOrder"
         ]
       },
-      "path": "cases/re-enable-decision-rule-4-evidence-slot-missing",
+      "path": "cases/re-enable-decision-evidence-slot-missing",
       "predicate": "re-enable-decision",
       "rule": "4",
       "shape": "record"
@@ -859,7 +859,7 @@
       "files": {
         "statement.json": "f9cdfdc37b6d11e5f788a3db5044d573ac78f4bf228ab7b8c895e564d2e147ab"
       },
-      "id": "re-enable-decision-rule-5-evidence-slot-unexplained",
+      "id": "re-enable-decision-evidence-slot-unexplained",
       "kind": "reject",
       "mutation": {
         "from": {
@@ -876,7 +876,7 @@
           "notAddressed": ""
         }
       },
-      "path": "cases/re-enable-decision-rule-5-evidence-slot-unexplained",
+      "path": "cases/re-enable-decision-evidence-slot-unexplained",
       "predicate": "re-enable-decision",
       "rule": "5",
       "shape": "record"
@@ -892,7 +892,7 @@
       "files": {
         "statement.json": "13a61277333e3a37eeb27ba57737e93e9a41ec1abdce7909c63d3ed12e54957e"
       },
-      "id": "re-enable-decision-rule-6-no-approver",
+      "id": "re-enable-decision-no-approver",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -909,7 +909,7 @@
           "accountable"
         ]
       },
-      "path": "cases/re-enable-decision-rule-6-no-approver",
+      "path": "cases/re-enable-decision-no-approver",
       "predicate": "re-enable-decision",
       "rule": "6",
       "shape": "record"
@@ -925,7 +925,7 @@
       "files": {
         "statement.json": "69760d6b7507e18bc580e0fc2fd8ed8ce8e7325d191e345759b6f659b7caf383"
       },
-      "id": "re-enable-decision-rule-7-partial-without-scope",
+      "id": "re-enable-decision-partial-without-scope",
       "kind": "reject",
       "mutation": {
         "from": {
@@ -950,7 +950,7 @@
           "tools": []
         }
       },
-      "path": "cases/re-enable-decision-rule-7-partial-without-scope",
+      "path": "cases/re-enable-decision-partial-without-scope",
       "predicate": "re-enable-decision",
       "rule": "7",
       "shape": "record"
@@ -966,7 +966,7 @@
       "files": {
         "statement.json": "015087a4cc9afde541f724c9e77698c8145803e7a23a82aba2a349a2f0d3451d"
       },
-      "id": "re-enable-decision-rule-8-full-with-scope",
+      "id": "re-enable-decision-full-with-scope",
       "kind": "reject",
       "mutation": {
         "from": "resume_staged",
@@ -977,7 +977,7 @@
         ],
         "to": "resume_full"
       },
-      "path": "cases/re-enable-decision-rule-8-full-with-scope",
+      "path": "cases/re-enable-decision-full-with-scope",
       "predicate": "re-enable-decision",
       "rule": "8",
       "shape": "record"
@@ -1001,25 +1001,25 @@
     },
     {
       "base": "joint-authority-control",
-      "description": "the statement names a predicate type that is not defined.",
+      "description": "the statement is not an in-toto Statement v1.",
       "document": "spec/predicates/joint-authority.md",
       "expected": {
         "reason": "statement-malformed",
         "verdict": "reject"
       },
       "files": {
-        "statement.json": "524951a1385d821e3f7de2e01bb1029ad5df8a8d64807b8d1a4a0cc025b5348e"
+        "statement.json": "e3159d3440ca28552f16b6cfb93ac22a504cf1a193559d2e9fb97a2151581a73"
       },
-      "id": "joint-authority-rule-1-statement-malformed",
+      "id": "joint-authority-statement-malformed",
       "kind": "reject",
       "mutation": {
-        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority",
+        "from": "https://in-toto.io/Statement/v1",
         "path": [
-          "predicateType"
+          "_type"
         ],
-        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/joint-authority"
+        "to": "https://in-toto.io/Statement/v0.1"
       },
-      "path": "cases/joint-authority-rule-1-statement-malformed",
+      "path": "cases/joint-authority-statement-malformed",
       "predicate": "joint-authority",
       "rule": "1",
       "shape": "record"
@@ -1035,7 +1035,7 @@
       "files": {
         "statement.json": "5047de6f95346fcb36b7a34bea42c7f6a95d865275b0141a831dbde62ba54c74"
       },
-      "id": "joint-authority-rule-2-predicate-malformed",
+      "id": "joint-authority-predicate-malformed",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -1074,7 +1074,7 @@
           }
         ]
       },
-      "path": "cases/joint-authority-rule-2-predicate-malformed",
+      "path": "cases/joint-authority-predicate-malformed",
       "predicate": "joint-authority",
       "rule": "2",
       "shape": "record"
@@ -1090,7 +1090,7 @@
       "files": {
         "statement.json": "bd88f66a91a5341fb3335739ddc3ca8a11d5592fe2a968b509839369e8727776"
       },
-      "id": "joint-authority-rule-4-authority-basis-missing",
+      "id": "joint-authority-authority-basis-missing",
       "kind": "reject",
       "mutation": {
         "from": "contract_third_party",
@@ -1101,7 +1101,7 @@
           "authorityBasis"
         ]
       },
-      "path": "cases/joint-authority-rule-4-authority-basis-missing",
+      "path": "cases/joint-authority-authority-basis-missing",
       "predicate": "joint-authority",
       "rule": "4",
       "shape": "record"
@@ -1117,7 +1117,7 @@
       "files": {
         "statement.json": "2152f29240e11ac61980357b6f30d96cc3d52517d393f64f00bf43afb347d443"
       },
-      "id": "joint-authority-rule-5-single-organization",
+      "id": "joint-authority-single-organization",
       "kind": "reject",
       "mutation": {
         "from": "https://example.org",
@@ -1129,7 +1129,7 @@
         ],
         "to": "https://example.com"
       },
-      "path": "cases/joint-authority-rule-5-single-organization",
+      "path": "cases/joint-authority-single-organization",
       "predicate": "joint-authority",
       "rule": "5",
       "shape": "record"
@@ -1145,7 +1145,7 @@
       "files": {
         "statement.json": "94a5f43fc6cef62362e4b00dfb7839e9fe4c97eb3ac34a5c46915d41850e7da3"
       },
-      "id": "joint-authority-rule-6-party-acts-outside-assignment",
+      "id": "joint-authority-party-acts-outside-assignment",
       "kind": "reject",
       "mutation": {
         "from": "https://agents.example.com/agent-a",
@@ -1157,7 +1157,7 @@
         ],
         "to": "https://api.example.org"
       },
-      "path": "cases/joint-authority-rule-6-party-acts-outside-assignment",
+      "path": "cases/joint-authority-party-acts-outside-assignment",
       "predicate": "joint-authority",
       "rule": "6",
       "shape": "record"
@@ -1215,25 +1215,25 @@
     },
     {
       "base": "revocation-boundary-control",
-      "description": "the statement names a predicate type that is not defined.",
+      "description": "the statement is not an in-toto Statement v1.",
       "document": "spec/predicates/revocation-boundary.md",
       "expected": {
         "reason": "statement-malformed",
         "verdict": "reject"
       },
       "files": {
-        "statement.json": "feeb66442417f9e6142ae29910fd73263f6cf5df5c1010ae44bcb0e08c4c03b8"
+        "statement.json": "6f9492f85a1df84ef052632359ab9119e97739c7c0e3a081ba720e8d2d8134f4"
       },
-      "id": "revocation-boundary-rule-1-statement-malformed",
+      "id": "revocation-boundary-statement-malformed",
       "kind": "reject",
       "mutation": {
-        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary",
+        "from": "https://in-toto.io/Statement/v1",
         "path": [
-          "predicateType"
+          "_type"
         ],
-        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-boundary"
+        "to": "https://in-toto.io/Statement/v0.1"
       },
-      "path": "cases/revocation-boundary-rule-1-statement-malformed",
+      "path": "cases/revocation-boundary-statement-malformed",
       "predicate": "revocation-boundary",
       "rule": "1",
       "shape": "record"
@@ -1249,7 +1249,7 @@
       "files": {
         "statement.json": "c985b3b7913d4c50ca4d3aa6dcb5170d6e05270f32ddb217ab000f143d6c7c75"
       },
-      "id": "revocation-boundary-rule-2-predicate-malformed",
+      "id": "revocation-boundary-predicate-malformed",
       "kind": "reject",
       "mutation": {
         "from": 40,
@@ -1260,7 +1260,7 @@
         ],
         "to": -1
       },
-      "path": "cases/revocation-boundary-rule-2-predicate-malformed",
+      "path": "cases/revocation-boundary-predicate-malformed",
       "predicate": "revocation-boundary",
       "rule": "2",
       "shape": "record"
@@ -1276,7 +1276,7 @@
       "files": {
         "statement.json": "7216e4bfad52796975efe6d9120aafd1ea894128d5d59aba15e37818bac9060b"
       },
-      "id": "revocation-boundary-rule-4-revocation-outside-window",
+      "id": "revocation-boundary-revocation-outside-window",
       "kind": "reject",
       "mutation": {
         "from": "2026-01-10T12:00:00Z",
@@ -1287,7 +1287,7 @@
         ],
         "to": "2026-01-10T13:30:00Z"
       },
-      "path": "cases/revocation-boundary-rule-4-revocation-outside-window",
+      "path": "cases/revocation-boundary-revocation-outside-window",
       "predicate": "revocation-boundary",
       "rule": "4",
       "shape": "record"
@@ -1303,7 +1303,7 @@
       "files": {
         "statement.json": "e5db0e5eb966ca2934c396fd6f0d8bd8a5c15faea9029dff20b27a0917eb5bf7"
       },
-      "id": "revocation-boundary-rule-5-counts-inconsistent",
+      "id": "revocation-boundary-counts-inconsistent",
       "kind": "reject",
       "mutation": {
         "from": 6,
@@ -1314,7 +1314,7 @@
         ],
         "to": 50
       },
-      "path": "cases/revocation-boundary-rule-5-counts-inconsistent",
+      "path": "cases/revocation-boundary-counts-inconsistent",
       "predicate": "revocation-boundary",
       "rule": "5",
       "shape": "record"
@@ -1330,7 +1330,7 @@
       "files": {
         "statement.json": "e0795591e99aa7a8f01b823cea8b6eb1e1be43f3f3f3d9df9b2431fb3022340a"
       },
-      "id": "revocation-boundary-rule-6-result-contradicts-counts",
+      "id": "revocation-boundary-result-contradicts-counts",
       "kind": "reject",
       "mutation": {
         "from": 0,
@@ -1341,7 +1341,7 @@
         ],
         "to": 1
       },
-      "path": "cases/revocation-boundary-rule-6-result-contradicts-counts",
+      "path": "cases/revocation-boundary-result-contradicts-counts",
       "predicate": "revocation-boundary",
       "rule": "6",
       "shape": "record"
@@ -1357,7 +1357,7 @@
       "files": {
         "statement.json": "020659904aafe89577b6e3b5bd524932fd2e76c31bdc419c4a7b9183df019c50"
       },
-      "id": "revocation-boundary-rule-7-observer-not-at-sink",
+      "id": "revocation-boundary-observer-not-at-sink",
       "kind": "reject",
       "mutation": {
         "from": "sink_side",
@@ -1368,7 +1368,7 @@
         ],
         "to": "agent_side"
       },
-      "path": "cases/revocation-boundary-rule-7-observer-not-at-sink",
+      "path": "cases/revocation-boundary-observer-not-at-sink",
       "predicate": "revocation-boundary",
       "rule": "7",
       "shape": "record"
@@ -1426,7 +1426,7 @@
         "r2.json": "8592e20fb2edb704fefae42a5ab1d820f433cc3eda033def121114fabc52c59b",
         "r3.json": "7d7c6541f575ab995376436c8b361f7fe2101801ae6076dd5f18f17691fd08b5"
       },
-      "id": "bundle-b1-coverage-claim-exceeds-proof",
+      "id": "bundle-record-coverage-claim-exceeds-proof",
       "kind": "reject",
       "mutation": {
         "from": "partial",
@@ -1438,7 +1438,7 @@
         "record": "r2.json",
         "to": "complete_verified"
       },
-      "path": "cases/bundle-b1-coverage-claim-exceeds-proof",
+      "path": "cases/bundle-record-coverage-claim-exceeds-proof",
       "predicate": null,
       "rule": "B1",
       "shape": "bundle"
@@ -1456,7 +1456,7 @@
         "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
         "r3.json": "bd6bef76a49c6755bf10f232ed515950abad81fa47c9b32165c411326f4c5f34"
       },
-      "id": "bundle-b2-predecessor-not-carried",
+      "id": "bundle-predecessor-not-carried",
       "kind": "reject",
       "mutation": {
         "from": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
@@ -1470,7 +1470,7 @@
         "record": "r3.json",
         "to": "f4d227067f30bc1d5790d3b42db09887c72b58b69933d01a5b0682be283bbc96"
       },
-      "path": "cases/bundle-b2-predecessor-not-carried",
+      "path": "cases/bundle-predecessor-not-carried",
       "predicate": null,
       "rule": "B2",
       "shape": "bundle"
@@ -1488,7 +1488,7 @@
         "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
         "r3.json": "24d4a73f5d5a93e15a7da7f9d328fe2fb7ec4de7aa0bed781c06ee32181a8adb"
       },
-      "id": "bundle-b3-predecessor-type-mismatch",
+      "id": "bundle-predecessor-type-mismatch",
       "kind": "reject",
       "mutation": {
         "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
@@ -1501,7 +1501,7 @@
         "record": "r3.json",
         "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority"
       },
-      "path": "cases/bundle-b3-predecessor-type-mismatch",
+      "path": "cases/bundle-predecessor-type-mismatch",
       "predicate": null,
       "rule": "B3",
       "shape": "bundle"
@@ -1519,7 +1519,7 @@
         "r2.json": "289e7ed094f7c71c65b22789783c97980ffd26ed941b59dd8eafc0f76e27508d",
         "r3.json": "19d7228eb088d7406487bdc5473ff23cfc53643cf185204b25bbe610f10918b4"
       },
-      "id": "bundle-b5-incident-mismatch",
+      "id": "bundle-incident-mismatch",
       "kind": "reject",
       "mutation": {
         "from": "synthetic-incident-0001",
@@ -1531,7 +1531,7 @@
         "record": "r2.json",
         "to": "synthetic-incident-0002"
       },
-      "path": "cases/bundle-b5-incident-mismatch",
+      "path": "cases/bundle-incident-mismatch",
       "predicate": null,
       "rule": "B5",
       "shape": "bundle"
@@ -1549,7 +1549,7 @@
         "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
         "r3.json": "83dbf6c2913bd8f5d6d03b351871482fee8321a8239f04e95f47a7b11466459f"
       },
-      "id": "bundle-b6-predecessor-issued-later",
+      "id": "bundle-predecessor-issued-later",
       "kind": "reject",
       "mutation": {
         "from": "2026-01-12T09:00:00Z",
@@ -1560,7 +1560,7 @@
         "record": "r3.json",
         "to": "2026-01-10T13:00:00Z"
       },
-      "path": "cases/bundle-b6-predecessor-issued-later",
+      "path": "cases/bundle-predecessor-issued-later",
       "predicate": null,
       "rule": "B6",
       "shape": "bundle"
@@ -1578,7 +1578,7 @@
         "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
         "r3.json": "345bee22d39aea1132fd918623a88af21257a9357beec1d1b073f1f3d0e0c869"
       },
-      "id": "bundle-b7-restored-credential-unswept",
+      "id": "bundle-restored-credential-unswept",
       "kind": "reject",
       "mutation": {
         "from": [
@@ -1595,7 +1595,7 @@
           "https://idp.example.org/credentials/c-09"
         ]
       },
-      "path": "cases/bundle-b7-restored-credential-unswept",
+      "path": "cases/bundle-restored-credential-unswept",
       "predicate": null,
       "rule": "B7",
       "shape": "bundle"

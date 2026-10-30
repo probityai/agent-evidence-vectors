@@ -1,5 +1,5 @@
 {
-  "_type": "https://in-toto.io/Statement/v1",
+  "_type": "https://in-toto.io/Statement/v0.1",
   "predicate": {
     "actions": [
       {
@@ -59,7 +59,7 @@
       }
     ]
   },
-  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/joint-authority",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority",
   "subject": [
     {
       "digest": {

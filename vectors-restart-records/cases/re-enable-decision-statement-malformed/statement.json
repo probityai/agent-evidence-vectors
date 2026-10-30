@@ -1,5 +1,5 @@
 {
-  "_type": "https://in-toto.io/Statement/v1",
+  "_type": "https://in-toto.io/Statement/v0.1",
   "predicate": {
     "approvers": [
       {
@@ -127,7 +127,7 @@
     },
     "setSufficiency": "not_assessed"
   },
-  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/re-enable-decision",
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision",
   "subject": [
     {
       "digest": {
