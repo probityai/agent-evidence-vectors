@@ -3,6 +3,4 @@ members: 184
   accept: 81
   indeterminate: 1
   reject: 102
-FAIL v52d0e34839045b02: X16: expected malformed, got valid []
-FAIL v52d0e34839045b02: X16: expected dating {Entry:malformed Codes:[retained-unreadable] DatedAt: Receipt: DelegationRoot:{Result:not-established Algorithm:}}, got {Entry:malformed Codes:[entry-shape-malformed] DatedAt: Receipt: DelegationRoot:{Result:not-established Algorithm:}}
-verdict: 1 member(s) and 0 corpus-level claim(s) do not hold
+verdict: every member behaves as MANIFEST.json declares

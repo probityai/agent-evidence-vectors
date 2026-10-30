@@ -3040,6 +3040,7 @@
     },
     {
       "draftId": "X2",
+      "draftSection": "4.6",
       "expected": {
         "codes": [
           "not-parseable"
@@ -3056,6 +3057,7 @@
     },
     {
       "draftId": "X3",
+      "draftSection": "4.3",
       "expected": {
         "codes": [
           "timestamp-malformed"
@@ -3072,6 +3074,7 @@
     },
     {
       "draftId": "X4",
+      "draftSection": "4",
       "expected": {
         "codes": [
           "statement-type-unexpected"
@@ -3088,6 +3091,7 @@
     },
     {
       "draftId": "X5",
+      "draftSection": "4",
       "expected": {
         "codes": [
           "predicate-type-mismatch"
@@ -3104,6 +3108,7 @@
     },
     {
       "draftId": "X6",
+      "draftSection": "5.9",
       "expected": {
         "codes": [
           "consumption-malformed"
@@ -3120,6 +3125,7 @@
     },
     {
       "draftId": "X7",
+      "draftSection": "5.9",
       "expected": {
         "codes": [
           "operation-key-invalid"
@@ -3136,6 +3142,7 @@
     },
     {
       "draftId": "X8",
+      "draftSection": "4.2",
       "expected": {
         "codes": [
           "subject-request-mismatch"
@@ -3152,6 +3159,7 @@
     },
     {
       "draftId": "X9",
+      "draftSection": "4.4",
       "expected": {
         "codes": [
           "envelope-unreadable"
@@ -3168,6 +3176,7 @@
     },
     {
       "draftId": "X10",
+      "draftSection": "4.6",
       "expected": {
         "codes": [
           "statement-shape"
@@ -3184,6 +3193,7 @@
     },
     {
       "draftId": "X11",
+      "draftSection": "4.7",
       "expected": {
         "codes": [],
         "dating": {
@@ -3208,6 +3218,7 @@
     },
     {
       "draftId": "X12",
+      "draftSection": "4.7",
       "expected": {
         "codes": [],
         "dating": {
@@ -3233,6 +3244,7 @@
     },
     {
       "draftId": "X13",
+      "draftSection": "4.7",
       "expected": {
         "codes": [],
         "dating": {
@@ -3258,6 +3270,7 @@
     },
     {
       "draftId": "X14",
+      "draftSection": "4.7",
       "expected": {
         "codes": [],
         "dating": {
@@ -3283,6 +3296,7 @@
     },
     {
       "draftId": "X15",
+      "draftSection": "4.6",
       "expected": {
         "codes": [
           "not-parseable"
@@ -3308,6 +3322,7 @@
     },
     {
       "draftId": "X16",
+      "draftSection": "4.7",
       "expected": {
         "codes": [
           "retained-unreadable"

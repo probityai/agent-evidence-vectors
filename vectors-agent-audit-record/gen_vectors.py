@@ -3568,6 +3568,16 @@ def _set_all_malformed() -> Built:
     return {"set": payloads}
 
 
+# The section of draft-gilda-audit-agent-audit-record-03 whose text makes each
+# member malformed. X1, X17 and X18 carry none: the draft states no rule for a
+# fractional number, and does not define the bundle a set member is.
+REJECT_SECTIONS: dict[str, str] = {
+    "X2": "4.6", "X3": "4.3", "X4": "4", "X5": "4", "X6": "5.9", "X7": "5.9",
+    "X8": "4.2", "X9": "4.4", "X10": "4.6", "X11": "4.7", "X12": "4.7",
+    "X13": "4.7", "X14": "4.7", "X15": "4.6", "X16": "4.7",
+}
+
+
 def define_reject_paths() -> None:
     """Members X1 to X18: one reject member for each path of the reference reader
     that no earlier member reached and that fires on a one-field change of an
@@ -3623,7 +3633,10 @@ def define_reject_paths() -> None:
         ),
     ]
     for draft_id, slug, parent, row, build, codes in rows:
-        member(draft_id, slug, parent, row, build, "malformed", codes)
+        member(
+            draft_id, slug, parent, row, build, "malformed", codes,
+            section=REJECT_SECTIONS.get(draft_id),
+        )
 
     dated: list[tuple[str, str, str, str, Callable[[], Built], str]] = [
         (
@@ -3652,6 +3665,7 @@ def define_reject_paths() -> None:
     for draft_id, slug, parent, row, build, code in dated:
         member(
             draft_id, slug, parent, row, build, "valid", tier="authoritative",
+            section=REJECT_SECTIONS.get(draft_id),
             dating=dating(
                 dated_at=None if draft_id == "X11" else "2026-09-19T11:05:00Z",
                 entry_="malformed",
@@ -3662,12 +3676,14 @@ def define_reject_paths() -> None:
         "X15", "x15-retained-record-unparseable", "R1",
         "the retained record's payload not JSON: the record malformed and the dating unreadable",
         _unparseable_retained, "malformed", ["not-parseable"],
+        section=REJECT_SECTIONS.get("X15"),
         dating=dating(dated_at=None, entry_="malformed", code="entry-record-unreadable"),
     )
     member(
         "X16", "x16-retained-without-retention", "R1",
         "a retained member with no retention entry",
         _retained_without_entry, "malformed", ["retained-unreadable"],
+        section=REJECT_SECTIONS.get("X16"),
         dating=dating(dated_at=None, entry_="malformed", code="retained-unreadable"),
     )
     member(
