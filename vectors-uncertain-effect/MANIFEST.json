@@ -1,6 +1,10 @@
 {
   "contractId": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/uncertain-effect",
   "corpusDigest": "5e662ed999ebd931b07a9c593167b20700a74d45a5129e550d27ec85057282e5",
+  "counts": {
+    "allow": 10,
+    "deny": 17
+  },
   "runtimeContract": "runtime scenario.json, AEV_EFFECT_OWNER; see uncertaineffect_runtime",
   "suite": "uncertain-effect/v1",
   "vectors": [

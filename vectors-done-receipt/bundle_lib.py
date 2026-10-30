@@ -438,6 +438,8 @@ def write_corpus(root: Path, suite: str, members: list[Member], extra: dict[str,
             (directory / name).write_bytes(data)
         entries.append(manifest_entry(member))
     manifest = {"suite": suite, "corpusDigest": sha(enc(entries)), **extra, "vectors": entries}
+    verdict_words = [entry["kind"] for entry in entries]
+    manifest["counts"] = {word: verdict_words.count(word) for word in sorted(set(verdict_words))}
     (root / "MANIFEST.json").write_bytes(enc(manifest))
 
 
