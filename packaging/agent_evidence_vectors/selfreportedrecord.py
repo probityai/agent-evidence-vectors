@@ -199,16 +199,20 @@ def _scrub(value: Any) -> Any:
 
 
 def decode_member(raw: bytes) -> Any:
-    """The first JSON value in *raw*, numbers kept as tokens.
+    """The one JSON document in *raw*, numbers kept as tokens.
 
-    Like Go's decoder this reads one value and ignores what follows it, and it
-    refuses NaN and the infinities, which JSON has no spelling for.
+    *raw* must be UTF-8 and exactly one document: bytes after it, other than JSON
+    whitespace, or a byte that is not UTF-8, are refused, because two files that
+    differ only there would carry one statement under two digests. NaN and the
+    infinities are refused too, which JSON has no spelling for.
     """
-    text = raw.decode("utf-8", errors="replace").lstrip(" \t\n\r")
+    text = raw.decode("utf-8").lstrip(" \t\n\r")
     decoder = json.JSONDecoder(
         parse_int=_int_token, parse_float=_float_token, parse_constant=_reject_constant
     )
-    value, _ = decoder.raw_decode(text)
+    value, end = decoder.raw_decode(text)
+    if text[end:].strip(" \t\n\r"):
+        raise ValueError("extra data after the statement")
     return _scrub(value)
 
 
@@ -286,16 +290,15 @@ def _is_hex64(value: Any) -> bool:
 def ed25519_ok(public_hex: str, payload: bytes, signature_b64: str) -> bool:
     """Verify, refusing rather than raising on anything the carried bytes get wrong.
 
-    Hex is read as Go reads it (even length, either case, no spaces) and base64 as
-    Go's standard decoder reads it, which skips carriage returns and newlines.
+    Hex is read as Go reads it (even length, either case, no spaces). The signature
+    is standard base64 with padding and no line breaks; ``rule_wellformed`` refuses
+    a record that spells one otherwise before any signature is checked.
     """
     if _HEX_DIGITS.fullmatch(public_hex) is None:
         return False
     public = bytes.fromhex(public_hex)
     try:
-        signature = base64.b64decode(
-            signature_b64.replace("\r", "").replace("\n", ""), validate=True
-        )
+        signature = base64.b64decode(signature_b64, validate=True)
     except (ValueError, binascii.Error):
         return False
     if len(public) != 32 or len(signature) != 64:
@@ -318,13 +321,30 @@ def _subject_wellformed(value: Any) -> bool:
     return _is_hex64(_object(entry.get("digest")).get("sha256"))
 
 
+_SIGNATURE_ALPHABET = re.compile(r"[A-Za-z0-9+/=]*")
+_CONTAINERS = ("selfSigners", "turns", "memoryReads", "ledgers", "fields")
+
+
+def _signature_spelled(signature: str) -> bool:
+    """A signature is standard base64 characters only: no line break, no space."""
+    return _SIGNATURE_ALPHABET.fullmatch(signature) is not None
+
+
+def _containers_ok(predicate: dict[str, Any]) -> bool:
+    """Each repeated member is a JSON array; a string, number, object or null is not one."""
+    return all(isinstance(predicate[name], list) for name in _CONTAINERS)
+
+
 def _turns_wellformed(predicate: dict[str, Any]) -> bool:
     for item in _array(predicate["turns"]):
         row = _object(item)
         attested = _object(row.get("attestedBy"))
         if not isinstance(row.get("turnId"), str):
             return False
-        if not _is_hex64(attested.get("keyid")) or not isinstance(attested.get("sig"), str):
+        signature = attested.get("sig")
+        if not _is_hex64(attested.get("keyid")) or not isinstance(signature, str):
+            return False
+        if not _signature_spelled(signature):
             return False
         if not isinstance(row.get("changeIds"), list):
             return False
@@ -355,6 +375,9 @@ def _fields_wellformed(predicate: dict[str, Any]) -> bool:
         if not isinstance(row.get("name"), str) or not isinstance(row.get("value"), str):
             return False
         if _str(row.get("evidence")) not in FIELD_EVIDENCE:
+            return False
+        covering = _object(row.get("coveredBy")).get("sig")
+        if isinstance(covering, str) and not _signature_spelled(covering):
             return False
     return True
 
@@ -389,7 +412,8 @@ def rule_wellformed(statement: dict[str, Any]) -> bool:
     if any(member not in predicate for member in REQUIRED):
         return False
     return (
-        _scalars_wellformed(predicate)
+        _containers_ok(predicate)
+        and _scalars_wellformed(predicate)
         and _turns_wellformed(predicate)
         and _memory_wellformed(predicate)
         and _ledgers_wellformed(predicate)
