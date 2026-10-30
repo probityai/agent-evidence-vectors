@@ -300,6 +300,17 @@ class BuildRefuses(unittest.TestCase):
         self.assertIn("cosign verify-blob", str(caught.exception))
 
 
+class Rollback(unittest.TestCase):
+    def test_an_older_release_is_refused(self) -> None:
+        with self.assertRaises(pub.PublishError):
+            pub.refuse_rollback("v0.30.0", "v0.29.3")
+
+    def test_the_same_or_a_newer_release_is_allowed(self) -> None:
+        pub.refuse_rollback("v0.30.0", "v0.30.0")
+        pub.refuse_rollback("v0.30.0", "v0.31.0")
+        pub.refuse_rollback(None, "v0.1.0")
+
+
 class UploadPlan(unittest.TestCase):
     def test_the_upload_replaces_every_published_directory_but_not_the_hub_gitattributes(
         self,

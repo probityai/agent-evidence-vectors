@@ -624,6 +624,20 @@ def hf_json(url: str, token: str | None) -> Any:
         return json.load(response)
 
 
+def version_key(tag: str) -> tuple[int, int, int]:
+    """(major, minor, patch) of a corpus release tag."""
+    if not TAG_RE.fullmatch(tag):
+        raise PublishError(f"{tag!r} is not a corpus release tag")
+    major, minor, patch = (int(x) for x in tag[1:].split("."))
+    return major, minor, patch
+
+
+def refuse_rollback(published: str | None, tag: str) -> None:
+    """A release older than the one on the Hub never replaces it."""
+    if published is not None and version_key(tag) < version_key(published):
+        raise PublishError(f"the Hub holds {published}; {tag} is older and is not published")
+
+
 def tag_action(refs: dict[str, Any], tag: str, head: str) -> str:
     """What to do about the dataset tag: `create`, `keep` or refuse by raising."""
     existing = {t["name"]: t["targetCommit"] for t in refs.get("tags", [])}
@@ -676,6 +690,13 @@ def upload(directory: Path, tag: str) -> None:
     source = json.loads((directory / SOURCE).read_text(encoding="utf-8"))
     if problems or source["tag"] != tag:
         raise PublishError("; ".join(problems) or f"the tree was built for {source['tag']}")
+    try:
+        current = hf_json(f"{HF_RAW}{DATASET}/resolve/main/{SOURCE}", token)["tag"]
+    except urllib.error.HTTPError as exc:
+        if exc.code != 404:
+            raise
+        current = None
+    refuse_rollback(current, tag)
     run_hf(*upload_command(directory, tag, source["commit"]), token=token)
     head = str(hf_json(f"{HF_API}{DATASET}/revision/main", token)["sha"])
     action = tag_action(hf_json(f"{HF_API}{DATASET}/refs", token), tag, head)
