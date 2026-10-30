@@ -819,7 +819,7 @@ jobs:
       - name: every Verified by Probity grant still meets the evidence rule
         run: |
           python3 scripts/badge-grants-gate.py
-          python3 scripts/badge-grants-gate-test.py packaging/agent_evidence_vectors/selfreportedrecord.py scripts/self-reported-record-rails-test.py
+          python3 scripts/badge-grants-gate-test.py
       # The pre-push mirror runs every step of every workflow locally, and it
       # ran them under a plain bash while Actions runs them under `bash -e`.
       # A step with one command cannot tell the two apart; a step with several
