@@ -3022,6 +3022,10 @@ MASKS = tuple(
         # is the argument the w3c rule-id mask gives against freezing an id.
         r"https?://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull|discussions)/\d+",
         r"#\d+",  # upstream issue and pull-request numbers
+        # The same identifier written as words, `issue 184`, in link text, a table
+        # cell or a docstring. It surfaced when the audit-record corpus total reached
+        # the number of the upstream issue that the ACS-Core wire probes cite.
+        r"\bissues?\s+\d+\b",
         # A PEP 508 version bound in a quoted requirement string. `"cryptography>=43"`
         # names a release of a dependency and counts nothing; the version-string
         # mask below needs a dot and this form has none. It stayed invisible only
