@@ -26,7 +26,7 @@ The **subject** is the population manifest, by digest: one member whose `digest`
 names, never secrets, hashes of secrets or fingerprints.
 
 The **predicate** carries the common members, `predecessors` (at least one R1, the
-authorisation of the sweep), and:
+authorization of the sweep), and:
 
 - `population`: `credentials`, a non-empty sorted, duplicate-free list of identifiers.
 - `partition`: a list of `{state, credentials}` parts, `state` one of `revoked`, `retained`,

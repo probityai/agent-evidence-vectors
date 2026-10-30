@@ -51,8 +51,8 @@ def ids(min_items: int = 0) -> dict:
 
 
 ROLES = {"type": "array", "minItems": 1, "uniqueItems": True,
-         "items": enum("accountable", "advised", "authorised", "executed")}
-AUTHORITY = enum("contract_third_party", "executive_approval", "policy_preauthorised",
+         "items": enum("accountable", "advised", "authorized", "executed")}
+AUTHORITY = enum("contract_third_party", "executive_approval", "policy_preauthorized",
                  "role_grant", "unknown")
 INDEPENDENCE = enum("independent_sources", "subject_supplied", "undeclared")
 REF = obj({"issuer": URL, "id": TEXT})

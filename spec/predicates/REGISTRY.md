@@ -89,7 +89,7 @@ cannot write one.
 - Profile: `profiles/restoration-evidence.md` (`restoration-evidence/v1`)
 - Corpus: `vectors-restart-records/` (released with the checker)
 
-Record R1 of the restoration evidence profile: who authorised one incident response action, the role each named party held, the kind of grant the authoriser acted on, and whether the authority was committed before the action ran.
+Record R1 of the restoration evidence profile: who authorized one incident response action, the role each named party held, the kind of grant the authorizer acted on, and whether the authority was committed before the action ran.
 
 ### `predicate/v1/revocation-sweep`
 

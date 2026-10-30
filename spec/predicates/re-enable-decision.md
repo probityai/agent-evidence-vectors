@@ -57,7 +57,7 @@ profile), and:
 | `controlsNotDegraded` | controls not degraded by the restoration | SP 800-53 CP-2 |
 | `residualRisk` | the remaining risk, stated and accepted | Key Practices 7.5; SP 800-61r3 RC.RP-06 |
 | `seniorApproval` | senior approval, informed by outside assessment where used | Key Practices 2.6 |
-| `multiPartyAuthorization` | more than one person authorised the restart | AWS Well-Architected Agentic AI Lens |
+| `multiPartyAuthorization` | more than one person authorized the restart | AWS Well-Architected Agentic AI Lens |
 | `ownerConfirmation` | the system or asset owner confirmed the restoration | SP 800-61r3 RC.RP-04 |
 
 The slots record what a decision cites. Which slots a relying party requires to carry a
@@ -72,7 +72,7 @@ digest, and what it does with a `notAddressed` slot, is its own admission policy
 | 3 | Every closed value is registered | `closed-vocabulary-violation` |
 | 4 | `evidence` carries every slot, and no other | `evidence-slot-missing` |
 | 5 | Every `notAddressed` reason is non-empty | `evidence-slot-unexplained` |
-| 6 | `approvers` is non-empty and at least one approver holds `authorised` | `no-approver` |
+| 6 | `approvers` is non-empty and at least one approver holds `authorized` | `no-approver` |
 | 7 | `resume_staged` carries `restoredScope` with at least one identifier | `partial-without-scope` |
 | 8 | `resume_full` carries no `restoredScope` | `full-with-scope` |
 

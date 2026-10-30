@@ -32,7 +32,7 @@ The **predicate** carries the common members and:
   assets}`. `authorityBasis` is as in R1; `assets` is a sorted list of asset identifiers the
   party may act on.
 - `actions`, optional: a list of `{party, asset, record}` naming actions already taken, where
-  `record` is the `{sha256}` of the R1 statement authorising it.
+  `record` is the `{sha256}` of the R1 statement authorizing it.
 
 ## Rules
 
