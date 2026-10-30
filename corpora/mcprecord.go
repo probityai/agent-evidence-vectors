@@ -3,7 +3,6 @@ package corpora
 import (
 	"encoding/json"
 	"fmt"
-	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -99,7 +98,7 @@ func (m mcpRecordContract) Judge(dir string, raw []byte) (*Result, error) {
 	}
 	// The criterion sits above the corpus directory, so it is resolved against
 	// the parent rather than the corpus.
-	if !existsIn(filepath.Dir(dir), manifest.Criterion) {
+	if !existsIn(corpusParent(dir), manifest.Criterion) {
 		result.Findings = append(result.Findings, fmt.Sprintf(
 			"the manifest names the criterion at %s and no such file is there, so the "+
 				"corpus measures a rule nobody can read", manifest.Criterion))
