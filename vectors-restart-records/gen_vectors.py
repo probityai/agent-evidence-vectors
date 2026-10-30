@@ -85,7 +85,7 @@ PRODUCER = {"id": "https://records.example.com/producer"}
 CRED = "https://idp.example.org/credentials/"
 PEOPLE = "https://people.example.com/"
 DOES_NOT_ASSERT = {
-    R1: ["that the authoriser held the authority the basis names"],
+    R1: ["that the authorizer held the authority the basis names"],
     R2: ["that the population is every credential that existed"],
     R3: ["that any cited evidence shows what its slot names", "that resuming was safe"],
     R4: ["that the parties agreed to the assignment beyond the signer's statement"],
@@ -109,7 +109,7 @@ def r1_control() -> dict[str, Any]:
                                "observation": _label("induced-effect observation")},
         },
         "parties": [
-            {"id": PEOPLE + "responder-a", "roles": ["authorised"],
+            {"id": PEOPLE + "responder-a", "roles": ["authorized"],
              "authorityBasis": "role_grant"},
             {"id": PEOPLE + "responder-b", "roles": ["accountable", "executed"]},
         ],
@@ -159,7 +159,7 @@ def r3_control(r1_digest: str, r2_digest: str) -> dict[str, Any]:
         "restoration": {"decision": "resume_staged", "restoredScope": {
             "agents": ["https://agents.example.com/agent-a"], "credentials": [CRED + "c-03"],
             "routes": [], "tools": []}},
-        "approvers": [{"id": PEOPLE + "approver-x", "roles": ["accountable", "authorised"],
+        "approvers": [{"id": PEOPLE + "approver-x", "roles": ["accountable", "authorized"],
                        "independenceBasis": "independent_sources"}],
         "setSufficiency": "not_assessed",
         "evidence": _evidence(),
@@ -183,7 +183,7 @@ def r4_control() -> dict[str, Any]:
         ],
         "actions": [{"party": PEOPLE + "operator-team",
                      "asset": "https://agents.example.com/agent-a",
-                     "record": _label("authorisation record of the pause")}],
+                     "record": _label("authorization record of the pause")}],
     })
 
 
@@ -307,7 +307,7 @@ def mutate_bundle(records: dict[str, dict[str, Any]], change: dict[str, Any], *,
 def _r1_members() -> list[dict[str, Any]]:
     base = r1_control()
     p = ["predicate"]
-    return _record_set(R1, base, "control: an authorisation committed before a pause it bounds",
+    return _record_set(R1, base, "control: an authorization committed before a pause it bounds",
                        [
         ("1", ["_type"], "https://in-toto.io/Statement/v0.1",
          "the statement is not an in-toto Statement v1"),
@@ -315,14 +315,14 @@ def _r1_members() -> list[dict[str, Any]]:
          "does not define"),
         ("3", [*p, "action", "functions"], ["pause", "quarantine"],
          "a response function the registry does not define"),
-        ("4", [*p, "parties", 0, "roles"], ["advised"], "no party holds authorised"),
+        ("4", [*p, "parties", 0, "roles"], ["advised"], "no party holds authorized"),
         ("5", [*p, "parties", 1, "roles"], ["executed"], "no party holds accountable"),
         ("6", [*p, "parties", 0, "authorityBasis"], _ABSENT,
-         "the authorising party carries no authority basis"),
+         "the authorizing party carries no authority basis"),
         ("7", [*p, "notAfter"], "2026-01-10T09:00:00Z",
          "the authority lapses before it is given"),
         ("8", [*p, "executedAt"], "2026-01-10T09:55:00Z",
-         "committed before execution, yet the action ran before the authorisation"),
+         "committed before execution, yet the action ran before the authorization"),
         ("9", [*p, "executedAt"], "2026-01-10T18:00:01Z",
          "the action ran one second after the authority lapsed"),
         ("10", [*p, "action", "inducedEffects", "observation"], _ABSENT,
@@ -330,9 +330,9 @@ def _r1_members() -> list[dict[str, Any]]:
     ], [
         ("after-the-fact", {"intentBinding": "asserted_after_execution",
                             "executedAt": "2026-01-10T09:55:00Z"},
-         "an authorisation asserted after the action ran, recorded as such"),
+         "an authorization asserted after the action ran, recorded as such"),
         ("basis-unknown", {"parties": [
-            {"id": PEOPLE + "responder-a", "roles": ["authorised"], "authorityBasis": "unknown"},
+            {"id": PEOPLE + "responder-a", "roles": ["authorized"], "authorityBasis": "unknown"},
             {"id": PEOPLE + "responder-b", "roles": ["accountable", "executed"]}]},
          "the authority basis is stated as unknown rather than left out"),
     ])
@@ -383,7 +383,7 @@ def _r3_members(r1_digest: str, r2_digest: str) -> list[dict[str, Any]]:
         ("4", [*p, "evidence", "restoreOrder"], _ABSENT, "an evidence slot is left out"),
         ("5", [*p, "evidence", "residualRisk"], {"notAddressed": ""},
          "a slot declared not addressed with an empty reason"),
-        ("6", [*p, "approvers", 0, "roles"], ["accountable"], "no approver holds authorised"),
+        ("6", [*p, "approvers", 0, "roles"], ["accountable"], "no approver holds authorized"),
         ("7", [*p, "restoration", "restoredScope"],
          {"agents": [], "credentials": [], "routes": [], "tools": []},
          "a staged resumption whose scope names nothing"),
