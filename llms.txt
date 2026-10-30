@@ -31,3 +31,10 @@ Each corpus has a manifest naming its source revision, digest and expected outco
 - [Citation metadata](https://github.com/probityai/agent-evidence-vectors/blob/main/CITATION.cff): Current release and archive identifier.
 - [Security](https://github.com/probityai/agent-evidence-vectors/blob/main/SECURITY.md): Report a vulnerability.
 - [Probity projects](https://github.com/probityai): Vocabulary, records, verification, admission and the evidence atlas.
+
+## Specification layer: vocabulary, admission, Action and crates
+
+- [Layout and releases](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/LAYOUT.md): directories, CI, tag prefixes and publishing for the crates, packages, Action and conformance board
+- [Action](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/ACTION.md): the admission checks (digest, policy, coverage) and the corpus replay, one Action with two modes
+- [Used by](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/USED-BY.md): outside projects that run the vectors in CI
+- [Predicate and vocabulary pages](https://github.com/probityai/agent-evidence-vectors/blob/main/docs/predicate-pages.md): when a published page may change

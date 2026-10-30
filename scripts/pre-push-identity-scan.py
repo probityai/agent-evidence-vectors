@@ -436,9 +436,25 @@ def _scan_added_lines(rev_args: list[str], sidecar: Sidecar) -> list[str]:
     return hits
 
 
+# IMPORT EXEMPTION. The history of probityai/agent-evidence was merged into this
+# repository with its commit ids kept (unrelated-history merge, 2026-10). Every
+# commit reachable from this exact tip is already public in that repository, so
+# rewriting it would change its ids and push nothing new to the world. The tip is
+# pinned to one full SHA, never a ref name: a moving ref would let anyone widen
+# the exemption. A commit NOT reachable from it is scanned in full.
+IMPORT_TIP = "c1750fe5582b2be6baf50eba72ccff9c64cb6650"
+
+
 def scan_range(rev_args: list[str], sidecar: Sidecar) -> tuple[int, list[str]]:
     """Scan every commit `git log <rev_args>` reaches. Returns (commits scanned, hits)."""
+    every = [c for c in _git("rev-list", *rev_args).split() if c]
+    if _holds(IMPORT_TIP):
+        # first: after a "--not", "^" would flip back to positive
+        rev_args = [f"^{IMPORT_TIP}", *rev_args]
     commits = [c for c in _git("rev-list", *rev_args).split() if c]
+    if len(every) != len(commits):
+        print(f"identity-scan: {len(every) - len(commits)} imported commit(s) reachable from "
+              f"{IMPORT_TIP[:12]} exempt (already public); {len(commits)} scanned")
     if not commits:
         return 0, []
     return len(commits), _scan_messages(rev_args, sidecar) + _scan_added_lines(rev_args, sidecar)

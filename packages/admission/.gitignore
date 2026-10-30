@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+
+# Humanizer ledger sidecars: a run record that carries whatever the lane typed
+# into its notes, absolute paths and dossier names included. Never publishable.
+*.ledger.json
+*.humanizer-ledger.json

@@ -1,0 +1,94 @@
+{
+  "schema": "policy-vocabulary-host-selection-v1",
+  "observerRepository": "probityai/agent-evidence-observer",
+  "observerCommit": "62f5d0c6fbd785259db2d5c8076dd844b53a0593",
+  "sourceContract": {
+    "path": "interop/local-model-vocabulary-2026-10-02/reader-source-contract.json",
+    "sha256": "4a3a47b14308f726af505ac489c9cb4c482cd48c09eacd3881c2fafe44f14ff7",
+    "files": {
+      "probity_policy_vocabulary_reader/task_matrix.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/task_matrix.py",
+        "sha256": "b2ec426d1e122d403c72f08624a29cfeeeaf431861748c7649cad013f5f84cb3",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/schema_contract.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/schema_contract.py",
+        "sha256": "f7d19ce30d3250addf40d1a87d10545d8d456a46b159e1ab90cc1b5f63a0040b",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/protocol.json": {
+        "path": "interop/local-model-vocabulary-2026-10-02/protocol.json",
+        "sha256": "64e0f444a457cb2e82e00dd905e4de186f7384dd95a129600c6185de454c02d2",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/prepare_boundary.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/prepare_boundary.py",
+        "sha256": "1156439ea1b9dfc54febff292b3c446e9f21d0a8f994cc470e8e71b4990f2584",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/build_protocol.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/build_protocol.py",
+        "sha256": "f0b25b3fff92c90e7607488a1cfa2bac62ae2d10274aa1b410560cb19a6b82de",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/__init__.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/reader_package/__init__.py",
+        "sha256": "33ccbff48d3b24c09183bb57bf766ea344bf663f0f693e322b9fb99a0f9b302e",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "probity_policy_vocabulary_reader/cli.py": {
+        "path": "interop/local-model-vocabulary-2026-10-02/reader_package/cli.py",
+        "sha256": "ca5b5ee07e6430d324f146f4c8395c93f2424ef5e3f6fddc7003713cf19ff4d9",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "pyproject.toml": {
+        "path": "interop/local-model-vocabulary-2026-10-02/reader_package/READER.toml",
+        "sha256": "2e546e87799d898f8b819c55e017ebb16050cd2290bc9149486218ed02072e83",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      },
+      "LICENSE": {
+        "path": "LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "commit": "ff556045011010025cc95b7572bffb0dbe0dc0d6"
+      }
+    }
+  },
+  "builder": {
+    "path": "interop/local-model-vocabulary-2026-10-02/build_installed_reader.py",
+    "sha256": "0081f6757bc948e827114f2e9bc325d8c5b150923aa9a3700360df6f8f414553"
+  },
+  "archive": {
+    "artifactId": 11263931021,
+    "workflowRun": 37094901561,
+    "bytes": 2248748,
+    "sha256": "eef05226335f9e2de6783ee797d891cbd1fe47058264e2d57eb41f1ec39131d8",
+    "memberCount": 346,
+    "expandedBytes": 5709996,
+    "providerExpiresAt": "2027-01-01T03:57:19Z",
+    "url": "https://raw.githubusercontent.com/probityai/agent-evidence-atlas/e1122b6c08915207921ca575d98115cea4790062/experiments/model-vocabulary-cpu-2026-10-03/original-artifact.zip"
+  },
+  "packetPins": {
+    "declaration": {
+      "path": "declaration.json",
+      "sha256": "cb5f87338601bfe7d6bd28520468d4f202f5318ac951c87febadf68af6ad6ceb"
+    },
+    "manifest": {
+      "path": "manifest.json",
+      "sha256": "2520dd64a898461e5fff668ccfc89dde0b61eef2b06746f8ea5290d8ecc68dd7"
+    },
+    "protocol": {
+      "path": "protocol.json",
+      "sha256": "64e0f444a457cb2e82e00dd905e4de186f7384dd95a129600c6185de454c02d2"
+    },
+    "terminal": {
+      "path": "terminal.json",
+      "sha256": "9f21c40d9c1d5debdcd735cdfbc03297de65acb49f9117fe6a876d0fec7e0a27"
+    }
+  },
+  "qualityPolicy": {
+    "minimumCorrectPerRow": 16,
+    "minimumFullyCorrectPairsPerRow": 8,
+    "rows": 8
+  },
+  "scope": "Same-operator first-party consumer placement. No outside adoption, producer acceptance, effect execution or independent custody."
+}

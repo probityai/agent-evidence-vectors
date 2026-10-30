@@ -2837,6 +2837,22 @@ FROZEN: tuple[Frozen, ...] = (
         'both named in the record. It describes that fixture and does not track'
         ' the corpus.',
     ),
+    Frozen(
+        'docs/USED-BY.md',
+        "a third party's recorded replay of the invocation-axes corpus",
+        'replays the invocation-axes corpus, 25 of 25 cases, in its CI',
+        'What one named third-party repository reported for one named workflow run '
+        'on the date it ran, with the run linked in the same row. It records that '
+        'run and does not track the corpus.',
+    ),
+    Frozen(
+        'docs/USED-BY.md',
+        "a third party's recorded replay of the receipt-signature corpus",
+        'actions/runs/38343248903), 25 of 25 vectors pass',
+        'What one named third-party repository reported for one named workflow run '
+        'on the date it ran, with the run linked in the same row. It records that '
+        'run and does not track the corpus.',
+    ),
 )
 
 
@@ -3310,6 +3326,35 @@ EXEMPT_PREFIXES: dict[str, str] = {
         "event counts and the figures of its own mutation sweep and incumbent "
         "measurement, none of them a count of this repository's corpora, which this "
         "gate's declared claims and manifests check"
+    ),
+    "crates/dsse/": (
+        "a standalone crate with its own Cargo tests (the crate-dsse job); its "
+        "integers are key and signature widths in bytes and its own test totals, "
+        "none of them a count of this repository's corpora, which this gate's "
+        "declared claims and manifests check"
+    ),
+    "actions/admission/": (
+        "a standalone Action whose pytest suite (the actions-admission job) asserts "
+        "its own outputs; its integers are the sizes and ratios of its test data, "
+        "none of them a count of this repository's corpora"
+    ),
+    "packages/admission/": (
+        "a standalone package with its own pytest and conformance suite (the "
+        "package-admission job). Its per-rail vector counts and verdict tallies come "
+        "from profiles/MEASUREMENTS.json, which scripts/profile-map-gate.py pins to a "
+        "corpus digest and refuses when the corpus has moved; its other integers are "
+        "obligation counts of its own registries and ids of the specifications it cites"
+    ),
+    "packages/vocabulary/": (
+        "a standalone package whose vocabulary, crosswalks and tests are held by its "
+        "own checks (the package-vocabulary job); its integers are dated measurements "
+        "recorded in the entry that states the date, regulation and article numbers, "
+        "and test data, none of them a live count of this repository's corpora"
+    ),
+    "pages/vocab/": (
+        "content-addressed snapshots of packages/vocabulary/vocabulary.yaml; each "
+        "file name is the digest of its bytes, so an edit changes the name, and the "
+        "integers inside are the source's dated measurements and citations"
     ),
     "vectors-ai-agent-action/spec-vendored/": (
         "vendored upstream bytes; the manifest's specDigest owns them, "

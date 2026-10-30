@@ -1,10 +1,16 @@
 name: "agent-evidence-vectors"
-description: "Check a verifier of AI-agent and supply-chain formats against public conformance corpora, and publish a pass/fail report"
+description: "Check a verifier of AI-agent and supply-chain formats against public conformance corpora and publish a pass/fail report, or admit or refuse AI-agent evidence in CI with the pinned admission rules"
 author: "Sankalp Gilda"
 
-# Replay a consumer's verifier and retain its results. The interface is in
-# docs/reference/verifier-contract.md; workflow examples are in
-# docs/guides/runner.md.
+# One root Action with two modes, chosen by the inputs a workflow supplies.
+# Naming `check` runs the admission checks (digest, policy, coverage), each tool
+# pinned by version and SHA-256 in actions/admission/pins.json; its inputs are
+# document, artifacts, required, statement, rules and pins, and its `result` is
+# `admitted` or `refused`. Leaving `check` empty replays a consumer's verifier
+# against a shipped corpus and retains the results; its `result` is `pass` or
+# `fail`. The verifier mode is documented in docs/reference/verifier-contract.md
+# and docs/guides/runner.md, the admission mode in docs/ACTION.md. Each mode
+# keeps the output vocabulary it had before the two Actions became one.
 
 branding:
   icon: "check-square"
@@ -81,6 +87,35 @@ inputs:
     required: false
     default: "30"
 
+  check:
+    description: "Admission mode. Setting it selects this mode; leave it empty to replay a corpus instead. What to check: `digest` (an artifact has a digest its document names), `policy` (a statement passes one admission rule set) or `coverage` (a CycloneDX BOM or SPDX 3 document accounts for every class a buyer requires)."
+    required: false
+    default: ""
+  document:
+    description: "For `digest`: the in-toto statement, CycloneDX SBOM or TEA artifact that names the digests. For `coverage`: the CycloneDX JSON BOM or SPDX 3 JSON-LD document."
+    required: false
+    default: ""
+  artifacts:
+    description: "For `digest`: the artifact paths, one per line. Each must have a digest the document names."
+    required: false
+    default: ""
+  required:
+    description: "For `coverage`: a file listing the classes the buyer requires (CycloneDX component types or SPDX software purposes): a JSON array, or an object with `required`, `cyclonedx` and `spdx` lists."
+    required: false
+    default: ""
+  statement:
+    description: "For `policy`: the in-toto statement (or signed envelope, for agent-change-admission) paths, one per line."
+    required: false
+    default: ""
+  rules:
+    description: "For `policy`: `execution-evidence`, `agent-change-admission` or `verifier-isolation`."
+    required: false
+    default: execution-evidence
+  pins:
+    description: "For `policy`: a JSON data document with your consumer pins. Without one the rules refuse every statement that needs a pin."
+    required: false
+    default: ""
+
 outputs:
   report:
     description: "Path of the report JSON."
@@ -96,9 +131,13 @@ outputs:
     value: ${{ steps.summary.outputs.executed }}
   result:
     description: >-
-      `pass` when the named verifier ran on every vector, every vector passed,
-      and the suite raised no refusal; else `fail`.
-    value: ${{ steps.summary.outputs.result }}
+      Verifier mode: `pass` when the named verifier ran on every vector, every
+      vector passed, and the suite raised no refusal; else `fail`. Admission
+      mode: `admitted` when every subject passed, `refused` when any did.
+    value: ${{ steps.summary.outputs.result || steps.check.outputs.result }}
+  refusals:
+    description: "Admission mode: the number of subjects refused."
+    value: ${{ steps.check.outputs.refusals }}
 
   reference-checked:
     description: "How many corpus members the reference verifier judged the way the corpus declares."
@@ -122,11 +161,13 @@ runs:
     # on the same interpreter rather than on whichever 3.13 the runner image
     # resolves that day.
     - name: Set up Python
+      if: ${{ inputs.check == '' }}
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: "3.13.15"
 
     - name: Install the suite
+      if: ${{ inputs.check == '' }}
       shell: bash
       env:
         TAG: ${{ inputs.tag }}
@@ -164,6 +205,7 @@ runs:
 
     - name: Replay the corpus
       id: replay
+      if: ${{ inputs.check == '' }}
       shell: bash
       env:
         VERIFIER: ${{ inputs.verifier }}
@@ -193,7 +235,7 @@ runs:
 
     - name: Write the job summary
       id: summary
-      if: ${{ !cancelled() }}
+      if: ${{ inputs.check == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
@@ -205,14 +247,15 @@ runs:
       # this arithmetic would agree on the day it was written and drift after.
       run: python3 "$GITHUB_ACTION_PATH/scripts/action-summary.py"
 
-    # The second stage. No input names it and none switches it off: a candidate
-    # verifier is always also checked against the reference verifier, pinned by
-    # version and hash in action-reference-requirements.txt. Installing it into a
-    # venv of its own keeps it out of the interpreter the candidate runs on, and
-    # the package's own metadata names none of it.
+    # The second stage of verifier mode. No input names it and none switches it
+    # off: a candidate verifier is always also checked against the reference
+    # verifier, pinned by version and hash in action-reference-requirements.txt.
+    # Admission mode builds no corpus report, so the stage skips it. Installing
+    # it into a venv of its own keeps it out of the interpreter the candidate
+    # runs on, and the package's own metadata names none of it.
     - name: Install the reference verifier
       id: reference-install
-      if: ${{ !cancelled() }}
+      if: ${{ inputs.check == '' && !cancelled() }}
       shell: bash
       env:
         ACTION_PATH: ${{ github.action_path }}
@@ -233,7 +276,7 @@ runs:
 
     - name: Check against the reference verifier
       id: reference
-      if: ${{ !cancelled() }}
+      if: ${{ inputs.check == '' && !cancelled() }}
       shell: bash
       env:
         REPORT: ${{ steps.replay.outputs.report }}
@@ -251,7 +294,7 @@ runs:
         "$REF_PYTHON" "$ACTION_PATH/scripts/action-reference-stage.py"
 
     - name: Upload the report
-      if: ${{ !cancelled() }}
+      if: ${{ inputs.check == '' && !cancelled() }}
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: ${{ inputs.artifact-name }}
@@ -264,7 +307,7 @@ runs:
     # green job for a verifier that never started; the summary refuses any
     # report that does not show the named verifier answering every vector.
     - name: Fail the job when the replay did, or the verifier did not run
-      if: ${{ !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
+      if: ${{ inputs.check == '' && !cancelled() && (steps.replay.outputs.status != '0' || steps.summary.outputs.result != 'pass') }}
       shell: bash
       env:
         STATUS: ${{ steps.replay.outputs.status }}
@@ -276,3 +319,50 @@ runs:
         fi
         echo "::error::the harness exited 0 but the report does not show the named verifier answering every vector (executed: ${EXECUTED:-unreported}); the job summary says why."
         exit 1
+
+    # Admission mode: the steps below run only when `check` is named.
+    - name: install the pinned admission tools
+      id: tools
+      if: ${{ inputs.check != '' }}
+      shell: bash
+      env:
+        CHECK: ${{ inputs.check }}
+        SCRIPT: ${{ github.action_path }}/actions/admission/run.py
+      run: |
+        set -euo pipefail
+        tools="$RUNNER_TEMP/agent-evidence-action"
+        case "$CHECK" in
+          policy)
+            opa="$(python3 "$SCRIPT" install-opa "$tools/bin")"
+            echo "opa=$opa" >> "$GITHUB_OUTPUT" ;;
+          digest)
+            python="$(python3 "$SCRIPT" install-checker "$tools/checker")"
+            echo "python=$python" >> "$GITHUB_OUTPUT" ;;
+          coverage)
+            ;;
+          *)
+            echo "::error::check must be digest, policy or coverage, not '$CHECK'"
+            exit 2 ;;
+        esac
+    - name: check the evidence
+      id: check
+      if: ${{ inputs.check != '' }}
+      shell: bash
+      env:
+        CHECK: ${{ inputs.check }}
+        SCRIPT: ${{ github.action_path }}/actions/admission/run.py
+        OPA: ${{ steps.tools.outputs.opa }}
+        CHECKER_PYTHON: ${{ steps.tools.outputs.python }}
+        DOCUMENT: ${{ inputs.document }}
+        ARTIFACTS: ${{ inputs.artifacts }}
+        STATEMENT: ${{ inputs.statement }}
+        RULES: ${{ inputs.rules }}
+        PINS: ${{ inputs.pins }}
+        REQUIRED: ${{ inputs.required }}
+      run: |
+        set -euo pipefail
+        case "$CHECK" in
+          digest) python3 "$SCRIPT" digest --python "$CHECKER_PYTHON" --document "$DOCUMENT" --artifact "$ARTIFACTS" ;;
+          coverage) python3 "$SCRIPT" coverage --document "$DOCUMENT" --required "$REQUIRED" ;;
+          *) python3 "$SCRIPT" policy --opa "$OPA" --rules "$RULES" --statement "$STATEMENT" --pins "$PINS" ;;
+        esac

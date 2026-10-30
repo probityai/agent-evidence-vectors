@@ -147,6 +147,14 @@ def case_stage_is_wired_after_the_replay_and_before_the_upload(work: Path) -> No
     assert names.index(CHECK_STEP) < names.index("Upload the report")
 
 
+# The stage is verifier-mode only: the mode selector `check` is the one input that
+# may gate it, because admission mode builds no corpus report. No other input may.
+ALLOWED_STAGE_CONDITIONS = (
+    "${{ !cancelled() }}",
+    "${{ inputs.check == '' && !cancelled() }}",
+)
+
+
 def case_stage_cannot_be_switched_off(work: Path) -> None:
     del work
     spec: dict[str, Any] = yaml.safe_load(ACTION.read_text(encoding="utf-8"))
@@ -156,7 +164,7 @@ def case_stage_cannot_be_switched_off(work: Path) -> None:
         )
     for name in (INSTALL_STEP, CHECK_STEP):
         condition = str(step(name).get("if", "")).strip()
-        assert condition == "${{ !cancelled() }}", (
+        assert condition in ALLOWED_STAGE_CONDITIONS, (
             f"{name!r} is conditioned on {condition!r}, so it can be skipped"
         )
         assert "continue-on-error" not in step(name), f"{name!r} may fail without failing the job"
@@ -323,8 +331,8 @@ def case_a_skippable_stage_goes_red(work: Path) -> None:
     head = "    - name: Check against the reference verifier\n      id: reference\n      if: "
     _mutation_goes_red(
         work,
-        head + "${{ !cancelled() }}",
-        head + "${{ inputs.verifier != '' }}",
+        head + "${{ inputs.check == '' && !cancelled() }}",
+        head + "${{ inputs.check == '' && inputs.verifier != '' && !cancelled() }}",
         "so it can be skipped",
     )
 

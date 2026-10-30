@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# Refuse a push whose HISTORY carries a private path, a dossier name or a
+# product name. The commit-msg hook gates one message and the CI tree scan
+# gates one revision; neither sees a string that one commit adds and a later
+# commit removes, which is exactly what reached a sibling repository's public
+# history in 2026-09 with a clean tip. This reads every line git hands a
+# pre-push hook and scans every commit in every range being pushed.
+#
+# Bypass, loud and deliberate: git push --no-verify. The same scan runs in CI
+# on every push, so the bypass buys a red run, never a quiet pass.
+
+set -uo pipefail
+
+git_common="$(git rev-parse --path-format=absolute --git-common-dir)"
+src_root="$(cd "$(dirname "$git_common")" && pwd -P)"
+scan="$src_root/scripts/pre-push-identity-scan.py"
+
+if [ ! -f "$scan" ]; then
+	echo "pre-push: ABORT -- $scan is missing; refusing to pass a push whose guard is not present." >&2
+	exit 1
+fi
+
+push_lines="$(cat)"
+if [ -z "$push_lines" ]; then
+	echo "pre-push: ABORT -- nothing arrived on stdin, so no revision was named." >&2
+	echo "pre-push: to gate a range by hand: scripts/pre-push-identity-scan.py --range <old>..<new>" >&2
+	exit 1
+fi
+
+printf '%s\n' "$push_lines" | python3 "$scan" && scan_status=0 || scan_status=$?
+case "$scan_status" in
+0) ;;
+1)
+	echo "pre-push: REFUSED -- a commit in this push carries a private path, a dossier name or a product name." >&2
+	echo "pre-push: the tip may be clean; the history is not. Rewrite the commits before pushing." >&2
+	exit 1
+	;;
+*)
+	echo "pre-push: ABORT -- the history scan could not run (exit $scan_status); nothing was verified." >&2
+	exit 1
+	;;
+esac

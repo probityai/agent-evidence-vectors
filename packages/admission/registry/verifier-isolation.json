@@ -1,0 +1,84 @@
+{
+  "family": "verifier-isolation",
+  "predicateType": "https://probityai.github.io/probity/predicate/v1/done-receipt",
+  "source": {
+    "url": "https://github.com/harbor-framework/terminal-bench/issues/2086",
+    "captured": "2026-10-17T05:06:45Z",
+    "captureSha256": "728aebd6ef62e9696e08c02e7f0d9fa4746d651234efcea63c446913f8ecdcef",
+    "sections": ["Cheat Vector Taxonomy (V1-V9)", "Minimum Verifier Hardening (steps 1-7)"]
+  },
+  "hardening": {
+    "H1": "At the top of the verifier script, before any agent-controlled code runs: restrict the log directory to its owner, remove any earlier reward file, and write reward 0.",
+    "H2": "Run every build, install, script, server and simulator that comes from the submission as an unprivileged user, on a scratch copy, with supplementary groups cleared and verifier secrets scrubbed from the environment.",
+    "H3": "Remove group and other access from the tests directory, and keep reference outputs out of any artifact directory.",
+    "H4": "Run trusted Python isolated, with no artifact directory on sys.path or PYTHONPATH, submitted dependencies in a separate environment, and plugin autoload off.",
+    "H5": "After the tests and before trusting the result, kill every process of the worker's uid, then remove or rewrite the reward file from trusted code.",
+    "H6": "Never change mode, change owner or copy into a path the worker can write without a no-follow check; remove the destination before copying into it.",
+    "H7": "Keep a test-count gate."
+  },
+  "obligations": [
+    {
+      "id": "vi-1",
+      "vector": "V1",
+      "name": "Overwrite",
+      "closes": "The trusted tests, runner and dependencies are restored from the contract before grading, and the names a protected directory excludes (for example bytecode caches) are reset with them.",
+      "hardening": []
+    },
+    {
+      "id": "vi-2",
+      "vector": "V2",
+      "name": "Patch",
+      "closes": "Submitted code runs as an unprivileged uid other than the verifier's, with no supplementary groups; the assertions run in the trusted parent, under isolated Python; and that parent, which runs the task's own test code, runs in a container of its own, as a uid that is neither root nor the verifier's, with neutral environment names only.",
+      "hardening": ["H2", "H4"]
+    },
+    {
+      "id": "vi-3",
+      "vector": "V3",
+      "name": "Reward",
+      "closes": "The result directory is closed to group and other, cleared before the run, written by the verifier, and exactly one result file is read.",
+      "hardening": ["H1"]
+    },
+    {
+      "id": "vi-4",
+      "vector": "V4",
+      "name": "Fail-open",
+      "closes": "The suite is non-empty, every expected test was collected, none was skipped, and exit status zero alone is never a verdict.",
+      "hardening": ["H7"]
+    },
+    {
+      "id": "vi-5",
+      "vector": "V5",
+      "name": "Sleeper",
+      "closes": "Every worker process is dead, and was killed at a step before the result was read.",
+      "hardening": ["H5"]
+    },
+    {
+      "id": "vi-6",
+      "vector": "V6",
+      "name": "Staging",
+      "closes": "Submitted files enter without following links, into destinations removed first, with special files rejected.",
+      "hardening": ["H6"]
+    },
+    {
+      "id": "vi-7",
+      "vector": "V7",
+      "name": "Forgery",
+      "closes": "No measurement or pass flag is taken from the worker's own output, the worker's environment holds none of the verifier's secrets, and the worker runs on a scratch copy.",
+      "hardening": ["H2"]
+    },
+    {
+      "id": "vi-8",
+      "vector": "V8",
+      "name": "Disclosure",
+      "closes": "Reference outputs and hidden inputs are closed to group and other and sit outside any artifact directory.",
+      "hardening": ["H3"]
+    },
+    {
+      "id": "vi-9",
+      "vector": "V9",
+      "name": "Exploit",
+      "closes": "Untrusted data reaches only loaders declared safe, and the report lists at least one loader.",
+      "hardening": []
+    }
+  ]
+}

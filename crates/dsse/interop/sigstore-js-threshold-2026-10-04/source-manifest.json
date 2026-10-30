@@ -1,0 +1,43 @@
+{
+  "schema": "probity.sigstore-source.v1",
+  "repository": "sigstore/sigstore-js",
+  "revision": "769a53d8713248a8bf49edfc2a5d1955b0dcc24d",
+  "acquiredVia": "GitHub connector exact file read",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 11351,
+      "sha256": "364a130d2ca340bd56eb1e6d045fc6929bb0f9d0aa018f2c1949b29517e1cdd0",
+      "gitBlobSHA": "e9e7c1679a09dfcb0793682d99f5129e206a8abd",
+      "url": "https://github.com/sigstore/sigstore-js/blob/769a53d8713248a8bf49edfc2a5d1955b0dcc24d/LICENSE"
+    },
+    {
+      "path": "packages/core/src/crypto.ts",
+      "bytes": 2006,
+      "sha256": "4475b75ab49f1f8b899cd9d92acc2b413447fd1d855faff2c2e703b8429ff504",
+      "gitBlobSHA": "95bd55d892ac4284be5adb2123527b297ab64254",
+      "url": "https://github.com/sigstore/sigstore-js/blob/769a53d8713248a8bf49edfc2a5d1955b0dcc24d/packages/core/src/crypto.ts"
+    },
+    {
+      "path": "packages/core/src/dsse.ts",
+      "bytes": 944,
+      "sha256": "d79190ca5fe9d776076a4c45dad4939734b2ff212f6152802aa6136f69a62636",
+      "gitBlobSHA": "ca2b48f286ed294c578d196bb06efffc4ad4493a",
+      "url": "https://github.com/sigstore/sigstore-js/blob/769a53d8713248a8bf49edfc2a5d1955b0dcc24d/packages/core/src/dsse.ts"
+    },
+    {
+      "path": "packages/verify/src/bundle/dsse.ts",
+      "bytes": 1989,
+      "sha256": "4c8086ec138c2afba83696ea5466a50978568bbf1ef0c30af8f77d14019daed5",
+      "gitBlobSHA": "47d48fed16debefe8a3b092e7d20a6f2b452169f",
+      "url": "https://github.com/sigstore/sigstore-js/blob/769a53d8713248a8bf49edfc2a5d1955b0dcc24d/packages/verify/src/bundle/dsse.ts"
+    }
+  ],
+  "attribution": "Copyright 2023 The Sigstore Authors; Apache-2.0; organization-held; public repository issues route.",
+  "adaptations": [
+    "Vendor files are unchanged. Node type stripping erases TypeScript only.",
+    "The loader replaces the two imports needed to resolve pinned local crypto/PAE modules; BinaryLike remains type-only.",
+    "The threshold consumer calls native DSSESignatureContent separately per signature; it does not change its signature-selection behavior."
+  ],
+  "scope": "Offline Ed25519 DSSE envelopes; no Sigstore bundle, certificate chain, Rekor, TSA, key authority, native task, effect or publication evaluation."
+}

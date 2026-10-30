@@ -1,0 +1,30 @@
+{
+  "name": "dsse",
+  "version": "0.1.0",
+  "description": "Raw-byte DSSE Ed25519 threshold verification through the public Rust implementation",
+  "type": "module",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/probityai/agent-evidence-vectors.git",
+    "directory": "crates/dsse/npm"
+  },
+  "homepage": "https://github.com/probityai/agent-evidence-vectors/blob/main/crates/dsse/docs/NPM.md",
+  "engines": { "node": ">=22.14.0" },
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "node": { "types": "./lib/index.d.ts", "default": "./lib/node.mjs" },
+      "default": { "types": "./lib/browser.d.ts", "default": "./lib/browser.mjs" }
+    },
+    "./browser": { "types": "./lib/browser.d.ts", "default": "./lib/browser.mjs" }
+  },
+  "files": ["lib", "generated", "README.md", "LICENSE", "BUILD.json"],
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "build": "python3 build.py",
+    "test": "node test/packed-consumers.mjs"
+  },
+  "keywords": ["dsse", "ed25519", "threshold", "attestation", "wasm"],
+  "devDependencies": { "playwright": "1.64.1", "typescript": "7.0.2" }
+}

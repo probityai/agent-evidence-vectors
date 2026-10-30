@@ -1,0 +1,25 @@
+{
+  "comment": [
+    "The only thing in this bundle that promotes a profile-map row from approximated to enforced.",
+    "A row here names, per rail, the rule in that rail's own artifact that carries the obligation. scripts/profile-map-gate.py opens the artifact and refuses a locator it cannot find, and it separately refuses an enforced row whose rail answers differently from the oracle on any vector citing the obligation. So a wrong entry here fails loudly, and an absent entry costs nothing but a weaker claim.",
+    "It is deliberately short. Every row was read against the condition text and the rule body before it was written, and a row nobody has read that way does not belong here. Growing it is review work, one obligation at a time, and the map is honest at every size.",
+    "Locators are rule names rather than line numbers. A line number in a file under active edit is wrong within a week, and it fails silently by pointing at whatever moved into the slot."
+  ],
+  "rules": {
+    "aee-c-2": {
+      "rego": "recomputed_result"
+    },
+    "aee-c-6": {
+      "rego": "_coverage_incomplete"
+    },
+    "aee-c-14": {
+      "rego": "clean_row_coverage_ok"
+    },
+    "aee-c-23": {
+      "rego": "_method_cap_exceeded"
+    },
+    "aee-c-79": {
+      "rego": "coverage_digest_ok"
+    }
+  }
+}

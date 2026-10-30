@@ -1,0 +1,15 @@
+# Sample Pod for static policy testing (kyverno apply / kyverno test).
+# The image ref is a placeholder; in a live test it is the digest-pinned SUT image
+# that carries a cosign-attached adversarial-execution-evidence attestation.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: evidence-sut-pod
+  labels:
+    app: evidence-sut
+spec:
+  containers:
+    - name: sut
+      image: ghcr.io/example/sut/filesystem@sha256:e97689c49cfc1bd6415d123142343dc559c2b7d664a18699a5f9d54724cd102e
+      ports:
+        - containerPort: 8080

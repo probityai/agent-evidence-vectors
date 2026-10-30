@@ -1,0 +1,1670 @@
+# agent-evidence-vocabulary: a closed term registry
+#
+# `canonical` is reserved here for one thing: a term's lifecycle status, reached
+# only by the promotion rule in meta. It is deliberately NOT used to mean
+# authoritative or single-source, which is what a registry title usually means by
+# it. This file said both until 2026-08-30, so a reader met "canonical term
+# registry" in the title and "no term in this file is canonical" forty lines
+# down. A registry whose stated purpose is one word for one meaning cannot spend
+# its own headline word three ways.
+#
+# This file is CC0-1.0 (public domain). Reuse, fork, or cite it freely; no
+# attribution required. The full grant is in `LICENSE-CC0`, which is the
+# unmodified Creative Commons legal text. The surrounding repository (docs,
+# scripts, CI) is Apache-2.0, in `LICENSE`.
+#
+# Both files are present on purpose. Until 2026-08-30 this header claimed CC0 and
+# pointed at a LICENSE carrying only Apache-2.0, so the permissive grant a reader
+# was invited to rely on was asserted here and granted nowhere.
+#
+# Precedent for this shape: IANA JWT claim registry, JSON-LD @context registries.
+#
+# version: "0.8.0"
+# status: "draft - open for review"
+
+meta:
+  version: "0.8.0"
+  status: "draft - open for review"
+  spec_anchor: "spec/predicates/adversarial-execution-evidence.md"
+  spec_anchor_repo: "https://github.com/probityai/agent-evidence-vectors"
+  purpose: >
+    A closed, versioned vocabulary for terms that describe adversarial-execution
+    evidence: what an executed artifact attempted, what a substrate beneath it
+    observed or refused, how directly and from what vantage a claim was obtained,
+    and how much of a declared population a claim actually covers. This registry
+    is the vocabulary for that axis: who observed an execution, and how directly.
+    Since 0.4.0 it also names the decision that admits or rejects a change to
+    an agent's harness on that kind of evidence, in the change_admission
+    section, whose terms the agent-change-admission predicate under
+    docs/predicates/ carries. Since 0.6.0 it names how a claim that an agent's
+    work is done is decided from outside the agent, in the done_verification
+    section.
+    It does not define identity, reputation, wallet, or reasoning-integrity
+    terms; those are out of scope by design (see out_of_scope below).
+  promotion_lifecycle: >
+    Every live term starts proposed. A term is promoted to canonical only once an
+    independently-maintained system that is not us emits it in a real, running
+    artifact and files a crosswalk declaring evidence: emitted with a resolvable
+    source_path. Our own issuer does not count toward promotion, so one
+    qualifying issuer is enough. A term with zero qualifying issuers after its
+    review_by date is demoted to reserved and removed at the following review,
+    unless a production issuer surfaces in the interim. A review-and-strip cycle
+    is the mechanism that keeps a registry from filling with terms nobody emits,
+    and it only works if the strip half actually happens, so the dates are in
+    the file where anyone can hold us to them. What this adds to the usual shape
+    is the evidence requirement: a listed issuer name is a claim, and a name in
+    a list does not demonstrate that a field reaches the wire. Promotion needs
+    an evidence: emitted declaration with a source_path a reviewer fetches. The
+    bar for running is deliberately narrow. A plan sits outside it, and so does
+    a mock.
+    A filing made from OUTSIDE, about a system the filer does not maintain,
+    records provenance and never counts toward promotion, whatever it declares.
+    The trigger names the emitting system as the filer, so a crosswalk carrying
+    third_party_authored: true documents somebody else's specification and moves
+    nothing. This was implied by the trigger and is now stated, because the
+    registry carries two such filings.
+  status_at_this_version: >
+    No term in this file is canonical and no term lists an issuer. Both follow
+    from the rule directly above, and both were wrong at 0.1.0.
+    Six of the eight terms carried status canonical, and seven of the eight
+    listed one issuer, this project's own agent-evidence-vectors reference verifier.
+    field_evidence_partition listed none from the start, which is why the two
+    counts differ and why neither is simply eight. A listing means, in this
+    registry's own words, that a system emits the value in a real running
+    artifact AND that a crosswalk saying so has been filed. At 0.2.0 nobody had
+    filed one, us included. The first filing, aee-e2 on 2026-09-17, comes from an
+    independent verifier, which declares no term emitted and so lists no issuer;
+    its result row is what the recomputed state added in 0.3.0 is for.
+    The named system is also a verifier and a vector suite, so it reads these
+    fields and does not emit them from a live execution, and the paragraph above
+    puts a mock outside the bar. One condition of two, on the generous reading.
+    That is the defect this registry says it exists to fix, arrived at from our
+    own side, and it stood in three layers: the status, the issuer listing, and
+    the promotion each of those implied.
+    All three were corrected on 2026-08-30 and nothing else about any term
+    changed. Version moved to 0.1.1 in the same pass, because the 0.1.0 tag is
+    still reachable and still carries the old content; a citer pinning a version
+    has to get the corrected one.
+    The bar binds the maintainer's own systems identically. A registry that
+    grades other people's evidence is the first thing it has to grade.
+    Verify by reading every status and issuers_in_production key in this file,
+    and by listing crosswalk/.
+    Version 0.5.0 adds ten terms, all proposed, none listing an issuer. Three of
+    them, attestation_tier, origin_kind and
+    base_state_resolution, are proposed and list no issuer. Two of them are
+    borrowed, and crosswalk/asqav.yaml and crosswalk/trace.yaml record where
+    from. origin_kind carries a fourth value this registry adds to the
+    borrowed enum, first-hand, with the rule that binds observation_vantage:
+    below-observed to it; the reason is in the term and the departure is the
+    third recorded in crosswalk/trace.yaml. Both filings are marked
+    third_party_authored: true, map published specifications this project does
+    not maintain, and declare evidence:
+    asserted, so neither promotes a term and neither is offered as promoting
+    one. The v0.4.0 tag does not carry the ten terms; a citer pinning that
+    tag gets the registry without them.
+    Six more terms added in 0.5.0 are proposed, list no issuer,
+    and bring the first external_instruments block. The six are
+    independence_basis, party_role, control_relation and evidence_origin_class under evidence_dimensions, and
+    set_sufficiency and material_change_trigger under posture_and_coverage. Each
+    carries an external_anchor naming an article of a public legislative
+    proposal, quoting its wording, and saying what the citation is worth.
+    A citation is not a filing, and the distinction is the same one the
+    promotion rule above turns on. An instrument that emits no signed records
+    cannot be an issuer, so no term here moved and none is offered as having
+    moved. observation_vantage gains an external_anchor on the same footing: it
+    records a drafting pattern in that instrument's annex, with the two counts
+    that were measured and an explicit refusal to assert the per-criterion
+    counts the converted source cannot support.
+    intent_binding, the tenth, is proposed and lists no issuer.
+    Version 0.6.0 adds the done_verification section: eight terms, all
+    proposed, none listing an issuer. Each carries a check, the rule a verifier
+    applies to decide the term. Three crosswalks are filed for it, for Claude
+    Code goals, Codex goals and in-toto/attestation#604. All three are marked
+    third_party_authored: true and declare evidence: asserted, so none promotes
+    a term and none is offered as promoting one. The v0.5.0 tag does not carry
+    the section.
+    Version 0.7.0 adds commitment_anchor and its required companion
+    anchor_time_rule to evidence_dimensions, both proposed. commitment_anchor
+    names a proven ceiling on when a record existed, the mirror of the floor
+    issuance_time_basis names. It lists invinoveritas as an issuer: its public
+    ledger emits the anchor as ots_anchor, a partial match filed by its own
+    maintainer. Neither term is promoted, because no record yet carries
+    anchor_time_rule on the wire. The v0.6.0 tag does not carry either term.
+    Version 0.8.0 adds open verdict classes under the closed result lattice, a
+    criticality for each term, a registryDigest a record carries to name the
+    registry it used, and a resolvable URI for each term. No published
+    identifier moved, and a record that names our own registry, or none, is
+    checked exactly as before.
+  opencre_links: >
+    A term whose definition states a requirement that one of OpenCRE's Common
+    Requirements organizes carries an opencre list. Each item names the CRE by
+    its full https://www.opencre.org/cre/ URL, declares the fit with one of the
+    crosswalk match types exact, structural or partial, and says in one line
+    what the term and the requirement share. OpenCRE's importer reads those URLs
+    from this file at a release tag, so the links move with the terms. A term
+    with no honest match carries no list, and docs/OPENCRE.md says why for each
+    one. scripts/check_opencre_links.py refuses any other shape, and any CRE URL
+    anywhere else in this file, comments included.
+
+  term_uri_base: "https://w3id.org/agent-evidence/vocab/v1/"
+  term_uris: >
+    Every term has one URI: term_uri_base followed by the term's key, for
+    example https://w3id.org/agent-evidence/vocab/v1/observation_vantage. A
+    registered value of a term is that URI with the value as its fragment, for
+    example .../vocab/v1/observation_vantage#substrate. The URIs are made by
+    this rule and are not stored per term, so a term cannot carry a URI that
+    disagrees with its key. They are new in this revision; the predicate type
+    URIs under https://w3id.org/agent-evidence/predicate/v1/ are unchanged.
+    Each URI resolves to a generated page on the repository's Pages site, and
+    scripts/check_uris_resolve.py fails when one does not.
+  registry_digest: >
+    A record names the registry its producer used by carrying the SHA-256 of
+    this file's exact released bytes as registryDigest: {sha256: <hex>}. The
+    digest addresses the file, so a consumer can fetch the same bytes at
+    https://probityai.github.io/agent-evidence/vocab/v1/registry/sha256-<hex>.yaml
+    and check them. The file cannot carry its own digest; registry.json, which
+    scripts/gen_registry_index.py generates from it, carries it as
+    source_sha256.
+  open_value_rule: >
+    How a verifier treats a value it does not have registered. Three cases,
+    decided by the record's registryDigest. (1) The record names a registry
+    whose digest the verifier holds: the check is exact, and an unregistered
+    value makes the record malformed, as every term's own text says. (2) The
+    record carries no registryDigest: the same exact check, so records made
+    before this rule are judged as they always were. (3) The record names a
+    registry the verifier does not hold, normally a newer one: an unregistered
+    value is judged by the term's criticality. A critical term yields degraded
+    with the value preserved in the verifier's output, never a silent pass and
+    never a rejection that drops the evidence. An informational term ignores
+    the value and preserves it. Every term declares its criticality. A
+    verdict carried under result is the exception to case 3; verdict_classes
+    below says how it is judged.
+# external_instruments: public instruments a term below cites as the external
+# anchor for its own axis. A citation here is a CITATION and never a crosswalk
+# filing. A legislative proposal emits no signed records, so nothing in this
+# block moves a term toward canonical, nothing in it may be read as an issuer,
+# and the promotion rule in meta is untouched by it. The crosswalk/ directory
+# stays what it is: one file per system that emits claims.
+#
+# Why cite an instrument at all. A term whose only justification is this
+# registry's own argument is a term a reader has to take on trust. A term whose
+# axis is already named in a public instrument is one a reader recognises, and
+# the citation is checkable: the article is named, the wording is quoted, and
+# the quote can be read against the instrument's own text.
+external_instruments:
+  cada_2026:
+    title: >
+      Proposal for a Regulation of the European Parliament and of the Council
+      establishing a framework of measures for strengthening Europe's cloud and
+      AI ecosystem (Cloud and AI Development Act)
+    reference: "COM(2026) 502 final, 2026/0138 (COD), Brussels, 3 June 2026"
+    celex: "52026PC0502"
+    source_url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52026PC0502"
+    status_of_instrument: >
+      A Commission proposal, so the text is a draft under the ordinary
+      legislative procedure and every article number cited below can move before
+      adoption. A term here is anchored on the WORDING, which is what a reader
+      recognises; a renumbering breaks the citation and not the term. The URL
+      above was dereferenced on 2026-09-20 and returned the document.
+    read_from: >
+      The proposal and its three annexes, converted from the published PDFs and
+      read locally. Article and annex text quoted below comes from that local
+      copy and was checked line by line against it, never from memory.
+
+# evidence_dimensions: properties of HOW a claim was obtained. They describe the
+# obtaining. What is claimed lives in posture_and_coverage and outcome_lattice
+# below. A claim carrying either should declare these dimensions alongside it,
+# because a result with no vantage attached says nothing about who saw it.
+evidence_dimensions:
+
+  observation_vantage:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [substrate, artifact]
+    definition: >
+      Whether every input a claim depends on was obtained at a vantage the
+      executed artifact could neither forge nor suppress (substrate, meaning a
+      network boundary, syscall supervision, a hypervisor's read of guest
+      state), or
+      whether the claim rests on artifacts the executed party could have
+      influenced (artifact). Composes by weakest input: a claim derived from a
+      mix of substrate and artifact observations inherits artifact.
+      A consumer with no policy-pinned substrate root MUST treat every
+      substrate-vantage row as unattested and MUST NOT infer the root from the
+      claim itself (no trust-on-first-use).
+    source_path: "predicate.attackResults[].basis"
+    external_anchor:
+      instrument: cada_2026
+      cited: >
+        Annex III, the two criteria whose lead-ins name paragraph (a) and
+        paragraph (k) of Annex II, against the criteria between them.
+      quote: >
+        "The auditing organisation should verify the applicable Union legal
+        framework of the audited provider and verify whether their establishment
+        is genuine and stable". Against: "The audited provider should provide the
+        auditing organisation with the following evidence related to the
+        ownership structure and specific rights".
+      measured: >
+        The instrument drafts its evidence requirements in two grammars, and
+        which one it reaches for tracks who could forge the answer. Counted over
+        the local annex text on 2026-09-20: the exact string "the auditing
+        organisation should verify" occurs 8 times and "the audited provider
+        should provide" occurs 14. All 8 verify occurrences sit in the two
+        criteria named above, at both ends of the annex. The provide occurrences
+        are spread across the criteria between them. Per-criterion counts are
+        NOT asserted: four criterion headings did not survive the conversion of
+        the published PDF, so a per-criterion attribution from this copy would
+        be a guess dressed as a count. The two totals and the location of the 8
+        are what the text supports.
+      anchor_reasoning: >
+        This is the closest external precedent for the substrate-and-artifact
+        split. Where the answer can be checked against a source the observed
+        party does not control, the instrument tells the assessor to verify it.
+        Where the answer is only obtainable from the observed party, it tells
+        that party to provide it. The drafting split is the same distinction
+        this term registers, arrived at from the other direction by a drafter who
+        was not writing about evidence formats, which is what makes it worth
+        citing. It also shows the limit: the instrument never says which of the
+        two produced a given finding once the report is written, so a reader of
+        the report cannot recover the split. Carrying the value per row inside
+        signed bytes is the part that is ours.
+    issuers_in_production: []
+    why_this_registry: >
+      This is the field for a question people already ask and have nowhere to
+      answer. Read the free-text notes attached to crosswalks in registries of
+      this kind and the relation between observer and observed keeps surfacing
+      in prose, phrased differently every time, because there is no key for it.
+      Prose does not compose, and two systems describing the same relation in
+      their own words produce claims a consumer cannot compare.
+    opencre:
+      - cre: https://www.opencre.org/cre/026-280
+        match: partial
+        basis: "Both keep the record of an execution where the executed party cannot alter it; the requirement moves logs off the host, while this term grades where each input was obtained."
+
+  observation_directness:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [intercepted, reconstructed]
+    definition: >
+      Whether a claim rests on events captured as they occurred (intercepted),
+      or on state examined after the fact, a snapshot-to-snapshot diff
+      (reconstructed), which can miss a transient condition raised and undone
+      between the states compared. Orthogonal to observation_vantage; composes
+      by weakest input.
+    source_path: "predicate.attackResults[].method"
+    issuers_in_production: []
+    why_this_registry: >
+      A live capture and a weekly re-scan can produce claims that read
+      identically. One watched the execution happen; the other inferred it
+      afterwards from what was left behind. Without this field a consumer has no
+      way to tell which they are holding, and the two carry very different
+      weight when the executed party had an interest in the answer.
+
+  witness_scope:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [SELF, PEER, EXTERNAL]
+    definition: >
+      Who the witness is relative to the party whose execution is described:
+      the observed party itself (SELF), another participant in the same
+      interaction (PEER), or a party outside it that the observed party cannot
+      reach (EXTERNAL). Orthogonal to observation_vantage, which says what was
+      observed, and to observation_directness, which says how; this says whose
+      account a consumer is reading. Values are recorded in the casing the wire
+      carries, upper case. A consumer matches the emitted string, not a
+      normalised form.
+    attribution: "witness_scope (SELF, PEER, EXTERNAL): wording from Empire Labs, the bounded verdict envelope put to the commerce working group, https://github.com/aaif/wg-agentic-commerce/issues/5 (2026-08-26)"
+    source_path: "vectors[].witnessScope"
+    issuers_in_production: []
+    why_this_registry: >
+      This term was missing while a corpus of ours already emitted it, which is
+      the one failure a registry exists to prevent. Measured 2026-09-22 across
+      vectors-acs-core: 32 vectors carry witnessScope, nineteen SELF, twelve
+      PEER and one EXTERNAL, and nothing in this file defined any of the three,
+      so a consumer holding one of those vectors could not resolve its value
+      against anything. A counterparty found it by checking our own citation of
+      this registry against the registry, on
+      GenAI-Security-Project/agent-control-standard#18, and he was right. The
+      axis it names is the one the whole thesis turns on: a record written by
+      the party being described carries different weight from one written by a
+      party that party cannot reach, and a consumer cannot apply that judgement
+      unless the distinction is on the wire and defined somewhere.
+      issuers_in_production stays empty deliberately. Our own corpus emits this
+      field, and by the promotion rule in meta our own issuer does not count, so
+      the term is proposed until an independently-maintained system files a
+      crosswalk declaring it emitted with a resolvable source path.
+
+  field_evidence_partition:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [substrate_covered, producer_asserted]
+    definition: >
+      A per-artifact declaration of which identity's signature backs which
+      field within a mixed claim: which values are covered by an observation
+      the observed party could not have produced, and which are backed only by
+      the enclosing envelope and are therefore the producer's own assertion.
+      Most execution-evidence artifacts mix observed and self-declared fields
+      under one signature with no way to tell which is which from the wire
+      alone; this term names the split explicitly.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independent implementation that is not us, declaring this field
+      per-artifact (not merely in prose) and filing a crosswalk with
+      evidence: emitted.
+
+  issuance_time_basis:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [beacon_anchored, asserted]
+    definition: >
+      Whether a record's earliest-possible signing time is PROVEN, meaning the
+      signed pre-image folds in a publicly datable value that was unpredictable
+      before its round (e.g. a drand round output, or an RFC 9334 Section 10.3
+      epoch identifier), so the signature cannot predate its round, or merely
+      ASSERTED by the issuer with no such binding. Deliberately one-sided: a
+      proven floor and an asserted ceiling, never claimed as a two-sided proof
+      of freshness.
+    source_path: "predicate.observationRecords[].payload (arming pre-image)"
+    issuers_in_production: []
+    promotion_trigger: "An independent implementation that is not us, with a real beacon binding."
+
+  commitment_anchor:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-24"
+    values: [anchored, asserted]
+    definition: >
+      Whether the latest possible time a record existed (its CEILING) is PROVEN
+      by an external anchor over a digest that recomputes from the record, or
+      merely ASSERTED by the issuer. The mirror of issuance_time_basis: that
+      term proves a floor on signing time, this one proves a ceiling on
+      existence. A ceiling is proven only under the anchor_time_rule the record
+      states, because the same proof yields different ceilings under different
+      rules (a Bitcoin anchor under header_time_plus_tolerance and under
+      later_median). anchored therefore requires anchor_time_rule; a record
+      that is anchored without one is read under the rule's stated default and
+      a verifier SHOULD report which rule a verdict used. The anchored digest
+      MUST recompute from the record under a named deterministic procedure, or
+      the record has no anchor for this term. asserted MUST NOT be read as a
+      ceiling at all. A proven ceiling establishes that the bytes existed no
+      later than that time, and nothing about who made them or whether their
+      content is true.
+    source_path: "record.commitment_anchor {mechanism, digest, digest_rule, anchor_time_rule, ...}"
+    issuers_in_production: [invinoveritas]
+    promotion_trigger: "An independent implementation that is not us emits a real anchor with anchor_time_rule on the wire."
+    source: >
+      OBS-06 corpus, babyblueviper1/preaction-governance-conformance at 5ae6344
+      (examples/commitment-anchor-obs06: README, check.py, vectors.json, a real
+      .ots). Read blind by two readers on probityai/agent-evidence#32 at
+      bd70521 and 17bb5ad, an implementation that is not the author's reading
+      the text.
+
+  anchor_time_rule:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-24"
+    values: [header_time_plus_tolerance, later_median, height]
+    definition: >
+      The rule by which a commitment_anchor's ceiling is derived, and the
+      required companion of commitment_anchor: anchored, header_time_plus_tolerance
+      means ceiling = anchor_time + anchor_time_tolerance_s (right where the clock
+      states its own accuracy, as an RFC 3161 TSA does; for Bitcoin only a
+      convention, since nothing caps how far a header time may lag). later_median
+      means ceiling = the median time of the 11 blocks after the anchor block, on
+      the stated assumption that a majority of those timestamps are honest.
+      height means the outcome is ordered by the same chain, and precedence holds
+      only if the anchor height is strictly below the outcome height, with no
+      time compared. Absent means header_time_plus_tolerance, for records written
+      before the field existed. A rule whose inputs are missing establishes
+      nothing.
+    source_path: "record.commitment_anchor.anchor_time_rule"
+    issuers_in_production: []
+    promotion_trigger: "An independent implementation that is not us emits anchor_time_rule on a real record."
+
+  attestation_tier:
+    status: proposed
+    criticality: critical
+    review_by: "2027-03-19"
+    values: [voluntary, authoritative]
+    definition: >
+      Whether the subject a platform signed was RE-DERIVED by that platform from
+      evidence the caller does not control (authoritative), or was accepted from
+      the caller and signed as supplied (voluntary). A voluntary record is
+      non-repudiable for exactly what was signed: this platform signed these
+      bytes, at this time, under this key. It is not a capture and it is not
+      unbypassable. A verifier MUST NOT read a voluntary attestation as evidence
+      that the attested content corresponds to any independently observed fact.
+      The tier is set by the PLATFORM and read by a verifier from the record. A
+      caller MUST NOT select it. A caller-selected tier is the whole attack: the
+      one party with an interest in the answer would be choosing how much weight
+      the answer carries.
+      Closed and fail-closed, on the same rule as containment_posture: an absent,
+      non-string, or unregistered value makes the enclosing statement malformed,
+      and a missing tier is never read as the stronger of the two.
+      The bounds of what was re-derived are part of the claim. Where a caller
+      supplied any bound of the re-derivation input, the record MUST declare
+      that, and a verifier MUST NOT read an authoritative tier as coverage of
+      everything the subject did.
+      SELECTION is part of the same question. A caller that chooses which subject
+      to request an attestation over, and when, has bounded the claim without
+      supplying any bound, so the rule above is not satisfied by a record that
+      merely had no bound to declare. coverage_denominator is the field that
+      closes that gap, and an authoritative record making any claim about a
+      population needs it.
+      An authoritative tier is a claim about a re-derivation, which is a claim
+      about bytes a platform fetched. It composes with observation_vantage and
+      never substitutes for it: whether anyone observed the execution is a
+      separate question this field does not answer. So a record declaring
+      authoritative MUST also declare observation_vantage, and a verifier MUST
+      reject an authoritative record that does not. Without that pairing the
+      composition rule has nothing to compose with, and a platform the observed
+      party operates can set the stronger tier on its own records forever.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the tier as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    why_this_registry: >
+      The split itself is not ours. A published Internet-Draft, cited in
+      crosswalk/asqav.yaml, defines these two tiers for one platform's own
+      attestation statements and states the verifier prohibition in the words
+      carried above. What this registry adds is the form a third party can
+      crosswalk onto, and two rules that draft leaves open.
+      First, its authoritative tier re-derives a digest over a commit range whose
+      base identifier the caller MAY supply, so the signer re-derives honestly
+      across a window the observed party chose. The draft concedes the
+      consequence in its own words, that the signed digest is not a claim the
+      range covers every change the producer authored, and a reader who sees only
+      the tier will read it as one. So the bound declaration above is a MUST here.
+      Second, a tier is only as independent as the platform that sets it. Where
+      the platform is operated by the party being observed, a platform-set tier is
+      caller-controlled through one more hop. That is why this field composes with
+      observation_vantage and is refused any standing on its own.
+
+  origin_kind:
+    status: proposed
+    criticality: critical
+    review_by: "2027-03-19"
+    values: [self, first-hand, third-party-control-plane, log-import]
+    definition: >
+      Which party produced the evidence a record is assembled from: the runtime
+      that performed the execution produced its own record (self); the record was
+      assembled from another vendor's runtime governance output, asserted by the
+      system that produced it with no root outside that system
+      (third-party-control-plane); or it was assembled from a log or export whose
+      producer is not a control plane, such as a SIEM export, an audit trail, or
+      a batch job (log-import).
+      first-hand is a FOURTH value this registry adds and the source enum does not
+      carry: the producer obtained the evidence by its own observation and is not
+      the party that executed, so it neither performed the execution nor holds
+      somebody else's output. It exists because the borrowed enum is written from
+      the perspective of a record about its own execution, while this registry also
+      carries observation_vantage, which names a producer that is neither the
+      executing party nor an assembler. Without the fourth value the field is
+      REQUIRED and unfillable for exactly the records an independent observer
+      emits, and the pressure is then to spell one of them self, which is the one
+      reading that makes the field lie.
+      The value says HOW the evidence arrived and never where the producer stood.
+      observation_vantage says where, and the two compose: first-hand with peer and
+      first-hand with below-observed are both real producers, and a value that
+      carried the layer in its own name would have left one of them unfillable
+      again. Two spellings were drafted and dropped for that reason, and the
+      second for a second reason: observer collides with observer-attested in the
+      source specification's own family, where it means a third party that fetched
+      and measured the subject from outside it.
+      A record MUST NOT declare observation_vantage: below-observed unless its
+      origin_kind is first-hand, and a verifier MUST reject it otherwise. A party
+      attesting its own execution is not below itself, and an assembler holding
+      somebody else's output was not there at all. Each of
+      the other three values names a producer that did not observe from below the
+      observed party: self IS the observed party, and the two assembling values
+      hold output somebody else produced. This is the rule that reaches the
+      importer the platform rule below does not. An importer can carry
+      software-only exactly as required, satisfy every other rule here, and still
+      claim a vantage it never occupied, because the platform field answers what
+      the producer runs on and the vantage field answers where it stood.
+      A record whose origin_kind is third-party-control-plane or log-import MUST
+      declare a software-only runtime platform, and a verifier MUST reject it
+      otherwise. An importer holding someone else's log has no quote to present,
+      so a hardware platform value on such a record is not a stronger claim but an
+      untrue one. first-hand MAY declare a hardware platform, because such an
+      observer
+      below the observed party can hold a root of its own, and that is the case the
+      borrowed rule had no value for.
+      The value is REQUIRED. Absent, non-string, or unregistered makes the
+      enclosing statement malformed, and absence is never read as self.
+      This field names the assembler and establishes nothing about independence. A
+      verifier MUST NOT read third-party-control-plane as evidence that the
+      producer is independent of the observed party: the two can be one legal
+      entity, or one can operate the other. Independence is an
+      observation_vantage question and this field does not answer it.
+      It launders assurance in neither direction. Naming a producer does not make
+      unattested evidence attested, and a record with a hardware platform and a
+      verified quote is what it is whether or not it says self.
+      The value is a PRODUCER ASSERTION in the sense of field_evidence_partition,
+      never a substrate-covered field, and nothing in this registry can make it
+      one. A verifier MUST NOT read self as evidence of provenance: a record
+      assembled from somebody else's log and declared self is indistinguishable
+      on the wire from one the runtime produced. What the field is worth is that
+      a false value is then a false statement inside signed bytes, attributable
+      to the key that signed them. A record that carries
+      field_evidence_partition MUST place origin_kind on the producer_asserted
+      side of the split.
+      Three of the four values are borrowed verbatim, hyphens included, from the
+      specification cited in crosswalk/trace.yaml. Re-spelling them in this
+      file's usual underscore style would have produced a false friend across two
+      registries for no gain. The fourth, first-hand, is this registry's own, and
+      the
+      direction of the resulting mismatch is stated, not glossed: this value
+      set is a SUPERSET, so every value that specification emits validates here,
+      and one value this registry admits does not validate there. A crosswalk
+      consumer reads the fourth value as unmapped, not as a renaming of any
+      of the three.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the value as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    why_this_registry: >
+      Every other term here describes how a claim was obtained. This one
+      describes how it ARRIVED, and that is the question an adapter answers by
+      accident. The failure is documented in the specification the enum comes
+      from: an adapter built by starting from a hardware example and editing the
+      fields it understood emits a hardware platform on a record transcribed from
+      somebody else's log. No single field in that record is false and the whole
+      of it is untrue.
+      Three departures from the source are recorded in the crosswalk and all three
+      are hardenings. The value is required here with no absence default, because
+      there the permissive reading is the default and a silent record cannot be
+      told from a self-produced one. The field is explicitly denied any
+      independence meaning, because the value that reads most like corroboration
+      is the one a party can emit about its own control plane. And the value set
+      gains the first-hand role the source model has no rung for, together with the
+      rule that binds the independence claim to it, because a required
+      field with no true value for a real producer is a field that gets filled with
+      a false one. The source family's own assurance ladder is the evidence that the
+      rung is missing, not unwanted: it runs publisher-asserted,
+      observer-attested, tee-attested, and the middle rung carries the caveat that
+      it "does not catch a server that behaves one way for the observer and another
+      way for you", while the top rung is the observed party attesting itself from
+      inside a TEE and, in their own words, "requires the operator to have adopted a
+      confidential runtime". A producer standing below the observed party answers
+      that caveat without that requirement, and their ladder has no row for it.
+
+  independence_basis:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values: [independent_sources, subject_supplied, undeclared]
+    definition: >
+      Whether the guarantee a claim rests on was demonstrated by sources
+      independent of the party the claim is about (independent_sources), came
+      from that party itself (subject_supplied), or carries no declaration at
+      all (undeclared). Independence here is a relation between two named
+      parties and never a property of one of them, so a record declaring
+      independent_sources MUST name the independent party under party_role.
+      The value is REQUIRED and fail-closed. Absent, non-string or unregistered
+      makes the enclosing statement malformed, and absence is never read as
+      independent_sources.
+      A verifier MUST NOT infer this value from observation_vantage, and MUST
+      NOT infer observation_vantage from this one. The two are orthogonal: a
+      substrate-vantage observation can be made by the observed party's own
+      platform, and an independent party can file a claim whose inputs were all
+      artifact-vantage.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the value as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: >
+        Annex II, Union assurance level 1, criterion 1.1(g), and the same phrase
+        at two higher levels (three occurrences in total); Article 20(4)(a)(i)
+        to (iii); Article 20(5)(c).
+      quote: >
+        "the cloud computing service provider guarantees that there are no
+        existing laws and practices in that third country, demonstrated by
+        independent sources, that require the cloud computing service provider
+        to report information on software vulnerabilities to authorities of that
+        third country prior to those vulnerabilities being known to have been
+        exploited"
+      anchor_reasoning: >
+        The phrase "demonstrated by independent sources" is a public legal
+        instrument's own name for this axis, and having it means a policy reader
+        meets a term already in their vocabulary. The checkable test sits four
+        articles away, which is why both are cited together: the instrument
+        makes independence arithmetic. No non-audit services in the 12 months
+        before the audit and a commitment to none for the 12 months after, no
+        audit services in the preceding 10 years, no fees "contingent on the
+        result of the audit", and a "declaration of interests" required in the
+        report itself. A date-and-money test is what this registry wants from an
+        independence claim, and it is what a prose assurance of independence
+        never gives a verifier.
+    why_this_registry: >
+      Every other dimension here describes the obtaining of a claim. This one
+      describes the relation between the obtainer and the obtained, which is the
+      question a reader who trusts nobody asks first and which no term here
+      answered. observation_vantage says a claim was taken at a boundary the
+      executed artifact could not forge; it says nothing about who owns that
+      boundary. The two values a producer would most like to conflate are
+      therefore split, and the split is stated as a verifier MUST NOT in both
+      directions.
+
+  party_role:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values:
+      - audited_provider
+      - auditing_organisation
+      - evaluating_authority
+      - reviewing_authority
+      - registry_operator
+    definition: >
+      The role a named party holds with respect to one evidence set: the party
+      the evidence is about (audited_provider), the party that assessed it
+      (auditing_organisation), the party that decides admission on the strength
+      of it (evaluating_authority), a peer party entitled to object to that
+      decision without having seen the system (reviewing_authority), and the
+      party that publishes the resulting entry and its withdrawal
+      (registry_operator).
+      The five spellings are borrowed verbatim in sense from the instrument
+      cited below, because a role vocabulary is worth nothing if each reader
+      translates it. One party MAY hold two roles in one exchange and a record
+      declaring that MUST say so by carrying the party twice; a verifier MUST
+      NOT read two roles as two parties.
+      A record declaring independence between two roles held by one party is
+      malformed, and that is the whole reason the roles are enumerated.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the role as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: >
+        Article 2, point (2) and points (17) to (20); Article 17(2) for the
+        evaluating authority; Article 17(5)(a) and 17(6) for the reviewing
+        authority; Article 22(1) and 22(3) for the registry operator and the
+        publication of a withdrawal.
+      quote: >
+        "'auditing organisation' means an individual organisation, a consortium
+        or other combination of organisations, including any subcontractors,
+        that the audited cloud computing service provider has contracted to
+        perform an independent audit". And: "The competent authority of
+        establishment shall be the evaluating national competent authority."
+      anchor_reasoning: >
+        The instrument separates five parties across an evidence exchange and
+        keeps them separate through every article that moves a record between
+        them. The phrase "audited provider" is used throughout the operative
+        text without a definition of its own in Article 2, so it is recorded
+        here as used-and-undefined there, and this registry defines it. The
+        instrument also holds recognition apart from certification: what the
+        authority grants is recognition of a service at a level, on evidence,
+        with no certificate issued by this procedure, which is why the role is
+        named evaluating_authority and not a certifier.
+    why_this_registry: >
+      independence_basis asserts a relation and needs two ends. Without a
+      registered role vocabulary each filer names the ends in their own words
+      and the relation stops being machine-checkable, which is how an
+      independence claim becomes decoration. The enumeration also makes the
+      commonest defect expressible: one legal entity holding both the observed
+      and the observing role, declared as independent because the two names in
+      the record differ.
+
+  control_relation:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values: null
+    definition: >
+      A structured statement of who can direct the party or the system a claim
+      is about: holders of at least 5% of capital or at least 5% of voting
+      rights including through intermediaries and voting agreements, the body
+      empowered to take strategic decisions, the rules for appointing and
+      removing that body, the quorum and majority a strategic decision needs,
+      blocking and veto rights short of a majority, and influence exercised
+      through commercial or financial links.
+      This term is a producer assertion in the sense of field_evidence_partition
+      and nothing in this registry can make it one of the covered fields. A
+      record carrying field_evidence_partition MUST place it on the
+      producer_asserted side. Its worth is that a false value is a false
+      statement inside signed bytes, attributable to the key that signed them.
+      A verifier MUST NOT read an absent control_relation as an absence of
+      control.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the structure
+      as a field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: >
+        Annex III, assessment of ownership and control, points (1)(a) to (1)(f)
+        and (2)(a)(i) to (2)(a)(ii); Article 2, point (21), which takes
+        "control" by reference from Article 2, point (6), of Regulation (EU)
+        2021/697.
+      quote: >
+        "the quorums and majority required for adopting strategic decisions, in
+        order to determine if any shareholder can take a strategic decision
+        (either because they have the required majority to approve such a
+        decision or because they can block such a decision through a veto or
+        other specific rights even if they cannot impose such a decision on
+        their own, etc.)". And: "hold, directly or indirectly, at least 5% of
+        the capital or at least 5% of the voting rights, including through any
+        content, understanding, relationship or intermediary."
+      anchor_reasoning: >
+        A vantage claim is worth what the observer's independence is worth, and
+        an observer's independence is worth what the control chain over both
+        ends says it is. The instrument supplies a full taxonomy for the
+        question, including the two limbs a shareholding threshold alone
+        misses: a veto that blocks a decision without carrying it, and
+        influence through a commercial or financial link with no shareholding
+        at all. The instrument's own enumeration is the taxonomy; the threshold
+        is quoted as it is written and this registry sets no threshold of its
+        own.
+    why_this_registry: >
+      No execution-evidence format expresses the governance half of a vantage
+      claim. The formats describe an artifact, a build, or a run, and then rest
+      an independence claim on the identity of a signing key, which says who
+      signed and nothing about who can direct the signer. The value is the ugly
+      one to carry and the one a distrusting reader wants first.
+
+  evidence_origin_class:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values: [document, database_or_it_system, interview, test]
+    definition: >
+      Which kind of act produced an evidence item: a document was read, a
+      database or IT system was queried, a person was asked, or a test was
+      performed. The four classes are exhaustive for this registry and closed:
+      an absent, non-string or unregistered value makes the enclosing statement
+      malformed.
+      This says nothing about who produced the item, which origin_kind answers,
+      and nothing about the vantage the item was obtained at, which
+      observation_vantage answers. A verifier MUST NOT read test as a
+      substrate-vantage claim: a test performed by the observed party on itself
+      is a test, and its vantage is artifact.
+      A claim assembled from more than one class SHOULD carry the class per item.
+      A single class declared over a mixed set is a statement about the set's
+      weakest member, in the same composition rule observation_vantage uses.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the class as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: "Article 2, point (20)."
+      quote: >
+        "'audit evidence' means any information used by an auditing organisation
+        to support the audit findings and conclusions and to issue an audit
+        opinion, including data collected from documents, databases or IT
+        systems, interviews or testing performed"
+      anchor_reasoning: >
+        A statutory definition of evidence that spans machine-emitted and
+        human-sourced material in one breath, with the four origins named in the
+        definition itself. It is worth having for two reasons. It is citable, so
+        a claim about what evidence is does not rest on this registry's own
+        assertion. And the four classes cut across the split this registry
+        already carries: an interview is evidence under the instrument's
+        definition and can never be a covered field under
+        field_evidence_partition, so a format that carries only machine-emitted
+        items is narrower than the legal definition of the thing it claims to
+        carry, and saying so is more useful than widening the format.
+    why_this_registry: >
+      The registry describes how directly a claim was obtained and from what
+      vantage, and had no term for what the obtaining physically was. The gap
+      shows up whenever a record mixes a query against a running system with a
+      document somebody wrote about it, which is the ordinary case in every
+      assurance exchange and is invisible on the wire when one class is assumed.
+
+  intent_binding:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-07"
+    values: [committed_before_execution, asserted_after_execution]
+    definition: >
+      Whether the identifier of the intent an action ran under (the authority
+      that permitted it, naming who requested it and who executed it) is folded
+      into a commitment the observer signed BEFORE the action began
+      (committed_before_execution), or only attached to the record once the
+      action was over (asserted_after_execution). A committed identifier
+      survives fan-out, retries and hops between agents as signed content: every
+      record descended from one intent carries the same value inside bytes
+      fixed before each action opened, so linking them needs no header that
+      every hop must forward. An asserted identifier is a label a producer can
+      choose after seeing the outcome. Composes by weakest input: a chain of
+      actions is committed_before_execution only if every link is.
+    source_path: "observed-effect predicate: predicate.authorityDigest, bound by predicate.observation.priorCommitment.commitmentDigest"
+    issuers_in_production: []
+    why_this_registry: >
+      Tracing work for multi-agent and MCP systems keeps arriving at the same
+      missing primitive, an original intent identifier that survives fan-out,
+      retries and multi-agent hops, and keeps proposing it as a propagated
+      header. A propagated header is reconstructed after the fact and breaks at
+      the first hop that drops it. The question a consumer needs answered is not
+      whether the identifier is present but whether it was fixed before the
+      action ran, and no existing term names that.
+    promotion_trigger: "An independent implementation that is not us, emitting the intent identifier inside a commitment signed before the action opens."
+
+# posture_and_coverage: what an execution environment was actually in, and
+# how much of a declared population a claim actually assessed.
+posture_and_coverage:
+
+  containment_posture:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values:
+      - no_network
+      - allowlist
+      - sinkhole
+      - unsafe_bypass_egress
+    definition: >
+      The network-egress posture of the execution environment a governed
+      artifact actually ran inside. Digest-committed and substrate-authoritative,
+      never runner-asserted. Closed and fail-closed: an absent,
+      non-string, or unregistered value makes the enclosing statement
+      malformed, never defaulting to a permissive reading.
+    source_path: "predicate.observationEnvironment.networkPosture.posture"
+    issuers_in_production: []
+    why_this_registry: >
+      Most evidence about software describes an artifact. This term describes
+      the environment the artifact was actually running in, which is a different
+      claim and a harder one, because it needs a value the running code could
+      not have chosen for itself. So the posture is committed by digest, and it
+      is read from the substrate, never from the process being observed. A
+      posture the subject could set for itself is decoration.
+    opencre:
+      - cre: https://www.opencre.org/cre/515-021
+        match: structural
+        basis: "The term records which network isolation the artifact actually ran inside, read from the substrate, so a consumer can require the isolation that requirement asks for."
+
+  coverage_denominator:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: null
+    definition: >
+      A digest-committed partition of the population a claim is drawn from
+      into three pairwise-disjoint sets (assessed, out-of-scope-with-a-reason,
+      and routed-elsewhere) whose union MUST equal the keys of a
+      digest-committed manifest the producer does not control. Without this, a
+      claim of "found nothing" and a claim of "looked at nothing" are
+      indistinguishable on the wire.
+    source_path: "predicate.coverage.{assessedClasses,outOfScope,routedElsewhere}"
+    issuers_in_production: []
+    why_this_registry: >
+      A producer that commits to its denominator can be caught understating it
+      later. That is the point, and it is why the field is here and not in a
+      methodology note. The usual substitute is a rule about withholding a
+      result when the sample is too small, which decides whether to publish and
+      says nothing about what the population was.
+    opencre:
+      - cre: https://www.opencre.org/cre/433-442
+        match: partial
+        basis: "Testing at a stated depth and coverage (SA-11) needs the assessed population named; the term commits that population so an empty result over nothing assessed cannot pass as a clean one."
+
+  does_not_assert:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: null
+    definition: >
+      A machine-readable list of short strings, carried inside the signed
+      statement itself, stating what this evidence explicitly cannot claim.
+      One agreed spelling per claim, no accepted alias, never buried in
+      free-text documentation where a consumer has to go looking for it.
+    source_path: "predicate.doesNotAssert"
+    issuers_in_production: []
+    why_this_registry: >
+      Comparable registries carry this concept, when they carry it at all, as
+      file-level prose (a repository-wide "out of scope" list), not as a
+      per-artifact field. A file-level list cannot say what one claim withholds,
+      which is the whole question anyone relying on that claim is asking.
+
+  claim_subject:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-07"
+    values: [tool, agent, organization]
+    value_definitions:
+      tool: >
+        A callable capability with a fixed definition, such as an MCP tool, a
+        function exposed to a model, or a server's tool manifest. A claim at
+        this class is about that definition and the code behind it.
+      agent: >
+        A running system that chooses which tools to call and with what
+        arguments. A claim at this class is about the decisions and effects of
+        that system during a stated run.
+      organization: >
+        The party that operates, deploys or answers for agents and tools. A
+        claim at this class is about its controls, keys or accountability.
+    definition: >
+      The class of subject a claim is about. A claim at one class is never
+      evidence at another: a result about a tool's definition says nothing
+      about an agent that called it, and a result about an agent's run says
+      nothing about the organization that operates it. A consumer MUST NOT
+      satisfy a requirement stated at one class with a claim carrying another,
+      and a claim with no declared class MUST be treated as not satisfying any
+      class-specific requirement.
+    source_path: "predicate.claimSubject"
+    issuers_in_production: []
+    why_this_registry: >
+      Indexes that grade tools, agents and organizations side by side invite a
+      consumer to read a passing tool grade as a statement about the agent or
+      the operator. The class has to travel with the claim, as a closed value,
+      or the collapse happens silently at the point of use.
+
+  base_state_resolution:
+    status: proposed
+    criticality: critical
+    review_by: "2027-03-19"
+    values: [supplied, authority_recorded, empty_tree]
+    definition: >
+      How the before-state root of an observed interval was obtained, declared
+      per record as one of three: supplied, the base was named in the request and
+      is a full-length lowercase hexadecimal object name; authority_recorded, the
+      base is the one the state authority itself records for the change, which
+      for a version-control authority is the merge-base anchor and is stable
+      across merge and squash rewrites; empty_tree, the interval began from no
+      prior state at all and the base is the empty-tree constant of the declared
+      object format.
+      Resolution is ORDERED. A producer MUST try supplied, then
+      authority_recorded, then empty_tree, and MUST refuse to emit the record
+      where none of the three yields a base. A producer MUST NOT infer a base
+      from the parents of the named state, which are ambiguous for merge and
+      squash rewrites. A guessed base produces a record that verifies cleanly
+      over an interval nobody chose.
+      A before-state root is therefore unconditionally REQUIRED. The empty_tree
+      case is what makes one always available, so a missing before-state root is
+      a refusal and never a permitted omission.
+      The empty-tree constant is a property of the object format and MUST be read
+      from the format the record declares. For git's SHA-1 object format it is
+      4b825dc642cb6eb9a060e54bf8d69288fbee4904. For git's SHA-256 object format
+      it is
+      6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321. A record
+      carrying the SHA-1 constant under a SHA-256 object format names an object
+      that does not exist, and a verifier MUST reject it.
+      empty_tree is permitted only where the authority shows the prior state was
+      empty, which for a version-control authority means a parentless commit. It
+      MUST NOT be used to mean that the observer did not enumerate the prior
+      state. A record using it that way satisfies every other rule above and
+      misstates the interval, which is why the permitted condition is normative.
+      The state authority MUST be named in the record, for all three values. And
+      empty_tree MUST NOT be resolved from the observer's own first sight of the
+      state: a first observation establishes that the observer saw nothing
+      earlier, never that nothing was there. A volume pre-populated by an image
+      and mounted fresh is the case this closes, because it presents to a first
+      observation exactly as an empty one does. Where no authority independent of
+      the observed party can show the prior state was empty, the producer MUST
+      refuse the record under the ordered rule above.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the resolved
+      branch as a field in a real signed statement and filing its own crosswalk
+      with evidence: emitted and a resolvable source_path.
+    why_this_registry: >
+      It sits in this block, beside coverage_denominator, because it answers the
+      same kind of question on a different axis. coverage_denominator says which
+      population a claim assessed. This says which interval it assessed, and an
+      unresolved base leaves the lower bound of that interval to the reader.
+      The ordered rule and the terminal case are lifted from a published
+      Internet-Draft, cited in crosswalk/asqav.yaml, which defines them for one
+      host's diff rendering of a commit range. Three things are added here. The
+      constant is bound to a declared object format, which that draft leaves
+      implicit while naming the SHA-1 value alone, and both values were checked
+      against a repository in each format on 2026-09-19 before being written into
+      this file. The resolved BRANCH is itself the registered value, so a
+      verifier reads which of the three produced the base and does not re-derive
+      the ordering from what the record happens to carry. And the terminal case
+      carries a permitted condition, so it cannot stand for a prior state nobody
+      looked at.
+
+  set_sufficiency:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values: [sufficient, insufficient, not_assessed]
+    definition: >
+      Whether the evidence SET a claim rests on was relevant and sufficient to
+      reach the claim, held as a separate axis from whether any individual ITEM
+      in it was reliable. A set of items each independently verified can still
+      be too thin to decide, and a single unreliable item can sit inside a set
+      that is otherwise ample. Collapsing the two axes into one pass or fail
+      makes both unsayable.
+      The value is REQUIRED and fail-closed. Absent, non-string or unregistered
+      makes the enclosing statement malformed, and absence is never read as
+      sufficient. A verifier MUST NOT derive this value from item-level
+      verification results, and MUST NOT read sufficient as a statement about
+      any item.
+      insufficient is a result and not an error: it says the assessment ran and
+      the set did not reach the claim. not_assessed says the axis was never
+      examined, and a consumer MUST treat those two as different.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the value as a
+      field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: "Article 21(2), points (a) and (b)."
+      quote: >
+        "The audit evidence shall be: (a) relevant and sufficient to enable the
+        auditing organisation to prepare an audit report and provide an audit
+        opinion; and (b) reliable, according to the auditing organisation's
+        professional judgment and scepticism."
+      anchor_reasoning: >
+        Two admissibility axes in one sentence, each with its own grammatical
+        subject: (a) is a property of the set and (b) is a property of the item.
+        The instrument then puts item reliability in the assessor's professional
+        judgment, which is exactly the seam a machine-checkable registry
+        occupies: reliability defined by digest, emitter and collection time is
+        a value a distrusting reader re-derives, and a judgment is not. This
+        term takes the set-level half, where the instrument's wording is
+        already mechanical, and leaves the item-level half to the terms that
+        define it mechanically.
+    why_this_registry: >
+      coverage_denominator says what population a claim was drawn from. This
+      term says whether what was drawn reached the claim, which is a different
+      question and the one a reader asks when a denominator is honest and small.
+      Without it a producer with a complete, correctly declared denominator and
+      three items in it has no registered way to say so, and a consumer reads
+      the claim as it reads every other passing claim.
+
+  material_change_trigger:
+    status: proposed
+    criticality: critical
+    review_by: "2027-09-20"
+    values: null
+    definition: >
+      The named event that ends a standing claim's validity and obliges a
+      re-assessment: a material change in the circumstances a claim was made
+      about. A record carrying this term states which circumstances were assumed
+      stable, so a later change in one of them is an event a third party can
+      detect by comparison and not a disclosure the observed party is trusted to
+      volunteer.
+      A verifier MUST treat a claim carrying no such statement as making no
+      commitment about its own continued validity, and MUST NOT read the absence
+      as a claim of stability.
+      The trigger is a property of the claim and never a policy threshold: it
+      names what would invalidate the claim, and a consumer's own re-check
+      interval sits on top of it.
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently-maintained system that is not us, emitting the statement
+      as a field in a real signed statement and filing its own crosswalk with
+      evidence: emitted and a resolvable source_path.
+    external_anchor:
+      instrument: cada_2026
+      cited: >
+        Article 23(1) to 23(3); recital (58); Article 20(8) for the annual
+        review by the same or a different assessor.
+      quote: >
+        "On becoming aware of any information or any material change in
+        circumstances that may affect the audit report and the 'positive'
+        opinion under Article 20 or the recognition under Article 17, the
+        recognised cloud computing service provider shall, as soon as possible,
+        notify the auditing organisation and the national competent authority of
+        establishment."
+      anchor_reasoning: >
+        "Material change in circumstances" is a public legal instrument's name
+        for the event a change-detection claim is about, and it arrives with the
+        notification chain attached: the observed party notifies the assessor
+        and the authority, the assessor reassesses and may revoke, and the
+        authority reassesses its admission. The instrument routes the whole
+        chain through self-report by the observed party, which is the one party
+        with an interest in a late notification. Naming the trigger inside the
+        claim is what turns it into something a distrusting reader detects by
+        comparing two records, and the term is registered here for that reason
+        and not to restate the duty.
+    why_this_registry: >
+      Every term here describes one claim at one time. A claim that is relied on
+      for a year is a claim about an interval, and nothing registered said when
+      the interval ends. base_state_resolution resolves the lower bound of an
+      interval already carried; this term states the condition under which the
+      upper bound has already passed. The pair is what lets a reader tell a
+      current claim from an old one whose subject moved.
+
+# outcome_lattice: the recomputable verdict a consumer derives, never a
+# policy threshold and not producer-asserted.
+outcome_lattice:
+
+  result:
+    status: proposed
+    criticality: critical
+    review_by: "2027-02-11"
+    values: [fail, degraded, pass_indirect, pass]
+    definition: >
+      A total, deterministic, severity-independent minimum over the declared
+      conditions, in the fixed order fail < degraded < pass_indirect < pass,
+      recomputable by any consumer from carried bytes alone, against a
+      normative recompute table published with the spec. Not a policy verdict:
+      it carries no threshold and no severity input, and a consumer applying
+      its own policy threshold does so on top of this value, never inside it.
+    source_path: "predicate.result"
+    issuers_in_production: []
+
+# verdict_classes: an open set of verdict codes under the closed result lattice.
+# Added so that a new verdict code does not make every deployed verifier reject
+# the record that carries it: the parent says what an older verifier must do.
+verdict_classes:
+  parent_term: result
+  rule: >
+    A verdict is carried as {class: <code>, parent: <value of result>}. The
+    parents are the four values of result and are closed: a parent outside
+    them makes the record malformed under every case of open_value_rule. A
+    class equal to its parent is the parent itself. A registered child code
+    must carry the parent registered for it, or the record is malformed. A
+    child code the verifier does not have registered is accepted with its
+    parent's meaning, and the code is preserved in the verifier's output,
+    when the record names a registry the verifier does not hold (case 3 of
+    open_value_rule); under cases 1 and 2 it makes the record malformed. A
+    child is never read as stronger than its parent, so an unknown child under
+    fail is a fail. Each child's URI is the result term's URI with the code as
+    its fragment.
+  children: {}
+
+# record_lifecycle: how a published record says that one of its own values
+# changed after publication. A derived value that automated consumers gate on is
+# not prose: revising it with only a last-updated date to signal the change breaks
+# the ability to reconcile the same record read at two different times. Added in
+# 0.4.0 for registries whose records carry derived fields, the first being AVE
+# (aveproject/ave issue 219), where stamping a missing vantage declaration flips
+# a derived verification basis on several records in one pass.
+record_lifecycle:
+
+  revision_reason:
+    status: proposed
+    criticality: informational
+    review_by: "2027-04-07"
+    values:
+      - declaration_added
+      - declaration_corrected
+      - vocabulary_member_added
+      - derivation_rule_changed
+    value_definitions:
+      declaration_added: "A field the record omitted is now declared, and a value derived from it changed as a result (for example, a vantage declaration added where none existed)."
+      declaration_corrected: "A field the record already declared was wrong and now carries a different value."
+      vocabulary_member_added: "The schema the record is validated against gained a closed-vocabulary member, and re-deriving the record under it changed a derived value; the record's own declarations did not change."
+      derivation_rule_changed: "The rule that computes a derived value changed; the record's own declarations did not change."
+    definition: >
+      A closed code stating why one entry in a record's revision history exists,
+      carried beside a free-text reason so a consumer can count and filter
+      revisions by cause without parsing prose. One code per revision entry. The
+      entry it belongs to is an element of an optional, append-only revisions
+      array on the record, each element carrying date, field, from, to, reason and
+      reason_code. A record with no revisions array makes no claim about its own
+      history; a consumer MUST NOT read its absence as "never revised". Closed and
+      fail-closed: an unregistered reason_code makes the entry malformed.
+    entry_shape:
+      required: [date, field, from, to, reason_code]
+      optional: [reason]
+    issuers_in_production: []
+    promotion_trigger: >
+      An independently maintained registry, not us, whose published records carry
+      a revisions entry with one of these codes, filed as a crosswalk with
+      evidence: emitted and a source_path into a real record.
+    opencre:
+      - cre: https://www.opencre.org/cre/757-271
+        match: partial
+        basis: "Both require every change to carry its reason so changes can be traced; the requirement covers source check-ins, while this term covers a published record's derived values."
+
+# change_admission: the decision that admits or rejects one proposed change to
+# an AI agent's harness (its system prompt, procedures, tool-call guards and tool
+# allowlist), and the evidence that decision names. Added in 0.4.0 with the
+# agent-change-admission predicate, version 1, at
+# docs/predicates/agent-change-admission-v1.md, whose verification steps say how
+# a consumer checks each term on the wire.
+change_admission:
+
+  admission_decision:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: [admitted, rejected]
+    definition: >
+      The outcome of one decision on one proposed harness change, carried on the
+      wire as the boolean admitted (true is admitted, false is rejected). A
+      decision is consistent only when an admitted change passed every gate the
+      consumer requires and a rejected change failed at least one; a consumer
+      recomputes this from the decision's own checks and treats either
+      inconsistency as contradicted. A rejection is a record in its own right,
+      signed and verifiable like an admission, never a decision that was not
+      made.
+    source_path: "predicate.admitted"
+    issuers_in_production: []
+    why_this_registry: >
+      A harness change that was tried and refused is the evidence that the
+      process can say no. If only admissions are signed, a reader cannot tell a
+      process that rejects bad changes from one that never evaluated them.
+    opencre:
+      - cre: https://www.opencre.org/cre/112-648
+        match: structural
+        basis: "Each proposed change to an agent's harness gets one recorded admit or reject decision, and a rejection is signed like an admission."
+
+  admission_gate:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: [replay, heldout, no_regression, benign_twins, overfit_lint, authority]
+    value_definitions:
+      replay: "Every new guard, run over a declared, digest-frozen snapshot of recorded traces with each call's recorded pre-call state, fires on every target failure at or before the causing step and on no passing trace and no benign twin. Clearance needs every trace checked."
+      heldout: "On fresh held-out runs the candidate beats the better of two fresh parent runs by at least the larger of 2 and one more than the number of cases whose outcome differed between those parent runs, and a second fresh candidate run confirms it."
+      no_regression: "No must-succeed case that passed in either parent run fails in a candidate run."
+      benign_twins: "The candidate intervenes on no benign twin, a case built to resemble a failure that needs no intervention."
+      overfit_lint: "The candidate's new text carries no identifier, amount or name copied from the training traces."
+      authority: "The candidate grants no authority the parent lacked: its tool allowlist is a subset of the parent's, every parent guard and procedure is kept, and the parent's system prompt is a prefix of the candidate's, unless a human-signed approval names the exact candidate digest."
+    definition: >
+      The closed names of the checks an admission rests on, carried as
+      checks[].name with a boolean checks[].passed. The consumer pins which
+      gates it requires. A required gate absent from the record leaves the
+      decision not established. A check whose name the consumer does not
+      require, such as a cost report, is informational and never a gate.
+      Closed and fail-closed: a consumer requiring a name outside this set has
+      no definition to check it against.
+    source_path: "predicate.checks[].name"
+    issuers_in_production: []
+    why_this_registry: >
+      Two evaluators that both say "passed evaluation" can mean a single
+      re-run on the training cases or a fresh held-out comparison against a
+      measured noise floor. A gate name with one definition is what lets a
+      consumer require the second and refuse the first.
+    opencre:
+      - cre: https://www.opencre.org/cre/124-564
+        match: structural
+        basis: "Names the checks a harness change must pass before it is admitted, the change-control and impact-analysis step (CM-3, CM-4) applied to an agent's harness."
+      - cre: https://www.opencre.org/cre/547-824
+        match: partial
+        basis: "The heldout and no_regression gates validate the changed agent's behaviour on fresh runs; the change is to the harness, not the model, and the other gates are not validation."
+
+  evaluation_mode:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: [FRESH, RECORDED, CACHED]
+    value_definitions:
+      FRESH: "Produced by a run made for this decision, every model call answered fresh."
+      RECORDED: "A stored FRESH result shown again, with the time it was produced."
+      CACHED: "A byte-identical replay of a recorded model request, for debugging."
+    definition: >
+      How an evaluation result attached to an admission was obtained. Only
+      FRESH counts toward a gate; a RECORDED or CACHED result is labelled as such
+      in the report and excluded from every count a gate uses. Values are
+      recorded in the casing the wire carries, upper case.
+    source_path: "report.results[].mode"
+    issuers_in_production: []
+    why_this_registry: >
+      A cached model response replays the past and cannot show that a changed
+      harness behaves better now. Without the label, a pass count built from
+      cached answers and one built from fresh runs read identically.
+
+  replay_coverage:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: [exhaustive, partial]
+    definition: >
+      Whether a guard's replay checked every trace in its declared snapshot
+      (exhaustive, stated as N of N traces checked) or stopped before the end
+      (partial, k of N). A replay may stop at its first counterexample to reject
+      a guard; only an exhaustive replay clears one. Replay shows what the guard
+      predicate does on recorded inputs, never that the counterfactual
+      continuation would have succeeded.
+    source_path: "report.coverage"
+    issuers_in_production: []
+    why_this_registry: >
+      "No false positives found" over a sample and over the whole recorded
+      history are different claims. The count travels with the verdict so a
+      consumer can require the second.
+    opencre:
+      - cre: https://www.opencre.org/cre/433-442
+        match: partial
+        basis: "States whether a replay checked every recorded trace or stopped early, the coverage a test result has to declare (SA-11); it covers replays of guards only."
+
+  replay_snapshot:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: null
+    definition: >
+      The SHA-256 that freezes the set of recorded traces a guard was replayed
+      over, keyed by guard in the decision. A replay over a different set of
+      traces has a different digest, so a decision cannot be re-argued over a
+      more favourable history after the fact.
+    source_path: "predicate.corpus_digests"
+    issuers_in_production: []
+    why_this_registry: >
+      A replay result without the history it ran over cannot be repeated, and
+      a result that cannot be repeated cannot be checked.
+
+  authority_change:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-11"
+    values: [none, human_approved]
+    definition: >
+      Whether a candidate harness grants authority its parent lacked, meaning a
+      tool outside the parent's allowlist, a removed or altered guard or
+      procedure, or a rewritten system prompt: none, or human_approved when a
+      human-signed approval names the exact candidate digest. A candidate that
+      grants authority without such an approval fails the authority gate. This
+      is an enforced policy about who may widen a harness, not a proof that the
+      harness is safe.
+    source_path: "predicate.checks[name=authority].evidence"
+    issuers_in_production: []
+    why_this_registry: >
+      A process that improves a harness automatically must not be able to grant
+      itself new tools. The term names the one exception, a human signature over
+      the exact candidate, so a consumer can count how often it was used.
+    opencre:
+      - cre: https://www.opencre.org/cre/524-603
+        match: structural
+        basis: "A harness change that adds a tool or removes a guard modifies the agent's access policy, and needs a human-signed approval naming the exact candidate."
+      - cre: https://www.opencre.org/cre/220-442
+        match: partial
+        basis: "Holds a candidate's tool allowlist to its parent's unless a human approves the widening; it bounds growth, and does not show the parent's set was minimal."
+
+# done_verification: how a claim that an agent's work is done is decided by
+# something other than the agent. Added in 0.6.0. A done contract fixes what
+# done means before the agent acts, a verifier outside the agent's container
+# runs it, and a receipt carries the contract, the observation, the grade and
+# the claims so a third party can replay the verdict. Each term carries a
+# `check`: the rule a verifier applies to decide it, so a reader can tell a term
+# that is claimed from a term that is checked. The records and the three checks
+# are specified in the done-receipt guide of the probity-verify repository,
+# docs/done-receipt.md, at https://github.com/probityai/probity-verify.
+# Source paths that begin predicate. name fields of the done-receipt predicate,
+# whose specification fixes them at its release; the others name the record
+# formats that guide defines.
+done_verification:
+
+  done_contract:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      The definition of done for one task, sealed before the agent's first turn:
+      the paths the agent must leave alone, each with a digest; the acceptance
+      commands a verifier will run; how many generated mutants those commands
+      killed; and optionally the digests of a held-out split, a mutant set and
+      an authority record. The agent does not write it and cannot change it, and
+      every later record names its digest.
+    check: >
+      A verifier recomputes the SHA-256 of the contract's canonical bytes and
+      requires the grade record and the receipt to name that digest. A grade run
+      on any other contract is refused (grade_contract_mismatch).
+    source_path: "probity-done-contract/v1: protected_paths, acceptance, adequacy"
+    issuers_in_production: []
+    why_this_registry: >
+      "Done" judged against a condition the agent can still reword is judged
+      against the agent. Sealing the condition and naming its digest in the
+      grade is what lets a consumer tell a verdict about the contract from a
+      verdict about something else.
+
+  done_receipt:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      The record of one done decision: the contract's digest, the final tree's
+      digest, the observation of the agent's run, the verifier's grade, the
+      agent's tool claims, and the verdict the three checks reach. It is a
+      replay bundle, so a party who distrusts the producer can rerun the
+      checks on the same bytes.
+    check: >
+      A verifier given the bundle recomputes each check's verdict and the
+      combined verdict, and requires them to equal the receipt's. Any
+      contradicted check gives contradicted; all supported gives supported;
+      anything else gives not_established.
+    source_path: "predicate.verdict"
+    issuers_in_production: []
+    why_this_registry: >
+      A verdict stated without its evidence is a claim. A verdict that ships with
+      the records it was computed from can be checked by someone who does not
+      trust the party that produced it.
+
+  acceptance_observed:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: [supported, contradicted, not_established]
+    value_definitions:
+      supported: "The verifier rebuilt the agent's final tree, reset the protected paths from the contract, ran every acceptance command, and every command exited zero, under a contract that killed at least one mutant."
+      contradicted: "At least one acceptance command exited non-zero in the verifier, or the grade names another contract."
+      not_established: "The grade is absent, was run on another tree, is not independent of the observed party, or the contract killed no mutant and so cannot tell a fix from a no-op."
+    definition: >
+      Whether the contract's acceptance commands pass when a separate verifier
+      runs them on the agent's final tree. The agent's own report that its tests
+      passed is not an input.
+    check: >
+      acceptance_observed/v1. The grade must name the pinned contract digest
+      (grade_contract_mismatch) and the final tree's digest (grade_tree_unbound),
+      answer every acceptance command with the contract's exact argv and nothing
+      else, and come from a producer independent of the observed party. Any
+      non-zero exit contradicts (acceptance_failed_in_verifier); all passing
+      supports (acceptance_passed_in_verifier) only when the contract killed at
+      least one mutant (contract_adequacy_zero otherwise).
+    source_path: "predicate.checks[claim=acceptance_observed].verdict"
+    issuers_in_production: []
+    why_this_registry: >
+      A pass printed by the agent's own tool call tells a reader what the agent
+      chose to show. The same command run by a verifier that rebuilt the tree
+      tells the reader what the tree does.
+    opencre:
+      - cre: https://www.opencre.org/cre/433-442
+        match: partial
+        basis: "Testing in development and acceptance (ISO 27001, SA-11) asks that tests be run and their results kept; the term adds that a separate verifier reruns the contract's commands on the rebuilt final tree, which the requirement does not ask for."
+
+  protected_path:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      A file or directory the contract names as off limits to the agent, with a
+      digest. A directory entry may list path segment names (such as
+      __pycache__) left out of its digest and its event match. Tests, graders
+      and reward files are the usual members.
+    check: >
+      protected_paths/v1. A recorded mutation of a protected path, or a rename or
+      link onto one, contradicts (protected_path_mutated) even under incomplete
+      coverage, which catches an edit the agent reverted. Otherwise an
+      independent final tree whose protected digests differ from the contract
+      contradicts (protected_path_digest_changed). An empty record supports only
+      when the observer makes every mutation type visible, coverage is complete
+      and the independent final tree matches the contract.
+    source_path: "probity-done-contract/v1: protected_paths[].path"
+    issuers_in_production: []
+    why_this_registry: >
+      A final-state diff misses an edit that was made and reverted, and an event
+      log misses an edit it did not see. The term fixes the list both are held
+      to, so each can be checked against the same paths.
+
+  claimed_tool_output:
+    status: proposed
+    criticality: informational
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      A command the agent says it ran, as an argument vector with an optional
+      claimed exit status, parsed from the agent's transcript. It is the agent's
+      statement and carries no vantage pin; no check treats it as evidence of
+      the run.
+    check: >
+      tool_claim_match/v1 compares every claim with observed_tool_output. A claim
+      with no matching exec was never run (tool_claim_unmatched).
+    source_path: "probity-tool-claims/v1: claims[].argv, claims[].exit"
+    issuers_in_production: []
+    why_this_registry: >
+      A fabricated "12 passed" is a well-formed claim. Naming the claim as a
+      distinct term keeps it from being counted as the observation that would
+      confirm it.
+
+  observed_tool_output:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      The exec events an independent observer recorded for a command, with the
+      process's exit status when the observer saw it end, and the order of every
+      file mutation around it. It is what a claim is checked against, and it is
+      usable only from an observation that is independent of the observed party,
+      sees exec and every mutation type, and has complete coverage.
+    check: >
+      tool_claim_match/v1. Candidates are the exec events with exactly the
+      claimed argv. A run is fresh when its step follows the last edit made
+      outside its own process tree (tool_claim_precedes_last_edit otherwise); a
+      claimed exit must equal a fresh run's recorded exit (tool_claim_exit_mismatch),
+      and a fresh run whose exit was not seen leaves the claim not_established
+      (tool_exit_unobserved).
+    source_path: "probity-observation/v2: events[type=exec]"
+    issuers_in_production: []
+    why_this_registry: >
+      The check that separates a run from a story about a run needs a record the
+      story's author could not write. The term names that record and the three
+      conditions under which it counts.
+
+  stop_decision:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: [continue, replan, escalate, stop]
+    value_definitions:
+      continue: "The agent proceeds; the verdict history does not call for a change."
+      replan: "The agent is told once to change its plan, with the reason code of the verdict."
+      escalate: "Control returns to a person, after two contradicted verdicts."
+      stop: "The run ends because its budget is spent."
+    definition: >
+      The action a published policy table returns for the history of verdicts in
+      one run. The table is public and its digest is carried by the receipt, so
+      whether an agent was allowed to carry on is a function of records, not of
+      anyone's judgement in the moment.
+    check: >
+      A verifier recomputes the action from the receipt's verdict history using
+      the table whose digest the receipt carries, and requires it to equal the
+      recorded action.
+    source_path: "predicate.stop_decision"
+    issuers_in_production: []
+    why_this_registry: >
+      An agent loop that keeps going until a model says it is satisfied has no
+      stopping rule a third party can check. A table keyed by verdicts does.
+
+  inconclusive_verdict:
+    status: proposed
+    criticality: critical
+    review_by: "2027-04-17"
+    values: null
+    definition: >
+      The verdict not_established: the records do not show the claim true and do
+      not show it false. It is a result in its own right, never a pass and never
+      a failure. Reasons include a self-reported or mismatched observation,
+      missing visibility, incomplete coverage, no usable final tree
+      (contract_adequacy_zero, tool_exit_unobserved and witness_scope_below_required
+      are three codes), and a consumer that requires an external witness
+      receiving evidence that rests on a peer witness.
+    check: >
+      A verifier returns not_established, with its reason, whenever the evidence
+      a supported or contradicted verdict rests on is missing, and never returns
+      supported from it. A consumer treats it as not done.
+    source_path: "predicate.verdict"
+    issuers_in_production: []
+    why_this_registry: >
+      A harness that reads a lost record as a pass has made the commonest
+      failure invisible. Giving the unknown its own name keeps it from being
+      folded into either side.
+
+# system_attributes: four things a FILER declares about their own system, all
+# four together. This block carries no status and no review-by date, and it is
+# not a term: nothing here is ever promoted or demoted, so the lifecycle above
+# does not reach it.
+#
+# What it gates is somebody else's promotion. A crosswalk supporting a term's
+# move to canonical must declare all four of these, alongside at least one
+# evidence-dimension term at evidence: emitted. Any one of them alone leaves the
+# signed pre-image shape undifferentiated, which is why they travel as a set.
+system_attributes:
+  values:
+    signature_capability:
+      - classical
+      - post_quantum_hybrid
+      - other
+    canonicalization_profile: [jcs_rfc_8785, other]
+    hash_family: [sha_256, other]
+    domain_separation_profile: [declared, undeclared]
+  definition: >
+    Four attributes every crosswalk-in system should declare together.
+    domain_separation_profile is the one most easily forgotten, and the one
+    whose absence is silent:
+    whether signed pre-images across an implementation's different artifact
+    types are tagged with distinct, per-format identifiers (so one signing key
+    cannot be confused across formats), or whether all formats share one
+    undifferentiated pre-image shape. Declaring canonicalization_profile alone
+    is necessary but not sufficient for byte-equal signatures across two
+    implementations. Two systems can both declare the same canonicalization
+    profile and still fail to produce byte-identical output, because the profile
+    fixes the algorithm and not the set of inputs it is applied to, so the
+    interoperable input set has to be named separately.
+
+# `crosswalk_match_types` and `crosswalk_evidence_states`: the vocabulary a
+# THIRD PARTY uses when filing a crosswalk against this registry.
+crosswalk_match_types:
+  exact: "Same definition, same subject, same values."
+  structural: "Same mechanism and same question answered, different concrete shape (e.g. a set of digests vs. one version hash)."
+  partial: "Real overlap, with at least one named, material divergence recorded in the crosswalk."
+  non_equivalent_similar_label: "Same or similar term name, materially different definition, a false friend. Declared explicitly so neither side is misread as claiming the other's ground."
+  no_mapping: "Honest gap. The filing system does not do this; the crosswalk says so and stops."
+
+# crosswalk_evidence_states carries exactly four members, and every key below is
+# one of them. The axis exists so a filer's declaration is not read on trust: the
+# promotion trigger is keyed to evidence: emitted with a resolvable source_path,
+# checked by running validate_crosswalks.py against the cited URL.
+#
+# recomputed was added in 0.3.0 for the filer that only a verifier can be. A
+# second implementation that reads other people's signed statements emits no
+# field of its own, so emitted is closed to it, and before 0.3.0 its strongest
+# honest filing was inferred -- the same state a filer computing a value once, on
+# nothing anybody can re-run, would declare. Agreement with the reference on
+# every accepted member of a pinned corpus is a stronger fact than that and it
+# is checkable, so it gets its own state. It still promotes nothing: two
+# verifiers agreeing shows the recompute rule reproduces, and says nothing about
+# whether any issuer puts the value on the wire.
+#
+# This prose sits in a comment on purpose. It was a `definition:` key here until
+# 2026-08-30, which made a fourth sibling that any consumer enumerating this
+# mapping would read as a registered state. out_of_scope below says a verifier
+# MUST reject an unregistered enum value, so the registry was publishing one.
+crosswalk_evidence_states:
+  emitted: "The declared value is a field in a real, signed statement a third party can fetch and read without computing or inferring anything. The ONLY state that counts toward promotion."
+  inferred: "The declared value is computed by the filer from other fields, and is distinct from a value the artifact carries directly."
+  asserted: "The declared value is claimed in prose (a README, a spec) with no machine-checkable artifact behind it."
+  recomputed: "The filer's own independent verifier recomputes the value from statements somebody else signed, and its value equals the reference verdict on EVERY accepted member of one pinned corpus revision. The claim names that revision in corpus_digest and states the count as accepted_agreed of accepted_total, and the two numbers must be equal; agreement on fewer than all is inferred. It records that the term's recompute rule reproduces across independent implementations. It counts toward no promotion, because two verifiers agreeing is not an issuer emitting the value."
+
+# out_of_scope: explicit non-goals, stated so a filer knows this registry
+# does not contest ground it does not claim.
+out_of_scope:
+  - "Agent identity, reputation, or wallet-bound scoring of any kind. This registry describes claims about an execution, never a scored assessment of an actor over time."
+  - "Renaming or reinterpreting a live signed envelope's own type/format field. A verifier MUST reject an unregistered enum value for a known field when the record names a registry the verifier holds or names none (meta.open_value_rule cases 1 and 2); the wire bytes of that field are never renamed by this registry."
+  - "Policy thresholds. This registry's outcome_lattice term is a recomputable minimum, never a pass/fail threshold a consumer's own policy applies on top."
+
+# reserved: terms that are not live, kept here so a decision is not silently
+# re-litigated. Two routes in, and they are different states worth telling apart
+# when reading a row: a term considered and explicitly declined, which was never
+# proposed here, and a term that WAS proposed and reached its review-by date with
+# no production issuer. The second was not declined by anyone; it simply found no
+# emitter. Each row says which.
+#
+# Removal is the separate later step named in promotion_lifecycle. A removed term
+# leaves the file entirely, so nothing below ever records one.
+reserved: []

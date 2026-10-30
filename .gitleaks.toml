@@ -92,6 +92,10 @@ regexTarget = "match"
 regexes = ['''token"?\s*[:=]\s*"eyJhbGciOiJub25lIn0\.e30\."''']
 
 [[allowlists]]
+description = "The ignore file lists commit:file:rule:line fingerprints, which read as high-entropy values"
+paths = ['''^\.gitleaksignore$''']
+
+[[allowlists]]
 description = "SHA-256 digest of a retained keys file, keyed by its file name (vectors-refund-connected manifest)"
 targetRules = ["generic-api-key"]
 regexTarget = "match"

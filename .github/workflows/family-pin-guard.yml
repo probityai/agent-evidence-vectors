@@ -1,0 +1,66 @@
+name: family-pin-guard
+
+# Runs before a PyPI publish in release.yml. It refuses a release that the newest
+# published release of another family distribution cannot be installed beside:
+# scripts/family_pin_guard.py reads each sibling's published requirements and
+# names every one whose pin excludes the candidate version, then the candidate
+# wheel is installed into a fresh environment with every sibling at its newest
+# version and `uv pip check` must pass. Nothing here publishes.
+
+on:
+  workflow_call:
+    inputs:
+      distribution:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      artifact:
+        description: name of the uploaded artifact that holds the candidate wheel
+        required: true
+        type: string
+      wheel-glob:
+        description: glob of the wheel inside the downloaded artifact
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@18d369b23da25a81e9458561248e1aafff6a70fa # v10.3.1
+        with:
+          version: "0.12.8"
+          python-version: "3.12"
+          enable-cache: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.artifact }}
+          path: ${{ runner.temp }}/candidate
+      - name: no sibling's published pin excludes this version
+        env:
+          DISTRIBUTION: ${{ inputs.distribution }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          uv run --frozen --only-group dev python scripts/family_pin_guard.py check \
+            --name "$DISTRIBUTION" --version "$VERSION" --pins-out "$RUNNER_TEMP/pins.txt"
+          cat "$RUNNER_TEMP/pins.txt"
+      - name: the candidate wheel installs beside every sibling's newest release
+        env:
+          WHEEL_GLOB: ${{ inputs.wheel-glob }}
+        run: |
+          set -euo pipefail
+          mapfile -t wheels < <(compgen -G "$RUNNER_TEMP/candidate/$WHEEL_GLOB")
+          test "${#wheels[@]}" -eq 1
+          uv venv "$RUNNER_TEMP/family"
+          uv pip install --python "$RUNNER_TEMP/family" "${wheels[0]}" -r "$RUNNER_TEMP/pins.txt"
+          uv pip check --python "$RUNNER_TEMP/family"

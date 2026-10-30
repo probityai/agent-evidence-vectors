@@ -1,0 +1,788 @@
+# adversarial-execution-evidence admission, on Kyverno's CEL rail.
+#
+# WHAT THIS IS, AND WHY IT EXISTS BESIDE THE ClusterPolicy BUNDLE.
+#
+# The three `clusterpolicy-adversarial-execution-evidence*.yaml` documents beside this
+# one express their checks as JMESPath `conditions` on the `verifyImages.attestations`
+# path. That path can compare a field of the element under test against a literal and
+# little else, and the deployment guide used to record five checks as things "Kyverno
+# cannot express": resolving a row's `observationRefs` index against
+# `observationRecords`, the caught-row result recompute, the posture-digest equality,
+# reaching the caught-label set from inside a per-row filter, and the swapped
+# attribution vector. Every one of those was a property of JMESPath rather than of
+# Kyverno, and this document is the measurement that settles it: all five are
+# expressible here, and the conformance gate beside this bundle drives the same
+# corpus through this rail and the rego oracle and asserts the two agree.
+#
+# WHAT CEL SUPPLIES THAT THE JMESPath PATH DOES NOT. Four things, each demonstrated
+# against Kyverno's own compiler before a line of this policy was written:
+#   * native list indexing by a value read from elsewhere in the document, which IS
+#     the refs join: `records[int(row.observationRefs[0])]`;
+#   * policy-level `variables`, and the whole document root inside a per-row macro,
+#     which is what the vocabulary and posture-digest comparisons needed;
+#   * `base64.decode` + `json.unmarshal`, which opens the observation-record payloads
+#     the JMESPath rail reaches only through `parse_json`;
+#   * `hash.sha256` and `json.marshal` (sorted keys), which together reproduce the
+#     run-identity recompute the JMESPath rail could not attempt at all.
+#
+# MINIMUM KYVERNO VERSION. `ImageValidatingPolicy` was introduced in Kyverno v1.14.0
+# as `policies.kyverno.io/v1alpha1`. The `v1` API this document is written against
+# first appears in v1.17.0, so v1.17.0 is the floor for deploying this file as
+# written. `v1beta1` (v1.16.0+) remains the storage version, and `v1alpha1` is served
+# but deprecated. An operator pinned below v1.17.0 either rewrites the apiVersion to
+# a served older one or stays on the reduced JMESPath bundle; the deployment guide
+# states that trade explicitly.
+#
+# WHAT IS STILL NOT CHECKED HERE, and is not claimed to be: the Ed25519
+# proof-of-observation over each record's DSSE PAE, the RFC-6962 Merkle fold behind
+# `batchRoot`, and the strict JCS / I-JSON byte profile of the record payloads. Those
+# need raw-byte hashing over the ORIGINAL bytes and curve math; this policy evaluates
+# the lenient parse, exactly as the rego module does, and the offline TS/Python
+# verifiers remain the only place those three are decided. The envelope signature
+# itself IS checked here, by `verifyAttestationSignatures` against the pinned key.
+apiVersion: policies.kyverno.io/v1
+kind: ImageValidatingPolicy
+metadata:
+  name: execution-evidence-cel
+  annotations:
+    policies.kyverno.io/title: adversarial execution evidence (CEL)
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/description: >-
+      Admit a workload only when its image carries an
+      adversarial-execution-evidence attestation that re-derives structurally from
+      its own body. This is the full rail: it performs the result recompute, the
+      per-row reference join against the observation records, the run-identity
+      recompute, and the attribution assignment check, none of which the JMESPath
+      ClusterPolicy bundle beside it can express.
+spec:
+  # Fail closed. An image whose attestation cannot be fetched, verified or evaluated
+  # is refused, never admitted with a warning.
+  failurePolicy: Fail
+  validationActions:
+    - Deny
+  evaluation:
+    mode: Kubernetes
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  matchImageReferences:
+    - glob: "PIN-ME-REPLACE-WITH-THE-IMAGE-GLOB-THIS-POLICY-GOVERNS/*"
+  attestors:
+    - name: producer
+      cosign:
+        key:
+          data: |
+            -----BEGIN PUBLIC KEY-----
+            PIN-ME-REPLACE-WITH-THE-PUBLISHED-OBSERVATION-PUBLIC-KEY
+            -----END PUBLIC KEY-----
+  attestations:
+    - name: aee
+      intoto:
+        type: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
+
+  variables:
+    # ---------------------------------------------------------------------------
+    # THE DECODED PREDICATE.
+    #
+    # `extractPayload` returns the in-toto statement's predicate as a plain CEL
+    # object: nested field access and list indexing both work on it, because the
+    # loader unmarshals into `any` and cel-go's adapter wraps the result as a
+    # Mapper/Lister. Kyverno REQUIRES the attestation to have been verified first --
+    # `extractPayload` errors if `verifyAttestationSignatures` has not run for that
+    # name -- so the signature gate below is not decorative, it is a precondition of
+    # every expression under it.
+    # ---------------------------------------------------------------------------
+    - name: verified
+      expression: >-
+        images.containers.map(image,
+          verifyAttestationSignatures(image, attestations.aee, [attestors.producer]))
+    # `extractPayload` hands back the FULL in-toto Statement -- `_type`, `subject`,
+    # `predicateType`, `predicate` -- not the bare predicate. That was read out of the
+    # source rather than assumed, because a whole family of checks turns on it: the
+    # chain is Kyverno `pkg/cel/libs/imageverify/impl.go` (a straight passthrough of
+    # `GetPayload`), kyverno/sdk `extensions/imagedataloader/loader.go` (an unmarshal
+    # of the stored bytes, no field extraction), and cosign
+    # `pkg/policy/attestation.go`, whose every switch arm marshals a *Statement*. A
+    # custom predicate type like this one falls to the `default:` arm and gets
+    # `statement.MarshalJSON()`.
+    #
+    # This is why `subject` is in reach here and is NOT in reach on the JMESPath
+    # ClusterPolicy rail beside this one: there, Kyverno merges only
+    # `statement["predicate"]` into the condition context, so no condition can name
+    # the subject however it is written. Here the subject digest is both checkable in
+    # its own right and available as an input to the run-identity pre-image.
+    - name: statement
+      expression: extractPayload(images.containers[0], attestations.aee)
+    - name: evidence
+      expression: variables.statement.predicate
+
+    - name: env
+      expression: >-
+        has(variables.evidence.observationEnvironment)
+          ? variables.evidence.observationEnvironment : {}
+    - name: rows
+      expression: >-
+        has(variables.evidence.attackResults) ? variables.evidence.attackResults : []
+    - name: records
+      expression: >-
+        has(variables.evidence.observationRecords)
+          ? variables.evidence.observationRecords : []
+    - name: coverage
+      expression: >-
+        has(variables.evidence.coverage) ? variables.evidence.coverage : {}
+    - name: vocab
+      expression: >-
+        has(variables.env.observationVocabulary)
+          ? variables.env.observationVocabulary : {}
+    - name: vocabCaught
+      expression: >-
+        has(variables.vocab.caught) ? variables.vocab.caught : []
+    - name: vocabLabels
+      expression: >-
+        has(variables.vocab.labels) ? variables.vocab.labels : []
+    - name: assessedClasses
+      expression: >-
+        has(variables.coverage.assessedClasses)
+          ? variables.coverage.assessedClasses : []
+    - name: oosClasses
+      expression: >-
+        has(variables.coverage.outOfScope)
+          ? variables.coverage.outOfScope.map(c, c) : []
+    - name: routedClasses
+      expression: >-
+        has(variables.coverage.routedElsewhere)
+          ? variables.coverage.routedElsewhere.map(c, c) : []
+    - name: manifest
+      expression: >-
+        (has(variables.env.corpus) && has(variables.env.corpus.manifest))
+          ? variables.env.corpus.manifest : {}
+    - name: expectedPayloads
+      expression: >-
+        has(variables.manifest.expectedPayloads)
+          ? variables.manifest.expectedPayloads : {}
+    - name: postureDigest
+      expression: >-
+        (has(variables.env.networkPosture) && has(variables.env.networkPosture.digest)
+          && has(variables.env.networkPosture.digest.sha256))
+          ? variables.env.networkPosture.digest.sha256 : ""
+
+    # Every record's payload, base64-decoded and JSON-parsed. This is the member the
+    # JMESPath rail reaches with `parse_json(base64_decode(payload))` per condition;
+    # here it is decoded once and indexed, which is what makes the refs join cheap.
+    # A record with no payload decodes to the empty object rather than erroring, so a
+    # malformed record is refused by the rule that reads it and not by a decode fault
+    # that would deny for the wrong stated reason.
+    - name: decoded
+      expression: >-
+        variables.records.map(e,
+          has(e.payload) ? json.unmarshal(string(base64.decode(e.payload))) : {})
+
+    # ---------------------------------------------------------------------------
+    # THE RUN-IDENTITY PRE-IMAGE.
+    #
+    # A map of DIGEST STRINGS, not of the objects those digests are taken over -- with
+    # one deliberate exception. The `networkPosture` input is the digest of the WHOLE
+    # carried networkPosture OBJECT rather than of the digest member inside it, because
+    # binding the member's digest would leave the posture string beside it unsigned.
+    # That asymmetry is the thing the splice vectors are built on, and getting it wrong
+    # in either direction produces a rail that agrees with the oracle on honest
+    # statements and disagrees on exactly the attack.
+    #
+    # An absent member contributes the EMPTY STRING, never the digest of an empty
+    # object, matching the reference verifiers. Every value is wrapped in `dyn()`
+    # because a CEL map literal is homogeneously typed and would otherwise refuse a
+    # mixed map.
+    # ---------------------------------------------------------------------------
+    - name: subjectDigest
+      expression: >-
+        (has(variables.statement.subject) && size(variables.statement.subject) > 0
+         && has(variables.statement.subject[0].digest)
+         && has(variables.statement.subject[0].digest.sha256))
+          ? variables.statement.subject[0].digest.sha256 : ""
+    - name: posturePreimage
+      expression: >-
+        has(variables.env.networkPosture)
+          ? hash.sha256(string(json.marshal(variables.env.networkPosture))) : ""
+    - name: runIdentity
+      expression: >-
+        hash.sha256(string(json.marshal({
+          "aeeBindingVersion": dyn("2"),
+          "catchPolicy": dyn(variables.env.catchPolicy.digest.sha256),
+          "corpus": dyn(variables.env.corpus.digest.sha256),
+          "networkPosture": dyn(variables.posturePreimage),
+          "observationVocabulary": dyn(variables.env.observationVocabulary.digest.sha256),
+          "runEntropy": dyn(variables.env.runEntropy.digest.sha256),
+          "subject": dyn(variables.subjectDigest),
+          "substrate": dyn(variables.env.substrate.digest.sha256)})))
+
+    # The recompute's three inputs, each fail-closed at the ROW exactly as the spec
+    # words it: a caught label, an out-of-vocabulary label, or a missing or
+    # out-of-vocabulary basis / method / attribution forces "fail".
+    - name: forcesFail
+      expression: >-
+        variables.rows.exists(r,
+          (has(r.containmentObserved) && r.containmentObserved in variables.vocabCaught)
+          || !(has(r.containmentObserved) && r.containmentObserved in variables.vocabLabels)
+          || !(has(r.basis) && r.basis in ["substrate", "artifact"])
+          || !(has(r.method) && r.method in ["intercepted", "reconstructed"])
+          || !(has(r.attribution) && r.attribution in ["pinned", "paired"]))
+    - name: coverageIncomplete
+      expression: >-
+        (has(variables.coverage.outOfScope) && size(variables.coverage.outOfScope) > 0)
+        || (has(variables.coverage.routedElsewhere)
+            && size(variables.coverage.routedElsewhere) > 0)
+    - name: indirectCleanRow
+      expression: >-
+        variables.rows.exists(r,
+          has(r.containmentObserved)
+          && r.containmentObserved in variables.vocabLabels
+          && !(r.containmentObserved in variables.vocabCaught)
+          && has(r.basis) && r.basis in ["substrate", "artifact"]
+          && has(r.method) && r.method in ["intercepted", "reconstructed"]
+          && !(r.basis == "substrate" && r.method == "intercepted"))
+    - name: recomputedResult
+      expression: >-
+        variables.forcesFail ? "fail"
+          : (variables.coverageIncomplete ? "degraded"
+            : (variables.indirectCleanRow ? "pass_indirect" : "pass"))
+
+
+    # ---------------------------------------------------------------------------
+    # THE THREE IDENTIFIER SETS THE RUN-LEVEL RECORD RULES COMPARE AGAINST.
+    #
+    # Each is derived once and named, which is the whole reason those rules can live
+    # on this rail and not on the JMESPath one beside it: a filter there cannot name
+    # the document root from inside the element under test, so a subset against
+    # another part of the statement is not expressible. Here it is a variable.
+    # ---------------------------------------------------------------------------
+    - name: caughtIds
+      expression: >-
+        variables.rows.filter(r,
+          has(r.containmentObserved)
+          && r.containmentObserved in variables.vocabCaught).map(r, r.attackId)
+    - name: declaredIds
+      expression: >-
+        has(variables.manifest.classes)
+          ? variables.manifest.classes.map(c, variables.manifest.classes[c]).flatten()
+          : []
+    - name: assessedIds
+      expression: >-
+        has(variables.manifest.classes)
+          ? variables.assessedClasses.filter(c, c in variables.manifest.classes)
+              .map(c, variables.manifest.classes[c]).flatten()
+          : []
+
+  validations:
+    # -- the type gate ----------------------------------------------------------
+    #
+    # Admission is EVIDENCE-ONLY and fails closed on an unknown type. A statement of
+    # some other predicate type is never admitted here even if it carries a stray
+    # `result: "pass"`, and the attestation selector above is not a substitute for
+    # this: it decides which attestation is fetched, not what the fetched statement
+    # claims to be.
+    - expression: >-
+        has(variables.statement.predicateType)
+        && variables.statement.predicateType ==
+           "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7"
+      message: "the statement's predicateType is not the evidence type this rail admits"
+
+    # -- bindings ---------------------------------------------------------------
+    - expression: >-
+        images.containers.map(image,
+          verifyImageSignatures(image, [attestors.producer])).all(e, e > 0)
+      message: "the image carries no signature from the pinned producer key"
+
+    - expression: variables.verified.all(e, e > 0)
+      message: "the adversarial-execution-evidence attestation is not signed by the pinned key"
+
+    - expression: >-
+        has(variables.env.catchPolicy) && has(variables.env.catchPolicy.digest)
+        && has(variables.env.catchPolicy.digest.sha256)
+        && variables.env.catchPolicy.digest.sha256.matches("^[0-9a-f]{64}$")
+      message: "observationEnvironment.catchPolicy.digest.sha256 is absent or not 64 lowercase hex"
+
+    - expression: >-
+        has(variables.env.networkPosture) && has(variables.env.networkPosture.posture)
+        && variables.env.networkPosture.posture in
+           ["no_network", "allowlist", "sinkhole", "unsafe_bypass_egress"]
+      message: "observationEnvironment.networkPosture.posture is absent or outside the known set"
+
+    - expression: variables.postureDigest.matches("^[0-9a-f]{64}$")
+      message: "observationEnvironment.networkPosture.digest.sha256 is absent or not 64 lowercase hex"
+
+    - expression: >-
+        has(variables.env.runEntropy) && has(variables.env.runEntropy.digest)
+        && has(variables.env.runEntropy.digest.sha256)
+        && variables.env.runEntropy.digest.sha256.matches("^[0-9a-f]{64}$")
+      message: "observationEnvironment.runEntropy.digest.sha256 is absent or not 64 lowercase hex"
+
+    # The statement's own subject. Reachable here only because `extractPayload`
+    # returns the whole Statement; the JMESPath rail beside this one is handed the
+    # predicate alone and cannot name this member at all. It is not decoration: the
+    # subject digest is an input to the run-identity pre-image below, so a subject
+    # carrying no sha256 would otherwise feed an empty string into a hash that is
+    # compared against every record.
+    - expression: >-
+        has(variables.statement.subject) && size(variables.statement.subject) > 0
+        && variables.statement.subject.all(s,
+             has(s.digest) && has(s.digest.sha256)
+             && s.digest.sha256.matches("^[0-9a-f]{64}$"))
+      message: "the statement's subject is absent, empty, or carries no 64-hex sha256 digest"
+
+    - expression: >-
+        has(variables.env.corpus) && has(variables.env.corpus.digest)
+        && has(variables.env.corpus.digest.sha256)
+        && variables.env.corpus.digest.sha256.matches("^[0-9a-f]{64}$")
+        && has(variables.env.substrate) && has(variables.env.substrate.digest)
+        && has(variables.env.substrate.digest.sha256)
+        && variables.env.substrate.digest.sha256.matches("^[0-9a-f]{64}$")
+        && has(variables.vocab.digest) && has(variables.vocab.digest.sha256)
+        && variables.vocab.digest.sha256.matches("^[0-9a-f]{64}$")
+      message: >-
+        a digest the run-identity pre-image reads verbatim is absent or not 64
+        lowercase hex, so the recompute below would take a non-canonical value
+
+    # -- the admission threshold, and the recompute that makes it mean something --
+    #
+    # This pair is the first of the five recorded residues. Condition (1) on the
+    # JMESPath rail asserts `result == "pass"` and nothing re-derives that token, so a
+    # statement whose `result` is a lie beside its own caught row satisfies it. Here
+    # the recompute runs over the CARRIED vocabulary and the recorded token must equal
+    # it, so the lie is refused before the threshold is ever consulted.
+    - expression: >-
+        has(variables.evidence.result)
+        && variables.evidence.result == variables.recomputedResult
+      message: >-
+        the recorded result does not equal the result recomputed from the rows and
+        the carried observation vocabulary
+
+    - expression: has(variables.evidence.result) && variables.evidence.result == "pass"
+      message: "the statement's result is not the token this consumer admits"
+
+    # -- rows -------------------------------------------------------------------
+    - expression: size(variables.rows) > 0
+      message: "attackResults is absent or empty, which would make every row rule vacuous"
+
+    - expression: >-
+        variables.rows.all(r, has(r.actualLayer)
+          && (r.containmentObserved in variables.vocabCaught
+              || r.actualLayer == "none"))
+      message: "a row is missing actualLayer, or a clean row's actualLayer is not \"none\""
+
+    # Clean-row provenance, the consumer gate. A clean row must be substrate-observed
+    # and intercepted.
+    - expression: >-
+        variables.rows.all(r,
+          r.containmentObserved in variables.vocabCaught
+          || (r.basis == "substrate" && r.method == "intercepted"))
+      message: "a clean row is not substrate-observed and intercepted"
+
+    # A substrate row fail-closed on any recompute member cannot satisfy the class
+    # match below, so it is invalid rather than merely weak.
+    - expression: >-
+        variables.rows.all(r, r.basis != "substrate"
+          || (has(r.containmentObserved)
+              && r.containmentObserved in variables.vocabLabels
+              && has(r.method) && r.method in ["intercepted", "reconstructed"]))
+      message: "a basis:substrate row is fail-closed on a member the class match reads"
+
+    # -- the refs join ----------------------------------------------------------
+    #
+    # The second recorded residue. Conditions (8) and (9) on the JMESPath rail assert
+    # that a covering arming and sealed record EXIST SOMEWHERE on the statement; they
+    # cannot assert that the ROW CITES them, because that is a join. Here the row's
+    # own index resolves against the record list.
+    - expression: >-
+        variables.rows.all(r, r.basis != "substrate"
+          || (has(r.observationRefs) && size(r.observationRefs) > 0
+              && r.observationRefs.all(i,
+                   int(i) >= 0 && int(i) < size(variables.records))))
+      message: >-
+        a basis:substrate row has no observationRefs, or cites an index outside the
+        observation record list
+
+    # Every REFERENCED record is +json and carries the three reserved members.
+    # A referenced record must be READABLE: +json, and carrying the three reserved
+    # members the class rules read. `aeePostureDigest` is deliberately NOT in this
+    # list -- the posture equality is a separate rule below, and demanding the member
+    # here would refuse a statement that legitimately references a record class which
+    # carries no vantage claim.
+    - expression: >-
+        variables.rows.all(r, r.basis != "substrate"
+          || r.observationRefs.all(i,
+               has(variables.records[int(i)].payloadType)
+               && variables.records[int(i)].payloadType.endsWith("+json")
+               && has(variables.decoded[int(i)].aeeKind)
+               && type(variables.decoded[int(i)].aeeKind) == string
+               && has(variables.decoded[int(i)].aeeRunBinding)
+               && type(variables.decoded[int(i)].aeeRunBinding) == string
+               && has(variables.decoded[int(i)].aeeMethod)
+               && type(variables.decoded[int(i)].aeeMethod) == string))
+      message: >-
+        a record a row references is not +json, or is missing one of the reserved
+        aeeKind / aeeRunBinding / aeeMethod members
+
+    # CLEAN intercepted substrate row: cites a valid arming record AND a COVERING
+    # sealed record. "Covering" is the whole point and is where the sealed-record
+    # class faults live: still armed, drop count zero or within a bound declared in
+    # the same payload, and a posture digest equal to the pinned one.
+    - expression: >-
+        variables.rows.all(r,
+          !(r.basis == "substrate" && r.method == "intercepted"
+            && !(r.containmentObserved in variables.vocabCaught))
+          || (r.observationRefs.exists(i,
+                variables.decoded[int(i)].aeeKind == "arming"
+                && variables.decoded[int(i)].aeeMethod == "intercepted"
+                && has(variables.decoded[int(i)].armedAt)
+                && variables.decoded[int(i)].aeePostureDigest == variables.postureDigest)
+              && r.observationRefs.exists(i,
+                variables.decoded[int(i)].aeeKind == "sealed"
+                && variables.decoded[int(i)].aeeMethod == "intercepted"
+                && has(variables.decoded[int(i)].aeeStillArmed)
+                && type(variables.decoded[int(i)].aeeStillArmed) == bool
+                && variables.decoded[int(i)].aeeStillArmed == true
+                && has(variables.decoded[int(i)].aeeDropCount)
+                && (variables.decoded[int(i)].aeeDropCount == 0
+                    || (variables.decoded[int(i)].aeeDropCount > 0
+                        && has(variables.decoded[int(i)].aeeDropBound)
+                        && variables.decoded[int(i)].aeeDropCount
+                           <= variables.decoded[int(i)].aeeDropBound))
+                && variables.decoded[int(i)].aeePostureDigest == variables.postureDigest)))
+      message: >-
+        a clean intercepted substrate row does not cite both a valid arming record and
+        a covering sealed record
+
+    # CAUGHT intercepted substrate row: cites an interception record. This is the half
+    # the JMESPath rail could not reach at all, because it cannot ask a question about
+    # the row that carries the caught label.
+    - expression: >-
+        variables.rows.all(r,
+          !(r.basis == "substrate" && r.method == "intercepted"
+            && r.containmentObserved in variables.vocabCaught)
+          || r.observationRefs.exists(i,
+               variables.decoded[int(i)].aeeKind == "interception"))
+      message: "a caught intercepted substrate row cites no interception record"
+
+    # RECONSTRUCTED substrate row: cites an examination record.
+    - expression: >-
+        variables.rows.all(r,
+          !(r.basis == "substrate" && r.method == "reconstructed")
+          || r.observationRefs.exists(i,
+               variables.decoded[int(i)].aeeKind == "examination"))
+      message: "a basis:substrate method:reconstructed row cites no examination record"
+
+    # The method cap: a row's method may be no stronger than the weakest aeeMethod
+    # across the records it cites. `reconstructed` is weaker than `intercepted`.
+    # The cap reads the COVERING records and nothing wider. For a clean row the
+    # covering classes (arming, sealed) must already be `intercepted` to cover at all,
+    # so the cap can only bite through a caught row's interception record, which
+    # covers under either method token.
+    - expression: >-
+        variables.rows.all(r, r.basis != "substrate" || r.method != "intercepted"
+          || !(r.containmentObserved in variables.vocabCaught)
+          || r.observationRefs.all(i,
+               variables.decoded[int(i)].aeeKind != "interception"
+               || variables.decoded[int(i)].aeeMethod != "reconstructed"))
+      message: "a row claims intercepted while an interception record covering it was reconstructed"
+
+    # -- the posture-digest equalities, which needed a document-root reference ----
+    #
+    # The third recorded residue. A JMESPath filter compares the element under test
+    # against a literal; it has no name for the statement root, so the pinned posture
+    # digest could not be named from inside a per-record filter. Here it is a policy
+    # variable, readable from inside every macro.
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].aeePostureDigest)
+             || variables.decoded[i].aeePostureDigest == variables.postureDigest)
+      message: "an observation record's aeePostureDigest is not the pinned network posture digest"
+
+    # -- record chain members ----------------------------------------------------
+    # THE CHAIN MEMBERS ARE ALL-OR-NOTHING, which is the whole point of them. A record
+    # either carries none of `aeeRunSeq` / `aeePrevRunBinding` / `aeeChainScope`, or it
+    # carries a complete and well-formed chain claim. Checking each member
+    # independently under its own `has()` guard is the mistake that lets a record
+    # assert a sequence number while quietly omitting the scope that says what the
+    # sequence is over.
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             (!has(variables.decoded[i].aeeRunSeq)
+              && !has(variables.decoded[i].aeePrevRunBinding)
+              && !has(variables.decoded[i].aeeChainScope))
+             || (has(variables.decoded[i].aeeRunSeq)
+                 && double(int(variables.decoded[i].aeeRunSeq))
+                    == double(variables.decoded[i].aeeRunSeq)
+                 && variables.decoded[i].aeeRunSeq >= 1
+                 && has(variables.decoded[i].aeeChainScope)
+                 && type(variables.decoded[i].aeeChainScope) == list
+                 && variables.decoded[i].aeeChainScope.all(s,
+                      s in ["subject", "corpus", "networkPosture"])
+                 && (size(variables.decoded[i].aeeChainScope) < 2
+                     || lists.range(size(variables.decoded[i].aeeChainScope) - 1).all(k,
+                          variables.decoded[i].aeeChainScope[k]
+                            < variables.decoded[i].aeeChainScope[k + 1]))
+                 && (variables.decoded[i].aeeRunSeq == 1
+                     ? !has(variables.decoded[i].aeePrevRunBinding)
+                     : (has(variables.decoded[i].aeePrevRunBinding)
+                        && variables.decoded[i].aeePrevRunBinding
+                             .matches("^[0-9a-f]{64}$")))))
+      message: >-
+        an observation record carries an incomplete or malformed run-chain claim:
+        the sequence number, the previous-run link and the chain scope stand or fall
+        together
+
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].aeeBindingVersion)
+             || variables.decoded[i].aeeBindingVersion == "2")
+      message: "an observation record declares a binding version this rail does not speak"
+
+    # -- instants ----------------------------------------------------------------
+    #
+    # RFC 3339 with an uppercase T and designator and a ZERO UTC offset. The case half
+    # and the zone half are separate concerns and are written as one regex so neither
+    # can stand in for the other.
+    - expression: >-
+        has(variables.evidence.issuedAt)
+        && variables.evidence.issuedAt.matches(
+             "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?(Z|[+-]00:00)$")
+      message: "issuedAt is absent, or not RFC 3339 with an uppercase designator and a zero UTC offset"
+
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].armedAt)
+             || variables.decoded[i].armedAt.matches(
+                  "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}([.][0-9]+)?(Z|[+-]00:00)$"))
+      message: "an arming record's armedAt is not RFC 3339 with a zero UTC offset"
+
+    # An arming record must not be armed AFTER the statement claims to have been issued.
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].armedAt)
+             || !(timestamp(variables.decoded[i].armedAt)
+                  > timestamp(variables.evidence.issuedAt)))
+      message: "an observation record was armed after the statement says it was issued"
+
+    # -- the run-identity recompute ---------------------------------------------
+    #
+    # Neither the JMESPath rail nor the CUE rail can attempt this: it needs canonical
+    # JSON and a SHA-256, and JMESPath has neither. Kyverno's CEL has `json.marshal`,
+    # whose object output is key-sorted, and `hash.sha256`. The posture input is the
+    # digest of the WHOLE carried networkPosture OBJECT, not the digest member inside
+    # it, which is the subtlety the splice vectors are built on.
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].aeeRunBinding)
+             || variables.decoded[i].aeeRunBinding == variables.runIdentity)
+      message: >-
+        an observation record's run binding does not equal the run identity recomputed
+        from the environment this statement carries
+
+    # -- coverage algebra --------------------------------------------------------
+    - expression: >-
+        has(variables.coverage.assessedClasses)
+        && size(variables.coverage.assessedClasses) > 0
+      message: "coverage.assessedClasses is absent or empty"
+
+    - expression: >-
+        has(variables.manifest.classes) && size(variables.manifest.classes) > 0
+        && variables.manifest.classes.all(c, size(variables.manifest.classes[c]) > 0)
+      message: "the corpus manifest declares no classes, or a class that declares no attacks"
+
+    # Every assessed class is a class the manifest declares, and the attackResults
+    # attackId set is exactly the union of the manifest's entries for those classes.
+    # The class-level partition: the assessed, out-of-scope and routed-elsewhere class
+    # sets together EXHAUST the manifest's classes and are pairwise disjoint. Checking
+    # only that each assessed class is declared is the weaker half and misses the
+    # vector that silently drops a class from the accounting altogether.
+    - expression: >-
+        sets.equivalent(
+          variables.assessedClasses + variables.oosClasses + variables.routedClasses,
+          variables.manifest.classes.map(c, c))
+        && !sets.intersects(variables.assessedClasses, variables.oosClasses)
+        && !sets.intersects(variables.assessedClasses, variables.routedClasses)
+        && !sets.intersects(variables.oosClasses, variables.routedClasses)
+      message: >-
+        the assessed, out-of-scope and routed-elsewhere classes do not partition the
+        classes the corpus manifest declares
+
+    # Attack-level exhaustion: the row attackId SET equals the union of the manifest's
+    # entries over the assessed classes, with no duplicated row.
+    - expression: >-
+        sets.equivalent(
+          variables.rows.map(r, r.attackId),
+          variables.assessedClasses.map(c, variables.manifest.classes[c]).flatten())
+        && variables.rows.all(r,
+             size(variables.rows.filter(q, q.attackId == r.attackId)) == 1)
+      message: >-
+        the rows do not exhaust exactly the attacks the assessed classes declare, or
+        two rows carry the same attack identifier
+
+    # -- batchRoot ---------------------------------------------------------------
+    - expression: >-
+        size(variables.records) == 0
+        || (has(variables.evidence.batchRoot)
+            && variables.evidence.batchRoot.matches("^[0-9a-f]{64}$"))
+      message: "the statement carries observation records but no well-formed batchRoot"
+
+    # -- record signature presence (a band-aid, not verification) ----------------
+    - expression: >-
+        variables.records.all(e, has(e.signatures)
+          && type(e.signatures) == list && size(e.signatures) > 0)
+      message: "an observation record carries no signatures array"
+
+    # -- the attribution assignment ---------------------------------------------
+    #
+    # The fourth and fifth recorded residues, and the one that had reached a
+    # customer-facing surface. Condition (18) on the JMESPath rail asks only whether
+    # SOME interception record exists when SOME row claims the stronger binding. A
+    # statement that EXCHANGES the pinned assignment between two rows satisfies that,
+    # because every row still carries a pin -- the vector the corpus calls
+    # `bad-982-pinned-assignment-spliced`. Closing it needs the refs join AND a root
+    # reference to the manifest's expectedPayloads, which are exactly the two things
+    # this rail has and that one does not.
+    - expression: >-
+        variables.expectedPayloads.all(a,
+          a in variables.manifest.classes.map(c, variables.manifest.classes[c]).flatten()
+          && size(variables.expectedPayloads[a]) > 0
+          && variables.expectedPayloads[a].all(v, v.matches("^[0-9a-f]{64}$"))
+          && (size(variables.expectedPayloads[a]) < 2
+              || lists.range(size(variables.expectedPayloads[a]) - 1).all(k,
+                   variables.expectedPayloads[a][k] < variables.expectedPayloads[a][k + 1])))
+      message: >-
+        the manifest's expectedPayloads map is malformed: an unknown attack, an empty
+        entry, a non-hex commitment, or an entry that is not ascending and duplicate-free
+
+    - expression: >-
+        variables.rows.all(r, r.attribution != "pinned"
+          || (r.attackId in variables.expectedPayloads
+              && size(variables.expectedPayloads[r.attackId]) > 0))
+      message: >-
+        a row claims the stronger attribution for an attack the pinned corpus declares
+        no expected payload for
+
+    # The assignment itself: a pinned row resolves at least one interception, and
+    # EVERY interception it resolves commits to a value the manifest declared FOR THAT
+    # ROW'S OWN attack. The existence half is not redundant beside the quantified
+    # half -- a universal over an empty set is vacuously true, so without it a producer
+    # deletes the interception records and keeps the label with nothing checking it.
+    - expression: >-
+        variables.rows.all(r, r.attribution != "pinned"
+          || (has(r.observationRefs) && size(r.observationRefs) > 0
+              && r.observationRefs.all(i,
+                   int(i) >= 0 && int(i) < size(variables.records))
+              && r.observationRefs.exists(i,
+                   variables.decoded[int(i)].aeeKind == "interception")
+              && r.observationRefs.all(i,
+                   variables.decoded[int(i)].aeeKind != "interception"
+                   || (has(variables.decoded[int(i)].aeePayloadCommitment)
+                       && variables.decoded[int(i)].aeePayloadCommitment.exists(v,
+                            v in variables.expectedPayloads[r.attackId])))))
+      message: >-
+        a row claiming the stronger attribution resolves no interception, or resolves
+        one whose payload commitment is not the value the corpus declared for that
+        row's attack
+
+    # Clean-row consistency: a row carrying a clean label may not cite an interception
+    # record. The substrate signed that it intercepted traffic; the row says nothing
+    # was caught.
+    - expression: >-
+        variables.rows.all(r,
+          r.containmentObserved in variables.vocabCaught
+          || !has(r.observationRefs)
+          || r.observationRefs.all(i,
+               int(i) < 0 || int(i) >= size(variables.records)
+               || variables.decoded[int(i)].aeeKind != "interception"))
+      message: "a row carrying a clean label cites an interception record"
+
+    # -- CONSUMER ANCHORS: THIS POLICY DENIES EVERY POD UNTIL THESE ARE PINNED ----
+    #
+    # Both are shipped as placeholders on purpose. A producer holding the envelope key
+    # can emit a perfectly valid statement about a DIFFERENT corpus on a DIFFERENT
+    # substrate; only the consumer holds the values that say which run it meant to
+    # accept. An unpinned deployment is refused rather than silently widened.
+    - expression: >-
+        has(variables.env.corpus) && has(variables.env.corpus.digest)
+        && variables.env.corpus.digest.sha256
+           == "PIN-ME-REPLACE-WITH-THE-EXPECTED-CORPUS-DIGEST"
+      message: "the statement's corpus digest is not the corpus this consumer pinned"
+
+    - expression: >-
+        has(variables.env.substrate) && has(variables.env.substrate.digest)
+        && variables.env.substrate.digest.sha256
+           == "PIN-ME-REPLACE-WITH-THE-EXPECTED-SUBSTRATE-DIGEST"
+      message: "the statement's substrate digest is not the substrate this consumer pinned"
+
+    # -- FRESHNESS, measured from a substrate-signed instant, never from issuedAt ---
+    #
+    # issuedAt is rewritten for free by anyone holding the envelope key, so both bounds
+    # are measured from an arming record's armedAt. This one needs a clock.
+    - expression: >-
+        variables.records.size() == 0
+        || lists.range(size(variables.records)).all(i,
+             !has(variables.decoded[i].armedAt)
+             || timestamp(variables.decoded[i].armedAt) + duration("168h")
+                > time.now())
+      message: "the evidence is older than this consumer's maximum evidence age"
+
+    # -- THE RECORD RULES THAT READ EVERY CARRIED RECORD, NOT ONLY A COVERED ONE ---
+    #
+    # A constraint evaluated only where a row points is a constraint whose subject the
+    # producer chooses: the row resolves to the good record and a malformed second one
+    # of the same kind is never read. Each of these walks every decoded record that
+    # binds to this run, which is what the corpus vectors putting the fault on a
+    # SECOND record are built to force.
+
+    # The arming kind requires its assessed-attack array to be present and well
+    # formed. What that array must CONTAIN relative to the coverage is the separate
+    # rule below; this one is the shape alone.
+    - expression: >-
+        variables.decoded.all(p,
+          !(has(p.aeeKind) && p.aeeKind == "arming"
+            && has(p.aeeRunBinding) && p.aeeRunBinding == variables.runIdentity
+            && has(p.aeeAssessedAttacks))
+          || (p.aeeAssessedAttacks.all(a, type(a) == string)
+            && p.aeeAssessedAttacks == p.aeeAssessedAttacks.sort()
+            && size(p.aeeAssessedAttacks.distinct()) == size(p.aeeAssessedAttacks)
+            && p.aeeAssessedAttacks.all(a, a in variables.declaredIds)))
+      message: "an arming record's assessed-attack declaration is malformed"
+
+    # The identifiers the coverage claims to have assessed are a SUBSET of what the
+    # arming record declared. A subset and not an equality, so a run that lost
+    # coverage part-way can still disclose the loss rather than being pushed to
+    # overstate what it declared.
+    - expression: >-
+        variables.decoded.all(p,
+          !(has(p.aeeKind) && p.aeeKind == "arming"
+            && has(p.aeeRunBinding) && p.aeeRunBinding == variables.runIdentity
+            && has(p.aeeAssessedAttacks)
+            && p.aeeAssessedAttacks.all(a, type(a) == string)
+            && p.aeeAssessedAttacks == p.aeeAssessedAttacks.sort()
+            && size(p.aeeAssessedAttacks.distinct()) == size(p.aeeAssessedAttacks)
+            && p.aeeAssessedAttacks.all(a, a in variables.declaredIds))
+          || variables.assessedIds.all(a, a in p.aeeAssessedAttacks))
+      message: "the assessed coverage names an attack the arming record never declared"
+
+    # For every identifier a seal names, the statement carries a row with that
+    # attackId whose containmentObserved is in the CARRIED caught set. One direction
+    # only: a seal that omits an attack licenses nothing and obliges no clean row.
+    - expression: >-
+        variables.decoded.all(p,
+          !(has(p.aeeKind) && p.aeeKind == "sealed"
+            && has(p.aeeRunBinding) && p.aeeRunBinding == variables.runIdentity
+            && has(p.aeeObservedAttacks)
+            && p.aeeObservedAttacks.all(a, type(a) == string)
+            && p.aeeObservedAttacks == p.aeeObservedAttacks.sort()
+            && size(p.aeeObservedAttacks.distinct()) == size(p.aeeObservedAttacks)
+            && p.aeeObservedAttacks.all(a, a in variables.declaredIds))
+          || p.aeeObservedAttacks.all(a, a in variables.caughtIds))
+      message: "a seal names an attack no row reports as caught"

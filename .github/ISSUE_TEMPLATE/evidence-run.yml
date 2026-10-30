@@ -1,0 +1,98 @@
+name: Evidence run
+description: Submit a pinned run and its claim-specific evidence for lab review.
+title: "[Evidence run] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Follow the [Probity Open Evidence Lab protocol](https://probityai.github.io/agent-evidence-atlas/lab.html).
+        Results remain scoped to their contract, evidence and operator roles. Submission is not certification or membership.
+  - type: textarea
+    id: question
+    attributes:
+      label: Question to answer
+      description: State the question before scoring. Explain which observed result would support or contradict the specific claim.
+    validations:
+      required: true
+  - type: input
+    id: claim
+    attributes:
+      label: Claim and contract revision
+      description: Name the specific claim and immutable specification/profile link.
+    validations:
+      required: true
+  - type: dropdown
+    id: evidence_kind
+    attributes:
+      label: Primary evidence claim
+      options:
+        - Retained-byte integrity
+        - Verifier behavior on a fixture
+        - Host-project CI dependency
+        - Observed bounded effect
+        - Independent witness or consumer operation
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Producer, reader, configuration and policy pins
+      description: Supply repository revisions, adapter/configuration digests, input manifest and explicit local mappings or unresolved rules.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Raw retained artifacts and byte manifest
+      description: Immutable file links, full-octet SHA-256, byte sizes, media types, retrieval records and separately identified derivatives.
+    validations:
+      required: true
+  - type: textarea
+    id: roles
+    attributes:
+      label: Authors, operators, policy owners and custodians
+      description: Identify each role, shared control, key/head acquisition channel and any claimed operational boundary. Separate fixture pins from external trust.
+    validations:
+      required: true
+  - type: textarea
+    id: exposure
+    attributes:
+      label: Expected-answer exposure and frozen output
+      description: State all prior answer knowledge; link the raw report revision and later comparison revision, with their order. Expected-file-blind is not answer-blind.
+    validations:
+      required: true
+  - type: textarea
+    id: execution
+    attributes:
+      label: Commands, environment and raw execution outputs
+      description: Exact runnable commands, runtime/dependency pins, stdout/stderr, exit status, CI run/checkout if used, and retention location.
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Claim-level outcomes, denominator and limits
+      description: List every attempted, missing, failed, unknown, unexercised and excluded check. Report correlation, signature, admission and observed-effect results separately.
+    validations:
+      required: true
+  - type: textarea
+    id: controls
+    attributes:
+      label: Positive, hostile and negative-control evidence
+      description: Retain each control and exact result. Explain inapplicable controls and show that an accept-all/naive adapter cannot pass the discriminating cases.
+    validations:
+      required: true
+  - type: textarea
+    id: adoption
+    attributes:
+      label: Host-owned dependency or independent-operation evidence
+      description: If claimed, link the host-owned workflow and maintainer decision, classify development/fixture/runtime use, and supply separately acquired trust and custody evidence. Otherwise state not exercised.
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: Gaps, proposed corrections and affected upstream contract
+      description: Classify observed gaps and link their raw evidence. Identify proposed follow-up work without claiming an upstream commitment.
+    validations:
+      required: true

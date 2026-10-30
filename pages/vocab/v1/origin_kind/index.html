@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>origin_kind: Agent Evidence vocabulary</title>
+<meta name="description" content="The origin_kind term of the Agent Evidence vocabulary.">
+<link rel="canonical" href="https://w3id.org/agent-evidence/vocab/v1/origin_kind">
+<script type="application/ld+json">
+{
+ "@context": {
+  "owl": "http://www.w3.org/2002/07/owl#",
+  "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+  "skos": "http://www.w3.org/2004/02/skos/core#"
+ },
+ "@graph": [
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind",
+   "@type": "skos:Concept",
+   "skos:definition": "Which party produced the evidence a record is assembled from: the runtime that performed the execution produced its own record (self); the record was assembled from another vendor's runtime governance output, asserted by the system that produced it with no root outside that system (third-party-control-plane); or it was assembled from a log or export whose producer is not a control plane, such as a SIEM export, an audit trail, or a batch job (log-import). first-hand is a FOURTH value this registry adds and the source enum does not carry: the producer obtained the evidence by its own observation and is not the party that executed, so it neither performed the execution nor holds somebody else's output. It exists because the borrowed enum is written from the perspective of a record about its own execution, while this registry also carries observation_vantage, which names a producer that is neither the executing party nor an assembler. Without the fourth value the field is REQUIRED and unfillable for exactly the records an independent observer emits, and the pressure is then to spell one of them self, which is the one reading that makes the field lie. The value says HOW the evidence arrived and never where the producer stood. observation_vantage says where, and the two compose: first-hand with peer and first-hand with below-observed are both real producers, and a value that carried the layer in its own name would have left one of them unfillable again. Two spellings were drafted and dropped for that reason, and the second for a second reason: observer collides with observer-attested in the source specification's own family, where it means a third party that fetched and measured the subject from outside it. A record MUST NOT declare observation_vantage: below-observed unless its origin_kind is first-hand, and a verifier MUST reject it otherwise. A party attesting its own execution is not below itself, and an assembler holding somebody else's output was not there at all. Each of the other three values names a producer that did not observe from below the observed party: self IS the observed party, and the two assembling values hold output somebody else produced. This is the rule that reaches the importer the platform rule below does not. An importer can carry software-only exactly as required, satisfy every other rule here, and still claim a vantage it never occupied, because the platform field answers what the producer runs on and the vantage field answers where it stood. A record whose origin_kind is third-party-control-plane or log-import MUST declare a software-only runtime platform, and a verifier MUST reject it otherwise. An importer holding someone else's log has no quote to present, so a hardware platform value on such a record is not a stronger claim but an untrue one. first-hand MAY declare a hardware platform, because such an observer below the observed party can hold a root of its own, and that is the case the borrowed rule had no value for. The value is REQUIRED. Absent, non-string, or unregistered makes the enclosing statement malformed, and absence is never read as self. This field names the assembler and establishes nothing about independence. A verifier MUST NOT read third-party-control-plane as evidence that the producer is independent of the observed party: the two can be one legal entity, or one can operate the other. Independence is an observation_vantage question and this field does not answer it. It launders assurance in neither direction. Naming a producer does not make unattested evidence attested, and a record with a hardware platform and a verified quote is what it is whether or not it says self. The value is a PRODUCER ASSERTION in the sense of field_evidence_partition, never a substrate-covered field, and nothing in this registry can make it one. A verifier MUST NOT read self as evidence of provenance: a record assembled from somebody else's log and declared self is indistinguishable on the wire from one the runtime produced. What the field is worth is that a false value is then a false statement inside signed bytes, attributable to the key that signed them. A record that carries field_evidence_partition MUST place origin_kind on the producer_asserted side of the split. Three of the four values are borrowed verbatim, hyphens included, from the specification cited in crosswalk/trace.yaml. Re-spelling them in this file's usual underscore style would have produced a false friend across two registries for no gain. The fourth, first-hand, is this registry's own, and the direction of the resulting mismatch is stated, not glossed: this value set is a SUPERSET, so every value that specification emits validates here, and one value this registry admits does not validate there. A crosswalk consumer reads the fourth value as unmapped, not as a renaming of any of the three.",
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "origin_kind",
+   "skos:prefLabel": "origin_kind",
+   "skos:topConceptOf": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   }
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind#self",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "self"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind#first-hand",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "first-hand"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind#third-party-control-plane",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "third-party-control-plane"
+  },
+  {
+   "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind#log-import",
+   "@type": "skos:Concept",
+   "rdfs:isDefinedBy": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/origin_kind"
+   },
+   "skos:inScheme": {
+    "@id": "https://w3id.org/agent-evidence/vocab/v1/"
+   },
+   "skos:notation": "log-import"
+  }
+ ]
+}
+</script>
+<style>
+:root{color-scheme:light dark;--page:#f6f8fb;--surface:#fff;--ink:#14202e;--body:#33404f;--link:#1f4fd1;--rule:#cfd8e3;font-family:system-ui,sans-serif;color:var(--ink);background:var(--page)}
+@media (prefers-color-scheme:dark){:root{--page:#10151b;--surface:#18202a;--ink:#e8edf3;--body:#c3ccd6;--link:#8fb0ff;--rule:#2c3846}}
+*{box-sizing:border-box}body{margin:0;font:400 1rem/1.6 system-ui,sans-serif;background:var(--page)}
+.shell{max-width:52rem;margin-inline:auto;padding-inline:16px}
+header,footer{padding-block:1.25rem}header a{font-weight:700;color:var(--ink);text-decoration:none}
+footer{border-top:1px solid var(--rule);color:var(--body);font-size:.9375rem;margin-top:3rem}
+a{color:var(--link)}p,li,td{color:var(--body)}h1{line-height:1.2}
+code,pre{font-family:ui-monospace,Consolas,monospace;font-size:.875em}code{overflow-wrap:anywhere}
+pre{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto}
+blockquote{margin:1rem 0;padding:.25rem 1rem;border-left:4px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border:1px solid var(--rule);padding:.4rem .6rem;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<header class="shell"><a href="https://github.com/probityai/agent-evidence">Agent Evidence</a></header>
+<main class="shell">
+<h1><code>origin_kind</code></h1>
+<p>Term URI: <a href="https://w3id.org/agent-evidence/vocab/v1/origin_kind">https://w3id.org/agent-evidence/vocab/v1/origin_kind</a></p>
+<p>Section: <code>evidence_dimensions</code>. Criticality: <code>critical</code>.</p>
+<p>Which party produced the evidence a record is assembled from: the runtime that performed the execution produced its own record (self); the record was assembled from another vendor&#x27;s runtime governance output, asserted by the system that produced it with no root outside that system (third-party-control-plane); or it was assembled from a log or export whose producer is not a control plane, such as a SIEM export, an audit trail, or a batch job (log-import). first-hand is a FOURTH value this registry adds and the source enum does not carry: the producer obtained the evidence by its own observation and is not the party that executed, so it neither performed the execution nor holds somebody else&#x27;s output. It exists because the borrowed enum is written from the perspective of a record about its own execution, while this registry also carries observation_vantage, which names a producer that is neither the executing party nor an assembler. Without the fourth value the field is REQUIRED and unfillable for exactly the records an independent observer emits, and the pressure is then to spell one of them self, which is the one reading that makes the field lie. The value says HOW the evidence arrived and never where the producer stood. observation_vantage says where, and the two compose: first-hand with peer and first-hand with below-observed are both real producers, and a value that carried the layer in its own name would have left one of them unfillable again. Two spellings were drafted and dropped for that reason, and the second for a second reason: observer collides with observer-attested in the source specification&#x27;s own family, where it means a third party that fetched and measured the subject from outside it. A record MUST NOT declare observation_vantage: below-observed unless its origin_kind is first-hand, and a verifier MUST reject it otherwise. A party attesting its own execution is not below itself, and an assembler holding somebody else&#x27;s output was not there at all. Each of the other three values names a producer that did not observe from below the observed party: self IS the observed party, and the two assembling values hold output somebody else produced. This is the rule that reaches the importer the platform rule below does not. An importer can carry software-only exactly as required, satisfy every other rule here, and still claim a vantage it never occupied, because the platform field answers what the producer runs on and the vantage field answers where it stood. A record whose origin_kind is third-party-control-plane or log-import MUST declare a software-only runtime platform, and a verifier MUST reject it otherwise. An importer holding someone else&#x27;s log has no quote to present, so a hardware platform value on such a record is not a stronger claim but an untrue one. first-hand MAY declare a hardware platform, because such an observer below the observed party can hold a root of its own, and that is the case the borrowed rule had no value for. The value is REQUIRED. Absent, non-string, or unregistered makes the enclosing statement malformed, and absence is never read as self. This field names the assembler and establishes nothing about independence. A verifier MUST NOT read third-party-control-plane as evidence that the producer is independent of the observed party: the two can be one legal entity, or one can operate the other. Independence is an observation_vantage question and this field does not answer it. It launders assurance in neither direction. Naming a producer does not make unattested evidence attested, and a record with a hardware platform and a verified quote is what it is whether or not it says self. The value is a PRODUCER ASSERTION in the sense of field_evidence_partition, never a substrate-covered field, and nothing in this registry can make it one. A verifier MUST NOT read self as evidence of provenance: a record assembled from somebody else&#x27;s log and declared self is indistinguishable on the wire from one the runtime produced. What the field is worth is that a false value is then a false statement inside signed bytes, attributable to the key that signed them. A record that carries field_evidence_partition MUST place origin_kind on the producer_asserted side of the split. Three of the four values are borrowed verbatim, hyphens included, from the specification cited in crosswalk/trace.yaml. Re-spelling them in this file&#x27;s usual underscore style would have produced a false friend across two registries for no gain. The fourth, first-hand, is this registry&#x27;s own, and the direction of the resulting mismatch is stated, not glossed: this value set is a SUPERSET, so every value that specification emits validates here, and one value this registry admits does not validate there. A crosswalk consumer reads the fourth value as unmapped, not as a renaming of any of the three.</p>
+<h2>Registered values</h2>
+<ul>
+<li id="self"><code>https://w3id.org/agent-evidence/vocab/v1/origin_kind#self</code></li>
+<li id="first-hand"><code>https://w3id.org/agent-evidence/vocab/v1/origin_kind#first-hand</code></li>
+<li id="third-party-control-plane"><code>https://w3id.org/agent-evidence/vocab/v1/origin_kind#third-party-control-plane</code></li>
+<li id="log-import"><code>https://w3id.org/agent-evidence/vocab/v1/origin_kind#log-import</code></li>
+</ul>
+</main>
+<footer><div class="shell">Generated from <a href="https://github.com/probityai/agent-evidence/blob/main/packages/vocabulary/vocabulary.yaml">vocabulary.yaml</a>. This page describes the current registry. A record is read against the registry its registryDigest names, named on <a href="https://probityai.github.io/agent-evidence/vocab/v1/">the term listing</a>. The term URI does not change once a signed record carries it.</div></footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Salted digests of the words this repository must never contain.
+#
+# There is no plaintext here on purpose. A rule that spells out what it
+# forbids publishes the string it exists to suppress, and a rule written
+# to exempt its own file leaves the one file nobody scans as the one file
+# that names them. Regenerate with scripts/gen-forbidden-tokens.py from
+# the private word list; reuse --salt to keep the diff to one line.
+#
+# Readers lowercase each line and slide a window of every declared
+# length across it, looking up sha256(salt + window). That reproduces a
+# case-insensitive substring search exactly, so a word glued inside a
+# longer identifier is still caught. The lengths must be declared for
+# the window to exist; leaking a word length is far less than the word.
+#
+# This is obscurity, not secrecy: the candidate space is small
+# enough to brute-force -- and it is sized to the actual threat: a
+# careless paste, a search engine, and a casual reader.
+# salt: ee361784f5cb073a63f48d6669d05804
+# lengths-i: 9,10,11
+# lengths-s: 8,10,14,15,22,26
+65411c94efb7b6432042393a3abe13a5944e322ca8dce6d277c8748cf750623e	internal-only marker that belongs in the private research tree
+3409f76d80b360828b4323c26b533d63a0f8dee56b82d3ce212995656fbd7300	internal-only marker that belongs in the private research tree
+d4d9e298edfeba9ae87e5ca3c0ca10d285404bbc82c73f150037e8be3b9ec765	internal-only marker that belongs in the private research tree
+b0b6653558ca5c38ec785497fd51a5ffd7866addcc879b06f75e4d5653969455	internal-only marker that belongs in the private research tree
+74fa38962f86429d30b96937877caab2f2d7c87783c41fa5a8cbbd9f2caa1ec0	first-party product name in a public, product-neutral repository
+97d7b5a315142218c7c0c10b81c6558e4d3e82881aba232a6448b3983d8fb155	first-party product name in a public, product-neutral repository
+a740f3a184c9fc45ade08a7bd9ba4f092ba81a3a8830b62f5ef2fd3e68f3f4e3	internal-only marker that belongs in the private research tree
+567a9f62b96d3bca6faf183ff383081f174260126f825fb5e28339d897b22754	internal-only marker that belongs in the private research tree
+f650c1d2341c52fe04c8471b5917e1f863759eca9098e4c4106e1190d0df4f7f	first-party product name in a public, product-neutral repository

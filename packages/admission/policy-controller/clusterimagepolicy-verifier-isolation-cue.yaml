@@ -1,0 +1,109 @@
+# Verifier isolation, on sigstore policy-controller's CUE rail.
+#
+# Admit a Pod only when its image carries a done-receipt attestation, signed by the authority key
+# below, whose isolation report closes the reward-tampering vectors of terminal-bench issue 2086
+# that CUE can state about an absent fact, and the rest of them as far as it can. The rego module
+# `../rego/verifier_isolation.rego` is the reference for every constraint here, and
+# `../conformance/run_verifier_isolation_conformance.py` drives the same vectors through both. A
+# trailing `// rule: <reason>` names the rego reason a line stands for; the harness deletes each
+# marked line in turn and requires a vector that only that reason refuses to start passing.
+#
+# !!! THIS MANIFEST DENIES EVERY POD UNTIL YOU PIN TWO VALUES !!!
+#   1. the receipt issuer's public key under `authorities[].key.data`;
+#   2. the contract digest this deployment grades against, the `PIN-ME-` literal marked
+#      `contract_digest_mismatch`. To decline the comparison, delete that line.
+#
+# WHAT THIS RAIL DOES NOT DO, MEASURED. The family fails closed on a fact that is absent. CUE under
+# policy-controller cannot. cosign compiles the policy with CompileString, unifies it with the
+# statement and calls Validate() with neither Final nor Concrete (pkg/policy/eval.go, evaluateCue),
+# so a member the statement omits is not an error: the policy's own constraint fills it, and a
+# report that omits `worker.supplementary_groups` or the whole `verifier_isolation` member is
+# admitted. The `!` markers below make `cue vet` refuse the omitted form, and they are kept
+# because they are correct and take effect under any evaluator that finalises. Under cosign's
+# reading a WRONG value is still a conflict and is refused; an ABSENT one is not.
+# `conformance/run_verifier_isolation_conformance.py` runs every vector both ways, `cue vet` and
+# `cue eval` (which unifies and reports conflicts only), names the vectors the second admits, and
+# records each obligation they open as `unreachable (absent-member-not-denied)`. A deployment that needs the omitted form refused
+# deploys the Kyverno CEL or the rego rail instead. cosign itself is not executed in this
+# repository.
+#
+# WHAT NEITHER ESTABLISHES: that the report is true. It is the verifier's account of itself.
+apiVersion: policy.sigstore.dev/v1alpha1
+kind: ClusterImagePolicy
+metadata:
+  name: require-verifier-isolation-cue
+spec:
+  mode: enforce
+  images:
+    - glob: "**"
+  authorities:
+    - name: receipt-issuer-key
+      key:
+        data: |
+          -----BEGIN PUBLIC KEY-----
+          PIN-ME-REPLACE-WITH-THE-RECEIPT-ISSUER-PUBLIC-KEY
+          -----END PUBLIC KEY-----
+      attestations:
+        - name: must-close-every-isolation-vector
+          predicateType: "https://probityai.github.io/probity/predicate/v1/done-receipt"
+          policy:
+            type: cue
+            data: |
+              // The statement. `_type` is quoted because an unquoted name that starts with an
+              // underscore is a hidden field in CUE and would never meet the statement's member.
+              "_type": "https://in-toto.io/Statement/v1" // rule: unsupported_statement_type
+              predicateType: "https://probityai.github.io/probity/predicate/v1/done-receipt" // rule: unsupported_predicate
+              predicate: verifier_isolation!: {} // rule: isolation_report_missing
+              predicate: verifier_isolation!: contract_sha256!: =~"^[0-9a-f]{64}$" // rule: contract_digest_invalid
+              predicate: verifier_isolation!: contract_sha256!: "PIN-ME-REPLACE-WITH-THE-CONTRACT-DIGEST" // rule: contract_digest_mismatch
+
+              // vi-1  V1 Overwrite
+              predicate: verifier_isolation!: trusted_tree!: expected_sha256!: =~"^[0-9a-f]{64}$" // rule: vi-1:trusted_tree_not_reset_to_contract
+              predicate: verifier_isolation!: trusted_tree!: measured_sha256!: predicate.verifier_isolation.trusted_tree.expected_sha256 // rule: vi-1:trusted_tree_not_reset_to_contract
+              predicate: verifier_isolation!: trusted_tree!: excluded_names_reset!: true // rule: vi-1:excluded_names_not_reset
+
+              // vi-2  V2 Patch
+              predicate: verifier_isolation!: worker!: uid!: number & !=0 & !=predicate.verifier_isolation.verifier.uid // rule: vi-2:worker_not_unprivileged
+              predicate: verifier_isolation!: verifier!: uid!: number // rule: vi-2:worker_not_unprivileged
+              predicate: verifier_isolation!: worker!: supplementary_groups!: [] // rule: vi-2:worker_supplementary_groups_kept
+              predicate: verifier_isolation!: verifier!: assertions_in_parent!: true // rule: vi-2:assertions_not_in_parent
+              predicate: verifier_isolation!: verifier!: python_isolated!: true // rule: vi-2:trusted_python_not_isolated
+              predicate: verifier_isolation!: verifier!: replay_parent!: runtime!: "docker" | "podman" // rule: vi-2:replay_parent_not_contained
+              predicate: verifier_isolation!: verifier!: replay_parent!: uid!: number & !=0 & !=predicate.verifier_isolation.verifier.uid // rule: vi-2:replay_parent_shares_verifier_uid
+              predicate: verifier_isolation!: verifier!: replay_parent!: env!: [...("HOME" | "LANG" | "LC_ALL" | "PATH" | "PYTEST_DISABLE_PLUGIN_AUTOLOAD" | "PYTHONDONTWRITEBYTECODE" | "PYTHONHASHSEED" | "PYTHONNOUSERSITE" | "TMPDIR" | "TZ")] // rule: vi-2:replay_parent_environment_not_scrubbed
+
+              // vi-3  V3 Reward
+              predicate: verifier_isolation!: result!: dir_mode!: =~"^0?[0-7]00$" // rule: vi-3:result_dir_open_to_worker
+              predicate: verifier_isolation!: result!: precleared!: true // rule: vi-3:result_not_precleared
+              predicate: verifier_isolation!: result!: written_by!: "verifier" // rule: vi-3:result_not_written_by_verifier
+              predicate: verifier_isolation!: result!: files_read!: [_] // rule: vi-3:result_source_ambiguous
+
+              // vi-4  V4 Fail-open
+              predicate: verifier_isolation!: tests!: expected!: number & >0 // rule: vi-4:no_tests_expected
+              predicate: verifier_isolation!: tests!: collected!: predicate.verifier_isolation.tests.expected // rule: vi-4:test_count_mismatch
+              predicate: verifier_isolation!: tests!: skipped!: 0 | 0.0 // rule: vi-4:tests_skipped
+              predicate: verifier_isolation!: tests!: exit_status_alone_accepted!: false // rule: vi-4:verdict_from_exit_status_alone
+
+              // vi-5  V5 Sleeper
+              predicate: verifier_isolation!: processes!: worker_killed!: true // rule: vi-5:worker_processes_not_killed
+              predicate: verifier_isolation!: processes!: remaining!: 0 | 0.0 // rule: vi-5:worker_processes_remain
+              predicate: verifier_isolation!: processes!: killed_step!: number & <predicate.verifier_isolation.processes.result_read_step // rule: vi-5:result_read_before_kill
+              predicate: verifier_isolation!: processes!: result_read_step!: number // rule: vi-5:result_read_before_kill
+
+              // vi-6  V6 Staging
+              predicate: verifier_isolation!: staging!: nofollow!: true // rule: vi-6:links_followed
+              predicate: verifier_isolation!: staging!: destination_removed_first!: true // rule: vi-6:destination_not_removed_first
+              predicate: verifier_isolation!: staging!: special_files_rejected!: true // rule: vi-6:special_files_admitted
+
+              // vi-7  V7 Forgery
+              predicate: verifier_isolation!: evidence_from_worker!: [] // rule: vi-7:evidence_taken_from_worker
+              predicate: verifier_isolation!: worker!: env_scrubbed!: true // rule: vi-7:environment_not_scrubbed
+              predicate: verifier_isolation!: worker!: scratch_copy!: true // rule: vi-7:no_scratch_copy
+
+              // vi-8  V8 Disclosure
+              predicate: verifier_isolation!: reference!: dir_mode!: =~"^0?[0-7]00$" // rule: vi-8:reference_readable_by_worker
+              predicate: verifier_isolation!: reference!: inside_artifact_dir!: false // rule: vi-8:reference_inside_artifact
+
+              // vi-9  V9 Exploit
+              predicate: verifier_isolation!: loaders!: [_, ...] // rule: vi-9:loaders_undeclared
+              predicate: verifier_isolation!: loaders!: [...{safe!: true}] // rule: vi-9:unsafe_loader

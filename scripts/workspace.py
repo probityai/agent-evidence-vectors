@@ -27,7 +27,7 @@ _TAG = re.compile(r"(?P<prefix>[a-z0-9][a-z0-9-]*?)-v(?P<version>\d+\.\d+\.\d+)\
 # The corpus release: a bare v<major>.<minor>.<patch> tag. release.yml publishes it from its
 # own tag-push path, so a GitHub release published for it resolves to no registry.
 _BARE_TAG = re.compile(r"v(?P<version>\d+\.\d+\.\d+)\Z")
-_TOP_AREAS = ("actions", "vectors", "site", "pages")
+_TOP_AREAS = ("actions", "vectors", "pages")
 
 
 def areas(root: Path = ROOT) -> list[str]:
