@@ -2050,7 +2050,11 @@ def _set_findings(entry: dict[str, Any], raw: bytes, policy: Policy) -> list[str
         for found in _declared_findings(entry, report):
             findings.append(f"record {index + 1}: {found}")
     limits = []
-    for env in set_records(raw):
+    try:
+        envelopes = set_records(raw)
+    except (Malformed, ValueError, KeyError, TypeError):
+        envelopes = []
+    for env in envelopes:
         limits.append(within_limit(json.loads(_envelope_payload(env)[1])["predicate"]))
     if limits != declared.get("withinLimit", [None] * len(limits)):
         findings.append(

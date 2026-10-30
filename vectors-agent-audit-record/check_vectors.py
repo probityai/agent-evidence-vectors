@@ -89,7 +89,10 @@ def _set(entry: dict[str, object]) -> bool:
 def _envelopes(entry: dict[str, object]) -> list[bytes]:
     """Every envelope a member carries: a set member's records, else the one."""
     if _set(entry):
-        return auditrecord.set_records(_raw(entry))
+        try:
+            return auditrecord.set_records(_raw(entry))
+        except (auditrecord.Malformed, ValueError, KeyError, TypeError):
+            return []
     return [_envelope_bytes(entry)]
 
 
@@ -107,6 +110,10 @@ def _verify(
     policy: auditrecord.Policy,
     disabled: str | None = None,
 ) -> auditrecord.Report:
+    if _retained(entry):
+        with open(os.path.join(HERE, "MANIFEST.json"), encoding="utf-8") as fh:
+            heads = auditrecord.tree_heads(json.load(fh))
+        return auditrecord.verify_retained(_raw(entry), policy, heads, disabled=disabled)[0]
     return auditrecord.verify(_envelope_bytes(entry), policy, disabled=disabled)
 
 
