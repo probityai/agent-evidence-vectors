@@ -38,10 +38,15 @@ func arLoad(t *testing.T) (arManifest, map[string][]byte) {
 			// A set member's file is a bundle of envelopes; the record rules
 			// judge its first, and TestAuditRecordSetRulesAreLoadBearing the set.
 			envelopes, err := arSetRecords(body)
-			if err != nil || len(envelopes) == 0 {
+			switch {
+			case err == nil && len(envelopes) > 0:
+				body = envelopes[0]
+			case len(v.Expected.Set.Codes) > 0 && v.Expected.Set.Codes[0] == "set-unreadable":
+				// A set declared unreadable has no record to judge; the record
+				// rules judge the bytes as they stand.
+			default:
 				t.Fatalf("%s: the set carries no readable record", v.DraftID)
 			}
-			body = envelopes[0]
 		}
 		bodies[v.ID] = body
 	}
@@ -113,8 +118,12 @@ func TestAuditRecordDatingRulesAreLoadBearing(t *testing.T) {
 				t.Fatal(err)
 			}
 			report, dated := arVerifyRetained(body, manifest.PredicateType, key, heads, name)
-			if report.verdict != "valid" {
-				t.Errorf("disabling %s moves %s's verdict to %s", name, v.DraftID, report.verdict)
+			want := "valid"
+			if v.Expected.Verdict != nil {
+				want = *v.Expected.Verdict
+			}
+			if report.verdict != want {
+				t.Errorf("disabling %s moves %s's verdict to %s, declared %s", name, v.DraftID, report.verdict, want)
 			}
 			if !dated.equal(*v.Expected.Dating) {
 				moved = true
