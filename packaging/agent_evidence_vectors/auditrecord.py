@@ -982,6 +982,15 @@ def _rule_remediation_order(state: _State) -> None:
             raise Malformed("remediation-order")
 
 
+def _rule_issued_after_sealed(state: _State) -> None:
+    """issuedAt parses as an instant and is not earlier than sealedAt (IS1, IS2)."""
+    pred = state.predicate
+    issued = _instant(pred["issuedAt"])
+    sealed = _instant(pred["effect"]["interval"]["sealedAt"])
+    if issued < sealed:
+        raise Malformed("issued-before-sealed")
+
+
 def _rule_empty_tree(state: _State) -> None:
     """empty-tree carries the constant for the declared algorithm (E3)."""
     pred = state.predicate
@@ -1105,6 +1114,7 @@ RULES: list[tuple[str, Callable[[_State], None]]] = [
     ("subject-after-root", _rule_subject_after_root),
     ("external-anchor", _rule_external_anchor),
     ("remediation-order", _rule_remediation_order),
+    ("issued-after-sealed", _rule_issued_after_sealed),
     ("empty-tree", _rule_empty_tree),
     ("commitment", _rule_commitment),
     ("write-chain", _rule_write_chain),
