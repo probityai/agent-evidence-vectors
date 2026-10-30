@@ -1,4 +1,4 @@
-"""The corpus regenerates, forces every condition, and refuses a verifier that approves everything."""
+"""The corpus regenerates, forces every condition, and refuses an approve-everything verifier."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Build the deterministic open-weight release cases for Article 53(2) of Regulation (EU) 2024/1689."""
+"""Build the deterministic open-weight release cases for AI Act Article 53(2)."""
 
 from __future__ import annotations
 
