@@ -69,7 +69,7 @@ with a slot declared not addressed, is that party's own admission policy; a
 | --- | --- |
 | [Profile](../profiles/restoration-evidence.md) | common members and the bundle rules |
 | [Predicate documents](../spec/predicates/REGISTRY.md) | the type URIs and their rules |
-| [JSON Schemas](../spec/schemas/gen_restart_records_schemas.py) | shape and closed values only |
+| [JSON Schemas](../scripts/gen_restart_records_schemas.py) | shape and closed values only |
 | [INDEX.md](INDEX.md) | every member |
 
 Regenerate the members with `python3 vectors-restart-records/gen_vectors.py`.
