@@ -118,9 +118,15 @@ ACCEPTED = {R1: "authorization-recorded", R2: "sweep-recorded", R3: "decision-re
             R4: "assignment-recorded", RB: "boundary-recorded"}
 BUNDLE_ACCEPTED = "bundle-consistent"
 
-TIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
-URL_RE = re.compile(r"^https://[^\s]+$")
-SHA_RE = re.compile(r"^[0-9a-f]{64}$")
+#: Each pattern is matched with fullmatch, so a trailing newline is not accepted the
+#: way ``$`` accepts it. Digits are ASCII: RFC 3339 has no other kind. A URL's
+#: excluded characters are exactly the ECMAScript ``\s`` set that the JSON Schemas'
+#: ``^https://[^\s]+$`` excludes, spelled out so that no reader's own idea of
+#: whitespace decides it.
+TIME_RE = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z")
+URL_RE = re.compile("https://[^\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f"
+                    "\u205f\u3000\ufeff]+")
+SHA_RE = re.compile(r"[0-9a-f]{64}")
 
 Json = Any
 
@@ -146,10 +152,26 @@ def _no_constant(name: str) -> Any:
     raise ValueError(f"non-standard number {name}")
 
 
+def _no_surrogate(value: Json) -> None:
+    if isinstance(value, str):
+        if any("\ud800" <= ch <= "\udfff" for ch in value):
+            raise ValueError("a string carries a lone surrogate")
+    elif isinstance(value, list):
+        for item in value:
+            _no_surrogate(item)
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            _no_surrogate(key)
+            _no_surrogate(item)
+
+
 def strict_json(data: bytes) -> Json:
-    """Parse strict JSON: UTF-8, no duplicate member at any depth, no NaN."""
+    """Parse strict JSON: UTF-8, no duplicate member at any depth, no NaN, and no
+    string escaping a lone surrogate, which no UTF-8 text can carry."""
     text = data.decode("utf-8")
-    return json.loads(text, object_pairs_hook=_no_duplicates, parse_constant=_no_constant)
+    value = json.loads(text, object_pairs_hook=_no_duplicates, parse_constant=_no_constant)
+    _no_surrogate(value)
+    return value
 
 
 def _exact(value: Json, required: tuple[str, ...], optional: tuple[str, ...] = ()) -> bool:
@@ -166,7 +188,12 @@ def _string(value: Json) -> bool:
 
 
 def _url(value: Json) -> bool:
-    return isinstance(value, str) and URL_RE.match(value) is not None
+    return isinstance(value, str) and URL_RE.fullmatch(value) is not None
+
+
+def _one_of(value: Json, allowed: frozenset[str] | dict[str, str]) -> bool:
+    """A string among the allowed values; any other JSON value is not one of them."""
+    return isinstance(value, str) and value in allowed
 
 
 def _instant(value: str) -> datetime:
@@ -174,7 +201,7 @@ def _instant(value: str) -> datetime:
 
 
 def _time(value: Json) -> bool:
-    if not isinstance(value, str) or TIME_RE.match(value) is None:
+    if not isinstance(value, str) or TIME_RE.fullmatch(value) is None:
         return False
     try:
         _instant(value)
@@ -185,7 +212,7 @@ def _time(value: Json) -> bool:
 
 def _sha(value: Json) -> bool:
     return (_exact(value, ("sha256",)) and isinstance(value["sha256"], str)
-            and SHA_RE.match(value["sha256"]) is not None)
+            and SHA_RE.fullmatch(value["sha256"]) is not None)
 
 
 def _count(value: Json) -> bool:
@@ -250,7 +277,7 @@ def _common(p: dict[str, Any]) -> bool:
 
 def _predecessors(value: Json, *, needs: str | None = None) -> bool:
     ok = _list(value, lambda r: _exact(r, ("predicateType", "digest"))
-               and r["predicateType"] in NAME_OF_TYPE and _sha(r["digest"]), min_items=1)
+               and _one_of(r["predicateType"], NAME_OF_TYPE) and _sha(r["digest"]), min_items=1)
     return ok and (needs is None or any(r["predicateType"] == TYPE[needs] for r in value))
 
 
@@ -275,7 +302,7 @@ def _r1_effects(value: Json) -> bool:
 def _r1_party(value: Json) -> bool:
     return (_exact(value, ("id", "roles"), ("authorityBasis", "independenceBasis"))
             and _text(value["id"]) and _roles(value["roles"])
-            and ("authorityBasis" not in value or value["authorityBasis"] in AUTHORITY)
+            and ("authorityBasis" not in value or _one_of(value["authorityBasis"], AUTHORITY))
             and ("independenceBasis" not in value or _string(value["independenceBasis"])))
 
 
@@ -352,10 +379,10 @@ def _r2_shape(p: dict[str, Any]) -> bool:
             and _exact(p["population"], ("credentials",))
             and _sorted_unique_texts(p["population"]["credentials"], min_items=1)
             and _list(p["partition"], lambda part: _exact(part, ("state", "credentials"))
-                      and part["state"] in PART_STATES
+                      and _one_of(part["state"], PART_STATES)
                       and _list(part["credentials"], _text, min_items=1), min_items=1)
             and _list(p["revocations"], _r2_revocation)
-            and _exact(coverage, ("claim",), ("issuedAfter",)) and coverage["claim"] in COVERAGE
+            and _exact(coverage, ("claim",), ("issuedAfter",)) and _one_of(coverage["claim"], COVERAGE)
             and ("issuedAfter" not in coverage or _time(coverage["issuedAfter"])))
 
 
@@ -365,16 +392,19 @@ def _part_members(p: dict[str, Any], state: str | None = None) -> list[str]:
 
 
 def _r2_rules(p: dict[str, Any]) -> list[Callable[[], bool]]:
-    population = p["population"]["credentials"] if isinstance(p.get("population"), dict) else []
+    def population() -> list[str]:
+        credentials: list[str] = p["population"]["credentials"]
+        return credentials
+
     return [
         lambda: _r2_shape(p),
         lambda: all(rp["state"] in REGISTRY["revocation_state"]
                     for entry in p["revocations"] for rp in entry["relyingParties"]),
-        lambda: sorted(_part_members(p)) == sorted(population),
+        lambda: sorted(_part_members(p)) == sorted(population()),
         lambda: (sorted(e["credential"] for e in p["revocations"])
                  == sorted(_part_members(p, "revoked"))),
         lambda: (p["coverage"]["claim"] != "complete_verified"
-                 or sorted(_part_members(p, "revoked")) == sorted(population)),
+                 or sorted(_part_members(p, "revoked")) == sorted(population())),
         lambda: p["coverage"]["claim"] != "issued_after_only" or "issuedAfter" in p["coverage"],
     ]
 
@@ -440,7 +470,7 @@ def _r4_party(value: Json) -> bool:
     return (_exact(value, ("id", "organization", "correlationId", "assets"),
                    ("authorityBasis",))
             and all(_text(value[k]) for k in ("id", "organization", "correlationId"))
-            and ("authorityBasis" not in value or value["authorityBasis"] in AUTHORITY)
+            and ("authorityBasis" not in value or _one_of(value["authorityBasis"], AUTHORITY))
             and _sorted_unique_texts(value["assets"]))
 
 
@@ -482,9 +512,9 @@ def _rb_shape(p: dict[str, Any]) -> bool:
         return False
     sink, observer, revocation = p["sink"], p["observer"], p["revocation"]
     return (_exact(sink, ("id", "kind", "commitBoundary")) and _text(sink["id"])
-            and sink["kind"] in SINK_KINDS and _text(sink["commitBoundary"])
+            and _one_of(sink["kind"], SINK_KINDS) and _text(sink["commitBoundary"])
             and _exact(observer, ("id", "vantage")) and _text(observer["id"])
-            and observer["vantage"] in VANTAGES
+            and _one_of(observer["vantage"], VANTAGES)
             and _exact(revocation, ("credential", "effectiveAt", "timeSource"))
             and _text(revocation["credential"]) and _time(revocation["effectiveAt"])
             and _text(revocation["timeSource"])
@@ -493,7 +523,7 @@ def _rb_shape(p: dict[str, Any]) -> bool:
             and _exact(p["counts"], COUNT_KEYS) and all(_count(p["counts"][k]) for k in COUNT_KEYS)
             and _list(p["exclusions"], lambda e: _exact(e, ("count", "reason"))
                       and _count(e["count"]) and _text(e["reason"]))
-            and p["result"] in RESULTS
+            and _one_of(p["result"], RESULTS)
             and ("predecessors" not in p or _predecessors(p["predecessors"])))
 
 
