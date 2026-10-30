@@ -128,3 +128,13 @@ the row identifier -01 prints, and rerun the three commands of the row above.
   pending one dates nothing. Both readers then need an offline OpenTimestamps
   path from the proof to a block header the verifier holds. Source: Toshikatsu
   Oga, comments on -00 Section 4.7, 20 October 2026.
+
+## Make the count gate and its test fast enough to run locally
+
+- [ ] **Cut one `scripts/count-gate.py` run from 110 s, and its test from about 30 minutes.**
+  Measured 2026-10-30 on 14,300 tracked files: one run takes 110 s, and 73 s of it is
+  `re.Pattern.sub` in `countcensus.mask` (56 mask patterns over 1,171 files, about 5 s each,
+  no single outlier). `scripts/count-gate-test.py` runs the gate once per case, 66 times on at
+  most 4 workers, so it passes only in remote CI; a local run hit a 600 s timeout.
+  Fix: combine the masks into one compiled alternation, or mask each file once and cache the
+  result across cases. Start with `python3 -m cProfile -s cumtime scripts/count-gate.py --root .`.
