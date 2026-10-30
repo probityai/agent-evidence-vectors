@@ -88,6 +88,23 @@ def _json(value: object) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode()
 
 
+def corpus_digest(manifest: dict, root: str) -> str:
+    """Recompute the digest from the committed files, not their declared hashes."""
+    base = Path(root)
+    entries = []
+    for entry in manifest["vectors"]:
+        directory = base / entry["path"]
+        declared = entry["files"]
+        actual = {p.name for p in directory.iterdir() if p.is_file()}
+        if actual != set(declared):
+            raise ValueError(f"{entry['id']}: file set changed")
+        files = {name: _digest((directory / name).read_bytes()) for name in declared}
+        if files != declared:
+            raise ValueError(f"{entry['id']}: file digest mismatch")
+        entries.append({**entry, "files": files})
+    return _digest(_json(entries))
+
+
 def generate(root: Path = ROOT) -> dict:
     """Write the cases under ``root`` and return the manifest.
 

@@ -23,6 +23,6 @@ To judge your own verifier: `python3 vectors-anchored-chain/check_vectors.py --v
 - It says the history was not revised against the anchor. It does not say the log was complete when it was written; that needs an observer outside the logged system.
 - The anchor key has to be held by someone other than the log holder. If the holder keeps both, the check proves nothing.
 
-## The other unchecked row
+## The other row
 
-The row for open-weight models exempt under Article 53(2) has no checker yet. A profile of [artifact binding](../../spec/artifact-binding/v1.md) for model records (weights digest, copyright policy and training-content summary as required roles, with an absent role reported as `not-established`) is the planned shape.
+The row for open-weight models exempt under Article 53(2) has its own guide and checker: [Checking an open-weight model release](cra-ai-act-open-weight.md).
