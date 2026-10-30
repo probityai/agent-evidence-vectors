@@ -189,6 +189,8 @@ func TestAuditRecordRefusesForeignShapes(t *testing.T) {
 		"bad base64":        []byte(`{"payload":"@@","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"array statement":   []byte(`{"payload":"W10=","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"float statement":   []byte(`{"payload":"eyJhIjoxLjV9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
+		"integral fraction": []byte(`{"payload":"eyJhIjoxLjB9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
+		"integral exponent": []byte(`{"payload":"eyJhIjoxZTJ9","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 		"garbage statement": []byte(`{"payload":"e30x","payloadType":"application/vnd.in-toto+json","signatures":[]}`),
 	}
 	for name, body := range cases {
