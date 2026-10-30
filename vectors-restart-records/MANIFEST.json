@@ -1,0 +1,1605 @@
+{
+  "checker": "check_vectors.py",
+  "corpusDigest": "3b5c253ca0d98b112342832e36009292b672f2c2497f38b9177b796f2258b9a5",
+  "counts": {
+    "accept": 15,
+    "reject": 42
+  },
+  "predicateTypes": [
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization",
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision",
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority",
+    "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary"
+  ],
+  "profile": "restoration-evidence/v1",
+  "registryDigest": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc",
+  "specAuthority": "specDigests pins the profile and predicate documents of this repository, proposed text in DRAFT, at the bytes the members were generated from.",
+  "specDigests": {
+    "profiles/restoration-evidence.md": "fc9e49aa8259b250f73ad8995522a7d7bf103be64446d6025b3cd2ae8c28fac9",
+    "spec/predicates/incident-action-authorization.md": "89f544b2a146ee8f276bfd999123e512b414af91584554e77a5f4118e79c7c50",
+    "spec/predicates/joint-authority.md": "1f68d1c88523f6166fcceb292bc262bb4e19c813cededbc89a9dc1dbd034952f",
+    "spec/predicates/re-enable-decision.md": "e8d93c0c8a102322d6cbbb6c47ca437a8f113b6369bf5a0ea93c14c9e795498b",
+    "spec/predicates/revocation-boundary.md": "ba4c1b5643a08f044669a852f6621ecbf98f7e08b1ef30cb9858523a5728f3e2",
+    "spec/predicates/revocation-sweep.md": "e9be79f382975e4583b7148b7a6e68bf1797fa18d69ede602d426617dd5169cb"
+  },
+  "suite": "restart-records/v1",
+  "synthetic": true,
+  "syntheticNote": "Every member is synthetic. Identifiers are on example.com and example.org hosts, digests are of fixed labelled strings, and no member records a real system, organisation or incident.",
+  "unforcedRules": [
+    {
+      "code": "closed-vocabulary-violation",
+      "document": "spec/predicates/joint-authority.md",
+      "reason": "no member of this predicate takes a registry-defined value; its closed values are the document's own and rule 2 checks them",
+      "rule": "3"
+    },
+    {
+      "code": "closed-vocabulary-violation",
+      "document": "spec/predicates/revocation-boundary.md",
+      "reason": "no member of this predicate takes a registry-defined value; its closed values are the document's own and rule 2 checks them",
+      "rule": "3"
+    },
+    {
+      "code": "predecessor-cycle",
+      "document": "profiles/restoration-evidence.md",
+      "reason": "a predecessor is named by the sha256 of its bytes, so a cycle among carried records needs a sha256 fixed point; B2 refuses any reference that does not resolve first, and the tests exercise the cycle check directly",
+      "rule": "B4"
+    }
+  ],
+  "vectors": [
+    {
+      "description": "control: an authorisation committed before a pause it bounds.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authorization-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238"
+      },
+      "id": "incident-action-authorization-control",
+      "kind": "accept",
+      "path": "cases/incident-action-authorization-control",
+      "predicate": "incident-action-authorization",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: an authorisation asserted after the action ran, recorded as such.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authorization-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "6a61e65913ae8f8d56e430cdd912fd2d92162cfd241341dbedc5985ea514c8bd"
+      },
+      "id": "incident-action-authorization-accept-after-the-fact",
+      "kind": "accept",
+      "path": "cases/incident-action-authorization-accept-after-the-fact",
+      "predicate": "incident-action-authorization",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: the authority basis is stated as unknown rather than left out.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authorization-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "66533780060921c502860e1a6bdeeb6fdc1c4cdcb467d9ea378ee10133fc023b"
+      },
+      "id": "incident-action-authorization-accept-basis-unknown",
+      "kind": "accept",
+      "path": "cases/incident-action-authorization-accept-basis-unknown",
+      "predicate": "incident-action-authorization",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "the statement names a predicate type that is not defined.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "statement-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "803482bafb031c0f498e41142ffab63adb5ea8c635287e63fb165328f1ea4807"
+      },
+      "id": "incident-action-authorization-rule-1-statement-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization",
+        "path": [
+          "predicateType"
+        ],
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/incident-action-authorization"
+      },
+      "path": "cases/incident-action-authorization-rule-1-statement-malformed",
+      "predicate": "incident-action-authorization",
+      "rule": "1",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "the predicate carries a member the document does not define.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "predicate-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "2b889b212ac726ec9cd53f9b3eab9513e1ebe5498675b9b80323f5e9c57518b3"
+      },
+      "id": "incident-action-authorization-rule-2-predicate-malformed",
+      "kind": "reject",
+      "mutation": {
+        "path": [
+          "predicate",
+          "note"
+        ],
+        "to": "an extra member"
+      },
+      "path": "cases/incident-action-authorization-rule-2-predicate-malformed",
+      "predicate": "incident-action-authorization",
+      "rule": "2",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "a response function the registry does not define.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "closed-vocabulary-violation",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "26dcd353cd50ad7c949a62d55ca743e3885212d8df78456569a049cf4fc9e2ab"
+      },
+      "id": "incident-action-authorization-rule-3-closed-vocabulary-violation",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "pause",
+          "restriction"
+        ],
+        "path": [
+          "predicate",
+          "action",
+          "functions"
+        ],
+        "to": [
+          "pause",
+          "quarantine"
+        ]
+      },
+      "path": "cases/incident-action-authorization-rule-3-closed-vocabulary-violation",
+      "predicate": "incident-action-authorization",
+      "rule": "3",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "no party holds authorised.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "no-authoriser",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "78dd1082ec6ae9edfd1117d4255947d46bb02264ab736f0c067771b800b7220b"
+      },
+      "id": "incident-action-authorization-rule-4-no-authoriser",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "authorised"
+        ],
+        "path": [
+          "predicate",
+          "parties",
+          0,
+          "roles"
+        ],
+        "to": [
+          "advised"
+        ]
+      },
+      "path": "cases/incident-action-authorization-rule-4-no-authoriser",
+      "predicate": "incident-action-authorization",
+      "rule": "4",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "no party holds accountable.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "no-accountable-party",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "86848fb55186945f03dcd2fe639a951e153daa22ff753741433c612e5a6339a4"
+      },
+      "id": "incident-action-authorization-rule-5-no-accountable-party",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "accountable",
+          "executed"
+        ],
+        "path": [
+          "predicate",
+          "parties",
+          1,
+          "roles"
+        ],
+        "to": [
+          "executed"
+        ]
+      },
+      "path": "cases/incident-action-authorization-rule-5-no-accountable-party",
+      "predicate": "incident-action-authorization",
+      "rule": "5",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "the authorising party carries no authority basis.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authority-basis-missing",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "65bed2972afd48543ddbaf6763d7878b442b9b0610ec23a6087cc43461a188b2"
+      },
+      "id": "incident-action-authorization-rule-6-authority-basis-missing",
+      "kind": "reject",
+      "mutation": {
+        "from": "role_grant",
+        "path": [
+          "predicate",
+          "parties",
+          0,
+          "authorityBasis"
+        ]
+      },
+      "path": "cases/incident-action-authorization-rule-6-authority-basis-missing",
+      "predicate": "incident-action-authorization",
+      "rule": "6",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "the authority lapses before it is given.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authorization-window-inverted",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "241bcb15915f55c6bf49a0920d296a77657ad844ec30e2ccc52b720ee5215b5c"
+      },
+      "id": "incident-action-authorization-rule-7-authorization-window-inverted",
+      "kind": "reject",
+      "mutation": {
+        "from": "2026-01-10T18:00:00Z",
+        "path": [
+          "predicate",
+          "notAfter"
+        ],
+        "to": "2026-01-10T09:00:00Z"
+      },
+      "path": "cases/incident-action-authorization-rule-7-authorization-window-inverted",
+      "predicate": "incident-action-authorization",
+      "rule": "7",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "committed before execution, yet the action ran before the authorisation.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "intent-not-committed-before",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "9a6987240b09dfa4ff9be257fe4bfb6ad3519d411419c849a6ab45435ca58307"
+      },
+      "id": "incident-action-authorization-rule-8-intent-not-committed-before",
+      "kind": "reject",
+      "mutation": {
+        "from": "2026-01-10T10:05:00Z",
+        "path": [
+          "predicate",
+          "executedAt"
+        ],
+        "to": "2026-01-10T09:55:00Z"
+      },
+      "path": "cases/incident-action-authorization-rule-8-intent-not-committed-before",
+      "predicate": "incident-action-authorization",
+      "rule": "8",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "the action ran one second after the authority lapsed.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "authorization-expired",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "ab096de5931258f1b7f10087281b9b625548d04129a7e4b2c56ae01e5663f1be"
+      },
+      "id": "incident-action-authorization-rule-9-authorization-expired",
+      "kind": "reject",
+      "mutation": {
+        "from": "2026-01-10T10:05:00Z",
+        "path": [
+          "predicate",
+          "executedAt"
+        ],
+        "to": "2026-01-10T18:00:01Z"
+      },
+      "path": "cases/incident-action-authorization-rule-9-authorization-expired",
+      "predicate": "incident-action-authorization",
+      "rule": "9",
+      "shape": "record"
+    },
+    {
+      "base": "incident-action-authorization-control",
+      "description": "no induced effects observed, and no observation named.",
+      "document": "spec/predicates/incident-action-authorization.md",
+      "expected": {
+        "reason": "induced-effects-unobserved",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "6cc48dfd4c69fb9d331df706e1c665e8e3a95acc82aecb13c702772ce901d040"
+      },
+      "id": "incident-action-authorization-rule-10-induced-effects-unobserved",
+      "kind": "reject",
+      "mutation": {
+        "from": {
+          "sha256": "49e5bcfe1937fa1b8f644eed7a55ec335d7094afc266cedbdc3dac8a31614bae"
+        },
+        "path": [
+          "predicate",
+          "action",
+          "inducedEffects",
+          "observation"
+        ]
+      },
+      "path": "cases/incident-action-authorization-rule-10-induced-effects-unobserved",
+      "predicate": "incident-action-authorization",
+      "rule": "10",
+      "shape": "record"
+    },
+    {
+      "description": "control: a partial sweep whose claim matches its partition.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "sweep-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b"
+      },
+      "id": "revocation-sweep-control",
+      "kind": "accept",
+      "path": "cases/revocation-sweep-control",
+      "predicate": "revocation-sweep",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: an issued-after claim that states its time.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "sweep-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "0374529a2e68c8791245262f6bc83a9b6053501997e8c5254ba029b02b060cad"
+      },
+      "id": "revocation-sweep-accept-issued-after-only",
+      "kind": "accept",
+      "path": "cases/revocation-sweep-accept-issued-after-only",
+      "predicate": "revocation-sweep",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: a relying party observed using a credential after its revocation, said plainly.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "sweep-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "e41b87a34ad03893f0631fc779beda0ab30174c6b999bbacfb20859567430adb"
+      },
+      "id": "revocation-sweep-accept-use-after-revocation",
+      "kind": "accept",
+      "path": "cases/revocation-sweep-accept-use-after-revocation",
+      "predicate": "revocation-sweep",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "the statement names a predicate type that is not defined.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "statement-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "bf39701978c3554a200ced2e1b54c7400d92b6d39bb99fcf871b02a9e9d741b5"
+      },
+      "id": "revocation-sweep-rule-1-statement-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
+        "path": [
+          "predicateType"
+        ],
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-sweep"
+      },
+      "path": "cases/revocation-sweep-rule-1-statement-malformed",
+      "predicate": "revocation-sweep",
+      "rule": "1",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "the population list is not sorted.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "predicate-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "15a7e7157e862edb986df4d9211cf684f06a1d107c2fe18d42dce6acb6446ea9"
+      },
+      "id": "revocation-sweep-rule-2-predicate-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "https://idp.example.org/credentials/c-01",
+          "https://idp.example.org/credentials/c-02",
+          "https://idp.example.org/credentials/c-03"
+        ],
+        "path": [
+          "predicate",
+          "population",
+          "credentials"
+        ],
+        "to": [
+          "https://idp.example.org/credentials/c-02",
+          "https://idp.example.org/credentials/c-01",
+          "https://idp.example.org/credentials/c-03"
+        ]
+      },
+      "path": "cases/revocation-sweep-rule-2-predicate-malformed",
+      "predicate": "revocation-sweep",
+      "rule": "2",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "a revocation state the registry does not define.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "closed-vocabulary-violation",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "33a7041f0349f4681870f39308edcac3518a9348447f28ef34ef20a2b69f6d09"
+      },
+      "id": "revocation-sweep-rule-3-closed-vocabulary-violation",
+      "kind": "reject",
+      "mutation": {
+        "from": "enforced_observed",
+        "path": [
+          "predicate",
+          "revocations",
+          0,
+          "relyingParties",
+          0,
+          "state"
+        ],
+        "to": "acknowledged"
+      },
+      "path": "cases/revocation-sweep-rule-3-closed-vocabulary-violation",
+      "predicate": "revocation-sweep",
+      "rule": "3",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "the parts do not add up to the population.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "denominator-union-mismatch",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "12f8839f4a489380b3e5b39302454c97b8732a16987085ad0f55aa5cf13070b2"
+      },
+      "id": "revocation-sweep-rule-4-denominator-union-mismatch",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "https://idp.example.org/credentials/c-03"
+        ],
+        "path": [
+          "predicate",
+          "partition",
+          1,
+          "credentials"
+        ],
+        "to": [
+          "https://idp.example.org/credentials/c-04"
+        ]
+      },
+      "path": "cases/revocation-sweep-rule-4-denominator-union-mismatch",
+      "predicate": "revocation-sweep",
+      "rule": "4",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "a revoked credential has no revocation entry.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "revocation-entries-mismatch",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "d503f623622e880c4433c465fd8ba95c388a4f5db094db2d3a9536a8debf8164"
+      },
+      "id": "revocation-sweep-rule-5-revocation-entries-mismatch",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          {
+            "credential": "https://idp.example.org/credentials/c-01",
+            "evidence": {
+              "digest": {
+                "sha256": "74daeeaba0e81b959000da2fb17c3e13b2dd47818ab5c43284a4b59b0fbc39b1"
+              },
+              "mediaType": "application/json"
+            },
+            "relyingParties": [
+              {
+                "id": "https://api.example.org",
+                "state": "enforced_observed"
+              }
+            ],
+            "revokedAt": "2026-01-10T12:00:00Z"
+          },
+          {
+            "credential": "https://idp.example.org/credentials/c-02",
+            "evidence": {
+              "digest": {
+                "sha256": "0420dd74d3303c1c6a9883166af37d85d2e8daec06b841058a7f43b9a874b507"
+              },
+              "mediaType": "application/json"
+            },
+            "relyingParties": [
+              {
+                "id": "https://api.example.org",
+                "state": "enforced_observed"
+              }
+            ],
+            "revokedAt": "2026-01-10T12:00:00Z"
+          }
+        ],
+        "path": [
+          "predicate",
+          "revocations"
+        ],
+        "to": [
+          {
+            "credential": "https://idp.example.org/credentials/c-01",
+            "evidence": {
+              "digest": {
+                "sha256": "74daeeaba0e81b959000da2fb17c3e13b2dd47818ab5c43284a4b59b0fbc39b1"
+              },
+              "mediaType": "application/json"
+            },
+            "relyingParties": [
+              {
+                "id": "https://api.example.org",
+                "state": "enforced_observed"
+              }
+            ],
+            "revokedAt": "2026-01-10T12:00:00Z"
+          }
+        ]
+      },
+      "path": "cases/revocation-sweep-rule-5-revocation-entries-mismatch",
+      "predicate": "revocation-sweep",
+      "rule": "5",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "complete coverage is claimed while one credential is retained.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "coverage-claim-exceeds-proof",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "8592e20fb2edb704fefae42a5ab1d820f433cc3eda033def121114fabc52c59b"
+      },
+      "id": "revocation-sweep-rule-6-coverage-claim-exceeds-proof",
+      "kind": "reject",
+      "mutation": {
+        "from": "partial",
+        "path": [
+          "predicate",
+          "coverage",
+          "claim"
+        ],
+        "to": "complete_verified"
+      },
+      "path": "cases/revocation-sweep-rule-6-coverage-claim-exceeds-proof",
+      "predicate": "revocation-sweep",
+      "rule": "6",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-sweep-control",
+      "description": "an issued-after claim with no issuedAfter time.",
+      "document": "spec/predicates/revocation-sweep.md",
+      "expected": {
+        "reason": "coverage-claim-incomplete",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "fc26a0155573993926e99ca64d0185b012c9b4ea6781f752c710ad68a9c982d9"
+      },
+      "id": "revocation-sweep-rule-7-coverage-claim-incomplete",
+      "kind": "reject",
+      "mutation": {
+        "from": "partial",
+        "path": [
+          "predicate",
+          "coverage",
+          "claim"
+        ],
+        "to": "issued_after_only"
+      },
+      "path": "cases/revocation-sweep-rule-7-coverage-claim-incomplete",
+      "predicate": "revocation-sweep",
+      "rule": "7",
+      "shape": "record"
+    },
+    {
+      "description": "control: a staged resumption citing some slots and declaring the rest not addressed.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "decision-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "2f92f1a4bbdd228228a3be0c198f3d847cdacb765c4a37c64eec858513163f68"
+      },
+      "id": "re-enable-decision-control",
+      "kind": "accept",
+      "path": "cases/re-enable-decision-control",
+      "predicate": "re-enable-decision",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: a full resumption with no restored scope.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "decision-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "6210a04e1b905dcf9b3e95fa31c7912f6b578b7f37c2d4bd122df6d6847cc1a4"
+      },
+      "id": "re-enable-decision-accept-resume-full",
+      "kind": "accept",
+      "path": "cases/re-enable-decision-accept-resume-full",
+      "predicate": "re-enable-decision",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: a decision to stay restricted, recorded the same way as a resumption.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "decision-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "6ccefcc652856298d5ba9bc35d60c92b02cac5ac739f5b04854fa783ccd689dd"
+      },
+      "id": "re-enable-decision-accept-remain-restricted",
+      "kind": "accept",
+      "path": "cases/re-enable-decision-accept-remain-restricted",
+      "predicate": "re-enable-decision",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "the statement names a predicate type that is not defined.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "statement-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "d298f0a831b1706685cfd84caf09125beec3c9c1d0c7d86a2407e5f954560b31"
+      },
+      "id": "re-enable-decision-rule-1-statement-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/re-enable-decision",
+        "path": [
+          "predicateType"
+        ],
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/re-enable-decision"
+      },
+      "path": "cases/re-enable-decision-rule-1-statement-malformed",
+      "predicate": "re-enable-decision",
+      "rule": "1",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "an approver role the document does not define.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "predicate-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "c78564d35ed8db30774b6f7da017748d3d136aaceb7b904588d509becc39a073"
+      },
+      "id": "re-enable-decision-rule-2-predicate-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "accountable",
+          "authorised"
+        ],
+        "path": [
+          "predicate",
+          "approvers",
+          0,
+          "roles"
+        ],
+        "to": [
+          "approver"
+        ]
+      },
+      "path": "cases/re-enable-decision-rule-2-predicate-malformed",
+      "predicate": "re-enable-decision",
+      "rule": "2",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "a set-sufficiency value the registry does not define.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "closed-vocabulary-violation",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "75a4d6a3c9f5b0d0dd723f5c87d6a80d99b730c47b52df02f962b361228de1f7"
+      },
+      "id": "re-enable-decision-rule-3-closed-vocabulary-violation",
+      "kind": "reject",
+      "mutation": {
+        "from": "not_assessed",
+        "path": [
+          "predicate",
+          "setSufficiency"
+        ],
+        "to": "adequate"
+      },
+      "path": "cases/re-enable-decision-rule-3-closed-vocabulary-violation",
+      "predicate": "re-enable-decision",
+      "rule": "3",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "an evidence slot is left out.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "evidence-slot-missing",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "dadf5e1c8c1a7fd44d936028c7d006c0dd0b0c2b6e06834def8a94a68e34af59"
+      },
+      "id": "re-enable-decision-rule-4-evidence-slot-missing",
+      "kind": "reject",
+      "mutation": {
+        "from": {
+          "digest": {
+            "sha256": "1fdd43c79ca06564f76150d2484cef67c2e0072f751e1cef471da31197a27664"
+          }
+        },
+        "path": [
+          "predicate",
+          "evidence",
+          "restoreOrder"
+        ]
+      },
+      "path": "cases/re-enable-decision-rule-4-evidence-slot-missing",
+      "predicate": "re-enable-decision",
+      "rule": "4",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "a slot declared not addressed with an empty reason.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "evidence-slot-unexplained",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "f9cdfdc37b6d11e5f788a3db5044d573ac78f4bf228ab7b8c895e564d2e147ab"
+      },
+      "id": "re-enable-decision-rule-5-evidence-slot-unexplained",
+      "kind": "reject",
+      "mutation": {
+        "from": {
+          "digest": {
+            "sha256": "9a9b5c035b702fa3df91b2bc42db44e144b7d9b42e1a463e9873706ab8854f64"
+          }
+        },
+        "path": [
+          "predicate",
+          "evidence",
+          "residualRisk"
+        ],
+        "to": {
+          "notAddressed": ""
+        }
+      },
+      "path": "cases/re-enable-decision-rule-5-evidence-slot-unexplained",
+      "predicate": "re-enable-decision",
+      "rule": "5",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "no approver holds authorised.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "no-approver",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "13a61277333e3a37eeb27ba57737e93e9a41ec1abdce7909c63d3ed12e54957e"
+      },
+      "id": "re-enable-decision-rule-6-no-approver",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "accountable",
+          "authorised"
+        ],
+        "path": [
+          "predicate",
+          "approvers",
+          0,
+          "roles"
+        ],
+        "to": [
+          "accountable"
+        ]
+      },
+      "path": "cases/re-enable-decision-rule-6-no-approver",
+      "predicate": "re-enable-decision",
+      "rule": "6",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "a staged resumption whose scope names nothing.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "partial-without-scope",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "69760d6b7507e18bc580e0fc2fd8ed8ce8e7325d191e345759b6f659b7caf383"
+      },
+      "id": "re-enable-decision-rule-7-partial-without-scope",
+      "kind": "reject",
+      "mutation": {
+        "from": {
+          "agents": [
+            "https://agents.example.com/agent-a"
+          ],
+          "credentials": [
+            "https://idp.example.org/credentials/c-03"
+          ],
+          "routes": [],
+          "tools": []
+        },
+        "path": [
+          "predicate",
+          "restoration",
+          "restoredScope"
+        ],
+        "to": {
+          "agents": [],
+          "credentials": [],
+          "routes": [],
+          "tools": []
+        }
+      },
+      "path": "cases/re-enable-decision-rule-7-partial-without-scope",
+      "predicate": "re-enable-decision",
+      "rule": "7",
+      "shape": "record"
+    },
+    {
+      "base": "re-enable-decision-control",
+      "description": "a full resumption that also carries a restored scope.",
+      "document": "spec/predicates/re-enable-decision.md",
+      "expected": {
+        "reason": "full-with-scope",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "015087a4cc9afde541f724c9e77698c8145803e7a23a82aba2a349a2f0d3451d"
+      },
+      "id": "re-enable-decision-rule-8-full-with-scope",
+      "kind": "reject",
+      "mutation": {
+        "from": "resume_staged",
+        "path": [
+          "predicate",
+          "restoration",
+          "decision"
+        ],
+        "to": "resume_full"
+      },
+      "path": "cases/re-enable-decision-rule-8-full-with-scope",
+      "predicate": "re-enable-decision",
+      "rule": "8",
+      "shape": "record"
+    },
+    {
+      "description": "control: two organisations, each acting on its own assets.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "assignment-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "3e7a93da40128d6d0f106ce37c5c20ee95ddd502640cc86d31e7fbe1e33c97d8"
+      },
+      "id": "joint-authority-control",
+      "kind": "accept",
+      "path": "cases/joint-authority-control",
+      "predicate": "joint-authority",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "base": "joint-authority-control",
+      "description": "the statement names a predicate type that is not defined.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "statement-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "524951a1385d821e3f7de2e01bb1029ad5df8a8d64807b8d1a4a0cc025b5348e"
+      },
+      "id": "joint-authority-rule-1-statement-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority",
+        "path": [
+          "predicateType"
+        ],
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/joint-authority"
+      },
+      "path": "cases/joint-authority-rule-1-statement-malformed",
+      "predicate": "joint-authority",
+      "rule": "1",
+      "shape": "record"
+    },
+    {
+      "base": "joint-authority-control",
+      "description": "only one party.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "predicate-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "5047de6f95346fcb36b7a34bea42c7f6a95d865275b0141a831dbde62ba54c74"
+      },
+      "id": "joint-authority-rule-2-predicate-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          {
+            "assets": [
+              "https://agents.example.com/agent-a"
+            ],
+            "authorityBasis": "role_grant",
+            "correlationId": "synthetic-incident-0001",
+            "id": "https://people.example.com/operator-team",
+            "organization": "https://example.com"
+          },
+          {
+            "assets": [
+              "https://api.example.org"
+            ],
+            "authorityBasis": "contract_third_party",
+            "correlationId": "synthetic-case-17",
+            "id": "https://people.example.org/platform-team",
+            "organization": "https://example.org"
+          }
+        ],
+        "path": [
+          "predicate",
+          "parties"
+        ],
+        "to": [
+          {
+            "assets": [
+              "https://agents.example.com/agent-a"
+            ],
+            "authorityBasis": "role_grant",
+            "correlationId": "synthetic-incident-0001",
+            "id": "https://people.example.com/operator-team",
+            "organization": "https://example.com"
+          }
+        ]
+      },
+      "path": "cases/joint-authority-rule-2-predicate-malformed",
+      "predicate": "joint-authority",
+      "rule": "2",
+      "shape": "record"
+    },
+    {
+      "base": "joint-authority-control",
+      "description": "a party carries no authority basis.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "authority-basis-missing",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "bd88f66a91a5341fb3335739ddc3ca8a11d5592fe2a968b509839369e8727776"
+      },
+      "id": "joint-authority-rule-4-authority-basis-missing",
+      "kind": "reject",
+      "mutation": {
+        "from": "contract_third_party",
+        "path": [
+          "predicate",
+          "parties",
+          1,
+          "authorityBasis"
+        ]
+      },
+      "path": "cases/joint-authority-rule-4-authority-basis-missing",
+      "predicate": "joint-authority",
+      "rule": "4",
+      "shape": "record"
+    },
+    {
+      "base": "joint-authority-control",
+      "description": "both parties belong to one organisation.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "single-organization",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "2152f29240e11ac61980357b6f30d96cc3d52517d393f64f00bf43afb347d443"
+      },
+      "id": "joint-authority-rule-5-single-organization",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://example.org",
+        "path": [
+          "predicate",
+          "parties",
+          1,
+          "organization"
+        ],
+        "to": "https://example.com"
+      },
+      "path": "cases/joint-authority-rule-5-single-organization",
+      "predicate": "joint-authority",
+      "rule": "5",
+      "shape": "record"
+    },
+    {
+      "base": "joint-authority-control",
+      "description": "a party acts on an asset assigned to the other party.",
+      "document": "spec/predicates/joint-authority.md",
+      "expected": {
+        "reason": "party-acts-outside-assignment",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "94a5f43fc6cef62362e4b00dfb7839e9fe4c97eb3ac34a5c46915d41850e7da3"
+      },
+      "id": "joint-authority-rule-6-party-acts-outside-assignment",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://agents.example.com/agent-a",
+        "path": [
+          "predicate",
+          "actions",
+          0,
+          "asset"
+        ],
+        "to": "https://api.example.org"
+      },
+      "path": "cases/joint-authority-rule-6-party-acts-outside-assignment",
+      "predicate": "joint-authority",
+      "rule": "6",
+      "shape": "record"
+    },
+    {
+      "description": "control: no post-revocation commit seen from the sink side.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "boundary-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "2c6792d6a7c6678f6edb8a70949229c2839540df4ad99fa278d372452d3a2514"
+      },
+      "id": "revocation-boundary-control",
+      "kind": "accept",
+      "path": "cases/revocation-boundary-control",
+      "predicate": "revocation-boundary",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: a post-revocation commit counted and reported.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "boundary-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "401c3a7770890875af158549e6fe61784b52ea710e0121aa08383279ef36fbdb"
+      },
+      "id": "revocation-boundary-accept-commit-observed",
+      "kind": "accept",
+      "path": "cases/revocation-boundary-accept-commit-observed",
+      "predicate": "revocation-boundary",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "description": "control: an agent-side observer that leaves the result not established.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "boundary-recorded",
+        "verdict": "accept"
+      },
+      "files": {
+        "statement.json": "05672bbfd0f8a3d5af11f0aa6e5e551934c4711f21e6f0e7b74073b573c82e6e"
+      },
+      "id": "revocation-boundary-accept-not-established",
+      "kind": "accept",
+      "path": "cases/revocation-boundary-accept-not-established",
+      "predicate": "revocation-boundary",
+      "rule": null,
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "the statement names a predicate type that is not defined.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "statement-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "feeb66442417f9e6142ae29910fd73263f6cf5df5c1010ae44bcb0e08c4c03b8"
+      },
+      "id": "revocation-boundary-rule-1-statement-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary",
+        "path": [
+          "predicateType"
+        ],
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v0/revocation-boundary"
+      },
+      "path": "cases/revocation-boundary-rule-1-statement-malformed",
+      "predicate": "revocation-boundary",
+      "rule": "1",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "a negative count.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "predicate-malformed",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "c985b3b7913d4c50ca4d3aa6dcb5170d6e05270f32ddb217ab000f143d6c7c75"
+      },
+      "id": "revocation-boundary-rule-2-predicate-malformed",
+      "kind": "reject",
+      "mutation": {
+        "from": 40,
+        "path": [
+          "predicate",
+          "counts",
+          "attempts"
+        ],
+        "to": -1
+      },
+      "path": "cases/revocation-boundary-rule-2-predicate-malformed",
+      "predicate": "revocation-boundary",
+      "rule": "2",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "the revocation takes effect after the window ends.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "revocation-outside-window",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "7216e4bfad52796975efe6d9120aafd1ea894128d5d59aba15e37818bac9060b"
+      },
+      "id": "revocation-boundary-rule-4-revocation-outside-window",
+      "kind": "reject",
+      "mutation": {
+        "from": "2026-01-10T12:00:00Z",
+        "path": [
+          "predicate",
+          "revocation",
+          "effectiveAt"
+        ],
+        "to": "2026-01-10T13:30:00Z"
+      },
+      "path": "cases/revocation-boundary-rule-4-revocation-outside-window",
+      "predicate": "revocation-boundary",
+      "rule": "4",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "more tasks in flight than attempts.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "counts-inconsistent",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "e5db0e5eb966ca2934c396fd6f0d8bd8a5c15faea9029dff20b27a0917eb5bf7"
+      },
+      "id": "revocation-boundary-rule-5-counts-inconsistent",
+      "kind": "reject",
+      "mutation": {
+        "from": 6,
+        "path": [
+          "predicate",
+          "counts",
+          "inFlightAtRevocation"
+        ],
+        "to": 50
+      },
+      "path": "cases/revocation-boundary-rule-5-counts-inconsistent",
+      "predicate": "revocation-boundary",
+      "rule": "5",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "a post-revocation commit counted and a result saying none was seen.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "result-contradicts-counts",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "e0795591e99aa7a8f01b823cea8b6eb1e1be43f3f3f3d9df9b2431fb3022340a"
+      },
+      "id": "revocation-boundary-rule-6-result-contradicts-counts",
+      "kind": "reject",
+      "mutation": {
+        "from": 0,
+        "path": [
+          "predicate",
+          "counts",
+          "postRevocationCommits"
+        ],
+        "to": 1
+      },
+      "path": "cases/revocation-boundary-rule-6-result-contradicts-counts",
+      "predicate": "revocation-boundary",
+      "rule": "6",
+      "shape": "record"
+    },
+    {
+      "base": "revocation-boundary-control",
+      "description": "no post-revocation commit claimed from the agent side.",
+      "document": "spec/predicates/revocation-boundary.md",
+      "expected": {
+        "reason": "observer-not-at-sink",
+        "verdict": "reject"
+      },
+      "files": {
+        "statement.json": "020659904aafe89577b6e3b5bd524932fd2e76c31bdc419c4a7b9183df019c50"
+      },
+      "id": "revocation-boundary-rule-7-observer-not-at-sink",
+      "kind": "reject",
+      "mutation": {
+        "from": "sink_side",
+        "path": [
+          "predicate",
+          "observer",
+          "vantage"
+        ],
+        "to": "agent_side"
+      },
+      "path": "cases/revocation-boundary-rule-7-observer-not-at-sink",
+      "predicate": "revocation-boundary",
+      "rule": "7",
+      "shape": "record"
+    },
+    {
+      "description": "control: an R3 with the R1 and R2 it names.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "bundle-consistent",
+        "verdict": "accept"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "2f92f1a4bbdd228228a3be0c198f3d847cdacb765c4a37c64eec858513163f68"
+      },
+      "id": "bundle-consistent",
+      "kind": "accept",
+      "path": "cases/bundle-consistent",
+      "predicate": null,
+      "rule": null,
+      "shape": "bundle"
+    },
+    {
+      "description": "control: the same bundle with an R4 naming the incident through its related pairs and a revocation-boundary record.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "bundle-consistent",
+        "verdict": "accept"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "2f92f1a4bbdd228228a3be0c198f3d847cdacb765c4a37c64eec858513163f68",
+        "r4.json": "3e7a93da40128d6d0f106ce37c5c20ee95ddd502640cc86d31e7fbe1e33c97d8",
+        "rb.json": "4d9e70c148413c81116e3a30326b57c0fb3ece917b2e27481c6b45877c069ffe"
+      },
+      "id": "bundle-consistent-with-optional-records",
+      "kind": "accept",
+      "path": "cases/bundle-consistent-with-optional-records",
+      "predicate": null,
+      "rule": null,
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R2 in the bundle fails its own rule 6.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "coverage-claim-exceeds-proof",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "8592e20fb2edb704fefae42a5ab1d820f433cc3eda033def121114fabc52c59b",
+        "r3.json": "7d7c6541f575ab995376436c8b361f7fe2101801ae6076dd5f18f17691fd08b5"
+      },
+      "id": "bundle-b1-coverage-claim-exceeds-proof",
+      "kind": "reject",
+      "mutation": {
+        "from": "partial",
+        "path": [
+          "predicate",
+          "coverage",
+          "claim"
+        ],
+        "record": "r2.json",
+        "to": "complete_verified"
+      },
+      "path": "cases/bundle-b1-coverage-claim-exceeds-proof",
+      "predicate": null,
+      "rule": "B1",
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R3 names a predecessor digest no record in the bundle has.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "predecessor-not-carried",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "bd6bef76a49c6755bf10f232ed515950abad81fa47c9b32165c411326f4c5f34"
+      },
+      "id": "bundle-b2-predecessor-not-carried",
+      "kind": "reject",
+      "mutation": {
+        "from": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "path": [
+          "predicate",
+          "predecessors",
+          1,
+          "digest",
+          "sha256"
+        ],
+        "record": "r3.json",
+        "to": "f4d227067f30bc1d5790d3b42db09887c72b58b69933d01a5b0682be283bbc96"
+      },
+      "path": "cases/bundle-b2-predecessor-not-carried",
+      "predicate": null,
+      "rule": "B2",
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R3 names the R2's digest under another predicate type.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "predecessor-type-mismatch",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "24d4a73f5d5a93e15a7da7f9d328fe2fb7ec4de7aa0bed781c06ee32181a8adb"
+      },
+      "id": "bundle-b3-predecessor-type-mismatch",
+      "kind": "reject",
+      "mutation": {
+        "from": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
+        "path": [
+          "predicate",
+          "predecessors",
+          1,
+          "predicateType"
+        ],
+        "record": "r3.json",
+        "to": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/joint-authority"
+      },
+      "path": "cases/bundle-b3-predecessor-type-mismatch",
+      "predicate": null,
+      "rule": "B3",
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R2 names another incident.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "incident-mismatch",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "289e7ed094f7c71c65b22789783c97980ffd26ed941b59dd8eafc0f76e27508d",
+        "r3.json": "19d7228eb088d7406487bdc5473ff23cfc53643cf185204b25bbe610f10918b4"
+      },
+      "id": "bundle-b5-incident-mismatch",
+      "kind": "reject",
+      "mutation": {
+        "from": "synthetic-incident-0001",
+        "path": [
+          "predicate",
+          "incident",
+          "id"
+        ],
+        "record": "r2.json",
+        "to": "synthetic-incident-0002"
+      },
+      "path": "cases/bundle-b5-incident-mismatch",
+      "predicate": null,
+      "rule": "B5",
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R3 is issued before the R2 it names.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "predecessor-issued-later",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "83dbf6c2913bd8f5d6d03b351871482fee8321a8239f04e95f47a7b11466459f"
+      },
+      "id": "bundle-b6-predecessor-issued-later",
+      "kind": "reject",
+      "mutation": {
+        "from": "2026-01-12T09:00:00Z",
+        "path": [
+          "predicate",
+          "issuedAt"
+        ],
+        "record": "r3.json",
+        "to": "2026-01-10T13:00:00Z"
+      },
+      "path": "cases/bundle-b6-predecessor-issued-later",
+      "predicate": null,
+      "rule": "B6",
+      "shape": "bundle"
+    },
+    {
+      "base": "bundle-consistent",
+      "description": "the R3 restores a credential no R2 in the bundle lists.",
+      "document": "profiles/restoration-evidence.md",
+      "expected": {
+        "reason": "restored-credential-unswept",
+        "verdict": "reject"
+      },
+      "files": {
+        "r1.json": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238",
+        "r2.json": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b",
+        "r3.json": "345bee22d39aea1132fd918623a88af21257a9357beec1d1b073f1f3d0e0c869"
+      },
+      "id": "bundle-b7-restored-credential-unswept",
+      "kind": "reject",
+      "mutation": {
+        "from": [
+          "https://idp.example.org/credentials/c-03"
+        ],
+        "path": [
+          "predicate",
+          "restoration",
+          "restoredScope",
+          "credentials"
+        ],
+        "record": "r3.json",
+        "to": [
+          "https://idp.example.org/credentials/c-09"
+        ]
+      },
+      "path": "cases/bundle-b7-restored-credential-unswept",
+      "predicate": null,
+      "rule": "B7",
+      "shape": "bundle"
+    }
+  ],
+  "verifierContract": "check_vectors.py --record statement.json | --bundle <directory>; prints {verdict, reason}; exit 0 accept, 1 reject"
+}

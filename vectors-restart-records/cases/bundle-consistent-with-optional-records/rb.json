@@ -1,0 +1,68 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "counts": {
+      "attempts": 40,
+      "inFlightAtRevocation": 6,
+      "postRevocationCommits": 0,
+      "replaysAttempted": 3,
+      "replaysCommitted": 0
+    },
+    "doesNotAssert": [
+      "anything about another sink, window or credential"
+    ],
+    "exclusions": [
+      {
+        "count": 1,
+        "reason": "attempt withdrawn before dispatch"
+      }
+    ],
+    "incident": {
+      "id": "synthetic-incident-0001",
+      "issuer": "https://ops.example.com/incidents"
+    },
+    "issuedAt": "2026-01-11T09:00:00Z",
+    "observer": {
+      "id": "https://observer.example.com/ledger-reader",
+      "vantage": "sink_side"
+    },
+    "predecessors": [
+      {
+        "digest": {
+          "sha256": "f67b48342649d0a84bca4db23ef54483becda33b12d463a7fcfef9f2b6eb212b"
+        },
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep"
+      }
+    ],
+    "producer": {
+      "id": "https://records.example.com/producer"
+    },
+    "registryDigest": {
+      "sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc"
+    },
+    "result": "no_post_revocation_commit_observed",
+    "revocation": {
+      "credential": "https://idp.example.org/credentials/c-01",
+      "effectiveAt": "2026-01-10T12:00:00Z",
+      "timeSource": "https://time.example.org"
+    },
+    "sink": {
+      "commitBoundary": "the transaction commit",
+      "id": "https://db.example.com/ledger",
+      "kind": "database"
+    },
+    "window": {
+      "end": "2026-01-10T13:00:00Z",
+      "start": "2026-01-10T11:00:00Z"
+    }
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-boundary",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "52fc8dcf90f8b19101ba0c04f818ce1acb775a8430cdfd024d6e141d72be5c55"
+      },
+      "name": "test plan: one sink, one window"
+    }
+  ]
+}

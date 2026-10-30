@@ -1,0 +1,95 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "coverage": {
+      "claim": "issued_after_only"
+    },
+    "doesNotAssert": [
+      "that the population is every credential that existed"
+    ],
+    "incident": {
+      "id": "synthetic-incident-0001",
+      "issuer": "https://ops.example.com/incidents"
+    },
+    "issuedAt": "2026-01-10T14:00:00Z",
+    "partition": [
+      {
+        "credentials": [
+          "https://idp.example.org/credentials/c-01",
+          "https://idp.example.org/credentials/c-02"
+        ],
+        "state": "revoked"
+      },
+      {
+        "credentials": [
+          "https://idp.example.org/credentials/c-03"
+        ],
+        "state": "retained"
+      }
+    ],
+    "population": {
+      "credentials": [
+        "https://idp.example.org/credentials/c-01",
+        "https://idp.example.org/credentials/c-02",
+        "https://idp.example.org/credentials/c-03"
+      ]
+    },
+    "predecessors": [
+      {
+        "digest": {
+          "sha256": "85e7bfb5a5695ad848248bed7a60f57bbd6d893b48ebbc9cc102e9e5d77b6238"
+        },
+        "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/incident-action-authorization"
+      }
+    ],
+    "producer": {
+      "id": "https://records.example.com/producer"
+    },
+    "registryDigest": {
+      "sha256": "1c5ff80bd97237a603afc402db692ffe5abe15e4a7f9eca13f20068ada347fdc"
+    },
+    "revocations": [
+      {
+        "credential": "https://idp.example.org/credentials/c-01",
+        "evidence": {
+          "digest": {
+            "sha256": "74daeeaba0e81b959000da2fb17c3e13b2dd47818ab5c43284a4b59b0fbc39b1"
+          },
+          "mediaType": "application/json"
+        },
+        "relyingParties": [
+          {
+            "id": "https://api.example.org",
+            "state": "enforced_observed"
+          }
+        ],
+        "revokedAt": "2026-01-10T12:00:00Z"
+      },
+      {
+        "credential": "https://idp.example.org/credentials/c-02",
+        "evidence": {
+          "digest": {
+            "sha256": "0420dd74d3303c1c6a9883166af37d85d2e8daec06b841058a7f43b9a874b507"
+          },
+          "mediaType": "application/json"
+        },
+        "relyingParties": [
+          {
+            "id": "https://api.example.org",
+            "state": "enforced_observed"
+          }
+        ],
+        "revokedAt": "2026-01-10T12:00:00Z"
+      }
+    ]
+  },
+  "predicateType": "https://probityai.github.io/agent-evidence-vectors/predicate/v1/revocation-sweep",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "8a97430afbebb40b5fd564e983353f84a3770fc472333ae58a16d91e258f5292"
+      },
+      "name": "population manifest: three credentials"
+    }
+  ]
+}
