@@ -3304,6 +3304,13 @@ EXEMPT_PREFIXES: dict[str, str] = {
         "integers in its prose and builder notes are requirement ids, tree sizes and "
         "record indexes of the Proof-of-Control draft, not counts of this repository"
     ),
+    "crates/jcs-admit/": (
+        "a standalone crate with its own Cargo tests, interop fixtures and recorded "
+        "run output; its integers are byte widths, nesting-depth bounds, upstream "
+        "event counts and the figures of its own mutation sweep and incumbent "
+        "measurement, none of them a count of this repository's corpora, which this "
+        "gate's declared claims and manifests check"
+    ),
     "vectors-ai-agent-action/spec-vendored/": (
         "vendored upstream bytes; the manifest's specDigest owns them, "
         "aee-verify refuses a copy whose bytes moved, "
