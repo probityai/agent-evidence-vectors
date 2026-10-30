@@ -21,14 +21,21 @@ judges them. The cases come in four sets:
   the second open question of use case B, and what happens to them when the
   parent retires, is recovered or is succeeded.
 
-Judge the corpus with the Go verifier, from the repository root:
+Judge the corpus with the packaged Python reader, which needs nothing beyond
+the standard library:
+
+```sh
+uvx agent-evidence-vectors --corpus vectors-delegation-lifecycle
+```
+
+or with the Go verifier, from the repository root:
 
 ```sh
 GOWORK=off go build -o aee-verify ./cmd/aee-verify
 ./aee-verify vectors-delegation-lifecycle
 ```
 
-`aee-verify` derives the outcome of every case from its records and exits 0 only
+Both derive the outcome of every case from its records and exits 0 only
 when each one matches the outcome `MANIFEST.json` declares. [INDEX.md](INDEX.md)
 lists every case with its situation, its expected outcome and the rule it applies.
 
@@ -241,5 +248,14 @@ labels in `gen_vectors.py`. Anyone can re-derive them. They are test keys only.
 - `corpora/delegationlifecycle.go` is the verifier `aee-verify` runs. Its tests
   swap each refused case with its accepted twin and require the derived outcome
   to move, and switch off each rule in turn and require some case to change.
+- `packaging/agent_evidence_vectors/delegationlifecycle.py` is the Python reader
+  the packaged harness runs, a port of the Go verifier that prints the same
+  lines. Both judge the corpus alone and refuse a named verifier, because the
+  suite has no external-verifier contract.
+- `mutate.py` edits a copy of a case: it drops a record, flips a signature byte,
+  or moves a time and signs the record again with the key that signed it.
+  `tests/test_python_reader.py` uses it for the negative controls and
+  `scripts/delegation-lifecycle-rails-test.py` judges every mutant on both
+  readers and requires identical output.
 - `tests/test_corpus.py` regenerates the corpus byte for byte and recomputes its
   digest from the files.
