@@ -53,7 +53,6 @@ updates:
       interval: weekly
     commit-message:
       prefix: deps
-      include: none
     groups:
       adm:
         patterns: ["*"]
