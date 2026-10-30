@@ -140,6 +140,7 @@ from agent_evidence_vectors import (
     chunkedexport,
     completionconfirmation,
     convertedargs,
+    delegationlifecycle,
     delegatorright,
     dispatchfence,
     donerun,
@@ -3904,6 +3905,7 @@ def _run_non_reference_suite(
         *cardreceipt.SUITES,
         convertedargs.SUITE,
         delegatorright.SUITE,
+        delegationlifecycle.SUITE,
         completionconfirmation.SUITE,
         chunkedexport.SUITE,
         *donerun.SUITES,
@@ -3991,6 +3993,7 @@ def _run_non_reference_suite(
         auditrecord.SUITE: auditrecord,
         mcpowasp.SUITE: mcpowasp,
         admission.SUITE: admission,
+        delegationlifecycle.SUITE: delegationlifecycle,
     }.get(suite, observedeffect)
     judged = reader.judge(suite_dir)
     sys.stdout.write(reader.render(judged, reader.SUITE))
