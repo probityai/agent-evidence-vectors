@@ -1,11 +1,11 @@
 name: publish-hf-dataset
 
-# Keeps the Hugging Face copy of the corpus (huggingface.co/datasets/
-# probityai/agent-evidence-vectors) on the latest release. A published GitHub
-# release whose tag is v<major>.<minor>.<patch> builds the dataset tree from that
-# tag, checks it, replaces the dataset in one commit and gives the dataset a tag
-# of the same name, so `revision="v0.30.0"` works. Package releases such as
-# jcs-admit-npm-v0.1.0 do not start with `v` and never run this.
+# Tests the build of the Hugging Face copy of the corpus (huggingface.co/datasets/
+# probityai/agent-evidence-vectors). A pushed tag v<major>.<minor>.<patch> builds the
+# dataset tree from that tag in release.yml, which checks it, replaces the dataset
+# in one commit and gives the dataset a tag of the same name, so
+# `revision="v0.30.0"` works. Package releases such as jcs-admit-npm-v0.1.0 do
+# not start with `v` and never run this.
 #
 # This workflow only TESTS the dataset build; it publishes nothing and holds no
 # secret. The upload is the last step of the `publish` job of release.yml, in the
