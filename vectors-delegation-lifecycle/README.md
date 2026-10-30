@@ -21,12 +21,15 @@ judges them. The cases come in four sets:
   the second open question of use case B, and what happens to them when the
   parent retires, is recovered or is succeeded.
 
-Judge the corpus with the packaged Python reader, which needs nothing beyond
-the standard library:
+Judge the corpus with the Python reader in this repository, which needs
+nothing beyond the standard library, from the repository root:
 
 ```sh
-uvx agent-evidence-vectors --corpus vectors-delegation-lifecycle
+python3 packaging/run_vectors.py --corpus vectors-delegation-lifecycle
 ```
+
+A released wheel runs it as `uvx agent-evidence-vectors --corpus
+vectors-delegation-lifecycle` once a release includes the reader.
 
 or with the Go verifier, from the repository root:
 
@@ -35,7 +38,7 @@ GOWORK=off go build -o aee-verify ./cmd/aee-verify
 ./aee-verify vectors-delegation-lifecycle
 ```
 
-Both derive the outcome of every case from its records and exits 0 only
+Both derive the outcome of every case from its records and exit 0 only
 when each one matches the outcome `MANIFEST.json` declares. [INDEX.md](INDEX.md)
 lists every case with its situation, its expected outcome and the rule it applies.
 
