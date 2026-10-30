@@ -152,3 +152,4 @@ Use the [run form](.github/ISSUE_TEMPLATE/independent-run.yml) and retain the fu
 | Releases | [GitHub releases](https://github.com/probityai/agent-evidence-vectors/releases) |
 | Signed digests | [release/CORPUS-DIGESTS.txt](release/CORPUS-DIGESTS.txt) |
 | Archive | [Zenodo concept DOI](https://doi.org/10.5281/zenodo.22758687), with release-specific identifiers on the archive record |
+| Dataset | [Hugging Face](https://huggingface.co/datasets/probityai/agent-evidence-vectors), one revision tag per release, built by [the publish workflow](.github/workflows/publish-hf-dataset.yml) |
