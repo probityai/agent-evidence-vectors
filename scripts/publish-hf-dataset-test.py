@@ -233,6 +233,28 @@ class BuildRefuses(unittest.TestCase):
             with self.subTest(tag), self.assertRaises(pub.PublishError):
                 pub.resolve_tag(pub.REPO, tag)
 
+    def test_a_commit_other_than_the_release_commit_is_refused(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "dataset"
+            with self.assertRaises(pub.PublishError) as caught:
+                pub.build(pub.REPO, FIXTURE["tag"], out, "python3", None, "0" * 40)
+            self.assertIn("the release names", str(caught.exception))
+            self.assertFalse(out.exists())
+
+    def test_nothing_outside_the_release_surface_is_selected(self) -> None:
+        tree = {
+            "LICENSE": ("100644", "a"),
+            "CITATION.cff": ("100644", "b"),
+            "release/x": ("100644", "c"),
+            "vectors/MANIFEST.json": ("100644", "d"),
+            "packages/x/y.py": ("100644", "e"),
+            "src/z.go": ("100644", "f"),
+        }
+        _corpora, paths = pub.select_files(tree)
+        self.assertEqual(
+            sorted(paths), ["CITATION.cff", "LICENSE", "release/x", "vectors/MANIFEST.json"]
+        )
+
     def test_missing_cosign_fails_the_build(self) -> None:
         saved = os.environ["PATH"]
         os.environ["PATH"] = ""

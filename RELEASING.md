@@ -271,14 +271,17 @@ and the cosign signature check in a checkout of the tag, replaces the dataset in
 one commit and gives it a tag with the tag's name. Nothing is done by hand, and
 package releases such as `jcs-admit-npm-v0.1.0` do not start it.
 
-The upload needs the repository secret `HF_TOKEN`, a Hugging Face token with
-write access to the dataset. Without it the publish job fails before it builds
-anything and says so. A release event runs the workflow file as it stands at the
-tag, so a release cut before this workflow landed, or a publish that failed, is
-redone from the default branch: Actions, `publish-hf-dataset`, Run workflow, with
-the tag as input. Tick `dry_run` first to build and check the tree without
-uploading. A rerun for the same tag repeats the same bytes; a dataset tag that
-already points at a different commit is never moved, and the job fails instead.
+One approval covers both destinations. The corpus wheel's PyPI job in
+`release.yml` and the dataset upload both run in the protected environment
+`public-release`, whose required reviewer is the repository owner, so neither
+starts until the owner approves the run. The dataset upload runs only from the
+published event of the release, on the release's own tag and commit (which must
+be on `main`), and takes only the `vectors*` directories, `release/`, `LICENSE`
+and `CITATION.cff`. There is no manual trigger: a release that was missed is
+published again as a new release. The `HF_TOKEN` secret lives in that
+environment, so no other job can read it. `scripts/publish-gate-test.py` fails
+CI when any workflow publishes outside this path. A dataset tag that already
+points at a different commit is never moved, and the job fails instead.
 
 To build and check the tree locally:
 

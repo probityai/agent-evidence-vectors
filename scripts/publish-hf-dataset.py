@@ -171,6 +171,9 @@ def select_files(tree: dict[str, tuple[str, str]]) -> tuple[list[str], list[str]
     missing = [f for f in ROOT_FILES if f not in tree]
     if missing:
         raise PublishError(f"the tag has no {', '.join(missing)}")
+    stray = [p for p in picked if p.split("/", 1)[0] not in {*corpora, RELEASE_DIR, *ROOT_FILES}]
+    if stray:
+        raise PublishError(f"paths outside the release surface were selected: {stray[:3]}")
     for path in picked:
         if tree[path][0] not in REGULAR_MODES:
             raise PublishError(f"{path} has mode {tree[path][0]}; only regular files are published")
@@ -481,9 +484,24 @@ def write_sums(out: Path) -> None:
     write_file(out, SUMS, sums_text(digests).encode())
 
 
-def build(repo: Path, tag: str, out: Path, python: str, cosign: str | None) -> list[str]:
-    """Check the tag, write the tree under `out`, and return the problems found."""
+def build(
+    repo: Path,
+    tag: str,
+    out: Path,
+    python: str,
+    cosign: str | None,
+    expect_commit: str | None = None,
+) -> list[str]:
+    """Check the tag, write the tree under `out`, and return the problems found.
+
+    `expect_commit` is the commit the release event names. A tag that resolves
+    anywhere else is refused, so the dataset can only mirror the approved release.
+    """
     commit = resolve_tag(repo, tag)
+    if expect_commit is not None and commit != expect_commit:
+        raise PublishError(
+            f"tag {tag} resolves to {commit}, but the release names {expect_commit}"
+        )
     if out.exists() and any(out.iterdir()):
         raise PublishError(f"{out} is not empty")
     tree = list_tree(repo, commit)
@@ -686,6 +704,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     sub = parser.add_subparsers(dest="mode", required=True)
     b = sub.add_parser("build", help="check a tag and write the dataset tree")
     b.add_argument("--tag", required=True)
+    b.add_argument("--commit", default=None, help="the commit the release event names")
     b.add_argument("--out", type=Path, required=True)
     b.add_argument("--repo", type=Path, default=REPO)
     b.add_argument("--cosign", default=None, help="path to the cosign binary")
@@ -701,7 +720,9 @@ def main(argv: list[str]) -> int:
     args = parse_args(argv)
     try:
         if args.mode == "build":
-            problems = build(args.repo, args.tag, args.out, sys.executable, args.cosign)
+            problems = build(
+                args.repo, args.tag, args.out, sys.executable, args.cosign, args.commit
+            )
         elif args.mode == "check":
             problems = check_tree(args.directory)
         else:

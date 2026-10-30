@@ -67,7 +67,6 @@ on:
     tags: ['v*']
   release:
     types: [published]
-  workflow_dispatch:
 
 # Least privilege at the top; the publish jobs alone add id-token, which is what
 # the registries verify the workflow identity with.
@@ -287,6 +286,9 @@ jobs:
     needs: [verify, build-corpus, family-pin-guard-corpus]
     if: ${{ github.event_name != 'release' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
+    # The owner's approval of the release. The Hugging Face mirror
+    # (publish-hf-dataset.yml) names the same environment.
+    environment: public-release
     permissions:
       contents: read
       id-token: write
