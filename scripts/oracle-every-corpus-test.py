@@ -63,6 +63,7 @@ RUNS_A_VERIFIER = (
     "vectors-receipt-signature",
     "vectors-scitt-cose",
     "vectors-source-coverage",
+    "vectors-open-weight-art53",
     "vectors-trace-anchor",
 )
 
