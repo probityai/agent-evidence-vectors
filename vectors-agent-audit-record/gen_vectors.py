@@ -3528,7 +3528,9 @@ def _blank_key(pred: dict[str, Any]) -> None:
     pred["decision"]["operationKey"] = ""
 
 
-def _entry_edit(change: Callable[[dict[str, Any]], None]) -> Callable[[dict[str, Any], bytes], None]:
+def _entry_edit(
+    change: Callable[[dict[str, Any]], None],
+) -> Callable[[dict[str, Any], bytes], None]:
     def apply(entry_: dict[str, Any], _logged: bytes) -> None:
         change(entry_)
 
@@ -3608,7 +3610,8 @@ def define_reject_paths() -> None:
             ["predicate-type-mismatch"],
         ),
         (
-            "X6", "x6-held-entry-extra-member", "CS4", "a held entry with a member beyond the three",
+            "X6", "x6-held-entry-extra-member", "CS4",
+            "a held entry with a member beyond the three",
             mutate("CS4", _held_extra), ["consumption-malformed"],
         ),
         (
@@ -3646,7 +3649,11 @@ def define_reject_paths() -> None:
         ),
         (
             "X12", "x12-entry-names-another-envelope", "R1", "envelopeDigest another envelope's",
-            retained("X12", _entry_edit(lambda e: e.__setitem__("envelopeDigest", h("other"))), "R1"),
+            retained(
+                "X12",
+                _entry_edit(lambda e: e.__setitem__("envelopeDigest", h("other"))),
+                "R1",
+            ),
             "entry-envelope-digest-mismatch",
         ),
         (
@@ -3687,7 +3694,8 @@ def define_reject_paths() -> None:
         dating=dating(dated_at=None, entry_="malformed", code="retained-unreadable"),
     )
     member(
-        "X17", "x17-set-without-records", "SQ4", "a set member whose records member is named otherwise",
+        "X17", "x17-set-without-records", "SQ4",
+        "a set member whose records member is named otherwise",
         _set_wrong_key, "malformed", [],
         joint={"verdict": "malformed", "codes": ["set-unreadable"]},
     )
