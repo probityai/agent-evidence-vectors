@@ -1077,6 +1077,10 @@ jobs:
         run: |
           uv run mypy --strict scripts/auditrecord-aggregation-test.py
           uv run python scripts/auditrecord-aggregation-test.py
+      - name: issuedAt must parse and must not be earlier than sealedAt
+        run: |
+          uv run mypy --strict scripts/auditrecord-issuedat-test.py
+          uv run python scripts/auditrecord-issuedat-test.py
       # The agent-decision corpus pins the args_hash rule proposed on
       # in-toto/attestation#554. Its checker judges every member, recomputes each
       # canonical argument form with a second number writer, and disables each
