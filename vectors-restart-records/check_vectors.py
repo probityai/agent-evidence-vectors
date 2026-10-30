@@ -64,8 +64,8 @@ REGISTRY: dict[str, frozenset[str]] = {
 }
 
 #: Values the predicate documents close themselves. Rule 2 checks these.
-ROLES = frozenset({"advised", "authorised", "executed", "accountable"})
-AUTHORITY = frozenset({"role_grant", "policy_preauthorised", "contract_third_party",
+ROLES = frozenset({"advised", "authorized", "executed", "accountable"})
+AUTHORITY = frozenset({"role_grant", "policy_preauthorized", "contract_third_party",
                        "executive_approval", "unknown"})
 PART_STATES = frozenset({"revoked", "retained", "unassessed"})
 COVERAGE = frozenset({"complete_verified", "issued_after_only", "partial", "unknown"})
@@ -88,7 +88,7 @@ COUNT_KEYS = ("attempts", "inFlightAtRevocation", "postRevocationCommits", "repl
 #: equal to the tables in the documents themselves.
 RULES: dict[str, tuple[tuple[str, str], ...]] = {
     R1: (("1", "statement-malformed"), ("2", "predicate-malformed"),
-         ("3", "closed-vocabulary-violation"), ("4", "no-authoriser"),
+         ("3", "closed-vocabulary-violation"), ("4", "no-authorizer"),
          ("5", "no-accountable-party"), ("6", "authority-basis-missing"),
          ("7", "authorization-window-inverted"), ("8", "intent-not-committed-before"),
          ("9", "authorization-expired"), ("10", "induced-effects-unobserved")),
@@ -320,9 +320,9 @@ def _r1_rules(p: dict[str, Any]) -> list[Callable[[], bool]]:
     return [
         lambda: _r1_shape(p),
         lambda: _r1_vocabulary(p),
-        lambda: bool(_holders(p, "authorised")),
+        lambda: bool(_holders(p, "authorized")),
         lambda: bool(_holders(p, "accountable")),
-        lambda: all("authorityBasis" in party for party in _holders(p, "authorised")),
+        lambda: all("authorityBasis" in party for party in _holders(p, "authorized")),
         lambda: _instant(p["authorizedAt"]) <= _instant(p["notAfter"]),
         lambda: _r1_intent(p),
         lambda: "executedAt" not in p or _instant(p["executedAt"]) <= _instant(p["notAfter"]),
@@ -424,7 +424,7 @@ def _r3_rules(p: dict[str, Any]) -> list[Callable[[], bool]]:
         lambda: set(p["evidence"]) == SLOTS,
         lambda: all(v["notAddressed"] != "" for v in p["evidence"].values()
                     if "notAddressed" in v),
-        lambda: any("authorised" in a["roles"] for a in p["approvers"]),
+        lambda: any("authorized" in a["roles"] for a in p["approvers"]),
         lambda: (p["restoration"]["decision"] != "resume_staged"
                  or _scope_size(p["restoration"]) > 0),
         lambda: (p["restoration"]["decision"] != "resume_full"
