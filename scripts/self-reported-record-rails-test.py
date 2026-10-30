@@ -789,14 +789,20 @@ def acceptance_cases() -> list[tuple[str, bytes, str]]:
         stmt["predicate"][name] = value
         cases.append((f"{name} is {json.dumps(value)}", dump(stmt), MALFORMED))
     turn_sig = rich["predicate"]["turns"][0]["attestedBy"]["sig"]
-    for label, gap in (("a line feed", "\n"), ("a carriage return and line feed", "\r\n"), ("a carriage return", "\r")):
+    for label, gap in (
+        ("a line feed", "\n"),
+        ("a carriage return and line feed", "\r\n"),
+        ("a carriage return", "\r"),
+    ):
         stmt = copy.deepcopy(rich)
         stmt["predicate"]["turns"][0]["attestedBy"]["sig"] = turn_sig[:20] + gap + turn_sig[20:]
         cases.append((f"turn signature with {label}", dump(stmt), MALFORMED))
     covered = next(i for i, f in enumerate(rich["predicate"]["fields"]) if "coveredBy" in f)
     field_sig = rich["predicate"]["fields"][covered]["coveredBy"]["sig"]
     stmt = copy.deepcopy(rich)
-    stmt["predicate"]["fields"][covered]["coveredBy"]["sig"] = field_sig[:20] + "\n" + field_sig[20:]
+    stmt["predicate"]["fields"][covered]["coveredBy"]["sig"] = (
+        field_sig[:20] + "\n" + field_sig[20:]
+    )
     cases.append(("field signature with a line feed", dump(stmt), MALFORMED))
     text = dump(rich)
     cases += [
@@ -848,7 +854,9 @@ def acceptance_stub_failures(work: Path) -> list[str]:
     try:
         srr.decode_member = lenient_decode
         if not acceptance_failures(work / "lenient", None):
-            problems.append("the test did not notice a reader that ignores bytes after the statement")
+            problems.append(
+                "the test did not notice a reader that ignores bytes after the statement"
+            )
         srr.decode_member = original[0]
         srr._containers_ok = lambda predicate: True
         if not acceptance_failures(work / "containers", None):
@@ -856,7 +864,9 @@ def acceptance_stub_failures(work: Path) -> list[str]:
         srr._containers_ok = original[1]
         srr._signature_spelled = lambda signature: True
         if not acceptance_failures(work / "spelling", None):
-            problems.append("the test did not notice a reader that accepts a line break in a signature")
+            problems.append(
+                "the test did not notice a reader that accepts a line break in a signature"
+            )
     finally:
         srr.decode_member, srr._containers_ok, srr._signature_spelled = original
     return problems
