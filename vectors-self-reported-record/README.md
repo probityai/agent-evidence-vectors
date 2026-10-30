@@ -112,9 +112,16 @@ uv run --extra generators python vectors-self-reported-record/mutation_check.py
 
 # Rail two, Go: the same eleven members, a second independent implementation.
 go build -o aee-verify ./cmd/aee-verify && ./aee-verify vectors-self-reported-record
+
+# Rail three, the packaged Python reader: the same suite from the wheel, printing
+# the lines aee-verify prints. Exit 0 when every member is judged as declared.
+uvx agent-evidence-vectors --corpus vectors-self-reported-record
+
+# Do the Go and packaged rails give one answer off the committed members too?
+uv run --extra generators python scripts/self-reported-record-rails-test.py
 ```
 
-Both rails agree on all eleven members, on the verdict and on the code.
+The Go and packaged rails print the same bytes on all eleven members, on the verdict and on the code. `scripts/self-reported-record-rails-test.py` extends that to several hundred mutated copies of the members (canonicalization, base64 and hex spelling, wrong-typed arrays, integer and float spellings) and CI runs it on every push.
 
 ## What each harness asks, and why there are three
 
